@@ -711,11 +711,16 @@ class Outpost {
   /// comparing owned versus shared outposts.
   final String? ownerId;
 
+  /// Specifies the unique S3 on Outposts ARN for use with Resource Access Manager
+  /// (RAM).
+  final String? s3OutpostArn;
+
   Outpost({
     this.capacityInBytes,
     this.outpostArn,
     this.outpostId,
     this.ownerId,
+    this.s3OutpostArn,
   });
 
   factory Outpost.fromJson(Map<String, dynamic> json) {
@@ -724,6 +729,7 @@ class Outpost {
       outpostArn: json['OutpostArn'] as String?,
       outpostId: json['OutpostId'] as String?,
       ownerId: json['OwnerId'] as String?,
+      s3OutpostArn: json['S3OutpostArn'] as String?,
     );
   }
 
@@ -732,11 +738,13 @@ class Outpost {
     final outpostArn = this.outpostArn;
     final outpostId = this.outpostId;
     final ownerId = this.ownerId;
+    final s3OutpostArn = this.s3OutpostArn;
     return {
       if (capacityInBytes != null) 'CapacityInBytes': capacityInBytes,
       if (outpostArn != null) 'OutpostArn': outpostArn,
       if (outpostId != null) 'OutpostId': outpostId,
       if (ownerId != null) 'OwnerId': ownerId,
+      if (s3OutpostArn != null) 'S3OutpostArn': s3OutpostArn,
     };
   }
 }

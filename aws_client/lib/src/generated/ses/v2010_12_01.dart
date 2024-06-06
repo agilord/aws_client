@@ -33,6 +33,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/Welcome.html">Amazon
 /// SES Developer Guide</a>.
 /// </note>
+/// This documentation contains reference information related to the following:
 class Ses {
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
@@ -71,7 +72,7 @@ class Ses {
   /// completely independent of the source rule set.
   ///
   /// For information about setting up rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -84,18 +85,19 @@ class Ses {
   /// The name of the rule set to clone.
   ///
   /// Parameter [ruleSetName] :
-  /// The name of the rule set to create. The name must:
+  /// The name of the rule set to create. The name must meet the following
+  /// requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
   /// </li>
   /// <li>
   /// Start and end with a letter or number.
   /// </li>
   /// <li>
-  /// Contain less than 64 characters.
+  /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
   Future<void> cloneReceiptRuleSet({
@@ -122,7 +124,7 @@ class Ses {
   ///
   /// Configuration sets enable you to publish email sending events. For
   /// information about using configuration sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -157,10 +159,10 @@ class Ses {
   /// only one, destination. The destination can be CloudWatch, Amazon Kinesis
   /// Firehose, or Amazon Simple Notification Service (Amazon SNS).
   /// </note>
-  /// An event destination is the AWS service to which Amazon SES publishes the
-  /// email sending events associated with a configuration set. For information
-  /// about using configuration sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+  /// An event destination is the Amazon Web Services service to which Amazon
+  /// SES publishes the email sending events associated with a configuration
+  /// set. For information about using configuration sets, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -177,8 +179,8 @@ class Ses {
   /// associated with.
   ///
   /// Parameter [eventDestination] :
-  /// An object that describes the AWS service that email sending event
-  /// information will be published to.
+  /// An object that describes the Amazon Web Services service that email
+  /// sending event where information is published.
   Future<void> createConfigurationSetEventDestination({
     required String configurationSetName,
     required EventDestination eventDestination,
@@ -206,7 +208,7 @@ class Ses {
   /// hosted on domains operated by Amazon SES. You can configure a subdomain of
   /// your own to handle these events. For information about using custom
   /// domains, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// May throw [ConfigurationSetDoesNotExistException].
@@ -239,7 +241,7 @@ class Ses {
   /// Creates a new custom verification email template.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
   /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
@@ -265,7 +267,7 @@ class Ses {
   /// The content of the custom verification email. The total size of the email
   /// must be less than 10 MB. The message body may contain HTML, with some
   /// limitations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html#custom-verification-emails-faq">Custom
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Custom
   /// Verification Email Frequently Asked Questions</a> in the <i>Amazon SES
   /// Developer Guide</i>.
   ///
@@ -304,7 +306,7 @@ class Ses {
   /// Creates a new IP address filter.
   ///
   /// For information about setting up IP address filters, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -337,7 +339,7 @@ class Ses {
   /// Creates a receipt rule.
   ///
   /// For information about setting up receipt rules, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -355,12 +357,12 @@ class Ses {
   /// recipients, domains, enabled status, scan status, and TLS policy.
   ///
   /// Parameter [ruleSetName] :
-  /// The name of the rule set that the receipt rule will be added to.
+  /// The name of the rule set where the receipt rule is added.
   ///
   /// Parameter [after] :
-  /// The name of an existing rule after which the new rule will be placed. If
-  /// this parameter is null, the new rule will be inserted at the beginning of
-  /// the rule list.
+  /// The name of an existing rule after which the new rule is placed. If this
+  /// parameter is null, the new rule is inserted at the beginning of the rule
+  /// list.
   Future<void> createReceiptRule({
     required ReceiptRule rule,
     required String ruleSetName,
@@ -386,7 +388,7 @@ class Ses {
   /// Creates an empty receipt rule set.
   ///
   /// For information about setting up receipt rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -395,18 +397,19 @@ class Ses {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [ruleSetName] :
-  /// The name of the rule set to create. The name must:
+  /// The name of the rule set to create. The name must meet the following
+  /// requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
   /// </li>
   /// <li>
   /// Start and end with a letter or number.
   /// </li>
   /// <li>
-  /// Contain less than 64 characters.
+  /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
   Future<void> createReceiptRuleSet({
@@ -428,9 +431,9 @@ class Ses {
   }
 
   /// Creates an email template. Email templates enable you to send personalized
-  /// email to one or more destinations in a single API operation. For more
+  /// email to one or more destinations in a single operation. For more
   /// information, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -440,8 +443,8 @@ class Ses {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [template] :
-  /// The content of the email, composed of a subject line, an HTML part, and a
-  /// text-only part.
+  /// The content of the email, composed of a subject line and either an HTML
+  /// part or a text-only part.
   Future<void> createTemplate({
     required Template template,
   }) async {
@@ -463,7 +466,7 @@ class Ses {
   /// Deletes a configuration set. Configuration sets enable you to publish
   /// email sending events. For information about using configuration sets, see
   /// the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -494,7 +497,7 @@ class Ses {
   /// destinations are associated with configuration sets, which enable you to
   /// publish email sending events. For information about using configuration
   /// sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -535,10 +538,10 @@ class Ses {
   /// hosted on domains operated by Amazon SES. You can configure a subdomain of
   /// your own to handle these events. For information about using custom
   /// domains, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html">Amazon
   /// SES Developer Guide</a>.
   /// <note>
-  /// Deleting this kind of association will result in emails sent using the
+  /// Deleting this kind of association results in emails sent using the
   /// specified configuration set to capture open and click events using the
   /// standard, Amazon SES-operated domains.
   /// </note>
@@ -547,8 +550,7 @@ class Ses {
   /// May throw [TrackingOptionsDoesNotExistException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set from which you want to delete the
-  /// tracking options.
+  /// The name of the configuration set.
   Future<void> deleteConfigurationSetTrackingOptions({
     required String configurationSetName,
   }) async {
@@ -570,15 +572,14 @@ class Ses {
   /// Deletes an existing custom verification email template.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
   /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [templateName] :
-  /// The name of the custom verification email template that you want to
-  /// delete.
+  /// The name of the custom verification email template to delete.
   Future<void> deleteCustomVerificationEmailTemplate({
     required String templateName,
   }) async {
@@ -602,8 +603,8 @@ class Ses {
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [identity] :
-  /// The identity to be removed from the list of identities for the AWS
-  /// Account.
+  /// The identity to be removed from the list of identities for the Amazon Web
+  /// Services account.
   Future<void> deleteIdentity({
     required String identity,
   }) async {
@@ -623,28 +624,27 @@ class Ses {
   }
 
   /// Deletes the specified sending authorization policy for the given identity
-  /// (an email address or a domain). This API returns successfully even if a
-  /// policy with the specified name does not exist.
+  /// (an email address or a domain). This operation returns successfully even
+  /// if a policy with the specified name does not exist.
   /// <note>
-  /// This API is for the identity owner only. If you have not verified the
-  /// identity, this API will return an error.
+  /// This operation is for the identity owner only. If you have not verified
+  /// the identity, it returns an error.
   /// </note>
   /// Sending authorization is a feature that enables an identity owner to
   /// authorize other senders to use its identities. For information about using
   /// sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [identity] :
-  /// The identity that is associated with the policy that you want to delete.
-  /// You can specify the identity by using its name or by using its Amazon
-  /// Resource Name (ARN). Examples: <code>user@example.com</code>,
-  /// <code>example.com</code>,
+  /// The identity that is associated with the policy to delete. You can specify
+  /// the identity by using its name or by using its Amazon Resource Name (ARN).
+  /// Examples: <code>user@example.com</code>, <code>example.com</code>,
   /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
   ///
-  /// To successfully call this API, you must own the identity.
+  /// To successfully call this operation, you must own the identity.
   ///
   /// Parameter [policyName] :
   /// The name of the policy to be deleted.
@@ -671,7 +671,7 @@ class Ses {
   /// Deletes the specified IP address filter.
   ///
   /// For information about managing IP address filters, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-ip-filters.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -699,7 +699,7 @@ class Ses {
   /// Deletes the specified receipt rule.
   ///
   /// For information about managing receipt rules, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -737,7 +737,7 @@ class Ses {
   /// The currently active rule set cannot be deleted.
   /// </note>
   /// For information about managing receipt rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -814,7 +814,7 @@ class Ses {
   /// currently active.
   ///
   /// For information about setting up receipt rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -837,7 +837,7 @@ class Ses {
 
   /// Returns the details of the specified configuration set. For information
   /// about using configuration sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -875,7 +875,7 @@ class Ses {
   /// Returns the details of the specified receipt rule.
   ///
   /// For information about setting up receipt rules, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -912,7 +912,7 @@ class Ses {
   /// Returns the details of the specified receipt rule set.
   ///
   /// For information about managing receipt rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -941,7 +941,7 @@ class Ses {
   }
 
   /// Returns the email sending status of the Amazon SES account for the current
-  /// region.
+  /// Region.
   ///
   /// You can execute this operation no more than once per second.
   Future<GetAccountSendingEnabledResponse> getAccountSendingEnabled() async {
@@ -963,7 +963,7 @@ class Ses {
   /// specify.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
   /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
@@ -972,8 +972,7 @@ class Ses {
   /// May throw [CustomVerificationEmailTemplateDoesNotExistException].
   ///
   /// Parameter [templateName] :
-  /// The name of the custom verification email template that you want to
-  /// retrieve.
+  /// The name of the custom verification email template to retrieve.
   Future<GetCustomVerificationEmailTemplateResponse>
       getCustomVerificationEmailTemplate({
     required String templateName,
@@ -1021,7 +1020,7 @@ class Ses {
   ///
   /// For more information about creating DNS records using DKIM tokens, go to
   /// the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim-dns-records.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy-managing.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [identities] :
@@ -1081,7 +1080,7 @@ class Ses {
   /// notification attributes for up to 100 identities at a time.
   ///
   /// For more information about using notifications with Amazon SES, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [identities] :
@@ -1114,24 +1113,24 @@ class Ses {
   /// map of policy names to policy contents. You can retrieve a maximum of 20
   /// policies at a time.
   /// <note>
-  /// This API is for the identity owner only. If you have not verified the
-  /// identity, this API will return an error.
+  /// This operation is for the identity owner only. If you have not verified
+  /// the identity, it returns an error.
   /// </note>
   /// Sending authorization is a feature that enables an identity owner to
   /// authorize other senders to use its identities. For information about using
   /// sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [identity] :
-  /// The identity for which the policies will be retrieved. You can specify an
+  /// The identity for which the policies are retrieved. You can specify an
   /// identity by using its name or by using its Amazon Resource Name (ARN).
   /// Examples: <code>user@example.com</code>, <code>example.com</code>,
   /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
   ///
-  /// To successfully call this API, you must own the identity.
+  /// To successfully call this operation, you must own the identity.
   ///
   /// Parameter [policyNames] :
   /// A list of the names of policies to be retrieved. You can retrieve a
@@ -1168,17 +1167,16 @@ class Ses {
   /// SES sent to that address. If the email address owner clicks the link
   /// within 24 hours, the verification status of the email address changes to
   /// "Success". If the link is not clicked within 24 hours, the verification
-  /// status changes to "Failed." In that case, if you still want to verify the
-  /// email address, you must restart the verification process from the
-  /// beginning.
+  /// status changes to "Failed." In that case, to verify the email address, you
+  /// must restart the verification process from the beginning.
   ///
   /// For domain identities, the domain's verification status is "Pending" as
   /// Amazon SES searches for the required TXT record in the DNS settings of the
   /// domain. When Amazon SES detects the record, the domain's verification
   /// status changes to "Success". If Amazon SES is unable to detect the record
   /// within 72 hours, the domain's verification status changes to "Failed." In
-  /// that case, if you still want to verify the domain, you must restart the
-  /// verification process from the beginning.
+  /// that case, to verify the domain, you must restart the verification process
+  /// from the beginning.
   ///
   /// This operation is throttled at one request per second and can only get
   /// verification attributes for up to 100 identities at a time.
@@ -1223,10 +1221,10 @@ class Ses {
     return GetSendQuotaResponse.fromXml($result);
   }
 
-  /// Provides sending statistics for the current AWS Region. The result is a
-  /// list of data points, representing the last two weeks of sending activity.
-  /// Each data point in the list contains statistics for a 15-minute period of
-  /// time.
+  /// Provides sending statistics for the current Amazon Web Services Region.
+  /// The result is a list of data points, representing the last two weeks of
+  /// sending activity. Each data point in the list contains statistics for a
+  /// 15-minute period of time.
   ///
   /// You can execute this operation no more than once per second.
   Future<GetSendStatisticsResponse> getSendStatistics() async {
@@ -1252,7 +1250,7 @@ class Ses {
   /// May throw [TemplateDoesNotExistException].
   ///
   /// Parameter [templateName] :
-  /// The name of the template you want to retrieve.
+  /// The name of the template to retrieve.
   Future<GetTemplateResponse> getTemplate({
     required String templateName,
   }) async {
@@ -1273,16 +1271,16 @@ class Ses {
   }
 
   /// Provides a list of the configuration sets associated with your Amazon SES
-  /// account in the current AWS Region. For information about using
-  /// configuration sets, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Monitoring
+  /// account in the current Amazon Web Services Region. For information about
+  /// using configuration sets, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Monitoring
   /// Your Amazon SES Sending Activity</a> in the <i>Amazon SES Developer
   /// Guide.</i>
   ///
   /// You can execute this operation no more than once per second. This
-  /// operation will return up to 1,000 configuration sets each time it is run.
-  /// If your Amazon SES account has more than 1,000 configuration sets, this
-  /// operation will also return a NextToken element. You can then execute the
+  /// operation returns up to 1,000 configuration sets each time it is run. If
+  /// your Amazon SES account has more than 1,000 configuration sets, this
+  /// operation also returns <code>NextToken</code>. You can then execute the
   /// <code>ListConfigurationSets</code> operation again, passing the
   /// <code>NextToken</code> parameter and the value of the NextToken element to
   /// retrieve additional results.
@@ -1316,10 +1314,10 @@ class Ses {
   }
 
   /// Lists the existing custom verification email templates for your account in
-  /// the current AWS Region.
+  /// the current Amazon Web Services Region.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
   /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
@@ -1329,7 +1327,7 @@ class Ses {
   /// The maximum number of custom verification email templates to return. This
   /// value must be at least 1 and less than or equal to 50. If you do not
   /// specify a value, or if you specify a value less than 1 or greater than 50,
-  /// the operation will return up to 50 results.
+  /// the operation returns up to 50 results.
   ///
   /// Parameter [nextToken] :
   /// An array the contains the name and creation time stamp for each template
@@ -1363,15 +1361,25 @@ class Ses {
   }
 
   /// Returns a list containing all of the identities (email addresses and
-  /// domains) for your AWS account in the current AWS Region, regardless of
-  /// verification status.
+  /// domains) for your Amazon Web Services account in the current Amazon Web
+  /// Services Region, regardless of verification status.
   ///
   /// You can execute this operation no more than once per second.
+  /// <note>
+  /// It's recommended that for successive pagination calls of this API, you
+  /// continue to the use the same parameter/value pairs as used in the original
+  /// call, e.g., if you used <code>IdentityType=Domain</code> in the the
+  /// original call and received a <code>NextToken</code> in the response, you
+  /// should continue providing the <code>IdentityType=Domain</code> parameter
+  /// for further <code>NextToken</code> calls; however, if you didn't provide
+  /// the <code>IdentityType</code> parameter in the original call, then
+  /// continue to not provide it for successive pagination calls. Using this
+  /// protocol will ensure consistent results.
+  /// </note>
   ///
   /// Parameter [identityType] :
   /// The type of the identities to list. Possible values are "EmailAddress" and
-  /// "Domain". If this parameter is omitted, then all identities will be
-  /// listed.
+  /// "Domain". If this parameter is omitted, then all identities are listed.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of identities per page. Possible values are 1-1000
@@ -1403,29 +1411,29 @@ class Ses {
   }
 
   /// Returns a list of sending authorization policies that are attached to the
-  /// given identity (an email address or a domain). This API returns only a
-  /// list. If you want the actual policy content, you can use
+  /// given identity (an email address or a domain). This operation returns only
+  /// a list. To get the actual policy content, use
   /// <code>GetIdentityPolicies</code>.
   /// <note>
-  /// This API is for the identity owner only. If you have not verified the
-  /// identity, this API will return an error.
+  /// This operation is for the identity owner only. If you have not verified
+  /// the identity, it returns an error.
   /// </note>
   /// Sending authorization is a feature that enables an identity owner to
   /// authorize other senders to use its identities. For information about using
   /// sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [identity] :
-  /// The identity that is associated with the policy for which the policies
-  /// will be listed. You can specify an identity by using its name or by using
-  /// its Amazon Resource Name (ARN). Examples: <code>user@example.com</code>,
+  /// The identity that is associated with the policy for which the policies are
+  /// listed. You can specify an identity by using its name or by using its
+  /// Amazon Resource Name (ARN). Examples: <code>user@example.com</code>,
   /// <code>example.com</code>,
   /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
   ///
-  /// To successfully call this API, you must own the identity.
+  /// To successfully call this operation, you must own the identity.
   Future<ListIdentityPoliciesResponse> listIdentityPolicies({
     required String identity,
   }) async {
@@ -1445,11 +1453,11 @@ class Ses {
     return ListIdentityPoliciesResponse.fromXml($result);
   }
 
-  /// Lists the IP address filters associated with your AWS account in the
-  /// current AWS Region.
+  /// Lists the IP address filters associated with your Amazon Web Services
+  /// account in the current Amazon Web Services Region.
   ///
   /// For information about managing IP address filters, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-ip-filters.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -1469,14 +1477,14 @@ class Ses {
     return ListReceiptFiltersResponse.fromXml($result);
   }
 
-  /// Lists the receipt rule sets that exist under your AWS account in the
-  /// current AWS Region. If there are additional receipt rule sets to be
-  /// retrieved, you will receive a <code>NextToken</code> that you can provide
-  /// to the next call to <code>ListReceiptRuleSets</code> to retrieve the
-  /// additional entries.
+  /// Lists the receipt rule sets that exist under your Amazon Web Services
+  /// account in the current Amazon Web Services Region. If there are additional
+  /// receipt rule sets to be retrieved, you receive a <code>NextToken</code>
+  /// that you can provide to the next call to <code>ListReceiptRuleSets</code>
+  /// to retrieve the additional entries.
   ///
   /// For information about managing receipt rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -1504,15 +1512,15 @@ class Ses {
   }
 
   /// Lists the email templates present in your Amazon SES account in the
-  /// current AWS Region.
+  /// current Amazon Web Services Region.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of templates to return. This value must be at least 1
-  /// and less than or equal to 10. If you do not specify a value, or if you
-  /// specify a value less than 1 or greater than 10, the operation will return
-  /// up to 10 results.
+  /// and less than or equal to 100. If more than 100 items are requested, the
+  /// page size will automatically set to 100. If you do not specify a value, 10
+  /// is the default page size.
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to <code>ListTemplates</code> to
@@ -1562,8 +1570,7 @@ class Ses {
   /// May throw [InvalidDeliveryOptionsException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to specify the delivery
-  /// options for.
+  /// The name of the configuration set.
   ///
   /// Parameter [deliveryOptions] :
   /// Specifies whether messages that use the configuration set are required to
@@ -1591,13 +1598,13 @@ class Ses {
   /// Adds or updates a sending authorization policy for the specified identity
   /// (an email address or a domain).
   /// <note>
-  /// This API is for the identity owner only. If you have not verified the
-  /// identity, this API will return an error.
+  /// This operation is for the identity owner only. If you have not verified
+  /// the identity, it returns an error.
   /// </note>
   /// Sending authorization is a feature that enables an identity owner to
   /// authorize other senders to use its identities. For information about using
   /// sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -1605,19 +1612,19 @@ class Ses {
   /// May throw [InvalidPolicyException].
   ///
   /// Parameter [identity] :
-  /// The identity that the policy will apply to. You can specify an identity by
-  /// using its name or by using its Amazon Resource Name (ARN). Examples:
+  /// The identity to which that the policy applies. You can specify an identity
+  /// by using its name or by using its Amazon Resource Name (ARN). Examples:
   /// <code>user@example.com</code>, <code>example.com</code>,
   /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
   ///
-  /// To successfully call this API, you must own the identity.
+  /// To successfully call this operation, you must own the identity.
   ///
   /// Parameter [policy] :
   /// The text of the policy in JSON format. The policy cannot exceed 4 KB.
   ///
   /// For information about the syntax of sending authorization policies, see
   /// the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-policies.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [policyName] :
@@ -1650,11 +1657,11 @@ class Ses {
   /// Reorders the receipt rules within a receipt rule set.
   /// <note>
   /// All of the rules in the rule set must be represented in this request. That
-  /// is, this API will return an error if the reorder request doesn't
-  /// explicitly position all of the rules.
+  /// is, it is error if the reorder request doesn't explicitly position all of
+  /// the rules.
   /// </note>
   /// For information about managing receipt rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -1663,8 +1670,7 @@ class Ses {
   /// May throw [RuleDoesNotExistException].
   ///
   /// Parameter [ruleNames] :
-  /// A list of the specified receipt rule set's receipt rules in the order that
-  /// you want to put them.
+  /// The specified receipt rule set's receipt rules, in order.
   ///
   /// Parameter [ruleSetName] :
   /// The name of the receipt rule set to reorder.
@@ -1689,14 +1695,14 @@ class Ses {
   }
 
   /// Generates and sends a bounce message to the sender of an email you
-  /// received through Amazon SES. You can only use this API on an email up to
-  /// 24 hours after you receive it.
+  /// received through Amazon SES. You can only use this operation on an email
+  /// up to 24 hours after you receive it.
   /// <note>
-  /// You cannot use this API to send generic bounces for mail that was not
-  /// received by Amazon SES.
+  /// You cannot use this operation to send generic bounces for mail that was
+  /// not received by Amazon SES.
   /// </note>
   /// For information about receiving email through Amazon SES, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -1721,16 +1727,16 @@ class Ses {
   /// the identity that is associated with the sending authorization policy that
   /// permits you to use the address in the "From" header of the bounce. For
   /// more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [explanation] :
   /// Human-readable text for the bounce message to explain the failure. If not
-  /// specified, the text will be auto-generated based on the bounced recipient
+  /// specified, the text is auto-generated based on the bounced recipient
   /// information.
   ///
   /// Parameter [messageDsn] :
-  /// Message-related DSN fields. If not specified, Amazon SES will choose the
+  /// Message-related DSN fields. If not specified, Amazon SES chooses the
   /// values.
   Future<SendBounceResponse> sendBounce({
     required String bounceSender,
@@ -1764,22 +1770,22 @@ class Ses {
   /// Composes an email message to multiple destinations. The message body is
   /// created using an email template.
   ///
-  /// In order to send email using the <code>SendBulkTemplatedEmail</code>
-  /// operation, your call to the API must meet the following requirements:
+  /// To send email using this operation, your call must meet the following
+  /// requirements:
   ///
   /// <ul>
   /// <li>
   /// The call must refer to an existing email template. You can create email
-  /// templates using the <a>CreateTemplate</a> operation.
+  /// templates using <a>CreateTemplate</a>.
   /// </li>
   /// <li>
   /// The message must be sent from a verified email address or domain.
   /// </li>
   /// <li>
-  /// If your account is still in the Amazon SES sandbox, you may only send to
+  /// If your account is still in the Amazon SES sandbox, you may send only to
   /// verified addresses or domains, or to email addresses associated with the
   /// Amazon SES Mailbox Simulator. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html">Verifying
   /// Email Addresses and Domains</a> in the <i>Amazon SES Developer Guide.</i>
   /// </li>
   /// <li>
@@ -1790,9 +1796,8 @@ class Ses {
   /// recipient email address. The recipient address can be a To: address, a CC:
   /// address, or a BCC: address. If a recipient email address is invalid (that
   /// is, it is not in the format
-  /// <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the entire message
-  /// will be rejected, even if the message contains other recipients that are
-  /// valid.
+  /// <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the entire message is
+  /// rejected, even if the message contains other recipients that are valid.
   /// </li>
   /// <li>
   /// The message may not include more than 50 recipients, across the To:, CC:
@@ -1802,8 +1807,8 @@ class Ses {
   /// times to send the message to each group.
   /// </li>
   /// <li>
-  /// The number of destinations you can contact in a single call to the API may
-  /// be limited by your account's maximum sending rate.
+  /// The number of destinations you can contact in a single call can be limited
+  /// by your account's maximum sending rate.
   /// </li>
   /// </ul>
   ///
@@ -1816,8 +1821,8 @@ class Ses {
   ///
   /// Parameter [destinations] :
   /// One or more <code>Destination</code> objects. All of the recipients in a
-  /// <code>Destination</code> will receive the same version of the email. You
-  /// can specify up to 50 <code>Destination</code> objects within a
+  /// <code>Destination</code> receive the same version of the email. You can
+  /// specify up to 50 <code>Destination</code> objects within a
   /// <code>Destinations</code> array.
   ///
   /// Parameter [source] :
@@ -1825,30 +1830,28 @@ class Ses {
   /// either individually verified with Amazon SES, or from a domain that has
   /// been verified with Amazon SES. For information about verifying identities,
   /// see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// If you are sending on behalf of another user and have been permitted to do
   /// so by a sending authorization policy, then you must also specify the
   /// <code>SourceArn</code> parameter. For more information about sending
   /// authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   /// <note>
   /// Amazon SES does not support the SMTPUTF8 extension, as described in <a
   /// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason,
-  /// the <i>local part</i> of a source email address (the part of the email
-  /// address that precedes the @ sign) may only contain <a
-  /// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
-  /// characters</a>. If the <i>domain part</i> of an address (the part after
-  /// the @ sign) contains non-ASCII characters, they must be encoded using
-  /// Punycode, as described in <a
-  /// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>. The sender
-  /// name (also known as the <i>friendly name</i>) may contain non-ASCII
-  /// characters. These characters must be encoded using MIME encoded-word
-  /// syntax, as described in <a href="https://tools.ietf.org/html/rfc2047">RFC
-  /// 2047</a>. MIME encoded-word syntax uses the following form:
-  /// <code>=?charset?encoding?encoded-text?=</code>.
+  /// the email address string must be 7-bit ASCII. If you want to send to or
+  /// from email addresses that contain Unicode characters in the domain part of
+  /// an address, you must encode the domain using Punycode. Punycode is not
+  /// permitted in the local part of the email address (the part before the @
+  /// sign) nor in the "friendly from" name. If you want to use Unicode
+  /// characters in the "friendly from" name, you must encode the "friendly
+  /// from" name using MIME encoded-word syntax, as described in <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
+  /// raw email using the Amazon SES API</a>. For more information about
+  /// Punycode, see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
   /// </note>
   ///
   /// Parameter [template] :
@@ -1873,17 +1876,17 @@ class Ses {
   ///
   /// Parameter [replyToAddresses] :
   /// The reply-to email address(es) for the message. If the recipient replies
-  /// to the message, each reply-to address will receive the reply.
+  /// to the message, each reply-to address receives the reply.
   ///
   /// Parameter [returnPath] :
-  /// The email address that bounces and complaints will be forwarded to when
+  /// The email address that bounces and complaints are forwarded to when
   /// feedback forwarding is enabled. If the message cannot be delivered to the
-  /// recipient, then an error message will be returned from the recipient's
-  /// ISP; this message will then be forwarded to the email address specified by
-  /// the <code>ReturnPath</code> parameter. The <code>ReturnPath</code>
-  /// parameter is never overwritten. This email address must be either
-  /// individually verified with Amazon SES, or from a domain that has been
-  /// verified with Amazon SES.
+  /// recipient, then an error message is returned from the recipient's ISP;
+  /// this message is forwarded to the email address specified by the
+  /// <code>ReturnPath</code> parameter. The <code>ReturnPath</code> parameter
+  /// is never overwritten. This email address must be either individually
+  /// verified with Amazon SES, or from a domain that has been verified with
+  /// Amazon SES.
   ///
   /// Parameter [returnPathArn] :
   /// This parameter is used only for sending authorization. It is the ARN of
@@ -1900,7 +1903,7 @@ class Ses {
   /// the <code>ReturnPath</code> to be <code>feedback@example.com</code>.
   ///
   /// For more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [sourceArn] :
@@ -1918,7 +1921,7 @@ class Ses {
   /// the <code>Source</code> to be <code>user@example.com</code>.
   ///
   /// For more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [templateArn] :
@@ -1963,14 +1966,14 @@ class Ses {
   }
 
   /// Adds an email address to the list of identities for your Amazon SES
-  /// account in the current AWS Region and attempts to verify it. As a result
-  /// of executing this operation, a customized verification email is sent to
-  /// the specified address.
+  /// account in the current Amazon Web Services Region and attempts to verify
+  /// it. As a result of executing this operation, a customized verification
+  /// email is sent to the specified address.
   ///
   /// To use this operation, you must first create a custom verification email
   /// template. For more information about creating and using custom
   /// verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
   /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
@@ -2014,21 +2017,21 @@ class Ses {
     return SendCustomVerificationEmailResponse.fromXml($result);
   }
 
-  /// Composes an email message and immediately queues it for sending. In order
-  /// to send email using the <code>SendEmail</code> operation, your message
-  /// must meet the following requirements:
+  /// Composes an email message and immediately queues it for sending. To send
+  /// email using this operation, your message must meet the following
+  /// requirements:
   ///
   /// <ul>
   /// <li>
   /// The message must be sent from a verified email address or domain. If you
   /// attempt to send email using a non-verified address or domain, the
-  /// operation will result in an "Email address not verified" error.
+  /// operation results in an "Email address not verified" error.
   /// </li>
   /// <li>
   /// If your account is still in the Amazon SES sandbox, you may only send to
   /// verified addresses or domains, or to email addresses associated with the
   /// Amazon SES Mailbox Simulator. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html">Verifying
   /// Email Addresses and Domains</a> in the <i>Amazon SES Developer Guide.</i>
   /// </li>
   /// <li>
@@ -2038,9 +2041,8 @@ class Ses {
   /// The message must include at least one recipient email address. The
   /// recipient address can be a To: address, a CC: address, or a BCC: address.
   /// If a recipient email address is invalid (that is, it is not in the format
-  /// <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the entire message
-  /// will be rejected, even if the message contains other recipients that are
-  /// valid.
+  /// <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the entire message is
+  /// rejected, even if the message contains other recipients that are valid.
   /// </li>
   /// <li>
   /// The message may not include more than 50 recipients, across the To:, CC:
@@ -2055,7 +2057,7 @@ class Ses {
   /// maximum number of emails you can send in a 24-hour period (your <i>sending
   /// quota</i>). For more information about sending quotas in Amazon SES, see
   /// <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/manage-sending-limits.html">Managing
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/manage-sending-quotas.html">Managing
   /// Your Amazon SES Sending Limits</a> in the <i>Amazon SES Developer
   /// Guide.</i>
   /// </important>
@@ -2077,30 +2079,28 @@ class Ses {
   /// either individually verified with Amazon SES, or from a domain that has
   /// been verified with Amazon SES. For information about verifying identities,
   /// see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// If you are sending on behalf of another user and have been permitted to do
   /// so by a sending authorization policy, then you must also specify the
   /// <code>SourceArn</code> parameter. For more information about sending
   /// authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   /// <note>
   /// Amazon SES does not support the SMTPUTF8 extension, as described in <a
   /// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason,
-  /// the <i>local part</i> of a source email address (the part of the email
-  /// address that precedes the @ sign) may only contain <a
-  /// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
-  /// characters</a>. If the <i>domain part</i> of an address (the part after
-  /// the @ sign) contains non-ASCII characters, they must be encoded using
-  /// Punycode, as described in <a
-  /// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>. The sender
-  /// name (also known as the <i>friendly name</i>) may contain non-ASCII
-  /// characters. These characters must be encoded using MIME encoded-word
-  /// syntax, as described in <a href="https://tools.ietf.org/html/rfc2047">RFC
-  /// 2047</a>. MIME encoded-word syntax uses the following form:
-  /// <code>=?charset?encoding?encoded-text?=</code>.
+  /// the email address string must be 7-bit ASCII. If you want to send to or
+  /// from email addresses that contain Unicode characters in the domain part of
+  /// an address, you must encode the domain using Punycode. Punycode is not
+  /// permitted in the local part of the email address (the part before the @
+  /// sign) nor in the "friendly from" name. If you want to use Unicode
+  /// characters in the "friendly from" name, you must encode the "friendly
+  /// from" name using MIME encoded-word syntax, as described in <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
+  /// raw email using the Amazon SES API</a>. For more information about
+  /// Punycode, see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
   /// </note>
   ///
   /// Parameter [configurationSetName] :
@@ -2109,17 +2109,17 @@ class Ses {
   ///
   /// Parameter [replyToAddresses] :
   /// The reply-to email address(es) for the message. If the recipient replies
-  /// to the message, each reply-to address will receive the reply.
+  /// to the message, each reply-to address receives the reply.
   ///
   /// Parameter [returnPath] :
-  /// The email address that bounces and complaints will be forwarded to when
+  /// The email address that bounces and complaints are forwarded to when
   /// feedback forwarding is enabled. If the message cannot be delivered to the
-  /// recipient, then an error message will be returned from the recipient's
-  /// ISP; this message will then be forwarded to the email address specified by
-  /// the <code>ReturnPath</code> parameter. The <code>ReturnPath</code>
-  /// parameter is never overwritten. This email address must be either
-  /// individually verified with Amazon SES, or from a domain that has been
-  /// verified with Amazon SES.
+  /// recipient, then an error message is returned from the recipient's ISP;
+  /// this message is forwarded to the email address specified by the
+  /// <code>ReturnPath</code> parameter. The <code>ReturnPath</code> parameter
+  /// is never overwritten. This email address must be either individually
+  /// verified with Amazon SES, or from a domain that has been verified with
+  /// Amazon SES.
   ///
   /// Parameter [returnPathArn] :
   /// This parameter is used only for sending authorization. It is the ARN of
@@ -2136,7 +2136,7 @@ class Ses {
   /// the <code>ReturnPath</code> to be <code>feedback@example.com</code>.
   ///
   /// For more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [sourceArn] :
@@ -2154,7 +2154,7 @@ class Ses {
   /// the <code>Source</code> to be <code>user@example.com</code>.
   ///
   /// For more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [tags] :
@@ -2199,29 +2199,29 @@ class Ses {
 
   /// Composes an email message and immediately queues it for sending.
   ///
-  /// This operation is more flexible than the <code>SendEmail</code> API
-  /// operation. When you use the <code>SendRawEmail</code> operation, you can
-  /// specify the headers of the message as well as its content. This
-  /// flexibility is useful, for example, when you want to send a multipart MIME
-  /// email (such a message that contains both a text and an HTML version). You
-  /// can also use this operation to send messages that include attachments.
+  /// This operation is more flexible than the <code>SendEmail</code> operation.
+  /// When you use the <code>SendRawEmail</code> operation, you can specify the
+  /// headers of the message as well as its content. This flexibility is useful,
+  /// for example, when you need to send a multipart MIME email (such a message
+  /// that contains both a text and an HTML version). You can also use this
+  /// operation to send messages that include attachments.
   ///
   /// The <code>SendRawEmail</code> operation has the following requirements:
   ///
   /// <ul>
   /// <li>
   /// You can only send email from <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">verified
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html">verified
   /// email addresses or domains</a>. If you try to send email from an address
   /// that isn't verified, the operation results in an "Email address not
   /// verified" error.
   /// </li>
   /// <li>
   /// If your account is still in the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html">Amazon
   /// SES sandbox</a>, you can only send email to other verified addresses in
   /// your account, or to addresses that are associated with the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mailbox-simulator.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-an-email-from-console.html">Amazon
   /// SES mailbox simulator</a>.
   /// </li>
   /// <li>
@@ -2249,7 +2249,7 @@ class Ses {
   /// message (for example, if you use open and click tracking), 8-bit content
   /// isn't preserved. For this reason, we highly recommend that you encode all
   /// content that isn't 7-bit ASCII. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html#send-email-mime-encoding">MIME
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html#send-email-mime-encoding">MIME
   /// Encoding</a> in the <i>Amazon SES Developer Guide</i>.
   /// </li>
   /// </ul>
@@ -2259,18 +2259,18 @@ class Ses {
   /// <ul>
   /// <li>
   /// Although you can customize the message headers when using the
-  /// <code>SendRawEmail</code> operation, Amazon SES will automatically apply
-  /// its own <code>Message-ID</code> and <code>Date</code> headers; if you
-  /// passed these headers when creating the message, they will be overwritten
-  /// by the values that Amazon SES provides.
+  /// <code>SendRawEmail</code> operation, Amazon SES automatically applies its
+  /// own <code>Message-ID</code> and <code>Date</code> headers; if you passed
+  /// these headers when creating the message, they are overwritten by the
+  /// values that Amazon SES provides.
   /// </li>
   /// <li>
   /// If you are using sending authorization to send on behalf of another user,
   /// <code>SendRawEmail</code> enables you to specify the cross-account
   /// identity for the email's Source, From, and Return-Path parameters in one
   /// of two ways: you can pass optional parameters <code>SourceArn</code>,
-  /// <code>FromArn</code>, and/or <code>ReturnPathArn</code> to the API, or you
-  /// can include the following X-headers in the header of your raw email:
+  /// <code>FromArn</code>, and/or <code>ReturnPathArn</code>, or you can
+  /// include the following X-headers in the header of your raw email:
   ///
   /// <ul>
   /// <li>
@@ -2291,7 +2291,7 @@ class Ses {
   /// specified.
   ///
   /// For more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Using
   /// Sending Authorization with Amazon SES</a> in the <i>Amazon SES Developer
   /// Guide.</i>
   /// </li>
@@ -2301,7 +2301,7 @@ class Ses {
   /// maximum number of emails you can send in a 24-hour period (your <i>sending
   /// quota</i>). For more information about sending quotas in Amazon SES, see
   /// <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/manage-sending-limits.html">Managing
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/manage-sending-quotas.html">Managing
   /// Your Amazon SES Sending Limits</a> in the <i>Amazon SES Developer
   /// Guide.</i>
   /// </li>
@@ -2330,7 +2330,7 @@ class Ses {
   /// <li>
   /// Attachments must be of a content type that Amazon SES supports. For a list
   /// on unsupported content types, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mime-types.html">Unsupported
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/mime-types.html">Unsupported
   /// Attachment Types</a> in the <i>Amazon SES Developer Guide</i>.
   /// </li>
   /// <li>
@@ -2340,7 +2340,7 @@ class Ses {
   /// If any of the MIME parts in your message contain content that is outside
   /// of the 7-bit ASCII character range, we highly recommend that you encode
   /// that content. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html">Sending
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
   /// Raw Email</a> in the <i>Amazon SES Developer Guide</i>.
   /// </li>
   /// <li>
@@ -2371,7 +2371,7 @@ class Ses {
   /// <note>
   /// For information about when to use this parameter, see the description of
   /// <code>SendRawEmail</code> in this guide, or see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-delegate-sender-tasks-email.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-delegate-sender-tasks-email.html">Amazon
   /// SES Developer Guide</a>.
   /// </note>
   ///
@@ -2397,7 +2397,7 @@ class Ses {
   /// <note>
   /// For information about when to use this parameter, see the description of
   /// <code>SendRawEmail</code> in this guide, or see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-delegate-sender-tasks-email.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-delegate-sender-tasks-email.html">Amazon
   /// SES Developer Guide</a>.
   /// </note>
   ///
@@ -2408,21 +2408,19 @@ class Ses {
   /// <note>
   /// Amazon SES does not support the SMTPUTF8 extension, as described in<a
   /// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason,
-  /// the <i>local part</i> of a source email address (the part of the email
-  /// address that precedes the @ sign) may only contain <a
-  /// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
-  /// characters</a>. If the <i>domain part</i> of an address (the part after
-  /// the @ sign) contains non-ASCII characters, they must be encoded using
-  /// Punycode, as described in <a
-  /// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>. The sender
-  /// name (also known as the <i>friendly name</i>) may contain non-ASCII
-  /// characters. These characters must be encoded using MIME encoded-word
-  /// syntax, as described in <a href="https://tools.ietf.org/html/rfc2047">RFC
-  /// 2047</a>. MIME encoded-word syntax uses the following form:
-  /// <code>=?charset?encoding?encoded-text?=</code>.
+  /// the email address string must be 7-bit ASCII. If you want to send to or
+  /// from email addresses that contain Unicode characters in the domain part of
+  /// an address, you must encode the domain using Punycode. Punycode is not
+  /// permitted in the local part of the email address (the part before the @
+  /// sign) nor in the "friendly from" name. If you want to use Unicode
+  /// characters in the "friendly from" name, you must encode the "friendly
+  /// from" name using MIME encoded-word syntax, as described in <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
+  /// raw email using the Amazon SES API</a>. For more information about
+  /// Punycode, see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
   /// </note>
   /// If you specify the <code>Source</code> parameter and have feedback
-  /// forwarding enabled, then bounces and complaints will be sent to this email
+  /// forwarding enabled, then bounces and complaints are sent to this email
   /// address. This takes precedence over any Return-Path header that you might
   /// include in the raw text of the message.
   ///
@@ -2447,7 +2445,7 @@ class Ses {
   /// <note>
   /// For information about when to use this parameter, see the description of
   /// <code>SendRawEmail</code> in this guide, or see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-delegate-sender-tasks-email.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-delegate-sender-tasks-email.html">Amazon
   /// SES Developer Guide</a>.
   /// </note>
   ///
@@ -2492,8 +2490,8 @@ class Ses {
   /// Composes an email message using an email template and immediately queues
   /// it for sending.
   ///
-  /// In order to send email using the <code>SendTemplatedEmail</code>
-  /// operation, your call to the API must meet the following requirements:
+  /// To send email using this operation, your call must meet the following
+  /// requirements:
   ///
   /// <ul>
   /// <li>
@@ -2507,7 +2505,7 @@ class Ses {
   /// If your account is still in the Amazon SES sandbox, you may only send to
   /// verified addresses or domains, or to email addresses associated with the
   /// Amazon SES Mailbox Simulator. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html">Verifying
   /// Email Addresses and Domains</a> in the <i>Amazon SES Developer Guide.</i>
   /// </li>
   /// <li>
@@ -2516,7 +2514,7 @@ class Ses {
   /// <li>
   /// Calls to the <code>SendTemplatedEmail</code> operation may only include
   /// one <code>Destination</code> parameter. A destination is a set of
-  /// recipients who will receive the same version of the email. The
+  /// recipients that receives the same version of the email. The
   /// <code>Destination</code> parameter can include up to 50 recipients, across
   /// the To:, CC: and BCC: fields.
   /// </li>
@@ -2525,8 +2523,8 @@ class Ses {
   /// email address. The recipient address can be a To: address, a CC: address,
   /// or a BCC: address. If a recipient email address is invalid (that is, it is
   /// not in the format <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the
-  /// entire message will be rejected, even if the message contains other
-  /// recipients that are valid.
+  /// entire message is rejected, even if the message contains other recipients
+  /// that are valid.
   /// </li>
   /// </ul> <important>
   /// If your call to the <code>SendTemplatedEmail</code> operation includes all
@@ -2539,7 +2537,7 @@ class Ses {
   /// For these reasons, we highly recommend that you set up Amazon SES to send
   /// you notifications when Rendering Failure events occur. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Sending
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html">Sending
   /// Personalized Email Using the Amazon SES API</a> in the <i>Amazon Simple
   /// Email Service Developer Guide</i>.
   /// </important>
@@ -2560,30 +2558,28 @@ class Ses {
   /// either individually verified with Amazon SES, or from a domain that has
   /// been verified with Amazon SES. For information about verifying identities,
   /// see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// If you are sending on behalf of another user and have been permitted to do
   /// so by a sending authorization policy, then you must also specify the
   /// <code>SourceArn</code> parameter. For more information about sending
   /// authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   /// <note>
   /// Amazon SES does not support the SMTPUTF8 extension, as described in <a
-  /// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason,
-  /// the <i>local part</i> of a source email address (the part of the email
-  /// address that precedes the @ sign) may only contain <a
-  /// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
-  /// characters</a>. If the <i>domain part</i> of an address (the part after
-  /// the @ sign) contains non-ASCII characters, they must be encoded using
-  /// Punycode, as described in <a
-  /// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>. The sender
-  /// name (also known as the <i>friendly name</i>) may contain non-ASCII
-  /// characters. These characters must be encoded using MIME encoded-word
-  /// syntax, as described in<a href="https://tools.ietf.org/html/rfc2047">RFC
-  /// 2047</a>. MIME encoded-word syntax uses the following form:
-  /// <code>=?charset?encoding?encoded-text?=</code>.
+  /// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. for this reason,
+  /// The email address string must be 7-bit ASCII. If you want to send to or
+  /// from email addresses that contain Unicode characters in the domain part of
+  /// an address, you must encode the domain using Punycode. Punycode is not
+  /// permitted in the local part of the email address (the part before the @
+  /// sign) nor in the "friendly from" name. If you want to use Unicode
+  /// characters in the "friendly from" name, you must encode the "friendly
+  /// from" name using MIME encoded-word syntax, as described in <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
+  /// raw email using the Amazon SES API</a>. For more information about
+  /// Punycode, see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
   /// </note>
   ///
   /// Parameter [template] :
@@ -2600,17 +2596,17 @@ class Ses {
   ///
   /// Parameter [replyToAddresses] :
   /// The reply-to email address(es) for the message. If the recipient replies
-  /// to the message, each reply-to address will receive the reply.
+  /// to the message, each reply-to address receives the reply.
   ///
   /// Parameter [returnPath] :
-  /// The email address that bounces and complaints will be forwarded to when
+  /// The email address that bounces and complaints are forwarded to when
   /// feedback forwarding is enabled. If the message cannot be delivered to the
-  /// recipient, then an error message will be returned from the recipient's
-  /// ISP; this message will then be forwarded to the email address specified by
-  /// the <code>ReturnPath</code> parameter. The <code>ReturnPath</code>
-  /// parameter is never overwritten. This email address must be either
-  /// individually verified with Amazon SES, or from a domain that has been
-  /// verified with Amazon SES.
+  /// recipient, then an error message is returned from the recipient's ISP;
+  /// this message is forwarded to the email address specified by the
+  /// <code>ReturnPath</code> parameter. The <code>ReturnPath</code> parameter
+  /// is never overwritten. This email address must be either individually
+  /// verified with Amazon SES, or from a domain that has been verified with
+  /// Amazon SES.
   ///
   /// Parameter [returnPathArn] :
   /// This parameter is used only for sending authorization. It is the ARN of
@@ -2627,7 +2623,7 @@ class Ses {
   /// the <code>ReturnPath</code> to be <code>feedback@example.com</code>.
   ///
   /// For more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [sourceArn] :
@@ -2645,7 +2641,7 @@ class Ses {
   /// the <code>Source</code> to be <code>user@example.com</code>.
   ///
   /// For more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [tags] :
@@ -2698,10 +2694,10 @@ class Ses {
   /// Sets the specified receipt rule set as the active receipt rule set.
   /// <note>
   /// To disable your email-receiving through Amazon SES completely, you can
-  /// call this API with RuleSetName set to null.
+  /// call this operation with <code>RuleSetName</code> set to null.
   /// </note>
   /// For information about managing receipt rule sets, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -2746,7 +2742,7 @@ class Ses {
   /// You can execute this operation no more than once per second.
   ///
   /// For more information about Easy DKIM signing, go to the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [dkimEnabled] :
@@ -2787,17 +2783,17 @@ class Ses {
   /// You can execute this operation no more than once per second.
   ///
   /// For more information about using notifications with Amazon SES, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [forwardingEnabled] :
-  /// Sets whether Amazon SES will forward bounce and complaint notifications as
-  /// email. <code>true</code> specifies that Amazon SES will forward bounce and
+  /// Sets whether Amazon SES forwards bounce and complaint notifications as
+  /// email. <code>true</code> specifies that Amazon SES forwards bounce and
   /// complaint notifications as email, in addition to any Amazon SNS topic
   /// publishing otherwise specified. <code>false</code> specifies that Amazon
-  /// SES will publish bounce and complaint notifications only through Amazon
-  /// SNS. This value can only be set to <code>false</code> when Amazon SNS
-  /// topics are set for both <code>Bounce</code> and <code>Complaint</code>
+  /// SES publishes bounce and complaint notifications only through Amazon SNS.
+  /// This value can only be set to <code>false</code> when Amazon SNS topics
+  /// are set for both <code>Bounce</code> and <code>Complaint</code>
   /// notification types.
   ///
   /// Parameter [identity] :
@@ -2831,15 +2827,15 @@ class Ses {
   /// You can execute this operation no more than once per second.
   ///
   /// For more information about using notifications with Amazon SES, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [enabled] :
   /// Sets whether Amazon SES includes the original email headers in Amazon SNS
   /// notifications of the specified notification type. A value of
-  /// <code>true</code> specifies that Amazon SES will include headers in
+  /// <code>true</code> specifies that Amazon SES includes headers in
   /// notifications, and a value of <code>false</code> specifies that Amazon SES
-  /// will not include headers in notifications.
+  /// does not include headers in notifications.
   ///
   /// This value can only be set when <code>NotificationType</code> is already
   /// set to use a particular Amazon SNS topic.
@@ -2877,24 +2873,23 @@ class Ses {
   /// identity (an email address or a domain).
   /// <important>
   /// To send emails using the specified MAIL FROM domain, you must add an MX
-  /// record to your MAIL FROM domain's DNS settings. If you want your emails to
+  /// record to your MAIL FROM domain's DNS settings. To ensure that your emails
   /// pass Sender Policy Framework (SPF) checks, you must also add or update an
   /// SPF record. For more information, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-set.html">Amazon
-  /// SES Developer Guide</a>.
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/mail-from.html">Amazon SES
+  /// Developer Guide</a>.
   /// </important>
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [identity] :
-  /// The verified identity for which you want to enable or disable the
-  /// specified custom MAIL FROM domain.
+  /// The verified identity.
   ///
   /// Parameter [behaviorOnMXFailure] :
-  /// The action that you want Amazon SES to take if it cannot successfully read
-  /// the required MX record when you send an email. If you choose
-  /// <code>UseDefaultValue</code>, Amazon SES will use amazonses.com (or a
+  /// The action for Amazon SES to take if it cannot successfully read the
+  /// required MX record when you send an email. If you choose
+  /// <code>UseDefaultValue</code>, Amazon SES uses amazonses.com (or a
   /// subdomain of that) as the MAIL FROM domain. If you choose
-  /// <code>RejectMessage</code>, Amazon SES will return a
+  /// <code>RejectMessage</code>, Amazon SES returns a
   /// <code>MailFromDomainNotVerified</code> error and not send the email.
   ///
   /// The action specified in <code>BehaviorOnMXFailure</code> is taken when the
@@ -2902,12 +2897,12 @@ class Ses {
   /// <code>Failed</code>, and <code>TemporaryFailure</code> states.
   ///
   /// Parameter [mailFromDomain] :
-  /// The custom MAIL FROM domain that you want the verified identity to use.
-  /// The MAIL FROM domain must 1) be a subdomain of the verified identity, 2)
-  /// not be used in a "From" address if the MAIL FROM domain is the destination
-  /// of email feedback forwarding (for more information, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from.html">Amazon
-  /// SES Developer Guide</a>), and 3) not be used to receive emails. A value of
+  /// The custom MAIL FROM domain for the verified identity to use. The MAIL
+  /// FROM domain must 1) be a subdomain of the verified identity, 2) not be
+  /// used in a "From" address if the MAIL FROM domain is the destination of
+  /// email feedback forwarding (for more information, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/mail-from.html">Amazon SES
+  /// Developer Guide</a>), and 3) not be used to receive emails. A value of
   /// <code>null</code> disables the custom MAIL FROM setting for the identity.
   Future<void> setIdentityMailFromDomain({
     required String identity,
@@ -2943,12 +2938,11 @@ class Ses {
   /// You can execute this operation no more than once per second.
   ///
   /// For more information about feedback notification, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// Parameter [identity] :
-  /// The identity (email address or domain) that you want to set the Amazon SNS
-  /// topic for.
+  /// The identity (email address or domain) for the Amazon SNS topic.
   /// <important>
   /// You can only specify a verified identity for this parameter.
   /// </important>
@@ -2958,8 +2952,8 @@ class Ses {
   /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
   ///
   /// Parameter [notificationType] :
-  /// The type of notifications that will be published to the specified Amazon
-  /// SNS topic.
+  /// The type of notifications that are published to the specified Amazon SNS
+  /// topic.
   ///
   /// Parameter [snsTopic] :
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter
@@ -2990,7 +2984,7 @@ class Ses {
   /// Sets the position of the specified receipt rule in the receipt rule set.
   ///
   /// For information about managing receipt rules, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -3045,7 +3039,7 @@ class Ses {
   /// correspond to replacement tags in the email template.
   ///
   /// Parameter [templateName] :
-  /// The name of the template that you want to render.
+  /// The name of the template to render.
   Future<TestRenderTemplateResponse> testRenderTemplate({
     required String templateData,
     required String templateName,
@@ -3068,16 +3062,17 @@ class Ses {
   }
 
   /// Enables or disables email sending across your entire Amazon SES account in
-  /// the current AWS Region. You can use this operation in conjunction with
-  /// Amazon CloudWatch alarms to temporarily pause email sending across your
-  /// Amazon SES account in a given AWS Region when reputation metrics (such as
-  /// your bounce or complaint rates) reach certain thresholds.
+  /// the current Amazon Web Services Region. You can use this operation in
+  /// conjunction with Amazon CloudWatch alarms to temporarily pause email
+  /// sending across your Amazon SES account in a given Amazon Web Services
+  /// Region when reputation metrics (such as your bounce or complaint rates)
+  /// reach certain thresholds.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// Parameter [enabled] :
   /// Describes whether email sending is enabled or disabled for your Amazon SES
-  /// account in the current AWS Region.
+  /// account in the current Amazon Web Services Region.
   Future<void> updateAccountSendingEnabled({
     bool? enabled,
   }) async {
@@ -3100,7 +3095,7 @@ class Ses {
   /// sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon
   /// Simple Notification Service (Amazon SNS). For information about using
   /// configuration sets, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Monitoring
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Monitoring
   /// Your Amazon SES Sending Activity</a> in the <i>Amazon SES Developer
   /// Guide.</i>
   /// <note>
@@ -3117,12 +3112,10 @@ class Ses {
   /// May throw [InvalidSNSDestinationException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that contains the event destination that
-  /// you want to update.
+  /// The name of the configuration set that contains the event destination.
   ///
   /// Parameter [eventDestination] :
-  /// The event destination object that you want to apply to the specified
-  /// configuration set.
+  /// The event destination object.
   Future<void> updateConfigurationSetEventDestination({
     required String configurationSetName,
     required EventDestination eventDestination,
@@ -3144,21 +3137,21 @@ class Ses {
   }
 
   /// Enables or disables the publishing of reputation metrics for emails sent
-  /// using a specific configuration set in a given AWS Region. Reputation
-  /// metrics include bounce and complaint rates. These metrics are published to
-  /// Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce
-  /// or complaint rates exceed certain thresholds.
+  /// using a specific configuration set in a given Amazon Web Services Region.
+  /// Reputation metrics include bounce and complaint rates. These metrics are
+  /// published to Amazon CloudWatch. By using CloudWatch, you can create alarms
+  /// when bounce or complaint rates exceed certain thresholds.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// May throw [ConfigurationSetDoesNotExistException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to update.
+  /// The name of the configuration set to update.
   ///
   /// Parameter [enabled] :
-  /// Describes whether or not Amazon SES will publish reputation metrics for
-  /// the configuration set, such as bounce and complaint rates, to Amazon
+  /// Describes whether or not Amazon SES publishes reputation metrics for the
+  /// configuration set, such as bounce and complaint rates, to Amazon
   /// CloudWatch.
   Future<void> updateConfigurationSetReputationMetricsEnabled({
     required String configurationSetName,
@@ -3180,18 +3173,18 @@ class Ses {
   }
 
   /// Enables or disables email sending for messages sent using a specific
-  /// configuration set in a given AWS Region. You can use this operation in
-  /// conjunction with Amazon CloudWatch alarms to temporarily pause email
-  /// sending for a configuration set when the reputation metrics for that
-  /// configuration set (such as your bounce on complaint rate) exceed certain
-  /// thresholds.
+  /// configuration set in a given Amazon Web Services Region. You can use this
+  /// operation in conjunction with Amazon CloudWatch alarms to temporarily
+  /// pause email sending for a configuration set when the reputation metrics
+  /// for that configuration set (such as your bounce on complaint rate) exceed
+  /// certain thresholds.
   ///
   /// You can execute this operation no more than once per second.
   ///
   /// May throw [ConfigurationSetDoesNotExistException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to update.
+  /// The name of the configuration set to update.
   ///
   /// Parameter [enabled] :
   /// Describes whether email sending is enabled or disabled for the
@@ -3222,7 +3215,7 @@ class Ses {
   /// hosted on domains operated by Amazon SES. You can configure a subdomain of
   /// your own to handle these events. For information about using custom
   /// domains, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// May throw [ConfigurationSetDoesNotExistException].
@@ -3230,8 +3223,7 @@ class Ses {
   /// May throw [InvalidTrackingOptionsException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set for which you want to update the custom
-  /// tracking domain.
+  /// The name of the configuration set.
   Future<void> updateConfigurationSetTrackingOptions({
     required String configurationSetName,
     required TrackingOptions trackingOptions,
@@ -3255,7 +3247,7 @@ class Ses {
   /// Updates an existing custom verification email template.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
   /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
@@ -3266,8 +3258,7 @@ class Ses {
   /// May throw [CustomVerificationEmailInvalidContentException].
   ///
   /// Parameter [templateName] :
-  /// The name of the custom verification email template that you want to
-  /// update.
+  /// The name of the custom verification email template to update.
   ///
   /// Parameter [failureRedirectionURL] :
   /// The URL that the recipient of the verification email is sent to if his or
@@ -3284,7 +3275,7 @@ class Ses {
   /// The content of the custom verification email. The total size of the email
   /// must be less than 10 MB. The message body may contain HTML, with some
   /// limitations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/custom-verification-emails.html#custom-verification-emails-faq">Custom
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Custom
   /// Verification Email Frequently Asked Questions</a> in the <i>Amazon SES
   /// Developer Guide</i>.
   ///
@@ -3322,7 +3313,7 @@ class Ses {
   /// Updates a receipt rule.
   ///
   /// For information about managing receipt rules, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -3360,9 +3351,9 @@ class Ses {
   }
 
   /// Updates an email template. Email templates enable you to send personalized
-  /// email to one or more destinations in a single API operation. For more
+  /// email to one or more destinations in a single operation. For more
   /// information, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html">Amazon
   /// SES Developer Guide</a>.
   ///
   /// You can execute this operation no more than once per second.
@@ -3395,9 +3386,9 @@ class Ses {
   /// domain with your account by using the <code>VerifyDomainIdentity</code>
   /// operation. However, you can't send email from the domain until you either
   /// successfully <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-domains.html">verify
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure">verify
   /// it</a> or you successfully <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">set
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html">set
   /// up DKIM for it</a>.
   /// </important>
   /// You use the tokens that are generated by this operation to create CNAME
@@ -3451,9 +3442,9 @@ class Ses {
   }
 
   /// Adds a domain to the list of identities for your Amazon SES account in the
-  /// current AWS Region and attempts to verify it. For more information about
-  /// verifying domains, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
+  /// current Amazon Web Services Region and attempts to verify it. For more
+  /// information about verifying domains, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html">Verifying
   /// Email Addresses and Domains</a> in the <i>Amazon SES Developer Guide.</i>
   ///
   /// You can execute this operation no more than once per second.
@@ -3502,9 +3493,9 @@ class Ses {
   }
 
   /// Adds an email address to the list of identities for your Amazon SES
-  /// account in the current AWS region and attempts to verify it. As a result
-  /// of executing this operation, a verification email is sent to the specified
-  /// address.
+  /// account in the current Amazon Web Services Region and attempts to verify
+  /// it. As a result of executing this operation, a verification email is sent
+  /// to the specified address.
   ///
   /// You can execute this operation no more than once per second.
   ///
@@ -3533,16 +3524,17 @@ class Ses {
 /// email.
 ///
 /// For information about adding a header using a receipt rule, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-add-header.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-add-header.html">Amazon
 /// SES Developer Guide</a>.
 class AddHeaderAction {
-  /// The name of the header to add. Must be between 1 and 50 characters,
-  /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
-  /// only.
+  /// The name of the header to add to the incoming message. The name must contain
+  /// at least one character, and can contain up to 50 characters. It consists of
+  /// alphanumeric (a–z, A–Z, 0–9) characters and dashes.
   final String headerName;
 
-  /// Must be less than 2048 characters, and must not contain newline characters
-  /// ("\r" or "\n").
+  /// The content to include in the header. This value can contain up to 2048
+  /// characters. It can't contain newline (<code>\n</code>) or carriage return
+  /// (<code>\r</code>) characters.
   final String headerValue;
 
   AddHeaderAction({
@@ -3628,14 +3620,14 @@ class Body {
 ///
 /// For information about sending a bounce message in response to a received
 /// email, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-bounce.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-bounce.html">Amazon
 /// SES Developer Guide</a>.
 class BounceAction {
   /// Human-readable text to include in the bounce message.
   final String message;
 
   /// The email address of the sender of the bounced email. This is the address
-  /// from which the bounce message will be sent.
+  /// from which the bounce message is sent.
   final String sender;
 
   /// The SMTP reply code, as defined by <a
@@ -3647,9 +3639,11 @@ class BounceAction {
   final String? statusCode;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
-  /// bounce action is taken. An example of an Amazon SNS topic ARN is
-  /// <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>. For more
-  /// information about Amazon SNS topics, see the <a
+  /// bounce action is taken. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String? topicArn;
@@ -3739,7 +3733,7 @@ extension BounceTypeFromString on String {
 /// (DSN) when an email that Amazon SES receives on your behalf bounces.
 ///
 /// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
 class BouncedRecipientInfo {
   /// The email address of the recipient of the bounced email.
@@ -3753,7 +3747,7 @@ class BouncedRecipientInfo {
   /// identity that is associated with the sending authorization policy that
   /// permits you to receive email for the recipient of the bounced email. For
   /// more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
   final String? recipientArn;
 
@@ -3836,7 +3830,7 @@ class BulkEmailDestinationStatus {
   ///
   /// <ul>
   /// <li>
-  /// <code>Success</code>: Amazon SES accepted the message, and will attempt to
+  /// <code>Success</code>: Amazon SES accepted the message, and attempts to
   /// deliver it to the recipients.
   /// </li>
   /// <li>
@@ -4029,7 +4023,7 @@ class CloneReceiptRuleSetResponse {
 /// Event destinations, such as Amazon CloudWatch, are associated with
 /// configuration sets, which enable you to publish email sending events. For
 /// information about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class CloudWatchDestination {
   /// A list of dimensions upon which to categorize your emails when you publish
@@ -4062,44 +4056,45 @@ class CloudWatchDestination {
 ///
 /// For information about publishing email sending events to Amazon CloudWatch,
 /// see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class CloudWatchDimensionConfiguration {
   /// The default value of the dimension that is published to Amazon CloudWatch if
   /// you do not provide the value of the dimension when you send an email. The
-  /// default value must:
+  /// default value must meet the following requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
+  /// dashes (-), at signs (@), or periods (.).
   /// </li>
   /// <li>
-  /// Contain less than 256 characters.
+  /// Contain 256 characters or fewer.
   /// </li>
   /// </ul>
   final String defaultDimensionValue;
 
   /// The name of an Amazon CloudWatch dimension associated with an email sending
-  /// metric. The name must:
+  /// metric. The name must meet the following requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
+  /// dashes (-), or colons (:).
   /// </li>
   /// <li>
-  /// Contain less than 256 characters.
+  /// Contain 256 characters or fewer.
   /// </li>
   /// </ul>
   final String dimensionName;
 
   /// The place where Amazon SES finds the value of a dimension to publish to
-  /// Amazon CloudWatch. If you want Amazon SES to use the message tags that you
-  /// specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to
-  /// the <code>SendEmail</code>/<code>SendRawEmail</code> API, choose
-  /// <code>messageTag</code>. If you want Amazon SES to use your own email
-  /// headers, choose <code>emailHeader</code>.
+  /// Amazon CloudWatch. To use the message tags that you specify using an
+  /// <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the
+  /// <code>SendEmail</code>/<code>SendRawEmail</code> API, specify
+  /// <code>messageTag</code>. To use your own email headers, specify
+  /// <code>emailHeader</code>. To put a custom tag on any link included in your
+  /// email, specify <code>linkTag</code>.
   final DimensionValueSource dimensionValueSource;
 
   CloudWatchDimensionConfiguration({
@@ -4135,10 +4130,10 @@ class CloudWatchDimensionConfiguration {
 /// Configuration sets let you create groups of rules that you can apply to the
 /// emails you send using Amazon SES. For more information about using
 /// configuration sets, see <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/using-configuration-sets.html">Using
+/// href="https://docs.aws.amazon.com/ses/latest/dg/using-configuration-sets.html">Using
 /// Amazon SES Configuration Sets</a> in the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/">Amazon SES
-/// Developer Guide</a>.
+/// href="https://docs.aws.amazon.com/ses/latest/dg/">Amazon SES Developer
+/// Guide</a>.
 class ConfigurationSet {
   /// The name of the configuration set. The name must meet the following
   /// requirements:
@@ -4617,7 +4612,7 @@ class DescribeActiveReceiptRuleSetResponse {
 /// Represents the details of a configuration set. Configuration sets enable you
 /// to publish email sending events. For information about using configuration
 /// sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class DescribeConfigurationSetResponse {
   /// The configuration set object associated with the specified configuration
@@ -4742,13 +4737,16 @@ class DescribeReceiptRuleSetResponse {
 /// <note>
 /// Amazon SES does not support the SMTPUTF8 extension, as described in <a
 /// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason, the
-/// <i>local part</i> of a destination email address (the part of the email
-/// address that precedes the @ sign) may only contain <a
-/// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
-/// characters</a>. If the <i>domain part</i> of an address (the part after the
-/// @ sign) contains non-ASCII characters, they must be encoded using Punycode,
-/// as described in <a
-/// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>.
+/// email address string must be 7-bit ASCII. If you want to send to or from
+/// email addresses that contain Unicode characters in the domain part of an
+/// address, you must encode the domain using Punycode. Punycode is not
+/// permitted in the local part of the email address (the part before the @
+/// sign) nor in the "friendly from" name. If you want to use Unicode characters
+/// in the "friendly from" name, you must encode the "friendly from" name using
+/// MIME encoded-word syntax, as described in <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
+/// raw email using the Amazon SES API</a>. For more information about Punycode,
+/// see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
 /// </note>
 class Destination {
   /// The recipients to place on the BCC: line of the message.
@@ -4854,8 +4852,7 @@ extension DsnActionFromString on String {
   }
 }
 
-/// Contains information about the event destination that the specified email
-/// sending events will be published to.
+/// Contains information about an event destination.
 /// <note>
 /// When you create or update an event destination, you must provide one, and
 /// only one, destination. The destination can be Amazon CloudWatch, Amazon
@@ -4865,21 +4862,55 @@ extension DsnActionFromString on String {
 /// to publish email sending events to Amazon CloudWatch, Amazon Kinesis
 /// Firehose, or Amazon Simple Notification Service (Amazon SNS). For
 /// information about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class EventDestination {
   /// The type of email sending events to publish to the event destination.
-  final List<EventType> matchingEventTypes;
-
-  /// The name of the event destination. The name must:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// <code>send</code> - The call was successful and Amazon SES is attempting to
+  /// deliver the email.
   /// </li>
   /// <li>
-  /// Contain less than 64 characters.
+  /// <code>reject</code> - Amazon SES determined that the email contained a virus
+  /// and rejected it.
+  /// </li>
+  /// <li>
+  /// <code>bounce</code> - The recipient's mail server permanently rejected the
+  /// email. This corresponds to a hard bounce.
+  /// </li>
+  /// <li>
+  /// <code>complaint</code> - The recipient marked the email as spam.
+  /// </li>
+  /// <li>
+  /// <code>delivery</code> - Amazon SES successfully delivered the email to the
+  /// recipient's mail server.
+  /// </li>
+  /// <li>
+  /// <code>open</code> - The recipient received the email and opened it in their
+  /// email client.
+  /// </li>
+  /// <li>
+  /// <code>click</code> - The recipient clicked one or more links in the email.
+  /// </li>
+  /// <li>
+  /// <code>renderingFailure</code> - Amazon SES did not send the email because of
+  /// a template rendering issue.
+  /// </li>
+  /// </ul>
+  final List<EventType> matchingEventTypes;
+
+  /// The name of the event destination. The name must meet the following
+  /// requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
+  /// </li>
+  /// <li>
+  /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
   final String name;
@@ -5013,7 +5044,7 @@ extension EventTypeFromString on String {
 /// when an email that Amazon SES receives on your behalf bounces.
 ///
 /// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
 class ExtensionField {
   /// The name of the header to add. Must be between 1 and 50 characters,
@@ -5021,8 +5052,8 @@ class ExtensionField {
   /// only.
   final String name;
 
-  /// The value of the header to add. Must be less than 2048 characters, and must
-  /// not contain newline characters ("\r" or "\n").
+  /// The value of the header to add. Must contain 2048 characters or fewer, and
+  /// must not contain newline characters ("\r" or "\n").
   final String value;
 
   ExtensionField({
@@ -5041,10 +5072,10 @@ class ExtensionField {
 }
 
 /// Represents a request to return the email sending status for your Amazon SES
-/// account in the current AWS Region.
+/// account in the current Amazon Web Services Region.
 class GetAccountSendingEnabledResponse {
   /// Describes whether email sending is enabled or disabled for your Amazon SES
-  /// account in the current AWS Region.
+  /// account in the current Amazon Web Services Region.
   final bool? enabled;
 
   GetAccountSendingEnabledResponse({
@@ -5397,7 +5428,7 @@ class IdentityDkimAttributes {
   ///
   /// For more information about creating DNS records using DKIM tokens, see the
   /// <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html">Amazon
   /// SES Developer Guide</a>.
   final List<String>? dkimTokens;
 
@@ -5490,44 +5521,44 @@ class IdentityMailFromDomainAttributes {
 /// bounce, complaint, and/or delivery notifications, and whether feedback
 /// forwarding is enabled for bounce and complaint notifications.
 class IdentityNotificationAttributes {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will
-  /// publish bounce notifications.
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
+  /// publishes bounce notifications.
   final String bounceTopic;
 
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will
-  /// publish complaint notifications.
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
+  /// publishes complaint notifications.
   final String complaintTopic;
 
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will
-  /// publish delivery notifications.
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
+  /// publishes delivery notifications.
   final String deliveryTopic;
 
-  /// Describes whether Amazon SES will forward bounce and complaint notifications
-  /// as email. <code>true</code> indicates that Amazon SES will forward bounce
-  /// and complaint notifications as email, while <code>false</code> indicates
-  /// that bounce and complaint notifications will be published only to the
-  /// specified bounce and complaint Amazon SNS topics.
+  /// Describes whether Amazon SES forwards bounce and complaint notifications as
+  /// email. <code>true</code> indicates that Amazon SES forwards bounce and
+  /// complaint notifications as email, while <code>false</code> indicates that
+  /// bounce and complaint notifications are published only to the specified
+  /// bounce and complaint Amazon SNS topics.
   final bool forwardingEnabled;
 
   /// Describes whether Amazon SES includes the original email headers in Amazon
   /// SNS notifications of type <code>Bounce</code>. A value of <code>true</code>
-  /// specifies that Amazon SES will include headers in bounce notifications, and
-  /// a value of <code>false</code> specifies that Amazon SES will not include
+  /// specifies that Amazon SES includes headers in bounce notifications, and a
+  /// value of <code>false</code> specifies that Amazon SES does not include
   /// headers in bounce notifications.
   final bool? headersInBounceNotificationsEnabled;
 
   /// Describes whether Amazon SES includes the original email headers in Amazon
   /// SNS notifications of type <code>Complaint</code>. A value of
-  /// <code>true</code> specifies that Amazon SES will include headers in
-  /// complaint notifications, and a value of <code>false</code> specifies that
-  /// Amazon SES will not include headers in complaint notifications.
+  /// <code>true</code> specifies that Amazon SES includes headers in complaint
+  /// notifications, and a value of <code>false</code> specifies that Amazon SES
+  /// does not include headers in complaint notifications.
   final bool? headersInComplaintNotificationsEnabled;
 
   /// Describes whether Amazon SES includes the original email headers in Amazon
   /// SNS notifications of type <code>Delivery</code>. A value of
-  /// <code>true</code> specifies that Amazon SES will include headers in delivery
+  /// <code>true</code> specifies that Amazon SES includes headers in delivery
   /// notifications, and a value of <code>false</code> specifies that Amazon SES
-  /// will not include headers in delivery notifications.
+  /// does not include headers in delivery notifications.
   final bool? headersInDeliveryNotificationsEnabled;
 
   IdentityNotificationAttributes({
@@ -5678,7 +5709,7 @@ extension InvocationTypeFromString on String {
 /// Event destinations, such as Amazon Kinesis Firehose, are associated with
 /// configuration sets, which enable you to publish email sending events. For
 /// information about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class KinesisFirehoseDestination {
   /// The ARN of the Amazon Kinesis Firehose stream that email sending events
@@ -5710,48 +5741,52 @@ class KinesisFirehoseDestination {
   }
 }
 
-/// When included in a receipt rule, this action calls an AWS Lambda function
-/// and, optionally, publishes a notification to Amazon Simple Notification
-/// Service (Amazon SNS).
+/// When included in a receipt rule, this action calls an Amazon Web Services
+/// Lambda function and, optionally, publishes a notification to Amazon Simple
+/// Notification Service (Amazon SNS).
 ///
-/// To enable Amazon SES to call your AWS Lambda function or to publish to an
-/// Amazon SNS topic of another account, Amazon SES must have permission to
-/// access those resources. For information about giving permissions, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html">Amazon
+/// To enable Amazon SES to call your Amazon Web Services Lambda function or to
+/// publish to an Amazon SNS topic of another account, Amazon SES must have
+/// permission to access those resources. For information about giving
+/// permissions, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
 /// SES Developer Guide</a>.
 ///
-/// For information about using AWS Lambda actions in receipt rules, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-lambda.html">Amazon
+/// For information about using Amazon Web Services Lambda actions in receipt
+/// rules, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda.html">Amazon
 /// SES Developer Guide</a>.
 class LambdaAction {
-  /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an
-  /// AWS Lambda function ARN is
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function.
+  /// An example of an Amazon Web Services Lambda function ARN is
   /// <code>arn:aws:lambda:us-west-2:account-id:function:MyFunction</code>. For
-  /// more information about AWS Lambda, see the <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda
-  /// Developer Guide</a>.
+  /// more information about Amazon Web Services Lambda, see the <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">Amazon Web
+  /// Services Lambda Developer Guide</a>.
   final String functionArn;
 
-  /// The invocation type of the AWS Lambda function. An invocation type of
-  /// <code>RequestResponse</code> means that the execution of the function will
-  /// immediately result in a response, and a value of <code>Event</code> means
-  /// that the function will be invoked asynchronously. The default value is
-  /// <code>Event</code>. For information about AWS Lambda invocation types, see
-  /// the <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html">AWS
-  /// Lambda Developer Guide</a>.
+  /// The invocation type of the Amazon Web Services Lambda function. An
+  /// invocation type of <code>RequestResponse</code> means that the execution of
+  /// the function immediately results in a response, and a value of
+  /// <code>Event</code> means that the function is invoked asynchronously. The
+  /// default value is <code>Event</code>. For information about Amazon Web
+  /// Services Lambda invocation types, see the <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html">Amazon
+  /// Web Services Lambda Developer Guide</a>.
   /// <important>
   /// There is a 30-second timeout on <code>RequestResponse</code> invocations.
   /// You should use <code>Event</code> invocation in most cases. Use
-  /// <code>RequestResponse</code> only when you want to make a mail flow
-  /// decision, such as whether to stop the receipt rule or the receipt rule set.
+  /// <code>RequestResponse</code> only to make a mail flow decision, such as
+  /// whether to stop the receipt rule or the receipt rule set.
   /// </important>
   final InvocationType? invocationType;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
-  /// Lambda action is taken. An example of an Amazon SNS topic ARN is
-  /// <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>. For more
-  /// information about Amazon SNS topics, see the <a
+  /// Lambda action is executed. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String? topicArn;
@@ -5782,10 +5817,10 @@ class LambdaAction {
   }
 }
 
-/// A list of configuration sets associated with your AWS account. Configuration
-/// sets enable you to publish email sending events. For information about using
-/// configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// A list of configuration sets associated with your Amazon Web Services
+/// account. Configuration sets enable you to publish email sending events. For
+/// information about using configuration sets, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class ListConfigurationSetsResponse {
   /// A list of configuration sets.
@@ -5862,8 +5897,8 @@ class ListCustomVerificationEmailTemplatesResponse {
   }
 }
 
-/// A list of all identities that you have attempted to verify under your AWS
-/// account, regardless of verification status.
+/// A list of all identities that you have attempted to verify under your Amazon
+/// Web Services account, regardless of verification status.
 class ListIdentitiesResponse {
   /// A list of identities.
   final List<String> identities;
@@ -5916,7 +5951,8 @@ class ListIdentityPoliciesResponse {
   }
 }
 
-/// A list of IP address filters that exist under your AWS account.
+/// A list of IP address filters that exist under your Amazon Web Services
+/// account.
 class ListReceiptFiltersResponse {
   /// A list of IP address filter data structures, which each consist of a name,
   /// an IP address range, and whether to allow or block mail from it.
@@ -5940,7 +5976,8 @@ class ListReceiptFiltersResponse {
   }
 }
 
-/// A list of receipt rule sets that exist under your AWS account.
+/// A list of receipt rule sets that exist under your Amazon Web Services
+/// account.
 class ListReceiptRuleSetsResponse {
   /// A token indicating that there are additional receipt rule sets available to
   /// be listed. Pass this token to successive calls of
@@ -5980,7 +6017,7 @@ class ListReceiptRuleSetsResponse {
 class ListTemplatesResponse {
   /// A token indicating that there are additional email templates available to be
   /// listed. Pass this token to a subsequent call to <code>ListTemplates</code>
-  /// to retrieve the next 50 email templates.
+  /// to retrieve the next set of email templates within your page size.
   final String? nextToken;
 
   /// An array the contains the name and creation time stamp for each template in
@@ -6013,7 +6050,7 @@ class ListTemplatesResponse {
 }
 
 /// A list of email addresses that you have verified with Amazon SES under your
-/// AWS account.
+/// Amazon Web Services account.
 class ListVerifiedEmailAddressesResponse {
   /// A list of email addresses that have been verified.
   final List<String>? verifiedEmailAddresses;
@@ -6043,8 +6080,8 @@ class Message {
   /// The message body.
   final Body body;
 
-  /// The subject of the message: A short summary of the content, which will
-  /// appear in the recipient's inbox.
+  /// The subject of the message: A short summary of the content, which appears in
+  /// the recipient's inbox.
   final Content subject;
 
   Message({
@@ -6066,7 +6103,7 @@ class Message {
 /// (DSN) when an email that Amazon SES receives on your behalf bounces.
 ///
 /// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
 class MessageDsn {
   /// The reporting MTA that attempted to deliver the message, formatted as
@@ -6106,31 +6143,31 @@ class MessageDsn {
 /// Message tags, which you use with configuration sets, enable you to publish
 /// email sending events. For information about using configuration sets, see
 /// the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class MessageTag {
-  /// The name of the tag. The name must:
+  /// The name of the tag. The name must meet the following requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
   /// </li>
   /// <li>
-  /// Contain less than 256 characters.
+  /// Contain 256 characters or fewer.
   /// </li>
   /// </ul>
   final String name;
 
-  /// The value of the tag. The value must:
+  /// The value of the tag. The value must meet the following requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
   /// </li>
   /// <li>
-  /// Contain less than 256 characters.
+  /// Contain 256 characters or fewer.
   /// </li>
   /// </ul>
   final String value;
@@ -6216,10 +6253,10 @@ class PutIdentityPolicyResponse {
 class RawMessage {
   /// The raw data of the message. This data needs to base64-encoded if you are
   /// accessing Amazon SES directly through the HTTPS interface. If you are
-  /// accessing Amazon SES using an AWS SDK, the SDK takes care of the base
-  /// 64-encoding for you. In all cases, the client must ensure that the message
-  /// format complies with Internet email standards regarding email header fields,
-  /// MIME types, and MIME encoding.
+  /// accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of
+  /// the base 64-encoding for you. In all cases, the client must ensure that the
+  /// message format complies with Internet email standards regarding email header
+  /// fields, MIME types, and MIME encoding.
   ///
   /// The To:, CC:, and BCC: headers in the raw message can contain a group list.
   ///
@@ -6232,7 +6269,7 @@ class RawMessage {
   /// removed by Amazon SES before sending the email.
   /// </important>
   /// For more information, go to the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Amazon
   /// SES Developer Guide</a>.
   final Uint8List data;
 
@@ -6253,7 +6290,7 @@ class RawMessage {
 /// data type can represent only one action.
 ///
 /// For information about setting up receipt rules, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
 class ReceiptAction {
   /// Adds a header to the received email.
@@ -6264,8 +6301,8 @@ class ReceiptAction {
   /// (Amazon SNS).
   final BounceAction? bounceAction;
 
-  /// Calls an AWS Lambda function, and optionally, publishes a notification to
-  /// Amazon SNS.
+  /// Calls an Amazon Web Services Lambda function, and optionally, publishes a
+  /// notification to Amazon SNS.
   final LambdaAction? lambdaAction;
 
   /// Saves the received message to an Amazon Simple Storage Service (Amazon S3)
@@ -6335,25 +6372,26 @@ class ReceiptAction {
 /// reject mail originating from an IP address or range of IP addresses.
 ///
 /// For information about setting up IP address filters, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
 class ReceiptFilter {
   /// A structure that provides the IP addresses to block or allow, and whether to
   /// block or allow incoming mail from them.
   final ReceiptIpFilter ipFilter;
 
-  /// The name of the IP address filter. The name must:
+  /// The name of the IP address filter. The name must meet the following
+  /// requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
   /// </li>
   /// <li>
   /// Start and end with a letter or number.
   /// </li>
   /// <li>
-  /// Contain less than 64 characters.
+  /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
   final String name;
@@ -6411,13 +6449,13 @@ extension ReceiptFilterPolicyFromString on String {
 /// reject mail originating from an IP address or range of IP addresses.
 ///
 /// For information about setting up IP address filters, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
 class ReceiptIpFilter {
-  /// A single IP address or a range of IP addresses that you want to block or
-  /// allow, specified in Classless Inter-Domain Routing (CIDR) notation. An
-  /// example of a single email address is 10.0.0.1. An example of a range of IP
-  /// addresses is 10.0.0.1/24. For more information about CIDR notation, see <a
+  /// A single IP address or a range of IP addresses to block or allow, specified
+  /// in Classless Inter-Domain Routing (CIDR) notation. An example of a single
+  /// email address is 10.0.0.1. An example of a range of IP addresses is
+  /// 10.0.0.1/24. For more information about CIDR notation, see <a
   /// href="https://tools.ietf.org/html/rfc2317">RFC 2317</a>.
   final String cidr;
 
@@ -6456,21 +6494,21 @@ class ReceiptIpFilter {
 /// actions on the message.
 ///
 /// For information about setting up receipt rules, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
 class ReceiptRule {
-  /// The name of the receipt rule. The name must:
+  /// The name of the receipt rule. The name must meet the following requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
+  /// dashes (-), or periods (.).
   /// </li>
   /// <li>
   /// Start and end with a letter or number.
   /// </li>
   /// <li>
-  /// Contain less than 64 characters.
+  /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
   final String name;
@@ -6484,8 +6522,8 @@ class ReceiptRule {
   final bool? enabled;
 
   /// The recipient domains and email addresses that the receipt rule applies to.
-  /// If this field is not specified, this rule will match all recipients under
-  /// all verified domains.
+  /// If this field is not specified, this rule matches all recipients on all
+  /// verified domains.
   final List<String>? recipients;
 
   /// If <code>true</code>, then messages that this receipt rule applies to are
@@ -6494,8 +6532,8 @@ class ReceiptRule {
 
   /// Specifies whether Amazon SES should require that incoming email is delivered
   /// over a connection encrypted with Transport Layer Security (TLS). If this
-  /// parameter is set to <code>Require</code>, Amazon SES will bounce emails that
-  /// are not received over TLS. The default is <code>Optional</code>.
+  /// parameter is set to <code>Require</code>, Amazon SES bounces emails that are
+  /// not received over TLS. The default is <code>Optional</code>.
   final TlsPolicy? tlsPolicy;
 
   ReceiptRule({
@@ -6545,24 +6583,25 @@ class ReceiptRule {
 /// domains.
 ///
 /// For information about setting up receipt rule sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rule-set.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules">Amazon
 /// SES Developer Guide</a>.
 class ReceiptRuleSetMetadata {
   /// The date and time the receipt rule set was created.
   final DateTime? createdTimestamp;
 
-  /// The name of the receipt rule set. The name must:
+  /// The name of the receipt rule set. The name must meet the following
+  /// requirements:
   ///
   /// <ul>
   /// <li>
-  /// This value can only contain ASCII letters (a-z, A-Z), numbers (0-9),
-  /// underscores (_), or dashes (-).
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
   /// </li>
   /// <li>
   /// Start and end with a letter or number.
   /// </li>
   /// <li>
-  /// Contain less than 64 characters.
+  /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
   final String? name;
@@ -6593,7 +6632,7 @@ class ReceiptRuleSetMetadata {
 /// (DSN) when an email that Amazon SES receives on your behalf bounces.
 ///
 /// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
 class RecipientDsnFields {
   /// The action performed by the reporting mail transfer agent (MTA) as a result
@@ -6615,9 +6654,9 @@ class RecipientDsnFields {
 
   /// The email address that the message was ultimately delivered to. This
   /// corresponds to the <code>Final-Recipient</code> in the DSN. If not
-  /// specified, <code>FinalRecipient</code> will be set to the
-  /// <code>Recipient</code> specified in the <code>BouncedRecipientInfo</code>
-  /// structure. Either <code>FinalRecipient</code> or the recipient in
+  /// specified, <code>FinalRecipient</code> is set to the <code>Recipient</code>
+  /// specified in the <code>BouncedRecipientInfo</code> structure. Either
+  /// <code>FinalRecipient</code> or the recipient in
   /// <code>BouncedRecipientInfo</code> must be a recipient of the original
   /// bounced message.
   /// <note>
@@ -6705,10 +6744,10 @@ class ReputationOptions {
   final bool? reputationMetricsEnabled;
 
   /// Describes whether email sending is enabled or disabled for the configuration
-  /// set. If the value is <code>true</code>, then Amazon SES will send emails
-  /// that use the configuration set. If the value is <code>false</code>, Amazon
-  /// SES will not send emails that use the configuration set. The default value
-  /// is <code>true</code>. You can change this setting using
+  /// set. If the value is <code>true</code>, then Amazon SES sends emails that
+  /// use the configuration set. If the value is <code>false</code>, Amazon SES
+  /// does not send emails that use the configuration set. The default value is
+  /// <code>true</code>. You can change this setting using
   /// <a>UpdateConfigurationSetSendingEnabled</a>.
   final bool? sendingEnabled;
 
@@ -6744,63 +6783,64 @@ class ReputationOptions {
 /// an Amazon Simple Storage Service (Amazon S3) bucket and, optionally,
 /// publishes a notification to Amazon Simple Notification Service (Amazon SNS).
 ///
-/// To enable Amazon SES to write emails to your Amazon S3 bucket, use an AWS
-/// KMS key to encrypt your emails, or publish to an Amazon SNS topic of another
-/// account, Amazon SES must have permission to access those resources. For
-/// information about giving permissions, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html">Amazon
+/// To enable Amazon SES to write emails to your Amazon S3 bucket, use an Amazon
+/// Web Services KMS key to encrypt your emails, or publish to an Amazon SNS
+/// topic of another account, Amazon SES must have permission to access those
+/// resources. For information about granting permissions, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
 /// SES Developer Guide</a>.
 /// <note>
 /// When you save your emails to an Amazon S3 bucket, the maximum email size
-/// (including headers) is 30 MB. Emails larger than that will bounce.
+/// (including headers) is 40 MB. Emails larger than that bounces.
 /// </note>
 /// For information about specifying Amazon S3 actions in receipt rules, see the
 /// <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-s3.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-s3.html">Amazon
 /// SES Developer Guide</a>.
 class S3Action {
-  /// The name of the Amazon S3 bucket that incoming email will be saved to.
+  /// The name of the Amazon S3 bucket for incoming email.
   final String bucketName;
 
   /// The customer master key that Amazon SES should use to encrypt your emails
   /// before saving them to the Amazon S3 bucket. You can use the default master
-  /// key or a custom master key you created in AWS KMS as follows:
+  /// key or a custom master key that you created in Amazon Web Services KMS as
+  /// follows:
   ///
   /// <ul>
   /// <li>
   /// To use the default master key, provide an ARN in the form of
   /// <code>arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses</code>.
-  /// For example, if your AWS account ID is 123456789012 and you want to use the
-  /// default master key in the US West (Oregon) region, the ARN of the default
-  /// master key would be
+  /// For example, if your Amazon Web Services account ID is 123456789012 and you
+  /// want to use the default master key in the US West (Oregon) Region, the ARN
+  /// of the default master key would be
   /// <code>arn:aws:kms:us-west-2:123456789012:alias/aws/ses</code>. If you use
   /// the default master key, you don't need to perform any extra steps to give
   /// Amazon SES permission to use the key.
   /// </li>
   /// <li>
-  /// To use a custom master key you created in AWS KMS, provide the ARN of the
-  /// master key and ensure that you add a statement to your key's policy to give
-  /// Amazon SES permission to use it. For more information about giving
-  /// permissions, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html">Amazon
+  /// To use a custom master key that you created in Amazon Web Services KMS,
+  /// provide the ARN of the master key and ensure that you add a statement to
+  /// your key's policy to give Amazon SES permission to use it. For more
+  /// information about giving permissions, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
   /// SES Developer Guide</a>.
   /// </li>
   /// </ul>
   /// For more information about key policies, see the <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
-  /// KMS Developer Guide</a>. If you do not specify a master key, Amazon SES will
-  /// not encrypt your emails.
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Amazon
+  /// Web Services KMS Developer Guide</a>. If you do not specify a master key,
+  /// Amazon SES does not encrypt your emails.
   /// <important>
   /// Your mail is encrypted by Amazon SES using the Amazon S3 encryption client
   /// before the mail is submitted to Amazon S3 for storage. It is not encrypted
   /// using Amazon S3 server-side encryption. This means that you must use the
   /// Amazon S3 encryption client to decrypt the email after retrieving it from
-  /// Amazon S3, as the service has no access to use your AWS KMS keys for
-  /// decryption. This encryption client is currently available with the <a
-  /// href="http://aws.amazon.com/sdk-for-java/">AWS SDK for Java</a> and <a
-  /// href="http://aws.amazon.com/sdk-for-ruby/">AWS SDK for Ruby</a> only. For
-  /// more information about client-side encryption using AWS KMS master keys, see
-  /// the <a
+  /// Amazon S3, as the service has no access to use your Amazon Web Services KMS
+  /// keys for decryption. This encryption client is currently available with the
+  /// <a href="http://aws.amazon.com/sdk-for-java/">Amazon Web Services SDK for
+  /// Java</a> and <a href="http://aws.amazon.com/sdk-for-ruby/">Amazon Web
+  /// Services SDK for Ruby</a> only. For more information about client-side
+  /// encryption using Amazon Web Services KMS master keys, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
   /// S3 Developer Guide</a>.
   /// </important>
@@ -6812,9 +6852,11 @@ class S3Action {
   final String? objectKeyPrefix;
 
   /// The ARN of the Amazon SNS topic to notify when the message is saved to the
-  /// Amazon S3 bucket. An example of an Amazon SNS topic ARN is
-  /// <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>. For more
-  /// information about Amazon SNS topics, see the <a
+  /// Amazon S3 bucket. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String? topicArn;
@@ -6859,22 +6901,24 @@ class S3Action {
 /// Amazon SNS topic, you need to attach a policy to the topic to give Amazon
 /// SES permissions to access it. For information about giving permissions, see
 /// the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
 /// SES Developer Guide</a>.
 /// <important>
 /// You can only publish emails that are 150 KB or less (including the header)
-/// to Amazon SNS. Larger emails will bounce. If you anticipate emails larger
-/// than 150 KB, use the S3 action instead.
+/// to Amazon SNS. Larger emails bounce. If you anticipate emails larger than
+/// 150 KB, use the S3 action instead.
 /// </important>
 /// For information about using a receipt rule to publish an Amazon SNS
 /// notification, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-sns.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-sns.html">Amazon
 /// SES Developer Guide</a>.
 class SNSAction {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example
-  /// of an Amazon SNS topic ARN is
-  /// <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>. For more
-  /// information about Amazon SNS topics, see the <a
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can
+  /// find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String topicArn;
@@ -6941,13 +6985,15 @@ extension SNSActionEncodingFromString on String {
 /// Event destinations, such as Amazon SNS, are associated with configuration
 /// sets, which enable you to publish email sending events. For information
 /// about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
 class SNSDestination {
-  /// The ARN of the Amazon SNS topic that email sending events will be published
-  /// to. An example of an Amazon SNS topic ARN is
-  /// <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>. For more
-  /// information about Amazon SNS topics, see the <a
+  /// The ARN of the Amazon SNS topic for email sending events. You can find the
+  /// ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// Amazon SNS operation.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String topicARN;
@@ -6992,8 +7038,10 @@ class SendBounceResponse {
 }
 
 class SendBulkTemplatedEmailResponse {
-  /// The unique message identifier returned from the
-  /// <code>SendBulkTemplatedEmail</code> action.
+  /// One object per intended recipient. Check each response object and retry any
+  /// messages with a failure status. (Note that order of responses will be
+  /// respective to order of destinations in the request.)Receipt rules enable you
+  /// to specify which actions
   final List<BulkEmailDestinationStatus> status;
 
   SendBulkTemplatedEmailResponse({
@@ -7262,7 +7310,7 @@ class SetReceiptRulePositionResponse {
 /// Simple Notification Service (Amazon SNS).
 ///
 /// For information about setting a stop action in a receipt rule, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-stop.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-stop.html">Amazon
 /// SES Developer Guide</a>.
 class StopAction {
   /// The scope of the StopAction. The only acceptable value is
@@ -7270,9 +7318,11 @@ class StopAction {
   final StopScope scope;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
-  /// stop action is taken. An example of an Amazon SNS topic ARN is
-  /// <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>. For more
-  /// information about Amazon SNS topics, see the <a
+  /// stop action is taken. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// Amazon SNS operation.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String? topicArn;
@@ -7321,12 +7371,12 @@ extension StopScopeFromString on String {
   }
 }
 
-/// The content of the email, composed of a subject line, an HTML part, and a
-/// text-only part.
+/// The content of the email, composed of a subject line and either an HTML part
+/// or a text-only part.
 class Template {
-  /// The name of the template. You will refer to this name when you send email
-  /// using the <code>SendTemplatedEmail</code> or
-  /// <code>SendBulkTemplatedEmail</code> operations.
+  /// The name of the template. You use this name when you send email using the
+  /// <code>SendTemplatedEmail</code> or <code>SendBulkTemplatedEmail</code>
+  /// operations.
   final String templateName;
 
   /// The HTML body of the email.
@@ -7335,8 +7385,8 @@ class Template {
   /// The subject line of the email.
   final String? subjectPart;
 
-  /// The email body that will be visible to recipients whose email clients do not
-  /// display HTML.
+  /// The email body that is visible to recipients whose email clients do not
+  /// display HTML content.
   final String? textPart;
 
   Template({
@@ -7453,12 +7503,12 @@ extension TlsPolicyFromString on String {
 /// emails.
 ///
 /// For more information, see <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Configuring
+/// href="https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html">Configuring
 /// Custom Domains to Handle Open and Click Tracking</a> in the <i>Amazon SES
 /// Developer Guide</i>.
 class TrackingOptions {
-  /// The custom subdomain that will be used to redirect email recipients to the
-  /// Amazon SES event tracking domain.
+  /// The custom subdomain that is used to redirect email recipients to the Amazon
+  /// SES event tracking domain.
   final String? customRedirectDomain;
 
   TrackingOptions({
@@ -7594,7 +7644,7 @@ class VerifyDomainDkimResponse {
   ///
   /// For more information about creating DNS records using DKIM tokens, see the
   /// <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Amazon
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html">Amazon
   /// SES Developer Guide</a>.
   final List<String> dkimTokens;
 
@@ -7626,8 +7676,9 @@ class VerifyDomainIdentityResponse {
   /// is "Pending". When Amazon SES detects the record, the domain's verification
   /// status changes to "Success". If Amazon SES is unable to detect the record
   /// within 72 hours, the domain's verification status changes to "Failed." In
-  /// that case, if you still want to verify the domain, you must restart the
-  /// verification process from the beginning.
+  /// that case, to verify the domain, you must restart the verification process
+  /// from the beginning. The domain's verification status also changes to
+  /// "Success" when it is DKIM verified.
   final String verificationToken;
 
   VerifyDomainIdentityResponse({
@@ -7663,25 +7714,34 @@ class VerifyEmailIdentityResponse {
 
 /// When included in a receipt rule, this action calls Amazon WorkMail and,
 /// optionally, publishes a notification to Amazon Simple Notification Service
-/// (Amazon SNS). You will typically not use this action directly because Amazon
-/// WorkMail adds the rule automatically during its setup procedure.
+/// (Amazon SNS). It usually isn't necessary to set this up manually, because
+/// Amazon WorkMail adds the rule automatically during its setup procedure.
 ///
 /// For information using a receipt rule to call Amazon WorkMail, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-workmail.html">Amazon
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-workmail.html">Amazon
 /// SES Developer Guide</a>.
 class WorkmailAction {
-  /// The ARN of the Amazon WorkMail organization. An example of an Amazon
-  /// WorkMail organization ARN is
-  /// <code>arn:aws:workmail:us-west-2:123456789012:organization/m-68755160c4cb4e29a2b2f8fb58f359d7</code>.
+  /// The Amazon Resource Name (ARN) of the Amazon WorkMail organization. Amazon
+  /// WorkMail ARNs use the following format:
+  ///
+  /// <code>arn:aws:workmail:&lt;region&gt;:&lt;awsAccountId&gt;:organization/&lt;workmailOrganizationId&gt;</code>
+  ///
+  /// You can find the ID of your organization by using the <a
+  /// href="https://docs.aws.amazon.com/workmail/latest/APIReference/API_ListOrganizations.html">ListOrganizations</a>
+  /// operation in Amazon WorkMail. Amazon WorkMail organization IDs begin with
+  /// "<code>m-</code>", followed by a string of alphanumeric characters.
+  ///
   /// For information about Amazon WorkMail organizations, see the <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/organizations_overview.html">Amazon
   /// WorkMail Administrator Guide</a>.
   final String organizationArn;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
-  /// WorkMail action is called. An example of an Amazon SNS topic ARN is
-  /// <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>. For more
-  /// information about Amazon SNS topics, see the <a
+  /// WorkMail action is called. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String? topicArn;

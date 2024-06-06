@@ -35,7 +35,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// retention period expires and the resource is not restored, the resource is
 /// permanently deleted from the Recycle Bin and is no longer available for
 /// recovery. For more information about Recycle Bin, see <a
-/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-recycle-bin.html">
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html">
 /// Recycle Bin</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
 class RecycleBin {
   final _s.RestJsonProtocol _protocol;
@@ -373,6 +373,7 @@ class RecycleBin {
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [identifier] :
   /// The unique ID of the retention rule.
@@ -472,6 +473,9 @@ class CreateRuleResponse {
   final ResourceType? resourceType;
   final RetentionPeriod? retentionPeriod;
 
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
   /// The state of the retention rule. Only retention rules that are in the
   /// <code>available</code> state retain resources.
   final RuleStatus? status;
@@ -487,6 +491,7 @@ class CreateRuleResponse {
     this.resourceTags,
     this.resourceType,
     this.retentionPeriod,
+    this.ruleArn,
     this.status,
     this.tags,
   });
@@ -509,6 +514,7 @@ class CreateRuleResponse {
           ? RetentionPeriod.fromJson(
               json['RetentionPeriod'] as Map<String, dynamic>)
           : null,
+      ruleArn: json['RuleArn'] as String?,
       status: (json['Status'] as String?)?.toRuleStatus(),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -525,6 +531,7 @@ class CreateRuleResponse {
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
     final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
     final status = this.status;
     final tags = this.tags;
     return {
@@ -535,6 +542,7 @@ class CreateRuleResponse {
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType.toValue(),
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
       if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
     };
@@ -604,6 +612,9 @@ class GetRuleResponse {
   /// retain resources.
   final RetentionPeriod? retentionPeriod;
 
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
   /// The state of the retention rule. Only retention rules that are in the
   /// <code>available</code> state retain resources.
   final RuleStatus? status;
@@ -617,6 +628,7 @@ class GetRuleResponse {
     this.resourceTags,
     this.resourceType,
     this.retentionPeriod,
+    this.ruleArn,
     this.status,
   });
 
@@ -639,6 +651,7 @@ class GetRuleResponse {
           ? RetentionPeriod.fromJson(
               json['RetentionPeriod'] as Map<String, dynamic>)
           : null,
+      ruleArn: json['RuleArn'] as String?,
       status: (json['Status'] as String?)?.toRuleStatus(),
     );
   }
@@ -652,6 +665,7 @@ class GetRuleResponse {
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
     final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
     final status = this.status;
     return {
       if (description != null) 'Description': description,
@@ -662,6 +676,7 @@ class GetRuleResponse {
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType.toValue(),
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
       if (status != null) 'Status': status.toValue(),
     };
   }
@@ -792,6 +807,9 @@ class LockRuleResponse {
   final ResourceType? resourceType;
   final RetentionPeriod? retentionPeriod;
 
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
   /// The state of the retention rule. Only retention rules that are in the
   /// <code>available</code> state retain resources.
   final RuleStatus? status;
@@ -804,6 +822,7 @@ class LockRuleResponse {
     this.resourceTags,
     this.resourceType,
     this.retentionPeriod,
+    this.ruleArn,
     this.status,
   });
 
@@ -825,6 +844,7 @@ class LockRuleResponse {
           ? RetentionPeriod.fromJson(
               json['RetentionPeriod'] as Map<String, dynamic>)
           : null,
+      ruleArn: json['RuleArn'] as String?,
       status: (json['Status'] as String?)?.toRuleStatus(),
     );
   }
@@ -837,6 +857,7 @@ class LockRuleResponse {
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
     final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
     final status = this.status;
     return {
       if (description != null) 'Description': description,
@@ -846,6 +867,7 @@ class LockRuleResponse {
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType.toValue(),
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
       if (status != null) 'Status': status.toValue(),
     };
   }
@@ -1065,11 +1087,15 @@ class RuleSummary {
   /// retain resources.
   final RetentionPeriod? retentionPeriod;
 
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
   RuleSummary({
     this.description,
     this.identifier,
     this.lockState,
     this.retentionPeriod,
+    this.ruleArn,
   });
 
   factory RuleSummary.fromJson(Map<String, dynamic> json) {
@@ -1081,6 +1107,7 @@ class RuleSummary {
           ? RetentionPeriod.fromJson(
               json['RetentionPeriod'] as Map<String, dynamic>)
           : null,
+      ruleArn: json['RuleArn'] as String?,
     );
   }
 
@@ -1089,11 +1116,13 @@ class RuleSummary {
     final identifier = this.identifier;
     final lockState = this.lockState;
     final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
     return {
       if (description != null) 'Description': description,
       if (identifier != null) 'Identifier': identifier,
       if (lockState != null) 'LockState': lockState.toValue(),
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
     };
   }
 }
@@ -1246,6 +1275,9 @@ class UnlockRuleResponse {
   final ResourceType? resourceType;
   final RetentionPeriod? retentionPeriod;
 
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
   /// The state of the retention rule. Only retention rules that are in the
   /// <code>available</code> state retain resources.
   final RuleStatus? status;
@@ -1259,6 +1291,7 @@ class UnlockRuleResponse {
     this.resourceTags,
     this.resourceType,
     this.retentionPeriod,
+    this.ruleArn,
     this.status,
   });
 
@@ -1281,6 +1314,7 @@ class UnlockRuleResponse {
           ? RetentionPeriod.fromJson(
               json['RetentionPeriod'] as Map<String, dynamic>)
           : null,
+      ruleArn: json['RuleArn'] as String?,
       status: (json['Status'] as String?)?.toRuleStatus(),
     );
   }
@@ -1294,6 +1328,7 @@ class UnlockRuleResponse {
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
     final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
     final status = this.status;
     return {
       if (description != null) 'Description': description,
@@ -1304,6 +1339,7 @@ class UnlockRuleResponse {
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType.toValue(),
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
       if (status != null) 'Status': status.toValue(),
     };
   }
@@ -1366,6 +1402,9 @@ class UpdateRuleResponse {
   final ResourceType? resourceType;
   final RetentionPeriod? retentionPeriod;
 
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
   /// The state of the retention rule. Only retention rules that are in the
   /// <code>available</code> state retain resources.
   final RuleStatus? status;
@@ -1378,6 +1417,7 @@ class UpdateRuleResponse {
     this.resourceTags,
     this.resourceType,
     this.retentionPeriod,
+    this.ruleArn,
     this.status,
   });
 
@@ -1396,6 +1436,7 @@ class UpdateRuleResponse {
           ? RetentionPeriod.fromJson(
               json['RetentionPeriod'] as Map<String, dynamic>)
           : null,
+      ruleArn: json['RuleArn'] as String?,
       status: (json['Status'] as String?)?.toRuleStatus(),
     );
   }
@@ -1408,6 +1449,7 @@ class UpdateRuleResponse {
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
     final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
     final status = this.status;
     return {
       if (description != null) 'Description': description,
@@ -1417,6 +1459,7 @@ class UpdateRuleResponse {
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType.toValue(),
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
       if (status != null) 'Status': status.toValue(),
     };
   }

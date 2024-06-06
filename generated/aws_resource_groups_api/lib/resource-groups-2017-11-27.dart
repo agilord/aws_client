@@ -122,10 +122,10 @@ class ResourceGroups {
   /// The name of the group, which is the identifier of the group in other
   /// operations. You can't change the name of a resource group after you create
   /// it. A resource group name can consist of letters, numbers, hyphens,
-  /// periods, and underscores. The name cannot start with <code>AWS</code> or
-  /// <code>aws</code>; these are reserved. A resource group name must be unique
-  /// within each Amazon Web Services Region in your Amazon Web Services
-  /// account.
+  /// periods, and underscores. The name cannot start with <code>AWS</code>,
+  /// <code>aws</code>, or any other possible capitalization; these are
+  /// reserved. A resource group name must be unique within each Amazon Web
+  /// Services Region in your Amazon Web Services account.
   ///
   /// Parameter [configuration] :
   /// A configuration associates the resource group with an Amazon Web Services
@@ -597,10 +597,12 @@ class ResourceGroups {
   ///
   /// <ul>
   /// <li>
-  /// <code>resource-type</code> - Filter the results to include only those of
-  /// the specified resource types. Specify up to five resource types in the
-  /// format <code>AWS::<i>ServiceCode</i>::<i>ResourceType</i> </code>. For
-  /// example, <code>AWS::EC2::Instance</code>, or <code>AWS::S3::Bucket</code>.
+  /// <code>resource-type</code> - Filter the results to include only those
+  /// resource groups that have the specified resource type in their
+  /// <code>ResourceTypeFilter</code>. For example,
+  /// <code>AWS::EC2::Instance</code> would return any resource group with a
+  /// <code>ResourceTypeFilter</code> that includes
+  /// <code>AWS::EC2::Instance</code>.
   /// </li>
   /// <li>
   /// <code>configuration-type</code> - Filter the results to include only those
@@ -609,10 +611,22 @@ class ResourceGroups {
   ///
   /// <ul>
   /// <li>
+  /// <code>AWS::AppRegistry::Application</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::AppRegistry::ApplicationResourceGroups</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::CloudFormation::Stack</code>
+  /// </li>
+  /// <li>
   /// <code>AWS::EC2::CapacityReservationPool</code>
   /// </li>
   /// <li>
   /// <code>AWS::EC2::HostManagement</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::NetworkFirewall::RuleGroup</code>
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -1748,11 +1762,12 @@ class ListGroupResourcesOutput {
   /// element comes back as <code>null</code>.
   final String? nextToken;
 
-  /// A list of <code>QueryError</code> objects. Each error is an object that
-  /// contains <code>ErrorCode</code> and <code>Message</code> structures.
-  /// Possible values for <code>ErrorCode</code> are
-  /// <code>CLOUDFORMATION_STACK_INACTIVE</code> and
-  /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>.
+  /// A list of <code>QueryError</code> objects. Each error contains an
+  /// <code>ErrorCode</code> and <code>Message</code>. Possible values for
+  /// ErrorCode are <code>CLOUDFORMATION_STACK_INACTIVE</code>,
+  /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>,
+  /// <code>CLOUDFORMATION_STACK_UNASSUMABLE_ROLE</code> and
+  /// <code>RESOURCE_TYPE_NOT_SUPPORTED</code>.
   final List<QueryError>? queryErrors;
 
   /// <important>
@@ -1858,21 +1873,12 @@ class PutGroupConfigurationOutput {
 }
 
 /// A two-part error structure that can occur in <code>ListGroupResources</code>
-/// or <code>SearchResources</code> operations on CloudFront stack-based
-/// queries. The error occurs if the CloudFront stack on which the query is
-/// based either does not exist, or has a status that renders the stack
-/// inactive. A <code>QueryError</code> occurrence does not necessarily mean
-/// that Resource Groups could not complete the operation, but the resulting
-/// group might have no member resources.
+/// or <code>SearchResources</code>.
 class QueryError {
   /// Specifies the error code that was raised.
   final QueryErrorCode? errorCode;
 
-  /// A message that explains the <code>ErrorCode</code> value. Messages might
-  /// state that the specified CloudFront stack does not exist (or no longer
-  /// exists). For <code>CLOUDFORMATION_STACK_INACTIVE</code>, the message
-  /// typically states that the CloudFront stack has a status that is not (or no
-  /// longer) active, such as <code>CREATE_FAILED</code>.
+  /// A message that explains the <code>ErrorCode</code>.
   final String? message;
 
   QueryError({
@@ -1892,6 +1898,7 @@ enum QueryErrorCode {
   cloudformationStackInactive,
   cloudformationStackNotExisting,
   cloudformationStackUnassumableRole,
+  resourceTypeNotSupported,
 }
 
 extension QueryErrorCodeValueExtension on QueryErrorCode {
@@ -1903,6 +1910,8 @@ extension QueryErrorCodeValueExtension on QueryErrorCode {
         return 'CLOUDFORMATION_STACK_NOT_EXISTING';
       case QueryErrorCode.cloudformationStackUnassumableRole:
         return 'CLOUDFORMATION_STACK_UNASSUMABLE_ROLE';
+      case QueryErrorCode.resourceTypeNotSupported:
+        return 'RESOURCE_TYPE_NOT_SUPPORTED';
     }
   }
 }
@@ -1916,6 +1925,8 @@ extension QueryErrorCodeFromString on String {
         return QueryErrorCode.cloudformationStackNotExisting;
       case 'CLOUDFORMATION_STACK_UNASSUMABLE_ROLE':
         return QueryErrorCode.cloudformationStackUnassumableRole;
+      case 'RESOURCE_TYPE_NOT_SUPPORTED':
+        return QueryErrorCode.resourceTypeNotSupported;
     }
     throw Exception('$this is not known in enum QueryErrorCode');
   }
@@ -2231,8 +2242,8 @@ class SearchResourcesOutput {
   /// element comes back as <code>null</code>.
   final String? nextToken;
 
-  /// A list of <code>QueryError</code> objects. Each error is an object that
-  /// contains <code>ErrorCode</code> and <code>Message</code> structures.
+  /// A list of <code>QueryError</code> objects. Each error contains an
+  /// <code>ErrorCode</code> and <code>Message</code>.
   ///
   /// Possible values for <code>ErrorCode</code>:
   ///
@@ -2242,6 +2253,9 @@ class SearchResourcesOutput {
   /// </li>
   /// <li>
   /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>
+  /// </li>
+  /// <li>
+  /// <code>CLOUDFORMATION_STACK_UNASSUMABLE_ROLE </code>
   /// </li>
   /// </ul>
   final List<QueryError>? queryErrors;

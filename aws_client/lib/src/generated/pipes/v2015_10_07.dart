@@ -89,6 +89,9 @@ class EventBridgePipes {
   /// Parameter [enrichmentParameters] :
   /// The parameters required to set up enrichment on your pipe.
   ///
+  /// Parameter [logConfiguration] :
+  /// The logging configuration settings for the pipe.
+  ///
   /// Parameter [sourceParameters] :
   /// The parameters required to set up a source for your pipe.
   ///
@@ -97,6 +100,11 @@ class EventBridgePipes {
   ///
   /// Parameter [targetParameters] :
   /// The parameters required to set up a target for your pipe.
+  ///
+  /// For more information about pipe target parameters, including how to use
+  /// dynamic path parameters, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html">Target
+  /// parameters</a> in the <i>Amazon EventBridge User Guide</i>.
   Future<CreatePipeResponse> createPipe({
     required String name,
     required String roleArn,
@@ -106,6 +114,7 @@ class EventBridgePipes {
     RequestedPipeState? desiredState,
     String? enrichment,
     PipeEnrichmentParameters? enrichmentParameters,
+    PipeLogConfigurationParameters? logConfiguration,
     PipeSourceParameters? sourceParameters,
     Map<String, String>? tags,
     PipeTargetParameters? targetParameters,
@@ -119,6 +128,7 @@ class EventBridgePipes {
       if (enrichment != null) 'Enrichment': enrichment,
       if (enrichmentParameters != null)
         'EnrichmentParameters': enrichmentParameters,
+      if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (sourceParameters != null) 'SourceParameters': sourceParameters,
       if (tags != null) 'Tags': tags,
       if (targetParameters != null) 'TargetParameters': targetParameters,
@@ -381,15 +391,17 @@ class EventBridgePipes {
     );
   }
 
-  /// Update an existing pipe. When you call <code>UpdatePipe</code>, only the
-  /// fields that are included in the request are changed, the rest are
-  /// unchanged. The exception to this is if you modify any Amazon Web
-  /// Services-service specific fields in the <code>SourceParameters</code>,
+  /// Update an existing pipe. When you call <code>UpdatePipe</code>,
+  /// EventBridge only the updates fields you have specified in the request; the
+  /// rest remain unchanged. The exception to this is if you modify any Amazon
+  /// Web Services-service specific fields in the <code>SourceParameters</code>,
   /// <code>EnrichmentParameters</code>, or <code>TargetParameters</code>
-  /// objects. The fields in these objects are updated atomically as one and
-  /// override existing values. This is by design and means that if you don't
-  /// specify an optional field in one of these Parameters objects, that field
-  /// will be set to its system-default value after the update.
+  /// objects. For example, <code>DynamoDBStreamParameters</code> or
+  /// <code>EventBridgeEventBusParameters</code>. EventBridge updates the fields
+  /// in these objects atomically as one and overrides existing values. This is
+  /// by design, and means that if you don't specify an optional field in one of
+  /// these <code>Parameters</code> objects, EventBridge sets that field to its
+  /// system-default value during the update.
   ///
   /// For more information about pipes, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html">
@@ -419,6 +431,9 @@ class EventBridgePipes {
   /// Parameter [enrichmentParameters] :
   /// The parameters required to set up enrichment on your pipe.
   ///
+  /// Parameter [logConfiguration] :
+  /// The logging configuration settings for the pipe.
+  ///
   /// Parameter [sourceParameters] :
   /// The parameters required to set up a source for your pipe.
   ///
@@ -427,6 +442,11 @@ class EventBridgePipes {
   ///
   /// Parameter [targetParameters] :
   /// The parameters required to set up a target for your pipe.
+  ///
+  /// For more information about pipe target parameters, including how to use
+  /// dynamic path parameters, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html">Target
+  /// parameters</a> in the <i>Amazon EventBridge User Guide</i>.
   Future<UpdatePipeResponse> updatePipe({
     required String name,
     required String roleArn,
@@ -434,6 +454,7 @@ class EventBridgePipes {
     RequestedPipeState? desiredState,
     String? enrichment,
     PipeEnrichmentParameters? enrichmentParameters,
+    PipeLogConfigurationParameters? logConfiguration,
     UpdatePipeSourceParameters? sourceParameters,
     String? target,
     PipeTargetParameters? targetParameters,
@@ -445,6 +466,7 @@ class EventBridgePipes {
       if (enrichment != null) 'Enrichment': enrichment,
       if (enrichmentParameters != null)
         'EnrichmentParameters': enrichmentParameters,
+      if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (sourceParameters != null) 'SourceParameters': sourceParameters,
       if (target != null) 'Target': target,
       if (targetParameters != null) 'TargetParameters': targetParameters,
@@ -981,6 +1003,48 @@ class CapacityProviderStrategyItem {
   }
 }
 
+/// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+class CloudwatchLogsLogDestination {
+  /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to
+  /// which EventBridge sends the log records.
+  final String? logGroupArn;
+
+  CloudwatchLogsLogDestination({
+    this.logGroupArn,
+  });
+
+  factory CloudwatchLogsLogDestination.fromJson(Map<String, dynamic> json) {
+    return CloudwatchLogsLogDestination(
+      logGroupArn: json['LogGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupArn = this.logGroupArn;
+    return {
+      if (logGroupArn != null) 'LogGroupArn': logGroupArn,
+    };
+  }
+}
+
+/// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+class CloudwatchLogsLogDestinationParameters {
+  /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to
+  /// which EventBridge sends the log records.
+  final String logGroupArn;
+
+  CloudwatchLogsLogDestinationParameters({
+    required this.logGroupArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final logGroupArn = this.logGroupArn;
+    return {
+      'LogGroupArn': logGroupArn,
+    };
+  }
+}
+
 class CreatePipeResponse {
   /// The ARN of the pipe.
   final String? arn;
@@ -1045,8 +1109,10 @@ class CreatePipeResponse {
 /// A <code>DeadLetterConfig</code> object that contains information about a
 /// dead-letter queue configuration.
 class DeadLetterConfig {
-  /// The ARN of the Amazon SQS queue specified as the target for the dead-letter
-  /// queue.
+  /// The ARN of the specified target for the dead-letter queue.
+  ///
+  /// For Amazon Kinesis stream and Amazon DynamoDB stream sources, specify either
+  /// an Amazon SNS topic or Amazon SQS queue ARN.
   final String? arn;
 
   DeadLetterConfig({
@@ -1156,6 +1222,9 @@ class DescribePipeResponse {
   /// (YYYY-MM-DDThh:mm:ss.sTZD).
   final DateTime? lastModifiedTime;
 
+  /// The logging configuration settings for the pipe.
+  final PipeLogConfiguration? logConfiguration;
+
   /// The name of the pipe.
   final String? name;
 
@@ -1178,6 +1247,11 @@ class DescribePipeResponse {
   final String? target;
 
   /// The parameters required to set up a target for your pipe.
+  ///
+  /// For more information about pipe target parameters, including how to use
+  /// dynamic path parameters, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html">Target
+  /// parameters</a> in the <i>Amazon EventBridge User Guide</i>.
   final PipeTargetParameters? targetParameters;
 
   DescribePipeResponse({
@@ -1189,6 +1263,7 @@ class DescribePipeResponse {
     this.enrichment,
     this.enrichmentParameters,
     this.lastModifiedTime,
+    this.logConfiguration,
     this.name,
     this.roleArn,
     this.source,
@@ -1213,6 +1288,10 @@ class DescribePipeResponse {
               json['EnrichmentParameters'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      logConfiguration: json['LogConfiguration'] != null
+          ? PipeLogConfiguration.fromJson(
+              json['LogConfiguration'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       roleArn: json['RoleArn'] as String?,
       source: json['Source'] as String?,
@@ -1240,6 +1319,7 @@ class DescribePipeResponse {
     final enrichment = this.enrichment;
     final enrichmentParameters = this.enrichmentParameters;
     final lastModifiedTime = this.lastModifiedTime;
+    final logConfiguration = this.logConfiguration;
     final name = this.name;
     final roleArn = this.roleArn;
     final source = this.source;
@@ -1260,6 +1340,7 @@ class DescribePipeResponse {
         'EnrichmentParameters': enrichmentParameters,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (name != null) 'Name': name,
       if (roleArn != null) 'RoleArn': roleArn,
       if (source != null) 'Source': source,
@@ -1269,6 +1350,74 @@ class DescribePipeResponse {
       if (target != null) 'Target': target,
       if (targetParameters != null) 'TargetParameters': targetParameters,
     };
+  }
+}
+
+/// Maps source data to a dimension in the target Timestream for LiveAnalytics
+/// table.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html">Amazon
+/// Timestream for LiveAnalytics concepts</a>
+class DimensionMapping {
+  /// The metadata attributes of the time series. For example, the name and
+  /// Availability Zone of an Amazon EC2 instance or the name of the manufacturer
+  /// of a wind turbine are dimensions.
+  final String dimensionName;
+
+  /// Dynamic path to the dimension value in the source event.
+  final String dimensionValue;
+
+  /// The data type of the dimension for the time-series data.
+  final DimensionValueType dimensionValueType;
+
+  DimensionMapping({
+    required this.dimensionName,
+    required this.dimensionValue,
+    required this.dimensionValueType,
+  });
+
+  factory DimensionMapping.fromJson(Map<String, dynamic> json) {
+    return DimensionMapping(
+      dimensionName: json['DimensionName'] as String,
+      dimensionValue: json['DimensionValue'] as String,
+      dimensionValueType:
+          (json['DimensionValueType'] as String).toDimensionValueType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionName = this.dimensionName;
+    final dimensionValue = this.dimensionValue;
+    final dimensionValueType = this.dimensionValueType;
+    return {
+      'DimensionName': dimensionName,
+      'DimensionValue': dimensionValue,
+      'DimensionValueType': dimensionValueType.toValue(),
+    };
+  }
+}
+
+enum DimensionValueType {
+  varchar,
+}
+
+extension DimensionValueTypeValueExtension on DimensionValueType {
+  String toValue() {
+    switch (this) {
+      case DimensionValueType.varchar:
+        return 'VARCHAR';
+    }
+  }
+}
+
+extension DimensionValueTypeFromString on String {
+  DimensionValueType toDimensionValueType() {
+    switch (this) {
+      case 'VARCHAR':
+        return DimensionValueType.varchar;
+    }
+    throw Exception('$this is not known in enum DimensionValueType');
   }
 }
 
@@ -1771,6 +1920,44 @@ class EcsTaskOverride {
   }
 }
 
+enum EpochTimeUnit {
+  milliseconds,
+  seconds,
+  microseconds,
+  nanoseconds,
+}
+
+extension EpochTimeUnitValueExtension on EpochTimeUnit {
+  String toValue() {
+    switch (this) {
+      case EpochTimeUnit.milliseconds:
+        return 'MILLISECONDS';
+      case EpochTimeUnit.seconds:
+        return 'SECONDS';
+      case EpochTimeUnit.microseconds:
+        return 'MICROSECONDS';
+      case EpochTimeUnit.nanoseconds:
+        return 'NANOSECONDS';
+    }
+  }
+}
+
+extension EpochTimeUnitFromString on String {
+  EpochTimeUnit toEpochTimeUnit() {
+    switch (this) {
+      case 'MILLISECONDS':
+        return EpochTimeUnit.milliseconds;
+      case 'SECONDS':
+        return EpochTimeUnit.seconds;
+      case 'MICROSECONDS':
+        return EpochTimeUnit.microseconds;
+      case 'NANOSECONDS':
+        return EpochTimeUnit.nanoseconds;
+    }
+    throw Exception('$this is not known in enum EpochTimeUnit');
+  }
+}
+
 /// Filter events using an event pattern. For more information, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
 /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
@@ -1796,8 +1983,12 @@ class Filter {
   }
 }
 
-/// The collection of event patterns used to filter events. For more
-/// information, see <a
+/// The collection of event patterns used to filter events.
+///
+/// To remove a filter, specify a <code>FilterCriteria</code> object with an
+/// empty array of <code>Filter</code> objects.
+///
+/// For more information, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
 /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
 class FilterCriteria {
@@ -1822,6 +2013,72 @@ class FilterCriteria {
     return {
       if (filters != null) 'Filters': filters,
     };
+  }
+}
+
+/// The Amazon Data Firehose logging configuration settings for the pipe.
+class FirehoseLogDestination {
+  /// The Amazon Resource Name (ARN) of the Firehose delivery stream to which
+  /// EventBridge delivers the pipe log records.
+  final String? deliveryStreamArn;
+
+  FirehoseLogDestination({
+    this.deliveryStreamArn,
+  });
+
+  factory FirehoseLogDestination.fromJson(Map<String, dynamic> json) {
+    return FirehoseLogDestination(
+      deliveryStreamArn: json['DeliveryStreamArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamArn = this.deliveryStreamArn;
+    return {
+      if (deliveryStreamArn != null) 'DeliveryStreamArn': deliveryStreamArn,
+    };
+  }
+}
+
+/// The Amazon Data Firehose logging configuration settings for the pipe.
+class FirehoseLogDestinationParameters {
+  /// Specifies the Amazon Resource Name (ARN) of the Firehose delivery stream to
+  /// which EventBridge delivers the pipe log records.
+  final String deliveryStreamArn;
+
+  FirehoseLogDestinationParameters({
+    required this.deliveryStreamArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamArn = this.deliveryStreamArn;
+    return {
+      'DeliveryStreamArn': deliveryStreamArn,
+    };
+  }
+}
+
+enum IncludeExecutionDataOption {
+  all,
+}
+
+extension IncludeExecutionDataOptionValueExtension
+    on IncludeExecutionDataOption {
+  String toValue() {
+    switch (this) {
+      case IncludeExecutionDataOption.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension IncludeExecutionDataOptionFromString on String {
+  IncludeExecutionDataOption toIncludeExecutionDataOption() {
+    switch (this) {
+      case 'ALL':
+        return IncludeExecutionDataOption.all;
+    }
+    throw Exception('$this is not known in enum IncludeExecutionDataOption');
   }
 }
 
@@ -1952,6 +2209,44 @@ class ListTagsForResourceResponse {
   }
 }
 
+enum LogLevel {
+  off,
+  error,
+  info,
+  trace,
+}
+
+extension LogLevelValueExtension on LogLevel {
+  String toValue() {
+    switch (this) {
+      case LogLevel.off:
+        return 'OFF';
+      case LogLevel.error:
+        return 'ERROR';
+      case LogLevel.info:
+        return 'INFO';
+      case LogLevel.trace:
+        return 'TRACE';
+    }
+  }
+}
+
+extension LogLevelFromString on String {
+  LogLevel toLogLevel() {
+    switch (this) {
+      case 'OFF':
+        return LogLevel.off;
+      case 'ERROR':
+        return LogLevel.error;
+      case 'INFO':
+        return LogLevel.info;
+      case 'TRACE':
+        return LogLevel.trace;
+    }
+    throw Exception('$this is not known in enum LogLevel');
+  }
+}
+
 /// The Secrets Manager secret that stores your broker credentials.
 class MQBrokerAccessCredentials {
   /// The ARN of the Secrets Manager secret.
@@ -2031,6 +2326,129 @@ extension MSKStartPositionFromString on String {
         return MSKStartPosition.latest;
     }
     throw Exception('$this is not known in enum MSKStartPosition');
+  }
+}
+
+enum MeasureValueType {
+  double,
+  bigint,
+  varchar,
+  boolean,
+  timestamp,
+}
+
+extension MeasureValueTypeValueExtension on MeasureValueType {
+  String toValue() {
+    switch (this) {
+      case MeasureValueType.double:
+        return 'DOUBLE';
+      case MeasureValueType.bigint:
+        return 'BIGINT';
+      case MeasureValueType.varchar:
+        return 'VARCHAR';
+      case MeasureValueType.boolean:
+        return 'BOOLEAN';
+      case MeasureValueType.timestamp:
+        return 'TIMESTAMP';
+    }
+  }
+}
+
+extension MeasureValueTypeFromString on String {
+  MeasureValueType toMeasureValueType() {
+    switch (this) {
+      case 'DOUBLE':
+        return MeasureValueType.double;
+      case 'BIGINT':
+        return MeasureValueType.bigint;
+      case 'VARCHAR':
+        return MeasureValueType.varchar;
+      case 'BOOLEAN':
+        return MeasureValueType.boolean;
+      case 'TIMESTAMP':
+        return MeasureValueType.timestamp;
+    }
+    throw Exception('$this is not known in enum MeasureValueType');
+  }
+}
+
+/// A mapping of a source event data field to a measure in a Timestream for
+/// LiveAnalytics record.
+class MultiMeasureAttributeMapping {
+  /// Dynamic path to the measurement attribute in the source event.
+  final String measureValue;
+
+  /// Data type of the measurement attribute in the source event.
+  final MeasureValueType measureValueType;
+
+  /// Target measure name to be used.
+  final String multiMeasureAttributeName;
+
+  MultiMeasureAttributeMapping({
+    required this.measureValue,
+    required this.measureValueType,
+    required this.multiMeasureAttributeName,
+  });
+
+  factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
+    return MultiMeasureAttributeMapping(
+      measureValue: json['MeasureValue'] as String,
+      measureValueType:
+          (json['MeasureValueType'] as String).toMeasureValueType(),
+      multiMeasureAttributeName: json['MultiMeasureAttributeName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final measureValue = this.measureValue;
+    final measureValueType = this.measureValueType;
+    final multiMeasureAttributeName = this.multiMeasureAttributeName;
+    return {
+      'MeasureValue': measureValue,
+      'MeasureValueType': measureValueType.toValue(),
+      'MultiMeasureAttributeName': multiMeasureAttributeName,
+    };
+  }
+}
+
+/// Maps multiple measures from the source event to the same Timestream for
+/// LiveAnalytics record.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html">Amazon
+/// Timestream for LiveAnalytics concepts</a>
+class MultiMeasureMapping {
+  /// Mappings that represent multiple source event fields mapped to measures in
+  /// the same Timestream for LiveAnalytics record.
+  final List<MultiMeasureAttributeMapping> multiMeasureAttributeMappings;
+
+  /// The name of the multiple measurements per record (multi-measure).
+  final String multiMeasureName;
+
+  MultiMeasureMapping({
+    required this.multiMeasureAttributeMappings,
+    required this.multiMeasureName,
+  });
+
+  factory MultiMeasureMapping.fromJson(Map<String, dynamic> json) {
+    return MultiMeasureMapping(
+      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
+              as List)
+          .whereNotNull()
+          .map((e) =>
+              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      multiMeasureName: json['MultiMeasureName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
+    final multiMeasureName = this.multiMeasureName;
+    return {
+      'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
+      'MultiMeasureName': multiMeasureName,
+    };
   }
 }
 
@@ -2248,6 +2666,8 @@ class PipeEnrichmentParameters {
   /// event itself is passed to the enrichment. For more information, see <a
   /// href="http://www.rfc-editor.org/rfc/rfc7159.txt">The JavaScript Object
   /// Notation (JSON) Data Interchange Format</a>.
+  ///
+  /// To remove an input template, specify an empty string.
   final String? inputTemplate;
 
   PipeEnrichmentParameters({
@@ -2271,6 +2691,163 @@ class PipeEnrichmentParameters {
     return {
       if (httpParameters != null) 'HttpParameters': httpParameters,
       if (inputTemplate != null) 'InputTemplate': inputTemplate,
+    };
+  }
+}
+
+/// The logging configuration settings for the pipe.
+class PipeLogConfiguration {
+  /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+  final CloudwatchLogsLogDestination? cloudwatchLogsLogDestination;
+
+  /// The Amazon Data Firehose logging configuration settings for the pipe.
+  final FirehoseLogDestination? firehoseLogDestination;
+
+  /// Whether the execution data (specifically, the <code>payload</code>,
+  /// <code>awsRequest</code>, and <code>awsResponse</code> fields) is included in
+  /// the log messages for this pipe.
+  ///
+  /// This applies to all log destinations for the pipe.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-execution-data">Including
+  /// execution data in logs</a> in the <i>Amazon EventBridge User Guide</i>.
+  final List<IncludeExecutionDataOption>? includeExecutionData;
+
+  /// The level of logging detail to include. This applies to all log destinations
+  /// for the pipe.
+  final LogLevel? level;
+
+  /// The Amazon S3 logging configuration settings for the pipe.
+  final S3LogDestination? s3LogDestination;
+
+  PipeLogConfiguration({
+    this.cloudwatchLogsLogDestination,
+    this.firehoseLogDestination,
+    this.includeExecutionData,
+    this.level,
+    this.s3LogDestination,
+  });
+
+  factory PipeLogConfiguration.fromJson(Map<String, dynamic> json) {
+    return PipeLogConfiguration(
+      cloudwatchLogsLogDestination: json['CloudwatchLogsLogDestination'] != null
+          ? CloudwatchLogsLogDestination.fromJson(
+              json['CloudwatchLogsLogDestination'] as Map<String, dynamic>)
+          : null,
+      firehoseLogDestination: json['FirehoseLogDestination'] != null
+          ? FirehoseLogDestination.fromJson(
+              json['FirehoseLogDestination'] as Map<String, dynamic>)
+          : null,
+      includeExecutionData: (json['IncludeExecutionData'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toIncludeExecutionDataOption())
+          .toList(),
+      level: (json['Level'] as String?)?.toLogLevel(),
+      s3LogDestination: json['S3LogDestination'] != null
+          ? S3LogDestination.fromJson(
+              json['S3LogDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudwatchLogsLogDestination = this.cloudwatchLogsLogDestination;
+    final firehoseLogDestination = this.firehoseLogDestination;
+    final includeExecutionData = this.includeExecutionData;
+    final level = this.level;
+    final s3LogDestination = this.s3LogDestination;
+    return {
+      if (cloudwatchLogsLogDestination != null)
+        'CloudwatchLogsLogDestination': cloudwatchLogsLogDestination,
+      if (firehoseLogDestination != null)
+        'FirehoseLogDestination': firehoseLogDestination,
+      if (includeExecutionData != null)
+        'IncludeExecutionData':
+            includeExecutionData.map((e) => e.toValue()).toList(),
+      if (level != null) 'Level': level.toValue(),
+      if (s3LogDestination != null) 'S3LogDestination': s3LogDestination,
+    };
+  }
+}
+
+/// Specifies the logging configuration settings for the pipe.
+///
+/// When you call <code>UpdatePipe</code>, EventBridge updates the fields in the
+/// <code>PipeLogConfigurationParameters</code> object atomically as one and
+/// overrides existing values. This is by design. If you don't specify an
+/// optional field in any of the Amazon Web Services service parameters objects
+/// (<code>CloudwatchLogsLogDestinationParameters</code>,
+/// <code>FirehoseLogDestinationParameters</code>, or
+/// <code>S3LogDestinationParameters</code>), EventBridge sets that field to its
+/// system-default value during the update.
+///
+/// For example, suppose when you created the pipe you specified a Firehose
+/// stream log destination. You then update the pipe to add an Amazon S3 log
+/// destination. In addition to specifying the
+/// <code>S3LogDestinationParameters</code> for the new log destination, you
+/// must also specify the fields in the
+/// <code>FirehoseLogDestinationParameters</code> object in order to retain the
+/// Firehose stream log destination.
+///
+/// For more information on generating pipe log records, see <a
+/// href="eventbridge/latest/userguide/eb-pipes-logs.html">Log EventBridge
+/// Pipes</a> in the <i>Amazon EventBridge User Guide</i>.
+class PipeLogConfigurationParameters {
+  /// The level of logging detail to include. This applies to all log destinations
+  /// for the pipe.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-level">Specifying
+  /// EventBridge Pipes log level</a> in the <i>Amazon EventBridge User Guide</i>.
+  final LogLevel level;
+
+  /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+  final CloudwatchLogsLogDestinationParameters? cloudwatchLogsLogDestination;
+
+  /// The Amazon Data Firehose logging configuration settings for the pipe.
+  final FirehoseLogDestinationParameters? firehoseLogDestination;
+
+  /// Specify <code>ALL</code> to include the execution data (specifically, the
+  /// <code>payload</code>, <code>awsRequest</code>, and <code>awsResponse</code>
+  /// fields) in the log messages for this pipe.
+  ///
+  /// This applies to all log destinations for the pipe.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-execution-data">Including
+  /// execution data in logs</a> in the <i>Amazon EventBridge User Guide</i>.
+  ///
+  /// By default, execution data is not included.
+  final List<IncludeExecutionDataOption>? includeExecutionData;
+
+  /// The Amazon S3 logging configuration settings for the pipe.
+  final S3LogDestinationParameters? s3LogDestination;
+
+  PipeLogConfigurationParameters({
+    required this.level,
+    this.cloudwatchLogsLogDestination,
+    this.firehoseLogDestination,
+    this.includeExecutionData,
+    this.s3LogDestination,
+  });
+
+  Map<String, dynamic> toJson() {
+    final level = this.level;
+    final cloudwatchLogsLogDestination = this.cloudwatchLogsLogDestination;
+    final firehoseLogDestination = this.firehoseLogDestination;
+    final includeExecutionData = this.includeExecutionData;
+    final s3LogDestination = this.s3LogDestination;
+    return {
+      'Level': level.toValue(),
+      if (cloudwatchLogsLogDestination != null)
+        'CloudwatchLogsLogDestination': cloudwatchLogsLogDestination,
+      if (firehoseLogDestination != null)
+        'FirehoseLogDestination': firehoseLogDestination,
+      if (includeExecutionData != null)
+        'IncludeExecutionData':
+            includeExecutionData.map((e) => e.toValue()).toList(),
+      if (s3LogDestination != null) 'S3LogDestination': s3LogDestination,
     };
   }
 }
@@ -2594,8 +3171,12 @@ class PipeSourceParameters {
   /// The parameters for using a DynamoDB stream as a source.
   final PipeSourceDynamoDBStreamParameters? dynamoDBStreamParameters;
 
-  /// The collection of event patterns used to filter events. For more
-  /// information, see <a
+  /// The collection of event patterns used to filter events.
+  ///
+  /// To remove a filter, specify a <code>FilterCriteria</code> object with an
+  /// empty array of <code>Filter</code> objects.
+  ///
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
   /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
   final FilterCriteria? filterCriteria;
@@ -2611,6 +3192,15 @@ class PipeSourceParameters {
   final PipeSourceRabbitMQBrokerParameters? rabbitMQBrokerParameters;
 
   /// The parameters for using a self-managed Apache Kafka stream as a source.
+  ///
+  /// A <i>self managed</i> cluster refers to any Apache Kafka cluster not hosted
+  /// by Amazon Web Services. This includes both clusters you manage yourself, as
+  /// well as those hosted by a third-party provider, such as <a
+  /// href="https://www.confluent.io/">Confluent Cloud</a>, <a
+  /// href="https://www.cloudkarafka.com/">CloudKarafka</a>, or <a
+  /// href="https://redpanda.com/">Redpanda</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html">Apache
+  /// Kafka streams as a source</a> in the <i>Amazon EventBridge User Guide</i>.
   final PipeSourceSelfManagedKafkaParameters? selfManagedKafkaParameters;
 
   /// The parameters for using a Amazon SQS stream as a source.
@@ -2751,6 +3341,15 @@ class PipeSourceRabbitMQBrokerParameters {
 }
 
 /// The parameters for using a self-managed Apache Kafka stream as a source.
+///
+/// A <i>self managed</i> cluster refers to any Apache Kafka cluster not hosted
+/// by Amazon Web Services. This includes both clusters you manage yourself, as
+/// well as those hosted by a third-party provider, such as <a
+/// href="https://www.confluent.io/">Confluent Cloud</a>, <a
+/// href="https://www.cloudkarafka.com/">CloudKarafka</a>, or <a
+/// href="https://redpanda.com/">Redpanda</a>. For more information, see <a
+/// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html">Apache
+/// Kafka streams as a source</a> in the <i>Amazon EventBridge User Guide</i>.
 class PipeSourceSelfManagedKafkaParameters {
   /// The name of the topic that the pipe will read from.
   final String topicName;
@@ -2890,6 +3489,10 @@ enum PipeState {
   updateFailed,
   startFailed,
   stopFailed,
+  deleteFailed,
+  createRollbackFailed,
+  deleteRollbackFailed,
+  updateRollbackFailed,
 }
 
 extension PipeStateValueExtension on PipeState {
@@ -2917,6 +3520,14 @@ extension PipeStateValueExtension on PipeState {
         return 'START_FAILED';
       case PipeState.stopFailed:
         return 'STOP_FAILED';
+      case PipeState.deleteFailed:
+        return 'DELETE_FAILED';
+      case PipeState.createRollbackFailed:
+        return 'CREATE_ROLLBACK_FAILED';
+      case PipeState.deleteRollbackFailed:
+        return 'DELETE_ROLLBACK_FAILED';
+      case PipeState.updateRollbackFailed:
+        return 'UPDATE_ROLLBACK_FAILED';
     }
   }
 }
@@ -2946,6 +3557,14 @@ extension PipeStateFromString on String {
         return PipeState.startFailed;
       case 'STOP_FAILED':
         return PipeState.stopFailed;
+      case 'DELETE_FAILED':
+        return PipeState.deleteFailed;
+      case 'CREATE_ROLLBACK_FAILED':
+        return PipeState.createRollbackFailed;
+      case 'DELETE_ROLLBACK_FAILED':
+        return PipeState.deleteRollbackFailed;
+      case 'UPDATE_ROLLBACK_FAILED':
+        return PipeState.updateRollbackFailed;
     }
     throw Exception('$this is not known in enum PipeState');
   }
@@ -3280,9 +3899,6 @@ class PipeTargetEventBridgeEventBusParameters {
   /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is
   /// https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is
   /// <code>abcde.veo</code>.
-  /// <important>
-  /// When using Java, you must include <code>auth-crt</code> on the class path.
-  /// </important>
   final String? endpointId;
 
   /// Amazon Web Services resources, identified by Amazon Resource Name (ARN),
@@ -3415,7 +4031,7 @@ extension PipeTargetInvocationTypeFromString on String {
   }
 }
 
-/// The parameters for using a Kinesis stream as a source.
+/// The parameters for using a Kinesis stream as a target.
 class PipeTargetKinesisStreamParameters {
   /// Determines which shard in the stream the data record is assigned to.
   /// Partition keys are Unicode strings with a maximum length limit of 256
@@ -3448,24 +4064,27 @@ class PipeTargetKinesisStreamParameters {
 
 /// The parameters for using a Lambda function as a target.
 class PipeTargetLambdaFunctionParameters {
-  /// Choose from the following options.
+  /// Specify whether to invoke the function synchronously or asynchronously.
   ///
   /// <ul>
   /// <li>
-  /// <code>RequestResponse</code> (default) - Invoke the function synchronously.
-  /// Keep the connection open until the function returns a response or times out.
-  /// The API response includes the function response and additional data.
+  /// <code>REQUEST_RESPONSE</code> (default) - Invoke synchronously. This
+  /// corresponds to the <code>RequestResponse</code> option in the
+  /// <code>InvocationType</code> parameter for the Lambda <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax">Invoke</a>
+  /// API.
   /// </li>
   /// <li>
-  /// <code>Event</code> - Invoke the function asynchronously. Send events that
-  /// fail multiple times to the function's dead-letter queue (if it's
-  /// configured). The API response only includes a status code.
-  /// </li>
-  /// <li>
-  /// <code>DryRun</code> - Validate parameter values and verify that the user or
-  /// role has permission to invoke the function.
+  /// <code>FIRE_AND_FORGET</code> - Invoke asynchronously. This corresponds to
+  /// the <code>Event</code> option in the <code>InvocationType</code> parameter
+  /// for the Lambda <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax">Invoke</a>
+  /// API.
   /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html#pipes-invocation">Invocation
+  /// types</a> in the <i>Amazon EventBridge User Guide</i>.
   final PipeTargetInvocationType? invocationType;
 
   PipeTargetLambdaFunctionParameters({
@@ -3489,6 +4108,11 @@ class PipeTargetLambdaFunctionParameters {
 }
 
 /// The parameters required to set up a target for your pipe.
+///
+/// For more information about pipe target parameters, including how to use
+/// dynamic path parameters, see <a
+/// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html">Target
+/// parameters</a> in the <i>Amazon EventBridge User Guide</i>.
 class PipeTargetParameters {
   /// The parameters for using an Batch job as a target.
   final PipeTargetBatchJobParameters? batchJobParameters;
@@ -3510,26 +4134,31 @@ class PipeTargetParameters {
   /// itself is passed to the target. For more information, see <a
   /// href="http://www.rfc-editor.org/rfc/rfc7159.txt">The JavaScript Object
   /// Notation (JSON) Data Interchange Format</a>.
+  ///
+  /// To remove an input template, specify an empty string.
   final String? inputTemplate;
 
-  /// The parameters for using a Kinesis stream as a source.
+  /// The parameters for using a Kinesis stream as a target.
   final PipeTargetKinesisStreamParameters? kinesisStreamParameters;
 
   /// The parameters for using a Lambda function as a target.
   final PipeTargetLambdaFunctionParameters? lambdaFunctionParameters;
 
   /// These are custom parameters to be used when the target is a Amazon Redshift
-  /// cluster to invoke the Amazon Redshift Data API ExecuteStatement.
+  /// cluster to invoke the Amazon Redshift Data API BatchExecuteStatement.
   final PipeTargetRedshiftDataParameters? redshiftDataParameters;
 
   /// The parameters for using a SageMaker pipeline as a target.
   final PipeTargetSageMakerPipelineParameters? sageMakerPipelineParameters;
 
-  /// The parameters for using a Amazon SQS stream as a source.
+  /// The parameters for using a Amazon SQS stream as a target.
   final PipeTargetSqsQueueParameters? sqsQueueParameters;
 
   /// The parameters for using a Step Functions state machine as a target.
   final PipeTargetStateMachineParameters? stepFunctionStateMachineParameters;
+
+  /// The parameters for using a Timestream for LiveAnalytics table as a target.
+  final PipeTargetTimestreamParameters? timestreamParameters;
 
   PipeTargetParameters({
     this.batchJobParameters,
@@ -3544,6 +4173,7 @@ class PipeTargetParameters {
     this.sageMakerPipelineParameters,
     this.sqsQueueParameters,
     this.stepFunctionStateMachineParameters,
+    this.timestreamParameters,
   });
 
   factory PipeTargetParameters.fromJson(Map<String, dynamic> json) {
@@ -3596,6 +4226,10 @@ class PipeTargetParameters {
                   json['StepFunctionStateMachineParameters']
                       as Map<String, dynamic>)
               : null,
+      timestreamParameters: json['TimestreamParameters'] != null
+          ? PipeTargetTimestreamParameters.fromJson(
+              json['TimestreamParameters'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3613,6 +4247,7 @@ class PipeTargetParameters {
     final sqsQueueParameters = this.sqsQueueParameters;
     final stepFunctionStateMachineParameters =
         this.stepFunctionStateMachineParameters;
+    final timestreamParameters = this.timestreamParameters;
     return {
       if (batchJobParameters != null) 'BatchJobParameters': batchJobParameters,
       if (cloudWatchLogsParameters != null)
@@ -3634,12 +4269,14 @@ class PipeTargetParameters {
       if (stepFunctionStateMachineParameters != null)
         'StepFunctionStateMachineParameters':
             stepFunctionStateMachineParameters,
+      if (timestreamParameters != null)
+        'TimestreamParameters': timestreamParameters,
     };
   }
 }
 
 /// These are custom parameters to be used when the target is a Amazon Redshift
-/// cluster to invoke the Amazon Redshift Data API ExecuteStatement.
+/// cluster to invoke the Amazon Redshift Data API BatchExecuteStatement.
 class PipeTargetRedshiftDataParameters {
   /// The name of the database. Required when authenticating using temporary
   /// credentials.
@@ -3653,7 +4290,7 @@ class PipeTargetRedshiftDataParameters {
   final String? dbUser;
 
   /// The name or ARN of the secret that enables access to the database. Required
-  /// when authenticating using SageMaker.
+  /// when authenticating using Secrets Manager.
   final String? secretManagerArn;
 
   /// The name of the SQL statement. You can name the SQL statement when you
@@ -3735,7 +4372,7 @@ class PipeTargetSageMakerPipelineParameters {
   }
 }
 
-/// The parameters for using a Amazon SQS stream as a source.
+/// The parameters for using a Amazon SQS stream as a target.
 class PipeTargetSqsQueueParameters {
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -3770,7 +4407,29 @@ class PipeTargetSqsQueueParameters {
 
 /// The parameters for using a Step Functions state machine as a target.
 class PipeTargetStateMachineParameters {
-  /// Specify whether to wait for the state machine to finish or not.
+  /// Specify whether to invoke the Step Functions state machine synchronously or
+  /// asynchronously.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REQUEST_RESPONSE</code> (default) - Invoke synchronously. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/apireference/API_StartSyncExecution.html">StartSyncExecution</a>
+  /// in the <i>Step Functions API Reference</i>.
+  /// <note>
+  /// <code>REQUEST_RESPONSE</code> is not supported for <code>STANDARD</code>
+  /// state machine workflows.
+  /// </note> </li>
+  /// <li>
+  /// <code>FIRE_AND_FORGET</code> - Invoke asynchronously. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/apireference/API_StartExecution.html">StartExecution</a>
+  /// in the <i>Step Functions API Reference</i>.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html#pipes-invocation">Invocation
+  /// types</a> in the <i>Amazon EventBridge User Guide</i>.
   final PipeTargetInvocationType? invocationType;
 
   PipeTargetStateMachineParameters({
@@ -3788,6 +4447,125 @@ class PipeTargetStateMachineParameters {
     final invocationType = this.invocationType;
     return {
       if (invocationType != null) 'InvocationType': invocationType.toValue(),
+    };
+  }
+}
+
+/// The parameters for using a Timestream for LiveAnalytics table as a target.
+class PipeTargetTimestreamParameters {
+  /// Map source data to dimensions in the target Timestream for LiveAnalytics
+  /// table.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html">Amazon
+  /// Timestream for LiveAnalytics concepts</a>
+  final List<DimensionMapping> dimensionMappings;
+
+  /// Dynamic path to the source data field that represents the time value for
+  /// your data.
+  final String timeValue;
+
+  /// 64 bit version value or source data field that represents the version value
+  /// for your data.
+  ///
+  /// Write requests with a higher version number will update the existing measure
+  /// values of the record and version. In cases where the measure value is the
+  /// same, the version will still be updated.
+  ///
+  /// Default value is 1.
+  ///
+  /// Timestream for LiveAnalytics does not support updating partial measure
+  /// values in a record.
+  ///
+  /// Write requests for duplicate data with a higher version number will update
+  /// the existing measure value and version. In cases where the measure value is
+  /// the same, <code>Version</code> will still be updated. Default value is
+  /// <code>1</code>.
+  /// <note>
+  /// <code>Version</code> must be <code>1</code> or greater, or you will receive
+  /// a <code>ValidationException</code> error.
+  /// </note>
+  final String versionValue;
+
+  /// The granularity of the time units used. Default is
+  /// <code>MILLISECONDS</code>.
+  ///
+  /// Required if <code>TimeFieldType</code> is specified as <code>EPOCH</code>.
+  final EpochTimeUnit? epochTimeUnit;
+
+  /// Maps multiple measures from the source event to the same record in the
+  /// specified Timestream for LiveAnalytics table.
+  final List<MultiMeasureMapping>? multiMeasureMappings;
+
+  /// Mappings of single source data fields to individual records in the specified
+  /// Timestream for LiveAnalytics table.
+  final List<SingleMeasureMapping>? singleMeasureMappings;
+
+  /// The type of time value used.
+  ///
+  /// The default is <code>EPOCH</code>.
+  final TimeFieldType? timeFieldType;
+
+  /// How to format the timestamps. For example,
+  /// <code>YYYY-MM-DDThh:mm:ss.sssTZD</code>.
+  ///
+  /// Required if <code>TimeFieldType</code> is specified as
+  /// <code>TIMESTAMP_FORMAT</code>.
+  final String? timestampFormat;
+
+  PipeTargetTimestreamParameters({
+    required this.dimensionMappings,
+    required this.timeValue,
+    required this.versionValue,
+    this.epochTimeUnit,
+    this.multiMeasureMappings,
+    this.singleMeasureMappings,
+    this.timeFieldType,
+    this.timestampFormat,
+  });
+
+  factory PipeTargetTimestreamParameters.fromJson(Map<String, dynamic> json) {
+    return PipeTargetTimestreamParameters(
+      dimensionMappings: (json['DimensionMappings'] as List)
+          .whereNotNull()
+          .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeValue: json['TimeValue'] as String,
+      versionValue: json['VersionValue'] as String,
+      epochTimeUnit: (json['EpochTimeUnit'] as String?)?.toEpochTimeUnit(),
+      multiMeasureMappings: (json['MultiMeasureMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => MultiMeasureMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      singleMeasureMappings: (json['SingleMeasureMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => SingleMeasureMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeFieldType: (json['TimeFieldType'] as String?)?.toTimeFieldType(),
+      timestampFormat: json['TimestampFormat'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionMappings = this.dimensionMappings;
+    final timeValue = this.timeValue;
+    final versionValue = this.versionValue;
+    final epochTimeUnit = this.epochTimeUnit;
+    final multiMeasureMappings = this.multiMeasureMappings;
+    final singleMeasureMappings = this.singleMeasureMappings;
+    final timeFieldType = this.timeFieldType;
+    final timestampFormat = this.timestampFormat;
+    return {
+      'DimensionMappings': dimensionMappings,
+      'TimeValue': timeValue,
+      'VersionValue': versionValue,
+      if (epochTimeUnit != null) 'EpochTimeUnit': epochTimeUnit.toValue(),
+      if (multiMeasureMappings != null)
+        'MultiMeasureMappings': multiMeasureMappings,
+      if (singleMeasureMappings != null)
+        'SingleMeasureMappings': singleMeasureMappings,
+      if (timeFieldType != null) 'TimeFieldType': timeFieldType.toValue(),
+      if (timestampFormat != null) 'TimestampFormat': timestampFormat,
     };
   }
 }
@@ -4023,6 +4801,161 @@ extension RequestedPipeStateDescribeResponseFromString on String {
   }
 }
 
+/// The Amazon S3 logging configuration settings for the pipe.
+class S3LogDestination {
+  /// The name of the Amazon S3 bucket to which EventBridge delivers the log
+  /// records for the pipe.
+  final String? bucketName;
+
+  /// The Amazon Web Services account that owns the Amazon S3 bucket to which
+  /// EventBridge delivers the log records for the pipe.
+  final String? bucketOwner;
+
+  /// The format EventBridge uses for the log records.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>json</code>: JSON
+  /// </li>
+  /// <li>
+  /// <code>plain</code>: Plain text
+  /// </li>
+  /// <li>
+  /// <code>w3c</code>: <a href="https://www.w3.org/TR/WD-logfile">W3C extended
+  /// logging file format</a>
+  /// </li>
+  /// </ul>
+  final S3OutputFormat? outputFormat;
+
+  /// The prefix text with which to begin Amazon S3 log object names.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
+  /// objects using prefixes</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  final String? prefix;
+
+  S3LogDestination({
+    this.bucketName,
+    this.bucketOwner,
+    this.outputFormat,
+    this.prefix,
+  });
+
+  factory S3LogDestination.fromJson(Map<String, dynamic> json) {
+    return S3LogDestination(
+      bucketName: json['BucketName'] as String?,
+      bucketOwner: json['BucketOwner'] as String?,
+      outputFormat: (json['OutputFormat'] as String?)?.toS3OutputFormat(),
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketOwner = this.bucketOwner;
+    final outputFormat = this.outputFormat;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (bucketOwner != null) 'BucketOwner': bucketOwner,
+      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+/// The Amazon S3 logging configuration settings for the pipe.
+class S3LogDestinationParameters {
+  /// Specifies the name of the Amazon S3 bucket to which EventBridge delivers the
+  /// log records for the pipe.
+  final String bucketName;
+
+  /// Specifies the Amazon Web Services account that owns the Amazon S3 bucket to
+  /// which EventBridge delivers the log records for the pipe.
+  final String bucketOwner;
+
+  /// How EventBridge should format the log records.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>json</code>: JSON
+  /// </li>
+  /// <li>
+  /// <code>plain</code>: Plain text
+  /// </li>
+  /// <li>
+  /// <code>w3c</code>: <a href="https://www.w3.org/TR/WD-logfile">W3C extended
+  /// logging file format</a>
+  /// </li>
+  /// </ul>
+  final S3OutputFormat? outputFormat;
+
+  /// Specifies any prefix text with which to begin Amazon S3 log object names.
+  ///
+  /// You can use prefixes to organize the data that you store in Amazon S3
+  /// buckets. A prefix is a string of characters at the beginning of the object
+  /// key name. A prefix can be any length, subject to the maximum length of the
+  /// object key name (1,024 bytes). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
+  /// objects using prefixes</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  final String? prefix;
+
+  S3LogDestinationParameters({
+    required this.bucketName,
+    required this.bucketOwner,
+    this.outputFormat,
+    this.prefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketOwner = this.bucketOwner;
+    final outputFormat = this.outputFormat;
+    final prefix = this.prefix;
+    return {
+      'BucketName': bucketName,
+      'BucketOwner': bucketOwner,
+      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+enum S3OutputFormat {
+  json,
+  plain,
+  w3c,
+}
+
+extension S3OutputFormatValueExtension on S3OutputFormat {
+  String toValue() {
+    switch (this) {
+      case S3OutputFormat.json:
+        return 'json';
+      case S3OutputFormat.plain:
+        return 'plain';
+      case S3OutputFormat.w3c:
+        return 'w3c';
+    }
+  }
+}
+
+extension S3OutputFormatFromString on String {
+  S3OutputFormat toS3OutputFormat() {
+    switch (this) {
+      case 'json':
+        return S3OutputFormat.json;
+      case 'plain':
+        return S3OutputFormat.plain;
+      case 'w3c':
+        return S3OutputFormat.w3c;
+    }
+    throw Exception('$this is not known in enum S3OutputFormat');
+  }
+}
+
 /// Name/Value pair of a parameter to start execution of a SageMaker Model
 /// Building Pipeline.
 class SageMakerPipelineParameter {
@@ -4169,6 +5102,49 @@ extension SelfManagedKafkaStartPositionFromString on String {
         return SelfManagedKafkaStartPosition.latest;
     }
     throw Exception('$this is not known in enum SelfManagedKafkaStartPosition');
+  }
+}
+
+/// Maps a single source data field to a single record in the specified
+/// Timestream for LiveAnalytics table.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html">Amazon
+/// Timestream for LiveAnalytics concepts</a>
+class SingleMeasureMapping {
+  /// Target measure name for the measurement attribute in the Timestream table.
+  final String measureName;
+
+  /// Dynamic path of the source field to map to the measure in the record.
+  final String measureValue;
+
+  /// Data type of the source field.
+  final MeasureValueType measureValueType;
+
+  SingleMeasureMapping({
+    required this.measureName,
+    required this.measureValue,
+    required this.measureValueType,
+  });
+
+  factory SingleMeasureMapping.fromJson(Map<String, dynamic> json) {
+    return SingleMeasureMapping(
+      measureName: json['MeasureName'] as String,
+      measureValue: json['MeasureValue'] as String,
+      measureValueType:
+          (json['MeasureValueType'] as String).toMeasureValueType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final measureName = this.measureName;
+    final measureValue = this.measureValue;
+    final measureValueType = this.measureValueType;
+    return {
+      'MeasureName': measureName,
+      'MeasureValue': measureValue,
+      'MeasureValueType': measureValueType.toValue(),
+    };
   }
 }
 
@@ -4335,6 +5311,34 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+enum TimeFieldType {
+  epoch,
+  timestampFormat,
+}
+
+extension TimeFieldTypeValueExtension on TimeFieldType {
+  String toValue() {
+    switch (this) {
+      case TimeFieldType.epoch:
+        return 'EPOCH';
+      case TimeFieldType.timestampFormat:
+        return 'TIMESTAMP_FORMAT';
+    }
+  }
+}
+
+extension TimeFieldTypeFromString on String {
+  TimeFieldType toTimeFieldType() {
+    switch (this) {
+      case 'EPOCH':
+        return TimeFieldType.epoch;
+      case 'TIMESTAMP_FORMAT':
+        return TimeFieldType.timestampFormat;
+    }
+    throw Exception('$this is not known in enum TimeFieldType');
   }
 }
 
@@ -4613,8 +5617,12 @@ class UpdatePipeSourceParameters {
   /// The parameters for using a DynamoDB stream as a source.
   final UpdatePipeSourceDynamoDBStreamParameters? dynamoDBStreamParameters;
 
-  /// The collection of event patterns used to filter events. For more
-  /// information, see <a
+  /// The collection of event patterns used to filter events.
+  ///
+  /// To remove a filter, specify a <code>FilterCriteria</code> object with an
+  /// empty array of <code>Filter</code> objects.
+  ///
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
   /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
   final FilterCriteria? filterCriteria;
@@ -4630,6 +5638,15 @@ class UpdatePipeSourceParameters {
   final UpdatePipeSourceRabbitMQBrokerParameters? rabbitMQBrokerParameters;
 
   /// The parameters for using a self-managed Apache Kafka stream as a source.
+  ///
+  /// A <i>self managed</i> cluster refers to any Apache Kafka cluster not hosted
+  /// by Amazon Web Services. This includes both clusters you manage yourself, as
+  /// well as those hosted by a third-party provider, such as <a
+  /// href="https://www.confluent.io/">Confluent Cloud</a>, <a
+  /// href="https://www.cloudkarafka.com/">CloudKarafka</a>, or <a
+  /// href="https://redpanda.com/">Redpanda</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html">Apache
+  /// Kafka streams as a source</a> in the <i>Amazon EventBridge User Guide</i>.
   final UpdatePipeSourceSelfManagedKafkaParameters? selfManagedKafkaParameters;
 
   /// The parameters for using a Amazon SQS stream as a source.
@@ -4706,6 +5723,15 @@ class UpdatePipeSourceRabbitMQBrokerParameters {
 }
 
 /// The parameters for using a self-managed Apache Kafka stream as a source.
+///
+/// A <i>self managed</i> cluster refers to any Apache Kafka cluster not hosted
+/// by Amazon Web Services. This includes both clusters you manage yourself, as
+/// well as those hosted by a third-party provider, such as <a
+/// href="https://www.confluent.io/">Confluent Cloud</a>, <a
+/// href="https://www.cloudkarafka.com/">CloudKarafka</a>, or <a
+/// href="https://redpanda.com/">Redpanda</a>. For more information, see <a
+/// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html">Apache
+/// Kafka streams as a source</a> in the <i>Amazon EventBridge User Guide</i>.
 class UpdatePipeSourceSelfManagedKafkaParameters {
   /// The maximum number of records to include in each batch.
   final int? batchSize;

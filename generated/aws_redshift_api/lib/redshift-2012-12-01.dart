@@ -111,6 +111,7 @@ class Redshift {
   /// May throw [PartnerNotFoundFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [UnauthorizedPartnerIntegrationFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID that owns the cluster.
@@ -157,15 +158,18 @@ class Redshift {
   ///
   /// Parameter [dataShareArn] :
   /// The Amazon Resource Name (ARN) of the datashare that the consumer is to
-  /// use with the account or the namespace.
+  /// use.
+  ///
+  /// Parameter [allowWrites] :
+  /// If set to true, allows write operations for a datashare.
   ///
   /// Parameter [associateEntireAccount] :
   /// A value that specifies whether the datashare is associated with the entire
   /// account.
   ///
   /// Parameter [consumerArn] :
-  /// The Amazon Resource Name (ARN) of the consumer that is associated with the
-  /// datashare.
+  /// The Amazon Resource Name (ARN) of the consumer namespace associated with
+  /// the datashare.
   ///
   /// Parameter [consumerRegion] :
   /// From a datashare consumer account, associates a datashare with all
@@ -173,12 +177,14 @@ class Redshift {
   /// Region.
   Future<DataShare> associateDataShareConsumer({
     required String dataShareArn,
+    bool? allowWrites,
     bool? associateEntireAccount,
     String? consumerArn,
     String? consumerRegion,
   }) async {
     final $request = <String, dynamic>{};
     $request['DataShareArn'] = dataShareArn;
+    allowWrites?.also((arg) => $request['AllowWrites'] = arg);
     associateEntireAccount
         ?.also((arg) => $request['AssociateEntireAccount'] = arg);
     consumerArn?.also((arg) => $request['ConsumerArn'] = arg);
@@ -282,15 +288,20 @@ class Redshift {
   /// keyword, such as ADX.
   ///
   /// Parameter [dataShareArn] :
-  /// The Amazon Resource Name (ARN) of the datashare that producers are to
-  /// authorize sharing for.
+  /// The Amazon Resource Name (ARN) of the datashare namespace that producers
+  /// are to authorize sharing for.
+  ///
+  /// Parameter [allowWrites] :
+  /// If set to true, allows write operations for a datashare.
   Future<DataShare> authorizeDataShare({
     required String consumerIdentifier,
     required String dataShareArn,
+    bool? allowWrites,
   }) async {
     final $request = <String, dynamic>{};
     $request['ConsumerIdentifier'] = consumerIdentifier;
     $request['DataShareArn'] = dataShareArn;
+    allowWrites?.also((arg) => $request['AllowWrites'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'AuthorizeDataShare',
@@ -372,10 +383,21 @@ class Redshift {
   /// The Amazon Resource Name (ARN) of the snapshot to authorize access to.
   ///
   /// Parameter [snapshotClusterIdentifier] :
-  /// The identifier of the cluster the snapshot was created from. This
-  /// parameter is required if your IAM user or role has a policy containing a
-  /// snapshot resource element that specifies anything other than * for the
-  /// cluster name.
+  /// The identifier of the cluster the snapshot was created from.
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>If the snapshot to access doesn't exist and the associated IAM policy
+  /// doesn't allow access to all (*) snapshots</i> - This parameter is
+  /// required. Otherwise, permissions aren't available to check if the snapshot
+  /// exists.
+  /// </li>
+  /// <li>
+  /// <i>If the snapshot to access exists</i> - This parameter isn't required.
+  /// Redshift can retrieve the cluster identifier and use it to validate
+  /// snapshot authorization.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [snapshotIdentifier] :
   /// The identifier of the snapshot the account is authorized to restore.
@@ -520,6 +542,7 @@ class Redshift {
   /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
+  /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterSnapshotAlreadyExistsFault].
   /// May throw [ClusterSnapshotNotFoundFault].
   /// May throw [InvalidClusterSnapshotStateFault].
@@ -572,9 +595,9 @@ class Redshift {
   ///
   /// Parameter [sourceSnapshotClusterIdentifier] :
   /// The identifier of the cluster the source snapshot was created from. This
-  /// parameter is required if your IAM user or role has a policy containing a
-  /// snapshot resource element that specifies anything other than * for the
-  /// cluster name.
+  /// parameter is required if your IAM user has a policy containing a snapshot
+  /// resource element that specifies anything other than * for the cluster
+  /// name.
   ///
   /// Constraints:
   ///
@@ -675,6 +698,9 @@ class Redshift {
   /// May throw [InvalidClusterTrackFault].
   /// May throw [SnapshotScheduleNotFoundFault].
   /// May throw [InvalidRetentionPeriodFault].
+  /// May throw [Ipv6CidrBlockNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// A unique identifier for the cluster. You use this identifier to refer to
@@ -702,35 +728,9 @@ class Redshift {
   /// </ul>
   /// Example: <code>myexamplecluster</code>
   ///
-  /// Parameter [masterUserPassword] :
-  /// The password associated with the admin user for the cluster that is being
-  /// created.
-  ///
-  /// Constraints:
-  ///
-  /// <ul>
-  /// <li>
-  /// Must be between 8 and 64 characters in length.
-  /// </li>
-  /// <li>
-  /// Must contain at least one uppercase letter.
-  /// </li>
-  /// <li>
-  /// Must contain at least one lowercase letter.
-  /// </li>
-  /// <li>
-  /// Must contain one number.
-  /// </li>
-  /// <li>
-  /// Can be any printable ASCII character (ASCII code 33-126) except
-  /// <code>'</code> (single quote), <code>"</code> (double quote),
-  /// <code>\</code>, <code>/</code>, or <code>@</code>.
-  /// </li>
-  /// </ul>
-  ///
   /// Parameter [masterUsername] :
-  /// The user name associated with the admin user for the cluster that is being
-  /// created.
+  /// The user name associated with the admin user account for the cluster that
+  /// is being created.
   ///
   /// Constraints:
   ///
@@ -956,6 +956,10 @@ class Redshift {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Quotas
   /// and limits</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
+  /// Parameter [ipAddressType] :
+  /// The IP address types that the cluster supports. Possible values are
+  /// <code>ipv4</code> and <code>dualstack</code>.
+  ///
   /// Parameter [kmsKeyId] :
   /// The Key Management Service (KMS) key ID of the encryption key that you
   /// want to use to encrypt data in the cluster.
@@ -969,12 +973,58 @@ class Redshift {
   /// cluster. If you don't provide a maintenance track name, the cluster is
   /// assigned to the <code>current</code> track.
   ///
+  /// Parameter [manageMasterPassword] :
+  /// If <code>true</code>, Amazon Redshift uses Secrets Manager to manage this
+  /// cluster's admin credentials. You can't use <code>MasterUserPassword</code>
+  /// if <code>ManageMasterPassword</code> is true. If
+  /// <code>ManageMasterPassword</code> is false or not set, Amazon Redshift
+  /// uses <code>MasterUserPassword</code> for the admin user account's
+  /// password.
+  ///
   /// Parameter [manualSnapshotRetentionPeriod] :
   /// The default number of days to retain a manual snapshot. If the value is
   /// -1, the snapshot is retained indefinitely. This setting doesn't change the
   /// retention period of existing snapshots.
   ///
   /// The value must be either -1 or an integer between 1 and 3,653.
+  ///
+  /// Parameter [masterPasswordSecretKmsKeyId] :
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store
+  /// the cluster's admin credentials secret. You can only use this parameter if
+  /// <code>ManageMasterPassword</code> is true.
+  ///
+  /// Parameter [masterUserPassword] :
+  /// The password associated with the admin user account for the cluster that
+  /// is being created.
+  ///
+  /// You can't use <code>MasterUserPassword</code> if
+  /// <code>ManageMasterPassword</code> is <code>true</code>.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be between 8 and 64 characters in length.
+  /// </li>
+  /// <li>
+  /// Must contain at least one uppercase letter.
+  /// </li>
+  /// <li>
+  /// Must contain at least one lowercase letter.
+  /// </li>
+  /// <li>
+  /// Must contain one number.
+  /// </li>
+  /// <li>
+  /// Can be any printable ASCII character (ASCII code 33-126) except
+  /// <code>'</code> (single quote), <code>"</code> (double quote),
+  /// <code>\</code>, <code>/</code>, or <code>@</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [multiAZ] :
+  /// If true, Amazon Redshift will deploy the cluster in two Availability Zones
+  /// (AZ).
   ///
   /// Parameter [numberOfNodes] :
   /// The number of compute nodes in the cluster. This parameter is required
@@ -1003,7 +1053,20 @@ class Redshift {
   ///
   /// Default: <code>5439</code>
   ///
-  /// Valid Values: <code>1150-65535</code>
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// For clusters with ra3 nodes - Select a port within the ranges
+  /// <code>5431-5455</code> or <code>8191-8215</code>. (If you have an existing
+  /// cluster with ra3 nodes, it isn't required that you change the port to
+  /// these ranges.)
+  /// </li>
+  /// <li>
+  /// For clusters with ds2 or dc2 nodes - Select a port within the range
+  /// <code>1150-65535</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The weekly time range (in UTC) during which automated cluster maintenance
@@ -1024,6 +1087,10 @@ class Redshift {
   /// Parameter [publiclyAccessible] :
   /// If <code>true</code>, the cluster can be accessed from a public network.
   ///
+  /// Parameter [redshiftIdcApplicationArn] :
+  /// The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center
+  /// application.
+  ///
   /// Parameter [snapshotScheduleIdentifier] :
   /// A unique identifier for the snapshot schedule.
   ///
@@ -1037,7 +1104,6 @@ class Redshift {
   /// Default: The default VPC security group is associated with the cluster.
   Future<CreateClusterResult> createCluster({
     required String clusterIdentifier,
-    required String masterUserPassword,
     required String masterUsername,
     required String nodeType,
     String? additionalInfo,
@@ -1059,21 +1125,26 @@ class Redshift {
     String? hsmClientCertificateIdentifier,
     String? hsmConfigurationIdentifier,
     List<String>? iamRoles,
+    String? ipAddressType,
     String? kmsKeyId,
     String? loadSampleData,
     String? maintenanceTrackName,
+    bool? manageMasterPassword,
     int? manualSnapshotRetentionPeriod,
+    String? masterPasswordSecretKmsKeyId,
+    String? masterUserPassword,
+    bool? multiAZ,
     int? numberOfNodes,
     int? port,
     String? preferredMaintenanceWindow,
     bool? publiclyAccessible,
+    String? redshiftIdcApplicationArn,
     String? snapshotScheduleIdentifier,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
-    $request['MasterUserPassword'] = masterUserPassword;
     $request['MasterUsername'] = masterUsername;
     $request['NodeType'] = nodeType;
     additionalInfo?.also((arg) => $request['AdditionalInfo'] = arg);
@@ -1103,16 +1174,24 @@ class Redshift {
     hsmConfigurationIdentifier
         ?.also((arg) => $request['HsmConfigurationIdentifier'] = arg);
     iamRoles?.also((arg) => $request['IamRoles'] = arg);
+    ipAddressType?.also((arg) => $request['IpAddressType'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     loadSampleData?.also((arg) => $request['LoadSampleData'] = arg);
     maintenanceTrackName?.also((arg) => $request['MaintenanceTrackName'] = arg);
+    manageMasterPassword?.also((arg) => $request['ManageMasterPassword'] = arg);
     manualSnapshotRetentionPeriod
         ?.also((arg) => $request['ManualSnapshotRetentionPeriod'] = arg);
+    masterPasswordSecretKmsKeyId
+        ?.also((arg) => $request['MasterPasswordSecretKmsKeyId'] = arg);
+    masterUserPassword?.also((arg) => $request['MasterUserPassword'] = arg);
+    multiAZ?.also((arg) => $request['MultiAZ'] = arg);
     numberOfNodes?.also((arg) => $request['NumberOfNodes'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
+    redshiftIdcApplicationArn
+        ?.also((arg) => $request['RedshiftIdcApplicationArn'] = arg);
     snapshotScheduleIdentifier
         ?.also((arg) => $request['SnapshotScheduleIdentifier'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
@@ -1423,6 +1502,46 @@ class Redshift {
       resultWrapper: 'CreateClusterSubnetGroupResult',
     );
     return CreateClusterSubnetGroupResult.fromXml($result);
+  }
+
+  /// Used to create a custom domain name for a cluster. Properties include the
+  /// custom domain name, the cluster the custom domain is associated with, and
+  /// the certificate Amazon Resource Name (ARN).
+  ///
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [CustomCnameAssociationFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The cluster identifier that the custom domain is associated with.
+  ///
+  /// Parameter [customDomainCertificateArn] :
+  /// The certificate Amazon Resource Name (ARN) for the custom domain name
+  /// association.
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name for a custom domain association.
+  Future<CreateCustomDomainAssociationResult> createCustomDomainAssociation({
+    required String clusterIdentifier,
+    required String customDomainCertificateArn,
+    required String customDomainName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    $request['CustomDomainCertificateArn'] = customDomainCertificateArn;
+    $request['CustomDomainName'] = customDomainName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateCustomDomainAssociation',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateCustomDomainAssociationMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateCustomDomainAssociationResult',
+    );
+    return CreateCustomDomainAssociationResult.fromXml($result);
   }
 
   /// Creates a Redshift-managed VPC endpoint.
@@ -1738,16 +1857,86 @@ class Redshift {
     return CreateHsmConfigurationResult.fromXml($result);
   }
 
+  /// Creates an Amazon Redshift application for use with IAM Identity Center.
+  ///
+  /// May throw [RedshiftIdcApplicationAlreadyExistsFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [RedshiftIdcApplicationQuotaExceededFault].
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The IAM role ARN for the Amazon Redshift IAM Identity Center application
+  /// instance. It has the required permissions to be assumed and invoke the IDC
+  /// Identity Center API.
+  ///
+  /// Parameter [idcDisplayName] :
+  /// The display name for the Amazon Redshift IAM Identity Center application
+  /// instance. It appears in the console.
+  ///
+  /// Parameter [idcInstanceArn] :
+  /// The Amazon resource name (ARN) of the IAM Identity Center instance where
+  /// Amazon Redshift creates a new managed application.
+  ///
+  /// Parameter [redshiftIdcApplicationName] :
+  /// The name of the Redshift application in IAM Identity Center.
+  ///
+  /// Parameter [authorizedTokenIssuerList] :
+  /// The token issuer list for the Amazon Redshift IAM Identity Center
+  /// application instance.
+  ///
+  /// Parameter [identityNamespace] :
+  /// The namespace for the Amazon Redshift IAM Identity Center application
+  /// instance. It determines which managed application verifies the connection
+  /// token.
+  ///
+  /// Parameter [serviceIntegrations] :
+  /// A collection of service integrations for the Redshift IAM Identity Center
+  /// application.
+  Future<CreateRedshiftIdcApplicationResult> createRedshiftIdcApplication({
+    required String iamRoleArn,
+    required String idcDisplayName,
+    required String idcInstanceArn,
+    required String redshiftIdcApplicationName,
+    List<AuthorizedTokenIssuer>? authorizedTokenIssuerList,
+    String? identityNamespace,
+    List<ServiceIntegrationsUnion>? serviceIntegrations,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['IamRoleArn'] = iamRoleArn;
+    $request['IdcDisplayName'] = idcDisplayName;
+    $request['IdcInstanceArn'] = idcInstanceArn;
+    $request['RedshiftIdcApplicationName'] = redshiftIdcApplicationName;
+    authorizedTokenIssuerList
+        ?.also((arg) => $request['AuthorizedTokenIssuerList'] = arg);
+    identityNamespace?.also((arg) => $request['IdentityNamespace'] = arg);
+    serviceIntegrations?.also((arg) => $request['ServiceIntegrations'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateRedshiftIdcApplication',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateRedshiftIdcApplicationMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateRedshiftIdcApplicationResult',
+    );
+    return CreateRedshiftIdcApplicationResult.fromXml($result);
+  }
+
   /// Creates a scheduled action. A scheduled action contains a schedule and an
   /// Amazon Redshift API action. For example, you can create a schedule of when
   /// to run the <code>ResizeCluster</code> API operation.
   ///
+  /// May throw [ClusterNotFoundFault].
   /// May throw [ScheduledActionAlreadyExistsFault].
   /// May throw [ScheduledActionQuotaExceededFault].
   /// May throw [ScheduledActionTypeUnsupportedFault].
   /// May throw [InvalidScheduleFault].
   /// May throw [InvalidScheduledActionFault].
   /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [iamRole] :
   /// The IAM role to assume to run the target action. For more information
@@ -2075,8 +2264,8 @@ class Redshift {
   /// or a keyword, such as ADX.
   ///
   /// Parameter [dataShareArn] :
-  /// The Amazon Resource Name (ARN) of the datashare to remove authorization
-  /// from.
+  /// The namespace Amazon Resource Name (ARN) of the datashare to remove
+  /// authorization from.
   Future<DataShare> deauthorizeDataShare({
     required String consumerIdentifier,
     required String dataShareArn,
@@ -2330,9 +2519,9 @@ class Redshift {
   ///
   /// Parameter [snapshotClusterIdentifier] :
   /// The unique identifier of the cluster the snapshot was created from. This
-  /// parameter is required if your IAM user or role has a policy containing a
-  /// snapshot resource element that specifies anything other than * for the
-  /// cluster name.
+  /// parameter is required if your IAM user has a policy containing a snapshot
+  /// resource element that specifies anything other than * for the cluster
+  /// name.
   ///
   /// Constraints: Must be the name of valid cluster.
   Future<DeleteClusterSnapshotResult> deleteClusterSnapshot({
@@ -2378,6 +2567,38 @@ class Redshift {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       shape: shapes['DeleteClusterSubnetGroupMessage'],
+      shapes: shapes,
+    );
+  }
+
+  /// Contains information about deleting a custom domain association for a
+  /// cluster.
+  ///
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [CustomCnameAssociationFault].
+  /// May throw [CustomDomainAssociationNotFoundFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster to delete a custom domain association for.
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name for the custom domain association.
+  Future<void> deleteCustomDomainAssociation({
+    required String clusterIdentifier,
+    required String customDomainName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    $request['CustomDomainName'] = customDomainName;
+    await _protocol.send(
+      $request,
+      action: 'DeleteCustomDomainAssociation',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteCustomDomainAssociationMessage'],
       shapes: shapes,
     );
   }
@@ -2490,6 +2711,7 @@ class Redshift {
   /// May throw [PartnerNotFoundFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [UnauthorizedPartnerIntegrationFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID that owns the cluster.
@@ -2525,6 +2747,57 @@ class Redshift {
       resultWrapper: 'DeletePartnerResult',
     );
     return PartnerIntegrationOutputMessage.fromXml($result);
+  }
+
+  /// Deletes an Amazon Redshift IAM Identity Center application.
+  ///
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [DependentServiceAccessDeniedFault].
+  ///
+  /// Parameter [redshiftIdcApplicationArn] :
+  /// The ARN for a deleted Amazon Redshift IAM Identity Center application.
+  Future<void> deleteRedshiftIdcApplication({
+    required String redshiftIdcApplicationArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['RedshiftIdcApplicationArn'] = redshiftIdcApplicationArn;
+    await _protocol.send(
+      $request,
+      action: 'DeleteRedshiftIdcApplication',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteRedshiftIdcApplicationMessage'],
+      shapes: shapes,
+    );
+  }
+
+  /// Deletes the resource policy for a specified resource.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource of which its resource
+  /// policy is deleted.
+  Future<void> deleteResourcePolicy({
+    required String resourceArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ResourceArn'] = resourceArn;
+    await _protocol.send(
+      $request,
+      action: 'DeleteResourcePolicy',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteResourcePolicyMessage'],
+      shapes: shapes,
+    );
   }
 
   /// Deletes a scheduled action.
@@ -3109,7 +3382,7 @@ class Redshift {
   ///
   /// Default: <code>100</code>
   ///
-  /// Constraints: minimum 20, maximum 500.
+  /// Constraints: minimum 20, maximum 100.
   ///
   /// Parameter [ownerAccount] :
   /// The Amazon Web Services account used to create or copy the snapshot. Use
@@ -3498,13 +3771,56 @@ class Redshift {
     return ClustersMessage.fromXml($result);
   }
 
+  /// Contains information about custom domain associations for a cluster.
+  ///
+  /// May throw [CustomDomainAssociationNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [customDomainCertificateArn] :
+  /// The certificate Amazon Resource Name (ARN) for the custom domain
+  /// association.
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name for the custom domain association.
+  ///
+  /// Parameter [marker] :
+  /// The marker for the custom domain association.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum records setting for the associated custom domain.
+  Future<CustomDomainAssociationsMessage> describeCustomDomainAssociations({
+    String? customDomainCertificateArn,
+    String? customDomainName,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final $request = <String, dynamic>{};
+    customDomainCertificateArn
+        ?.also((arg) => $request['CustomDomainCertificateArn'] = arg);
+    customDomainName?.also((arg) => $request['CustomDomainName'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeCustomDomainAssociations',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeCustomDomainAssociationsMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeCustomDomainAssociationsResult',
+    );
+    return CustomDomainAssociationsMessage.fromXml($result);
+  }
+
   /// Shows the status of any inbound or outbound datashares available in the
   /// specified account.
   ///
   /// May throw [InvalidDataShareFault].
   ///
   /// Parameter [dataShareArn] :
-  /// The identifier of the datashare to describe details of.
+  /// The Amazon resource name (ARN) of the datashare to describe details of.
   ///
   /// Parameter [marker] :
   /// An optional parameter that specifies the starting point to return a set of
@@ -3549,8 +3865,8 @@ class Redshift {
   /// May throw [InvalidNamespaceFault].
   ///
   /// Parameter [consumerArn] :
-  /// The Amazon Resource Name (ARN) of the consumer that returns in the list of
-  /// datashares.
+  /// The Amazon Resource Name (ARN) of the consumer namespace that returns in
+  /// the list of datashares.
   ///
   /// Parameter [marker] :
   /// An optional parameter that specifies the starting point to return a set of
@@ -3619,8 +3935,8 @@ class Redshift {
   /// of records by retrying the command with the returned marker value.
   ///
   /// Parameter [producerArn] :
-  /// The Amazon Resource Name (ARN) of the producer that returns in the list of
-  /// datashares.
+  /// The Amazon Resource Name (ARN) of the producer namespace that returns in
+  /// the list of datashares.
   ///
   /// Parameter [status] :
   /// An identifier giving the status of a datashare in the producer. If this
@@ -4246,10 +4562,67 @@ class Redshift {
     return HsmConfigurationMessage.fromXml($result);
   }
 
+  /// Returns a list of inbound integrations.
+  ///
+  /// May throw [IntegrationNotFoundFault].
+  /// May throw [InvalidNamespaceFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [integrationArn] :
+  /// The Amazon Resource Name (ARN) of the inbound integration.
+  ///
+  /// Parameter [marker] :
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a <a>DescribeInboundIntegrations</a>
+  /// request exceed the value specified in <code>MaxRecords</code>, Amazon Web
+  /// Services returns a value in the <code>Marker</code> field of the response.
+  /// You can retrieve the next set of response records by providing the
+  /// returned marker value in the <code>Marker</code> parameter and retrying
+  /// the request.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified
+  /// <code>MaxRecords</code> value, a value is returned in a
+  /// <code>marker</code> field of the response. You can retrieve the next set
+  /// of records by retrying the command with the returned marker value.
+  ///
+  /// Default: <code>100</code>
+  ///
+  /// Constraints: minimum 20, maximum 100.
+  ///
+  /// Parameter [targetArn] :
+  /// The Amazon Resource Name (ARN) of the target of an inbound integration.
+  Future<InboundIntegrationsMessage> describeInboundIntegrations({
+    String? integrationArn,
+    String? marker,
+    int? maxRecords,
+    String? targetArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    integrationArn?.also((arg) => $request['IntegrationArn'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    targetArn?.also((arg) => $request['TargetArn'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeInboundIntegrations',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeInboundIntegrationsMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeInboundIntegrationsResult',
+    );
+    return InboundIntegrationsMessage.fromXml($result);
+  }
+
   /// Describes whether information, such as queries and connection attempts, is
   /// being logged for the specified Amazon Redshift cluster.
   ///
   /// May throw [ClusterNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster from which to get the logging status.
@@ -4436,6 +4809,7 @@ class Redshift {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [UnauthorizedPartnerIntegrationFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID that owns the cluster.
@@ -4475,6 +4849,55 @@ class Redshift {
       resultWrapper: 'DescribePartnersResult',
     );
     return DescribePartnersOutputMessage.fromXml($result);
+  }
+
+  /// Lists the Amazon Redshift IAM Identity Center applications.
+  ///
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [DependentServiceAccessDeniedFault].
+  ///
+  /// Parameter [marker] :
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker
+  /// value in the Marker parameter and retrying the command. If the Marker
+  /// field is empty, all response records have been retrieved for the request.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified MaxRecords
+  /// value, a value is returned in a marker field of the response. You can
+  /// retrieve the next set of records by retrying the command with the returned
+  /// marker value.
+  ///
+  /// Parameter [redshiftIdcApplicationArn] :
+  /// The ARN for the Redshift application that integrates with IAM Identity
+  /// Center.
+  Future<DescribeRedshiftIdcApplicationsResult>
+      describeRedshiftIdcApplications({
+    String? marker,
+    int? maxRecords,
+    String? redshiftIdcApplicationArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    redshiftIdcApplicationArn
+        ?.also((arg) => $request['RedshiftIdcApplicationArn'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeRedshiftIdcApplications',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeRedshiftIdcApplicationsMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeRedshiftIdcApplicationsResult',
+    );
+    return DescribeRedshiftIdcApplicationsResult.fromXml($result);
   }
 
   /// Returns exchange status details and associated metadata for a
@@ -4656,6 +5079,7 @@ class Redshift {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [ResizeNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of a cluster whose resize progress you are
@@ -5224,6 +5648,7 @@ class Redshift {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster on which logging is to be stopped.
@@ -5260,6 +5685,7 @@ class Redshift {
   /// May throw [SnapshotCopyAlreadyDisabledFault].
   /// May throw [InvalidClusterStateFault].
   /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the source cluster that you want to disable
@@ -5296,8 +5722,8 @@ class Redshift {
   /// The Amazon Resource Name (ARN) of the datashare to remove association for.
   ///
   /// Parameter [consumerArn] :
-  /// The Amazon Resource Name (ARN) of the consumer that association for the
-  /// datashare is removed from.
+  /// The Amazon Resource Name (ARN) of the consumer namespace that association
+  /// for the datashare is removed from.
   ///
   /// Parameter [consumerRegion] :
   /// From a datashare consumer account, removes association of a datashare from
@@ -5342,6 +5768,7 @@ class Redshift {
   /// May throw [InvalidS3KeyPrefixFault].
   /// May throw [InvalidS3BucketNameFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster on which logging is to be started.
@@ -5509,6 +5936,36 @@ class Redshift {
     return EnableSnapshotCopyResult.fromXml($result);
   }
 
+  /// Fails over the primary compute unit of the specified Multi-AZ cluster to
+  /// another Availability Zone.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [UnauthorizedOperation].
+  /// May throw [InvalidClusterStateFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The unique identifier of the cluster for which the primary compute unit
+  /// will be failed over to another Availability Zone.
+  Future<FailoverPrimaryComputeResult> failoverPrimaryCompute({
+    required String clusterIdentifier,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'FailoverPrimaryCompute',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['FailoverPrimaryComputeInputMessage'],
+      shapes: shapes,
+      resultWrapper: 'FailoverPrimaryComputeResult',
+    );
+    return FailoverPrimaryComputeResult.fromXml($result);
+  }
+
   /// Returns a database user name and temporary password with temporary
   /// authorization to log on to an Amazon Redshift database. The action returns
   /// the database user name prefixed with <code>IAM:</code> if
@@ -5544,10 +6001,6 @@ class Redshift {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [UnsupportedOperationFault].
-  ///
-  /// Parameter [clusterIdentifier] :
-  /// The unique identifier of the cluster that contains the database for which
-  /// you are requesting credentials. This parameter is case sensitive.
   ///
   /// Parameter [dbUser] :
   /// The name of a database user. If a user name matching <code>DbUser</code>
@@ -5591,6 +6044,13 @@ class Redshift {
   /// Parameter [autoCreate] :
   /// Create a database user with the name specified for the user named in
   /// <code>DbUser</code> if one does not exist.
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The unique identifier of the cluster that contains the database for which
+  /// you are requesting credentials. This parameter is case sensitive.
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name for the cluster credentials.
   ///
   /// Parameter [dbGroups] :
   /// A list of the names of existing database groups that the user named in
@@ -5656,17 +6116,19 @@ class Redshift {
   ///
   /// Default: 900
   Future<ClusterCredentials> getClusterCredentials({
-    required String clusterIdentifier,
     required String dbUser,
     bool? autoCreate,
+    String? clusterIdentifier,
+    String? customDomainName,
     List<String>? dbGroups,
     String? dbName,
     int? durationSeconds,
   }) async {
     final $request = <String, dynamic>{};
-    $request['ClusterIdentifier'] = clusterIdentifier;
     $request['DbUser'] = dbUser;
     autoCreate?.also((arg) => $request['AutoCreate'] = arg);
+    clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
+    customDomainName?.also((arg) => $request['CustomDomainName'] = arg);
     dbGroups?.also((arg) => $request['DbGroups'] = arg);
     dbName?.also((arg) => $request['DbName'] = arg);
     durationSeconds?.also((arg) => $request['DurationSeconds'] = arg);
@@ -5706,6 +6168,9 @@ class Redshift {
   /// The unique identifier of the cluster that contains the database for which
   /// you are requesting credentials.
   ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name for the IAM message cluster credentials.
+  ///
   /// Parameter [dbName] :
   /// The name of the database for which you are requesting credentials. If the
   /// database name is specified, the IAM policy must allow access to the
@@ -5717,12 +6182,14 @@ class Redshift {
   ///
   /// Range: 900-3600. Default: 900.
   Future<ClusterExtendedCredentials> getClusterCredentialsWithIAM({
-    required String clusterIdentifier,
+    String? clusterIdentifier,
+    String? customDomainName,
     String? dbName,
     int? durationSeconds,
   }) async {
     final $request = <String, dynamic>{};
-    $request['ClusterIdentifier'] = clusterIdentifier;
+    clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
+    customDomainName?.also((arg) => $request['CustomDomainName'] = arg);
     dbName?.also((arg) => $request['DbName'] = arg);
     durationSeconds?.also((arg) => $request['DurationSeconds'] = arg);
     final $result = await _protocol.send(
@@ -5854,6 +6321,90 @@ class Redshift {
     return GetReservedNodeExchangeOfferingsOutputMessage.fromXml($result);
   }
 
+  /// Get the resource policy for a specified resource.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidPolicyFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource of which its resource
+  /// policy is fetched.
+  Future<GetResourcePolicyResult> getResourcePolicy({
+    required String resourceArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ResourceArn'] = resourceArn;
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetResourcePolicy',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['GetResourcePolicyMessage'],
+      shapes: shapes,
+      resultWrapper: 'GetResourcePolicyResult',
+    );
+    return GetResourcePolicyResult.fromXml($result);
+  }
+
+  /// List the Amazon Redshift Advisor recommendations for one or multiple
+  /// Amazon Redshift clusters in an Amazon Web Services account.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The unique identifier of the Amazon Redshift cluster for which the list of
+  /// Advisor recommendations is returned. If the neither the cluster identifier
+  /// and the cluster namespace ARN parameters are specified, then
+  /// recommendations for all clusters in the account are returned.
+  ///
+  /// Parameter [marker] :
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker
+  /// value in the Marker parameter and retrying the command. If the Marker
+  /// field is empty, all response records have been retrieved for the request.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified MaxRecords
+  /// value, a value is returned in a marker field of the response. You can
+  /// retrieve the next set of records by retrying the command with the returned
+  /// marker value.
+  ///
+  /// Parameter [namespaceArn] :
+  /// The Amazon Redshift cluster namespace Amazon Resource Name (ARN) for which
+  /// the list of Advisor recommendations is returned. If the neither the
+  /// cluster identifier and the cluster namespace ARN parameters are specified,
+  /// then recommendations for all clusters in the account are returned.
+  Future<ListRecommendationsResult> listRecommendations({
+    String? clusterIdentifier,
+    String? marker,
+    int? maxRecords,
+    String? namespaceArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    namespaceArn?.also((arg) => $request['NamespaceArn'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListRecommendations',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListRecommendationsMessage'],
+      shapes: shapes,
+      resultWrapper: 'ListRecommendationsResult',
+    );
+    return ListRecommendationsResult.fromXml($result);
+  }
+
   /// This operation is retired. Calling this operation does not change AQUA
   /// configuration. Amazon Redshift automatically determines whether to use
   /// AQUA (Advanced Query Accelerator).
@@ -5957,6 +6508,9 @@ class Redshift {
   /// May throw [TableLimitExceededFault].
   /// May throw [InvalidClusterTrackFault].
   /// May throw [InvalidRetentionPeriodFault].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [CustomCnameAssociationFault].
+  /// May throw [Ipv6CidrBlockNotFoundFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the cluster to be modified.
@@ -6089,6 +6643,10 @@ class Redshift {
   /// Specifies the name of the HSM configuration that contains the information
   /// the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
   ///
+  /// Parameter [ipAddressType] :
+  /// The IP address types that the cluster supports. Possible values are
+  /// <code>ipv4</code> and <code>dualstack</code>.
+  ///
   /// Parameter [kmsKeyId] :
   /// The Key Management Service (KMS) key ID of the encryption key that you
   /// want to use to encrypt data in the cluster.
@@ -6101,6 +6659,14 @@ class Redshift {
   /// switched to the latest cluster release available for the maintenance
   /// track. At this point, the maintenance track name is applied.
   ///
+  /// Parameter [manageMasterPassword] :
+  /// If <code>true</code>, Amazon Redshift uses Secrets Manager to manage this
+  /// cluster's admin credentials. You can't use <code>MasterUserPassword</code>
+  /// if <code>ManageMasterPassword</code> is true. If
+  /// <code>ManageMasterPassword</code> is false or not set, Amazon Redshift
+  /// uses <code>MasterUserPassword</code> for the admin user account's
+  /// password.
+  ///
   /// Parameter [manualSnapshotRetentionPeriod] :
   /// The default for number of days that a newly created manual snapshot is
   /// retained. If the value is -1, the manual snapshot is retained
@@ -6111,15 +6677,24 @@ class Redshift {
   ///
   /// The default value is -1.
   ///
+  /// Parameter [masterPasswordSecretKmsKeyId] :
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store
+  /// the cluster's admin credentials secret. You can only use this parameter if
+  /// <code>ManageMasterPassword</code> is true.
+  ///
   /// Parameter [masterUserPassword] :
   /// The new password for the cluster admin user. This change is asynchronously
   /// applied as soon as possible. Between the time of the request and the
   /// completion of the request, the <code>MasterUserPassword</code> element
   /// exists in the <code>PendingModifiedValues</code> element of the operation
   /// response.
+  ///
+  /// You can't use <code>MasterUserPassword</code> if
+  /// <code>ManageMasterPassword</code> is <code>true</code>.
   /// <note>
   /// Operations never return the password, so this operation provides a way to
-  /// regain access to the admin user for a cluster if the password is lost.
+  /// regain access to the admin user account for a cluster if the password is
+  /// lost.
   /// </note>
   /// Default: Uses existing setting.
   ///
@@ -6144,6 +6719,11 @@ class Redshift {
   /// <code>\</code>, <code>/</code>, or <code>@</code>.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [multiAZ] :
+  /// If true and the cluster is currently only deployed in a single
+  /// Availability Zone, the cluster will be modified to be deployed in two
+  /// Availability Zones.
   ///
   /// Parameter [newClusterIdentifier] :
   /// The new identifier for the cluster.
@@ -6197,6 +6777,21 @@ class Redshift {
   /// Parameter [port] :
   /// The option to change the port of an Amazon Redshift cluster.
   ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// For clusters with ra3 nodes - Select a port within the ranges
+  /// <code>5431-5455</code> or <code>8191-8215</code>. (If you have an existing
+  /// cluster with ra3 nodes, it isn't required that you change the port to
+  /// these ranges.)
+  /// </li>
+  /// <li>
+  /// For clusters with ds2 or dc2 nodes - Select a port within the range
+  /// <code>1150-65535</code>.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The weekly time range (in UTC) during which system maintenance can occur,
   /// if necessary. If system maintenance is necessary during the window, it may
@@ -6239,10 +6834,14 @@ class Redshift {
     bool? enhancedVpcRouting,
     String? hsmClientCertificateIdentifier,
     String? hsmConfigurationIdentifier,
+    String? ipAddressType,
     String? kmsKeyId,
     String? maintenanceTrackName,
+    bool? manageMasterPassword,
     int? manualSnapshotRetentionPeriod,
+    String? masterPasswordSecretKmsKeyId,
     String? masterUserPassword,
+    bool? multiAZ,
     String? newClusterIdentifier,
     String? nodeType,
     int? numberOfNodes,
@@ -6272,11 +6871,16 @@ class Redshift {
         ?.also((arg) => $request['HsmClientCertificateIdentifier'] = arg);
     hsmConfigurationIdentifier
         ?.also((arg) => $request['HsmConfigurationIdentifier'] = arg);
+    ipAddressType?.also((arg) => $request['IpAddressType'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     maintenanceTrackName?.also((arg) => $request['MaintenanceTrackName'] = arg);
+    manageMasterPassword?.also((arg) => $request['ManageMasterPassword'] = arg);
     manualSnapshotRetentionPeriod
         ?.also((arg) => $request['ManualSnapshotRetentionPeriod'] = arg);
+    masterPasswordSecretKmsKeyId
+        ?.also((arg) => $request['MasterPasswordSecretKmsKeyId'] = arg);
     masterUserPassword?.also((arg) => $request['MasterUserPassword'] = arg);
+    multiAZ?.also((arg) => $request['MultiAZ'] = arg);
     newClusterIdentifier?.also((arg) => $request['NewClusterIdentifier'] = arg);
     nodeType?.also((arg) => $request['NodeType'] = arg);
     numberOfNodes?.also((arg) => $request['NumberOfNodes'] = arg);
@@ -6305,6 +6909,7 @@ class Redshift {
   /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterOnLatestRevisionFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of a cluster whose database revision you want to
@@ -6618,6 +7223,45 @@ class Redshift {
     return ModifyClusterSubnetGroupResult.fromXml($result);
   }
 
+  /// Contains information for changing a custom domain association.
+  ///
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [CustomCnameAssociationFault].
+  /// May throw [CustomDomainAssociationNotFoundFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster to change a custom domain association for.
+  ///
+  /// Parameter [customDomainCertificateArn] :
+  /// The certificate Amazon Resource Name (ARN) for the changed custom domain
+  /// association.
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name for a changed custom domain association.
+  Future<ModifyCustomDomainAssociationResult> modifyCustomDomainAssociation({
+    required String clusterIdentifier,
+    required String customDomainCertificateArn,
+    required String customDomainName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    $request['CustomDomainCertificateArn'] = customDomainCertificateArn;
+    $request['CustomDomainName'] = customDomainName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyCustomDomainAssociation',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyCustomDomainAssociationMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyCustomDomainAssociationResult',
+    );
+    return ModifyCustomDomainAssociationResult.fromXml($result);
+  }
+
   /// Modifies a Redshift-managed VPC endpoint.
   ///
   /// May throw [InvalidClusterSecurityGroupStateFault].
@@ -6740,13 +7384,76 @@ class Redshift {
     return ModifyEventSubscriptionResult.fromXml($result);
   }
 
+  /// Changes an existing Amazon Redshift IAM Identity Center application.
+  ///
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [DependentServiceAccessDeniedFault].
+  ///
+  /// Parameter [redshiftIdcApplicationArn] :
+  /// The ARN for the Redshift application that integrates with IAM Identity
+  /// Center.
+  ///
+  /// Parameter [authorizedTokenIssuerList] :
+  /// The authorized token issuer list for the Amazon Redshift IAM Identity
+  /// Center application to change.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The IAM role ARN associated with the Amazon Redshift IAM Identity Center
+  /// application to change. It has the required permissions to be assumed and
+  /// invoke the IDC Identity Center API.
+  ///
+  /// Parameter [idcDisplayName] :
+  /// The display name for the Amazon Redshift IAM Identity Center application
+  /// to change. It appears on the console.
+  ///
+  /// Parameter [identityNamespace] :
+  /// The namespace for the Amazon Redshift IAM Identity Center application to
+  /// change. It determines which managed application verifies the connection
+  /// token.
+  ///
+  /// Parameter [serviceIntegrations] :
+  /// A collection of service integrations associated with the application.
+  Future<ModifyRedshiftIdcApplicationResult> modifyRedshiftIdcApplication({
+    required String redshiftIdcApplicationArn,
+    List<AuthorizedTokenIssuer>? authorizedTokenIssuerList,
+    String? iamRoleArn,
+    String? idcDisplayName,
+    String? identityNamespace,
+    List<ServiceIntegrationsUnion>? serviceIntegrations,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['RedshiftIdcApplicationArn'] = redshiftIdcApplicationArn;
+    authorizedTokenIssuerList
+        ?.also((arg) => $request['AuthorizedTokenIssuerList'] = arg);
+    iamRoleArn?.also((arg) => $request['IamRoleArn'] = arg);
+    idcDisplayName?.also((arg) => $request['IdcDisplayName'] = arg);
+    identityNamespace?.also((arg) => $request['IdentityNamespace'] = arg);
+    serviceIntegrations?.also((arg) => $request['ServiceIntegrations'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyRedshiftIdcApplication',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyRedshiftIdcApplicationMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyRedshiftIdcApplicationResult',
+    );
+    return ModifyRedshiftIdcApplicationResult.fromXml($result);
+  }
+
   /// Modifies a scheduled action.
   ///
+  /// May throw [ClusterNotFoundFault].
   /// May throw [ScheduledActionNotFoundFault].
   /// May throw [ScheduledActionTypeUnsupportedFault].
   /// May throw [InvalidScheduleFault].
   /// May throw [InvalidScheduledActionFault].
   /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [scheduledActionName] :
   /// The name of the scheduled action to modify.
@@ -6966,6 +7673,7 @@ class Redshift {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to be paused.
@@ -7030,6 +7738,40 @@ class Redshift {
       resultWrapper: 'PurchaseReservedNodeOfferingResult',
     );
     return PurchaseReservedNodeOfferingResult.fromXml($result);
+  }
+
+  /// Updates the resource policy for a specified resource.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidPolicyFault].
+  /// May throw [ConflictPolicyUpdateFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [policy] :
+  /// The content of the resource policy being updated.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource of which its resource
+  /// policy is updated.
+  Future<PutResourcePolicyResult> putResourcePolicy({
+    required String policy,
+    required String resourceArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['Policy'] = policy;
+    $request['ResourceArn'] = resourceArn;
+    final $result = await _protocol.send(
+      $request,
+      action: 'PutResourcePolicy',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['PutResourcePolicyMessage'],
+      shapes: shapes,
+      resultWrapper: 'PutResourcePolicyResult',
+    );
+    return PutResourcePolicyResult.fromXml($result);
   }
 
   /// Reboots a cluster. This action is taken as soon as possible. It results in
@@ -7304,6 +8046,7 @@ class Redshift {
   /// May throw [DependentServiceUnavailableFault].
   /// May throw [ReservedNodeAlreadyExistsFault].
   /// May throw [UnsupportedOperationFault].
+  /// May throw [Ipv6CidrBlockNotFoundFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster that will be created from restoring the
@@ -7447,6 +8190,10 @@ class Redshift {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Quotas
   /// and limits</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
+  /// Parameter [ipAddressType] :
+  /// The IP address type for the cluster. Possible values are <code>ipv4</code>
+  /// and <code>dualstack</code>.
+  ///
   /// Parameter [kmsKeyId] :
   /// The Key Management Service (KMS) key ID of the encryption key that
   /// encrypts data in the cluster restored from a shared snapshot. You can also
@@ -7465,12 +8212,27 @@ class Redshift {
   /// change the cluster to be on the trailing track. In this case, the snapshot
   /// and the source cluster are on different tracks.
   ///
+  /// Parameter [manageMasterPassword] :
+  /// If <code>true</code>, Amazon Redshift uses Secrets Manager to manage the
+  /// restored cluster's admin credentials. If <code>ManageMasterPassword</code>
+  /// is false or not set, Amazon Redshift uses the admin credentials the
+  /// cluster had at the time the snapshot was taken.
+  ///
   /// Parameter [manualSnapshotRetentionPeriod] :
   /// The default number of days to retain a manual snapshot. If the value is
   /// -1, the snapshot is retained indefinitely. This setting doesn't change the
   /// retention period of existing snapshots.
   ///
   /// The value must be either -1 or an integer between 1 and 3,653.
+  ///
+  /// Parameter [masterPasswordSecretKmsKeyId] :
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store
+  /// the cluster's admin credentials secret. You can only use this parameter if
+  /// <code>ManageMasterPassword</code> is true.
+  ///
+  /// Parameter [multiAZ] :
+  /// If true, the snapshot will be restored to a cluster deployed in two
+  /// Availability Zones.
   ///
   /// Parameter [nodeType] :
   /// The node type that the restored cluster will be provisioned with.
@@ -7502,7 +8264,10 @@ class Redshift {
   ///
   /// Default: The same port as the original cluster.
   ///
-  /// Constraints: Must be between <code>1115</code> and <code>65535</code>.
+  /// Valid values: For clusters with ds2 or dc2 nodes, must be within the range
+  /// <code>1150</code>-<code>65535</code>. For clusters with ra3 nodes, must be
+  /// within the ranges <code>5431</code>-<code>5455</code> or
+  /// <code>8191</code>-<code>8215</code>.
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The weekly time range (in UTC) during which automated cluster maintenance
@@ -7532,9 +8297,9 @@ class Redshift {
   ///
   /// Parameter [snapshotClusterIdentifier] :
   /// The name of the cluster the source snapshot was created from. This
-  /// parameter is required if your IAM user or role has a policy containing a
-  /// snapshot resource element that specifies anything other than * for the
-  /// cluster name.
+  /// parameter is required if your IAM user has a policy containing a snapshot
+  /// resource element that specifies anything other than * for the cluster
+  /// name.
   ///
   /// Parameter [snapshotIdentifier] :
   /// The name of the snapshot from which to create the new cluster. This
@@ -7574,9 +8339,13 @@ class Redshift {
     String? hsmClientCertificateIdentifier,
     String? hsmConfigurationIdentifier,
     List<String>? iamRoles,
+    String? ipAddressType,
     String? kmsKeyId,
     String? maintenanceTrackName,
+    bool? manageMasterPassword,
     int? manualSnapshotRetentionPeriod,
+    String? masterPasswordSecretKmsKeyId,
+    bool? multiAZ,
     String? nodeType,
     int? numberOfNodes,
     String? ownerAccount,
@@ -7617,10 +8386,15 @@ class Redshift {
     hsmConfigurationIdentifier
         ?.also((arg) => $request['HsmConfigurationIdentifier'] = arg);
     iamRoles?.also((arg) => $request['IamRoles'] = arg);
+    ipAddressType?.also((arg) => $request['IpAddressType'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     maintenanceTrackName?.also((arg) => $request['MaintenanceTrackName'] = arg);
+    manageMasterPassword?.also((arg) => $request['ManageMasterPassword'] = arg);
     manualSnapshotRetentionPeriod
         ?.also((arg) => $request['ManualSnapshotRetentionPeriod'] = arg);
+    masterPasswordSecretKmsKeyId
+        ?.also((arg) => $request['MasterPasswordSecretKmsKeyId'] = arg);
+    multiAZ?.also((arg) => $request['MultiAZ'] = arg);
     nodeType?.also((arg) => $request['NodeType'] = arg);
     numberOfNodes?.also((arg) => $request['NumberOfNodes'] = arg);
     ownerAccount?.also((arg) => $request['OwnerAccount'] = arg);
@@ -7753,6 +8527,7 @@ class Redshift {
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
   /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to be resumed.
@@ -7911,9 +8686,9 @@ class Redshift {
   ///
   /// Parameter [snapshotClusterIdentifier] :
   /// The identifier of the cluster the snapshot was created from. This
-  /// parameter is required if your IAM user or role has a policy containing a
-  /// snapshot resource element that specifies anything other than * for the
-  /// cluster name.
+  /// parameter is required if your IAM user has a policy containing a snapshot
+  /// resource element that specifies anything other than * for the cluster
+  /// name.
   ///
   /// Parameter [snapshotIdentifier] :
   /// The identifier of the snapshot that the account can no longer access.
@@ -7948,6 +8723,7 @@ class Redshift {
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
   /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the cluster that you want to rotate the
@@ -7979,6 +8755,7 @@ class Redshift {
   /// May throw [PartnerNotFoundFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [UnauthorizedPartnerIntegrationFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID that owns the cluster.
@@ -8234,6 +9011,40 @@ extension AquaStatusFromString on String {
   }
 }
 
+/// Contains information about the custom domain name association.
+class Association {
+  /// A list of all associated clusters and domain names tied to a specific
+  /// certificate.
+  final List<CertificateAssociation>? certificateAssociations;
+
+  /// The Amazon Resource Name (ARN) for the certificate associated with the
+  /// custom domain.
+  final String? customDomainCertificateArn;
+
+  /// The expiration date for the certificate.
+  final DateTime? customDomainCertificateExpiryDate;
+
+  Association({
+    this.certificateAssociations,
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryDate,
+  });
+  factory Association.fromXml(_s.XmlElement elem) {
+    return Association(
+      certificateAssociations: _s
+          .extractXmlChild(elem, 'CertificateAssociations')
+          ?.let((elem) => elem
+              .findElements('CertificateAssociation')
+              .map(CertificateAssociation.fromXml)
+              .toList()),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainCertificateExpiryDate:
+          _s.extractXmlDateTimeValue(elem, 'CustomDomainCertificateExpiryDate'),
+    );
+  }
+}
+
 /// Describes an attribute value.
 class AttributeValueTarget {
   /// The value of the attribute.
@@ -8329,6 +9140,43 @@ class AuthorizeSnapshotAccessResult {
   }
 }
 
+/// The authorized token issuer for the Amazon Redshift IAM Identity Center
+/// application.
+class AuthorizedTokenIssuer {
+  /// The list of audiences for the authorized token issuer for integrating Amazon
+  /// Redshift with IDC Identity Center.
+  final List<String>? authorizedAudiencesList;
+
+  /// The ARN for the authorized token issuer for integrating Amazon Redshift with
+  /// IDC Identity Center.
+  final String? trustedTokenIssuerArn;
+
+  AuthorizedTokenIssuer({
+    this.authorizedAudiencesList,
+    this.trustedTokenIssuerArn,
+  });
+  factory AuthorizedTokenIssuer.fromXml(_s.XmlElement elem) {
+    return AuthorizedTokenIssuer(
+      authorizedAudiencesList: _s
+          .extractXmlChild(elem, 'AuthorizedAudiencesList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      trustedTokenIssuerArn:
+          _s.extractXmlStringValue(elem, 'TrustedTokenIssuerArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedAudiencesList = this.authorizedAudiencesList;
+    final trustedTokenIssuerArn = this.trustedTokenIssuerArn;
+    return {
+      if (authorizedAudiencesList != null)
+        'AuthorizedAudiencesList': authorizedAudiencesList,
+      if (trustedTokenIssuerArn != null)
+        'TrustedTokenIssuerArn': trustedTokenIssuerArn,
+    };
+  }
+}
+
 /// Describes an availability zone.
 class AvailabilityZone {
   /// The name of the availability zone.
@@ -8397,6 +9245,27 @@ class BatchModifyClusterSnapshotsOutputMessage {
       resources: _s
           .extractXmlChild(elem, 'Resources')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'String')),
+    );
+  }
+}
+
+/// A cluster ID and custom domain name tied to a specific certificate. These
+/// are typically returned in a list.
+class CertificateAssociation {
+  /// The cluster identifier for the certificate association.
+  final String? clusterIdentifier;
+
+  /// The custom domain name for the certificate association.
+  final String? customDomainName;
+
+  CertificateAssociation({
+    this.clusterIdentifier,
+    this.customDomainName,
+  });
+  factory CertificateAssociation.fromXml(_s.XmlElement elem) {
+    return CertificateAssociation(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
     );
   }
 }
@@ -8555,6 +9424,16 @@ class Cluster {
   /// The version ID of the Amazon Redshift engine that is running on the cluster.
   final String? clusterVersion;
 
+  /// The certificate Amazon Resource Name (ARN) for the custom domain name.
+  final String? customDomainCertificateArn;
+
+  /// The expiration date for the certificate associated with the custom domain
+  /// name.
+  final DateTime? customDomainCertificateExpiryDate;
+
+  /// The custom domain name associated with the cluster.
+  final String? customDomainName;
+
   /// The name of the initial database that was created when the cluster was
   /// created. This same name is returned for the life of the cluster. If an
   /// initial database was not specified, a database named <code>dev</code>dev was
@@ -8624,6 +9503,10 @@ class Cluster {
   /// cluster to access other Amazon Web Services services.
   final List<ClusterIamRole>? iamRoles;
 
+  /// The IP address type for the cluster. Possible values are <code>ipv4</code>
+  /// and <code>dualstack</code>.
+  final String? ipAddressType;
+
   /// The Key Management Service (KMS) key ID of the encryption key used to
   /// encrypt data in the cluster.
   final String? kmsKeyId;
@@ -8638,12 +9521,28 @@ class Cluster {
   /// The value must be either -1 or an integer between 1 and 3,653.
   final int? manualSnapshotRetentionPeriod;
 
+  /// The Amazon Resource Name (ARN) for the cluster's admin user credentials
+  /// secret.
+  final String? masterPasswordSecretArn;
+
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store the
+  /// cluster's admin credentials secret.
+  final String? masterPasswordSecretKmsKeyId;
+
   /// The admin user name for the cluster. This name is used to connect to the
   /// database that is specified in the <b>DBName</b> parameter.
   final String? masterUsername;
 
   /// The status of a modify operation, if any, initiated for the cluster.
   final String? modifyStatus;
+
+  /// A boolean value that, if true, indicates that the cluster is deployed in two
+  /// Availability Zones.
+  final String? multiAZ;
+
+  /// The secondary compute unit of a cluster, if Multi-AZ deployment is turned
+  /// on.
+  final SecondaryClusterInfo? multiAZSecondary;
 
   /// The date and time in UTC when system maintenance can begin.
   final DateTime? nextMaintenanceWindowStartTime;
@@ -8730,6 +9629,9 @@ class Cluster {
     this.clusterStatus,
     this.clusterSubnetGroupName,
     this.clusterVersion,
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryDate,
+    this.customDomainName,
     this.dBName,
     this.dataTransferProgress,
     this.defaultIamRoleArn,
@@ -8743,11 +9645,16 @@ class Cluster {
     this.expectedNextSnapshotScheduleTimeStatus,
     this.hsmStatus,
     this.iamRoles,
+    this.ipAddressType,
     this.kmsKeyId,
     this.maintenanceTrackName,
     this.manualSnapshotRetentionPeriod,
+    this.masterPasswordSecretArn,
+    this.masterPasswordSecretKmsKeyId,
     this.masterUsername,
     this.modifyStatus,
+    this.multiAZ,
+    this.multiAZSecondary,
     this.nextMaintenanceWindowStartTime,
     this.nodeType,
     this.numberOfNodes,
@@ -8806,6 +9713,11 @@ class Cluster {
       clusterSubnetGroupName:
           _s.extractXmlStringValue(elem, 'ClusterSubnetGroupName'),
       clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainCertificateExpiryDate:
+          _s.extractXmlDateTimeValue(elem, 'CustomDomainCertificateExpiryDate'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
       dBName: _s.extractXmlStringValue(elem, 'DBName'),
       dataTransferProgress: _s
           .extractXmlChild(elem, 'DataTransferProgress')
@@ -8834,13 +9746,22 @@ class Cluster {
           .findElements('ClusterIamRole')
           .map(ClusterIamRole.fromXml)
           .toList()),
+      ipAddressType: _s.extractXmlStringValue(elem, 'IpAddressType'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       maintenanceTrackName:
           _s.extractXmlStringValue(elem, 'MaintenanceTrackName'),
       manualSnapshotRetentionPeriod:
           _s.extractXmlIntValue(elem, 'ManualSnapshotRetentionPeriod'),
+      masterPasswordSecretArn:
+          _s.extractXmlStringValue(elem, 'MasterPasswordSecretArn'),
+      masterPasswordSecretKmsKeyId:
+          _s.extractXmlStringValue(elem, 'MasterPasswordSecretKmsKeyId'),
       masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
       modifyStatus: _s.extractXmlStringValue(elem, 'ModifyStatus'),
+      multiAZ: _s.extractXmlStringValue(elem, 'MultiAZ'),
+      multiAZSecondary: _s
+          .extractXmlChild(elem, 'MultiAZSecondary')
+          ?.let(SecondaryClusterInfo.fromXml),
       nextMaintenanceWindowStartTime:
           _s.extractXmlDateTimeValue(elem, 'NextMaintenanceWindowStartTime'),
       nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
@@ -9456,6 +10377,10 @@ class ClusterSubnetGroup {
   /// A list of the VPC <a>Subnet</a> elements.
   final List<Subnet>? subnets;
 
+  /// The IP address types supported by this cluster subnet group. Possible values
+  /// are <code>ipv4</code> and <code>dualstack</code>.
+  final List<String>? supportedClusterIpAddressTypes;
+
   /// The list of tags for the cluster subnet group.
   final List<Tag>? tags;
 
@@ -9467,6 +10392,7 @@ class ClusterSubnetGroup {
     this.description,
     this.subnetGroupStatus,
     this.subnets,
+    this.supportedClusterIpAddressTypes,
     this.tags,
     this.vpcId,
   });
@@ -9478,6 +10404,9 @@ class ClusterSubnetGroup {
       subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
       subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
           (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
+      supportedClusterIpAddressTypes: _s
+          .extractXmlChild(elem, 'SupportedClusterIpAddressTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'item')),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -9703,6 +10632,38 @@ class CreateClusterSubnetGroupResult {
   }
 }
 
+class CreateCustomDomainAssociationResult {
+  /// The identifier of the cluster that the custom domain is associated with.
+  final String? clusterIdentifier;
+
+  /// The expiration time for the certificate for the custom domain.
+  final String? customDomainCertExpiryTime;
+
+  /// The Amazon Resource Name (ARN) for the certificate associated with the
+  /// custom domain name.
+  final String? customDomainCertificateArn;
+
+  /// The custom domain name for the association result.
+  final String? customDomainName;
+
+  CreateCustomDomainAssociationResult({
+    this.clusterIdentifier,
+    this.customDomainCertExpiryTime,
+    this.customDomainCertificateArn,
+    this.customDomainName,
+  });
+  factory CreateCustomDomainAssociationResult.fromXml(_s.XmlElement elem) {
+    return CreateCustomDomainAssociationResult(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      customDomainCertExpiryTime:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertExpiryTime'),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
+    );
+  }
+}
+
 class CreateEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -9748,6 +10709,21 @@ class CreateHsmConfigurationResult {
   }
 }
 
+class CreateRedshiftIdcApplicationResult {
+  final RedshiftIdcApplication? redshiftIdcApplication;
+
+  CreateRedshiftIdcApplicationResult({
+    this.redshiftIdcApplication,
+  });
+  factory CreateRedshiftIdcApplicationResult.fromXml(_s.XmlElement elem) {
+    return CreateRedshiftIdcApplicationResult(
+      redshiftIdcApplication: _s
+          .extractXmlChild(elem, 'RedshiftIdcApplication')
+          ?.let(RedshiftIdcApplication.fromXml),
+    );
+  }
+}
+
 class CreateSnapshotCopyGrantResult {
   final SnapshotCopyGrant? snapshotCopyGrant;
 
@@ -9759,6 +10735,26 @@ class CreateSnapshotCopyGrantResult {
       snapshotCopyGrant: _s
           .extractXmlChild(elem, 'SnapshotCopyGrant')
           ?.let(SnapshotCopyGrant.fromXml),
+    );
+  }
+}
+
+class CustomDomainAssociationsMessage {
+  /// The associations for the custom domain.
+  final List<Association>? associations;
+
+  /// The marker for the custom domain association.
+  final String? marker;
+
+  CustomDomainAssociationsMessage({
+    this.associations,
+    this.marker,
+  });
+  factory CustomDomainAssociationsMessage.fromXml(_s.XmlElement elem) {
+    return CustomDomainAssociationsMessage(
+      associations: _s.extractXmlChild(elem, 'Associations')?.let((elem) =>
+          elem.findElements('Association').map(Association.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
 }
@@ -9789,10 +10785,7 @@ class DataShare {
   /// accessible cluster.
   final bool? allowPubliclyAccessibleConsumers;
 
-  /// An Amazon Resource Name (ARN) that references the datashare that is owned by
-  /// a specific namespace of the producer cluster. A datashare ARN is in the
-  /// <code>arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name}</code>
-  /// format.
+  /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
   final String? dataShareArn;
 
   /// A value that specifies when the datashare has an association between
@@ -9802,7 +10795,7 @@ class DataShare {
   /// The identifier of a datashare to show its managing entity.
   final String? managedBy;
 
-  /// The Amazon Resource Name (ARN) of the producer.
+  /// The Amazon Resource Name (ARN) of the producer namespace.
   final String? producerArn;
 
   DataShare({
@@ -9831,6 +10824,10 @@ class DataShare {
 
 /// The association of a datashare from a producer account with a data consumer.
 class DataShareAssociation {
+  /// Specifies whether write operations were allowed during data share
+  /// association.
+  final bool? consumerAcceptedWrites;
+
   /// The name of the consumer accounts that have an association with a producer
   /// datashare.
   final String? consumerIdentifier;
@@ -9842,6 +10839,10 @@ class DataShareAssociation {
   /// The creation date of the datashare that is associated.
   final DateTime? createdDate;
 
+  /// Specifies whether write operations were allowed during data share
+  /// authorization.
+  final bool? producerAllowedWrites;
+
   /// The status of the datashare that is associated.
   final DataShareStatus? status;
 
@@ -9849,17 +10850,23 @@ class DataShareAssociation {
   final DateTime? statusChangeDate;
 
   DataShareAssociation({
+    this.consumerAcceptedWrites,
     this.consumerIdentifier,
     this.consumerRegion,
     this.createdDate,
+    this.producerAllowedWrites,
     this.status,
     this.statusChangeDate,
   });
   factory DataShareAssociation.fromXml(_s.XmlElement elem) {
     return DataShareAssociation(
+      consumerAcceptedWrites:
+          _s.extractXmlBoolValue(elem, 'ConsumerAcceptedWrites'),
       consumerIdentifier: _s.extractXmlStringValue(elem, 'ConsumerIdentifier'),
       consumerRegion: _s.extractXmlStringValue(elem, 'ConsumerRegion'),
       createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
+      producerAllowedWrites:
+          _s.extractXmlBoolValue(elem, 'ProducerAllowedWrites'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toDataShareStatus(),
       statusChangeDate: _s.extractXmlDateTimeValue(elem, 'StatusChangeDate'),
     );
@@ -10132,9 +11139,8 @@ class DeleteClusterSnapshotMessage {
   final String snapshotIdentifier;
 
   /// The unique identifier of the cluster the snapshot was created from. This
-  /// parameter is required if your IAM user or role has a policy containing a
-  /// snapshot resource element that specifies anything other than * for the
-  /// cluster name.
+  /// parameter is required if your IAM user has a policy containing a snapshot
+  /// resource element that specifies anything other than * for the cluster name.
   ///
   /// Constraints: Must be the name of valid cluster.
   final String? snapshotClusterIdentifier;
@@ -10291,6 +11297,34 @@ class DescribePartnersOutputMessage {
           ?.let((elem) => elem
               .findElements('PartnerIntegrationInfo')
               .map(PartnerIntegrationInfo.fromXml)
+              .toList()),
+    );
+  }
+}
+
+class DescribeRedshiftIdcApplicationsResult {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the Marker parameter and retrying the command. If the Marker field is
+  /// empty, all response records have been retrieved for the request.
+  final String? marker;
+
+  /// The list of Amazon Redshift IAM Identity Center applications.
+  final List<RedshiftIdcApplication>? redshiftIdcApplications;
+
+  DescribeRedshiftIdcApplicationsResult({
+    this.marker,
+    this.redshiftIdcApplications,
+  });
+  factory DescribeRedshiftIdcApplicationsResult.fromXml(_s.XmlElement elem) {
+    return DescribeRedshiftIdcApplicationsResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      redshiftIdcApplications: _s
+          .extractXmlChild(elem, 'RedshiftIdcApplications')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(RedshiftIdcApplication.fromXml)
               .toList()),
     );
   }
@@ -10913,6 +11947,19 @@ class EventsMessage {
   }
 }
 
+class FailoverPrimaryComputeResult {
+  final Cluster? cluster;
+
+  FailoverPrimaryComputeResult({
+    this.cluster,
+  });
+  factory FailoverPrimaryComputeResult.fromXml(_s.XmlElement elem) {
+    return FailoverPrimaryComputeResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+}
+
 class GetReservedNodeExchangeConfigurationOptionsOutputMessage {
   /// A pagination token provided by a previous
   /// <code>GetReservedNodeExchangeConfigurationOptions</code> request.
@@ -10970,6 +12017,22 @@ class GetReservedNodeExchangeOfferingsOutputMessage {
               .findElements('ReservedNodeOffering')
               .map(ReservedNodeOffering.fromXml)
               .toList()),
+    );
+  }
+}
+
+class GetResourcePolicyResult {
+  /// The content of the resource policy.
+  final ResourcePolicy? resourcePolicy;
+
+  GetResourcePolicyResult({
+    this.resourcePolicy,
+  });
+  factory GetResourcePolicyResult.fromXml(_s.XmlElement elem) {
+    return GetResourcePolicyResult(
+      resourcePolicy: _s
+          .extractXmlChild(elem, 'ResourcePolicy')
+          ?.let(ResourcePolicy.fromXml),
     );
   }
 }
@@ -11163,6 +12226,208 @@ class IPRange {
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+}
+
+enum ImpactRankingType {
+  high,
+  medium,
+  low,
+}
+
+extension ImpactRankingTypeValueExtension on ImpactRankingType {
+  String toValue() {
+    switch (this) {
+      case ImpactRankingType.high:
+        return 'HIGH';
+      case ImpactRankingType.medium:
+        return 'MEDIUM';
+      case ImpactRankingType.low:
+        return 'LOW';
+    }
+  }
+}
+
+extension ImpactRankingTypeFromString on String {
+  ImpactRankingType toImpactRankingType() {
+    switch (this) {
+      case 'HIGH':
+        return ImpactRankingType.high;
+      case 'MEDIUM':
+        return ImpactRankingType.medium;
+      case 'LOW':
+        return ImpactRankingType.low;
+    }
+    throw Exception('$this is not known in enum ImpactRankingType');
+  }
+}
+
+/// The content of an inbound integration.
+class InboundIntegration {
+  /// The creation time of an inbound integration.
+  final DateTime? createTime;
+
+  /// The outstanding errors of an inbound integration. Each item is an
+  /// "IntegrationError". This is null if there is no error.
+  final List<IntegrationError>? errors;
+
+  /// The Amazon Resource Name (ARN) of an inbound integration.
+  final String? integrationArn;
+
+  /// The Amazon Resource Name (ARN) of the source of an inbound integration.
+  final String? sourceArn;
+
+  /// The status of an inbound integration.
+  final ZeroETLIntegrationStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the target of an inbound integration.
+  final String? targetArn;
+
+  InboundIntegration({
+    this.createTime,
+    this.errors,
+    this.integrationArn,
+    this.sourceArn,
+    this.status,
+    this.targetArn,
+  });
+  factory InboundIntegration.fromXml(_s.XmlElement elem) {
+    return InboundIntegration(
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
+      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
+          .findElements('IntegrationError')
+          .map(IntegrationError.fromXml)
+          .toList()),
+      integrationArn: _s.extractXmlStringValue(elem, 'IntegrationArn'),
+      sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.toZeroETLIntegrationStatus(),
+      targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
+    );
+  }
+}
+
+class InboundIntegrationsMessage {
+  /// A list of <a>InboundIntegration</a> instances.
+  final List<InboundIntegration>? inboundIntegrations;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  InboundIntegrationsMessage({
+    this.inboundIntegrations,
+    this.marker,
+  });
+  factory InboundIntegrationsMessage.fromXml(_s.XmlElement elem) {
+    return InboundIntegrationsMessage(
+      inboundIntegrations: _s.extractXmlChild(elem, 'InboundIntegrations')?.let(
+          (elem) => elem
+              .findElements('InboundIntegration')
+              .map(InboundIntegration.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+}
+
+/// The error of an inbound integration.
+class IntegrationError {
+  /// The error code of an inbound integration error.
+  final String errorCode;
+
+  /// The error message of an inbound integration error.
+  final String? errorMessage;
+
+  IntegrationError({
+    required this.errorCode,
+    this.errorMessage,
+  });
+  factory IntegrationError.fromXml(_s.XmlElement elem) {
+    return IntegrationError(
+      errorCode: _s.extractXmlStringValue(elem, 'ErrorCode')!,
+      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
+    );
+  }
+}
+
+/// The Lake Formation scope.
+class LakeFormationQuery {
+  /// Determines whether the query scope is enabled or disabled.
+  final ServiceAuthorization authorization;
+
+  LakeFormationQuery({
+    required this.authorization,
+  });
+  factory LakeFormationQuery.fromXml(_s.XmlElement elem) {
+    return LakeFormationQuery(
+      authorization: _s
+          .extractXmlStringValue(elem, 'Authorization')!
+          .toServiceAuthorization(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorization = this.authorization;
+    return {
+      'Authorization': authorization.toValue(),
+    };
+  }
+}
+
+/// A list of scopes set up for Lake Formation integration.
+class LakeFormationScopeUnion {
+  /// The Lake Formation scope.
+  final LakeFormationQuery? lakeFormationQuery;
+
+  LakeFormationScopeUnion({
+    this.lakeFormationQuery,
+  });
+  factory LakeFormationScopeUnion.fromXml(_s.XmlElement elem) {
+    return LakeFormationScopeUnion(
+      lakeFormationQuery: _s
+          .extractXmlChild(elem, 'LakeFormationQuery')
+          ?.let(LakeFormationQuery.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lakeFormationQuery = this.lakeFormationQuery;
+    return {
+      if (lakeFormationQuery != null) 'LakeFormationQuery': lakeFormationQuery,
+    };
+  }
+}
+
+class ListRecommendationsResult {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the Marker parameter and retrying the command. If the Marker field is
+  /// empty, all response records have been retrieved for the request.
+  final String? marker;
+
+  /// The Advisor recommendations for action on the Amazon Redshift cluster.
+  final List<Recommendation>? recommendations;
+
+  ListRecommendationsResult({
+    this.marker,
+    this.recommendations,
+  });
+  factory ListRecommendationsResult.fromXml(_s.XmlElement elem) {
+    return ListRecommendationsResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      recommendations: _s.extractXmlChild(elem, 'Recommendations')?.let(
+          (elem) => elem
+              .findElements('Recommendation')
+              .map(Recommendation.fromXml)
+              .toList()),
     );
   }
 }
@@ -11433,6 +12698,41 @@ class ModifyClusterSubnetGroupResult {
   }
 }
 
+class ModifyCustomDomainAssociationResult {
+  /// The identifier of the cluster associated with the result for the changed
+  /// custom domain association.
+  final String? clusterIdentifier;
+
+  /// The certificate expiration time associated with the result for the changed
+  /// custom domain association.
+  final String? customDomainCertExpiryTime;
+
+  /// The certificate Amazon Resource Name (ARN) associated with the result for
+  /// the changed custom domain association.
+  final String? customDomainCertificateArn;
+
+  /// The custom domain name associated with the result for the changed custom
+  /// domain association.
+  final String? customDomainName;
+
+  ModifyCustomDomainAssociationResult({
+    this.clusterIdentifier,
+    this.customDomainCertExpiryTime,
+    this.customDomainCertificateArn,
+    this.customDomainName,
+  });
+  factory ModifyCustomDomainAssociationResult.fromXml(_s.XmlElement elem) {
+    return ModifyCustomDomainAssociationResult(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      customDomainCertExpiryTime:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertExpiryTime'),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
+    );
+  }
+}
+
 class ModifyEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -11444,6 +12744,21 @@ class ModifyEventSubscriptionResult {
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
           ?.let(EventSubscription.fromXml),
+    );
+  }
+}
+
+class ModifyRedshiftIdcApplicationResult {
+  final RedshiftIdcApplication? redshiftIdcApplication;
+
+  ModifyRedshiftIdcApplicationResult({
+    this.redshiftIdcApplication,
+  });
+  factory ModifyRedshiftIdcApplicationResult.fromXml(_s.XmlElement elem) {
+    return ModifyRedshiftIdcApplicationResult(
+      redshiftIdcApplication: _s
+          .extractXmlChild(elem, 'RedshiftIdcApplication')
+          ?.let(RedshiftIdcApplication.fromXml),
     );
   }
 }
@@ -11466,6 +12781,9 @@ class NetworkInterface {
   /// The Availability Zone.
   final String? availabilityZone;
 
+  /// The IPv6 address of the network interface within the subnet.
+  final String? ipv6Address;
+
   /// The network interface identifier.
   final String? networkInterfaceId;
 
@@ -11477,6 +12795,7 @@ class NetworkInterface {
 
   NetworkInterface({
     this.availabilityZone,
+    this.ipv6Address,
     this.networkInterfaceId,
     this.privateIpAddress,
     this.subnetId,
@@ -11484,6 +12803,7 @@ class NetworkInterface {
   factory NetworkInterface.fromXml(_s.XmlElement elem) {
     return NetworkInterface(
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      ipv6Address: _s.extractXmlStringValue(elem, 'Ipv6Address'),
       networkInterfaceId: _s.extractXmlStringValue(elem, 'NetworkInterfaceId'),
       privateIpAddress: _s.extractXmlStringValue(elem, 'PrivateIpAddress'),
       subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
@@ -12093,6 +13413,22 @@ class PurchaseReservedNodeOfferingResult {
   }
 }
 
+class PutResourcePolicyResult {
+  /// The content of the updated resource policy.
+  final ResourcePolicy? resourcePolicy;
+
+  PutResourcePolicyResult({
+    this.resourcePolicy,
+  });
+  factory PutResourcePolicyResult.fromXml(_s.XmlElement elem) {
+    return PutResourcePolicyResult(
+      resourcePolicy: _s
+          .extractXmlChild(elem, 'ResourcePolicy')
+          ?.let(ResourcePolicy.fromXml),
+    );
+  }
+}
+
 class RebootClusterResult {
   final Cluster? cluster;
 
@@ -12103,6 +13439,149 @@ class RebootClusterResult {
     return RebootClusterResult(
       cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
     );
+  }
+}
+
+/// An Amazon Redshift Advisor recommended action on the Amazon Redshift
+/// cluster.
+class Recommendation {
+  /// The unique identifier of the cluster for which the recommendation is
+  /// returned.
+  final String? clusterIdentifier;
+
+  /// The date and time (UTC) that the recommendation was created.
+  final DateTime? createdAt;
+
+  /// The description of the recommendation.
+  final String? description;
+
+  /// A unique identifier of the Advisor recommendation.
+  final String? id;
+
+  /// The scale of the impact that the Advisor recommendation has to the
+  /// performance and cost of the cluster.
+  final ImpactRankingType? impactRanking;
+
+  /// The Amazon Redshift cluster namespace ARN for which the recommendations is
+  /// returned.
+  final String? namespaceArn;
+
+  /// The description of what was observed about your cluster.
+  final String? observation;
+
+  /// The description of the recommendation.
+  final String? recommendationText;
+
+  /// The type of Advisor recommendation.
+  final String? recommendationType;
+
+  /// List of Amazon Redshift recommended actions.
+  final List<RecommendedAction>? recommendedActions;
+
+  /// List of helpful links for more information about the Advisor recommendation.
+  final List<ReferenceLink>? referenceLinks;
+
+  /// The title of the recommendation.
+  final String? title;
+
+  Recommendation({
+    this.clusterIdentifier,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.impactRanking,
+    this.namespaceArn,
+    this.observation,
+    this.recommendationText,
+    this.recommendationType,
+    this.recommendedActions,
+    this.referenceLinks,
+    this.title,
+  });
+  factory Recommendation.fromXml(_s.XmlElement elem) {
+    return Recommendation(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      impactRanking: _s
+          .extractXmlStringValue(elem, 'ImpactRanking')
+          ?.toImpactRankingType(),
+      namespaceArn: _s.extractXmlStringValue(elem, 'NamespaceArn'),
+      observation: _s.extractXmlStringValue(elem, 'Observation'),
+      recommendationText: _s.extractXmlStringValue(elem, 'RecommendationText'),
+      recommendationType: _s.extractXmlStringValue(elem, 'RecommendationType'),
+      recommendedActions: _s.extractXmlChild(elem, 'RecommendedActions')?.let(
+          (elem) => elem
+              .findElements('RecommendedAction')
+              .map(RecommendedAction.fromXml)
+              .toList()),
+      referenceLinks: _s.extractXmlChild(elem, 'ReferenceLinks')?.let((elem) =>
+          elem
+              .findElements('ReferenceLink')
+              .map(ReferenceLink.fromXml)
+              .toList()),
+      title: _s.extractXmlStringValue(elem, 'Title'),
+    );
+  }
+}
+
+/// The recommended action from the Amazon Redshift Advisor recommendation.
+class RecommendedAction {
+  /// The command to run.
+  final String? command;
+
+  /// The database name to perform the action on. Only applicable if the type of
+  /// command is SQL.
+  final String? database;
+
+  /// The specific instruction about the command.
+  final String? text;
+
+  /// The type of command.
+  final RecommendedActionType? type;
+
+  RecommendedAction({
+    this.command,
+    this.database,
+    this.text,
+    this.type,
+  });
+  factory RecommendedAction.fromXml(_s.XmlElement elem) {
+    return RecommendedAction(
+      command: _s.extractXmlStringValue(elem, 'Command'),
+      database: _s.extractXmlStringValue(elem, 'Database'),
+      text: _s.extractXmlStringValue(elem, 'Text'),
+      type: _s.extractXmlStringValue(elem, 'Type')?.toRecommendedActionType(),
+    );
+  }
+}
+
+enum RecommendedActionType {
+  sql,
+  cli,
+}
+
+extension RecommendedActionTypeValueExtension on RecommendedActionType {
+  String toValue() {
+    switch (this) {
+      case RecommendedActionType.sql:
+        return 'SQL';
+      case RecommendedActionType.cli:
+        return 'CLI';
+    }
+  }
+}
+
+extension RecommendedActionTypeFromString on String {
+  RecommendedActionType toRecommendedActionType() {
+    switch (this) {
+      case 'SQL':
+        return RecommendedActionType.sql;
+      case 'CLI':
+        return RecommendedActionType.cli;
+    }
+    throw Exception('$this is not known in enum RecommendedActionType');
   }
 }
 
@@ -12125,6 +13604,107 @@ class RecurringCharge {
           _s.extractXmlDoubleValue(elem, 'RecurringChargeAmount'),
       recurringChargeFrequency:
           _s.extractXmlStringValue(elem, 'RecurringChargeFrequency'),
+    );
+  }
+}
+
+/// Contains properties for the Redshift IDC application.
+class RedshiftIdcApplication {
+  /// The authorized token issuer list for the Amazon Redshift IAM Identity Center
+  /// application.
+  final List<AuthorizedTokenIssuer>? authorizedTokenIssuerList;
+
+  /// The ARN for the Amazon Redshift IAM Identity Center application. It has the
+  /// required permissions to be assumed and invoke the IDC Identity Center API.
+  final String? iamRoleArn;
+
+  /// The display name for the Amazon Redshift IAM Identity Center application. It
+  /// appears on the console.
+  final String? idcDisplayName;
+
+  /// The ARN for the IAM Identity Center instance that Redshift integrates with.
+  final String? idcInstanceArn;
+
+  /// The ARN for the Amazon Redshift IAM Identity Center application.
+  final String? idcManagedApplicationArn;
+
+  /// The onboarding status for the Amazon Redshift IAM Identity Center
+  /// application.
+  final String? idcOnboardStatus;
+
+  /// The identity namespace for the Amazon Redshift IAM Identity Center
+  /// application. It determines which managed application verifies the connection
+  /// token.
+  final String? identityNamespace;
+
+  /// The ARN for the Redshift application that integrates with IAM Identity
+  /// Center.
+  final String? redshiftIdcApplicationArn;
+
+  /// The name of the Redshift application in IAM Identity Center.
+  final String? redshiftIdcApplicationName;
+
+  /// A list of service integrations for the Redshift IAM Identity Center
+  /// application.
+  final List<ServiceIntegrationsUnion>? serviceIntegrations;
+
+  RedshiftIdcApplication({
+    this.authorizedTokenIssuerList,
+    this.iamRoleArn,
+    this.idcDisplayName,
+    this.idcInstanceArn,
+    this.idcManagedApplicationArn,
+    this.idcOnboardStatus,
+    this.identityNamespace,
+    this.redshiftIdcApplicationArn,
+    this.redshiftIdcApplicationName,
+    this.serviceIntegrations,
+  });
+  factory RedshiftIdcApplication.fromXml(_s.XmlElement elem) {
+    return RedshiftIdcApplication(
+      authorizedTokenIssuerList: _s
+          .extractXmlChild(elem, 'AuthorizedTokenIssuerList')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(AuthorizedTokenIssuer.fromXml)
+              .toList()),
+      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
+      idcDisplayName: _s.extractXmlStringValue(elem, 'IdcDisplayName'),
+      idcInstanceArn: _s.extractXmlStringValue(elem, 'IdcInstanceArn'),
+      idcManagedApplicationArn:
+          _s.extractXmlStringValue(elem, 'IdcManagedApplicationArn'),
+      idcOnboardStatus: _s.extractXmlStringValue(elem, 'IdcOnboardStatus'),
+      identityNamespace: _s.extractXmlStringValue(elem, 'IdentityNamespace'),
+      redshiftIdcApplicationArn:
+          _s.extractXmlStringValue(elem, 'RedshiftIdcApplicationArn'),
+      redshiftIdcApplicationName:
+          _s.extractXmlStringValue(elem, 'RedshiftIdcApplicationName'),
+      serviceIntegrations: _s.extractXmlChild(elem, 'ServiceIntegrations')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(ServiceIntegrationsUnion.fromXml)
+              .toList()),
+    );
+  }
+}
+
+/// A link to an Amazon Redshift Advisor reference for more information about a
+/// recommendation.
+class ReferenceLink {
+  /// The URL address to find more information.
+  final String? link;
+
+  /// The hyperlink text that describes the link to more information.
+  final String? text;
+
+  ReferenceLink({
+    this.link,
+    this.text,
+  });
+  factory ReferenceLink.fromXml(_s.XmlElement elem) {
+    return ReferenceLink(
+      link: _s.extractXmlStringValue(elem, 'Link'),
+      text: _s.extractXmlStringValue(elem, 'Text'),
     );
   }
 }
@@ -12798,6 +14378,26 @@ class ResizeProgressMessage {
   }
 }
 
+/// The policy that is attached to a resource.
+class ResourcePolicy {
+  /// The content of a resource policy.
+  final String? policy;
+
+  /// The resources that a policy is attached to.
+  final String? resourceArn;
+
+  ResourcePolicy({
+    this.policy,
+    this.resourceArn,
+  });
+  factory ResourcePolicy.fromXml(_s.XmlElement elem) {
+    return ResourcePolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+      resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
+    );
+  }
+}
+
 class RestoreFromClusterSnapshotResult {
   final Cluster? cluster;
 
@@ -13287,6 +14887,83 @@ class ScheduledActionsMessage {
   }
 }
 
+/// The AvailabilityZone and ClusterNodes information of the secondary compute
+/// unit.
+class SecondaryClusterInfo {
+  /// The name of the Availability Zone in which the secondary compute unit of the
+  /// cluster is located.
+  final String? availabilityZone;
+
+  /// The nodes in the secondary compute unit.
+  final List<ClusterNode>? clusterNodes;
+
+  SecondaryClusterInfo({
+    this.availabilityZone,
+    this.clusterNodes,
+  });
+  factory SecondaryClusterInfo.fromXml(_s.XmlElement elem) {
+    return SecondaryClusterInfo(
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      clusterNodes: _s.extractXmlChild(elem, 'ClusterNodes')?.let((elem) =>
+          elem.findElements('member').map(ClusterNode.fromXml).toList()),
+    );
+  }
+}
+
+enum ServiceAuthorization {
+  enabled,
+  disabled,
+}
+
+extension ServiceAuthorizationValueExtension on ServiceAuthorization {
+  String toValue() {
+    switch (this) {
+      case ServiceAuthorization.enabled:
+        return 'Enabled';
+      case ServiceAuthorization.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension ServiceAuthorizationFromString on String {
+  ServiceAuthorization toServiceAuthorization() {
+    switch (this) {
+      case 'Enabled':
+        return ServiceAuthorization.enabled;
+      case 'Disabled':
+        return ServiceAuthorization.disabled;
+    }
+    throw Exception('$this is not known in enum ServiceAuthorization');
+  }
+}
+
+/// A list of service integrations.
+class ServiceIntegrationsUnion {
+  /// A list of scopes set up for Lake Formation integration.
+  final List<LakeFormationScopeUnion>? lakeFormation;
+
+  ServiceIntegrationsUnion({
+    this.lakeFormation,
+  });
+  factory ServiceIntegrationsUnion.fromXml(_s.XmlElement elem) {
+    return ServiceIntegrationsUnion(
+      lakeFormation: _s.extractXmlChild(elem, 'LakeFormation')?.let((elem) =>
+          elem
+              .findElements('member')
+              .map(LakeFormationScopeUnion.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lakeFormation = this.lakeFormation;
+    return {
+      if (lakeFormation != null) 'LakeFormation': lakeFormation,
+    };
+  }
+}
+
 /// Describes a snapshot.
 class Snapshot {
   /// A list of the Amazon Web Services accounts authorized to restore the
@@ -13366,6 +15043,14 @@ class Snapshot {
   /// The value must be either -1 or an integer between 1 and 3,653.
   final int? manualSnapshotRetentionPeriod;
 
+  /// The Amazon Resource Name (ARN) for the cluster's admin user credentials
+  /// secret.
+  final String? masterPasswordSecretArn;
+
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store the
+  /// cluster's admin credentials secret.
+  final String? masterPasswordSecretKmsKeyId;
+
   /// The admin user name for the cluster.
   final String? masterUsername;
 
@@ -13385,6 +15070,9 @@ class Snapshot {
 
   /// The list of node types that this cluster snapshot is able to restore into.
   final List<String>? restorableNodeTypes;
+
+  /// The Amazon Resource Name (ARN) of the snapshot.
+  final String? snapshotArn;
 
   /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot
   /// contains a copy of the cluster data as of this exact time.
@@ -13452,12 +15140,15 @@ class Snapshot {
     this.maintenanceTrackName,
     this.manualSnapshotRemainingDays,
     this.manualSnapshotRetentionPeriod,
+    this.masterPasswordSecretArn,
+    this.masterPasswordSecretKmsKeyId,
     this.masterUsername,
     this.nodeType,
     this.numberOfNodes,
     this.ownerAccount,
     this.port,
     this.restorableNodeTypes,
+    this.snapshotArn,
     this.snapshotCreateTime,
     this.snapshotIdentifier,
     this.snapshotRetentionStartTime,
@@ -13501,6 +15192,10 @@ class Snapshot {
           _s.extractXmlIntValue(elem, 'ManualSnapshotRemainingDays'),
       manualSnapshotRetentionPeriod:
           _s.extractXmlIntValue(elem, 'ManualSnapshotRetentionPeriod'),
+      masterPasswordSecretArn:
+          _s.extractXmlStringValue(elem, 'MasterPasswordSecretArn'),
+      masterPasswordSecretKmsKeyId:
+          _s.extractXmlStringValue(elem, 'MasterPasswordSecretKmsKeyId'),
       masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
       nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
       numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
@@ -13509,6 +15204,7 @@ class Snapshot {
       restorableNodeTypes: _s
           .extractXmlChild(elem, 'RestorableNodeTypes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'NodeType')),
+      snapshotArn: _s.extractXmlStringValue(elem, 'SnapshotArn'),
       snapshotCreateTime:
           _s.extractXmlDateTimeValue(elem, 'SnapshotCreateTime'),
       snapshotIdentifier: _s.extractXmlStringValue(elem, 'SnapshotIdentifier'),
@@ -14505,6 +16201,59 @@ class VpcSecurityGroupMembership {
   }
 }
 
+enum ZeroETLIntegrationStatus {
+  creating,
+  active,
+  modifying,
+  failed,
+  deleting,
+  syncing,
+  needsAttention,
+}
+
+extension ZeroETLIntegrationStatusValueExtension on ZeroETLIntegrationStatus {
+  String toValue() {
+    switch (this) {
+      case ZeroETLIntegrationStatus.creating:
+        return 'creating';
+      case ZeroETLIntegrationStatus.active:
+        return 'active';
+      case ZeroETLIntegrationStatus.modifying:
+        return 'modifying';
+      case ZeroETLIntegrationStatus.failed:
+        return 'failed';
+      case ZeroETLIntegrationStatus.deleting:
+        return 'deleting';
+      case ZeroETLIntegrationStatus.syncing:
+        return 'syncing';
+      case ZeroETLIntegrationStatus.needsAttention:
+        return 'needs_attention';
+    }
+  }
+}
+
+extension ZeroETLIntegrationStatusFromString on String {
+  ZeroETLIntegrationStatus toZeroETLIntegrationStatus() {
+    switch (this) {
+      case 'creating':
+        return ZeroETLIntegrationStatus.creating;
+      case 'active':
+        return ZeroETLIntegrationStatus.active;
+      case 'modifying':
+        return ZeroETLIntegrationStatus.modifying;
+      case 'failed':
+        return ZeroETLIntegrationStatus.failed;
+      case 'deleting':
+        return ZeroETLIntegrationStatus.deleting;
+      case 'syncing':
+        return ZeroETLIntegrationStatus.syncing;
+      case 'needs_attention':
+        return ZeroETLIntegrationStatus.needsAttention;
+    }
+    throw Exception('$this is not known in enum ZeroETLIntegrationStatus');
+  }
+}
+
 class AccessToClusterDeniedFault extends _s.GenericAwsException {
   AccessToClusterDeniedFault({String? type, String? message})
       : super(type: type, code: 'AccessToClusterDeniedFault', message: message);
@@ -14706,9 +16455,36 @@ class ClusterSubnetQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+class ConflictPolicyUpdateFault extends _s.GenericAwsException {
+  ConflictPolicyUpdateFault({String? type, String? message})
+      : super(type: type, code: 'ConflictPolicyUpdateFault', message: message);
+}
+
 class CopyToRegionDisabledFault extends _s.GenericAwsException {
   CopyToRegionDisabledFault({String? type, String? message})
       : super(type: type, code: 'CopyToRegionDisabledFault', message: message);
+}
+
+class CustomCnameAssociationFault extends _s.GenericAwsException {
+  CustomCnameAssociationFault({String? type, String? message})
+      : super(
+            type: type, code: 'CustomCnameAssociationFault', message: message);
+}
+
+class CustomDomainAssociationNotFoundFault extends _s.GenericAwsException {
+  CustomDomainAssociationNotFoundFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CustomDomainAssociationNotFoundFault',
+            message: message);
+}
+
+class DependentServiceAccessDeniedFault extends _s.GenericAwsException {
+  DependentServiceAccessDeniedFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'DependentServiceAccessDeniedFault',
+            message: message);
 }
 
 class DependentServiceRequestThrottlingFault extends _s.GenericAwsException {
@@ -14866,6 +16642,11 @@ class InsufficientS3BucketPolicyFault extends _s.GenericAwsException {
             message: message);
 }
 
+class IntegrationNotFoundFault extends _s.GenericAwsException {
+  IntegrationNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'IntegrationNotFoundFault', message: message);
+}
+
 class InvalidAuthenticationProfileRequestFault extends _s.GenericAwsException {
   InvalidAuthenticationProfileRequestFault({String? type, String? message})
       : super(
@@ -14976,6 +16757,11 @@ class InvalidNamespaceFault extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidNamespaceFault', message: message);
 }
 
+class InvalidPolicyFault extends _s.GenericAwsException {
+  InvalidPolicyFault({String? type, String? message})
+      : super(type: type, code: 'InvalidPolicyFault', message: message);
+}
+
 class InvalidReservedNodeStateFault extends _s.GenericAwsException {
   InvalidReservedNodeStateFault({String? type, String? message})
       : super(
@@ -15061,6 +16847,11 @@ class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+class Ipv6CidrBlockNotFoundFault extends _s.GenericAwsException {
+  Ipv6CidrBlockNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'Ipv6CidrBlockNotFoundFault', message: message);
+}
+
 class LimitExceededFault extends _s.GenericAwsException {
   LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
@@ -15085,6 +16876,30 @@ class NumberOfNodesQuotaExceededFault extends _s.GenericAwsException {
 class PartnerNotFoundFault extends _s.GenericAwsException {
   PartnerNotFoundFault({String? type, String? message})
       : super(type: type, code: 'PartnerNotFoundFault', message: message);
+}
+
+class RedshiftIdcApplicationAlreadyExistsFault extends _s.GenericAwsException {
+  RedshiftIdcApplicationAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RedshiftIdcApplicationAlreadyExistsFault',
+            message: message);
+}
+
+class RedshiftIdcApplicationNotExistsFault extends _s.GenericAwsException {
+  RedshiftIdcApplicationNotExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RedshiftIdcApplicationNotExistsFault',
+            message: message);
+}
+
+class RedshiftIdcApplicationQuotaExceededFault extends _s.GenericAwsException {
+  RedshiftIdcApplicationQuotaExceededFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RedshiftIdcApplicationQuotaExceededFault',
+            message: message);
 }
 
 class ReservedNodeAlreadyExistsFault extends _s.GenericAwsException {
@@ -15434,8 +17249,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ClusterSubnetGroupQuotaExceededFault(type: type, message: message),
   'ClusterSubnetQuotaExceededFault': (type, message) =>
       ClusterSubnetQuotaExceededFault(type: type, message: message),
+  'ConflictPolicyUpdateFault': (type, message) =>
+      ConflictPolicyUpdateFault(type: type, message: message),
   'CopyToRegionDisabledFault': (type, message) =>
       CopyToRegionDisabledFault(type: type, message: message),
+  'CustomCnameAssociationFault': (type, message) =>
+      CustomCnameAssociationFault(type: type, message: message),
+  'CustomDomainAssociationNotFoundFault': (type, message) =>
+      CustomDomainAssociationNotFoundFault(type: type, message: message),
+  'DependentServiceAccessDeniedFault': (type, message) =>
+      DependentServiceAccessDeniedFault(type: type, message: message),
   'DependentServiceRequestThrottlingFault': (type, message) =>
       DependentServiceRequestThrottlingFault(type: type, message: message),
   'DependentServiceUnavailableFault': (type, message) =>
@@ -15477,6 +17300,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InsufficientClusterCapacityFault(type: type, message: message),
   'InsufficientS3BucketPolicyFault': (type, message) =>
       InsufficientS3BucketPolicyFault(type: type, message: message),
+  'IntegrationNotFoundFault': (type, message) =>
+      IntegrationNotFoundFault(type: type, message: message),
   'InvalidAuthenticationProfileRequestFault': (type, message) =>
       InvalidAuthenticationProfileRequestFault(type: type, message: message),
   'InvalidAuthorizationStateFault': (type, message) =>
@@ -15509,6 +17334,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidHsmConfigurationStateFault(type: type, message: message),
   'InvalidNamespaceFault': (type, message) =>
       InvalidNamespaceFault(type: type, message: message),
+  'InvalidPolicyFault': (type, message) =>
+      InvalidPolicyFault(type: type, message: message),
   'InvalidReservedNodeStateFault': (type, message) =>
       InvalidReservedNodeStateFault(type: type, message: message),
   'InvalidRestoreFault': (type, message) =>
@@ -15537,6 +17364,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidUsageLimitFault(type: type, message: message),
   'InvalidVPCNetworkStateFault': (type, message) =>
       InvalidVPCNetworkStateFault(type: type, message: message),
+  'Ipv6CidrBlockNotFoundFault': (type, message) =>
+      Ipv6CidrBlockNotFoundFault(type: type, message: message),
   'LimitExceededFault': (type, message) =>
       LimitExceededFault(type: type, message: message),
   'NumberOfNodesPerClusterLimitExceededFault': (type, message) =>
@@ -15545,6 +17374,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NumberOfNodesQuotaExceededFault(type: type, message: message),
   'PartnerNotFoundFault': (type, message) =>
       PartnerNotFoundFault(type: type, message: message),
+  'RedshiftIdcApplicationAlreadyExistsFault': (type, message) =>
+      RedshiftIdcApplicationAlreadyExistsFault(type: type, message: message),
+  'RedshiftIdcApplicationNotExistsFault': (type, message) =>
+      RedshiftIdcApplicationNotExistsFault(type: type, message: message),
+  'RedshiftIdcApplicationQuotaExceededFault': (type, message) =>
+      RedshiftIdcApplicationQuotaExceededFault(type: type, message: message),
   'ReservedNodeAlreadyExistsFault': (type, message) =>
       ReservedNodeAlreadyExistsFault(type: type, message: message),
   'ReservedNodeAlreadyMigratedFault': (type, message) =>

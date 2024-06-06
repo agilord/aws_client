@@ -652,9 +652,20 @@ class Translate {
   /// Customizing your translations with parallel data</a>.
   ///
   /// Parameter [settings] :
-  /// Settings to configure your translation output, including the option to set
-  /// the formality level of the output text and the option to mask profane
-  /// words and phrases.
+  /// Settings to configure your translation output. You can configure the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Brevity: not supported.
+  /// </li>
+  /// <li>
+  /// Formality: sets the formality level of the output text.
+  /// </li>
+  /// <li>
+  /// Profanity: masks profane words and phrases in your translation output.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [terminologyNames] :
   /// The name of a custom terminology resource to add to the translation job.
@@ -793,13 +804,11 @@ class Translate {
   }
 
   /// Translates the input document from the source language to the target
-  /// language. This synchronous operation supports plain text or HTML for the
-  /// input document. <code>TranslateDocument</code> supports translations from
-  /// English to any supported language, and from any supported language to
-  /// English. Therefore, specify either the source language code or the target
-  /// language code as “en” (English).
-  ///
-  /// <code>TranslateDocument</code> does not support language auto-detection.
+  /// language. This synchronous operation supports text, HTML, or Word
+  /// documents as the input document. <code>TranslateDocument</code> supports
+  /// translations from English to any supported language, and from any
+  /// supported language to English. Therefore, specify either the source
+  /// language code or the target language code as “en” (English).
   ///
   /// If you set the <code>Formality</code> parameter, the request will fail if
   /// the target language does not support formality. For a list of target
@@ -820,17 +829,44 @@ class Translate {
   /// document size must not exceed 100 KB.
   ///
   /// Parameter [sourceLanguageCode] :
-  /// The language code for the language of the source text. Do not use
-  /// <code>auto</code>, because <code>TranslateDocument</code> does not support
-  /// language auto-detection. For a list of supported language codes, see <a
+  /// The language code for the language of the source text. For a list of
+  /// supported language codes, see <a
   /// href="https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html">Supported
   /// languages</a>.
+  ///
+  /// To have Amazon Translate determine the source language of your text, you
+  /// can specify <code>auto</code> in the <code>SourceLanguageCode</code>
+  /// field. If you specify <code>auto</code>, Amazon Translate will call <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html">Amazon
+  /// Comprehend</a> to determine the source language.
+  /// <note>
+  /// If you specify <code>auto</code>, you must send the
+  /// <code>TranslateDocument</code> request in a region that supports Amazon
+  /// Comprehend. Otherwise, the request returns an error indicating that
+  /// autodetect is not supported.
+  /// </note>
   ///
   /// Parameter [targetLanguageCode] :
   /// The language code requested for the translated document. For a list of
   /// supported language codes, see <a
   /// href="https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html">Supported
   /// languages</a>.
+  ///
+  /// Parameter [settings] :
+  /// Settings to configure your translation output. You can configure the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Brevity: not supported.
+  /// </li>
+  /// <li>
+  /// Formality: sets the formality level of the output text.
+  /// </li>
+  /// <li>
+  /// Profanity: masks profane words and phrases in your translation output.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [terminologyNames] :
   /// The name of a terminology list file to add to the translation job. This
@@ -917,9 +953,21 @@ class Translate {
   /// characters.
   ///
   /// Parameter [settings] :
-  /// Settings to configure your translation output, including the option to set
-  /// the formality level of the output text and the option to mask profane
-  /// words and phrases.
+  /// Settings to configure your translation output. You can configure the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Brevity: reduces the length of the translated output for most
+  /// translations.
+  /// </li>
+  /// <li>
+  /// Formality: sets the formality level of the output text.
+  /// </li>
+  /// <li>
+  /// Profanity: masks profane words and phrases in your translation output.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [terminologyNames] :
   /// The name of a terminology list file to add to the translation job. This
@@ -1090,6 +1138,29 @@ class AppliedTerminology {
       if (name != null) 'Name': name,
       if (terms != null) 'Terms': terms,
     };
+  }
+}
+
+enum Brevity {
+  on,
+}
+
+extension BrevityValueExtension on Brevity {
+  String toValue() {
+    switch (this) {
+      case Brevity.on:
+        return 'ON';
+    }
+  }
+}
+
+extension BrevityFromString on String {
+  Brevity toBrevity() {
+    switch (this) {
+      case 'ON':
+        return Brevity.on;
+    }
+    throw Exception('$this is not known in enum Brevity');
   }
 }
 
@@ -1288,12 +1359,16 @@ class Document {
   ///
   /// <ul>
   /// <li>
-  /// text/html - The input data consists of HTML content. Amazon Translate
-  /// translates only the text in the HTML element.
+  /// <code>text/html</code> - The input data consists of HTML content. Amazon
+  /// Translate translates only the text in the HTML element.
   /// </li>
   /// <li>
-  /// text/plain - The input data consists of unformatted text. Amazon Translate
-  /// translates every character in the content.
+  /// <code>text/plain</code> - The input data consists of unformatted text.
+  /// Amazon Translate translates every character in the content.
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code>
+  /// - The input data consists of a Word document (.docx).
   /// </li>
   /// </ul>
   final String contentType;
@@ -2013,21 +2088,21 @@ class OutputDataConfig {
 /// Specifies the format and S3 location of the parallel data input file.
 class ParallelDataConfig {
   /// The format of the parallel data input file.
-  final ParallelDataFormat format;
+  final ParallelDataFormat? format;
 
   /// The URI of the Amazon S3 folder that contains the parallel data input file.
   /// The folder must be in the same Region as the API endpoint you are calling.
-  final String s3Uri;
+  final String? s3Uri;
 
   ParallelDataConfig({
-    required this.format,
-    required this.s3Uri,
+    this.format,
+    this.s3Uri,
   });
 
   factory ParallelDataConfig.fromJson(Map<String, dynamic> json) {
     return ParallelDataConfig(
-      format: (json['Format'] as String).toParallelDataFormat(),
-      s3Uri: json['S3Uri'] as String,
+      format: (json['Format'] as String?)?.toParallelDataFormat(),
+      s3Uri: json['S3Uri'] as String?,
     );
   }
 
@@ -2035,8 +2110,8 @@ class ParallelDataConfig {
     final format = this.format;
     final s3Uri = this.s3Uri;
     return {
-      'Format': format.toValue(),
-      'S3Uri': s3Uri,
+      if (format != null) 'Format': format.toValue(),
+      if (s3Uri != null) 'S3Uri': s3Uri,
     };
   }
 }
@@ -3101,13 +3176,37 @@ class TranslatedDocument {
   }
 }
 
-/// Settings to configure your translation output, including the option to set
-/// the formality level of the output text and the option to mask profane words
-/// and phrases.
+/// Settings to configure your translation output. You can configure the
+/// following options:
+///
+/// <ul>
+/// <li>
+/// Brevity: reduces the length of the translation output for most translations.
+/// Available for <code>TranslateText</code> only.
+/// </li>
+/// <li>
+/// Formality: sets the formality level of the translation output.
+/// </li>
+/// <li>
+/// Profanity: masks profane words and phrases in the translation output.
+/// </li>
+/// </ul>
 class TranslationSettings {
-  /// You can optionally specify the desired level of formality for translations
-  /// to supported target languages. The formality setting controls the level of
-  /// formal language usage (also known as <a
+  /// When you turn on brevity, Amazon Translate reduces the length of the
+  /// translation output for most translations (when compared with the same
+  /// translation with brevity turned off). By default, brevity is turned off.
+  ///
+  /// If you turn on brevity for a translation request with an unsupported
+  /// language pair, the translation proceeds with the brevity setting turned off.
+  ///
+  /// For the language pairs that brevity supports, see <a
+  /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-brevity">Using
+  /// brevity</a> in the Amazon Translate Developer Guide.
+  final Brevity? brevity;
+
+  /// You can specify the desired level of formality for translations to supported
+  /// target languages. The formality setting controls the level of formal
+  /// language usage (also known as <a
   /// href="https://en.wikipedia.org/wiki/Register_(sociolinguistics)">register</a>)
   /// in the translation output. You can set the value to informal or formal. If
   /// you don't specify a value for formality, or if the target language doesn't
@@ -3121,8 +3220,8 @@ class TranslationSettings {
   /// languages</a> in the Amazon Translate Developer Guide.
   final Formality? formality;
 
-  /// Enable the profanity setting if you want Amazon Translate to mask profane
-  /// words and phrases in your translation output.
+  /// You can enable the profanity setting if you want to mask profane words and
+  /// phrases in your translation output.
   ///
   /// To mask profane words and phrases, Amazon Translate replaces them with the
   /// grawlix string “?$#@$“. This 5-character sequence is used for each profane
@@ -3140,21 +3239,25 @@ class TranslationSettings {
   final Profanity? profanity;
 
   TranslationSettings({
+    this.brevity,
     this.formality,
     this.profanity,
   });
 
   factory TranslationSettings.fromJson(Map<String, dynamic> json) {
     return TranslationSettings(
+      brevity: (json['Brevity'] as String?)?.toBrevity(),
       formality: (json['Formality'] as String?)?.toFormality(),
       profanity: (json['Profanity'] as String?)?.toProfanity(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final brevity = this.brevity;
     final formality = this.formality;
     final profanity = this.profanity;
     return {
+      if (brevity != null) 'Brevity': brevity.toValue(),
       if (formality != null) 'Formality': formality.toValue(),
       if (profanity != null) 'Profanity': profanity.toValue(),
     };

@@ -676,8 +676,8 @@ class Record {
   /// </ul>
   final OperationType? eventName;
 
-  /// The AWS service from which the stream record originated. For DynamoDB
-  /// Streams, this is <code>aws:dynamodb</code>.
+  /// The Amazon Web Services service from which the stream record originated. For
+  /// DynamoDB Streams, this is <code>aws:dynamodb</code>.
   final String? eventSource;
 
   /// The version number of the stream record format. This number is updated
@@ -838,7 +838,7 @@ class Stream {
   ///
   /// <ul>
   /// <li>
-  /// the AWS customer ID.
+  /// the Amazon Web Services customer ID.
   /// </li>
   /// <li>
   /// the table name
@@ -904,7 +904,7 @@ class StreamDescription {
   ///
   /// <ul>
   /// <li>
-  /// the AWS customer ID.
+  /// the Amazon Web Services customer ID.
   /// </li>
   /// <li>
   /// the table name
@@ -998,7 +998,8 @@ class StreamDescription {
 /// a DynamoDB table.
 class StreamRecord {
   /// The approximate date and time when the stream record was created, in <a
-  /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
+  /// href="http://www.epochconverter.com/">UNIX epoch time</a> format and rounded
+  /// down to the closest second.
   final DateTime? approximateCreationDateTime;
 
   /// The primary key attribute(s) for the DynamoDB item that was modified.

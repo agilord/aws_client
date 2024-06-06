@@ -834,6 +834,25 @@ class MediaLive {
     );
   }
 
+  /// Describe account configuration
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  Future<DescribeAccountConfigurationResponse>
+      describeAccountConfiguration() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/accountConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAccountConfigurationResponse.fromJson(response);
+  }
+
   /// Gets details about a channel
   ///
   /// May throw [BadRequestException].
@@ -1110,6 +1129,44 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeScheduleResponse.fromJson(response);
+  }
+
+  /// Describe the latest thumbnails data.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [channelId] :
+  /// Unique ID of the channel
+  ///
+  /// Parameter [pipelineId] :
+  /// Pipeline ID ("0" or "1")
+  ///
+  /// Parameter [thumbnailType] :
+  /// thumbnail type
+  Future<DescribeThumbnailsResponse> describeThumbnails({
+    required String channelId,
+    required String pipelineId,
+    required String thumbnailType,
+  }) async {
+    final $query = <String, List<String>>{
+      'pipelineId': [pipelineId],
+      'thumbnailType': [thumbnailType],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/channels/${Uri.encodeComponent(channelId)}/thumbnails',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeThumbnailsResponse.fromJson(response);
   }
 
   /// Produces list of channels that have been created
@@ -1690,6 +1747,34 @@ class MediaLive {
     return StartChannelResponse.fromJson(response);
   }
 
+  /// Start an input device that is attached to a MediaConnect flow. (There is
+  /// no need to start a device that is attached to a MediaLive input; MediaLive
+  /// starts the device when the channel starts.)
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to start. For example,
+  /// hd-123456789abcdef.
+  Future<void> startInputDevice({
+    required String inputDeviceId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/start',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Start a maintenance window for the specified input device. Starting a
   /// maintenance window will give the device up to two hours to install
   /// software. If the device was streaming prior to the maintenance, it will
@@ -1775,6 +1860,34 @@ class MediaLive {
     return StopChannelResponse.fromJson(response);
   }
 
+  /// Stop an input device that is attached to a MediaConnect flow. (There is no
+  /// need to stop a device that is attached to a MediaLive input; MediaLive
+  /// automatically stops the device when the channel stops.)
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to stop. For example,
+  /// hd-123456789abcdef.
+  Future<void> stopInputDevice({
+    required String inputDeviceId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/stop',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Stops a running multiplex. If the multiplex isn't running, this action has
   /// no effect.
   ///
@@ -1843,6 +1956,31 @@ class MediaLive {
           '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/transfer',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Update account configuration
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  Future<UpdateAccountConfigurationResponse> updateAccountConfiguration({
+    AccountConfiguration? accountConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accountConfiguration != null)
+        'accountConfiguration': accountConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/prod/accountConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAccountConfigurationResponse.fromJson(response);
   }
 
   /// Updates a channel.
@@ -2039,6 +2177,9 @@ class MediaLive {
   /// Parameter [inputDeviceId] :
   /// The unique ID of the input device. For example, hd-123456789abcdef.
   ///
+  /// Parameter [availabilityZone] :
+  /// The Availability Zone you want associated with this input device.
+  ///
   /// Parameter [hdDeviceSettings] :
   /// The settings that you want to apply to the HD input device.
   ///
@@ -2049,11 +2190,13 @@ class MediaLive {
   /// The settings that you want to apply to the UHD input device.
   Future<UpdateInputDeviceResponse> updateInputDevice({
     required String inputDeviceId,
+    String? availabilityZone,
     InputDeviceConfigurableSettings? hdDeviceSettings,
     String? name,
     InputDeviceConfigurableSettings? uhdDeviceSettings,
   }) async {
     final $payload = <String, dynamic>{
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (hdDeviceSettings != null) 'hdDeviceSettings': hdDeviceSettings,
       if (name != null) 'name': name,
       if (uhdDeviceSettings != null) 'uhdDeviceSettings': uhdDeviceSettings,
@@ -2214,6 +2357,1114 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateReservationResponse.fromJson(response);
+  }
+
+  /// Restart pipelines in one channel that is currently running.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [channelId] :
+  /// ID of channel
+  ///
+  /// Parameter [pipelineIds] :
+  /// An array of pipelines to restart in this channel. Format PIPELINE_0 or
+  /// PIPELINE_1.
+  Future<RestartChannelPipelinesResponse> restartChannelPipelines({
+    required String channelId,
+    List<ChannelPipelineIdToRestart>? pipelineIds,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (pipelineIds != null)
+        'pipelineIds': pipelineIds.map((e) => e.toValue()).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/prod/channels/${Uri.encodeComponent(channelId)}/restartChannelPipelines',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RestartChannelPipelinesResponse.fromJson(response);
+  }
+
+  /// Creates a cloudwatch alarm template to dynamically generate cloudwatch
+  /// metric alarms on targeted resource types.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [evaluationPeriods] :
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  ///
+  /// Parameter [groupIdentifier] :
+  /// A cloudwatch alarm template group's identifier. Can be either be its id or
+  /// current name.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the metric associated with the alarm. Must be compatible with
+  /// targetResourceType.
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  ///
+  /// Parameter [period] :
+  /// The period, in seconds, over which the specified statistic is applied.
+  ///
+  /// Parameter [threshold] :
+  /// The threshold value to compare with the specified statistic.
+  ///
+  /// Parameter [datapointsToAlarm] :
+  /// The number of datapoints within the evaluation period that must be
+  /// breaching to trigger the alarm.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  Future<CreateCloudWatchAlarmTemplateResponse> createCloudWatchAlarmTemplate({
+    required CloudWatchAlarmTemplateComparisonOperator comparisonOperator,
+    required int evaluationPeriods,
+    required String groupIdentifier,
+    required String metricName,
+    required String name,
+    required int period,
+    required CloudWatchAlarmTemplateStatistic statistic,
+    required CloudWatchAlarmTemplateTargetResourceType targetResourceType,
+    required double threshold,
+    required CloudWatchAlarmTemplateTreatMissingData treatMissingData,
+    int? datapointsToAlarm,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'evaluationPeriods',
+      evaluationPeriods,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'period',
+      period,
+      10,
+      86400,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'datapointsToAlarm',
+      datapointsToAlarm,
+      1,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      'comparisonOperator': comparisonOperator.toValue(),
+      'evaluationPeriods': evaluationPeriods,
+      'groupIdentifier': groupIdentifier,
+      'metricName': metricName,
+      'name': name,
+      'period': period,
+      'statistic': statistic.toValue(),
+      'targetResourceType': targetResourceType.toValue(),
+      'threshold': threshold,
+      'treatMissingData': treatMissingData.toValue(),
+      if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/cloudwatch-alarm-templates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCloudWatchAlarmTemplateResponse.fromJson(response);
+  }
+
+  /// Creates a cloudwatch alarm template group to group your cloudwatch alarm
+  /// templates and to attach to signal maps for dynamically creating alarms.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  Future<CreateCloudWatchAlarmTemplateGroupResponse>
+      createCloudWatchAlarmTemplateGroup({
+    required String name,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/cloudwatch-alarm-template-groups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCloudWatchAlarmTemplateGroupResponse.fromJson(response);
+  }
+
+  /// Creates an eventbridge rule template to monitor events and send
+  /// notifications to your targeted resources.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// An eventbridge rule template group's identifier. Can be either be its id
+  /// or current name.
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  Future<CreateEventBridgeRuleTemplateResponse> createEventBridgeRuleTemplate({
+    required EventBridgeRuleTemplateEventType eventType,
+    required String groupIdentifier,
+    required String name,
+    String? description,
+    List<EventBridgeRuleTemplateTarget>? eventTargets,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'eventType': eventType.toValue(),
+      'groupIdentifier': groupIdentifier,
+      'name': name,
+      if (description != null) 'description': description,
+      if (eventTargets != null) 'eventTargets': eventTargets,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/eventbridge-rule-templates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEventBridgeRuleTemplateResponse.fromJson(response);
+  }
+
+  /// Creates an eventbridge rule template group to group your eventbridge rule
+  /// templates and to attach to signal maps for dynamically creating
+  /// notification rules.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  Future<CreateEventBridgeRuleTemplateGroupResponse>
+      createEventBridgeRuleTemplateGroup({
+    required String name,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/eventbridge-rule-template-groups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEventBridgeRuleTemplateGroupResponse.fromJson(response);
+  }
+
+  /// Initiates the creation of a new signal map. Will discover a new
+  /// mediaResourceMap based on the provided discoveryEntryPointArn.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [discoveryEntryPointArn] :
+  /// A top-level supported AWS resource ARN to discovery a signal map from.
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  Future<CreateSignalMapResponse> createSignalMap({
+    required String discoveryEntryPointArn,
+    required String name,
+    List<String>? cloudWatchAlarmTemplateGroupIdentifiers,
+    String? description,
+    List<String>? eventBridgeRuleTemplateGroupIdentifiers,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'discoveryEntryPointArn': discoveryEntryPointArn,
+      'name': name,
+      if (cloudWatchAlarmTemplateGroupIdentifiers != null)
+        'cloudWatchAlarmTemplateGroupIdentifiers':
+            cloudWatchAlarmTemplateGroupIdentifiers,
+      if (description != null) 'description': description,
+      if (eventBridgeRuleTemplateGroupIdentifiers != null)
+        'eventBridgeRuleTemplateGroupIdentifiers':
+            eventBridgeRuleTemplateGroupIdentifiers,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/signal-maps',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSignalMapResponse.fromJson(response);
+  }
+
+  /// Deletes a cloudwatch alarm template.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A cloudwatch alarm template's identifier. Can be either be its id or
+  /// current name.
+  Future<void> deleteCloudWatchAlarmTemplate({
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/prod/cloudwatch-alarm-templates/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a cloudwatch alarm template group. You must detach this group from
+  /// all signal maps and ensure its existing templates are moved to another
+  /// group or deleted.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A cloudwatch alarm template group's identifier. Can be either be its id or
+  /// current name.
+  Future<void> deleteCloudWatchAlarmTemplateGroup({
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/prod/cloudwatch-alarm-template-groups/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an eventbridge rule template.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// An eventbridge rule template's identifier. Can be either be its id or
+  /// current name.
+  Future<void> deleteEventBridgeRuleTemplate({
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/prod/eventbridge-rule-templates/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an eventbridge rule template group. You must detach this group
+  /// from all signal maps and ensure its existing templates are moved to
+  /// another group or deleted.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// An eventbridge rule template group's identifier. Can be either be its id
+  /// or current name.
+  Future<void> deleteEventBridgeRuleTemplateGroup({
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/prod/eventbridge-rule-template-groups/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified signal map.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<void> deleteSignalMap({
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/prod/signal-maps/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves the specified cloudwatch alarm template.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [identifier] :
+  /// A cloudwatch alarm template's identifier. Can be either be its id or
+  /// current name.
+  Future<GetCloudWatchAlarmTemplateResponse> getCloudWatchAlarmTemplate({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/prod/cloudwatch-alarm-templates/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCloudWatchAlarmTemplateResponse.fromJson(response);
+  }
+
+  /// Retrieves the specified cloudwatch alarm template group.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [identifier] :
+  /// A cloudwatch alarm template group's identifier. Can be either be its id or
+  /// current name.
+  Future<GetCloudWatchAlarmTemplateGroupResponse>
+      getCloudWatchAlarmTemplateGroup({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/prod/cloudwatch-alarm-template-groups/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCloudWatchAlarmTemplateGroupResponse.fromJson(response);
+  }
+
+  /// Retrieves the specified eventbridge rule template.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [identifier] :
+  /// An eventbridge rule template's identifier. Can be either be its id or
+  /// current name.
+  Future<GetEventBridgeRuleTemplateResponse> getEventBridgeRuleTemplate({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/prod/eventbridge-rule-templates/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEventBridgeRuleTemplateResponse.fromJson(response);
+  }
+
+  /// Retrieves the specified eventbridge rule template group.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [identifier] :
+  /// An eventbridge rule template group's identifier. Can be either be its id
+  /// or current name.
+  Future<GetEventBridgeRuleTemplateGroupResponse>
+      getEventBridgeRuleTemplateGroup({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/prod/eventbridge-rule-template-groups/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEventBridgeRuleTemplateGroupResponse.fromJson(response);
+  }
+
+  /// Retrieves the specified signal map.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [identifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<GetSignalMapResponse> getSignalMap({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/signal-maps/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSignalMapResponse.fromJson(response);
+  }
+
+  /// Lists cloudwatch alarm template groups.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [nextToken] :
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  ///
+  /// Parameter [scope] :
+  /// Represents the scope of a resource, with options for all scopes, AWS
+  /// provided resources, or local resources.
+  ///
+  /// Parameter [signalMapIdentifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<ListCloudWatchAlarmTemplateGroupsResponse>
+      listCloudWatchAlarmTemplateGroups({
+    int? maxResults,
+    String? nextToken,
+    String? scope,
+    String? signalMapIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (scope != null) 'scope': [scope],
+      if (signalMapIdentifier != null)
+        'signalMapIdentifier': [signalMapIdentifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/cloudwatch-alarm-template-groups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCloudWatchAlarmTemplateGroupsResponse.fromJson(response);
+  }
+
+  /// Lists cloudwatch alarm templates.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// A cloudwatch alarm template group's identifier. Can be either be its id or
+  /// current name.
+  ///
+  /// Parameter [nextToken] :
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  ///
+  /// Parameter [scope] :
+  /// Represents the scope of a resource, with options for all scopes, AWS
+  /// provided resources, or local resources.
+  ///
+  /// Parameter [signalMapIdentifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<ListCloudWatchAlarmTemplatesResponse> listCloudWatchAlarmTemplates({
+    String? groupIdentifier,
+    int? maxResults,
+    String? nextToken,
+    String? scope,
+    String? signalMapIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (groupIdentifier != null) 'groupIdentifier': [groupIdentifier],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (scope != null) 'scope': [scope],
+      if (signalMapIdentifier != null)
+        'signalMapIdentifier': [signalMapIdentifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/cloudwatch-alarm-templates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCloudWatchAlarmTemplatesResponse.fromJson(response);
+  }
+
+  /// Lists eventbridge rule template groups.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [nextToken] :
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  ///
+  /// Parameter [signalMapIdentifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<ListEventBridgeRuleTemplateGroupsResponse>
+      listEventBridgeRuleTemplateGroups({
+    int? maxResults,
+    String? nextToken,
+    String? signalMapIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (signalMapIdentifier != null)
+        'signalMapIdentifier': [signalMapIdentifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/eventbridge-rule-template-groups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEventBridgeRuleTemplateGroupsResponse.fromJson(response);
+  }
+
+  /// Lists eventbridge rule templates.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// An eventbridge rule template group's identifier. Can be either be its id
+  /// or current name.
+  ///
+  /// Parameter [nextToken] :
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  ///
+  /// Parameter [signalMapIdentifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<ListEventBridgeRuleTemplatesResponse> listEventBridgeRuleTemplates({
+    String? groupIdentifier,
+    int? maxResults,
+    String? nextToken,
+    String? signalMapIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (groupIdentifier != null) 'groupIdentifier': [groupIdentifier],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (signalMapIdentifier != null)
+        'signalMapIdentifier': [signalMapIdentifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/eventbridge-rule-templates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEventBridgeRuleTemplatesResponse.fromJson(response);
+  }
+
+  /// Lists signal maps.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [cloudWatchAlarmTemplateGroupIdentifier] :
+  /// A cloudwatch alarm template group's identifier. Can be either be its id or
+  /// current name.
+  ///
+  /// Parameter [eventBridgeRuleTemplateGroupIdentifier] :
+  /// An eventbridge rule template group's identifier. Can be either be its id
+  /// or current name.
+  ///
+  /// Parameter [nextToken] :
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  Future<ListSignalMapsResponse> listSignalMaps({
+    String? cloudWatchAlarmTemplateGroupIdentifier,
+    String? eventBridgeRuleTemplateGroupIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (cloudWatchAlarmTemplateGroupIdentifier != null)
+        'cloudWatchAlarmTemplateGroupIdentifier': [
+          cloudWatchAlarmTemplateGroupIdentifier
+        ],
+      if (eventBridgeRuleTemplateGroupIdentifier != null)
+        'eventBridgeRuleTemplateGroupIdentifier': [
+          eventBridgeRuleTemplateGroupIdentifier
+        ],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/signal-maps',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSignalMapsResponse.fromJson(response);
+  }
+
+  /// Initiates a deployment to delete the monitor of the specified signal map.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<StartDeleteMonitorDeploymentResponse> startDeleteMonitorDeployment({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/prod/signal-maps/${Uri.encodeComponent(identifier)}/monitor-deployment',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartDeleteMonitorDeploymentResponse.fromJson(response);
+  }
+
+  /// Initiates a deployment to deploy the latest monitor of the specified
+  /// signal map.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  Future<StartMonitorDeploymentResponse> startMonitorDeployment({
+    required String identifier,
+    bool? dryRun,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (dryRun != null) 'dryRun': dryRun,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/prod/signal-maps/${Uri.encodeComponent(identifier)}/monitor-deployment',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartMonitorDeploymentResponse.fromJson(response);
+  }
+
+  /// Initiates an update for the specified signal map. Will discover a new
+  /// signal map if a changed discoveryEntryPointArn is provided.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A signal map's identifier. Can be either be its id or current name.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  ///
+  /// Parameter [discoveryEntryPointArn] :
+  /// A top-level supported AWS resource ARN to discovery a signal map from.
+  ///
+  /// Parameter [forceRediscovery] :
+  /// If true, will force a rediscovery of a signal map if an unchanged
+  /// discoveryEntryPointArn is provided.
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  Future<StartUpdateSignalMapResponse> startUpdateSignalMap({
+    required String identifier,
+    List<String>? cloudWatchAlarmTemplateGroupIdentifiers,
+    String? description,
+    String? discoveryEntryPointArn,
+    List<String>? eventBridgeRuleTemplateGroupIdentifiers,
+    bool? forceRediscovery,
+    String? name,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (cloudWatchAlarmTemplateGroupIdentifiers != null)
+        'cloudWatchAlarmTemplateGroupIdentifiers':
+            cloudWatchAlarmTemplateGroupIdentifiers,
+      if (description != null) 'description': description,
+      if (discoveryEntryPointArn != null)
+        'discoveryEntryPointArn': discoveryEntryPointArn,
+      if (eventBridgeRuleTemplateGroupIdentifiers != null)
+        'eventBridgeRuleTemplateGroupIdentifiers':
+            eventBridgeRuleTemplateGroupIdentifiers,
+      if (forceRediscovery != null) 'forceRediscovery': forceRediscovery,
+      if (name != null) 'name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/prod/signal-maps/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartUpdateSignalMapResponse.fromJson(response);
+  }
+
+  /// Updates the specified cloudwatch alarm template.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A cloudwatch alarm template's identifier. Can be either be its id or
+  /// current name.
+  ///
+  /// Parameter [datapointsToAlarm] :
+  /// The number of datapoints within the evaluation period that must be
+  /// breaching to trigger the alarm.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  ///
+  /// Parameter [evaluationPeriods] :
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  ///
+  /// Parameter [groupIdentifier] :
+  /// A cloudwatch alarm template group's identifier. Can be either be its id or
+  /// current name.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the metric associated with the alarm. Must be compatible with
+  /// targetResourceType.
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  ///
+  /// Parameter [period] :
+  /// The period, in seconds, over which the specified statistic is applied.
+  ///
+  /// Parameter [threshold] :
+  /// The threshold value to compare with the specified statistic.
+  Future<UpdateCloudWatchAlarmTemplateResponse> updateCloudWatchAlarmTemplate({
+    required String identifier,
+    CloudWatchAlarmTemplateComparisonOperator? comparisonOperator,
+    int? datapointsToAlarm,
+    String? description,
+    int? evaluationPeriods,
+    String? groupIdentifier,
+    String? metricName,
+    String? name,
+    int? period,
+    CloudWatchAlarmTemplateStatistic? statistic,
+    CloudWatchAlarmTemplateTargetResourceType? targetResourceType,
+    double? threshold,
+    CloudWatchAlarmTemplateTreatMissingData? treatMissingData,
+  }) async {
+    _s.validateNumRange(
+      'datapointsToAlarm',
+      datapointsToAlarm,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'evaluationPeriods',
+      evaluationPeriods,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'period',
+      period,
+      10,
+      86400,
+    );
+    final $payload = <String, dynamic>{
+      if (comparisonOperator != null)
+        'comparisonOperator': comparisonOperator.toValue(),
+      if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
+      if (description != null) 'description': description,
+      if (evaluationPeriods != null) 'evaluationPeriods': evaluationPeriods,
+      if (groupIdentifier != null) 'groupIdentifier': groupIdentifier,
+      if (metricName != null) 'metricName': metricName,
+      if (name != null) 'name': name,
+      if (period != null) 'period': period,
+      if (statistic != null) 'statistic': statistic.toValue(),
+      if (targetResourceType != null)
+        'targetResourceType': targetResourceType.toValue(),
+      if (threshold != null) 'threshold': threshold,
+      if (treatMissingData != null)
+        'treatMissingData': treatMissingData.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/prod/cloudwatch-alarm-templates/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCloudWatchAlarmTemplateResponse.fromJson(response);
+  }
+
+  /// Updates the specified cloudwatch alarm template group.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// A cloudwatch alarm template group's identifier. Can be either be its id or
+  /// current name.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  Future<UpdateCloudWatchAlarmTemplateGroupResponse>
+      updateCloudWatchAlarmTemplateGroup({
+    required String identifier,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/prod/cloudwatch-alarm-template-groups/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCloudWatchAlarmTemplateGroupResponse.fromJson(response);
+  }
+
+  /// Updates the specified eventbridge rule template.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// An eventbridge rule template's identifier. Can be either be its id or
+  /// current name.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  ///
+  /// Parameter [groupIdentifier] :
+  /// An eventbridge rule template group's identifier. Can be either be its id
+  /// or current name.
+  ///
+  /// Parameter [name] :
+  /// A resource's name. Names must be unique within the scope of a resource
+  /// type in a specific region.
+  Future<UpdateEventBridgeRuleTemplateResponse> updateEventBridgeRuleTemplate({
+    required String identifier,
+    String? description,
+    List<EventBridgeRuleTemplateTarget>? eventTargets,
+    EventBridgeRuleTemplateEventType? eventType,
+    String? groupIdentifier,
+    String? name,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (eventTargets != null) 'eventTargets': eventTargets,
+      if (eventType != null) 'eventType': eventType.toValue(),
+      if (groupIdentifier != null) 'groupIdentifier': groupIdentifier,
+      if (name != null) 'name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/prod/eventbridge-rule-templates/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateEventBridgeRuleTemplateResponse.fromJson(response);
+  }
+
+  /// Updates the specified eventbridge rule template group.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [identifier] :
+  /// An eventbridge rule template group's identifier. Can be either be its id
+  /// or current name.
+  ///
+  /// Parameter [description] :
+  /// A resource's optional description.
+  Future<UpdateEventBridgeRuleTemplateGroupResponse>
+      updateEventBridgeRuleTemplateGroup({
+    required String identifier,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/prod/eventbridge-rule-template-groups/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateEventBridgeRuleTemplateGroupResponse.fromJson(response);
   }
 }
 
@@ -2543,6 +3794,35 @@ extension AacVbrQualityFromString on String {
   }
 }
 
+/// Ac3 Attenuation Control
+enum Ac3AttenuationControl {
+  attenuate_3Db,
+  none,
+}
+
+extension Ac3AttenuationControlValueExtension on Ac3AttenuationControl {
+  String toValue() {
+    switch (this) {
+      case Ac3AttenuationControl.attenuate_3Db:
+        return 'ATTENUATE_3_DB';
+      case Ac3AttenuationControl.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension Ac3AttenuationControlFromString on String {
+  Ac3AttenuationControl toAc3AttenuationControl() {
+    switch (this) {
+      case 'ATTENUATE_3_DB':
+        return Ac3AttenuationControl.attenuate_3Db;
+      case 'NONE':
+        return Ac3AttenuationControl.none;
+    }
+    throw Exception('$this is not known in enum Ac3AttenuationControl');
+  }
+}
+
 /// Ac3 Bitstream Mode
 enum Ac3BitstreamMode {
   commentary,
@@ -2730,6 +4010,10 @@ extension Ac3MetadataControlFromString on String {
 
 /// Ac3 Settings
 class Ac3Settings {
+  /// Applies a 3 dB attenuation to the surround channels. Applies only when the
+  /// coding mode parameter is CODING_MODE_3_2_LFE.
+  final Ac3AttenuationControl? attenuationControl;
+
   /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
   final double? bitrate;
 
@@ -2759,6 +4043,7 @@ class Ac3Settings {
   final Ac3MetadataControl? metadataControl;
 
   Ac3Settings({
+    this.attenuationControl,
     this.bitrate,
     this.bitstreamMode,
     this.codingMode,
@@ -2770,6 +4055,8 @@ class Ac3Settings {
 
   factory Ac3Settings.fromJson(Map<String, dynamic> json) {
     return Ac3Settings(
+      attenuationControl:
+          (json['attenuationControl'] as String?)?.toAc3AttenuationControl(),
       bitrate: json['bitrate'] as double?,
       bitstreamMode: (json['bitstreamMode'] as String?)?.toAc3BitstreamMode(),
       codingMode: (json['codingMode'] as String?)?.toAc3CodingMode(),
@@ -2782,6 +4069,7 @@ class Ac3Settings {
   }
 
   Map<String, dynamic> toJson() {
+    final attenuationControl = this.attenuationControl;
     final bitrate = this.bitrate;
     final bitstreamMode = this.bitstreamMode;
     final codingMode = this.codingMode;
@@ -2790,6 +4078,8 @@ class Ac3Settings {
     final lfeFilter = this.lfeFilter;
     final metadataControl = this.metadataControl;
     return {
+      if (attenuationControl != null)
+        'attenuationControl': attenuationControl.toValue(),
       if (bitrate != null) 'bitrate': bitrate,
       if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.toValue(),
       if (codingMode != null) 'codingMode': codingMode.toValue(),
@@ -2840,6 +4130,31 @@ extension AccessibilityTypeFromString on String {
         return AccessibilityType.implementsAccessibilityFeatures;
     }
     throw Exception('$this is not known in enum AccessibilityType');
+  }
+}
+
+/// Placeholder documentation for AccountConfiguration
+class AccountConfiguration {
+  /// Specifies the KMS key to use for all features that use key encryption.
+  /// Specify the ARN of a KMS key that you have created. Or leave blank to use
+  /// the key that MediaLive creates and manages for you.
+  final String? kmsKeyId;
+
+  AccountConfiguration({
+    this.kmsKeyId,
+  });
+
+  factory AccountConfiguration.fromJson(Map<String, dynamic> json) {
+    return AccountConfiguration(
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
   }
 }
 
@@ -3207,6 +4522,10 @@ class AudioDescription {
   /// this Live Event.
   final String name;
 
+  /// Identifies the DASH roles to assign to this audio output. Applies only when
+  /// the audio output is configured for DVB DASH accessibility signaling.
+  final List<DashRoleAudio>? audioDashRoles;
+
   /// Advanced audio normalization settings.
   final AudioNormalizationSettings? audioNormalizationSettings;
 
@@ -3230,6 +4549,11 @@ class AudioDescription {
   /// Audio codec settings.
   final AudioCodecSettings? codecSettings;
 
+  /// Identifies DVB DASH accessibility signaling in this audio output. Used in
+  /// Microsoft Smooth Streaming outputs to signal accessibility information to
+  /// packagers.
+  final DvbDashAccessibility? dvbDashAccessibility;
+
   /// RFC 5646 language code representing the language of the audio output track.
   /// Only used if languageControlMode is useConfigured, or there is no ISO 639
   /// language code specified in the input.
@@ -3252,11 +4576,13 @@ class AudioDescription {
   AudioDescription({
     required this.audioSelectorName,
     required this.name,
+    this.audioDashRoles,
     this.audioNormalizationSettings,
     this.audioType,
     this.audioTypeControl,
     this.audioWatermarkingSettings,
     this.codecSettings,
+    this.dvbDashAccessibility,
     this.languageCode,
     this.languageCodeControl,
     this.remixSettings,
@@ -3267,6 +4593,10 @@ class AudioDescription {
     return AudioDescription(
       audioSelectorName: json['audioSelectorName'] as String,
       name: json['name'] as String,
+      audioDashRoles: (json['audioDashRoles'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toDashRoleAudio())
+          .toList(),
       audioNormalizationSettings: json['audioNormalizationSettings'] != null
           ? AudioNormalizationSettings.fromJson(
               json['audioNormalizationSettings'] as Map<String, dynamic>)
@@ -3282,6 +4612,8 @@ class AudioDescription {
           ? AudioCodecSettings.fromJson(
               json['codecSettings'] as Map<String, dynamic>)
           : null,
+      dvbDashAccessibility:
+          (json['dvbDashAccessibility'] as String?)?.toDvbDashAccessibility(),
       languageCode: json['languageCode'] as String?,
       languageCodeControl: (json['languageCodeControl'] as String?)
           ?.toAudioDescriptionLanguageCodeControl(),
@@ -3296,11 +4628,13 @@ class AudioDescription {
   Map<String, dynamic> toJson() {
     final audioSelectorName = this.audioSelectorName;
     final name = this.name;
+    final audioDashRoles = this.audioDashRoles;
     final audioNormalizationSettings = this.audioNormalizationSettings;
     final audioType = this.audioType;
     final audioTypeControl = this.audioTypeControl;
     final audioWatermarkingSettings = this.audioWatermarkingSettings;
     final codecSettings = this.codecSettings;
+    final dvbDashAccessibility = this.dvbDashAccessibility;
     final languageCode = this.languageCode;
     final languageCodeControl = this.languageCodeControl;
     final remixSettings = this.remixSettings;
@@ -3308,6 +4642,8 @@ class AudioDescription {
     return {
       'audioSelectorName': audioSelectorName,
       'name': name,
+      if (audioDashRoles != null)
+        'audioDashRoles': audioDashRoles.map((e) => e.toValue()).toList(),
       if (audioNormalizationSettings != null)
         'audioNormalizationSettings': audioNormalizationSettings,
       if (audioType != null) 'audioType': audioType.toValue(),
@@ -3316,6 +4652,8 @@ class AudioDescription {
       if (audioWatermarkingSettings != null)
         'audioWatermarkingSettings': audioWatermarkingSettings,
       if (codecSettings != null) 'codecSettings': codecSettings,
+      if (dvbDashAccessibility != null)
+        'dvbDashAccessibility': dvbDashAccessibility.toValue(),
       if (languageCode != null) 'languageCode': languageCode,
       if (languageCodeControl != null)
         'languageCodeControl': languageCodeControl.toValue(),
@@ -4185,8 +5523,22 @@ class AvailConfiguration {
   /// ESAM mode, signals are forwarded to an ESAM server for possible update.
   final AvailSettings? availSettings;
 
+  /// Configures whether SCTE 35 passthrough triggers segment breaks in all output
+  /// groups that use segmented outputs. Insertion of a SCTE 35 message typically
+  /// results in a segment break, in addition to the regular cadence of breaks.
+  /// The segment breaks appear in video outputs, audio outputs, and captions
+  /// outputs (if any).
+  ///
+  /// ALL_OUTPUT_GROUPS: Default. Insert the segment break in in all output groups
+  /// that have segmented outputs. This is the legacy behavior.
+  /// SCTE35_ENABLED_OUTPUT_GROUPS: Insert the segment break only in output groups
+  /// that have SCTE 35 passthrough enabled. This is the recommended value,
+  /// because it reduces unnecessary segment breaks.
+  final Scte35SegmentationScope? scte35SegmentationScope;
+
   AvailConfiguration({
     this.availSettings,
+    this.scte35SegmentationScope,
   });
 
   factory AvailConfiguration.fromJson(Map<String, dynamic> json) {
@@ -4195,13 +5547,18 @@ class AvailConfiguration {
           ? AvailSettings.fromJson(
               json['availSettings'] as Map<String, dynamic>)
           : null,
+      scte35SegmentationScope: (json['scte35SegmentationScope'] as String?)
+          ?.toScte35SegmentationScope(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final availSettings = this.availSettings;
+    final scte35SegmentationScope = this.scte35SegmentationScope;
     return {
       if (availSettings != null) 'availSettings': availSettings,
+      if (scte35SegmentationScope != null)
+        'scte35SegmentationScope': scte35SegmentationScope.toValue(),
     };
   }
 }
@@ -5132,12 +6489,22 @@ class CaptionDescription {
   final String name;
 
   /// Indicates whether the caption track implements accessibility features such
-  /// as written descriptions of spoken dialog, music, and sounds.
+  /// as written descriptions of spoken dialog, music, and sounds. This signaling
+  /// is added to HLS output group and MediaPackage output group.
   final AccessibilityType? accessibility;
+
+  /// Identifies the DASH roles to assign to this captions output. Applies only
+  /// when the captions output is configured for DVB DASH accessibility signaling.
+  final List<DashRoleCaption>? captionDashRoles;
 
   /// Additional settings for captions destination that depend on the destination
   /// type.
   final CaptionDestinationSettings? destinationSettings;
+
+  /// Identifies DVB DASH accessibility signaling in this captions output. Used in
+  /// Microsoft Smooth Streaming outputs to signal accessibility information to
+  /// packagers.
+  final DvbDashAccessibility? dvbDashAccessibility;
 
   /// ISO 639-2 three-digit code: http://www.loc.gov/standards/iso639-2/
   final String? languageCode;
@@ -5150,7 +6517,9 @@ class CaptionDescription {
     required this.captionSelectorName,
     required this.name,
     this.accessibility,
+    this.captionDashRoles,
     this.destinationSettings,
+    this.dvbDashAccessibility,
     this.languageCode,
     this.languageDescription,
   });
@@ -5160,10 +6529,16 @@ class CaptionDescription {
       captionSelectorName: json['captionSelectorName'] as String,
       name: json['name'] as String,
       accessibility: (json['accessibility'] as String?)?.toAccessibilityType(),
+      captionDashRoles: (json['captionDashRoles'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toDashRoleCaption())
+          .toList(),
       destinationSettings: json['destinationSettings'] != null
           ? CaptionDestinationSettings.fromJson(
               json['destinationSettings'] as Map<String, dynamic>)
           : null,
+      dvbDashAccessibility:
+          (json['dvbDashAccessibility'] as String?)?.toDvbDashAccessibility(),
       languageCode: json['languageCode'] as String?,
       languageDescription: json['languageDescription'] as String?,
     );
@@ -5173,15 +6548,21 @@ class CaptionDescription {
     final captionSelectorName = this.captionSelectorName;
     final name = this.name;
     final accessibility = this.accessibility;
+    final captionDashRoles = this.captionDashRoles;
     final destinationSettings = this.destinationSettings;
+    final dvbDashAccessibility = this.dvbDashAccessibility;
     final languageCode = this.languageCode;
     final languageDescription = this.languageDescription;
     return {
       'captionSelectorName': captionSelectorName,
       'name': name,
       if (accessibility != null) 'accessibility': accessibility.toValue(),
+      if (captionDashRoles != null)
+        'captionDashRoles': captionDashRoles.map((e) => e.toValue()).toList(),
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
+      if (dvbDashAccessibility != null)
+        'dvbDashAccessibility': dvbDashAccessibility.toValue(),
       if (languageCode != null) 'languageCode': languageCode,
       if (languageDescription != null)
         'languageDescription': languageDescription,
@@ -6101,6 +7482,118 @@ class ClaimDeviceResponse {
   }
 }
 
+/// Property of ColorCorrectionSettings. Used for custom color space conversion.
+/// The object identifies one 3D LUT file and specifies the input/output color
+/// space combination that the file will be used for.
+class ColorCorrection {
+  /// The color space of the input.
+  final ColorSpace inputColorSpace;
+
+  /// The color space of the output.
+  final ColorSpace outputColorSpace;
+
+  /// The URI of the 3D LUT file. The protocol must be 's3:' or 's3ssl:':.
+  final String uri;
+
+  ColorCorrection({
+    required this.inputColorSpace,
+    required this.outputColorSpace,
+    required this.uri,
+  });
+
+  factory ColorCorrection.fromJson(Map<String, dynamic> json) {
+    return ColorCorrection(
+      inputColorSpace: (json['inputColorSpace'] as String).toColorSpace(),
+      outputColorSpace: (json['outputColorSpace'] as String).toColorSpace(),
+      uri: json['uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputColorSpace = this.inputColorSpace;
+    final outputColorSpace = this.outputColorSpace;
+    final uri = this.uri;
+    return {
+      'inputColorSpace': inputColorSpace.toValue(),
+      'outputColorSpace': outputColorSpace.toValue(),
+      'uri': uri,
+    };
+  }
+}
+
+/// Property of encoderSettings. Controls color conversion when you are using 3D
+/// LUT files to perform color conversion on video.
+class ColorCorrectionSettings {
+  /// An array of colorCorrections that applies when you are using 3D LUT files to
+  /// perform color conversion on video. Each colorCorrection contains one 3D LUT
+  /// file (that defines the color mapping for converting an input color space to
+  /// an output color space), and the input/output combination that this 3D LUT
+  /// file applies to. MediaLive reads the color space in the input metadata,
+  /// determines the color space that you have specified for the output, and finds
+  /// and uses the LUT file that applies to this combination.
+  final List<ColorCorrection> globalColorCorrections;
+
+  ColorCorrectionSettings({
+    required this.globalColorCorrections,
+  });
+
+  factory ColorCorrectionSettings.fromJson(Map<String, dynamic> json) {
+    return ColorCorrectionSettings(
+      globalColorCorrections: (json['globalColorCorrections'] as List)
+          .whereNotNull()
+          .map((e) => ColorCorrection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalColorCorrections = this.globalColorCorrections;
+    return {
+      'globalColorCorrections': globalColorCorrections,
+    };
+  }
+}
+
+/// Property of colorCorrections. When you are using 3D LUT files to perform
+/// color conversion on video, these are the supported color spaces.
+enum ColorSpace {
+  hdr10,
+  hlg_2020,
+  rec_601,
+  rec_709,
+}
+
+extension ColorSpaceValueExtension on ColorSpace {
+  String toValue() {
+    switch (this) {
+      case ColorSpace.hdr10:
+        return 'HDR10';
+      case ColorSpace.hlg_2020:
+        return 'HLG_2020';
+      case ColorSpace.rec_601:
+        return 'REC_601';
+      case ColorSpace.rec_709:
+        return 'REC_709';
+    }
+  }
+}
+
+extension ColorSpaceFromString on String {
+  ColorSpace toColorSpace() {
+    switch (this) {
+      case 'HDR10':
+        return ColorSpace.hdr10;
+      case 'HLG_2020':
+        return ColorSpace.hlg_2020;
+      case 'REC_601':
+        return ColorSpace.rec_601;
+      case 'REC_709':
+        return ColorSpace.rec_709;
+    }
+    throw Exception('$this is not known in enum ColorSpace');
+  }
+}
+
 /// Passthrough applies no color space conversion to the output
 class ColorSpacePassthroughSettings {
   ColorSpacePassthroughSettings();
@@ -6801,6 +8294,33 @@ class DeleteScheduleResponse {
   }
 }
 
+/// Placeholder documentation for DescribeAccountConfigurationResponse
+class DescribeAccountConfigurationResponse {
+  final AccountConfiguration? accountConfiguration;
+
+  DescribeAccountConfigurationResponse({
+    this.accountConfiguration,
+  });
+
+  factory DescribeAccountConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAccountConfigurationResponse(
+      accountConfiguration: json['accountConfiguration'] != null
+          ? AccountConfiguration.fromJson(
+              json['accountConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountConfiguration = this.accountConfiguration;
+    return {
+      if (accountConfiguration != null)
+        'accountConfiguration': accountConfiguration,
+    };
+  }
+}
+
 /// Placeholder documentation for DescribeChannelResponse
 class DescribeChannelResponse {
   /// The unique arn of the channel.
@@ -6977,6 +8497,9 @@ class DescribeInputDeviceResponse {
   /// The unique ARN of the input device.
   final String? arn;
 
+  /// The Availability Zone associated with this input device.
+  final String? availabilityZone;
+
   /// The state of the connection between the input device and AWS.
   final InputDeviceConnectionState? connectionState;
 
@@ -6999,11 +8522,20 @@ class DescribeInputDeviceResponse {
   /// The network MAC address of the input device.
   final String? macAddress;
 
+  /// An array of the ARNs for the MediaLive inputs attached to the device.
+  /// Returned only if the outputType is MEDIALIVE_INPUT.
+  final List<String>? medialiveInputArns;
+
   /// A name that you specify for the input device.
   final String? name;
 
   /// The network settings for the input device.
   final InputDeviceNetworkSettings? networkSettings;
+
+  /// The output attachment type of the input device. Specifies MEDIACONNECT_FLOW
+  /// if this device is the source for a MediaConnect flow. Specifies
+  /// MEDIALIVE_INPUT if this device is the source for a MediaLive input.
+  final InputDeviceOutputType? outputType;
 
   /// The unique serial number of the input device.
   final String? serialNumber;
@@ -7019,14 +8551,17 @@ class DescribeInputDeviceResponse {
 
   DescribeInputDeviceResponse({
     this.arn,
+    this.availabilityZone,
     this.connectionState,
     this.deviceSettingsSyncState,
     this.deviceUpdateStatus,
     this.hdDeviceSettings,
     this.id,
     this.macAddress,
+    this.medialiveInputArns,
     this.name,
     this.networkSettings,
+    this.outputType,
     this.serialNumber,
     this.tags,
     this.type,
@@ -7036,6 +8571,7 @@ class DescribeInputDeviceResponse {
   factory DescribeInputDeviceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeInputDeviceResponse(
       arn: json['arn'] as String?,
+      availabilityZone: json['availabilityZone'] as String?,
       connectionState:
           (json['connectionState'] as String?)?.toInputDeviceConnectionState(),
       deviceSettingsSyncState: (json['deviceSettingsSyncState'] as String?)
@@ -7048,11 +8584,16 @@ class DescribeInputDeviceResponse {
           : null,
       id: json['id'] as String?,
       macAddress: json['macAddress'] as String?,
+      medialiveInputArns: (json['medialiveInputArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       name: json['name'] as String?,
       networkSettings: json['networkSettings'] != null
           ? InputDeviceNetworkSettings.fromJson(
               json['networkSettings'] as Map<String, dynamic>)
           : null,
+      outputType: (json['outputType'] as String?)?.toInputDeviceOutputType(),
       serialNumber: json['serialNumber'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -7066,20 +8607,24 @@ class DescribeInputDeviceResponse {
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
     final connectionState = this.connectionState;
     final deviceSettingsSyncState = this.deviceSettingsSyncState;
     final deviceUpdateStatus = this.deviceUpdateStatus;
     final hdDeviceSettings = this.hdDeviceSettings;
     final id = this.id;
     final macAddress = this.macAddress;
+    final medialiveInputArns = this.medialiveInputArns;
     final name = this.name;
     final networkSettings = this.networkSettings;
+    final outputType = this.outputType;
     final serialNumber = this.serialNumber;
     final tags = this.tags;
     final type = this.type;
     final uhdDeviceSettings = this.uhdDeviceSettings;
     return {
       if (arn != null) 'arn': arn,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (connectionState != null) 'connectionState': connectionState.toValue(),
       if (deviceSettingsSyncState != null)
         'deviceSettingsSyncState': deviceSettingsSyncState.toValue(),
@@ -7088,8 +8633,10 @@ class DescribeInputDeviceResponse {
       if (hdDeviceSettings != null) 'hdDeviceSettings': hdDeviceSettings,
       if (id != null) 'id': id,
       if (macAddress != null) 'macAddress': macAddress,
+      if (medialiveInputArns != null) 'medialiveInputArns': medialiveInputArns,
       if (name != null) 'name': name,
       if (networkSettings != null) 'networkSettings': networkSettings,
+      if (outputType != null) 'outputType': outputType.toValue(),
       if (serialNumber != null) 'serialNumber': serialNumber,
       if (tags != null) 'tags': tags,
       if (type != null) 'type': type.toValue(),
@@ -7821,6 +9368,31 @@ class DescribeScheduleResponse {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (scheduleActions != null) 'scheduleActions': scheduleActions,
+    };
+  }
+}
+
+/// Placeholder documentation for DescribeThumbnailsResponse
+class DescribeThumbnailsResponse {
+  final List<ThumbnailDetail>? thumbnailDetails;
+
+  DescribeThumbnailsResponse({
+    this.thumbnailDetails,
+  });
+
+  factory DescribeThumbnailsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeThumbnailsResponse(
+      thumbnailDetails: (json['thumbnailDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThumbnailDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thumbnailDetails = this.thumbnailDetails;
+    return {
+      if (thumbnailDetails != null) 'thumbnailDetails': thumbnailDetails,
     };
   }
 }
@@ -9798,6 +11370,9 @@ class EncoderSettings {
   /// Settings for caption decriptions
   final List<CaptionDescription>? captionDescriptions;
 
+  /// Color Correction Settings
+  final ColorCorrectionSettings? colorCorrectionSettings;
+
   /// Feature Activations
   final FeatureActivations? featureActivations;
 
@@ -9810,6 +11385,9 @@ class EncoderSettings {
   /// Nielsen configuration settings.
   final NielsenConfiguration? nielsenConfiguration;
 
+  /// Thumbnail configuration settings.
+  final ThumbnailConfiguration? thumbnailConfiguration;
+
   EncoderSettings({
     required this.audioDescriptions,
     required this.outputGroups,
@@ -9819,10 +11397,12 @@ class EncoderSettings {
     this.availConfiguration,
     this.blackoutSlate,
     this.captionDescriptions,
+    this.colorCorrectionSettings,
     this.featureActivations,
     this.globalConfiguration,
     this.motionGraphicsConfiguration,
     this.nielsenConfiguration,
+    this.thumbnailConfiguration,
   });
 
   factory EncoderSettings.fromJson(Map<String, dynamic> json) {
@@ -9857,6 +11437,10 @@ class EncoderSettings {
           ?.whereNotNull()
           .map((e) => CaptionDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
+      colorCorrectionSettings: json['colorCorrectionSettings'] != null
+          ? ColorCorrectionSettings.fromJson(
+              json['colorCorrectionSettings'] as Map<String, dynamic>)
+          : null,
       featureActivations: json['featureActivations'] != null
           ? FeatureActivations.fromJson(
               json['featureActivations'] as Map<String, dynamic>)
@@ -9873,6 +11457,10 @@ class EncoderSettings {
           ? NielsenConfiguration.fromJson(
               json['nielsenConfiguration'] as Map<String, dynamic>)
           : null,
+      thumbnailConfiguration: json['thumbnailConfiguration'] != null
+          ? ThumbnailConfiguration.fromJson(
+              json['thumbnailConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -9885,10 +11473,12 @@ class EncoderSettings {
     final availConfiguration = this.availConfiguration;
     final blackoutSlate = this.blackoutSlate;
     final captionDescriptions = this.captionDescriptions;
+    final colorCorrectionSettings = this.colorCorrectionSettings;
     final featureActivations = this.featureActivations;
     final globalConfiguration = this.globalConfiguration;
     final motionGraphicsConfiguration = this.motionGraphicsConfiguration;
     final nielsenConfiguration = this.nielsenConfiguration;
+    final thumbnailConfiguration = this.thumbnailConfiguration;
     return {
       'audioDescriptions': audioDescriptions,
       'outputGroups': outputGroups,
@@ -9899,6 +11489,8 @@ class EncoderSettings {
       if (blackoutSlate != null) 'blackoutSlate': blackoutSlate,
       if (captionDescriptions != null)
         'captionDescriptions': captionDescriptions,
+      if (colorCorrectionSettings != null)
+        'colorCorrectionSettings': colorCorrectionSettings,
       if (featureActivations != null) 'featureActivations': featureActivations,
       if (globalConfiguration != null)
         'globalConfiguration': globalConfiguration,
@@ -9906,6 +11498,46 @@ class EncoderSettings {
         'motionGraphicsConfiguration': motionGraphicsConfiguration,
       if (nielsenConfiguration != null)
         'nielsenConfiguration': nielsenConfiguration,
+      if (thumbnailConfiguration != null)
+        'thumbnailConfiguration': thumbnailConfiguration,
+    };
+  }
+}
+
+/// Epoch Locking Settings
+class EpochLockingSettings {
+  /// Optional. Enter a value here to use a custom epoch, instead of the standard
+  /// epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of
+  /// the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be
+  /// 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
+  final String? customEpoch;
+
+  /// Optional. Enter a time for the jam sync. The default is midnight UTC. When
+  /// epoch locking is enabled, MediaLive performs a daily jam sync on every
+  /// output encode to ensure timecodes don’t diverge from the wall clock. The jam
+  /// sync applies only to encodes with frame rate of 29.97 or 59.94 FPS. To
+  /// override, enter a time in HH:MM:SS in UTC. Always set the MM:SS portion to
+  /// 00:00.
+  final String? jamSyncTime;
+
+  EpochLockingSettings({
+    this.customEpoch,
+    this.jamSyncTime,
+  });
+
+  factory EpochLockingSettings.fromJson(Map<String, dynamic> json) {
+    return EpochLockingSettings(
+      customEpoch: json['customEpoch'] as String?,
+      jamSyncTime: json['jamSyncTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customEpoch = this.customEpoch;
+    final jamSyncTime = this.jamSyncTime;
+    return {
+      if (customEpoch != null) 'customEpoch': customEpoch,
+      if (jamSyncTime != null) 'jamSyncTime': jamSyncTime,
     };
   }
 }
@@ -10061,8 +11693,15 @@ class FeatureActivations {
   final FeatureActivationsInputPrepareScheduleActions?
       inputPrepareScheduleActions;
 
+  /// Enables the output static image overlay feature. Enabling this feature
+  /// allows you to send channel schedule updates
+  /// to display/clear/modify image overlays on an output-by-output bases.
+  final FeatureActivationsOutputStaticImageOverlayScheduleActions?
+      outputStaticImageOverlayScheduleActions;
+
   FeatureActivations({
     this.inputPrepareScheduleActions,
+    this.outputStaticImageOverlayScheduleActions,
   });
 
   factory FeatureActivations.fromJson(Map<String, dynamic> json) {
@@ -10070,14 +11709,22 @@ class FeatureActivations {
       inputPrepareScheduleActions:
           (json['inputPrepareScheduleActions'] as String?)
               ?.toFeatureActivationsInputPrepareScheduleActions(),
+      outputStaticImageOverlayScheduleActions:
+          (json['outputStaticImageOverlayScheduleActions'] as String?)
+              ?.toFeatureActivationsOutputStaticImageOverlayScheduleActions(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final inputPrepareScheduleActions = this.inputPrepareScheduleActions;
+    final outputStaticImageOverlayScheduleActions =
+        this.outputStaticImageOverlayScheduleActions;
     return {
       if (inputPrepareScheduleActions != null)
         'inputPrepareScheduleActions': inputPrepareScheduleActions.toValue(),
+      if (outputStaticImageOverlayScheduleActions != null)
+        'outputStaticImageOverlayScheduleActions':
+            outputStaticImageOverlayScheduleActions.toValue(),
     };
   }
 }
@@ -10111,6 +11758,41 @@ extension FeatureActivationsInputPrepareScheduleActionsFromString on String {
     }
     throw Exception(
         '$this is not known in enum FeatureActivationsInputPrepareScheduleActions');
+  }
+}
+
+/// Feature Activations Output Static Image Overlay Schedule Actions
+enum FeatureActivationsOutputStaticImageOverlayScheduleActions {
+  disabled,
+  enabled,
+}
+
+extension FeatureActivationsOutputStaticImageOverlayScheduleActionsValueExtension
+    on FeatureActivationsOutputStaticImageOverlayScheduleActions {
+  String toValue() {
+    switch (this) {
+      case FeatureActivationsOutputStaticImageOverlayScheduleActions.disabled:
+        return 'DISABLED';
+      case FeatureActivationsOutputStaticImageOverlayScheduleActions.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension FeatureActivationsOutputStaticImageOverlayScheduleActionsFromString
+    on String {
+  FeatureActivationsOutputStaticImageOverlayScheduleActions
+      toFeatureActivationsOutputStaticImageOverlayScheduleActions() {
+    switch (this) {
+      case 'DISABLED':
+        return FeatureActivationsOutputStaticImageOverlayScheduleActions
+            .disabled;
+      case 'ENABLED':
+        return FeatureActivationsOutputStaticImageOverlayScheduleActions
+            .enabled;
+    }
+    throw Exception(
+        '$this is not known in enum FeatureActivationsOutputStaticImageOverlayScheduleActions');
   }
 }
 
@@ -10679,6 +12361,9 @@ class GlobalConfiguration {
   /// pipeline to the Unix epoch.
   final GlobalConfigurationOutputLockingMode? outputLockingMode;
 
+  /// Advanced output locking settings
+  final OutputLockingSettings? outputLockingSettings;
+
   /// Indicates whether the rate of frames emitted by the Live encoder should be
   /// paced by its system clock (which optionally may be locked to another source
   /// via NTP) or should be locked to the clock of the source that is providing
@@ -10695,6 +12380,7 @@ class GlobalConfiguration {
     this.inputEndAction,
     this.inputLossBehavior,
     this.outputLockingMode,
+    this.outputLockingSettings,
     this.outputTimingSource,
     this.supportLowFramerateInputs,
   });
@@ -10710,6 +12396,10 @@ class GlobalConfiguration {
           : null,
       outputLockingMode: (json['outputLockingMode'] as String?)
           ?.toGlobalConfigurationOutputLockingMode(),
+      outputLockingSettings: json['outputLockingSettings'] != null
+          ? OutputLockingSettings.fromJson(
+              json['outputLockingSettings'] as Map<String, dynamic>)
+          : null,
       outputTimingSource: (json['outputTimingSource'] as String?)
           ?.toGlobalConfigurationOutputTimingSource(),
       supportLowFramerateInputs: (json['supportLowFramerateInputs'] as String?)
@@ -10722,6 +12412,7 @@ class GlobalConfiguration {
     final inputEndAction = this.inputEndAction;
     final inputLossBehavior = this.inputLossBehavior;
     final outputLockingMode = this.outputLockingMode;
+    final outputLockingSettings = this.outputLockingSettings;
     final outputTimingSource = this.outputTimingSource;
     final supportLowFramerateInputs = this.supportLowFramerateInputs;
     return {
@@ -10730,6 +12421,8 @@ class GlobalConfiguration {
       if (inputLossBehavior != null) 'inputLossBehavior': inputLossBehavior,
       if (outputLockingMode != null)
         'outputLockingMode': outputLockingMode.toValue(),
+      if (outputLockingSettings != null)
+        'outputLockingSettings': outputLockingSettings,
       if (outputTimingSource != null)
         'outputTimingSource': outputTimingSource.toValue(),
       if (supportLowFramerateInputs != null)
@@ -12030,14 +13723,14 @@ extension H264SpatialAqFromString on String {
 
 /// H264 Sub Gop Length
 enum H264SubGopLength {
-  dynamic,
+  $dynamic,
   fixed,
 }
 
 extension H264SubGopLengthValueExtension on H264SubGopLength {
   String toValue() {
     switch (this) {
-      case H264SubGopLength.dynamic:
+      case H264SubGopLength.$dynamic:
         return 'DYNAMIC';
       case H264SubGopLength.fixed:
         return 'FIXED';
@@ -12049,7 +13742,7 @@ extension H264SubGopLengthFromString on String {
   H264SubGopLength toH264SubGopLength() {
     switch (this) {
       case 'DYNAMIC':
-        return H264SubGopLength.dynamic;
+        return H264SubGopLength.$dynamic;
       case 'FIXED':
         return H264SubGopLength.fixed;
     }
@@ -12735,6 +14428,14 @@ class H265Settings {
   /// Min-I-interval - 1
   final int? minIInterval;
 
+  /// If you are setting up the picture as a tile, you must set this to
+  /// "disabled". In all other configurations, you typically enter "enabled".
+  final H265MvOverPictureBoundaries? mvOverPictureBoundaries;
+
+  /// If you are setting up the picture as a tile, you must set this to
+  /// "disabled". In other configurations, you typically enter "enabled".
+  final H265MvTemporalPredictor? mvTemporalPredictor;
+
   /// Pixel Aspect Ratio denominator.
   final int? parDenominator;
 
@@ -12787,6 +14488,26 @@ class H265Settings {
   /// H.265 Tier.
   final H265Tier? tier;
 
+  /// Set this field to set up the picture as a tile. You must also set tileWidth.
+  /// The tile height must result in 22 or fewer rows in the frame. The tile width
+  /// must result in 20 or fewer columns in the frame. And finally, the product of
+  /// the
+  /// column count and row count must be 64 of less.
+  /// If the tile width and height are specified, MediaLive will override the
+  /// video
+  /// codec slices field with a value that MediaLive calculates
+  final int? tileHeight;
+
+  /// Set to "padded" to force MediaLive to add padding to the frame, to obtain a
+  /// frame that is a whole multiple of the tile size.
+  /// If you are setting up the picture as a tile, you must enter "padded".
+  /// In all other configurations, you typically enter "none".
+  final H265TilePadding? tilePadding;
+
+  /// Set this field to set up the picture as a tile. See tileHeight for more
+  /// information.
+  final int? tileWidth;
+
   /// Timecode burn-in settings
   final TimecodeBurninSettings? timecodeBurninSettings;
 
@@ -12796,6 +14517,12 @@ class H265Settings {
   /// - 'picTimingSei': Pass through picture timing SEI messages from the source
   /// specified in Timecode Config
   final H265TimecodeInsertionBehavior? timecodeInsertion;
+
+  /// Select the tree block size used for encoding. If you enter "auto", the
+  /// encoder will pick the best size. If you are setting up the picture as a
+  /// tile, you must set this to 32x32. In all other configurations, you typically
+  /// enter "auto".
+  final H265TreeblockSize? treeblockSize;
 
   H265Settings({
     required this.framerateDenominator,
@@ -12817,6 +14544,8 @@ class H265Settings {
     this.lookAheadRateControl,
     this.maxBitrate,
     this.minIInterval,
+    this.mvOverPictureBoundaries,
+    this.mvTemporalPredictor,
     this.parDenominator,
     this.parNumerator,
     this.profile,
@@ -12826,8 +14555,12 @@ class H265Settings {
     this.sceneChangeDetect,
     this.slices,
     this.tier,
+    this.tileHeight,
+    this.tilePadding,
+    this.tileWidth,
     this.timecodeBurninSettings,
     this.timecodeInsertion,
+    this.treeblockSize,
   });
 
   factory H265Settings.fromJson(Map<String, dynamic> json) {
@@ -12861,6 +14594,10 @@ class H265Settings {
           ?.toH265LookAheadRateControl(),
       maxBitrate: json['maxBitrate'] as int?,
       minIInterval: json['minIInterval'] as int?,
+      mvOverPictureBoundaries: (json['mvOverPictureBoundaries'] as String?)
+          ?.toH265MvOverPictureBoundaries(),
+      mvTemporalPredictor:
+          (json['mvTemporalPredictor'] as String?)?.toH265MvTemporalPredictor(),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
       profile: (json['profile'] as String?)?.toH265Profile(),
@@ -12872,12 +14609,16 @@ class H265Settings {
           (json['sceneChangeDetect'] as String?)?.toH265SceneChangeDetect(),
       slices: json['slices'] as int?,
       tier: (json['tier'] as String?)?.toH265Tier(),
+      tileHeight: json['tileHeight'] as int?,
+      tilePadding: (json['tilePadding'] as String?)?.toH265TilePadding(),
+      tileWidth: json['tileWidth'] as int?,
       timecodeBurninSettings: json['timecodeBurninSettings'] != null
           ? TimecodeBurninSettings.fromJson(
               json['timecodeBurninSettings'] as Map<String, dynamic>)
           : null,
       timecodeInsertion: (json['timecodeInsertion'] as String?)
           ?.toH265TimecodeInsertionBehavior(),
+      treeblockSize: (json['treeblockSize'] as String?)?.toH265TreeblockSize(),
     );
   }
 
@@ -12901,6 +14642,8 @@ class H265Settings {
     final lookAheadRateControl = this.lookAheadRateControl;
     final maxBitrate = this.maxBitrate;
     final minIInterval = this.minIInterval;
+    final mvOverPictureBoundaries = this.mvOverPictureBoundaries;
+    final mvTemporalPredictor = this.mvTemporalPredictor;
     final parDenominator = this.parDenominator;
     final parNumerator = this.parNumerator;
     final profile = this.profile;
@@ -12910,8 +14653,12 @@ class H265Settings {
     final sceneChangeDetect = this.sceneChangeDetect;
     final slices = this.slices;
     final tier = this.tier;
+    final tileHeight = this.tileHeight;
+    final tilePadding = this.tilePadding;
+    final tileWidth = this.tileWidth;
     final timecodeBurninSettings = this.timecodeBurninSettings;
     final timecodeInsertion = this.timecodeInsertion;
+    final treeblockSize = this.treeblockSize;
     return {
       'framerateDenominator': framerateDenominator,
       'framerateNumerator': framerateNumerator,
@@ -12935,6 +14682,10 @@ class H265Settings {
         'lookAheadRateControl': lookAheadRateControl.toValue(),
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (minIInterval != null) 'minIInterval': minIInterval,
+      if (mvOverPictureBoundaries != null)
+        'mvOverPictureBoundaries': mvOverPictureBoundaries.toValue(),
+      if (mvTemporalPredictor != null)
+        'mvTemporalPredictor': mvTemporalPredictor.toValue(),
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
       if (profile != null) 'profile': profile.toValue(),
@@ -12945,10 +14696,14 @@ class H265Settings {
         'sceneChangeDetect': sceneChangeDetect.toValue(),
       if (slices != null) 'slices': slices,
       if (tier != null) 'tier': tier.toValue(),
+      if (tileHeight != null) 'tileHeight': tileHeight,
+      if (tilePadding != null) 'tilePadding': tilePadding.toValue(),
+      if (tileWidth != null) 'tileWidth': tileWidth,
       if (timecodeBurninSettings != null)
         'timecodeBurninSettings': timecodeBurninSettings,
       if (timecodeInsertion != null)
         'timecodeInsertion': timecodeInsertion.toValue(),
+      if (treeblockSize != null) 'treeblockSize': treeblockSize.toValue(),
     };
   }
 }
@@ -14943,6 +16698,40 @@ class ImmediateModeScheduleActionStartSettings {
   }
 }
 
+/// Include Filler Nal Units
+enum IncludeFillerNalUnits {
+  auto,
+  drop,
+  include,
+}
+
+extension IncludeFillerNalUnitsValueExtension on IncludeFillerNalUnits {
+  String toValue() {
+    switch (this) {
+      case IncludeFillerNalUnits.auto:
+        return 'AUTO';
+      case IncludeFillerNalUnits.drop:
+        return 'DROP';
+      case IncludeFillerNalUnits.include:
+        return 'INCLUDE';
+    }
+  }
+}
+
+extension IncludeFillerNalUnitsFromString on String {
+  IncludeFillerNalUnits toIncludeFillerNalUnits() {
+    switch (this) {
+      case 'AUTO':
+        return IncludeFillerNalUnits.auto;
+      case 'DROP':
+        return IncludeFillerNalUnits.drop;
+      case 'INCLUDE':
+        return IncludeFillerNalUnits.include;
+    }
+    throw Exception('$this is not known in enum IncludeFillerNalUnits');
+  }
+}
+
 /// Placeholder documentation for Input
 class Input {
   /// The Unique ARN of the input (generated, immutable).
@@ -15476,8 +17265,49 @@ extension InputDeviceActiveInputFromString on String {
   }
 }
 
+/// The codec to use on the video that the device produces.
+enum InputDeviceCodec {
+  hevc,
+  avc,
+}
+
+extension InputDeviceCodecValueExtension on InputDeviceCodec {
+  String toValue() {
+    switch (this) {
+      case InputDeviceCodec.hevc:
+        return 'HEVC';
+      case InputDeviceCodec.avc:
+        return 'AVC';
+    }
+  }
+}
+
+extension InputDeviceCodecFromString on String {
+  InputDeviceCodec toInputDeviceCodec() {
+    switch (this) {
+      case 'HEVC':
+        return InputDeviceCodec.hevc;
+      case 'AVC':
+        return InputDeviceCodec.avc;
+    }
+    throw Exception('$this is not known in enum InputDeviceCodec');
+  }
+}
+
 /// Configurable settings for the input device.
 class InputDeviceConfigurableSettings {
+  /// An array of eight audio configurations, one for each audio pair in the
+  /// source. Set up each audio configuration either to exclude the pair, or to
+  /// format it and include it in the output from the device. This parameter
+  /// applies only to UHD devices, and only when the device is configured as the
+  /// source for a MediaConnect flow. For an HD device, you configure the audio by
+  /// setting up audio selectors in the channel configuration.
+  final List<InputDeviceConfigurableAudioChannelPairConfig>? audioChannelPairs;
+
+  /// Choose the codec for the video that the device produces. Only UHD devices
+  /// can specify this parameter.
+  final InputDeviceCodec? codec;
+
   /// The input source that you want to use. If the device has a source connected
   /// to only one of its input ports, or if you don't care which source the device
   /// sends, specify Auto. If the device has sources connected to both its input
@@ -15491,20 +17321,35 @@ class InputDeviceConfigurableSettings {
   /// bitrate of the source video.
   final int? maxBitrate;
 
+  /// To attach this device to a MediaConnect flow, specify these parameters. To
+  /// detach an existing flow, enter {} for the value of mediaconnectSettings.
+  /// Only UHD devices can specify this parameter.
+  final InputDeviceMediaConnectConfigurableSettings? mediaconnectSettings;
+
   InputDeviceConfigurableSettings({
+    this.audioChannelPairs,
+    this.codec,
     this.configuredInput,
     this.latencyMs,
     this.maxBitrate,
+    this.mediaconnectSettings,
   });
 
   Map<String, dynamic> toJson() {
+    final audioChannelPairs = this.audioChannelPairs;
+    final codec = this.codec;
     final configuredInput = this.configuredInput;
     final latencyMs = this.latencyMs;
     final maxBitrate = this.maxBitrate;
+    final mediaconnectSettings = this.mediaconnectSettings;
     return {
+      if (audioChannelPairs != null) 'audioChannelPairs': audioChannelPairs,
+      if (codec != null) 'codec': codec.toValue(),
       if (configuredInput != null) 'configuredInput': configuredInput.toValue(),
       if (latencyMs != null) 'latencyMs': latencyMs,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
+      if (mediaconnectSettings != null)
+        'mediaconnectSettings': mediaconnectSettings,
     };
   }
 }
@@ -15690,6 +17535,89 @@ extension InputDeviceIpSchemeFromString on String {
   }
 }
 
+/// Parameters required to attach a MediaConnect flow to the device.
+class InputDeviceMediaConnectConfigurableSettings {
+  /// The ARN of the MediaConnect flow to attach this device to.
+  final String? flowArn;
+
+  /// The ARN for the role that MediaLive assumes to access the attached flow and
+  /// secret. For more information about how to create this role, see the
+  /// MediaLive user guide.
+  final String? roleArn;
+
+  /// The ARN for the secret that holds the encryption key to encrypt the content
+  /// output by the device.
+  final String? secretArn;
+
+  /// The name of the MediaConnect Flow source to stream to.
+  final String? sourceName;
+
+  InputDeviceMediaConnectConfigurableSettings({
+    this.flowArn,
+    this.roleArn,
+    this.secretArn,
+    this.sourceName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final roleArn = this.roleArn;
+    final secretArn = this.secretArn;
+    final sourceName = this.sourceName;
+    return {
+      if (flowArn != null) 'flowArn': flowArn,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (secretArn != null) 'secretArn': secretArn,
+      if (sourceName != null) 'sourceName': sourceName,
+    };
+  }
+}
+
+/// Information about the MediaConnect flow attached to the device.
+class InputDeviceMediaConnectSettings {
+  /// The ARN of the MediaConnect flow.
+  final String? flowArn;
+
+  /// The ARN for the role that MediaLive assumes to access the attached flow and
+  /// secret.
+  final String? roleArn;
+
+  /// The ARN of the secret used to encrypt the stream.
+  final String? secretArn;
+
+  /// The name of the MediaConnect flow source.
+  final String? sourceName;
+
+  InputDeviceMediaConnectSettings({
+    this.flowArn,
+    this.roleArn,
+    this.secretArn,
+    this.sourceName,
+  });
+
+  factory InputDeviceMediaConnectSettings.fromJson(Map<String, dynamic> json) {
+    return InputDeviceMediaConnectSettings(
+      flowArn: json['flowArn'] as String?,
+      roleArn: json['roleArn'] as String?,
+      secretArn: json['secretArn'] as String?,
+      sourceName: json['sourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final roleArn = this.roleArn;
+    final secretArn = this.secretArn;
+    final sourceName = this.sourceName;
+    return {
+      if (flowArn != null) 'flowArn': flowArn,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (secretArn != null) 'secretArn': secretArn,
+      if (sourceName != null) 'sourceName': sourceName,
+    };
+  }
+}
+
 /// The network settings for the input device.
 class InputDeviceNetworkSettings {
   /// The DNS addresses of the input device.
@@ -15743,6 +17671,40 @@ class InputDeviceNetworkSettings {
       if (ipScheme != null) 'ipScheme': ipScheme.toValue(),
       if (subnetMask != null) 'subnetMask': subnetMask,
     };
+  }
+}
+
+/// The output attachment type of the input device.
+enum InputDeviceOutputType {
+  none,
+  medialiveInput,
+  mediaconnectFlow,
+}
+
+extension InputDeviceOutputTypeValueExtension on InputDeviceOutputType {
+  String toValue() {
+    switch (this) {
+      case InputDeviceOutputType.none:
+        return 'NONE';
+      case InputDeviceOutputType.medialiveInput:
+        return 'MEDIALIVE_INPUT';
+      case InputDeviceOutputType.mediaconnectFlow:
+        return 'MEDIACONNECT_FLOW';
+    }
+  }
+}
+
+extension InputDeviceOutputTypeFromString on String {
+  InputDeviceOutputType toInputDeviceOutputType() {
+    switch (this) {
+      case 'NONE':
+        return InputDeviceOutputType.none;
+      case 'MEDIALIVE_INPUT':
+        return InputDeviceOutputType.medialiveInput;
+      case 'MEDIACONNECT_FLOW':
+        return InputDeviceOutputType.mediaconnectFlow;
+    }
+    throw Exception('$this is not known in enum InputDeviceOutputType');
   }
 }
 
@@ -15849,6 +17811,9 @@ class InputDeviceSummary {
   /// The unique ARN of the input device.
   final String? arn;
 
+  /// The Availability Zone associated with this input device.
+  final String? availabilityZone;
+
   /// The state of the connection between the input device and AWS.
   final InputDeviceConnectionState? connectionState;
 
@@ -15871,11 +17836,20 @@ class InputDeviceSummary {
   /// The network MAC address of the input device.
   final String? macAddress;
 
+  /// An array of the ARNs for the MediaLive inputs attached to the device.
+  /// Returned only if the outputType is MEDIALIVE_INPUT.
+  final List<String>? medialiveInputArns;
+
   /// A name that you specify for the input device.
   final String? name;
 
   /// Network settings for the input device.
   final InputDeviceNetworkSettings? networkSettings;
+
+  /// The output attachment type of the input device. Specifies MEDIACONNECT_FLOW
+  /// if this device is the source for a MediaConnect flow. Specifies
+  /// MEDIALIVE_INPUT if this device is the source for a MediaLive input.
+  final InputDeviceOutputType? outputType;
 
   /// The unique serial number of the input device.
   final String? serialNumber;
@@ -15891,14 +17865,17 @@ class InputDeviceSummary {
 
   InputDeviceSummary({
     this.arn,
+    this.availabilityZone,
     this.connectionState,
     this.deviceSettingsSyncState,
     this.deviceUpdateStatus,
     this.hdDeviceSettings,
     this.id,
     this.macAddress,
+    this.medialiveInputArns,
     this.name,
     this.networkSettings,
+    this.outputType,
     this.serialNumber,
     this.tags,
     this.type,
@@ -15908,6 +17885,7 @@ class InputDeviceSummary {
   factory InputDeviceSummary.fromJson(Map<String, dynamic> json) {
     return InputDeviceSummary(
       arn: json['arn'] as String?,
+      availabilityZone: json['availabilityZone'] as String?,
       connectionState:
           (json['connectionState'] as String?)?.toInputDeviceConnectionState(),
       deviceSettingsSyncState: (json['deviceSettingsSyncState'] as String?)
@@ -15920,11 +17898,16 @@ class InputDeviceSummary {
           : null,
       id: json['id'] as String?,
       macAddress: json['macAddress'] as String?,
+      medialiveInputArns: (json['medialiveInputArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       name: json['name'] as String?,
       networkSettings: json['networkSettings'] != null
           ? InputDeviceNetworkSettings.fromJson(
               json['networkSettings'] as Map<String, dynamic>)
           : null,
+      outputType: (json['outputType'] as String?)?.toInputDeviceOutputType(),
       serialNumber: json['serialNumber'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -15938,20 +17921,24 @@ class InputDeviceSummary {
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
     final connectionState = this.connectionState;
     final deviceSettingsSyncState = this.deviceSettingsSyncState;
     final deviceUpdateStatus = this.deviceUpdateStatus;
     final hdDeviceSettings = this.hdDeviceSettings;
     final id = this.id;
     final macAddress = this.macAddress;
+    final medialiveInputArns = this.medialiveInputArns;
     final name = this.name;
     final networkSettings = this.networkSettings;
+    final outputType = this.outputType;
     final serialNumber = this.serialNumber;
     final tags = this.tags;
     final type = this.type;
     final uhdDeviceSettings = this.uhdDeviceSettings;
     return {
       if (arn != null) 'arn': arn,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (connectionState != null) 'connectionState': connectionState.toValue(),
       if (deviceSettingsSyncState != null)
         'deviceSettingsSyncState': deviceSettingsSyncState.toValue(),
@@ -15960,8 +17947,10 @@ class InputDeviceSummary {
       if (hdDeviceSettings != null) 'hdDeviceSettings': hdDeviceSettings,
       if (id != null) 'id': id,
       if (macAddress != null) 'macAddress': macAddress,
+      if (medialiveInputArns != null) 'medialiveInputArns': medialiveInputArns,
       if (name != null) 'name': name,
       if (networkSettings != null) 'networkSettings': networkSettings,
+      if (outputType != null) 'outputType': outputType.toValue(),
       if (serialNumber != null) 'serialNumber': serialNumber,
       if (tags != null) 'tags': tags,
       if (type != null) 'type': type.toValue(),
@@ -16038,6 +18027,15 @@ class InputDeviceUhdSettings {
   /// sources is currently active (SDI or HDMI).
   final InputDeviceActiveInput? activeInput;
 
+  /// An array of eight audio configurations, one for each audio pair in the
+  /// source. Each audio configuration specifies either to exclude the pair, or to
+  /// format it and include it in the output from the UHD device. Applies only
+  /// when the device is configured as the source for a MediaConnect flow.
+  final List<InputDeviceUhdAudioChannelPairConfig>? audioChannelPairs;
+
+  /// The codec for the video that the device produces.
+  final InputDeviceCodec? codec;
+
   /// The source at the input device that is currently active. You can specify
   /// this source.
   final InputDeviceConfiguredInput? configuredInput;
@@ -16059,6 +18057,10 @@ class InputDeviceUhdSettings {
   /// You can specify this maximum.
   final int? maxBitrate;
 
+  /// Information about the MediaConnect flow attached to the device. Returned
+  /// only if the outputType is MEDIACONNECT_FLOW.
+  final InputDeviceMediaConnectSettings? mediaconnectSettings;
+
   /// The scan type of the video source.
   final InputDeviceScanType? scanType;
 
@@ -16067,12 +18069,15 @@ class InputDeviceUhdSettings {
 
   InputDeviceUhdSettings({
     this.activeInput,
+    this.audioChannelPairs,
+    this.codec,
     this.configuredInput,
     this.deviceState,
     this.framerate,
     this.height,
     this.latencyMs,
     this.maxBitrate,
+    this.mediaconnectSettings,
     this.scanType,
     this.width,
   });
@@ -16080,6 +18085,12 @@ class InputDeviceUhdSettings {
   factory InputDeviceUhdSettings.fromJson(Map<String, dynamic> json) {
     return InputDeviceUhdSettings(
       activeInput: (json['activeInput'] as String?)?.toInputDeviceActiveInput(),
+      audioChannelPairs: (json['audioChannelPairs'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputDeviceUhdAudioChannelPairConfig.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      codec: (json['codec'] as String?)?.toInputDeviceCodec(),
       configuredInput:
           (json['configuredInput'] as String?)?.toInputDeviceConfiguredInput(),
       deviceState: (json['deviceState'] as String?)?.toInputDeviceState(),
@@ -16087,6 +18098,10 @@ class InputDeviceUhdSettings {
       height: json['height'] as int?,
       latencyMs: json['latencyMs'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
+      mediaconnectSettings: json['mediaconnectSettings'] != null
+          ? InputDeviceMediaConnectSettings.fromJson(
+              json['mediaconnectSettings'] as Map<String, dynamic>)
+          : null,
       scanType: (json['scanType'] as String?)?.toInputDeviceScanType(),
       width: json['width'] as int?,
     );
@@ -16094,22 +18109,29 @@ class InputDeviceUhdSettings {
 
   Map<String, dynamic> toJson() {
     final activeInput = this.activeInput;
+    final audioChannelPairs = this.audioChannelPairs;
+    final codec = this.codec;
     final configuredInput = this.configuredInput;
     final deviceState = this.deviceState;
     final framerate = this.framerate;
     final height = this.height;
     final latencyMs = this.latencyMs;
     final maxBitrate = this.maxBitrate;
+    final mediaconnectSettings = this.mediaconnectSettings;
     final scanType = this.scanType;
     final width = this.width;
     return {
       if (activeInput != null) 'activeInput': activeInput.toValue(),
+      if (audioChannelPairs != null) 'audioChannelPairs': audioChannelPairs,
+      if (codec != null) 'codec': codec.toValue(),
       if (configuredInput != null) 'configuredInput': configuredInput.toValue(),
       if (deviceState != null) 'deviceState': deviceState.toValue(),
       if (framerate != null) 'framerate': framerate,
       if (height != null) 'height': height,
       if (latencyMs != null) 'latencyMs': latencyMs,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
+      if (mediaconnectSettings != null)
+        'mediaconnectSettings': mediaconnectSettings,
       if (scanType != null) 'scanType': scanType.toValue(),
       if (width != null) 'width': width,
     };
@@ -16919,7 +18941,7 @@ class InputSourceRequest {
 /// input sources are static.
 enum InputSourceType {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension InputSourceTypeValueExtension on InputSourceType {
@@ -16927,7 +18949,7 @@ extension InputSourceTypeValueExtension on InputSourceType {
     switch (this) {
       case InputSourceType.static:
         return 'STATIC';
-      case InputSourceType.dynamic:
+      case InputSourceType.$dynamic:
         return 'DYNAMIC';
     }
   }
@@ -16939,7 +18961,7 @@ extension InputSourceTypeFromString on String {
       case 'STATIC':
         return InputSourceType.static;
       case 'DYNAMIC':
-        return InputSourceType.dynamic;
+        return InputSourceType.$dynamic;
     }
     throw Exception('$this is not known in enum InputSourceType');
   }
@@ -18721,6 +20743,35 @@ extension M2tsTimedMetadataBehaviorFromString on String {
   }
 }
 
+/// M3u8 Klv Behavior
+enum M3u8KlvBehavior {
+  noPassthrough,
+  passthrough,
+}
+
+extension M3u8KlvBehaviorValueExtension on M3u8KlvBehavior {
+  String toValue() {
+    switch (this) {
+      case M3u8KlvBehavior.noPassthrough:
+        return 'NO_PASSTHROUGH';
+      case M3u8KlvBehavior.passthrough:
+        return 'PASSTHROUGH';
+    }
+  }
+}
+
+extension M3u8KlvBehaviorFromString on String {
+  M3u8KlvBehavior toM3u8KlvBehavior() {
+    switch (this) {
+      case 'NO_PASSTHROUGH':
+        return M3u8KlvBehavior.noPassthrough;
+      case 'PASSTHROUGH':
+        return M3u8KlvBehavior.passthrough;
+    }
+    throw Exception('$this is not known in enum M3u8KlvBehavior');
+  }
+}
+
 /// M3u8 Nielsen Id3 Behavior
 enum M3u8NielsenId3Behavior {
   noPassthrough,
@@ -18821,6 +20872,16 @@ class M3u8Settings {
   /// This parameter is unused and deprecated.
   final String? ecmPid;
 
+  /// If set to passthrough, passes any KLV data from the input source to this
+  /// output.
+  final M3u8KlvBehavior? klvBehavior;
+
+  /// Packet Identifier (PID) for input source KLV data to this output. Multiple
+  /// values are accepted, and can be entered in ranges and/or by comma
+  /// separation. Can be entered as decimal or hexadecimal values.  Each PID
+  /// specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
+  final String? klvDataPids;
+
   /// If set to passthrough, Nielsen inaudible tones for media tracking will be
   /// detected in the input audio and an equivalent ID3 tag will be inserted in
   /// the output.
@@ -18884,6 +20945,8 @@ class M3u8Settings {
     this.audioFramesPerPes,
     this.audioPids,
     this.ecmPid,
+    this.klvBehavior,
+    this.klvDataPids,
     this.nielsenId3Behavior,
     this.patInterval,
     this.pcrControl,
@@ -18905,6 +20968,8 @@ class M3u8Settings {
       audioFramesPerPes: json['audioFramesPerPes'] as int?,
       audioPids: json['audioPids'] as String?,
       ecmPid: json['ecmPid'] as String?,
+      klvBehavior: (json['klvBehavior'] as String?)?.toM3u8KlvBehavior(),
+      klvDataPids: json['klvDataPids'] as String?,
       nielsenId3Behavior:
           (json['nielsenId3Behavior'] as String?)?.toM3u8NielsenId3Behavior(),
       patInterval: json['patInterval'] as int?,
@@ -18929,6 +20994,8 @@ class M3u8Settings {
     final audioFramesPerPes = this.audioFramesPerPes;
     final audioPids = this.audioPids;
     final ecmPid = this.ecmPid;
+    final klvBehavior = this.klvBehavior;
+    final klvDataPids = this.klvDataPids;
     final nielsenId3Behavior = this.nielsenId3Behavior;
     final patInterval = this.patInterval;
     final pcrControl = this.pcrControl;
@@ -18947,6 +21014,8 @@ class M3u8Settings {
       if (audioFramesPerPes != null) 'audioFramesPerPes': audioFramesPerPes,
       if (audioPids != null) 'audioPids': audioPids,
       if (ecmPid != null) 'ecmPid': ecmPid,
+      if (klvBehavior != null) 'klvBehavior': klvBehavior.toValue(),
+      if (klvDataPids != null) 'klvDataPids': klvDataPids,
       if (nielsenId3Behavior != null)
         'nielsenId3Behavior': nielsenId3Behavior.toValue(),
       if (patInterval != null) 'patInterval': patInterval,
@@ -19894,14 +21963,14 @@ class Mpeg2Settings {
 
 /// Mpeg2 Sub Gop Length
 enum Mpeg2SubGopLength {
-  dynamic,
+  $dynamic,
   fixed,
 }
 
 extension Mpeg2SubGopLengthValueExtension on Mpeg2SubGopLength {
   String toValue() {
     switch (this) {
-      case Mpeg2SubGopLength.dynamic:
+      case Mpeg2SubGopLength.$dynamic:
         return 'DYNAMIC';
       case Mpeg2SubGopLength.fixed:
         return 'FIXED';
@@ -19913,7 +21982,7 @@ extension Mpeg2SubGopLengthFromString on String {
   Mpeg2SubGopLength toMpeg2SubGopLength() {
     switch (this) {
       case 'DYNAMIC':
-        return Mpeg2SubGopLength.dynamic;
+        return Mpeg2SubGopLength.$dynamic;
       case 'FIXED':
         return Mpeg2SubGopLength.fixed;
     }
@@ -21792,6 +23861,7 @@ class OutputGroup {
 /// Output Group Settings
 class OutputGroupSettings {
   final ArchiveGroupSettings? archiveGroupSettings;
+  final CmafIngestGroupSettings? cmafIngestGroupSettings;
   final FrameCaptureGroupSettings? frameCaptureGroupSettings;
   final HlsGroupSettings? hlsGroupSettings;
   final MediaPackageGroupSettings? mediaPackageGroupSettings;
@@ -21802,6 +23872,7 @@ class OutputGroupSettings {
 
   OutputGroupSettings({
     this.archiveGroupSettings,
+    this.cmafIngestGroupSettings,
     this.frameCaptureGroupSettings,
     this.hlsGroupSettings,
     this.mediaPackageGroupSettings,
@@ -21816,6 +23887,10 @@ class OutputGroupSettings {
       archiveGroupSettings: json['archiveGroupSettings'] != null
           ? ArchiveGroupSettings.fromJson(
               json['archiveGroupSettings'] as Map<String, dynamic>)
+          : null,
+      cmafIngestGroupSettings: json['cmafIngestGroupSettings'] != null
+          ? CmafIngestGroupSettings.fromJson(
+              json['cmafIngestGroupSettings'] as Map<String, dynamic>)
           : null,
       frameCaptureGroupSettings: json['frameCaptureGroupSettings'] != null
           ? FrameCaptureGroupSettings.fromJson(
@@ -21850,6 +23925,7 @@ class OutputGroupSettings {
 
   Map<String, dynamic> toJson() {
     final archiveGroupSettings = this.archiveGroupSettings;
+    final cmafIngestGroupSettings = this.cmafIngestGroupSettings;
     final frameCaptureGroupSettings = this.frameCaptureGroupSettings;
     final hlsGroupSettings = this.hlsGroupSettings;
     final mediaPackageGroupSettings = this.mediaPackageGroupSettings;
@@ -21860,6 +23936,8 @@ class OutputGroupSettings {
     return {
       if (archiveGroupSettings != null)
         'archiveGroupSettings': archiveGroupSettings,
+      if (cmafIngestGroupSettings != null)
+        'cmafIngestGroupSettings': cmafIngestGroupSettings,
       if (frameCaptureGroupSettings != null)
         'frameCaptureGroupSettings': frameCaptureGroupSettings,
       if (hlsGroupSettings != null) 'hlsGroupSettings': hlsGroupSettings,
@@ -21897,9 +23975,45 @@ class OutputLocationRef {
   }
 }
 
+/// Output Locking Settings
+class OutputLockingSettings {
+  final EpochLockingSettings? epochLockingSettings;
+  final PipelineLockingSettings? pipelineLockingSettings;
+
+  OutputLockingSettings({
+    this.epochLockingSettings,
+    this.pipelineLockingSettings,
+  });
+
+  factory OutputLockingSettings.fromJson(Map<String, dynamic> json) {
+    return OutputLockingSettings(
+      epochLockingSettings: json['epochLockingSettings'] != null
+          ? EpochLockingSettings.fromJson(
+              json['epochLockingSettings'] as Map<String, dynamic>)
+          : null,
+      pipelineLockingSettings: json['pipelineLockingSettings'] != null
+          ? PipelineLockingSettings.fromJson(
+              json['pipelineLockingSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final epochLockingSettings = this.epochLockingSettings;
+    final pipelineLockingSettings = this.pipelineLockingSettings;
+    return {
+      if (epochLockingSettings != null)
+        'epochLockingSettings': epochLockingSettings,
+      if (pipelineLockingSettings != null)
+        'pipelineLockingSettings': pipelineLockingSettings,
+    };
+  }
+}
+
 /// Output Settings
 class OutputSettings {
   final ArchiveOutputSettings? archiveOutputSettings;
+  final CmafIngestOutputSettings? cmafIngestOutputSettings;
   final FrameCaptureOutputSettings? frameCaptureOutputSettings;
   final HlsOutputSettings? hlsOutputSettings;
   final MediaPackageOutputSettings? mediaPackageOutputSettings;
@@ -21910,6 +24024,7 @@ class OutputSettings {
 
   OutputSettings({
     this.archiveOutputSettings,
+    this.cmafIngestOutputSettings,
     this.frameCaptureOutputSettings,
     this.hlsOutputSettings,
     this.mediaPackageOutputSettings,
@@ -21924,6 +24039,10 @@ class OutputSettings {
       archiveOutputSettings: json['archiveOutputSettings'] != null
           ? ArchiveOutputSettings.fromJson(
               json['archiveOutputSettings'] as Map<String, dynamic>)
+          : null,
+      cmafIngestOutputSettings: json['cmafIngestOutputSettings'] != null
+          ? CmafIngestOutputSettings.fromJson(
+              json['cmafIngestOutputSettings'] as Map<String, dynamic>)
           : null,
       frameCaptureOutputSettings: json['frameCaptureOutputSettings'] != null
           ? FrameCaptureOutputSettings.fromJson(
@@ -21958,6 +24077,7 @@ class OutputSettings {
 
   Map<String, dynamic> toJson() {
     final archiveOutputSettings = this.archiveOutputSettings;
+    final cmafIngestOutputSettings = this.cmafIngestOutputSettings;
     final frameCaptureOutputSettings = this.frameCaptureOutputSettings;
     final hlsOutputSettings = this.hlsOutputSettings;
     final mediaPackageOutputSettings = this.mediaPackageOutputSettings;
@@ -21968,6 +24088,8 @@ class OutputSettings {
     return {
       if (archiveOutputSettings != null)
         'archiveOutputSettings': archiveOutputSettings,
+      if (cmafIngestOutputSettings != null)
+        'cmafIngestOutputSettings': cmafIngestOutputSettings,
       if (frameCaptureOutputSettings != null)
         'frameCaptureOutputSettings': frameCaptureOutputSettings,
       if (hlsOutputSettings != null) 'hlsOutputSettings': hlsOutputSettings,
@@ -22109,6 +24231,19 @@ extension PipelineIdFromString on String {
         return PipelineId.pipeline_1;
     }
     throw Exception('$this is not known in enum PipelineId');
+  }
+}
+
+/// Pipeline Locking Settings
+class PipelineLockingSettings {
+  PipelineLockingSettings();
+
+  factory PipelineLockingSettings.fromJson(Map<String, dynamic> _) {
+    return PipelineLockingSettings();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -23074,6 +25209,13 @@ class RtmpGroupSettings {
   /// in 608 from field 1 video will be passed.
   final RtmpCaptionData? captionData;
 
+  /// Applies only when the rate control mode (in the codec settings) is CBR
+  /// (constant bit rate). Controls whether the RTMP output stream is padded (with
+  /// FILL NAL units) in order to achieve a constant bit rate that is truly
+  /// constant. When there is no padding, the bandwidth varies (up to the bitrate
+  /// value in the codec settings). We recommend that you choose Auto.
+  final IncludeFillerNalUnits? includeFillerNalUnits;
+
   /// Controls the behavior of this RTMP group if input becomes unavailable.
   ///
   /// - emitOutput: Emit a slate until input returns.
@@ -23091,6 +25233,7 @@ class RtmpGroupSettings {
     this.cacheFullBehavior,
     this.cacheLength,
     this.captionData,
+    this.includeFillerNalUnits,
     this.inputLossAction,
     this.restartDelay,
   });
@@ -23107,6 +25250,8 @@ class RtmpGroupSettings {
           (json['cacheFullBehavior'] as String?)?.toRtmpCacheFullBehavior(),
       cacheLength: json['cacheLength'] as int?,
       captionData: (json['captionData'] as String?)?.toRtmpCaptionData(),
+      includeFillerNalUnits:
+          (json['includeFillerNalUnits'] as String?)?.toIncludeFillerNalUnits(),
       inputLossAction:
           (json['inputLossAction'] as String?)?.toInputLossActionForRtmpOut(),
       restartDelay: json['restartDelay'] as int?,
@@ -23119,6 +25264,7 @@ class RtmpGroupSettings {
     final cacheFullBehavior = this.cacheFullBehavior;
     final cacheLength = this.cacheLength;
     final captionData = this.captionData;
+    final includeFillerNalUnits = this.includeFillerNalUnits;
     final inputLossAction = this.inputLossAction;
     final restartDelay = this.restartDelay;
     return {
@@ -23130,6 +25276,8 @@ class RtmpGroupSettings {
         'cacheFullBehavior': cacheFullBehavior.toValue(),
       if (cacheLength != null) 'cacheLength': cacheLength,
       if (captionData != null) 'captionData': captionData.toValue(),
+      if (includeFillerNalUnits != null)
+        'includeFillerNalUnits': includeFillerNalUnits.toValue(),
       if (inputLossAction != null) 'inputLossAction': inputLossAction.toValue(),
       if (restartDelay != null) 'restartDelay': restartDelay,
     };
@@ -23345,6 +25493,14 @@ class ScheduleActionSettings {
   final StaticImageDeactivateScheduleActionSettings?
       staticImageDeactivateSettings;
 
+  /// Action to activate a static image overlay in one or more specified outputs
+  final StaticImageOutputActivateScheduleActionSettings?
+      staticImageOutputActivateSettings;
+
+  /// Action to deactivate a static image overlay in one or more specified outputs
+  final StaticImageOutputDeactivateScheduleActionSettings?
+      staticImageOutputDeactivateSettings;
+
   ScheduleActionSettings({
     this.hlsId3SegmentTaggingSettings,
     this.hlsTimedMetadataSettings,
@@ -23359,6 +25515,8 @@ class ScheduleActionSettings {
     this.scte35TimeSignalSettings,
     this.staticImageActivateSettings,
     this.staticImageDeactivateSettings,
+    this.staticImageOutputActivateSettings,
+    this.staticImageOutputDeactivateSettings,
   });
 
   factory ScheduleActionSettings.fromJson(Map<String, dynamic> json) {
@@ -23421,6 +25579,18 @@ class ScheduleActionSettings {
               ? StaticImageDeactivateScheduleActionSettings.fromJson(
                   json['staticImageDeactivateSettings'] as Map<String, dynamic>)
               : null,
+      staticImageOutputActivateSettings:
+          json['staticImageOutputActivateSettings'] != null
+              ? StaticImageOutputActivateScheduleActionSettings.fromJson(
+                  json['staticImageOutputActivateSettings']
+                      as Map<String, dynamic>)
+              : null,
+      staticImageOutputDeactivateSettings:
+          json['staticImageOutputDeactivateSettings'] != null
+              ? StaticImageOutputDeactivateScheduleActionSettings.fromJson(
+                  json['staticImageOutputDeactivateSettings']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -23440,6 +25610,10 @@ class ScheduleActionSettings {
     final scte35TimeSignalSettings = this.scte35TimeSignalSettings;
     final staticImageActivateSettings = this.staticImageActivateSettings;
     final staticImageDeactivateSettings = this.staticImageDeactivateSettings;
+    final staticImageOutputActivateSettings =
+        this.staticImageOutputActivateSettings;
+    final staticImageOutputDeactivateSettings =
+        this.staticImageOutputDeactivateSettings;
     return {
       if (hlsId3SegmentTaggingSettings != null)
         'hlsId3SegmentTaggingSettings': hlsId3SegmentTaggingSettings,
@@ -23468,6 +25642,11 @@ class ScheduleActionSettings {
         'staticImageActivateSettings': staticImageActivateSettings,
       if (staticImageDeactivateSettings != null)
         'staticImageDeactivateSettings': staticImageDeactivateSettings,
+      if (staticImageOutputActivateSettings != null)
+        'staticImageOutputActivateSettings': staticImageOutputActivateSettings,
+      if (staticImageOutputDeactivateSettings != null)
+        'staticImageOutputDeactivateSettings':
+            staticImageOutputDeactivateSettings,
     };
   }
 }
@@ -24996,6 +27175,19 @@ class StartInputDeviceMaintenanceWindowResponse {
   }
 }
 
+/// Placeholder documentation for StartInputDeviceResponse
+class StartInputDeviceResponse {
+  StartInputDeviceResponse();
+
+  factory StartInputDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return StartInputDeviceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Placeholder documentation for StartMultiplexResponse
 class StartMultiplexResponse {
   /// The unique arn of the multiplex.
@@ -25259,6 +27451,166 @@ class StaticImageDeactivateScheduleActionSettings {
   }
 }
 
+/// Settings for the action to activate a static image.
+class StaticImageOutputActivateScheduleActionSettings {
+  /// The location and filename of the image file to overlay on the video. The
+  /// file must be a 32-bit BMP, PNG, or TGA file, and must not be larger (in
+  /// pixels) than the input video.
+  final InputLocation image;
+
+  /// The name(s) of the output(s) the activation should apply to.
+  final List<String> outputNames;
+
+  /// The duration in milliseconds for the image to remain on the video. If
+  /// omitted or set to 0 the duration is unlimited and the image will remain
+  /// until it is explicitly deactivated.
+  final int? duration;
+
+  /// The time in milliseconds for the image to fade in. The fade-in starts at the
+  /// start time of the overlay. Default is 0 (no fade-in).
+  final int? fadeIn;
+
+  /// Applies only if a duration is specified. The time in milliseconds for the
+  /// image to fade out. The fade-out starts when the duration time is hit, so it
+  /// effectively extends the duration. Default is 0 (no fade-out).
+  final int? fadeOut;
+
+  /// The height of the image when inserted into the video, in pixels. The overlay
+  /// will be scaled up or down to the specified height. Leave blank to use the
+  /// native height of the overlay.
+  final int? height;
+
+  /// Placement of the left edge of the overlay relative to the left edge of the
+  /// video frame, in pixels. 0 (the default) is the left edge of the frame. If
+  /// the placement causes the overlay to extend beyond the right edge of the
+  /// underlying video, then the overlay is cropped on the right.
+  final int? imageX;
+
+  /// Placement of the top edge of the overlay relative to the top edge of the
+  /// video frame, in pixels. 0 (the default) is the top edge of the frame. If the
+  /// placement causes the overlay to extend beyond the bottom edge of the
+  /// underlying video, then the overlay is cropped on the bottom.
+  final int? imageY;
+
+  /// The number of the layer, 0 to 7. There are 8 layers that can be overlaid on
+  /// the video, each layer with a different image. The layers are in Z order,
+  /// which means that overlays with higher values of layer are inserted on top of
+  /// overlays with lower values of layer. Default is 0.
+  final int? layer;
+
+  /// Opacity of image where 0 is transparent and 100 is fully opaque. Default is
+  /// 100.
+  final int? opacity;
+
+  /// The width of the image when inserted into the video, in pixels. The overlay
+  /// will be scaled up or down to the specified width. Leave blank to use the
+  /// native width of the overlay.
+  final int? width;
+
+  StaticImageOutputActivateScheduleActionSettings({
+    required this.image,
+    required this.outputNames,
+    this.duration,
+    this.fadeIn,
+    this.fadeOut,
+    this.height,
+    this.imageX,
+    this.imageY,
+    this.layer,
+    this.opacity,
+    this.width,
+  });
+
+  factory StaticImageOutputActivateScheduleActionSettings.fromJson(
+      Map<String, dynamic> json) {
+    return StaticImageOutputActivateScheduleActionSettings(
+      image: InputLocation.fromJson(json['image'] as Map<String, dynamic>),
+      outputNames: (json['outputNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      duration: json['duration'] as int?,
+      fadeIn: json['fadeIn'] as int?,
+      fadeOut: json['fadeOut'] as int?,
+      height: json['height'] as int?,
+      imageX: json['imageX'] as int?,
+      imageY: json['imageY'] as int?,
+      layer: json['layer'] as int?,
+      opacity: json['opacity'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    final outputNames = this.outputNames;
+    final duration = this.duration;
+    final fadeIn = this.fadeIn;
+    final fadeOut = this.fadeOut;
+    final height = this.height;
+    final imageX = this.imageX;
+    final imageY = this.imageY;
+    final layer = this.layer;
+    final opacity = this.opacity;
+    final width = this.width;
+    return {
+      'image': image,
+      'outputNames': outputNames,
+      if (duration != null) 'duration': duration,
+      if (fadeIn != null) 'fadeIn': fadeIn,
+      if (fadeOut != null) 'fadeOut': fadeOut,
+      if (height != null) 'height': height,
+      if (imageX != null) 'imageX': imageX,
+      if (imageY != null) 'imageY': imageY,
+      if (layer != null) 'layer': layer,
+      if (opacity != null) 'opacity': opacity,
+      if (width != null) 'width': width,
+    };
+  }
+}
+
+/// Settings for the action to deactivate the image in a specific layer.
+class StaticImageOutputDeactivateScheduleActionSettings {
+  /// The name(s) of the output(s) the deactivation should apply to.
+  final List<String> outputNames;
+
+  /// The time in milliseconds for the image to fade out. Default is 0 (no
+  /// fade-out).
+  final int? fadeOut;
+
+  /// The image overlay layer to deactivate, 0 to 7. Default is 0.
+  final int? layer;
+
+  StaticImageOutputDeactivateScheduleActionSettings({
+    required this.outputNames,
+    this.fadeOut,
+    this.layer,
+  });
+
+  factory StaticImageOutputDeactivateScheduleActionSettings.fromJson(
+      Map<String, dynamic> json) {
+    return StaticImageOutputDeactivateScheduleActionSettings(
+      outputNames: (json['outputNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      fadeOut: json['fadeOut'] as int?,
+      layer: json['layer'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputNames = this.outputNames;
+    final fadeOut = this.fadeOut;
+    final layer = this.layer;
+    return {
+      'outputNames': outputNames,
+      if (fadeOut != null) 'fadeOut': fadeOut,
+      if (layer != null) 'layer': layer,
+    };
+  }
+}
+
 /// Static Key Settings
 class StaticKeySettings {
   /// Static key value as a 32 character hexadecimal string.
@@ -25460,6 +27812,19 @@ class StopChannelResponse {
       if (tags != null) 'tags': tags,
       if (vpc != null) 'vpc': vpc,
     };
+  }
+}
+
+/// Placeholder documentation for StopInputDeviceResponse
+class StopInputDeviceResponse {
+  StopInputDeviceResponse();
+
+  factory StopInputDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return StopInputDeviceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -25821,6 +28186,166 @@ extension TemporalFilterStrengthFromString on String {
         return TemporalFilterStrength.strength_16;
     }
     throw Exception('$this is not known in enum TemporalFilterStrength');
+  }
+}
+
+/// Details of a single thumbnail
+class Thumbnail {
+  /// The binary data for the latest thumbnail.
+  final String? body;
+
+  /// The content type for the latest thumbnail.
+  final String? contentType;
+
+  /// Thumbnail Type
+  final ThumbnailType? thumbnailType;
+
+  /// Time stamp for the latest thumbnail.
+  final DateTime? timeStamp;
+
+  Thumbnail({
+    this.body,
+    this.contentType,
+    this.thumbnailType,
+    this.timeStamp,
+  });
+
+  factory Thumbnail.fromJson(Map<String, dynamic> json) {
+    return Thumbnail(
+      body: json['body'] as String?,
+      contentType: json['contentType'] as String?,
+      thumbnailType: (json['thumbnailType'] as String?)?.toThumbnailType(),
+      timeStamp: timeStampFromJson(json['timeStamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final contentType = this.contentType;
+    final thumbnailType = this.thumbnailType;
+    final timeStamp = this.timeStamp;
+    return {
+      if (body != null) 'body': body,
+      if (contentType != null) 'contentType': contentType,
+      if (thumbnailType != null) 'thumbnailType': thumbnailType.toValue(),
+      if (timeStamp != null) 'timeStamp': iso8601ToJson(timeStamp),
+    };
+  }
+}
+
+/// Thumbnail Configuration
+class ThumbnailConfiguration {
+  /// Enables the thumbnail feature. The feature generates thumbnails of the
+  /// incoming video in each pipeline in the channel. AUTO turns the feature on,
+  /// DISABLE turns the feature off.
+  final ThumbnailState state;
+
+  ThumbnailConfiguration({
+    required this.state,
+  });
+
+  factory ThumbnailConfiguration.fromJson(Map<String, dynamic> json) {
+    return ThumbnailConfiguration(
+      state: (json['state'] as String).toThumbnailState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      'state': state.toValue(),
+    };
+  }
+}
+
+/// Thumbnail details for one pipeline of a running channel.
+class ThumbnailDetail {
+  /// Pipeline ID
+  final String? pipelineId;
+
+  /// thumbnails of a single pipeline
+  final List<Thumbnail>? thumbnails;
+
+  ThumbnailDetail({
+    this.pipelineId,
+    this.thumbnails,
+  });
+
+  factory ThumbnailDetail.fromJson(Map<String, dynamic> json) {
+    return ThumbnailDetail(
+      pipelineId: json['pipelineId'] as String?,
+      thumbnails: (json['thumbnails'] as List?)
+          ?.whereNotNull()
+          .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineId = this.pipelineId;
+    final thumbnails = this.thumbnails;
+    return {
+      if (pipelineId != null) 'pipelineId': pipelineId,
+      if (thumbnails != null) 'thumbnails': thumbnails,
+    };
+  }
+}
+
+/// Thumbnail State
+enum ThumbnailState {
+  auto,
+  disabled,
+}
+
+extension ThumbnailStateValueExtension on ThumbnailState {
+  String toValue() {
+    switch (this) {
+      case ThumbnailState.auto:
+        return 'AUTO';
+      case ThumbnailState.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension ThumbnailStateFromString on String {
+  ThumbnailState toThumbnailState() {
+    switch (this) {
+      case 'AUTO':
+        return ThumbnailState.auto;
+      case 'DISABLED':
+        return ThumbnailState.disabled;
+    }
+    throw Exception('$this is not known in enum ThumbnailState');
+  }
+}
+
+/// Thumbnail type.
+enum ThumbnailType {
+  unspecified,
+  currentActive,
+}
+
+extension ThumbnailTypeValueExtension on ThumbnailType {
+  String toValue() {
+    switch (this) {
+      case ThumbnailType.unspecified:
+        return 'UNSPECIFIED';
+      case ThumbnailType.currentActive:
+        return 'CURRENT_ACTIVE';
+    }
+  }
+}
+
+extension ThumbnailTypeFromString on String {
+  ThumbnailType toThumbnailType() {
+    switch (this) {
+      case 'UNSPECIFIED':
+        return ThumbnailType.unspecified;
+      case 'CURRENT_ACTIVE':
+        return ThumbnailType.currentActive;
+    }
+    throw Exception('$this is not known in enum ThumbnailType');
   }
 }
 
@@ -26309,6 +28834,33 @@ extension UdpTimedMetadataId3FrameFromString on String {
   }
 }
 
+/// Placeholder documentation for UpdateAccountConfigurationResponse
+class UpdateAccountConfigurationResponse {
+  final AccountConfiguration? accountConfiguration;
+
+  UpdateAccountConfigurationResponse({
+    this.accountConfiguration,
+  });
+
+  factory UpdateAccountConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAccountConfigurationResponse(
+      accountConfiguration: json['accountConfiguration'] != null
+          ? AccountConfiguration.fromJson(
+              json['accountConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountConfiguration = this.accountConfiguration;
+    return {
+      if (accountConfiguration != null)
+        'accountConfiguration': accountConfiguration,
+    };
+  }
+}
+
 /// Placeholder documentation for UpdateChannelClassResponse
 class UpdateChannelClassResponse {
   final Channel? channel;
@@ -26362,6 +28914,9 @@ class UpdateInputDeviceResponse {
   /// The unique ARN of the input device.
   final String? arn;
 
+  /// The Availability Zone associated with this input device.
+  final String? availabilityZone;
+
   /// The state of the connection between the input device and AWS.
   final InputDeviceConnectionState? connectionState;
 
@@ -26384,11 +28939,20 @@ class UpdateInputDeviceResponse {
   /// The network MAC address of the input device.
   final String? macAddress;
 
+  /// An array of the ARNs for the MediaLive inputs attached to the device.
+  /// Returned only if the outputType is MEDIALIVE_INPUT.
+  final List<String>? medialiveInputArns;
+
   /// A name that you specify for the input device.
   final String? name;
 
   /// The network settings for the input device.
   final InputDeviceNetworkSettings? networkSettings;
+
+  /// The output attachment type of the input device. Specifies MEDIACONNECT_FLOW
+  /// if this device is the source for a MediaConnect flow. Specifies
+  /// MEDIALIVE_INPUT if this device is the source for a MediaLive input.
+  final InputDeviceOutputType? outputType;
 
   /// The unique serial number of the input device.
   final String? serialNumber;
@@ -26404,14 +28968,17 @@ class UpdateInputDeviceResponse {
 
   UpdateInputDeviceResponse({
     this.arn,
+    this.availabilityZone,
     this.connectionState,
     this.deviceSettingsSyncState,
     this.deviceUpdateStatus,
     this.hdDeviceSettings,
     this.id,
     this.macAddress,
+    this.medialiveInputArns,
     this.name,
     this.networkSettings,
+    this.outputType,
     this.serialNumber,
     this.tags,
     this.type,
@@ -26421,6 +28988,7 @@ class UpdateInputDeviceResponse {
   factory UpdateInputDeviceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateInputDeviceResponse(
       arn: json['arn'] as String?,
+      availabilityZone: json['availabilityZone'] as String?,
       connectionState:
           (json['connectionState'] as String?)?.toInputDeviceConnectionState(),
       deviceSettingsSyncState: (json['deviceSettingsSyncState'] as String?)
@@ -26433,11 +29001,16 @@ class UpdateInputDeviceResponse {
           : null,
       id: json['id'] as String?,
       macAddress: json['macAddress'] as String?,
+      medialiveInputArns: (json['medialiveInputArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       name: json['name'] as String?,
       networkSettings: json['networkSettings'] != null
           ? InputDeviceNetworkSettings.fromJson(
               json['networkSettings'] as Map<String, dynamic>)
           : null,
+      outputType: (json['outputType'] as String?)?.toInputDeviceOutputType(),
       serialNumber: json['serialNumber'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -26451,20 +29024,24 @@ class UpdateInputDeviceResponse {
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
     final connectionState = this.connectionState;
     final deviceSettingsSyncState = this.deviceSettingsSyncState;
     final deviceUpdateStatus = this.deviceUpdateStatus;
     final hdDeviceSettings = this.hdDeviceSettings;
     final id = this.id;
     final macAddress = this.macAddress;
+    final medialiveInputArns = this.medialiveInputArns;
     final name = this.name;
     final networkSettings = this.networkSettings;
+    final outputType = this.outputType;
     final serialNumber = this.serialNumber;
     final tags = this.tags;
     final type = this.type;
     final uhdDeviceSettings = this.uhdDeviceSettings;
     return {
       if (arn != null) 'arn': arn,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (connectionState != null) 'connectionState': connectionState.toValue(),
       if (deviceSettingsSyncState != null)
         'deviceSettingsSyncState': deviceSettingsSyncState.toValue(),
@@ -26473,8 +29050,10 @@ class UpdateInputDeviceResponse {
       if (hdDeviceSettings != null) 'hdDeviceSettings': hdDeviceSettings,
       if (id != null) 'id': id,
       if (macAddress != null) 'macAddress': macAddress,
+      if (medialiveInputArns != null) 'medialiveInputArns': medialiveInputArns,
       if (name != null) 'name': name,
       if (networkSettings != null) 'networkSettings': networkSettings,
+      if (outputType != null) 'outputType': outputType.toValue(),
       if (serialNumber != null) 'serialNumber': serialNumber,
       if (tags != null) 'tags': tags,
       if (type != null) 'type': type.toValue(),
@@ -27379,6 +29958,3950 @@ extension ContentTypeFromString on String {
         return ContentType.imageJpeg;
     }
     throw Exception('$this is not known in enum ContentType');
+  }
+}
+
+/// One audio configuration that specifies the format for one audio pair that
+/// the device produces as output.
+class InputDeviceConfigurableAudioChannelPairConfig {
+  /// The ID for one audio pair configuration, a value from 1 to 8.
+  final int? id;
+
+  /// The profile to set for one audio pair configuration. Choose an enumeration
+  /// value. Each value describes one audio configuration using the format (rate
+  /// control algorithm)-(codec)_(quality)-(bitrate in bytes). For example,
+  /// CBR-AAC_HQ-192000. Or choose DISABLED, in which case the device won't
+  /// produce audio for this pair.
+  final InputDeviceConfigurableAudioChannelPairProfile? profile;
+
+  InputDeviceConfigurableAudioChannelPairConfig({
+    this.id,
+    this.profile,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final profile = this.profile;
+    return {
+      if (id != null) 'id': id,
+      if (profile != null) 'profile': profile.toValue(),
+    };
+  }
+}
+
+/// Property of InputDeviceConfigurableAudioChannelPairConfig, which configures
+/// one audio channel that the device produces.
+enum InputDeviceConfigurableAudioChannelPairProfile {
+  disabled,
+  vbrAacHhe_16000,
+  vbrAacHe_64000,
+  vbrAacLc_128000,
+  cbrAacHq_192000,
+  cbrAacHq_256000,
+  cbrAacHq_384000,
+  cbrAacHq_512000,
+}
+
+extension InputDeviceConfigurableAudioChannelPairProfileValueExtension
+    on InputDeviceConfigurableAudioChannelPairProfile {
+  String toValue() {
+    switch (this) {
+      case InputDeviceConfigurableAudioChannelPairProfile.disabled:
+        return 'DISABLED';
+      case InputDeviceConfigurableAudioChannelPairProfile.vbrAacHhe_16000:
+        return 'VBR-AAC_HHE-16000';
+      case InputDeviceConfigurableAudioChannelPairProfile.vbrAacHe_64000:
+        return 'VBR-AAC_HE-64000';
+      case InputDeviceConfigurableAudioChannelPairProfile.vbrAacLc_128000:
+        return 'VBR-AAC_LC-128000';
+      case InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_192000:
+        return 'CBR-AAC_HQ-192000';
+      case InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_256000:
+        return 'CBR-AAC_HQ-256000';
+      case InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_384000:
+        return 'CBR-AAC_HQ-384000';
+      case InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_512000:
+        return 'CBR-AAC_HQ-512000';
+    }
+  }
+}
+
+extension InputDeviceConfigurableAudioChannelPairProfileFromString on String {
+  InputDeviceConfigurableAudioChannelPairProfile
+      toInputDeviceConfigurableAudioChannelPairProfile() {
+    switch (this) {
+      case 'DISABLED':
+        return InputDeviceConfigurableAudioChannelPairProfile.disabled;
+      case 'VBR-AAC_HHE-16000':
+        return InputDeviceConfigurableAudioChannelPairProfile.vbrAacHhe_16000;
+      case 'VBR-AAC_HE-64000':
+        return InputDeviceConfigurableAudioChannelPairProfile.vbrAacHe_64000;
+      case 'VBR-AAC_LC-128000':
+        return InputDeviceConfigurableAudioChannelPairProfile.vbrAacLc_128000;
+      case 'CBR-AAC_HQ-192000':
+        return InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_192000;
+      case 'CBR-AAC_HQ-256000':
+        return InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_256000;
+      case 'CBR-AAC_HQ-384000':
+        return InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_384000;
+      case 'CBR-AAC_HQ-512000':
+        return InputDeviceConfigurableAudioChannelPairProfile.cbrAacHq_512000;
+    }
+    throw Exception(
+        '$this is not known in enum InputDeviceConfigurableAudioChannelPairProfile');
+  }
+}
+
+/// One audio configuration that specifies the format for one audio pair that
+/// the device produces as output.
+class InputDeviceUhdAudioChannelPairConfig {
+  /// The ID for one audio pair configuration, a value from 1 to 8.
+  final int? id;
+
+  /// The profile for one audio pair configuration. This property describes one
+  /// audio configuration in the format (rate control
+  /// algorithm)-(codec)_(quality)-(bitrate in bytes). For example,
+  /// CBR-AAC_HQ-192000. Or DISABLED, in which case the device won't produce audio
+  /// for this pair.
+  final InputDeviceUhdAudioChannelPairProfile? profile;
+
+  InputDeviceUhdAudioChannelPairConfig({
+    this.id,
+    this.profile,
+  });
+
+  factory InputDeviceUhdAudioChannelPairConfig.fromJson(
+      Map<String, dynamic> json) {
+    return InputDeviceUhdAudioChannelPairConfig(
+      id: json['id'] as int?,
+      profile: (json['profile'] as String?)
+          ?.toInputDeviceUhdAudioChannelPairProfile(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final profile = this.profile;
+    return {
+      if (id != null) 'id': id,
+      if (profile != null) 'profile': profile.toValue(),
+    };
+  }
+}
+
+/// Property of InputDeviceUhdAudioChannelPairConfig, which describes one audio
+/// channel that the device is configured to produce.
+enum InputDeviceUhdAudioChannelPairProfile {
+  disabled,
+  vbrAacHhe_16000,
+  vbrAacHe_64000,
+  vbrAacLc_128000,
+  cbrAacHq_192000,
+  cbrAacHq_256000,
+  cbrAacHq_384000,
+  cbrAacHq_512000,
+}
+
+extension InputDeviceUhdAudioChannelPairProfileValueExtension
+    on InputDeviceUhdAudioChannelPairProfile {
+  String toValue() {
+    switch (this) {
+      case InputDeviceUhdAudioChannelPairProfile.disabled:
+        return 'DISABLED';
+      case InputDeviceUhdAudioChannelPairProfile.vbrAacHhe_16000:
+        return 'VBR-AAC_HHE-16000';
+      case InputDeviceUhdAudioChannelPairProfile.vbrAacHe_64000:
+        return 'VBR-AAC_HE-64000';
+      case InputDeviceUhdAudioChannelPairProfile.vbrAacLc_128000:
+        return 'VBR-AAC_LC-128000';
+      case InputDeviceUhdAudioChannelPairProfile.cbrAacHq_192000:
+        return 'CBR-AAC_HQ-192000';
+      case InputDeviceUhdAudioChannelPairProfile.cbrAacHq_256000:
+        return 'CBR-AAC_HQ-256000';
+      case InputDeviceUhdAudioChannelPairProfile.cbrAacHq_384000:
+        return 'CBR-AAC_HQ-384000';
+      case InputDeviceUhdAudioChannelPairProfile.cbrAacHq_512000:
+        return 'CBR-AAC_HQ-512000';
+    }
+  }
+}
+
+extension InputDeviceUhdAudioChannelPairProfileFromString on String {
+  InputDeviceUhdAudioChannelPairProfile
+      toInputDeviceUhdAudioChannelPairProfile() {
+    switch (this) {
+      case 'DISABLED':
+        return InputDeviceUhdAudioChannelPairProfile.disabled;
+      case 'VBR-AAC_HHE-16000':
+        return InputDeviceUhdAudioChannelPairProfile.vbrAacHhe_16000;
+      case 'VBR-AAC_HE-64000':
+        return InputDeviceUhdAudioChannelPairProfile.vbrAacHe_64000;
+      case 'VBR-AAC_LC-128000':
+        return InputDeviceUhdAudioChannelPairProfile.vbrAacLc_128000;
+      case 'CBR-AAC_HQ-192000':
+        return InputDeviceUhdAudioChannelPairProfile.cbrAacHq_192000;
+      case 'CBR-AAC_HQ-256000':
+        return InputDeviceUhdAudioChannelPairProfile.cbrAacHq_256000;
+      case 'CBR-AAC_HQ-384000':
+        return InputDeviceUhdAudioChannelPairProfile.cbrAacHq_384000;
+      case 'CBR-AAC_HQ-512000':
+        return InputDeviceUhdAudioChannelPairProfile.cbrAacHq_512000;
+    }
+    throw Exception(
+        '$this is not known in enum InputDeviceUhdAudioChannelPairProfile');
+  }
+}
+
+/// Property of RestartChannelPipelinesRequest
+enum ChannelPipelineIdToRestart {
+  pipeline_0,
+  pipeline_1,
+}
+
+extension ChannelPipelineIdToRestartValueExtension
+    on ChannelPipelineIdToRestart {
+  String toValue() {
+    switch (this) {
+      case ChannelPipelineIdToRestart.pipeline_0:
+        return 'PIPELINE_0';
+      case ChannelPipelineIdToRestart.pipeline_1:
+        return 'PIPELINE_1';
+    }
+  }
+}
+
+extension ChannelPipelineIdToRestartFromString on String {
+  ChannelPipelineIdToRestart toChannelPipelineIdToRestart() {
+    switch (this) {
+      case 'PIPELINE_0':
+        return ChannelPipelineIdToRestart.pipeline_0;
+      case 'PIPELINE_1':
+        return ChannelPipelineIdToRestart.pipeline_1;
+    }
+    throw Exception('$this is not known in enum ChannelPipelineIdToRestart');
+  }
+}
+
+/// Placeholder documentation for RestartChannelPipelinesResponse
+class RestartChannelPipelinesResponse {
+  /// The unique arn of the channel.
+  final String? arn;
+
+  /// Specification of CDI inputs for this channel
+  final CdiInputSpecification? cdiInputSpecification;
+
+  /// The class for this channel. STANDARD for a channel with two pipelines or
+  /// SINGLE_PIPELINE for a channel with one pipeline.
+  final ChannelClass? channelClass;
+
+  /// A list of destinations of the channel. For UDP outputs, there is one
+  /// destination per output. For other types (HLS, for example), there is
+  /// one destination per packager.
+  final List<OutputDestination>? destinations;
+
+  /// The endpoints where outgoing connections initiate from
+  final List<ChannelEgressEndpoint>? egressEndpoints;
+  final EncoderSettings? encoderSettings;
+
+  /// The unique id of the channel.
+  final String? id;
+
+  /// List of input attachments for channel.
+  final List<InputAttachment>? inputAttachments;
+
+  /// Specification of network and file inputs for this channel
+  final InputSpecification? inputSpecification;
+
+  /// The log level being written to CloudWatch Logs.
+  final LogLevel? logLevel;
+
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
+  /// The time in milliseconds by when the PVRE restart must occur.
+  final String? maintenanceStatus;
+
+  /// The name of the channel. (user-mutable)
+  final String? name;
+
+  /// Runtime details for the pipelines of a running channel.
+  final List<PipelineDetail>? pipelineDetails;
+
+  /// The number of currently healthy pipelines.
+  final int? pipelinesRunningCount;
+
+  /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
+  final String? roleArn;
+  final ChannelState? state;
+
+  /// A collection of key-value pairs.
+  final Map<String, String>? tags;
+
+  /// Settings for VPC output
+  final VpcOutputSettingsDescription? vpc;
+
+  RestartChannelPipelinesResponse({
+    this.arn,
+    this.cdiInputSpecification,
+    this.channelClass,
+    this.destinations,
+    this.egressEndpoints,
+    this.encoderSettings,
+    this.id,
+    this.inputAttachments,
+    this.inputSpecification,
+    this.logLevel,
+    this.maintenance,
+    this.maintenanceStatus,
+    this.name,
+    this.pipelineDetails,
+    this.pipelinesRunningCount,
+    this.roleArn,
+    this.state,
+    this.tags,
+    this.vpc,
+  });
+
+  factory RestartChannelPipelinesResponse.fromJson(Map<String, dynamic> json) {
+    return RestartChannelPipelinesResponse(
+      arn: json['arn'] as String?,
+      cdiInputSpecification: json['cdiInputSpecification'] != null
+          ? CdiInputSpecification.fromJson(
+              json['cdiInputSpecification'] as Map<String, dynamic>)
+          : null,
+      channelClass: (json['channelClass'] as String?)?.toChannelClass(),
+      destinations: (json['destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      egressEndpoints: (json['egressEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encoderSettings: json['encoderSettings'] != null
+          ? EncoderSettings.fromJson(
+              json['encoderSettings'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      inputAttachments: (json['inputAttachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inputSpecification: json['inputSpecification'] != null
+          ? InputSpecification.fromJson(
+              json['inputSpecification'] as Map<String, dynamic>)
+          : null,
+      logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
+      maintenanceStatus: json['maintenanceStatus'] as String?,
+      name: json['name'] as String?,
+      pipelineDetails: (json['pipelineDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+      roleArn: json['roleArn'] as String?,
+      state: (json['state'] as String?)?.toChannelState(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      vpc: json['vpc'] != null
+          ? VpcOutputSettingsDescription.fromJson(
+              json['vpc'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cdiInputSpecification = this.cdiInputSpecification;
+    final channelClass = this.channelClass;
+    final destinations = this.destinations;
+    final egressEndpoints = this.egressEndpoints;
+    final encoderSettings = this.encoderSettings;
+    final id = this.id;
+    final inputAttachments = this.inputAttachments;
+    final inputSpecification = this.inputSpecification;
+    final logLevel = this.logLevel;
+    final maintenance = this.maintenance;
+    final maintenanceStatus = this.maintenanceStatus;
+    final name = this.name;
+    final pipelineDetails = this.pipelineDetails;
+    final pipelinesRunningCount = this.pipelinesRunningCount;
+    final roleArn = this.roleArn;
+    final state = this.state;
+    final tags = this.tags;
+    final vpc = this.vpc;
+    return {
+      if (arn != null) 'arn': arn,
+      if (cdiInputSpecification != null)
+        'cdiInputSpecification': cdiInputSpecification,
+      if (channelClass != null) 'channelClass': channelClass.toValue(),
+      if (destinations != null) 'destinations': destinations,
+      if (egressEndpoints != null) 'egressEndpoints': egressEndpoints,
+      if (encoderSettings != null) 'encoderSettings': encoderSettings,
+      if (id != null) 'id': id,
+      if (inputAttachments != null) 'inputAttachments': inputAttachments,
+      if (inputSpecification != null) 'inputSpecification': inputSpecification,
+      if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
+      if (maintenanceStatus != null) 'maintenanceStatus': maintenanceStatus,
+      if (name != null) 'name': name,
+      if (pipelineDetails != null) 'pipelineDetails': pipelineDetails,
+      if (pipelinesRunningCount != null)
+        'pipelinesRunningCount': pipelinesRunningCount,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tags': tags,
+      if (vpc != null) 'vpc': vpc,
+    };
+  }
+}
+
+/// H265 Mv Over Picture Boundaries
+enum H265MvOverPictureBoundaries {
+  disabled,
+  enabled,
+}
+
+extension H265MvOverPictureBoundariesValueExtension
+    on H265MvOverPictureBoundaries {
+  String toValue() {
+    switch (this) {
+      case H265MvOverPictureBoundaries.disabled:
+        return 'DISABLED';
+      case H265MvOverPictureBoundaries.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension H265MvOverPictureBoundariesFromString on String {
+  H265MvOverPictureBoundaries toH265MvOverPictureBoundaries() {
+    switch (this) {
+      case 'DISABLED':
+        return H265MvOverPictureBoundaries.disabled;
+      case 'ENABLED':
+        return H265MvOverPictureBoundaries.enabled;
+    }
+    throw Exception('$this is not known in enum H265MvOverPictureBoundaries');
+  }
+}
+
+/// H265 Mv Temporal Predictor
+enum H265MvTemporalPredictor {
+  disabled,
+  enabled,
+}
+
+extension H265MvTemporalPredictorValueExtension on H265MvTemporalPredictor {
+  String toValue() {
+    switch (this) {
+      case H265MvTemporalPredictor.disabled:
+        return 'DISABLED';
+      case H265MvTemporalPredictor.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension H265MvTemporalPredictorFromString on String {
+  H265MvTemporalPredictor toH265MvTemporalPredictor() {
+    switch (this) {
+      case 'DISABLED':
+        return H265MvTemporalPredictor.disabled;
+      case 'ENABLED':
+        return H265MvTemporalPredictor.enabled;
+    }
+    throw Exception('$this is not known in enum H265MvTemporalPredictor');
+  }
+}
+
+/// H265 Tile Padding
+enum H265TilePadding {
+  none,
+  padded,
+}
+
+extension H265TilePaddingValueExtension on H265TilePadding {
+  String toValue() {
+    switch (this) {
+      case H265TilePadding.none:
+        return 'NONE';
+      case H265TilePadding.padded:
+        return 'PADDED';
+    }
+  }
+}
+
+extension H265TilePaddingFromString on String {
+  H265TilePadding toH265TilePadding() {
+    switch (this) {
+      case 'NONE':
+        return H265TilePadding.none;
+      case 'PADDED':
+        return H265TilePadding.padded;
+    }
+    throw Exception('$this is not known in enum H265TilePadding');
+  }
+}
+
+/// H265 Treeblock Size
+enum H265TreeblockSize {
+  auto,
+  treeSize_32x32,
+}
+
+extension H265TreeblockSizeValueExtension on H265TreeblockSize {
+  String toValue() {
+    switch (this) {
+      case H265TreeblockSize.auto:
+        return 'AUTO';
+      case H265TreeblockSize.treeSize_32x32:
+        return 'TREE_SIZE_32X32';
+    }
+  }
+}
+
+extension H265TreeblockSizeFromString on String {
+  H265TreeblockSize toH265TreeblockSize() {
+    switch (this) {
+      case 'AUTO':
+        return H265TreeblockSize.auto;
+      case 'TREE_SIZE_32X32':
+        return H265TreeblockSize.treeSize_32x32;
+    }
+    throw Exception('$this is not known in enum H265TreeblockSize');
+  }
+}
+
+/// Cmaf Ingest Group Settings
+class CmafIngestGroupSettings {
+  /// A HTTP destination for the tracks
+  final OutputLocationRef destination;
+
+  /// If set to passthrough, Nielsen inaudible tones for media tracking will be
+  /// detected in the input audio and an equivalent ID3 tag will be inserted in
+  /// the output.
+  final CmafNielsenId3Behavior? nielsenId3Behavior;
+
+  /// Type of scte35 track to add. none or scte35WithoutSegmentation
+  final Scte35Type? scte35Type;
+
+  /// The nominal duration of segments. The units are specified in
+  /// SegmentLengthUnits. The segments will end on the next keyframe after the
+  /// specified duration, so the actual segment length might be longer, and it
+  /// might be a fraction of the units.
+  final int? segmentLength;
+
+  /// Time unit for segment length parameter.
+  final CmafIngestSegmentLengthUnits? segmentLengthUnits;
+
+  /// Number of milliseconds to delay the output from the second pipeline.
+  final int? sendDelayMs;
+
+  CmafIngestGroupSettings({
+    required this.destination,
+    this.nielsenId3Behavior,
+    this.scte35Type,
+    this.segmentLength,
+    this.segmentLengthUnits,
+    this.sendDelayMs,
+  });
+
+  factory CmafIngestGroupSettings.fromJson(Map<String, dynamic> json) {
+    return CmafIngestGroupSettings(
+      destination: OutputLocationRef.fromJson(
+          json['destination'] as Map<String, dynamic>),
+      nielsenId3Behavior:
+          (json['nielsenId3Behavior'] as String?)?.toCmafNielsenId3Behavior(),
+      scte35Type: (json['scte35Type'] as String?)?.toScte35Type(),
+      segmentLength: json['segmentLength'] as int?,
+      segmentLengthUnits: (json['segmentLengthUnits'] as String?)
+          ?.toCmafIngestSegmentLengthUnits(),
+      sendDelayMs: json['sendDelayMs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final nielsenId3Behavior = this.nielsenId3Behavior;
+    final scte35Type = this.scte35Type;
+    final segmentLength = this.segmentLength;
+    final segmentLengthUnits = this.segmentLengthUnits;
+    final sendDelayMs = this.sendDelayMs;
+    return {
+      'destination': destination,
+      if (nielsenId3Behavior != null)
+        'nielsenId3Behavior': nielsenId3Behavior.toValue(),
+      if (scte35Type != null) 'scte35Type': scte35Type.toValue(),
+      if (segmentLength != null) 'segmentLength': segmentLength,
+      if (segmentLengthUnits != null)
+        'segmentLengthUnits': segmentLengthUnits.toValue(),
+      if (sendDelayMs != null) 'sendDelayMs': sendDelayMs,
+    };
+  }
+}
+
+/// Cmaf Ingest Output Settings
+class CmafIngestOutputSettings {
+  /// String concatenated to the end of the destination filename.  Required for
+  /// multiple outputs of the same type.
+  final String? nameModifier;
+
+  CmafIngestOutputSettings({
+    this.nameModifier,
+  });
+
+  factory CmafIngestOutputSettings.fromJson(Map<String, dynamic> json) {
+    return CmafIngestOutputSettings(
+      nameModifier: json['nameModifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nameModifier = this.nameModifier;
+    return {
+      if (nameModifier != null) 'nameModifier': nameModifier,
+    };
+  }
+}
+
+/// Cmaf Ingest Segment Length Units
+enum CmafIngestSegmentLengthUnits {
+  milliseconds,
+  seconds,
+}
+
+extension CmafIngestSegmentLengthUnitsValueExtension
+    on CmafIngestSegmentLengthUnits {
+  String toValue() {
+    switch (this) {
+      case CmafIngestSegmentLengthUnits.milliseconds:
+        return 'MILLISECONDS';
+      case CmafIngestSegmentLengthUnits.seconds:
+        return 'SECONDS';
+    }
+  }
+}
+
+extension CmafIngestSegmentLengthUnitsFromString on String {
+  CmafIngestSegmentLengthUnits toCmafIngestSegmentLengthUnits() {
+    switch (this) {
+      case 'MILLISECONDS':
+        return CmafIngestSegmentLengthUnits.milliseconds;
+      case 'SECONDS':
+        return CmafIngestSegmentLengthUnits.seconds;
+    }
+    throw Exception('$this is not known in enum CmafIngestSegmentLengthUnits');
+  }
+}
+
+/// Cmaf Nielsen Id3 Behavior
+enum CmafNielsenId3Behavior {
+  noPassthrough,
+  passthrough,
+}
+
+extension CmafNielsenId3BehaviorValueExtension on CmafNielsenId3Behavior {
+  String toValue() {
+    switch (this) {
+      case CmafNielsenId3Behavior.noPassthrough:
+        return 'NO_PASSTHROUGH';
+      case CmafNielsenId3Behavior.passthrough:
+        return 'PASSTHROUGH';
+    }
+  }
+}
+
+extension CmafNielsenId3BehaviorFromString on String {
+  CmafNielsenId3Behavior toCmafNielsenId3Behavior() {
+    switch (this) {
+      case 'NO_PASSTHROUGH':
+        return CmafNielsenId3Behavior.noPassthrough;
+      case 'PASSTHROUGH':
+        return CmafNielsenId3Behavior.passthrough;
+    }
+    throw Exception('$this is not known in enum CmafNielsenId3Behavior');
+  }
+}
+
+/// Dash Role Audio
+enum DashRoleAudio {
+  alternate,
+  commentary,
+  description,
+  dub,
+  emergency,
+  enhancedAudioIntelligibility,
+  karaoke,
+  main,
+  supplementary,
+}
+
+extension DashRoleAudioValueExtension on DashRoleAudio {
+  String toValue() {
+    switch (this) {
+      case DashRoleAudio.alternate:
+        return 'ALTERNATE';
+      case DashRoleAudio.commentary:
+        return 'COMMENTARY';
+      case DashRoleAudio.description:
+        return 'DESCRIPTION';
+      case DashRoleAudio.dub:
+        return 'DUB';
+      case DashRoleAudio.emergency:
+        return 'EMERGENCY';
+      case DashRoleAudio.enhancedAudioIntelligibility:
+        return 'ENHANCED-AUDIO-INTELLIGIBILITY';
+      case DashRoleAudio.karaoke:
+        return 'KARAOKE';
+      case DashRoleAudio.main:
+        return 'MAIN';
+      case DashRoleAudio.supplementary:
+        return 'SUPPLEMENTARY';
+    }
+  }
+}
+
+extension DashRoleAudioFromString on String {
+  DashRoleAudio toDashRoleAudio() {
+    switch (this) {
+      case 'ALTERNATE':
+        return DashRoleAudio.alternate;
+      case 'COMMENTARY':
+        return DashRoleAudio.commentary;
+      case 'DESCRIPTION':
+        return DashRoleAudio.description;
+      case 'DUB':
+        return DashRoleAudio.dub;
+      case 'EMERGENCY':
+        return DashRoleAudio.emergency;
+      case 'ENHANCED-AUDIO-INTELLIGIBILITY':
+        return DashRoleAudio.enhancedAudioIntelligibility;
+      case 'KARAOKE':
+        return DashRoleAudio.karaoke;
+      case 'MAIN':
+        return DashRoleAudio.main;
+      case 'SUPPLEMENTARY':
+        return DashRoleAudio.supplementary;
+    }
+    throw Exception('$this is not known in enum DashRoleAudio');
+  }
+}
+
+/// Dash Role Caption
+enum DashRoleCaption {
+  alternate,
+  caption,
+  commentary,
+  description,
+  dub,
+  easyreader,
+  emergency,
+  forcedSubtitle,
+  karaoke,
+  main,
+  metadata,
+  subtitle,
+  supplementary,
+}
+
+extension DashRoleCaptionValueExtension on DashRoleCaption {
+  String toValue() {
+    switch (this) {
+      case DashRoleCaption.alternate:
+        return 'ALTERNATE';
+      case DashRoleCaption.caption:
+        return 'CAPTION';
+      case DashRoleCaption.commentary:
+        return 'COMMENTARY';
+      case DashRoleCaption.description:
+        return 'DESCRIPTION';
+      case DashRoleCaption.dub:
+        return 'DUB';
+      case DashRoleCaption.easyreader:
+        return 'EASYREADER';
+      case DashRoleCaption.emergency:
+        return 'EMERGENCY';
+      case DashRoleCaption.forcedSubtitle:
+        return 'FORCED-SUBTITLE';
+      case DashRoleCaption.karaoke:
+        return 'KARAOKE';
+      case DashRoleCaption.main:
+        return 'MAIN';
+      case DashRoleCaption.metadata:
+        return 'METADATA';
+      case DashRoleCaption.subtitle:
+        return 'SUBTITLE';
+      case DashRoleCaption.supplementary:
+        return 'SUPPLEMENTARY';
+    }
+  }
+}
+
+extension DashRoleCaptionFromString on String {
+  DashRoleCaption toDashRoleCaption() {
+    switch (this) {
+      case 'ALTERNATE':
+        return DashRoleCaption.alternate;
+      case 'CAPTION':
+        return DashRoleCaption.caption;
+      case 'COMMENTARY':
+        return DashRoleCaption.commentary;
+      case 'DESCRIPTION':
+        return DashRoleCaption.description;
+      case 'DUB':
+        return DashRoleCaption.dub;
+      case 'EASYREADER':
+        return DashRoleCaption.easyreader;
+      case 'EMERGENCY':
+        return DashRoleCaption.emergency;
+      case 'FORCED-SUBTITLE':
+        return DashRoleCaption.forcedSubtitle;
+      case 'KARAOKE':
+        return DashRoleCaption.karaoke;
+      case 'MAIN':
+        return DashRoleCaption.main;
+      case 'METADATA':
+        return DashRoleCaption.metadata;
+      case 'SUBTITLE':
+        return DashRoleCaption.subtitle;
+      case 'SUPPLEMENTARY':
+        return DashRoleCaption.supplementary;
+    }
+    throw Exception('$this is not known in enum DashRoleCaption');
+  }
+}
+
+/// Dvb Dash Accessibility
+enum DvbDashAccessibility {
+  dvbdash_1VisuallyImpaired,
+  dvbdash_2HardOfHearing,
+  dvbdash_3SupplementalCommentary,
+  dvbdash_4DirectorsCommentary,
+  dvbdash_5EducationalNotes,
+  dvbdash_6MainProgram,
+  dvbdash_7CleanFeed,
+}
+
+extension DvbDashAccessibilityValueExtension on DvbDashAccessibility {
+  String toValue() {
+    switch (this) {
+      case DvbDashAccessibility.dvbdash_1VisuallyImpaired:
+        return 'DVBDASH_1_VISUALLY_IMPAIRED';
+      case DvbDashAccessibility.dvbdash_2HardOfHearing:
+        return 'DVBDASH_2_HARD_OF_HEARING';
+      case DvbDashAccessibility.dvbdash_3SupplementalCommentary:
+        return 'DVBDASH_3_SUPPLEMENTAL_COMMENTARY';
+      case DvbDashAccessibility.dvbdash_4DirectorsCommentary:
+        return 'DVBDASH_4_DIRECTORS_COMMENTARY';
+      case DvbDashAccessibility.dvbdash_5EducationalNotes:
+        return 'DVBDASH_5_EDUCATIONAL_NOTES';
+      case DvbDashAccessibility.dvbdash_6MainProgram:
+        return 'DVBDASH_6_MAIN_PROGRAM';
+      case DvbDashAccessibility.dvbdash_7CleanFeed:
+        return 'DVBDASH_7_CLEAN_FEED';
+    }
+  }
+}
+
+extension DvbDashAccessibilityFromString on String {
+  DvbDashAccessibility toDvbDashAccessibility() {
+    switch (this) {
+      case 'DVBDASH_1_VISUALLY_IMPAIRED':
+        return DvbDashAccessibility.dvbdash_1VisuallyImpaired;
+      case 'DVBDASH_2_HARD_OF_HEARING':
+        return DvbDashAccessibility.dvbdash_2HardOfHearing;
+      case 'DVBDASH_3_SUPPLEMENTAL_COMMENTARY':
+        return DvbDashAccessibility.dvbdash_3SupplementalCommentary;
+      case 'DVBDASH_4_DIRECTORS_COMMENTARY':
+        return DvbDashAccessibility.dvbdash_4DirectorsCommentary;
+      case 'DVBDASH_5_EDUCATIONAL_NOTES':
+        return DvbDashAccessibility.dvbdash_5EducationalNotes;
+      case 'DVBDASH_6_MAIN_PROGRAM':
+        return DvbDashAccessibility.dvbdash_6MainProgram;
+      case 'DVBDASH_7_CLEAN_FEED':
+        return DvbDashAccessibility.dvbdash_7CleanFeed;
+    }
+    throw Exception('$this is not known in enum DvbDashAccessibility');
+  }
+}
+
+/// Scte35 Type
+enum Scte35Type {
+  none,
+  scte_35WithoutSegmentation,
+}
+
+extension Scte35TypeValueExtension on Scte35Type {
+  String toValue() {
+    switch (this) {
+      case Scte35Type.none:
+        return 'NONE';
+      case Scte35Type.scte_35WithoutSegmentation:
+        return 'SCTE_35_WITHOUT_SEGMENTATION';
+    }
+  }
+}
+
+extension Scte35TypeFromString on String {
+  Scte35Type toScte35Type() {
+    switch (this) {
+      case 'NONE':
+        return Scte35Type.none;
+      case 'SCTE_35_WITHOUT_SEGMENTATION':
+        return Scte35Type.scte_35WithoutSegmentation;
+    }
+    throw Exception('$this is not known in enum Scte35Type');
+  }
+}
+
+/// The comparison operator used to compare the specified statistic and the
+/// threshold.
+enum CloudWatchAlarmTemplateComparisonOperator {
+  greaterThanOrEqualToThreshold,
+  greaterThanThreshold,
+  lessThanThreshold,
+  lessThanOrEqualToThreshold,
+}
+
+extension CloudWatchAlarmTemplateComparisonOperatorValueExtension
+    on CloudWatchAlarmTemplateComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case CloudWatchAlarmTemplateComparisonOperator
+            .greaterThanOrEqualToThreshold:
+        return 'GreaterThanOrEqualToThreshold';
+      case CloudWatchAlarmTemplateComparisonOperator.greaterThanThreshold:
+        return 'GreaterThanThreshold';
+      case CloudWatchAlarmTemplateComparisonOperator.lessThanThreshold:
+        return 'LessThanThreshold';
+      case CloudWatchAlarmTemplateComparisonOperator.lessThanOrEqualToThreshold:
+        return 'LessThanOrEqualToThreshold';
+    }
+  }
+}
+
+extension CloudWatchAlarmTemplateComparisonOperatorFromString on String {
+  CloudWatchAlarmTemplateComparisonOperator
+      toCloudWatchAlarmTemplateComparisonOperator() {
+    switch (this) {
+      case 'GreaterThanOrEqualToThreshold':
+        return CloudWatchAlarmTemplateComparisonOperator
+            .greaterThanOrEqualToThreshold;
+      case 'GreaterThanThreshold':
+        return CloudWatchAlarmTemplateComparisonOperator.greaterThanThreshold;
+      case 'LessThanThreshold':
+        return CloudWatchAlarmTemplateComparisonOperator.lessThanThreshold;
+      case 'LessThanOrEqualToThreshold':
+        return CloudWatchAlarmTemplateComparisonOperator
+            .lessThanOrEqualToThreshold;
+    }
+    throw Exception(
+        '$this is not known in enum CloudWatchAlarmTemplateComparisonOperator');
+  }
+}
+
+/// Placeholder documentation for CloudWatchAlarmTemplateGroupSummary
+class CloudWatchAlarmTemplateGroupSummary {
+  /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+  final String arn;
+  final DateTime createdAt;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String id;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String name;
+
+  /// The number of templates in a group.
+  final int templateCount;
+
+  /// A resource's optional description.
+  final String? description;
+  final DateTime? modifiedAt;
+  final Map<String, String>? tags;
+
+  CloudWatchAlarmTemplateGroupSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.templateCount,
+    this.description,
+    this.modifiedAt,
+    this.tags,
+  });
+
+  factory CloudWatchAlarmTemplateGroupSummary.fromJson(
+      Map<String, dynamic> json) {
+    return CloudWatchAlarmTemplateGroupSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      templateCount: json['templateCount'] as int,
+      description: json['description'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final templateCount = this.templateCount;
+    final description = this.description;
+    final modifiedAt = this.modifiedAt;
+    final tags = this.tags;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'templateCount': templateCount,
+      if (description != null) 'description': description,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The statistic to apply to the alarm's metric data.
+enum CloudWatchAlarmTemplateStatistic {
+  sampleCount,
+  average,
+  sum,
+  minimum,
+  maximum,
+}
+
+extension CloudWatchAlarmTemplateStatisticValueExtension
+    on CloudWatchAlarmTemplateStatistic {
+  String toValue() {
+    switch (this) {
+      case CloudWatchAlarmTemplateStatistic.sampleCount:
+        return 'SampleCount';
+      case CloudWatchAlarmTemplateStatistic.average:
+        return 'Average';
+      case CloudWatchAlarmTemplateStatistic.sum:
+        return 'Sum';
+      case CloudWatchAlarmTemplateStatistic.minimum:
+        return 'Minimum';
+      case CloudWatchAlarmTemplateStatistic.maximum:
+        return 'Maximum';
+    }
+  }
+}
+
+extension CloudWatchAlarmTemplateStatisticFromString on String {
+  CloudWatchAlarmTemplateStatistic toCloudWatchAlarmTemplateStatistic() {
+    switch (this) {
+      case 'SampleCount':
+        return CloudWatchAlarmTemplateStatistic.sampleCount;
+      case 'Average':
+        return CloudWatchAlarmTemplateStatistic.average;
+      case 'Sum':
+        return CloudWatchAlarmTemplateStatistic.sum;
+      case 'Minimum':
+        return CloudWatchAlarmTemplateStatistic.minimum;
+      case 'Maximum':
+        return CloudWatchAlarmTemplateStatistic.maximum;
+    }
+    throw Exception(
+        '$this is not known in enum CloudWatchAlarmTemplateStatistic');
+  }
+}
+
+/// Placeholder documentation for CloudWatchAlarmTemplateSummary
+class CloudWatchAlarmTemplateSummary {
+  /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+  final String arn;
+  final CloudWatchAlarmTemplateComparisonOperator comparisonOperator;
+  final DateTime createdAt;
+
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  final int evaluationPeriods;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String groupId;
+
+  /// A cloudwatch alarm template's id. AWS provided templates have ids that start
+  /// with `aws-`
+  final String id;
+
+  /// The name of the metric associated with the alarm. Must be compatible with
+  /// targetResourceType.
+  final String metricName;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String name;
+
+  /// The period, in seconds, over which the specified statistic is applied.
+  final int period;
+  final CloudWatchAlarmTemplateStatistic statistic;
+  final CloudWatchAlarmTemplateTargetResourceType targetResourceType;
+
+  /// The threshold value to compare with the specified statistic.
+  final double threshold;
+  final CloudWatchAlarmTemplateTreatMissingData treatMissingData;
+
+  /// The number of datapoints within the evaluation period that must be breaching
+  /// to trigger the alarm.
+  final int? datapointsToAlarm;
+
+  /// A resource's optional description.
+  final String? description;
+  final DateTime? modifiedAt;
+  final Map<String, String>? tags;
+
+  CloudWatchAlarmTemplateSummary({
+    required this.arn,
+    required this.comparisonOperator,
+    required this.createdAt,
+    required this.evaluationPeriods,
+    required this.groupId,
+    required this.id,
+    required this.metricName,
+    required this.name,
+    required this.period,
+    required this.statistic,
+    required this.targetResourceType,
+    required this.threshold,
+    required this.treatMissingData,
+    this.datapointsToAlarm,
+    this.description,
+    this.modifiedAt,
+    this.tags,
+  });
+
+  factory CloudWatchAlarmTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return CloudWatchAlarmTemplateSummary(
+      arn: json['arn'] as String,
+      comparisonOperator: (json['comparisonOperator'] as String)
+          .toCloudWatchAlarmTemplateComparisonOperator(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      evaluationPeriods: json['evaluationPeriods'] as int,
+      groupId: json['groupId'] as String,
+      id: json['id'] as String,
+      metricName: json['metricName'] as String,
+      name: json['name'] as String,
+      period: json['period'] as int,
+      statistic:
+          (json['statistic'] as String).toCloudWatchAlarmTemplateStatistic(),
+      targetResourceType: (json['targetResourceType'] as String)
+          .toCloudWatchAlarmTemplateTargetResourceType(),
+      threshold: json['threshold'] as double,
+      treatMissingData: (json['treatMissingData'] as String)
+          .toCloudWatchAlarmTemplateTreatMissingData(),
+      datapointsToAlarm: json['datapointsToAlarm'] as int?,
+      description: json['description'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final comparisonOperator = this.comparisonOperator;
+    final createdAt = this.createdAt;
+    final evaluationPeriods = this.evaluationPeriods;
+    final groupId = this.groupId;
+    final id = this.id;
+    final metricName = this.metricName;
+    final name = this.name;
+    final period = this.period;
+    final statistic = this.statistic;
+    final targetResourceType = this.targetResourceType;
+    final threshold = this.threshold;
+    final treatMissingData = this.treatMissingData;
+    final datapointsToAlarm = this.datapointsToAlarm;
+    final description = this.description;
+    final modifiedAt = this.modifiedAt;
+    final tags = this.tags;
+    return {
+      'arn': arn,
+      'comparisonOperator': comparisonOperator.toValue(),
+      'createdAt': iso8601ToJson(createdAt),
+      'evaluationPeriods': evaluationPeriods,
+      'groupId': groupId,
+      'id': id,
+      'metricName': metricName,
+      'name': name,
+      'period': period,
+      'statistic': statistic.toValue(),
+      'targetResourceType': targetResourceType.toValue(),
+      'threshold': threshold,
+      'treatMissingData': treatMissingData.toValue(),
+      if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
+      if (description != null) 'description': description,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The resource type this template should dynamically generate cloudwatch
+/// metric alarms for.
+enum CloudWatchAlarmTemplateTargetResourceType {
+  cloudfrontDistribution,
+  medialiveMultiplex,
+  medialiveChannel,
+  medialiveInputDevice,
+  mediapackageChannel,
+  mediapackageOriginEndpoint,
+  mediaconnectFlow,
+  s3Bucket,
+}
+
+extension CloudWatchAlarmTemplateTargetResourceTypeValueExtension
+    on CloudWatchAlarmTemplateTargetResourceType {
+  String toValue() {
+    switch (this) {
+      case CloudWatchAlarmTemplateTargetResourceType.cloudfrontDistribution:
+        return 'CLOUDFRONT_DISTRIBUTION';
+      case CloudWatchAlarmTemplateTargetResourceType.medialiveMultiplex:
+        return 'MEDIALIVE_MULTIPLEX';
+      case CloudWatchAlarmTemplateTargetResourceType.medialiveChannel:
+        return 'MEDIALIVE_CHANNEL';
+      case CloudWatchAlarmTemplateTargetResourceType.medialiveInputDevice:
+        return 'MEDIALIVE_INPUT_DEVICE';
+      case CloudWatchAlarmTemplateTargetResourceType.mediapackageChannel:
+        return 'MEDIAPACKAGE_CHANNEL';
+      case CloudWatchAlarmTemplateTargetResourceType.mediapackageOriginEndpoint:
+        return 'MEDIAPACKAGE_ORIGIN_ENDPOINT';
+      case CloudWatchAlarmTemplateTargetResourceType.mediaconnectFlow:
+        return 'MEDIACONNECT_FLOW';
+      case CloudWatchAlarmTemplateTargetResourceType.s3Bucket:
+        return 'S3_BUCKET';
+    }
+  }
+}
+
+extension CloudWatchAlarmTemplateTargetResourceTypeFromString on String {
+  CloudWatchAlarmTemplateTargetResourceType
+      toCloudWatchAlarmTemplateTargetResourceType() {
+    switch (this) {
+      case 'CLOUDFRONT_DISTRIBUTION':
+        return CloudWatchAlarmTemplateTargetResourceType.cloudfrontDistribution;
+      case 'MEDIALIVE_MULTIPLEX':
+        return CloudWatchAlarmTemplateTargetResourceType.medialiveMultiplex;
+      case 'MEDIALIVE_CHANNEL':
+        return CloudWatchAlarmTemplateTargetResourceType.medialiveChannel;
+      case 'MEDIALIVE_INPUT_DEVICE':
+        return CloudWatchAlarmTemplateTargetResourceType.medialiveInputDevice;
+      case 'MEDIAPACKAGE_CHANNEL':
+        return CloudWatchAlarmTemplateTargetResourceType.mediapackageChannel;
+      case 'MEDIAPACKAGE_ORIGIN_ENDPOINT':
+        return CloudWatchAlarmTemplateTargetResourceType
+            .mediapackageOriginEndpoint;
+      case 'MEDIACONNECT_FLOW':
+        return CloudWatchAlarmTemplateTargetResourceType.mediaconnectFlow;
+      case 'S3_BUCKET':
+        return CloudWatchAlarmTemplateTargetResourceType.s3Bucket;
+    }
+    throw Exception(
+        '$this is not known in enum CloudWatchAlarmTemplateTargetResourceType');
+  }
+}
+
+/// Specifies how missing data points are treated when evaluating the alarm's
+/// condition.
+enum CloudWatchAlarmTemplateTreatMissingData {
+  notBreaching,
+  breaching,
+  ignore,
+  missing,
+}
+
+extension CloudWatchAlarmTemplateTreatMissingDataValueExtension
+    on CloudWatchAlarmTemplateTreatMissingData {
+  String toValue() {
+    switch (this) {
+      case CloudWatchAlarmTemplateTreatMissingData.notBreaching:
+        return 'notBreaching';
+      case CloudWatchAlarmTemplateTreatMissingData.breaching:
+        return 'breaching';
+      case CloudWatchAlarmTemplateTreatMissingData.ignore:
+        return 'ignore';
+      case CloudWatchAlarmTemplateTreatMissingData.missing:
+        return 'missing';
+    }
+  }
+}
+
+extension CloudWatchAlarmTemplateTreatMissingDataFromString on String {
+  CloudWatchAlarmTemplateTreatMissingData
+      toCloudWatchAlarmTemplateTreatMissingData() {
+    switch (this) {
+      case 'notBreaching':
+        return CloudWatchAlarmTemplateTreatMissingData.notBreaching;
+      case 'breaching':
+        return CloudWatchAlarmTemplateTreatMissingData.breaching;
+      case 'ignore':
+        return CloudWatchAlarmTemplateTreatMissingData.ignore;
+      case 'missing':
+        return CloudWatchAlarmTemplateTreatMissingData.missing;
+    }
+    throw Exception(
+        '$this is not known in enum CloudWatchAlarmTemplateTreatMissingData');
+  }
+}
+
+/// Placeholder documentation for CreateCloudWatchAlarmTemplateGroupResponse
+class CreateCloudWatchAlarmTemplateGroupResponse {
+  /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  CreateCloudWatchAlarmTemplateGroupResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory CreateCloudWatchAlarmTemplateGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCloudWatchAlarmTemplateGroupResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for CreateCloudWatchAlarmTemplateResponse
+class CreateCloudWatchAlarmTemplateResponse {
+  /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+  final String? arn;
+  final CloudWatchAlarmTemplateComparisonOperator? comparisonOperator;
+  final DateTime? createdAt;
+
+  /// The number of datapoints within the evaluation period that must be breaching
+  /// to trigger the alarm.
+  final int? datapointsToAlarm;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  final int? evaluationPeriods;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? groupId;
+
+  /// A cloudwatch alarm template's id. AWS provided templates have ids that start
+  /// with `aws-`
+  final String? id;
+
+  /// The name of the metric associated with the alarm. Must be compatible with
+  /// targetResourceType.
+  final String? metricName;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+
+  /// The period, in seconds, over which the specified statistic is applied.
+  final int? period;
+  final CloudWatchAlarmTemplateStatistic? statistic;
+  final Map<String, String>? tags;
+  final CloudWatchAlarmTemplateTargetResourceType? targetResourceType;
+
+  /// The threshold value to compare with the specified statistic.
+  final double? threshold;
+  final CloudWatchAlarmTemplateTreatMissingData? treatMissingData;
+
+  CreateCloudWatchAlarmTemplateResponse({
+    this.arn,
+    this.comparisonOperator,
+    this.createdAt,
+    this.datapointsToAlarm,
+    this.description,
+    this.evaluationPeriods,
+    this.groupId,
+    this.id,
+    this.metricName,
+    this.modifiedAt,
+    this.name,
+    this.period,
+    this.statistic,
+    this.tags,
+    this.targetResourceType,
+    this.threshold,
+    this.treatMissingData,
+  });
+
+  factory CreateCloudWatchAlarmTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCloudWatchAlarmTemplateResponse(
+      arn: json['arn'] as String?,
+      comparisonOperator: (json['comparisonOperator'] as String?)
+          ?.toCloudWatchAlarmTemplateComparisonOperator(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      datapointsToAlarm: json['datapointsToAlarm'] as int?,
+      description: json['description'] as String?,
+      evaluationPeriods: json['evaluationPeriods'] as int?,
+      groupId: json['groupId'] as String?,
+      id: json['id'] as String?,
+      metricName: json['metricName'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      period: json['period'] as int?,
+      statistic:
+          (json['statistic'] as String?)?.toCloudWatchAlarmTemplateStatistic(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetResourceType: (json['targetResourceType'] as String?)
+          ?.toCloudWatchAlarmTemplateTargetResourceType(),
+      threshold: json['threshold'] as double?,
+      treatMissingData: (json['treatMissingData'] as String?)
+          ?.toCloudWatchAlarmTemplateTreatMissingData(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final comparisonOperator = this.comparisonOperator;
+    final createdAt = this.createdAt;
+    final datapointsToAlarm = this.datapointsToAlarm;
+    final description = this.description;
+    final evaluationPeriods = this.evaluationPeriods;
+    final groupId = this.groupId;
+    final id = this.id;
+    final metricName = this.metricName;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final period = this.period;
+    final statistic = this.statistic;
+    final tags = this.tags;
+    final targetResourceType = this.targetResourceType;
+    final threshold = this.threshold;
+    final treatMissingData = this.treatMissingData;
+    return {
+      if (arn != null) 'arn': arn,
+      if (comparisonOperator != null)
+        'comparisonOperator': comparisonOperator.toValue(),
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
+      if (description != null) 'description': description,
+      if (evaluationPeriods != null) 'evaluationPeriods': evaluationPeriods,
+      if (groupId != null) 'groupId': groupId,
+      if (id != null) 'id': id,
+      if (metricName != null) 'metricName': metricName,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (period != null) 'period': period,
+      if (statistic != null) 'statistic': statistic.toValue(),
+      if (tags != null) 'tags': tags,
+      if (targetResourceType != null)
+        'targetResourceType': targetResourceType.toValue(),
+      if (threshold != null) 'threshold': threshold,
+      if (treatMissingData != null)
+        'treatMissingData': treatMissingData.toValue(),
+    };
+  }
+}
+
+/// Placeholder documentation for CreateEventBridgeRuleTemplateGroupResponse
+class CreateEventBridgeRuleTemplateGroupResponse {
+  /// An eventbridge rule template group's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  CreateEventBridgeRuleTemplateGroupResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory CreateEventBridgeRuleTemplateGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateEventBridgeRuleTemplateGroupResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for CreateEventBridgeRuleTemplateResponse
+class CreateEventBridgeRuleTemplateResponse {
+  /// An eventbridge rule template's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+  final List<EventBridgeRuleTemplateTarget>? eventTargets;
+  final EventBridgeRuleTemplateEventType? eventType;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? groupId;
+
+  /// An eventbridge rule template's id. AWS provided templates have ids that
+  /// start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  CreateEventBridgeRuleTemplateResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.eventTargets,
+    this.eventType,
+    this.groupId,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory CreateEventBridgeRuleTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateEventBridgeRuleTemplateResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      eventTargets: (json['eventTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EventBridgeRuleTemplateTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventType:
+          (json['eventType'] as String?)?.toEventBridgeRuleTemplateEventType(),
+      groupId: json['groupId'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final eventTargets = this.eventTargets;
+    final eventType = this.eventType;
+    final groupId = this.groupId;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (eventTargets != null) 'eventTargets': eventTargets,
+      if (eventType != null) 'eventType': eventType.toValue(),
+      if (groupId != null) 'groupId': groupId,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for CreateSignalMapResponse
+class CreateSignalMapResponse {
+  /// A signal map's ARN (Amazon Resource Name)
+  final String? arn;
+  final List<String>? cloudWatchAlarmTemplateGroupIds;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A top-level supported AWS resource ARN to discovery a signal map from.
+  final String? discoveryEntryPointArn;
+
+  /// Error message associated with a failed creation or failed update attempt of
+  /// a signal map.
+  final String? errorMessage;
+  final List<String>? eventBridgeRuleTemplateGroupIds;
+  final Map<String, MediaResource>? failedMediaResourceMap;
+
+  /// A signal map's id.
+  final String? id;
+  final DateTime? lastDiscoveredAt;
+  final SuccessfulMonitorDeployment? lastSuccessfulMonitorDeployment;
+  final Map<String, MediaResource>? mediaResourceMap;
+  final DateTime? modifiedAt;
+
+  /// If true, there are pending monitor changes for this signal map that can be
+  /// deployed.
+  final bool? monitorChangesPendingDeployment;
+  final MonitorDeployment? monitorDeployment;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final SignalMapStatus? status;
+  final Map<String, String>? tags;
+
+  CreateSignalMapResponse({
+    this.arn,
+    this.cloudWatchAlarmTemplateGroupIds,
+    this.createdAt,
+    this.description,
+    this.discoveryEntryPointArn,
+    this.errorMessage,
+    this.eventBridgeRuleTemplateGroupIds,
+    this.failedMediaResourceMap,
+    this.id,
+    this.lastDiscoveredAt,
+    this.lastSuccessfulMonitorDeployment,
+    this.mediaResourceMap,
+    this.modifiedAt,
+    this.monitorChangesPendingDeployment,
+    this.monitorDeployment,
+    this.name,
+    this.status,
+    this.tags,
+  });
+
+  factory CreateSignalMapResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSignalMapResponse(
+      arn: json['arn'] as String?,
+      cloudWatchAlarmTemplateGroupIds:
+          (json['cloudWatchAlarmTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      discoveryEntryPointArn: json['discoveryEntryPointArn'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      eventBridgeRuleTemplateGroupIds:
+          (json['eventBridgeRuleTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      failedMediaResourceMap: (json['failedMediaResourceMap']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      id: json['id'] as String?,
+      lastDiscoveredAt: timeStampFromJson(json['lastDiscoveredAt']),
+      lastSuccessfulMonitorDeployment:
+          json['lastSuccessfulMonitorDeployment'] != null
+              ? SuccessfulMonitorDeployment.fromJson(
+                  json['lastSuccessfulMonitorDeployment']
+                      as Map<String, dynamic>)
+              : null,
+      mediaResourceMap: (json['mediaResourceMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      monitorChangesPendingDeployment:
+          json['monitorChangesPendingDeployment'] as bool?,
+      monitorDeployment: json['monitorDeployment'] != null
+          ? MonitorDeployment.fromJson(
+              json['monitorDeployment'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toSignalMapStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cloudWatchAlarmTemplateGroupIds =
+        this.cloudWatchAlarmTemplateGroupIds;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final discoveryEntryPointArn = this.discoveryEntryPointArn;
+    final errorMessage = this.errorMessage;
+    final eventBridgeRuleTemplateGroupIds =
+        this.eventBridgeRuleTemplateGroupIds;
+    final failedMediaResourceMap = this.failedMediaResourceMap;
+    final id = this.id;
+    final lastDiscoveredAt = this.lastDiscoveredAt;
+    final lastSuccessfulMonitorDeployment =
+        this.lastSuccessfulMonitorDeployment;
+    final mediaResourceMap = this.mediaResourceMap;
+    final modifiedAt = this.modifiedAt;
+    final monitorChangesPendingDeployment =
+        this.monitorChangesPendingDeployment;
+    final monitorDeployment = this.monitorDeployment;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (cloudWatchAlarmTemplateGroupIds != null)
+        'cloudWatchAlarmTemplateGroupIds': cloudWatchAlarmTemplateGroupIds,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (discoveryEntryPointArn != null)
+        'discoveryEntryPointArn': discoveryEntryPointArn,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (eventBridgeRuleTemplateGroupIds != null)
+        'eventBridgeRuleTemplateGroupIds': eventBridgeRuleTemplateGroupIds,
+      if (failedMediaResourceMap != null)
+        'failedMediaResourceMap': failedMediaResourceMap,
+      if (id != null) 'id': id,
+      if (lastDiscoveredAt != null)
+        'lastDiscoveredAt': iso8601ToJson(lastDiscoveredAt),
+      if (lastSuccessfulMonitorDeployment != null)
+        'lastSuccessfulMonitorDeployment': lastSuccessfulMonitorDeployment,
+      if (mediaResourceMap != null) 'mediaResourceMap': mediaResourceMap,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (monitorChangesPendingDeployment != null)
+        'monitorChangesPendingDeployment': monitorChangesPendingDeployment,
+      if (monitorDeployment != null) 'monitorDeployment': monitorDeployment,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The type of event to match with the rule.
+enum EventBridgeRuleTemplateEventType {
+  medialiveMultiplexAlert,
+  medialiveMultiplexStateChange,
+  medialiveChannelAlert,
+  medialiveChannelInputChange,
+  medialiveChannelStateChange,
+  mediapackageInputNotification,
+  mediapackageKeyProviderNotification,
+  mediapackageHarvestJobNotification,
+  signalMapActiveAlarm,
+  mediaconnectAlert,
+  mediaconnectSourceHealth,
+  mediaconnectOutputHealth,
+  mediaconnectFlowStatusChange,
+}
+
+extension EventBridgeRuleTemplateEventTypeValueExtension
+    on EventBridgeRuleTemplateEventType {
+  String toValue() {
+    switch (this) {
+      case EventBridgeRuleTemplateEventType.medialiveMultiplexAlert:
+        return 'MEDIALIVE_MULTIPLEX_ALERT';
+      case EventBridgeRuleTemplateEventType.medialiveMultiplexStateChange:
+        return 'MEDIALIVE_MULTIPLEX_STATE_CHANGE';
+      case EventBridgeRuleTemplateEventType.medialiveChannelAlert:
+        return 'MEDIALIVE_CHANNEL_ALERT';
+      case EventBridgeRuleTemplateEventType.medialiveChannelInputChange:
+        return 'MEDIALIVE_CHANNEL_INPUT_CHANGE';
+      case EventBridgeRuleTemplateEventType.medialiveChannelStateChange:
+        return 'MEDIALIVE_CHANNEL_STATE_CHANGE';
+      case EventBridgeRuleTemplateEventType.mediapackageInputNotification:
+        return 'MEDIAPACKAGE_INPUT_NOTIFICATION';
+      case EventBridgeRuleTemplateEventType.mediapackageKeyProviderNotification:
+        return 'MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION';
+      case EventBridgeRuleTemplateEventType.mediapackageHarvestJobNotification:
+        return 'MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION';
+      case EventBridgeRuleTemplateEventType.signalMapActiveAlarm:
+        return 'SIGNAL_MAP_ACTIVE_ALARM';
+      case EventBridgeRuleTemplateEventType.mediaconnectAlert:
+        return 'MEDIACONNECT_ALERT';
+      case EventBridgeRuleTemplateEventType.mediaconnectSourceHealth:
+        return 'MEDIACONNECT_SOURCE_HEALTH';
+      case EventBridgeRuleTemplateEventType.mediaconnectOutputHealth:
+        return 'MEDIACONNECT_OUTPUT_HEALTH';
+      case EventBridgeRuleTemplateEventType.mediaconnectFlowStatusChange:
+        return 'MEDIACONNECT_FLOW_STATUS_CHANGE';
+    }
+  }
+}
+
+extension EventBridgeRuleTemplateEventTypeFromString on String {
+  EventBridgeRuleTemplateEventType toEventBridgeRuleTemplateEventType() {
+    switch (this) {
+      case 'MEDIALIVE_MULTIPLEX_ALERT':
+        return EventBridgeRuleTemplateEventType.medialiveMultiplexAlert;
+      case 'MEDIALIVE_MULTIPLEX_STATE_CHANGE':
+        return EventBridgeRuleTemplateEventType.medialiveMultiplexStateChange;
+      case 'MEDIALIVE_CHANNEL_ALERT':
+        return EventBridgeRuleTemplateEventType.medialiveChannelAlert;
+      case 'MEDIALIVE_CHANNEL_INPUT_CHANGE':
+        return EventBridgeRuleTemplateEventType.medialiveChannelInputChange;
+      case 'MEDIALIVE_CHANNEL_STATE_CHANGE':
+        return EventBridgeRuleTemplateEventType.medialiveChannelStateChange;
+      case 'MEDIAPACKAGE_INPUT_NOTIFICATION':
+        return EventBridgeRuleTemplateEventType.mediapackageInputNotification;
+      case 'MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION':
+        return EventBridgeRuleTemplateEventType
+            .mediapackageKeyProviderNotification;
+      case 'MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION':
+        return EventBridgeRuleTemplateEventType
+            .mediapackageHarvestJobNotification;
+      case 'SIGNAL_MAP_ACTIVE_ALARM':
+        return EventBridgeRuleTemplateEventType.signalMapActiveAlarm;
+      case 'MEDIACONNECT_ALERT':
+        return EventBridgeRuleTemplateEventType.mediaconnectAlert;
+      case 'MEDIACONNECT_SOURCE_HEALTH':
+        return EventBridgeRuleTemplateEventType.mediaconnectSourceHealth;
+      case 'MEDIACONNECT_OUTPUT_HEALTH':
+        return EventBridgeRuleTemplateEventType.mediaconnectOutputHealth;
+      case 'MEDIACONNECT_FLOW_STATUS_CHANGE':
+        return EventBridgeRuleTemplateEventType.mediaconnectFlowStatusChange;
+    }
+    throw Exception(
+        '$this is not known in enum EventBridgeRuleTemplateEventType');
+  }
+}
+
+/// Placeholder documentation for EventBridgeRuleTemplateGroupSummary
+class EventBridgeRuleTemplateGroupSummary {
+  /// An eventbridge rule template group's ARN (Amazon Resource Name)
+  final String arn;
+  final DateTime createdAt;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String id;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String name;
+
+  /// The number of templates in a group.
+  final int templateCount;
+
+  /// A resource's optional description.
+  final String? description;
+  final DateTime? modifiedAt;
+  final Map<String, String>? tags;
+
+  EventBridgeRuleTemplateGroupSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.templateCount,
+    this.description,
+    this.modifiedAt,
+    this.tags,
+  });
+
+  factory EventBridgeRuleTemplateGroupSummary.fromJson(
+      Map<String, dynamic> json) {
+    return EventBridgeRuleTemplateGroupSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      templateCount: json['templateCount'] as int,
+      description: json['description'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final templateCount = this.templateCount;
+    final description = this.description;
+    final modifiedAt = this.modifiedAt;
+    final tags = this.tags;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'templateCount': templateCount,
+      if (description != null) 'description': description,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for EventBridgeRuleTemplateSummary
+class EventBridgeRuleTemplateSummary {
+  /// An eventbridge rule template's ARN (Amazon Resource Name)
+  final String arn;
+  final DateTime createdAt;
+
+  /// The number of targets configured to send matching events.
+  final int eventTargetCount;
+  final EventBridgeRuleTemplateEventType eventType;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String groupId;
+
+  /// An eventbridge rule template's id. AWS provided templates have ids that
+  /// start with `aws-`
+  final String id;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String name;
+
+  /// A resource's optional description.
+  final String? description;
+  final DateTime? modifiedAt;
+  final Map<String, String>? tags;
+
+  EventBridgeRuleTemplateSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.eventTargetCount,
+    required this.eventType,
+    required this.groupId,
+    required this.id,
+    required this.name,
+    this.description,
+    this.modifiedAt,
+    this.tags,
+  });
+
+  factory EventBridgeRuleTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return EventBridgeRuleTemplateSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      eventTargetCount: json['eventTargetCount'] as int,
+      eventType:
+          (json['eventType'] as String).toEventBridgeRuleTemplateEventType(),
+      groupId: json['groupId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final eventTargetCount = this.eventTargetCount;
+    final eventType = this.eventType;
+    final groupId = this.groupId;
+    final id = this.id;
+    final name = this.name;
+    final description = this.description;
+    final modifiedAt = this.modifiedAt;
+    final tags = this.tags;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'eventTargetCount': eventTargetCount,
+      'eventType': eventType.toValue(),
+      'groupId': groupId,
+      'id': id,
+      'name': name,
+      if (description != null) 'description': description,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The target to which to send matching events.
+class EventBridgeRuleTemplateTarget {
+  /// Target ARNs must be either an SNS topic or CloudWatch log group.
+  final String arn;
+
+  EventBridgeRuleTemplateTarget({
+    required this.arn,
+  });
+
+  factory EventBridgeRuleTemplateTarget.fromJson(Map<String, dynamic> json) {
+    return EventBridgeRuleTemplateTarget(
+      arn: json['arn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
+    };
+  }
+}
+
+/// Placeholder documentation for GetCloudWatchAlarmTemplateGroupResponse
+class GetCloudWatchAlarmTemplateGroupResponse {
+  /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  GetCloudWatchAlarmTemplateGroupResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory GetCloudWatchAlarmTemplateGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCloudWatchAlarmTemplateGroupResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for GetCloudWatchAlarmTemplateResponse
+class GetCloudWatchAlarmTemplateResponse {
+  /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+  final String? arn;
+  final CloudWatchAlarmTemplateComparisonOperator? comparisonOperator;
+  final DateTime? createdAt;
+
+  /// The number of datapoints within the evaluation period that must be breaching
+  /// to trigger the alarm.
+  final int? datapointsToAlarm;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  final int? evaluationPeriods;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? groupId;
+
+  /// A cloudwatch alarm template's id. AWS provided templates have ids that start
+  /// with `aws-`
+  final String? id;
+
+  /// The name of the metric associated with the alarm. Must be compatible with
+  /// targetResourceType.
+  final String? metricName;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+
+  /// The period, in seconds, over which the specified statistic is applied.
+  final int? period;
+  final CloudWatchAlarmTemplateStatistic? statistic;
+  final Map<String, String>? tags;
+  final CloudWatchAlarmTemplateTargetResourceType? targetResourceType;
+
+  /// The threshold value to compare with the specified statistic.
+  final double? threshold;
+  final CloudWatchAlarmTemplateTreatMissingData? treatMissingData;
+
+  GetCloudWatchAlarmTemplateResponse({
+    this.arn,
+    this.comparisonOperator,
+    this.createdAt,
+    this.datapointsToAlarm,
+    this.description,
+    this.evaluationPeriods,
+    this.groupId,
+    this.id,
+    this.metricName,
+    this.modifiedAt,
+    this.name,
+    this.period,
+    this.statistic,
+    this.tags,
+    this.targetResourceType,
+    this.threshold,
+    this.treatMissingData,
+  });
+
+  factory GetCloudWatchAlarmTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCloudWatchAlarmTemplateResponse(
+      arn: json['arn'] as String?,
+      comparisonOperator: (json['comparisonOperator'] as String?)
+          ?.toCloudWatchAlarmTemplateComparisonOperator(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      datapointsToAlarm: json['datapointsToAlarm'] as int?,
+      description: json['description'] as String?,
+      evaluationPeriods: json['evaluationPeriods'] as int?,
+      groupId: json['groupId'] as String?,
+      id: json['id'] as String?,
+      metricName: json['metricName'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      period: json['period'] as int?,
+      statistic:
+          (json['statistic'] as String?)?.toCloudWatchAlarmTemplateStatistic(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetResourceType: (json['targetResourceType'] as String?)
+          ?.toCloudWatchAlarmTemplateTargetResourceType(),
+      threshold: json['threshold'] as double?,
+      treatMissingData: (json['treatMissingData'] as String?)
+          ?.toCloudWatchAlarmTemplateTreatMissingData(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final comparisonOperator = this.comparisonOperator;
+    final createdAt = this.createdAt;
+    final datapointsToAlarm = this.datapointsToAlarm;
+    final description = this.description;
+    final evaluationPeriods = this.evaluationPeriods;
+    final groupId = this.groupId;
+    final id = this.id;
+    final metricName = this.metricName;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final period = this.period;
+    final statistic = this.statistic;
+    final tags = this.tags;
+    final targetResourceType = this.targetResourceType;
+    final threshold = this.threshold;
+    final treatMissingData = this.treatMissingData;
+    return {
+      if (arn != null) 'arn': arn,
+      if (comparisonOperator != null)
+        'comparisonOperator': comparisonOperator.toValue(),
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
+      if (description != null) 'description': description,
+      if (evaluationPeriods != null) 'evaluationPeriods': evaluationPeriods,
+      if (groupId != null) 'groupId': groupId,
+      if (id != null) 'id': id,
+      if (metricName != null) 'metricName': metricName,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (period != null) 'period': period,
+      if (statistic != null) 'statistic': statistic.toValue(),
+      if (tags != null) 'tags': tags,
+      if (targetResourceType != null)
+        'targetResourceType': targetResourceType.toValue(),
+      if (threshold != null) 'threshold': threshold,
+      if (treatMissingData != null)
+        'treatMissingData': treatMissingData.toValue(),
+    };
+  }
+}
+
+/// Placeholder documentation for GetEventBridgeRuleTemplateGroupResponse
+class GetEventBridgeRuleTemplateGroupResponse {
+  /// An eventbridge rule template group's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  GetEventBridgeRuleTemplateGroupResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory GetEventBridgeRuleTemplateGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEventBridgeRuleTemplateGroupResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for GetEventBridgeRuleTemplateResponse
+class GetEventBridgeRuleTemplateResponse {
+  /// An eventbridge rule template's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+  final List<EventBridgeRuleTemplateTarget>? eventTargets;
+  final EventBridgeRuleTemplateEventType? eventType;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? groupId;
+
+  /// An eventbridge rule template's id. AWS provided templates have ids that
+  /// start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  GetEventBridgeRuleTemplateResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.eventTargets,
+    this.eventType,
+    this.groupId,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory GetEventBridgeRuleTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEventBridgeRuleTemplateResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      eventTargets: (json['eventTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EventBridgeRuleTemplateTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventType:
+          (json['eventType'] as String?)?.toEventBridgeRuleTemplateEventType(),
+      groupId: json['groupId'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final eventTargets = this.eventTargets;
+    final eventType = this.eventType;
+    final groupId = this.groupId;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (eventTargets != null) 'eventTargets': eventTargets,
+      if (eventType != null) 'eventType': eventType.toValue(),
+      if (groupId != null) 'groupId': groupId,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for GetSignalMapResponse
+class GetSignalMapResponse {
+  /// A signal map's ARN (Amazon Resource Name)
+  final String? arn;
+  final List<String>? cloudWatchAlarmTemplateGroupIds;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A top-level supported AWS resource ARN to discovery a signal map from.
+  final String? discoveryEntryPointArn;
+
+  /// Error message associated with a failed creation or failed update attempt of
+  /// a signal map.
+  final String? errorMessage;
+  final List<String>? eventBridgeRuleTemplateGroupIds;
+  final Map<String, MediaResource>? failedMediaResourceMap;
+
+  /// A signal map's id.
+  final String? id;
+  final DateTime? lastDiscoveredAt;
+  final SuccessfulMonitorDeployment? lastSuccessfulMonitorDeployment;
+  final Map<String, MediaResource>? mediaResourceMap;
+  final DateTime? modifiedAt;
+
+  /// If true, there are pending monitor changes for this signal map that can be
+  /// deployed.
+  final bool? monitorChangesPendingDeployment;
+  final MonitorDeployment? monitorDeployment;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final SignalMapStatus? status;
+  final Map<String, String>? tags;
+
+  GetSignalMapResponse({
+    this.arn,
+    this.cloudWatchAlarmTemplateGroupIds,
+    this.createdAt,
+    this.description,
+    this.discoveryEntryPointArn,
+    this.errorMessage,
+    this.eventBridgeRuleTemplateGroupIds,
+    this.failedMediaResourceMap,
+    this.id,
+    this.lastDiscoveredAt,
+    this.lastSuccessfulMonitorDeployment,
+    this.mediaResourceMap,
+    this.modifiedAt,
+    this.monitorChangesPendingDeployment,
+    this.monitorDeployment,
+    this.name,
+    this.status,
+    this.tags,
+  });
+
+  factory GetSignalMapResponse.fromJson(Map<String, dynamic> json) {
+    return GetSignalMapResponse(
+      arn: json['arn'] as String?,
+      cloudWatchAlarmTemplateGroupIds:
+          (json['cloudWatchAlarmTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      discoveryEntryPointArn: json['discoveryEntryPointArn'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      eventBridgeRuleTemplateGroupIds:
+          (json['eventBridgeRuleTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      failedMediaResourceMap: (json['failedMediaResourceMap']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      id: json['id'] as String?,
+      lastDiscoveredAt: timeStampFromJson(json['lastDiscoveredAt']),
+      lastSuccessfulMonitorDeployment:
+          json['lastSuccessfulMonitorDeployment'] != null
+              ? SuccessfulMonitorDeployment.fromJson(
+                  json['lastSuccessfulMonitorDeployment']
+                      as Map<String, dynamic>)
+              : null,
+      mediaResourceMap: (json['mediaResourceMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      monitorChangesPendingDeployment:
+          json['monitorChangesPendingDeployment'] as bool?,
+      monitorDeployment: json['monitorDeployment'] != null
+          ? MonitorDeployment.fromJson(
+              json['monitorDeployment'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toSignalMapStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cloudWatchAlarmTemplateGroupIds =
+        this.cloudWatchAlarmTemplateGroupIds;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final discoveryEntryPointArn = this.discoveryEntryPointArn;
+    final errorMessage = this.errorMessage;
+    final eventBridgeRuleTemplateGroupIds =
+        this.eventBridgeRuleTemplateGroupIds;
+    final failedMediaResourceMap = this.failedMediaResourceMap;
+    final id = this.id;
+    final lastDiscoveredAt = this.lastDiscoveredAt;
+    final lastSuccessfulMonitorDeployment =
+        this.lastSuccessfulMonitorDeployment;
+    final mediaResourceMap = this.mediaResourceMap;
+    final modifiedAt = this.modifiedAt;
+    final monitorChangesPendingDeployment =
+        this.monitorChangesPendingDeployment;
+    final monitorDeployment = this.monitorDeployment;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (cloudWatchAlarmTemplateGroupIds != null)
+        'cloudWatchAlarmTemplateGroupIds': cloudWatchAlarmTemplateGroupIds,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (discoveryEntryPointArn != null)
+        'discoveryEntryPointArn': discoveryEntryPointArn,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (eventBridgeRuleTemplateGroupIds != null)
+        'eventBridgeRuleTemplateGroupIds': eventBridgeRuleTemplateGroupIds,
+      if (failedMediaResourceMap != null)
+        'failedMediaResourceMap': failedMediaResourceMap,
+      if (id != null) 'id': id,
+      if (lastDiscoveredAt != null)
+        'lastDiscoveredAt': iso8601ToJson(lastDiscoveredAt),
+      if (lastSuccessfulMonitorDeployment != null)
+        'lastSuccessfulMonitorDeployment': lastSuccessfulMonitorDeployment,
+      if (mediaResourceMap != null) 'mediaResourceMap': mediaResourceMap,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (monitorChangesPendingDeployment != null)
+        'monitorChangesPendingDeployment': monitorChangesPendingDeployment,
+      if (monitorDeployment != null) 'monitorDeployment': monitorDeployment,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for ListCloudWatchAlarmTemplateGroupsResponse
+class ListCloudWatchAlarmTemplateGroupsResponse {
+  final List<CloudWatchAlarmTemplateGroupSummary>?
+      cloudWatchAlarmTemplateGroups;
+
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  final String? nextToken;
+
+  ListCloudWatchAlarmTemplateGroupsResponse({
+    this.cloudWatchAlarmTemplateGroups,
+    this.nextToken,
+  });
+
+  factory ListCloudWatchAlarmTemplateGroupsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCloudWatchAlarmTemplateGroupsResponse(
+      cloudWatchAlarmTemplateGroups:
+          (json['cloudWatchAlarmTemplateGroups'] as List?)
+              ?.whereNotNull()
+              .map((e) => CloudWatchAlarmTemplateGroupSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchAlarmTemplateGroups = this.cloudWatchAlarmTemplateGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (cloudWatchAlarmTemplateGroups != null)
+        'cloudWatchAlarmTemplateGroups': cloudWatchAlarmTemplateGroups,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Placeholder documentation for ListCloudWatchAlarmTemplatesResponse
+class ListCloudWatchAlarmTemplatesResponse {
+  final List<CloudWatchAlarmTemplateSummary>? cloudWatchAlarmTemplates;
+
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  final String? nextToken;
+
+  ListCloudWatchAlarmTemplatesResponse({
+    this.cloudWatchAlarmTemplates,
+    this.nextToken,
+  });
+
+  factory ListCloudWatchAlarmTemplatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCloudWatchAlarmTemplatesResponse(
+      cloudWatchAlarmTemplates: (json['cloudWatchAlarmTemplates'] as List?)
+          ?.whereNotNull()
+          .map((e) => CloudWatchAlarmTemplateSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchAlarmTemplates = this.cloudWatchAlarmTemplates;
+    final nextToken = this.nextToken;
+    return {
+      if (cloudWatchAlarmTemplates != null)
+        'cloudWatchAlarmTemplates': cloudWatchAlarmTemplates,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Placeholder documentation for ListEventBridgeRuleTemplateGroupsResponse
+class ListEventBridgeRuleTemplateGroupsResponse {
+  final List<EventBridgeRuleTemplateGroupSummary>?
+      eventBridgeRuleTemplateGroups;
+
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  final String? nextToken;
+
+  ListEventBridgeRuleTemplateGroupsResponse({
+    this.eventBridgeRuleTemplateGroups,
+    this.nextToken,
+  });
+
+  factory ListEventBridgeRuleTemplateGroupsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListEventBridgeRuleTemplateGroupsResponse(
+      eventBridgeRuleTemplateGroups:
+          (json['eventBridgeRuleTemplateGroups'] as List?)
+              ?.whereNotNull()
+              .map((e) => EventBridgeRuleTemplateGroupSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventBridgeRuleTemplateGroups = this.eventBridgeRuleTemplateGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (eventBridgeRuleTemplateGroups != null)
+        'eventBridgeRuleTemplateGroups': eventBridgeRuleTemplateGroups,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Placeholder documentation for ListEventBridgeRuleTemplatesResponse
+class ListEventBridgeRuleTemplatesResponse {
+  final List<EventBridgeRuleTemplateSummary>? eventBridgeRuleTemplates;
+
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  final String? nextToken;
+
+  ListEventBridgeRuleTemplatesResponse({
+    this.eventBridgeRuleTemplates,
+    this.nextToken,
+  });
+
+  factory ListEventBridgeRuleTemplatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListEventBridgeRuleTemplatesResponse(
+      eventBridgeRuleTemplates: (json['eventBridgeRuleTemplates'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventBridgeRuleTemplateSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventBridgeRuleTemplates = this.eventBridgeRuleTemplates;
+    final nextToken = this.nextToken;
+    return {
+      if (eventBridgeRuleTemplates != null)
+        'eventBridgeRuleTemplates': eventBridgeRuleTemplates,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Placeholder documentation for ListSignalMapsResponse
+class ListSignalMapsResponse {
+  /// A token used to retrieve the next set of results in paginated list
+  /// responses.
+  final String? nextToken;
+  final List<SignalMapSummary>? signalMaps;
+
+  ListSignalMapsResponse({
+    this.nextToken,
+    this.signalMaps,
+  });
+
+  factory ListSignalMapsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSignalMapsResponse(
+      nextToken: json['nextToken'] as String?,
+      signalMaps: (json['signalMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => SignalMapSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final signalMaps = this.signalMaps;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (signalMaps != null) 'signalMaps': signalMaps,
+    };
+  }
+}
+
+/// An AWS resource used in media workflows.
+class MediaResource {
+  final List<MediaResourceNeighbor>? destinations;
+
+  /// The logical name of an AWS media resource.
+  final String? name;
+  final List<MediaResourceNeighbor>? sources;
+
+  MediaResource({
+    this.destinations,
+    this.name,
+    this.sources,
+  });
+
+  factory MediaResource.fromJson(Map<String, dynamic> json) {
+    return MediaResource(
+      destinations: (json['destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaResourceNeighbor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaResourceNeighbor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinations = this.destinations;
+    final name = this.name;
+    final sources = this.sources;
+    return {
+      if (destinations != null) 'destinations': destinations,
+      if (name != null) 'name': name,
+      if (sources != null) 'sources': sources,
+    };
+  }
+}
+
+/// A direct source or destination neighbor to an AWS media resource.
+class MediaResourceNeighbor {
+  /// The ARN of a resource used in AWS media workflows.
+  final String arn;
+
+  /// The logical name of an AWS media resource.
+  final String? name;
+
+  MediaResourceNeighbor({
+    required this.arn,
+    this.name,
+  });
+
+  factory MediaResourceNeighbor.fromJson(Map<String, dynamic> json) {
+    return MediaResourceNeighbor(
+      arn: json['arn'] as String,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Represents the latest monitor deployment of a signal map.
+class MonitorDeployment {
+  final SignalMapMonitorDeploymentStatus status;
+
+  /// URI associated with a signal map's monitor deployment.
+  final String? detailsUri;
+
+  /// Error message associated with a failed monitor deployment of a signal map.
+  final String? errorMessage;
+
+  MonitorDeployment({
+    required this.status,
+    this.detailsUri,
+    this.errorMessage,
+  });
+
+  factory MonitorDeployment.fromJson(Map<String, dynamic> json) {
+    return MonitorDeployment(
+      status: (json['status'] as String).toSignalMapMonitorDeploymentStatus(),
+      detailsUri: json['detailsUri'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final detailsUri = this.detailsUri;
+    final errorMessage = this.errorMessage;
+    return {
+      'status': status.toValue(),
+      if (detailsUri != null) 'detailsUri': detailsUri,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// A signal map's monitor deployment status.
+enum SignalMapMonitorDeploymentStatus {
+  notDeployed,
+  dryRunDeploymentComplete,
+  dryRunDeploymentFailed,
+  dryRunDeploymentInProgress,
+  deploymentComplete,
+  deploymentFailed,
+  deploymentInProgress,
+  deleteComplete,
+  deleteFailed,
+  deleteInProgress,
+}
+
+extension SignalMapMonitorDeploymentStatusValueExtension
+    on SignalMapMonitorDeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case SignalMapMonitorDeploymentStatus.notDeployed:
+        return 'NOT_DEPLOYED';
+      case SignalMapMonitorDeploymentStatus.dryRunDeploymentComplete:
+        return 'DRY_RUN_DEPLOYMENT_COMPLETE';
+      case SignalMapMonitorDeploymentStatus.dryRunDeploymentFailed:
+        return 'DRY_RUN_DEPLOYMENT_FAILED';
+      case SignalMapMonitorDeploymentStatus.dryRunDeploymentInProgress:
+        return 'DRY_RUN_DEPLOYMENT_IN_PROGRESS';
+      case SignalMapMonitorDeploymentStatus.deploymentComplete:
+        return 'DEPLOYMENT_COMPLETE';
+      case SignalMapMonitorDeploymentStatus.deploymentFailed:
+        return 'DEPLOYMENT_FAILED';
+      case SignalMapMonitorDeploymentStatus.deploymentInProgress:
+        return 'DEPLOYMENT_IN_PROGRESS';
+      case SignalMapMonitorDeploymentStatus.deleteComplete:
+        return 'DELETE_COMPLETE';
+      case SignalMapMonitorDeploymentStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case SignalMapMonitorDeploymentStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+    }
+  }
+}
+
+extension SignalMapMonitorDeploymentStatusFromString on String {
+  SignalMapMonitorDeploymentStatus toSignalMapMonitorDeploymentStatus() {
+    switch (this) {
+      case 'NOT_DEPLOYED':
+        return SignalMapMonitorDeploymentStatus.notDeployed;
+      case 'DRY_RUN_DEPLOYMENT_COMPLETE':
+        return SignalMapMonitorDeploymentStatus.dryRunDeploymentComplete;
+      case 'DRY_RUN_DEPLOYMENT_FAILED':
+        return SignalMapMonitorDeploymentStatus.dryRunDeploymentFailed;
+      case 'DRY_RUN_DEPLOYMENT_IN_PROGRESS':
+        return SignalMapMonitorDeploymentStatus.dryRunDeploymentInProgress;
+      case 'DEPLOYMENT_COMPLETE':
+        return SignalMapMonitorDeploymentStatus.deploymentComplete;
+      case 'DEPLOYMENT_FAILED':
+        return SignalMapMonitorDeploymentStatus.deploymentFailed;
+      case 'DEPLOYMENT_IN_PROGRESS':
+        return SignalMapMonitorDeploymentStatus.deploymentInProgress;
+      case 'DELETE_COMPLETE':
+        return SignalMapMonitorDeploymentStatus.deleteComplete;
+      case 'DELETE_FAILED':
+        return SignalMapMonitorDeploymentStatus.deleteFailed;
+      case 'DELETE_IN_PROGRESS':
+        return SignalMapMonitorDeploymentStatus.deleteInProgress;
+    }
+    throw Exception(
+        '$this is not known in enum SignalMapMonitorDeploymentStatus');
+  }
+}
+
+/// A signal map's current status which is dependent on its lifecycle actions or
+/// associated jobs.
+enum SignalMapStatus {
+  createInProgress,
+  createComplete,
+  createFailed,
+  updateInProgress,
+  updateComplete,
+  updateReverted,
+  updateFailed,
+  ready,
+  notReady,
+}
+
+extension SignalMapStatusValueExtension on SignalMapStatus {
+  String toValue() {
+    switch (this) {
+      case SignalMapStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case SignalMapStatus.createComplete:
+        return 'CREATE_COMPLETE';
+      case SignalMapStatus.createFailed:
+        return 'CREATE_FAILED';
+      case SignalMapStatus.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case SignalMapStatus.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case SignalMapStatus.updateReverted:
+        return 'UPDATE_REVERTED';
+      case SignalMapStatus.updateFailed:
+        return 'UPDATE_FAILED';
+      case SignalMapStatus.ready:
+        return 'READY';
+      case SignalMapStatus.notReady:
+        return 'NOT_READY';
+    }
+  }
+}
+
+extension SignalMapStatusFromString on String {
+  SignalMapStatus toSignalMapStatus() {
+    switch (this) {
+      case 'CREATE_IN_PROGRESS':
+        return SignalMapStatus.createInProgress;
+      case 'CREATE_COMPLETE':
+        return SignalMapStatus.createComplete;
+      case 'CREATE_FAILED':
+        return SignalMapStatus.createFailed;
+      case 'UPDATE_IN_PROGRESS':
+        return SignalMapStatus.updateInProgress;
+      case 'UPDATE_COMPLETE':
+        return SignalMapStatus.updateComplete;
+      case 'UPDATE_REVERTED':
+        return SignalMapStatus.updateReverted;
+      case 'UPDATE_FAILED':
+        return SignalMapStatus.updateFailed;
+      case 'READY':
+        return SignalMapStatus.ready;
+      case 'NOT_READY':
+        return SignalMapStatus.notReady;
+    }
+    throw Exception('$this is not known in enum SignalMapStatus');
+  }
+}
+
+/// Placeholder documentation for SignalMapSummary
+class SignalMapSummary {
+  /// A signal map's ARN (Amazon Resource Name)
+  final String arn;
+  final DateTime createdAt;
+
+  /// A signal map's id.
+  final String id;
+  final SignalMapMonitorDeploymentStatus monitorDeploymentStatus;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String name;
+  final SignalMapStatus status;
+
+  /// A resource's optional description.
+  final String? description;
+  final DateTime? modifiedAt;
+  final Map<String, String>? tags;
+
+  SignalMapSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.monitorDeploymentStatus,
+    required this.name,
+    required this.status,
+    this.description,
+    this.modifiedAt,
+    this.tags,
+  });
+
+  factory SignalMapSummary.fromJson(Map<String, dynamic> json) {
+    return SignalMapSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      monitorDeploymentStatus: (json['monitorDeploymentStatus'] as String)
+          .toSignalMapMonitorDeploymentStatus(),
+      name: json['name'] as String,
+      status: (json['status'] as String).toSignalMapStatus(),
+      description: json['description'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final monitorDeploymentStatus = this.monitorDeploymentStatus;
+    final name = this.name;
+    final status = this.status;
+    final description = this.description;
+    final modifiedAt = this.modifiedAt;
+    final tags = this.tags;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'monitorDeploymentStatus': monitorDeploymentStatus.toValue(),
+      'name': name,
+      'status': status.toValue(),
+      if (description != null) 'description': description,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for StartDeleteMonitorDeploymentResponse
+class StartDeleteMonitorDeploymentResponse {
+  /// A signal map's ARN (Amazon Resource Name)
+  final String? arn;
+  final List<String>? cloudWatchAlarmTemplateGroupIds;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A top-level supported AWS resource ARN to discovery a signal map from.
+  final String? discoveryEntryPointArn;
+
+  /// Error message associated with a failed creation or failed update attempt of
+  /// a signal map.
+  final String? errorMessage;
+  final List<String>? eventBridgeRuleTemplateGroupIds;
+  final Map<String, MediaResource>? failedMediaResourceMap;
+
+  /// A signal map's id.
+  final String? id;
+  final DateTime? lastDiscoveredAt;
+  final SuccessfulMonitorDeployment? lastSuccessfulMonitorDeployment;
+  final Map<String, MediaResource>? mediaResourceMap;
+  final DateTime? modifiedAt;
+
+  /// If true, there are pending monitor changes for this signal map that can be
+  /// deployed.
+  final bool? monitorChangesPendingDeployment;
+  final MonitorDeployment? monitorDeployment;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final SignalMapStatus? status;
+  final Map<String, String>? tags;
+
+  StartDeleteMonitorDeploymentResponse({
+    this.arn,
+    this.cloudWatchAlarmTemplateGroupIds,
+    this.createdAt,
+    this.description,
+    this.discoveryEntryPointArn,
+    this.errorMessage,
+    this.eventBridgeRuleTemplateGroupIds,
+    this.failedMediaResourceMap,
+    this.id,
+    this.lastDiscoveredAt,
+    this.lastSuccessfulMonitorDeployment,
+    this.mediaResourceMap,
+    this.modifiedAt,
+    this.monitorChangesPendingDeployment,
+    this.monitorDeployment,
+    this.name,
+    this.status,
+    this.tags,
+  });
+
+  factory StartDeleteMonitorDeploymentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartDeleteMonitorDeploymentResponse(
+      arn: json['arn'] as String?,
+      cloudWatchAlarmTemplateGroupIds:
+          (json['cloudWatchAlarmTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      discoveryEntryPointArn: json['discoveryEntryPointArn'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      eventBridgeRuleTemplateGroupIds:
+          (json['eventBridgeRuleTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      failedMediaResourceMap: (json['failedMediaResourceMap']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      id: json['id'] as String?,
+      lastDiscoveredAt: timeStampFromJson(json['lastDiscoveredAt']),
+      lastSuccessfulMonitorDeployment:
+          json['lastSuccessfulMonitorDeployment'] != null
+              ? SuccessfulMonitorDeployment.fromJson(
+                  json['lastSuccessfulMonitorDeployment']
+                      as Map<String, dynamic>)
+              : null,
+      mediaResourceMap: (json['mediaResourceMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      monitorChangesPendingDeployment:
+          json['monitorChangesPendingDeployment'] as bool?,
+      monitorDeployment: json['monitorDeployment'] != null
+          ? MonitorDeployment.fromJson(
+              json['monitorDeployment'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toSignalMapStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cloudWatchAlarmTemplateGroupIds =
+        this.cloudWatchAlarmTemplateGroupIds;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final discoveryEntryPointArn = this.discoveryEntryPointArn;
+    final errorMessage = this.errorMessage;
+    final eventBridgeRuleTemplateGroupIds =
+        this.eventBridgeRuleTemplateGroupIds;
+    final failedMediaResourceMap = this.failedMediaResourceMap;
+    final id = this.id;
+    final lastDiscoveredAt = this.lastDiscoveredAt;
+    final lastSuccessfulMonitorDeployment =
+        this.lastSuccessfulMonitorDeployment;
+    final mediaResourceMap = this.mediaResourceMap;
+    final modifiedAt = this.modifiedAt;
+    final monitorChangesPendingDeployment =
+        this.monitorChangesPendingDeployment;
+    final monitorDeployment = this.monitorDeployment;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (cloudWatchAlarmTemplateGroupIds != null)
+        'cloudWatchAlarmTemplateGroupIds': cloudWatchAlarmTemplateGroupIds,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (discoveryEntryPointArn != null)
+        'discoveryEntryPointArn': discoveryEntryPointArn,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (eventBridgeRuleTemplateGroupIds != null)
+        'eventBridgeRuleTemplateGroupIds': eventBridgeRuleTemplateGroupIds,
+      if (failedMediaResourceMap != null)
+        'failedMediaResourceMap': failedMediaResourceMap,
+      if (id != null) 'id': id,
+      if (lastDiscoveredAt != null)
+        'lastDiscoveredAt': iso8601ToJson(lastDiscoveredAt),
+      if (lastSuccessfulMonitorDeployment != null)
+        'lastSuccessfulMonitorDeployment': lastSuccessfulMonitorDeployment,
+      if (mediaResourceMap != null) 'mediaResourceMap': mediaResourceMap,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (monitorChangesPendingDeployment != null)
+        'monitorChangesPendingDeployment': monitorChangesPendingDeployment,
+      if (monitorDeployment != null) 'monitorDeployment': monitorDeployment,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for StartMonitorDeploymentResponse
+class StartMonitorDeploymentResponse {
+  /// A signal map's ARN (Amazon Resource Name)
+  final String? arn;
+  final List<String>? cloudWatchAlarmTemplateGroupIds;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A top-level supported AWS resource ARN to discovery a signal map from.
+  final String? discoveryEntryPointArn;
+
+  /// Error message associated with a failed creation or failed update attempt of
+  /// a signal map.
+  final String? errorMessage;
+  final List<String>? eventBridgeRuleTemplateGroupIds;
+  final Map<String, MediaResource>? failedMediaResourceMap;
+
+  /// A signal map's id.
+  final String? id;
+  final DateTime? lastDiscoveredAt;
+  final SuccessfulMonitorDeployment? lastSuccessfulMonitorDeployment;
+  final Map<String, MediaResource>? mediaResourceMap;
+  final DateTime? modifiedAt;
+
+  /// If true, there are pending monitor changes for this signal map that can be
+  /// deployed.
+  final bool? monitorChangesPendingDeployment;
+  final MonitorDeployment? monitorDeployment;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final SignalMapStatus? status;
+  final Map<String, String>? tags;
+
+  StartMonitorDeploymentResponse({
+    this.arn,
+    this.cloudWatchAlarmTemplateGroupIds,
+    this.createdAt,
+    this.description,
+    this.discoveryEntryPointArn,
+    this.errorMessage,
+    this.eventBridgeRuleTemplateGroupIds,
+    this.failedMediaResourceMap,
+    this.id,
+    this.lastDiscoveredAt,
+    this.lastSuccessfulMonitorDeployment,
+    this.mediaResourceMap,
+    this.modifiedAt,
+    this.monitorChangesPendingDeployment,
+    this.monitorDeployment,
+    this.name,
+    this.status,
+    this.tags,
+  });
+
+  factory StartMonitorDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return StartMonitorDeploymentResponse(
+      arn: json['arn'] as String?,
+      cloudWatchAlarmTemplateGroupIds:
+          (json['cloudWatchAlarmTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      discoveryEntryPointArn: json['discoveryEntryPointArn'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      eventBridgeRuleTemplateGroupIds:
+          (json['eventBridgeRuleTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      failedMediaResourceMap: (json['failedMediaResourceMap']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      id: json['id'] as String?,
+      lastDiscoveredAt: timeStampFromJson(json['lastDiscoveredAt']),
+      lastSuccessfulMonitorDeployment:
+          json['lastSuccessfulMonitorDeployment'] != null
+              ? SuccessfulMonitorDeployment.fromJson(
+                  json['lastSuccessfulMonitorDeployment']
+                      as Map<String, dynamic>)
+              : null,
+      mediaResourceMap: (json['mediaResourceMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      monitorChangesPendingDeployment:
+          json['monitorChangesPendingDeployment'] as bool?,
+      monitorDeployment: json['monitorDeployment'] != null
+          ? MonitorDeployment.fromJson(
+              json['monitorDeployment'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toSignalMapStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cloudWatchAlarmTemplateGroupIds =
+        this.cloudWatchAlarmTemplateGroupIds;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final discoveryEntryPointArn = this.discoveryEntryPointArn;
+    final errorMessage = this.errorMessage;
+    final eventBridgeRuleTemplateGroupIds =
+        this.eventBridgeRuleTemplateGroupIds;
+    final failedMediaResourceMap = this.failedMediaResourceMap;
+    final id = this.id;
+    final lastDiscoveredAt = this.lastDiscoveredAt;
+    final lastSuccessfulMonitorDeployment =
+        this.lastSuccessfulMonitorDeployment;
+    final mediaResourceMap = this.mediaResourceMap;
+    final modifiedAt = this.modifiedAt;
+    final monitorChangesPendingDeployment =
+        this.monitorChangesPendingDeployment;
+    final monitorDeployment = this.monitorDeployment;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (cloudWatchAlarmTemplateGroupIds != null)
+        'cloudWatchAlarmTemplateGroupIds': cloudWatchAlarmTemplateGroupIds,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (discoveryEntryPointArn != null)
+        'discoveryEntryPointArn': discoveryEntryPointArn,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (eventBridgeRuleTemplateGroupIds != null)
+        'eventBridgeRuleTemplateGroupIds': eventBridgeRuleTemplateGroupIds,
+      if (failedMediaResourceMap != null)
+        'failedMediaResourceMap': failedMediaResourceMap,
+      if (id != null) 'id': id,
+      if (lastDiscoveredAt != null)
+        'lastDiscoveredAt': iso8601ToJson(lastDiscoveredAt),
+      if (lastSuccessfulMonitorDeployment != null)
+        'lastSuccessfulMonitorDeployment': lastSuccessfulMonitorDeployment,
+      if (mediaResourceMap != null) 'mediaResourceMap': mediaResourceMap,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (monitorChangesPendingDeployment != null)
+        'monitorChangesPendingDeployment': monitorChangesPendingDeployment,
+      if (monitorDeployment != null) 'monitorDeployment': monitorDeployment,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for StartUpdateSignalMapResponse
+class StartUpdateSignalMapResponse {
+  /// A signal map's ARN (Amazon Resource Name)
+  final String? arn;
+  final List<String>? cloudWatchAlarmTemplateGroupIds;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A top-level supported AWS resource ARN to discovery a signal map from.
+  final String? discoveryEntryPointArn;
+
+  /// Error message associated with a failed creation or failed update attempt of
+  /// a signal map.
+  final String? errorMessage;
+  final List<String>? eventBridgeRuleTemplateGroupIds;
+  final Map<String, MediaResource>? failedMediaResourceMap;
+
+  /// A signal map's id.
+  final String? id;
+  final DateTime? lastDiscoveredAt;
+  final SuccessfulMonitorDeployment? lastSuccessfulMonitorDeployment;
+  final Map<String, MediaResource>? mediaResourceMap;
+  final DateTime? modifiedAt;
+
+  /// If true, there are pending monitor changes for this signal map that can be
+  /// deployed.
+  final bool? monitorChangesPendingDeployment;
+  final MonitorDeployment? monitorDeployment;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final SignalMapStatus? status;
+  final Map<String, String>? tags;
+
+  StartUpdateSignalMapResponse({
+    this.arn,
+    this.cloudWatchAlarmTemplateGroupIds,
+    this.createdAt,
+    this.description,
+    this.discoveryEntryPointArn,
+    this.errorMessage,
+    this.eventBridgeRuleTemplateGroupIds,
+    this.failedMediaResourceMap,
+    this.id,
+    this.lastDiscoveredAt,
+    this.lastSuccessfulMonitorDeployment,
+    this.mediaResourceMap,
+    this.modifiedAt,
+    this.monitorChangesPendingDeployment,
+    this.monitorDeployment,
+    this.name,
+    this.status,
+    this.tags,
+  });
+
+  factory StartUpdateSignalMapResponse.fromJson(Map<String, dynamic> json) {
+    return StartUpdateSignalMapResponse(
+      arn: json['arn'] as String?,
+      cloudWatchAlarmTemplateGroupIds:
+          (json['cloudWatchAlarmTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      discoveryEntryPointArn: json['discoveryEntryPointArn'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      eventBridgeRuleTemplateGroupIds:
+          (json['eventBridgeRuleTemplateGroupIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      failedMediaResourceMap: (json['failedMediaResourceMap']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      id: json['id'] as String?,
+      lastDiscoveredAt: timeStampFromJson(json['lastDiscoveredAt']),
+      lastSuccessfulMonitorDeployment:
+          json['lastSuccessfulMonitorDeployment'] != null
+              ? SuccessfulMonitorDeployment.fromJson(
+                  json['lastSuccessfulMonitorDeployment']
+                      as Map<String, dynamic>)
+              : null,
+      mediaResourceMap: (json['mediaResourceMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, MediaResource.fromJson(e as Map<String, dynamic>))),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      monitorChangesPendingDeployment:
+          json['monitorChangesPendingDeployment'] as bool?,
+      monitorDeployment: json['monitorDeployment'] != null
+          ? MonitorDeployment.fromJson(
+              json['monitorDeployment'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toSignalMapStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cloudWatchAlarmTemplateGroupIds =
+        this.cloudWatchAlarmTemplateGroupIds;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final discoveryEntryPointArn = this.discoveryEntryPointArn;
+    final errorMessage = this.errorMessage;
+    final eventBridgeRuleTemplateGroupIds =
+        this.eventBridgeRuleTemplateGroupIds;
+    final failedMediaResourceMap = this.failedMediaResourceMap;
+    final id = this.id;
+    final lastDiscoveredAt = this.lastDiscoveredAt;
+    final lastSuccessfulMonitorDeployment =
+        this.lastSuccessfulMonitorDeployment;
+    final mediaResourceMap = this.mediaResourceMap;
+    final modifiedAt = this.modifiedAt;
+    final monitorChangesPendingDeployment =
+        this.monitorChangesPendingDeployment;
+    final monitorDeployment = this.monitorDeployment;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (cloudWatchAlarmTemplateGroupIds != null)
+        'cloudWatchAlarmTemplateGroupIds': cloudWatchAlarmTemplateGroupIds,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (discoveryEntryPointArn != null)
+        'discoveryEntryPointArn': discoveryEntryPointArn,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (eventBridgeRuleTemplateGroupIds != null)
+        'eventBridgeRuleTemplateGroupIds': eventBridgeRuleTemplateGroupIds,
+      if (failedMediaResourceMap != null)
+        'failedMediaResourceMap': failedMediaResourceMap,
+      if (id != null) 'id': id,
+      if (lastDiscoveredAt != null)
+        'lastDiscoveredAt': iso8601ToJson(lastDiscoveredAt),
+      if (lastSuccessfulMonitorDeployment != null)
+        'lastSuccessfulMonitorDeployment': lastSuccessfulMonitorDeployment,
+      if (mediaResourceMap != null) 'mediaResourceMap': mediaResourceMap,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (monitorChangesPendingDeployment != null)
+        'monitorChangesPendingDeployment': monitorChangesPendingDeployment,
+      if (monitorDeployment != null) 'monitorDeployment': monitorDeployment,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Represents the latest successful monitor deployment of a signal map.
+class SuccessfulMonitorDeployment {
+  /// URI associated with a signal map's monitor deployment.
+  final String detailsUri;
+  final SignalMapMonitorDeploymentStatus status;
+
+  SuccessfulMonitorDeployment({
+    required this.detailsUri,
+    required this.status,
+  });
+
+  factory SuccessfulMonitorDeployment.fromJson(Map<String, dynamic> json) {
+    return SuccessfulMonitorDeployment(
+      detailsUri: json['detailsUri'] as String,
+      status: (json['status'] as String).toSignalMapMonitorDeploymentStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detailsUri = this.detailsUri;
+    final status = this.status;
+    return {
+      'detailsUri': detailsUri,
+      'status': status.toValue(),
+    };
+  }
+}
+
+/// Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupResponse
+class UpdateCloudWatchAlarmTemplateGroupResponse {
+  /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  UpdateCloudWatchAlarmTemplateGroupResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory UpdateCloudWatchAlarmTemplateGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCloudWatchAlarmTemplateGroupResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for UpdateCloudWatchAlarmTemplateResponse
+class UpdateCloudWatchAlarmTemplateResponse {
+  /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+  final String? arn;
+  final CloudWatchAlarmTemplateComparisonOperator? comparisonOperator;
+  final DateTime? createdAt;
+
+  /// The number of datapoints within the evaluation period that must be breaching
+  /// to trigger the alarm.
+  final int? datapointsToAlarm;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  final int? evaluationPeriods;
+
+  /// A cloudwatch alarm template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? groupId;
+
+  /// A cloudwatch alarm template's id. AWS provided templates have ids that start
+  /// with `aws-`
+  final String? id;
+
+  /// The name of the metric associated with the alarm. Must be compatible with
+  /// targetResourceType.
+  final String? metricName;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+
+  /// The period, in seconds, over which the specified statistic is applied.
+  final int? period;
+  final CloudWatchAlarmTemplateStatistic? statistic;
+  final Map<String, String>? tags;
+  final CloudWatchAlarmTemplateTargetResourceType? targetResourceType;
+
+  /// The threshold value to compare with the specified statistic.
+  final double? threshold;
+  final CloudWatchAlarmTemplateTreatMissingData? treatMissingData;
+
+  UpdateCloudWatchAlarmTemplateResponse({
+    this.arn,
+    this.comparisonOperator,
+    this.createdAt,
+    this.datapointsToAlarm,
+    this.description,
+    this.evaluationPeriods,
+    this.groupId,
+    this.id,
+    this.metricName,
+    this.modifiedAt,
+    this.name,
+    this.period,
+    this.statistic,
+    this.tags,
+    this.targetResourceType,
+    this.threshold,
+    this.treatMissingData,
+  });
+
+  factory UpdateCloudWatchAlarmTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCloudWatchAlarmTemplateResponse(
+      arn: json['arn'] as String?,
+      comparisonOperator: (json['comparisonOperator'] as String?)
+          ?.toCloudWatchAlarmTemplateComparisonOperator(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      datapointsToAlarm: json['datapointsToAlarm'] as int?,
+      description: json['description'] as String?,
+      evaluationPeriods: json['evaluationPeriods'] as int?,
+      groupId: json['groupId'] as String?,
+      id: json['id'] as String?,
+      metricName: json['metricName'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      period: json['period'] as int?,
+      statistic:
+          (json['statistic'] as String?)?.toCloudWatchAlarmTemplateStatistic(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetResourceType: (json['targetResourceType'] as String?)
+          ?.toCloudWatchAlarmTemplateTargetResourceType(),
+      threshold: json['threshold'] as double?,
+      treatMissingData: (json['treatMissingData'] as String?)
+          ?.toCloudWatchAlarmTemplateTreatMissingData(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final comparisonOperator = this.comparisonOperator;
+    final createdAt = this.createdAt;
+    final datapointsToAlarm = this.datapointsToAlarm;
+    final description = this.description;
+    final evaluationPeriods = this.evaluationPeriods;
+    final groupId = this.groupId;
+    final id = this.id;
+    final metricName = this.metricName;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final period = this.period;
+    final statistic = this.statistic;
+    final tags = this.tags;
+    final targetResourceType = this.targetResourceType;
+    final threshold = this.threshold;
+    final treatMissingData = this.treatMissingData;
+    return {
+      if (arn != null) 'arn': arn,
+      if (comparisonOperator != null)
+        'comparisonOperator': comparisonOperator.toValue(),
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
+      if (description != null) 'description': description,
+      if (evaluationPeriods != null) 'evaluationPeriods': evaluationPeriods,
+      if (groupId != null) 'groupId': groupId,
+      if (id != null) 'id': id,
+      if (metricName != null) 'metricName': metricName,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (period != null) 'period': period,
+      if (statistic != null) 'statistic': statistic.toValue(),
+      if (tags != null) 'tags': tags,
+      if (targetResourceType != null)
+        'targetResourceType': targetResourceType.toValue(),
+      if (threshold != null) 'threshold': threshold,
+      if (treatMissingData != null)
+        'treatMissingData': treatMissingData.toValue(),
+    };
+  }
+}
+
+/// Placeholder documentation for UpdateEventBridgeRuleTemplateGroupResponse
+class UpdateEventBridgeRuleTemplateGroupResponse {
+  /// An eventbridge rule template group's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  UpdateEventBridgeRuleTemplateGroupResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory UpdateEventBridgeRuleTemplateGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateEventBridgeRuleTemplateGroupResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Placeholder documentation for UpdateEventBridgeRuleTemplateResponse
+class UpdateEventBridgeRuleTemplateResponse {
+  /// An eventbridge rule template's ARN (Amazon Resource Name)
+  final String? arn;
+  final DateTime? createdAt;
+
+  /// A resource's optional description.
+  final String? description;
+  final List<EventBridgeRuleTemplateTarget>? eventTargets;
+  final EventBridgeRuleTemplateEventType? eventType;
+
+  /// An eventbridge rule template group's id. AWS provided template groups have
+  /// ids that start with `aws-`
+  final String? groupId;
+
+  /// An eventbridge rule template's id. AWS provided templates have ids that
+  /// start with `aws-`
+  final String? id;
+  final DateTime? modifiedAt;
+
+  /// A resource's name. Names must be unique within the scope of a resource type
+  /// in a specific region.
+  final String? name;
+  final Map<String, String>? tags;
+
+  UpdateEventBridgeRuleTemplateResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.eventTargets,
+    this.eventType,
+    this.groupId,
+    this.id,
+    this.modifiedAt,
+    this.name,
+    this.tags,
+  });
+
+  factory UpdateEventBridgeRuleTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateEventBridgeRuleTemplateResponse(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      eventTargets: (json['eventTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EventBridgeRuleTemplateTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventType:
+          (json['eventType'] as String?)?.toEventBridgeRuleTemplateEventType(),
+      groupId: json['groupId'] as String?,
+      id: json['id'] as String?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final eventTargets = this.eventTargets;
+    final eventType = this.eventType;
+    final groupId = this.groupId;
+    final id = this.id;
+    final modifiedAt = this.modifiedAt;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (eventTargets != null) 'eventTargets': eventTargets,
+      if (eventType != null) 'eventType': eventType.toValue(),
+      if (groupId != null) 'groupId': groupId,
+      if (id != null) 'id': id,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Scte35 Segmentation Scope
+enum Scte35SegmentationScope {
+  allOutputGroups,
+  scte35EnabledOutputGroups,
+}
+
+extension Scte35SegmentationScopeValueExtension on Scte35SegmentationScope {
+  String toValue() {
+    switch (this) {
+      case Scte35SegmentationScope.allOutputGroups:
+        return 'ALL_OUTPUT_GROUPS';
+      case Scte35SegmentationScope.scte35EnabledOutputGroups:
+        return 'SCTE35_ENABLED_OUTPUT_GROUPS';
+    }
+  }
+}
+
+extension Scte35SegmentationScopeFromString on String {
+  Scte35SegmentationScope toScte35SegmentationScope() {
+    switch (this) {
+      case 'ALL_OUTPUT_GROUPS':
+        return Scte35SegmentationScope.allOutputGroups;
+      case 'SCTE35_ENABLED_OUTPUT_GROUPS':
+        return Scte35SegmentationScope.scte35EnabledOutputGroups;
+    }
+    throw Exception('$this is not known in enum Scte35SegmentationScope');
   }
 }
 

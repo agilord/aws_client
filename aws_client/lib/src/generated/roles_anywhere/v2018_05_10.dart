@@ -84,7 +84,11 @@ class IamRolesAnywhere {
   /// request.
   ///
   /// Parameter [durationSeconds] :
-  /// The number of seconds the vended session credentials are valid for.
+  /// Used to determine how long sessions vended using this profile are valid
+  /// for. See the <code>Expiration</code> section of the <a
+  /// href="https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object">CreateSession
+  /// API documentation</a> page for more details. In requests, if this value is
+  /// not provided, the default value will be 3600.
   ///
   /// Parameter [enabled] :
   /// Specifies whether the profile is enabled.
@@ -117,7 +121,7 @@ class IamRolesAnywhere {
       'durationSeconds',
       durationSeconds,
       900,
-      3600,
+      43200,
     );
     final $payload = <String, dynamic>{
       'name': name,
@@ -188,6 +192,41 @@ class IamRolesAnywhere {
       exceptionFnMap: _exceptionFns,
     );
     return TrustAnchorDetailResponse.fromJson(response);
+  }
+
+  /// Delete an entry from the attribute mapping rules enforced by a given
+  /// profile.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [certificateField] :
+  /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+  ///
+  /// Parameter [profileId] :
+  /// The unique identifier of the profile.
+  ///
+  /// Parameter [specifiers] :
+  /// A list of specifiers of a certificate field; for example, CN, OU, UID from
+  /// a Subject.
+  Future<DeleteAttributeMappingResponse> deleteAttributeMapping({
+    required CertificateField certificateField,
+    required String profileId,
+    List<String>? specifiers,
+  }) async {
+    final $query = <String, List<String>>{
+      'certificateField': [certificateField.toValue()],
+      if (specifiers != null) 'specifiers': specifiers,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/profiles/${Uri.encodeComponent(profileId)}/mappings',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteAttributeMappingResponse.fromJson(response);
   }
 
   /// Deletes a certificate revocation list (CRL).
@@ -476,8 +515,8 @@ class IamRolesAnywhere {
 
   /// Imports the certificate revocation list (CRL). A CRL is a list of
   /// certificates that have been revoked by the issuing certificate Authority
-  /// (CA). IAM Roles Anywhere validates against the CRL before issuing
-  /// credentials.
+  /// (CA).In order to be properly imported, a CRL must be in PEM format. IAM
+  /// Roles Anywhere validates against the CRL before issuing credentials.
   ///
   /// <b>Required permissions: </b> <code>rolesanywhere:ImportCrl</code>.
   ///
@@ -681,6 +720,40 @@ class IamRolesAnywhere {
     return ListTrustAnchorsResponse.fromJson(response);
   }
 
+  /// Put an entry in the attribute mapping rules that will be enforced by a
+  /// given profile. A mapping specifies a certificate field and one or more
+  /// specifiers that have contextual meanings.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [certificateField] :
+  /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+  ///
+  /// Parameter [mappingRules] :
+  /// A list of mapping entries for every supported specifier or sub-field.
+  ///
+  /// Parameter [profileId] :
+  /// The unique identifier of the profile.
+  Future<PutAttributeMappingResponse> putAttributeMapping({
+    required CertificateField certificateField,
+    required List<MappingRule> mappingRules,
+    required String profileId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'certificateField': certificateField.toValue(),
+      'mappingRules': mappingRules,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/profiles/${Uri.encodeComponent(profileId)}/mappings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAttributeMappingResponse.fromJson(response);
+  }
+
   /// Attaches a list of <i>notification settings</i> to a trust anchor.
   ///
   /// A notification setting includes information such as event name, threshold,
@@ -858,7 +931,11 @@ class IamRolesAnywhere {
   /// The unique identifier of the profile.
   ///
   /// Parameter [durationSeconds] :
-  /// The number of seconds the vended session credentials are valid for.
+  /// Used to determine how long sessions vended using this profile are valid
+  /// for. See the <code>Expiration</code> section of the <a
+  /// href="https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object">CreateSession
+  /// API documentation</a> page for more details. In requests, if this value is
+  /// not provided, the default value will be 3600.
   ///
   /// Parameter [managedPolicyArns] :
   /// A list of managed policy ARNs that apply to the vended session
@@ -886,7 +963,7 @@ class IamRolesAnywhere {
       'durationSeconds',
       durationSeconds,
       900,
-      3600,
+      43200,
     );
     final $payload = <String, dynamic>{
       if (durationSeconds != null) 'durationSeconds': durationSeconds,
@@ -942,6 +1019,74 @@ class IamRolesAnywhere {
       exceptionFnMap: _exceptionFns,
     );
     return TrustAnchorDetailResponse.fromJson(response);
+  }
+}
+
+/// A mapping applied to the authenticating end-entity certificate.
+class AttributeMapping {
+  /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+  final CertificateField? certificateField;
+
+  /// A list of mapping entries for every supported specifier or sub-field.
+  final List<MappingRule>? mappingRules;
+
+  AttributeMapping({
+    this.certificateField,
+    this.mappingRules,
+  });
+
+  factory AttributeMapping.fromJson(Map<String, dynamic> json) {
+    return AttributeMapping(
+      certificateField:
+          (json['certificateField'] as String?)?.toCertificateField(),
+      mappingRules: (json['mappingRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => MappingRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateField = this.certificateField;
+    final mappingRules = this.mappingRules;
+    return {
+      if (certificateField != null)
+        'certificateField': certificateField.toValue(),
+      if (mappingRules != null) 'mappingRules': mappingRules,
+    };
+  }
+}
+
+enum CertificateField {
+  x509Subject,
+  x509Issuer,
+  x509san,
+}
+
+extension CertificateFieldValueExtension on CertificateField {
+  String toValue() {
+    switch (this) {
+      case CertificateField.x509Subject:
+        return 'x509Subject';
+      case CertificateField.x509Issuer:
+        return 'x509Issuer';
+      case CertificateField.x509san:
+        return 'x509SAN';
+    }
+  }
+}
+
+extension CertificateFieldFromString on String {
+  CertificateField toCertificateField() {
+    switch (this) {
+      case 'x509Subject':
+        return CertificateField.x509Subject;
+      case 'x509Issuer':
+        return CertificateField.x509Issuer;
+      case 'x509SAN':
+        return CertificateField.x509san;
+    }
+    throw Exception('$this is not known in enum CertificateField');
   }
 }
 
@@ -1102,6 +1247,28 @@ class CrlDetailResponse {
     final crl = this.crl;
     return {
       'crl': crl,
+    };
+  }
+}
+
+class DeleteAttributeMappingResponse {
+  /// The state of the profile after a read or write operation.
+  final ProfileDetail profile;
+
+  DeleteAttributeMappingResponse({
+    required this.profile,
+  });
+
+  factory DeleteAttributeMappingResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAttributeMappingResponse(
+      profile: ProfileDetail.fromJson(json['profile'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profile = this.profile;
+    return {
+      'profile': profile,
     };
   }
 }
@@ -1307,6 +1474,30 @@ class ListTrustAnchorsResponse {
   }
 }
 
+/// A single mapping entry for each supported specifier or sub-field.
+class MappingRule {
+  /// Specifier within a certificate field, such as CN, OU, or UID from the
+  /// Subject field.
+  final String specifier;
+
+  MappingRule({
+    required this.specifier,
+  });
+
+  factory MappingRule.fromJson(Map<String, dynamic> json) {
+    return MappingRule(
+      specifier: json['specifier'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final specifier = this.specifier;
+    return {
+      'specifier': specifier,
+    };
+  }
+}
+
 enum NotificationChannel {
   all,
 }
@@ -1489,13 +1680,20 @@ class NotificationSettingKey {
 
 /// The state of the profile after a read or write operation.
 class ProfileDetail {
+  /// A mapping applied to the authenticating end-entity certificate.
+  final List<AttributeMapping>? attributeMappings;
+
   /// The ISO-8601 timestamp when the profile was created.
   final DateTime? createdAt;
 
   /// The Amazon Web Services account that created the profile.
   final String? createdBy;
 
-  /// The number of seconds the vended session credentials are valid for.
+  /// Used to determine how long sessions vended using this profile are valid for.
+  /// See the <code>Expiration</code> section of the <a
+  /// href="https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object">CreateSession
+  /// API documentation</a> page for more details. In requests, if this value is
+  /// not provided, the default value will be 3600.
   final int? durationSeconds;
 
   /// Indicates whether the profile is enabled.
@@ -1529,6 +1727,7 @@ class ProfileDetail {
   final DateTime? updatedAt;
 
   ProfileDetail({
+    this.attributeMappings,
     this.createdAt,
     this.createdBy,
     this.durationSeconds,
@@ -1545,6 +1744,10 @@ class ProfileDetail {
 
   factory ProfileDetail.fromJson(Map<String, dynamic> json) {
     return ProfileDetail(
+      attributeMappings: (json['attributeMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       durationSeconds: json['durationSeconds'] as int?,
@@ -1567,6 +1770,7 @@ class ProfileDetail {
   }
 
   Map<String, dynamic> toJson() {
+    final attributeMappings = this.attributeMappings;
     final createdAt = this.createdAt;
     final createdBy = this.createdBy;
     final durationSeconds = this.durationSeconds;
@@ -1580,6 +1784,7 @@ class ProfileDetail {
     final sessionPolicy = this.sessionPolicy;
     final updatedAt = this.updatedAt;
     return {
+      if (attributeMappings != null) 'attributeMappings': attributeMappings,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (durationSeconds != null) 'durationSeconds': durationSeconds,
@@ -1617,6 +1822,28 @@ class ProfileDetailResponse {
     final profile = this.profile;
     return {
       if (profile != null) 'profile': profile,
+    };
+  }
+}
+
+class PutAttributeMappingResponse {
+  /// The state of the profile after a read or write operation.
+  final ProfileDetail profile;
+
+  PutAttributeMappingResponse({
+    required this.profile,
+  });
+
+  factory PutAttributeMappingResponse.fromJson(Map<String, dynamic> json) {
+    return PutAttributeMappingResponse(
+      profile: ProfileDetail.fromJson(json['profile'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profile = this.profile;
+    return {
+      'profile': profile,
     };
   }
 }

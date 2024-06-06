@@ -19,12 +19,8 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// With Fleet Hub for AWS IoT Device Management you can build stand-alone web
+/// With Fleet Hub for IoT Device Management you can build stand-alone web
 /// applications for monitoring the health of your device fleets.
-/// <note>
-/// Fleet Hub for AWS IoT Device Management is in public preview and is subject
-/// to change.
-/// </note>
 class IoTFleetHub {
   final _s.RestJsonProtocol _protocol;
   IoTFleetHub({
@@ -54,11 +50,17 @@ class IoTFleetHub {
     _protocol.close();
   }
 
-  /// Creates a Fleet Hub for AWS IoT Device Management web application.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
+  /// Creates a Fleet Hub for IoT Device Management web application.
+  ///
+  /// When creating a Fleet Hub application, you must create an organization
+  /// instance of IAM Identity Center if you don't already have one. The Fleet
+  /// Hub application you create must also be in the same Amazon Web Services
+  /// Region of the organization instance of IAM Identity Center. For more
+  /// information see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/get-set-up-for-idc.html">Enabling
+  /// IAM Identity Center</a> and <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/organization-instances-identity-center.html">Organization
+  /// instances of IAM Identity Center</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -70,7 +72,7 @@ class IoTFleetHub {
   ///
   /// Parameter [roleArn] :
   /// The ARN of the role that the web application assumes when it interacts
-  /// with AWS IoT Core.
+  /// with Amazon Web Services IoT Core.
   /// <note>
   /// The name of the role must be in the form
   /// <code>AWSIotFleetHub_<i>random_string</i> </code>.
@@ -111,11 +113,7 @@ class IoTFleetHub {
     return CreateApplicationResponse.fromJson(response);
   }
 
-  /// Deletes a Fleet Hub for AWS IoT Device Management web application.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
+  /// Deletes a Fleet Hub for IoT Device Management web application.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -145,12 +143,8 @@ class IoTFleetHub {
     );
   }
 
-  /// Gets information about a Fleet Hub for AWS IoT Device Management web
+  /// Gets information about a Fleet Hub for IoT Device Management web
   /// application.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -171,12 +165,8 @@ class IoTFleetHub {
     return DescribeApplicationResponse.fromJson(response);
   }
 
-  /// Gets a list of Fleet Hub for AWS IoT Device Management web applications
-  /// for the current account.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
+  /// Gets a list of Fleet Hub for IoT Device Management web applications for
+  /// the current account.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -201,10 +191,6 @@ class IoTFleetHub {
   }
 
   /// Lists the tags for the specified resource.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -226,10 +212,6 @@ class IoTFleetHub {
 
   /// Adds to or modifies the tags of the specified resource. Tags are metadata
   /// which can be used to manage a resource.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -256,10 +238,6 @@ class IoTFleetHub {
   }
 
   /// Removes the specified tags (metadata) from the resource.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -286,12 +264,8 @@ class IoTFleetHub {
     );
   }
 
-  /// Updates information about a Fleet Hub for a AWS IoT Device Management web
+  /// Updates information about a Fleet Hub for IoT Device Management web
   /// application.
-  /// <note>
-  /// Fleet Hub for AWS IoT Device Management is in public preview and is
-  /// subject to change.
-  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -376,11 +350,8 @@ extension ApplicationStateFromString on String {
   }
 }
 
-/// A summary of information about a AWS IoT Device Management web application.
-/// <note>
-/// Fleet Hub for AWS IoT Device Management is in public preview and is subject
-/// to change.
-/// </note>
+/// A summary of information about a Fleet Hub for IoT Device Management web
+/// application.
 class ApplicationSummary {
   /// The unique Id of the web application.
   final String applicationId;
@@ -514,13 +485,16 @@ class DescribeApplicationResponse {
   final String applicationUrl;
 
   /// The ARN of the role that the web application assumes when it interacts with
-  /// AWS IoT Core.
+  /// Amazon Web Services IoT Core.
   final String roleArn;
 
   /// An optional description of the web application.
   final String? applicationDescription;
 
-  /// A message indicating why the <code>DescribeApplication</code> API failed.
+  /// A message that explains any failures included in the
+  /// <code>applicationState</code> response field. This message explains failures
+  /// in the <code>CreateApplication</code> and <code>DeleteApplication</code>
+  /// actions.
   final String? errorMessage;
 
   /// The Id of the single sign-on client that you use to authenticate and

@@ -63,6 +63,7 @@ class IoTFleetWise {
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -199,8 +200,8 @@ class IoTFleetWise {
   /// The name of the campaign to create.
   ///
   /// Parameter [signalCatalogArn] :
-  /// (Optional) The Amazon Resource Name (ARN) of the signal catalog to
-  /// associate with the campaign.
+  /// The Amazon Resource Name (ARN) of the signal catalog to associate with the
+  /// campaign.
   ///
   /// Parameter [targetArn] :
   /// The ARN of the vehicle or fleet to deploy a campaign to.
@@ -211,6 +212,21 @@ class IoTFleetWise {
   /// <code>OFF</code>. If it's not specified, <code>SNAPPY</code> is used.
   ///
   /// Default: <code>SNAPPY</code>
+  ///
+  /// Parameter [dataDestinationConfigs] :
+  /// The destination where the campaign sends data. You can choose to send data
+  /// to be stored in Amazon S3 or Amazon Timestream.
+  ///
+  /// Amazon S3 optimizes the cost of data storage and provides additional
+  /// mechanisms to use vehicle data, such as data lakes, centralized data
+  /// storage, data processing pipelines, and analytics. Amazon Web Services IoT
+  /// FleetWise supports at-least-once file delivery to S3. Your vehicle data is
+  /// stored on multiple Amazon Web Services IoT FleetWise servers for
+  /// redundancy and high availability.
+  ///
+  /// You can use Amazon Timestream to access and analyze time series data, and
+  /// Timestream to query vehicle data so that you can identify trends and
+  /// patterns.
   ///
   /// Parameter [dataExtraDimensions] :
   /// (Optional) A list of vehicle attributes to associate with a campaign.
@@ -236,7 +252,7 @@ class IoTFleetWise {
   ///
   /// Parameter [expiryTime] :
   /// (Optional) The time the campaign expires, in seconds since epoch (January
-  /// 1, 1970 at midnight UTC time). Vehicle data won't be collected after the
+  /// 1, 1970 at midnight UTC time). Vehicle data isn't collected after the
   /// campaign expires.
   ///
   /// Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
@@ -283,6 +299,7 @@ class IoTFleetWise {
     required String signalCatalogArn,
     required String targetArn,
     Compression? compression,
+    List<DataDestinationConfig>? dataDestinationConfigs,
     List<String>? dataExtraDimensions,
     String? description,
     DiagnosticsMode? diagnosticsMode,
@@ -322,6 +339,8 @@ class IoTFleetWise {
         'signalCatalogArn': signalCatalogArn,
         'targetArn': targetArn,
         if (compression != null) 'compression': compression.toValue(),
+        if (dataDestinationConfigs != null)
+          'dataDestinationConfigs': dataDestinationConfigs,
         if (dataExtraDimensions != null)
           'dataExtraDimensions': dataExtraDimensions,
         if (description != null) 'description': description,
@@ -586,7 +605,7 @@ class IoTFleetWise {
   /// manifest). Vehicles created from the same vehicle model consist of the
   /// same signals inherited from the vehicle model.
   /// <note>
-  /// If you have an existing Amazon Web Services IoT Thing, you can use Amazon
+  /// If you have an existing Amazon Web Services IoT thing, you can use Amazon
   /// Web Services IoT FleetWise to create a vehicle and collect data from your
   /// thing.
   /// </note>
@@ -622,6 +641,9 @@ class IoTFleetWise {
   /// Parameter [attributes] :
   /// Static information about a vehicle in a key-value pair. For example:
   /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
+  ///
+  /// A campaign must include the keys (attribute names) in
+  /// <code>dataExtraDimensions</code> for them to display in Amazon Timestream.
   ///
   /// Parameter [tags] :
   /// Metadata that can be used to manage the vehicle.
@@ -966,6 +988,31 @@ class IoTFleetWise {
     );
 
     return GetDecoderManifestResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the encryption configuration for resources and data in Amazon
+  /// Web Services IoT FleetWise.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  Future<GetEncryptionConfigurationResponse>
+      getEncryptionConfiguration() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetEncryptionConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetEncryptionConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves information about a fleet.
@@ -1781,10 +1828,14 @@ class IoTFleetWise {
   /// response. To retrieve the next set of results, reissue the search request
   /// and include the returned token. When all results have been returned, the
   /// response does not contain a pagination token value.
+  ///
+  /// Parameter [signalNodeType] :
+  /// The type of node in the signal catalog.
   Future<ListSignalCatalogNodesResponse> listSignalCatalogNodes({
     required String name,
     int? maxResults,
     String? nextToken,
+    SignalNodeType? signalNodeType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1806,6 +1857,7 @@ class IoTFleetWise {
         'name': name,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (signalNodeType != null) 'signalNodeType': signalNodeType.toValue(),
       },
     );
 
@@ -1908,6 +1960,17 @@ class IoTFleetWise {
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   ///
+  /// Parameter [attributeNames] :
+  /// The fully qualified names of the attributes. For example, the fully
+  /// qualified name of an attribute might be
+  /// <code>Vehicle.Body.Engine.Type</code>.
+  ///
+  /// Parameter [attributeValues] :
+  /// Static information about a vehicle attribute value in string format. For
+  /// example:
+  ///
+  /// <code>"1.3 L R2"</code>
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return, between 1 and 100, inclusive.
   ///
@@ -1925,6 +1988,8 @@ class IoTFleetWise {
   /// and include the returned token. When all results have been returned, the
   /// response does not contain a pagination token value.
   Future<ListVehiclesResponse> listVehicles({
+    List<String>? attributeNames,
+    List<String>? attributeValues,
     int? maxResults,
     String? modelManifestArn,
     String? nextToken,
@@ -1946,6 +2011,8 @@ class IoTFleetWise {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (attributeNames != null) 'attributeNames': attributeNames,
+        if (attributeValues != null) 'attributeValues': attributeValues,
         if (maxResults != null) 'maxResults': maxResults,
         if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
         if (nextToken != null) 'nextToken': nextToken,
@@ -2012,6 +2079,51 @@ class IoTFleetWise {
     return ListVehiclesInFleetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates or updates the encryption configuration. Amazon Web Services IoT
+  /// FleetWise can encrypt your data and resources using an Amazon Web Services
+  /// managed key. Or, you can use a KMS key that you own and manage. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/data-encryption.html">Data
+  /// encryption</a> in the <i>Amazon Web Services IoT FleetWise Developer
+  /// Guide</i>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [encryptionType] :
+  /// The type of encryption. Choose <code>KMS_BASED_ENCRYPTION</code> to use a
+  /// KMS key or <code>FLEETWISE_DEFAULT_ENCRYPTION</code> to use an Amazon Web
+  /// Services managed key.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The ID of the KMS key that is used for encryption.
+  Future<PutEncryptionConfigurationResponse> putEncryptionConfiguration({
+    required EncryptionType encryptionType,
+    String? kmsKeyId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.PutEncryptionConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'encryptionType': encryptionType.toValue(),
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      },
+    );
+
+    return PutEncryptionConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates the logging option.
   ///
   /// May throw [ResourceNotFoundException].
@@ -2042,6 +2154,28 @@ class IoTFleetWise {
     );
   }
 
+  /// <important>
+  /// This API operation contains deprecated parameters. Register your account
+  /// again without the Timestream resources parameter so that Amazon Web
+  /// Services IoT FleetWise can remove the Timestream metadata stored. You
+  /// should then pass the data destination into the <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CreateCampaign.html">CreateCampaign</a>
+  /// API operation.
+  ///
+  /// You must delete any existing campaigns that include an empty data
+  /// destination before you register your account again. For more information,
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html">DeleteCampaign</a>
+  /// API operation.
+  ///
+  /// If you want to delete the Timestream inline policy from the service-linked
+  /// role, such as to mitigate an overly permissive policy, you must first
+  /// delete any existing campaigns. Then delete the service-linked role and
+  /// register your account again to enable CloudWatch metrics. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html">DeleteServiceLinkedRole</a>
+  /// in the <i>Identity and Access Management API Reference</i>.
+  /// </important>
   /// Registers your Amazon Web Services account, IAM, and Amazon Timestream
   /// resources so Amazon Web Services IoT FleetWise can transfer your vehicle
   /// data to the Amazon Web Services Cloud. For more information, including
@@ -2049,8 +2183,8 @@ class IoTFleetWise {
   /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html">Setting
   /// up Amazon Web Services IoT FleetWise</a>.
   /// <note>
-  /// An Amazon Web Services account is <b>not</b> the same thing as a "user
-  /// account". An <a
+  /// An Amazon Web Services account is <b>not</b> the same thing as a "user."
+  /// An <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#intro-identity-users">Amazon
   /// Web Services user</a> is an identity that you create using Identity and
   /// Access Management (IAM) and takes the form of either an <a
@@ -2072,8 +2206,8 @@ class IoTFleetWise {
   /// The IAM resource that allows Amazon Web Services IoT FleetWise to send
   /// data to Amazon Timestream.
   Future<RegisterAccountResponse> registerAccount({
-    required TimestreamResources timestreamResources,
     IamResources? iamResources,
+    TimestreamResources? timestreamResources,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2086,8 +2220,9 @@ class IoTFleetWise {
       // TODO queryParams
       headers: headers,
       payload: {
-        'timestreamResources': timestreamResources,
         if (iamResources != null) 'iamResources': iamResources,
+        if (timestreamResources != null)
+          'timestreamResources': timestreamResources,
       },
     );
 
@@ -2182,10 +2317,14 @@ class IoTFleetWise {
   /// vehicles.
   /// </li>
   /// <li>
-  /// <code>SUSPEND</code> - To suspend collecting signal data.
+  /// <code>SUSPEND</code> - To suspend collecting signal data. The campaign is
+  /// deleted from vehicles and all vehicles in the suspended campaign will stop
+  /// sending data.
   /// </li>
   /// <li>
-  /// <code>RESUME</code> - To resume collecting signal data.
+  /// <code>RESUME</code> - To reactivate the <code>SUSPEND</code> campaign. The
+  /// campaign is redeployed to all vehicles and the vehicles will resume
+  /// sending data.
   /// </li>
   /// <li>
   /// <code>UPDATE</code> - To update a campaign.
@@ -2558,6 +2697,13 @@ class Actuator {
   /// A specified value for the actuator.
   final String? assignedValue;
 
+  /// A comment in addition to the description.
+  final String? comment;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
+
   /// A brief description of the actuator.
   final String? description;
 
@@ -2567,6 +2713,12 @@ class Actuator {
   /// The specified possible minimum value of an actuator.
   final double? min;
 
+  /// The fully qualified name of the struct node for the actuator if the data
+  /// type of the actuator is <code>Struct</code> or <code>StructArray</code>. For
+  /// example, the struct fully qualified name of an actuator might be
+  /// <code>Vehicle.Door.LockStruct</code>.
+  final String? structFullyQualifiedName;
+
   /// The scientific unit for the actuator.
   final String? unit;
 
@@ -2575,9 +2727,12 @@ class Actuator {
     required this.fullyQualifiedName,
     this.allowedValues,
     this.assignedValue,
+    this.comment,
+    this.deprecationMessage,
     this.description,
     this.max,
     this.min,
+    this.structFullyQualifiedName,
     this.unit,
   });
 
@@ -2590,9 +2745,12 @@ class Actuator {
           .map((e) => e as String)
           .toList(),
       assignedValue: json['assignedValue'] as String?,
+      comment: json['comment'] as String?,
+      deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
       max: json['max'] as double?,
       min: json['min'] as double?,
+      structFullyQualifiedName: json['structFullyQualifiedName'] as String?,
       unit: json['unit'] as String?,
     );
   }
@@ -2602,18 +2760,25 @@ class Actuator {
     final fullyQualifiedName = this.fullyQualifiedName;
     final allowedValues = this.allowedValues;
     final assignedValue = this.assignedValue;
+    final comment = this.comment;
+    final deprecationMessage = this.deprecationMessage;
     final description = this.description;
     final max = this.max;
     final min = this.min;
+    final structFullyQualifiedName = this.structFullyQualifiedName;
     final unit = this.unit;
     return {
       'dataType': dataType.toValue(),
       'fullyQualifiedName': fullyQualifiedName,
       if (allowedValues != null) 'allowedValues': allowedValues,
       if (assignedValue != null) 'assignedValue': assignedValue,
+      if (comment != null) 'comment': comment,
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
       if (max != null) 'max': max,
       if (min != null) 'min': min,
+      if (structFullyQualifiedName != null)
+        'structFullyQualifiedName': structFullyQualifiedName,
       if (unit != null) 'unit': unit,
     };
   }
@@ -2647,8 +2812,15 @@ class Attribute {
   /// A specified value for the attribute.
   final String? assignedValue;
 
+  /// A comment in addition to the description.
+  final String? comment;
+
   /// The default value of the attribute.
   final String? defaultValue;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
 
   /// A brief description of the attribute.
   final String? description;
@@ -2667,7 +2839,9 @@ class Attribute {
     required this.fullyQualifiedName,
     this.allowedValues,
     this.assignedValue,
+    this.comment,
     this.defaultValue,
+    this.deprecationMessage,
     this.description,
     this.max,
     this.min,
@@ -2683,7 +2857,9 @@ class Attribute {
           .map((e) => e as String)
           .toList(),
       assignedValue: json['assignedValue'] as String?,
+      comment: json['comment'] as String?,
       defaultValue: json['defaultValue'] as String?,
+      deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
       max: json['max'] as double?,
       min: json['min'] as double?,
@@ -2696,7 +2872,9 @@ class Attribute {
     final fullyQualifiedName = this.fullyQualifiedName;
     final allowedValues = this.allowedValues;
     final assignedValue = this.assignedValue;
+    final comment = this.comment;
     final defaultValue = this.defaultValue;
+    final deprecationMessage = this.deprecationMessage;
     final description = this.description;
     final max = this.max;
     final min = this.min;
@@ -2706,7 +2884,9 @@ class Attribute {
       'fullyQualifiedName': fullyQualifiedName,
       if (allowedValues != null) 'allowedValues': allowedValues,
       if (assignedValue != null) 'assignedValue': assignedValue,
+      if (comment != null) 'comment': comment,
       if (defaultValue != null) 'defaultValue': defaultValue,
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
       if (max != null) 'max': max,
       if (min != null) 'min': min,
@@ -2799,26 +2979,41 @@ class Branch {
   /// name of a branch might be <code>Vehicle.Body.Engine</code>.
   final String fullyQualifiedName;
 
+  /// A comment in addition to the description.
+  final String? comment;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
+
   /// A brief description of the branch.
   final String? description;
 
   Branch({
     required this.fullyQualifiedName,
+    this.comment,
+    this.deprecationMessage,
     this.description,
   });
 
   factory Branch.fromJson(Map<String, dynamic> json) {
     return Branch(
       fullyQualifiedName: json['fullyQualifiedName'] as String,
+      comment: json['comment'] as String?,
+      deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final fullyQualifiedName = this.fullyQualifiedName;
+    final comment = this.comment;
+    final deprecationMessage = this.deprecationMessage;
     final description = this.description;
     return {
       'fullyQualifiedName': fullyQualifiedName,
+      if (comment != null) 'comment': comment,
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
     };
   }
@@ -2962,7 +3157,8 @@ class CampaignSummary {
 /// Configurations used to create a decoder manifest.
 class CanDbcDefinition {
   /// A list of DBC files. You can upload only one DBC file for each network
-  /// interface and specify up to five (inclusive) files in the list.
+  /// interface and specify up to five (inclusive) files in the list. The DBC file
+  /// can be a maximum size of 200 MB.
   final List<Uint8List> canDbcFiles;
 
   /// Contains information about a network interface.
@@ -3044,10 +3240,18 @@ class CanSignal {
   /// The ID of the message.
   final int messageId;
 
-  /// Indicates where data appears in the CAN message.
+  /// The offset used to calculate the signal value. Combined with factor, the
+  /// calculation is <code>value = raw_value * factor + offset</code>.
   final double offset;
 
-  /// Indicates the beginning of the CAN message.
+  /// Indicates the beginning of the CAN signal. This should always be the least
+  /// significant bit (LSB).
+  ///
+  /// This value might be different from the value in a DBC file. For little
+  /// endian signals, <code>startBit</code> is the same value as in the DBC file.
+  /// For big endian signals in a DBC file, the start bit is the most significant
+  /// bit (MSB). You will have to calculate the LSB instead and pass it as the
+  /// <code>startBit</code>.
   final int startBit;
 
   /// The name of the signal.
@@ -3202,7 +3406,7 @@ extension CompressionFromString on String {
 /// to recognize what data to collect.
 class ConditionBasedCollectionScheme {
   /// The logical expression used to recognize what data to collect. For example,
-  /// <code>$variable.Vehicle.OutsideAirTemperature &gt;= 105.0</code>.
+  /// <code>$variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0</code>.
   final String expression;
 
   /// Specifies the version of the conditional expression language.
@@ -3560,6 +3764,190 @@ class CreateVehicleResponseItem {
   }
 }
 
+/// Represents a member of the complex data structure. The data type of the
+/// property can be either primitive or another <code>struct</code>.
+class CustomProperty {
+  /// The data type for the custom property.
+  final NodeDataType dataType;
+
+  /// The fully qualified name of the custom property. For example, the fully
+  /// qualified name of a custom property might be
+  /// <code>ComplexDataTypes.VehicleDataTypes.SVMCamera.FPS</code>.
+  final String fullyQualifiedName;
+
+  /// A comment in addition to the description.
+  final String? comment;
+
+  /// Indicates whether the property is binary data.
+  final NodeDataEncoding? dataEncoding;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
+
+  /// A brief description of the custom property.
+  final String? description;
+
+  /// The fully qualified name of the struct node for the custom property if the
+  /// data type of the custom property is <code>Struct</code> or
+  /// <code>StructArray</code>.
+  final String? structFullyQualifiedName;
+
+  CustomProperty({
+    required this.dataType,
+    required this.fullyQualifiedName,
+    this.comment,
+    this.dataEncoding,
+    this.deprecationMessage,
+    this.description,
+    this.structFullyQualifiedName,
+  });
+
+  factory CustomProperty.fromJson(Map<String, dynamic> json) {
+    return CustomProperty(
+      dataType: (json['dataType'] as String).toNodeDataType(),
+      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      comment: json['comment'] as String?,
+      dataEncoding: (json['dataEncoding'] as String?)?.toNodeDataEncoding(),
+      deprecationMessage: json['deprecationMessage'] as String?,
+      description: json['description'] as String?,
+      structFullyQualifiedName: json['structFullyQualifiedName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final fullyQualifiedName = this.fullyQualifiedName;
+    final comment = this.comment;
+    final dataEncoding = this.dataEncoding;
+    final deprecationMessage = this.deprecationMessage;
+    final description = this.description;
+    final structFullyQualifiedName = this.structFullyQualifiedName;
+    return {
+      'dataType': dataType.toValue(),
+      'fullyQualifiedName': fullyQualifiedName,
+      if (comment != null) 'comment': comment,
+      if (dataEncoding != null) 'dataEncoding': dataEncoding.toValue(),
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
+      if (description != null) 'description': description,
+      if (structFullyQualifiedName != null)
+        'structFullyQualifiedName': structFullyQualifiedName,
+    };
+  }
+}
+
+/// The custom structure represents a complex or higher-order data structure.
+class CustomStruct {
+  /// The fully qualified name of the custom structure. For example, the fully
+  /// qualified name of a custom structure might be
+  /// <code>ComplexDataTypes.VehicleDataTypes.SVMCamera</code>.
+  final String fullyQualifiedName;
+
+  /// A comment in addition to the description.
+  final String? comment;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
+
+  /// A brief description of the custom structure.
+  final String? description;
+
+  CustomStruct({
+    required this.fullyQualifiedName,
+    this.comment,
+    this.deprecationMessage,
+    this.description,
+  });
+
+  factory CustomStruct.fromJson(Map<String, dynamic> json) {
+    return CustomStruct(
+      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      comment: json['comment'] as String?,
+      deprecationMessage: json['deprecationMessage'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fullyQualifiedName = this.fullyQualifiedName;
+    final comment = this.comment;
+    final deprecationMessage = this.deprecationMessage;
+    final description = this.description;
+    return {
+      'fullyQualifiedName': fullyQualifiedName,
+      if (comment != null) 'comment': comment,
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// The destination where the Amazon Web Services IoT FleetWise campaign sends
+/// data. You can send data to be stored in Amazon S3 or Amazon Timestream.
+class DataDestinationConfig {
+  /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign
+  /// sends data.
+  final S3Config? s3Config;
+
+  /// The Amazon Timestream table where the campaign sends data.
+  final TimestreamConfig? timestreamConfig;
+
+  DataDestinationConfig({
+    this.s3Config,
+    this.timestreamConfig,
+  });
+
+  factory DataDestinationConfig.fromJson(Map<String, dynamic> json) {
+    return DataDestinationConfig(
+      s3Config: json['s3Config'] != null
+          ? S3Config.fromJson(json['s3Config'] as Map<String, dynamic>)
+          : null,
+      timestreamConfig: json['timestreamConfig'] != null
+          ? TimestreamConfig.fromJson(
+              json['timestreamConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Config = this.s3Config;
+    final timestreamConfig = this.timestreamConfig;
+    return {
+      if (s3Config != null) 's3Config': s3Config,
+      if (timestreamConfig != null) 'timestreamConfig': timestreamConfig,
+    };
+  }
+}
+
+enum DataFormat {
+  json,
+  parquet,
+}
+
+extension DataFormatValueExtension on DataFormat {
+  String toValue() {
+    switch (this) {
+      case DataFormat.json:
+        return 'JSON';
+      case DataFormat.parquet:
+        return 'PARQUET';
+    }
+  }
+}
+
+extension DataFormatFromString on String {
+  DataFormat toDataFormat() {
+    switch (this) {
+      case 'JSON':
+        return DataFormat.json;
+      case 'PARQUET':
+        return DataFormat.parquet;
+    }
+    throw Exception('$this is not known in enum DataFormat');
+  }
+}
+
 /// Information about a created decoder manifest. You can use the API operation
 /// to return this information about multiple decoder manifests.
 class DecoderManifestSummary {
@@ -3578,6 +3966,11 @@ class DecoderManifestSummary {
   /// A brief description of the decoder manifest.
   final String? description;
 
+  /// The detailed message for the decoder manifest. When a decoder manifest is in
+  /// an <code>INVALID</code> status, the message contains detailed reason and
+  /// help information.
+  final String? message;
+
   /// The ARN of a vehicle model (model manifest) associated with the decoder
   /// manifest.
   final String? modelManifestArn;
@@ -3595,6 +3988,7 @@ class DecoderManifestSummary {
     required this.lastModificationTime,
     this.arn,
     this.description,
+    this.message,
     this.modelManifestArn,
     this.name,
     this.status,
@@ -3608,6 +4002,7 @@ class DecoderManifestSummary {
           nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
+      message: json['message'] as String?,
       modelManifestArn: json['modelManifestArn'] as String?,
       name: json['name'] as String?,
       status: (json['status'] as String?)?.toManifestStatus(),
@@ -3619,6 +4014,7 @@ class DecoderManifestSummary {
     final lastModificationTime = this.lastModificationTime;
     final arn = this.arn;
     final description = this.description;
+    final message = this.message;
     final modelManifestArn = this.modelManifestArn;
     final name = this.name;
     final status = this.status;
@@ -3627,6 +4023,7 @@ class DecoderManifestSummary {
       'lastModificationTime': unixTimestampToJson(lastModificationTime),
       if (arn != null) 'arn': arn,
       if (description != null) 'description': description,
+      if (message != null) 'message': message,
       if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
       if (name != null) 'name': name,
       if (status != null) 'status': status.toValue(),
@@ -3851,6 +4248,67 @@ class DisassociateVehicleFleetResponse {
   }
 }
 
+enum EncryptionStatus {
+  pending,
+  success,
+  failure,
+}
+
+extension EncryptionStatusValueExtension on EncryptionStatus {
+  String toValue() {
+    switch (this) {
+      case EncryptionStatus.pending:
+        return 'PENDING';
+      case EncryptionStatus.success:
+        return 'SUCCESS';
+      case EncryptionStatus.failure:
+        return 'FAILURE';
+    }
+  }
+}
+
+extension EncryptionStatusFromString on String {
+  EncryptionStatus toEncryptionStatus() {
+    switch (this) {
+      case 'PENDING':
+        return EncryptionStatus.pending;
+      case 'SUCCESS':
+        return EncryptionStatus.success;
+      case 'FAILURE':
+        return EncryptionStatus.failure;
+    }
+    throw Exception('$this is not known in enum EncryptionStatus');
+  }
+}
+
+enum EncryptionType {
+  kmsBasedEncryption,
+  fleetwiseDefaultEncryption,
+}
+
+extension EncryptionTypeValueExtension on EncryptionType {
+  String toValue() {
+    switch (this) {
+      case EncryptionType.kmsBasedEncryption:
+        return 'KMS_BASED_ENCRYPTION';
+      case EncryptionType.fleetwiseDefaultEncryption:
+        return 'FLEETWISE_DEFAULT_ENCRYPTION';
+    }
+  }
+}
+
+extension EncryptionTypeFromString on String {
+  EncryptionType toEncryptionType() {
+    switch (this) {
+      case 'KMS_BASED_ENCRYPTION':
+        return EncryptionType.kmsBasedEncryption;
+      case 'FLEETWISE_DEFAULT_ENCRYPTION':
+        return EncryptionType.fleetwiseDefaultEncryption;
+    }
+    throw Exception('$this is not known in enum EncryptionType');
+  }
+}
+
 /// Information about a fleet.
 ///
 /// You can use the API operation to return this information about multiple
@@ -3916,8 +4374,10 @@ class FleetSummary {
   }
 }
 
-/// Vehicle Signal Specification (VSS) is a precise language used to describe
-/// and model signals in vehicle networks. The JSON file collects signal
+/// <a
+/// href="https://www.w3.org/auto/wg/wiki/Vehicle_Signal_Specification_(VSS)/Vehicle_Data_Spec">Vehicle
+/// Signal Specification (VSS)</a> is a precise language used to describe and
+/// model signals in vehicle networks. The JSON file collects signal
 /// specificiations in a VSS format.
 class FormattedVss {
   /// Provides the VSS in JSON format.
@@ -3950,6 +4410,18 @@ class GetCampaignResponse {
   /// The time the campaign was created in seconds since epoch (January 1, 1970 at
   /// midnight UTC time).
   final DateTime? creationTime;
+
+  /// The destination where the campaign sends data. You can choose to send data
+  /// to be stored in Amazon S3 or Amazon Timestream.
+  ///
+  /// Amazon S3 optimizes the cost of data storage and provides additional
+  /// mechanisms to use vehicle data, such as data lakes, centralized data
+  /// storage, data processing pipelines, and analytics.
+  ///
+  /// You can use Amazon Timestream to access and analyze time series data, and
+  /// Timestream to query vehicle data so that you can identify trends and
+  /// patterns.
+  final List<DataDestinationConfig>? dataDestinationConfigs;
 
   /// A list of vehicle attributes associated with the campaign.
   final List<String>? dataExtraDimensions;
@@ -4008,6 +4480,7 @@ class GetCampaignResponse {
     this.collectionScheme,
     this.compression,
     this.creationTime,
+    this.dataDestinationConfigs,
     this.dataExtraDimensions,
     this.description,
     this.diagnosticsMode,
@@ -4033,6 +4506,10 @@ class GetCampaignResponse {
           : null,
       compression: (json['compression'] as String?)?.toCompression(),
       creationTime: timeStampFromJson(json['creationTime']),
+      dataDestinationConfigs: (json['dataDestinationConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataDestinationConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
       dataExtraDimensions: (json['dataExtraDimensions'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -4063,6 +4540,7 @@ class GetCampaignResponse {
     final collectionScheme = this.collectionScheme;
     final compression = this.compression;
     final creationTime = this.creationTime;
+    final dataDestinationConfigs = this.dataDestinationConfigs;
     final dataExtraDimensions = this.dataExtraDimensions;
     final description = this.description;
     final diagnosticsMode = this.diagnosticsMode;
@@ -4083,6 +4561,8 @@ class GetCampaignResponse {
       if (compression != null) 'compression': compression.toValue(),
       if (creationTime != null)
         'creationTime': unixTimestampToJson(creationTime),
+      if (dataDestinationConfigs != null)
+        'dataDestinationConfigs': dataDestinationConfigs,
       if (dataExtraDimensions != null)
         'dataExtraDimensions': dataExtraDimensions,
       if (description != null) 'description': description,
@@ -4122,6 +4602,11 @@ class GetDecoderManifestResponse {
   /// A brief description of the decoder manifest.
   final String? description;
 
+  /// The detailed message for the decoder manifest. When a decoder manifest is in
+  /// an <code>INVALID</code> status, the message contains detailed reason and
+  /// help information.
+  final String? message;
+
   /// The ARN of a vehicle model (model manifest) associated with the decoder
   /// manifest.
   final String? modelManifestArn;
@@ -4137,6 +4622,7 @@ class GetDecoderManifestResponse {
     required this.lastModificationTime,
     required this.name,
     this.description,
+    this.message,
     this.modelManifestArn,
     this.status,
   });
@@ -4150,6 +4636,7 @@ class GetDecoderManifestResponse {
           nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
       name: json['name'] as String,
       description: json['description'] as String?,
+      message: json['message'] as String?,
       modelManifestArn: json['modelManifestArn'] as String?,
       status: (json['status'] as String?)?.toManifestStatus(),
     );
@@ -4161,6 +4648,7 @@ class GetDecoderManifestResponse {
     final lastModificationTime = this.lastModificationTime;
     final name = this.name;
     final description = this.description;
+    final message = this.message;
     final modelManifestArn = this.modelManifestArn;
     final status = this.status;
     return {
@@ -4169,8 +4657,77 @@ class GetDecoderManifestResponse {
       'lastModificationTime': unixTimestampToJson(lastModificationTime),
       'name': name,
       if (description != null) 'description': description,
+      if (message != null) 'message': message,
       if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
       if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+class GetEncryptionConfigurationResponse {
+  /// The encryption status.
+  final EncryptionStatus encryptionStatus;
+
+  /// The type of encryption. Set to <code>KMS_BASED_ENCRYPTION</code> to use a
+  /// KMS key that you own and manage. Set to
+  /// <code>FLEETWISE_DEFAULT_ENCRYPTION</code> to use an Amazon Web Services
+  /// managed key that is owned by the Amazon Web Services IoT FleetWise service
+  /// account.
+  final EncryptionType encryptionType;
+
+  /// The time when encryption was configured in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? creationTime;
+
+  /// The error message that describes why encryption settings couldn't be
+  /// configured, if applicable.
+  final String? errorMessage;
+
+  /// The ID of the KMS key that is used for encryption.
+  final String? kmsKeyId;
+
+  /// The time when encryption was last updated in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? lastModificationTime;
+
+  GetEncryptionConfigurationResponse({
+    required this.encryptionStatus,
+    required this.encryptionType,
+    this.creationTime,
+    this.errorMessage,
+    this.kmsKeyId,
+    this.lastModificationTime,
+  });
+
+  factory GetEncryptionConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEncryptionConfigurationResponse(
+      encryptionStatus:
+          (json['encryptionStatus'] as String).toEncryptionStatus(),
+      encryptionType: (json['encryptionType'] as String).toEncryptionType(),
+      creationTime: timeStampFromJson(json['creationTime']),
+      errorMessage: json['errorMessage'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionStatus = this.encryptionStatus;
+    final encryptionType = this.encryptionType;
+    final creationTime = this.creationTime;
+    final errorMessage = this.errorMessage;
+    final kmsKeyId = this.kmsKeyId;
+    final lastModificationTime = this.lastModificationTime;
+    return {
+      'encryptionStatus': encryptionStatus.toValue(),
+      'encryptionType': encryptionType.toValue(),
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
     };
   }
 }
@@ -4366,7 +4923,7 @@ class GetRegisterAccountStatusResponse {
 
   /// Information about the registered Amazon Timestream resources or errors, if
   /// any.
-  final TimestreamRegistrationResponse timestreamRegistrationResponse;
+  final TimestreamRegistrationResponse? timestreamRegistrationResponse;
 
   GetRegisterAccountStatusResponse({
     required this.accountStatus,
@@ -4374,7 +4931,7 @@ class GetRegisterAccountStatusResponse {
     required this.customerAccountId,
     required this.iamRegistrationResponse,
     required this.lastModificationTime,
-    required this.timestreamRegistrationResponse,
+    this.timestreamRegistrationResponse,
   });
 
   factory GetRegisterAccountStatusResponse.fromJson(Map<String, dynamic> json) {
@@ -4387,8 +4944,11 @@ class GetRegisterAccountStatusResponse {
           json['iamRegistrationResponse'] as Map<String, dynamic>),
       lastModificationTime:
           nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
-      timestreamRegistrationResponse: TimestreamRegistrationResponse.fromJson(
-          json['timestreamRegistrationResponse'] as Map<String, dynamic>),
+      timestreamRegistrationResponse: json['timestreamRegistrationResponse'] !=
+              null
+          ? TimestreamRegistrationResponse.fromJson(
+              json['timestreamRegistrationResponse'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4405,7 +4965,8 @@ class GetRegisterAccountStatusResponse {
       'customerAccountId': customerAccountId,
       'iamRegistrationResponse': iamRegistrationResponse,
       'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      'timestreamRegistrationResponse': timestreamRegistrationResponse,
+      if (timestreamRegistrationResponse != null)
+        'timestreamRegistrationResponse': timestreamRegistrationResponse,
     };
   }
 }
@@ -5161,6 +5722,8 @@ extension LogTypeFromString on String {
 enum ManifestStatus {
   active,
   draft,
+  invalid,
+  validating,
 }
 
 extension ManifestStatusValueExtension on ManifestStatus {
@@ -5170,6 +5733,10 @@ extension ManifestStatusValueExtension on ManifestStatus {
         return 'ACTIVE';
       case ManifestStatus.draft:
         return 'DRAFT';
+      case ManifestStatus.invalid:
+        return 'INVALID';
+      case ManifestStatus.validating:
+        return 'VALIDATING';
     }
   }
 }
@@ -5181,8 +5748,47 @@ extension ManifestStatusFromString on String {
         return ManifestStatus.active;
       case 'DRAFT':
         return ManifestStatus.draft;
+      case 'INVALID':
+        return ManifestStatus.invalid;
+      case 'VALIDATING':
+        return ManifestStatus.validating;
     }
     throw Exception('$this is not known in enum ManifestStatus');
+  }
+}
+
+/// The decoding information for a specific message which support higher order
+/// data types.
+class MessageSignal {
+  /// The structured message for the message signal. It can be defined with either
+  /// a <code>primitiveMessageDefinition</code>,
+  /// <code>structuredMessageListDefinition</code>, or
+  /// <code>structuredMessageDefinition</code> recursively.
+  final StructuredMessage structuredMessage;
+
+  /// The topic name for the message signal. It corresponds to topics in ROS 2.
+  final String topicName;
+
+  MessageSignal({
+    required this.structuredMessage,
+    required this.topicName,
+  });
+
+  factory MessageSignal.fromJson(Map<String, dynamic> json) {
+    return MessageSignal(
+      structuredMessage: StructuredMessage.fromJson(
+          json['structuredMessage'] as Map<String, dynamic>),
+      topicName: json['topicName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final structuredMessage = this.structuredMessage;
+    final topicName = this.topicName;
+    return {
+      'structuredMessage': structuredMessage,
+      'topicName': topicName,
+    };
   }
 }
 
@@ -5299,11 +5905,16 @@ class NetworkInterface {
   /// (OBD) II protocol.
   final ObdInterface? obdInterface;
 
+  /// The vehicle middleware defined as a type of network interface. Examples of
+  /// vehicle middleware include <code>ROS2</code> and <code>SOME/IP</code>.
+  final VehicleMiddleware? vehicleMiddleware;
+
   NetworkInterface({
     required this.interfaceId,
     required this.type,
     this.canInterface,
     this.obdInterface,
+    this.vehicleMiddleware,
   });
 
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
@@ -5316,6 +5927,10 @@ class NetworkInterface {
       obdInterface: json['obdInterface'] != null
           ? ObdInterface.fromJson(json['obdInterface'] as Map<String, dynamic>)
           : null,
+      vehicleMiddleware: json['vehicleMiddleware'] != null
+          ? VehicleMiddleware.fromJson(
+              json['vehicleMiddleware'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -5324,11 +5939,13 @@ class NetworkInterface {
     final type = this.type;
     final canInterface = this.canInterface;
     final obdInterface = this.obdInterface;
+    final vehicleMiddleware = this.vehicleMiddleware;
     return {
       'interfaceId': interfaceId,
       'type': type.toValue(),
       if (canInterface != null) 'canInterface': canInterface,
       if (obdInterface != null) 'obdInterface': obdInterface,
+      if (vehicleMiddleware != null) 'vehicleMiddleware': vehicleMiddleware,
     };
   }
 }
@@ -5336,6 +5953,7 @@ class NetworkInterface {
 enum NetworkInterfaceType {
   canInterface,
   obdInterface,
+  vehicleMiddleware,
 }
 
 extension NetworkInterfaceTypeValueExtension on NetworkInterfaceType {
@@ -5345,6 +5963,8 @@ extension NetworkInterfaceTypeValueExtension on NetworkInterfaceType {
         return 'CAN_INTERFACE';
       case NetworkInterfaceType.obdInterface:
         return 'OBD_INTERFACE';
+      case NetworkInterfaceType.vehicleMiddleware:
+        return 'VEHICLE_MIDDLEWARE';
     }
   }
 }
@@ -5356,6 +5976,8 @@ extension NetworkInterfaceTypeFromString on String {
         return NetworkInterfaceType.canInterface;
       case 'OBD_INTERFACE':
         return NetworkInterfaceType.obdInterface;
+      case 'VEHICLE_MIDDLEWARE':
+        return NetworkInterfaceType.vehicleMiddleware;
     }
     throw Exception('$this is not known in enum NetworkInterfaceType');
   }
@@ -5381,13 +6003,22 @@ class Node {
   /// A group of signals that are defined in a hierarchical structure.
   /// </note>
   final Branch? branch;
+
+  /// Represents a member of the complex data structure. The <code>datatype</code>
+  /// of the property can be either primitive or another <code>struct</code>.
+  final CustomProperty? property;
   final Sensor? sensor;
+
+  /// Represents a complex or higher-order data structure.
+  final CustomStruct? struct;
 
   Node({
     this.actuator,
     this.attribute,
     this.branch,
+    this.property,
     this.sensor,
+    this.struct,
   });
 
   factory Node.fromJson(Map<String, dynamic> json) {
@@ -5401,8 +6032,14 @@ class Node {
       branch: json['branch'] != null
           ? Branch.fromJson(json['branch'] as Map<String, dynamic>)
           : null,
+      property: json['property'] != null
+          ? CustomProperty.fromJson(json['property'] as Map<String, dynamic>)
+          : null,
       sensor: json['sensor'] != null
           ? Sensor.fromJson(json['sensor'] as Map<String, dynamic>)
+          : null,
+      struct: json['struct'] != null
+          ? CustomStruct.fromJson(json['struct'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -5411,12 +6048,16 @@ class Node {
     final actuator = this.actuator;
     final attribute = this.attribute;
     final branch = this.branch;
+    final property = this.property;
     final sensor = this.sensor;
+    final struct = this.struct;
     return {
       if (actuator != null) 'actuator': actuator,
       if (attribute != null) 'attribute': attribute,
       if (branch != null) 'branch': branch,
+      if (property != null) 'property': property,
       if (sensor != null) 'sensor': sensor,
+      if (struct != null) 'struct': struct,
     };
   }
 }
@@ -5435,15 +6076,23 @@ class NodeCounts {
   /// The total number of nodes in a vehicle network.
   final int? totalNodes;
 
+  /// The total properties for the node.
+  final int? totalProperties;
+
   /// The total number of nodes in a vehicle network that represent sensors.
   final int? totalSensors;
+
+  /// The total structure for the node.
+  final int? totalStructs;
 
   NodeCounts({
     this.totalActuators,
     this.totalAttributes,
     this.totalBranches,
     this.totalNodes,
+    this.totalProperties,
     this.totalSensors,
+    this.totalStructs,
   });
 
   factory NodeCounts.fromJson(Map<String, dynamic> json) {
@@ -5452,7 +6101,9 @@ class NodeCounts {
       totalAttributes: json['totalAttributes'] as int?,
       totalBranches: json['totalBranches'] as int?,
       totalNodes: json['totalNodes'] as int?,
+      totalProperties: json['totalProperties'] as int?,
       totalSensors: json['totalSensors'] as int?,
+      totalStructs: json['totalStructs'] as int?,
     );
   }
 
@@ -5461,14 +6112,46 @@ class NodeCounts {
     final totalAttributes = this.totalAttributes;
     final totalBranches = this.totalBranches;
     final totalNodes = this.totalNodes;
+    final totalProperties = this.totalProperties;
     final totalSensors = this.totalSensors;
+    final totalStructs = this.totalStructs;
     return {
       if (totalActuators != null) 'totalActuators': totalActuators,
       if (totalAttributes != null) 'totalAttributes': totalAttributes,
       if (totalBranches != null) 'totalBranches': totalBranches,
       if (totalNodes != null) 'totalNodes': totalNodes,
+      if (totalProperties != null) 'totalProperties': totalProperties,
       if (totalSensors != null) 'totalSensors': totalSensors,
+      if (totalStructs != null) 'totalStructs': totalStructs,
     };
+  }
+}
+
+enum NodeDataEncoding {
+  binary,
+  typed,
+}
+
+extension NodeDataEncodingValueExtension on NodeDataEncoding {
+  String toValue() {
+    switch (this) {
+      case NodeDataEncoding.binary:
+        return 'BINARY';
+      case NodeDataEncoding.typed:
+        return 'TYPED';
+    }
+  }
+}
+
+extension NodeDataEncodingFromString on String {
+  NodeDataEncoding toNodeDataEncoding() {
+    switch (this) {
+      case 'BINARY':
+        return NodeDataEncoding.binary;
+      case 'TYPED':
+        return NodeDataEncoding.typed;
+    }
+    throw Exception('$this is not known in enum NodeDataEncoding');
   }
 }
 
@@ -5500,6 +6183,8 @@ enum NodeDataType {
   stringArray,
   unixTimestampArray,
   unknown,
+  struct,
+  structArray,
 }
 
 extension NodeDataTypeValueExtension on NodeDataType {
@@ -5559,6 +6244,10 @@ extension NodeDataTypeValueExtension on NodeDataType {
         return 'UNIX_TIMESTAMP_ARRAY';
       case NodeDataType.unknown:
         return 'UNKNOWN';
+      case NodeDataType.struct:
+        return 'STRUCT';
+      case NodeDataType.structArray:
+        return 'STRUCT_ARRAY';
     }
   }
 }
@@ -5620,6 +6309,10 @@ extension NodeDataTypeFromString on String {
         return NodeDataType.unixTimestampArray;
       case 'UNKNOWN':
         return NodeDataType.unknown;
+      case 'STRUCT':
+        return NodeDataType.struct;
+      case 'STRUCT_ARRAY':
+        return NodeDataType.structArray;
     }
     throw Exception('$this is not known in enum NodeDataType');
   }
@@ -5699,7 +6392,8 @@ class ObdSignal {
   /// The length of a message.
   final int byteLength;
 
-  /// Indicates where data appears in the message.
+  /// The offset used to calculate the signal value. Combined with scaling, the
+  /// calculation is <code>value = raw_value * scaling + offset</code>.
   final double offset;
 
   /// The diagnostic code used to request data from a vehicle for this signal.
@@ -5773,6 +6467,77 @@ class ObdSignal {
   }
 }
 
+/// Represents a primitive type node of the complex data structure.
+class PrimitiveMessageDefinition {
+  /// Information about a <code>PrimitiveMessage</code> using a ROS 2 compliant
+  /// primitive type message of the complex data structure.
+  final ROS2PrimitiveMessageDefinition? ros2PrimitiveMessageDefinition;
+
+  PrimitiveMessageDefinition({
+    this.ros2PrimitiveMessageDefinition,
+  });
+
+  factory PrimitiveMessageDefinition.fromJson(Map<String, dynamic> json) {
+    return PrimitiveMessageDefinition(
+      ros2PrimitiveMessageDefinition: json['ros2PrimitiveMessageDefinition'] !=
+              null
+          ? ROS2PrimitiveMessageDefinition.fromJson(
+              json['ros2PrimitiveMessageDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ros2PrimitiveMessageDefinition = this.ros2PrimitiveMessageDefinition;
+    return {
+      if (ros2PrimitiveMessageDefinition != null)
+        'ros2PrimitiveMessageDefinition': ros2PrimitiveMessageDefinition,
+    };
+  }
+}
+
+class PutEncryptionConfigurationResponse {
+  /// The encryption status.
+  final EncryptionStatus encryptionStatus;
+
+  /// The type of encryption. Set to <code>KMS_BASED_ENCRYPTION</code> to use an
+  /// KMS key that you own and manage. Set to
+  /// <code>FLEETWISE_DEFAULT_ENCRYPTION</code> to use an Amazon Web Services
+  /// managed key that is owned by the Amazon Web Services IoT FleetWise service
+  /// account.
+  final EncryptionType encryptionType;
+
+  /// The ID of the KMS key that is used for encryption.
+  final String? kmsKeyId;
+
+  PutEncryptionConfigurationResponse({
+    required this.encryptionStatus,
+    required this.encryptionType,
+    this.kmsKeyId,
+  });
+
+  factory PutEncryptionConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutEncryptionConfigurationResponse(
+      encryptionStatus:
+          (json['encryptionStatus'] as String).toEncryptionStatus(),
+      encryptionType: (json['encryptionType'] as String).toEncryptionType(),
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionStatus = this.encryptionStatus;
+    final encryptionType = this.encryptionType;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'encryptionStatus': encryptionStatus.toValue(),
+      'encryptionType': encryptionType.toValue(),
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
 class PutLoggingOptionsResponse {
   PutLoggingOptionsResponse();
 
@@ -5782,6 +6547,147 @@ class PutLoggingOptionsResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Represents a ROS 2 compliant primitive type message of the complex data
+/// structure.
+class ROS2PrimitiveMessageDefinition {
+  /// The primitive type (integer, floating point, boolean, etc.) for the ROS 2
+  /// primitive message definition.
+  final ROS2PrimitiveType primitiveType;
+
+  /// The offset used to calculate the signal value. Combined with scaling, the
+  /// calculation is <code>value = raw_value * scaling + offset</code>.
+  final double? offset;
+
+  /// A multiplier used to decode the message.
+  final double? scaling;
+
+  /// An optional attribute specifying the upper bound for <code>STRING</code> and
+  /// <code>WSTRING</code>.
+  final int? upperBound;
+
+  ROS2PrimitiveMessageDefinition({
+    required this.primitiveType,
+    this.offset,
+    this.scaling,
+    this.upperBound,
+  });
+
+  factory ROS2PrimitiveMessageDefinition.fromJson(Map<String, dynamic> json) {
+    return ROS2PrimitiveMessageDefinition(
+      primitiveType: (json['primitiveType'] as String).toROS2PrimitiveType(),
+      offset: json['offset'] as double?,
+      scaling: json['scaling'] as double?,
+      upperBound: json['upperBound'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final primitiveType = this.primitiveType;
+    final offset = this.offset;
+    final scaling = this.scaling;
+    final upperBound = this.upperBound;
+    return {
+      'primitiveType': primitiveType.toValue(),
+      if (offset != null) 'offset': offset,
+      if (scaling != null) 'scaling': scaling,
+      if (upperBound != null) 'upperBound': upperBound,
+    };
+  }
+}
+
+enum ROS2PrimitiveType {
+  $bool,
+  byte,
+  char,
+  float32,
+  float64,
+  int8,
+  uint8,
+  int16,
+  uint16,
+  int32,
+  uint32,
+  int64,
+  uint64,
+  string,
+  wstring,
+}
+
+extension ROS2PrimitiveTypeValueExtension on ROS2PrimitiveType {
+  String toValue() {
+    switch (this) {
+      case ROS2PrimitiveType.$bool:
+        return 'BOOL';
+      case ROS2PrimitiveType.byte:
+        return 'BYTE';
+      case ROS2PrimitiveType.char:
+        return 'CHAR';
+      case ROS2PrimitiveType.float32:
+        return 'FLOAT32';
+      case ROS2PrimitiveType.float64:
+        return 'FLOAT64';
+      case ROS2PrimitiveType.int8:
+        return 'INT8';
+      case ROS2PrimitiveType.uint8:
+        return 'UINT8';
+      case ROS2PrimitiveType.int16:
+        return 'INT16';
+      case ROS2PrimitiveType.uint16:
+        return 'UINT16';
+      case ROS2PrimitiveType.int32:
+        return 'INT32';
+      case ROS2PrimitiveType.uint32:
+        return 'UINT32';
+      case ROS2PrimitiveType.int64:
+        return 'INT64';
+      case ROS2PrimitiveType.uint64:
+        return 'UINT64';
+      case ROS2PrimitiveType.string:
+        return 'STRING';
+      case ROS2PrimitiveType.wstring:
+        return 'WSTRING';
+    }
+  }
+}
+
+extension ROS2PrimitiveTypeFromString on String {
+  ROS2PrimitiveType toROS2PrimitiveType() {
+    switch (this) {
+      case 'BOOL':
+        return ROS2PrimitiveType.$bool;
+      case 'BYTE':
+        return ROS2PrimitiveType.byte;
+      case 'CHAR':
+        return ROS2PrimitiveType.char;
+      case 'FLOAT32':
+        return ROS2PrimitiveType.float32;
+      case 'FLOAT64':
+        return ROS2PrimitiveType.float64;
+      case 'INT8':
+        return ROS2PrimitiveType.int8;
+      case 'UINT8':
+        return ROS2PrimitiveType.uint8;
+      case 'INT16':
+        return ROS2PrimitiveType.int16;
+      case 'UINT16':
+        return ROS2PrimitiveType.uint16;
+      case 'INT32':
+        return ROS2PrimitiveType.int32;
+      case 'UINT32':
+        return ROS2PrimitiveType.uint32;
+      case 'INT64':
+        return ROS2PrimitiveType.int64;
+      case 'UINT64':
+        return ROS2PrimitiveType.uint64;
+      case 'STRING':
+        return ROS2PrimitiveType.string;
+      case 'WSTRING':
+        return ROS2PrimitiveType.wstring;
+    }
+    throw Exception('$this is not known in enum ROS2PrimitiveType');
   }
 }
 
@@ -5801,14 +6707,14 @@ class RegisterAccountResponse {
   /// The status of registering your Amazon Web Services account, IAM role, and
   /// Timestream resources.
   final RegistrationStatus registerAccountStatus;
-  final TimestreamResources timestreamResources;
+  final TimestreamResources? timestreamResources;
 
   RegisterAccountResponse({
     required this.creationTime,
     required this.iamResources,
     required this.lastModificationTime,
     required this.registerAccountStatus,
-    required this.timestreamResources,
+    this.timestreamResources,
   });
 
   factory RegisterAccountResponse.fromJson(Map<String, dynamic> json) {
@@ -5821,8 +6727,10 @@ class RegisterAccountResponse {
           nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
       registerAccountStatus:
           (json['registerAccountStatus'] as String).toRegistrationStatus(),
-      timestreamResources: TimestreamResources.fromJson(
-          json['timestreamResources'] as Map<String, dynamic>),
+      timestreamResources: json['timestreamResources'] != null
+          ? TimestreamResources.fromJson(
+              json['timestreamResources'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -5837,7 +6745,8 @@ class RegisterAccountResponse {
       'iamResources': iamResources,
       'lastModificationTime': unixTimestampToJson(lastModificationTime),
       'registerAccountStatus': registerAccountStatus.toValue(),
-      'timestreamResources': timestreamResources,
+      if (timestreamResources != null)
+        'timestreamResources': timestreamResources,
     };
   }
 }
@@ -5875,6 +6784,82 @@ extension RegistrationStatusFromString on String {
   }
 }
 
+/// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign
+/// sends data. Amazon S3 is an object storage service that stores data as
+/// objects within buckets. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
+/// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
+/// Storage Service User Guide</i>.
+class S3Config {
+  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
+  final String bucketArn;
+
+  /// Specify the format that files are saved in the Amazon S3 bucket. You can
+  /// save files in an Apache Parquet or JSON format.
+  ///
+  /// <ul>
+  /// <li>
+  /// Parquet - Store data in a columnar storage file format. Parquet is optimal
+  /// for fast data retrieval and can reduce costs. This option is selected by
+  /// default.
+  /// </li>
+  /// <li>
+  /// JSON - Store data in a standard text-based JSON file format.
+  /// </li>
+  /// </ul>
+  final DataFormat? dataFormat;
+
+  /// (Optional) Enter an S3 bucket prefix. The prefix is the string of characters
+  /// after the bucket name and before the object name. You can use the prefix to
+  /// organize data stored in Amazon S3 buckets. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
+  /// objects using prefixes</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  ///
+  /// By default, Amazon Web Services IoT FleetWise sets the prefix
+  /// <code>processed-data/year=YY/month=MM/date=DD/hour=HH/</code> (in UTC) to
+  /// data it delivers to Amazon S3. You can enter a prefix to append it to this
+  /// default prefix. For example, if you enter the prefix <code>vehicles</code>,
+  /// the prefix will be
+  /// <code>vehicles/processed-data/year=YY/month=MM/date=DD/hour=HH/</code>.
+  final String? prefix;
+
+  /// By default, stored data is compressed as a .gzip file. Compressed files have
+  /// a reduced file size, which can optimize the cost of data storage.
+  final StorageCompressionFormat? storageCompressionFormat;
+
+  S3Config({
+    required this.bucketArn,
+    this.dataFormat,
+    this.prefix,
+    this.storageCompressionFormat,
+  });
+
+  factory S3Config.fromJson(Map<String, dynamic> json) {
+    return S3Config(
+      bucketArn: json['bucketArn'] as String,
+      dataFormat: (json['dataFormat'] as String?)?.toDataFormat(),
+      prefix: json['prefix'] as String?,
+      storageCompressionFormat: (json['storageCompressionFormat'] as String?)
+          ?.toStorageCompressionFormat(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final dataFormat = this.dataFormat;
+    final prefix = this.prefix;
+    final storageCompressionFormat = this.storageCompressionFormat;
+    return {
+      'bucketArn': bucketArn,
+      if (dataFormat != null) 'dataFormat': dataFormat.toValue(),
+      if (prefix != null) 'prefix': prefix,
+      if (storageCompressionFormat != null)
+        'storageCompressionFormat': storageCompressionFormat.toValue(),
+    };
+  }
+}
+
 /// An input component that reports the environmental condition of a vehicle.
 /// <note>
 /// You can collect data about fluid levels, temperatures, vibrations, or
@@ -5891,6 +6876,13 @@ class Sensor {
   /// A list of possible values a sensor can take.
   final List<String>? allowedValues;
 
+  /// A comment in addition to the description.
+  final String? comment;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
+
   /// A brief description of a sensor.
   final String? description;
 
@@ -5900,6 +6892,12 @@ class Sensor {
   /// The specified possible minimum value of the sensor.
   final double? min;
 
+  /// The fully qualified name of the struct node for a sensor if the data type of
+  /// the actuator is <code>Struct</code> or <code>StructArray</code>. For
+  /// example, the struct fully qualified name of a sensor might be
+  /// <code>Vehicle.ADAS.CameraStruct</code>.
+  final String? structFullyQualifiedName;
+
   /// The scientific unit of measurement for data collected by the sensor.
   final String? unit;
 
@@ -5907,9 +6905,12 @@ class Sensor {
     required this.dataType,
     required this.fullyQualifiedName,
     this.allowedValues,
+    this.comment,
+    this.deprecationMessage,
     this.description,
     this.max,
     this.min,
+    this.structFullyQualifiedName,
     this.unit,
   });
 
@@ -5921,9 +6922,12 @@ class Sensor {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      comment: json['comment'] as String?,
+      deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
       max: json['max'] as double?,
       min: json['min'] as double?,
+      structFullyQualifiedName: json['structFullyQualifiedName'] as String?,
       unit: json['unit'] as String?,
     );
   }
@@ -5932,17 +6936,24 @@ class Sensor {
     final dataType = this.dataType;
     final fullyQualifiedName = this.fullyQualifiedName;
     final allowedValues = this.allowedValues;
+    final comment = this.comment;
+    final deprecationMessage = this.deprecationMessage;
     final description = this.description;
     final max = this.max;
     final min = this.min;
+    final structFullyQualifiedName = this.structFullyQualifiedName;
     final unit = this.unit;
     return {
       'dataType': dataType.toValue(),
       'fullyQualifiedName': fullyQualifiedName,
       if (allowedValues != null) 'allowedValues': allowedValues,
+      if (comment != null) 'comment': comment,
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
       if (max != null) 'max': max,
       if (min != null) 'min': min,
+      if (structFullyQualifiedName != null)
+        'structFullyQualifiedName': structFullyQualifiedName,
       if (unit != null) 'unit': unit,
     };
   }
@@ -6016,6 +7027,10 @@ class SignalDecoder {
   /// protocol.
   final CanSignal? canSignal;
 
+  /// The decoding information for a specific message which supports higher order
+  /// data types.
+  final MessageSignal? messageSignal;
+
   /// Information about signal decoder using the On-board diagnostic (OBD) II
   /// protocol.
   final ObdSignal? obdSignal;
@@ -6025,6 +7040,7 @@ class SignalDecoder {
     required this.interfaceId,
     required this.type,
     this.canSignal,
+    this.messageSignal,
     this.obdSignal,
   });
 
@@ -6035,6 +7051,10 @@ class SignalDecoder {
       type: (json['type'] as String).toSignalDecoderType(),
       canSignal: json['canSignal'] != null
           ? CanSignal.fromJson(json['canSignal'] as Map<String, dynamic>)
+          : null,
+      messageSignal: json['messageSignal'] != null
+          ? MessageSignal.fromJson(
+              json['messageSignal'] as Map<String, dynamic>)
           : null,
       obdSignal: json['obdSignal'] != null
           ? ObdSignal.fromJson(json['obdSignal'] as Map<String, dynamic>)
@@ -6047,12 +7067,14 @@ class SignalDecoder {
     final interfaceId = this.interfaceId;
     final type = this.type;
     final canSignal = this.canSignal;
+    final messageSignal = this.messageSignal;
     final obdSignal = this.obdSignal;
     return {
       'fullyQualifiedName': fullyQualifiedName,
       'interfaceId': interfaceId,
       'type': type.toValue(),
       if (canSignal != null) 'canSignal': canSignal,
+      if (messageSignal != null) 'messageSignal': messageSignal,
       if (obdSignal != null) 'obdSignal': obdSignal,
     };
   }
@@ -6061,6 +7083,7 @@ class SignalDecoder {
 enum SignalDecoderType {
   canSignal,
   obdSignal,
+  messageSignal,
 }
 
 extension SignalDecoderTypeValueExtension on SignalDecoderType {
@@ -6070,6 +7093,8 @@ extension SignalDecoderTypeValueExtension on SignalDecoderType {
         return 'CAN_SIGNAL';
       case SignalDecoderType.obdSignal:
         return 'OBD_SIGNAL';
+      case SignalDecoderType.messageSignal:
+        return 'MESSAGE_SIGNAL';
     }
   }
 }
@@ -6081,6 +7106,8 @@ extension SignalDecoderTypeFromString on String {
         return SignalDecoderType.canSignal;
       case 'OBD_SIGNAL':
         return SignalDecoderType.obdSignal;
+      case 'MESSAGE_SIGNAL':
+        return SignalDecoderType.messageSignal;
     }
     throw Exception('$this is not known in enum SignalDecoderType');
   }
@@ -6128,6 +7155,54 @@ class SignalInformation {
   }
 }
 
+enum SignalNodeType {
+  sensor,
+  actuator,
+  attribute,
+  branch,
+  customStruct,
+  customProperty,
+}
+
+extension SignalNodeTypeValueExtension on SignalNodeType {
+  String toValue() {
+    switch (this) {
+      case SignalNodeType.sensor:
+        return 'SENSOR';
+      case SignalNodeType.actuator:
+        return 'ACTUATOR';
+      case SignalNodeType.attribute:
+        return 'ATTRIBUTE';
+      case SignalNodeType.branch:
+        return 'BRANCH';
+      case SignalNodeType.customStruct:
+        return 'CUSTOM_STRUCT';
+      case SignalNodeType.customProperty:
+        return 'CUSTOM_PROPERTY';
+    }
+  }
+}
+
+extension SignalNodeTypeFromString on String {
+  SignalNodeType toSignalNodeType() {
+    switch (this) {
+      case 'SENSOR':
+        return SignalNodeType.sensor;
+      case 'ACTUATOR':
+        return SignalNodeType.actuator;
+      case 'ATTRIBUTE':
+        return SignalNodeType.attribute;
+      case 'BRANCH':
+        return SignalNodeType.branch;
+      case 'CUSTOM_STRUCT':
+        return SignalNodeType.customStruct;
+      case 'CUSTOM_PROPERTY':
+        return SignalNodeType.customProperty;
+    }
+    throw Exception('$this is not known in enum SignalNodeType');
+  }
+}
+
 enum SpoolingMode {
   off,
   toDisk,
@@ -6153,6 +7228,205 @@ extension SpoolingModeFromString on String {
         return SpoolingMode.toDisk;
     }
     throw Exception('$this is not known in enum SpoolingMode');
+  }
+}
+
+enum StorageCompressionFormat {
+  none,
+  gzip,
+}
+
+extension StorageCompressionFormatValueExtension on StorageCompressionFormat {
+  String toValue() {
+    switch (this) {
+      case StorageCompressionFormat.none:
+        return 'NONE';
+      case StorageCompressionFormat.gzip:
+        return 'GZIP';
+    }
+  }
+}
+
+extension StorageCompressionFormatFromString on String {
+  StorageCompressionFormat toStorageCompressionFormat() {
+    switch (this) {
+      case 'NONE':
+        return StorageCompressionFormat.none;
+      case 'GZIP':
+        return StorageCompressionFormat.gzip;
+    }
+    throw Exception('$this is not known in enum StorageCompressionFormat');
+  }
+}
+
+/// The structured message for the message signal. It can be defined with either
+/// a <code>primitiveMessageDefinition</code>,
+/// <code>structuredMessageListDefinition</code>, or
+/// <code>structuredMessageDefinition</code> recursively.
+class StructuredMessage {
+  /// Represents a primitive type node of the complex data structure.
+  final PrimitiveMessageDefinition? primitiveMessageDefinition;
+
+  /// Represents a struct type node of the complex data structure.
+  final List<StructuredMessageFieldNameAndDataTypePair>?
+      structuredMessageDefinition;
+
+  /// Represents a list type node of the complex data structure.
+  final StructuredMessageListDefinition? structuredMessageListDefinition;
+
+  StructuredMessage({
+    this.primitiveMessageDefinition,
+    this.structuredMessageDefinition,
+    this.structuredMessageListDefinition,
+  });
+
+  factory StructuredMessage.fromJson(Map<String, dynamic> json) {
+    return StructuredMessage(
+      primitiveMessageDefinition: json['primitiveMessageDefinition'] != null
+          ? PrimitiveMessageDefinition.fromJson(
+              json['primitiveMessageDefinition'] as Map<String, dynamic>)
+          : null,
+      structuredMessageDefinition:
+          (json['structuredMessageDefinition'] as List?)
+              ?.whereNotNull()
+              .map((e) => StructuredMessageFieldNameAndDataTypePair.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      structuredMessageListDefinition:
+          json['structuredMessageListDefinition'] != null
+              ? StructuredMessageListDefinition.fromJson(
+                  json['structuredMessageListDefinition']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final primitiveMessageDefinition = this.primitiveMessageDefinition;
+    final structuredMessageDefinition = this.structuredMessageDefinition;
+    final structuredMessageListDefinition =
+        this.structuredMessageListDefinition;
+    return {
+      if (primitiveMessageDefinition != null)
+        'primitiveMessageDefinition': primitiveMessageDefinition,
+      if (structuredMessageDefinition != null)
+        'structuredMessageDefinition': structuredMessageDefinition,
+      if (structuredMessageListDefinition != null)
+        'structuredMessageListDefinition': structuredMessageListDefinition,
+    };
+  }
+}
+
+/// Represents a <code>StructureMessageName</code> to <code>DataType</code> map
+/// element.
+class StructuredMessageFieldNameAndDataTypePair {
+  /// The data type.
+  final StructuredMessage dataType;
+
+  /// The field name of the structured message. It determines how a data value is
+  /// referenced in the target language.
+  final String fieldName;
+
+  StructuredMessageFieldNameAndDataTypePair({
+    required this.dataType,
+    required this.fieldName,
+  });
+
+  factory StructuredMessageFieldNameAndDataTypePair.fromJson(
+      Map<String, dynamic> json) {
+    return StructuredMessageFieldNameAndDataTypePair(
+      dataType:
+          StructuredMessage.fromJson(json['dataType'] as Map<String, dynamic>),
+      fieldName: json['fieldName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final fieldName = this.fieldName;
+    return {
+      'dataType': dataType,
+      'fieldName': fieldName,
+    };
+  }
+}
+
+/// Represents a list type node of the complex data structure.
+class StructuredMessageListDefinition {
+  /// The type of list of the structured message list definition.
+  final StructuredMessageListType listType;
+
+  /// The member type of the structured message list definition.
+  final StructuredMessage memberType;
+
+  /// The name of the structured message list definition.
+  final String name;
+
+  /// The capacity of the structured message list definition when the list type is
+  /// <code>FIXED_CAPACITY</code> or <code>DYNAMIC_BOUNDED_CAPACITY</code>.
+  final int? capacity;
+
+  StructuredMessageListDefinition({
+    required this.listType,
+    required this.memberType,
+    required this.name,
+    this.capacity,
+  });
+
+  factory StructuredMessageListDefinition.fromJson(Map<String, dynamic> json) {
+    return StructuredMessageListDefinition(
+      listType: (json['listType'] as String).toStructuredMessageListType(),
+      memberType: StructuredMessage.fromJson(
+          json['memberType'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      capacity: json['capacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final listType = this.listType;
+    final memberType = this.memberType;
+    final name = this.name;
+    final capacity = this.capacity;
+    return {
+      'listType': listType.toValue(),
+      'memberType': memberType,
+      'name': name,
+      if (capacity != null) 'capacity': capacity,
+    };
+  }
+}
+
+enum StructuredMessageListType {
+  fixedCapacity,
+  dynamicUnboundedCapacity,
+  dynamicBoundedCapacity,
+}
+
+extension StructuredMessageListTypeValueExtension on StructuredMessageListType {
+  String toValue() {
+    switch (this) {
+      case StructuredMessageListType.fixedCapacity:
+        return 'FIXED_CAPACITY';
+      case StructuredMessageListType.dynamicUnboundedCapacity:
+        return 'DYNAMIC_UNBOUNDED_CAPACITY';
+      case StructuredMessageListType.dynamicBoundedCapacity:
+        return 'DYNAMIC_BOUNDED_CAPACITY';
+    }
+  }
+}
+
+extension StructuredMessageListTypeFromString on String {
+  StructuredMessageListType toStructuredMessageListType() {
+    switch (this) {
+      case 'FIXED_CAPACITY':
+        return StructuredMessageListType.fixedCapacity;
+      case 'DYNAMIC_UNBOUNDED_CAPACITY':
+        return StructuredMessageListType.dynamicUnboundedCapacity;
+      case 'DYNAMIC_BOUNDED_CAPACITY':
+        return StructuredMessageListType.dynamicBoundedCapacity;
+    }
+    throw Exception('$this is not known in enum StructuredMessageListType');
   }
 }
 
@@ -6220,6 +7494,42 @@ class TimeBasedCollectionScheme {
     final periodMs = this.periodMs;
     return {
       'periodMs': periodMs,
+    };
+  }
+}
+
+/// The Amazon Timestream table where the Amazon Web Services IoT FleetWise
+/// campaign sends data. Timestream stores and organizes data to optimize query
+/// processing time and to reduce storage costs. For more information, see <a
+/// href="https://docs.aws.amazon.com/timestream/latest/developerguide/data-modeling.html">Data
+/// modeling</a> in the <i>Amazon Timestream Developer Guide</i>.
+class TimestreamConfig {
+  /// The Amazon Resource Name (ARN) of the task execution role that grants Amazon
+  /// Web Services IoT FleetWise permission to deliver data to the Amazon
+  /// Timestream table.
+  final String executionRoleArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Timestream table.
+  final String timestreamTableArn;
+
+  TimestreamConfig({
+    required this.executionRoleArn,
+    required this.timestreamTableArn,
+  });
+
+  factory TimestreamConfig.fromJson(Map<String, dynamic> json) {
+    return TimestreamConfig(
+      executionRoleArn: json['executionRoleArn'] as String,
+      timestreamTableArn: json['timestreamTableArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRoleArn = this.executionRoleArn;
+    final timestreamTableArn = this.timestreamTableArn;
+    return {
+      'executionRoleArn': executionRoleArn,
+      'timestreamTableArn': timestreamTableArn,
     };
   }
 }
@@ -6772,6 +8082,61 @@ extension VehicleAssociationBehaviorFromString on String {
   }
 }
 
+/// The vehicle middleware defined as a type of network interface. Examples of
+/// vehicle middleware include <code>ROS2</code> and <code>SOME/IP</code>.
+class VehicleMiddleware {
+  /// The name of the vehicle middleware.
+  final String name;
+
+  /// The protocol name of the vehicle middleware.
+  final VehicleMiddlewareProtocol protocolName;
+
+  VehicleMiddleware({
+    required this.name,
+    required this.protocolName,
+  });
+
+  factory VehicleMiddleware.fromJson(Map<String, dynamic> json) {
+    return VehicleMiddleware(
+      name: json['name'] as String,
+      protocolName:
+          (json['protocolName'] as String).toVehicleMiddlewareProtocol(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final protocolName = this.protocolName;
+    return {
+      'name': name,
+      'protocolName': protocolName.toValue(),
+    };
+  }
+}
+
+enum VehicleMiddlewareProtocol {
+  ros_2,
+}
+
+extension VehicleMiddlewareProtocolValueExtension on VehicleMiddlewareProtocol {
+  String toValue() {
+    switch (this) {
+      case VehicleMiddlewareProtocol.ros_2:
+        return 'ROS_2';
+    }
+  }
+}
+
+extension VehicleMiddlewareProtocolFromString on String {
+  VehicleMiddlewareProtocol toVehicleMiddlewareProtocol() {
+    switch (this) {
+      case 'ROS_2':
+        return VehicleMiddlewareProtocol.ros_2;
+    }
+    throw Exception('$this is not known in enum VehicleMiddlewareProtocol');
+  }
+}
+
 enum VehicleState {
   created,
   ready,
@@ -6899,6 +8264,11 @@ class VehicleSummary {
   /// The unique ID of the vehicle.
   final String vehicleName;
 
+  /// Static information about a vehicle in a key-value pair. For example:
+  ///
+  /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
+  final Map<String, String>? attributes;
+
   VehicleSummary({
     required this.arn,
     required this.creationTime,
@@ -6906,6 +8276,7 @@ class VehicleSummary {
     required this.lastModificationTime,
     required this.modelManifestArn,
     required this.vehicleName,
+    this.attributes,
   });
 
   factory VehicleSummary.fromJson(Map<String, dynamic> json) {
@@ -6918,6 +8289,8 @@ class VehicleSummary {
           nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
       modelManifestArn: json['modelManifestArn'] as String,
       vehicleName: json['vehicleName'] as String,
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -6928,6 +8301,7 @@ class VehicleSummary {
     final lastModificationTime = this.lastModificationTime;
     final modelManifestArn = this.modelManifestArn;
     final vehicleName = this.vehicleName;
+    final attributes = this.attributes;
     return {
       'arn': arn,
       'creationTime': unixTimestampToJson(creationTime),
@@ -6935,6 +8309,7 @@ class VehicleSummary {
       'lastModificationTime': unixTimestampToJson(lastModificationTime),
       'modelManifestArn': modelManifestArn,
       'vehicleName': vehicleName,
+      if (attributes != null) 'attributes': attributes,
     };
   }
 }

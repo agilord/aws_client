@@ -20,17 +20,10 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Use the Amazon OpenSearch Service configuration API to create, configure,
-/// and manage OpenSearch Service domains.
-///
-/// For sample code that uses the configuration API, see the <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-configuration-samples.html">
-/// <i>Amazon OpenSearch Service Developer Guide</i> </a>. The guide also
-/// contains <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/request-signing.html">sample
-/// code</a> for sending signed HTTP requests to the OpenSearch APIs. The
-/// endpoint for configuration service requests is Region specific:
-/// es.<i>region</i>.amazonaws.com. For example, es.us-east-1.amazonaws.com. For
-/// a current list of supported Regions and endpoints, see <a
+/// and manage OpenSearch Service domains. The endpoint for configuration
+/// service requests is Region specific: es.<i>region</i>.amazonaws.com. For
+/// example, es.us-east-1.amazonaws.com. For a current list of supported Regions
+/// and endpoints, see <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#service-regions">Amazon
 /// Web Services service endpoints</a>.
 class OpenSearch {
@@ -84,6 +77,51 @@ class OpenSearch {
       exceptionFnMap: _exceptionFns,
     );
     return AcceptInboundConnectionResponse.fromJson(response);
+  }
+
+  /// Creates a new direct-query data source to the specified domain. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html">Creating
+  /// Amazon OpenSearch Service data source integrations with Amazon S3</a>.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [DependencyFailureException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [dataSourceType] :
+  /// The type of data source.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain to add the data source to.
+  ///
+  /// Parameter [name] :
+  /// A name for the data source.
+  ///
+  /// Parameter [description] :
+  /// A description of the data source.
+  Future<AddDataSourceResponse> addDataSource({
+    required DataSourceType dataSourceType,
+    required String domainName,
+    required String name,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DataSourceType': dataSourceType,
+      'Name': name,
+      if (description != null) 'Description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/dataSource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AddDataSourceResponse.fromJson(response);
   }
 
   /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a
@@ -181,6 +219,35 @@ class OpenSearch {
       exceptionFnMap: _exceptionFns,
     );
     return AuthorizeVpcEndpointAccessResponse.fromJson(response);
+  }
+
+  /// Cancels a pending configuration change on an Amazon OpenSearch Service
+  /// domain.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [dryRun] :
+  /// When set to <code>True</code>, returns the list of change IDs and
+  /// properties that will be cancelled without actually cancelling the change.
+  Future<CancelDomainConfigChangeResponse> cancelDomainConfigChange({
+    required String domainName,
+    bool? dryRun,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (dryRun != null) 'DryRun': dryRun,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/config/cancel',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelDomainConfigChangeResponse.fromJson(response);
   }
 
   /// Cancels a scheduled service software update for an Amazon OpenSearch
@@ -306,6 +373,12 @@ class OpenSearch {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains">Creating
   /// and managing Amazon OpenSearch Service domains</a>.
   ///
+  /// Parameter [iPAddressType] :
+  /// Specify either dual stack or IPv4 as your IP address type. Dual stack
+  /// allows you to share domain resources across IPv4 and IPv6 address types,
+  /// and is the recommended option. If you set your IP address type to dual
+  /// stack, you can't change your address type later.
+  ///
   /// Parameter [logPublishingOptions] :
   /// Key-value pairs to configure log publishing.
   ///
@@ -347,6 +420,7 @@ class OpenSearch {
     EBSOptions? eBSOptions,
     EncryptionAtRestOptions? encryptionAtRestOptions,
     String? engineVersion,
+    IPAddressType? iPAddressType,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
     NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
     OffPeakWindowOptions? offPeakWindowOptions,
@@ -370,6 +444,7 @@ class OpenSearch {
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (iPAddressType != null) 'IPAddressType': iPAddressType.toValue(),
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
@@ -414,17 +489,23 @@ class OpenSearch {
   ///
   /// Parameter [connectionMode] :
   /// The connection mode.
+  ///
+  /// Parameter [connectionProperties] :
+  /// The <code>ConnectionProperties</code> for the outbound connection.
   Future<CreateOutboundConnectionResponse> createOutboundConnection({
     required String connectionAlias,
     required DomainInformationContainer localDomainInfo,
     required DomainInformationContainer remoteDomainInfo,
     ConnectionMode? connectionMode,
+    ConnectionProperties? connectionProperties,
   }) async {
     final $payload = <String, dynamic>{
       'ConnectionAlias': connectionAlias,
       'LocalDomainInfo': localDomainInfo,
       'RemoteDomainInfo': remoteDomainInfo,
       if (connectionMode != null) 'ConnectionMode': connectionMode.toValue(),
+      if (connectionProperties != null)
+        'ConnectionProperties': connectionProperties,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -514,6 +595,36 @@ class OpenSearch {
       exceptionFnMap: _exceptionFns,
     );
     return CreateVpcEndpointResponse.fromJson(response);
+  }
+
+  /// Deletes a direct-query data source. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-delete.html">Deleting
+  /// an Amazon OpenSearch Service data source with Amazon S3</a>.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [DependencyFailureException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [name] :
+  /// The name of the data source to delete.
+  Future<DeleteDataSourceResponse> deleteDataSource({
+    required String domainName,
+    required String name,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/dataSource/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteDataSourceResponse.fromJson(response);
   }
 
   /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't
@@ -820,8 +931,7 @@ class OpenSearch {
   ///
   /// Parameter [domainNames] :
   /// Array of OpenSearch Service domain names that you want information about.
-  /// If you don't specify any domains, OpenSearch Service returns information
-  /// about all domains owned by the account.
+  /// You must specify at least one domain name.
   Future<DescribeDomainsResponse> describeDomains({
     required List<String> domainNames,
   }) async {
@@ -1255,6 +1365,65 @@ class OpenSearch {
     return GetCompatibleVersionsResponse.fromJson(response);
   }
 
+  /// Retrieves information about a direct query data source.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [DependencyFailureException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [name] :
+  /// The name of the data source to get information about.
+  Future<GetDataSourceResponse> getDataSource({
+    required String domainName,
+    required String name,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/dataSource/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDataSourceResponse.fromJson(response);
+  }
+
+  /// The status of the maintenance action.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [maintenanceId] :
+  /// The request ID of the maintenance action.
+  Future<GetDomainMaintenanceStatusResponse> getDomainMaintenanceStatus({
+    required String domainName,
+    required String maintenanceId,
+  }) async {
+    final $query = <String, List<String>>{
+      'maintenanceId': [maintenanceId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/domainMaintenance',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDomainMaintenanceStatusResponse.fromJson(response);
+  }
+
   /// Returns a list of Amazon OpenSearch Service package versions, along with
   /// their creation time, commit message, and plugin properties (if the package
   /// is a zip plugin package). For more information, see <a
@@ -1376,6 +1545,90 @@ class OpenSearch {
       exceptionFnMap: _exceptionFns,
     );
     return GetUpgradeStatusResponse.fromJson(response);
+  }
+
+  /// Lists direct-query data sources for a specific domain. For more
+  /// information, see For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3.html">Working
+  /// with Amazon OpenSearch Service direct queries with Amazon S3</a>.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [DependencyFailureException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  Future<ListDataSourcesResponse> listDataSources({
+    required String domainName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/dataSource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDataSourcesResponse.fromJson(response);
+  }
+
+  /// A list of maintenance actions for the domain.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [action] :
+  /// The name of the action.
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListDomainMaintenances</code> operation returns a
+  /// <code>nextToken</code>, include the returned <code>nextToken</code> in
+  /// subsequent <code>ListDomainMaintenances</code> operations, which returns
+  /// results in the next page.
+  ///
+  /// Parameter [status] :
+  /// The status of the action.
+  Future<ListDomainMaintenancesResponse> listDomainMaintenances({
+    required String domainName,
+    MaintenanceType? action,
+    int? maxResults,
+    String? nextToken,
+    MaintenanceStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (action != null) 'action': [action.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (status != null) 'status': [status.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/domainMaintenances',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDomainMaintenancesResponse.fromJson(response);
   }
 
   /// Returns the names of all Amazon OpenSearch Service domains owned by the
@@ -1912,6 +2165,43 @@ class OpenSearch {
     );
   }
 
+  /// Starts the node maintenance process on the data node. These processes can
+  /// include a node reboot, an Opensearch or Elasticsearch process restart, or
+  /// a Dashboard or Kibana restart.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [action] :
+  /// The name of the action.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [nodeId] :
+  /// The ID of the data node.
+  Future<StartDomainMaintenanceResponse> startDomainMaintenance({
+    required MaintenanceType action,
+    required String domainName,
+    String? nodeId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Action': action.toValue(),
+      if (nodeId != null) 'NodeId': nodeId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/domainMaintenance',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartDomainMaintenanceResponse.fromJson(response);
+  }
+
   /// Schedules a service software update for an Amazon OpenSearch Service
   /// domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">Service
@@ -1972,8 +2262,56 @@ class OpenSearch {
     return StartServiceSoftwareUpdateResponse.fromJson(response);
   }
 
+  /// Updates a direct-query data source. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html">Working
+  /// with Amazon OpenSearch Service data source integrations with Amazon
+  /// S3</a>.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [DependencyFailureException].
+  ///
+  /// Parameter [dataSourceType] :
+  /// The type of data source.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [name] :
+  /// The name of the data source to modify.
+  ///
+  /// Parameter [description] :
+  /// A new description of the data source.
+  ///
+  /// Parameter [status] :
+  /// The status of the data source update request.
+  Future<UpdateDataSourceResponse> updateDataSource({
+    required DataSourceType dataSourceType,
+    required String domainName,
+    required String name,
+    String? description,
+    DataSourceStatus? status,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DataSourceType': dataSourceType,
+      if (description != null) 'Description': description,
+      if (status != null) 'Status': status.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/dataSource/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateDataSourceResponse.fromJson(response);
+  }
+
   /// Modifies the cluster configuration of the specified Amazon OpenSearch
-  /// Service domain.sl
+  /// Service domain.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -2065,6 +2403,12 @@ class OpenSearch {
   /// Parameter [encryptionAtRestOptions] :
   /// Encryption at rest options for the domain.
   ///
+  /// Parameter [iPAddressType] :
+  /// Specify either dual stack or IPv4 as your IP address type. Dual stack
+  /// allows you to share domain resources across IPv4 and IPv6 address types,
+  /// and is the recommended option. If your IP address type is currently set to
+  /// dual stack, you can't change it.
+  ///
   /// Parameter [logPublishingOptions] :
   /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
   ///
@@ -2099,6 +2443,7 @@ class OpenSearch {
     DryRunMode? dryRunMode,
     EBSOptions? eBSOptions,
     EncryptionAtRestOptions? encryptionAtRestOptions,
+    IPAddressType? iPAddressType,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
     NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
     OffPeakWindowOptions? offPeakWindowOptions,
@@ -2121,6 +2466,7 @@ class OpenSearch {
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (iPAddressType != null) 'IPAddressType': iPAddressType.toValue(),
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
@@ -2556,6 +2902,29 @@ extension ActionTypeFromString on String {
         return ActionType.jvmYoungGenTuning;
     }
     throw Exception('$this is not known in enum ActionType');
+  }
+}
+
+/// The result of an <code>AddDataSource</code> operation.
+class AddDataSourceResponse {
+  /// A message associated with creation of the data source.
+  final String? message;
+
+  AddDataSourceResponse({
+    this.message,
+  });
+
+  factory AddDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return AddDataSourceResponse(
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'Message': message,
+    };
   }
 }
 
@@ -3449,6 +3818,51 @@ class AvailabilityZoneInfo {
   }
 }
 
+class CancelDomainConfigChangeResponse {
+  /// The unique identifiers of the changes that were cancelled.
+  final List<String>? cancelledChangeIds;
+
+  /// The domain change properties that were cancelled.
+  final List<CancelledChangeProperty>? cancelledChangeProperties;
+
+  /// Whether or not the request was a dry run. If <code>True</code>, the changes
+  /// were not actually cancelled.
+  final bool? dryRun;
+
+  CancelDomainConfigChangeResponse({
+    this.cancelledChangeIds,
+    this.cancelledChangeProperties,
+    this.dryRun,
+  });
+
+  factory CancelDomainConfigChangeResponse.fromJson(Map<String, dynamic> json) {
+    return CancelDomainConfigChangeResponse(
+      cancelledChangeIds: (json['CancelledChangeIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cancelledChangeProperties: (json['CancelledChangeProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CancelledChangeProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dryRun: json['DryRun'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelledChangeIds = this.cancelledChangeIds;
+    final cancelledChangeProperties = this.cancelledChangeProperties;
+    final dryRun = this.dryRun;
+    return {
+      if (cancelledChangeIds != null) 'CancelledChangeIds': cancelledChangeIds,
+      if (cancelledChangeProperties != null)
+        'CancelledChangeProperties': cancelledChangeProperties,
+      if (dryRun != null) 'DryRun': dryRun,
+    };
+  }
+}
+
 /// Container for the response to a <code>CancelServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
 class CancelServiceSoftwareUpdateResponse {
@@ -3479,33 +3893,104 @@ class CancelServiceSoftwareUpdateResponse {
   }
 }
 
+/// A property change that was cancelled for an Amazon OpenSearch Service
+/// domain.
+class CancelledChangeProperty {
+  /// The current value of the property, after the change was cancelled.
+  final String? activeValue;
+
+  /// The pending value of the property that was cancelled. This would have been
+  /// the eventual value of the property if the chance had not been cancelled.
+  final String? cancelledValue;
+
+  /// The name of the property whose change was cancelled.
+  final String? propertyName;
+
+  CancelledChangeProperty({
+    this.activeValue,
+    this.cancelledValue,
+    this.propertyName,
+  });
+
+  factory CancelledChangeProperty.fromJson(Map<String, dynamic> json) {
+    return CancelledChangeProperty(
+      activeValue: json['ActiveValue'] as String?,
+      cancelledValue: json['CancelledValue'] as String?,
+      propertyName: json['PropertyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeValue = this.activeValue;
+    final cancelledValue = this.cancelledValue;
+    final propertyName = this.propertyName;
+    return {
+      if (activeValue != null) 'ActiveValue': activeValue,
+      if (cancelledValue != null) 'CancelledValue': cancelledValue,
+      if (propertyName != null) 'PropertyName': propertyName,
+    };
+  }
+}
+
 /// Container for information about a configuration change happening on a
 /// domain.
 class ChangeProgressDetails {
   /// The ID of the configuration change.
   final String? changeId;
 
+  /// The current status of the configuration change.
+  final ConfigChangeStatus? configChangeStatus;
+
+  /// The IAM principal who initiated the configuration change.
+  final InitiatedBy? initiatedBy;
+
+  /// The last time that the configuration change was updated.
+  final DateTime? lastUpdatedTime;
+
   /// A message corresponding to the status of the configuration change.
   final String? message;
 
+  /// The time that the configuration change was initiated, in Universal
+  /// Coordinated Time (UTC).
+  final DateTime? startTime;
+
   ChangeProgressDetails({
     this.changeId,
+    this.configChangeStatus,
+    this.initiatedBy,
+    this.lastUpdatedTime,
     this.message,
+    this.startTime,
   });
 
   factory ChangeProgressDetails.fromJson(Map<String, dynamic> json) {
     return ChangeProgressDetails(
       changeId: json['ChangeId'] as String?,
+      configChangeStatus:
+          (json['ConfigChangeStatus'] as String?)?.toConfigChangeStatus(),
+      initiatedBy: (json['InitiatedBy'] as String?)?.toInitiatedBy(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       message: json['Message'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final changeId = this.changeId;
+    final configChangeStatus = this.configChangeStatus;
+    final initiatedBy = this.initiatedBy;
+    final lastUpdatedTime = this.lastUpdatedTime;
     final message = this.message;
+    final startTime = this.startTime;
     return {
       if (changeId != null) 'ChangeId': changeId,
+      if (configChangeStatus != null)
+        'ConfigChangeStatus': configChangeStatus.toValue(),
+      if (initiatedBy != null) 'InitiatedBy': initiatedBy.toValue(),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (message != null) 'Message': message,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
@@ -3568,6 +4053,15 @@ class ChangeProgressStatusDetails {
   /// completed.
   final List<String>? completedProperties;
 
+  /// The current status of the configuration change.
+  final ConfigChangeStatus? configChangeStatus;
+
+  /// The IAM principal who initiated the configuration change.
+  final InitiatedBy? initiatedBy;
+
+  /// The last time that the status of the configuration change was updated.
+  final DateTime? lastUpdatedTime;
+
   /// The list of properties in the domain configuration change that are still
   /// pending.
   final List<String>? pendingProperties;
@@ -3585,6 +4079,9 @@ class ChangeProgressStatusDetails {
     this.changeId,
     this.changeProgressStages,
     this.completedProperties,
+    this.configChangeStatus,
+    this.initiatedBy,
+    this.lastUpdatedTime,
     this.pendingProperties,
     this.startTime,
     this.status,
@@ -3602,6 +4099,10 @@ class ChangeProgressStatusDetails {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      configChangeStatus:
+          (json['ConfigChangeStatus'] as String?)?.toConfigChangeStatus(),
+      initiatedBy: (json['InitiatedBy'] as String?)?.toInitiatedBy(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       pendingProperties: (json['PendingProperties'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3616,6 +4117,9 @@ class ChangeProgressStatusDetails {
     final changeId = this.changeId;
     final changeProgressStages = this.changeProgressStages;
     final completedProperties = this.completedProperties;
+    final configChangeStatus = this.configChangeStatus;
+    final initiatedBy = this.initiatedBy;
+    final lastUpdatedTime = this.lastUpdatedTime;
     final pendingProperties = this.pendingProperties;
     final startTime = this.startTime;
     final status = this.status;
@@ -3626,6 +4130,11 @@ class ChangeProgressStatusDetails {
         'ChangeProgressStages': changeProgressStages,
       if (completedProperties != null)
         'CompletedProperties': completedProperties,
+      if (configChangeStatus != null)
+        'ConfigChangeStatus': configChangeStatus.toValue(),
+      if (initiatedBy != null) 'InitiatedBy': initiatedBy.toValue(),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (pendingProperties != null) 'PendingProperties': pendingProperties,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       if (status != null) 'Status': status.toValue(),
@@ -3656,8 +4165,8 @@ class ClusterConfig {
   /// cluster.
   final OpenSearchPartitionInstanceType? dedicatedMasterType;
 
-  /// Number of dedicated master nodes in the cluster. This number must be greater
-  /// than 1, otherwise you receive a validation exception.
+  /// Number of data nodes in the cluster. This number must be greater than 1,
+  /// otherwise you receive a validation exception.
   final int? instanceCount;
 
   /// Instance type of data nodes in the cluster.
@@ -3881,7 +4390,8 @@ class CognitoOptionsStatus {
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cold-storage.html">Cold
 /// storage for Amazon OpenSearch Service</a>.
 class ColdStorageOptions {
-  /// Whether to enable or disable cold storage on the domain.
+  /// Whether to enable or disable cold storage on the domain. You must enable
+  /// UltraWarm storage to enable cold storage.
   final bool enabled;
 
   ColdStorageOptions({
@@ -3936,6 +4446,64 @@ class CompatibleVersionsMap {
   }
 }
 
+enum ConfigChangeStatus {
+  pending,
+  initializing,
+  validating,
+  validationFailed,
+  applyingChanges,
+  completed,
+  pendingUserInput,
+  cancelled,
+}
+
+extension ConfigChangeStatusValueExtension on ConfigChangeStatus {
+  String toValue() {
+    switch (this) {
+      case ConfigChangeStatus.pending:
+        return 'Pending';
+      case ConfigChangeStatus.initializing:
+        return 'Initializing';
+      case ConfigChangeStatus.validating:
+        return 'Validating';
+      case ConfigChangeStatus.validationFailed:
+        return 'ValidationFailed';
+      case ConfigChangeStatus.applyingChanges:
+        return 'ApplyingChanges';
+      case ConfigChangeStatus.completed:
+        return 'Completed';
+      case ConfigChangeStatus.pendingUserInput:
+        return 'PendingUserInput';
+      case ConfigChangeStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
+}
+
+extension ConfigChangeStatusFromString on String {
+  ConfigChangeStatus toConfigChangeStatus() {
+    switch (this) {
+      case 'Pending':
+        return ConfigChangeStatus.pending;
+      case 'Initializing':
+        return ConfigChangeStatus.initializing;
+      case 'Validating':
+        return ConfigChangeStatus.validating;
+      case 'ValidationFailed':
+        return ConfigChangeStatus.validationFailed;
+      case 'ApplyingChanges':
+        return ConfigChangeStatus.applyingChanges;
+      case 'Completed':
+        return ConfigChangeStatus.completed;
+      case 'PendingUserInput':
+        return ConfigChangeStatus.pendingUserInput;
+      case 'Cancelled':
+        return ConfigChangeStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum ConfigChangeStatus');
+  }
+}
+
 /// The connection mode for the cross-cluster connection.
 ///
 /// <ul>
@@ -3977,22 +4545,36 @@ extension ConnectionModeFromString on String {
 
 /// The connection properties of an outbound connection.
 class ConnectionProperties {
-  /// The endpoint of the remote domain.
+  /// The connection properties for cross cluster search.
+  final CrossClusterSearchConnectionProperties? crossClusterSearch;
+
+  /// <important>
+  /// The Endpoint attribute cannot be modified.
+  /// </important>
+  /// The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection
+  /// mode.
   final String? endpoint;
 
   ConnectionProperties({
+    this.crossClusterSearch,
     this.endpoint,
   });
 
   factory ConnectionProperties.fromJson(Map<String, dynamic> json) {
     return ConnectionProperties(
+      crossClusterSearch: json['CrossClusterSearch'] != null
+          ? CrossClusterSearchConnectionProperties.fromJson(
+              json['CrossClusterSearch'] as Map<String, dynamic>)
+          : null,
       endpoint: json['Endpoint'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final crossClusterSearch = this.crossClusterSearch;
     final endpoint = this.endpoint;
     return {
+      if (crossClusterSearch != null) 'CrossClusterSearch': crossClusterSearch,
       if (endpoint != null) 'Endpoint': endpoint,
     };
   }
@@ -4150,6 +4732,158 @@ class CreateVpcEndpointResponse {
     final vpcEndpoint = this.vpcEndpoint;
     return {
       'VpcEndpoint': vpcEndpoint,
+    };
+  }
+}
+
+/// Cross-cluster search specific connection properties.
+class CrossClusterSearchConnectionProperties {
+  /// The status of the <code>SkipUnavailable</code> setting for the outbound
+  /// connection. This feature allows you to specify some clusters as optional and
+  /// ensure that your cross-cluster queries return partial results despite
+  /// failures on one or more remote clusters.
+  final SkipUnavailableStatus? skipUnavailable;
+
+  CrossClusterSearchConnectionProperties({
+    this.skipUnavailable,
+  });
+
+  factory CrossClusterSearchConnectionProperties.fromJson(
+      Map<String, dynamic> json) {
+    return CrossClusterSearchConnectionProperties(
+      skipUnavailable:
+          (json['SkipUnavailable'] as String?)?.toSkipUnavailableStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final skipUnavailable = this.skipUnavailable;
+    return {
+      if (skipUnavailable != null) 'SkipUnavailable': skipUnavailable.toValue(),
+    };
+  }
+}
+
+/// Details about a direct-query data source.
+class DataSourceDetails {
+  /// The type of data source.
+  final DataSourceType? dataSourceType;
+
+  /// A description of the data source.
+  final String? description;
+
+  /// The name of the data source.
+  final String? name;
+
+  /// The status of the data source.
+  final DataSourceStatus? status;
+
+  DataSourceDetails({
+    this.dataSourceType,
+    this.description,
+    this.name,
+    this.status,
+  });
+
+  factory DataSourceDetails.fromJson(Map<String, dynamic> json) {
+    return DataSourceDetails(
+      dataSourceType: json['DataSourceType'] != null
+          ? DataSourceType.fromJson(
+              json['DataSourceType'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toDataSourceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceType = this.dataSourceType;
+    final description = this.description;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (dataSourceType != null) 'DataSourceType': dataSourceType,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum DataSourceStatus {
+  active,
+  disabled,
+}
+
+extension DataSourceStatusValueExtension on DataSourceStatus {
+  String toValue() {
+    switch (this) {
+      case DataSourceStatus.active:
+        return 'ACTIVE';
+      case DataSourceStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension DataSourceStatusFromString on String {
+  DataSourceStatus toDataSourceStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return DataSourceStatus.active;
+      case 'DISABLED':
+        return DataSourceStatus.disabled;
+    }
+    throw Exception('$this is not known in enum DataSourceStatus');
+  }
+}
+
+/// The type of data source.
+class DataSourceType {
+  /// An Amazon S3 data source.
+  final S3GlueDataCatalog? s3GlueDataCatalog;
+
+  DataSourceType({
+    this.s3GlueDataCatalog,
+  });
+
+  factory DataSourceType.fromJson(Map<String, dynamic> json) {
+    return DataSourceType(
+      s3GlueDataCatalog: json['S3GlueDataCatalog'] != null
+          ? S3GlueDataCatalog.fromJson(
+              json['S3GlueDataCatalog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3GlueDataCatalog = this.s3GlueDataCatalog;
+    return {
+      if (s3GlueDataCatalog != null) 'S3GlueDataCatalog': s3GlueDataCatalog,
+    };
+  }
+}
+
+/// The result of a <code>GetDataSource</code> operation.
+class DeleteDataSourceResponse {
+  /// A message associated with deletion of the data source.
+  final String? message;
+
+  DeleteDataSourceResponse({
+    this.message,
+  });
+
+  factory DeleteDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDataSourceResponse(
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'Message': message,
     };
   }
 }
@@ -4335,7 +5069,7 @@ class DescribeDomainAutoTunesResponse {
 
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -4718,7 +5452,7 @@ class DescribeInboundConnectionsResponse {
 
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -4782,7 +5516,7 @@ class DescribeOutboundConnectionsResponse {
 
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -4839,6 +5573,8 @@ enum DescribePackagesFilterName {
   packageID,
   packageName,
   packageStatus,
+  packageType,
+  engineVersion,
 }
 
 extension DescribePackagesFilterNameValueExtension
@@ -4851,6 +5587,10 @@ extension DescribePackagesFilterNameValueExtension
         return 'PackageName';
       case DescribePackagesFilterName.packageStatus:
         return 'PackageStatus';
+      case DescribePackagesFilterName.packageType:
+        return 'PackageType';
+      case DescribePackagesFilterName.engineVersion:
+        return 'EngineVersion';
     }
   }
 }
@@ -4864,6 +5604,10 @@ extension DescribePackagesFilterNameFromString on String {
         return DescribePackagesFilterName.packageName;
       case 'PackageStatus':
         return DescribePackagesFilterName.packageStatus;
+      case 'PackageType':
+        return DescribePackagesFilterName.packageType;
+      case 'EngineVersion':
+        return DescribePackagesFilterName.engineVersion;
     }
     throw Exception('$this is not known in enum DescribePackagesFilterName');
   }
@@ -4874,7 +5618,7 @@ extension DescribePackagesFilterNameFromString on String {
 class DescribePackagesResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -4911,7 +5655,7 @@ class DescribePackagesResponse {
 class DescribeReservedInstanceOfferingsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -4950,7 +5694,7 @@ class DescribeReservedInstanceOfferingsResponse {
 class DescribeReservedInstancesResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -5086,8 +5830,17 @@ class DomainConfig {
   /// The OpenSearch or Elasticsearch version that the domain is running.
   final VersionStatus? engineVersion;
 
+  /// Choose either dual stack or IPv4 as your IP address type. Dual stack allows
+  /// you to share domain resources across IPv4 and IPv6 address types, and is the
+  /// recommended option. If you set your IP address type to dual stack, you can't
+  /// change your address type later.
+  final IPAddressTypeStatus? iPAddressType;
+
   /// Key-value pairs to configure log publishing.
   final LogPublishingOptionsStatus? logPublishingOptions;
+
+  /// Information about the domain properties that are currently being modified.
+  final List<ModifyingProperties>? modifyingProperties;
 
   /// Whether node-to-node encryption is enabled or disabled.
   final NodeToNodeEncryptionOptionsStatus? nodeToNodeEncryptionOptions;
@@ -5118,7 +5871,9 @@ class DomainConfig {
     this.eBSOptions,
     this.encryptionAtRestOptions,
     this.engineVersion,
+    this.iPAddressType,
     this.logPublishingOptions,
+    this.modifyingProperties,
     this.nodeToNodeEncryptionOptions,
     this.offPeakWindowOptions,
     this.snapshotOptions,
@@ -5172,10 +5927,18 @@ class DomainConfig {
           ? VersionStatus.fromJson(
               json['EngineVersion'] as Map<String, dynamic>)
           : null,
+      iPAddressType: json['IPAddressType'] != null
+          ? IPAddressTypeStatus.fromJson(
+              json['IPAddressType'] as Map<String, dynamic>)
+          : null,
       logPublishingOptions: json['LogPublishingOptions'] != null
           ? LogPublishingOptionsStatus.fromJson(
               json['LogPublishingOptions'] as Map<String, dynamic>)
           : null,
+      modifyingProperties: (json['ModifyingProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModifyingProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
           ? NodeToNodeEncryptionOptionsStatus.fromJson(
               json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
@@ -5211,7 +5974,9 @@ class DomainConfig {
     final eBSOptions = this.eBSOptions;
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
     final engineVersion = this.engineVersion;
+    final iPAddressType = this.iPAddressType;
     final logPublishingOptions = this.logPublishingOptions;
+    final modifyingProperties = this.modifyingProperties;
     final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
     final offPeakWindowOptions = this.offPeakWindowOptions;
     final snapshotOptions = this.snapshotOptions;
@@ -5233,8 +5998,11 @@ class DomainConfig {
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (iPAddressType != null) 'IPAddressType': iPAddressType,
       if (logPublishingOptions != null)
         'LogPublishingOptions': logPublishingOptions,
+      if (modifyingProperties != null)
+        'ModifyingProperties': modifyingProperties,
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (offPeakWindowOptions != null)
@@ -5263,18 +6031,20 @@ class DomainEndpointOptions {
   final bool? enforceHTTPS;
 
   /// Specify the TLS security policy to apply to the HTTPS endpoint of the
-  /// domain.
-  ///
-  /// Can be one of the following values:
+  /// domain. The policy can be one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <b>Policy-Min-TLS-1-0-2019-07:</b> TLS security policy which supports TLS
-  /// version 1.0 and higher.
+  /// <b>Policy-Min-TLS-1-0-2019-07:</b> TLS security policy that supports TLS
+  /// version 1.0 to TLS version 1.2
   /// </li>
   /// <li>
-  /// <b>Policy-Min-TLS-1-2-2019-07:</b> TLS security policy which supports only
+  /// <b>Policy-Min-TLS-1-2-2019-07:</b> TLS security policy that supports only
   /// TLS version 1.2
+  /// </li>
+  /// <li>
+  /// <b>Policy-Min-TLS-1-2-PFS-2023-10:</b> TLS security policy that supports TLS
+  /// version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
   /// </li>
   /// </ul>
   final TLSSecurityPolicy? tLSSecurityPolicy;
@@ -5442,6 +6212,78 @@ class DomainInformationContainer {
     return {
       if (awsDomainInformation != null)
         'AWSDomainInformation': awsDomainInformation,
+    };
+  }
+}
+
+/// Container for the domain maintenance details.
+class DomainMaintenanceDetails {
+  /// The name of the action.
+  final MaintenanceType? action;
+
+  /// The time at which the action was created.
+  final DateTime? createdAt;
+
+  /// The name of the domain.
+  final String? domainName;
+
+  /// The ID of the requested action.
+  final String? maintenanceId;
+
+  /// The ID of the data node.
+  final String? nodeId;
+
+  /// The status of the action.
+  final MaintenanceStatus? status;
+
+  /// The status message for the action.
+  final String? statusMessage;
+
+  /// The time at which the action was updated.
+  final DateTime? updatedAt;
+
+  DomainMaintenanceDetails({
+    this.action,
+    this.createdAt,
+    this.domainName,
+    this.maintenanceId,
+    this.nodeId,
+    this.status,
+    this.statusMessage,
+    this.updatedAt,
+  });
+
+  factory DomainMaintenanceDetails.fromJson(Map<String, dynamic> json) {
+    return DomainMaintenanceDetails(
+      action: (json['Action'] as String?)?.toMaintenanceType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      domainName: json['DomainName'] as String?,
+      maintenanceId: json['MaintenanceId'] as String?,
+      nodeId: json['NodeId'] as String?,
+      status: (json['Status'] as String?)?.toMaintenanceStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final createdAt = this.createdAt;
+    final domainName = this.domainName;
+    final maintenanceId = this.maintenanceId;
+    final nodeId = this.nodeId;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final updatedAt = this.updatedAt;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (domainName != null) 'DomainName': domainName,
+      if (maintenanceId != null) 'MaintenanceId': maintenanceId,
+      if (nodeId != null) 'NodeId': nodeId,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
@@ -5651,6 +6493,60 @@ extension DomainPackageStatusFromString on String {
   }
 }
 
+enum DomainProcessingStatusType {
+  creating,
+  active,
+  modifying,
+  upgradingEngineVersion,
+  updatingServiceSoftware,
+  isolated,
+  deleting,
+}
+
+extension DomainProcessingStatusTypeValueExtension
+    on DomainProcessingStatusType {
+  String toValue() {
+    switch (this) {
+      case DomainProcessingStatusType.creating:
+        return 'Creating';
+      case DomainProcessingStatusType.active:
+        return 'Active';
+      case DomainProcessingStatusType.modifying:
+        return 'Modifying';
+      case DomainProcessingStatusType.upgradingEngineVersion:
+        return 'UpgradingEngineVersion';
+      case DomainProcessingStatusType.updatingServiceSoftware:
+        return 'UpdatingServiceSoftware';
+      case DomainProcessingStatusType.isolated:
+        return 'Isolated';
+      case DomainProcessingStatusType.deleting:
+        return 'Deleting';
+    }
+  }
+}
+
+extension DomainProcessingStatusTypeFromString on String {
+  DomainProcessingStatusType toDomainProcessingStatusType() {
+    switch (this) {
+      case 'Creating':
+        return DomainProcessingStatusType.creating;
+      case 'Active':
+        return DomainProcessingStatusType.active;
+      case 'Modifying':
+        return DomainProcessingStatusType.modifying;
+      case 'UpgradingEngineVersion':
+        return DomainProcessingStatusType.upgradingEngineVersion;
+      case 'UpdatingServiceSoftware':
+        return DomainProcessingStatusType.updatingServiceSoftware;
+      case 'Isolated':
+        return DomainProcessingStatusType.isolated;
+      case 'Deleting':
+        return DomainProcessingStatusType.deleting;
+    }
+    throw Exception('$this is not known in enum DomainProcessingStatusType');
+  }
+}
+
 enum DomainState {
   active,
   processing,
@@ -5735,6 +6631,12 @@ class DomainStatus {
   /// for all traffic.
   final DomainEndpointOptions? domainEndpointOptions;
 
+  /// The dual stack hosted zone ID for the domain.
+  final String? domainEndpointV2HostedZoneId;
+
+  /// The status of any changes that are currently in progress for the domain.
+  final DomainProcessingStatusType? domainProcessingStatus;
+
   /// Container for EBS-based storage settings for the domain.
   final EBSOptions? eBSOptions;
 
@@ -5745,17 +6647,39 @@ class DomainStatus {
   /// requests to the domain.
   final String? endpoint;
 
+  /// If <code>IPAddressType</code> to set to <code>dualstack</code>, a version 2
+  /// domain endpoint is provisioned. This endpoint functions like a normal
+  /// endpoint, except that it works with both IPv4 and IPv6 IP addresses. Normal
+  /// endpoints work only with IPv4 IP addresses.
+  final String? endpointV2;
+
   /// The key-value pair that exists if the OpenSearch Service domain uses VPC
-  /// endpoints.. Example <code>key, value</code>:
-  /// <code>'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'</code>.
+  /// endpoints. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>IPv4 IP addresses</b> -
+  /// <code>'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'</code>
+  /// </li>
+  /// <li>
+  /// <b>Dual stack IP addresses</b> -
+  /// <code>'vpcv2':'vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.aos.us-east-1.on.aws'</code>
+  /// </li>
+  /// </ul>
   final Map<String, String>? endpoints;
 
   /// Version of OpenSearch or Elasticsearch that the domain is running, in the
   /// format <code>Elasticsearch_X.Y</code> or <code>OpenSearch_X.Y</code>.
   final String? engineVersion;
 
+  /// The type of IP addresses supported by the endpoint for the domain.
+  final IPAddressType? iPAddressType;
+
   /// Log publishing options for the domain.
   final Map<LogType, LogPublishingOption>? logPublishingOptions;
+
+  /// Information about the domain properties that are currently being modified.
+  final List<ModifyingProperties>? modifyingProperties;
 
   /// Whether node-to-node encryption is enabled or disabled.
   final NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions;
@@ -5800,12 +6724,17 @@ class DomainStatus {
     this.created,
     this.deleted,
     this.domainEndpointOptions,
+    this.domainEndpointV2HostedZoneId,
+    this.domainProcessingStatus,
     this.eBSOptions,
     this.encryptionAtRestOptions,
     this.endpoint,
+    this.endpointV2,
     this.endpoints,
     this.engineVersion,
+    this.iPAddressType,
     this.logPublishingOptions,
+    this.modifyingProperties,
     this.nodeToNodeEncryptionOptions,
     this.offPeakWindowOptions,
     this.processing,
@@ -5848,6 +6777,10 @@ class DomainStatus {
           ? DomainEndpointOptions.fromJson(
               json['DomainEndpointOptions'] as Map<String, dynamic>)
           : null,
+      domainEndpointV2HostedZoneId:
+          json['DomainEndpointV2HostedZoneId'] as String?,
+      domainProcessingStatus: (json['DomainProcessingStatus'] as String?)
+          ?.toDomainProcessingStatusType(),
       eBSOptions: json['EBSOptions'] != null
           ? EBSOptions.fromJson(json['EBSOptions'] as Map<String, dynamic>)
           : null,
@@ -5856,13 +6789,19 @@ class DomainStatus {
               json['EncryptionAtRestOptions'] as Map<String, dynamic>)
           : null,
       endpoint: json['Endpoint'] as String?,
+      endpointV2: json['EndpointV2'] as String?,
       endpoints: (json['Endpoints'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       engineVersion: json['EngineVersion'] as String?,
+      iPAddressType: (json['IPAddressType'] as String?)?.toIPAddressType(),
       logPublishingOptions:
           (json['LogPublishingOptions'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(k.toLogType(),
                   LogPublishingOption.fromJson(e as Map<String, dynamic>))),
+      modifyingProperties: (json['ModifyingProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModifyingProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
           ? NodeToNodeEncryptionOptions.fromJson(
               json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
@@ -5905,12 +6844,17 @@ class DomainStatus {
     final created = this.created;
     final deleted = this.deleted;
     final domainEndpointOptions = this.domainEndpointOptions;
+    final domainEndpointV2HostedZoneId = this.domainEndpointV2HostedZoneId;
+    final domainProcessingStatus = this.domainProcessingStatus;
     final eBSOptions = this.eBSOptions;
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
     final endpoint = this.endpoint;
+    final endpointV2 = this.endpointV2;
     final endpoints = this.endpoints;
     final engineVersion = this.engineVersion;
+    final iPAddressType = this.iPAddressType;
     final logPublishingOptions = this.logPublishingOptions;
+    final modifyingProperties = this.modifyingProperties;
     final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
     final offPeakWindowOptions = this.offPeakWindowOptions;
     final processing = this.processing;
@@ -5936,15 +6880,23 @@ class DomainStatus {
       if (deleted != null) 'Deleted': deleted,
       if (domainEndpointOptions != null)
         'DomainEndpointOptions': domainEndpointOptions,
+      if (domainEndpointV2HostedZoneId != null)
+        'DomainEndpointV2HostedZoneId': domainEndpointV2HostedZoneId,
+      if (domainProcessingStatus != null)
+        'DomainProcessingStatus': domainProcessingStatus.toValue(),
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (endpoint != null) 'Endpoint': endpoint,
+      if (endpointV2 != null) 'EndpointV2': endpointV2,
       if (endpoints != null) 'Endpoints': endpoints,
       if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (iPAddressType != null) 'IPAddressType': iPAddressType.toValue(),
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
+      if (modifyingProperties != null)
+        'ModifyingProperties': modifyingProperties,
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (offPeakWindowOptions != null)
@@ -6209,8 +7161,9 @@ class EBSOptionsStatus {
 }
 
 /// Specifies whether the domain should encrypt data at rest, and if so, the Key
-/// Management Service (KMS) key to use. Can be used only to create a new
-/// domain, not update an existing one.
+/// Management Service (KMS) key to use. Can only be used when creating a new
+/// domain or enabling encryption at rest for the first time on an existing
+/// domain. You can't modify this parameter after it's already been specified.
 class EncryptionAtRestOptions {
   /// True to enable encryption at rest.
   final bool? enabled;
@@ -6413,12 +7366,119 @@ class GetCompatibleVersionsResponse {
   }
 }
 
+/// The result of a <code>GetDataSource</code> operation.
+class GetDataSourceResponse {
+  /// The type of data source.
+  final DataSourceType? dataSourceType;
+
+  /// A description of the data source.
+  final String? description;
+
+  /// The name of the data source.
+  final String? name;
+
+  /// The status of the data source response.
+  final DataSourceStatus? status;
+
+  GetDataSourceResponse({
+    this.dataSourceType,
+    this.description,
+    this.name,
+    this.status,
+  });
+
+  factory GetDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return GetDataSourceResponse(
+      dataSourceType: json['DataSourceType'] != null
+          ? DataSourceType.fromJson(
+              json['DataSourceType'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toDataSourceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceType = this.dataSourceType;
+    final description = this.description;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (dataSourceType != null) 'DataSourceType': dataSourceType,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// The result of a <code>GetDomainMaintenanceStatus</code> request that
+/// information about the requested action.
+class GetDomainMaintenanceStatusResponse {
+  /// The action name.
+  final MaintenanceType? action;
+
+  /// The time at which the action was created.
+  final DateTime? createdAt;
+
+  /// The node ID of the maintenance action.
+  final String? nodeId;
+
+  /// The status of the maintenance action.
+  final MaintenanceStatus? status;
+
+  /// The status message of the maintenance action.
+  final String? statusMessage;
+
+  /// The time at which the action was updated.
+  final DateTime? updatedAt;
+
+  GetDomainMaintenanceStatusResponse({
+    this.action,
+    this.createdAt,
+    this.nodeId,
+    this.status,
+    this.statusMessage,
+    this.updatedAt,
+  });
+
+  factory GetDomainMaintenanceStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDomainMaintenanceStatusResponse(
+      action: (json['Action'] as String?)?.toMaintenanceType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      nodeId: json['NodeId'] as String?,
+      status: (json['Status'] as String?)?.toMaintenanceStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final createdAt = this.createdAt;
+    final nodeId = this.nodeId;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final updatedAt = this.updatedAt;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (nodeId != null) 'NodeId': nodeId,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
 /// Container for response returned by <code>GetPackageVersionHistory</code>
 /// operation.
 class GetPackageVersionHistoryResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -6464,7 +7524,7 @@ class GetPackageVersionHistoryResponse {
 class GetUpgradeHistoryResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -6532,6 +7592,62 @@ class GetUpgradeStatusResponse {
       if (stepStatus != null) 'StepStatus': stepStatus.toValue(),
       if (upgradeName != null) 'UpgradeName': upgradeName,
       if (upgradeStep != null) 'UpgradeStep': upgradeStep.toValue(),
+    };
+  }
+}
+
+enum IPAddressType {
+  ipv4,
+  dualstack,
+}
+
+extension IPAddressTypeValueExtension on IPAddressType {
+  String toValue() {
+    switch (this) {
+      case IPAddressType.ipv4:
+        return 'ipv4';
+      case IPAddressType.dualstack:
+        return 'dualstack';
+    }
+  }
+}
+
+extension IPAddressTypeFromString on String {
+  IPAddressType toIPAddressType() {
+    switch (this) {
+      case 'ipv4':
+        return IPAddressType.ipv4;
+      case 'dualstack':
+        return IPAddressType.dualstack;
+    }
+    throw Exception('$this is not known in enum IPAddressType');
+  }
+}
+
+/// The IP address type status for the domain.
+class IPAddressTypeStatus {
+  /// The IP address options for the domain.
+  final IPAddressType options;
+  final OptionStatus status;
+
+  IPAddressTypeStatus({
+    required this.options,
+    required this.status,
+  });
+
+  factory IPAddressTypeStatus.fromJson(Map<String, dynamic> json) {
+    return IPAddressTypeStatus(
+      options: (json['Options'] as String).toIPAddressType(),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options.toValue(),
+      'Status': status,
     };
   }
 }
@@ -6715,6 +7831,34 @@ extension InboundConnectionStatusCodeFromString on String {
         return InboundConnectionStatusCode.deleted;
     }
     throw Exception('$this is not known in enum InboundConnectionStatusCode');
+  }
+}
+
+enum InitiatedBy {
+  customer,
+  service,
+}
+
+extension InitiatedByValueExtension on InitiatedBy {
+  String toValue() {
+    switch (this) {
+      case InitiatedBy.customer:
+        return 'CUSTOMER';
+      case InitiatedBy.service:
+        return 'SERVICE';
+    }
+  }
+}
+
+extension InitiatedByFromString on String {
+  InitiatedBy toInitiatedBy() {
+    switch (this) {
+      case 'CUSTOMER':
+        return InitiatedBy.customer;
+      case 'SERVICE':
+        return InitiatedBy.service;
+    }
+    throw Exception('$this is not known in enum InitiatedBy');
   }
 }
 
@@ -6909,6 +8053,70 @@ class Limits {
   }
 }
 
+/// The result of a <code>ListDataSources</code> operation.
+class ListDataSourcesResponse {
+  /// A list of data sources associated with specified domain.
+  final List<DataSourceDetails>? dataSources;
+
+  ListDataSourcesResponse({
+    this.dataSources,
+  });
+
+  factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSourcesResponse(
+      dataSources: (json['DataSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataSourceDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSources = this.dataSources;
+    return {
+      if (dataSources != null) 'DataSources': dataSources,
+    };
+  }
+}
+
+/// The result of a <code>ListDomainMaintenances</code> request that contains
+/// information about the requested actions.
+class ListDomainMaintenancesResponse {
+  /// A list of the submitted maintenance actions.
+  final List<DomainMaintenanceDetails>? domainMaintenances;
+
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Send the request again using the returned token to retrieve the next
+  /// page.
+  final String? nextToken;
+
+  ListDomainMaintenancesResponse({
+    this.domainMaintenances,
+    this.nextToken,
+  });
+
+  factory ListDomainMaintenancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainMaintenancesResponse(
+      domainMaintenances: (json['DomainMaintenances'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DomainMaintenanceDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainMaintenances = this.domainMaintenances;
+    final nextToken = this.nextToken;
+    return {
+      if (domainMaintenances != null) 'DomainMaintenances': domainMaintenances,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// The results of a <code>ListDomainNames</code> operation. Contains the names
 /// of all domains owned by this account and their respective engine types.
 class ListDomainNamesResponse {
@@ -6945,7 +8153,7 @@ class ListDomainsForPackageResponse {
 
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -6982,7 +8190,7 @@ class ListInstanceTypeDetailsResponse {
 
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -7020,7 +8228,7 @@ class ListPackagesForDomainResponse {
 
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -7053,7 +8261,7 @@ class ListPackagesForDomainResponse {
 class ListScheduledActionsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -7116,7 +8324,7 @@ class ListTagsResponse {
 class ListVersionsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String? nextToken;
 
@@ -7157,7 +8365,7 @@ class ListVpcEndpointAccessResponse {
 
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String nextToken;
 
@@ -7189,7 +8397,7 @@ class ListVpcEndpointAccessResponse {
 class ListVpcEndpointsForDomainResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String nextToken;
 
@@ -7225,7 +8433,7 @@ class ListVpcEndpointsForDomainResponse {
 class ListVpcEndpointsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Send the request again using the returned token to retrieve the next
   /// page.
   final String nextToken;
 
@@ -7392,6 +8600,82 @@ extension LogTypeFromString on String {
   }
 }
 
+enum MaintenanceStatus {
+  pending,
+  inProgress,
+  completed,
+  failed,
+  timedOut,
+}
+
+extension MaintenanceStatusValueExtension on MaintenanceStatus {
+  String toValue() {
+    switch (this) {
+      case MaintenanceStatus.pending:
+        return 'PENDING';
+      case MaintenanceStatus.inProgress:
+        return 'IN_PROGRESS';
+      case MaintenanceStatus.completed:
+        return 'COMPLETED';
+      case MaintenanceStatus.failed:
+        return 'FAILED';
+      case MaintenanceStatus.timedOut:
+        return 'TIMED_OUT';
+    }
+  }
+}
+
+extension MaintenanceStatusFromString on String {
+  MaintenanceStatus toMaintenanceStatus() {
+    switch (this) {
+      case 'PENDING':
+        return MaintenanceStatus.pending;
+      case 'IN_PROGRESS':
+        return MaintenanceStatus.inProgress;
+      case 'COMPLETED':
+        return MaintenanceStatus.completed;
+      case 'FAILED':
+        return MaintenanceStatus.failed;
+      case 'TIMED_OUT':
+        return MaintenanceStatus.timedOut;
+    }
+    throw Exception('$this is not known in enum MaintenanceStatus');
+  }
+}
+
+enum MaintenanceType {
+  rebootNode,
+  restartSearchProcess,
+  restartDashboard,
+}
+
+extension MaintenanceTypeValueExtension on MaintenanceType {
+  String toValue() {
+    switch (this) {
+      case MaintenanceType.rebootNode:
+        return 'REBOOT_NODE';
+      case MaintenanceType.restartSearchProcess:
+        return 'RESTART_SEARCH_PROCESS';
+      case MaintenanceType.restartDashboard:
+        return 'RESTART_DASHBOARD';
+    }
+  }
+}
+
+extension MaintenanceTypeFromString on String {
+  MaintenanceType toMaintenanceType() {
+    switch (this) {
+      case 'REBOOT_NODE':
+        return MaintenanceType.rebootNode;
+      case 'RESTART_SEARCH_PROCESS':
+        return MaintenanceType.restartSearchProcess;
+      case 'RESTART_DASHBOARD':
+        return MaintenanceType.restartDashboard;
+    }
+    throw Exception('$this is not known in enum MaintenanceType');
+  }
+}
+
 enum MasterNodeStatus {
   available,
   unAvailable,
@@ -7448,6 +8732,63 @@ class MasterUserOptions {
       if (masterUserARN != null) 'MasterUserARN': masterUserARN,
       if (masterUserName != null) 'MasterUserName': masterUserName,
       if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
+    };
+  }
+}
+
+/// Information about the domain properties that are currently being modified.
+class ModifyingProperties {
+  /// The current value of the domain property that is being modified.
+  final String? activeValue;
+
+  /// The name of the property that is currently being modified.
+  final String? name;
+
+  /// The value that the property that is currently being modified will eventually
+  /// have.
+  final String? pendingValue;
+
+  /// The type of value that is currently being modified. Properties can have two
+  /// types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PLAIN_TEXT</code>: Contain direct values such as "1", "True", or
+  /// "c5.large.search".
+  /// </li>
+  /// <li>
+  /// <code>STRINGIFIED_JSON</code>: Contain content in JSON format, such as
+  /// {"Enabled":"True"}".
+  /// </li>
+  /// </ul>
+  final PropertyValueType? valueType;
+
+  ModifyingProperties({
+    this.activeValue,
+    this.name,
+    this.pendingValue,
+    this.valueType,
+  });
+
+  factory ModifyingProperties.fromJson(Map<String, dynamic> json) {
+    return ModifyingProperties(
+      activeValue: json['ActiveValue'] as String?,
+      name: json['Name'] as String?,
+      pendingValue: json['PendingValue'] as String?,
+      valueType: (json['ValueType'] as String?)?.toPropertyValueType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeValue = this.activeValue;
+    final name = this.name;
+    final pendingValue = this.pendingValue;
+    final valueType = this.valueType;
+    return {
+      if (activeValue != null) 'ActiveValue': activeValue,
+      if (name != null) 'Name': name,
+      if (pendingValue != null) 'PendingValue': pendingValue,
+      if (valueType != null) 'ValueType': valueType.toValue(),
     };
   }
 }
@@ -7728,6 +9069,14 @@ enum OpenSearchPartitionInstanceType {
   t3LargeSearch,
   t3XlargeSearch,
   t3_2xlargeSearch,
+  or1MediumSearch,
+  or1LargeSearch,
+  or1XlargeSearch,
+  or1_2xlargeSearch,
+  or1_4xlargeSearch,
+  or1_8xlargeSearch,
+  or1_12xlargeSearch,
+  or1_16xlargeSearch,
   ultrawarm1MediumSearch,
   ultrawarm1LargeSearch,
   ultrawarm1XlargeSearch,
@@ -7863,6 +9212,22 @@ extension OpenSearchPartitionInstanceTypeValueExtension
         return 't3.xlarge.search';
       case OpenSearchPartitionInstanceType.t3_2xlargeSearch:
         return 't3.2xlarge.search';
+      case OpenSearchPartitionInstanceType.or1MediumSearch:
+        return 'or1.medium.search';
+      case OpenSearchPartitionInstanceType.or1LargeSearch:
+        return 'or1.large.search';
+      case OpenSearchPartitionInstanceType.or1XlargeSearch:
+        return 'or1.xlarge.search';
+      case OpenSearchPartitionInstanceType.or1_2xlargeSearch:
+        return 'or1.2xlarge.search';
+      case OpenSearchPartitionInstanceType.or1_4xlargeSearch:
+        return 'or1.4xlarge.search';
+      case OpenSearchPartitionInstanceType.or1_8xlargeSearch:
+        return 'or1.8xlarge.search';
+      case OpenSearchPartitionInstanceType.or1_12xlargeSearch:
+        return 'or1.12xlarge.search';
+      case OpenSearchPartitionInstanceType.or1_16xlargeSearch:
+        return 'or1.16xlarge.search';
       case OpenSearchPartitionInstanceType.ultrawarm1MediumSearch:
         return 'ultrawarm1.medium.search';
       case OpenSearchPartitionInstanceType.ultrawarm1LargeSearch:
@@ -8060,6 +9425,22 @@ extension OpenSearchPartitionInstanceTypeFromString on String {
         return OpenSearchPartitionInstanceType.t3XlargeSearch;
       case 't3.2xlarge.search':
         return OpenSearchPartitionInstanceType.t3_2xlargeSearch;
+      case 'or1.medium.search':
+        return OpenSearchPartitionInstanceType.or1MediumSearch;
+      case 'or1.large.search':
+        return OpenSearchPartitionInstanceType.or1LargeSearch;
+      case 'or1.xlarge.search':
+        return OpenSearchPartitionInstanceType.or1XlargeSearch;
+      case 'or1.2xlarge.search':
+        return OpenSearchPartitionInstanceType.or1_2xlargeSearch;
+      case 'or1.4xlarge.search':
+        return OpenSearchPartitionInstanceType.or1_4xlargeSearch;
+      case 'or1.8xlarge.search':
+        return OpenSearchPartitionInstanceType.or1_8xlargeSearch;
+      case 'or1.12xlarge.search':
+        return OpenSearchPartitionInstanceType.or1_12xlargeSearch;
+      case 'or1.16xlarge.search':
+        return OpenSearchPartitionInstanceType.or1_16xlargeSearch;
       case 'ultrawarm1.medium.search':
         return OpenSearchPartitionInstanceType.ultrawarm1MediumSearch;
       case 'ultrawarm1.large.search':
@@ -8579,8 +9960,16 @@ class PackageDetails {
   /// The package version.
   final String? availablePackageVersion;
 
+  /// If the package is a <code>ZIP-PLUGIN</code> package, additional information
+  /// about plugin properties.
+  final PluginProperties? availablePluginProperties;
+
   /// The timestamp when the package was created.
   final DateTime? createdAt;
+
+  /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or
+  /// OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
+  final String? engineVersion;
 
   /// Additional information if the package is in an error state. Null otherwise.
   final ErrorDetails? errorDetails;
@@ -8608,7 +9997,9 @@ class PackageDetails {
 
   PackageDetails({
     this.availablePackageVersion,
+    this.availablePluginProperties,
     this.createdAt,
+    this.engineVersion,
     this.errorDetails,
     this.lastUpdatedAt,
     this.packageDescription,
@@ -8621,7 +10012,12 @@ class PackageDetails {
   factory PackageDetails.fromJson(Map<String, dynamic> json) {
     return PackageDetails(
       availablePackageVersion: json['AvailablePackageVersion'] as String?,
+      availablePluginProperties: json['AvailablePluginProperties'] != null
+          ? PluginProperties.fromJson(
+              json['AvailablePluginProperties'] as Map<String, dynamic>)
+          : null,
       createdAt: timeStampFromJson(json['CreatedAt']),
+      engineVersion: json['EngineVersion'] as String?,
       errorDetails: json['ErrorDetails'] != null
           ? ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>)
           : null,
@@ -8636,7 +10032,9 @@ class PackageDetails {
 
   Map<String, dynamic> toJson() {
     final availablePackageVersion = this.availablePackageVersion;
+    final availablePluginProperties = this.availablePluginProperties;
     final createdAt = this.createdAt;
+    final engineVersion = this.engineVersion;
     final errorDetails = this.errorDetails;
     final lastUpdatedAt = this.lastUpdatedAt;
     final packageDescription = this.packageDescription;
@@ -8647,7 +10045,10 @@ class PackageDetails {
     return {
       if (availablePackageVersion != null)
         'AvailablePackageVersion': availablePackageVersion,
+      if (availablePluginProperties != null)
+        'AvailablePluginProperties': availablePluginProperties,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (engineVersion != null) 'EngineVersion': engineVersion,
       if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
@@ -8743,6 +10144,7 @@ extension PackageStatusFromString on String {
 
 enum PackageType {
   txtDictionary,
+  zipPlugin,
 }
 
 extension PackageTypeValueExtension on PackageType {
@@ -8750,6 +10152,8 @@ extension PackageTypeValueExtension on PackageType {
     switch (this) {
       case PackageType.txtDictionary:
         return 'TXT-DICTIONARY';
+      case PackageType.zipPlugin:
+        return 'ZIP-PLUGIN';
     }
   }
 }
@@ -8759,6 +10163,8 @@ extension PackageTypeFromString on String {
     switch (this) {
       case 'TXT-DICTIONARY':
         return PackageType.txtDictionary;
+      case 'ZIP-PLUGIN':
+        return PackageType.zipPlugin;
     }
     throw Exception('$this is not known in enum PackageType');
   }
@@ -8775,10 +10181,15 @@ class PackageVersionHistory {
   /// The package version.
   final String? packageVersion;
 
+  /// Additional information about plugin properties if the package is a
+  /// <code>ZIP-PLUGIN</code> package.
+  final PluginProperties? pluginProperties;
+
   PackageVersionHistory({
     this.commitMessage,
     this.createdAt,
     this.packageVersion,
+    this.pluginProperties,
   });
 
   factory PackageVersionHistory.fromJson(Map<String, dynamic> json) {
@@ -8786,6 +10197,10 @@ class PackageVersionHistory {
       commitMessage: json['CommitMessage'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       packageVersion: json['PackageVersion'] as String?,
+      pluginProperties: json['PluginProperties'] != null
+          ? PluginProperties.fromJson(
+              json['PluginProperties'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -8793,10 +10208,64 @@ class PackageVersionHistory {
     final commitMessage = this.commitMessage;
     final createdAt = this.createdAt;
     final packageVersion = this.packageVersion;
+    final pluginProperties = this.pluginProperties;
     return {
       if (commitMessage != null) 'CommitMessage': commitMessage,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (packageVersion != null) 'PackageVersion': packageVersion,
+      if (pluginProperties != null) 'PluginProperties': pluginProperties,
+    };
+  }
+}
+
+/// Basic information about the plugin.
+class PluginProperties {
+  /// The name of the class to load.
+  final String? className;
+
+  /// The description of the plugin.
+  final String? description;
+
+  /// The name of the plugin.
+  final String? name;
+
+  /// The uncompressed size of the plugin.
+  final int? uncompressedSizeInBytes;
+
+  /// The version of the plugin.
+  final String? version;
+
+  PluginProperties({
+    this.className,
+    this.description,
+    this.name,
+    this.uncompressedSizeInBytes,
+    this.version,
+  });
+
+  factory PluginProperties.fromJson(Map<String, dynamic> json) {
+    return PluginProperties(
+      className: json['ClassName'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      uncompressedSizeInBytes: json['UncompressedSizeInBytes'] as int?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final className = this.className;
+    final description = this.description;
+    final name = this.name;
+    final uncompressedSizeInBytes = this.uncompressedSizeInBytes;
+    final version = this.version;
+    return {
+      if (className != null) 'ClassName': className,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (uncompressedSizeInBytes != null)
+        'UncompressedSizeInBytes': uncompressedSizeInBytes,
+      if (version != null) 'Version': version,
     };
   }
 }
@@ -8826,6 +10295,34 @@ extension PrincipalTypeFromString on String {
         return PrincipalType.awsService;
     }
     throw Exception('$this is not known in enum PrincipalType');
+  }
+}
+
+enum PropertyValueType {
+  plainText,
+  stringifiedJson,
+}
+
+extension PropertyValueTypeValueExtension on PropertyValueType {
+  String toValue() {
+    switch (this) {
+      case PropertyValueType.plainText:
+        return 'PLAIN_TEXT';
+      case PropertyValueType.stringifiedJson:
+        return 'STRINGIFIED_JSON';
+    }
+  }
+}
+
+extension PropertyValueTypeFromString on String {
+  PropertyValueType toPropertyValueType() {
+    switch (this) {
+      case 'PLAIN_TEXT':
+        return PropertyValueType.plainText;
+      case 'STRINGIFIED_JSON':
+        return PropertyValueType.stringifiedJson;
+    }
+    throw Exception('$this is not known in enum PropertyValueType');
   }
 }
 
@@ -9198,6 +10695,29 @@ extension RollbackOnDisableFromString on String {
         return RollbackOnDisable.defaultRollback;
     }
     throw Exception('$this is not known in enum RollbackOnDisable');
+  }
+}
+
+/// Information about the Amazon S3 Glue Data Catalog.
+class S3GlueDataCatalog {
+  /// &gt;The Amazon Resource Name (ARN) for the S3 Glue Data Catalog.
+  final String? roleArn;
+
+  S3GlueDataCatalog({
+    this.roleArn,
+  });
+
+  factory S3GlueDataCatalog.fromJson(Map<String, dynamic> json) {
+    return S3GlueDataCatalog(
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    return {
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
   }
 }
 
@@ -9686,6 +11206,47 @@ class ServiceSoftwareOptions {
   }
 }
 
+/// The status of <code>SkipUnavailable</code> setting for the outbound
+/// connection.
+///
+/// <ul>
+/// <li>
+/// <b>ENABLED</b> - The <code>SkipUnavailable</code> setting is enabled for the
+/// connection.
+/// </li>
+/// <li>
+/// <b>DISABLED</b> - The <code>SkipUnavailable</code> setting is disabled for
+/// the connection.
+/// </li>
+/// </ul>
+enum SkipUnavailableStatus {
+  enabled,
+  disabled,
+}
+
+extension SkipUnavailableStatusValueExtension on SkipUnavailableStatus {
+  String toValue() {
+    switch (this) {
+      case SkipUnavailableStatus.enabled:
+        return 'ENABLED';
+      case SkipUnavailableStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension SkipUnavailableStatusFromString on String {
+  SkipUnavailableStatus toSkipUnavailableStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return SkipUnavailableStatus.enabled;
+      case 'DISABLED':
+        return SkipUnavailableStatus.disabled;
+    }
+    throw Exception('$this is not known in enum SkipUnavailableStatus');
+  }
+}
+
 /// The time, in UTC format, when OpenSearch Service takes a daily automated
 /// snapshot of the specified domain. Default is <code>0</code> hours.
 class SnapshotOptions {
@@ -9800,6 +11361,30 @@ class SoftwareUpdateOptionsStatus {
     return {
       if (options != null) 'Options': options,
       if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The result of a <code>StartDomainMaintenance</code> request that information
+/// about the requested action.
+class StartDomainMaintenanceResponse {
+  /// The request ID of requested action.
+  final String? maintenanceId;
+
+  StartDomainMaintenanceResponse({
+    this.maintenanceId,
+  });
+
+  factory StartDomainMaintenanceResponse.fromJson(Map<String, dynamic> json) {
+    return StartDomainMaintenanceResponse(
+      maintenanceId: json['MaintenanceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceId = this.maintenanceId;
+    return {
+      if (maintenanceId != null) 'MaintenanceId': maintenanceId,
     };
   }
 }
@@ -9940,6 +11525,7 @@ class StorageTypeLimit {
 enum TLSSecurityPolicy {
   policyMinTls_1_0_2019_07,
   policyMinTls_1_2_2019_07,
+  policyMinTls_1_2Pfs_2023_10,
 }
 
 extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
@@ -9949,6 +11535,8 @@ extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
         return 'Policy-Min-TLS-1-0-2019-07';
       case TLSSecurityPolicy.policyMinTls_1_2_2019_07:
         return 'Policy-Min-TLS-1-2-2019-07';
+      case TLSSecurityPolicy.policyMinTls_1_2Pfs_2023_10:
+        return 'Policy-Min-TLS-1-2-PFS-2023-10';
     }
   }
 }
@@ -9960,6 +11548,8 @@ extension TLSSecurityPolicyFromString on String {
         return TLSSecurityPolicy.policyMinTls_1_0_2019_07;
       case 'Policy-Min-TLS-1-2-2019-07':
         return TLSSecurityPolicy.policyMinTls_1_2_2019_07;
+      case 'Policy-Min-TLS-1-2-PFS-2023-10':
+        return TLSSecurityPolicy.policyMinTls_1_2Pfs_2023_10;
     }
     throw Exception('$this is not known in enum TLSSecurityPolicy');
   }
@@ -10021,6 +11611,29 @@ extension TimeUnitFromString on String {
         return TimeUnit.hours;
     }
     throw Exception('$this is not known in enum TimeUnit');
+  }
+}
+
+/// The result of an <code>UpdateDataSource</code> operation.
+class UpdateDataSourceResponse {
+  /// A message associated with the updated data source.
+  final String? message;
+
+  UpdateDataSourceResponse({
+    this.message,
+  });
+
+  factory UpdateDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDataSourceResponse(
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'Message': message,
+    };
   }
 }
 

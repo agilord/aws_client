@@ -46,20 +46,16 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <i>clients</i>.
 /// </li>
 /// </ul>
-/// <b>Resources</b>
-///
-/// The following resources are part of Amazon IVS Chat:
+/// <b>Key Concepts</b>
 ///
 /// <ul>
 /// <li>
 /// <b>LoggingConfiguration</b> — A configuration that allows customers to store
-/// and record sent messages in a chat room. See the Logging Configuration
-/// endpoints for more information.
+/// and record sent messages in a chat room.
 /// </li>
 /// <li>
 /// <b>Room</b> — The central Amazon IVS Chat resource through which clients
-/// connect to and exchange chat messages. See the Room endpoints for more
-/// information.
+/// connect to and exchange chat messages.
 /// </li>
 /// </ul>
 /// <b>Tagging</b>

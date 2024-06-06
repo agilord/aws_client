@@ -82,14 +82,24 @@ class SageMakerFeatureStoreRuntime {
   /// May throw [AccessForbidden].
   ///
   /// Parameter [identifiers] :
-  /// A list of <code>FeatureGroup</code> names, with their corresponding
-  /// <code>RecordIdentifier</code> value, and Feature name that have been
-  /// requested to be retrieved in batch.
+  /// A list containing the name or Amazon Resource Name (ARN) of the
+  /// <code>FeatureGroup</code>, the list of names of <code>Feature</code>s to
+  /// be retrieved, and the corresponding <code>RecordIdentifier</code> values
+  /// as strings.
+  ///
+  /// Parameter [expirationTimeResponse] :
+  /// Parameter to request <code>ExpiresAt</code> in response. If
+  /// <code>Enabled</code>, <code>BatchGetRecord</code> will return the value of
+  /// <code>ExpiresAt</code>, if it is not null. If <code>Disabled</code> and
+  /// null, <code>BatchGetRecord</code> will return null.
   Future<BatchGetRecordResponse> batchGetRecord({
     required List<BatchGetRecordIdentifier> identifiers,
+    ExpirationTimeResponse? expirationTimeResponse,
   }) async {
     final $payload = <String, dynamic>{
       'Identifiers': identifiers,
+      if (expirationTimeResponse != null)
+        'ExpirationTimeResponse': expirationTimeResponse.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -102,15 +112,17 @@ class SageMakerFeatureStoreRuntime {
 
   /// Deletes a <code>Record</code> from a <code>FeatureGroup</code> in the
   /// <code>OnlineStore</code>. Feature Store supports both
-  /// <code>SOFT_DELETE</code> and <code>HARD_DELETE</code>. For
-  /// <code>SOFT_DELETE</code> (default), feature columns are set to
+  /// <code>SoftDelete</code> and <code>HardDelete</code>. For
+  /// <code>SoftDelete</code> (default), feature columns are set to
   /// <code>null</code> and the record is no longer retrievable by
-  /// <code>GetRecord</code> or <code>BatchGetRecord</code>. For<code>
-  /// HARD_DELETE</code>, the complete <code>Record</code> is removed from the
-  /// <code>OnlineStore</code>. In both cases, Feature Store appends the deleted
-  /// record marker to the <code>OfflineStore</code> with feature values set to
-  /// <code>null</code>, <code>is_deleted</code> value set to <code>True</code>,
-  /// and <code>EventTime</code> set to the delete input <code>EventTime</code>.
+  /// <code>GetRecord</code> or <code>BatchGetRecord</code>. For
+  /// <code>HardDelete</code>, the complete <code>Record</code> is removed from
+  /// the <code>OnlineStore</code>. In both cases, Feature Store appends the
+  /// deleted record marker to the <code>OfflineStore</code>. The deleted record
+  /// marker is a record with the same <code>RecordIdentifer</code> as the
+  /// original, but with <code>is_deleted</code> value set to <code>True</code>,
+  /// <code>EventTime</code> set to the delete input <code>EventTime</code>, and
+  /// other feature values set to <code>null</code>.
   ///
   /// Note that the <code>EventTime</code> specified in
   /// <code>DeleteRecord</code> should be set later than the
@@ -120,16 +132,25 @@ class SageMakerFeatureStoreRuntime {
   ///
   /// <ul>
   /// <li>
-  /// For <code>SOFT_DELETE</code>, the existing (undeleted) record remains in
+  /// For <code>SoftDelete</code>, the existing (not deleted) record remains in
   /// the <code>OnlineStore</code>, though the delete record marker is still
   /// written to the <code>OfflineStore</code>.
   /// </li>
   /// <li>
-  /// <code>HARD_DELETE</code> returns <code>EventTime</code>: <code>400
+  /// <code>HardDelete</code> returns <code>EventTime</code>: <code>400
   /// ValidationException</code> to indicate that the delete operation failed.
   /// No delete record marker is written to the <code>OfflineStore</code>.
   /// </li>
   /// </ul>
+  /// When a record is deleted from the <code>OnlineStore</code>, the deleted
+  /// record marker is appended to the <code>OfflineStore</code>. If you have
+  /// the Iceberg table format enabled for your <code>OfflineStore</code>, you
+  /// can remove all history of a record from the <code>OfflineStore</code>
+  /// using Amazon Athena or Apache Spark. For information on how to hard delete
+  /// a record from the <code>OfflineStore</code> with the Iceberg table format
+  /// enabled, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-delete-records-offline-store.html#feature-store-delete-records-offline-store">Delete
+  /// records from the offline store</a>.
   ///
   /// May throw [ValidationError].
   /// May throw [InternalFailure].
@@ -142,7 +163,8 @@ class SageMakerFeatureStoreRuntime {
   /// time.
   ///
   /// Parameter [featureGroupName] :
-  /// The name of the feature group to delete the record from.
+  /// The name or Amazon Resource Name (ARN) of the feature group to delete the
+  /// record from.
   ///
   /// Parameter [recordIdentifierValueAsString] :
   /// The value for the <code>RecordIdentifier</code> that uniquely identifies
@@ -191,11 +213,18 @@ class SageMakerFeatureStoreRuntime {
   /// May throw [AccessForbidden].
   ///
   /// Parameter [featureGroupName] :
-  /// The name of the feature group from which you want to retrieve a record.
+  /// The name or Amazon Resource Name (ARN) of the feature group from which you
+  /// want to retrieve a record.
   ///
   /// Parameter [recordIdentifierValueAsString] :
   /// The value that corresponds to <code>RecordIdentifier</code> type and
   /// uniquely identifies the record in the <code>FeatureGroup</code>.
+  ///
+  /// Parameter [expirationTimeResponse] :
+  /// Parameter to request <code>ExpiresAt</code> in response. If
+  /// <code>Enabled</code>, <code>GetRecord</code> will return the value of
+  /// <code>ExpiresAt</code>, if it is not null. If <code>Disabled</code> and
+  /// null, <code>GetRecord</code> will return null.
   ///
   /// Parameter [featureNames] :
   /// List of names of Features to be retrieved. If not specified, the latest
@@ -203,10 +232,13 @@ class SageMakerFeatureStoreRuntime {
   Future<GetRecordResponse> getRecord({
     required String featureGroupName,
     required String recordIdentifierValueAsString,
+    ExpirationTimeResponse? expirationTimeResponse,
     List<String>? featureNames,
   }) async {
     final $query = <String, List<String>>{
       'RecordIdentifierValueAsString': [recordIdentifierValueAsString],
+      if (expirationTimeResponse != null)
+        'ExpirationTimeResponse': [expirationTimeResponse.toValue()],
       if (featureNames != null) 'FeatureName': featureNames,
     };
     final response = await _protocol.send(
@@ -219,12 +251,28 @@ class SageMakerFeatureStoreRuntime {
     return GetRecordResponse.fromJson(response);
   }
 
-  /// Used for data ingestion into the <code>FeatureStore</code>. The
-  /// <code>PutRecord</code> API writes to both the <code>OnlineStore</code> and
-  /// <code>OfflineStore</code>. If the record is the latest record for the
-  /// <code>recordIdentifier</code>, the record is written to both the
-  /// <code>OnlineStore</code> and <code>OfflineStore</code>. If the record is a
-  /// historic record, it is written only to the <code>OfflineStore</code>.
+  /// The <code>PutRecord</code> API is used to ingest a list of
+  /// <code>Records</code> into your feature group.
+  ///
+  /// If a new record’s <code>EventTime</code> is greater, the new record is
+  /// written to both the <code>OnlineStore</code> and
+  /// <code>OfflineStore</code>. Otherwise, the record is a historic record and
+  /// it is written only to the <code>OfflineStore</code>.
+  ///
+  /// You can specify the ingestion to be applied to the
+  /// <code>OnlineStore</code>, <code>OfflineStore</code>, or both by using the
+  /// <code>TargetStores</code> request parameter.
+  ///
+  /// You can set the ingested record to expire at a given time to live (TTL)
+  /// duration after the record’s event time, <code>ExpiresAt</code> =
+  /// <code>EventTime</code> + <code>TtlDuration</code>, by specifying the
+  /// <code>TtlDuration</code> parameter. A record level
+  /// <code>TtlDuration</code> is set when specifying the
+  /// <code>TtlDuration</code> parameter using the <code>PutRecord</code> API
+  /// call. If the input <code>TtlDuration</code> is <code>null</code> or
+  /// unspecified, <code>TtlDuration</code> is set to the default feature group
+  /// level <code>TtlDuration</code>. A record level <code>TtlDuration</code>
+  /// supersedes the group level <code>TtlDuration</code>.
   ///
   /// May throw [ValidationError].
   /// May throw [InternalFailure].
@@ -232,7 +280,8 @@ class SageMakerFeatureStoreRuntime {
   /// May throw [AccessForbidden].
   ///
   /// Parameter [featureGroupName] :
-  /// The name of the feature group that you want to insert the record into.
+  /// The name or Amazon Resource Name (ARN) of the feature group that you want
+  /// to insert the record into.
   ///
   /// Parameter [record] :
   /// List of FeatureValues to be inserted. This will be a full over-write. If
@@ -254,15 +303,25 @@ class SageMakerFeatureStoreRuntime {
   /// A list of stores to which you're adding the record. By default, Feature
   /// Store adds the record to all of the stores that you're using for the
   /// <code>FeatureGroup</code>.
+  ///
+  /// Parameter [ttlDuration] :
+  /// Time to live duration, where the record is hard deleted after the
+  /// expiration time is reached; <code>ExpiresAt</code> =
+  /// <code>EventTime</code> + <code>TtlDuration</code>. For information on
+  /// HardDelete, see the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
+  /// API in the Amazon SageMaker API Reference guide.
   Future<void> putRecord({
     required String featureGroupName,
     required List<FeatureValue> record,
     List<TargetStore>? targetStores,
+    TtlDuration? ttlDuration,
   }) async {
     final $payload = <String, dynamic>{
       'Record': record,
       if (targetStores != null)
         'TargetStores': targetStores.map((e) => e.toValue()).toList(),
+      if (ttlDuration != null) 'TtlDuration': ttlDuration,
     };
     await _protocol.send(
       payload: $payload,
@@ -326,8 +385,8 @@ class BatchGetRecordError {
 /// The identifier that identifies the batch of Records you are retrieving in a
 /// batch.
 class BatchGetRecordIdentifier {
-  /// A <code>FeatureGroupName</code> containing Records you are retrieving in a
-  /// batch.
+  /// The name or Amazon Resource Name (ARN) of the <code>FeatureGroup</code>
+  /// containing the records you are retrieving in a batch.
   final String featureGroupName;
 
   /// The value for a list of record identifiers in string format.
@@ -418,7 +477,7 @@ class BatchGetRecordResponse {
   }
 }
 
-/// The output of Records that have been retrieved in a batch.
+/// The output of records that have been retrieved in a batch.
 class BatchGetRecordResultDetail {
   /// The <code>FeatureGroupName</code> containing Records you retrieved in a
   /// batch.
@@ -430,10 +489,14 @@ class BatchGetRecordResultDetail {
   /// The value of the record identifier in string format.
   final String recordIdentifierValueAsString;
 
+  /// The <code>ExpiresAt</code> ISO string of the requested record.
+  final String? expiresAt;
+
   BatchGetRecordResultDetail({
     required this.featureGroupName,
     required this.record,
     required this.recordIdentifierValueAsString,
+    this.expiresAt,
   });
 
   factory BatchGetRecordResultDetail.fromJson(Map<String, dynamic> json) {
@@ -445,6 +508,7 @@ class BatchGetRecordResultDetail {
           .toList(),
       recordIdentifierValueAsString:
           json['RecordIdentifierValueAsString'] as String,
+      expiresAt: json['ExpiresAt'] as String?,
     );
   }
 
@@ -452,10 +516,12 @@ class BatchGetRecordResultDetail {
     final featureGroupName = this.featureGroupName;
     final record = this.record;
     final recordIdentifierValueAsString = this.recordIdentifierValueAsString;
+    final expiresAt = this.expiresAt;
     return {
       'FeatureGroupName': featureGroupName,
       'Record': record,
       'RecordIdentifierValueAsString': recordIdentifierValueAsString,
+      if (expiresAt != null) 'ExpiresAt': expiresAt,
     };
   }
 }
@@ -488,48 +554,96 @@ extension DeletionModeFromString on String {
   }
 }
 
+enum ExpirationTimeResponse {
+  enabled,
+  disabled,
+}
+
+extension ExpirationTimeResponseValueExtension on ExpirationTimeResponse {
+  String toValue() {
+    switch (this) {
+      case ExpirationTimeResponse.enabled:
+        return 'Enabled';
+      case ExpirationTimeResponse.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension ExpirationTimeResponseFromString on String {
+  ExpirationTimeResponse toExpirationTimeResponse() {
+    switch (this) {
+      case 'Enabled':
+        return ExpirationTimeResponse.enabled;
+      case 'Disabled':
+        return ExpirationTimeResponse.disabled;
+    }
+    throw Exception('$this is not known in enum ExpirationTimeResponse');
+  }
+}
+
 /// The value associated with a feature.
 class FeatureValue {
   /// The name of a feature that a feature value corresponds to.
   final String featureName;
 
-  /// The value associated with a feature, in string format. Note that features
-  /// types can be String, Integral, or Fractional. This value represents all
-  /// three types as a string.
-  final String valueAsString;
+  /// The value in string format associated with a feature. Used when your
+  /// <code>CollectionType</code> is <code>None</code>. Note that features types
+  /// can be <code>String</code>, <code>Integral</code>, or
+  /// <code>Fractional</code>. This value represents all three types as a string.
+  final String? valueAsString;
+
+  /// The list of values in string format associated with a feature. Used when
+  /// your <code>CollectionType</code> is a <code>List</code>, <code>Set</code>,
+  /// or <code>Vector</code>. Note that features types can be <code>String</code>,
+  /// <code>Integral</code>, or <code>Fractional</code>. These values represents
+  /// all three types as a string.
+  final List<String>? valueAsStringList;
 
   FeatureValue({
     required this.featureName,
-    required this.valueAsString,
+    this.valueAsString,
+    this.valueAsStringList,
   });
 
   factory FeatureValue.fromJson(Map<String, dynamic> json) {
     return FeatureValue(
       featureName: json['FeatureName'] as String,
-      valueAsString: json['ValueAsString'] as String,
+      valueAsString: json['ValueAsString'] as String?,
+      valueAsStringList: (json['ValueAsStringList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final featureName = this.featureName;
     final valueAsString = this.valueAsString;
+    final valueAsStringList = this.valueAsStringList;
     return {
       'FeatureName': featureName,
-      'ValueAsString': valueAsString,
+      if (valueAsString != null) 'ValueAsString': valueAsString,
+      if (valueAsStringList != null) 'ValueAsStringList': valueAsStringList,
     };
   }
 }
 
 class GetRecordResponse {
+  /// The <code>ExpiresAt</code> ISO string of the requested record.
+  final String? expiresAt;
+
   /// The record you requested. A list of <code>FeatureValues</code>.
   final List<FeatureValue>? record;
 
   GetRecordResponse({
+    this.expiresAt,
     this.record,
   });
 
   factory GetRecordResponse.fromJson(Map<String, dynamic> json) {
     return GetRecordResponse(
+      expiresAt: json['ExpiresAt'] as String?,
       record: (json['Record'] as List?)
           ?.whereNotNull()
           .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
@@ -538,8 +652,10 @@ class GetRecordResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final expiresAt = this.expiresAt;
     final record = this.record;
     return {
+      if (expiresAt != null) 'ExpiresAt': expiresAt,
       if (record != null) 'Record': record,
     };
   }
@@ -570,6 +686,76 @@ extension TargetStoreFromString on String {
         return TargetStore.offlineStore;
     }
     throw Exception('$this is not known in enum TargetStore');
+  }
+}
+
+/// Time to live duration, where the record is hard deleted after the expiration
+/// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
+/// <code>TtlDuration</code>. For information on HardDelete, see the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
+/// API in the Amazon SageMaker API Reference guide.
+class TtlDuration {
+  /// <code>TtlDuration</code> time unit.
+  final TtlDurationUnit unit;
+
+  /// <code>TtlDuration</code> time value.
+  final int value;
+
+  TtlDuration({
+    required this.unit,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'Unit': unit.toValue(),
+      'Value': value,
+    };
+  }
+}
+
+enum TtlDurationUnit {
+  seconds,
+  minutes,
+  hours,
+  days,
+  weeks,
+}
+
+extension TtlDurationUnitValueExtension on TtlDurationUnit {
+  String toValue() {
+    switch (this) {
+      case TtlDurationUnit.seconds:
+        return 'Seconds';
+      case TtlDurationUnit.minutes:
+        return 'Minutes';
+      case TtlDurationUnit.hours:
+        return 'Hours';
+      case TtlDurationUnit.days:
+        return 'Days';
+      case TtlDurationUnit.weeks:
+        return 'Weeks';
+    }
+  }
+}
+
+extension TtlDurationUnitFromString on String {
+  TtlDurationUnit toTtlDurationUnit() {
+    switch (this) {
+      case 'Seconds':
+        return TtlDurationUnit.seconds;
+      case 'Minutes':
+        return TtlDurationUnit.minutes;
+      case 'Hours':
+        return TtlDurationUnit.hours;
+      case 'Days':
+        return TtlDurationUnit.days;
+      case 'Weeks':
+        return TtlDurationUnit.weeks;
+    }
+    throw Exception('$this is not known in enum TtlDurationUnit');
   }
 }
 

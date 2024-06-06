@@ -6667,7 +6667,7 @@ class FacetAttributeUpdate {
 
 enum FacetStyle {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension FacetStyleValueExtension on FacetStyle {
@@ -6675,7 +6675,7 @@ extension FacetStyleValueExtension on FacetStyle {
     switch (this) {
       case FacetStyle.static:
         return 'STATIC';
-      case FacetStyle.dynamic:
+      case FacetStyle.$dynamic:
         return 'DYNAMIC';
     }
   }
@@ -6687,7 +6687,7 @@ extension FacetStyleFromString on String {
       case 'STATIC':
         return FacetStyle.static;
       case 'DYNAMIC':
-        return FacetStyle.dynamic;
+        return FacetStyle.$dynamic;
     }
     throw Exception('$this is not known in enum FacetStyle');
   }

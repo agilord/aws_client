@@ -37,7 +37,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Private CA rejects an otherwise valid request because the request exceeds
 /// the operation's quota for the number of requests per second. When a request
 /// is throttled, Amazon Web Services Private CA returns a <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/CommonErrors.html">ThrottlingException</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/CommonErrors.html">ThrottlingException</a>
 /// error. Amazon Web Services Private CA does not guarantee a minimum request
 /// rate for APIs.
 ///
@@ -127,24 +127,20 @@ class AcmPca {
   /// handling CA keys.
   ///
   /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
-  ///
-  /// <i>Note:</i> <code>FIPS_140_2_LEVEL_3_OR_HIGHER</code> is not supported in
-  /// the following Regions:
-  ///
-  /// <ul>
-  /// <li>
-  /// ap-northeast-3
-  /// </li>
-  /// <li>
-  /// ap-southeast-3
-  /// </li>
-  /// </ul>
-  /// When creating a CA in these Regions, you must provide
+  /// <note>
+  /// Some Amazon Web Services Regions do not support the default. When creating
+  /// a CA in these Regions, you must provide
   /// <code>FIPS_140_2_LEVEL_2_OR_HIGHER</code> as the argument for
   /// <code>KeyStorageSecurityStandard</code>. Failure to do this results in an
   /// <code>InvalidArgsException</code> with the message, "A certificate
   /// authority cannot be created in this region with the specified security
   /// standard."
+  ///
+  /// For information about security standard support in various Regions, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys">Storage
+  /// and security compliance of Amazon Web Services Private CA private
+  /// keys</a>.
+  /// </note>
   ///
   /// Parameter [revocationConfiguration] :
   /// Contains information to enable Online Certificate Status Protocol (OCSP)
@@ -1193,7 +1189,7 @@ class AcmPca {
   /// <code>SigningAlgorithm</code> parameter used to sign a CSR in the
   /// <code>CreateCertificateAuthority</code> action.
   /// <note>
-  /// The specified signing algorithm family (RSA or ECDSA) much match the
+  /// The specified signing algorithm family (RSA or ECDSA) must match the
   /// algorithm family of the CA's secret key.
   /// </note>
   ///
@@ -1233,12 +1229,12 @@ class AcmPca {
   /// Parameter [idempotencyToken] :
   /// Alphanumeric string that can be used to distinguish between calls to the
   /// <b>IssueCertificate</b> action. Idempotency tokens for
-  /// <b>IssueCertificate</b> time out after one minute. Therefore, if you call
-  /// <b>IssueCertificate</b> multiple times with the same idempotency token
-  /// within one minute, Amazon Web Services Private CA recognizes that you are
-  /// requesting only one certificate and will issue only one. If you change the
-  /// idempotency token for each call, Amazon Web Services Private CA recognizes
-  /// that you are requesting multiple certificates.
+  /// <b>IssueCertificate</b> time out after five minutes. Therefore, if you
+  /// call <b>IssueCertificate</b> multiple times with the same idempotency
+  /// token within five minutes, Amazon Web Services Private CA recognizes that
+  /// you are requesting only one certificate and will issue only one. If you
+  /// change the idempotency token for each call, Amazon Web Services Private CA
+  /// recognizes that you are requesting multiple certificates.
   ///
   /// Parameter [templateArn] :
   /// Specifies a custom configuration template to use when issuing a
@@ -1275,7 +1271,7 @@ class AcmPca {
   /// The <code>ValidityNotBefore</code> value is expressed as an explicit date
   /// and time, using the <code>Validity</code> type value
   /// <code>ABSOLUTE</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_Validity.html">Validity</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_Validity.html">Validity</a>
   /// in this API reference and <a
   /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5">Validity</a>
   /// in RFC 5280.
@@ -1326,6 +1322,9 @@ class AcmPca {
   /// beyond the number you specify, the <code>NextToken</code> element is sent
   /// in the response. Use this <code>NextToken</code> value in a subsequent
   /// request to retrieve additional items.
+  ///
+  /// Although the maximum value is 1000, the action only returns a maximum of
+  /// 100 items.
   ///
   /// Parameter [nextToken] :
   /// Use this parameter when paginating results in a subsequent request after
@@ -2733,10 +2732,12 @@ class CreateCertificateAuthorityResponse {
 /// setting the <b>Enabled</b> parameter to <code>true</code>. Your private CA
 /// writes CRLs to an S3 bucket that you specify in the <b>S3BucketName</b>
 /// parameter. You can hide the name of your bucket by specifying a value for
-/// the <b>CustomCname</b> parameter. Your private CA copies the CNAME or the S3
-/// bucket name to the <b>CRL Distribution Points</b> extension of each
-/// certificate it issues. Your S3 bucket policy must give write permission to
-/// Amazon Web Services Private CA.
+/// the <b>CustomCname</b> parameter. Your private CA by default copies the
+/// CNAME or the S3 bucket name to the <b>CRL Distribution Points</b> extension
+/// of each certificate it issues. If you want to configure this default
+/// behavior to be something different, you can set the
+/// <b>CrlDistributionPointExtensionConfiguration</b> parameter. Your S3 bucket
+/// policy must give write permission to Amazon Web Services Private CA.
 ///
 /// Amazon Web Services Private CA assets that are stored in Amazon S3 can be
 /// protected with encryption. For more information, see <a
@@ -2834,6 +2835,13 @@ class CrlConfiguration {
   /// action.
   final bool enabled;
 
+  /// Configures the behavior of the CRL Distribution Point extension for
+  /// certificates issued by your certificate authority. If this field is not
+  /// provided, then the CRl Distribution Point Extension will be present and
+  /// contain the default CRL URL.
+  final CrlDistributionPointExtensionConfiguration?
+      crlDistributionPointExtensionConfiguration;
+
   /// Name inserted into the certificate <b>CRL Distribution Points</b> extension
   /// that enables the use of an alias for the CRL distribution point. Use this
   /// value if you don't want the name of your S3 bucket to be public.
@@ -2887,6 +2895,7 @@ class CrlConfiguration {
 
   CrlConfiguration({
     required this.enabled,
+    this.crlDistributionPointExtensionConfiguration,
     this.customCname,
     this.expirationInDays,
     this.s3BucketName,
@@ -2896,6 +2905,12 @@ class CrlConfiguration {
   factory CrlConfiguration.fromJson(Map<String, dynamic> json) {
     return CrlConfiguration(
       enabled: json['Enabled'] as bool,
+      crlDistributionPointExtensionConfiguration:
+          json['CrlDistributionPointExtensionConfiguration'] != null
+              ? CrlDistributionPointExtensionConfiguration.fromJson(
+                  json['CrlDistributionPointExtensionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       customCname: json['CustomCname'] as String?,
       expirationInDays: json['ExpirationInDays'] as int?,
       s3BucketName: json['S3BucketName'] as String?,
@@ -2905,16 +2920,60 @@ class CrlConfiguration {
 
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
+    final crlDistributionPointExtensionConfiguration =
+        this.crlDistributionPointExtensionConfiguration;
     final customCname = this.customCname;
     final expirationInDays = this.expirationInDays;
     final s3BucketName = this.s3BucketName;
     final s3ObjectAcl = this.s3ObjectAcl;
     return {
       'Enabled': enabled,
+      if (crlDistributionPointExtensionConfiguration != null)
+        'CrlDistributionPointExtensionConfiguration':
+            crlDistributionPointExtensionConfiguration,
       if (customCname != null) 'CustomCname': customCname,
       if (expirationInDays != null) 'ExpirationInDays': expirationInDays,
       if (s3BucketName != null) 'S3BucketName': s3BucketName,
       if (s3ObjectAcl != null) 'S3ObjectAcl': s3ObjectAcl.toValue(),
+    };
+  }
+}
+
+/// Contains configuration information for the default behavior of the CRL
+/// Distribution Point (CDP) extension in certificates issued by your CA. This
+/// extension contains a link to download the CRL, so you can check whether a
+/// certificate has been revoked. To choose whether you want this extension
+/// omitted or not in certificates issued by your CA, you can set the
+/// <b>OmitExtension</b> parameter.
+class CrlDistributionPointExtensionConfiguration {
+  /// Configures whether the CRL Distribution Point extension should be populated
+  /// with the default URL to the CRL. If set to <code>true</code>, then the CDP
+  /// extension will not be present in any certificates issued by that CA unless
+  /// otherwise specified through CSR or API passthrough.
+  /// <note>
+  /// Only set this if you have another way to distribute the CRL Distribution
+  /// Points ffor certificates issued by your CA, such as the Matter Distributed
+  /// Compliance Ledger
+  ///
+  /// This configuration cannot be enabled with a custom CNAME set.
+  /// </note>
+  final bool omitExtension;
+
+  CrlDistributionPointExtensionConfiguration({
+    required this.omitExtension,
+  });
+
+  factory CrlDistributionPointExtensionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CrlDistributionPointExtensionConfiguration(
+      omitExtension: json['OmitExtension'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final omitExtension = this.omitExtension;
+    return {
+      'OmitExtension': omitExtension,
     };
   }
 }

@@ -53,6 +53,47 @@ class WorkSpaces {
     _protocol.close();
   }
 
+  /// Accepts the account link invitation.
+  /// <important>
+  /// There's currently no unlinking capability after you accept the account
+  /// linking invitation.
+  /// </important>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [linkId] :
+  /// The identifier of the account link.
+  ///
+  /// Parameter [clientToken] :
+  /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure
+  /// idempotent creation.
+  Future<AcceptAccountLinkInvitationResult> acceptAccountLinkInvitation({
+    required String linkId,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.AcceptAccountLinkInvitation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LinkId': linkId,
+        if (clientToken != null) 'ClientToken': clientToken,
+      },
+    );
+
+    return AcceptAccountLinkInvitationResult.fromJson(jsonResponse.body);
+  }
+
   /// Associates the specified connection alias with the specified directory to
   /// enable cross-Region redirection. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
@@ -133,6 +174,47 @@ class WorkSpaces {
         'GroupIds': groupIds,
       },
     );
+  }
+
+  /// Associates the specified application to the specified WorkSpace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ComputeNotCompatibleException].
+  /// May throw [OperatingSystemNotCompatibleException].
+  /// May throw [ApplicationNotSupportedException].
+  /// May throw [IncompatibleApplicationsException].
+  ///
+  /// Parameter [applicationId] :
+  /// The identifier of the application.
+  ///
+  /// Parameter [workspaceId] :
+  /// The identifier of the WorkSpace.
+  Future<AssociateWorkspaceApplicationResult> associateWorkspaceApplication({
+    required String applicationId,
+    required String workspaceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.AssociateWorkspaceApplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationId': applicationId,
+        'WorkspaceId': workspaceId,
+      },
+    );
+
+    return AssociateWorkspaceApplicationResult.fromJson(jsonResponse.body);
   }
 
   /// Adds one or more rules to the specified IP access control group.
@@ -242,6 +324,42 @@ class WorkSpaces {
     );
 
     return CopyWorkspaceImageResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates the account link invitation.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [targetAccountId] :
+  /// The identifier of the target account.
+  ///
+  /// Parameter [clientToken] :
+  /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure
+  /// idempotent creation.
+  Future<CreateAccountLinkInvitationResult> createAccountLinkInvitation({
+    required String targetAccountId,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateAccountLinkInvitation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TargetAccountId': targetAccountId,
+        if (clientToken != null) 'ClientToken': clientToken,
+      },
+    );
+
+    return CreateAccountLinkInvitationResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a client-add-in for Amazon Connect within a directory. You can
@@ -656,11 +774,22 @@ class WorkSpaces {
   /// This operation is asynchronous and returns before the WorkSpaces are
   /// created.
   /// <note>
+  /// <ul>
+  /// <li>
   /// The <code>MANUAL</code> running mode value is only supported by Amazon
   /// WorkSpaces Core. Contact your account team to be allow-listed to use this
   /// value. For more information, see <a
   /// href="http://aws.amazon.com/workspaces/core/">Amazon WorkSpaces Core</a>.
-  /// </note>
+  /// </li>
+  /// <li>
+  /// You don't need to specify the <code>PCOIP</code> protocol for Linux
+  /// bundles because <code>WSP</code> is the default protocol for those
+  /// bundles.
+  /// </li>
+  /// <li>
+  /// User-decoupled WorkSpaces are only supported by Amazon WorkSpaces Core.
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [ResourceLimitExceededException].
   /// May throw [InvalidParameterValuesException].
@@ -686,6 +815,43 @@ class WorkSpaces {
     );
 
     return CreateWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the account link invitation.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [linkId] :
+  /// The identifier of the account link.
+  ///
+  /// Parameter [clientToken] :
+  /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure
+  /// idempotent creation.
+  Future<DeleteAccountLinkInvitationResult> deleteAccountLinkInvitation({
+    required String linkId,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DeleteAccountLinkInvitation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LinkId': linkId,
+        if (clientToken != null) 'ClientToken': clientToken,
+      },
+    );
+
+    return DeleteAccountLinkInvitationResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes customized client branding. Client branding allows you to
@@ -931,6 +1097,45 @@ class WorkSpaces {
     );
   }
 
+  /// Deploys associated applications to the specified WorkSpace
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [IncompatibleApplicationsException].
+  ///
+  /// Parameter [workspaceId] :
+  /// The identifier of the WorkSpace.
+  ///
+  /// Parameter [force] :
+  /// Indicates whether the force flag is applied for the specified WorkSpace.
+  /// When the force flag is enabled, it allows previously failed deployments to
+  /// be retried.
+  Future<DeployWorkspaceApplicationsResult> deployWorkspaceApplications({
+    required String workspaceId,
+    bool? force,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DeployWorkspaceApplications'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'WorkspaceId': workspaceId,
+        if (force != null) 'Force': force,
+      },
+    );
+
+    return DeployWorkspaceApplicationsResult.fromJson(jsonResponse.body);
+  }
+
   /// Deregisters the specified directory. This operation is asynchronous and
   /// returns before the WorkSpace directory is deregistered. If any WorkSpaces
   /// are registered to this directory, you must remove them before you can
@@ -1027,6 +1232,169 @@ class WorkSpaces {
     );
 
     return DescribeAccountModificationsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the associations between the application and the specified
+  /// associated resources.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationId] :
+  /// The identifier of the specified application.
+  ///
+  /// Parameter [associatedResourceTypes] :
+  /// The resource type of the associated resources.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of associations to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  Future<DescribeApplicationAssociationsResult>
+      describeApplicationAssociations({
+    required String applicationId,
+    required List<ApplicationAssociatedResourceType> associatedResourceTypes,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeApplicationAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationId': applicationId,
+        'AssociatedResourceTypes':
+            associatedResourceTypes.map((e) => e.toValue()).toList(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeApplicationAssociationsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the specified applications by filtering based on their compute
+  /// types, license availability, operating systems, and owners.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIds] :
+  /// The identifiers of one or more applications.
+  ///
+  /// Parameter [computeTypeNames] :
+  /// The compute types supported by the applications.
+  ///
+  /// Parameter [licenseType] :
+  /// The license availability for the applications.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of applications to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  ///
+  /// Parameter [operatingSystemNames] :
+  /// The operating systems supported by the applications.
+  ///
+  /// Parameter [owner] :
+  /// The owner of the applications.
+  Future<DescribeApplicationsResult> describeApplications({
+    List<String>? applicationIds,
+    List<Compute>? computeTypeNames,
+    WorkSpaceApplicationLicenseType? licenseType,
+    int? maxResults,
+    String? nextToken,
+    List<OperatingSystemName>? operatingSystemNames,
+    String? owner,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeApplications'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (applicationIds != null) 'ApplicationIds': applicationIds,
+        if (computeTypeNames != null)
+          'ComputeTypeNames': computeTypeNames.map((e) => e.toValue()).toList(),
+        if (licenseType != null) 'LicenseType': licenseType.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (operatingSystemNames != null)
+          'OperatingSystemNames':
+              operatingSystemNames.map((e) => e.toValue()).toList(),
+        if (owner != null) 'Owner': owner,
+      },
+    );
+
+    return DescribeApplicationsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the associations between the applications and the specified
+  /// bundle.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [associatedResourceTypes] :
+  /// The resource types of the associated resource.
+  ///
+  /// Parameter [bundleId] :
+  /// The identifier of the bundle.
+  Future<DescribeBundleAssociationsResult> describeBundleAssociations({
+    required List<BundleAssociatedResourceType> associatedResourceTypes,
+    required String bundleId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeBundleAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssociatedResourceTypes':
+            associatedResourceTypes.map((e) => e.toValue()).toList(),
+        'BundleId': bundleId,
+      },
+    );
+
+    return DescribeBundleAssociationsResult.fromJson(jsonResponse.body);
   }
 
   /// Describes the specified client branding. Client branding allows you to
@@ -1248,6 +1616,43 @@ class WorkSpaces {
     return DescribeConnectionAliasesResult.fromJson(jsonResponse.body);
   }
 
+  /// Describes the associations between the applications and the specified
+  /// image.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [associatedResourceTypes] :
+  /// The resource types of the associated resource.
+  ///
+  /// Parameter [imageId] :
+  /// The identifier of the image.
+  Future<DescribeImageAssociationsResult> describeImageAssociations({
+    required List<ImageAssociatedResourceType> associatedResourceTypes,
+    required String imageId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeImageAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssociatedResourceTypes':
+            associatedResourceTypes.map((e) => e.toValue()).toList(),
+        'ImageId': imageId,
+      },
+    );
+
+    return DescribeImageAssociationsResult.fromJson(jsonResponse.body);
+  }
+
   /// Describes one or more of your IP access control groups.
   ///
   /// May throw [InvalidParameterValuesException].
@@ -1320,6 +1725,43 @@ class WorkSpaces {
     );
 
     return DescribeTagsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the associations betweens applications and the specified
+  /// WorkSpace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [associatedResourceTypes] :
+  /// The resource types of the associated resources.
+  ///
+  /// Parameter [workspaceId] :
+  /// The identifier of the WorkSpace.
+  Future<DescribeWorkspaceAssociationsResult> describeWorkspaceAssociations({
+    required List<WorkSpaceAssociatedResourceType> associatedResourceTypes,
+    required String workspaceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssociatedResourceTypes':
+            associatedResourceTypes.map((e) => e.toValue()).toList(),
+        'WorkspaceId': workspaceId,
+      },
+    );
+
+    return DescribeWorkspaceAssociationsResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list that describes the available WorkSpace bundles.
@@ -1579,6 +2021,9 @@ class WorkSpaces {
   /// identifier it returns is not immediately available. If you immediately
   /// call <a>DescribeWorkspaces</a> with this identifier, no information is
   /// returned.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the user-decoupled WorkSpace.
   Future<DescribeWorkspacesResult> describeWorkspaces({
     String? bundleId,
     String? directoryId,
@@ -1586,6 +2031,7 @@ class WorkSpaces {
     String? nextToken,
     String? userName,
     List<String>? workspaceIds,
+    String? workspaceName,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1610,6 +2056,7 @@ class WorkSpaces {
         if (nextToken != null) 'NextToken': nextToken,
         if (userName != null) 'UserName': userName,
         if (workspaceIds != null) 'WorkspaceIds': workspaceIds,
+        if (workspaceName != null) 'WorkspaceName': workspaceName,
       },
     );
 
@@ -1721,6 +2168,78 @@ class WorkSpaces {
         'GroupIds': groupIds,
       },
     );
+  }
+
+  /// Disassociates the specified application from a WorkSpace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationId] :
+  /// The identifier of the application.
+  ///
+  /// Parameter [workspaceId] :
+  /// The identifier of the WorkSpace.
+  Future<DisassociateWorkspaceApplicationResult>
+      disassociateWorkspaceApplication({
+    required String applicationId,
+    required String workspaceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DisassociateWorkspaceApplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationId': applicationId,
+        'WorkspaceId': workspaceId,
+      },
+    );
+
+    return DisassociateWorkspaceApplicationResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves account link information.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [linkId] :
+  /// The identifier of the account to link.
+  ///
+  /// Parameter [linkedAccountId] :
+  /// The identifier of the account link
+  Future<GetAccountLinkResult> getAccountLink({
+    String? linkId,
+    String? linkedAccountId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.GetAccountLink'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (linkId != null) 'LinkId': linkId,
+        if (linkedAccountId != null) 'LinkedAccountId': linkedAccountId,
+      },
+    );
+
+    return GetAccountLinkResult.fromJson(jsonResponse.body);
   }
 
   /// Imports client branding. Client branding allows you to customize your
@@ -1901,6 +2420,53 @@ class WorkSpaces {
     );
 
     return ImportWorkspaceImageResult.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all account links.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [linkStatusFilter] :
+  /// Filters the account based on their link status.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of accounts to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  Future<ListAccountLinksResult> listAccountLinks({
+    List<AccountLinkStatusEnum>? linkStatusFilter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.ListAccountLinks'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (linkStatusFilter != null)
+          'LinkStatusFilter': linkStatusFilter.map((e) => e.toValue()).toList(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAccountLinksResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that
@@ -2310,11 +2876,15 @@ class WorkSpaces {
   /// Parameter [workspaceId] :
   /// The identifier of the WorkSpace.
   ///
+  /// Parameter [dataReplication] :
+  /// Indicates the data replication status.
+  ///
   /// Parameter [workspaceProperties] :
   /// The properties of the WorkSpace.
   Future<void> modifyWorkspaceProperties({
     required String workspaceId,
-    required WorkspaceProperties workspaceProperties,
+    DataReplication? dataReplication,
+    WorkspaceProperties? workspaceProperties,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2328,7 +2898,10 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'WorkspaceId': workspaceId,
-        'WorkspaceProperties': workspaceProperties,
+        if (dataReplication != null)
+          'DataReplication': dataReplication.toValue(),
+        if (workspaceProperties != null)
+          'WorkspaceProperties': workspaceProperties,
       },
     );
   }
@@ -2374,8 +2947,10 @@ class WorkSpaces {
 
   /// Reboots the specified WorkSpaces.
   ///
-  /// You cannot reboot a WorkSpace unless its state is <code>AVAILABLE</code>
-  /// or <code>UNHEALTHY</code>.
+  /// You cannot reboot a WorkSpace unless its state is <code>AVAILABLE</code>,
+  /// <code>UNHEALTHY</code>, or <code>REBOOTING</code>. Reboot a WorkSpace in
+  /// the <code>REBOOTING</code> state only if your WorkSpace has been stuck in
+  /// the <code>REBOOTING</code> state for over 20 minutes.
   ///
   /// This operation is asynchronous and returns before the WorkSpaces have
   /// rebooted.
@@ -2524,6 +3099,42 @@ class WorkSpaces {
         if (tenancy != null) 'Tenancy': tenancy.toValue(),
       },
     );
+  }
+
+  /// Rejects the account link invitation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [linkId] :
+  /// The identifier of the account link
+  ///
+  /// Parameter [clientToken] :
+  /// The client token of the account link invitation to reject.
+  Future<RejectAccountLinkInvitationResult> rejectAccountLinkInvitation({
+    required String linkId,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.RejectAccountLinkInvitation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LinkId': linkId,
+        if (clientToken != null) 'ClientToken': clientToken,
+      },
+    );
+
+    return RejectAccountLinkInvitationResult.fromJson(jsonResponse.body);
   }
 
   /// Restores the specified WorkSpace to its last known healthy state.
@@ -2972,6 +3583,31 @@ class WorkSpaces {
   }
 }
 
+class AcceptAccountLinkInvitationResult {
+  /// Information about the account link.
+  final AccountLink? accountLink;
+
+  AcceptAccountLinkInvitationResult({
+    this.accountLink,
+  });
+
+  factory AcceptAccountLinkInvitationResult.fromJson(
+      Map<String, dynamic> json) {
+    return AcceptAccountLinkInvitationResult(
+      accountLink: json['AccountLink'] != null
+          ? AccountLink.fromJson(json['AccountLink'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLink = this.accountLink;
+    return {
+      if (accountLink != null) 'AccountLink': accountLink,
+    };
+  }
+}
+
 enum AccessPropertyValue {
   allow,
   deny,
@@ -2997,6 +3633,95 @@ extension AccessPropertyValueFromString on String {
         return AccessPropertyValue.deny;
     }
     throw Exception('$this is not known in enum AccessPropertyValue');
+  }
+}
+
+/// Information about about the account link.
+class AccountLink {
+  /// The identifier of the account link.
+  final String? accountLinkId;
+
+  /// The status of the account link.
+  final AccountLinkStatusEnum? accountLinkStatus;
+
+  /// The identifier of the source account.
+  final String? sourceAccountId;
+
+  /// The identifier of the target account.
+  final String? targetAccountId;
+
+  AccountLink({
+    this.accountLinkId,
+    this.accountLinkStatus,
+    this.sourceAccountId,
+    this.targetAccountId,
+  });
+
+  factory AccountLink.fromJson(Map<String, dynamic> json) {
+    return AccountLink(
+      accountLinkId: json['AccountLinkId'] as String?,
+      accountLinkStatus:
+          (json['AccountLinkStatus'] as String?)?.toAccountLinkStatusEnum(),
+      sourceAccountId: json['SourceAccountId'] as String?,
+      targetAccountId: json['TargetAccountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLinkId = this.accountLinkId;
+    final accountLinkStatus = this.accountLinkStatus;
+    final sourceAccountId = this.sourceAccountId;
+    final targetAccountId = this.targetAccountId;
+    return {
+      if (accountLinkId != null) 'AccountLinkId': accountLinkId,
+      if (accountLinkStatus != null)
+        'AccountLinkStatus': accountLinkStatus.toValue(),
+      if (sourceAccountId != null) 'SourceAccountId': sourceAccountId,
+      if (targetAccountId != null) 'TargetAccountId': targetAccountId,
+    };
+  }
+}
+
+enum AccountLinkStatusEnum {
+  linked,
+  linkingFailed,
+  linkNotFound,
+  pendingAcceptanceByTargetAccount,
+  rejected,
+}
+
+extension AccountLinkStatusEnumValueExtension on AccountLinkStatusEnum {
+  String toValue() {
+    switch (this) {
+      case AccountLinkStatusEnum.linked:
+        return 'LINKED';
+      case AccountLinkStatusEnum.linkingFailed:
+        return 'LINKING_FAILED';
+      case AccountLinkStatusEnum.linkNotFound:
+        return 'LINK_NOT_FOUND';
+      case AccountLinkStatusEnum.pendingAcceptanceByTargetAccount:
+        return 'PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT';
+      case AccountLinkStatusEnum.rejected:
+        return 'REJECTED';
+    }
+  }
+}
+
+extension AccountLinkStatusEnumFromString on String {
+  AccountLinkStatusEnum toAccountLinkStatusEnum() {
+    switch (this) {
+      case 'LINKED':
+        return AccountLinkStatusEnum.linked;
+      case 'LINKING_FAILED':
+        return AccountLinkStatusEnum.linkingFailed;
+      case 'LINK_NOT_FOUND':
+        return AccountLinkStatusEnum.linkNotFound;
+      case 'PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT':
+        return AccountLinkStatusEnum.pendingAcceptanceByTargetAccount;
+      case 'REJECTED':
+        return AccountLinkStatusEnum.rejected;
+    }
+    throw Exception('$this is not known in enum AccountLinkStatusEnum');
   }
 }
 
@@ -3098,6 +3823,114 @@ extension ApplicationFromString on String {
   }
 }
 
+enum ApplicationAssociatedResourceType {
+  workspace,
+  bundle,
+  image,
+}
+
+extension ApplicationAssociatedResourceTypeValueExtension
+    on ApplicationAssociatedResourceType {
+  String toValue() {
+    switch (this) {
+      case ApplicationAssociatedResourceType.workspace:
+        return 'WORKSPACE';
+      case ApplicationAssociatedResourceType.bundle:
+        return 'BUNDLE';
+      case ApplicationAssociatedResourceType.image:
+        return 'IMAGE';
+    }
+  }
+}
+
+extension ApplicationAssociatedResourceTypeFromString on String {
+  ApplicationAssociatedResourceType toApplicationAssociatedResourceType() {
+    switch (this) {
+      case 'WORKSPACE':
+        return ApplicationAssociatedResourceType.workspace;
+      case 'BUNDLE':
+        return ApplicationAssociatedResourceType.bundle;
+      case 'IMAGE':
+        return ApplicationAssociatedResourceType.image;
+    }
+    throw Exception(
+        '$this is not known in enum ApplicationAssociatedResourceType');
+  }
+}
+
+/// Describes the association between an application and an application
+/// resource.
+class ApplicationResourceAssociation {
+  /// The identifier of the application.
+  final String? applicationId;
+
+  /// The identifier of the associated resource.
+  final String? associatedResourceId;
+
+  /// The resource type of the associated resource.
+  final ApplicationAssociatedResourceType? associatedResourceType;
+
+  /// The time the association was created.
+  final DateTime? created;
+
+  /// The time the association status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the application resource association.
+  final AssociationState? state;
+
+  /// The reason the association deployment failed.
+  final AssociationStateReason? stateReason;
+
+  ApplicationResourceAssociation({
+    this.applicationId,
+    this.associatedResourceId,
+    this.associatedResourceType,
+    this.created,
+    this.lastUpdatedTime,
+    this.state,
+    this.stateReason,
+  });
+
+  factory ApplicationResourceAssociation.fromJson(Map<String, dynamic> json) {
+    return ApplicationResourceAssociation(
+      applicationId: json['ApplicationId'] as String?,
+      associatedResourceId: json['AssociatedResourceId'] as String?,
+      associatedResourceType: (json['AssociatedResourceType'] as String?)
+          ?.toApplicationAssociatedResourceType(),
+      created: timeStampFromJson(json['Created']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      state: (json['State'] as String?)?.toAssociationState(),
+      stateReason: json['StateReason'] != null
+          ? AssociationStateReason.fromJson(
+              json['StateReason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final associatedResourceId = this.associatedResourceId;
+    final associatedResourceType = this.associatedResourceType;
+    final created = this.created;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (associatedResourceId != null)
+        'AssociatedResourceId': associatedResourceId,
+      if (associatedResourceType != null)
+        'AssociatedResourceType': associatedResourceType.toValue(),
+      if (created != null) 'Created': unixTimestampToJson(created),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (state != null) 'State': state.toValue(),
+      if (stateReason != null) 'StateReason': stateReason,
+    };
+  }
+}
+
 class AssociateConnectionAliasResult {
   /// The identifier of the connection alias association. You use the connection
   /// identifier in the DNS TXT record when you're configuring your DNS routing
@@ -3132,6 +3965,170 @@ class AssociateIpGroupsResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class AssociateWorkspaceApplicationResult {
+  /// Information about the association between the specified WorkSpace and the
+  /// specified application.
+  final WorkspaceResourceAssociation? association;
+
+  AssociateWorkspaceApplicationResult({
+    this.association,
+  });
+
+  factory AssociateWorkspaceApplicationResult.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateWorkspaceApplicationResult(
+      association: json['Association'] != null
+          ? WorkspaceResourceAssociation.fromJson(
+              json['Association'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final association = this.association;
+    return {
+      if (association != null) 'Association': association,
+    };
+  }
+}
+
+enum AssociationErrorCode {
+  validationErrorInsufficientDiskSpace,
+  validationErrorInsufficientMemory,
+  validationErrorUnsupportedOperatingSystem,
+  deploymentErrorInternalServerError,
+  deploymentErrorWorkspaceUnreachable,
+}
+
+extension AssociationErrorCodeValueExtension on AssociationErrorCode {
+  String toValue() {
+    switch (this) {
+      case AssociationErrorCode.validationErrorInsufficientDiskSpace:
+        return 'ValidationError.InsufficientDiskSpace';
+      case AssociationErrorCode.validationErrorInsufficientMemory:
+        return 'ValidationError.InsufficientMemory';
+      case AssociationErrorCode.validationErrorUnsupportedOperatingSystem:
+        return 'ValidationError.UnsupportedOperatingSystem';
+      case AssociationErrorCode.deploymentErrorInternalServerError:
+        return 'DeploymentError.InternalServerError';
+      case AssociationErrorCode.deploymentErrorWorkspaceUnreachable:
+        return 'DeploymentError.WorkspaceUnreachable';
+    }
+  }
+}
+
+extension AssociationErrorCodeFromString on String {
+  AssociationErrorCode toAssociationErrorCode() {
+    switch (this) {
+      case 'ValidationError.InsufficientDiskSpace':
+        return AssociationErrorCode.validationErrorInsufficientDiskSpace;
+      case 'ValidationError.InsufficientMemory':
+        return AssociationErrorCode.validationErrorInsufficientMemory;
+      case 'ValidationError.UnsupportedOperatingSystem':
+        return AssociationErrorCode.validationErrorUnsupportedOperatingSystem;
+      case 'DeploymentError.InternalServerError':
+        return AssociationErrorCode.deploymentErrorInternalServerError;
+      case 'DeploymentError.WorkspaceUnreachable':
+        return AssociationErrorCode.deploymentErrorWorkspaceUnreachable;
+    }
+    throw Exception('$this is not known in enum AssociationErrorCode');
+  }
+}
+
+enum AssociationState {
+  pendingInstall,
+  pendingInstallDeployment,
+  pendingUninstall,
+  pendingUninstallDeployment,
+  installing,
+  uninstalling,
+  error,
+  completed,
+  removed,
+}
+
+extension AssociationStateValueExtension on AssociationState {
+  String toValue() {
+    switch (this) {
+      case AssociationState.pendingInstall:
+        return 'PENDING_INSTALL';
+      case AssociationState.pendingInstallDeployment:
+        return 'PENDING_INSTALL_DEPLOYMENT';
+      case AssociationState.pendingUninstall:
+        return 'PENDING_UNINSTALL';
+      case AssociationState.pendingUninstallDeployment:
+        return 'PENDING_UNINSTALL_DEPLOYMENT';
+      case AssociationState.installing:
+        return 'INSTALLING';
+      case AssociationState.uninstalling:
+        return 'UNINSTALLING';
+      case AssociationState.error:
+        return 'ERROR';
+      case AssociationState.completed:
+        return 'COMPLETED';
+      case AssociationState.removed:
+        return 'REMOVED';
+    }
+  }
+}
+
+extension AssociationStateFromString on String {
+  AssociationState toAssociationState() {
+    switch (this) {
+      case 'PENDING_INSTALL':
+        return AssociationState.pendingInstall;
+      case 'PENDING_INSTALL_DEPLOYMENT':
+        return AssociationState.pendingInstallDeployment;
+      case 'PENDING_UNINSTALL':
+        return AssociationState.pendingUninstall;
+      case 'PENDING_UNINSTALL_DEPLOYMENT':
+        return AssociationState.pendingUninstallDeployment;
+      case 'INSTALLING':
+        return AssociationState.installing;
+      case 'UNINSTALLING':
+        return AssociationState.uninstalling;
+      case 'ERROR':
+        return AssociationState.error;
+      case 'COMPLETED':
+        return AssociationState.completed;
+      case 'REMOVED':
+        return AssociationState.removed;
+    }
+    throw Exception('$this is not known in enum AssociationState');
+  }
+}
+
+/// Indicates the reason that the association deployment failed, including the
+/// error code and error message.
+class AssociationStateReason {
+  /// The error code of the association deployment failure.
+  final AssociationErrorCode? errorCode;
+
+  /// The error message of the association deployment failure.
+  final String? errorMessage;
+
+  AssociationStateReason({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory AssociationStateReason.fromJson(Map<String, dynamic> json) {
+    return AssociationStateReason(
+      errorCode: (json['ErrorCode'] as String?)?.toAssociationErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
   }
 }
 
@@ -3187,6 +4184,102 @@ class AuthorizeIpRulesResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+enum BundleAssociatedResourceType {
+  application,
+}
+
+extension BundleAssociatedResourceTypeValueExtension
+    on BundleAssociatedResourceType {
+  String toValue() {
+    switch (this) {
+      case BundleAssociatedResourceType.application:
+        return 'APPLICATION';
+    }
+  }
+}
+
+extension BundleAssociatedResourceTypeFromString on String {
+  BundleAssociatedResourceType toBundleAssociatedResourceType() {
+    switch (this) {
+      case 'APPLICATION':
+        return BundleAssociatedResourceType.application;
+    }
+    throw Exception('$this is not known in enum BundleAssociatedResourceType');
+  }
+}
+
+/// Describes the association between an application and a bundle resource.
+class BundleResourceAssociation {
+  /// The identifier of the associated resource.
+  final String? associatedResourceId;
+
+  /// The resource type of the associated resources.
+  final BundleAssociatedResourceType? associatedResourceType;
+
+  /// The identifier of the bundle.
+  final String? bundleId;
+
+  /// The time the association is created.
+  final DateTime? created;
+
+  /// The time the association status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the bundle resource association.
+  final AssociationState? state;
+
+  /// The reason the association deployment failed.
+  final AssociationStateReason? stateReason;
+
+  BundleResourceAssociation({
+    this.associatedResourceId,
+    this.associatedResourceType,
+    this.bundleId,
+    this.created,
+    this.lastUpdatedTime,
+    this.state,
+    this.stateReason,
+  });
+
+  factory BundleResourceAssociation.fromJson(Map<String, dynamic> json) {
+    return BundleResourceAssociation(
+      associatedResourceId: json['AssociatedResourceId'] as String?,
+      associatedResourceType: (json['AssociatedResourceType'] as String?)
+          ?.toBundleAssociatedResourceType(),
+      bundleId: json['BundleId'] as String?,
+      created: timeStampFromJson(json['Created']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      state: (json['State'] as String?)?.toAssociationState(),
+      stateReason: json['StateReason'] != null
+          ? AssociationStateReason.fromJson(
+              json['StateReason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedResourceId = this.associatedResourceId;
+    final associatedResourceType = this.associatedResourceType;
+    final bundleId = this.bundleId;
+    final created = this.created;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    return {
+      if (associatedResourceId != null)
+        'AssociatedResourceId': associatedResourceId,
+      if (associatedResourceType != null)
+        'AssociatedResourceType': associatedResourceType.toValue(),
+      if (bundleId != null) 'BundleId': bundleId,
+      if (created != null) 'Created': unixTimestampToJson(created),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (state != null) 'State': state.toValue(),
+      if (stateReason != null) 'StateReason': stateReason,
+    };
   }
 }
 
@@ -3769,6 +4862,31 @@ class CopyWorkspaceImageResult {
   }
 }
 
+class CreateAccountLinkInvitationResult {
+  /// Information about the account link.
+  final AccountLink? accountLink;
+
+  CreateAccountLinkInvitationResult({
+    this.accountLink,
+  });
+
+  factory CreateAccountLinkInvitationResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAccountLinkInvitationResult(
+      accountLink: json['AccountLink'] != null
+          ? AccountLink.fromJson(json['AccountLink'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLink = this.accountLink;
+    return {
+      if (accountLink != null) 'AccountLink': accountLink,
+    };
+  }
+}
+
 class CreateConnectClientAddInResult {
   /// The client add-in identifier.
   final String? addInId;
@@ -4050,6 +5168,97 @@ class CreateWorkspacesResult {
       if (failedRequests != null) 'FailedRequests': failedRequests,
       if (pendingRequests != null) 'PendingRequests': pendingRequests,
     };
+  }
+}
+
+enum DataReplication {
+  noReplication,
+  primaryAsSource,
+}
+
+extension DataReplicationValueExtension on DataReplication {
+  String toValue() {
+    switch (this) {
+      case DataReplication.noReplication:
+        return 'NO_REPLICATION';
+      case DataReplication.primaryAsSource:
+        return 'PRIMARY_AS_SOURCE';
+    }
+  }
+}
+
+extension DataReplicationFromString on String {
+  DataReplication toDataReplication() {
+    switch (this) {
+      case 'NO_REPLICATION':
+        return DataReplication.noReplication;
+      case 'PRIMARY_AS_SOURCE':
+        return DataReplication.primaryAsSource;
+    }
+    throw Exception('$this is not known in enum DataReplication');
+  }
+}
+
+/// Describes the data replication settings.
+class DataReplicationSettings {
+  /// Indicates whether data replication is enabled, and if enabled, the type of
+  /// data replication.
+  final DataReplication? dataReplication;
+
+  /// The date and time at which the last successful snapshot was taken of the
+  /// primary WorkSpace used for replicating data.
+  final DateTime? recoverySnapshotTime;
+
+  DataReplicationSettings({
+    this.dataReplication,
+    this.recoverySnapshotTime,
+  });
+
+  factory DataReplicationSettings.fromJson(Map<String, dynamic> json) {
+    return DataReplicationSettings(
+      dataReplication:
+          (json['DataReplication'] as String?)?.toDataReplication(),
+      recoverySnapshotTime: timeStampFromJson(json['RecoverySnapshotTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataReplication = this.dataReplication;
+    final recoverySnapshotTime = this.recoverySnapshotTime;
+    return {
+      if (dataReplication != null) 'DataReplication': dataReplication.toValue(),
+      if (recoverySnapshotTime != null)
+        'RecoverySnapshotTime': unixTimestampToJson(recoverySnapshotTime),
+    };
+  }
+}
+
+enum DedicatedTenancyAccountType {
+  sourceAccount,
+  targetAccount,
+}
+
+extension DedicatedTenancyAccountTypeValueExtension
+    on DedicatedTenancyAccountType {
+  String toValue() {
+    switch (this) {
+      case DedicatedTenancyAccountType.sourceAccount:
+        return 'SOURCE_ACCOUNT';
+      case DedicatedTenancyAccountType.targetAccount:
+        return 'TARGET_ACCOUNT';
+    }
+  }
+}
+
+extension DedicatedTenancyAccountTypeFromString on String {
+  DedicatedTenancyAccountType toDedicatedTenancyAccountType() {
+    switch (this) {
+      case 'SOURCE_ACCOUNT':
+        return DedicatedTenancyAccountType.sourceAccount;
+      case 'TARGET_ACCOUNT':
+        return DedicatedTenancyAccountType.targetAccount;
+    }
+    throw Exception('$this is not known in enum DedicatedTenancyAccountType');
   }
 }
 
@@ -4446,6 +5655,31 @@ extension DeletableSamlPropertyFromString on String {
   }
 }
 
+class DeleteAccountLinkInvitationResult {
+  /// Information about the account link.
+  final AccountLink? accountLink;
+
+  DeleteAccountLinkInvitationResult({
+    this.accountLink,
+  });
+
+  factory DeleteAccountLinkInvitationResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteAccountLinkInvitationResult(
+      accountLink: json['AccountLink'] != null
+          ? AccountLink.fromJson(json['AccountLink'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLink = this.accountLink;
+    return {
+      if (accountLink != null) 'AccountLink': accountLink,
+    };
+  }
+}
+
 class DeleteClientBrandingResult {
   DeleteClientBrandingResult();
 
@@ -4530,6 +5764,32 @@ class DeleteWorkspaceImageResult {
   }
 }
 
+class DeployWorkspaceApplicationsResult {
+  /// The list of deployed associations and information about them.
+  final WorkSpaceApplicationDeployment? deployment;
+
+  DeployWorkspaceApplicationsResult({
+    this.deployment,
+  });
+
+  factory DeployWorkspaceApplicationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeployWorkspaceApplicationsResult(
+      deployment: json['Deployment'] != null
+          ? WorkSpaceApplicationDeployment.fromJson(
+              json['Deployment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployment = this.deployment;
+    return {
+      if (deployment != null) 'Deployment': deployment,
+    };
+  }
+}
+
 class DeregisterWorkspaceDirectoryResult {
   DeregisterWorkspaceDirectoryResult();
 
@@ -4578,6 +5838,9 @@ class DescribeAccountModificationsResult {
 }
 
 class DescribeAccountResult {
+  /// The type of linked account.
+  final DedicatedTenancyAccountType? dedicatedTenancyAccountType;
+
   /// The IP address range, specified as an IPv4 CIDR block, used for the
   /// management network interface.
   ///
@@ -4591,12 +5854,16 @@ class DescribeAccountResult {
   final DedicatedTenancySupportResultEnum? dedicatedTenancySupport;
 
   DescribeAccountResult({
+    this.dedicatedTenancyAccountType,
     this.dedicatedTenancyManagementCidrRange,
     this.dedicatedTenancySupport,
   });
 
   factory DescribeAccountResult.fromJson(Map<String, dynamic> json) {
     return DescribeAccountResult(
+      dedicatedTenancyAccountType:
+          (json['DedicatedTenancyAccountType'] as String?)
+              ?.toDedicatedTenancyAccountType(),
       dedicatedTenancyManagementCidrRange:
           json['DedicatedTenancyManagementCidrRange'] as String?,
       dedicatedTenancySupport: (json['DedicatedTenancySupport'] as String?)
@@ -4605,15 +5872,112 @@ class DescribeAccountResult {
   }
 
   Map<String, dynamic> toJson() {
+    final dedicatedTenancyAccountType = this.dedicatedTenancyAccountType;
     final dedicatedTenancyManagementCidrRange =
         this.dedicatedTenancyManagementCidrRange;
     final dedicatedTenancySupport = this.dedicatedTenancySupport;
     return {
+      if (dedicatedTenancyAccountType != null)
+        'DedicatedTenancyAccountType': dedicatedTenancyAccountType.toValue(),
       if (dedicatedTenancyManagementCidrRange != null)
         'DedicatedTenancyManagementCidrRange':
             dedicatedTenancyManagementCidrRange,
       if (dedicatedTenancySupport != null)
         'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
+    };
+  }
+}
+
+class DescribeApplicationAssociationsResult {
+  /// List of associations and information about them.
+  final List<ApplicationResourceAssociation>? associations;
+
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  final String? nextToken;
+
+  DescribeApplicationAssociationsResult({
+    this.associations,
+    this.nextToken,
+  });
+
+  factory DescribeApplicationAssociationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeApplicationAssociationsResult(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApplicationResourceAssociation.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final nextToken = this.nextToken;
+    return {
+      if (associations != null) 'Associations': associations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeApplicationsResult {
+  /// List of information about the specified applications.
+  final List<WorkSpaceApplication>? applications;
+
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  final String? nextToken;
+
+  DescribeApplicationsResult({
+    this.applications,
+    this.nextToken,
+  });
+
+  factory DescribeApplicationsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationsResult(
+      applications: (json['Applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkSpaceApplication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    final nextToken = this.nextToken;
+    return {
+      if (applications != null) 'Applications': applications,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeBundleAssociationsResult {
+  /// List of information about the specified associations.
+  final List<BundleResourceAssociation>? associations;
+
+  DescribeBundleAssociationsResult({
+    this.associations,
+  });
+
+  factory DescribeBundleAssociationsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeBundleAssociationsResult(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BundleResourceAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    return {
+      if (associations != null) 'Associations': associations,
     };
   }
 }
@@ -4830,6 +6194,32 @@ class DescribeConnectionAliasesResult {
   }
 }
 
+class DescribeImageAssociationsResult {
+  /// List of information about the specified associations.
+  final List<ImageResourceAssociation>? associations;
+
+  DescribeImageAssociationsResult({
+    this.associations,
+  });
+
+  factory DescribeImageAssociationsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeImageAssociationsResult(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ImageResourceAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    return {
+      if (associations != null) 'Associations': associations,
+    };
+  }
+}
+
 class DescribeIpGroupsResult {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -4884,6 +6274,33 @@ class DescribeTagsResult {
     final tagList = this.tagList;
     return {
       if (tagList != null) 'TagList': tagList,
+    };
+  }
+}
+
+class DescribeWorkspaceAssociationsResult {
+  /// List of information about the specified associations.
+  final List<WorkspaceResourceAssociation>? associations;
+
+  DescribeWorkspaceAssociationsResult({
+    this.associations,
+  });
+
+  factory DescribeWorkspaceAssociationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeWorkspaceAssociationsResult(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              WorkspaceResourceAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    return {
+      if (associations != null) 'Associations': associations,
     };
   }
 }
@@ -5164,6 +6581,64 @@ class DisassociateIpGroupsResult {
   }
 }
 
+class DisassociateWorkspaceApplicationResult {
+  /// Information about the targeted association.
+  final WorkspaceResourceAssociation? association;
+
+  DisassociateWorkspaceApplicationResult({
+    this.association,
+  });
+
+  factory DisassociateWorkspaceApplicationResult.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateWorkspaceApplicationResult(
+      association: json['Association'] != null
+          ? WorkspaceResourceAssociation.fromJson(
+              json['Association'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final association = this.association;
+    return {
+      if (association != null) 'Association': association,
+    };
+  }
+}
+
+/// Describes in-depth details about the error. These details include the
+/// possible causes of the error and troubleshooting information.
+class ErrorDetails {
+  /// Indicates the error code returned.
+  final WorkspaceImageErrorDetailCode? errorCode;
+
+  /// The text of the error message related the error code.
+  final String? errorMessage;
+
+  ErrorDetails({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      errorCode:
+          (json['ErrorCode'] as String?)?.toWorkspaceImageErrorDetailCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
 /// Describes the standby WorkSpace that could not be created.
 class FailedCreateStandbyWorkspacesRequest {
   /// The error code that is returned if the standby WorkSpace could not be
@@ -5290,6 +6765,54 @@ class FailedWorkspaceChangeRequest {
   }
 }
 
+class GetAccountLinkResult {
+  /// The account link of the account link to retrieve.
+  final AccountLink? accountLink;
+
+  GetAccountLinkResult({
+    this.accountLink,
+  });
+
+  factory GetAccountLinkResult.fromJson(Map<String, dynamic> json) {
+    return GetAccountLinkResult(
+      accountLink: json['AccountLink'] != null
+          ? AccountLink.fromJson(json['AccountLink'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLink = this.accountLink;
+    return {
+      if (accountLink != null) 'AccountLink': accountLink,
+    };
+  }
+}
+
+enum ImageAssociatedResourceType {
+  application,
+}
+
+extension ImageAssociatedResourceTypeValueExtension
+    on ImageAssociatedResourceType {
+  String toValue() {
+    switch (this) {
+      case ImageAssociatedResourceType.application:
+        return 'APPLICATION';
+    }
+  }
+}
+
+extension ImageAssociatedResourceTypeFromString on String {
+  ImageAssociatedResourceType toImageAssociatedResourceType() {
+    switch (this) {
+      case 'APPLICATION':
+        return ImageAssociatedResourceType.application;
+    }
+    throw Exception('$this is not known in enum ImageAssociatedResourceType');
+  }
+}
+
 /// Describes the Amazon Web Services accounts that have been granted permission
 /// to use a shared image. For more information about sharing images, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
@@ -5313,6 +6836,78 @@ class ImagePermission {
     final sharedAccountId = this.sharedAccountId;
     return {
       if (sharedAccountId != null) 'SharedAccountId': sharedAccountId,
+    };
+  }
+}
+
+/// Describes the association between an application and an image resource.
+class ImageResourceAssociation {
+  /// The identifier of the associated resource.
+  final String? associatedResourceId;
+
+  /// The resource type of the associated resources.
+  final ImageAssociatedResourceType? associatedResourceType;
+
+  /// The time the association is created.
+  final DateTime? created;
+
+  /// The identifier of the image.
+  final String? imageId;
+
+  /// The time the association status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the image resource association.
+  final AssociationState? state;
+
+  /// The reason the association deployment failed.
+  final AssociationStateReason? stateReason;
+
+  ImageResourceAssociation({
+    this.associatedResourceId,
+    this.associatedResourceType,
+    this.created,
+    this.imageId,
+    this.lastUpdatedTime,
+    this.state,
+    this.stateReason,
+  });
+
+  factory ImageResourceAssociation.fromJson(Map<String, dynamic> json) {
+    return ImageResourceAssociation(
+      associatedResourceId: json['AssociatedResourceId'] as String?,
+      associatedResourceType: (json['AssociatedResourceType'] as String?)
+          ?.toImageAssociatedResourceType(),
+      created: timeStampFromJson(json['Created']),
+      imageId: json['ImageId'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      state: (json['State'] as String?)?.toAssociationState(),
+      stateReason: json['StateReason'] != null
+          ? AssociationStateReason.fromJson(
+              json['StateReason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedResourceId = this.associatedResourceId;
+    final associatedResourceType = this.associatedResourceType;
+    final created = this.created;
+    final imageId = this.imageId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    return {
+      if (associatedResourceId != null)
+        'AssociatedResourceId': associatedResourceId,
+      if (associatedResourceType != null)
+        'AssociatedResourceType': associatedResourceType.toValue(),
+      if (created != null) 'Created': unixTimestampToJson(created),
+      if (imageId != null) 'ImageId': imageId,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (state != null) 'State': state.toValue(),
+      if (stateReason != null) 'StateReason': stateReason,
     };
   }
 }
@@ -5691,6 +7286,39 @@ class IpRuleItem {
   }
 }
 
+class ListAccountLinksResult {
+  /// Information about the account links.
+  final List<AccountLink>? accountLinks;
+
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
+
+  ListAccountLinksResult({
+    this.accountLinks,
+    this.nextToken,
+  });
+
+  factory ListAccountLinksResult.fromJson(Map<String, dynamic> json) {
+    return ListAccountLinksResult(
+      accountLinks: (json['AccountLinks'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountLink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLinks = this.accountLinks;
+    final nextToken = this.nextToken;
+    return {
+      if (accountLinks != null) 'AccountLinks': accountLinks,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListAvailableManagementCidrRangesResult {
   /// The list of available IP address ranges, specified as IPv4 CIDR blocks.
   final List<String>? managementCidrRanges;
@@ -6010,6 +7638,79 @@ class OperatingSystem {
   }
 }
 
+enum OperatingSystemName {
+  amazonLinux_2,
+  ubuntu_18_04,
+  ubuntu_20_04,
+  ubuntu_22_04,
+  unknown,
+  windows_10,
+  windows_11,
+  windows_7,
+  windowsServer_2016,
+  windowsServer_2019,
+  windowsServer_2022,
+}
+
+extension OperatingSystemNameValueExtension on OperatingSystemName {
+  String toValue() {
+    switch (this) {
+      case OperatingSystemName.amazonLinux_2:
+        return 'AMAZON_LINUX_2';
+      case OperatingSystemName.ubuntu_18_04:
+        return 'UBUNTU_18_04';
+      case OperatingSystemName.ubuntu_20_04:
+        return 'UBUNTU_20_04';
+      case OperatingSystemName.ubuntu_22_04:
+        return 'UBUNTU_22_04';
+      case OperatingSystemName.unknown:
+        return 'UNKNOWN';
+      case OperatingSystemName.windows_10:
+        return 'WINDOWS_10';
+      case OperatingSystemName.windows_11:
+        return 'WINDOWS_11';
+      case OperatingSystemName.windows_7:
+        return 'WINDOWS_7';
+      case OperatingSystemName.windowsServer_2016:
+        return 'WINDOWS_SERVER_2016';
+      case OperatingSystemName.windowsServer_2019:
+        return 'WINDOWS_SERVER_2019';
+      case OperatingSystemName.windowsServer_2022:
+        return 'WINDOWS_SERVER_2022';
+    }
+  }
+}
+
+extension OperatingSystemNameFromString on String {
+  OperatingSystemName toOperatingSystemName() {
+    switch (this) {
+      case 'AMAZON_LINUX_2':
+        return OperatingSystemName.amazonLinux_2;
+      case 'UBUNTU_18_04':
+        return OperatingSystemName.ubuntu_18_04;
+      case 'UBUNTU_20_04':
+        return OperatingSystemName.ubuntu_20_04;
+      case 'UBUNTU_22_04':
+        return OperatingSystemName.ubuntu_22_04;
+      case 'UNKNOWN':
+        return OperatingSystemName.unknown;
+      case 'WINDOWS_10':
+        return OperatingSystemName.windows_10;
+      case 'WINDOWS_11':
+        return OperatingSystemName.windows_11;
+      case 'WINDOWS_7':
+        return OperatingSystemName.windows_7;
+      case 'WINDOWS_SERVER_2016':
+        return OperatingSystemName.windowsServer_2016;
+      case 'WINDOWS_SERVER_2019':
+        return OperatingSystemName.windowsServer_2019;
+      case 'WINDOWS_SERVER_2022':
+        return OperatingSystemName.windowsServer_2022;
+    }
+    throw Exception('$this is not known in enum OperatingSystemName');
+  }
+}
+
 enum OperatingSystemType {
   windows,
   linux,
@@ -6241,6 +7942,31 @@ class RegisterWorkspaceDirectoryResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class RejectAccountLinkInvitationResult {
+  /// Information about the account link.
+  final AccountLink? accountLink;
+
+  RejectAccountLinkInvitationResult({
+    this.accountLink,
+  });
+
+  factory RejectAccountLinkInvitationResult.fromJson(
+      Map<String, dynamic> json) {
+    return RejectAccountLinkInvitationResult(
+      accountLink: json['AccountLink'] != null
+          ? AccountLink.fromJson(json['AccountLink'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLink = this.accountLink;
+    return {
+      if (accountLink != null) 'AccountLink': accountLink,
+    };
   }
 }
 
@@ -6572,6 +8298,10 @@ class StandbyWorkspace {
   /// The identifier of the standby WorkSpace.
   final String primaryWorkspaceId;
 
+  /// Indicates whether data replication is enabled, and if enabled, the type of
+  /// data replication.
+  final DataReplication? dataReplication;
+
   /// The tags associated with the standby WorkSpace.
   final List<Tag>? tags;
 
@@ -6581,6 +8311,7 @@ class StandbyWorkspace {
   StandbyWorkspace({
     required this.directoryId,
     required this.primaryWorkspaceId,
+    this.dataReplication,
     this.tags,
     this.volumeEncryptionKey,
   });
@@ -6589,6 +8320,8 @@ class StandbyWorkspace {
     return StandbyWorkspace(
       directoryId: json['DirectoryId'] as String,
       primaryWorkspaceId: json['PrimaryWorkspaceId'] as String,
+      dataReplication:
+          (json['DataReplication'] as String?)?.toDataReplication(),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -6600,11 +8333,13 @@ class StandbyWorkspace {
   Map<String, dynamic> toJson() {
     final directoryId = this.directoryId;
     final primaryWorkspaceId = this.primaryWorkspaceId;
+    final dataReplication = this.dataReplication;
     final tags = this.tags;
     final volumeEncryptionKey = this.volumeEncryptionKey;
     return {
       'DirectoryId': directoryId,
       'PrimaryWorkspaceId': primaryWorkspaceId,
+      if (dataReplication != null) 'DataReplication': dataReplication.toValue(),
       if (tags != null) 'Tags': tags,
       if (volumeEncryptionKey != null)
         'VolumeEncryptionKey': volumeEncryptionKey,
@@ -6639,6 +8374,47 @@ extension StandbyWorkspaceRelationshipTypeFromString on String {
     }
     throw Exception(
         '$this is not known in enum StandbyWorkspaceRelationshipType');
+  }
+}
+
+/// Describes the properties of the related standby WorkSpaces.
+class StandbyWorkspacesProperties {
+  /// Indicates whether data replication is enabled, and if enabled, the type of
+  /// data replication.
+  final DataReplication? dataReplication;
+
+  /// The date and time at which the last successful snapshot was taken of the
+  /// primary WorkSpace used for replicating data.
+  final DateTime? recoverySnapshotTime;
+
+  /// The identifier of the standby WorkSpace
+  final String? standbyWorkspaceId;
+
+  StandbyWorkspacesProperties({
+    this.dataReplication,
+    this.recoverySnapshotTime,
+    this.standbyWorkspaceId,
+  });
+
+  factory StandbyWorkspacesProperties.fromJson(Map<String, dynamic> json) {
+    return StandbyWorkspacesProperties(
+      dataReplication:
+          (json['DataReplication'] as String?)?.toDataReplication(),
+      recoverySnapshotTime: timeStampFromJson(json['RecoverySnapshotTime']),
+      standbyWorkspaceId: json['StandbyWorkspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataReplication = this.dataReplication;
+    final recoverySnapshotTime = this.recoverySnapshotTime;
+    final standbyWorkspaceId = this.standbyWorkspaceId;
+    return {
+      if (dataReplication != null) 'DataReplication': dataReplication.toValue(),
+      if (recoverySnapshotTime != null)
+        'RecoverySnapshotTime': unixTimestampToJson(recoverySnapshotTime),
+      if (standbyWorkspaceId != null) 'StandbyWorkspaceId': standbyWorkspaceId,
+    };
   }
 }
 
@@ -6979,6 +8755,217 @@ class UserStorage {
   }
 }
 
+/// Describes the WorkSpace application.
+class WorkSpaceApplication {
+  /// The identifier of the application.
+  final String? applicationId;
+
+  /// The time the application is created.
+  final DateTime? created;
+
+  /// The description of the WorkSpace application.
+  final String? description;
+
+  /// The license availability for the applications.
+  final WorkSpaceApplicationLicenseType? licenseType;
+
+  /// The name of the WorkSpace application.
+  final String? name;
+
+  /// The owner of the WorkSpace application.
+  final String? owner;
+
+  /// The status of WorkSpace application.
+  final WorkSpaceApplicationState? state;
+
+  /// The supported compute types of the WorkSpace application.
+  final List<Compute>? supportedComputeTypeNames;
+
+  /// The supported operating systems of the WorkSpace application.
+  final List<OperatingSystemName>? supportedOperatingSystemNames;
+
+  WorkSpaceApplication({
+    this.applicationId,
+    this.created,
+    this.description,
+    this.licenseType,
+    this.name,
+    this.owner,
+    this.state,
+    this.supportedComputeTypeNames,
+    this.supportedOperatingSystemNames,
+  });
+
+  factory WorkSpaceApplication.fromJson(Map<String, dynamic> json) {
+    return WorkSpaceApplication(
+      applicationId: json['ApplicationId'] as String?,
+      created: timeStampFromJson(json['Created']),
+      description: json['Description'] as String?,
+      licenseType:
+          (json['LicenseType'] as String?)?.toWorkSpaceApplicationLicenseType(),
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      state: (json['State'] as String?)?.toWorkSpaceApplicationState(),
+      supportedComputeTypeNames: (json['SupportedComputeTypeNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCompute())
+          .toList(),
+      supportedOperatingSystemNames:
+          (json['SupportedOperatingSystemNames'] as List?)
+              ?.whereNotNull()
+              .map((e) => (e as String).toOperatingSystemName())
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final created = this.created;
+    final description = this.description;
+    final licenseType = this.licenseType;
+    final name = this.name;
+    final owner = this.owner;
+    final state = this.state;
+    final supportedComputeTypeNames = this.supportedComputeTypeNames;
+    final supportedOperatingSystemNames = this.supportedOperatingSystemNames;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (created != null) 'Created': unixTimestampToJson(created),
+      if (description != null) 'Description': description,
+      if (licenseType != null) 'LicenseType': licenseType.toValue(),
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (state != null) 'State': state.toValue(),
+      if (supportedComputeTypeNames != null)
+        'SupportedComputeTypeNames':
+            supportedComputeTypeNames.map((e) => e.toValue()).toList(),
+      if (supportedOperatingSystemNames != null)
+        'SupportedOperatingSystemNames':
+            supportedOperatingSystemNames.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// Describes the WorkSpace application deployment.
+class WorkSpaceApplicationDeployment {
+  /// The associations between the applications and the associated resources.
+  final List<WorkspaceResourceAssociation>? associations;
+
+  WorkSpaceApplicationDeployment({
+    this.associations,
+  });
+
+  factory WorkSpaceApplicationDeployment.fromJson(Map<String, dynamic> json) {
+    return WorkSpaceApplicationDeployment(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              WorkspaceResourceAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    return {
+      if (associations != null) 'Associations': associations,
+    };
+  }
+}
+
+enum WorkSpaceApplicationLicenseType {
+  licensed,
+  unlicensed,
+}
+
+extension WorkSpaceApplicationLicenseTypeValueExtension
+    on WorkSpaceApplicationLicenseType {
+  String toValue() {
+    switch (this) {
+      case WorkSpaceApplicationLicenseType.licensed:
+        return 'LICENSED';
+      case WorkSpaceApplicationLicenseType.unlicensed:
+        return 'UNLICENSED';
+    }
+  }
+}
+
+extension WorkSpaceApplicationLicenseTypeFromString on String {
+  WorkSpaceApplicationLicenseType toWorkSpaceApplicationLicenseType() {
+    switch (this) {
+      case 'LICENSED':
+        return WorkSpaceApplicationLicenseType.licensed;
+      case 'UNLICENSED':
+        return WorkSpaceApplicationLicenseType.unlicensed;
+    }
+    throw Exception(
+        '$this is not known in enum WorkSpaceApplicationLicenseType');
+  }
+}
+
+enum WorkSpaceApplicationState {
+  pending,
+  error,
+  available,
+  uninstallOnly,
+}
+
+extension WorkSpaceApplicationStateValueExtension on WorkSpaceApplicationState {
+  String toValue() {
+    switch (this) {
+      case WorkSpaceApplicationState.pending:
+        return 'PENDING';
+      case WorkSpaceApplicationState.error:
+        return 'ERROR';
+      case WorkSpaceApplicationState.available:
+        return 'AVAILABLE';
+      case WorkSpaceApplicationState.uninstallOnly:
+        return 'UNINSTALL_ONLY';
+    }
+  }
+}
+
+extension WorkSpaceApplicationStateFromString on String {
+  WorkSpaceApplicationState toWorkSpaceApplicationState() {
+    switch (this) {
+      case 'PENDING':
+        return WorkSpaceApplicationState.pending;
+      case 'ERROR':
+        return WorkSpaceApplicationState.error;
+      case 'AVAILABLE':
+        return WorkSpaceApplicationState.available;
+      case 'UNINSTALL_ONLY':
+        return WorkSpaceApplicationState.uninstallOnly;
+    }
+    throw Exception('$this is not known in enum WorkSpaceApplicationState');
+  }
+}
+
+enum WorkSpaceAssociatedResourceType {
+  application,
+}
+
+extension WorkSpaceAssociatedResourceTypeValueExtension
+    on WorkSpaceAssociatedResourceType {
+  String toValue() {
+    switch (this) {
+      case WorkSpaceAssociatedResourceType.application:
+        return 'APPLICATION';
+    }
+  }
+}
+
+extension WorkSpaceAssociatedResourceTypeFromString on String {
+  WorkSpaceAssociatedResourceType toWorkSpaceAssociatedResourceType() {
+    switch (this) {
+      case 'APPLICATION':
+        return WorkSpaceAssociatedResourceType.application;
+    }
+    throw Exception(
+        '$this is not known in enum WorkSpaceAssociatedResourceType');
+  }
+}
+
 /// Describes a WorkSpace.
 class Workspace {
   /// The identifier of the bundle used to create the WorkSpace.
@@ -6989,6 +8976,9 @@ class Workspace {
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/launch-workspaces-tutorials.html">
   /// Launch a WorkSpace</a>.
   final String? computerName;
+
+  /// Indicates the settings of the data replication.
+  final DataReplicationSettings? dataReplicationSettings;
 
   /// The identifier of the Directory Service directory for the WorkSpace.
   final String? directoryId;
@@ -7013,8 +9003,71 @@ class Workspace {
   /// Indicates whether the data stored on the root volume is encrypted.
   final bool? rootVolumeEncryptionEnabled;
 
+  /// The properties of the standby WorkSpace
+  final List<StandbyWorkspacesProperties>? standbyWorkspacesProperties;
+
   /// The operational state of the WorkSpace.
-  /// <note>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – The WorkSpace is in a waiting state (for example, the
+  /// WorkSpace is being created).
+  /// </li>
+  /// <li>
+  /// <code>AVAILABLE</code> – The WorkSpace is running and has passed the health
+  /// checks.
+  /// </li>
+  /// <li>
+  /// <code>IMPAIRED</code> – Refer to <code>UNHEALTHY</code> state.
+  /// </li>
+  /// <li>
+  /// <code>UNHEALTHY</code> – The WorkSpace is not responding to health checks.
+  /// </li>
+  /// <li>
+  /// <code>REBOOTING</code> – The WorkSpace is being rebooted (restarted).
+  /// </li>
+  /// <li>
+  /// <code>STARTING</code> – The WorkSpace is starting up and health checks are
+  /// being run.
+  /// </li>
+  /// <li>
+  /// <code>REBUILDING</code> – The WorkSpace is being rebuilt.
+  /// </li>
+  /// <li>
+  /// <code>RESTORING</code> – The WorkSpace is being restored.
+  /// </li>
+  /// <li>
+  /// <code>MAINTENANCE</code> – The WorkSpace is undergoing scheduled maintenance
+  /// by Amazon Web Services.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_MAINTENANCE</code> – The WorkSpace is undergoing maintenance by
+  /// the WorkSpaces administrator.
+  /// </li>
+  /// <li>
+  /// <code>TERMINATING</code> – The WorkSpace is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>TERMINATED</code> – The WorkSpace has been deleted.
+  /// </li>
+  /// <li>
+  /// <code>SUSPENDED</code> – The WorkSpace has been suspended for image
+  /// creation.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> – The WorkSpace is undergoing an update.
+  /// </li>
+  /// <li>
+  /// <code>STOPPING</code> – The WorkSpace is being stopped.
+  /// </li>
+  /// <li>
+  /// <code>STOPPED</code> – The WorkSpace has been stopped.
+  /// </li>
+  /// <li>
+  /// <code>ERROR </code> – The WorkSpace is an error state (for example, an error
+  /// occurred during startup).
+  /// </li>
+  /// </ul> <note>
   /// After a WorkSpace is terminated, the <code>TERMINATED</code> state is
   /// returned only briefly before the WorkSpace directory metadata is cleaned up,
   /// so this state is rarely returned. To confirm that a WorkSpace is terminated,
@@ -7034,12 +9087,15 @@ class Workspace {
   /// Indicates whether the data stored on the user volume is encrypted.
   final bool? userVolumeEncryptionEnabled;
 
-  /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon
-  /// WorkSpaces does not support asymmetric KMS keys.
+  /// The ARN of the symmetric KMS key used to encrypt data stored on your
+  /// WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
   final String? volumeEncryptionKey;
 
   /// The identifier of the WorkSpace.
   final String? workspaceId;
+
+  /// The name of the user-decoupled WorkSpace.
+  final String? workspaceName;
 
   /// The properties of the WorkSpace.
   final WorkspaceProperties? workspaceProperties;
@@ -7047,6 +9103,7 @@ class Workspace {
   Workspace({
     this.bundleId,
     this.computerName,
+    this.dataReplicationSettings,
     this.directoryId,
     this.errorCode,
     this.errorMessage,
@@ -7054,12 +9111,14 @@ class Workspace {
     this.modificationStates,
     this.relatedWorkspaces,
     this.rootVolumeEncryptionEnabled,
+    this.standbyWorkspacesProperties,
     this.state,
     this.subnetId,
     this.userName,
     this.userVolumeEncryptionEnabled,
     this.volumeEncryptionKey,
     this.workspaceId,
+    this.workspaceName,
     this.workspaceProperties,
   });
 
@@ -7067,6 +9126,10 @@ class Workspace {
     return Workspace(
       bundleId: json['BundleId'] as String?,
       computerName: json['ComputerName'] as String?,
+      dataReplicationSettings: json['DataReplicationSettings'] != null
+          ? DataReplicationSettings.fromJson(
+              json['DataReplicationSettings'] as Map<String, dynamic>)
+          : null,
       directoryId: json['DirectoryId'] as String?,
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
@@ -7081,12 +9144,19 @@ class Workspace {
               RelatedWorkspaceProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
+      standbyWorkspacesProperties: (json['StandbyWorkspacesProperties']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              StandbyWorkspacesProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
       state: (json['State'] as String?)?.toWorkspaceState(),
       subnetId: json['SubnetId'] as String?,
       userName: json['UserName'] as String?,
       userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
       volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
       workspaceId: json['WorkspaceId'] as String?,
+      workspaceName: json['WorkspaceName'] as String?,
       workspaceProperties: json['WorkspaceProperties'] != null
           ? WorkspaceProperties.fromJson(
               json['WorkspaceProperties'] as Map<String, dynamic>)
@@ -7097,6 +9167,7 @@ class Workspace {
   Map<String, dynamic> toJson() {
     final bundleId = this.bundleId;
     final computerName = this.computerName;
+    final dataReplicationSettings = this.dataReplicationSettings;
     final directoryId = this.directoryId;
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
@@ -7104,16 +9175,20 @@ class Workspace {
     final modificationStates = this.modificationStates;
     final relatedWorkspaces = this.relatedWorkspaces;
     final rootVolumeEncryptionEnabled = this.rootVolumeEncryptionEnabled;
+    final standbyWorkspacesProperties = this.standbyWorkspacesProperties;
     final state = this.state;
     final subnetId = this.subnetId;
     final userName = this.userName;
     final userVolumeEncryptionEnabled = this.userVolumeEncryptionEnabled;
     final volumeEncryptionKey = this.volumeEncryptionKey;
     final workspaceId = this.workspaceId;
+    final workspaceName = this.workspaceName;
     final workspaceProperties = this.workspaceProperties;
     return {
       if (bundleId != null) 'BundleId': bundleId,
       if (computerName != null) 'ComputerName': computerName,
+      if (dataReplicationSettings != null)
+        'DataReplicationSettings': dataReplicationSettings,
       if (directoryId != null) 'DirectoryId': directoryId,
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
@@ -7122,6 +9197,8 @@ class Workspace {
       if (relatedWorkspaces != null) 'RelatedWorkspaces': relatedWorkspaces,
       if (rootVolumeEncryptionEnabled != null)
         'RootVolumeEncryptionEnabled': rootVolumeEncryptionEnabled,
+      if (standbyWorkspacesProperties != null)
+        'StandbyWorkspacesProperties': standbyWorkspacesProperties,
       if (state != null) 'State': state.toValue(),
       if (subnetId != null) 'SubnetId': subnetId,
       if (userName != null) 'UserName': userName,
@@ -7130,6 +9207,7 @@ class Workspace {
       if (volumeEncryptionKey != null)
         'VolumeEncryptionKey': volumeEncryptionKey,
       if (workspaceId != null) 'WorkspaceId': workspaceId,
+      if (workspaceName != null) 'WorkspaceName': workspaceName,
       if (workspaceProperties != null)
         'WorkspaceProperties': workspaceProperties,
     };
@@ -7790,6 +9868,10 @@ class WorkspaceImage {
   /// The error code that is returned for the image.
   final String? errorCode;
 
+  /// Additional details of the error returned for the image, including the
+  /// possible causes of the errors and troubleshooting information.
+  final List<ErrorDetails>? errorDetails;
+
   /// The text of the error message that is returned for the image.
   final String? errorMessage;
 
@@ -7822,6 +9904,7 @@ class WorkspaceImage {
     this.created,
     this.description,
     this.errorCode,
+    this.errorDetails,
     this.errorMessage,
     this.imageId,
     this.name,
@@ -7837,6 +9920,10 @@ class WorkspaceImage {
       created: timeStampFromJson(json['Created']),
       description: json['Description'] as String?,
       errorCode: json['ErrorCode'] as String?,
+      errorDetails: (json['ErrorDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
       errorMessage: json['ErrorMessage'] as String?,
       imageId: json['ImageId'] as String?,
       name: json['Name'] as String?,
@@ -7858,6 +9945,7 @@ class WorkspaceImage {
     final created = this.created;
     final description = this.description;
     final errorCode = this.errorCode;
+    final errorDetails = this.errorDetails;
     final errorMessage = this.errorMessage;
     final imageId = this.imageId;
     final name = this.name;
@@ -7870,6 +9958,7 @@ class WorkspaceImage {
       if (created != null) 'Created': unixTimestampToJson(created),
       if (description != null) 'Description': description,
       if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (imageId != null) 'ImageId': imageId,
       if (name != null) 'Name': name,
@@ -7879,6 +9968,155 @@ class WorkspaceImage {
       if (state != null) 'State': state.toValue(),
       if (updates != null) 'Updates': updates,
     };
+  }
+}
+
+enum WorkspaceImageErrorDetailCode {
+  outdatedPowershellVersion,
+  officeInstalled,
+  pCoIPAgentInstalled,
+  windowsUpdatesEnabled,
+  autoMountDisabled,
+  workspacesBYOLAccountNotFound,
+  workspacesBYOLAccountDisabled,
+  dHCPDisabled,
+  diskFreeSpace,
+  additionalDrivesAttached,
+  oSNotSupported,
+  domainJoined,
+  azureDomainJoined,
+  firewallEnabled,
+  vMWareToolsInstalled,
+  diskSizeExceeded,
+  incompatiblePartitioning,
+  pendingReboot,
+  autoLogonEnabled,
+  realTimeUniversalDisabled,
+  multipleBootPartition,
+  requires64BitOS,
+  zeroRearmCount,
+  inPlaceUpgrade,
+  antiVirusInstalled,
+  uEFINotSupported,
+}
+
+extension WorkspaceImageErrorDetailCodeValueExtension
+    on WorkspaceImageErrorDetailCode {
+  String toValue() {
+    switch (this) {
+      case WorkspaceImageErrorDetailCode.outdatedPowershellVersion:
+        return 'OutdatedPowershellVersion';
+      case WorkspaceImageErrorDetailCode.officeInstalled:
+        return 'OfficeInstalled';
+      case WorkspaceImageErrorDetailCode.pCoIPAgentInstalled:
+        return 'PCoIPAgentInstalled';
+      case WorkspaceImageErrorDetailCode.windowsUpdatesEnabled:
+        return 'WindowsUpdatesEnabled';
+      case WorkspaceImageErrorDetailCode.autoMountDisabled:
+        return 'AutoMountDisabled';
+      case WorkspaceImageErrorDetailCode.workspacesBYOLAccountNotFound:
+        return 'WorkspacesBYOLAccountNotFound';
+      case WorkspaceImageErrorDetailCode.workspacesBYOLAccountDisabled:
+        return 'WorkspacesBYOLAccountDisabled';
+      case WorkspaceImageErrorDetailCode.dHCPDisabled:
+        return 'DHCPDisabled';
+      case WorkspaceImageErrorDetailCode.diskFreeSpace:
+        return 'DiskFreeSpace';
+      case WorkspaceImageErrorDetailCode.additionalDrivesAttached:
+        return 'AdditionalDrivesAttached';
+      case WorkspaceImageErrorDetailCode.oSNotSupported:
+        return 'OSNotSupported';
+      case WorkspaceImageErrorDetailCode.domainJoined:
+        return 'DomainJoined';
+      case WorkspaceImageErrorDetailCode.azureDomainJoined:
+        return 'AzureDomainJoined';
+      case WorkspaceImageErrorDetailCode.firewallEnabled:
+        return 'FirewallEnabled';
+      case WorkspaceImageErrorDetailCode.vMWareToolsInstalled:
+        return 'VMWareToolsInstalled';
+      case WorkspaceImageErrorDetailCode.diskSizeExceeded:
+        return 'DiskSizeExceeded';
+      case WorkspaceImageErrorDetailCode.incompatiblePartitioning:
+        return 'IncompatiblePartitioning';
+      case WorkspaceImageErrorDetailCode.pendingReboot:
+        return 'PendingReboot';
+      case WorkspaceImageErrorDetailCode.autoLogonEnabled:
+        return 'AutoLogonEnabled';
+      case WorkspaceImageErrorDetailCode.realTimeUniversalDisabled:
+        return 'RealTimeUniversalDisabled';
+      case WorkspaceImageErrorDetailCode.multipleBootPartition:
+        return 'MultipleBootPartition';
+      case WorkspaceImageErrorDetailCode.requires64BitOS:
+        return 'Requires64BitOS';
+      case WorkspaceImageErrorDetailCode.zeroRearmCount:
+        return 'ZeroRearmCount';
+      case WorkspaceImageErrorDetailCode.inPlaceUpgrade:
+        return 'InPlaceUpgrade';
+      case WorkspaceImageErrorDetailCode.antiVirusInstalled:
+        return 'AntiVirusInstalled';
+      case WorkspaceImageErrorDetailCode.uEFINotSupported:
+        return 'UEFINotSupported';
+    }
+  }
+}
+
+extension WorkspaceImageErrorDetailCodeFromString on String {
+  WorkspaceImageErrorDetailCode toWorkspaceImageErrorDetailCode() {
+    switch (this) {
+      case 'OutdatedPowershellVersion':
+        return WorkspaceImageErrorDetailCode.outdatedPowershellVersion;
+      case 'OfficeInstalled':
+        return WorkspaceImageErrorDetailCode.officeInstalled;
+      case 'PCoIPAgentInstalled':
+        return WorkspaceImageErrorDetailCode.pCoIPAgentInstalled;
+      case 'WindowsUpdatesEnabled':
+        return WorkspaceImageErrorDetailCode.windowsUpdatesEnabled;
+      case 'AutoMountDisabled':
+        return WorkspaceImageErrorDetailCode.autoMountDisabled;
+      case 'WorkspacesBYOLAccountNotFound':
+        return WorkspaceImageErrorDetailCode.workspacesBYOLAccountNotFound;
+      case 'WorkspacesBYOLAccountDisabled':
+        return WorkspaceImageErrorDetailCode.workspacesBYOLAccountDisabled;
+      case 'DHCPDisabled':
+        return WorkspaceImageErrorDetailCode.dHCPDisabled;
+      case 'DiskFreeSpace':
+        return WorkspaceImageErrorDetailCode.diskFreeSpace;
+      case 'AdditionalDrivesAttached':
+        return WorkspaceImageErrorDetailCode.additionalDrivesAttached;
+      case 'OSNotSupported':
+        return WorkspaceImageErrorDetailCode.oSNotSupported;
+      case 'DomainJoined':
+        return WorkspaceImageErrorDetailCode.domainJoined;
+      case 'AzureDomainJoined':
+        return WorkspaceImageErrorDetailCode.azureDomainJoined;
+      case 'FirewallEnabled':
+        return WorkspaceImageErrorDetailCode.firewallEnabled;
+      case 'VMWareToolsInstalled':
+        return WorkspaceImageErrorDetailCode.vMWareToolsInstalled;
+      case 'DiskSizeExceeded':
+        return WorkspaceImageErrorDetailCode.diskSizeExceeded;
+      case 'IncompatiblePartitioning':
+        return WorkspaceImageErrorDetailCode.incompatiblePartitioning;
+      case 'PendingReboot':
+        return WorkspaceImageErrorDetailCode.pendingReboot;
+      case 'AutoLogonEnabled':
+        return WorkspaceImageErrorDetailCode.autoLogonEnabled;
+      case 'RealTimeUniversalDisabled':
+        return WorkspaceImageErrorDetailCode.realTimeUniversalDisabled;
+      case 'MultipleBootPartition':
+        return WorkspaceImageErrorDetailCode.multipleBootPartition;
+      case 'Requires64BitOS':
+        return WorkspaceImageErrorDetailCode.requires64BitOS;
+      case 'ZeroRearmCount':
+        return WorkspaceImageErrorDetailCode.zeroRearmCount;
+      case 'InPlaceUpgrade':
+        return WorkspaceImageErrorDetailCode.inPlaceUpgrade;
+      case 'AntiVirusInstalled':
+        return WorkspaceImageErrorDetailCode.antiVirusInstalled;
+      case 'UEFINotSupported':
+        return WorkspaceImageErrorDetailCode.uEFINotSupported;
+    }
+    throw Exception('$this is not known in enum WorkspaceImageErrorDetailCode');
   }
 }
 
@@ -8006,6 +10244,9 @@ class WorkspaceProperties {
   /// WorkSpaces Bundles</a>.
   final Compute? computeTypeName;
 
+  /// The name of the operating system.
+  final OperatingSystemName? operatingSystemName;
+
   /// The protocol. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-protocols.html">
   /// Protocols for Amazon WorkSpaces</a>.
@@ -8054,6 +10295,7 @@ class WorkspaceProperties {
 
   WorkspaceProperties({
     this.computeTypeName,
+    this.operatingSystemName,
     this.protocols,
     this.rootVolumeSizeGib,
     this.runningMode,
@@ -8064,6 +10306,8 @@ class WorkspaceProperties {
   factory WorkspaceProperties.fromJson(Map<String, dynamic> json) {
     return WorkspaceProperties(
       computeTypeName: (json['ComputeTypeName'] as String?)?.toCompute(),
+      operatingSystemName:
+          (json['OperatingSystemName'] as String?)?.toOperatingSystemName(),
       protocols: (json['Protocols'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toProtocol())
@@ -8078,6 +10322,7 @@ class WorkspaceProperties {
 
   Map<String, dynamic> toJson() {
     final computeTypeName = this.computeTypeName;
+    final operatingSystemName = this.operatingSystemName;
     final protocols = this.protocols;
     final rootVolumeSizeGib = this.rootVolumeSizeGib;
     final runningMode = this.runningMode;
@@ -8086,6 +10331,8 @@ class WorkspaceProperties {
     final userVolumeSizeGib = this.userVolumeSizeGib;
     return {
       if (computeTypeName != null) 'ComputeTypeName': computeTypeName.toValue(),
+      if (operatingSystemName != null)
+        'OperatingSystemName': operatingSystemName.toValue(),
       if (protocols != null)
         'Protocols': protocols.map((e) => e.toValue()).toList(),
       if (rootVolumeSizeGib != null) 'RootVolumeSizeGib': rootVolumeSizeGib,
@@ -8110,6 +10357,9 @@ class WorkspaceRequest {
 
   /// The user name of the user for the WorkSpace. This user name must exist in
   /// the Directory Service directory for the WorkSpace.
+  ///
+  /// The reserved keyword, <code>[UNDEFINED]</code>, is used when creating
+  /// user-decoupled WorkSpaces.
   final String userName;
 
   /// Indicates whether the data stored on the root volume is encrypted.
@@ -8121,9 +10371,12 @@ class WorkspaceRequest {
   /// Indicates whether the data stored on the user volume is encrypted.
   final bool? userVolumeEncryptionEnabled;
 
-  /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon
-  /// WorkSpaces does not support asymmetric KMS keys.
+  /// The ARN of the symmetric KMS key used to encrypt data stored on your
+  /// WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
   final String? volumeEncryptionKey;
+
+  /// The name of the user-decoupled WorkSpace.
+  final String? workspaceName;
 
   /// The WorkSpace properties.
   final WorkspaceProperties? workspaceProperties;
@@ -8136,6 +10389,7 @@ class WorkspaceRequest {
     this.tags,
     this.userVolumeEncryptionEnabled,
     this.volumeEncryptionKey,
+    this.workspaceName,
     this.workspaceProperties,
   });
 
@@ -8151,6 +10405,7 @@ class WorkspaceRequest {
           .toList(),
       userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
       volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
+      workspaceName: json['WorkspaceName'] as String?,
       workspaceProperties: json['WorkspaceProperties'] != null
           ? WorkspaceProperties.fromJson(
               json['WorkspaceProperties'] as Map<String, dynamic>)
@@ -8166,6 +10421,7 @@ class WorkspaceRequest {
     final tags = this.tags;
     final userVolumeEncryptionEnabled = this.userVolumeEncryptionEnabled;
     final volumeEncryptionKey = this.volumeEncryptionKey;
+    final workspaceName = this.workspaceName;
     final workspaceProperties = this.workspaceProperties;
     return {
       'BundleId': bundleId,
@@ -8178,8 +10434,81 @@ class WorkspaceRequest {
         'UserVolumeEncryptionEnabled': userVolumeEncryptionEnabled,
       if (volumeEncryptionKey != null)
         'VolumeEncryptionKey': volumeEncryptionKey,
+      if (workspaceName != null) 'WorkspaceName': workspaceName,
       if (workspaceProperties != null)
         'WorkspaceProperties': workspaceProperties,
+    };
+  }
+}
+
+/// Describes the association between an application and a WorkSpace resource.
+class WorkspaceResourceAssociation {
+  /// The identifier of the associated resource.
+  final String? associatedResourceId;
+
+  /// The resource types of the associated resource.
+  final WorkSpaceAssociatedResourceType? associatedResourceType;
+
+  /// The time the association is created.
+  final DateTime? created;
+
+  /// The time the association status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the WorkSpace resource association.
+  final AssociationState? state;
+
+  /// The reason the association deployment failed.
+  final AssociationStateReason? stateReason;
+
+  /// The identifier of the WorkSpace.
+  final String? workspaceId;
+
+  WorkspaceResourceAssociation({
+    this.associatedResourceId,
+    this.associatedResourceType,
+    this.created,
+    this.lastUpdatedTime,
+    this.state,
+    this.stateReason,
+    this.workspaceId,
+  });
+
+  factory WorkspaceResourceAssociation.fromJson(Map<String, dynamic> json) {
+    return WorkspaceResourceAssociation(
+      associatedResourceId: json['AssociatedResourceId'] as String?,
+      associatedResourceType: (json['AssociatedResourceType'] as String?)
+          ?.toWorkSpaceAssociatedResourceType(),
+      created: timeStampFromJson(json['Created']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      state: (json['State'] as String?)?.toAssociationState(),
+      stateReason: json['StateReason'] != null
+          ? AssociationStateReason.fromJson(
+              json['StateReason'] as Map<String, dynamic>)
+          : null,
+      workspaceId: json['WorkspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedResourceId = this.associatedResourceId;
+    final associatedResourceType = this.associatedResourceType;
+    final created = this.created;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    final workspaceId = this.workspaceId;
+    return {
+      if (associatedResourceId != null)
+        'AssociatedResourceId': associatedResourceId,
+      if (associatedResourceType != null)
+        'AssociatedResourceType': associatedResourceType.toValue(),
+      if (created != null) 'Created': unixTimestampToJson(created),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (state != null) 'State': state.toValue(),
+      if (stateReason != null) 'StateReason': stateReason,
+      if (workspaceId != null) 'WorkspaceId': workspaceId,
     };
   }
 }
@@ -8339,6 +10668,40 @@ class AccessDeniedException extends _s.GenericAwsException {
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+class ApplicationNotSupportedException extends _s.GenericAwsException {
+  ApplicationNotSupportedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ApplicationNotSupportedException',
+            message: message);
+}
+
+class ComputeNotCompatibleException extends _s.GenericAwsException {
+  ComputeNotCompatibleException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ComputeNotCompatibleException',
+            message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
+class IncompatibleApplicationsException extends _s.GenericAwsException {
+  IncompatibleApplicationsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IncompatibleApplicationsException',
+            message: message);
+}
+
+class InternalServerException extends _s.GenericAwsException {
+  InternalServerException({String? type, String? message})
+      : super(type: type, code: 'InternalServerException', message: message);
+}
+
 class InvalidParameterValuesException extends _s.GenericAwsException {
   InvalidParameterValuesException({String? type, String? message})
       : super(
@@ -8352,6 +10715,14 @@ class InvalidResourceStateException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'InvalidResourceStateException',
+            message: message);
+}
+
+class OperatingSystemNotCompatibleException extends _s.GenericAwsException {
+  OperatingSystemNotCompatibleException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'OperatingSystemNotCompatibleException',
             message: message);
 }
 
@@ -8391,6 +10762,11 @@ class ResourceCreationFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+class ResourceInUseException extends _s.GenericAwsException {
+  ResourceInUseException({String? type, String? message})
+      : super(type: type, code: 'ResourceInUseException', message: message);
+}
+
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -8427,6 +10803,11 @@ class UnsupportedWorkspaceConfigurationException
             message: message);
 }
 
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String? type, String? message})
+      : super(type: type, code: 'ValidationException', message: message);
+}
+
 class WorkspacesDefaultRoleNotFoundException extends _s.GenericAwsException {
   WorkspacesDefaultRoleNotFoundException({String? type, String? message})
       : super(
@@ -8438,10 +10819,22 @@ class WorkspacesDefaultRoleNotFoundException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
+  'ApplicationNotSupportedException': (type, message) =>
+      ApplicationNotSupportedException(type: type, message: message),
+  'ComputeNotCompatibleException': (type, message) =>
+      ComputeNotCompatibleException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
+  'IncompatibleApplicationsException': (type, message) =>
+      IncompatibleApplicationsException(type: type, message: message),
+  'InternalServerException': (type, message) =>
+      InternalServerException(type: type, message: message),
   'InvalidParameterValuesException': (type, message) =>
       InvalidParameterValuesException(type: type, message: message),
   'InvalidResourceStateException': (type, message) =>
       InvalidResourceStateException(type: type, message: message),
+  'OperatingSystemNotCompatibleException': (type, message) =>
+      OperatingSystemNotCompatibleException(type: type, message: message),
   'OperationInProgressException': (type, message) =>
       OperationInProgressException(type: type, message: message),
   'OperationNotSupportedException': (type, message) =>
@@ -8452,6 +10845,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceAssociatedException(type: type, message: message),
   'ResourceCreationFailedException': (type, message) =>
       ResourceCreationFailedException(type: type, message: message),
+  'ResourceInUseException': (type, message) =>
+      ResourceInUseException(type: type, message: message),
   'ResourceLimitExceededException': (type, message) =>
       ResourceLimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
@@ -8462,6 +10857,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       UnsupportedNetworkConfigurationException(type: type, message: message),
   'UnsupportedWorkspaceConfigurationException': (type, message) =>
       UnsupportedWorkspaceConfigurationException(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
   'WorkspacesDefaultRoleNotFoundException': (type, message) =>
       WorkspacesDefaultRoleNotFoundException(type: type, message: message),
 };

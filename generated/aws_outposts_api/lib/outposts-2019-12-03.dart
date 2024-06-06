@@ -55,6 +55,33 @@ class Outposts {
     _protocol.close();
   }
 
+  /// Cancels the capacity task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [capacityTaskId] :
+  /// ID of the capacity task that you want to cancel.
+  ///
+  /// Parameter [outpostIdentifier] :
+  /// ID or ARN of the Outpost associated with the capacity task that you want
+  /// to cancel.
+  Future<void> cancelCapacityTask({
+    required String capacityTaskId,
+    required String outpostIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/outposts/${Uri.encodeComponent(outpostIdentifier)}/capacity/${Uri.encodeComponent(capacityTaskId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Cancels the specified order for an Outpost.
   ///
   /// May throw [ValidationException].
@@ -230,7 +257,7 @@ class Outposts {
   /// May throw [InternalServerException].
   ///
   /// Parameter [outpostId] :
-  /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// The ID or ARN of the Outpost.
   Future<void> deleteOutpost({
     required String outpostId,
   }) async {
@@ -261,6 +288,32 @@ class Outposts {
       requestUri: '/sites/${Uri.encodeComponent(siteId)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Gets details of the specified capacity task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [capacityTaskId] :
+  /// ID of the capacity task.
+  ///
+  /// Parameter [outpostIdentifier] :
+  /// ID or ARN of the Outpost associated with the specified capacity task.
+  Future<GetCapacityTaskOutput> getCapacityTask({
+    required String capacityTaskId,
+    required String outpostIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/outposts/${Uri.encodeComponent(outpostIdentifier)}/capacity/${Uri.encodeComponent(capacityTaskId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCapacityTaskOutput.fromJson(response);
   }
 
   /// Gets information about the specified catalog item.
@@ -345,7 +398,7 @@ class Outposts {
   /// May throw [InternalServerException].
   ///
   /// Parameter [outpostId] :
-  /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// The ID or ARN of the Outpost.
   Future<GetOutpostOutput> getOutpost({
     required String outpostId,
   }) async {
@@ -366,7 +419,7 @@ class Outposts {
   /// May throw [InternalServerException].
   ///
   /// Parameter [outpostId] :
-  /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// The ID or ARN of the Outpost.
   Future<GetOutpostInstanceTypesOutput> getOutpostInstanceTypes({
     required String outpostId,
     int? maxResults,
@@ -390,6 +443,50 @@ class Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return GetOutpostInstanceTypesOutput.fromJson(response);
+  }
+
+  /// Gets the instance types that an Outpost can support in
+  /// <code>InstanceTypeCapacity</code>. This will generally include instance
+  /// types that are not currently configured and therefore cannot be launched
+  /// with the current Outpost capacity configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [orderId] :
+  /// The ID for the Amazon Web Services Outposts order.
+  ///
+  /// Parameter [outpostIdentifier] :
+  /// The ID or ARN of the Outpost.
+  Future<GetOutpostSupportedInstanceTypesOutput>
+      getOutpostSupportedInstanceTypes({
+    required String orderId,
+    required String outpostIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'OrderId': [orderId],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/outposts/${Uri.encodeComponent(outpostIdentifier)}/supportedInstanceTypes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetOutpostSupportedInstanceTypesOutput.fromJson(response);
   }
 
   /// Gets information about the specified Outpost site.
@@ -491,6 +588,56 @@ class Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetsOutput.fromJson(response);
+  }
+
+  /// Lists the capacity tasks for your Amazon Web Services account.
+  ///
+  /// Use filters to return specific results. If you specify multiple filters,
+  /// the results include only the resources that match all of the specified
+  /// filters. For a filter where you can specify multiple values, the results
+  /// include items that match any of the values that you specify for the
+  /// filter.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [capacityTaskStatusFilter] :
+  /// A list of statuses. For example, <code>REQUESTED</code> or
+  /// <code>WAITING_FOR_EVACUATION</code>.
+  ///
+  /// Parameter [outpostIdentifierFilter] :
+  /// Filters the results by an Outpost ID or an Outpost ARN.
+  Future<ListCapacityTasksOutput> listCapacityTasks({
+    List<CapacityTaskStatus>? capacityTaskStatusFilter,
+    int? maxResults,
+    String? nextToken,
+    String? outpostIdentifierFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (capacityTaskStatusFilter != null)
+        'CapacityTaskStatusFilter':
+            capacityTaskStatusFilter.map((e) => e.toValue()).toList(),
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (outpostIdentifierFilter != null)
+        'OutpostIdentifierFilter': [outpostIdentifierFilter],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/capacity/tasks',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCapacityTasksOutput.fromJson(response);
   }
 
   /// Lists the items in the catalog.
@@ -711,6 +858,50 @@ class Outposts {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Starts the specified capacity task. You can have one active capacity task
+  /// for an order.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [instancePools] :
+  /// The instance pools specified in the capacity task.
+  ///
+  /// Parameter [orderId] :
+  /// The ID of the Amazon Web Services Outposts order associated with the
+  /// specified capacity task.
+  ///
+  /// Parameter [outpostIdentifier] :
+  /// The ID or ARN of the Outposts associated with the specified capacity task.
+  ///
+  /// Parameter [dryRun] :
+  /// You can request a dry run to determine if the instance type and instance
+  /// size changes is above or below available instance capacity. Requesting a
+  /// dry run does not make any changes to your plan.
+  Future<StartCapacityTaskOutput> startCapacityTask({
+    required List<InstanceTypeCapacity> instancePools,
+    required String orderId,
+    required String outpostIdentifier,
+    bool? dryRun,
+  }) async {
+    final $payload = <String, dynamic>{
+      'InstancePools': instancePools,
+      'OrderId': orderId,
+      if (dryRun != null) 'DryRun': dryRun,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/outposts/${Uri.encodeComponent(outpostIdentifier)}/capacity',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartCapacityTaskOutput.fromJson(response);
+  }
+
   /// <note>
   /// Amazon Web Services uses this action to install Outpost servers.
   /// </note>
@@ -737,16 +928,16 @@ class Outposts {
   /// Parameter [clientPublicKey] :
   /// The public key of the client.
   ///
-  /// Parameter [deviceSerialNumber] :
-  /// The serial number of the dongle.
-  ///
   /// Parameter [networkInterfaceDeviceIndex] :
   /// The device index of the network interface on the Outpost server.
+  ///
+  /// Parameter [deviceSerialNumber] :
+  /// The serial number of the dongle.
   Future<StartConnectionResponse> startConnection({
     required String assetId,
     required String clientPublicKey,
-    required String deviceSerialNumber,
     required int networkInterfaceDeviceIndex,
+    String? deviceSerialNumber,
   }) async {
     _s.validateNumRange(
       'networkInterfaceDeviceIndex',
@@ -758,8 +949,8 @@ class Outposts {
     final $payload = <String, dynamic>{
       'AssetId': assetId,
       'ClientPublicKey': clientPublicKey,
-      'DeviceSerialNumber': deviceSerialNumber,
       'NetworkInterfaceDeviceIndex': networkInterfaceDeviceIndex,
+      if (deviceSerialNumber != null) 'DeviceSerialNumber': deviceSerialNumber,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -832,7 +1023,7 @@ class Outposts {
   /// May throw [InternalServerException].
   ///
   /// Parameter [outpostId] :
-  /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// The ID or ARN of the Outpost.
   ///
   /// Parameter [supportedHardwareType] :
   /// The type of hardware for this Outpost.
@@ -1294,6 +1485,7 @@ class AssetLocation {
 enum AssetState {
   active,
   retiring,
+  isolated,
 }
 
 extension AssetStateValueExtension on AssetState {
@@ -1303,6 +1495,8 @@ extension AssetStateValueExtension on AssetState {
         return 'ACTIVE';
       case AssetState.retiring:
         return 'RETIRING';
+      case AssetState.isolated:
+        return 'ISOLATED';
     }
   }
 }
@@ -1314,6 +1508,8 @@ extension AssetStateFromString on String {
         return AssetState.active;
       case 'RETIRING':
         return AssetState.retiring;
+      case 'ISOLATED':
+        return AssetState.isolated;
     }
     throw Exception('$this is not known in enum AssetState');
   }
@@ -1342,11 +1538,154 @@ extension AssetTypeFromString on String {
   }
 }
 
+class CancelCapacityTaskOutput {
+  CancelCapacityTaskOutput();
+
+  factory CancelCapacityTaskOutput.fromJson(Map<String, dynamic> _) {
+    return CancelCapacityTaskOutput();
+  }
+}
+
 class CancelOrderOutput {
   CancelOrderOutput();
 
   factory CancelOrderOutput.fromJson(Map<String, dynamic> _) {
     return CancelOrderOutput();
+  }
+}
+
+/// The capacity tasks that failed.
+class CapacityTaskFailure {
+  /// The reason that the specified capacity task failed.
+  final String reason;
+
+  /// The type of failure.
+  final CapacityTaskFailureType? type;
+
+  CapacityTaskFailure({
+    required this.reason,
+    this.type,
+  });
+
+  factory CapacityTaskFailure.fromJson(Map<String, dynamic> json) {
+    return CapacityTaskFailure(
+      reason: json['Reason'] as String,
+      type: (json['Type'] as String?)?.toCapacityTaskFailureType(),
+    );
+  }
+}
+
+enum CapacityTaskFailureType {
+  unsupportedCapacityConfiguration,
+}
+
+extension CapacityTaskFailureTypeValueExtension on CapacityTaskFailureType {
+  String toValue() {
+    switch (this) {
+      case CapacityTaskFailureType.unsupportedCapacityConfiguration:
+        return 'UNSUPPORTED_CAPACITY_CONFIGURATION';
+    }
+  }
+}
+
+extension CapacityTaskFailureTypeFromString on String {
+  CapacityTaskFailureType toCapacityTaskFailureType() {
+    switch (this) {
+      case 'UNSUPPORTED_CAPACITY_CONFIGURATION':
+        return CapacityTaskFailureType.unsupportedCapacityConfiguration;
+    }
+    throw Exception('$this is not known in enum CapacityTaskFailureType');
+  }
+}
+
+enum CapacityTaskStatus {
+  requested,
+  inProgress,
+  failed,
+  completed,
+  cancelled,
+}
+
+extension CapacityTaskStatusValueExtension on CapacityTaskStatus {
+  String toValue() {
+    switch (this) {
+      case CapacityTaskStatus.requested:
+        return 'REQUESTED';
+      case CapacityTaskStatus.inProgress:
+        return 'IN_PROGRESS';
+      case CapacityTaskStatus.failed:
+        return 'FAILED';
+      case CapacityTaskStatus.completed:
+        return 'COMPLETED';
+      case CapacityTaskStatus.cancelled:
+        return 'CANCELLED';
+    }
+  }
+}
+
+extension CapacityTaskStatusFromString on String {
+  CapacityTaskStatus toCapacityTaskStatus() {
+    switch (this) {
+      case 'REQUESTED':
+        return CapacityTaskStatus.requested;
+      case 'IN_PROGRESS':
+        return CapacityTaskStatus.inProgress;
+      case 'FAILED':
+        return CapacityTaskStatus.failed;
+      case 'COMPLETED':
+        return CapacityTaskStatus.completed;
+      case 'CANCELLED':
+        return CapacityTaskStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum CapacityTaskStatus');
+  }
+}
+
+/// The summary of the capacity task.
+class CapacityTaskSummary {
+  /// The ID of the specified capacity task.
+  final String? capacityTaskId;
+
+  /// The status of the capacity task.
+  final CapacityTaskStatus? capacityTaskStatus;
+
+  /// The date that the specified capacity task successfully ran.
+  final DateTime? completionDate;
+
+  /// The date that the specified capacity task was created.
+  final DateTime? creationDate;
+
+  /// The date that the specified capacity was last modified.
+  final DateTime? lastModifiedDate;
+
+  /// The ID of the Amazon Web Services Outposts order of the host associated with
+  /// the capacity task.
+  final String? orderId;
+
+  /// The ID of the Outpost associated with the specified capacity task.
+  final String? outpostId;
+
+  CapacityTaskSummary({
+    this.capacityTaskId,
+    this.capacityTaskStatus,
+    this.completionDate,
+    this.creationDate,
+    this.lastModifiedDate,
+    this.orderId,
+    this.outpostId,
+  });
+
+  factory CapacityTaskSummary.fromJson(Map<String, dynamic> json) {
+    return CapacityTaskSummary(
+      capacityTaskId: json['CapacityTaskId'] as String?,
+      capacityTaskStatus:
+          (json['CapacityTaskStatus'] as String?)?.toCapacityTaskStatus(),
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      orderId: json['OrderId'] as String?,
+      outpostId: json['OutpostId'] as String?,
+    );
   }
 }
 
@@ -1500,6 +1839,10 @@ class ComputeAttributes {
   /// The host ID of the Dedicated Host on the asset.
   final String? hostId;
 
+  /// A list of the names of instance families that are currently associated with
+  /// a given asset.
+  final List<String>? instanceFamilies;
+
   /// The state.
   ///
   /// <ul>
@@ -1522,12 +1865,17 @@ class ComputeAttributes {
 
   ComputeAttributes({
     this.hostId,
+    this.instanceFamilies,
     this.state,
   });
 
   factory ComputeAttributes.fromJson(Map<String, dynamic> json) {
     return ComputeAttributes(
       hostId: json['HostId'] as String?,
+      instanceFamilies: (json['InstanceFamilies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       state: (json['State'] as String?)?.toComputeAssetState(),
     );
   }
@@ -1696,6 +2044,91 @@ extension FiberOpticCableTypeFromString on String {
   }
 }
 
+class GetCapacityTaskOutput {
+  /// ID of the capacity task.
+  final String? capacityTaskId;
+
+  /// Status of the capacity task.
+  ///
+  /// A capacity task can have one of the following statuses:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REQUESTED</code> - The capacity task was created and is awaiting the
+  /// next step by Amazon Web Services Outposts.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> - The capacity task is running and cannot be
+  /// cancelled.
+  /// </li>
+  /// <li>
+  /// <code>WAITING_FOR_EVACUATION</code> - The capacity task requires capacity to
+  /// run. You must stop the recommended EC2 running instances to free up capacity
+  /// for the task to run.
+  /// </li>
+  /// </ul>
+  final CapacityTaskStatus? capacityTaskStatus;
+
+  /// The date the capacity task ran successfully.
+  final DateTime? completionDate;
+
+  /// The date the capacity task was created.
+  final DateTime? creationDate;
+
+  /// Performs a dry run to determine if you are above or below instance capacity.
+  final bool? dryRun;
+
+  /// Reason why the capacity task failed.
+  final CapacityTaskFailure? failed;
+
+  /// The date the capacity task was last modified.
+  final DateTime? lastModifiedDate;
+
+  /// ID of the Amazon Web Services Outposts order associated with the specified
+  /// capacity task.
+  final String? orderId;
+
+  /// ID of the Outpost associated with the specified capacity task.
+  final String? outpostId;
+
+  /// List of instance pools requested in the capacity task.
+  final List<InstanceTypeCapacity>? requestedInstancePools;
+
+  GetCapacityTaskOutput({
+    this.capacityTaskId,
+    this.capacityTaskStatus,
+    this.completionDate,
+    this.creationDate,
+    this.dryRun,
+    this.failed,
+    this.lastModifiedDate,
+    this.orderId,
+    this.outpostId,
+    this.requestedInstancePools,
+  });
+
+  factory GetCapacityTaskOutput.fromJson(Map<String, dynamic> json) {
+    return GetCapacityTaskOutput(
+      capacityTaskId: json['CapacityTaskId'] as String?,
+      capacityTaskStatus:
+          (json['CapacityTaskStatus'] as String?)?.toCapacityTaskStatus(),
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      dryRun: json['DryRun'] as bool?,
+      failed: json['Failed'] != null
+          ? CapacityTaskFailure.fromJson(json['Failed'] as Map<String, dynamic>)
+          : null,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      orderId: json['OrderId'] as String?,
+      outpostId: json['OutpostId'] as String?,
+      requestedInstancePools: (json['RequestedInstancePools'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceTypeCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class GetCatalogItemOutput {
   /// Information about this catalog item.
   final CatalogItem? catalogItem;
@@ -1796,6 +2229,27 @@ class GetOutpostOutput {
   }
 }
 
+class GetOutpostSupportedInstanceTypesOutput {
+  final List<InstanceTypeItem>? instanceTypes;
+  final String? nextToken;
+
+  GetOutpostSupportedInstanceTypesOutput({
+    this.instanceTypes,
+    this.nextToken,
+  });
+
+  factory GetOutpostSupportedInstanceTypesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetOutpostSupportedInstanceTypesOutput(
+      instanceTypes: (json['InstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceTypeItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class GetSiteAddressOutput {
   /// Information about the address.
   final Address? address;
@@ -1834,6 +2288,37 @@ class GetSiteOutput {
           ? Site.fromJson(json['Site'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// The instance type that you specify determines the combination of CPU,
+/// memory, storage, and networking capacity.
+class InstanceTypeCapacity {
+  /// The number of instances for the specified instance type.
+  final int count;
+
+  /// The instance type of the hosts.
+  final String instanceType;
+
+  InstanceTypeCapacity({
+    required this.count,
+    required this.instanceType,
+  });
+
+  factory InstanceTypeCapacity.fromJson(Map<String, dynamic> json) {
+    return InstanceTypeCapacity(
+      count: json['Count'] as int,
+      instanceType: json['InstanceType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final instanceType = this.instanceType;
+    return {
+      'Count': count,
+      'InstanceType': instanceType,
+    };
   }
 }
 
@@ -2035,6 +2520,27 @@ class ListAssetsOutput {
       assets: (json['Assets'] as List?)
           ?.whereNotNull()
           .map((e) => AssetInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListCapacityTasksOutput {
+  /// Lists all the capacity tasks.
+  final List<CapacityTaskSummary>? capacityTasks;
+  final String? nextToken;
+
+  ListCapacityTasksOutput({
+    this.capacityTasks,
+    this.nextToken,
+  });
+
+  factory ListCapacityTasksOutput.fromJson(Map<String, dynamic> json) {
+    return ListCapacityTasksOutput(
+      capacityTasks: (json['CapacityTasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => CapacityTaskSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -2861,6 +3367,7 @@ enum ShipmentCarrier {
   dbs,
   fedex,
   ups,
+  expeditors,
 }
 
 extension ShipmentCarrierValueExtension on ShipmentCarrier {
@@ -2874,6 +3381,8 @@ extension ShipmentCarrierValueExtension on ShipmentCarrier {
         return 'FEDEX';
       case ShipmentCarrier.ups:
         return 'UPS';
+      case ShipmentCarrier.expeditors:
+        return 'EXPEDITORS';
     }
   }
 }
@@ -2889,6 +3398,8 @@ extension ShipmentCarrierFromString on String {
         return ShipmentCarrier.fedex;
       case 'UPS':
         return ShipmentCarrier.ups;
+      case 'EXPEDITORS':
+        return ShipmentCarrier.expeditors;
     }
     throw Exception('$this is not known in enum ShipmentCarrier');
   }
@@ -2977,6 +3488,74 @@ class Site {
       siteId: json['SiteId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+class StartCapacityTaskOutput {
+  /// ID of the capacity task that you want to start.
+  final String? capacityTaskId;
+
+  /// Status of the specified capacity task.
+  final CapacityTaskStatus? capacityTaskStatus;
+
+  /// Date that the specified capacity task ran successfully.
+  final DateTime? completionDate;
+
+  /// Date that the specified capacity task was created.
+  final DateTime? creationDate;
+
+  /// Results of the dry run showing if the specified capacity task is above or
+  /// below the available instance capacity.
+  final bool? dryRun;
+
+  /// Reason that the specified capacity task failed.
+  final CapacityTaskFailure? failed;
+
+  /// Date that the specified capacity task was last modified.
+  final DateTime? lastModifiedDate;
+
+  /// ID of the Amazon Web Services Outposts order of the host associated with the
+  /// capacity task.
+  final String? orderId;
+
+  /// ID of the Outpost associated with the capacity task.
+  final String? outpostId;
+
+  /// List of the instance pools requested in the specified capacity task.
+  final List<InstanceTypeCapacity>? requestedInstancePools;
+
+  StartCapacityTaskOutput({
+    this.capacityTaskId,
+    this.capacityTaskStatus,
+    this.completionDate,
+    this.creationDate,
+    this.dryRun,
+    this.failed,
+    this.lastModifiedDate,
+    this.orderId,
+    this.outpostId,
+    this.requestedInstancePools,
+  });
+
+  factory StartCapacityTaskOutput.fromJson(Map<String, dynamic> json) {
+    return StartCapacityTaskOutput(
+      capacityTaskId: json['CapacityTaskId'] as String?,
+      capacityTaskStatus:
+          (json['CapacityTaskStatus'] as String?)?.toCapacityTaskStatus(),
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      dryRun: json['DryRun'] as bool?,
+      failed: json['Failed'] != null
+          ? CapacityTaskFailure.fromJson(json['Failed'] as Map<String, dynamic>)
+          : null,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      orderId: json['OrderId'] as String?,
+      outpostId: json['OutpostId'] as String?,
+      requestedInstancePools: (json['RequestedInstancePools'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceTypeCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

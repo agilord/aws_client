@@ -19,16 +19,10 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// <note>
-/// Amazon Security Lake is in preview release. Your use of the Security Lake
-/// preview is subject to Section 2 of the <a
-/// href="http://aws.amazon.com/service-terms/">Amazon Web Services Service
-/// Terms</a>("Betas and Previews").
-/// </note>
 /// Amazon Security Lake is a fully managed security data lake service. You can
 /// use Security Lake to automatically centralize security data from cloud,
 /// on-premises, and custom sources into a data lake that's stored in your
-/// Amazon Web Servicesaccount. Amazon Web Services Organizations is an account
+/// Amazon Web Services account. Amazon Web Services Organizations is an account
 /// management service that lets you consolidate multiple Amazon Web Services
 /// accounts into an organization that you create and centrally manage. With
 /// Organizations, you can create member accounts and invite existing accounts
@@ -41,8 +35,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// buckets, and you retain ownership over your data.
 ///
 /// Amazon Security Lake integrates with CloudTrail, a service that provides a
-/// record of actions taken by a user, role, or an Amazon Web Services service
-/// in Security Lake CloudTrail captures API calls for Security Lake as events.
+/// record of actions taken by a user, role, or an Amazon Web Services service.
+/// In Security Lake, CloudTrail captures API calls for Security Lake as events.
 /// The calls captured include calls from the Security Lake console and code
 /// calls to the Security Lake API operations. If you create a trail, you can
 /// enable continuous delivery of CloudTrail events to an Amazon S3 bucket,
@@ -99,63 +93,33 @@ class SecurityLake {
   /// source. Enables source types for member accounts in required Amazon Web
   /// Services Regions, based on the parameters you specify. You can choose any
   /// source type in any Region for either accounts that are part of a trusted
-  /// organization or standalone accounts. At least one of the three dimensions
-  /// is a mandatory input to this API. However, you can supply any combination
-  /// of the three dimensions to this API.
-  ///
-  /// By default, a dimension refers to the entire set. When you don't provide a
-  /// dimension, Security Lake assumes that the missing dimension refers to the
-  /// entire set. This is overridden when you supply any one of the inputs. For
-  /// instance, when you do not specify members, the API enables all Security
-  /// Lake member accounts for all sources. Similarly, when you do not specify
-  /// Regions, Security Lake is enabled for all the Regions where Security Lake
-  /// is available as a service.
+  /// organization or standalone accounts. Once you add an Amazon Web Service as
+  /// a source, Security Lake starts collecting logs and events from it.
   ///
   /// You can use this API only to enable natively supported Amazon Web Services
   /// as a source. Use <code>CreateCustomLogSource</code> to enable data
   /// collection from a custom source.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [S3Exception].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [inputOrder] :
-  /// Specifies the input order to enable dimensions in Security Lake, namely
-  /// Region, source type, and member account.
-  ///
-  /// Parameter [enableAllDimensions] :
-  /// Enables data collection from specific Amazon Web Services sources in all
-  /// specific accounts and specific Regions.
-  ///
-  /// Parameter [enableSingleDimension] :
-  /// Enables data collection from all Amazon Web Services sources in specific
-  /// accounts or Regions.
-  ///
-  /// Parameter [enableTwoDimensions] :
-  /// Enables data collection from specific Amazon Web Services sources in
-  /// specific accounts or Regions.
+  /// Parameter [sources] :
+  /// Specify the natively-supported Amazon Web Services service to add as a
+  /// source in Security Lake.
   Future<CreateAwsLogSourceResponse> createAwsLogSource({
-    required List<Dimension> inputOrder,
-    Map<String, Map<String, List<String>>>? enableAllDimensions,
-    List<String>? enableSingleDimension,
-    Map<String, List<String>>? enableTwoDimensions,
+    required List<AwsLogSourceConfiguration> sources,
   }) async {
     final $payload = <String, dynamic>{
-      'inputOrder': inputOrder.map((e) => e.toValue()).toList(),
-      if (enableAllDimensions != null)
-        'enableAllDimensions': enableAllDimensions,
-      if (enableSingleDimension != null)
-        'enableSingleDimension': enableSingleDimension,
-      if (enableTwoDimensions != null)
-        'enableTwoDimensions': enableTwoDimensions,
+      'sources': sources,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/logsources/aws',
+      requestUri: '/v1/datalake/logsources/aws',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAwsLogSourceResponse.fromJson(response);
@@ -167,57 +131,137 @@ class SecurityLake {
   /// creating the appropriate IAM role to invoke Glue crawler, use this API to
   /// add a custom source name in Security Lake. This operation creates a
   /// partition in the Amazon S3 bucket for Security Lake as the target location
-  /// for log files from the custom source in addition to an associated Glue
-  /// table and an Glue crawler.
+  /// for log files from the custom source. In addition, this operation also
+  /// creates an associated Glue table and an Glue crawler.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictSourceNamesException].
-  /// May throw [AccessDeniedException].
-  /// May throw [BucketNotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [customSourceName] :
-  /// The name for a third-party custom source. This must be a Regionally unique
-  /// value.
+  /// Parameter [configuration] :
+  /// The configuration for the third-party custom source.
   ///
-  /// Parameter [eventClass] :
-  /// The Open Cybersecurity Schema Framework (OCSF) event class which describes
-  /// the type of data that the custom source will send to Security Lake.
+  /// Parameter [sourceName] :
+  /// Specify the name for a third-party custom source. This must be a
+  /// Regionally unique value.
   ///
-  /// Parameter [glueInvocationRoleArn] :
-  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  /// role to be used by the Glue crawler. The recommended IAM policies are:
+  /// Parameter [eventClasses] :
+  /// The Open Cybersecurity Schema Framework (OCSF) event classes which
+  /// describes the type of data that the custom source will send to Security
+  /// Lake. The supported event classes are:
   ///
   /// <ul>
   /// <li>
-  /// The managed policy <code>AWSGlueServiceRole</code>
+  /// <code>ACCESS_ACTIVITY</code>
   /// </li>
   /// <li>
-  /// A custom policy granting access to your Amazon S3 Data Lake
+  /// <code>FILE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>KERNEL_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>KERNEL_EXTENSION</code>
+  /// </li>
+  /// <li>
+  /// <code>MEMORY_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>MODULE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>PROCESS_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>REGISTRY_KEY_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>REGISTRY_VALUE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>RESOURCE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SCHEDULED_JOB_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SECURITY_FINDING</code>
+  /// </li>
+  /// <li>
+  /// <code>ACCOUNT_CHANGE</code>
+  /// </li>
+  /// <li>
+  /// <code>AUTHENTICATION</code>
+  /// </li>
+  /// <li>
+  /// <code>AUTHORIZATION</code>
+  /// </li>
+  /// <li>
+  /// <code>ENTITY_MANAGEMENT_AUDIT</code>
+  /// </li>
+  /// <li>
+  /// <code>DHCP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>NETWORK_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>DNS_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>FTP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>RDP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SMB_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SSH_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>CONFIG_STATE</code>
+  /// </li>
+  /// <li>
+  /// <code>INVENTORY_INFO</code>
+  /// </li>
+  /// <li>
+  /// <code>EMAIL_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>API_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>CLOUD_API</code>
   /// </li>
   /// </ul>
   ///
-  /// Parameter [logProviderAccountId] :
-  /// The Amazon Web Services account ID of the custom source that will write
-  /// logs and events into the Amazon S3 Data Lake.
+  /// Parameter [sourceVersion] :
+  /// Specify the source version for the third-party custom source, to limit log
+  /// collection to a specific version of custom data source.
   Future<CreateCustomLogSourceResponse> createCustomLogSource({
-    required String customSourceName,
-    required OcsfEventClass eventClass,
-    required String glueInvocationRoleArn,
-    required String logProviderAccountId,
+    required CustomLogSourceConfiguration configuration,
+    required String sourceName,
+    List<String>? eventClasses,
+    String? sourceVersion,
   }) async {
     final $payload = <String, dynamic>{
-      'customSourceName': customSourceName,
-      'eventClass': eventClass.toValue(),
-      'glueInvocationRoleArn': glueInvocationRoleArn,
-      'logProviderAccountId': logProviderAccountId,
+      'configuration': configuration,
+      'sourceName': sourceName,
+      if (eventClasses != null) 'eventClasses': eventClasses,
+      if (sourceVersion != null) 'sourceVersion': sourceVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/logsources/custom',
+      requestUri: '/v1/datalake/logsources/custom',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCustomLogSourceResponse.fromJson(response);
@@ -226,11 +270,8 @@ class SecurityLake {
   /// Initializes an Amazon Security Lake instance with the provided (or
   /// default) configuration. You can enable Security Lake in Amazon Web
   /// Services Regions with customized settings before enabling log collection
-  /// in Regions. You can either use the <code>enableAll</code> parameter to
-  /// specify all Regions or specify the Regions where you want to enable
-  /// Security Lake. To specify particular Regions, use the <code>Regions</code>
-  /// parameter and then configure these Regions using the
-  /// <code>configurations</code> parameter. If you have already enabled
+  /// in Regions. To specify particular Regions, configure these Regions using
+  /// the <code>configurations</code> parameter. If you have already enabled
   /// Security Lake in a Region when you call this command, the command will
   /// update the Region if you provide new configuration parameters. If you have
   /// not already enabled Security Lake in the Region when you call this API, it
@@ -246,46 +287,35 @@ class SecurityLake {
   /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html">Amazon
   /// Security Lake User Guide</a>.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [configurations] :
   /// Specify the Region or Regions that will contribute data to the rollup
   /// region.
-  ///
-  /// Parameter [enableAll] :
-  /// Enable Security Lake in all Regions.
   ///
   /// Parameter [metaStoreManagerRoleArn] :
   /// The Amazon Resource Name (ARN) used to create and update the Glue table.
   /// This table contains partitions generated by the ingestion and
   /// normalization of Amazon Web Services log sources and custom sources.
   ///
-  /// Parameter [regions] :
-  /// Enable Security Lake in the specified Regions. To enable Security Lake in
-  /// specific Amazon Web Services Regions, such as us-east-1 or ap-northeast-3,
-  /// provide the Region codes. For a list of Region codes, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/securitylake.html">Amazon
-  /// Security Lake endpoints</a> in the Amazon Web Services General Reference.
-  Future<void> createDatalake({
-    Map<Region, LakeConfigurationRequest>? configurations,
-    bool? enableAll,
-    String? metaStoreManagerRoleArn,
-    List<Region>? regions,
+  /// Parameter [tags] :
+  /// An array of objects, one for each tag to associate with the data lake
+  /// configuration. For each tag, you must specify both a tag key and a tag
+  /// value. A tag value cannot be null, but it can be an empty string.
+  Future<CreateDataLakeResponse> createDataLake({
+    required List<DataLakeConfiguration> configurations,
+    required String metaStoreManagerRoleArn,
+    List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      if (configurations != null)
-        'configurations':
-            configurations.map((k, e) => MapEntry(k.toValue(), e)),
-      if (enableAll != null) 'enableAll': enableAll,
-      if (metaStoreManagerRoleArn != null)
-        'metaStoreManagerRoleArn': metaStoreManagerRoleArn,
-      if (regions != null) 'regions': regions.map((e) => e.toValue()).toList(),
+      'configurations': configurations,
+      'metaStoreManagerRoleArn': metaStoreManagerRoleArn,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -293,68 +323,18 @@ class SecurityLake {
       requestUri: '/v1/datalake',
       exceptionFnMap: _exceptionFns,
     );
-  }
-
-  /// Automatically enables Amazon Security Lake for new member accounts in your
-  /// organization. Security Lake is not automatically enabled for any existing
-  /// member accounts in your organization.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
-  ///
-  /// Parameter [configurationForNewAccounts] :
-  /// Enable Security Lake with the specified configuration settings to begin
-  /// collecting security data for new accounts in your organization.
-  Future<void> createDatalakeAutoEnable({
-    required List<AutoEnableNewRegionConfiguration> configurationForNewAccounts,
-  }) async {
-    final $payload = <String, dynamic>{
-      'configurationForNewAccounts': configurationForNewAccounts,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/v1/datalake/autoenable',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Designates the Amazon Security Lake delegated administrator account for
-  /// the organization. This API can only be called by the organization
-  /// management account. The organization management account cannot be the
-  /// delegated administrator account.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [account] :
-  /// The Amazon Web Services account ID of the Security Lake delegated
-  /// administrator.
-  Future<void> createDatalakeDelegatedAdmin({
-    required String account,
-  }) async {
-    final $payload = <String, dynamic>{
-      'account': account,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/v1/datalake/delegate',
-      exceptionFnMap: _exceptionFns,
-    );
+    return CreateDataLakeResponse.fromJson(response);
   }
 
   /// Creates the specified notification subscription in Amazon Security Lake
   /// for the organization you specify.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [notificationEndpoint] :
   /// The Amazon Web Services account where you want to receive exception
@@ -362,13 +342,25 @@ class SecurityLake {
   ///
   /// Parameter [subscriptionProtocol] :
   /// The subscription protocol to which exception notifications are posted.
-  Future<void> createDatalakeExceptionsSubscription({
+  ///
+  /// Parameter [exceptionTimeToLive] :
+  /// The expiration period and time-to-live (TTL).
+  Future<void> createDataLakeExceptionSubscription({
     required String notificationEndpoint,
-    required SubscriptionProtocolType subscriptionProtocol,
+    required String subscriptionProtocol,
+    int? exceptionTimeToLive,
   }) async {
+    _s.validateNumRange(
+      'exceptionTimeToLive',
+      exceptionTimeToLive,
+      1,
+      1152921504606846976,
+    );
     final $payload = <String, dynamic>{
       'notificationEndpoint': notificationEndpoint,
-      'subscriptionProtocol': subscriptionProtocol.toValue(),
+      'subscriptionProtocol': subscriptionProtocol,
+      if (exceptionTimeToLive != null)
+        'exceptionTimeToLive': exceptionTimeToLive,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -378,32 +370,53 @@ class SecurityLake {
     );
   }
 
+  /// Automatically enables Amazon Security Lake for new member accounts in your
+  /// organization. Security Lake is not automatically enabled for any existing
+  /// member accounts in your organization.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [autoEnableNewAccount] :
+  /// Enable Security Lake with the specified configuration settings, to begin
+  /// collecting security data for new accounts in your organization.
+  Future<void> createDataLakeOrganizationConfiguration({
+    List<DataLakeAutoEnableNewAccountConfiguration>? autoEnableNewAccount,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (autoEnableNewAccount != null)
+        'autoEnableNewAccount': autoEnableNewAccount,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/datalake/organization/configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates a subscription permission for accounts that are already enabled in
   /// Amazon Security Lake. You can create a subscriber with access to data in
   /// the current Amazon Web Services Region.
   ///
-  /// May throw [ConflictSubscriptionException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [BucketNotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [accountId] :
-  /// The Amazon Web Services account ID used to access your data.
-  ///
-  /// Parameter [externalId] :
-  /// The external ID of the subscriber. This lets the user that is assuming the
-  /// role assert the circumstances in which they are operating. It also
-  /// provides a way for the account owner to permit the role to be assumed only
-  /// under specific circumstances.
-  ///
-  /// Parameter [sourceTypes] :
+  /// Parameter [sources] :
   /// The supported Amazon Web Services from which logs and events are
   /// collected. Security Lake supports log and event collection for natively
   /// supported Amazon Web Services.
+  ///
+  /// Parameter [subscriberIdentity] :
+  /// The AWS identity used to access your data.
   ///
   /// Parameter [subscriberName] :
   /// The name of your Security Lake subscriber account.
@@ -413,23 +426,28 @@ class SecurityLake {
   ///
   /// Parameter [subscriberDescription] :
   /// The description for your subscriber account in Security Lake.
+  ///
+  /// Parameter [tags] :
+  /// An array of objects, one for each tag to associate with the subscriber.
+  /// For each tag, you must specify both a tag key and a tag value. A tag value
+  /// cannot be null, but it can be an empty string.
   Future<CreateSubscriberResponse> createSubscriber({
-    required String accountId,
-    required String externalId,
-    required List<SourceType> sourceTypes,
+    required List<LogSourceResource> sources,
+    required AwsIdentity subscriberIdentity,
     required String subscriberName,
     List<AccessType>? accessTypes,
     String? subscriberDescription,
+    List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'accountId': accountId,
-      'externalId': externalId,
-      'sourceTypes': sourceTypes,
+      'sources': sources,
+      'subscriberIdentity': subscriberIdentity,
       'subscriberName': subscriberName,
       if (accessTypes != null)
         'accessTypes': accessTypes.map((e) => e.toValue()).toList(),
       if (subscriberDescription != null)
         'subscriberDescription': subscriberDescription,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -444,223 +462,239 @@ class SecurityLake {
   /// sources that the subscriber consumes in Security Lake. You can create only
   /// one subscriber notification per subscriber.
   ///
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [subscriptionId] :
-  /// The subscription ID for the notification subscription.
+  /// Parameter [configuration] :
+  /// Specify the configuration using which you want to create the subscriber
+  /// notification.
   ///
-  /// Parameter [createSqs] :
-  /// Create an Amazon Simple Queue Service queue.
-  ///
-  /// Parameter [httpsApiKeyName] :
-  /// The key name for the notification subscription.
-  ///
-  /// Parameter [httpsApiKeyValue] :
-  /// The key value for the notification subscription.
-  ///
-  /// Parameter [httpsMethod] :
-  /// The HTTPS method used for the notification subscription.
-  ///
-  /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM
-  /// role that you created. For more information about ARNs and how to use them
-  /// in policies, see <a
-  /// href="https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html">Managing
-  /// data access</a> and <a
-  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html">Amazon
-  /// Web Services Managed Policies</a> in the Amazon Security Lake User Guide.
-  ///
-  /// Parameter [subscriptionEndpoint] :
-  /// The subscription endpoint in Security Lake. If you prefer notification
-  /// with an HTTPs endpoint, populate this field.
-  Future<CreateSubscriptionNotificationConfigurationResponse>
-      createSubscriptionNotificationConfiguration({
-    required String subscriptionId,
-    bool? createSqs,
-    String? httpsApiKeyName,
-    String? httpsApiKeyValue,
-    HttpsMethod? httpsMethod,
-    String? roleArn,
-    String? subscriptionEndpoint,
+  /// Parameter [subscriberId] :
+  /// The subscriber ID for the notification subscription.
+  Future<CreateSubscriberNotificationResponse> createSubscriberNotification({
+    required NotificationConfiguration configuration,
+    required String subscriberId,
   }) async {
     final $payload = <String, dynamic>{
-      if (createSqs != null) 'createSqs': createSqs,
-      if (httpsApiKeyName != null) 'httpsApiKeyName': httpsApiKeyName,
-      if (httpsApiKeyValue != null) 'httpsApiKeyValue': httpsApiKeyValue,
-      if (httpsMethod != null) 'httpsMethod': httpsMethod.toValue(),
-      if (roleArn != null) 'roleArn': roleArn,
-      if (subscriptionEndpoint != null)
-        'subscriptionEndpoint': subscriptionEndpoint,
+      'configuration': configuration,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/subscription-notifications/${Uri.encodeComponent(subscriptionId)}',
+          '/v1/subscribers/${Uri.encodeComponent(subscriberId)}/notification',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateSubscriptionNotificationConfigurationResponse.fromJson(
-        response);
+    return CreateSubscriberNotificationResponse.fromJson(response);
   }
 
   /// Removes a natively supported Amazon Web Service as an Amazon Security Lake
-  /// source. When you remove the source, Security Lake stops collecting data
-  /// from that source, and subscribers can no longer consume new data from the
-  /// source. Subscribers can still consume data that Security Lake collected
-  /// from the source before disablement.
+  /// source. You can remove a source for one or more Regions. When you remove
+  /// the source, Security Lake stops collecting data from that source in the
+  /// specified Regions and accounts, and subscribers can no longer consume new
+  /// data from the source. However, subscribers can still consume data that
+  /// Security Lake collected from the source before removal.
   ///
   /// You can choose any source type in any Amazon Web Services Region for
   /// either accounts that are part of a trusted organization or standalone
-  /// accounts. At least one of the three dimensions is a mandatory input to
-  /// this API. However, you can supply any combination of the three dimensions
-  /// to this API.
+  /// accounts.
   ///
-  /// By default, a dimension refers to the entire set. This is overridden when
-  /// you supply any one of the inputs. For instance, when you do not specify
-  /// members, the API disables all Security Lake member accounts for sources.
-  /// Similarly, when you do not specify Regions, Security Lake is disabled for
-  /// all the Regions where Security Lake is available as a service.
-  ///
-  /// When you don't provide a dimension, Security Lake assumes that the missing
-  /// dimension refers to the entire set. For example, if you don't provide
-  /// specific accounts, the API applies to the entire set of accounts in your
-  /// organization.
-  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [inputOrder] :
-  /// This is a mandatory input. Specify the input order to disable dimensions
-  /// in Security Lake, namely Region (Amazon Web Services Region code, source
-  /// type, and member (account ID of a specific Amazon Web Services account).
-  ///
-  /// Parameter [disableAllDimensions] :
-  /// Removes the specific Amazon Web Services sources from specific accounts
-  /// and specific Regions.
-  ///
-  /// Parameter [disableSingleDimension] :
-  /// Removes all Amazon Web Services sources from specific accounts or Regions.
-  ///
-  /// Parameter [disableTwoDimensions] :
-  /// Remove a specific Amazon Web Services source from specific accounts or
-  /// Regions.
+  /// Parameter [sources] :
+  /// Specify the natively-supported Amazon Web Services service to remove as a
+  /// source in Security Lake.
   Future<DeleteAwsLogSourceResponse> deleteAwsLogSource({
-    required List<Dimension> inputOrder,
-    Map<String, Map<String, List<String>>>? disableAllDimensions,
-    List<String>? disableSingleDimension,
-    Map<String, List<String>>? disableTwoDimensions,
+    required List<AwsLogSourceConfiguration> sources,
   }) async {
     final $payload = <String, dynamic>{
-      'inputOrder': inputOrder.map((e) => e.toValue()).toList(),
-      if (disableAllDimensions != null)
-        'disableAllDimensions': disableAllDimensions,
-      if (disableSingleDimension != null)
-        'disableSingleDimension': disableSingleDimension,
-      if (disableTwoDimensions != null)
-        'disableTwoDimensions': disableTwoDimensions,
+      'sources': sources,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/logsources/aws/delete',
+      requestUri: '/v1/datalake/logsources/aws/delete',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAwsLogSourceResponse.fromJson(response);
   }
 
-  /// Removes a custom log source from Amazon Security Lake.
+  /// Removes a custom log source from Amazon Security Lake, to stop sending
+  /// data from the custom source to Security Lake.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictSourceNamesException].
-  /// May throw [AccessDeniedException].
-  /// May throw [BucketNotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [customSourceName] :
-  /// The custom source name for the custom log source.
-  Future<DeleteCustomLogSourceResponse> deleteCustomLogSource({
-    required String customSourceName,
+  /// Parameter [sourceName] :
+  /// The source name of custom log source that you want to delete.
+  ///
+  /// Parameter [sourceVersion] :
+  /// The source version for the third-party custom source. You can limit the
+  /// custom source removal to the specified source version.
+  Future<void> deleteCustomLogSource({
+    required String sourceName,
+    String? sourceVersion,
   }) async {
     final $query = <String, List<String>>{
-      'customSourceName': [customSourceName],
+      if (sourceVersion != null) 'sourceVersion': [sourceVersion],
     };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
-      requestUri: '/v1/logsources/custom',
+      requestUri:
+          '/v1/datalake/logsources/custom/${Uri.encodeComponent(sourceName)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCustomLogSourceResponse.fromJson(response);
   }
 
-  /// When you delete Amazon Security Lake from your account, Security Lake is
-  /// disabled in all Amazon Web Services Regions. Also, this API automatically
-  /// takes steps to remove the account from Security Lake .
+  /// When you disable Amazon Security Lake from your account, Security Lake is
+  /// disabled in all Amazon Web Services Regions and it stops collecting data
+  /// from your sources. Also, this API automatically takes steps to remove the
+  /// account from Security Lake. However, Security Lake retains all of your
+  /// existing settings and the resources that it created in your Amazon Web
+  /// Services account in the current Amazon Web Services Region.
   ///
-  /// This operation disables security data collection from sources, deletes
-  /// data stored, and stops making data accessible to subscribers. Security
-  /// Lake also deletes all the existing settings and resources that it stores
-  /// or maintains for your Amazon Web Services account in the current Region,
-  /// including security log and event data. The <code>DeleteDatalake</code>
-  /// operation does not delete the Amazon S3 bucket, which is owned by your
-  /// Amazon Web Services account. For more information, see the <a
+  /// The <code>DeleteDataLake</code> operation does not delete the data that is
+  /// stored in your Amazon S3 bucket, which is owned by your Amazon Web
+  /// Services account. For more information, see the <a
   /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/disable-security-lake.html">Amazon
   /// Security Lake User Guide</a>.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  Future<void> deleteDatalake() async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/v1/datalake',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// <code>DeleteDatalakeAutoEnable</code> removes automatic enablement of
-  /// configuration settings for new member accounts (but keeps settings for the
-  /// delegated administrator) from Amazon Security Lake. You must run this API
-  /// using credentials of the delegated administrator. When you run this API,
-  /// new member accounts that are added after the organization enables Security
-  /// Lake won't contribute to the data lake.
-  ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [removeFromConfigurationForNewAccounts] :
-  /// Remove automatic enablement of configuration settings for new member
-  /// accounts in Security Lake.
-  Future<void> deleteDatalakeAutoEnable({
-    required List<AutoEnableNewRegionConfiguration>
-        removeFromConfigurationForNewAccounts,
+  /// Parameter [regions] :
+  /// The list of Regions where Security Lake is enabled.
+  Future<void> deleteDataLake({
+    required List<String> regions,
   }) async {
     final $payload = <String, dynamic>{
-      'removeFromConfigurationForNewAccounts':
-          removeFromConfigurationForNewAccounts,
+      'regions': regions,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/datalake/autoenable/delete',
+      requestUri: '/v1/datalake/delete',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified notification subscription in Amazon Security Lake
+  /// for the organization you specify.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  Future<void> deleteDataLakeExceptionSubscription() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/datalake/exceptions/subscription',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Turns off automatic enablement of Amazon Security Lake for member accounts
+  /// that are added to an organization in Organizations. Only the delegated
+  /// Security Lake administrator for an organization can perform this
+  /// operation. If the delegated Security Lake administrator performs this
+  /// operation, new member accounts won't automatically contribute data to the
+  /// data lake.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [autoEnableNewAccount] :
+  /// Turns off automatic enablement of Security Lake for member accounts that
+  /// are added to an organization.
+  Future<void> deleteDataLakeOrganizationConfiguration({
+    List<DataLakeAutoEnableNewAccountConfiguration>? autoEnableNewAccount,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (autoEnableNewAccount != null)
+        'autoEnableNewAccount': autoEnableNewAccount,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/datalake/organization/configuration/delete',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the subscription permission and all notification settings for
+  /// accounts that are already enabled in Amazon Security Lake. When you run
+  /// <code>DeleteSubscriber</code>, the subscriber will no longer consume data
+  /// from Security Lake and the subscriber is removed. This operation deletes
+  /// the subscriber and removes access to data in the current Amazon Web
+  /// Services Region.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [subscriberId] :
+  /// A value created by Security Lake that uniquely identifies your
+  /// <code>DeleteSubscriber</code> API request.
+  Future<void> deleteSubscriber({
+    required String subscriberId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/subscribers/${Uri.encodeComponent(subscriberId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified notification subscription in Amazon Security Lake
+  /// for the organization you specify.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [subscriberId] :
+  /// The ID of the Security Lake subscriber account.
+  Future<void> deleteSubscriberNotification({
+    required String subscriberId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/subscribers/${Uri.encodeComponent(subscriberId)}/notification',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -670,189 +704,79 @@ class SecurityLake {
   /// account. The organization management account cannot be the delegated
   /// administrator account.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [account] :
-  /// The account ID the Security Lake delegated administrator.
-  Future<void> deleteDatalakeDelegatedAdmin({
-    required String account,
-  }) async {
+  Future<void> deregisterDataLakeDelegatedAdministrator() async {
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
-      requestUri: '/v1/datalake/delegate/${Uri.encodeComponent(account)}',
+      requestUri: '/v1/datalake/delegate',
       exceptionFnMap: _exceptionFns,
     );
   }
 
-  /// Deletes the specified notification subscription in Amazon Security Lake
-  /// for the organization you specify.
+  /// Retrieves the details of exception notifications for the account in Amazon
+  /// Security Lake.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
-  Future<DeleteDatalakeExceptionsSubscriptionResponse>
-      deleteDatalakeExceptionsSubscription() async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/v1/datalake/exceptions/subscription',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteDatalakeExceptionsSubscriptionResponse.fromJson(response);
-  }
-
-  /// Deletes the subscription permission for accounts that are already enabled
-  /// in Amazon Security Lake. You can delete a subscriber and remove access to
-  /// data in the current Amazon Web Services Region.
-  ///
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [BucketNotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
-  ///
-  /// Parameter [id] :
-  /// A value created by Security Lake that uniquely identifies your
-  /// <code>DeleteSubscriber</code> API request.
-  Future<void> deleteSubscriber({
-    required String id,
-  }) async {
-    final $query = <String, List<String>>{
-      'id': [id],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/v1/subscribers',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes the specified notification subscription in Amazon Security Lake
-  /// for the organization you specify.
-  ///
-  /// May throw [ConcurrentModificationException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
-  ///
-  /// Parameter [subscriptionId] :
-  /// The ID of the Security Lake subscriber account.
-  Future<void> deleteSubscriptionNotificationConfiguration({
-    required String subscriptionId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/subscription-notifications/${Uri.encodeComponent(subscriptionId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Retrieves the Amazon Security Lake configuration object for the specified
-  /// Amazon Web Services account ID. You can use the <code>GetDatalake</code>
-  /// API to know whether Security Lake is enabled for the current Region. This
-  /// API does not take input parameters.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  Future<GetDatalakeResponse> getDatalake() async {
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  Future<GetDataLakeExceptionSubscriptionResponse>
+      getDataLakeExceptionSubscription() async {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/datalake',
+      requestUri: '/v1/datalake/exceptions/subscription',
       exceptionFnMap: _exceptionFns,
     );
-    return GetDatalakeResponse.fromJson(response);
+    return GetDataLakeExceptionSubscriptionResponse.fromJson(response);
   }
 
   /// Retrieves the configuration that will be automatically set up for accounts
   /// added to the organization after the organization has onboarded to Amazon
   /// Security Lake. This API does not take input parameters.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
-  Future<GetDatalakeAutoEnableResponse> getDatalakeAutoEnable() async {
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  Future<GetDataLakeOrganizationConfigurationResponse>
+      getDataLakeOrganizationConfiguration() async {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/datalake/autoenable',
+      requestUri: '/v1/datalake/organization/configuration',
       exceptionFnMap: _exceptionFns,
     );
-    return GetDatalakeAutoEnableResponse.fromJson(response);
-  }
-
-  /// Retrieves the expiration period and time-to-live (TTL) for which the
-  /// exception message will remain. Exceptions are stored by default, for 2
-  /// weeks from when a record was created in Amazon Security Lake. This API
-  /// does not take input parameters.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
-  Future<GetDatalakeExceptionsExpiryResponse>
-      getDatalakeExceptionsExpiry() async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/v1/datalake/exceptions/expiry',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetDatalakeExceptionsExpiryResponse.fromJson(response);
-  }
-
-  /// Retrieves the details of exception notifications for the account in Amazon
-  /// Security Lake.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
-  Future<GetDatalakeExceptionsSubscriptionResponse>
-      getDatalakeExceptionsSubscription() async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/v1/datalake/exceptions/subscription',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetDatalakeExceptionsSubscriptionResponse.fromJson(response);
+    return GetDataLakeOrganizationConfigurationResponse.fromJson(response);
   }
 
   /// Retrieves a snapshot of the current Region, including whether Amazon
   /// Security Lake is enabled for those accounts and which sources Security
   /// Lake is collecting data from.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [accountSet] :
+  /// Parameter [accounts] :
   /// The Amazon Web Services account ID for which a static snapshot of the
   /// current Amazon Web Services Region, including enabled accounts and log
   /// sources, is retrieved.
   ///
-  /// Parameter [maxAccountResults] :
+  /// Parameter [maxResults] :
   /// The maximum limit of accounts for which the static snapshot of the current
   /// Region, including enabled accounts and log sources, is retrieved.
   ///
@@ -863,44 +787,51 @@ class SecurityLake {
   ///
   /// Each pagination token expires after 24 hours. Using an expired pagination
   /// token will return an HTTP 400 InvalidToken error.
-  Future<GetDatalakeStatusResponse> getDatalakeStatus({
-    List<String>? accountSet,
-    int? maxAccountResults,
+  Future<GetDataLakeSourcesResponse> getDataLakeSources({
+    List<String>? accounts,
+    int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $payload = <String, dynamic>{
-      if (accountSet != null) 'accountSet': accountSet,
-      if (maxAccountResults != null) 'maxAccountResults': maxAccountResults,
+      if (accounts != null) 'accounts': accounts,
+      if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/datalake/status',
+      requestUri: '/v1/datalake/sources',
       exceptionFnMap: _exceptionFns,
     );
-    return GetDatalakeStatusResponse.fromJson(response);
+    return GetDataLakeSourcesResponse.fromJson(response);
   }
 
   /// Retrieves the subscription information for the specified subscription ID.
   /// You can get information about a specific subscriber.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [id] :
+  /// Parameter [subscriberId] :
   /// A value created by Amazon Security Lake that uniquely identifies your
   /// <code>GetSubscriber</code> API request.
   Future<GetSubscriberResponse> getSubscriber({
-    required String id,
+    required String subscriberId,
   }) async {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/subscribers/${Uri.encodeComponent(id)}',
+      requestUri: '/v1/subscribers/${Uri.encodeComponent(subscriberId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSubscriberResponse.fromJson(response);
@@ -909,12 +840,14 @@ class SecurityLake {
   /// Lists the Amazon Security Lake exceptions that you can use to find the
   /// source of problems and fix them.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [maxFailures] :
+  /// Parameter [maxResults] :
   /// List the maximum number of failures in Security Lake.
   ///
   /// Parameter [nextToken] :
@@ -925,18 +858,23 @@ class SecurityLake {
   /// Each pagination token expires after 24 hours. Using an expired pagination
   /// token will return an HTTP 400 InvalidToken error.
   ///
-  /// Parameter [regionSet] :
-  /// List the Amazon Web Services Regions from which exceptions are retrieved.
-  Future<ListDatalakeExceptionsResponse> listDatalakeExceptions({
-    int? maxFailures,
+  /// Parameter [regions] :
+  /// The Amazon Web Services Regions from which exceptions are retrieved.
+  Future<ListDataLakeExceptionsResponse> listDataLakeExceptions({
+    int? maxResults,
     String? nextToken,
-    List<Region>? regionSet,
+    List<String>? regions,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $payload = <String, dynamic>{
-      if (maxFailures != null) 'maxFailures': maxFailures,
+      if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (regionSet != null)
-        'regionSet': regionSet.map((e) => e.toValue()).toList(),
+      if (regions != null) 'regions': regions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -944,34 +882,50 @@ class SecurityLake {
       requestUri: '/v1/datalake/exceptions',
       exceptionFnMap: _exceptionFns,
     );
-    return ListDatalakeExceptionsResponse.fromJson(response);
+    return ListDataLakeExceptionsResponse.fromJson(response);
+  }
+
+  /// Retrieves the Amazon Security Lake configuration object for the specified
+  /// Amazon Web Services Regions. You can use this operation to determine
+  /// whether Security Lake is enabled for a Region.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [regions] :
+  /// The list of Regions where Security Lake is enabled.
+  Future<ListDataLakesResponse> listDataLakes({
+    List<String>? regions,
+  }) async {
+    final $query = <String, List<String>>{
+      if (regions != null) 'regions': regions,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/datalakes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDataLakesResponse.fromJson(response);
   }
 
   /// Retrieves the log sources in the current Amazon Web Services Region.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [inputOrder] :
-  /// Lists the log sources in input order, namely Region, source type, and
-  /// member account.
-  ///
-  /// Parameter [listAllDimensions] :
-  /// List the view of log sources for enabled Amazon Security Lake accounts for
-  /// specific Amazon Web Services sources from specific accounts and specific
-  /// Regions.
-  ///
-  /// Parameter [listSingleDimension] :
-  /// List the view of log sources for enabled Security Lake accounts for all
-  /// Amazon Web Services sources from specific accounts or specific Regions.
-  ///
-  /// Parameter [listTwoDimensions] :
-  /// Lists the view of log sources for enabled Security Lake accounts for
-  /// specific Amazon Web Services sources from specific accounts or specific
-  /// Regions.
+  /// Parameter [accounts] :
+  /// The list of Amazon Web Services accounts for which log sources are
+  /// displayed.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of accounts for which the log sources are displayed.
@@ -979,28 +933,36 @@ class SecurityLake {
   /// Parameter [nextToken] :
   /// If nextToken is returned, there are more results available. You can repeat
   /// the call using the returned token to retrieve the next page.
+  ///
+  /// Parameter [regions] :
+  /// The list of Regions for which log sources are displayed.
+  ///
+  /// Parameter [sources] :
+  /// The list of sources for which log sources are displayed.
   Future<ListLogSourcesResponse> listLogSources({
-    List<Dimension>? inputOrder,
-    Map<String, Map<String, List<String>>>? listAllDimensions,
-    List<String>? listSingleDimension,
-    Map<String, List<String>>? listTwoDimensions,
+    List<String>? accounts,
     int? maxResults,
     String? nextToken,
+    List<String>? regions,
+    List<LogSourceResource>? sources,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $payload = <String, dynamic>{
-      if (inputOrder != null)
-        'inputOrder': inputOrder.map((e) => e.toValue()).toList(),
-      if (listAllDimensions != null) 'listAllDimensions': listAllDimensions,
-      if (listSingleDimension != null)
-        'listSingleDimension': listSingleDimension,
-      if (listTwoDimensions != null) 'listTwoDimensions': listTwoDimensions,
+      if (accounts != null) 'accounts': accounts,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
+      if (regions != null) 'regions': regions,
+      if (sources != null) 'sources': sources,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/logsources/list',
+      requestUri: '/v1/datalake/logsources/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListLogSourcesResponse.fromJson(response);
@@ -1010,12 +972,12 @@ class SecurityLake {
   /// can retrieve a list of subscriptions associated with a specific
   /// organization or Amazon Web Services account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of accounts for which the configuration is displayed.
@@ -1027,6 +989,12 @@ class SecurityLake {
     int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1041,24 +1009,168 @@ class SecurityLake {
     return ListSubscribersResponse.fromJson(response);
   }
 
+  /// Retrieves the tags (keys and values) that are associated with an Amazon
+  /// Security Lake resource: a subscriber, or the data lake configuration for
+  /// your Amazon Web Services account in a particular Amazon Web Services
+  /// Region.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource for
+  /// which you want to retrieve the tags.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Designates the Amazon Security Lake delegated administrator account for
+  /// the organization. This API can only be called by the organization
+  /// management account. The organization management account cannot be the
+  /// delegated administrator account.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID of the Security Lake delegated
+  /// administrator.
+  Future<void> registerDataLakeDelegatedAdministrator({
+    required String accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'accountId': accountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/datalake/delegate',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Adds or updates one or more tags that are associated with an Amazon
+  /// Security Lake resource: a subscriber, or the data lake configuration for
+  /// your Amazon Web Services account in a particular Amazon Web Services
+  /// Region. A <i>tag</i> is a label that you can define and associate with
+  /// Amazon Web Services resources. Each tag consists of a required <i>tag
+  /// key</i> and an associated <i>tag value</i>. A <i>tag key</i> is a general
+  /// label that acts as a category for a more specific tag value. A <i>tag
+  /// value</i> acts as a descriptor for a tag key. Tags can help you identify,
+  /// categorize, and manage resources in different ways, such as by owner,
+  /// environment, or other criteria. For more information, see <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html">Tagging
+  /// Amazon Security Lake resources</a> in the <i>Amazon Security Lake User
+  /// Guide</i>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource to add
+  /// or update the tags for.
+  ///
+  /// Parameter [tags] :
+  /// An array of objects, one for each tag (key and value) to associate with
+  /// the Amazon Security Lake resource. For each tag, you must specify both a
+  /// tag key and a tag value. A tag value cannot be null, but it can be an
+  /// empty string.
+  Future<void> tagResource({
+    required String resourceArn,
+    required List<Tag> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes one or more tags (keys and values) from an Amazon Security Lake
+  /// resource: a subscriber, or the data lake configuration for your Amazon Web
+  /// Services account in a particular Amazon Web Services Region.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource to
+  /// remove one or more tags from.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of one or more tag keys. For each value in the list, specify the
+  /// tag key for a tag to remove from the Amazon Security Lake resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Specifies where to store your security data and for how long. You can add
   /// a rollup Region to consolidate data from multiple Amazon Web Services
   /// Regions.
   ///
-  /// May throw [EventBridgeException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [configurations] :
   /// Specify the Region or Regions that will contribute data to the rollup
   /// region.
-  Future<void> updateDatalake({
-    required Map<Region, LakeConfigurationRequest> configurations,
+  ///
+  /// Parameter [metaStoreManagerRoleArn] :
+  /// The Amazon Resource Name (ARN) used to create and update the Glue table.
+  /// This table contains partitions generated by the ingestion and
+  /// normalization of Amazon Web Services log sources and custom sources.
+  Future<UpdateDataLakeResponse> updateDataLake({
+    required List<DataLakeConfiguration> configurations,
+    String? metaStoreManagerRoleArn,
   }) async {
     final $payload = <String, dynamic>{
-      'configurations': configurations.map((k, e) => MapEntry(k.toValue(), e)),
+      'configurations': configurations,
+      if (metaStoreManagerRoleArn != null)
+        'metaStoreManagerRoleArn': metaStoreManagerRoleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1066,61 +1178,43 @@ class SecurityLake {
       requestUri: '/v1/datalake',
       exceptionFnMap: _exceptionFns,
     );
-  }
-
-  /// Update the expiration period for the exception message to your preferred
-  /// time, and control the time-to-live (TTL) for the exception message to
-  /// remain. Exceptions are stored by default for 2 weeks from when a record
-  /// was created in Amazon Security Lake.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
-  ///
-  /// Parameter [exceptionMessageExpiry] :
-  /// The time-to-live (TTL) for the exception message to remain.
-  Future<void> updateDatalakeExceptionsExpiry({
-    required int exceptionMessageExpiry,
-  }) async {
-    _s.validateNumRange(
-      'exceptionMessageExpiry',
-      exceptionMessageExpiry,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    final $payload = <String, dynamic>{
-      'exceptionMessageExpiry': exceptionMessageExpiry,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri: '/v1/datalake/exceptions/expiry',
-      exceptionFnMap: _exceptionFns,
-    );
+    return UpdateDataLakeResponse.fromJson(response);
   }
 
   /// Updates the specified notification subscription in Amazon Security Lake
   /// for the organization you specify.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [notificationEndpoint] :
   /// The account that is subscribed to receive exception notifications.
   ///
   /// Parameter [subscriptionProtocol] :
   /// The subscription protocol to which exception messages are posted.
-  Future<void> updateDatalakeExceptionsSubscription({
+  ///
+  /// Parameter [exceptionTimeToLive] :
+  /// The time-to-live (TTL) for the exception message to remain.
+  Future<void> updateDataLakeExceptionSubscription({
     required String notificationEndpoint,
-    required SubscriptionProtocolType subscriptionProtocol,
+    required String subscriptionProtocol,
+    int? exceptionTimeToLive,
   }) async {
+    _s.validateNumRange(
+      'exceptionTimeToLive',
+      exceptionTimeToLive,
+      1,
+      1152921504606846976,
+    );
     final $payload = <String, dynamic>{
       'notificationEndpoint': notificationEndpoint,
-      'subscriptionProtocol': subscriptionProtocol.toValue(),
+      'subscriptionProtocol': subscriptionProtocol,
+      if (exceptionTimeToLive != null)
+        'exceptionTimeToLive': exceptionTimeToLive,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1134,50 +1228,49 @@ class SecurityLake {
   /// account ID. You can update a subscriber by changing the sources that the
   /// subscriber consumes data from.
   ///
-  /// May throw [ConflictSubscriptionException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [id] :
+  /// Parameter [subscriberId] :
   /// A value created by Security Lake that uniquely identifies your
   /// subscription.
   ///
-  /// Parameter [sourceTypes] :
+  /// Parameter [sources] :
   /// The supported Amazon Web Services from which logs and events are
   /// collected. For the list of supported Amazon Web Services, see the <a
   /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html">Amazon
   /// Security Lake User Guide</a>.
   ///
-  /// Parameter [externalId] :
-  /// The external ID of the Security Lake account.
-  ///
   /// Parameter [subscriberDescription] :
   /// The description of the Security Lake account subscriber.
+  ///
+  /// Parameter [subscriberIdentity] :
+  /// The AWS identity used to access your data.
   ///
   /// Parameter [subscriberName] :
   /// The name of the Security Lake account subscriber.
   Future<UpdateSubscriberResponse> updateSubscriber({
-    required String id,
-    required List<SourceType> sourceTypes,
-    String? externalId,
+    required String subscriberId,
+    List<LogSourceResource>? sources,
     String? subscriberDescription,
+    AwsIdentity? subscriberIdentity,
     String? subscriberName,
   }) async {
     final $payload = <String, dynamic>{
-      'sourceTypes': sourceTypes,
-      if (externalId != null) 'externalId': externalId,
+      if (sources != null) 'sources': sources,
       if (subscriberDescription != null)
         'subscriberDescription': subscriberDescription,
+      if (subscriberIdentity != null) 'subscriberIdentity': subscriberIdentity,
       if (subscriberName != null) 'subscriberName': subscriberName,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v1/subscribers/${Uri.encodeComponent(id)}',
+      requestUri: '/v1/subscribers/${Uri.encodeComponent(subscriberId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSubscriberResponse.fromJson(response);
@@ -1187,69 +1280,33 @@ class SecurityLake {
   /// endpoint) or switches the notification subscription endpoint for a
   /// subscriber.
   ///
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [InvalidInputException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [subscriptionId] :
+  /// Parameter [configuration] :
+  /// The configuration for subscriber notification.
+  ///
+  /// Parameter [subscriberId] :
   /// The subscription ID for which the subscription notification is specified.
-  ///
-  /// Parameter [createSqs] :
-  /// Create a new subscription notification for the specified subscription ID
-  /// in Amazon Security Lake.
-  ///
-  /// Parameter [httpsApiKeyName] :
-  /// The key name for the subscription notification.
-  ///
-  /// Parameter [httpsApiKeyValue] :
-  /// The key value for the subscription notification.
-  ///
-  /// Parameter [httpsMethod] :
-  /// The HTTPS method used for the subscription notification.
-  ///
-  /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) specifying the role of the subscriber. For
-  /// more information about ARNs and how to use them in policies, see, see the
-  /// <a
-  /// href="https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html">Managing
-  /// data access</a> and <a
-  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html">Amazon
-  /// Web Services Managed Policies</a>in the Amazon Security Lake User Guide.
-  ///
-  /// Parameter [subscriptionEndpoint] :
-  /// The subscription endpoint in Security Lake.
-  Future<UpdateSubscriptionNotificationConfigurationResponse>
-      updateSubscriptionNotificationConfiguration({
-    required String subscriptionId,
-    bool? createSqs,
-    String? httpsApiKeyName,
-    String? httpsApiKeyValue,
-    HttpsMethod? httpsMethod,
-    String? roleArn,
-    String? subscriptionEndpoint,
+  Future<UpdateSubscriberNotificationResponse> updateSubscriberNotification({
+    required NotificationConfiguration configuration,
+    required String subscriberId,
   }) async {
     final $payload = <String, dynamic>{
-      if (createSqs != null) 'createSqs': createSqs,
-      if (httpsApiKeyName != null) 'httpsApiKeyName': httpsApiKeyName,
-      if (httpsApiKeyValue != null) 'httpsApiKeyValue': httpsApiKeyValue,
-      if (httpsMethod != null) 'httpsMethod': httpsMethod.toValue(),
-      if (roleArn != null) 'roleArn': roleArn,
-      if (subscriptionEndpoint != null)
-        'subscriptionEndpoint': subscriptionEndpoint,
+      'configuration': configuration,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/subscription-notifications/${Uri.encodeComponent(subscriptionId)}',
+          '/v1/subscribers/${Uri.encodeComponent(subscriberId)}/notification',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSubscriptionNotificationConfigurationResponse.fromJson(
-        response);
+    return UpdateSubscriberNotificationResponse.fromJson(response);
   }
 }
 
@@ -1281,130 +1338,163 @@ extension AccessTypeFromString on String {
   }
 }
 
-/// Amazon Security Lake collects logs and events from supported Amazon Web
-/// Services and custom sources. For the list of supported Amazon Web Services,
-/// see the <a
-/// href="https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html">Amazon
-/// Security Lake User Guide</a>.
-class AccountSources {
-  /// The ID of the Security Lake account for which logs are collected.
-  final String account;
+/// The AWS identity.
+class AwsIdentity {
+  /// The external ID used to estalish trust relationship with the AWS identity.
+  final String externalId;
 
-  /// The supported Amazon Web Services from which logs and events are collected.
-  /// Amazon Security Lake supports log and event collection for natively
-  /// supported Amazon Web Services.
-  final String sourceType;
+  /// The AWS identity principal.
+  final String principal;
 
-  /// Initializes a new instance of the Event class.
-  final OcsfEventClass? eventClass;
-
-  /// The log status for the Security Lake account.
-  final List<LogsStatus>? logsStatus;
-
-  AccountSources({
-    required this.account,
-    required this.sourceType,
-    this.eventClass,
-    this.logsStatus,
+  AwsIdentity({
+    required this.externalId,
+    required this.principal,
   });
 
-  factory AccountSources.fromJson(Map<String, dynamic> json) {
-    return AccountSources(
-      account: json['account'] as String,
-      sourceType: json['sourceType'] as String,
-      eventClass: (json['eventClass'] as String?)?.toOcsfEventClass(),
-      logsStatus: (json['logsStatus'] as List?)
-          ?.whereNotNull()
-          .map((e) => LogsStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory AwsIdentity.fromJson(Map<String, dynamic> json) {
+    return AwsIdentity(
+      externalId: json['externalId'] as String,
+      principal: json['principal'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final account = this.account;
-    final sourceType = this.sourceType;
-    final eventClass = this.eventClass;
-    final logsStatus = this.logsStatus;
+    final externalId = this.externalId;
+    final principal = this.principal;
     return {
-      'account': account,
-      'sourceType': sourceType,
-      if (eventClass != null) 'eventClass': eventClass.toValue(),
-      if (logsStatus != null) 'logsStatus': logsStatus,
+      'externalId': externalId,
+      'principal': principal,
     };
   }
 }
 
-/// Automatically enable new organization accounts as member accounts from an
-/// Amazon Security Lake administrator account.
-class AutoEnableNewRegionConfiguration {
-  /// The Amazon Web Services Regions where Security Lake is automatically
-  /// enabled.
-  final Region region;
+/// The Security Lake logs source configuration file describes the information
+/// needed to generate Security Lake logs.
+class AwsLogSourceConfiguration {
+  /// Specify the Regions where you want to enable Security Lake.
+  final List<String> regions;
 
-  /// The Amazon Web Services sources that are automatically enabled in Security
-  /// Lake.
-  final List<AwsLogSourceType> sources;
+  /// The name for a Amazon Web Services source. This must be a Regionally unique
+  /// value.
+  final AwsLogSourceName sourceName;
 
-  AutoEnableNewRegionConfiguration({
-    required this.region,
-    required this.sources,
+  /// Specify the Amazon Web Services account information where you want to enable
+  /// Security Lake.
+  final List<String>? accounts;
+
+  /// The version for a Amazon Web Services source. This must be a Regionally
+  /// unique value.
+  final String? sourceVersion;
+
+  AwsLogSourceConfiguration({
+    required this.regions,
+    required this.sourceName,
+    this.accounts,
+    this.sourceVersion,
   });
 
-  factory AutoEnableNewRegionConfiguration.fromJson(Map<String, dynamic> json) {
-    return AutoEnableNewRegionConfiguration(
-      region: (json['region'] as String).toRegion(),
-      sources: (json['sources'] as List)
-          .whereNotNull()
-          .map((e) => (e as String).toAwsLogSourceType())
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final region = this.region;
-    final sources = this.sources;
+    final regions = this.regions;
+    final sourceName = this.sourceName;
+    final accounts = this.accounts;
+    final sourceVersion = this.sourceVersion;
     return {
-      'region': region.toValue(),
-      'sources': sources.map((e) => e.toValue()).toList(),
+      'regions': regions,
+      'sourceName': sourceName.toValue(),
+      if (accounts != null) 'accounts': accounts,
+      if (sourceVersion != null) 'sourceVersion': sourceVersion,
     };
   }
 }
 
-enum AwsLogSourceType {
+enum AwsLogSourceName {
   route53,
   vpcFlow,
-  cloudTrail,
   shFindings,
+  cloudTrailMgmt,
+  lambdaExecution,
+  s3Data,
+  eksAudit,
+  waf,
 }
 
-extension AwsLogSourceTypeValueExtension on AwsLogSourceType {
+extension AwsLogSourceNameValueExtension on AwsLogSourceName {
   String toValue() {
     switch (this) {
-      case AwsLogSourceType.route53:
+      case AwsLogSourceName.route53:
         return 'ROUTE53';
-      case AwsLogSourceType.vpcFlow:
+      case AwsLogSourceName.vpcFlow:
         return 'VPC_FLOW';
-      case AwsLogSourceType.cloudTrail:
-        return 'CLOUD_TRAIL';
-      case AwsLogSourceType.shFindings:
+      case AwsLogSourceName.shFindings:
         return 'SH_FINDINGS';
+      case AwsLogSourceName.cloudTrailMgmt:
+        return 'CLOUD_TRAIL_MGMT';
+      case AwsLogSourceName.lambdaExecution:
+        return 'LAMBDA_EXECUTION';
+      case AwsLogSourceName.s3Data:
+        return 'S3_DATA';
+      case AwsLogSourceName.eksAudit:
+        return 'EKS_AUDIT';
+      case AwsLogSourceName.waf:
+        return 'WAF';
     }
   }
 }
 
-extension AwsLogSourceTypeFromString on String {
-  AwsLogSourceType toAwsLogSourceType() {
+extension AwsLogSourceNameFromString on String {
+  AwsLogSourceName toAwsLogSourceName() {
     switch (this) {
       case 'ROUTE53':
-        return AwsLogSourceType.route53;
+        return AwsLogSourceName.route53;
       case 'VPC_FLOW':
-        return AwsLogSourceType.vpcFlow;
-      case 'CLOUD_TRAIL':
-        return AwsLogSourceType.cloudTrail;
+        return AwsLogSourceName.vpcFlow;
       case 'SH_FINDINGS':
-        return AwsLogSourceType.shFindings;
+        return AwsLogSourceName.shFindings;
+      case 'CLOUD_TRAIL_MGMT':
+        return AwsLogSourceName.cloudTrailMgmt;
+      case 'LAMBDA_EXECUTION':
+        return AwsLogSourceName.lambdaExecution;
+      case 'S3_DATA':
+        return AwsLogSourceName.s3Data;
+      case 'EKS_AUDIT':
+        return AwsLogSourceName.eksAudit;
+      case 'WAF':
+        return AwsLogSourceName.waf;
     }
-    throw Exception('$this is not known in enum AwsLogSourceType');
+    throw Exception('$this is not known in enum AwsLogSourceName');
+  }
+}
+
+/// Amazon Security Lake can collect logs and events from natively-supported
+/// Amazon Web Services services.
+class AwsLogSourceResource {
+  /// The name for a Amazon Web Services source. This must be a Regionally unique
+  /// value.
+  final AwsLogSourceName? sourceName;
+
+  /// The version for a Amazon Web Services source. This must be a Regionally
+  /// unique value.
+  final String? sourceVersion;
+
+  AwsLogSourceResource({
+    this.sourceName,
+    this.sourceVersion,
+  });
+
+  factory AwsLogSourceResource.fromJson(Map<String, dynamic> json) {
+    return AwsLogSourceResource(
+      sourceName: (json['sourceName'] as String?)?.toAwsLogSourceName(),
+      sourceVersion: json['sourceVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceName = this.sourceName;
+    final sourceVersion = this.sourceVersion;
+    return {
+      if (sourceName != null) 'sourceName': sourceName.toValue(),
+      if (sourceVersion != null) 'sourceVersion': sourceVersion,
+    };
   }
 }
 
@@ -1414,13 +1504,8 @@ class CreateAwsLogSourceResponse {
   /// not part of an organization.
   final List<String>? failed;
 
-  /// Lists the accounts that are in the process of enabling a natively supported
-  /// Amazon Web Service as a Security Lake source.
-  final List<String>? processing;
-
   CreateAwsLogSourceResponse({
     this.failed,
-    this.processing,
   });
 
   factory CreateAwsLogSourceResponse.fromJson(Map<String, dynamic> json) {
@@ -1429,36 +1514,234 @@ class CreateAwsLogSourceResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      processing: (json['processing'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final failed = this.failed;
-    final processing = this.processing;
     return {
       if (failed != null) 'failed': failed,
-      if (processing != null) 'processing': processing,
     };
   }
 }
 
 class CreateCustomLogSourceResponse {
-  /// The location of the partition in the Amazon S3 bucket for Security Lake.
-  final String customDataLocation;
+  /// The created third-party custom source.
+  final CustomLogSourceResource? source;
 
-  /// The name of the Glue crawler.
-  final String glueCrawlerName;
+  CreateCustomLogSourceResponse({
+    this.source,
+  });
 
-  /// The Glue database where results are written, such as:
+  factory CreateCustomLogSourceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCustomLogSourceResponse(
+      source: json['source'] != null
+          ? CustomLogSourceResource.fromJson(
+              json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    return {
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+class CreateDataLakeExceptionSubscriptionResponse {
+  CreateDataLakeExceptionSubscriptionResponse();
+
+  factory CreateDataLakeExceptionSubscriptionResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateDataLakeExceptionSubscriptionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class CreateDataLakeOrganizationConfigurationResponse {
+  CreateDataLakeOrganizationConfigurationResponse();
+
+  factory CreateDataLakeOrganizationConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateDataLakeOrganizationConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class CreateDataLakeResponse {
+  /// The created Security Lake configuration object.
+  final List<DataLakeResource>? dataLakes;
+
+  CreateDataLakeResponse({
+    this.dataLakes,
+  });
+
+  factory CreateDataLakeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDataLakeResponse(
+      dataLakes: (json['dataLakes'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataLakeResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataLakes = this.dataLakes;
+    return {
+      if (dataLakes != null) 'dataLakes': dataLakes,
+    };
+  }
+}
+
+class CreateSubscriberNotificationResponse {
+  /// The subscriber endpoint to which exception messages are posted.
+  final String? subscriberEndpoint;
+
+  CreateSubscriberNotificationResponse({
+    this.subscriberEndpoint,
+  });
+
+  factory CreateSubscriberNotificationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateSubscriberNotificationResponse(
+      subscriberEndpoint: json['subscriberEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriberEndpoint = this.subscriberEndpoint;
+    return {
+      if (subscriberEndpoint != null) 'subscriberEndpoint': subscriberEndpoint,
+    };
+  }
+}
+
+class CreateSubscriberResponse {
+  /// Retrieve information about the subscriber created using the
+  /// <code>CreateSubscriber</code> API.
+  final SubscriberResource? subscriber;
+
+  CreateSubscriberResponse({
+    this.subscriber,
+  });
+
+  factory CreateSubscriberResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSubscriberResponse(
+      subscriber: json['subscriber'] != null
+          ? SubscriberResource.fromJson(
+              json['subscriber'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriber = this.subscriber;
+    return {
+      if (subscriber != null) 'subscriber': subscriber,
+    };
+  }
+}
+
+/// The attributes of a third-party custom source.
+class CustomLogSourceAttributes {
+  /// The ARN of the Glue crawler.
+  final String? crawlerArn;
+
+  /// The ARN of the Glue database where results are written, such as:
   /// <code>arn:aws:daylight:us-east-1::database/sometable/*</code>.
-  final String glueDatabaseName;
+  final String? databaseArn;
 
-  /// The table name of the Glue crawler.
-  final String glueTableName;
+  /// The ARN of the Glue table.
+  final String? tableArn;
+
+  CustomLogSourceAttributes({
+    this.crawlerArn,
+    this.databaseArn,
+    this.tableArn,
+  });
+
+  factory CustomLogSourceAttributes.fromJson(Map<String, dynamic> json) {
+    return CustomLogSourceAttributes(
+      crawlerArn: json['crawlerArn'] as String?,
+      databaseArn: json['databaseArn'] as String?,
+      tableArn: json['tableArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crawlerArn = this.crawlerArn;
+    final databaseArn = this.databaseArn;
+    final tableArn = this.tableArn;
+    return {
+      if (crawlerArn != null) 'crawlerArn': crawlerArn,
+      if (databaseArn != null) 'databaseArn': databaseArn,
+      if (tableArn != null) 'tableArn': tableArn,
+    };
+  }
+}
+
+/// The configuration for the third-party custom source.
+class CustomLogSourceConfiguration {
+  /// The configuration for the Glue Crawler for the third-party custom source.
+  final CustomLogSourceCrawlerConfiguration crawlerConfiguration;
+
+  /// The identity of the log provider for the third-party custom source.
+  final AwsIdentity providerIdentity;
+
+  CustomLogSourceConfiguration({
+    required this.crawlerConfiguration,
+    required this.providerIdentity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final crawlerConfiguration = this.crawlerConfiguration;
+    final providerIdentity = this.providerIdentity;
+    return {
+      'crawlerConfiguration': crawlerConfiguration,
+      'providerIdentity': providerIdentity,
+    };
+  }
+}
+
+/// The configuration for the Glue Crawler for the third-party custom source.
+class CustomLogSourceCrawlerConfiguration {
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role to be used by the Glue crawler. The recommended IAM policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// The managed policy <code>AWSGlueServiceRole</code>
+  /// </li>
+  /// <li>
+  /// A custom policy granting access to your Amazon S3 Data Lake
+  /// </li>
+  /// </ul>
+  final String roleArn;
+
+  CustomLogSourceCrawlerConfiguration({
+    required this.roleArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    return {
+      'roleArn': roleArn,
+    };
+  }
+}
+
+/// The details of the log provider for a third-party custom source.
+class CustomLogSourceProvider {
+  /// The location of the partition in the Amazon S3 bucket for Security Lake.
+  final String? location;
 
   /// The ARN of the IAM role to be used by the entity putting logs into your
   /// custom source partition. Security Lake will apply the correct access
@@ -1466,174 +1749,753 @@ class CreateCustomLogSourceResponse {
   /// for this role. The IAM role name must start with the text 'Security Lake'.
   /// The IAM role must trust the <code>logProviderAccountId</code> to assume the
   /// role.
-  final String logProviderAccessRoleArn;
-
-  CreateCustomLogSourceResponse({
-    required this.customDataLocation,
-    required this.glueCrawlerName,
-    required this.glueDatabaseName,
-    required this.glueTableName,
-    required this.logProviderAccessRoleArn,
-  });
-
-  factory CreateCustomLogSourceResponse.fromJson(Map<String, dynamic> json) {
-    return CreateCustomLogSourceResponse(
-      customDataLocation: json['customDataLocation'] as String,
-      glueCrawlerName: json['glueCrawlerName'] as String,
-      glueDatabaseName: json['glueDatabaseName'] as String,
-      glueTableName: json['glueTableName'] as String,
-      logProviderAccessRoleArn: json['logProviderAccessRoleArn'] as String,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customDataLocation = this.customDataLocation;
-    final glueCrawlerName = this.glueCrawlerName;
-    final glueDatabaseName = this.glueDatabaseName;
-    final glueTableName = this.glueTableName;
-    final logProviderAccessRoleArn = this.logProviderAccessRoleArn;
-    return {
-      'customDataLocation': customDataLocation,
-      'glueCrawlerName': glueCrawlerName,
-      'glueDatabaseName': glueDatabaseName,
-      'glueTableName': glueTableName,
-      'logProviderAccessRoleArn': logProviderAccessRoleArn,
-    };
-  }
-}
-
-class CreateDatalakeAutoEnableResponse {
-  CreateDatalakeAutoEnableResponse();
-
-  factory CreateDatalakeAutoEnableResponse.fromJson(Map<String, dynamic> _) {
-    return CreateDatalakeAutoEnableResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class CreateDatalakeDelegatedAdminResponse {
-  CreateDatalakeDelegatedAdminResponse();
-
-  factory CreateDatalakeDelegatedAdminResponse.fromJson(
-      Map<String, dynamic> _) {
-    return CreateDatalakeDelegatedAdminResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class CreateDatalakeExceptionsSubscriptionResponse {
-  CreateDatalakeExceptionsSubscriptionResponse();
-
-  factory CreateDatalakeExceptionsSubscriptionResponse.fromJson(
-      Map<String, dynamic> _) {
-    return CreateDatalakeExceptionsSubscriptionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class CreateDatalakeResponse {
-  CreateDatalakeResponse();
-
-  factory CreateDatalakeResponse.fromJson(Map<String, dynamic> _) {
-    return CreateDatalakeResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class CreateSubscriberResponse {
-  /// The <code>subscriptionId</code> created by the <code>CreateSubscriber</code>
-  /// API call.
-  final String subscriptionId;
-
-  /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource
-  /// share. Before accepting the RAM resource share invitation, you can view
-  /// details related to the RAM resource share.
-  final String? resourceShareArn;
-
-  /// The name of the resource share.
-  final String? resourceShareName;
-
-  /// The Amazon Resource Name (ARN) created by you to provide to the subscriber.
-  /// For more information about ARNs and how to use them in policies, see <a
-  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html">Amazon
-  /// Security Lake User Guide</a>.
   final String? roleArn;
 
-  /// The ARN for the Amazon S3 bucket.
-  final String? s3BucketArn;
-
-  /// The ARN for the Amazon Simple Notification Service.
-  final String? snsArn;
-
-  CreateSubscriberResponse({
-    required this.subscriptionId,
-    this.resourceShareArn,
-    this.resourceShareName,
+  CustomLogSourceProvider({
+    this.location,
     this.roleArn,
-    this.s3BucketArn,
-    this.snsArn,
   });
 
-  factory CreateSubscriberResponse.fromJson(Map<String, dynamic> json) {
-    return CreateSubscriberResponse(
-      subscriptionId: json['subscriptionId'] as String,
-      resourceShareArn: json['resourceShareArn'] as String?,
-      resourceShareName: json['resourceShareName'] as String?,
+  factory CustomLogSourceProvider.fromJson(Map<String, dynamic> json) {
+    return CustomLogSourceProvider(
+      location: json['location'] as String?,
       roleArn: json['roleArn'] as String?,
-      s3BucketArn: json['s3BucketArn'] as String?,
-      snsArn: json['snsArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final subscriptionId = this.subscriptionId;
-    final resourceShareArn = this.resourceShareArn;
-    final resourceShareName = this.resourceShareName;
+    final location = this.location;
     final roleArn = this.roleArn;
-    final s3BucketArn = this.s3BucketArn;
-    final snsArn = this.snsArn;
     return {
-      'subscriptionId': subscriptionId,
-      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
-      if (resourceShareName != null) 'resourceShareName': resourceShareName,
+      if (location != null) 'location': location,
       if (roleArn != null) 'roleArn': roleArn,
-      if (s3BucketArn != null) 's3BucketArn': s3BucketArn,
-      if (snsArn != null) 'snsArn': snsArn,
     };
   }
 }
 
-class CreateSubscriptionNotificationConfigurationResponse {
-  /// Returns the Amazon Resource Name (ARN) of the queue.
-  final String? queueArn;
+/// Amazon Security Lake can collect logs and events from third-party custom
+/// sources.
+class CustomLogSourceResource {
+  /// The attributes of a third-party custom source.
+  final CustomLogSourceAttributes? attributes;
 
-  CreateSubscriptionNotificationConfigurationResponse({
-    this.queueArn,
+  /// The details of the log provider for a third-party custom source.
+  final CustomLogSourceProvider? provider;
+
+  /// The name for a third-party custom source. This must be a Regionally unique
+  /// value.
+  final String? sourceName;
+
+  /// The version for a third-party custom source. This must be a Regionally
+  /// unique value.
+  final String? sourceVersion;
+
+  CustomLogSourceResource({
+    this.attributes,
+    this.provider,
+    this.sourceName,
+    this.sourceVersion,
   });
 
-  factory CreateSubscriptionNotificationConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateSubscriptionNotificationConfigurationResponse(
-      queueArn: json['queueArn'] as String?,
+  factory CustomLogSourceResource.fromJson(Map<String, dynamic> json) {
+    return CustomLogSourceResource(
+      attributes: json['attributes'] != null
+          ? CustomLogSourceAttributes.fromJson(
+              json['attributes'] as Map<String, dynamic>)
+          : null,
+      provider: json['provider'] != null
+          ? CustomLogSourceProvider.fromJson(
+              json['provider'] as Map<String, dynamic>)
+          : null,
+      sourceName: json['sourceName'] as String?,
+      sourceVersion: json['sourceVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final queueArn = this.queueArn;
+    final attributes = this.attributes;
+    final provider = this.provider;
+    final sourceName = this.sourceName;
+    final sourceVersion = this.sourceVersion;
     return {
-      if (queueArn != null) 'queueArn': queueArn,
+      if (attributes != null) 'attributes': attributes,
+      if (provider != null) 'provider': provider,
+      if (sourceName != null) 'sourceName': sourceName,
+      if (sourceVersion != null) 'sourceVersion': sourceVersion,
+    };
+  }
+}
+
+/// Automatically enable new organization accounts as member accounts from an
+/// Amazon Security Lake administrator account.
+class DataLakeAutoEnableNewAccountConfiguration {
+  /// The Amazon Web Services Regions where Security Lake is automatically
+  /// enabled.
+  final String region;
+
+  /// The Amazon Web Services sources that are automatically enabled in Security
+  /// Lake.
+  final List<AwsLogSourceResource> sources;
+
+  DataLakeAutoEnableNewAccountConfiguration({
+    required this.region,
+    required this.sources,
+  });
+
+  factory DataLakeAutoEnableNewAccountConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DataLakeAutoEnableNewAccountConfiguration(
+      region: json['region'] as String,
+      sources: (json['sources'] as List)
+          .whereNotNull()
+          .map((e) => AwsLogSourceResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final sources = this.sources;
+    return {
+      'region': region,
+      'sources': sources,
+    };
+  }
+}
+
+/// Provides details of Amazon Security Lake object.
+class DataLakeConfiguration {
+  /// The Amazon Web Services Regions where Security Lake is automatically
+  /// enabled.
+  final String region;
+
+  /// Provides encryption details of Amazon Security Lake object.
+  final DataLakeEncryptionConfiguration? encryptionConfiguration;
+
+  /// Provides lifecycle details of Amazon Security Lake object.
+  final DataLakeLifecycleConfiguration? lifecycleConfiguration;
+
+  /// Provides replication details of Amazon Security Lake object.
+  final DataLakeReplicationConfiguration? replicationConfiguration;
+
+  DataLakeConfiguration({
+    required this.region,
+    this.encryptionConfiguration,
+    this.lifecycleConfiguration,
+    this.replicationConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final lifecycleConfiguration = this.lifecycleConfiguration;
+    final replicationConfiguration = this.replicationConfiguration;
+    return {
+      'region': region,
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (lifecycleConfiguration != null)
+        'lifecycleConfiguration': lifecycleConfiguration,
+      if (replicationConfiguration != null)
+        'replicationConfiguration': replicationConfiguration,
+    };
+  }
+}
+
+/// Provides encryption details of Amazon Security Lake object.
+class DataLakeEncryptionConfiguration {
+  /// The id of KMS encryption key used by Amazon Security Lake to encrypt the
+  /// Security Lake object.
+  final String? kmsKeyId;
+
+  DataLakeEncryptionConfiguration({
+    this.kmsKeyId,
+  });
+
+  factory DataLakeEncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataLakeEncryptionConfiguration(
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// The details for an Amazon Security Lake exception.
+class DataLakeException {
+  /// The underlying exception of a Security Lake exception.
+  final String? exception;
+
+  /// The Amazon Web Services Regions where the exception occurred.
+  final String? region;
+
+  /// List of all remediation steps for a Security Lake exception.
+  final String? remediation;
+
+  /// This error can occur if you configure the wrong timestamp format, or if the
+  /// subset of entries used for validation had errors or missing values.
+  final DateTime? timestamp;
+
+  DataLakeException({
+    this.exception,
+    this.region,
+    this.remediation,
+    this.timestamp,
+  });
+
+  factory DataLakeException.fromJson(Map<String, dynamic> json) {
+    return DataLakeException(
+      exception: json['exception'] as String?,
+      region: json['region'] as String?,
+      remediation: json['remediation'] as String?,
+      timestamp: timeStampFromJson(json['timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exception = this.exception;
+    final region = this.region;
+    final remediation = this.remediation;
+    final timestamp = this.timestamp;
+    return {
+      if (exception != null) 'exception': exception,
+      if (region != null) 'region': region,
+      if (remediation != null) 'remediation': remediation,
+      if (timestamp != null) 'timestamp': iso8601ToJson(timestamp),
+    };
+  }
+}
+
+/// Provides lifecycle details of Amazon Security Lake object.
+class DataLakeLifecycleConfiguration {
+  /// Provides data expiration details of Amazon Security Lake object.
+  final DataLakeLifecycleExpiration? expiration;
+
+  /// Provides data storage transition details of Amazon Security Lake object.
+  final List<DataLakeLifecycleTransition>? transitions;
+
+  DataLakeLifecycleConfiguration({
+    this.expiration,
+    this.transitions,
+  });
+
+  factory DataLakeLifecycleConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataLakeLifecycleConfiguration(
+      expiration: json['expiration'] != null
+          ? DataLakeLifecycleExpiration.fromJson(
+              json['expiration'] as Map<String, dynamic>)
+          : null,
+      transitions: (json['transitions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataLakeLifecycleTransition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expiration = this.expiration;
+    final transitions = this.transitions;
+    return {
+      if (expiration != null) 'expiration': expiration,
+      if (transitions != null) 'transitions': transitions,
+    };
+  }
+}
+
+/// Provide expiration lifecycle details of Amazon Security Lake object.
+class DataLakeLifecycleExpiration {
+  /// Number of days before data expires in the Amazon Security Lake object.
+  final int? days;
+
+  DataLakeLifecycleExpiration({
+    this.days,
+  });
+
+  factory DataLakeLifecycleExpiration.fromJson(Map<String, dynamic> json) {
+    return DataLakeLifecycleExpiration(
+      days: json['days'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final days = this.days;
+    return {
+      if (days != null) 'days': days,
+    };
+  }
+}
+
+/// Provide transition lifecycle details of Amazon Security Lake object.
+class DataLakeLifecycleTransition {
+  /// Number of days before data transitions to a different S3 Storage Class in
+  /// the Amazon Security Lake object.
+  final int? days;
+
+  /// The range of storage classes that you can choose from based on the data
+  /// access, resiliency, and cost requirements of your workloads.
+  final String? storageClass;
+
+  DataLakeLifecycleTransition({
+    this.days,
+    this.storageClass,
+  });
+
+  factory DataLakeLifecycleTransition.fromJson(Map<String, dynamic> json) {
+    return DataLakeLifecycleTransition(
+      days: json['days'] as int?,
+      storageClass: json['storageClass'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final days = this.days;
+    final storageClass = this.storageClass;
+    return {
+      if (days != null) 'days': days,
+      if (storageClass != null) 'storageClass': storageClass,
+    };
+  }
+}
+
+/// Provides replication details for objects stored in the Amazon Security Lake
+/// data lake.
+class DataLakeReplicationConfiguration {
+  /// Specifies one or more centralized rollup Regions. The Amazon Web Services
+  /// Region specified in the <code>region</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/APIReference/API_CreateDataLake.html">
+  /// <code>CreateDataLake</code> </a> or <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/APIReference/API_UpdateDataLake.html">
+  /// <code>UpdateDataLake</code> </a> operations contributes data to the rollup
+  /// Region or Regions specified in this parameter.
+  ///
+  /// Replication enables automatic, asynchronous copying of objects across Amazon
+  /// S3 buckets. S3 buckets that are configured for object replication can be
+  /// owned by the same Amazon Web Services account or by different accounts. You
+  /// can replicate objects to a single destination bucket or to multiple
+  /// destination buckets. The destination buckets can be in different Regions or
+  /// within the same Region as the source bucket.
+  final List<String>? regions;
+
+  /// Replication settings for the Amazon S3 buckets. This parameter uses the
+  /// Identity and Access Management (IAM) role you created that is managed by
+  /// Security Lake, to ensure the replication setting is correct.
+  final String? roleArn;
+
+  DataLakeReplicationConfiguration({
+    this.regions,
+    this.roleArn,
+  });
+
+  factory DataLakeReplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataLakeReplicationConfiguration(
+      regions: (json['regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regions = this.regions;
+    final roleArn = this.roleArn;
+    return {
+      if (regions != null) 'regions': regions,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+/// Provides details of Amazon Security Lake object.
+class DataLakeResource {
+  /// The Amazon Resource Name (ARN) created by you to provide to the subscriber.
+  /// For more information about ARNs and how to use them in policies, see the <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html">Amazon
+  /// Security Lake User Guide</a>.
+  final String dataLakeArn;
+
+  /// The Amazon Web Services Regions where Security Lake is enabled.
+  final String region;
+
+  /// Retrieves the status of the configuration operation for an account in Amazon
+  /// Security Lake.
+  final DataLakeStatus? createStatus;
+
+  /// Provides encryption details of Amazon Security Lake object.
+  final DataLakeEncryptionConfiguration? encryptionConfiguration;
+
+  /// Provides lifecycle details of Amazon Security Lake object.
+  final DataLakeLifecycleConfiguration? lifecycleConfiguration;
+
+  /// Provides replication details of Amazon Security Lake object.
+  final DataLakeReplicationConfiguration? replicationConfiguration;
+
+  /// The ARN for the Amazon Security Lake Amazon S3 bucket.
+  final String? s3BucketArn;
+
+  /// The status of the last <code>UpdateDataLake </code>or
+  /// <code>DeleteDataLake</code> API request.
+  final DataLakeUpdateStatus? updateStatus;
+
+  DataLakeResource({
+    required this.dataLakeArn,
+    required this.region,
+    this.createStatus,
+    this.encryptionConfiguration,
+    this.lifecycleConfiguration,
+    this.replicationConfiguration,
+    this.s3BucketArn,
+    this.updateStatus,
+  });
+
+  factory DataLakeResource.fromJson(Map<String, dynamic> json) {
+    return DataLakeResource(
+      dataLakeArn: json['dataLakeArn'] as String,
+      region: json['region'] as String,
+      createStatus: (json['createStatus'] as String?)?.toDataLakeStatus(),
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? DataLakeEncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      lifecycleConfiguration: json['lifecycleConfiguration'] != null
+          ? DataLakeLifecycleConfiguration.fromJson(
+              json['lifecycleConfiguration'] as Map<String, dynamic>)
+          : null,
+      replicationConfiguration: json['replicationConfiguration'] != null
+          ? DataLakeReplicationConfiguration.fromJson(
+              json['replicationConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3BucketArn: json['s3BucketArn'] as String?,
+      updateStatus: json['updateStatus'] != null
+          ? DataLakeUpdateStatus.fromJson(
+              json['updateStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataLakeArn = this.dataLakeArn;
+    final region = this.region;
+    final createStatus = this.createStatus;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final lifecycleConfiguration = this.lifecycleConfiguration;
+    final replicationConfiguration = this.replicationConfiguration;
+    final s3BucketArn = this.s3BucketArn;
+    final updateStatus = this.updateStatus;
+    return {
+      'dataLakeArn': dataLakeArn,
+      'region': region,
+      if (createStatus != null) 'createStatus': createStatus.toValue(),
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (lifecycleConfiguration != null)
+        'lifecycleConfiguration': lifecycleConfiguration,
+      if (replicationConfiguration != null)
+        'replicationConfiguration': replicationConfiguration,
+      if (s3BucketArn != null) 's3BucketArn': s3BucketArn,
+      if (updateStatus != null) 'updateStatus': updateStatus,
+    };
+  }
+}
+
+/// Amazon Security Lake collects logs and events from supported Amazon Web
+/// Services and custom sources. For the list of supported Amazon Web Services,
+/// see the <a
+/// href="https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html">Amazon
+/// Security Lake User Guide</a>.
+class DataLakeSource {
+  /// The ID of the Security Lake account for which logs are collected.
+  final String? account;
+
+  /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes
+  /// the type of data that the custom source will send to Security Lake. The
+  /// supported event classes are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACCESS_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>FILE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>KERNEL_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>KERNEL_EXTENSION</code>
+  /// </li>
+  /// <li>
+  /// <code>MEMORY_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>MODULE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>PROCESS_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>REGISTRY_KEY_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>REGISTRY_VALUE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>RESOURCE_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SCHEDULED_JOB_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SECURITY_FINDING</code>
+  /// </li>
+  /// <li>
+  /// <code>ACCOUNT_CHANGE</code>
+  /// </li>
+  /// <li>
+  /// <code>AUTHENTICATION</code>
+  /// </li>
+  /// <li>
+  /// <code>AUTHORIZATION</code>
+  /// </li>
+  /// <li>
+  /// <code>ENTITY_MANAGEMENT_AUDIT</code>
+  /// </li>
+  /// <li>
+  /// <code>DHCP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>NETWORK_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>DNS_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>FTP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>RDP_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SMB_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SSH_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>CONFIG_STATE</code>
+  /// </li>
+  /// <li>
+  /// <code>INVENTORY_INFO</code>
+  /// </li>
+  /// <li>
+  /// <code>EMAIL_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>API_ACTIVITY</code>
+  /// </li>
+  /// <li>
+  /// <code>CLOUD_API</code>
+  /// </li>
+  /// </ul>
+  final List<String>? eventClasses;
+
+  /// The supported Amazon Web Services from which logs and events are collected.
+  /// Amazon Security Lake supports log and event collection for natively
+  /// supported Amazon Web Services.
+  final String? sourceName;
+
+  /// The log status for the Security Lake account.
+  final List<DataLakeSourceStatus>? sourceStatuses;
+
+  DataLakeSource({
+    this.account,
+    this.eventClasses,
+    this.sourceName,
+    this.sourceStatuses,
+  });
+
+  factory DataLakeSource.fromJson(Map<String, dynamic> json) {
+    return DataLakeSource(
+      account: json['account'] as String?,
+      eventClasses: (json['eventClasses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceName: json['sourceName'] as String?,
+      sourceStatuses: (json['sourceStatuses'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataLakeSourceStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final eventClasses = this.eventClasses;
+    final sourceName = this.sourceName;
+    final sourceStatuses = this.sourceStatuses;
+    return {
+      if (account != null) 'account': account,
+      if (eventClasses != null) 'eventClasses': eventClasses,
+      if (sourceName != null) 'sourceName': sourceName,
+      if (sourceStatuses != null) 'sourceStatuses': sourceStatuses,
+    };
+  }
+}
+
+/// Retrieves the Logs status for the Amazon Security Lake account.
+class DataLakeSourceStatus {
+  /// Defines path the stored logs are available which has information on your
+  /// systems, applications, and services.
+  final String? resource;
+
+  /// The health status of services, including error codes and patterns.
+  final SourceCollectionStatus? status;
+
+  DataLakeSourceStatus({
+    this.resource,
+    this.status,
+  });
+
+  factory DataLakeSourceStatus.fromJson(Map<String, dynamic> json) {
+    return DataLakeSourceStatus(
+      resource: json['resource'] as String?,
+      status: (json['status'] as String?)?.toSourceCollectionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resource = this.resource;
+    final status = this.status;
+    return {
+      if (resource != null) 'resource': resource,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+enum DataLakeStatus {
+  initialized,
+  pending,
+  completed,
+  failed,
+}
+
+extension DataLakeStatusValueExtension on DataLakeStatus {
+  String toValue() {
+    switch (this) {
+      case DataLakeStatus.initialized:
+        return 'INITIALIZED';
+      case DataLakeStatus.pending:
+        return 'PENDING';
+      case DataLakeStatus.completed:
+        return 'COMPLETED';
+      case DataLakeStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension DataLakeStatusFromString on String {
+  DataLakeStatus toDataLakeStatus() {
+    switch (this) {
+      case 'INITIALIZED':
+        return DataLakeStatus.initialized;
+      case 'PENDING':
+        return DataLakeStatus.pending;
+      case 'COMPLETED':
+        return DataLakeStatus.completed;
+      case 'FAILED':
+        return DataLakeStatus.failed;
+    }
+    throw Exception('$this is not known in enum DataLakeStatus');
+  }
+}
+
+/// The details of the last <code>UpdateDataLake</code> or
+/// <code>DeleteDataLake</code> API request which failed.
+class DataLakeUpdateException {
+  /// The reason code for the exception of the last <code>UpdateDataLake</code> or
+  /// <code>DeleteDataLake</code> API request.
+  final String? code;
+
+  /// The reason for the exception of the last <code>UpdateDataLake</code>or
+  /// <code>DeleteDataLake</code> API request.
+  final String? reason;
+
+  DataLakeUpdateException({
+    this.code,
+    this.reason,
+  });
+
+  factory DataLakeUpdateException.fromJson(Map<String, dynamic> json) {
+    return DataLakeUpdateException(
+      code: json['code'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final reason = this.reason;
+    return {
+      if (code != null) 'code': code,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+/// The status of the last <code>UpdateDataLake</code> or
+/// <code>DeleteDataLake</code> API request. This is set to Completed after the
+/// configuration is updated, or removed if deletion of the data lake is
+/// successful.
+class DataLakeUpdateStatus {
+  /// The details of the last <code>UpdateDataLake</code>or
+  /// <code>DeleteDataLake</code> API request which failed.
+  final DataLakeUpdateException? exception;
+
+  /// The unique ID for the last <code>UpdateDataLake</code> or
+  /// <code>DeleteDataLake</code> API request.
+  final String? requestId;
+
+  /// The status of the last <code>UpdateDataLake</code> or
+  /// <code>DeleteDataLake</code> API request that was requested.
+  final DataLakeStatus? status;
+
+  DataLakeUpdateStatus({
+    this.exception,
+    this.requestId,
+    this.status,
+  });
+
+  factory DataLakeUpdateStatus.fromJson(Map<String, dynamic> json) {
+    return DataLakeUpdateStatus(
+      exception: json['exception'] != null
+          ? DataLakeUpdateException.fromJson(
+              json['exception'] as Map<String, dynamic>)
+          : null,
+      requestId: json['requestId'] as String?,
+      status: (json['status'] as String?)?.toDataLakeStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exception = this.exception;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (exception != null) 'exception': exception,
+      if (requestId != null) 'requestId': requestId,
+      if (status != null) 'status': status.toValue(),
     };
   }
 }
@@ -1643,12 +2505,8 @@ class DeleteAwsLogSourceResponse {
   /// part of the organization.
   final List<String>? failed;
 
-  /// Deletion of the Amazon Web Services sources is in progress.
-  final List<String>? processing;
-
   DeleteAwsLogSourceResponse({
     this.failed,
-    this.processing,
   });
 
   factory DeleteAwsLogSourceResponse.fromJson(Map<String, dynamic> json) {
@@ -1657,50 +2515,22 @@ class DeleteAwsLogSourceResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      processing: (json['processing'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final failed = this.failed;
-    final processing = this.processing;
     return {
       if (failed != null) 'failed': failed,
-      if (processing != null) 'processing': processing,
     };
   }
 }
 
 class DeleteCustomLogSourceResponse {
-  /// The location of the partition in the Amazon S3 bucket for Security Lake.
-  final String customDataLocation;
+  DeleteCustomLogSourceResponse();
 
-  DeleteCustomLogSourceResponse({
-    required this.customDataLocation,
-  });
-
-  factory DeleteCustomLogSourceResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteCustomLogSourceResponse(
-      customDataLocation: json['customDataLocation'] as String,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customDataLocation = this.customDataLocation;
-    return {
-      'customDataLocation': customDataLocation,
-    };
-  }
-}
-
-class DeleteDatalakeAutoEnableResponse {
-  DeleteDatalakeAutoEnableResponse();
-
-  factory DeleteDatalakeAutoEnableResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteDatalakeAutoEnableResponse();
+  factory DeleteCustomLogSourceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCustomLogSourceResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1708,12 +2538,12 @@ class DeleteDatalakeAutoEnableResponse {
   }
 }
 
-class DeleteDatalakeDelegatedAdminResponse {
-  DeleteDatalakeDelegatedAdminResponse();
+class DeleteDataLakeExceptionSubscriptionResponse {
+  DeleteDataLakeExceptionSubscriptionResponse();
 
-  factory DeleteDatalakeDelegatedAdminResponse.fromJson(
+  factory DeleteDataLakeExceptionSubscriptionResponse.fromJson(
       Map<String, dynamic> _) {
-    return DeleteDatalakeDelegatedAdminResponse();
+    return DeleteDataLakeExceptionSubscriptionResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1721,34 +2551,37 @@ class DeleteDatalakeDelegatedAdminResponse {
   }
 }
 
-class DeleteDatalakeExceptionsSubscriptionResponse {
-  /// Retrieves the status of the delete Security Lake operation for an account.
-  final String status;
+class DeleteDataLakeOrganizationConfigurationResponse {
+  DeleteDataLakeOrganizationConfigurationResponse();
 
-  DeleteDatalakeExceptionsSubscriptionResponse({
-    required this.status,
-  });
-
-  factory DeleteDatalakeExceptionsSubscriptionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DeleteDatalakeExceptionsSubscriptionResponse(
-      status: json['status'] as String,
-    );
+  factory DeleteDataLakeOrganizationConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteDataLakeOrganizationConfigurationResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      'status': status,
-    };
+    return {};
   }
 }
 
-class DeleteDatalakeResponse {
-  DeleteDatalakeResponse();
+class DeleteDataLakeResponse {
+  DeleteDataLakeResponse();
 
-  factory DeleteDatalakeResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteDatalakeResponse();
+  factory DeleteDataLakeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDataLakeResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteSubscriberNotificationResponse {
+  DeleteSubscriberNotificationResponse();
+
+  factory DeleteSubscriberNotificationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteSubscriberNotificationResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1768,12 +2601,12 @@ class DeleteSubscriberResponse {
   }
 }
 
-class DeleteSubscriptionNotificationConfigurationResponse {
-  DeleteSubscriptionNotificationConfigurationResponse();
+class DeregisterDataLakeDelegatedAdministratorResponse {
+  DeregisterDataLakeDelegatedAdministratorResponse();
 
-  factory DeleteSubscriptionNotificationConfigurationResponse.fromJson(
+  factory DeregisterDataLakeDelegatedAdministratorResponse.fromJson(
       Map<String, dynamic> _) {
-    return DeleteSubscriptionNotificationConfigurationResponse();
+    return DeregisterDataLakeDelegatedAdministratorResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1781,240 +2614,83 @@ class DeleteSubscriptionNotificationConfigurationResponse {
   }
 }
 
-enum Dimension {
-  region,
-  sourceType,
-  member,
-}
+class GetDataLakeExceptionSubscriptionResponse {
+  /// The expiration period and time-to-live (TTL).
+  final int? exceptionTimeToLive;
 
-extension DimensionValueExtension on Dimension {
-  String toValue() {
-    switch (this) {
-      case Dimension.region:
-        return 'REGION';
-      case Dimension.sourceType:
-        return 'SOURCE_TYPE';
-      case Dimension.member:
-        return 'MEMBER';
-    }
-  }
-}
+  /// The Amazon Web Services account where you receive exception notifications.
+  final String? notificationEndpoint;
 
-extension DimensionFromString on String {
-  Dimension toDimension() {
-    switch (this) {
-      case 'REGION':
-        return Dimension.region;
-      case 'SOURCE_TYPE':
-        return Dimension.sourceType;
-      case 'MEMBER':
-        return Dimension.member;
-    }
-    throw Exception('$this is not known in enum Dimension');
-  }
-}
+  /// The subscription protocol to which exception notifications are posted.
+  final String? subscriptionProtocol;
 
-enum EndpointProtocol {
-  https,
-  sqs,
-}
-
-extension EndpointProtocolValueExtension on EndpointProtocol {
-  String toValue() {
-    switch (this) {
-      case EndpointProtocol.https:
-        return 'HTTPS';
-      case EndpointProtocol.sqs:
-        return 'SQS';
-    }
-  }
-}
-
-extension EndpointProtocolFromString on String {
-  EndpointProtocol toEndpointProtocol() {
-    switch (this) {
-      case 'HTTPS':
-        return EndpointProtocol.https;
-      case 'SQS':
-        return EndpointProtocol.sqs;
-    }
-    throw Exception('$this is not known in enum EndpointProtocol');
-  }
-}
-
-/// List of all failures.
-class Failures {
-  /// List of all exception messages.
-  final String exceptionMessage;
-
-  /// List of all remediation steps for failures.
-  final String remediation;
-
-  /// This error can occur if you configure the wrong timestamp format, or if the
-  /// subset of entries used for validation had errors or missing values.
-  final DateTime timestamp;
-
-  Failures({
-    required this.exceptionMessage,
-    required this.remediation,
-    required this.timestamp,
+  GetDataLakeExceptionSubscriptionResponse({
+    this.exceptionTimeToLive,
+    this.notificationEndpoint,
+    this.subscriptionProtocol,
   });
 
-  factory Failures.fromJson(Map<String, dynamic> json) {
-    return Failures(
-      exceptionMessage: json['exceptionMessage'] as String,
-      remediation: json['remediation'] as String,
-      timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
+  factory GetDataLakeExceptionSubscriptionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDataLakeExceptionSubscriptionResponse(
+      exceptionTimeToLive: json['exceptionTimeToLive'] as int?,
+      notificationEndpoint: json['notificationEndpoint'] as String?,
+      subscriptionProtocol: json['subscriptionProtocol'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final exceptionMessage = this.exceptionMessage;
-    final remediation = this.remediation;
-    final timestamp = this.timestamp;
+    final exceptionTimeToLive = this.exceptionTimeToLive;
+    final notificationEndpoint = this.notificationEndpoint;
+    final subscriptionProtocol = this.subscriptionProtocol;
     return {
-      'exceptionMessage': exceptionMessage,
-      'remediation': remediation,
-      'timestamp': iso8601ToJson(timestamp),
+      if (exceptionTimeToLive != null)
+        'exceptionTimeToLive': exceptionTimeToLive,
+      if (notificationEndpoint != null)
+        'notificationEndpoint': notificationEndpoint,
+      if (subscriptionProtocol != null)
+        'subscriptionProtocol': subscriptionProtocol,
     };
   }
 }
 
-/// Response element for actions that make changes, namely create, update, or
-/// delete actions.
-class FailuresResponse {
-  /// List of all failures.
-  final List<Failures>? failures;
-
-  /// List of Amazon Web Services Regions where the failure occurred.
-  final String? region;
-
-  FailuresResponse({
-    this.failures,
-    this.region,
-  });
-
-  factory FailuresResponse.fromJson(Map<String, dynamic> json) {
-    return FailuresResponse(
-      failures: (json['failures'] as List?)
-          ?.whereNotNull()
-          .map((e) => Failures.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      region: json['region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failures = this.failures;
-    final region = this.region;
-    return {
-      if (failures != null) 'failures': failures,
-      if (region != null) 'region': region,
-    };
-  }
-}
-
-class GetDatalakeAutoEnableResponse {
+class GetDataLakeOrganizationConfigurationResponse {
   /// The configuration for new accounts.
-  final List<AutoEnableNewRegionConfiguration> autoEnableNewAccounts;
+  final List<DataLakeAutoEnableNewAccountConfiguration>? autoEnableNewAccount;
 
-  GetDatalakeAutoEnableResponse({
-    required this.autoEnableNewAccounts,
+  GetDataLakeOrganizationConfigurationResponse({
+    this.autoEnableNewAccount,
   });
 
-  factory GetDatalakeAutoEnableResponse.fromJson(Map<String, dynamic> json) {
-    return GetDatalakeAutoEnableResponse(
-      autoEnableNewAccounts: (json['autoEnableNewAccounts'] as List)
-          .whereNotNull()
-          .map((e) => AutoEnableNewRegionConfiguration.fromJson(
+  factory GetDataLakeOrganizationConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDataLakeOrganizationConfigurationResponse(
+      autoEnableNewAccount: (json['autoEnableNewAccount'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataLakeAutoEnableNewAccountConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final autoEnableNewAccounts = this.autoEnableNewAccounts;
+    final autoEnableNewAccount = this.autoEnableNewAccount;
     return {
-      'autoEnableNewAccounts': autoEnableNewAccounts,
+      if (autoEnableNewAccount != null)
+        'autoEnableNewAccount': autoEnableNewAccount,
     };
   }
 }
 
-class GetDatalakeExceptionsExpiryResponse {
-  /// The expiration period and time-to-live (TTL).
-  final int exceptionMessageExpiry;
+class GetDataLakeSourcesResponse {
+  /// The Amazon Resource Name (ARN) created by you to provide to the subscriber.
+  /// For more information about ARNs and how to use them in policies, see the <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html">Amazon
+  /// Security Lake User Guide</a>.
+  final String? dataLakeArn;
 
-  GetDatalakeExceptionsExpiryResponse({
-    required this.exceptionMessageExpiry,
-  });
-
-  factory GetDatalakeExceptionsExpiryResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetDatalakeExceptionsExpiryResponse(
-      exceptionMessageExpiry: json['exceptionMessageExpiry'] as int,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exceptionMessageExpiry = this.exceptionMessageExpiry;
-    return {
-      'exceptionMessageExpiry': exceptionMessageExpiry,
-    };
-  }
-}
-
-class GetDatalakeExceptionsSubscriptionResponse {
-  /// Retrieves the exception notification subscription information.
-  final ProtocolAndNotificationEndpoint protocolAndNotificationEndpoint;
-
-  GetDatalakeExceptionsSubscriptionResponse({
-    required this.protocolAndNotificationEndpoint,
-  });
-
-  factory GetDatalakeExceptionsSubscriptionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetDatalakeExceptionsSubscriptionResponse(
-      protocolAndNotificationEndpoint: ProtocolAndNotificationEndpoint.fromJson(
-          json['protocolAndNotificationEndpoint'] as Map<String, dynamic>),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final protocolAndNotificationEndpoint =
-        this.protocolAndNotificationEndpoint;
-    return {
-      'protocolAndNotificationEndpoint': protocolAndNotificationEndpoint,
-    };
-  }
-}
-
-class GetDatalakeResponse {
-  /// Retrieves the Security Lake configuration object.
-  final Map<Region, LakeConfigurationResponse> configurations;
-
-  GetDatalakeResponse({
-    required this.configurations,
-  });
-
-  factory GetDatalakeResponse.fromJson(Map<String, dynamic> json) {
-    return GetDatalakeResponse(
-      configurations: (json['configurations'] as Map<String, dynamic>).map(
-          (k, e) => MapEntry(k.toRegion(),
-              LakeConfigurationResponse.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configurations = this.configurations;
-    return {
-      'configurations': configurations.map((k, e) => MapEntry(k.toValue(), e)),
-    };
-  }
-}
-
-class GetDatalakeStatusResponse {
   /// The list of enabled accounts and enabled sources.
-  final List<AccountSources> accountSourcesList;
+  final List<DataLakeSource>? dataLakeSources;
 
   /// Lists if there are more results available. The value of nextToken is a
   /// unique pagination token for each page. Repeat the call using the returned
@@ -2024,33 +2700,37 @@ class GetDatalakeStatusResponse {
   /// token will return an HTTP 400 InvalidToken error.
   final String? nextToken;
 
-  GetDatalakeStatusResponse({
-    required this.accountSourcesList,
+  GetDataLakeSourcesResponse({
+    this.dataLakeArn,
+    this.dataLakeSources,
     this.nextToken,
   });
 
-  factory GetDatalakeStatusResponse.fromJson(Map<String, dynamic> json) {
-    return GetDatalakeStatusResponse(
-      accountSourcesList: (json['accountSourcesList'] as List)
-          .whereNotNull()
-          .map((e) => AccountSources.fromJson(e as Map<String, dynamic>))
+  factory GetDataLakeSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return GetDataLakeSourcesResponse(
+      dataLakeArn: json['dataLakeArn'] as String?,
+      dataLakeSources: (json['dataLakeSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataLakeSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountSourcesList = this.accountSourcesList;
+    final dataLakeArn = this.dataLakeArn;
+    final dataLakeSources = this.dataLakeSources;
     final nextToken = this.nextToken;
     return {
-      'accountSourcesList': accountSourcesList,
+      if (dataLakeArn != null) 'dataLakeArn': dataLakeArn,
+      if (dataLakeSources != null) 'dataLakeSources': dataLakeSources,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
 
 class GetSubscriberResponse {
-  /// The subscription information for the specified subscription ID.
+  /// The subscriber information for the specified subscriber ID.
   final SubscriberResource? subscriber;
 
   GetSubscriberResponse({
@@ -2074,226 +2754,88 @@ class GetSubscriberResponse {
   }
 }
 
-enum HttpsMethod {
+enum HttpMethod {
   post,
   put,
 }
 
-extension HttpsMethodValueExtension on HttpsMethod {
+extension HttpMethodValueExtension on HttpMethod {
   String toValue() {
     switch (this) {
-      case HttpsMethod.post:
+      case HttpMethod.post:
         return 'POST';
-      case HttpsMethod.put:
+      case HttpMethod.put:
         return 'PUT';
     }
   }
 }
 
-extension HttpsMethodFromString on String {
-  HttpsMethod toHttpsMethod() {
+extension HttpMethodFromString on String {
+  HttpMethod toHttpMethod() {
     switch (this) {
       case 'POST':
-        return HttpsMethod.post;
+        return HttpMethod.post;
       case 'PUT':
-        return HttpsMethod.put;
+        return HttpMethod.put;
     }
-    throw Exception('$this is not known in enum HttpsMethod');
+    throw Exception('$this is not known in enum HttpMethod');
   }
 }
 
-/// Provides details of Amazon Security Lake configuration object.
-class LakeConfigurationRequest {
-  /// The type of encryption key used by Amazon Security Lake to encrypt the
-  /// Security Lake configuration object.
-  final String? encryptionKey;
+/// The configurations for HTTPS subscriber notification.
+class HttpsNotificationConfiguration {
+  /// The subscription endpoint in Security Lake. If you prefer notification with
+  /// an HTTPs endpoint, populate this field.
+  final String endpoint;
 
-  /// Replication enables automatic, asynchronous copying of objects across Amazon
-  /// S3 buckets. Amazon S3 buckets that are configured for object replication can
-  /// be owned by the same Amazon Web Services account or by different accounts.
-  /// You can replicate objects to a single destination bucket or to multiple
-  /// destination buckets. The destination buckets can be in different Amazon Web
-  /// Services Regions or within the same Region as the source bucket.
-  ///
-  /// Set up one or more rollup Regions by providing the Region or Regions that
-  /// should contribute to the central rollup Region.
-  final List<Region>? replicationDestinationRegions;
+  /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role
+  /// that you created. For more information about ARNs and how to use them in
+  /// policies, see <a
+  /// href="https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html">Managing
+  /// data access</a> and <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html">Amazon
+  /// Web Services Managed Policies</a> in the <i>Amazon Security Lake User
+  /// Guide</i>.
+  final String targetRoleArn;
 
-  /// Replication settings for the Amazon S3 buckets. This parameter uses the
-  /// Identity and Access Management (IAM) role you created that is managed by
-  /// Security Lake, to ensure the replication setting is correct.
-  final String? replicationRoleArn;
+  /// The key name for the notification subscription.
+  final String? authorizationApiKeyName;
 
-  /// Retention settings for the destination Amazon S3 buckets.
-  final List<RetentionSetting>? retentionSettings;
+  /// The key value for the notification subscription.
+  final String? authorizationApiKeyValue;
 
-  /// A tag is a label that you assign to an Amazon Web Services resource. Each
-  /// tag consists of a key and an optional value, both of which you define.
-  final Map<String, String>? tagsMap;
+  /// The HTTPS method used for the notification subscription.
+  final HttpMethod? httpMethod;
 
-  LakeConfigurationRequest({
-    this.encryptionKey,
-    this.replicationDestinationRegions,
-    this.replicationRoleArn,
-    this.retentionSettings,
-    this.tagsMap,
+  HttpsNotificationConfiguration({
+    required this.endpoint,
+    required this.targetRoleArn,
+    this.authorizationApiKeyName,
+    this.authorizationApiKeyValue,
+    this.httpMethod,
   });
 
   Map<String, dynamic> toJson() {
-    final encryptionKey = this.encryptionKey;
-    final replicationDestinationRegions = this.replicationDestinationRegions;
-    final replicationRoleArn = this.replicationRoleArn;
-    final retentionSettings = this.retentionSettings;
-    final tagsMap = this.tagsMap;
+    final endpoint = this.endpoint;
+    final targetRoleArn = this.targetRoleArn;
+    final authorizationApiKeyName = this.authorizationApiKeyName;
+    final authorizationApiKeyValue = this.authorizationApiKeyValue;
+    final httpMethod = this.httpMethod;
     return {
-      if (encryptionKey != null) 'encryptionKey': encryptionKey,
-      if (replicationDestinationRegions != null)
-        'replicationDestinationRegions':
-            replicationDestinationRegions.map((e) => e.toValue()).toList(),
-      if (replicationRoleArn != null) 'replicationRoleArn': replicationRoleArn,
-      if (retentionSettings != null) 'retentionSettings': retentionSettings,
-      if (tagsMap != null) 'tagsMap': tagsMap,
+      'endpoint': endpoint,
+      'targetRoleArn': targetRoleArn,
+      if (authorizationApiKeyName != null)
+        'authorizationApiKeyName': authorizationApiKeyName,
+      if (authorizationApiKeyValue != null)
+        'authorizationApiKeyValue': authorizationApiKeyValue,
+      if (httpMethod != null) 'httpMethod': httpMethod.toValue(),
     };
   }
 }
 
-/// Provides details of Amazon Security Lake lake configuration object.
-class LakeConfigurationResponse {
-  /// The type of encryption key used by secure the Security Lake configuration
-  /// object.
-  final String? encryptionKey;
-
-  /// Replication enables automatic, asynchronous copying of objects across Amazon
-  /// S3 buckets. Amazon S3 buckets that are configured for object replication can
-  /// be owned by the same Amazon Web Services account or by different accounts.
-  /// You can replicate objects to a single destination bucket or to multiple
-  /// destination buckets. The destination buckets can be in different Amazon Web
-  /// Services Regions or within the same Region as the source bucket.
-  ///
-  /// Set up one or more rollup Regions by providing the Region or Regions that
-  /// should contribute to the central rollup Region.
-  final List<Region>? replicationDestinationRegions;
-
-  /// Replication settings for the Amazon S3 buckets. This parameter uses the IAM
-  /// role you created that is managed by Security Lake, to ensure the replication
-  /// setting is correct.
-  final String? replicationRoleArn;
-
-  /// Retention settings for the destination Amazon S3 buckets.
-  final List<RetentionSetting>? retentionSettings;
-
-  /// Amazon Resource Names (ARNs) uniquely identify Amazon Web Services
-  /// resources. Security Lake requires an ARN when you need to specify a resource
-  /// unambiguously across all of Amazon Web Services, such as in IAM policies,
-  /// Amazon Relational Database Service (Amazon RDS) tags, and API calls.
-  final String? s3BucketArn;
-
-  /// Retrieves the status of the configuration operation for an account in Amazon
-  /// Security Lake.
-  final SettingsStatus? status;
-
-  /// A tag is a label that you assign to an Amazon Web Services resource. Each
-  /// tag consists of a key and an optional value, both of which you define.
-  final Map<String, String>? tagsMap;
-
-  /// The status of the last <code>UpdateDatalake </code>or
-  /// <code>DeleteDatalake</code> API request.
-  final UpdateStatus? updateStatus;
-
-  LakeConfigurationResponse({
-    this.encryptionKey,
-    this.replicationDestinationRegions,
-    this.replicationRoleArn,
-    this.retentionSettings,
-    this.s3BucketArn,
-    this.status,
-    this.tagsMap,
-    this.updateStatus,
-  });
-
-  factory LakeConfigurationResponse.fromJson(Map<String, dynamic> json) {
-    return LakeConfigurationResponse(
-      encryptionKey: json['encryptionKey'] as String?,
-      replicationDestinationRegions:
-          (json['replicationDestinationRegions'] as List?)
-              ?.whereNotNull()
-              .map((e) => (e as String).toRegion())
-              .toList(),
-      replicationRoleArn: json['replicationRoleArn'] as String?,
-      retentionSettings: (json['retentionSettings'] as List?)
-          ?.whereNotNull()
-          .map((e) => RetentionSetting.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      s3BucketArn: json['s3BucketArn'] as String?,
-      status: (json['status'] as String?)?.toSettingsStatus(),
-      tagsMap: (json['tagsMap'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      updateStatus: json['updateStatus'] != null
-          ? UpdateStatus.fromJson(json['updateStatus'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encryptionKey = this.encryptionKey;
-    final replicationDestinationRegions = this.replicationDestinationRegions;
-    final replicationRoleArn = this.replicationRoleArn;
-    final retentionSettings = this.retentionSettings;
-    final s3BucketArn = this.s3BucketArn;
-    final status = this.status;
-    final tagsMap = this.tagsMap;
-    final updateStatus = this.updateStatus;
-    return {
-      if (encryptionKey != null) 'encryptionKey': encryptionKey,
-      if (replicationDestinationRegions != null)
-        'replicationDestinationRegions':
-            replicationDestinationRegions.map((e) => e.toValue()).toList(),
-      if (replicationRoleArn != null) 'replicationRoleArn': replicationRoleArn,
-      if (retentionSettings != null) 'retentionSettings': retentionSettings,
-      if (s3BucketArn != null) 's3BucketArn': s3BucketArn,
-      if (status != null) 'status': status.toValue(),
-      if (tagsMap != null) 'tagsMap': tagsMap,
-      if (updateStatus != null) 'updateStatus': updateStatus,
-    };
-  }
-}
-
-/// The details of the last <code>UpdateDatalake</code> or
-/// <code>DeleteDatalake</code> API request which failed.
-class LastUpdateFailure {
-  /// The reason code for the failure of the last <code>UpdateDatalake</code> or
-  /// <code>DeleteDatalake</code> API request.
-  final String? code;
-
-  /// The reason for the failure of the last <code>UpdateDatalake</code>or
-  /// <code>DeleteDatalake</code> API request.
-  final String? reason;
-
-  LastUpdateFailure({
-    this.code,
-    this.reason,
-  });
-
-  factory LastUpdateFailure.fromJson(Map<String, dynamic> json) {
-    return LastUpdateFailure(
-      code: json['code'] as String?,
-      reason: json['reason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final reason = this.reason;
-    return {
-      if (code != null) 'code': code,
-      if (reason != null) 'reason': reason,
-    };
-  }
-}
-
-class ListDatalakeExceptionsResponse {
+class ListDataLakeExceptionsResponse {
   /// Lists the failures that cannot be retried in the current Region.
-  final List<FailuresResponse> nonRetryableFailures;
+  final List<DataLakeException>? exceptions;
 
   /// List if there are more results available. The value of nextToken is a unique
   /// pagination token for each page. Repeat the call using the returned token to
@@ -2303,557 +2845,315 @@ class ListDatalakeExceptionsResponse {
   /// token will return an HTTP 400 InvalidToken error.
   final String? nextToken;
 
-  ListDatalakeExceptionsResponse({
-    required this.nonRetryableFailures,
+  ListDataLakeExceptionsResponse({
+    this.exceptions,
     this.nextToken,
   });
 
-  factory ListDatalakeExceptionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDatalakeExceptionsResponse(
-      nonRetryableFailures: (json['nonRetryableFailures'] as List)
-          .whereNotNull()
-          .map((e) => FailuresResponse.fromJson(e as Map<String, dynamic>))
+  factory ListDataLakeExceptionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataLakeExceptionsResponse(
+      exceptions: (json['exceptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataLakeException.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nonRetryableFailures = this.nonRetryableFailures;
+    final exceptions = this.exceptions;
     final nextToken = this.nextToken;
     return {
-      'nonRetryableFailures': nonRetryableFailures,
+      if (exceptions != null) 'exceptions': exceptions,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListDataLakesResponse {
+  /// Retrieves the Security Lake configuration object.
+  final List<DataLakeResource>? dataLakes;
+
+  ListDataLakesResponse({
+    this.dataLakes,
+  });
+
+  factory ListDataLakesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataLakesResponse(
+      dataLakes: (json['dataLakes'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataLakeResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataLakes = this.dataLakes;
+    return {
+      if (dataLakes != null) 'dataLakes': dataLakes,
     };
   }
 }
 
 class ListLogSourcesResponse {
-  /// Lists the log sources by Regions for enabled Security Lake accounts.
-  final List<Map<String, Map<String, List<String>>>>
-      regionSourceTypesAccountsList;
-
   /// If nextToken is returned, there are more results available. You can repeat
   /// the call using the returned token to retrieve the next page.
   final String? nextToken;
 
+  /// The list of log sources in your organization that send data to the data
+  /// lake.
+  final List<LogSource>? sources;
+
   ListLogSourcesResponse({
-    required this.regionSourceTypesAccountsList,
     this.nextToken,
+    this.sources,
   });
 
   factory ListLogSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListLogSourcesResponse(
-      regionSourceTypesAccountsList:
-          (json['regionSourceTypesAccountsList'] as List)
-              .whereNotNull()
-              .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
-                  k,
-                  (e as Map<String, dynamic>).map((k, e) => MapEntry(
-                      k,
-                      (e as List)
-                          .whereNotNull()
-                          .map((e) => e as String)
-                          .toList())))))
-              .toList(),
       nextToken: json['nextToken'] as String?,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final regionSourceTypesAccountsList = this.regionSourceTypesAccountsList;
     final nextToken = this.nextToken;
+    final sources = this.sources;
     return {
-      'regionSourceTypesAccountsList': regionSourceTypesAccountsList,
       if (nextToken != null) 'nextToken': nextToken,
+      if (sources != null) 'sources': sources,
     };
   }
 }
 
 class ListSubscribersResponse {
-  /// The subscribers available for the specified Security Lake account ID.
-  final List<SubscriberResource> subscribers;
-
   /// If nextToken is returned, there are more results available. You can repeat
   /// the call using the returned token to retrieve the next page.
   final String? nextToken;
 
+  /// The subscribers available for the specified Security Lake account ID.
+  final List<SubscriberResource>? subscribers;
+
   ListSubscribersResponse({
-    required this.subscribers,
     this.nextToken,
+    this.subscribers,
   });
 
   factory ListSubscribersResponse.fromJson(Map<String, dynamic> json) {
     return ListSubscribersResponse(
-      subscribers: (json['subscribers'] as List)
-          .whereNotNull()
+      nextToken: json['nextToken'] as String?,
+      subscribers: (json['subscribers'] as List?)
+          ?.whereNotNull()
           .map((e) => SubscriberResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final subscribers = this.subscribers;
     final nextToken = this.nextToken;
+    final subscribers = this.subscribers;
     return {
-      'subscribers': subscribers,
       if (nextToken != null) 'nextToken': nextToken,
+      if (subscribers != null) 'subscribers': subscribers,
     };
   }
 }
 
-/// Retrieves the Logs status for the Amazon Security Lake account.
-class LogsStatus {
-  /// The health status of services, including error codes and patterns.
-  final SourceStatus healthStatus;
+class ListTagsForResourceResponse {
+  /// An array of objects, one for each tag (key and value) that’s associated with
+  /// the Amazon Security Lake resource.
+  final List<Tag>? tags;
 
-  /// Defines path the stored logs are available which has information on your
-  /// systems, applications, and services.
-  final String pathToLogs;
-
-  LogsStatus({
-    required this.healthStatus,
-    required this.pathToLogs,
+  ListTagsForResourceResponse({
+    this.tags,
   });
 
-  factory LogsStatus.fromJson(Map<String, dynamic> json) {
-    return LogsStatus(
-      healthStatus: (json['healthStatus'] as String).toSourceStatus(),
-      pathToLogs: json['pathToLogs'] as String,
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final healthStatus = this.healthStatus;
-    final pathToLogs = this.pathToLogs;
+    final tags = this.tags;
     return {
-      'healthStatus': healthStatus.toValue(),
-      'pathToLogs': pathToLogs,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-enum OcsfEventClass {
-  accessActivity,
-  fileActivity,
-  kernelActivity,
-  kernelExtension,
-  memoryActivity,
-  moduleActivity,
-  processActivity,
-  registryKeyActivity,
-  registryValueActivity,
-  resourceActivity,
-  scheduledJobActivity,
-  securityFinding,
-  accountChange,
-  authentication,
-  authorization,
-  entityManagementAudit,
-  dhcpActivity,
-  networkActivity,
-  dnsActivity,
-  ftpActivity,
-  httpActivity,
-  rdpActivity,
-  smbActivity,
-  sshActivity,
-  cloudApi,
-  containerLifecycle,
-  databaseLifecycle,
-  configState,
-  cloudStorage,
-  inventoryInfo,
-  rfbActivity,
-  smtpActivity,
-  virtualMachineActivity,
-}
+/// Amazon Security Lake can collect logs and events from natively-supported
+/// Amazon Web Services services and custom sources.
+class LogSource {
+  /// Specify the account from which you want to collect logs.
+  final String? account;
 
-extension OcsfEventClassValueExtension on OcsfEventClass {
-  String toValue() {
-    switch (this) {
-      case OcsfEventClass.accessActivity:
-        return 'ACCESS_ACTIVITY';
-      case OcsfEventClass.fileActivity:
-        return 'FILE_ACTIVITY';
-      case OcsfEventClass.kernelActivity:
-        return 'KERNEL_ACTIVITY';
-      case OcsfEventClass.kernelExtension:
-        return 'KERNEL_EXTENSION';
-      case OcsfEventClass.memoryActivity:
-        return 'MEMORY_ACTIVITY';
-      case OcsfEventClass.moduleActivity:
-        return 'MODULE_ACTIVITY';
-      case OcsfEventClass.processActivity:
-        return 'PROCESS_ACTIVITY';
-      case OcsfEventClass.registryKeyActivity:
-        return 'REGISTRY_KEY_ACTIVITY';
-      case OcsfEventClass.registryValueActivity:
-        return 'REGISTRY_VALUE_ACTIVITY';
-      case OcsfEventClass.resourceActivity:
-        return 'RESOURCE_ACTIVITY';
-      case OcsfEventClass.scheduledJobActivity:
-        return 'SCHEDULED_JOB_ACTIVITY';
-      case OcsfEventClass.securityFinding:
-        return 'SECURITY_FINDING';
-      case OcsfEventClass.accountChange:
-        return 'ACCOUNT_CHANGE';
-      case OcsfEventClass.authentication:
-        return 'AUTHENTICATION';
-      case OcsfEventClass.authorization:
-        return 'AUTHORIZATION';
-      case OcsfEventClass.entityManagementAudit:
-        return 'ENTITY_MANAGEMENT_AUDIT';
-      case OcsfEventClass.dhcpActivity:
-        return 'DHCP_ACTIVITY';
-      case OcsfEventClass.networkActivity:
-        return 'NETWORK_ACTIVITY';
-      case OcsfEventClass.dnsActivity:
-        return 'DNS_ACTIVITY';
-      case OcsfEventClass.ftpActivity:
-        return 'FTP_ACTIVITY';
-      case OcsfEventClass.httpActivity:
-        return 'HTTP_ACTIVITY';
-      case OcsfEventClass.rdpActivity:
-        return 'RDP_ACTIVITY';
-      case OcsfEventClass.smbActivity:
-        return 'SMB_ACTIVITY';
-      case OcsfEventClass.sshActivity:
-        return 'SSH_ACTIVITY';
-      case OcsfEventClass.cloudApi:
-        return 'CLOUD_API';
-      case OcsfEventClass.containerLifecycle:
-        return 'CONTAINER_LIFECYCLE';
-      case OcsfEventClass.databaseLifecycle:
-        return 'DATABASE_LIFECYCLE';
-      case OcsfEventClass.configState:
-        return 'CONFIG_STATE';
-      case OcsfEventClass.cloudStorage:
-        return 'CLOUD_STORAGE';
-      case OcsfEventClass.inventoryInfo:
-        return 'INVENTORY_INFO';
-      case OcsfEventClass.rfbActivity:
-        return 'RFB_ACTIVITY';
-      case OcsfEventClass.smtpActivity:
-        return 'SMTP_ACTIVITY';
-      case OcsfEventClass.virtualMachineActivity:
-        return 'VIRTUAL_MACHINE_ACTIVITY';
-    }
-  }
-}
+  /// Specify the Regions from which you want to collect logs.
+  final String? region;
 
-extension OcsfEventClassFromString on String {
-  OcsfEventClass toOcsfEventClass() {
-    switch (this) {
-      case 'ACCESS_ACTIVITY':
-        return OcsfEventClass.accessActivity;
-      case 'FILE_ACTIVITY':
-        return OcsfEventClass.fileActivity;
-      case 'KERNEL_ACTIVITY':
-        return OcsfEventClass.kernelActivity;
-      case 'KERNEL_EXTENSION':
-        return OcsfEventClass.kernelExtension;
-      case 'MEMORY_ACTIVITY':
-        return OcsfEventClass.memoryActivity;
-      case 'MODULE_ACTIVITY':
-        return OcsfEventClass.moduleActivity;
-      case 'PROCESS_ACTIVITY':
-        return OcsfEventClass.processActivity;
-      case 'REGISTRY_KEY_ACTIVITY':
-        return OcsfEventClass.registryKeyActivity;
-      case 'REGISTRY_VALUE_ACTIVITY':
-        return OcsfEventClass.registryValueActivity;
-      case 'RESOURCE_ACTIVITY':
-        return OcsfEventClass.resourceActivity;
-      case 'SCHEDULED_JOB_ACTIVITY':
-        return OcsfEventClass.scheduledJobActivity;
-      case 'SECURITY_FINDING':
-        return OcsfEventClass.securityFinding;
-      case 'ACCOUNT_CHANGE':
-        return OcsfEventClass.accountChange;
-      case 'AUTHENTICATION':
-        return OcsfEventClass.authentication;
-      case 'AUTHORIZATION':
-        return OcsfEventClass.authorization;
-      case 'ENTITY_MANAGEMENT_AUDIT':
-        return OcsfEventClass.entityManagementAudit;
-      case 'DHCP_ACTIVITY':
-        return OcsfEventClass.dhcpActivity;
-      case 'NETWORK_ACTIVITY':
-        return OcsfEventClass.networkActivity;
-      case 'DNS_ACTIVITY':
-        return OcsfEventClass.dnsActivity;
-      case 'FTP_ACTIVITY':
-        return OcsfEventClass.ftpActivity;
-      case 'HTTP_ACTIVITY':
-        return OcsfEventClass.httpActivity;
-      case 'RDP_ACTIVITY':
-        return OcsfEventClass.rdpActivity;
-      case 'SMB_ACTIVITY':
-        return OcsfEventClass.smbActivity;
-      case 'SSH_ACTIVITY':
-        return OcsfEventClass.sshActivity;
-      case 'CLOUD_API':
-        return OcsfEventClass.cloudApi;
-      case 'CONTAINER_LIFECYCLE':
-        return OcsfEventClass.containerLifecycle;
-      case 'DATABASE_LIFECYCLE':
-        return OcsfEventClass.databaseLifecycle;
-      case 'CONFIG_STATE':
-        return OcsfEventClass.configState;
-      case 'CLOUD_STORAGE':
-        return OcsfEventClass.cloudStorage;
-      case 'INVENTORY_INFO':
-        return OcsfEventClass.inventoryInfo;
-      case 'RFB_ACTIVITY':
-        return OcsfEventClass.rfbActivity;
-      case 'SMTP_ACTIVITY':
-        return OcsfEventClass.smtpActivity;
-      case 'VIRTUAL_MACHINE_ACTIVITY':
-        return OcsfEventClass.virtualMachineActivity;
-    }
-    throw Exception('$this is not known in enum OcsfEventClass');
-  }
-}
+  /// Specify the sources from which you want to collect logs.
+  final List<LogSourceResource>? sources;
 
-/// Protocol used in Amazon Security Lake that dictates how notifications are
-/// posted at the endpoint.
-class ProtocolAndNotificationEndpoint {
-  /// The account that is subscribed to receive exception notifications.
-  final String? endpoint;
-
-  /// The protocol to which notification messages are posted.
-  final String? protocol;
-
-  ProtocolAndNotificationEndpoint({
-    this.endpoint,
-    this.protocol,
+  LogSource({
+    this.account,
+    this.region,
+    this.sources,
   });
 
-  factory ProtocolAndNotificationEndpoint.fromJson(Map<String, dynamic> json) {
-    return ProtocolAndNotificationEndpoint(
-      endpoint: json['endpoint'] as String?,
-      protocol: json['protocol'] as String?,
+  factory LogSource.fromJson(Map<String, dynamic> json) {
+    return LogSource(
+      account: json['account'] as String?,
+      region: json['region'] as String?,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogSourceResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final endpoint = this.endpoint;
-    final protocol = this.protocol;
+    final account = this.account;
+    final region = this.region;
+    final sources = this.sources;
     return {
-      if (endpoint != null) 'endpoint': endpoint,
-      if (protocol != null) 'protocol': protocol,
+      if (account != null) 'account': account,
+      if (region != null) 'region': region,
+      if (sources != null) 'sources': sources,
     };
-  }
-}
-
-enum Region {
-  usEast_1,
-  usWest_2,
-  euCentral_1,
-  usEast_2,
-  euWest_1,
-  apNortheast_1,
-  apSoutheast_2,
-}
-
-extension RegionValueExtension on Region {
-  String toValue() {
-    switch (this) {
-      case Region.usEast_1:
-        return 'us-east-1';
-      case Region.usWest_2:
-        return 'us-west-2';
-      case Region.euCentral_1:
-        return 'eu-central-1';
-      case Region.usEast_2:
-        return 'us-east-2';
-      case Region.euWest_1:
-        return 'eu-west-1';
-      case Region.apNortheast_1:
-        return 'ap-northeast-1';
-      case Region.apSoutheast_2:
-        return 'ap-southeast-2';
-    }
-  }
-}
-
-extension RegionFromString on String {
-  Region toRegion() {
-    switch (this) {
-      case 'us-east-1':
-        return Region.usEast_1;
-      case 'us-west-2':
-        return Region.usWest_2;
-      case 'eu-central-1':
-        return Region.euCentral_1;
-      case 'us-east-2':
-        return Region.usEast_2;
-      case 'eu-west-1':
-        return Region.euWest_1;
-      case 'ap-northeast-1':
-        return Region.apNortheast_1;
-      case 'ap-southeast-2':
-        return Region.apSoutheast_2;
-    }
-    throw Exception('$this is not known in enum Region');
-  }
-}
-
-/// Retention settings for the destination Amazon S3 buckets in Amazon Security
-/// Lake.
-class RetentionSetting {
-  /// The retention period specifies a fixed period of time during which the
-  /// Security Lake object remains locked. You can specify the retention period in
-  /// days for one or more sources.
-  final int? retentionPeriod;
-
-  /// The range of storage classes that you can choose from based on the data
-  /// access, resiliency, and cost requirements of your workloads.
-  final StorageClass? storageClass;
-
-  RetentionSetting({
-    this.retentionPeriod,
-    this.storageClass,
-  });
-
-  factory RetentionSetting.fromJson(Map<String, dynamic> json) {
-    return RetentionSetting(
-      retentionPeriod: json['retentionPeriod'] as int?,
-      storageClass: (json['storageClass'] as String?)?.toStorageClass(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final retentionPeriod = this.retentionPeriod;
-    final storageClass = this.storageClass;
-    return {
-      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-      if (storageClass != null) 'storageClass': storageClass.toValue(),
-    };
-  }
-}
-
-enum SourceStatus {
-  active,
-  deactivated,
-  pending,
-}
-
-extension SourceStatusValueExtension on SourceStatus {
-  String toValue() {
-    switch (this) {
-      case SourceStatus.active:
-        return 'ACTIVE';
-      case SourceStatus.deactivated:
-        return 'DEACTIVATED';
-      case SourceStatus.pending:
-        return 'PENDING';
-    }
-  }
-}
-
-extension SourceStatusFromString on String {
-  SourceStatus toSourceStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return SourceStatus.active;
-      case 'DEACTIVATED':
-        return SourceStatus.deactivated;
-      case 'PENDING':
-        return SourceStatus.pending;
-    }
-    throw Exception('$this is not known in enum SourceStatus');
   }
 }
 
 /// The supported source types from which logs and events are collected in
-/// Amazon Security Lake. For the list of supported Amazon Web Services, see the
+/// Amazon Security Lake. For a list of supported Amazon Web Services, see the
 /// <a
 /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html">Amazon
 /// Security Lake User Guide</a>.
-class SourceType {
+class LogSourceResource {
   /// Amazon Security Lake supports log and event collection for natively
-  /// supported Amazon Web Services.
-  final AwsLogSourceType? awsSourceType;
+  /// supported Amazon Web Services. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html">Amazon
+  /// Security Lake User Guide</a>.
+  final AwsLogSourceResource? awsLogSource;
 
-  /// Amazon Security Lake supports custom source types. For a detailed list, see
-  /// the Amazon Security Lake User Guide.
-  final String? customSourceType;
+  /// Amazon Security Lake supports custom source types. For more information, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/custom-sources.html">Amazon
+  /// Security Lake User Guide</a>.
+  final CustomLogSourceResource? customLogSource;
 
-  SourceType({
-    this.awsSourceType,
-    this.customSourceType,
+  LogSourceResource({
+    this.awsLogSource,
+    this.customLogSource,
   });
 
-  factory SourceType.fromJson(Map<String, dynamic> json) {
-    return SourceType(
-      awsSourceType: (json['awsSourceType'] as String?)?.toAwsLogSourceType(),
-      customSourceType: json['customSourceType'] as String?,
+  factory LogSourceResource.fromJson(Map<String, dynamic> json) {
+    return LogSourceResource(
+      awsLogSource: json['awsLogSource'] != null
+          ? AwsLogSourceResource.fromJson(
+              json['awsLogSource'] as Map<String, dynamic>)
+          : null,
+      customLogSource: json['customLogSource'] != null
+          ? CustomLogSourceResource.fromJson(
+              json['customLogSource'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final awsSourceType = this.awsSourceType;
-    final customSourceType = this.customSourceType;
+    final awsLogSource = this.awsLogSource;
+    final customLogSource = this.customLogSource;
     return {
-      if (awsSourceType != null) 'awsSourceType': awsSourceType.toValue(),
-      if (customSourceType != null) 'customSourceType': customSourceType,
+      if (awsLogSource != null) 'awsLogSource': awsLogSource,
+      if (customLogSource != null) 'customLogSource': customLogSource,
     };
   }
 }
 
-enum StorageClass {
-  standardIa,
-  onezoneIa,
-  intelligentTiering,
-  glacierIr,
-  glacier,
-  deepArchive,
-  expire,
+/// Specify the configurations you want to use for subscriber notification to
+/// notify the subscriber when new data is written to the data lake for sources
+/// that the subscriber consumes in Security Lake.
+class NotificationConfiguration {
+  /// The configurations for HTTPS subscriber notification.
+  final HttpsNotificationConfiguration? httpsNotificationConfiguration;
+
+  /// The configurations for SQS subscriber notification.
+  final SqsNotificationConfiguration? sqsNotificationConfiguration;
+
+  NotificationConfiguration({
+    this.httpsNotificationConfiguration,
+    this.sqsNotificationConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final httpsNotificationConfiguration = this.httpsNotificationConfiguration;
+    final sqsNotificationConfiguration = this.sqsNotificationConfiguration;
+    return {
+      if (httpsNotificationConfiguration != null)
+        'httpsNotificationConfiguration': httpsNotificationConfiguration,
+      if (sqsNotificationConfiguration != null)
+        'sqsNotificationConfiguration': sqsNotificationConfiguration,
+    };
+  }
 }
 
-extension StorageClassValueExtension on StorageClass {
+class RegisterDataLakeDelegatedAdministratorResponse {
+  RegisterDataLakeDelegatedAdministratorResponse();
+
+  factory RegisterDataLakeDelegatedAdministratorResponse.fromJson(
+      Map<String, dynamic> _) {
+    return RegisterDataLakeDelegatedAdministratorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+enum SourceCollectionStatus {
+  collecting,
+  misconfigured,
+  notCollecting,
+}
+
+extension SourceCollectionStatusValueExtension on SourceCollectionStatus {
   String toValue() {
     switch (this) {
-      case StorageClass.standardIa:
-        return 'STANDARD_IA';
-      case StorageClass.onezoneIa:
-        return 'ONEZONE_IA';
-      case StorageClass.intelligentTiering:
-        return 'INTELLIGENT_TIERING';
-      case StorageClass.glacierIr:
-        return 'GLACIER_IR';
-      case StorageClass.glacier:
-        return 'GLACIER';
-      case StorageClass.deepArchive:
-        return 'DEEP_ARCHIVE';
-      case StorageClass.expire:
-        return 'EXPIRE';
+      case SourceCollectionStatus.collecting:
+        return 'COLLECTING';
+      case SourceCollectionStatus.misconfigured:
+        return 'MISCONFIGURED';
+      case SourceCollectionStatus.notCollecting:
+        return 'NOT_COLLECTING';
     }
   }
 }
 
-extension StorageClassFromString on String {
-  StorageClass toStorageClass() {
+extension SourceCollectionStatusFromString on String {
+  SourceCollectionStatus toSourceCollectionStatus() {
     switch (this) {
-      case 'STANDARD_IA':
-        return StorageClass.standardIa;
-      case 'ONEZONE_IA':
-        return StorageClass.onezoneIa;
-      case 'INTELLIGENT_TIERING':
-        return StorageClass.intelligentTiering;
-      case 'GLACIER_IR':
-        return StorageClass.glacierIr;
-      case 'GLACIER':
-        return StorageClass.glacier;
-      case 'DEEP_ARCHIVE':
-        return StorageClass.deepArchive;
-      case 'EXPIRE':
-        return StorageClass.expire;
+      case 'COLLECTING':
+        return SourceCollectionStatus.collecting;
+      case 'MISCONFIGURED':
+        return SourceCollectionStatus.misconfigured;
+      case 'NOT_COLLECTING':
+        return SourceCollectionStatus.notCollecting;
     }
-    throw Exception('$this is not known in enum StorageClass');
+    throw Exception('$this is not known in enum SourceCollectionStatus');
+  }
+}
+
+/// The configurations for SQS subscriber notification.
+class SqsNotificationConfiguration {
+  SqsNotificationConfiguration();
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2861,17 +3161,23 @@ extension StorageClassFromString on String {
 /// Subscribers are notified of new objects for a source as the data is written
 /// to your Amazon S3 bucket for Security Lake.
 class SubscriberResource {
-  /// The Amazon Web Services account ID you are using to create your Amazon
-  /// Security Lake account.
-  final String accountId;
-
   /// Amazon Security Lake supports log and event collection for natively
-  /// supported Amazon Web Services. For more information, see the Amazon Security
-  /// Lake User Guide.
-  final List<SourceType> sourceTypes;
+  /// supported Amazon Web Services. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/source-management.html">Amazon
+  /// Security Lake User Guide</a>.
+  final List<LogSourceResource> sources;
 
-  /// The subscription ID of the Amazon Security Lake subscriber account.
-  final String subscriptionId;
+  /// The subscriber ARN of the Amazon Security Lake subscriber account.
+  final String subscriberArn;
+
+  /// The subscriber ID of the Amazon Security Lake subscriber account.
+  final String subscriberId;
+
+  /// The AWS identity used to access your data.
+  final AwsIdentity subscriberIdentity;
+
+  /// The name of your Amazon Security Lake subscriber account.
+  final String subscriberName;
 
   /// You can choose to notify subscribers of new objects with an Amazon Simple
   /// Queue Service (Amazon SQS) queue or through messaging to an HTTPS endpoint
@@ -2882,14 +3188,8 @@ class SubscriberResource {
   /// type is defined as <code>LAKEFORMATION</code>.
   final List<AccessType>? accessTypes;
 
-  /// The date and time when the subscription was created.
+  /// The date and time when the subscriber was created.
   final DateTime? createdAt;
-
-  /// The external ID of the subscriber. The external ID lets the user that is
-  /// assuming the role assert the circumstances in which they are operating. It
-  /// also provides a way for the account owner to permit the role to be assumed
-  /// only under specific circumstances.
-  final String? externalId;
 
   /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource
   /// share. Before accepting the RAM resource share invitation, you can view
@@ -2908,314 +3208,282 @@ class SubscriberResource {
   /// The ARN for the Amazon S3 bucket.
   final String? s3BucketArn;
 
-  /// The ARN for the Amazon Simple Notification Service.
-  final String? snsArn;
-
   /// The subscriber descriptions for a subscriber account. The description for a
   /// subscriber includes <code>subscriberName</code>, <code>accountID</code>,
-  /// <code>externalID</code>, and <code>subscriptionId</code>.
+  /// <code>externalID</code>, and <code>subscriberId</code>.
   final String? subscriberDescription;
 
-  /// The name of your Amazon Security Lake subscriber account.
-  final String? subscriberName;
+  /// The subscriber endpoint to which exception messages are posted.
+  final String? subscriberEndpoint;
 
-  /// The subscription endpoint to which exception messages are posted.
-  final String? subscriptionEndpoint;
+  /// The subscriber status of the Amazon Security Lake subscriber account.
+  final SubscriberStatus? subscriberStatus;
 
-  /// The subscription protocol to which exception messages are posted.
-  final EndpointProtocol? subscriptionProtocol;
-
-  /// The subscription status of the Amazon Security Lake subscriber account.
-  final SubscriptionStatus? subscriptionStatus;
-
-  /// The date and time when the subscription was created.
+  /// The date and time when the subscriber was last updated.
   final DateTime? updatedAt;
 
   SubscriberResource({
-    required this.accountId,
-    required this.sourceTypes,
-    required this.subscriptionId,
+    required this.sources,
+    required this.subscriberArn,
+    required this.subscriberId,
+    required this.subscriberIdentity,
+    required this.subscriberName,
     this.accessTypes,
     this.createdAt,
-    this.externalId,
     this.resourceShareArn,
     this.resourceShareName,
     this.roleArn,
     this.s3BucketArn,
-    this.snsArn,
     this.subscriberDescription,
-    this.subscriberName,
-    this.subscriptionEndpoint,
-    this.subscriptionProtocol,
-    this.subscriptionStatus,
+    this.subscriberEndpoint,
+    this.subscriberStatus,
     this.updatedAt,
   });
 
   factory SubscriberResource.fromJson(Map<String, dynamic> json) {
     return SubscriberResource(
-      accountId: json['accountId'] as String,
-      sourceTypes: (json['sourceTypes'] as List)
+      sources: (json['sources'] as List)
           .whereNotNull()
-          .map((e) => SourceType.fromJson(e as Map<String, dynamic>))
+          .map((e) => LogSourceResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscriptionId: json['subscriptionId'] as String,
+      subscriberArn: json['subscriberArn'] as String,
+      subscriberId: json['subscriberId'] as String,
+      subscriberIdentity: AwsIdentity.fromJson(
+          json['subscriberIdentity'] as Map<String, dynamic>),
+      subscriberName: json['subscriberName'] as String,
       accessTypes: (json['accessTypes'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toAccessType())
           .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
-      externalId: json['externalId'] as String?,
       resourceShareArn: json['resourceShareArn'] as String?,
       resourceShareName: json['resourceShareName'] as String?,
       roleArn: json['roleArn'] as String?,
       s3BucketArn: json['s3BucketArn'] as String?,
-      snsArn: json['snsArn'] as String?,
       subscriberDescription: json['subscriberDescription'] as String?,
-      subscriberName: json['subscriberName'] as String?,
-      subscriptionEndpoint: json['subscriptionEndpoint'] as String?,
-      subscriptionProtocol:
-          (json['subscriptionProtocol'] as String?)?.toEndpointProtocol(),
-      subscriptionStatus:
-          (json['subscriptionStatus'] as String?)?.toSubscriptionStatus(),
+      subscriberEndpoint: json['subscriberEndpoint'] as String?,
+      subscriberStatus:
+          (json['subscriberStatus'] as String?)?.toSubscriberStatus(),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final sourceTypes = this.sourceTypes;
-    final subscriptionId = this.subscriptionId;
+    final sources = this.sources;
+    final subscriberArn = this.subscriberArn;
+    final subscriberId = this.subscriberId;
+    final subscriberIdentity = this.subscriberIdentity;
+    final subscriberName = this.subscriberName;
     final accessTypes = this.accessTypes;
     final createdAt = this.createdAt;
-    final externalId = this.externalId;
     final resourceShareArn = this.resourceShareArn;
     final resourceShareName = this.resourceShareName;
     final roleArn = this.roleArn;
     final s3BucketArn = this.s3BucketArn;
-    final snsArn = this.snsArn;
     final subscriberDescription = this.subscriberDescription;
-    final subscriberName = this.subscriberName;
-    final subscriptionEndpoint = this.subscriptionEndpoint;
-    final subscriptionProtocol = this.subscriptionProtocol;
-    final subscriptionStatus = this.subscriptionStatus;
+    final subscriberEndpoint = this.subscriberEndpoint;
+    final subscriberStatus = this.subscriberStatus;
     final updatedAt = this.updatedAt;
     return {
-      'accountId': accountId,
-      'sourceTypes': sourceTypes,
-      'subscriptionId': subscriptionId,
+      'sources': sources,
+      'subscriberArn': subscriberArn,
+      'subscriberId': subscriberId,
+      'subscriberIdentity': subscriberIdentity,
+      'subscriberName': subscriberName,
       if (accessTypes != null)
         'accessTypes': accessTypes.map((e) => e.toValue()).toList(),
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (externalId != null) 'externalId': externalId,
       if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
       if (resourceShareName != null) 'resourceShareName': resourceShareName,
       if (roleArn != null) 'roleArn': roleArn,
       if (s3BucketArn != null) 's3BucketArn': s3BucketArn,
-      if (snsArn != null) 'snsArn': snsArn,
       if (subscriberDescription != null)
         'subscriberDescription': subscriberDescription,
-      if (subscriberName != null) 'subscriberName': subscriberName,
-      if (subscriptionEndpoint != null)
-        'subscriptionEndpoint': subscriptionEndpoint,
-      if (subscriptionProtocol != null)
-        'subscriptionProtocol': subscriptionProtocol.toValue(),
-      if (subscriptionStatus != null)
-        'subscriptionStatus': subscriptionStatus.toValue(),
+      if (subscriberEndpoint != null) 'subscriberEndpoint': subscriberEndpoint,
+      if (subscriberStatus != null)
+        'subscriberStatus': subscriberStatus.toValue(),
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
 }
 
-enum SubscriptionProtocolType {
-  http,
-  https,
-  email,
-  emailJson,
-  sms,
-  sqs,
-  lambda,
-  app,
-  firehose,
-}
-
-extension SubscriptionProtocolTypeValueExtension on SubscriptionProtocolType {
-  String toValue() {
-    switch (this) {
-      case SubscriptionProtocolType.http:
-        return 'HTTP';
-      case SubscriptionProtocolType.https:
-        return 'HTTPS';
-      case SubscriptionProtocolType.email:
-        return 'EMAIL';
-      case SubscriptionProtocolType.emailJson:
-        return 'EMAIL_JSON';
-      case SubscriptionProtocolType.sms:
-        return 'SMS';
-      case SubscriptionProtocolType.sqs:
-        return 'SQS';
-      case SubscriptionProtocolType.lambda:
-        return 'LAMBDA';
-      case SubscriptionProtocolType.app:
-        return 'APP';
-      case SubscriptionProtocolType.firehose:
-        return 'FIREHOSE';
-    }
-  }
-}
-
-extension SubscriptionProtocolTypeFromString on String {
-  SubscriptionProtocolType toSubscriptionProtocolType() {
-    switch (this) {
-      case 'HTTP':
-        return SubscriptionProtocolType.http;
-      case 'HTTPS':
-        return SubscriptionProtocolType.https;
-      case 'EMAIL':
-        return SubscriptionProtocolType.email;
-      case 'EMAIL_JSON':
-        return SubscriptionProtocolType.emailJson;
-      case 'SMS':
-        return SubscriptionProtocolType.sms;
-      case 'SQS':
-        return SubscriptionProtocolType.sqs;
-      case 'LAMBDA':
-        return SubscriptionProtocolType.lambda;
-      case 'APP':
-        return SubscriptionProtocolType.app;
-      case 'FIREHOSE':
-        return SubscriptionProtocolType.firehose;
-    }
-    throw Exception('$this is not known in enum SubscriptionProtocolType');
-  }
-}
-
-enum SubscriptionStatus {
+enum SubscriberStatus {
   active,
   deactivated,
   pending,
   ready,
 }
 
-extension SubscriptionStatusValueExtension on SubscriptionStatus {
+extension SubscriberStatusValueExtension on SubscriberStatus {
   String toValue() {
     switch (this) {
-      case SubscriptionStatus.active:
+      case SubscriberStatus.active:
         return 'ACTIVE';
-      case SubscriptionStatus.deactivated:
+      case SubscriberStatus.deactivated:
         return 'DEACTIVATED';
-      case SubscriptionStatus.pending:
+      case SubscriberStatus.pending:
         return 'PENDING';
-      case SubscriptionStatus.ready:
+      case SubscriberStatus.ready:
         return 'READY';
     }
   }
 }
 
-extension SubscriptionStatusFromString on String {
-  SubscriptionStatus toSubscriptionStatus() {
+extension SubscriberStatusFromString on String {
+  SubscriberStatus toSubscriberStatus() {
     switch (this) {
       case 'ACTIVE':
-        return SubscriptionStatus.active;
+        return SubscriberStatus.active;
       case 'DEACTIVATED':
-        return SubscriptionStatus.deactivated;
+        return SubscriberStatus.deactivated;
       case 'PENDING':
-        return SubscriptionStatus.pending;
+        return SubscriberStatus.pending;
       case 'READY':
-        return SubscriptionStatus.ready;
+        return SubscriberStatus.ready;
     }
-    throw Exception('$this is not known in enum SubscriptionStatus');
+    throw Exception('$this is not known in enum SubscriberStatus');
   }
 }
 
-class UpdateDatalakeExceptionsExpiryResponse {
-  UpdateDatalakeExceptionsExpiryResponse();
+/// A <i>tag</i> is a label that you can define and associate with Amazon Web
+/// Services resources, including certain types of Amazon Security Lake
+/// resources. Tags can help you identify, categorize, and manage resources in
+/// different ways, such as by owner, environment, or other criteria. You can
+/// associate tags with the following types of Security Lake resources:
+/// subscribers, and the data lake configuration for your Amazon Web Services
+/// account in individual Amazon Web Services Regions.
+///
+/// A resource can have up to 50 tags. Each tag consists of a required <i>tag
+/// key</i> and an associated <i>tag value</i>. A <i>tag key</i> is a general
+/// label that acts as a category for a more specific tag value. Each tag key
+/// must be unique and it can have only one tag value. A <i>tag value</i> acts
+/// as a descriptor for a tag key. Tag keys and values are case sensitive. They
+/// can contain letters, numbers, spaces, or the following symbols: _ . : / = +
+/// @ -
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html">Tagging
+/// Amazon Security Lake resources</a> in the <i>Amazon Security Lake User
+/// Guide</i>.
+class Tag {
+  /// The name of the tag. This is a general label that acts as a category for a
+  /// more specific tag value (<code>value</code>).
+  final String key;
 
-  factory UpdateDatalakeExceptionsExpiryResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateDatalakeExceptionsExpiryResponse();
-  }
+  /// The value that’s associated with the specified tag key (<code>key</code>).
+  /// This value acts as a descriptor for the tag key. A tag value cannot be null,
+  /// but it can be an empty string.
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDatalakeExceptionsSubscriptionResponse {
-  UpdateDatalakeExceptionsSubscriptionResponse();
-
-  factory UpdateDatalakeExceptionsSubscriptionResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateDatalakeExceptionsSubscriptionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDatalakeResponse {
-  UpdateDatalakeResponse();
-
-  factory UpdateDatalakeResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateDatalakeResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The status of the last <code>UpdateDatalake</code> or
-/// <code>DeleteDatalake</code> API request. This is set to Completed after the
-/// configuration is updated, or removed if deletion of the data lake is
-/// successful.
-class UpdateStatus {
-  /// The details of the last <code>UpdateDatalake</code>or
-  /// <code>DeleteDatalake</code> API request which failed.
-  final LastUpdateFailure? lastUpdateFailure;
-
-  /// The unique ID for the <code>UpdateDatalake</code> or
-  /// <code>DeleteDatalake</code> API request.
-  final String? lastUpdateRequestId;
-
-  /// The status of the last <code>UpdateDatalake</code> or
-  /// <code>DeleteDatalake</code> API request that was requested.
-  final SettingsStatus? lastUpdateStatus;
-
-  UpdateStatus({
-    this.lastUpdateFailure,
-    this.lastUpdateRequestId,
-    this.lastUpdateStatus,
+  Tag({
+    required this.key,
+    required this.value,
   });
 
-  factory UpdateStatus.fromJson(Map<String, dynamic> json) {
-    return UpdateStatus(
-      lastUpdateFailure: json['lastUpdateFailure'] != null
-          ? LastUpdateFailure.fromJson(
-              json['lastUpdateFailure'] as Map<String, dynamic>)
-          : null,
-      lastUpdateRequestId: json['lastUpdateRequestId'] as String?,
-      lastUpdateStatus:
-          (json['lastUpdateStatus'] as String?)?.toSettingsStatus(),
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastUpdateFailure = this.lastUpdateFailure;
-    final lastUpdateRequestId = this.lastUpdateRequestId;
-    final lastUpdateStatus = this.lastUpdateStatus;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (lastUpdateFailure != null) 'lastUpdateFailure': lastUpdateFailure,
-      if (lastUpdateRequestId != null)
-        'lastUpdateRequestId': lastUpdateRequestId,
-      if (lastUpdateStatus != null)
-        'lastUpdateStatus': lastUpdateStatus.toValue(),
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDataLakeExceptionSubscriptionResponse {
+  UpdateDataLakeExceptionSubscriptionResponse();
+
+  factory UpdateDataLakeExceptionSubscriptionResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateDataLakeExceptionSubscriptionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDataLakeResponse {
+  /// The created Security Lake configuration object.
+  final List<DataLakeResource>? dataLakes;
+
+  UpdateDataLakeResponse({
+    this.dataLakes,
+  });
+
+  factory UpdateDataLakeResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDataLakeResponse(
+      dataLakes: (json['dataLakes'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataLakeResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataLakes = this.dataLakes;
+    return {
+      if (dataLakes != null) 'dataLakes': dataLakes,
+    };
+  }
+}
+
+class UpdateSubscriberNotificationResponse {
+  /// The subscriber endpoint to which exception messages are posted.
+  final String? subscriberEndpoint;
+
+  UpdateSubscriberNotificationResponse({
+    this.subscriberEndpoint,
+  });
+
+  factory UpdateSubscriberNotificationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSubscriberNotificationResponse(
+      subscriberEndpoint: json['subscriberEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriberEndpoint = this.subscriberEndpoint;
+    return {
+      if (subscriberEndpoint != null) 'subscriberEndpoint': subscriberEndpoint,
     };
   }
 }
 
 class UpdateSubscriberResponse {
-  /// The account of the subscriber.
+  /// The updated subscriber information.
   final SubscriberResource? subscriber;
 
   UpdateSubscriberResponse({
@@ -3239,88 +3507,14 @@ class UpdateSubscriberResponse {
   }
 }
 
-class UpdateSubscriptionNotificationConfigurationResponse {
-  /// Returns the ARN of the queue.
-  final String? queueArn;
-
-  UpdateSubscriptionNotificationConfigurationResponse({
-    this.queueArn,
-  });
-
-  factory UpdateSubscriptionNotificationConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateSubscriptionNotificationConfigurationResponse(
-      queueArn: json['queueArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final queueArn = this.queueArn;
-    return {
-      if (queueArn != null) 'queueArn': queueArn,
-    };
-  }
-}
-
-enum SettingsStatus {
-  initialized,
-  pending,
-  completed,
-  failed,
-}
-
-extension SettingsStatusValueExtension on SettingsStatus {
-  String toValue() {
-    switch (this) {
-      case SettingsStatus.initialized:
-        return 'INITIALIZED';
-      case SettingsStatus.pending:
-        return 'PENDING';
-      case SettingsStatus.completed:
-        return 'COMPLETED';
-      case SettingsStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
-
-extension SettingsStatusFromString on String {
-  SettingsStatus toSettingsStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return SettingsStatus.initialized;
-      case 'PENDING':
-        return SettingsStatus.pending;
-      case 'COMPLETED':
-        return SettingsStatus.completed;
-      case 'FAILED':
-        return SettingsStatus.failed;
-    }
-    throw Exception('$this is not known in enum SettingsStatus');
-  }
-}
-
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
-class AccountNotFoundException extends _s.GenericAwsException {
-  AccountNotFoundException({String? type, String? message})
-      : super(type: type, code: 'AccountNotFoundException', message: message);
-}
-
-class BucketNotFoundException extends _s.GenericAwsException {
-  BucketNotFoundException({String? type, String? message})
-      : super(type: type, code: 'BucketNotFoundException', message: message);
-}
-
-class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String? type, String? message})
-      : super(
-            type: type,
-            code: 'ConcurrentModificationException',
-            message: message);
+class BadRequestException extends _s.GenericAwsException {
+  BadRequestException({String? type, String? message})
+      : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
@@ -3328,33 +3522,9 @@ class ConflictException extends _s.GenericAwsException {
       : super(type: type, code: 'ConflictException', message: message);
 }
 
-class ConflictSourceNamesException extends _s.GenericAwsException {
-  ConflictSourceNamesException({String? type, String? message})
-      : super(
-            type: type, code: 'ConflictSourceNamesException', message: message);
-}
-
-class ConflictSubscriptionException extends _s.GenericAwsException {
-  ConflictSubscriptionException({String? type, String? message})
-      : super(
-            type: type,
-            code: 'ConflictSubscriptionException',
-            message: message);
-}
-
-class EventBridgeException extends _s.GenericAwsException {
-  EventBridgeException({String? type, String? message})
-      : super(type: type, code: 'EventBridgeException', message: message);
-}
-
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
-}
-
-class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String? type, String? message})
-      : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
@@ -3362,57 +3532,22 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
-class S3Exception extends _s.GenericAwsException {
-  S3Exception({String? type, String? message})
-      : super(type: type, code: 'S3Exception', message: message);
-}
-
-class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String? type, String? message})
-      : super(
-            type: type,
-            code: 'ServiceQuotaExceededException',
-            message: message);
-}
-
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
-class ValidationException extends _s.GenericAwsException {
-  ValidationException({String? type, String? message})
-      : super(type: type, code: 'ValidationException', message: message);
-}
-
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
-  'AccountNotFoundException': (type, message) =>
-      AccountNotFoundException(type: type, message: message),
-  'BucketNotFoundException': (type, message) =>
-      BucketNotFoundException(type: type, message: message),
-  'ConcurrentModificationException': (type, message) =>
-      ConcurrentModificationException(type: type, message: message),
+  'BadRequestException': (type, message) =>
+      BadRequestException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
-  'ConflictSourceNamesException': (type, message) =>
-      ConflictSourceNamesException(type: type, message: message),
-  'ConflictSubscriptionException': (type, message) =>
-      ConflictSubscriptionException(type: type, message: message),
-  'EventBridgeException': (type, message) =>
-      EventBridgeException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
-  'InvalidInputException': (type, message) =>
-      InvalidInputException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
-  'S3Exception': (type, message) => S3Exception(type: type, message: message),
-  'ServiceQuotaExceededException': (type, message) =>
-      ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
-  'ValidationException': (type, message) =>
-      ValidationException(type: type, message: message),
 };

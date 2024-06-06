@@ -19,14 +19,12 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Amazon Web Services Application Discovery Service helps you plan application
-/// migration projects. It automatically identifies servers, virtual machines
-/// (VMs), and network dependencies in your on-premises data centers. For more
-/// information, see the <a
+/// Amazon Web Services Application Discovery Service (Application Discovery
+/// Service) helps you plan application migration projects. It automatically
+/// identifies servers, virtual machines (VMs), and network dependencies in your
+/// on-premises data centers. For more information, see the <a
 /// href="http://aws.amazon.com/application-discovery/faqs/">Amazon Web Services
-/// Application Discovery Service FAQ</a>. Application Discovery Service offers
-/// three ways of performing discovery and collecting data about your
-/// on-premises servers:
+/// Application Discovery Service FAQ</a>.
 class ApplicationDiscoveryService {
   final _s.JsonProtocol _protocol;
   ApplicationDiscoveryService({
@@ -91,6 +89,39 @@ class ApplicationDiscoveryService {
     );
   }
 
+  /// Deletes one or more agents or collectors as specified by ID. Deleting an
+  /// agent or collector does not delete the previously discovered data. To
+  /// delete the data collected, use
+  /// <code>StartBatchDeleteConfigurationTask</code>.
+  ///
+  /// May throw [AuthorizationErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServerInternalErrorException].
+  ///
+  /// Parameter [deleteAgents] :
+  /// The list of agents to delete.
+  Future<BatchDeleteAgentsResponse> batchDeleteAgents({
+    required List<DeleteAgent> deleteAgents,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.BatchDeleteAgents'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deleteAgents': deleteAgents,
+      },
+    );
+
+    return BatchDeleteAgentsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes one or more import tasks, each identified by their import ID. Each
   /// import task has a number of records that can identify servers or
   /// applications.
@@ -111,8 +142,13 @@ class ApplicationDiscoveryService {
   ///
   /// Parameter [importTaskIds] :
   /// The IDs for the import tasks that you want to delete.
+  ///
+  /// Parameter [deleteHistory] :
+  /// Set to <code>true</code> to remove the deleted import task from
+  /// <a>DescribeImportTasks</a>.
   Future<BatchDeleteImportDataResponse> batchDeleteImportData({
     required List<String> importTaskIds,
+    bool? deleteHistory,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -126,6 +162,7 @@ class ApplicationDiscoveryService {
       headers: headers,
       payload: {
         'importTaskIds': importTaskIds,
+        if (deleteHistory != null) 'deleteHistory': deleteHistory,
       },
     );
 
@@ -282,9 +319,9 @@ class ApplicationDiscoveryService {
     );
   }
 
-  /// Lists agents or connectors as specified by ID or other filters. All
-  /// agents/connectors associated with your user account can be listed if you
-  /// call <code>DescribeAgents</code> as is without passing any parameters.
+  /// Lists agents or collectors as specified by ID or other filters. All
+  /// agents/collectors associated with your user can be listed if you call
+  /// <code>DescribeAgents</code> as is without passing any parameters.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [InvalidParameterException].
@@ -293,9 +330,9 @@ class ApplicationDiscoveryService {
   /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [agentIds] :
-  /// The agent or the Connector IDs for which you want information. If you
-  /// specify no IDs, the system returns information about all agents/Connectors
-  /// associated with your Amazon Web Services user account.
+  /// The agent or the collector IDs for which you want information. If you
+  /// specify no IDs, the system returns information about all agents/collectors
+  /// associated with your user.
   ///
   /// Parameter [filters] :
   /// You can filter the request using various logical operators and a
@@ -304,7 +341,7 @@ class ApplicationDiscoveryService {
   /// <code>{"key": "collectionStatus", "value": "STARTED"}</code>
   ///
   /// Parameter [maxResults] :
-  /// The total number of agents/Connectors to return in a single page of
+  /// The total number of agents/collectors to return in a single page of
   /// output. The maximum value is 100.
   ///
   /// Parameter [nextToken] :
@@ -338,6 +375,40 @@ class ApplicationDiscoveryService {
     );
 
     return DescribeAgentsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Takes a unique deletion task identifier as input and returns metadata
+  /// about a configuration deletion task.
+  ///
+  /// May throw [AuthorizationErrorException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServerInternalErrorException].
+  /// May throw [HomeRegionNotSetException].
+  ///
+  /// Parameter [taskId] :
+  /// The ID of the task to delete.
+  Future<DescribeBatchDeleteConfigurationTaskResponse>
+      describeBatchDeleteConfigurationTask({
+    required String taskId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSPoseidonService_V2015_11_01.DescribeBatchDeleteConfigurationTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'taskId': taskId,
+      },
+    );
+
+    return DescribeBatchDeleteConfigurationTaskResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Retrieves attributes for a list of configuration item IDs.
@@ -400,9 +471,8 @@ class ApplicationDiscoveryService {
   }
 
   /// Lists exports as specified by ID. All continuous exports associated with
-  /// your user account can be listed if you call
-  /// <code>DescribeContinuousExports</code> as is without passing any
-  /// parameters.
+  /// your user can be listed if you call <code>DescribeContinuousExports</code>
+  /// as is without passing any parameters.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [InvalidParameterException].
@@ -632,9 +702,9 @@ class ApplicationDiscoveryService {
   /// configurationId
   /// </li>
   /// </ul>
-  /// Also, all configuration items associated with your user account that have
-  /// tags can be listed if you call <code>DescribeTags</code> as is without
-  /// passing any parameters.
+  /// Also, all configuration items associated with your user that have tags can
+  /// be listed if you call <code>DescribeTags</code> as is without passing any
+  /// parameters.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [ResourceNotFoundException].
@@ -905,6 +975,48 @@ class ApplicationDiscoveryService {
     return ListServerNeighborsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Takes a list of configurationId as input and starts an asynchronous
+  /// deletion task to remove the configurationItems. Returns a unique deletion
+  /// task identifier.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [AuthorizationErrorException].
+  /// May throw [ServerInternalErrorException].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [configurationIds] :
+  /// The list of configuration IDs that will be deleted by the task.
+  ///
+  /// Parameter [configurationType] :
+  /// The type of configuration item to delete. Supported types are: SERVER.
+  Future<StartBatchDeleteConfigurationTaskResponse>
+      startBatchDeleteConfigurationTask({
+    required List<String> configurationIds,
+    required DeletionConfigurationItemType configurationType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSPoseidonService_V2015_11_01.StartBatchDeleteConfigurationTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'configurationIds': configurationIds,
+        'configurationType': configurationType.toValue(),
+      },
+    );
+
+    return StartBatchDeleteConfigurationTaskResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Start the continuous flow of agent's discovered data into Amazon Athena.
   ///
   /// May throw [ConflictErrorException].
@@ -931,7 +1043,7 @@ class ApplicationDiscoveryService {
     return StartContinuousExportResponse.fromJson(jsonResponse.body);
   }
 
-  /// Instructs the specified agents or connectors to start collecting data.
+  /// Instructs the specified agents to start collecting data.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [InvalidParameterException].
@@ -940,14 +1052,14 @@ class ApplicationDiscoveryService {
   /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [agentIds] :
-  /// The IDs of the agents or connectors from which to start collecting data.
-  /// If you send a request to an agent/connector ID that you do not have
-  /// permission to contact, according to your Amazon Web Services account, the
-  /// service does not throw an exception. Instead, it returns the error in the
-  /// <i>Description</i> field. If you send a request to multiple
-  /// agents/connectors and you do not have permission to contact some of those
-  /// agents/connectors, the system does not throw an exception. Instead, the
-  /// system shows <code>Failed</code> in the <i>Description</i> field.
+  /// The IDs of the agents from which to start collecting data. If you send a
+  /// request to an agent ID that you do not have permission to contact,
+  /// according to your Amazon Web Services account, the service does not throw
+  /// an exception. Instead, it returns the error in the <i>Description</i>
+  /// field. If you send a request to multiple agents and you do not have
+  /// permission to contact some of those agents, the system does not throw an
+  /// exception. Instead, the system shows <code>Failed</code> in the
+  /// <i>Description</i> field.
   Future<StartDataCollectionByAgentIdsResponse> startDataCollectionByAgentIds({
     required List<String> agentIds,
   }) async {
@@ -970,19 +1082,35 @@ class ApplicationDiscoveryService {
     return StartDataCollectionByAgentIdsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Begins the export of discovered data to an S3 bucket.
+  /// Begins the export of a discovered data report to an Amazon S3 bucket
+  /// managed by Amazon Web Services.
+  /// <note>
+  /// Exports might provide an estimate of fees and savings based on certain
+  /// information that you provide. Fee estimates do not include any taxes that
+  /// might apply. Your actual fees and savings depend on a variety of factors,
+  /// including your actual usage of Amazon Web Services services, which might
+  /// vary from the estimates provided in this report.
+  /// </note>
+  /// If you do not specify <code>preferences</code> or <code>agentIds</code> in
+  /// the filter, a summary of all servers, applications, tags, and performance
+  /// is generated. This data is an aggregation of all server data collected
+  /// through on-premises tooling, file import, application grouping and
+  /// applying tags.
   ///
   /// If you specify <code>agentIds</code> in a filter, the task exports up to
   /// 72 hours of detailed data collected by the identified Application
   /// Discovery Agent, including network, process, and performance details. A
   /// time range for exported agent data may be set by using
   /// <code>startTime</code> and <code>endTime</code>. Export of detailed agent
-  /// data is limited to five concurrently running exports.
+  /// data is limited to five concurrently running exports. Export of detailed
+  /// agent data is limited to two exports per day.
   ///
-  /// If you do not include an <code>agentIds</code> filter, summary data is
-  /// exported that includes both Amazon Web Services Agentless Discovery
-  /// Connector data and summary data from Amazon Web Services Discovery Agents.
-  /// Export of summary data is limited to two exports per day.
+  /// If you enable <code>ec2RecommendationsPreferences</code> in
+  /// <code>preferences</code> , an Amazon EC2 instance matching the
+  /// characteristics of each server in Application Discovery Service is
+  /// generated. Changing the attributes of the
+  /// <code>ec2RecommendationsPreferences</code> changes the criteria of the
+  /// recommendation.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [InvalidParameterException].
@@ -1007,8 +1135,14 @@ class ApplicationDiscoveryService {
   /// <code>agentId</code> can be found in the results of the
   /// <code>DescribeAgents</code> API or CLI. If no filter is present,
   /// <code>startTime</code> and <code>endTime</code> are ignored and exported
-  /// data includes both Agentless Discovery Connector data and summary data
-  /// from Application Discovery agents.
+  /// data includes both Amazon Web Services Application Discovery Service
+  /// Agentless Collector collectors data and summary data from Application
+  /// Discovery Agent agents.
+  ///
+  /// Parameter [preferences] :
+  /// Indicates the type of data that needs to be exported. Only one <a
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_ExportPreferences.html">ExportPreferences</a>
+  /// can be enabled at any time.
   ///
   /// Parameter [startTime] :
   /// The start timestamp for exported data from the single Application
@@ -1018,6 +1152,7 @@ class ApplicationDiscoveryService {
     DateTime? endTime,
     List<ExportDataFormat>? exportDataFormat,
     List<ExportFilter>? filters,
+    ExportPreferences? preferences,
     DateTime? startTime,
   }) async {
     final headers = <String, String>{
@@ -1035,6 +1170,7 @@ class ApplicationDiscoveryService {
         if (exportDataFormat != null)
           'exportDataFormat': exportDataFormat.map((e) => e.toValue()).toList(),
         if (filters != null) 'filters': filters,
+        if (preferences != null) 'preferences': preferences,
         if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       },
     );
@@ -1044,11 +1180,12 @@ class ApplicationDiscoveryService {
 
   /// Starts an import task, which allows you to import details of your
   /// on-premises environment directly into Amazon Web Services Migration Hub
-  /// without having to use the Application Discovery Service (ADS) tools such
-  /// as the Discovery Connector or Discovery Agent. This gives you the option
-  /// to perform migration assessment and planning directly from your imported
-  /// data, including the ability to group your devices as applications and
-  /// track their migration status.
+  /// without having to use the Amazon Web Services Application Discovery
+  /// Service (Application Discovery Service) tools such as the Amazon Web
+  /// Services Application Discovery Service Agentless Collector or Application
+  /// Discovery Agent. This gives you the option to perform migration assessment
+  /// and planning directly from your imported data, including the ability to
+  /// group your devices as applications and track their migration status.
   ///
   /// To start an import request, do this:
   /// <ol>
@@ -1169,7 +1306,7 @@ class ApplicationDiscoveryService {
     return StopContinuousExportResponse.fromJson(jsonResponse.body);
   }
 
-  /// Instructs the specified agents or connectors to stop collecting data.
+  /// Instructs the specified agents to stop collecting data.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [InvalidParameterException].
@@ -1178,7 +1315,7 @@ class ApplicationDiscoveryService {
   /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [agentIds] :
-  /// The IDs of the agents or connectors from which to stop collecting data.
+  /// The IDs of the agents from which to stop collecting data.
   Future<StopDataCollectionByAgentIdsResponse> stopDataCollectionByAgentIds({
     required List<String> agentIds,
   }) async {
@@ -1241,11 +1378,11 @@ class ApplicationDiscoveryService {
   }
 }
 
-/// Information about agents or connectors that were instructed to start
-/// collecting data. Information includes the agent/connector ID, a description
-/// of the operation, and whether the agent/connector configuration was updated.
+/// Information about agents that were instructed to start collecting data.
+/// Information includes the agent ID, a description of the operation, and
+/// whether the agent configuration was updated.
 class AgentConfigurationStatus {
-  /// The agent/connector ID.
+  /// The agent ID.
   final String? agentId;
 
   /// A description of the operation performed.
@@ -1253,8 +1390,8 @@ class AgentConfigurationStatus {
 
   /// Information about the status of the <code>StartDataCollection</code> and
   /// <code>StopDataCollection</code> operations. The system has recorded the data
-  /// collection operation. The agent/connector receives this command the next
-  /// time it polls for a new command.
+  /// collection operation. The agent receives this command the next time it polls
+  /// for a new command.
   final bool? operationSucceeded;
 
   AgentConfigurationStatus({
@@ -1272,40 +1409,40 @@ class AgentConfigurationStatus {
   }
 }
 
-/// Information about agents or connectors associated with the user’s Amazon Web
-/// Services account. Information includes agent or connector IDs, IP addresses,
-/// media access control (MAC) addresses, agent or connector health, hostname
-/// where the agent or connector resides, and agent version for each agent.
+/// Information about agents associated with the user’s Amazon Web Services
+/// account. Information includes agent IDs, IP addresses, media access control
+/// (MAC) addresses, agent or collector status, hostname where the agent
+/// resides, and agent version for each agent.
 class AgentInfo {
-  /// The agent or connector ID.
+  /// The agent or collector ID.
   final String? agentId;
 
-  /// Network details about the host where the agent or connector resides.
+  /// Network details about the host where the agent or collector resides.
   final List<AgentNetworkInfo>? agentNetworkInfoList;
 
   /// Type of agent.
   final String? agentType;
 
-  /// Status of the collection process for an agent or connector.
+  /// Status of the collection process for an agent.
   final String? collectionStatus;
 
   /// The ID of the connector.
   final String? connectorId;
 
-  /// The health of the agent or connector.
+  /// The health of the agent.
   final AgentStatus? health;
 
-  /// The name of the host where the agent or connector resides. The host can be a
+  /// The name of the host where the agent or collector resides. The host can be a
   /// server or virtual machine.
   final String? hostName;
 
-  /// Time since agent or connector health was reported.
+  /// Time since agent health was reported.
   final String? lastHealthPingTime;
 
   /// Agent's first registration timestamp in UTC.
   final String? registeredTime;
 
-  /// The agent or connector version.
+  /// The agent or collector version.
   final String? version;
 
   AgentInfo({
@@ -1340,12 +1477,12 @@ class AgentInfo {
   }
 }
 
-/// Network details about the host where the agent/connector resides.
+/// Network details about the host where the agent/collector resides.
 class AgentNetworkInfo {
-  /// The IP address for the host where the agent/connector resides.
+  /// The IP address for the host where the agent/collector resides.
   final String? ipAddress;
 
-  /// The MAC address for the host where the agent/connector resides.
+  /// The MAC address for the host where the agent/collector resides.
   final String? macAddress;
 
   AgentNetworkInfo({
@@ -1415,6 +1552,174 @@ class AssociateConfigurationItemsToApplicationResponse {
   factory AssociateConfigurationItemsToApplicationResponse.fromJson(
       Map<String, dynamic> _) {
     return AssociateConfigurationItemsToApplicationResponse();
+  }
+}
+
+/// An object representing the agent or data collector that failed to delete,
+/// each containing agentId, errorMessage, and errorCode.
+class BatchDeleteAgentError {
+  /// The ID of the agent or data collector to delete.
+  final String agentId;
+
+  /// The type of error that occurred for the delete failed agent. Valid status
+  /// are: AGENT_IN_USE | NOT_FOUND | INTERNAL_SERVER_ERROR.
+  final DeleteAgentErrorCode errorCode;
+
+  /// The description of the error that occurred for the delete failed agent.
+  final String errorMessage;
+
+  BatchDeleteAgentError({
+    required this.agentId,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchDeleteAgentError.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteAgentError(
+      agentId: json['agentId'] as String,
+      errorCode: (json['errorCode'] as String).toDeleteAgentErrorCode(),
+      errorMessage: json['errorMessage'] as String,
+    );
+  }
+}
+
+class BatchDeleteAgentsResponse {
+  /// A list of agent IDs that failed to delete during the deletion task, each
+  /// paired with an error message.
+  final List<BatchDeleteAgentError>? errors;
+
+  BatchDeleteAgentsResponse({
+    this.errors,
+  });
+
+  factory BatchDeleteAgentsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteAgentsResponse(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchDeleteAgentError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// A metadata object that represents the deletion task being executed.
+class BatchDeleteConfigurationTask {
+  /// The type of configuration item to delete. Supported types are: SERVER.
+  final DeletionConfigurationItemType? configurationType;
+
+  /// The list of configuration IDs that were successfully deleted by the deletion
+  /// task.
+  final List<String>? deletedConfigurations;
+
+  /// A list of configuration IDs that produced warnings regarding their deletion,
+  /// paired with a warning message.
+  final List<DeletionWarning>? deletionWarnings;
+
+  /// An epoch seconds timestamp (UTC) of when the deletion task was completed or
+  /// failed.
+  final DateTime? endTime;
+
+  /// A list of configuration IDs that failed to delete during the deletion task,
+  /// each paired with an error message.
+  final List<FailedConfiguration>? failedConfigurations;
+
+  /// The list of configuration IDs that were originally requested to be deleted
+  /// by the deletion task.
+  final List<String>? requestedConfigurations;
+
+  /// An epoch seconds timestamp (UTC) of when the deletion task was started.
+  final DateTime? startTime;
+
+  /// The current execution status of the deletion task. Valid status are:
+  /// INITIALIZING | VALIDATING | DELETING | COMPLETED | FAILED.
+  final BatchDeleteConfigurationTaskStatus? status;
+
+  /// The deletion task's unique identifier.
+  final String? taskId;
+
+  BatchDeleteConfigurationTask({
+    this.configurationType,
+    this.deletedConfigurations,
+    this.deletionWarnings,
+    this.endTime,
+    this.failedConfigurations,
+    this.requestedConfigurations,
+    this.startTime,
+    this.status,
+    this.taskId,
+  });
+
+  factory BatchDeleteConfigurationTask.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteConfigurationTask(
+      configurationType: (json['configurationType'] as String?)
+          ?.toDeletionConfigurationItemType(),
+      deletedConfigurations: (json['deletedConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deletionWarnings: (json['deletionWarnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeletionWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTime: timeStampFromJson(json['endTime']),
+      failedConfigurations: (json['failedConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedConfigurations: (json['requestedConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      startTime: timeStampFromJson(json['startTime']),
+      status:
+          (json['status'] as String?)?.toBatchDeleteConfigurationTaskStatus(),
+      taskId: json['taskId'] as String?,
+    );
+  }
+}
+
+enum BatchDeleteConfigurationTaskStatus {
+  initializing,
+  validating,
+  deleting,
+  completed,
+  failed,
+}
+
+extension BatchDeleteConfigurationTaskStatusValueExtension
+    on BatchDeleteConfigurationTaskStatus {
+  String toValue() {
+    switch (this) {
+      case BatchDeleteConfigurationTaskStatus.initializing:
+        return 'INITIALIZING';
+      case BatchDeleteConfigurationTaskStatus.validating:
+        return 'VALIDATING';
+      case BatchDeleteConfigurationTaskStatus.deleting:
+        return 'DELETING';
+      case BatchDeleteConfigurationTaskStatus.completed:
+        return 'COMPLETED';
+      case BatchDeleteConfigurationTaskStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension BatchDeleteConfigurationTaskStatusFromString on String {
+  BatchDeleteConfigurationTaskStatus toBatchDeleteConfigurationTaskStatus() {
+    switch (this) {
+      case 'INITIALIZING':
+        return BatchDeleteConfigurationTaskStatus.initializing;
+      case 'VALIDATING':
+        return BatchDeleteConfigurationTaskStatus.validating;
+      case 'DELETING':
+        return BatchDeleteConfigurationTaskStatus.deleting;
+      case 'COMPLETED':
+        return BatchDeleteConfigurationTaskStatus.completed;
+      case 'FAILED':
+        return BatchDeleteConfigurationTaskStatus.failed;
+    }
+    throw Exception(
+        '$this is not known in enum BatchDeleteConfigurationTaskStatus');
   }
 }
 
@@ -1657,17 +1962,17 @@ class ContinuousExportDescription {
   /// </li>
   /// <li>
   /// FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state
-  /// because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose
-  /// role. Turn on Data Exploration in Amazon Athena and try again. For more
-  /// information, see <a
-  /// href="http://docs.aws.amazon.com/application-discovery/latest/userguide/setting-up.html#setting-up-user-policy">Step
-  /// 3: Provide Application Discovery Service Access to Non-Administrator Users
-  /// by Attaching Policies</a> in the Application Discovery Service User Guide.
+  /// because your user is missing the Amazon Web
+  /// ServicesApplicationDiscoveryServiceFirehose role. Turn on Data Exploration
+  /// in Amazon Athena and try again. For more information, see <a
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-create-firehose-role">Creating
+  /// the Amazon Web ServicesApplicationDiscoveryServiceFirehose Role</a> in the
+  /// Application Discovery Service User Guide.
   /// </li>
   /// <li>
   /// FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error
-  /// state because your IAM User is missing one or more of the Kinesis data
-  /// delivery streams.
+  /// state because your user is missing one or more of the Kinesis data delivery
+  /// streams.
   /// </li>
   /// <li>
   /// INTERNAL_FAILURE - The Data Exploration feature is in an error state because
@@ -1883,13 +2188,28 @@ class CustomerAgentInfo {
   }
 }
 
+/// The inventory data for installed Agentless Collector collectors.
 class CustomerAgentlessCollectorInfo {
+  /// The number of active Agentless Collector collectors.
   final int activeAgentlessCollectors;
+
+  /// The number of deny-listed Agentless Collector collectors.
   final int denyListedAgentlessCollectors;
+
+  /// The number of healthy Agentless Collector collectors.
   final int healthyAgentlessCollectors;
+
+  /// The number of Agentless Collector collectors with <code>SHUTDOWN</code>
+  /// status.
   final int shutdownAgentlessCollectors;
+
+  /// The total number of Agentless Collector collectors.
   final int totalAgentlessCollectors;
+
+  /// The number of unhealthy Agentless Collector collectors.
   final int unhealthyAgentlessCollectors;
+
+  /// The number of unknown Agentless Collector collectors.
   final int unknownAgentlessCollectors;
 
   CustomerAgentlessCollectorInfo({
@@ -2032,6 +2352,67 @@ extension DataSourceFromString on String {
   }
 }
 
+/// An object representing the agent or data collector to be deleted along with
+/// the optional configurations for error handling.
+class DeleteAgent {
+  /// The ID of the agent or data collector to delete.
+  final String agentId;
+
+  /// Optional flag used to force delete an agent or data collector. It is needed
+  /// to delete any agent in HEALTHY/UNHEALTHY/RUNNING status. Note that deleting
+  /// an agent that is actively reporting health causes it to be re-registered
+  /// with a different agent ID after data collector re-connects with Amazon Web
+  /// Services.
+  final bool? force;
+
+  DeleteAgent({
+    required this.agentId,
+    this.force,
+  });
+
+  Map<String, dynamic> toJson() {
+    final agentId = this.agentId;
+    final force = this.force;
+    return {
+      'agentId': agentId,
+      if (force != null) 'force': force,
+    };
+  }
+}
+
+enum DeleteAgentErrorCode {
+  notFound,
+  internalServerError,
+  agentInUse,
+}
+
+extension DeleteAgentErrorCodeValueExtension on DeleteAgentErrorCode {
+  String toValue() {
+    switch (this) {
+      case DeleteAgentErrorCode.notFound:
+        return 'NOT_FOUND';
+      case DeleteAgentErrorCode.internalServerError:
+        return 'INTERNAL_SERVER_ERROR';
+      case DeleteAgentErrorCode.agentInUse:
+        return 'AGENT_IN_USE';
+    }
+  }
+}
+
+extension DeleteAgentErrorCodeFromString on String {
+  DeleteAgentErrorCode toDeleteAgentErrorCode() {
+    switch (this) {
+      case 'NOT_FOUND':
+        return DeleteAgentErrorCode.notFound;
+      case 'INTERNAL_SERVER_ERROR':
+        return DeleteAgentErrorCode.internalServerError;
+      case 'AGENT_IN_USE':
+        return DeleteAgentErrorCode.agentInUse;
+    }
+    throw Exception('$this is not known in enum DeleteAgentErrorCode');
+  }
+}
+
 class DeleteApplicationsResponse {
   DeleteApplicationsResponse();
 
@@ -2048,12 +2429,63 @@ class DeleteTagsResponse {
   }
 }
 
+enum DeletionConfigurationItemType {
+  server,
+}
+
+extension DeletionConfigurationItemTypeValueExtension
+    on DeletionConfigurationItemType {
+  String toValue() {
+    switch (this) {
+      case DeletionConfigurationItemType.server:
+        return 'SERVER';
+    }
+  }
+}
+
+extension DeletionConfigurationItemTypeFromString on String {
+  DeletionConfigurationItemType toDeletionConfigurationItemType() {
+    switch (this) {
+      case 'SERVER':
+        return DeletionConfigurationItemType.server;
+    }
+    throw Exception('$this is not known in enum DeletionConfigurationItemType');
+  }
+}
+
+/// A configuration ID paired with a warning message.
+class DeletionWarning {
+  /// The unique identifier of the configuration that produced a warning.
+  final String? configurationId;
+
+  /// The integer warning code associated with the warning message.
+  final int? warningCode;
+
+  /// A descriptive message of the warning the associated configuration ID
+  /// produced.
+  final String? warningText;
+
+  DeletionWarning({
+    this.configurationId,
+    this.warningCode,
+    this.warningText,
+  });
+
+  factory DeletionWarning.fromJson(Map<String, dynamic> json) {
+    return DeletionWarning(
+      configurationId: json['configurationId'] as String?,
+      warningCode: json['warningCode'] as int?,
+      warningText: json['warningText'] as String?,
+    );
+  }
+}
+
 class DescribeAgentsResponse {
-  /// Lists agents or the Connector by ID or lists all agents/Connectors
-  /// associated with your user account if you did not specify an agent/Connector
-  /// ID. The output includes agent/Connector IDs, IP addresses, media access
-  /// control (MAC) addresses, agent/Connector health, host name where the
-  /// agent/Connector resides, and the version number of each agent/Connector.
+  /// Lists agents or the collector by ID or lists all agents/collectors
+  /// associated with your user, if you did not specify an agent/collector ID. The
+  /// output includes agent/collector IDs, IP addresses, media access control
+  /// (MAC) addresses, agent/collector health, host name where the agent/collector
+  /// resides, and the version number of each agent/collector.
   final List<AgentInfo>? agentsInfo;
 
   /// Token to retrieve the next set of results. For example, if you specified 100
@@ -2075,6 +2507,26 @@ class DescribeAgentsResponse {
           .map((e) => AgentInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class DescribeBatchDeleteConfigurationTaskResponse {
+  /// The <code>BatchDeleteConfigurationTask</code> that represents the deletion
+  /// task being executed.
+  final BatchDeleteConfigurationTask? task;
+
+  DescribeBatchDeleteConfigurationTaskResponse({
+    this.task,
+  });
+
+  factory DescribeBatchDeleteConfigurationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeBatchDeleteConfigurationTaskResponse(
+      task: json['task'] != null
+          ? BatchDeleteConfigurationTask.fromJson(
+              json['task'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -2233,6 +2685,74 @@ class DisassociateConfigurationItemsFromApplicationResponse {
   }
 }
 
+/// Indicates that the exported data must include EC2 instance type matches for
+/// on-premises servers that are discovered through Amazon Web Services
+/// Application Discovery Service.
+class Ec2RecommendationsExportPreferences {
+  /// The recommended EC2 instance type that matches the CPU usage metric of
+  /// server performance data.
+  final UsageMetricBasis? cpuPerformanceMetricBasis;
+
+  /// If set to true, the export <a
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html#API_StartExportTask_RequestSyntax">preferences</a>
+  /// is set to <code>Ec2RecommendationsExportPreferences</code>.
+  final bool? enabled;
+
+  /// An array of instance types to exclude from recommendations.
+  final List<String>? excludedInstanceTypes;
+
+  /// The target Amazon Web Services Region for the recommendations. You can use
+  /// any of the Region codes available for the chosen service, as listed in <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Amazon Web
+  /// Services service endpoints</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? preferredRegion;
+
+  /// The recommended EC2 instance type that matches the Memory usage metric of
+  /// server performance data.
+  final UsageMetricBasis? ramPerformanceMetricBasis;
+
+  /// The contract type for a reserved instance. If blank, we assume an On-Demand
+  /// instance is preferred.
+  final ReservedInstanceOptions? reservedInstanceOptions;
+
+  /// The target tenancy to use for your recommended EC2 instances.
+  final Tenancy? tenancy;
+
+  Ec2RecommendationsExportPreferences({
+    this.cpuPerformanceMetricBasis,
+    this.enabled,
+    this.excludedInstanceTypes,
+    this.preferredRegion,
+    this.ramPerformanceMetricBasis,
+    this.reservedInstanceOptions,
+    this.tenancy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cpuPerformanceMetricBasis = this.cpuPerformanceMetricBasis;
+    final enabled = this.enabled;
+    final excludedInstanceTypes = this.excludedInstanceTypes;
+    final preferredRegion = this.preferredRegion;
+    final ramPerformanceMetricBasis = this.ramPerformanceMetricBasis;
+    final reservedInstanceOptions = this.reservedInstanceOptions;
+    final tenancy = this.tenancy;
+    return {
+      if (cpuPerformanceMetricBasis != null)
+        'cpuPerformanceMetricBasis': cpuPerformanceMetricBasis,
+      if (enabled != null) 'enabled': enabled,
+      if (excludedInstanceTypes != null)
+        'excludedInstanceTypes': excludedInstanceTypes,
+      if (preferredRegion != null) 'preferredRegion': preferredRegion,
+      if (ramPerformanceMetricBasis != null)
+        'ramPerformanceMetricBasis': ramPerformanceMetricBasis,
+      if (reservedInstanceOptions != null)
+        'reservedInstanceOptions': reservedInstanceOptions,
+      if (tenancy != null) 'tenancy': tenancy.toValue(),
+    };
+  }
+}
+
 class ExportConfigurationsResponse {
   /// A unique identifier that you can use to query the export status.
   final String? exportId;
@@ -2250,7 +2770,6 @@ class ExportConfigurationsResponse {
 
 enum ExportDataFormat {
   csv,
-  graphml,
 }
 
 extension ExportDataFormatValueExtension on ExportDataFormat {
@@ -2258,8 +2777,6 @@ extension ExportDataFormatValueExtension on ExportDataFormat {
     switch (this) {
       case ExportDataFormat.csv:
         return 'CSV';
-      case ExportDataFormat.graphml:
-        return 'GRAPHML';
     }
   }
 }
@@ -2269,8 +2786,6 @@ extension ExportDataFormatFromString on String {
     switch (this) {
       case 'CSV':
         return ExportDataFormat.csv;
-      case 'GRAPHML':
-        return ExportDataFormat.graphml;
     }
     throw Exception('$this is not known in enum ExportDataFormat');
   }
@@ -2374,6 +2889,29 @@ class ExportInfo {
   }
 }
 
+/// Indicates the type of data that is being exported. Only one
+/// <code>ExportPreferences</code> can be enabled for a <a
+/// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
+/// action.
+class ExportPreferences {
+  /// If enabled, exported data includes EC2 instance type matches for on-premises
+  /// servers discovered through Amazon Web Services Application Discovery
+  /// Service.
+  final Ec2RecommendationsExportPreferences? ec2RecommendationsPreferences;
+
+  ExportPreferences({
+    this.ec2RecommendationsPreferences,
+  });
+
+  Map<String, dynamic> toJson() {
+    final ec2RecommendationsPreferences = this.ec2RecommendationsPreferences;
+    return {
+      if (ec2RecommendationsPreferences != null)
+        'ec2RecommendationsPreferences': ec2RecommendationsPreferences,
+    };
+  }
+}
+
 enum ExportStatus {
   failed,
   succeeded,
@@ -2404,6 +2942,33 @@ extension ExportStatusFromString on String {
         return ExportStatus.inProgress;
     }
     throw Exception('$this is not known in enum ExportStatus');
+  }
+}
+
+/// A configuration ID paired with an error message.
+class FailedConfiguration {
+  /// The unique identifier of the configuration the failed to delete.
+  final String? configurationId;
+
+  /// A descriptive message indicating why the associated configuration failed to
+  /// delete.
+  final String? errorMessage;
+
+  /// The integer error code associated with the error message.
+  final int? errorStatusCode;
+
+  FailedConfiguration({
+    this.configurationId,
+    this.errorMessage,
+    this.errorStatusCode,
+  });
+
+  factory FailedConfiguration.fromJson(Map<String, dynamic> json) {
+    return FailedConfiguration(
+      configurationId: json['configurationId'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      errorStatusCode: json['errorStatusCode'] as int?,
+    );
   }
 }
 
@@ -2452,6 +3017,8 @@ class Filter {
 class GetDiscoverySummaryResponse {
   /// Details about discovered agents, including agent status and health.
   final CustomerAgentInfo? agentSummary;
+
+  /// Details about Agentless Collector collectors, including status.
   final CustomerAgentlessCollectorInfo? agentlessCollectorSummary;
 
   /// The number of applications discovered.
@@ -2851,6 +3418,34 @@ class NeighborConnectionDetail {
   }
 }
 
+enum OfferingClass {
+  standard,
+  convertible,
+}
+
+extension OfferingClassValueExtension on OfferingClass {
+  String toValue() {
+    switch (this) {
+      case OfferingClass.standard:
+        return 'STANDARD';
+      case OfferingClass.convertible:
+        return 'CONVERTIBLE';
+    }
+  }
+}
+
+extension OfferingClassFromString on String {
+  OfferingClass toOfferingClass() {
+    switch (this) {
+      case 'STANDARD':
+        return OfferingClass.standard;
+      case 'CONVERTIBLE':
+        return OfferingClass.convertible;
+    }
+    throw Exception('$this is not known in enum OfferingClass');
+  }
+}
+
 /// A field and direction for ordered output.
 class OrderByElement {
   /// The field on which to order.
@@ -2871,6 +3466,85 @@ class OrderByElement {
       'fieldName': fieldName,
       if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
     };
+  }
+}
+
+enum PurchasingOption {
+  allUpfront,
+  partialUpfront,
+  noUpfront,
+}
+
+extension PurchasingOptionValueExtension on PurchasingOption {
+  String toValue() {
+    switch (this) {
+      case PurchasingOption.allUpfront:
+        return 'ALL_UPFRONT';
+      case PurchasingOption.partialUpfront:
+        return 'PARTIAL_UPFRONT';
+      case PurchasingOption.noUpfront:
+        return 'NO_UPFRONT';
+    }
+  }
+}
+
+extension PurchasingOptionFromString on String {
+  PurchasingOption toPurchasingOption() {
+    switch (this) {
+      case 'ALL_UPFRONT':
+        return PurchasingOption.allUpfront;
+      case 'PARTIAL_UPFRONT':
+        return PurchasingOption.partialUpfront;
+      case 'NO_UPFRONT':
+        return PurchasingOption.noUpfront;
+    }
+    throw Exception('$this is not known in enum PurchasingOption');
+  }
+}
+
+/// Used to provide Reserved Instance preferences for the recommendation.
+class ReservedInstanceOptions {
+  /// The flexibility to change the instance types needed for your Reserved
+  /// Instance.
+  final OfferingClass offeringClass;
+
+  /// The payment plan to use for your Reserved Instance.
+  final PurchasingOption purchasingOption;
+
+  /// The preferred duration of the Reserved Instance term.
+  final TermLength termLength;
+
+  ReservedInstanceOptions({
+    required this.offeringClass,
+    required this.purchasingOption,
+    required this.termLength,
+  });
+
+  Map<String, dynamic> toJson() {
+    final offeringClass = this.offeringClass;
+    final purchasingOption = this.purchasingOption;
+    final termLength = this.termLength;
+    return {
+      'offeringClass': offeringClass.toValue(),
+      'purchasingOption': purchasingOption.toValue(),
+      'termLength': termLength.toValue(),
+    };
+  }
+}
+
+class StartBatchDeleteConfigurationTaskResponse {
+  /// The unique identifier associated with the newly started deletion task.
+  final String? taskId;
+
+  StartBatchDeleteConfigurationTaskResponse({
+    this.taskId,
+  });
+
+  factory StartBatchDeleteConfigurationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartBatchDeleteConfigurationTaskResponse(
+      taskId: json['taskId'] as String?,
+    );
   }
 }
 
@@ -2920,10 +3594,9 @@ class StartContinuousExportResponse {
 }
 
 class StartDataCollectionByAgentIdsResponse {
-  /// Information about agents or the connector that were instructed to start
-  /// collecting data. Information includes the agent/connector ID, a description
-  /// of the operation performed, and whether the agent/connector configuration
-  /// was updated.
+  /// Information about agents that were instructed to start collecting data.
+  /// Information includes the agent ID, a description of the operation performed,
+  /// and whether the agent configuration was updated.
   final List<AgentConfigurationStatus>? agentsConfigurationStatus;
 
   StartDataCollectionByAgentIdsResponse({
@@ -2998,10 +3671,9 @@ class StopContinuousExportResponse {
 }
 
 class StopDataCollectionByAgentIdsResponse {
-  /// Information about the agents or connector that were instructed to stop
-  /// collecting data. Information includes the agent/connector ID, a description
-  /// of the operation performed, and whether the agent/connector configuration
-  /// was updated.
+  /// Information about the agents that were instructed to stop collecting data.
+  /// Information includes the agent ID, a description of the operation performed,
+  /// and whether the agent configuration was updated.
   final List<AgentConfigurationStatus>? agentsConfigurationStatus;
 
   StopDataCollectionByAgentIdsResponse({
@@ -3070,11 +3742,92 @@ class TagFilter {
   }
 }
 
+enum Tenancy {
+  dedicated,
+  shared,
+}
+
+extension TenancyValueExtension on Tenancy {
+  String toValue() {
+    switch (this) {
+      case Tenancy.dedicated:
+        return 'DEDICATED';
+      case Tenancy.shared:
+        return 'SHARED';
+    }
+  }
+}
+
+extension TenancyFromString on String {
+  Tenancy toTenancy() {
+    switch (this) {
+      case 'DEDICATED':
+        return Tenancy.dedicated;
+      case 'SHARED':
+        return Tenancy.shared;
+    }
+    throw Exception('$this is not known in enum Tenancy');
+  }
+}
+
+enum TermLength {
+  oneYear,
+  threeYear,
+}
+
+extension TermLengthValueExtension on TermLength {
+  String toValue() {
+    switch (this) {
+      case TermLength.oneYear:
+        return 'ONE_YEAR';
+      case TermLength.threeYear:
+        return 'THREE_YEAR';
+    }
+  }
+}
+
+extension TermLengthFromString on String {
+  TermLength toTermLength() {
+    switch (this) {
+      case 'ONE_YEAR':
+        return TermLength.oneYear;
+      case 'THREE_YEAR':
+        return TermLength.threeYear;
+    }
+    throw Exception('$this is not known in enum TermLength');
+  }
+}
+
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
 
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
     return UpdateApplicationResponse();
+  }
+}
+
+/// Specifies the performance metrics to use for the server that is used for
+/// recommendations.
+class UsageMetricBasis {
+  /// A utilization metric that is used by the recommendations.
+  final String? name;
+
+  /// Specifies the percentage of the specified utilization metric that is used by
+  /// the recommendations.
+  final double? percentageAdjust;
+
+  UsageMetricBasis({
+    this.name,
+    this.percentageAdjust,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final percentageAdjust = this.percentageAdjust;
+    return {
+      if (name != null) 'name': name,
+      if (percentageAdjust != null) 'percentageAdjust': percentageAdjust,
+    };
   }
 }
 
@@ -3135,6 +3888,11 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+class LimitExceededException extends _s.GenericAwsException {
+  LimitExceededException({String? type, String? message})
+      : super(type: type, code: 'LimitExceededException', message: message);
+}
+
 class OperationNotPermittedException extends _s.GenericAwsException {
   OperationNotPermittedException({String? type, String? message})
       : super(
@@ -3170,6 +3928,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidParameterException(type: type, message: message),
   'InvalidParameterValueException': (type, message) =>
       InvalidParameterValueException(type: type, message: message),
+  'LimitExceededException': (type, message) =>
+      LimitExceededException(type: type, message: message),
   'OperationNotPermittedException': (type, message) =>
       OperationNotPermittedException(type: type, message: message),
   'ResourceInUseException': (type, message) =>

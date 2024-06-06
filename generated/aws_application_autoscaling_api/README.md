@@ -41,10 +41,13 @@ Amazon Managed Streaming for Apache Kafka broker storage
 Amazon Neptune clusters
 </li>
 <li>
+Amazon SageMaker endpoint variants
+</li>
+<li>
 Amazon SageMaker Serverless endpoint provisioned concurrency
 </li>
 <li>
-Amazon SageMaker endpoint variants
+Amazon SageMaker inference components
 </li>
 <li>
 Spot Fleets (Amazon EC2)

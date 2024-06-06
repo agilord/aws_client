@@ -554,6 +554,13 @@ class NetworkFirewall {
   /// group is stateless, it contains stateless rules. If it is stateful, it
   /// contains stateful rules.
   ///
+  /// Parameter [analyzeRuleGroup] :
+  /// Indicates whether you want Network Firewall to analyze the stateless rules
+  /// in the rule group for rule behavior such as asymmetric routing. If set to
+  /// <code>TRUE</code>, Network Firewall runs the analysis and then creates the
+  /// rule group for you. To run the stateless rule group analyzer without
+  /// creating the rule group, set <code>DryRun</code> to <code>TRUE</code>.
+  ///
   /// Parameter [description] :
   /// A description of the rule group.
   ///
@@ -607,6 +614,7 @@ class NetworkFirewall {
     required int capacity,
     required String ruleGroupName,
     required RuleGroupType type,
+    bool? analyzeRuleGroup,
     String? description,
     bool? dryRun,
     EncryptionConfiguration? encryptionConfiguration,
@@ -629,6 +637,7 @@ class NetworkFirewall {
         'Capacity': capacity,
         'RuleGroupName': ruleGroupName,
         'Type': type.toValue(),
+        if (analyzeRuleGroup != null) 'AnalyzeRuleGroup': analyzeRuleGroup,
         if (description != null) 'Description': description,
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionConfiguration != null)
@@ -644,11 +653,12 @@ class NetworkFirewall {
   }
 
   /// Creates an Network Firewall TLS inspection configuration. A TLS inspection
-  /// configuration contains the Certificate Manager certificate references that
-  /// Network Firewall uses to decrypt and re-encrypt inbound traffic.
+  /// configuration contains Certificate Manager certificate associations
+  /// between and the scope configurations that Network Firewall uses to decrypt
+  /// and re-encrypt traffic traveling through your firewall.
   ///
-  /// After you create a TLS inspection configuration, you associate it with a
-  /// firewall policy.
+  /// After you create a TLS inspection configuration, you can associate it with
+  /// a new firewall policy.
   ///
   /// To update the settings for a TLS inspection configuration, use
   /// <a>UpdateTLSInspectionConfiguration</a>.
@@ -662,13 +672,15 @@ class NetworkFirewall {
   /// <a>DescribeTLSInspectionConfiguration</a>.
   ///
   /// For more information about TLS inspection configurations, see <a
-  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Decrypting
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Inspecting
   /// SSL/TLS traffic with TLS inspection configurations</a> in the <i>Network
   /// Firewall Developer Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
+  /// May throw [InsufficientCapacityException].
   ///
   /// Parameter [tLSInspectionConfiguration] :
   /// The object that defines a TLS inspection configuration. This, along with
@@ -680,14 +692,14 @@ class NetworkFirewall {
   /// Network Firewall re-encrypts the traffic before sending it to its
   /// destination.
   ///
-  /// To use a TLS inspection configuration, you add it to a Network Firewall
-  /// firewall policy, then you apply the firewall policy to a firewall. Network
-  /// Firewall acts as a proxy service to decrypt and inspect inbound traffic.
-  /// You can reference a TLS inspection configuration from more than one
-  /// firewall policy, and you can use a firewall policy in more than one
-  /// firewall. For more information about using TLS inspection configurations,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Decrypting
+  /// To use a TLS inspection configuration, you add it to a new Network
+  /// Firewall firewall policy, then you apply the firewall policy to a
+  /// firewall. Network Firewall acts as a proxy service to decrypt and inspect
+  /// the traffic traveling through your firewalls. You can reference a TLS
+  /// inspection configuration from more than one firewall policy, and you can
+  /// use a firewall policy in more than one firewall. For more information
+  /// about using TLS inspection configurations, see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Inspecting
   /// SSL/TLS traffic with TLS inspection configurations</a> in the <i>Network
   /// Firewall Developer Guide</i>.
   ///
@@ -1120,6 +1132,11 @@ class NetworkFirewall {
   /// May throw [ThrottlingException].
   /// May throw [InternalServerError].
   ///
+  /// Parameter [analyzeRuleGroup] :
+  /// Indicates whether you want Network Firewall to analyze the stateless rules
+  /// in the rule group for rule behavior such as asymmetric routing. If set to
+  /// <code>TRUE</code>, Network Firewall runs the analysis.
+  ///
   /// Parameter [ruleGroupArn] :
   /// The Amazon Resource Name (ARN) of the rule group.
   ///
@@ -1140,6 +1157,7 @@ class NetworkFirewall {
   /// <code>RuleGroupARN</code>.
   /// </note>
   Future<DescribeRuleGroupResponse> describeRuleGroup({
+    bool? analyzeRuleGroup,
     String? ruleGroupArn,
     String? ruleGroupName,
     RuleGroupType? type,
@@ -1155,6 +1173,7 @@ class NetworkFirewall {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (analyzeRuleGroup != null) 'AnalyzeRuleGroup': analyzeRuleGroup,
         if (ruleGroupArn != null) 'RuleGroupArn': ruleGroupArn,
         if (ruleGroupName != null) 'RuleGroupName': ruleGroupName,
         if (type != null) 'Type': type.toValue(),
@@ -2023,7 +2042,10 @@ class NetworkFirewall {
   /// May throw [InvalidTokenException].
   ///
   /// Parameter [firewallPolicy] :
-  /// The updated firewall policy to use for the firewall.
+  /// The updated firewall policy to use for the firewall. You can't add or
+  /// remove a <a>TLSInspectionConfiguration</a> after you create a firewall
+  /// policy. However, you can replace an existing TLS inspection configuration
+  /// with another <code>TLSInspectionConfiguration</code>.
   ///
   /// Parameter [updateToken] :
   /// A token used for optimistic locking. Network Firewall returns a token to
@@ -2290,6 +2312,13 @@ class NetworkFirewall {
   /// token. Reapply your changes as needed, then try the operation again using
   /// the new token.
   ///
+  /// Parameter [analyzeRuleGroup] :
+  /// Indicates whether you want Network Firewall to analyze the stateless rules
+  /// in the rule group for rule behavior such as asymmetric routing. If set to
+  /// <code>TRUE</code>, Network Firewall runs the analysis and then updates the
+  /// rule group for you. To run the stateless rule group analyzer without
+  /// updating the rule group, set <code>DryRun</code> to <code>TRUE</code>.
+  ///
   /// Parameter [description] :
   /// A description of the rule group.
   ///
@@ -2358,6 +2387,7 @@ class NetworkFirewall {
   /// </note>
   Future<UpdateRuleGroupResponse> updateRuleGroup({
     required String updateToken,
+    bool? analyzeRuleGroup,
     String? description,
     bool? dryRun,
     EncryptionConfiguration? encryptionConfiguration,
@@ -2380,6 +2410,7 @@ class NetworkFirewall {
       headers: headers,
       payload: {
         'UpdateToken': updateToken,
+        if (analyzeRuleGroup != null) 'AnalyzeRuleGroup': analyzeRuleGroup,
         if (description != null) 'Description': description,
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionConfiguration != null)
@@ -2469,7 +2500,7 @@ class NetworkFirewall {
 
   /// Updates the TLS inspection configuration settings for the specified TLS
   /// inspection configuration. You use a TLS inspection configuration by
-  /// reference in one or more firewall policies. When you modify a TLS
+  /// referencing it in one or more firewall policies. When you modify a TLS
   /// inspection configuration, you modify all firewall policies that use the
   /// TLS inspection configuration.
   ///
@@ -2494,14 +2525,14 @@ class NetworkFirewall {
   /// Network Firewall re-encrypts the traffic before sending it to its
   /// destination.
   ///
-  /// To use a TLS inspection configuration, you add it to a Network Firewall
-  /// firewall policy, then you apply the firewall policy to a firewall. Network
-  /// Firewall acts as a proxy service to decrypt and inspect inbound traffic.
-  /// You can reference a TLS inspection configuration from more than one
-  /// firewall policy, and you can use a firewall policy in more than one
-  /// firewall. For more information about using TLS inspection configurations,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Decrypting
+  /// To use a TLS inspection configuration, you add it to a new Network
+  /// Firewall firewall policy, then you apply the firewall policy to a
+  /// firewall. Network Firewall acts as a proxy service to decrypt and inspect
+  /// the traffic traveling through your firewalls. You can reference a TLS
+  /// inspection configuration from more than one firewall policy, and you can
+  /// use a firewall policy in more than one firewall. For more information
+  /// about using TLS inspection configurations, see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Inspecting
   /// SSL/TLS traffic with TLS inspection configurations</a> in the <i>Network
   /// Firewall Developer Guide</i>.
   ///
@@ -2655,6 +2686,92 @@ class Address {
     final addressDefinition = this.addressDefinition;
     return {
       'AddressDefinition': addressDefinition,
+    };
+  }
+}
+
+/// The analysis result for Network Firewall's stateless rule group analyzer.
+/// Every time you call <a>CreateRuleGroup</a>, <a>UpdateRuleGroup</a>, or
+/// <a>DescribeRuleGroup</a> on a stateless rule group, Network Firewall
+/// analyzes the stateless rule groups in your account and identifies the rules
+/// that might adversely effect your firewall's functionality. For example, if
+/// Network Firewall detects a rule that's routing traffic asymmetrically, which
+/// impacts the service's ability to properly process traffic, the service
+/// includes the rule in a list of analysis results.
+class AnalysisResult {
+  /// Provides analysis details for the identified rule.
+  final String? analysisDetail;
+
+  /// The priority number of the stateless rules identified in the analysis.
+  final List<String>? identifiedRuleIds;
+
+  /// The types of rule configurations that Network Firewall analyzes your rule
+  /// groups for. Network Firewall analyzes stateless rule groups for the
+  /// following types of rule configurations:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STATELESS_RULE_FORWARDING_ASYMMETRICALLY</code>
+  ///
+  /// Cause: One or more stateless rules with the action <code>pass</code> or
+  /// <code>forward</code> are forwarding traffic asymmetrically. Specifically,
+  /// the rule's set of source IP addresses or their associated port numbers,
+  /// don't match the set of destination IP addresses or their associated port
+  /// numbers.
+  ///
+  /// To mitigate: Make sure that there's an existing return path. For example, if
+  /// the rule allows traffic from source 10.1.0.0/24 to destination 20.1.0.0/24,
+  /// you should allow return traffic from source 20.1.0.0/24 to destination
+  /// 10.1.0.0/24.
+  /// </li>
+  /// <li>
+  /// <code>STATELESS_RULE_CONTAINS_TCP_FLAGS</code>
+  ///
+  /// Cause: At least one stateless rule with the action <code>pass</code>
+  /// or<code>forward</code> contains TCP flags that are inconsistent in the
+  /// forward and return directions.
+  ///
+  /// To mitigate: Prevent asymmetric routing issues caused by TCP flags by
+  /// following these actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Remove unnecessary TCP flag inspections from the rules.
+  /// </li>
+  /// <li>
+  /// If you need to inspect TCP flags, check that the rules correctly account for
+  /// changes in TCP flags throughout the TCP connection cycle, for example
+  /// <code>SYN</code> and <code>ACK</code> flags used in a 3-way TCP handshake.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final IdentifiedType? identifiedType;
+
+  AnalysisResult({
+    this.analysisDetail,
+    this.identifiedRuleIds,
+    this.identifiedType,
+  });
+
+  factory AnalysisResult.fromJson(Map<String, dynamic> json) {
+    return AnalysisResult(
+      analysisDetail: json['AnalysisDetail'] as String?,
+      identifiedRuleIds: (json['IdentifiedRuleIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      identifiedType: (json['IdentifiedType'] as String?)?.toIdentifiedType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisDetail = this.analysisDetail;
+    final identifiedRuleIds = this.identifiedRuleIds;
+    final identifiedType = this.identifiedType;
+    return {
+      if (analysisDetail != null) 'AnalysisDetail': analysisDetail,
+      if (identifiedRuleIds != null) 'IdentifiedRuleIds': identifiedRuleIds,
+      if (identifiedType != null) 'IdentifiedType': identifiedType.toValue(),
     };
   }
 }
@@ -2954,6 +3071,80 @@ class CapacityUsageSummary {
     final cIDRs = this.cIDRs;
     return {
       if (cIDRs != null) 'CIDRs': cIDRs,
+    };
+  }
+}
+
+/// Defines the actions to take on the SSL/TLS connection if the certificate
+/// presented by the server in the connection has a revoked or unknown status.
+class CheckCertificateRevocationStatusActions {
+  /// Configures how Network Firewall processes traffic when it determines that
+  /// the certificate presented by the server in the SSL/TLS connection has a
+  /// revoked status.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>PASS</b> - Allow the connection to continue, and pass subsequent packets
+  /// to the stateful engine for inspection.
+  /// </li>
+  /// <li>
+  /// <b>DROP</b> - Network Firewall closes the connection and drops subsequent
+  /// packets for that connection.
+  /// </li>
+  /// <li>
+  /// <b>REJECT</b> - Network Firewall sends a TCP reject packet back to your
+  /// client. The service closes the connection and drops subsequent packets for
+  /// that connection. <code>REJECT</code> is available only for TCP traffic.
+  /// </li>
+  /// </ul>
+  final RevocationCheckAction? revokedStatusAction;
+
+  /// Configures how Network Firewall processes traffic when it determines that
+  /// the certificate presented by the server in the SSL/TLS connection has an
+  /// unknown status, or a status that cannot be determined for any other reason,
+  /// including when the service is unable to connect to the OCSP and CRL
+  /// endpoints for the certificate.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>PASS</b> - Allow the connection to continue, and pass subsequent packets
+  /// to the stateful engine for inspection.
+  /// </li>
+  /// <li>
+  /// <b>DROP</b> - Network Firewall closes the connection and drops subsequent
+  /// packets for that connection.
+  /// </li>
+  /// <li>
+  /// <b>REJECT</b> - Network Firewall sends a TCP reject packet back to your
+  /// client. The service closes the connection and drops subsequent packets for
+  /// that connection. <code>REJECT</code> is available only for TCP traffic.
+  /// </li>
+  /// </ul>
+  final RevocationCheckAction? unknownStatusAction;
+
+  CheckCertificateRevocationStatusActions({
+    this.revokedStatusAction,
+    this.unknownStatusAction,
+  });
+
+  factory CheckCertificateRevocationStatusActions.fromJson(
+      Map<String, dynamic> json) {
+    return CheckCertificateRevocationStatusActions(
+      revokedStatusAction:
+          (json['RevokedStatusAction'] as String?)?.toRevocationCheckAction(),
+      unknownStatusAction:
+          (json['UnknownStatusAction'] as String?)?.toRevocationCheckAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revokedStatusAction = this.revokedStatusAction;
+    final unknownStatusAction = this.unknownStatusAction;
+    return {
+      if (revokedStatusAction != null)
+        'RevokedStatusAction': revokedStatusAction.toValue(),
+      if (unknownStatusAction != null)
+        'UnknownStatusAction': unknownStatusAction.toValue(),
     };
   }
 }
@@ -3678,13 +3869,14 @@ class DescribeTLSInspectionConfigurationResponse {
   /// Network Firewall re-encrypts the traffic before sending it to its
   /// destination.
   ///
-  /// To use a TLS inspection configuration, you add it to a Network Firewall
+  /// To use a TLS inspection configuration, you add it to a new Network Firewall
   /// firewall policy, then you apply the firewall policy to a firewall. Network
-  /// Firewall acts as a proxy service to decrypt and inspect inbound traffic. You
-  /// can reference a TLS inspection configuration from more than one firewall
-  /// policy, and you can use a firewall policy in more than one firewall. For
-  /// more information about using TLS inspection configurations, see <a
-  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Decrypting
+  /// Firewall acts as a proxy service to decrypt and inspect the traffic
+  /// traveling through your firewalls. You can reference a TLS inspection
+  /// configuration from more than one firewall policy, and you can use a firewall
+  /// policy in more than one firewall. For more information about using TLS
+  /// inspection configurations, see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Inspecting
   /// SSL/TLS traffic with TLS inspection configurations</a> in the <i>Network
   /// Firewall Developer Guide</i>.
   final TLSInspectionConfiguration? tLSInspectionConfiguration;
@@ -4791,6 +4983,34 @@ class IPSetReference {
   }
 }
 
+enum IdentifiedType {
+  statelessRuleForwardingAsymmetrically,
+  statelessRuleContainsTcpFlags,
+}
+
+extension IdentifiedTypeValueExtension on IdentifiedType {
+  String toValue() {
+    switch (this) {
+      case IdentifiedType.statelessRuleForwardingAsymmetrically:
+        return 'STATELESS_RULE_FORWARDING_ASYMMETRICALLY';
+      case IdentifiedType.statelessRuleContainsTcpFlags:
+        return 'STATELESS_RULE_CONTAINS_TCP_FLAGS';
+    }
+  }
+}
+
+extension IdentifiedTypeFromString on String {
+  IdentifiedType toIdentifiedType() {
+    switch (this) {
+      case 'STATELESS_RULE_FORWARDING_ASYMMETRICALLY':
+        return IdentifiedType.statelessRuleForwardingAsymmetrically;
+      case 'STATELESS_RULE_CONTAINS_TCP_FLAGS':
+        return IdentifiedType.statelessRuleContainsTcpFlags;
+    }
+    throw Exception('$this is not known in enum IdentifiedType');
+  }
+}
+
 class ListFirewallPoliciesResponse {
   /// The metadata for the firewall policies. Depending on your setting for max
   /// results and the number of firewall policies that you have, this might not be
@@ -5549,6 +5769,7 @@ extension ResourceManagedTypeFromString on String {
 enum ResourceStatus {
   active,
   deleting,
+  error,
 }
 
 extension ResourceStatusValueExtension on ResourceStatus {
@@ -5558,6 +5779,8 @@ extension ResourceStatusValueExtension on ResourceStatus {
         return 'ACTIVE';
       case ResourceStatus.deleting:
         return 'DELETING';
+      case ResourceStatus.error:
+        return 'ERROR';
     }
   }
 }
@@ -5569,8 +5792,43 @@ extension ResourceStatusFromString on String {
         return ResourceStatus.active;
       case 'DELETING':
         return ResourceStatus.deleting;
+      case 'ERROR':
+        return ResourceStatus.error;
     }
     throw Exception('$this is not known in enum ResourceStatus');
+  }
+}
+
+enum RevocationCheckAction {
+  pass,
+  drop,
+  reject,
+}
+
+extension RevocationCheckActionValueExtension on RevocationCheckAction {
+  String toValue() {
+    switch (this) {
+      case RevocationCheckAction.pass:
+        return 'PASS';
+      case RevocationCheckAction.drop:
+        return 'DROP';
+      case RevocationCheckAction.reject:
+        return 'REJECT';
+    }
+  }
+}
+
+extension RevocationCheckActionFromString on String {
+  RevocationCheckAction toRevocationCheckAction() {
+    switch (this) {
+      case 'PASS':
+        return RevocationCheckAction.pass;
+      case 'DROP':
+        return RevocationCheckAction.drop;
+      case 'REJECT':
+        return RevocationCheckAction.reject;
+    }
+    throw Exception('$this is not known in enum RevocationCheckAction');
   }
 }
 
@@ -5675,7 +5933,10 @@ class RuleGroup {
 
   /// Additional options governing how Network Firewall handles stateful rules.
   /// The policies where you use your stateful rule group must have stateful rule
-  /// options settings that are compatible with these settings.
+  /// options settings that are compatible with these settings. Some limitations
+  /// apply; for more information, see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-limitations-caveats.html">Strict
+  /// evaluation order</a> in the <i>Network Firewall Developer Guide</i>.
   final StatefulRuleOptions? statefulRuleOptions;
 
   RuleGroup({
@@ -5771,6 +6032,16 @@ class RuleGroupResponse {
   /// group after you create it.
   final String ruleGroupName;
 
+  /// The list of analysis results for <code>AnalyzeRuleGroup</code>. If you set
+  /// <code>AnalyzeRuleGroup</code> to <code>TRUE</code> in
+  /// <a>CreateRuleGroup</a>, <a>UpdateRuleGroup</a>, or <a>DescribeRuleGroup</a>,
+  /// Network Firewall analyzes the rule group and identifies the rules that might
+  /// adversely effect your firewall's functionality. For example, if Network
+  /// Firewall detects a rule that's routing traffic asymmetrically, which impacts
+  /// the service's ability to properly process traffic, the service includes the
+  /// rule in the list of analysis results.
+  final List<AnalysisResult>? analysisResults;
+
   /// The maximum operating resources that this rule group can use. Rule group
   /// capacity is fixed at creation. When you update a rule group, you are limited
   /// to this capacity. When you reference a rule group from a firewall policy,
@@ -5826,6 +6097,7 @@ class RuleGroupResponse {
     required this.ruleGroupArn,
     required this.ruleGroupId,
     required this.ruleGroupName,
+    this.analysisResults,
     this.capacity,
     this.consumedCapacity,
     this.description,
@@ -5844,6 +6116,10 @@ class RuleGroupResponse {
       ruleGroupArn: json['RuleGroupArn'] as String,
       ruleGroupId: json['RuleGroupId'] as String,
       ruleGroupName: json['RuleGroupName'] as String,
+      analysisResults: (json['AnalysisResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnalysisResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
       capacity: json['Capacity'] as int?,
       consumedCapacity: json['ConsumedCapacity'] as int?,
       description: json['Description'] as String?,
@@ -5871,6 +6147,7 @@ class RuleGroupResponse {
     final ruleGroupArn = this.ruleGroupArn;
     final ruleGroupId = this.ruleGroupId;
     final ruleGroupName = this.ruleGroupName;
+    final analysisResults = this.analysisResults;
     final capacity = this.capacity;
     final consumedCapacity = this.consumedCapacity;
     final description = this.description;
@@ -5886,6 +6163,7 @@ class RuleGroupResponse {
       'RuleGroupArn': ruleGroupArn,
       'RuleGroupId': ruleGroupId,
       'RuleGroupName': ruleGroupName,
+      if (analysisResults != null) 'AnalysisResults': analysisResults,
       if (capacity != null) 'Capacity': capacity,
       if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
       if (description != null) 'Description': description,
@@ -5935,10 +6213,19 @@ extension RuleGroupTypeFromString on String {
 /// Additional settings for a stateful rule. This is part of the
 /// <a>StatefulRule</a> configuration.
 class RuleOption {
-  /// <p/>
+  /// The keyword for the Suricata compatible rule option. You must include a
+  /// <code>sid</code> (signature ID), and can optionally include other keywords.
+  /// For information about Suricata compatible keywords, see <a
+  /// href="https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options">Rule
+  /// options</a> in the Suricata documentation.
   final String keyword;
 
-  /// <p/>
+  /// The settings of the Suricata compatible rule option. Rule options have zero
+  /// or more setting values, and the number of possible and required settings
+  /// depends on the <code>Keyword</code>. For more information about the settings
+  /// for specific options, see <a
+  /// href="https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options">Rule
+  /// options</a>.
   final List<String>? settings;
 
   RuleOption({
@@ -6034,20 +6321,26 @@ class RulesSource {
   /// Stateful inspection criteria for a domain list rule group.
   final RulesSourceList? rulesSourceList;
 
-  /// Stateful inspection criteria, provided in Suricata compatible intrusion
-  /// prevention system (IPS) rules. Suricata is an open-source network IPS that
-  /// includes a standard rule-based language for network traffic inspection.
+  /// Stateful inspection criteria, provided in Suricata compatible rules.
+  /// Suricata is an open-source threat detection framework that includes a
+  /// standard rule-based language for network traffic inspection.
   ///
   /// These rules contain the inspection criteria and the action to take for
   /// traffic that matches the criteria, so this type of rule group doesn't have a
   /// separate action setting.
+  /// <note>
+  /// You can't use the <code>priority</code> keyword if the
+  /// <code>RuleOrder</code> option in <a>StatefulRuleOptions</a> is set to
+  /// <code>STRICT_ORDER</code>.
+  /// </note>
   final String? rulesString;
 
   /// An array of individual stateful rules inspection criteria to be used
   /// together in a stateful rule group. Use this option to specify simple
   /// Suricata rules with protocol, source and destination, ports, direction, and
   /// rule options. For information about the Suricata <code>Rules</code> format,
-  /// see <a href="https://suricata.readthedocs.iorules/intro.html#">Rules
+  /// see <a
+  /// href="https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html">Rules
   /// Format</a>.
   final List<StatefulRule>? statefulRules;
 
@@ -6169,21 +6462,22 @@ class RulesSourceList {
   }
 }
 
-/// Any Certificate Manager Secure Sockets Layer/Transport Layer Security
+/// Any Certificate Manager (ACM) Secure Sockets Layer/Transport Layer Security
 /// (SSL/TLS) server certificate that's associated with a
-/// <a>ServerCertificateConfiguration</a> used in a
-/// <a>TLSInspectionConfiguration</a>. You must request or import a SSL/TLS
-/// certificate into ACM for each domain Network Firewall needs to decrypt and
-/// inspect. Network Firewall uses the SSL/TLS certificates to decrypt specified
-/// inbound SSL/TLS traffic going to your firewall. For information about
-/// working with certificates in Certificate Manager, see <a
+/// <a>ServerCertificateConfiguration</a>. Used in a
+/// <a>TLSInspectionConfiguration</a> for inspection of inbound traffic to your
+/// firewall. You must request or import a SSL/TLS certificate into ACM for each
+/// domain Network Firewall needs to decrypt and inspect. Network Firewall uses
+/// the SSL/TLS certificates to decrypt specified inbound SSL/TLS traffic going
+/// to your firewall. For information about working with certificates in
+/// Certificate Manager, see <a
 /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html">Request
 /// a public certificate </a> or <a
 /// href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
 /// certificates</a> in the <i>Certificate Manager User Guide</i>.
 class ServerCertificate {
   /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server
-  /// certificate.
+  /// certificate that's used for inbound SSL/TLS inspection.
   final String? resourceArn;
 
   ServerCertificate({
@@ -6204,34 +6498,80 @@ class ServerCertificate {
   }
 }
 
-/// Configures the associated Certificate Manager Secure Sockets Layer/Transport
-/// Layer Security (SSL/TLS) server certificates and scope settings Network
-/// Firewall uses to decrypt traffic in a <a>TLSInspectionConfiguration</a>. For
-/// information about working with SSL/TLS certificates for TLS inspection, see
-/// <a
+/// Configures the Certificate Manager certificates and scope that Network
+/// Firewall uses to decrypt and re-encrypt traffic using a
+/// <a>TLSInspectionConfiguration</a>. You can configure
+/// <code>ServerCertificates</code> for inbound SSL/TLS inspection, a
+/// <code>CertificateAuthorityArn</code> for outbound SSL/TLS inspection, or
+/// both. For information about working with certificates for TLS inspection,
+/// see <a
 /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html">
-/// Requirements for using SSL/TLS server certficiates with TLS inspection
-/// configurations</a> in the <i>Network Firewall Developer Guide</i>.
+/// Using SSL/TLS server certficiates with TLS inspection configurations</a> in
+/// the <i>Network Firewall Developer Guide</i>.
 /// <note>
 /// If a server certificate that's associated with your
 /// <a>TLSInspectionConfiguration</a> is revoked, deleted, or expired it can
 /// result in client-side TLS errors.
 /// </note>
 class ServerCertificateConfiguration {
-  /// A list of a server certificate configuration's scopes.
+  /// The Amazon Resource Name (ARN) of the imported certificate authority (CA)
+  /// certificate within Certificate Manager (ACM) to use for outbound SSL/TLS
+  /// inspection.
+  ///
+  /// The following limitations apply:
+  ///
+  /// <ul>
+  /// <li>
+  /// You can use CA certificates that you imported into ACM, but you can't
+  /// generate CA certificates with ACM.
+  /// </li>
+  /// <li>
+  /// You can't use certificates issued by Private Certificate Authority.
+  /// </li>
+  /// </ul>
+  /// For more information about configuring certificates for outbound inspection,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html">Using
+  /// SSL/TLS certificates with certificates with TLS inspection
+  /// configurations</a> in the <i>Network Firewall Developer Guide</i>.
+  ///
+  /// For information about working with certificates in ACM, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
+  /// certificates</a> in the <i>Certificate Manager User Guide</i>.
+  final String? certificateAuthorityArn;
+
+  /// When enabled, Network Firewall checks if the server certificate presented by
+  /// the server in the SSL/TLS connection has a revoked or unkown status. If the
+  /// certificate has an unknown or revoked status, you must specify the actions
+  /// that Network Firewall takes on outbound traffic. To check the certificate
+  /// revocation status, you must also specify a
+  /// <code>CertificateAuthorityArn</code> in
+  /// <a>ServerCertificateConfiguration</a>.
+  final CheckCertificateRevocationStatusActions?
+      checkCertificateRevocationStatus;
+
+  /// A list of scopes.
   final List<ServerCertificateScope>? scopes;
 
-  /// The list of a server certificate configuration's Certificate Manager SSL/TLS
-  /// certificates.
+  /// The list of server certificates to use for inbound SSL/TLS inspection.
   final List<ServerCertificate>? serverCertificates;
 
   ServerCertificateConfiguration({
+    this.certificateAuthorityArn,
+    this.checkCertificateRevocationStatus,
     this.scopes,
     this.serverCertificates,
   });
 
   factory ServerCertificateConfiguration.fromJson(Map<String, dynamic> json) {
     return ServerCertificateConfiguration(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      checkCertificateRevocationStatus:
+          json['CheckCertificateRevocationStatus'] != null
+              ? CheckCertificateRevocationStatusActions.fromJson(
+                  json['CheckCertificateRevocationStatus']
+                      as Map<String, dynamic>)
+              : null,
       scopes: (json['Scopes'] as List?)
           ?.whereNotNull()
           .map(
@@ -6245,9 +6585,16 @@ class ServerCertificateConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final checkCertificateRevocationStatus =
+        this.checkCertificateRevocationStatus;
     final scopes = this.scopes;
     final serverCertificates = this.serverCertificates;
     return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (checkCertificateRevocationStatus != null)
+        'CheckCertificateRevocationStatus': checkCertificateRevocationStatus,
       if (scopes != null) 'Scopes': scopes,
       if (serverCertificates != null) 'ServerCertificates': serverCertificates,
     };
@@ -6416,10 +6763,16 @@ extension StatefulActionFromString on String {
 /// firewall policy.
 class StatefulEngineOptions {
   /// Indicates how to manage the order of stateful rule evaluation for the
-  /// policy. <code>DEFAULT_ACTION_ORDER</code> is the default behavior. Stateful
-  /// rules are provided to the rule engine as Suricata compatible strings, and
-  /// Suricata evaluates them based on certain settings. For more information, see
-  /// <a
+  /// policy. <code>STRICT_ORDER</code> is the default and recommended option.
+  /// With <code>STRICT_ORDER</code>, provide your rules in the order that you
+  /// want them to be evaluated. You can then choose one or more default actions
+  /// for packets that don't match any rules. Choose <code>STRICT_ORDER</code> to
+  /// have the stateful rules engine determine the evaluation order of your rules.
+  /// The default action for this rule order is <code>PASS</code>, followed by
+  /// <code>DROP</code>, <code>REJECT</code>, and <code>ALERT</code> actions.
+  /// Stateful rules are provided to the rule engine as Suricata compatible
+  /// strings, and Suricata evaluates them based on your settings. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
   /// order for stateful rules</a> in the <i>Network Firewall Developer Guide</i>.
   final RuleOrder? ruleOrder;
@@ -6482,7 +6835,8 @@ class StatefulEngineOptions {
 /// this option to specify a simple Suricata rule with protocol, source and
 /// destination, ports, direction, and rule options. For information about the
 /// Suricata <code>Rules</code> format, see <a
-/// href="https://suricata.readthedocs.iorules/intro.html#">Rules Format</a>.
+/// href="https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html">Rules
+/// Format</a>.
 class StatefulRule {
   /// Defines what Network Firewall should do with the packets in a traffic flow
   /// when the flow matches the stateful rule criteria. For all actions, Network
@@ -6501,24 +6855,13 @@ class StatefulRule {
   /// <a>Firewall</a> <a>LoggingConfiguration</a>.
   /// </li>
   /// <li>
-  /// <b>ALERT</b> - Permits the packets to go to the intended destination and
-  /// sends an alert log message, if alert logging is configured in the
-  /// <a>Firewall</a> <a>LoggingConfiguration</a>.
+  /// <b>ALERT</b> - Sends an alert log message, if alert logging is configured in
+  /// the <a>Firewall</a> <a>LoggingConfiguration</a>.
   ///
   /// You can use this action to test a rule that you intend to use to drop
   /// traffic. You can enable the rule with <code>ALERT</code> action, verify in
   /// the logs that the rule is filtering as you want, then change the action to
   /// <code>DROP</code>.
-  /// </li>
-  /// <li>
-  /// <b>REJECT</b> - Drops TCP traffic that matches the conditions of the
-  /// stateful rule, and sends a TCP reset packet back to sender of the packet. A
-  /// TCP reset packet is a packet with no payload and a <code>RST</code> bit
-  /// contained in the TCP header flags. Also sends an alert log mesage if alert
-  /// logging is configured in the <a>Firewall</a> <a>LoggingConfiguration</a>.
-  ///
-  /// <code>REJECT</code> isn't currently available for use with IMAP and FTP
-  /// protocols.
   /// </li>
   /// </ul>
   final StatefulAction action;
@@ -7178,13 +7521,14 @@ class TCPFlagField {
 /// Network Firewall re-encrypts the traffic before sending it to its
 /// destination.
 ///
-/// To use a TLS inspection configuration, you add it to a Network Firewall
+/// To use a TLS inspection configuration, you add it to a new Network Firewall
 /// firewall policy, then you apply the firewall policy to a firewall. Network
-/// Firewall acts as a proxy service to decrypt and inspect inbound traffic. You
-/// can reference a TLS inspection configuration from more than one firewall
-/// policy, and you can use a firewall policy in more than one firewall. For
-/// more information about using TLS inspection configurations, see <a
-/// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Decrypting
+/// Firewall acts as a proxy service to decrypt and inspect the traffic
+/// traveling through your firewalls. You can reference a TLS inspection
+/// configuration from more than one firewall policy, and you can use a firewall
+/// policy in more than one firewall. For more information about using TLS
+/// inspection configurations, see <a
+/// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Inspecting
 /// SSL/TLS traffic with TLS inspection configurations</a> in the <i>Network
 /// Firewall Developer Guide</i>.
 class TLSInspectionConfiguration {
@@ -7267,6 +7611,7 @@ class TLSInspectionConfigurationResponse {
   /// The descriptive name of the TLS inspection configuration. You can't change
   /// the name of a TLS inspection configuration after you create it.
   final String tLSInspectionConfigurationName;
+  final TlsCertificateData? certificateAuthority;
 
   /// A list of the certificates associated with the TLS inspection configuration.
   final List<TlsCertificateData>? certificates;
@@ -7298,6 +7643,7 @@ class TLSInspectionConfigurationResponse {
     required this.tLSInspectionConfigurationArn,
     required this.tLSInspectionConfigurationId,
     required this.tLSInspectionConfigurationName,
+    this.certificateAuthority,
     this.certificates,
     this.description,
     this.encryptionConfiguration,
@@ -7316,6 +7662,10 @@ class TLSInspectionConfigurationResponse {
           json['TLSInspectionConfigurationId'] as String,
       tLSInspectionConfigurationName:
           json['TLSInspectionConfigurationName'] as String,
+      certificateAuthority: json['CertificateAuthority'] != null
+          ? TlsCertificateData.fromJson(
+              json['CertificateAuthority'] as Map<String, dynamic>)
+          : null,
       certificates: (json['Certificates'] as List?)
           ?.whereNotNull()
           .map((e) => TlsCertificateData.fromJson(e as Map<String, dynamic>))
@@ -7341,6 +7691,7 @@ class TLSInspectionConfigurationResponse {
     final tLSInspectionConfigurationArn = this.tLSInspectionConfigurationArn;
     final tLSInspectionConfigurationId = this.tLSInspectionConfigurationId;
     final tLSInspectionConfigurationName = this.tLSInspectionConfigurationName;
+    final certificateAuthority = this.certificateAuthority;
     final certificates = this.certificates;
     final description = this.description;
     final encryptionConfiguration = this.encryptionConfiguration;
@@ -7353,6 +7704,8 @@ class TLSInspectionConfigurationResponse {
       'TLSInspectionConfigurationArn': tLSInspectionConfigurationArn,
       'TLSInspectionConfigurationId': tLSInspectionConfigurationId,
       'TLSInspectionConfigurationName': tLSInspectionConfigurationName,
+      if (certificateAuthority != null)
+        'CertificateAuthority': certificateAuthority,
       if (certificates != null) 'Certificates': certificates,
       if (description != null) 'Description': description,
       if (encryptionConfiguration != null)

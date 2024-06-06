@@ -226,10 +226,6 @@ class Health {
   /// May throw [InvalidPaginationToken].
   /// May throw [UnsupportedLocale].
   ///
-  /// Parameter [organizationEntityFilters] :
-  /// A JSON set of elements including the <code>awsAccountId</code> and the
-  /// <code>eventArn</code>.
-  ///
   /// Parameter [locale] :
   /// The locale (language) to return information in. English (en) is the
   /// default and the only supported value at this time.
@@ -244,12 +240,21 @@ class Health {
   /// response. To retrieve the next batch of results, reissue the search
   /// request and include the returned token. When all results have been
   /// returned, the response does not contain a pagination token value.
+  ///
+  /// Parameter [organizationEntityAccountFilters] :
+  /// A JSON set of elements including the <code>awsAccountId</code>,
+  /// <code>eventArn</code> and a set of <code>statusCodes</code>.
+  ///
+  /// Parameter [organizationEntityFilters] :
+  /// A JSON set of elements including the <code>awsAccountId</code> and the
+  /// <code>eventArn</code>.
   Future<DescribeAffectedEntitiesForOrganizationResponse>
       describeAffectedEntitiesForOrganization({
-    required List<EventAccountFilter> organizationEntityFilters,
     String? locale,
     int? maxResults,
     String? nextToken,
+    List<EntityAccountFilter>? organizationEntityAccountFilters,
+    List<EventAccountFilter>? organizationEntityFilters,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -269,10 +274,13 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'organizationEntityFilters': organizationEntityFilters,
         if (locale != null) 'locale': locale,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (organizationEntityAccountFilters != null)
+          'organizationEntityAccountFilters': organizationEntityAccountFilters,
+        if (organizationEntityFilters != null)
+          'organizationEntityFilters': organizationEntityFilters,
       },
     );
 
@@ -306,6 +314,43 @@ class Health {
     );
 
     return DescribeEntityAggregatesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of entity aggregates for your Organizations that are
+  /// affected by each of the specified events.
+  ///
+  /// Parameter [eventArns] :
+  /// A list of event ARNs (unique identifiers). For example:
+  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+  ///
+  /// Parameter [awsAccountIds] :
+  /// A list of 12-digit Amazon Web Services account numbers that contains the
+  /// affected entities.
+  Future<DescribeEntityAggregatesForOrganizationResponse>
+      describeEntityAggregatesForOrganization({
+    required List<String> eventArns,
+    List<String>? awsAccountIds,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSHealth_20160804.DescribeEntityAggregatesForOrganization'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventArns': eventArns,
+        if (awsAccountIds != null) 'awsAccountIds': awsAccountIds,
+      },
+    );
+
+    return DescribeEntityAggregatesForOrganizationResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns the number of events of each event type (issue, scheduled change,
@@ -853,6 +898,36 @@ class Health {
   }
 }
 
+/// The number of entities in an account that are impacted by a specific event
+/// aggregated by the entity status codes.
+class AccountEntityAggregate {
+  /// The 12-digit Amazon Web Services account numbers that contains the affected
+  /// entities.
+  final String? accountId;
+
+  /// The number of entities that match the filter criteria for the specified
+  /// events.
+  final int? count;
+
+  /// The number of affected entities aggregated by the entity status codes.
+  final Map<EntityStatusCode, int>? statuses;
+
+  AccountEntityAggregate({
+    this.accountId,
+    this.count,
+    this.statuses,
+  });
+
+  factory AccountEntityAggregate.fromJson(Map<String, dynamic> json) {
+    return AccountEntityAggregate(
+      accountId: json['accountId'] as String?,
+      count: json['count'] as int?,
+      statuses: (json['statuses'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toEntityStatusCode(), e as int)),
+    );
+  }
+}
+
 /// Information about an entity that is affected by a Health event.
 class AffectedEntity {
   /// The 12-digit Amazon Web Services account number that contains the affected
@@ -1077,6 +1152,28 @@ class DescribeAffectedEntitiesResponse {
   }
 }
 
+class DescribeEntityAggregatesForOrganizationResponse {
+  /// The list of entity aggregates for each of the specified accounts that are
+  /// affected by each of the specified events.
+  final List<OrganizationEntityAggregate>? organizationEntityAggregates;
+
+  DescribeEntityAggregatesForOrganizationResponse({
+    this.organizationEntityAggregates,
+  });
+
+  factory DescribeEntityAggregatesForOrganizationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeEntityAggregatesForOrganizationResponse(
+      organizationEntityAggregates: (json['organizationEntityAggregates']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              OrganizationEntityAggregate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class DescribeEntityAggregatesResponse {
   /// The number of entities that are affected by each of the specified events.
   final List<EntityAggregate>? entityAggregates;
@@ -1285,6 +1382,44 @@ class DescribeHealthServiceStatusForOrganizationResponse {
   }
 }
 
+/// A JSON set of elements including the <code>awsAccountId</code>,
+/// <code>eventArn</code> and a set of <code>statusCodes</code>.
+class EntityAccountFilter {
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String eventArn;
+
+  /// The 12-digit Amazon Web Services account numbers that contains the affected
+  /// entities.
+  final String? awsAccountId;
+
+  /// A list of entity status codes.
+  final List<EntityStatusCode>? statusCodes;
+
+  EntityAccountFilter({
+    required this.eventArn,
+    this.awsAccountId,
+    this.statusCodes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final eventArn = this.eventArn;
+    final awsAccountId = this.awsAccountId;
+    final statusCodes = this.statusCodes;
+    return {
+      'eventArn': eventArn,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (statusCodes != null)
+        'statusCodes': statusCodes.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
 /// The number of entities that are affected by one or more events. Returned by
 /// the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEntityAggregates.html">DescribeEntityAggregates</a>
@@ -1302,15 +1437,21 @@ class EntityAggregate {
   /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
   final String? eventArn;
 
+  /// The number of affected entities aggregated by the entity status codes.
+  final Map<EntityStatusCode, int>? statuses;
+
   EntityAggregate({
     this.count,
     this.eventArn,
+    this.statuses,
   });
 
   factory EntityAggregate.fromJson(Map<String, dynamic> json) {
     return EntityAggregate(
       count: json['count'] as int?,
       eventArn: json['eventArn'] as String?,
+      statuses: (json['statuses'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toEntityStatusCode(), e as int)),
     );
   }
 }
@@ -1881,6 +2022,50 @@ class OrganizationAffectedEntitiesErrorItem {
   }
 }
 
+/// The aggregate results of entities affected by the specified event in your
+/// organization. The results are aggregated by the entity status codes for the
+/// specified set of accountsIDs.
+class OrganizationEntityAggregate {
+  /// A list of entity aggregates for each of the specified accounts in your
+  /// organization that are affected by a specific event. If there are no
+  /// <code>awsAccountIds</code> provided in the request, this field will be empty
+  /// in the response.
+  final List<AccountEntityAggregate>? accounts;
+
+  /// The number of entities for the organization that match the filter criteria
+  /// for the specified events.
+  final int? count;
+
+  /// A list of event ARNs (unique identifiers). For example:
+  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+  final String? eventArn;
+
+  /// The number of affected entities aggregated by the entitiy status codes.
+  final Map<EntityStatusCode, int>? statuses;
+
+  OrganizationEntityAggregate({
+    this.accounts,
+    this.count,
+    this.eventArn,
+    this.statuses,
+  });
+
+  factory OrganizationEntityAggregate.fromJson(Map<String, dynamic> json) {
+    return OrganizationEntityAggregate(
+      accounts: (json['accounts'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AccountEntityAggregate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      count: json['count'] as int?,
+      eventArn: json['eventArn'] as String?,
+      statuses: (json['statuses'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toEntityStatusCode(), e as int)),
+    );
+  }
+}
+
 /// Summary information about an event, returned by the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
 /// operation.
@@ -2169,6 +2354,8 @@ enum EntityStatusCode {
   impaired,
   unimpaired,
   unknown,
+  pending,
+  resolved,
 }
 
 extension EntityStatusCodeValueExtension on EntityStatusCode {
@@ -2180,6 +2367,10 @@ extension EntityStatusCodeValueExtension on EntityStatusCode {
         return 'UNIMPAIRED';
       case EntityStatusCode.unknown:
         return 'UNKNOWN';
+      case EntityStatusCode.pending:
+        return 'PENDING';
+      case EntityStatusCode.resolved:
+        return 'RESOLVED';
     }
   }
 }
@@ -2193,6 +2384,10 @@ extension EntityStatusCodeFromString on String {
         return EntityStatusCode.unimpaired;
       case 'UNKNOWN':
         return EntityStatusCode.unknown;
+      case 'PENDING':
+        return EntityStatusCode.pending;
+      case 'RESOLVED':
+        return EntityStatusCode.resolved;
     }
     throw Exception('$this is not known in enum EntityStatusCode');
   }

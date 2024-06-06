@@ -84,20 +84,61 @@ class CloudWatchLogs {
     _protocol.close();
   }
 
-  /// Associates the specified KMS key with the specified log group.
+  /// Associates the specified KMS key with either one log group in the account,
+  /// or with all stored CloudWatch Logs query insights results in the account.
+  ///
+  /// When you use <code>AssociateKmsKey</code>, you specify either the
+  /// <code>logGroupName</code> parameter or the <code>resourceIdentifier</code>
+  /// parameter. You can't specify both of those parameters in the same
+  /// operation.
+  ///
+  /// <ul>
+  /// <li>
+  /// Specify the <code>logGroupName</code> parameter to cause all log events
+  /// stored in the log group to be encrypted with that key. Only the log events
+  /// ingested after the key is associated are encrypted with that key.
   ///
   /// Associating a KMS key with a log group overrides any existing associations
   /// between the log group and a KMS key. After a KMS key is associated with a
   /// log group, all newly ingested data for the log group is encrypted using
   /// the KMS key. This association is stored as long as the data encrypted with
-  /// the KMS keyis still within CloudWatch Logs. This enables CloudWatch Logs
+  /// the KMS key is still within CloudWatch Logs. This enables CloudWatch Logs
   /// to decrypt this data whenever it is requested.
-  /// <important>
+  ///
+  /// Associating a key with a log group does not cause the results of queries
+  /// of that log group to be encrypted with that key. To have query results
+  /// encrypted with a KMS key, you must use an <code>AssociateKmsKey</code>
+  /// operation with the <code>resourceIdentifier</code> parameter that
+  /// specifies a <code>query-result</code> resource.
+  /// </li>
+  /// <li>
+  /// Specify the <code>resourceIdentifier</code> parameter with a
+  /// <code>query-result</code> resource, to use that key to encrypt the stored
+  /// results of all future <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html">StartQuery</a>
+  /// operations in the account. The response from a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html">GetQueryResults</a>
+  /// operation will still return the query results in plain text.
+  ///
+  /// Even if you have not associated a key with your query results, the query
+  /// results are encrypted when stored, using the default CloudWatch Logs
+  /// method.
+  ///
+  /// If you run a query from a monitoring account that queries logs in a source
+  /// account, the query results key from the monitoring account, if any, is
+  /// used.
+  /// </li>
+  /// </ul> <important>
+  /// If you delete the key that is used to encrypt log events or log group
+  /// query results, then all the associated stored log events or query results
+  /// that were encrypted with that key will be unencryptable and unusable.
+  /// </important> <note>
   /// CloudWatch Logs supports only symmetric KMS keys. Do not use an associate
-  /// an asymmetric KMS key with your log group. For more information, see <a
+  /// an asymmetric KMS key with your log group or query results. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
   /// Symmetric and Asymmetric Keys</a>.
-  /// </important>
+  /// </note>
   /// It can take up to 5 minutes for this operation to take effect.
   ///
   /// If you attempt to associate a KMS key with a log group but the KMS key
@@ -119,9 +160,42 @@ class CloudWatchLogs {
   ///
   /// Parameter [logGroupName] :
   /// The name of the log group.
+  ///
+  /// In your <code>AssociateKmsKey</code> operation, you must specify either
+  /// the <code>resourceIdentifier</code> parameter or the <code>logGroup</code>
+  /// parameter, but you can't specify both.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// Specifies the target for this operation. You must specify one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specify the following ARN to have future <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html">GetQueryResults</a>
+  /// operations in this account encrypt the results with the specified KMS key.
+  /// Replace <i>REGION</i> and <i>ACCOUNT_ID</i> with your Region and account
+  /// ID.
+  ///
+  /// <code>arn:aws:logs:<i>REGION</i>:<i>ACCOUNT_ID</i>:query-result:*</code>
+  /// </li>
+  /// <li>
+  /// Specify the ARN of a log group to have CloudWatch Logs use the KMS key to
+  /// encrypt log events that are ingested and stored by that log group. The log
+  /// group ARN must be in the following format. Replace <i>REGION</i> and
+  /// <i>ACCOUNT_ID</i> with your Region and account ID.
+  ///
+  /// <code>arn:aws:logs:<i>REGION</i>:<i>ACCOUNT_ID</i>:log-group:<i>LOG_GROUP_NAME</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  /// In your <code>AssociateKmsKey</code> operation, you must specify either
+  /// the <code>resourceIdentifier</code> parameter or the <code>logGroup</code>
+  /// parameter, but you can't specify both.
   Future<void> associateKmsKey({
     required String kmsKeyId,
-    required String logGroupName,
+    String? logGroupName,
+    String? resourceIdentifier,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -135,7 +209,9 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'kmsKeyId': kmsKeyId,
-        'logGroupName': logGroupName,
+        if (logGroupName != null) 'logGroupName': logGroupName,
+        if (resourceIdentifier != null)
+          'resourceIdentifier': resourceIdentifier,
       },
     );
   }
@@ -169,6 +245,97 @@ class CloudWatchLogs {
         'taskId': taskId,
       },
     );
+  }
+
+  /// Creates a <i>delivery</i>. A delivery is a connection between a logical
+  /// <i>delivery source</i> and a logical <i>delivery destination</i> that you
+  /// have already created.
+  ///
+  /// Only some Amazon Web Services services support being configured as a
+  /// delivery source using this operation. These services are listed as
+  /// <b>Supported [V2 Permissions]</b> in the table at <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
+  /// logging from Amazon Web Services services.</a>
+  ///
+  /// A delivery destination can represent a log group in CloudWatch Logs, an
+  /// Amazon S3 bucket, or a delivery stream in Firehose.
+  ///
+  /// To configure logs delivery between a supported Amazon Web Services service
+  /// and a destination, you must do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Create a delivery source, which is a logical object that represents the
+  /// resource that is actually sending the logs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">PutDeliverySource</a>.
+  /// </li>
+  /// <li>
+  /// Create a <i>delivery destination</i>, which is a logical object that
+  /// represents the actual delivery destination. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html">PutDeliveryDestination</a>.
+  /// </li>
+  /// <li>
+  /// If you are delivering logs cross-account, you must use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html">PutDeliveryDestinationPolicy</a>
+  /// in the destination account to assign an IAM policy to the destination.
+  /// This policy allows delivery to that destination.
+  /// </li>
+  /// <li>
+  /// Use <code>CreateDelivery</code> to create a <i>delivery</i> by pairing
+  /// exactly one delivery source and one delivery destination.
+  /// </li>
+  /// </ul>
+  /// You can configure a single delivery source to send logs to multiple
+  /// destinations by creating multiple deliveries. You can also create multiple
+  /// deliveries to configure multiple delivery sources to send logs to the same
+  /// delivery destination.
+  ///
+  /// You can't update an existing delivery. You can only create and delete
+  /// deliveries.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [deliveryDestinationArn] :
+  /// The ARN of the delivery destination to use for this delivery.
+  ///
+  /// Parameter [deliverySourceName] :
+  /// The name of the delivery source to use for this delivery.
+  ///
+  /// Parameter [tags] :
+  /// An optional list of key-value pairs to associate with the resource.
+  ///
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a>
+  Future<CreateDeliveryResponse> createDelivery({
+    required String deliveryDestinationArn,
+    required String deliverySourceName,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.CreateDelivery'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deliveryDestinationArn': deliveryDestinationArn,
+        'deliverySourceName': deliverySourceName,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateDeliveryResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates an export task so that you can efficiently export data from a log
@@ -286,8 +453,137 @@ class CloudWatchLogs {
     return CreateExportTaskResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a log group with the specified name. You can create up to 20,000
-  /// log groups per account.
+  /// Creates an <i>anomaly detector</i> that regularly scans one or more log
+  /// groups and look for patterns and anomalies in the logs.
+  ///
+  /// An anomaly detector can help surface issues by automatically discovering
+  /// anomalies in your log event traffic. An anomaly detector uses machine
+  /// learning algorithms to scan log events and find <i>patterns</i>. A pattern
+  /// is a shared text structure that recurs among your log fields. Patterns
+  /// provide a useful tool for analyzing large sets of logs because a large
+  /// number of log events can often be compressed into a few patterns.
+  ///
+  /// The anomaly detector uses pattern recognition to find
+  /// <code>anomalies</code>, which are unusual log events. It uses the
+  /// <code>evaluationFrequency</code> to compare current log events and
+  /// patterns with trained baselines.
+  ///
+  /// Fields within a pattern are called <i>tokens</i>. Fields that vary within
+  /// a pattern, such as a request ID or timestamp, are referred to as
+  /// <i>dynamic tokens</i> and represented by <code>&lt;*&gt;</code>.
+  ///
+  /// The following is an example of a pattern:
+  ///
+  /// <code>[INFO] Request time: &lt;*&gt; ms</code>
+  ///
+  /// This pattern represents log events like <code>[INFO] Request time: 327
+  /// ms</code> and other similar log events that differ only by the number, in
+  /// this csse 327. When the pattern is displayed, the different numbers are
+  /// replaced by <code>&lt;*&gt;</code>
+  /// <note>
+  /// Any parts of log events that are masked as sensitive data are not scanned
+  /// for anomalies. For more information about masking sensitive data, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html">Help
+  /// protect sensitive log data with masking</a>.
+  /// </note>
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [logGroupArnList] :
+  /// An array containing the ARN of the log group that this anomaly detector
+  /// will watch. You can specify only one log group ARN.
+  ///
+  /// Parameter [anomalyVisibilityTime] :
+  /// The number of days to have visibility on an anomaly. After this time
+  /// period has elapsed for an anomaly, it will be automatically baselined and
+  /// the anomaly detector will treat new occurrences of a similar anomaly as
+  /// normal. Therefore, if you do not correct the cause of an anomaly during
+  /// the time period specified in <code>anomalyVisibilityTime</code>, it will
+  /// be considered normal going forward and will not be detected as an anomaly.
+  ///
+  /// Parameter [detectorName] :
+  /// A name for this anomaly detector.
+  ///
+  /// Parameter [evaluationFrequency] :
+  /// Specifies how often the anomaly detector is to run and look for anomalies.
+  /// Set this value according to the frequency that the log group receives new
+  /// logs. For example, if the log group receives new log events every 10
+  /// minutes, then 15 minutes might be a good setting for
+  /// <code>evaluationFrequency</code> .
+  ///
+  /// Parameter [filterPattern] :
+  /// You can use this parameter to limit the anomaly detection model to examine
+  /// only log events that match the pattern you specify here. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html">Filter
+  /// and Pattern Syntax</a>.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// Optionally assigns a KMS key to secure this anomaly detector and its
+  /// findings. If a key is assigned, the anomalies found and the model used by
+  /// this detector are encrypted at rest with the key. If a key is assigned to
+  /// an anomaly detector, a user must have permissions for both this key and
+  /// for the anomaly detector to retrieve information about the anomalies that
+  /// it finds.
+  ///
+  /// For more information about using a KMS key and to see the required IAM
+  /// policy, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html">Use
+  /// a KMS key with an anomaly detector</a>.
+  ///
+  /// Parameter [tags] :
+  /// An optional list of key-value pairs to associate with the resource.
+  ///
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a>
+  Future<CreateLogAnomalyDetectorResponse> createLogAnomalyDetector({
+    required List<String> logGroupArnList,
+    int? anomalyVisibilityTime,
+    String? detectorName,
+    EvaluationFrequency? evaluationFrequency,
+    String? filterPattern,
+    String? kmsKeyId,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'anomalyVisibilityTime',
+      anomalyVisibilityTime,
+      7,
+      90,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.CreateLogAnomalyDetector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'logGroupArnList': logGroupArnList,
+        if (anomalyVisibilityTime != null)
+          'anomalyVisibilityTime': anomalyVisibilityTime,
+        if (detectorName != null) 'detectorName': detectorName,
+        if (evaluationFrequency != null)
+          'evaluationFrequency': evaluationFrequency.toValue(),
+        if (filterPattern != null) 'filterPattern': filterPattern,
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateLogAnomalyDetectorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a log group with the specified name. You can create up to
+  /// 1,000,000 log groups per Region per account.
   ///
   /// You must use the following guidelines when naming a log group:
   ///
@@ -304,6 +600,9 @@ class CloudWatchLogs {
   /// (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#'
   /// (number sign)
   /// </li>
+  /// <li>
+  /// Log group names can't start with the string <code>aws/</code>
+  /// </li>
   /// </ul>
   /// When you create a log group, by default the log events in the log group do
   /// not expire. To set a retention policy so that events expire and are
@@ -315,8 +614,8 @@ class CloudWatchLogs {
   /// encrypted with the KMS key is still within CloudWatch Logs. This enables
   /// CloudWatch Logs to decrypt this data whenever it is requested.
   ///
-  /// If you attempt to associate a KMS key with the log group but the KMS
-  /// keydoes not exist or the KMS key is disabled, you receive an
+  /// If you attempt to associate a KMS key with the log group but the KMS key
+  /// does not exist or the KMS key is disabled, you receive an
   /// <code>InvalidParameterException</code> error.
   /// <important>
   /// CloudWatch Logs supports only symmetric KMS keys. Do not associate an
@@ -332,13 +631,35 @@ class CloudWatchLogs {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [logGroupName] :
-  /// The name of the log group.
+  /// A name for the log group.
   ///
   /// Parameter [kmsKeyId] :
   /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log
   /// data. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">Amazon
   /// Resource Names</a>.
+  ///
+  /// Parameter [logGroupClass] :
+  /// Use this parameter to specify the log group class for this log group.
+  /// There are two classes:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>Standard</code> log class supports all CloudWatch Logs features.
+  /// </li>
+  /// <li>
+  /// The <code>Infrequent Access</code> log class supports a subset of
+  /// CloudWatch Logs features and incurs lower costs.
+  /// </li>
+  /// </ul>
+  /// If you omit this parameter, the default of <code>STANDARD</code> is used.
+  /// <important>
+  /// The value of <code>logGroupClass</code> can't be changed after a log group
+  /// is created.
+  /// </important>
+  /// For details about the features supported by each class, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html">Log
+  /// classes</a>
   ///
   /// Parameter [tags] :
   /// The key-value pairs to use for the tags.
@@ -357,6 +678,7 @@ class CloudWatchLogs {
   Future<void> createLogGroup({
     required String logGroupName,
     String? kmsKeyId,
+    LogGroupClass? logGroupClass,
     Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
@@ -372,6 +694,7 @@ class CloudWatchLogs {
       payload: {
         'logGroupName': logGroupName,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (logGroupClass != null) 'logGroupClass': logGroupClass.toValue(),
         if (tags != null) 'tags': tags,
       },
     );
@@ -430,6 +753,57 @@ class CloudWatchLogs {
     );
   }
 
+  /// Deletes a CloudWatch Logs account policy. This stops the policy from
+  /// applying to all log groups or a subset of log groups in the account.
+  /// Log-group level policies will still be in effect.
+  ///
+  /// To use this operation, you must be signed on with the correct permissions
+  /// depending on the type of policy that you are deleting.
+  ///
+  /// <ul>
+  /// <li>
+  /// To delete a data protection policy, you must have the
+  /// <code>logs:DeleteDataProtectionPolicy</code> and
+  /// <code>logs:DeleteAccountPolicy</code> permissions.
+  /// </li>
+  /// <li>
+  /// To delete a subscription filter policy, you must have the
+  /// <code>logs:DeleteSubscriptionFilter</code> and
+  /// <code>logs:DeleteAccountPolicy</code> permissions.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  ///
+  /// Parameter [policyName] :
+  /// The name of the policy to delete.
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy to delete.
+  Future<void> deleteAccountPolicy({
+    required String policyName,
+    required PolicyType policyType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DeleteAccountPolicy'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyName': policyName,
+        'policyType': policyType.toValue(),
+      },
+    );
+  }
+
   /// Deletes the data protection policy from the specified log group.
   ///
   /// For more information about data protection policies, see <a
@@ -462,6 +836,154 @@ class CloudWatchLogs {
     );
   }
 
+  /// Deletes s <i>delivery</i>. A delivery is a connection between a logical
+  /// <i>delivery source</i> and a logical <i>delivery destination</i>. Deleting
+  /// a delivery only deletes the connection between the delivery source and
+  /// delivery destination. It does not delete the delivery destination or the
+  /// delivery source.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the delivery to delete. You can find the ID of a delivery
+  /// with the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html">DescribeDeliveries</a>
+  /// operation.
+  Future<void> deleteDelivery({
+    required String id,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DeleteDelivery'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'id': id,
+      },
+    );
+  }
+
+  /// Deletes a <i>delivery destination</i>. A delivery is a connection between
+  /// a logical <i>delivery source</i> and a logical <i>delivery
+  /// destination</i>.
+  ///
+  /// You can't delete a delivery destination if any current deliveries are
+  /// associated with it. To find whether any deliveries are associated with
+  /// this delivery destination, use the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html">DescribeDeliveries</a>
+  /// operation and check the <code>deliveryDestinationArn</code> field in the
+  /// results.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [name] :
+  /// The name of the delivery destination that you want to delete. You can find
+  /// a list of delivery destionation names by using the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveryDestinations.html">DescribeDeliveryDestinations</a>
+  /// operation.
+  Future<void> deleteDeliveryDestination({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DeleteDeliveryDestination'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+  }
+
+  /// Deletes a delivery destination policy. For more information about these
+  /// policies, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html">PutDeliveryDestinationPolicy</a>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [deliveryDestinationName] :
+  /// The name of the delivery destination that you want to delete the policy
+  /// for.
+  Future<void> deleteDeliveryDestinationPolicy({
+    required String deliveryDestinationName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DeleteDeliveryDestinationPolicy'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deliveryDestinationName': deliveryDestinationName,
+      },
+    );
+  }
+
+  /// Deletes a <i>delivery source</i>. A delivery is a connection between a
+  /// logical <i>delivery source</i> and a logical <i>delivery destination</i>.
+  ///
+  /// You can't delete a delivery source if any current deliveries are
+  /// associated with it. To find whether any deliveries are associated with
+  /// this delivery source, use the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html">DescribeDeliveries</a>
+  /// operation and check the <code>deliverySourceName</code> field in the
+  /// results.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [name] :
+  /// The name of the delivery source that you want to delete.
+  Future<void> deleteDeliverySource({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DeleteDeliverySource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+  }
+
   /// Deletes the specified destination, and eventually disables all the
   /// subscription filters that publish to it. This operation does not delete
   /// the physical resource encapsulated by the destination.
@@ -488,6 +1010,37 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'destinationName': destinationName,
+      },
+    );
+  }
+
+  /// Deletes the specified CloudWatch Logs anomaly detector.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  ///
+  /// Parameter [anomalyDetectorArn] :
+  /// The ARN of the anomaly detector to delete. You can find the ARNs of log
+  /// anomaly detectors in your account by using the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListLogAnomalyDetectors.html">ListLogAnomalyDetectors</a>
+  /// operation.
+  Future<void> deleteLogAnomalyDetector({
+    required String anomalyDetectorArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DeleteLogAnomalyDetector'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'anomalyDetectorArn': anomalyDetectorArn,
       },
     );
   }
@@ -718,6 +1271,189 @@ class CloudWatchLogs {
     );
   }
 
+  /// Returns a list of all CloudWatch Logs account policies in the account.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OperationAbortedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [policyType] :
+  /// Use this parameter to limit the returned policies to only the policies
+  /// that match the policy type that you specify.
+  ///
+  /// Parameter [accountIdentifiers] :
+  /// If you are using an account that is set up as a monitoring account for
+  /// CloudWatch unified cross-account observability, you can use this to
+  /// specify the account ID of a source account. If you do, the operation
+  /// returns the account policy for the specified account. Currently, you can
+  /// specify only one account ID in this parameter.
+  ///
+  /// If you omit this parameter, only the policy in the current account is
+  /// returned.
+  ///
+  /// Parameter [policyName] :
+  /// Use this parameter to limit the returned policies to only the policy with
+  /// the name that you specify.
+  Future<DescribeAccountPoliciesResponse> describeAccountPolicies({
+    required PolicyType policyType,
+    List<String>? accountIdentifiers,
+    String? policyName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DescribeAccountPolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyType': policyType.toValue(),
+        if (accountIdentifiers != null)
+          'accountIdentifiers': accountIdentifiers,
+        if (policyName != null) 'policyName': policyName,
+      },
+    );
+
+    return DescribeAccountPoliciesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of the deliveries that have been created in the account.
+  ///
+  /// A <i>delivery</i> is a connection between a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">
+  /// <i>delivery source</i> </a> and a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html">
+  /// <i>delivery destination</i> </a>.
+  ///
+  /// A delivery source represents an Amazon Web Services resource that sends
+  /// logs to an logs delivery destination. The destination can be CloudWatch
+  /// Logs, Amazon S3, or Firehose. Only some Amazon Web Services services
+  /// support being configured as a delivery source. These services are listed
+  /// in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enable
+  /// logging from Amazon Web Services services.</a>
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [limit] :
+  /// Optionally specify the maximum number of deliveries to return in the
+  /// response.
+  Future<DescribeDeliveriesResponse> describeDeliveries({
+    int? limit,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DescribeDeliveries'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return DescribeDeliveriesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of the delivery destinations that have been created in
+  /// the account.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [limit] :
+  /// Optionally specify the maximum number of delivery destinations to return
+  /// in the response.
+  Future<DescribeDeliveryDestinationsResponse> describeDeliveryDestinations({
+    int? limit,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DescribeDeliveryDestinations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return DescribeDeliveryDestinationsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of the delivery sources that have been created in the
+  /// account.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [limit] :
+  /// Optionally specify the maximum number of delivery sources to return in the
+  /// response.
+  Future<DescribeDeliverySourcesResponse> describeDeliverySources({
+    int? limit,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DescribeDeliverySources'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return DescribeDeliverySourcesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists all your destinations. The results are ASCII-sorted by destination
   /// name.
   ///
@@ -856,15 +1592,26 @@ class CloudWatchLogs {
   /// <code>accountIdentifiers</code> contains a null value, the operation
   /// returns all log groups in the monitoring account and all log groups in all
   /// source accounts that are linked to the monitoring account.
-  /// <note>
-  /// If you specify <code>includeLinkedAccounts</code> in your request, then
-  /// <code>metricFilterCount</code>, <code>retentionInDays</code>, and
-  /// <code>storedBytes</code> are not included in the response.
-  /// </note>
   ///
   /// Parameter [limit] :
   /// The maximum number of items returned. If you don't specify a value, the
   /// default is up to 50 items.
+  ///
+  /// Parameter [logGroupClass] :
+  /// Specifies the log group class for this log group. There are two classes:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>Standard</code> log class supports all CloudWatch Logs features.
+  /// </li>
+  /// <li>
+  /// The <code>Infrequent Access</code> log class supports a subset of
+  /// CloudWatch Logs features and incurs lower costs.
+  /// </li>
+  /// </ul>
+  /// For details about the features supported by each class, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html">Log
+  /// classes</a>
   ///
   /// Parameter [logGroupNamePattern] :
   /// If you specify a string for this parameter, the operation returns only log
@@ -873,6 +1620,10 @@ class CloudWatchLogs {
   /// named <code>FooBar</code>, <code>aws/Foo</code>, and <code>GroupFoo</code>
   /// would match, but <code>foo</code>, <code>F/o/o</code> and
   /// <code>Froo</code> would not match.
+  ///
+  /// If you specify <code>logGroupNamePattern</code> in your request, then only
+  /// <code>arn</code>, <code>creationTime</code>, and <code>logGroupName</code>
+  /// are included in the response.
   /// <note>
   /// <code>logGroupNamePattern</code> and <code>logGroupNamePrefix</code> are
   /// mutually exclusive. Only one of these parameters can be passed.
@@ -892,6 +1643,7 @@ class CloudWatchLogs {
     List<String>? accountIdentifiers,
     bool? includeLinkedAccounts,
     int? limit,
+    LogGroupClass? logGroupClass,
     String? logGroupNamePattern,
     String? logGroupNamePrefix,
     String? nextToken,
@@ -918,6 +1670,7 @@ class CloudWatchLogs {
         if (includeLinkedAccounts != null)
           'includeLinkedAccounts': includeLinkedAccounts,
         if (limit != null) 'limit': limit,
+        if (logGroupClass != null) 'logGroupClass': logGroupClass.toValue(),
         if (logGroupNamePattern != null)
           'logGroupNamePattern': logGroupNamePattern,
         if (logGroupNamePrefix != null)
@@ -1164,7 +1917,9 @@ class CloudWatchLogs {
   }
 
   /// This operation returns a paginated list of your saved CloudWatch Logs
-  /// Insights query definitions.
+  /// Insights query definitions. You can retrieve query definitions from the
+  /// current account or from a source account that is linked to the current
+  /// account.
   ///
   /// You can use the <code>queryDefinitionNamePrefix</code> parameter to limit
   /// the results to only the query definitions that have names that start with
@@ -1303,14 +2058,36 @@ class CloudWatchLogs {
     return DescribeSubscriptionFiltersResponse.fromJson(jsonResponse.body);
   }
 
-  /// Disassociates the associated KMS key from the specified log group.
+  /// Disassociates the specified KMS key from the specified log group or from
+  /// all CloudWatch Logs Insights query results in the account.
   ///
-  /// After the KMS key is disassociated from the log group, CloudWatch Logs
-  /// stops encrypting newly ingested data for the log group. All previously
-  /// ingested data remains encrypted, and CloudWatch Logs requires permissions
-  /// for the KMS key whenever the encrypted data is requested.
+  /// When you use <code>DisassociateKmsKey</code>, you specify either the
+  /// <code>logGroupName</code> parameter or the <code>resourceIdentifier</code>
+  /// parameter. You can't specify both of those parameters in the same
+  /// operation.
   ///
-  /// Note that it can take up to 5 minutes for this operation to take effect.
+  /// <ul>
+  /// <li>
+  /// Specify the <code>logGroupName</code> parameter to stop using the KMS key
+  /// to encrypt future log events ingested and stored in the log group.
+  /// Instead, they will be encrypted with the default CloudWatch Logs method.
+  /// The log events that were ingested while the key was associated with the
+  /// log group are still encrypted with that key. Therefore, CloudWatch Logs
+  /// will need permissions for the key whenever that data is accessed.
+  /// </li>
+  /// <li>
+  /// Specify the <code>resourceIdentifier</code> parameter with the
+  /// <code>query-result</code> resource to stop using the KMS key to encrypt
+  /// the results of all future <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html">StartQuery</a>
+  /// operations in the account. They will instead be encrypted with the default
+  /// CloudWatch Logs method. The results from queries that ran while the key
+  /// was associated with the account are still encrypted with that key.
+  /// Therefore, CloudWatch Logs will need permissions for the key whenever that
+  /// data is accessed.
+  /// </li>
+  /// </ul>
+  /// It can take up to 5 minutes for this operation to take effect.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -1319,8 +2096,43 @@ class CloudWatchLogs {
   ///
   /// Parameter [logGroupName] :
   /// The name of the log group.
+  ///
+  /// In your <code>DisassociateKmsKey</code> operation, you must specify either
+  /// the <code>resourceIdentifier</code> parameter or the <code>logGroup</code>
+  /// parameter, but you can't specify both.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// Specifies the target for this operation. You must specify one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specify the ARN of a log group to stop having CloudWatch Logs use the KMS
+  /// key to encrypt log events that are ingested and stored by that log group.
+  /// After you run this operation, CloudWatch Logs encrypts ingested log events
+  /// with the default CloudWatch Logs method. The log group ARN must be in the
+  /// following format. Replace <i>REGION</i> and <i>ACCOUNT_ID</i> with your
+  /// Region and account ID.
+  ///
+  /// <code>arn:aws:logs:<i>REGION</i>:<i>ACCOUNT_ID</i>:log-group:<i>LOG_GROUP_NAME</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Specify the following ARN to stop using this key to encrypt the results of
+  /// future <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html">StartQuery</a>
+  /// operations in this account. Replace <i>REGION</i> and <i>ACCOUNT_ID</i>
+  /// with your Region and account ID.
+  ///
+  /// <code>arn:aws:logs:<i>REGION</i>:<i>ACCOUNT_ID</i>:query-result:*</code>
+  /// </li>
+  /// </ul>
+  /// In your <code>DisssociateKmsKey</code> operation, you must specify either
+  /// the <code>resourceIdentifier</code> parameter or the <code>logGroup</code>
+  /// parameter, but you can't specify both.
   Future<void> disassociateKmsKey({
-    required String logGroupName,
+    String? logGroupName,
+    String? resourceIdentifier,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1333,7 +2145,9 @@ class CloudWatchLogs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'logGroupName': logGroupName,
+        if (logGroupName != null) 'logGroupName': logGroupName,
+        if (resourceIdentifier != null)
+          'resourceIdentifier': resourceIdentifier,
       },
     );
   }
@@ -1342,7 +2156,7 @@ class CloudWatchLogs {
   /// events or filter the results using a filter pattern, a time range, and the
   /// name of the log stream.
   ///
-  /// You must have the <code>logs;FilterLogEvents</code> permission to perform
+  /// You must have the <code>logs:FilterLogEvents</code> permission to perform
   /// this operation.
   ///
   /// You can specify the log group to search by using either
@@ -1536,6 +2350,183 @@ class CloudWatchLogs {
     return GetDataProtectionPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns complete information about one logical <i>delivery</i>. A delivery
+  /// is a connection between a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">
+  /// <i>delivery source</i> </a> and a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html">
+  /// <i>delivery destination</i> </a>.
+  ///
+  /// A delivery source represents an Amazon Web Services resource that sends
+  /// logs to an logs delivery destination. The destination can be CloudWatch
+  /// Logs, Amazon S3, or Firehose. Only some Amazon Web Services services
+  /// support being configured as a delivery source. These services are listed
+  /// in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enable
+  /// logging from Amazon Web Services services.</a>
+  ///
+  /// You need to specify the delivery <code>id</code> in this operation. You
+  /// can find the IDs of the deliveries in your account with the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html">DescribeDeliveries</a>
+  /// operation.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the delivery that you want to retrieve.
+  Future<GetDeliveryResponse> getDelivery({
+    required String id,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.GetDelivery'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'id': id,
+      },
+    );
+
+    return GetDeliveryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves complete information about one delivery destination.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [name] :
+  /// The name of the delivery destination that you want to retrieve.
+  Future<GetDeliveryDestinationResponse> getDeliveryDestination({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.GetDeliveryDestination'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return GetDeliveryDestinationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the delivery destination policy assigned to the delivery
+  /// destination that you specify. For more information about delivery
+  /// destinations and their policies, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html">PutDeliveryDestinationPolicy</a>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [deliveryDestinationName] :
+  /// The name of the delivery destination that you want to retrieve the policy
+  /// of.
+  Future<GetDeliveryDestinationPolicyResponse> getDeliveryDestinationPolicy({
+    required String deliveryDestinationName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.GetDeliveryDestinationPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deliveryDestinationName': deliveryDestinationName,
+      },
+    );
+
+    return GetDeliveryDestinationPolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves complete information about one delivery source.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [name] :
+  /// The name of the delivery source that you want to retrieve.
+  Future<GetDeliverySourceResponse> getDeliverySource({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.GetDeliverySource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return GetDeliverySourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about the log anomaly detector that you specify.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  ///
+  /// Parameter [anomalyDetectorArn] :
+  /// The ARN of the anomaly detector to retrieve information about. You can
+  /// find the ARNs of log anomaly detectors in your account by using the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListLogAnomalyDetectors.html">ListLogAnomalyDetectors</a>
+  /// operation.
+  Future<GetLogAnomalyDetectorResponse> getLogAnomalyDetector({
+    required String anomalyDetectorArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.GetLogAnomalyDetector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'anomalyDetectorArn': anomalyDetectorArn,
+      },
+    );
+
+    return GetLogAnomalyDetectorResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists log events from the specified log stream. You can list all of the
   /// log events or filter using a time range.
   ///
@@ -1716,9 +2707,9 @@ class CloudWatchLogs {
   ///
   /// Parameter [time] :
   /// The time to set as the center of the query. If you specify
-  /// <code>time</code>, the 15 minutes before this time are queries. If you
-  /// omit <code>time</code>, the 8 minutes before and 8 minutes after this time
-  /// are searched.
+  /// <code>time</code>, the 8 minutes before and 8 minutes after this time are
+  /// searched. If you omit <code>time</code>, the most recent 15 minutes up to
+  /// the current time are searched.
   ///
   /// The <code>time</code> value is specified as epoch time, which is the
   /// number of seconds since <code>January 1, 1970, 00:00:00 UTC</code>.
@@ -1813,6 +2804,10 @@ class CloudWatchLogs {
   /// <code>GetQueryResults</code> does not start running a query. To run a
   /// query, use <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html">StartQuery</a>.
+  /// For more information about how long results of previous queries are
+  /// available, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html">CloudWatch
+  /// Logs quotas</a>.
   ///
   /// If the value of the <code>Status</code> field in the output is
   /// <code>Running</code>, this operation returns only partial results. If you
@@ -1850,6 +2845,106 @@ class CloudWatchLogs {
     );
 
     return GetQueryResultsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of anomalies that log anomaly detectors have found. For
+  /// details about the structure format of each anomaly object that is
+  /// returned, see the example in this section.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  ///
+  /// Parameter [anomalyDetectorArn] :
+  /// Use this to optionally limit the results to only the anomalies found by a
+  /// certain anomaly detector.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of items to return. If you don't specify a value, the
+  /// default maximum value of 50 items is used.
+  ///
+  /// Parameter [suppressionState] :
+  /// You can specify this parameter if you want to the operation to return only
+  /// anomalies that are currently either suppressed or unsuppressed.
+  Future<ListAnomaliesResponse> listAnomalies({
+    String? anomalyDetectorArn,
+    int? limit,
+    String? nextToken,
+    SuppressionState? suppressionState,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.ListAnomalies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (anomalyDetectorArn != null)
+          'anomalyDetectorArn': anomalyDetectorArn,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (suppressionState != null)
+          'suppressionState': suppressionState.toValue(),
+      },
+    );
+
+    return ListAnomaliesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of the log anomaly detectors in the account.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  ///
+  /// Parameter [filterLogGroupArn] :
+  /// Use this to optionally filter the results to only include anomaly
+  /// detectors that are associated with the specified log group.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of items to return. If you don't specify a value, the
+  /// default maximum value of 50 items is used.
+  Future<ListLogAnomalyDetectorsResponse> listLogAnomalyDetectors({
+    String? filterLogGroupArn,
+    int? limit,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.ListLogAnomalyDetectors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filterLogGroupArn != null) 'filterLogGroupArn': filterLogGroupArn,
+        if (limit != null) 'limit': limit,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListLogAnomalyDetectorsResponse.fromJson(jsonResponse.body);
   }
 
   /// Displays the tags associated with a CloudWatch Logs resource. Currently,
@@ -1929,6 +3024,253 @@ class CloudWatchLogs {
     return ListTagsLogGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an account-level data protection policy or subscription filter
+  /// policy that applies to all log groups or a subset of log groups in the
+  /// account.
+  ///
+  /// <b>Data protection policy</b>
+  ///
+  /// A data protection policy can help safeguard sensitive data that's ingested
+  /// by your log groups by auditing and masking the sensitive log data. Each
+  /// account can have only one account-level data protection policy.
+  /// <important>
+  /// Sensitive data is detected and masked when it is ingested into a log
+  /// group. When you set a data protection policy, log events ingested into the
+  /// log groups before that time are not masked.
+  /// </important>
+  /// If you use <code>PutAccountPolicy</code> to create a data protection
+  /// policy for your whole account, it applies to both existing log groups and
+  /// all log groups that are created later in this account. The account-level
+  /// policy is applied to existing log groups with eventual consistency. It
+  /// might take up to 5 minutes before sensitive data in existing log groups
+  /// begins to be masked.
+  ///
+  /// By default, when a user views a log event that includes masked data, the
+  /// sensitive data is replaced by asterisks. A user who has the
+  /// <code>logs:Unmask</code> permission can use a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html">GetLogEvents</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html">FilterLogEvents</a>
+  /// operation with the <code>unmask</code> parameter set to <code>true</code>
+  /// to view the unmasked log events. Users with the <code>logs:Unmask</code>
+  /// can also view unmasked data in the CloudWatch Logs console by running a
+  /// CloudWatch Logs Insights query with the <code>unmask</code> query command.
+  ///
+  /// For more information, including a list of types of data that can be
+  /// audited and masked, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html">Protect
+  /// sensitive log data with masking</a>.
+  ///
+  /// To use the <code>PutAccountPolicy</code> operation for a data protection
+  /// policy, you must be signed on with the
+  /// <code>logs:PutDataProtectionPolicy</code> and
+  /// <code>logs:PutAccountPolicy</code> permissions.
+  ///
+  /// The <code>PutAccountPolicy</code> operation applies to all log groups in
+  /// the account. You can use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html">PutDataProtectionPolicy</a>
+  /// to create a data protection policy that applies to just one log group. If
+  /// a log group has its own data protection policy and the account also has an
+  /// account-level data protection policy, then the two policies are
+  /// cumulative. Any sensitive term specified in either policy is masked.
+  ///
+  /// <b>Subscription filter policy</b>
+  ///
+  /// A subscription filter policy sets up a real-time feed of log events from
+  /// CloudWatch Logs to other Amazon Web Services services. Account-level
+  /// subscription filter policies apply to both existing log groups and log
+  /// groups that are created later in this account. Supported destinations are
+  /// Kinesis Data Streams, Firehose, and Lambda. When log events are sent to
+  /// the receiving service, they are Base64 encoded and compressed with the
+  /// GZIP format.
+  ///
+  /// The following destinations are supported for subscription filters:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Kinesis Data Streams data stream in the same account as the
+  /// subscription policy, for same-account delivery.
+  /// </li>
+  /// <li>
+  /// An Firehose data stream in the same account as the subscription policy,
+  /// for same-account delivery.
+  /// </li>
+  /// <li>
+  /// A Lambda function in the same account as the subscription policy, for
+  /// same-account delivery.
+  /// </li>
+  /// <li>
+  /// A logical destination in a different account created with <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html">PutDestination</a>,
+  /// for cross-account delivery. Kinesis Data Streams and Firehose are
+  /// supported as logical destinations.
+  /// </li>
+  /// </ul>
+  /// Each account can have one account-level subscription filter policy. If you
+  /// are updating an existing filter, you must specify the correct name in
+  /// <code>PolicyName</code>. To perform a <code>PutAccountPolicy</code>
+  /// subscription filter operation for any destination except a Lambda
+  /// function, you must also have the <code>iam:PassRole</code> permission.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OperationAbortedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [policyDocument] :
+  /// Specify the policy, in JSON.
+  ///
+  /// <b>Data protection policy</b>
+  ///
+  /// A data protection policy must include two JSON blocks:
+  ///
+  /// <ul>
+  /// <li>
+  /// The first block must include both a <code>DataIdentifer</code> array and
+  /// an <code>Operation</code> property with an <code>Audit</code> action. The
+  /// <code>DataIdentifer</code> array lists the types of sensitive data that
+  /// you want to mask. For more information about the available options, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html">Types
+  /// of data that you can mask</a>.
+  ///
+  /// The <code>Operation</code> property with an <code>Audit</code> action is
+  /// required to find the sensitive data terms. This <code>Audit</code> action
+  /// must contain a <code>FindingsDestination</code> object. You can optionally
+  /// use that <code>FindingsDestination</code> object to list one or more
+  /// destinations to send audit findings to. If you specify destinations such
+  /// as log groups, Firehose streams, and S3 buckets, they must already exist.
+  /// </li>
+  /// <li>
+  /// The second block must include both a <code>DataIdentifer</code> array and
+  /// an <code>Operation</code> property with an <code>Deidentify</code> action.
+  /// The <code>DataIdentifer</code> array must exactly match the
+  /// <code>DataIdentifer</code> array in the first block of the policy.
+  ///
+  /// The <code>Operation</code> property with the <code>Deidentify</code>
+  /// action is what actually masks the data, and it must contain the <code>
+  /// "MaskConfig": {}</code> object. The <code> "MaskConfig": {}</code> object
+  /// must be empty.
+  /// </li>
+  /// </ul>
+  /// For an example data protection policy, see the <b>Examples</b> section on
+  /// this page.
+  /// <important>
+  /// The contents of the two <code>DataIdentifer</code> arrays must match
+  /// exactly.
+  /// </important>
+  /// In addition to the two JSON blocks, the <code>policyDocument</code> can
+  /// also include <code>Name</code>, <code>Description</code>, and
+  /// <code>Version</code> fields. The <code>Name</code> is different than the
+  /// operation's <code>policyName</code> parameter, and is used as a dimension
+  /// when CloudWatch Logs reports audit findings metrics to CloudWatch.
+  ///
+  /// The JSON specified in <code>policyDocument</code> can be up to 30,720
+  /// characters long.
+  ///
+  /// <b>Subscription filter policy</b>
+  ///
+  /// A subscription filter policy can include the following attributes in a
+  /// JSON block:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>DestinationArn</b> The ARN of the destination to deliver log events to.
+  /// Supported destinations are:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Kinesis Data Streams data stream in the same account as the
+  /// subscription policy, for same-account delivery.
+  /// </li>
+  /// <li>
+  /// An Firehose data stream in the same account as the subscription policy,
+  /// for same-account delivery.
+  /// </li>
+  /// <li>
+  /// A Lambda function in the same account as the subscription policy, for
+  /// same-account delivery.
+  /// </li>
+  /// <li>
+  /// A logical destination in a different account created with <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html">PutDestination</a>,
+  /// for cross-account delivery. Kinesis Data Streams and Firehose are
+  /// supported as logical destinations.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>RoleArn</b> The ARN of an IAM role that grants CloudWatch Logs
+  /// permissions to deliver ingested log events to the destination stream. You
+  /// don't need to provide the ARN when you are working with a logical
+  /// destination for cross-account delivery.
+  /// </li>
+  /// <li>
+  /// <b>FilterPattern</b> A filter pattern for subscribing to a filtered stream
+  /// of log events.
+  /// </li>
+  /// <li>
+  /// <b>Distribution</b>The method used to distribute log data to the
+  /// destination. By default, log data is grouped by log stream, but the
+  /// grouping can be set to <code>Random</code> for a more even distribution.
+  /// This property is only applicable when the destination is an Kinesis Data
+  /// Streams data stream.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [policyName] :
+  /// A name for the policy. This must be unique within the account.
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy that you're creating or updating.
+  ///
+  /// Parameter [scope] :
+  /// Currently the only valid value for this parameter is <code>ALL</code>,
+  /// which specifies that the data protection policy applies to all log groups
+  /// in the account. If you omit this parameter, the default of
+  /// <code>ALL</code> is used.
+  ///
+  /// Parameter [selectionCriteria] :
+  /// Use this parameter to apply the subscription filter policy to a subset of
+  /// log groups in the account. Currently, the only supported filter is
+  /// <code>LogGroupName NOT IN []</code>. The <code>selectionCriteria</code>
+  /// string can be up to 25KB in length. The length is determined by using its
+  /// UTF-8 bytes.
+  ///
+  /// Using the <code>selectionCriteria</code> parameter is useful to help
+  /// prevent infinite loops. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions-recursion-prevention.html">Log
+  /// recursion prevention</a>.
+  ///
+  /// Specifing <code>selectionCriteria</code> is valid only when you specify
+  /// <code> SUBSCRIPTION_FILTER_POLICY</code> for <code>policyType</code>.
+  Future<PutAccountPolicyResponse> putAccountPolicy({
+    required String policyDocument,
+    required String policyName,
+    required PolicyType policyType,
+    Scope? scope,
+    String? selectionCriteria,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.PutAccountPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyDocument': policyDocument,
+        'policyName': policyName,
+        'policyType': policyType.toValue(),
+        if (scope != null) 'scope': scope.toValue(),
+        if (selectionCriteria != null) 'selectionCriteria': selectionCriteria,
+      },
+    );
+
+    return PutAccountPolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a data protection policy for the specified log group. A data
   /// protection policy can help safeguard sensitive data that's ingested by the
   /// log group by auditing and masking the sensitive log data.
@@ -1952,6 +3294,16 @@ class CloudWatchLogs {
   /// audited and masked, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html">Protect
   /// sensitive log data with masking</a>.
+  ///
+  /// The <code>PutDataProtectionPolicy</code> operation applies to only the
+  /// specified log group. You can also use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html">PutAccountPolicy</a>
+  /// to create an account-level data protection policy that applies to all log
+  /// groups in the account, including both existing log groups and log groups
+  /// that are created level. If a log group has its own data protection policy
+  /// and the account also has an account-level data protection policy, then the
+  /// two policies are cumulative. Any sensitive term specified in either policy
+  /// is masked.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
@@ -1981,8 +3333,7 @@ class CloudWatchLogs {
   /// must contain a <code>FindingsDestination</code> object. You can optionally
   /// use that <code>FindingsDestination</code> object to list one or more
   /// destinations to send audit findings to. If you specify destinations such
-  /// as log groups, Kinesis Data Firehose streams, and S3 buckets, they must
-  /// already exist.
+  /// as log groups, Firehose streams, and S3 buckets, they must already exist.
   /// </li>
   /// <li>
   /// The second block must include both a <code>DataIdentifer</code> array and
@@ -1999,8 +3350,16 @@ class CloudWatchLogs {
   /// For an example data protection policy, see the <b>Examples</b> section on
   /// this page.
   /// <important>
-  /// The contents of two <code>DataIdentifer</code> arrays must match exactly.
+  /// The contents of the two <code>DataIdentifer</code> arrays must match
+  /// exactly.
   /// </important>
+  /// In addition to the two JSON blocks, the <code>policyDocument</code> can
+  /// also include <code>Name</code>, <code>Description</code>, and
+  /// <code>Version</code> fields. The <code>Name</code> is used as a dimension
+  /// when CloudWatch Logs reports audit findings metrics to CloudWatch.
+  ///
+  /// The JSON specified in <code>policyDocument</code> can be up to 30,720
+  /// characters.
   Future<PutDataProtectionPolicyResponse> putDataProtectionPolicy({
     required String logGroupIdentifier,
     required String policyDocument,
@@ -2022,6 +3381,290 @@ class CloudWatchLogs {
     );
 
     return PutDataProtectionPolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates a logical <i>delivery destination</i>. A delivery
+  /// destination is an Amazon Web Services resource that represents an Amazon
+  /// Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3,
+  /// and Firehose are supported as logs delivery destinations.
+  ///
+  /// To configure logs delivery between a supported Amazon Web Services service
+  /// and a destination, you must do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Create a delivery source, which is a logical object that represents the
+  /// resource that is actually sending the logs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">PutDeliverySource</a>.
+  /// </li>
+  /// <li>
+  /// Use <code>PutDeliveryDestination</code> to create a <i>delivery
+  /// destination</i>, which is a logical object that represents the actual
+  /// delivery destination.
+  /// </li>
+  /// <li>
+  /// If you are delivering logs cross-account, you must use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html">PutDeliveryDestinationPolicy</a>
+  /// in the destination account to assign an IAM policy to the destination.
+  /// This policy allows delivery to that destination.
+  /// </li>
+  /// <li>
+  /// Use <code>CreateDelivery</code> to create a <i>delivery</i> by pairing
+  /// exactly one delivery source and one delivery destination. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>.
+  /// </li>
+  /// </ul>
+  /// You can configure a single delivery source to send logs to multiple
+  /// destinations by creating multiple deliveries. You can also create multiple
+  /// deliveries to configure multiple delivery sources to send logs to the same
+  /// delivery destination.
+  ///
+  /// Only some Amazon Web Services services support being configured as a
+  /// delivery source. These services are listed as <b>Supported [V2
+  /// Permissions]</b> in the table at <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
+  /// logging from Amazon Web Services services.</a>
+  ///
+  /// If you use this operation to update an existing delivery destination, all
+  /// the current delivery destination parameters are overwritten with the new
+  /// parameter values that you specify.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [deliveryDestinationConfiguration] :
+  /// A structure that contains the ARN of the Amazon Web Services resource that
+  /// will receive the logs.
+  ///
+  /// Parameter [name] :
+  /// A name for this delivery destination. This name must be unique for all
+  /// delivery destinations in your account.
+  ///
+  /// Parameter [outputFormat] :
+  /// The format for the logs that this delivery destination will receive.
+  ///
+  /// Parameter [tags] :
+  /// An optional list of key-value pairs to associate with the resource.
+  ///
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a>
+  Future<PutDeliveryDestinationResponse> putDeliveryDestination({
+    required DeliveryDestinationConfiguration deliveryDestinationConfiguration,
+    required String name,
+    OutputFormat? outputFormat,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.PutDeliveryDestination'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deliveryDestinationConfiguration': deliveryDestinationConfiguration,
+        'name': name,
+        if (outputFormat != null) 'outputFormat': outputFormat.toValue(),
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return PutDeliveryDestinationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates and assigns an IAM policy that grants permissions to CloudWatch
+  /// Logs to deliver logs cross-account to a specified destination in this
+  /// account. To configure the delivery of logs from an Amazon Web Services
+  /// service in another account to a logs delivery destination in the current
+  /// account, you must do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Create a delivery source, which is a logical object that represents the
+  /// resource that is actually sending the logs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">PutDeliverySource</a>.
+  /// </li>
+  /// <li>
+  /// Create a <i>delivery destination</i>, which is a logical object that
+  /// represents the actual delivery destination. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html">PutDeliveryDestination</a>.
+  /// </li>
+  /// <li>
+  /// Use this operation in the destination account to assign an IAM policy to
+  /// the destination. This policy allows delivery to that destination.
+  /// </li>
+  /// <li>
+  /// Create a <i>delivery</i> by pairing exactly one delivery source and one
+  /// delivery destination. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>.
+  /// </li>
+  /// </ul>
+  /// Only some Amazon Web Services services support being configured as a
+  /// delivery source. These services are listed as <b>Supported [V2
+  /// Permissions]</b> in the table at <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
+  /// logging from Amazon Web Services services.</a>
+  ///
+  /// The contents of the policy must include two statements. One statement
+  /// enables general logs delivery, and the other allows delivery to the chosen
+  /// destination. See the examples for the needed policies.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [deliveryDestinationName] :
+  /// The name of the delivery destination to assign this policy to.
+  ///
+  /// Parameter [deliveryDestinationPolicy] :
+  /// The contents of the policy.
+  Future<PutDeliveryDestinationPolicyResponse> putDeliveryDestinationPolicy({
+    required String deliveryDestinationName,
+    required String deliveryDestinationPolicy,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.PutDeliveryDestinationPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deliveryDestinationName': deliveryDestinationName,
+        'deliveryDestinationPolicy': deliveryDestinationPolicy,
+      },
+    );
+
+    return PutDeliveryDestinationPolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates a logical <i>delivery source</i>. A delivery source
+  /// represents an Amazon Web Services resource that sends logs to an logs
+  /// delivery destination. The destination can be CloudWatch Logs, Amazon S3,
+  /// or Firehose.
+  ///
+  /// To configure logs delivery between a delivery destination and an Amazon
+  /// Web Services service that is supported as a delivery source, you must do
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use <code>PutDeliverySource</code> to create a delivery source, which is a
+  /// logical object that represents the resource that is actually sending the
+  /// logs.
+  /// </li>
+  /// <li>
+  /// Use <code>PutDeliveryDestination</code> to create a <i>delivery
+  /// destination</i>, which is a logical object that represents the actual
+  /// delivery destination. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html">PutDeliveryDestination</a>.
+  /// </li>
+  /// <li>
+  /// If you are delivering logs cross-account, you must use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html">PutDeliveryDestinationPolicy</a>
+  /// in the destination account to assign an IAM policy to the destination.
+  /// This policy allows delivery to that destination.
+  /// </li>
+  /// <li>
+  /// Use <code>CreateDelivery</code> to create a <i>delivery</i> by pairing
+  /// exactly one delivery source and one delivery destination. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>.
+  /// </li>
+  /// </ul>
+  /// You can configure a single delivery source to send logs to multiple
+  /// destinations by creating multiple deliveries. You can also create multiple
+  /// deliveries to configure multiple delivery sources to send logs to the same
+  /// delivery destination.
+  ///
+  /// Only some Amazon Web Services services support being configured as a
+  /// delivery source. These services are listed as <b>Supported [V2
+  /// Permissions]</b> in the table at <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
+  /// logging from Amazon Web Services services.</a>
+  ///
+  /// If you use this operation to update an existing delivery source, all the
+  /// current delivery source parameters are overwritten with the new parameter
+  /// values that you specify.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [logType] :
+  /// Defines the type of log that the source is sending.
+  ///
+  /// <ul>
+  /// <li>
+  /// For Amazon CodeWhisperer, the valid value is <code>EVENT_LOGS</code>.
+  /// </li>
+  /// <li>
+  /// For IAM Identity Centerr, the valid value is <code>ERROR_LOGS</code>.
+  /// </li>
+  /// <li>
+  /// For Amazon WorkMail, the valid values are
+  /// <code>ACCESS_CONTROL_LOGS</code>, <code>AUTHENTICATION_LOGS</code>,
+  /// <code>WORKMAIL_AVAILABILITY_PROVIDER_LOGS</code>, and
+  /// <code>WORKMAIL_MAILBOX_ACCESS_LOGS</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [name] :
+  /// A name for this delivery source. This name must be unique for all delivery
+  /// sources in your account.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the Amazon Web Services resource that is generating and sending
+  /// logs. For example,
+  /// <code>arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234</code>
+  ///
+  /// Parameter [tags] :
+  /// An optional list of key-value pairs to associate with the resource.
+  ///
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a>
+  Future<PutDeliverySourceResponse> putDeliverySource({
+    required String logType,
+    required String name,
+    required String resourceArn,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.PutDeliverySource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'logType': logType,
+        'name': name,
+        'resourceArn': resourceArn,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return PutDeliverySourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates a destination. This operation is used only to create
@@ -2113,12 +3756,12 @@ class CloudWatchLogs {
   /// Parameter [forceUpdate] :
   /// Specify true if you are updating an existing destination policy to grant
   /// permission to an organization ID instead of granting permission to
-  /// individual AWS accounts. Before you update a destination policy this way,
-  /// you must first update the subscription filters in the accounts that send
-  /// logs to this destination. If you do not, the subscription filters might
-  /// stop working. By specifying <code>true</code> for
-  /// <code>forceUpdate</code>, you are affirming that you have already updated
-  /// the subscription filters. For more information, see <a
+  /// individual Amazon Web Services accounts. Before you update a destination
+  /// policy this way, you must first update the subscription filters in the
+  /// accounts that send logs to this destination. If you do not, the
+  /// subscription filters might stop working. By specifying <code>true</code>
+  /// for <code>forceUpdate</code>, you are affirming that you have already
+  /// updated the subscription filters. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Cross-Account-Log_Subscription-Update.html">
   /// Updating an existing cross-account subscription</a>
   ///
@@ -2183,6 +3826,9 @@ class CloudWatchLogs {
   /// <li>
   /// A batch of log events in a single request cannot span more than 24 hours.
   /// Otherwise, the operation fails.
+  /// </li>
+  /// <li>
+  /// Each log event can be no larger than 256 KB.
   /// </li>
   /// <li>
   /// The maximum number of log events in a batch is 10,000.
@@ -2268,9 +3914,8 @@ class CloudWatchLogs {
   /// Each different value found for a dimension is treated as a separate metric
   /// and accrues charges as a separate custom metric.
   ///
-  /// CloudWatch Logs disables a metric filter if it generates 1,000 different
-  /// name/value pairs for your specified dimensions within a certain amount of
-  /// time. This helps to prevent accidental high charges.
+  /// CloudWatch Logs might disable a metric filter if it generates 1,000
+  /// different name/value pairs for your specified dimensions within one hour.
   ///
   /// You can also set up a billing alarm to alert you if your charges are
   /// higher than expected. For more information, see <a
@@ -2355,6 +4000,10 @@ class CloudWatchLogs {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
   /// Logs Insights Query Syntax</a>.
   ///
+  /// Parameter [clientToken] :
+  /// Used as an idempotency token, to avoid returning an exception if the
+  /// service receives the same request twice because of a network error.
+  ///
   /// Parameter [logGroupNames] :
   /// Use this parameter to include specific log groups as part of your query
   /// definition.
@@ -2374,6 +4023,7 @@ class CloudWatchLogs {
   Future<PutQueryDefinitionResponse> putQueryDefinition({
     required String name,
     required String queryString,
+    String? clientToken,
     List<String>? logGroupNames,
     String? queryDefinitionId,
   }) async {
@@ -2390,6 +4040,7 @@ class CloudWatchLogs {
       payload: {
         'name': name,
         'queryString': queryString,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (logGroupNames != null) 'logGroupNames': logGroupNames,
         if (queryDefinitionId != null) 'queryDefinitionId': queryDefinitionId,
       },
@@ -2477,6 +4128,13 @@ class CloudWatchLogs {
   /// setting until 72 hours after the previous retention period ends.
   /// Alternatively, wait to change the retention setting until you confirm that
   /// the earlier log events are deleted.
+  ///
+  /// When log events reach their retention setting they are marked for
+  /// deletion. After they are marked for deletion, they do not add to your
+  /// archival storage costs anymore, even if they are not actually deleted
+  /// until later. These log events marked for deletion are also not included
+  /// when you use an API to retrieve the <code>storedBytes</code> value to see
+  /// how many bytes a log group is storing.
   /// </note>
   ///
   /// May throw [InvalidParameterException].
@@ -2523,8 +4181,11 @@ class CloudWatchLogs {
   /// subscription filter, for same-account delivery.
   /// </li>
   /// <li>
-  /// A logical destination that belongs to a different account, for
-  /// cross-account delivery.
+  /// A logical destination created with <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html">PutDestination</a>
+  /// that belongs to a different account, for cross-account delivery. We
+  /// currently support Kinesis Data Streams and Firehose as logical
+  /// destinations.
   /// </li>
   /// <li>
   /// An Amazon Kinesis Data Firehose delivery stream that belongs to the same
@@ -2539,8 +4200,9 @@ class CloudWatchLogs {
   /// If you are updating an existing filter, you must specify the correct name
   /// in <code>filterName</code>.
   ///
-  /// To perform a <code>PutSubscriptionFilter</code> operation, you must also
-  /// have the <code>iam:PassRole</code> permission.
+  /// To perform a <code>PutSubscriptionFilter</code> operation for any
+  /// destination except a Lambda function, you must also have the
+  /// <code>iam:PassRole</code> permission.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -2628,6 +4290,144 @@ class CloudWatchLogs {
     );
   }
 
+  /// Starts a Live Tail streaming session for one or more log groups. A Live
+  /// Tail session returns a stream of log events that have been recently
+  /// ingested in the log groups. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs_LiveTail.html">Use
+  /// Live Tail to view logs in near real time</a>.
+  ///
+  /// The response to this operation is a response stream, over which the server
+  /// sends live log events and the client receives them.
+  ///
+  /// The following objects are sent over the stream:
+  ///
+  /// <ul>
+  /// <li>
+  /// A single <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionStart.html">LiveTailSessionStart</a>
+  /// object is sent at the start of the session.
+  /// </li>
+  /// <li>
+  /// Every second, a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionUpdate.html">LiveTailSessionUpdate</a>
+  /// object is sent. Each of these objects contains an array of the actual log
+  /// events.
+  ///
+  /// If no new log events were ingested in the past second, the
+  /// <code>LiveTailSessionUpdate</code> object will contain an empty array.
+  ///
+  /// The array of log events contained in a <code>LiveTailSessionUpdate</code>
+  /// can include as many as 500 log events. If the number of log events
+  /// matching the request exceeds 500 per second, the log events are sampled
+  /// down to 500 log events to be included in each
+  /// <code>LiveTailSessionUpdate</code> object.
+  ///
+  /// If your client consumes the log events slower than the server produces
+  /// them, CloudWatch Logs buffers up to 10 <code>LiveTailSessionUpdate</code>
+  /// events or 5000 log events, after which it starts dropping the oldest
+  /// events.
+  /// </li>
+  /// <li>
+  /// A <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionStreamingException.html">SessionStreamingException</a>
+  /// object is returned if an unknown error occurs on the server side.
+  /// </li>
+  /// <li>
+  /// A <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionTimeoutException.html">SessionTimeoutException</a>
+  /// object is returned when the session times out, after it has been kept open
+  /// for three hours.
+  /// </li>
+  /// </ul> <important>
+  /// You can end a session before it times out by closing the session stream or
+  /// by closing the client that is receiving the stream. The session also ends
+  /// if the established connection between the client and the server breaks.
+  /// </important>
+  /// For examples of using an SDK to start a Live Tail session, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html">
+  /// Start a Live Tail session using an Amazon Web Services SDK</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidOperationException].
+  ///
+  /// Parameter [logGroupIdentifiers] :
+  /// An array where each item in the array is a log group to include in the
+  /// Live Tail session.
+  ///
+  /// Specify each log group by its ARN.
+  ///
+  /// If you specify an ARN, the ARN can't end with an asterisk (*).
+  /// <note>
+  /// You can include up to 10 log groups.
+  /// </note>
+  ///
+  /// Parameter [logEventFilterPattern] :
+  /// An optional pattern to use to filter the results to include only log
+  /// events that match the pattern. For example, a filter pattern of
+  /// <code>error 404</code> causes only log events that include both
+  /// <code>error</code> and <code>404</code> to be included in the Live Tail
+  /// stream.
+  ///
+  /// Regular expression filter patterns are supported.
+  ///
+  /// For more information about filter pattern syntax, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html">Filter
+  /// and Pattern Syntax</a>.
+  ///
+  /// Parameter [logStreamNamePrefixes] :
+  /// If you specify this parameter, then only log events in the log streams
+  /// that have names that start with the prefixes that you specify here are
+  /// included in the Live Tail session.
+  ///
+  /// If you specify this field, you can't also specify the
+  /// <code>logStreamNames</code> field.
+  /// <note>
+  /// You can specify this parameter only if you specify only one log group in
+  /// <code>logGroupIdentifiers</code>.
+  /// </note>
+  ///
+  /// Parameter [logStreamNames] :
+  /// If you specify this parameter, then only log events in the log streams
+  /// that you specify here are included in the Live Tail session.
+  ///
+  /// If you specify this field, you can't also specify the
+  /// <code>logStreamNamePrefixes</code> field.
+  /// <note>
+  /// You can specify this parameter only if you specify only one log group in
+  /// <code>logGroupIdentifiers</code>.
+  /// </note>
+  Future<StartLiveTailResponse> startLiveTail({
+    required List<String> logGroupIdentifiers,
+    String? logEventFilterPattern,
+    List<String>? logStreamNamePrefixes,
+    List<String>? logStreamNames,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.StartLiveTail'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'logGroupIdentifiers': logGroupIdentifiers,
+        if (logEventFilterPattern != null)
+          'logEventFilterPattern': logEventFilterPattern,
+        if (logStreamNamePrefixes != null)
+          'logStreamNamePrefixes': logStreamNamePrefixes,
+        if (logStreamNames != null) 'logStreamNames': logStreamNames,
+      },
+    );
+
+    return StartLiveTailResponse.fromJson(jsonResponse.body);
+  }
+
   /// Schedules a query of a log group using CloudWatch Logs Insights. You
   /// specify the log group and time range to query and the query string to use.
   ///
@@ -2635,7 +4435,20 @@ class CloudWatchLogs {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
   /// Logs Insights Query Syntax</a>.
   ///
-  /// Queries time out after 15 minutes of runtime. If your queries are timing
+  /// After you run a query using <code>StartQuery</code>, the query results are
+  /// stored by CloudWatch Logs. You can use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html">GetQueryResults</a>
+  /// to retrieve the results of a query, using the <code>queryId</code> that
+  /// <code>StartQuery</code> returns.
+  ///
+  /// If you have associated a KMS key with the query results in this account,
+  /// then <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html">StartQuery</a>
+  /// uses that key to encrypt the results when it stores them. If no key is
+  /// associated with query results, the query results are encrypted with the
+  /// default CloudWatch Logs encryption method.
+  ///
+  /// Queries time out after 60 minutes of runtime. If your queries are timing
   /// out, reduce the time range being searched or partition your query into a
   /// number of queries.
   ///
@@ -2647,7 +4460,7 @@ class CloudWatchLogs {
   /// <code>StartQuery</code> operation, the query definition must be defined in
   /// the monitoring account.
   ///
-  /// You can have up to 20 concurrent CloudWatch Logs insights queries,
+  /// You can have up to 30 concurrent CloudWatch Logs insights queries,
   /// including queries that have been added to dashboards.
   ///
   /// May throw [MalformedQueryException].
@@ -2688,14 +4501,14 @@ class CloudWatchLogs {
   ///
   /// A <code>StartQuery</code> operation must include exactly one of the
   /// following parameters: <code>logGroupName</code>,
-  /// <code>logGroupNames</code> or <code>logGroupIdentifiers</code>.
+  /// <code>logGroupNames</code>, or <code>logGroupIdentifiers</code>.
   ///
   /// Parameter [logGroupName] :
   /// The log group on which to perform the query.
   /// <note>
   /// A <code>StartQuery</code> operation must include exactly one of the
   /// following parameters: <code>logGroupName</code>,
-  /// <code>logGroupNames</code> or <code>logGroupIdentifiers</code>.
+  /// <code>logGroupNames</code>, or <code>logGroupIdentifiers</code>.
   /// </note>
   ///
   /// Parameter [logGroupNames] :
@@ -2703,7 +4516,7 @@ class CloudWatchLogs {
   /// <note>
   /// A <code>StartQuery</code> operation must include exactly one of the
   /// following parameters: <code>logGroupName</code>,
-  /// <code>logGroupNames</code> or <code>logGroupIdentifiers</code>.
+  /// <code>logGroupNames</code>, or <code>logGroupIdentifiers</code>.
   /// </note>
   Future<StartQueryResponse> startQuery({
     required int endTime,
@@ -3031,6 +4844,471 @@ class CloudWatchLogs {
       },
     );
   }
+
+  /// Use this operation to <i>suppress</i> anomaly detection for a specified
+  /// anomaly or pattern. If you suppress an anomaly, CloudWatch Logs won’t
+  /// report new occurrences of that anomaly and won't update that anomaly with
+  /// new data. If you suppress a pattern, CloudWatch Logs won’t report any
+  /// anomalies related to that pattern.
+  ///
+  /// You must specify either <code>anomalyId</code> or <code>patternId</code>,
+  /// but you can't specify both parameters in the same operation.
+  ///
+  /// If you have previously used this operation to suppress detection of a
+  /// pattern or anomaly, you can use it again to cause CloudWatch Logs to end
+  /// the suppression. To do this, use this operation and specify the anomaly or
+  /// pattern to stop suppressing, and omit the <code>suppressionType</code> and
+  /// <code>suppressionPeriod</code> parameters.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  ///
+  /// Parameter [anomalyDetectorArn] :
+  /// The ARN of the anomaly detector that this operation is to act on.
+  ///
+  /// Parameter [anomalyId] :
+  /// If you are suppressing or unsuppressing an anomaly, specify its unique ID
+  /// here. You can find anomaly IDs by using the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html">ListAnomalies</a>
+  /// operation.
+  ///
+  /// Parameter [patternId] :
+  /// If you are suppressing or unsuppressing an pattern, specify its unique ID
+  /// here. You can find pattern IDs by using the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html">ListAnomalies</a>
+  /// operation.
+  ///
+  /// Parameter [suppressionPeriod] :
+  /// If you are temporarily suppressing an anomaly or pattern, use this
+  /// structure to specify how long the suppression is to last.
+  ///
+  /// Parameter [suppressionType] :
+  /// Use this to specify whether the suppression to be temporary or infinite.
+  /// If you specify <code>LIMITED</code>, you must also specify a
+  /// <code>suppressionPeriod</code>. If you specify <code>INFINITE</code>, any
+  /// value for <code>suppressionPeriod</code> is ignored.
+  Future<void> updateAnomaly({
+    required String anomalyDetectorArn,
+    String? anomalyId,
+    String? patternId,
+    SuppressionPeriod? suppressionPeriod,
+    SuppressionType? suppressionType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.UpdateAnomaly'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'anomalyDetectorArn': anomalyDetectorArn,
+        if (anomalyId != null) 'anomalyId': anomalyId,
+        if (patternId != null) 'patternId': patternId,
+        if (suppressionPeriod != null) 'suppressionPeriod': suppressionPeriod,
+        if (suppressionType != null)
+          'suppressionType': suppressionType.toValue(),
+      },
+    );
+  }
+
+  /// Updates an existing log anomaly detector.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationAbortedException].
+  ///
+  /// Parameter [anomalyDetectorArn] :
+  /// The ARN of the anomaly detector that you want to update.
+  ///
+  /// Parameter [enabled] :
+  /// Use this parameter to pause or restart the anomaly detector.
+  ///
+  /// Parameter [anomalyVisibilityTime] :
+  /// The number of days to use as the life cycle of anomalies. After this time,
+  /// anomalies are automatically baselined and the anomaly detector model will
+  /// treat new occurrences of similar event as normal. Therefore, if you do not
+  /// correct the cause of an anomaly during this time, it will be considered
+  /// normal going forward and will not be detected.
+  ///
+  /// Parameter [evaluationFrequency] :
+  /// Specifies how often the anomaly detector runs and look for anomalies. Set
+  /// this value according to the frequency that the log group receives new
+  /// logs. For example, if the log group receives new log events every 10
+  /// minutes, then setting <code>evaluationFrequency</code> to
+  /// <code>FIFTEEN_MIN</code> might be appropriate.
+  Future<void> updateLogAnomalyDetector({
+    required String anomalyDetectorArn,
+    required bool enabled,
+    int? anomalyVisibilityTime,
+    EvaluationFrequency? evaluationFrequency,
+    String? filterPattern,
+  }) async {
+    _s.validateNumRange(
+      'anomalyVisibilityTime',
+      anomalyVisibilityTime,
+      7,
+      90,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.UpdateLogAnomalyDetector'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'anomalyDetectorArn': anomalyDetectorArn,
+        'enabled': enabled,
+        if (anomalyVisibilityTime != null)
+          'anomalyVisibilityTime': anomalyVisibilityTime,
+        if (evaluationFrequency != null)
+          'evaluationFrequency': evaluationFrequency.toValue(),
+        if (filterPattern != null) 'filterPattern': filterPattern,
+      },
+    );
+  }
+}
+
+/// A structure that contains information about one CloudWatch Logs account
+/// policy.
+class AccountPolicy {
+  /// The Amazon Web Services account ID that the policy applies to.
+  final String? accountId;
+
+  /// The date and time that this policy was most recently updated.
+  final int? lastUpdatedTime;
+
+  /// The policy document for this account policy.
+  ///
+  /// The JSON specified in <code>policyDocument</code> can be up to 30,720
+  /// characters.
+  final String? policyDocument;
+
+  /// The name of the account policy.
+  final String? policyName;
+
+  /// The type of policy for this account policy.
+  final PolicyType? policyType;
+
+  /// The scope of the account policy.
+  final Scope? scope;
+
+  /// The log group selection criteria for this subscription filter policy.
+  final String? selectionCriteria;
+
+  AccountPolicy({
+    this.accountId,
+    this.lastUpdatedTime,
+    this.policyDocument,
+    this.policyName,
+    this.policyType,
+    this.scope,
+    this.selectionCriteria,
+  });
+
+  factory AccountPolicy.fromJson(Map<String, dynamic> json) {
+    return AccountPolicy(
+      accountId: json['accountId'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as int?,
+      policyDocument: json['policyDocument'] as String?,
+      policyName: json['policyName'] as String?,
+      policyType: (json['policyType'] as String?)?.toPolicyType(),
+      scope: (json['scope'] as String?)?.toScope(),
+      selectionCriteria: json['selectionCriteria'] as String?,
+    );
+  }
+}
+
+/// This structure represents one anomaly that has been found by a logs anomaly
+/// detector.
+///
+/// For more information about patterns and anomalies, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html">CreateLogAnomalyDetector</a>.
+class Anomaly {
+  /// Specifies whether this anomaly is still ongoing.
+  final bool active;
+
+  /// The ARN of the anomaly detector that identified this anomaly.
+  final String anomalyDetectorArn;
+
+  /// The unique ID that CloudWatch Logs assigned to this anomaly.
+  final String anomalyId;
+
+  /// A human-readable description of the anomaly. This description is generated
+  /// by CloudWatch Logs.
+  final String description;
+
+  /// The date and time when the anomaly detector first saw this anomaly. It is
+  /// specified as epoch time, which is the number of seconds since <code>January
+  /// 1, 1970, 00:00:00 UTC</code>.
+  final int firstSeen;
+
+  /// A map showing times when the anomaly detector ran, and the number of
+  /// occurrences of this anomaly that were detected at each of those runs. The
+  /// times are specified in epoch time, which is the number of seconds since
+  /// <code>January 1, 1970, 00:00:00 UTC</code>.
+  final Map<String, int> histogram;
+
+  /// The date and time when the anomaly detector most recently saw this anomaly.
+  /// It is specified as epoch time, which is the number of seconds since
+  /// <code>January 1, 1970, 00:00:00 UTC</code>.
+  final int lastSeen;
+
+  /// An array of ARNS of the log groups that contained log events considered to
+  /// be part of this anomaly.
+  final List<String> logGroupArnList;
+
+  /// An array of sample log event messages that are considered to be part of this
+  /// anomaly.
+  final List<LogEvent> logSamples;
+
+  /// The ID of the pattern used to help identify this anomaly.
+  final String patternId;
+
+  /// The pattern used to help identify this anomaly, in string format.
+  final String patternString;
+
+  /// An array of structures where each structure contains information about one
+  /// token that makes up the pattern.
+  final List<PatternToken> patternTokens;
+
+  /// Indicates the current state of this anomaly. If it is still being treated as
+  /// an anomaly, the value is <code>Active</code>. If you have suppressed this
+  /// anomaly by using the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateAnomaly.html">UpdateAnomaly</a>
+  /// operation, the value is <code>Suppressed</code>. If this behavior is now
+  /// considered to be normal, the value is <code>Baseline</code>.
+  final State state;
+
+  /// If this anomaly is suppressed, this field is <code>true</code> if the
+  /// suppression is because the pattern is suppressed. If <code>false</code>,
+  /// then only this particular anomaly is suppressed.
+  final bool? isPatternLevelSuppression;
+
+  /// The pattern used to help identify this anomaly, in regular expression
+  /// format.
+  final String? patternRegex;
+
+  /// The priority level of this anomaly, as determined by CloudWatch Logs.
+  /// Priority is computed based on log severity labels such as <code>FATAL</code>
+  /// and <code>ERROR</code> and the amount of deviation from the baseline.
+  /// Possible values are <code>HIGH</code>, <code>MEDIUM</code>, and
+  /// <code>LOW</code>.
+  final String? priority;
+
+  /// Indicates whether this anomaly is currently suppressed. To suppress an
+  /// anomaly, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateAnomaly.html">UpdateAnomaly</a>.
+  final bool? suppressed;
+
+  /// If the anomaly is suppressed, this indicates when it was suppressed.
+  final int? suppressedDate;
+
+  /// If the anomaly is suppressed, this indicates when the suppression will end.
+  /// If this value is <code>0</code>, the anomaly was suppressed with no
+  /// expiration, with the <code>INFINITE</code> value.
+  final int? suppressedUntil;
+
+  Anomaly({
+    required this.active,
+    required this.anomalyDetectorArn,
+    required this.anomalyId,
+    required this.description,
+    required this.firstSeen,
+    required this.histogram,
+    required this.lastSeen,
+    required this.logGroupArnList,
+    required this.logSamples,
+    required this.patternId,
+    required this.patternString,
+    required this.patternTokens,
+    required this.state,
+    this.isPatternLevelSuppression,
+    this.patternRegex,
+    this.priority,
+    this.suppressed,
+    this.suppressedDate,
+    this.suppressedUntil,
+  });
+
+  factory Anomaly.fromJson(Map<String, dynamic> json) {
+    return Anomaly(
+      active: json['active'] as bool,
+      anomalyDetectorArn: json['anomalyDetectorArn'] as String,
+      anomalyId: json['anomalyId'] as String,
+      description: json['description'] as String,
+      firstSeen: json['firstSeen'] as int,
+      histogram: (json['histogram'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as int)),
+      lastSeen: json['lastSeen'] as int,
+      logGroupArnList: (json['logGroupArnList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      logSamples: (json['logSamples'] as List)
+          .whereNotNull()
+          .map((e) => LogEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      patternId: json['patternId'] as String,
+      patternString: json['patternString'] as String,
+      patternTokens: (json['patternTokens'] as List)
+          .whereNotNull()
+          .map((e) => PatternToken.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['state'] as String).toState(),
+      isPatternLevelSuppression: json['isPatternLevelSuppression'] as bool?,
+      patternRegex: json['patternRegex'] as String?,
+      priority: json['priority'] as String?,
+      suppressed: json['suppressed'] as bool?,
+      suppressedDate: json['suppressedDate'] as int?,
+      suppressedUntil: json['suppressedUntil'] as int?,
+    );
+  }
+}
+
+/// Contains information about one anomaly detector in the account.
+class AnomalyDetector {
+  /// The ARN of the anomaly detector.
+  final String? anomalyDetectorArn;
+
+  /// Specifies the current status of the anomaly detector. To pause an anomaly
+  /// detector, use the <code>enabled</code> parameter in the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateLogAnomalyDetector.html">UpdateLogAnomalyDetector</a>
+  /// operation.
+  final AnomalyDetectorStatus? anomalyDetectorStatus;
+
+  /// The number of days used as the life cycle of anomalies. After this time,
+  /// anomalies are automatically baselined and the anomaly detector model will
+  /// treat new occurrences of similar event as normal.
+  final int? anomalyVisibilityTime;
+
+  /// The date and time when this anomaly detector was created.
+  final int? creationTimeStamp;
+
+  /// The name of the anomaly detector.
+  final String? detectorName;
+
+  /// Specifies how often the anomaly detector runs and look for anomalies.
+  final EvaluationFrequency? evaluationFrequency;
+  final String? filterPattern;
+
+  /// The ID of the KMS key assigned to this anomaly detector, if any.
+  final String? kmsKeyId;
+
+  /// The date and time when this anomaly detector was most recently modified.
+  final int? lastModifiedTimeStamp;
+
+  /// A list of the ARNs of the log groups that this anomaly detector watches.
+  final List<String>? logGroupArnList;
+
+  AnomalyDetector({
+    this.anomalyDetectorArn,
+    this.anomalyDetectorStatus,
+    this.anomalyVisibilityTime,
+    this.creationTimeStamp,
+    this.detectorName,
+    this.evaluationFrequency,
+    this.filterPattern,
+    this.kmsKeyId,
+    this.lastModifiedTimeStamp,
+    this.logGroupArnList,
+  });
+
+  factory AnomalyDetector.fromJson(Map<String, dynamic> json) {
+    return AnomalyDetector(
+      anomalyDetectorArn: json['anomalyDetectorArn'] as String?,
+      anomalyDetectorStatus:
+          (json['anomalyDetectorStatus'] as String?)?.toAnomalyDetectorStatus(),
+      anomalyVisibilityTime: json['anomalyVisibilityTime'] as int?,
+      creationTimeStamp: json['creationTimeStamp'] as int?,
+      detectorName: json['detectorName'] as String?,
+      evaluationFrequency:
+          (json['evaluationFrequency'] as String?)?.toEvaluationFrequency(),
+      filterPattern: json['filterPattern'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      lastModifiedTimeStamp: json['lastModifiedTimeStamp'] as int?,
+      logGroupArnList: (json['logGroupArnList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
+enum AnomalyDetectorStatus {
+  initializing,
+  training,
+  analyzing,
+  failed,
+  deleted,
+  paused,
+}
+
+extension AnomalyDetectorStatusValueExtension on AnomalyDetectorStatus {
+  String toValue() {
+    switch (this) {
+      case AnomalyDetectorStatus.initializing:
+        return 'INITIALIZING';
+      case AnomalyDetectorStatus.training:
+        return 'TRAINING';
+      case AnomalyDetectorStatus.analyzing:
+        return 'ANALYZING';
+      case AnomalyDetectorStatus.failed:
+        return 'FAILED';
+      case AnomalyDetectorStatus.deleted:
+        return 'DELETED';
+      case AnomalyDetectorStatus.paused:
+        return 'PAUSED';
+    }
+  }
+}
+
+extension AnomalyDetectorStatusFromString on String {
+  AnomalyDetectorStatus toAnomalyDetectorStatus() {
+    switch (this) {
+      case 'INITIALIZING':
+        return AnomalyDetectorStatus.initializing;
+      case 'TRAINING':
+        return AnomalyDetectorStatus.training;
+      case 'ANALYZING':
+        return AnomalyDetectorStatus.analyzing;
+      case 'FAILED':
+        return AnomalyDetectorStatus.failed;
+      case 'DELETED':
+        return AnomalyDetectorStatus.deleted;
+      case 'PAUSED':
+        return AnomalyDetectorStatus.paused;
+    }
+    throw Exception('$this is not known in enum AnomalyDetectorStatus');
+  }
+}
+
+class CreateDeliveryResponse {
+  /// A structure that contains information about the delivery that you just
+  /// created.
+  final Delivery? delivery;
+
+  CreateDeliveryResponse({
+    this.delivery,
+  });
+
+  factory CreateDeliveryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDeliveryResponse(
+      delivery: json['delivery'] != null
+          ? Delivery.fromJson(json['delivery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 class CreateExportTaskResponse {
@@ -3044,6 +5322,21 @@ class CreateExportTaskResponse {
   factory CreateExportTaskResponse.fromJson(Map<String, dynamic> json) {
     return CreateExportTaskResponse(
       taskId: json['taskId'] as String?,
+    );
+  }
+}
+
+class CreateLogAnomalyDetectorResponse {
+  /// The ARN of the log anomaly detector that you just created.
+  final String? anomalyDetectorArn;
+
+  CreateLogAnomalyDetectorResponse({
+    this.anomalyDetectorArn,
+  });
+
+  factory CreateLogAnomalyDetectorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLogAnomalyDetectorResponse(
+      anomalyDetectorArn: json['anomalyDetectorArn'] as String?,
     );
   }
 }
@@ -3098,6 +5391,378 @@ class DeleteQueryDefinitionResponse {
   factory DeleteQueryDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteQueryDefinitionResponse(
       success: json['success'] as bool?,
+    );
+  }
+}
+
+/// This structure contains information about one <i>delivery</i> in your
+/// account.
+///
+/// A delivery is a connection between a logical <i>delivery source</i> and a
+/// logical <i>delivery destination</i>.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>.
+///
+/// You can't update an existing delivery. You can only create and delete
+/// deliveries.
+class Delivery {
+  /// The Amazon Resource Name (ARN) that uniquely identifies this delivery.
+  final String? arn;
+
+  /// The ARN of the delivery destination that is associated with this delivery.
+  final String? deliveryDestinationArn;
+
+  /// Displays whether the delivery destination associated with this delivery is
+  /// CloudWatch Logs, Amazon S3, or Firehose.
+  final DeliveryDestinationType? deliveryDestinationType;
+
+  /// The name of the delivery source that is associated with this delivery.
+  final String? deliverySourceName;
+
+  /// The unique ID that identifies this delivery in your account.
+  final String? id;
+
+  /// The tags that have been assigned to this delivery.
+  final Map<String, String>? tags;
+
+  Delivery({
+    this.arn,
+    this.deliveryDestinationArn,
+    this.deliveryDestinationType,
+    this.deliverySourceName,
+    this.id,
+    this.tags,
+  });
+
+  factory Delivery.fromJson(Map<String, dynamic> json) {
+    return Delivery(
+      arn: json['arn'] as String?,
+      deliveryDestinationArn: json['deliveryDestinationArn'] as String?,
+      deliveryDestinationType: (json['deliveryDestinationType'] as String?)
+          ?.toDeliveryDestinationType(),
+      deliverySourceName: json['deliverySourceName'] as String?,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// This structure contains information about one <i>delivery destination</i> in
+/// your account. A delivery destination is an Amazon Web Services resource that
+/// represents an Amazon Web Services service that logs can be sent to.
+/// CloudWatch Logs, Amazon S3, are supported as Firehose delivery destinations.
+///
+/// To configure logs delivery between a supported Amazon Web Services service
+/// and a destination, you must do the following:
+///
+/// <ul>
+/// <li>
+/// Create a delivery source, which is a logical object that represents the
+/// resource that is actually sending the logs. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">PutDeliverySource</a>.
+/// </li>
+/// <li>
+/// Create a <i>delivery destination</i>, which is a logical object that
+/// represents the actual delivery destination.
+/// </li>
+/// <li>
+/// If you are delivering logs cross-account, you must use <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html">PutDeliveryDestinationPolicy</a>
+/// in the destination account to assign an IAM policy to the destination. This
+/// policy allows delivery to that destination.
+/// </li>
+/// <li>
+/// Create a <i>delivery</i> by pairing exactly one delivery source and one
+/// delivery destination. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>.
+/// </li>
+/// </ul>
+/// You can configure a single delivery source to send logs to multiple
+/// destinations by creating multiple deliveries. You can also create multiple
+/// deliveries to configure multiple delivery sources to send logs to the same
+/// delivery destination.
+class DeliveryDestination {
+  /// The Amazon Resource Name (ARN) that uniquely identifies this delivery
+  /// destination.
+  final String? arn;
+
+  /// A structure that contains the ARN of the Amazon Web Services resource that
+  /// will receive the logs.
+  final DeliveryDestinationConfiguration? deliveryDestinationConfiguration;
+
+  /// Displays whether this delivery destination is CloudWatch Logs, Amazon S3, or
+  /// Firehose.
+  final DeliveryDestinationType? deliveryDestinationType;
+
+  /// The name of this delivery destination.
+  final String? name;
+
+  /// The format of the logs that are sent to this delivery destination.
+  final OutputFormat? outputFormat;
+
+  /// The tags that have been assigned to this delivery destination.
+  final Map<String, String>? tags;
+
+  DeliveryDestination({
+    this.arn,
+    this.deliveryDestinationConfiguration,
+    this.deliveryDestinationType,
+    this.name,
+    this.outputFormat,
+    this.tags,
+  });
+
+  factory DeliveryDestination.fromJson(Map<String, dynamic> json) {
+    return DeliveryDestination(
+      arn: json['arn'] as String?,
+      deliveryDestinationConfiguration:
+          json['deliveryDestinationConfiguration'] != null
+              ? DeliveryDestinationConfiguration.fromJson(
+                  json['deliveryDestinationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      deliveryDestinationType: (json['deliveryDestinationType'] as String?)
+          ?.toDeliveryDestinationType(),
+      name: json['name'] as String?,
+      outputFormat: (json['outputFormat'] as String?)?.toOutputFormat(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// A structure that contains information about one logs delivery destination.
+class DeliveryDestinationConfiguration {
+  /// The ARN of the Amazon Web Services destination that this delivery
+  /// destination represents. That Amazon Web Services destination can be a log
+  /// group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in
+  /// Firehose.
+  final String destinationResourceArn;
+
+  DeliveryDestinationConfiguration({
+    required this.destinationResourceArn,
+  });
+
+  factory DeliveryDestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeliveryDestinationConfiguration(
+      destinationResourceArn: json['destinationResourceArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationResourceArn = this.destinationResourceArn;
+    return {
+      'destinationResourceArn': destinationResourceArn,
+    };
+  }
+}
+
+enum DeliveryDestinationType {
+  s3,
+  cwl,
+  fh,
+}
+
+extension DeliveryDestinationTypeValueExtension on DeliveryDestinationType {
+  String toValue() {
+    switch (this) {
+      case DeliveryDestinationType.s3:
+        return 'S3';
+      case DeliveryDestinationType.cwl:
+        return 'CWL';
+      case DeliveryDestinationType.fh:
+        return 'FH';
+    }
+  }
+}
+
+extension DeliveryDestinationTypeFromString on String {
+  DeliveryDestinationType toDeliveryDestinationType() {
+    switch (this) {
+      case 'S3':
+        return DeliveryDestinationType.s3;
+      case 'CWL':
+        return DeliveryDestinationType.cwl;
+      case 'FH':
+        return DeliveryDestinationType.fh;
+    }
+    throw Exception('$this is not known in enum DeliveryDestinationType');
+  }
+}
+
+/// This structure contains information about one <i>delivery source</i> in your
+/// account. A delivery source is an Amazon Web Services resource that sends
+/// logs to an Amazon Web Services destination. The destination can be
+/// CloudWatch Logs, Amazon S3, or Firehose.
+///
+/// Only some Amazon Web Services services support being configured as a
+/// delivery source. These services are listed as <b>Supported [V2
+/// Permissions]</b> in the table at <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
+/// logging from Amazon Web Services services.</a>
+///
+/// To configure logs delivery between a supported Amazon Web Services service
+/// and a destination, you must do the following:
+///
+/// <ul>
+/// <li>
+/// Create a delivery source, which is a logical object that represents the
+/// resource that is actually sending the logs. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">PutDeliverySource</a>.
+/// </li>
+/// <li>
+/// Create a <i>delivery destination</i>, which is a logical object that
+/// represents the actual delivery destination. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html">PutDeliveryDestination</a>.
+/// </li>
+/// <li>
+/// If you are delivering logs cross-account, you must use <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html">PutDeliveryDestinationPolicy</a>
+/// in the destination account to assign an IAM policy to the destination. This
+/// policy allows delivery to that destination.
+/// </li>
+/// <li>
+/// Create a <i>delivery</i> by pairing exactly one delivery source and one
+/// delivery destination. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>.
+/// </li>
+/// </ul>
+/// You can configure a single delivery source to send logs to multiple
+/// destinations by creating multiple deliveries. You can also create multiple
+/// deliveries to configure multiple delivery sources to send logs to the same
+/// delivery destination.
+class DeliverySource {
+  /// The Amazon Resource Name (ARN) that uniquely identifies this delivery
+  /// source.
+  final String? arn;
+
+  /// The type of log that the source is sending. For valid values for this
+  /// parameter, see the documentation for the source service.
+  final String? logType;
+
+  /// The unique name of the delivery source.
+  final String? name;
+
+  /// This array contains the ARN of the Amazon Web Services resource that sends
+  /// logs and is represented by this delivery source. Currently, only one ARN can
+  /// be in the array.
+  final List<String>? resourceArns;
+
+  /// The Amazon Web Services service that is sending logs.
+  final String? service;
+
+  /// The tags that have been assigned to this delivery source.
+  final Map<String, String>? tags;
+
+  DeliverySource({
+    this.arn,
+    this.logType,
+    this.name,
+    this.resourceArns,
+    this.service,
+    this.tags,
+  });
+
+  factory DeliverySource.fromJson(Map<String, dynamic> json) {
+    return DeliverySource(
+      arn: json['arn'] as String?,
+      logType: json['logType'] as String?,
+      name: json['name'] as String?,
+      resourceArns: (json['resourceArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      service: json['service'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+class DescribeAccountPoliciesResponse {
+  /// An array of structures that contain information about the CloudWatch Logs
+  /// account policies that match the specified filters.
+  final List<AccountPolicy>? accountPolicies;
+
+  DescribeAccountPoliciesResponse({
+    this.accountPolicies,
+  });
+
+  factory DescribeAccountPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAccountPoliciesResponse(
+      accountPolicies: (json['accountPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class DescribeDeliveriesResponse {
+  /// An array of structures. Each structure contains information about one
+  /// delivery in the account.
+  final List<Delivery>? deliveries;
+  final String? nextToken;
+
+  DescribeDeliveriesResponse({
+    this.deliveries,
+    this.nextToken,
+  });
+
+  factory DescribeDeliveriesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDeliveriesResponse(
+      deliveries: (json['deliveries'] as List?)
+          ?.whereNotNull()
+          .map((e) => Delivery.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class DescribeDeliveryDestinationsResponse {
+  /// An array of structures. Each structure contains information about one
+  /// delivery destination in the account.
+  final List<DeliveryDestination>? deliveryDestinations;
+  final String? nextToken;
+
+  DescribeDeliveryDestinationsResponse({
+    this.deliveryDestinations,
+    this.nextToken,
+  });
+
+  factory DescribeDeliveryDestinationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDeliveryDestinationsResponse(
+      deliveryDestinations: (json['deliveryDestinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeliveryDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class DescribeDeliverySourcesResponse {
+  /// An array of structures. Each structure contains information about one
+  /// delivery source in the account.
+  final List<DeliverySource>? deliverySources;
+  final String? nextToken;
+
+  DescribeDeliverySourcesResponse({
+    this.deliverySources,
+    this.nextToken,
+  });
+
+  factory DescribeDeliverySourcesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDeliverySourcesResponse(
+      deliverySources: (json['deliverySources'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeliverySource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 }
@@ -3374,6 +6039,54 @@ extension DistributionFromString on String {
   }
 }
 
+enum EvaluationFrequency {
+  oneMin,
+  fiveMin,
+  tenMin,
+  fifteenMin,
+  thirtyMin,
+  oneHour,
+}
+
+extension EvaluationFrequencyValueExtension on EvaluationFrequency {
+  String toValue() {
+    switch (this) {
+      case EvaluationFrequency.oneMin:
+        return 'ONE_MIN';
+      case EvaluationFrequency.fiveMin:
+        return 'FIVE_MIN';
+      case EvaluationFrequency.tenMin:
+        return 'TEN_MIN';
+      case EvaluationFrequency.fifteenMin:
+        return 'FIFTEEN_MIN';
+      case EvaluationFrequency.thirtyMin:
+        return 'THIRTY_MIN';
+      case EvaluationFrequency.oneHour:
+        return 'ONE_HOUR';
+    }
+  }
+}
+
+extension EvaluationFrequencyFromString on String {
+  EvaluationFrequency toEvaluationFrequency() {
+    switch (this) {
+      case 'ONE_MIN':
+        return EvaluationFrequency.oneMin;
+      case 'FIVE_MIN':
+        return EvaluationFrequency.fiveMin;
+      case 'TEN_MIN':
+        return EvaluationFrequency.tenMin;
+      case 'FIFTEEN_MIN':
+        return EvaluationFrequency.fifteenMin;
+      case 'THIRTY_MIN':
+        return EvaluationFrequency.thirtyMin;
+      case 'ONE_HOUR':
+        return EvaluationFrequency.oneHour;
+    }
+    throw Exception('$this is not known in enum EvaluationFrequency');
+  }
+}
+
 /// Represents an export task.
 class ExportTask {
   /// The name of the S3 bucket to which the log data was exported.
@@ -3631,6 +6344,145 @@ class GetDataProtectionPolicyResponse {
   }
 }
 
+class GetDeliveryDestinationPolicyResponse {
+  /// The IAM policy for this delivery destination.
+  final Policy? policy;
+
+  GetDeliveryDestinationPolicyResponse({
+    this.policy,
+  });
+
+  factory GetDeliveryDestinationPolicyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDeliveryDestinationPolicyResponse(
+      policy: json['policy'] != null
+          ? Policy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetDeliveryDestinationResponse {
+  /// A structure containing information about the delivery destination.
+  final DeliveryDestination? deliveryDestination;
+
+  GetDeliveryDestinationResponse({
+    this.deliveryDestination,
+  });
+
+  factory GetDeliveryDestinationResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeliveryDestinationResponse(
+      deliveryDestination: json['deliveryDestination'] != null
+          ? DeliveryDestination.fromJson(
+              json['deliveryDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetDeliveryResponse {
+  /// A structure that contains information about the delivery.
+  final Delivery? delivery;
+
+  GetDeliveryResponse({
+    this.delivery,
+  });
+
+  factory GetDeliveryResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeliveryResponse(
+      delivery: json['delivery'] != null
+          ? Delivery.fromJson(json['delivery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetDeliverySourceResponse {
+  /// A structure containing information about the delivery source.
+  final DeliverySource? deliverySource;
+
+  GetDeliverySourceResponse({
+    this.deliverySource,
+  });
+
+  factory GetDeliverySourceResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeliverySourceResponse(
+      deliverySource: json['deliverySource'] != null
+          ? DeliverySource.fromJson(
+              json['deliverySource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetLogAnomalyDetectorResponse {
+  /// Specifies whether the anomaly detector is currently active. To change its
+  /// status, use the <code>enabled</code> parameter in the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateLogAnomalyDetector.html">UpdateLogAnomalyDetector</a>
+  /// operation.
+  final AnomalyDetectorStatus? anomalyDetectorStatus;
+
+  /// The number of days used as the life cycle of anomalies. After this time,
+  /// anomalies are automatically baselined and the anomaly detector model will
+  /// treat new occurrences of similar event as normal.
+  final int? anomalyVisibilityTime;
+
+  /// The date and time when this anomaly detector was created.
+  final int? creationTimeStamp;
+
+  /// The name of the log anomaly detector
+  final String? detectorName;
+
+  /// Specifies how often the anomaly detector runs and look for anomalies. Set
+  /// this value according to the frequency that the log group receives new logs.
+  /// For example, if the log group receives new log events every 10 minutes, then
+  /// setting <code>evaluationFrequency</code> to <code>FIFTEEN_MIN</code> might
+  /// be appropriate.
+  final EvaluationFrequency? evaluationFrequency;
+  final String? filterPattern;
+
+  /// The ID of the KMS key assigned to this anomaly detector, if any.
+  final String? kmsKeyId;
+
+  /// The date and time when this anomaly detector was most recently modified.
+  final int? lastModifiedTimeStamp;
+
+  /// An array of structures, where each structure contains the ARN of a log group
+  /// associated with this anomaly detector.
+  final List<String>? logGroupArnList;
+
+  GetLogAnomalyDetectorResponse({
+    this.anomalyDetectorStatus,
+    this.anomalyVisibilityTime,
+    this.creationTimeStamp,
+    this.detectorName,
+    this.evaluationFrequency,
+    this.filterPattern,
+    this.kmsKeyId,
+    this.lastModifiedTimeStamp,
+    this.logGroupArnList,
+  });
+
+  factory GetLogAnomalyDetectorResponse.fromJson(Map<String, dynamic> json) {
+    return GetLogAnomalyDetectorResponse(
+      anomalyDetectorStatus:
+          (json['anomalyDetectorStatus'] as String?)?.toAnomalyDetectorStatus(),
+      anomalyVisibilityTime: json['anomalyVisibilityTime'] as int?,
+      creationTimeStamp: json['creationTimeStamp'] as int?,
+      detectorName: json['detectorName'] as String?,
+      evaluationFrequency:
+          (json['evaluationFrequency'] as String?)?.toEvaluationFrequency(),
+      filterPattern: json['filterPattern'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      lastModifiedTimeStamp: json['lastModifiedTimeStamp'] as int?,
+      logGroupArnList: (json['logGroupArnList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
 class GetLogEventsResponse {
   /// The events.
   final List<OutputLogEvent>? events;
@@ -3700,6 +6552,13 @@ class GetLogRecordResponse {
 }
 
 class GetQueryResultsResponse {
+  /// If you associated an KMS key with the CloudWatch Logs Insights query results
+  /// in this account, this field displays the ARN of the key that's used to
+  /// encrypt the query results when <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html">StartQuery</a>
+  /// stores them.
+  final String? encryptionKey;
+
   /// The log events that matched the query criteria during the most recent time
   /// it ran.
   ///
@@ -3710,8 +6569,7 @@ class GetQueryResultsResponse {
 
   /// Includes the number of log events scanned by the query, the number of log
   /// events that matched the query criteria, and the total number of bytes in the
-  /// log events that were scanned. These values reflect the full raw results of
-  /// the query.
+  /// scanned log events. These values reflect the full raw results of the query.
   final QueryStatistics? statistics;
 
   /// The status of the most recent running of the query. Possible values are
@@ -3719,12 +6577,13 @@ class GetQueryResultsResponse {
   /// <code>Running</code>, <code>Scheduled</code>, <code>Timeout</code>, and
   /// <code>Unknown</code>.
   ///
-  /// Queries time out after 15 minutes of runtime. To avoid having your queries
+  /// Queries time out after 60 minutes of runtime. To avoid having your queries
   /// time out, reduce the time range being searched or partition your query into
   /// a number of queries.
   final QueryStatus? status;
 
   GetQueryResultsResponse({
+    this.encryptionKey,
     this.results,
     this.statistics,
     this.status,
@@ -3732,6 +6591,7 @@ class GetQueryResultsResponse {
 
   factory GetQueryResultsResponse.fromJson(Map<String, dynamic> json) {
     return GetQueryResultsResponse(
+      encryptionKey: json['encryptionKey'] as String?,
       results: (json['results'] as List?)
           ?.whereNotNull()
           .map((e) => (e as List)
@@ -3747,10 +6607,33 @@ class GetQueryResultsResponse {
   }
 }
 
+enum InheritedProperty {
+  accountDataProtection,
+}
+
+extension InheritedPropertyValueExtension on InheritedProperty {
+  String toValue() {
+    switch (this) {
+      case InheritedProperty.accountDataProtection:
+        return 'ACCOUNT_DATA_PROTECTION';
+    }
+  }
+}
+
+extension InheritedPropertyFromString on String {
+  InheritedProperty toInheritedProperty() {
+    switch (this) {
+      case 'ACCOUNT_DATA_PROTECTION':
+        return InheritedProperty.accountDataProtection;
+    }
+    throw Exception('$this is not known in enum InheritedProperty');
+  }
+}
+
 /// Represents a log event, which is a record of activity that was recorded by
 /// the application or resource being monitored.
 class InputLogEvent {
-  /// The raw event message.
+  /// The raw event message. Each log event can be no larger than 256 KB.
   final String message;
 
   /// The time the event occurred, expressed as the number of milliseconds after
@@ -3769,6 +6652,50 @@ class InputLogEvent {
       'message': message,
       'timestamp': timestamp,
     };
+  }
+}
+
+class ListAnomaliesResponse {
+  /// An array of structures, where each structure contains information about one
+  /// anomaly that a log anomaly detector has found.
+  final List<Anomaly>? anomalies;
+  final String? nextToken;
+
+  ListAnomaliesResponse({
+    this.anomalies,
+    this.nextToken,
+  });
+
+  factory ListAnomaliesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAnomaliesResponse(
+      anomalies: (json['anomalies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class ListLogAnomalyDetectorsResponse {
+  /// An array of structures, where each structure in the array contains
+  /// information about one anomaly detector.
+  final List<AnomalyDetector>? anomalyDetectors;
+  final String? nextToken;
+
+  ListLogAnomalyDetectorsResponse({
+    this.anomalyDetectors,
+    this.nextToken,
+  });
+
+  factory ListLogAnomalyDetectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLogAnomalyDetectorsResponse(
+      anomalyDetectors: (json['anomalyDetectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnomalyDetector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
   }
 }
 
@@ -3806,9 +6733,207 @@ class ListTagsLogGroupResponse {
   }
 }
 
+/// This object contains the information for one log event returned in a Live
+/// Tail stream.
+class LiveTailSessionLogEvent {
+  /// The timestamp specifying when this log event was ingested into the log
+  /// group.
+  final int? ingestionTime;
+
+  /// The name or ARN of the log group that ingested this log event.
+  final String? logGroupIdentifier;
+
+  /// The name of the log stream that ingested this log event.
+  final String? logStreamName;
+
+  /// The log event message text.
+  final String? message;
+
+  /// The timestamp specifying when this log event was created.
+  final int? timestamp;
+
+  LiveTailSessionLogEvent({
+    this.ingestionTime,
+    this.logGroupIdentifier,
+    this.logStreamName,
+    this.message,
+    this.timestamp,
+  });
+
+  factory LiveTailSessionLogEvent.fromJson(Map<String, dynamic> json) {
+    return LiveTailSessionLogEvent(
+      ingestionTime: json['ingestionTime'] as int?,
+      logGroupIdentifier: json['logGroupIdentifier'] as String?,
+      logStreamName: json['logStreamName'] as String?,
+      message: json['message'] as String?,
+      timestamp: json['timestamp'] as int?,
+    );
+  }
+}
+
+/// This object contains the metadata for one <code>LiveTailSessionUpdate</code>
+/// structure. It indicates whether that update includes only a sample of 500
+/// log events out of a larger number of ingested log events, or if it contains
+/// all of the matching log events ingested during that second of time.
+class LiveTailSessionMetadata {
+  /// If this is <code>true</code>, then more than 500 log events matched the
+  /// request for this update, and the <code>sessionResults</code> includes a
+  /// sample of 500 of those events.
+  ///
+  /// If this is <code>false</code>, then 500 or fewer log events matched the
+  /// request for this update, so no sampling was necessary. In this case, the
+  /// <code>sessionResults</code> array includes all log events that matched your
+  /// request during this time.
+  final bool? sampled;
+
+  LiveTailSessionMetadata({
+    this.sampled,
+  });
+
+  factory LiveTailSessionMetadata.fromJson(Map<String, dynamic> json) {
+    return LiveTailSessionMetadata(
+      sampled: json['sampled'] as bool?,
+    );
+  }
+}
+
+/// This object contains information about this Live Tail session, including the
+/// log groups included and the log stream filters, if any.
+class LiveTailSessionStart {
+  /// An optional pattern to filter the results to include only log events that
+  /// match the pattern. For example, a filter pattern of <code>error 404</code>
+  /// displays only log events that include both <code>error</code> and
+  /// <code>404</code>.
+  ///
+  /// For more information about filter pattern syntax, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html">Filter
+  /// and Pattern Syntax</a>.
+  final String? logEventFilterPattern;
+
+  /// An array of the names and ARNs of the log groups included in this Live Tail
+  /// session.
+  final List<String>? logGroupIdentifiers;
+
+  /// If your StartLiveTail operation request included a
+  /// <code>logStreamNamePrefixes</code> parameter that filtered the session to
+  /// only include log streams that have names that start with certain prefixes,
+  /// these prefixes are listed here.
+  final List<String>? logStreamNamePrefixes;
+
+  /// If your StartLiveTail operation request included a
+  /// <code>logStreamNames</code> parameter that filtered the session to only
+  /// include certain log streams, these streams are listed here.
+  final List<String>? logStreamNames;
+
+  /// The unique ID generated by CloudWatch Logs to identify this Live Tail
+  /// session request.
+  final String? requestId;
+
+  /// The unique ID generated by CloudWatch Logs to identify this Live Tail
+  /// session.
+  final String? sessionId;
+
+  LiveTailSessionStart({
+    this.logEventFilterPattern,
+    this.logGroupIdentifiers,
+    this.logStreamNamePrefixes,
+    this.logStreamNames,
+    this.requestId,
+    this.sessionId,
+  });
+
+  factory LiveTailSessionStart.fromJson(Map<String, dynamic> json) {
+    return LiveTailSessionStart(
+      logEventFilterPattern: json['logEventFilterPattern'] as String?,
+      logGroupIdentifiers: (json['logGroupIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      logStreamNamePrefixes: (json['logStreamNamePrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      logStreamNames: (json['logStreamNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      requestId: json['requestId'] as String?,
+      sessionId: json['sessionId'] as String?,
+    );
+  }
+}
+
+/// This object contains the log events and metadata for a Live Tail session.
+class LiveTailSessionUpdate {
+  /// This object contains the session metadata for a Live Tail session.
+  final LiveTailSessionMetadata? sessionMetadata;
+
+  /// An array, where each member of the array includes the information for one
+  /// log event in the Live Tail session.
+  ///
+  /// A <code>sessionResults</code> array can include as many as 500 log events.
+  /// If the number of log events matching the request exceeds 500 per second, the
+  /// log events are sampled down to 500 log events to be included in each
+  /// <code>sessionUpdate</code> structure.
+  final List<LiveTailSessionLogEvent>? sessionResults;
+
+  LiveTailSessionUpdate({
+    this.sessionMetadata,
+    this.sessionResults,
+  });
+
+  factory LiveTailSessionUpdate.fromJson(Map<String, dynamic> json) {
+    return LiveTailSessionUpdate(
+      sessionMetadata: json['sessionMetadata'] != null
+          ? LiveTailSessionMetadata.fromJson(
+              json['sessionMetadata'] as Map<String, dynamic>)
+          : null,
+      sessionResults: (json['sessionResults'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LiveTailSessionLogEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// This structure contains the information for one sample log event that is
+/// associated with an anomaly found by a log anomaly detector.
+class LogEvent {
+  /// The message content of the log event.
+  final String? message;
+
+  /// The time stamp of the log event.
+  final int? timestamp;
+
+  LogEvent({
+    this.message,
+    this.timestamp,
+  });
+
+  factory LogEvent.fromJson(Map<String, dynamic> json) {
+    return LogEvent(
+      message: json['message'] as String?,
+      timestamp: json['timestamp'] as int?,
+    );
+  }
+}
+
 /// Represents a log group.
 class LogGroup {
-  /// The Amazon Resource Name (ARN) of the log group.
+  /// The Amazon Resource Name (ARN) of the log group. This version of the ARN
+  /// includes a trailing <code>:*</code> after the log group name.
+  ///
+  /// Use this version to refer to the ARN in IAM policies when specifying
+  /// permissions for most API actions. The exception is when specifying
+  /// permissions for <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html">TagResource</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html">UntagResource</a>,
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html">ListTagsForResource</a>.
+  /// The permissions for those three actions require the ARN version that doesn't
+  /// include a trailing <code>:*</code>.
   final String? arn;
 
   /// The creation time of the log group, expressed as the number of milliseconds
@@ -3820,9 +6945,54 @@ class LogGroup {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html">PutDataProtectionPolicy</a>.
   final DataProtectionStatus? dataProtectionStatus;
 
+  /// Displays all the properties that this log group has inherited from
+  /// account-level settings.
+  final List<InheritedProperty>? inheritedProperties;
+
   /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log
   /// data.
   final String? kmsKeyId;
+
+  /// The Amazon Resource Name (ARN) of the log group. This version of the ARN
+  /// doesn't include a trailing <code>:*</code> after the log group name.
+  ///
+  /// Use this version to refer to the ARN in the following situations:
+  ///
+  /// <ul>
+  /// <li>
+  /// In the <code>logGroupIdentifier</code> input field in many CloudWatch Logs
+  /// APIs.
+  /// </li>
+  /// <li>
+  /// In the <code>resourceArn</code> field in tagging APIs
+  /// </li>
+  /// <li>
+  /// In IAM policies, when specifying permissions for <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html">TagResource</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html">UntagResource</a>,
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html">ListTagsForResource</a>.
+  /// </li>
+  /// </ul>
+  final String? logGroupArn;
+
+  /// This specifies the log group class for this log group. There are two
+  /// classes:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>Standard</code> log class supports all CloudWatch Logs features.
+  /// </li>
+  /// <li>
+  /// The <code>Infrequent Access</code> log class supports a subset of CloudWatch
+  /// Logs features and incurs lower costs.
+  /// </li>
+  /// </ul>
+  /// For details about the features supported by each class, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html">Log
+  /// classes</a>
+  final LogGroupClass? logGroupClass;
 
   /// The name of the log group.
   final String? logGroupName;
@@ -3838,7 +7008,10 @@ class LogGroup {
     this.arn,
     this.creationTime,
     this.dataProtectionStatus,
+    this.inheritedProperties,
     this.kmsKeyId,
+    this.logGroupArn,
+    this.logGroupClass,
     this.logGroupName,
     this.metricFilterCount,
     this.retentionInDays,
@@ -3851,12 +7024,46 @@ class LogGroup {
       creationTime: json['creationTime'] as int?,
       dataProtectionStatus:
           (json['dataProtectionStatus'] as String?)?.toDataProtectionStatus(),
+      inheritedProperties: (json['inheritedProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toInheritedProperty())
+          .toList(),
       kmsKeyId: json['kmsKeyId'] as String?,
+      logGroupArn: json['logGroupArn'] as String?,
+      logGroupClass: (json['logGroupClass'] as String?)?.toLogGroupClass(),
       logGroupName: json['logGroupName'] as String?,
       metricFilterCount: json['metricFilterCount'] as int?,
       retentionInDays: json['retentionInDays'] as int?,
       storedBytes: json['storedBytes'] as int?,
     );
+  }
+}
+
+enum LogGroupClass {
+  standard,
+  infrequentAccess,
+}
+
+extension LogGroupClassValueExtension on LogGroupClass {
+  String toValue() {
+    switch (this) {
+      case LogGroupClass.standard:
+        return 'STANDARD';
+      case LogGroupClass.infrequentAccess:
+        return 'INFREQUENT_ACCESS';
+    }
+  }
+}
+
+extension LogGroupClassFromString on String {
+  LogGroupClass toLogGroupClass() {
+    switch (this) {
+      case 'STANDARD':
+        return LogGroupClass.standard;
+      case 'INFREQUENT_ACCESS':
+        return LogGroupClass.infrequentAccess;
+    }
+    throw Exception('$this is not known in enum LogGroupClass');
   }
 }
 
@@ -4133,6 +7340,49 @@ extension OrderByFromString on String {
   }
 }
 
+enum OutputFormat {
+  json,
+  plain,
+  w3c,
+  raw,
+  parquet,
+}
+
+extension OutputFormatValueExtension on OutputFormat {
+  String toValue() {
+    switch (this) {
+      case OutputFormat.json:
+        return 'json';
+      case OutputFormat.plain:
+        return 'plain';
+      case OutputFormat.w3c:
+        return 'w3c';
+      case OutputFormat.raw:
+        return 'raw';
+      case OutputFormat.parquet:
+        return 'parquet';
+    }
+  }
+}
+
+extension OutputFormatFromString on String {
+  OutputFormat toOutputFormat() {
+    switch (this) {
+      case 'json':
+        return OutputFormat.json;
+      case 'plain':
+        return OutputFormat.plain;
+      case 'w3c':
+        return OutputFormat.w3c;
+      case 'raw':
+        return OutputFormat.raw;
+      case 'parquet':
+        return OutputFormat.parquet;
+    }
+    throw Exception('$this is not known in enum OutputFormat');
+  }
+}
+
 /// Represents a log event.
 class OutputLogEvent {
   /// The time the event was ingested, expressed as the number of milliseconds
@@ -4161,6 +7411,109 @@ class OutputLogEvent {
   }
 }
 
+/// A tructures that contains information about one pattern token related to an
+/// anomaly.
+///
+/// For more information about patterns and tokens, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html">CreateLogAnomalyDetector</a>.
+class PatternToken {
+  /// For a dynamic token, this indicates where in the pattern that this token
+  /// appears, related to other dynamic tokens. The dynamic token that appears
+  /// first has a value of <code>1</code>, the one that appears second is
+  /// <code>2</code>, and so on.
+  final int? dynamicTokenPosition;
+
+  /// Contains the values found for a dynamic token, and the number of times each
+  /// value was found.
+  final Map<String, int>? enumerations;
+
+  /// Specifies whether this is a dynamic token.
+  final bool? isDynamic;
+
+  /// The string represented by this token. If this is a dynamic token, the value
+  /// will be <code>&lt;*&gt;</code>
+  final String? tokenString;
+
+  PatternToken({
+    this.dynamicTokenPosition,
+    this.enumerations,
+    this.isDynamic,
+    this.tokenString,
+  });
+
+  factory PatternToken.fromJson(Map<String, dynamic> json) {
+    return PatternToken(
+      dynamicTokenPosition: json['dynamicTokenPosition'] as int?,
+      enumerations: (json['enumerations'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+      isDynamic: json['isDynamic'] as bool?,
+      tokenString: json['tokenString'] as String?,
+    );
+  }
+}
+
+/// A structure that contains information about one delivery destination policy.
+class Policy {
+  /// The contents of the delivery destination policy.
+  final String? deliveryDestinationPolicy;
+
+  Policy({
+    this.deliveryDestinationPolicy,
+  });
+
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      deliveryDestinationPolicy: json['deliveryDestinationPolicy'] as String?,
+    );
+  }
+}
+
+enum PolicyType {
+  dataProtectionPolicy,
+  subscriptionFilterPolicy,
+}
+
+extension PolicyTypeValueExtension on PolicyType {
+  String toValue() {
+    switch (this) {
+      case PolicyType.dataProtectionPolicy:
+        return 'DATA_PROTECTION_POLICY';
+      case PolicyType.subscriptionFilterPolicy:
+        return 'SUBSCRIPTION_FILTER_POLICY';
+    }
+  }
+}
+
+extension PolicyTypeFromString on String {
+  PolicyType toPolicyType() {
+    switch (this) {
+      case 'DATA_PROTECTION_POLICY':
+        return PolicyType.dataProtectionPolicy;
+      case 'SUBSCRIPTION_FILTER_POLICY':
+        return PolicyType.subscriptionFilterPolicy;
+    }
+    throw Exception('$this is not known in enum PolicyType');
+  }
+}
+
+class PutAccountPolicyResponse {
+  /// The account policy that you created.
+  final AccountPolicy? accountPolicy;
+
+  PutAccountPolicyResponse({
+    this.accountPolicy,
+  });
+
+  factory PutAccountPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountPolicyResponse(
+      accountPolicy: json['accountPolicy'] != null
+          ? AccountPolicy.fromJson(
+              json['accountPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class PutDataProtectionPolicyResponse {
   /// The date and time that this policy was most recently updated.
   final int? lastUpdatedTime;
@@ -4182,6 +7535,62 @@ class PutDataProtectionPolicyResponse {
       lastUpdatedTime: json['lastUpdatedTime'] as int?,
       logGroupIdentifier: json['logGroupIdentifier'] as String?,
       policyDocument: json['policyDocument'] as String?,
+    );
+  }
+}
+
+class PutDeliveryDestinationPolicyResponse {
+  /// The contents of the policy that you just created.
+  final Policy? policy;
+
+  PutDeliveryDestinationPolicyResponse({
+    this.policy,
+  });
+
+  factory PutDeliveryDestinationPolicyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutDeliveryDestinationPolicyResponse(
+      policy: json['policy'] != null
+          ? Policy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class PutDeliveryDestinationResponse {
+  /// A structure containing information about the delivery destination that you
+  /// just created or updated.
+  final DeliveryDestination? deliveryDestination;
+
+  PutDeliveryDestinationResponse({
+    this.deliveryDestination,
+  });
+
+  factory PutDeliveryDestinationResponse.fromJson(Map<String, dynamic> json) {
+    return PutDeliveryDestinationResponse(
+      deliveryDestination: json['deliveryDestination'] != null
+          ? DeliveryDestination.fromJson(
+              json['deliveryDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class PutDeliverySourceResponse {
+  /// A structure containing information about the delivery source that was just
+  /// created or updated.
+  final DeliverySource? deliverySource;
+
+  PutDeliverySourceResponse({
+    this.deliverySource,
+  });
+
+  factory PutDeliverySourceResponse.fromJson(Map<String, dynamic> json) {
+    return PutDeliverySourceResponse(
+      deliverySource: json['deliverySource'] != null
+          ? DeliverySource.fromJson(
+              json['deliverySource'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -4437,10 +7846,10 @@ class RejectedLogEventsInfo {
   /// The expired log events.
   final int? expiredLogEventEndIndex;
 
-  /// The log events that are too new.
+  /// The index of the first log event that is too new. This field is inclusive.
   final int? tooNewLogEventStartIndex;
 
-  /// The log events that are dated too far in the past.
+  /// The index of the last log event that is too old. This field is exclusive.
   final int? tooOldLogEventEndIndex;
 
   RejectedLogEventsInfo({
@@ -4513,6 +7922,29 @@ class ResultField {
   }
 }
 
+enum Scope {
+  all,
+}
+
+extension ScopeValueExtension on Scope {
+  String toValue() {
+    switch (this) {
+      case Scope.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension ScopeFromString on String {
+  Scope toScope() {
+    switch (this) {
+      case 'ALL':
+        return Scope.all;
+    }
+    throw Exception('$this is not known in enum Scope');
+  }
+}
+
 /// Represents the search status of a log stream.
 class SearchedLogStream {
   /// The name of the log stream.
@@ -4530,6 +7962,38 @@ class SearchedLogStream {
     return SearchedLogStream(
       logStreamName: json['logStreamName'] as String?,
       searchedCompletely: json['searchedCompletely'] as bool?,
+    );
+  }
+}
+
+/// his exception is returned if an unknown error occurs during a Live Tail
+/// session.
+class SessionStreamingException implements _s.AwsException {
+  final String? message;
+
+  SessionStreamingException({
+    this.message,
+  });
+
+  factory SessionStreamingException.fromJson(Map<String, dynamic> json) {
+    return SessionStreamingException(
+      message: json['message'] as String?,
+    );
+  }
+}
+
+/// This exception is returned in a Live Tail stream when the Live Tail session
+/// times out. Live Tail sessions time out after three hours.
+class SessionTimeoutException implements _s.AwsException {
+  final String? message;
+
+  SessionTimeoutException({
+    this.message,
+  });
+
+  factory SessionTimeoutException.fromJson(Map<String, dynamic> json) {
+    return SessionTimeoutException(
+      message: json['message'] as String?,
     );
   }
 }
@@ -4687,6 +8151,72 @@ extension StandardUnitFromString on String {
   }
 }
 
+class StartLiveTailResponse {
+  /// An object that includes the stream returned by your request. It can include
+  /// both log events and exceptions.
+  final StartLiveTailResponseStream? responseStream;
+
+  StartLiveTailResponse({
+    this.responseStream,
+  });
+
+  factory StartLiveTailResponse.fromJson(Map<String, dynamic> json) {
+    return StartLiveTailResponse(
+      responseStream: json['responseStream'] != null
+          ? StartLiveTailResponseStream.fromJson(
+              json['responseStream'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// This object includes the stream returned by your <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTail.html">StartLiveTail</a>
+/// request.
+class StartLiveTailResponseStream {
+  /// This exception is returned if an unknown error occurs.
+  final SessionStreamingException? sessionStreamingException;
+
+  /// This exception is returned in the stream when the Live Tail session times
+  /// out. Live Tail sessions time out after three hours.
+  final SessionTimeoutException? sessionTimeoutException;
+
+  /// This object contains information about this Live Tail session, including the
+  /// log groups included and the log stream filters, if any.
+  final LiveTailSessionStart? sessionStart;
+
+  /// This object contains the log events and session metadata.
+  final LiveTailSessionUpdate? sessionUpdate;
+
+  StartLiveTailResponseStream({
+    this.sessionStreamingException,
+    this.sessionTimeoutException,
+    this.sessionStart,
+    this.sessionUpdate,
+  });
+
+  factory StartLiveTailResponseStream.fromJson(Map<String, dynamic> json) {
+    return StartLiveTailResponseStream(
+      sessionStreamingException: json['SessionStreamingException'] != null
+          ? SessionStreamingException.fromJson(
+              json['SessionStreamingException'] as Map<String, dynamic>)
+          : null,
+      sessionTimeoutException: json['SessionTimeoutException'] != null
+          ? SessionTimeoutException.fromJson(
+              json['SessionTimeoutException'] as Map<String, dynamic>)
+          : null,
+      sessionStart: json['sessionStart'] != null
+          ? LiveTailSessionStart.fromJson(
+              json['sessionStart'] as Map<String, dynamic>)
+          : null,
+      sessionUpdate: json['sessionUpdate'] != null
+          ? LiveTailSessionUpdate.fromJson(
+              json['sessionUpdate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class StartQueryResponse {
   /// The unique ID of the query.
   final String? queryId;
@@ -4699,6 +8229,39 @@ class StartQueryResponse {
     return StartQueryResponse(
       queryId: json['queryId'] as String?,
     );
+  }
+}
+
+enum State {
+  active,
+  suppressed,
+  baseline,
+}
+
+extension StateValueExtension on State {
+  String toValue() {
+    switch (this) {
+      case State.active:
+        return 'Active';
+      case State.suppressed:
+        return 'Suppressed';
+      case State.baseline:
+        return 'Baseline';
+    }
+  }
+}
+
+extension StateFromString on String {
+  State toState() {
+    switch (this) {
+      case 'Active':
+        return State.active;
+      case 'Suppressed':
+        return State.suppressed;
+      case 'Baseline':
+        return State.baseline;
+    }
+    throw Exception('$this is not known in enum State');
   }
 }
 
@@ -4761,6 +8324,121 @@ class SubscriptionFilter {
   }
 }
 
+/// If you are suppressing an anomaly temporariliy, this structure defines how
+/// long the suppression period is to be.
+class SuppressionPeriod {
+  /// Specifies whether the value of <code>value</code> is in seconds, minutes, or
+  /// hours.
+  final SuppressionUnit? suppressionUnit;
+
+  /// Specifies the number of seconds, minutes or hours to suppress this anomaly.
+  /// There is no maximum.
+  final int? value;
+
+  SuppressionPeriod({
+    this.suppressionUnit,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final suppressionUnit = this.suppressionUnit;
+    final value = this.value;
+    return {
+      if (suppressionUnit != null) 'suppressionUnit': suppressionUnit.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+enum SuppressionState {
+  suppressed,
+  unsuppressed,
+}
+
+extension SuppressionStateValueExtension on SuppressionState {
+  String toValue() {
+    switch (this) {
+      case SuppressionState.suppressed:
+        return 'SUPPRESSED';
+      case SuppressionState.unsuppressed:
+        return 'UNSUPPRESSED';
+    }
+  }
+}
+
+extension SuppressionStateFromString on String {
+  SuppressionState toSuppressionState() {
+    switch (this) {
+      case 'SUPPRESSED':
+        return SuppressionState.suppressed;
+      case 'UNSUPPRESSED':
+        return SuppressionState.unsuppressed;
+    }
+    throw Exception('$this is not known in enum SuppressionState');
+  }
+}
+
+enum SuppressionType {
+  limited,
+  infinite,
+}
+
+extension SuppressionTypeValueExtension on SuppressionType {
+  String toValue() {
+    switch (this) {
+      case SuppressionType.limited:
+        return 'LIMITED';
+      case SuppressionType.infinite:
+        return 'INFINITE';
+    }
+  }
+}
+
+extension SuppressionTypeFromString on String {
+  SuppressionType toSuppressionType() {
+    switch (this) {
+      case 'LIMITED':
+        return SuppressionType.limited;
+      case 'INFINITE':
+        return SuppressionType.infinite;
+    }
+    throw Exception('$this is not known in enum SuppressionType');
+  }
+}
+
+enum SuppressionUnit {
+  seconds,
+  minutes,
+  hours,
+}
+
+extension SuppressionUnitValueExtension on SuppressionUnit {
+  String toValue() {
+    switch (this) {
+      case SuppressionUnit.seconds:
+        return 'SECONDS';
+      case SuppressionUnit.minutes:
+        return 'MINUTES';
+      case SuppressionUnit.hours:
+        return 'HOURS';
+    }
+  }
+}
+
+extension SuppressionUnitFromString on String {
+  SuppressionUnit toSuppressionUnit() {
+    switch (this) {
+      case 'SECONDS':
+        return SuppressionUnit.seconds;
+      case 'MINUTES':
+        return SuppressionUnit.minutes;
+      case 'HOURS':
+        return SuppressionUnit.hours;
+    }
+    throw Exception('$this is not known in enum SuppressionUnit');
+  }
+}
+
 class TestMetricFilterResponse {
   /// The matched events.
   final List<MetricFilterMatchRecord>? matches;
@@ -4778,6 +8456,16 @@ class TestMetricFilterResponse {
           .toList(),
     );
   }
+}
+
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DataAlreadyAcceptedException extends _s.GenericAwsException {
@@ -4832,10 +8520,23 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
+}
+
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
@@ -4849,7 +8550,16 @@ class UnrecognizedClientException extends _s.GenericAwsException {
             type: type, code: 'UnrecognizedClientException', message: message);
 }
 
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String? type, String? message})
+      : super(type: type, code: 'ValidationException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'DataAlreadyAcceptedException': (type, message) =>
       DataAlreadyAcceptedException(type: type, message: message),
   'InvalidOperationException': (type, message) =>
@@ -4868,10 +8578,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceAlreadyExistsException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>
       ServiceUnavailableException(type: type, message: message),
+  'SessionStreamingException': (type, message) =>
+      SessionStreamingException(message: message),
+  'SessionTimeoutException': (type, message) =>
+      SessionTimeoutException(message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
   'UnrecognizedClientException': (type, message) =>
       UnrecognizedClientException(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
 };

@@ -80,6 +80,14 @@ class EBS {
   /// have been written to it. Completing the snapshot changes the status to
   /// <code>completed</code>. You cannot write new blocks to a snapshot after it
   /// has been completed.
+  /// <note>
+  /// You should always retry requests that receive server (<code>5xx</code>)
+  /// error responses, and <code>ThrottlingException</code> and
+  /// <code>RequestThrottledException</code> client error responses. For more
+  /// information see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html">Error
+  /// retries</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -144,6 +152,14 @@ class EBS {
   }
 
   /// Returns the data in a block in an Amazon Elastic Block Store snapshot.
+  /// <note>
+  /// You should always retry requests that receive server (<code>5xx</code>)
+  /// error responses, and <code>ThrottlingException</code> and
+  /// <code>RequestThrottledException</code> client error responses. For more
+  /// information see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html">Error
+  /// retries</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -211,6 +227,14 @@ class EBS {
 
   /// Returns information about the blocks that are different between two Amazon
   /// Elastic Block Store snapshots of the same volume/snapshot lineage.
+  /// <note>
+  /// You should always retry requests that receive server (<code>5xx</code>)
+  /// error responses, and <code>ThrottlingException</code> and
+  /// <code>RequestThrottledException</code> client error responses. For more
+  /// information see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html">Error
+  /// retries</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -296,6 +320,14 @@ class EBS {
 
   /// Returns information about the blocks in an Amazon Elastic Block Store
   /// snapshot.
+  /// <note>
+  /// You should always retry requests that receive server (<code>5xx</code>)
+  /// error responses, and <code>ThrottlingException</code> and
+  /// <code>RequestThrottledException</code> client error responses. For more
+  /// information see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html">Error
+  /// retries</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -369,6 +401,14 @@ class EBS {
   /// <code>pending</code> state.
   ///
   /// Data written to a snapshot must be aligned with 512-KiB sectors.
+  /// <note>
+  /// You should always retry requests that receive server (<code>5xx</code>)
+  /// error responses, and <code>ThrottlingException</code> and
+  /// <code>RequestThrottledException</code> client error responses. For more
+  /// information see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html">Error
+  /// retries</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -479,6 +519,14 @@ class EBS {
   /// After creating the snapshot, use <a
   /// href="https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html">
   /// PutSnapshotBlock</a> to write blocks of data to the snapshot.
+  /// <note>
+  /// You should always retry requests that receive server (<code>5xx</code>)
+  /// error responses, and <code>ThrottlingException</code> and
+  /// <code>RequestThrottledException</code> client error responses. For more
+  /// information see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html">Error
+  /// retries</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -868,6 +916,39 @@ class PutSnapshotBlockResponse {
   });
 }
 
+enum SSEType {
+  sseEbs,
+  sseKms,
+  none,
+}
+
+extension SSETypeValueExtension on SSEType {
+  String toValue() {
+    switch (this) {
+      case SSEType.sseEbs:
+        return 'sse-ebs';
+      case SSEType.sseKms:
+        return 'sse-kms';
+      case SSEType.none:
+        return 'none';
+    }
+  }
+}
+
+extension SSETypeFromString on String {
+  SSEType toSSEType() {
+    switch (this) {
+      case 'sse-ebs':
+        return SSEType.sseEbs;
+      case 'sse-kms':
+        return SSEType.sseKms;
+      case 'none':
+        return SSEType.none;
+    }
+    throw Exception('$this is not known in enum SSEType');
+  }
+}
+
 class StartSnapshotResponse {
   /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
@@ -887,6 +968,9 @@ class StartSnapshotResponse {
 
   /// The ID of the snapshot.
   final String? snapshotId;
+
+  /// Reserved for future use.
+  final SSEType? sseType;
 
   /// The timestamp when the snapshot was created.
   final DateTime? startTime;
@@ -911,6 +995,7 @@ class StartSnapshotResponse {
     this.ownerId,
     this.parentSnapshotId,
     this.snapshotId,
+    this.sseType,
     this.startTime,
     this.status,
     this.tags,
@@ -925,6 +1010,7 @@ class StartSnapshotResponse {
       ownerId: json['OwnerId'] as String?,
       parentSnapshotId: json['ParentSnapshotId'] as String?,
       snapshotId: json['SnapshotId'] as String?,
+      sseType: (json['SseType'] as String?)?.toSSEType(),
       startTime: timeStampFromJson(json['StartTime']),
       status: (json['Status'] as String?)?.toStatus(),
       tags: (json['Tags'] as List?)

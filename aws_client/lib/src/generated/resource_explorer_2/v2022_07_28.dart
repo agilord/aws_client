@@ -218,7 +218,7 @@ class ResourceExplorer {
   /// prevent the accidental creation of duplicate versions. We recommend that
   /// you generate a <a
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type
-  /// value</a> to ensure the uniqueness of your views.
+  /// value</a> to ensure the uniqueness of your index.
   ///
   /// Parameter [tags] :
   /// The specified tags are attached only to the index created in this Amazon
@@ -308,6 +308,10 @@ class ResourceExplorer {
   /// The default is an empty list, with no optional fields included in the
   /// results.
   ///
+  /// Parameter [scope] :
+  /// The root ARN of the account, an organizational unit (OU), or an
+  /// organization ARN. If left empty, the default is account.
+  ///
   /// Parameter [tags] :
   /// Tag key and value pairs that are attached to the view.
   Future<CreateViewOutput> createView({
@@ -315,6 +319,7 @@ class ResourceExplorer {
     String? clientToken,
     SearchFilter? filters,
     List<IncludedProperty>? includedProperties,
+    String? scope,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -322,6 +327,7 @@ class ResourceExplorer {
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (filters != null) 'Filters': filters,
       if (includedProperties != null) 'IncludedProperties': includedProperties,
+      if (scope != null) 'Scope': scope,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -415,6 +421,7 @@ class ResourceExplorer {
   /// then users must explicitly specify a view with every <code>Search</code>
   /// operation performed in that Region.
   ///
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
   /// May throw [ThrottlingException].
@@ -426,6 +433,26 @@ class ResourceExplorer {
       requestUri: '/DisassociateDefaultView',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Retrieves the status of your account's Amazon Web Services service access,
+  /// and validates the service linked role required to access the multi-account
+  /// search feature. Only the management account or a delegated administrator
+  /// with service access enabled can invoke this API call.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  Future<GetAccountLevelServiceConfigurationOutput>
+      getAccountLevelServiceConfiguration() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/GetAccountLevelServiceConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccountLevelServiceConfigurationOutput.fromJson(response);
   }
 
   /// Retrieves the Amazon Resource Name (ARN) of the view that is the default
@@ -522,7 +549,7 @@ class ResourceExplorer {
   /// <code>NextToken</code> response indicates that more output is available.
   /// Set this parameter to the value of the previous call's
   /// <code>NextToken</code> response to indicate where the output should
-  /// continue from.
+  /// continue from. The pagination tokens expire after 24 hours.
   ///
   /// Parameter [regions] :
   /// If specified, limits the response to only information about the index in
@@ -560,6 +587,65 @@ class ResourceExplorer {
     return ListIndexesOutput.fromJson(response);
   }
 
+  /// Retrieves a list of a member's indexes in all Amazon Web Services Regions
+  /// that are currently collecting resource information for Amazon Web Services
+  /// Resource Explorer. Only the management account or a delegated
+  /// administrator with service access enabled can invoke this API call.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [accountIdList] :
+  /// The account IDs will limit the output to only indexes from these accounts.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value
+  /// appropriate to the operation. If additional items exist beyond those
+  /// included in the current response, the <code>NextToken</code> response
+  /// element is present and has a value (is not null). Include that value as
+  /// the <code>NextToken</code> request parameter in the next call to the
+  /// operation to get the next part of the results.
+  /// <note>
+  /// An API operation can return fewer results than the maximum even when there
+  /// are more results available. You should check <code>NextToken</code> after
+  /// every operation to ensure that you receive all of the results.
+  /// </note>
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value of the previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from. The pagination tokens expire after 24 hours.
+  Future<ListIndexesForMembersOutput> listIndexesForMembers({
+    required List<String> accountIdList,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final $payload = <String, dynamic>{
+      'AccountIdList': accountIdList,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListIndexesForMembers',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIndexesForMembersOutput.fromJson(response);
+  }
+
   /// Retrieves a list of all resource types currently supported by Amazon Web
   /// Services Resource Explorer.
   ///
@@ -588,7 +674,7 @@ class ResourceExplorer {
   /// <code>NextToken</code> response indicates that more output is available.
   /// Set this parameter to the value of the previous call's
   /// <code>NextToken</code> response to indicate where the output should
-  /// continue from.
+  /// continue from. The pagination tokens expire after 24 hours.
   Future<ListSupportedResourceTypesOutput> listSupportedResourceTypes({
     int? maxResults,
     String? nextToken,
@@ -676,7 +762,7 @@ class ResourceExplorer {
   /// <code>NextToken</code> response indicates that more output is available.
   /// Set this parameter to the value of the previous call's
   /// <code>NextToken</code> response to indicate where the output should
-  /// continue from.
+  /// continue from. The pagination tokens expire after 24 hours.
   Future<ListViewsOutput> listViews({
     int? maxResults,
     String? nextToken,
@@ -685,7 +771,7 @@ class ResourceExplorer {
       'maxResults',
       maxResults,
       1,
-      20,
+      50,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -764,7 +850,7 @@ class ResourceExplorer {
   /// <code>NextToken</code> response indicates that more output is available.
   /// Set this parameter to the value of the previous call's
   /// <code>NextToken</code> response to indicate where the output should
-  /// continue from.
+  /// continue from. The pagination tokens expire after 24 hours.
   ///
   /// Parameter [viewArn] :
   /// Specifies the <a
@@ -1031,6 +1117,34 @@ class ResourceExplorer {
   }
 }
 
+enum AWSServiceAccessStatus {
+  enabled,
+  disabled,
+}
+
+extension AWSServiceAccessStatusValueExtension on AWSServiceAccessStatus {
+  String toValue() {
+    switch (this) {
+      case AWSServiceAccessStatus.enabled:
+        return 'ENABLED';
+      case AWSServiceAccessStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension AWSServiceAccessStatusFromString on String {
+  AWSServiceAccessStatus toAWSServiceAccessStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return AWSServiceAccessStatus.enabled;
+      case 'DISABLED':
+        return AWSServiceAccessStatus.disabled;
+    }
+    throw Exception('$this is not known in enum AWSServiceAccessStatus');
+  }
+}
+
 class AssociateDefaultViewOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1276,6 +1390,33 @@ class Document {
   }
 }
 
+class GetAccountLevelServiceConfigurationOutput {
+  /// Details about the organization, and whether configuration is
+  /// <code>ENABLED</code> or <code>DISABLED</code>.
+  final OrgConfiguration? orgConfiguration;
+
+  GetAccountLevelServiceConfigurationOutput({
+    this.orgConfiguration,
+  });
+
+  factory GetAccountLevelServiceConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetAccountLevelServiceConfigurationOutput(
+      orgConfiguration: json['OrgConfiguration'] != null
+          ? OrgConfiguration.fromJson(
+              json['OrgConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final orgConfiguration = this.orgConfiguration;
+    return {
+      if (orgConfiguration != null) 'OrgConfiguration': orgConfiguration,
+    };
+  }
+}
+
 class GetDefaultViewOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1485,11 +1626,11 @@ class Index {
   ///
   /// <ul>
   /// <li>
-  /// <b>LOCAL</b> – The index contains information about resources from only the
-  /// same Amazon Web Services Region.
+  /// <code>LOCAL</code> – The index contains information about resources from
+  /// only the same Amazon Web Services Region.
   /// </li>
   /// <li>
-  /// <b>AGGREGATOR</b> – Resource Explorer replicates copies of the indexed
+  /// <code>AGGREGATOR</code> – Resource Explorer replicates copies of the indexed
   /// information about resources in all other Amazon Web Services Regions to the
   /// aggregator index. This lets search results in the Region with the aggregator
   /// index to include resources from all Regions in the account where Resource
@@ -1595,6 +1736,43 @@ extension IndexTypeFromString on String {
   }
 }
 
+class ListIndexesForMembersOutput {
+  /// A structure that contains the details and status of each index.
+  final List<MemberIndex>? indexes;
+
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>. The pagination tokens expire after
+  /// 24 hours.
+  final String? nextToken;
+
+  ListIndexesForMembersOutput({
+    this.indexes,
+    this.nextToken,
+  });
+
+  factory ListIndexesForMembersOutput.fromJson(Map<String, dynamic> json) {
+    return ListIndexesForMembersOutput(
+      indexes: (json['Indexes'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberIndex.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexes = this.indexes;
+    final nextToken = this.nextToken;
+    return {
+      if (indexes != null) 'Indexes': indexes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListIndexesOutput {
   /// A structure that contains the details and status of each index.
   final List<Index>? indexes;
@@ -1603,7 +1781,8 @@ class ListIndexesOutput {
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
+  /// element comes back as <code>null</code>. The pagination tokens expire after
+  /// 24 hours.
   final String? nextToken;
 
   ListIndexesOutput({
@@ -1636,7 +1815,8 @@ class ListSupportedResourceTypesOutput {
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
+  /// element comes back as <code>null</code>. The pagination tokens expire after
+  /// 24 hours.
   final String? nextToken;
 
   /// The list of resource types supported by Resource Explorer.
@@ -1696,7 +1876,8 @@ class ListViewsOutput {
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
+  /// element comes back as <code>null</code>. The pagination tokens expire after
+  /// 24 hours.
   final String? nextToken;
 
   /// The list of views available in the Amazon Web Services Region in which you
@@ -1724,6 +1905,103 @@ class ListViewsOutput {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (views != null) 'Views': views,
+    };
+  }
+}
+
+/// An index is the data store used by Amazon Web Services Resource Explorer to
+/// hold information about your Amazon Web Services resources that the service
+/// discovers.
+class MemberIndex {
+  /// The account ID for the index.
+  final String? accountId;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// resource name (ARN)</a> of the index.
+  final String? arn;
+
+  /// The Amazon Web Services Region in which the index exists.
+  final String? region;
+
+  /// The type of index. It can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LOCAL</code> – The index contains information about resources from
+  /// only the same Amazon Web Services Region.
+  /// </li>
+  /// <li>
+  /// <code>AGGREGATOR</code> – Resource Explorer replicates copies of the indexed
+  /// information about resources in all other Amazon Web Services Regions to the
+  /// aggregator index. This lets search results in the Region with the aggregator
+  /// index to include resources from all Regions in the account where Resource
+  /// Explorer is turned on.
+  /// </li>
+  /// </ul>
+  final IndexType? type;
+
+  MemberIndex({
+    this.accountId,
+    this.arn,
+    this.region,
+    this.type,
+  });
+
+  factory MemberIndex.fromJson(Map<String, dynamic> json) {
+    return MemberIndex(
+      accountId: json['AccountId'] as String?,
+      arn: json['Arn'] as String?,
+      region: json['Region'] as String?,
+      type: (json['Type'] as String?)?.toIndexType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final arn = this.arn;
+    final region = this.region;
+    final type = this.type;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (arn != null) 'Arn': arn,
+      if (region != null) 'Region': region,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// This is a structure that contains the status of Amazon Web Services service
+/// access, and whether you have a valid service-linked role to enable
+/// multi-account search for your organization.
+class OrgConfiguration {
+  /// This value displays whether your Amazon Web Services service access is
+  /// <code>ENABLED</code> or <code>DISABLED</code>.
+  final AWSServiceAccessStatus awsServiceAccessStatus;
+
+  /// This value shows whether or not you have a valid a service-linked role
+  /// required to start the multi-account search feature.
+  final String? serviceLinkedRole;
+
+  OrgConfiguration({
+    required this.awsServiceAccessStatus,
+    this.serviceLinkedRole,
+  });
+
+  factory OrgConfiguration.fromJson(Map<String, dynamic> json) {
+    return OrgConfiguration(
+      awsServiceAccessStatus:
+          (json['AWSServiceAccessStatus'] as String).toAWSServiceAccessStatus(),
+      serviceLinkedRole: json['ServiceLinkedRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsServiceAccessStatus = this.awsServiceAccessStatus;
+    final serviceLinkedRole = this.serviceLinkedRole;
+    return {
+      'AWSServiceAccessStatus': awsServiceAccessStatus.toValue(),
+      if (serviceLinkedRole != null) 'ServiceLinkedRole': serviceLinkedRole,
     };
   }
 }
@@ -1934,7 +2212,8 @@ class SearchOutput {
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
+  /// element comes back as <code>null</code>. The pagination tokens expire after
+  /// 24 hours.
   final String? nextToken;
 
   /// The list of structures that describe the resources that match the query.

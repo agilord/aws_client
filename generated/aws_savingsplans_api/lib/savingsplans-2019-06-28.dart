@@ -19,12 +19,13 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Savings Plans are a pricing model that offer significant savings on AWS
-/// usage (for example, on Amazon EC2 instances). You commit to a consistent
-/// amount of usage, in USD per hour, for a term of 1 or 3 years, and receive a
-/// lower price for that usage. For more information, see the <a
-/// href="https://docs.aws.amazon.com/savingsplans/latest/userguide/">AWS
-/// Savings Plans User Guide</a>.
+/// Savings Plans are a pricing model that offer significant savings on Amazon
+/// Web Services usage (for example, on Amazon EC2 instances). You commit to a
+/// consistent amount of usage per hour, in the specified currency, for a term
+/// of one or three years, and receive a lower price for that usage. For more
+/// information, see the <a
+/// href="https://docs.aws.amazon.com/savingsplans/latest/userguide/">Amazon Web
+/// Services Savings Plans User Guide</a>.
 class SavingsPlans {
   final _s.RestJsonProtocol _protocol;
   SavingsPlans({
@@ -61,18 +62,19 @@ class SavingsPlans {
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [commitment] :
-  /// The hourly commitment, in USD. This is a value between 0.001 and 1
+  /// The hourly commitment, in the same currency of the
+  /// <code>savingsPlanOfferingId</code>. This is a value between 0.001 and 1
   /// million. You cannot specify more than five digits after the decimal point.
   ///
   /// Parameter [savingsPlanOfferingId] :
   /// The ID of the offering.
   ///
   /// Parameter [clientToken] :
-  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   ///
   /// Parameter [purchaseTime] :
-  /// The time at which to purchase the Savings Plan, in UTC format
+  /// The purchase time of the Savings Plan in UTC format
   /// (YYYY-MM-DDTHH:MM:SSZ).
   ///
   /// Parameter [tags] :
@@ -80,8 +82,8 @@ class SavingsPlans {
   ///
   /// Parameter [upfrontPaymentAmount] :
   /// The up-front payment amount. This is a whole number between 50 and 99
-  /// percent of the total value of the Savings Plan. This parameter is
-  /// supported only if the payment option is <code>Partial Upfront</code>.
+  /// percent of the total value of the Savings Plan. This parameter is only
+  /// supported if the payment option is <code>Partial Upfront</code>.
   Future<CreateSavingsPlanResponse> createSavingsPlan({
     required String commitment,
     required String savingsPlanOfferingId,
@@ -132,7 +134,7 @@ class SavingsPlans {
     );
   }
 
-  /// Describes the specified Savings Plans rates.
+  /// Describes the rates for the specified Savings Plan.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -198,7 +200,7 @@ class SavingsPlans {
   /// The IDs of the Savings Plans.
   ///
   /// Parameter [states] :
-  /// The states.
+  /// The current states of the Savings Plans.
   Future<DescribeSavingsPlansResponse> describeSavingsPlans({
     List<SavingsPlanFilter>? filters,
     int? maxResults,
@@ -230,7 +232,7 @@ class SavingsPlans {
     return DescribeSavingsPlansResponse.fromJson(response);
   }
 
-  /// Describes the specified Savings Plans offering rates.
+  /// Describes the offering rates for the specified Savings Plans.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -246,10 +248,11 @@ class SavingsPlans {
   /// The token for the next page of results.
   ///
   /// Parameter [operations] :
-  /// The specific AWS operation for the line item in the billing report.
+  /// The specific Amazon Web Services operation for the line item in the
+  /// billing report.
   ///
   /// Parameter [products] :
-  /// The AWS products.
+  /// The Amazon Web Services products.
   ///
   /// Parameter [savingsPlanOfferingIds] :
   /// The IDs of the offerings.
@@ -311,7 +314,7 @@ class SavingsPlans {
     return DescribeSavingsPlansOfferingRatesResponse.fromJson(response);
   }
 
-  /// Describes the specified Savings Plans offerings.
+  /// Describes the offerings for the specified Savings Plans.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -323,7 +326,7 @@ class SavingsPlans {
   /// The descriptions.
   ///
   /// Parameter [durations] :
-  /// The durations, in seconds.
+  /// The duration, in seconds.
   ///
   /// Parameter [filters] :
   /// The filters.
@@ -339,13 +342,14 @@ class SavingsPlans {
   /// The IDs of the offerings.
   ///
   /// Parameter [operations] :
-  /// The specific AWS operation for the line item in the billing report.
+  /// The specific Amazon Web Services operation for the line item in the
+  /// billing report.
   ///
   /// Parameter [paymentOptions] :
   /// The payment options.
   ///
   /// Parameter [planTypes] :
-  /// The plan type.
+  /// The plan types.
   ///
   /// Parameter [productType] :
   /// The product type.
@@ -424,6 +428,36 @@ class SavingsPlans {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Returns the specified Savings Plan.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [savingsPlanId] :
+  /// The ID of the Savings Plan.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<ReturnSavingsPlanResponse> returnSavingsPlan({
+    required String savingsPlanId,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'savingsPlanId': savingsPlanId,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ReturnSavingsPlan',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ReturnSavingsPlanResponse.fromJson(response);
   }
 
   /// Adds the specified tags to the specified resource.
@@ -542,7 +576,7 @@ class DescribeSavingsPlanRatesResponse {
   /// The ID of the Savings Plan.
   final String? savingsPlanId;
 
-  /// Information about the Savings Plans rates.
+  /// Information about the Savings Plan rates.
   final List<SavingsPlanRate>? searchResults;
 
   DescribeSavingsPlanRatesResponse({
@@ -696,9 +730,24 @@ class ParentSavingsPlanOffering {
   }
 }
 
+class ReturnSavingsPlanResponse {
+  /// The ID of the Savings Plan.
+  final String? savingsPlanId;
+
+  ReturnSavingsPlanResponse({
+    this.savingsPlanId,
+  });
+
+  factory ReturnSavingsPlanResponse.fromJson(Map<String, dynamic> json) {
+    return ReturnSavingsPlanResponse(
+      savingsPlanId: json['savingsPlanId'] as String?,
+    );
+  }
+}
+
 /// Information about a Savings Plan.
 class SavingsPlan {
-  /// The hourly commitment, in USD.
+  /// The hourly commitment amount in the specified currency.
   final String? commitment;
 
   /// The currency.
@@ -725,8 +774,13 @@ class SavingsPlan {
   /// The recurring payment amount.
   final String? recurringPaymentAmount;
 
-  /// The AWS Region.
+  /// The Amazon Web Services Region.
   final String? region;
+
+  /// The time until when a return for the Savings Plan can be requested. If the
+  /// Savings Plan is not returnable, the field reflects the Savings Plan start
+  /// time.
+  final String? returnableUntil;
 
   /// The Amazon Resource Name (ARN) of the Savings Plan.
   final String? savingsPlanArn;
@@ -740,7 +794,7 @@ class SavingsPlan {
   /// The start time.
   final String? start;
 
-  /// The state.
+  /// The current state.
   final SavingsPlanState? state;
 
   /// One or more tags.
@@ -763,6 +817,7 @@ class SavingsPlan {
     this.productTypes,
     this.recurringPaymentAmount,
     this.region,
+    this.returnableUntil,
     this.savingsPlanArn,
     this.savingsPlanId,
     this.savingsPlanType,
@@ -789,6 +844,7 @@ class SavingsPlan {
           .toList(),
       recurringPaymentAmount: json['recurringPaymentAmount'] as String?,
       region: json['region'] as String?,
+      returnableUntil: json['returnableUntil'] as String?,
       savingsPlanArn: json['savingsPlanArn'] as String?,
       savingsPlanId: json['savingsPlanId'] as String?,
       savingsPlanType:
@@ -803,7 +859,7 @@ class SavingsPlan {
   }
 }
 
-/// Information about a filter.
+/// Information about a Savings Plan filter.
 class SavingsPlanFilter {
   /// The filter name.
   final SavingsPlansFilterName? name;
@@ -840,7 +896,8 @@ class SavingsPlanOffering {
   /// The ID of the offering.
   final String? offeringId;
 
-  /// The specific AWS operation for the line item in the billing report.
+  /// The specific Amazon Web Services operation for the line item in the billing
+  /// report.
   final String? operation;
 
   /// The payment option.
@@ -930,7 +987,7 @@ extension SavingsPlanOfferingFilterAttributeFromString on String {
   }
 }
 
-/// Information about a filter.
+/// Information about a Savings Plan offering filter.
 class SavingsPlanOfferingFilterElement {
   /// The filter name.
   final SavingsPlanOfferingFilterAttribute? name;
@@ -953,7 +1010,7 @@ class SavingsPlanOfferingFilterElement {
   }
 }
 
-/// Information about a property.
+/// Information about a Savings Plan offering property.
 class SavingsPlanOfferingProperty {
   /// The property name.
   final SavingsPlanOfferingPropertyKey? name;
@@ -1006,7 +1063,8 @@ extension SavingsPlanOfferingPropertyKeyFromString on String {
 
 /// Information about a Savings Plan offering rate.
 class SavingsPlanOfferingRate {
-  /// The specific AWS operation for the line item in the billing report.
+  /// The specific Amazon Web Services operation for the line item in the billing
+  /// report.
   final String? operation;
 
   /// The product type.
@@ -1063,7 +1121,7 @@ class SavingsPlanOfferingRate {
   }
 }
 
-/// Information about a filter.
+/// Information about a Savings Plan offering rate filter.
 class SavingsPlanOfferingRateFilterElement {
   /// The filter name.
   final SavingsPlanRateFilterAttribute? name;
@@ -1086,7 +1144,7 @@ class SavingsPlanOfferingRateFilterElement {
   }
 }
 
-/// Information about a property.
+/// Information about a Savings Plan offering rate property.
 class SavingsPlanOfferingRateProperty {
   /// The property name.
   final String? name;
@@ -1183,7 +1241,8 @@ class SavingsPlanRate {
   /// The currency.
   final CurrencyCode? currency;
 
-  /// The specific AWS operation for the line item in the billing report.
+  /// The specific Amazon Web Services operation for the line item in the billing
+  /// report.
   final String? operation;
 
   /// The product type.
@@ -1234,7 +1293,7 @@ class SavingsPlanRate {
   }
 }
 
-/// Information about a filter.
+/// Information about a Savings Plan rate filter.
 class SavingsPlanRateFilter {
   /// The filter name.
   final SavingsPlanRateFilterName? name;
@@ -1365,7 +1424,7 @@ extension SavingsPlanRateFilterNameFromString on String {
   }
 }
 
-/// Information about a property.
+/// Information about a Savings Plan rate property.
 class SavingsPlanRateProperty {
   /// The property name.
   final SavingsPlanRatePropertyKey? name;
@@ -1514,6 +1573,8 @@ enum SavingsPlanState {
   retired,
   queued,
   queuedDeleted,
+  pendingReturn,
+  returned,
 }
 
 extension SavingsPlanStateValueExtension on SavingsPlanState {
@@ -1531,6 +1592,10 @@ extension SavingsPlanStateValueExtension on SavingsPlanState {
         return 'queued';
       case SavingsPlanState.queuedDeleted:
         return 'queued-deleted';
+      case SavingsPlanState.pendingReturn:
+        return 'pending-return';
+      case SavingsPlanState.returned:
+        return 'returned';
     }
   }
 }
@@ -1550,6 +1615,10 @@ extension SavingsPlanStateFromString on String {
         return SavingsPlanState.queued;
       case 'queued-deleted':
         return SavingsPlanState.queuedDeleted;
+      case 'pending-return':
+        return SavingsPlanState.pendingReturn;
+      case 'returned':
+        return SavingsPlanState.returned;
     }
     throw Exception('$this is not known in enum SavingsPlanState');
   }

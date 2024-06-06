@@ -61,7 +61,9 @@ class ConnectParticipant {
   }
 
   /// Allows you to confirm that the attachment has been uploaded using the
-  /// pre-signed URL provided in StartAttachmentUpload API.
+  /// pre-signed URL provided in StartAttachmentUpload API. A conflict exception
+  /// is thrown when an attachment with that identifier is already being
+  /// uploaded.
   /// <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
@@ -169,8 +171,9 @@ class ConnectParticipant {
   /// manager participant in non-streaming chats.
   ///
   /// Parameter [type] :
-  /// Type of connection information required. This can be omitted if
-  /// <code>ConnectParticipant</code> is <code>true</code>.
+  /// Type of connection information required. If you need
+  /// <code>CONNECTION_CREDENTIALS</code> along with marking participant as
+  /// connected, pass <code>CONNECTION_CREDENTIALS</code> in <code>Type</code>.
   Future<CreateParticipantConnectionResponse> createParticipantConnection({
     required String participantToken,
     bool? connectParticipant,
@@ -191,6 +194,37 @@ class ConnectParticipant {
       exceptionFnMap: _exceptionFns,
     );
     return CreateParticipantConnectionResponse.fromJson(response);
+  }
+
+  /// Retrieves the view for the specified view token.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectionToken] :
+  /// The connection token.
+  ///
+  /// Parameter [viewToken] :
+  /// An encrypted token originating from the interactive message of a ShowView
+  /// block operation. Represents the desired view.
+  Future<DescribeViewResponse> describeView({
+    required String connectionToken,
+    required String viewToken,
+  }) async {
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/participant/views/${Uri.encodeComponent(viewToken)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeViewResponse.fromJson(response);
   }
 
   /// Disconnects a participant.
@@ -280,7 +314,28 @@ class ConnectParticipant {
   /// for a persistent chat, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html">Enable
   /// persistent chat</a>.
-  /// <note>
+  ///
+  /// If you have a process that consumes events in the transcript of an chat
+  /// that has ended, note that chat transcripts contain the following event
+  /// content types if the event has occurred during the chat session:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>application/vnd.amazonaws.connect.event.participant.left</code>
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.amazonaws.connect.event.participant.joined</code>
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.amazonaws.connect.event.chat.ended</code>
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.amazonaws.connect.event.transfer.succeeded</code>
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.amazonaws.connect.event.transfer.failed</code>
+  /// </li>
+  /// </ul> <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
   /// </note>
@@ -352,7 +407,18 @@ class ConnectParticipant {
     return GetTranscriptResponse.fromJson(response);
   }
 
-  /// Sends an event.
+  /// <note>
+  /// The
+  /// <code>application/vnd.amazonaws.connect.event.connection.acknowledged</code>
+  /// ContentType will no longer be supported starting December 31, 2024. This
+  /// event has been migrated to the <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html">CreateParticipantConnection</a>
+  /// API using the <code>ConnectParticipant</code> field.
+  /// </note>
+  /// Sends an event. Message receipts are not supported when there are more
+  /// than two active participants in the chat. Using the SendEvent API for
+  /// message receipts when a supervisor is barged-in will result in a conflict
+  /// exception.
   /// <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
@@ -365,6 +431,7 @@ class ConnectParticipant {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [connectionToken] :
   /// The authentication token associated with the participant's connection.
@@ -377,7 +444,8 @@ class ConnectParticipant {
   /// application/vnd.amazonaws.connect.event.typing
   /// </li>
   /// <li>
-  /// application/vnd.amazonaws.connect.event.connection.acknowledged
+  /// application/vnd.amazonaws.connect.event.connection.acknowledged (will be
+  /// deprecated on December 31, 2024)
   /// </li>
   /// <li>
   /// application/vnd.amazonaws.connect.event.message.delivered
@@ -835,6 +903,31 @@ class CreateParticipantConnectionResponse {
   }
 }
 
+class DescribeViewResponse {
+  /// A view resource object. Contains metadata and content necessary to render
+  /// the view.
+  final View? view;
+
+  DescribeViewResponse({
+    this.view,
+  });
+
+  factory DescribeViewResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeViewResponse(
+      view: json['View'] != null
+          ? View.fromJson(json['View'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final view = this.view;
+    return {
+      if (view != null) 'View': view,
+    };
+  }
+}
+
 class DisconnectParticipantResponse {
   DisconnectParticipantResponse();
 
@@ -1072,6 +1165,8 @@ enum ParticipantRole {
   agent,
   customer,
   system,
+  customBot,
+  supervisor,
 }
 
 extension ParticipantRoleValueExtension on ParticipantRole {
@@ -1083,6 +1178,10 @@ extension ParticipantRoleValueExtension on ParticipantRole {
         return 'CUSTOMER';
       case ParticipantRole.system:
         return 'SYSTEM';
+      case ParticipantRole.customBot:
+        return 'CUSTOM_BOT';
+      case ParticipantRole.supervisor:
+        return 'SUPERVISOR';
     }
   }
 }
@@ -1096,6 +1195,10 @@ extension ParticipantRoleFromString on String {
         return ParticipantRole.customer;
       case 'SYSTEM':
         return ParticipantRole.system;
+      case 'CUSTOM_BOT':
+        return ParticipantRole.customBot;
+      case 'SUPERVISOR':
+        return ParticipantRole.supervisor;
     }
     throw Exception('$this is not known in enum ParticipantRole');
   }
@@ -1365,6 +1468,103 @@ class UploadMetadata {
   }
 }
 
+/// A view resource object. Contains metadata and content necessary to render
+/// the view.
+class View {
+  /// The Amazon Resource Name (ARN) of the view.
+  final String? arn;
+
+  /// View content containing all content necessary to render a view except for
+  /// runtime input data.
+  final ViewContent? content;
+
+  /// The identifier of the view.
+  final String? id;
+
+  /// The name of the view.
+  final String? name;
+
+  /// The current version of the view.
+  final int? version;
+
+  View({
+    this.arn,
+    this.content,
+    this.id,
+    this.name,
+    this.version,
+  });
+
+  factory View.fromJson(Map<String, dynamic> json) {
+    return View(
+      arn: json['Arn'] as String?,
+      content: json['Content'] != null
+          ? ViewContent.fromJson(json['Content'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final content = this.content;
+    final id = this.id;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (content != null) 'Content': content,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// View content containing all content necessary to render a view except for
+/// runtime input data.
+class ViewContent {
+  /// A list of actions possible from the view
+  final List<String>? actions;
+
+  /// The schema representing the input data that the view template must be
+  /// supplied to render.
+  final String? inputSchema;
+
+  /// The view template representing the structure of the view.
+  final String? template;
+
+  ViewContent({
+    this.actions,
+    this.inputSchema,
+    this.template,
+  });
+
+  factory ViewContent.fromJson(Map<String, dynamic> json) {
+    return ViewContent(
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      inputSchema: json['InputSchema'] as String?,
+      template: json['Template'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final inputSchema = this.inputSchema;
+    final template = this.template;
+    return {
+      if (actions != null) 'Actions': actions,
+      if (inputSchema != null) 'InputSchema': inputSchema,
+      if (template != null) 'Template': template,
+    };
+  }
+}
+
 /// The websocket for the participant's connection.
 class Websocket {
   /// The URL expiration timestamp in ISO date format.
@@ -1413,6 +1613,11 @@ class InternalServerException extends _s.GenericAwsException {
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1438,6 +1643,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>

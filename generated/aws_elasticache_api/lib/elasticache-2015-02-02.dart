@@ -84,6 +84,10 @@ class ElastiCache {
   /// May throw [SnapshotNotFoundFault].
   /// May throw [UserNotFoundFault].
   /// May throw [UserGroupNotFoundFault].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
   /// May throw [TagQuotaPerResourceExceeded].
   /// May throw [InvalidARNFault].
   ///
@@ -281,6 +285,59 @@ class ElastiCache {
       resultWrapper: 'CompleteMigrationResult',
     );
     return CompleteMigrationResponse.fromXml($result);
+  }
+
+  /// Creates a copy of an existing serverless cache’s snapshot. Available for
+  /// Redis only.
+  ///
+  /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [ServerlessCacheSnapshotQuotaExceededFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [sourceServerlessCacheSnapshotName] :
+  /// The identifier of the existing serverless cache’s snapshot to be copied.
+  /// Available for Redis only.
+  ///
+  /// Parameter [targetServerlessCacheSnapshotName] :
+  /// The identifier for the snapshot to be created. Available for Redis only.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The identifier of the KMS key used to encrypt the target snapshot.
+  /// Available for Redis only.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to be added to the target snapshot resource. A tag is a
+  /// key-value pair. Available for Redis only. Default: NULL
+  Future<CopyServerlessCacheSnapshotResponse> copyServerlessCacheSnapshot({
+    required String sourceServerlessCacheSnapshotName,
+    required String targetServerlessCacheSnapshotName,
+    String? kmsKeyId,
+    List<Tag>? tags,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['SourceServerlessCacheSnapshotName'] =
+        sourceServerlessCacheSnapshotName;
+    $request['TargetServerlessCacheSnapshotName'] =
+        targetServerlessCacheSnapshotName;
+    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CopyServerlessCacheSnapshot',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CopyServerlessCacheSnapshotRequest'],
+      shapes: shapes,
+      resultWrapper: 'CopyServerlessCacheSnapshotResult',
+    );
+    return CopyServerlessCacheSnapshotResponse.fromXml($result);
   }
 
   /// Makes a copy of an existing snapshot.
@@ -529,17 +586,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
   /// onward and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -593,18 +655,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -1187,9 +1253,9 @@ class ElastiCache {
   /// a secondary replication group associated with a Global datastore.
   ///
   /// A Redis (cluster mode disabled) replication group is a collection of
-  /// clusters, where one of the clusters is a read/write primary and the others
-  /// are read-only replicas. Writes to the primary are asynchronously
-  /// propagated to the replicas.
+  /// nodes, where one of the nodes is a read/write primary and the others are
+  /// read-only replicas. Writes to the primary are asynchronously propagated to
+  /// the replicas.
   ///
   /// A Redis cluster-mode enabled cluster is comprised of from 1 to 90 shards
   /// (API/CLI: node groups). Each shard has a primary node and up to 5
@@ -1339,17 +1405,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
   /// onward and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -1403,18 +1474,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -1622,11 +1697,6 @@ class ElastiCache {
   /// Specifies the weekly time range during which maintenance on the cluster is
   /// performed. It is specified as a range in the format
   /// ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is
-  /// a 60 minute period. Valid values for <code>ddd</code> are:
-  ///
-  /// Specifies the weekly time range during which maintenance on the cluster is
-  /// performed. It is specified as a range in the format
-  /// ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is
   /// a 60 minute period.
   ///
   /// Valid values for <code>ddd</code> are:
@@ -1675,6 +1745,10 @@ class ElastiCache {
   ///
   /// Use this parameter only when you are creating a replication group in an
   /// Amazon Virtual Private Cloud (Amazon VPC).
+  ///
+  /// Parameter [serverlessCacheSnapshotName] :
+  /// The name of the snapshot used to create a replication group. Available for
+  /// Redis only.
   ///
   /// Parameter [snapshotArns] :
   /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB
@@ -1792,6 +1866,7 @@ class ElastiCache {
     String? primaryClusterId,
     int? replicasPerNodeGroup,
     List<String>? securityGroupIds,
+    String? serverlessCacheSnapshotName,
     List<String>? snapshotArns,
     String? snapshotName,
     int? snapshotRetentionLimit,
@@ -1842,6 +1917,8 @@ class ElastiCache {
     primaryClusterId?.also((arg) => $request['PrimaryClusterId'] = arg);
     replicasPerNodeGroup?.also((arg) => $request['ReplicasPerNodeGroup'] = arg);
     securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
+    serverlessCacheSnapshotName
+        ?.also((arg) => $request['ServerlessCacheSnapshotName'] = arg);
     snapshotArns?.also((arg) => $request['SnapshotArns'] = arg);
     snapshotName?.also((arg) => $request['SnapshotName'] = arg);
     snapshotRetentionLimit
@@ -1865,6 +1942,175 @@ class ElastiCache {
       resultWrapper: 'CreateReplicationGroupResult',
     );
     return CreateReplicationGroupResult.fromXml($result);
+  }
+
+  /// Creates a serverless cache.
+  ///
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheAlreadyExistsFault].
+  /// May throw [ServerlessCacheQuotaForCustomerExceededFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  ///
+  /// Parameter [engine] :
+  /// The name of the cache engine to be used for creating the serverless cache.
+  ///
+  /// Parameter [serverlessCacheName] :
+  /// User-provided identifier for the serverless cache. This parameter is
+  /// stored as a lowercase string.
+  ///
+  /// Parameter [cacheUsageLimits] :
+  /// Sets the cache usage limits for storage and ElastiCache Processing Units
+  /// for the cache.
+  ///
+  /// Parameter [dailySnapshotTime] :
+  /// The daily time that snapshots will be created from the new serverless
+  /// cache. By default this number is populated with 0, i.e. no snapshots will
+  /// be created on an automatic daily basis. Available for Redis only.
+  ///
+  /// Parameter [description] :
+  /// User-provided description for the serverless cache. The default is NULL,
+  /// i.e. if no description is provided then an empty string will be returned.
+  /// The maximum length is 255 characters.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// ARN of the customer managed key for encrypting the data at rest. If no KMS
+  /// key is provided, a default service key is used.
+  ///
+  /// Parameter [majorEngineVersion] :
+  /// The version of the cache engine that will be used to create the serverless
+  /// cache.
+  ///
+  /// Parameter [securityGroupIds] :
+  /// A list of the one or more VPC security groups to be associated with the
+  /// serverless cache. The security group will authorize traffic access for the
+  /// VPC end-point (private-link). If no other information is given this will
+  /// be the VPC’s Default Security Group that is associated with the cluster
+  /// VPC end-point.
+  ///
+  /// Parameter [snapshotArnsToRestore] :
+  /// The ARN(s) of the snapshot that the new serverless cache will be created
+  /// from. Available for Redis only.
+  ///
+  /// Parameter [snapshotRetentionLimit] :
+  /// The number of snapshots that will be retained for the serverless cache
+  /// that is being created. As new snapshots beyond this limit are added, the
+  /// oldest snapshots will be deleted on a rolling basis. Available for Redis
+  /// only.
+  ///
+  /// Parameter [subnetIds] :
+  /// A list of the identifiers of the subnets where the VPC endpoint for the
+  /// serverless cache will be deployed. All the subnetIds must belong to the
+  /// same VPC.
+  ///
+  /// Parameter [tags] :
+  /// The list of tags (key, value) pairs to be added to the serverless cache
+  /// resource. Default is NULL.
+  ///
+  /// Parameter [userGroupId] :
+  /// The identifier of the UserGroup to be associated with the serverless
+  /// cache. Available for Redis only. Default is NULL.
+  Future<CreateServerlessCacheResponse> createServerlessCache({
+    required String engine,
+    required String serverlessCacheName,
+    CacheUsageLimits? cacheUsageLimits,
+    String? dailySnapshotTime,
+    String? description,
+    String? kmsKeyId,
+    String? majorEngineVersion,
+    List<String>? securityGroupIds,
+    List<String>? snapshotArnsToRestore,
+    int? snapshotRetentionLimit,
+    List<String>? subnetIds,
+    List<Tag>? tags,
+    String? userGroupId,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['Engine'] = engine;
+    $request['ServerlessCacheName'] = serverlessCacheName;
+    cacheUsageLimits?.also((arg) => $request['CacheUsageLimits'] = arg);
+    dailySnapshotTime?.also((arg) => $request['DailySnapshotTime'] = arg);
+    description?.also((arg) => $request['Description'] = arg);
+    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    majorEngineVersion?.also((arg) => $request['MajorEngineVersion'] = arg);
+    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
+    snapshotArnsToRestore
+        ?.also((arg) => $request['SnapshotArnsToRestore'] = arg);
+    snapshotRetentionLimit
+        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
+    subnetIds?.also((arg) => $request['SubnetIds'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
+    userGroupId?.also((arg) => $request['UserGroupId'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateServerlessCache',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateServerlessCacheRequest'],
+      shapes: shapes,
+      resultWrapper: 'CreateServerlessCacheResult',
+    );
+    return CreateServerlessCacheResponse.fromXml($result);
+  }
+
+  /// This API creates a copy of an entire ServerlessCache at a specific moment
+  /// in time. Available for Redis only.
+  ///
+  /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheSnapshotQuotaExceededFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [serverlessCacheName] :
+  /// The name of an existing serverless cache. The snapshot is created from
+  /// this cache. Available for Redis only.
+  ///
+  /// Parameter [serverlessCacheSnapshotName] :
+  /// The name for the snapshot being created. Must be unique for the customer
+  /// account. Available for Redis only. Must be between 1 and 255 characters.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The ID of the KMS key used to encrypt the snapshot. Available for Redis
+  /// only. Default: NULL
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to be added to the snapshot resource. A tag is a key-value
+  /// pair. Available for Redis only.
+  Future<CreateServerlessCacheSnapshotResponse> createServerlessCacheSnapshot({
+    required String serverlessCacheName,
+    required String serverlessCacheSnapshotName,
+    String? kmsKeyId,
+    List<Tag>? tags,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ServerlessCacheName'] = serverlessCacheName;
+    $request['ServerlessCacheSnapshotName'] = serverlessCacheSnapshotName;
+    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateServerlessCacheSnapshot',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateServerlessCacheSnapshotRequest'],
+      shapes: shapes,
+      resultWrapper: 'CreateServerlessCacheSnapshotResult',
+    );
+    return CreateServerlessCacheSnapshotResponse.fromXml($result);
   }
 
   /// Creates a copy of an entire cluster or replication group at a specific
@@ -2022,6 +2268,7 @@ class ElastiCache {
   /// Parameter [tags] :
   /// A list of tags to be added to this resource. A tag is a key-value pair. A
   /// tag key must be accompanied by a tag value, although null is accepted.
+  /// Available for Redis only.
   ///
   /// Parameter [userIds] :
   /// The list of user IDs that belong to the user group.
@@ -2479,6 +2726,72 @@ class ElastiCache {
       resultWrapper: 'DeleteReplicationGroupResult',
     );
     return DeleteReplicationGroupResult.fromXml($result);
+  }
+
+  /// Deletes a specified existing serverless cache.
+  ///
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidCredentialsException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  ///
+  /// Parameter [serverlessCacheName] :
+  /// The identifier of the serverless cache to be deleted.
+  ///
+  /// Parameter [finalSnapshotName] :
+  /// Name of the final snapshot to be taken before the serverless cache is
+  /// deleted. Available for Redis only. Default: NULL, i.e. a final snapshot is
+  /// not taken.
+  Future<DeleteServerlessCacheResponse> deleteServerlessCache({
+    required String serverlessCacheName,
+    String? finalSnapshotName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ServerlessCacheName'] = serverlessCacheName;
+    finalSnapshotName?.also((arg) => $request['FinalSnapshotName'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteServerlessCache',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteServerlessCacheRequest'],
+      shapes: shapes,
+      resultWrapper: 'DeleteServerlessCacheResult',
+    );
+    return DeleteServerlessCacheResponse.fromXml($result);
+  }
+
+  /// Deletes an existing serverless cache snapshot. Available for Redis only.
+  ///
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [serverlessCacheSnapshotName] :
+  /// Idenfitier of the snapshot to be deleted. Available for Redis only.
+  Future<DeleteServerlessCacheSnapshotResponse> deleteServerlessCacheSnapshot({
+    required String serverlessCacheSnapshotName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ServerlessCacheSnapshotName'] = serverlessCacheSnapshotName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteServerlessCacheSnapshot',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteServerlessCacheSnapshotRequest'],
+      shapes: shapes,
+      resultWrapper: 'DeleteServerlessCacheSnapshotResult',
+    );
+    return DeleteServerlessCacheSnapshotResponse.fromXml($result);
   }
 
   /// Deletes an existing snapshot. When you receive a successful response from
@@ -3207,17 +3520,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
   /// onward and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -3271,18 +3589,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -3422,17 +3744,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
   /// onward and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -3486,18 +3813,22 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -3609,6 +3940,114 @@ class ElastiCache {
       resultWrapper: 'DescribeReservedCacheNodesOfferingsResult',
     );
     return ReservedCacheNodesOfferingMessage.fromXml($result);
+  }
+
+  /// Returns information about serverless cache snapshots. By default, this API
+  /// lists all of the customer’s serverless cache snapshots. It can also
+  /// describe a single serverless cache snapshot, or the snapshots associated
+  /// with a particular serverless cache. Available for Redis only.
+  ///
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified max-results value, a market is included in the
+  /// response so that remaining results can be retrieved. Available for Redis
+  /// only.The default is 50. The Validation Constraints are a maximum of 50.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional marker returned from a prior request to support pagination of
+  /// results from this operation. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// max-results. Available for Redis only.
+  ///
+  /// Parameter [serverlessCacheName] :
+  /// The identifier of serverless cache. If this parameter is specified, only
+  /// snapshots associated with that specific serverless cache are described.
+  /// Available for Redis only.
+  ///
+  /// Parameter [serverlessCacheSnapshotName] :
+  /// The identifier of the serverless cache’s snapshot. If this parameter is
+  /// specified, only this snapshot is described. Available for Redis only.
+  ///
+  /// Parameter [snapshotType] :
+  /// The type of snapshot that is being described. Available for Redis only.
+  Future<DescribeServerlessCacheSnapshotsResponse>
+      describeServerlessCacheSnapshots({
+    int? maxResults,
+    String? nextToken,
+    String? serverlessCacheName,
+    String? serverlessCacheSnapshotName,
+    String? snapshotType,
+  }) async {
+    final $request = <String, dynamic>{};
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    serverlessCacheName?.also((arg) => $request['ServerlessCacheName'] = arg);
+    serverlessCacheSnapshotName
+        ?.also((arg) => $request['ServerlessCacheSnapshotName'] = arg);
+    snapshotType?.also((arg) => $request['SnapshotType'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeServerlessCacheSnapshots',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeServerlessCacheSnapshotsRequest'],
+      shapes: shapes,
+      resultWrapper: 'DescribeServerlessCacheSnapshotsResult',
+    );
+    return DescribeServerlessCacheSnapshotsResponse.fromXml($result);
+  }
+
+  /// Returns information about a specific serverless cache. If no identifier is
+  /// specified, then the API returns information on all the serverless caches
+  /// belonging to this Amazon Web Services account.
+  ///
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of records in the response. If more records exist than
+  /// the specified max-records value, the next token is included in the
+  /// response so that remaining results can be retrieved. The default is 50.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional marker returned from a prior request to support pagination of
+  /// results from this operation. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// MaxResults.
+  ///
+  /// Parameter [serverlessCacheName] :
+  /// The identifier for the serverless cache. If this parameter is specified,
+  /// only information about that specific serverless cache is returned.
+  /// Default: NULL
+  Future<DescribeServerlessCachesResponse> describeServerlessCaches({
+    int? maxResults,
+    String? nextToken,
+    String? serverlessCacheName,
+  }) async {
+    final $request = <String, dynamic>{};
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    serverlessCacheName?.also((arg) => $request['ServerlessCacheName'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeServerlessCaches',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeServerlessCachesRequest'],
+      shapes: shapes,
+      resultWrapper: 'DescribeServerlessCachesResult',
+    );
+    return DescribeServerlessCachesResponse.fromXml($result);
   }
 
   /// Returns details of the service updates
@@ -3956,6 +4395,43 @@ class ElastiCache {
     return DisassociateGlobalReplicationGroupResult.fromXml($result);
   }
 
+  /// Provides the functionality to export the serverless cache snapshot data to
+  /// Amazon S3. Available for Redis only.
+  ///
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [s3BucketName] :
+  /// Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3
+  /// bucket must also be in same region as the snapshot. Available for Redis
+  /// only.
+  ///
+  /// Parameter [serverlessCacheSnapshotName] :
+  /// The identifier of the serverless cache snapshot to be exported to S3.
+  /// Available for Redis only.
+  Future<ExportServerlessCacheSnapshotResponse> exportServerlessCacheSnapshot({
+    required String s3BucketName,
+    required String serverlessCacheSnapshotName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['S3BucketName'] = s3BucketName;
+    $request['ServerlessCacheSnapshotName'] = serverlessCacheSnapshotName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'ExportServerlessCacheSnapshot',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ExportServerlessCacheSnapshotRequest'],
+      shapes: shapes,
+      resultWrapper: 'ExportServerlessCacheSnapshotResult',
+    );
+    return ExportServerlessCacheSnapshotResponse.fromXml($result);
+  }
+
   /// Used to failover the primary region to a secondary region. The secondary
   /// region will become primary, and all other clusters will become secondary.
   ///
@@ -4009,7 +4485,7 @@ class ElastiCache {
   /// The name of the Global datastore
   ///
   /// Parameter [nodeGroupCount] :
-  /// The number of node groups you wish to add
+  /// Total number of node groups you want
   ///
   /// Parameter [regionalConfigurations] :
   /// Describes the replication group IDs, the Amazon regions where they are
@@ -4182,6 +4658,10 @@ class ElastiCache {
   /// May throw [SnapshotNotFoundFault].
   /// May throw [UserNotFoundFault].
   /// May throw [UserGroupNotFoundFault].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
   /// May throw [InvalidARNFault].
   ///
   /// Parameter [resourceName] :
@@ -4291,10 +4771,13 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// Rotate
+  /// ROTATE - default, if no update strategy is provided
   /// </li>
   /// <li>
-  /// Set
+  /// SET - allowed only after ROTATE
+  /// </li>
+  /// <li>
+  /// DELETE - allowed only when transitioning to RBAC
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -4788,7 +5271,8 @@ class ElastiCache {
     return ModifyGlobalReplicationGroupResult.fromXml($result);
   }
 
-  /// Modifies the settings for a replication group.
+  /// Modifies the settings for a replication group. This is limited to Redis 7
+  /// and newer.
   ///
   /// <ul>
   /// <li>
@@ -4866,10 +5350,13 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// Rotate
+  /// ROTATE - default, if no update strategy is provided
   /// </li>
   /// <li>
-  /// Set
+  /// SET - allowed only after ROTATE
+  /// </li>
+  /// <li>
+  /// DELETE - allowed only when transitioning to RBAC
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -5235,6 +5722,88 @@ class ElastiCache {
     return ModifyReplicationGroupShardConfigurationResult.fromXml($result);
   }
 
+  /// This API modifies the attributes of a serverless cache.
+  ///
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  ///
+  /// Parameter [serverlessCacheName] :
+  /// User-provided identifier for the serverless cache to be modified.
+  ///
+  /// Parameter [cacheUsageLimits] :
+  /// Modify the cache usage limit for the serverless cache.
+  ///
+  /// Parameter [dailySnapshotTime] :
+  /// The daily time during which Elasticache begins taking a daily snapshot of
+  /// the serverless cache. Available for Redis only. The default is NULL, i.e.
+  /// the existing snapshot time configured for the cluster is not removed.
+  ///
+  /// Parameter [description] :
+  /// User provided description for the serverless cache. Default = NULL, i.e.
+  /// the existing description is not removed/modified. The description has a
+  /// maximum length of 255 characters.
+  ///
+  /// Parameter [removeUserGroup] :
+  /// The identifier of the UserGroup to be removed from association with the
+  /// Redis serverless cache. Available for Redis only. Default is NULL.
+  ///
+  /// Parameter [securityGroupIds] :
+  /// The new list of VPC security groups to be associated with the serverless
+  /// cache. Populating this list means the current VPC security groups will be
+  /// removed. This security group is used to authorize traffic access for the
+  /// VPC end-point (private-link). Default = NULL - the existing list of VPC
+  /// security groups is not removed.
+  ///
+  /// Parameter [snapshotRetentionLimit] :
+  /// The number of days for which Elasticache retains automatic snapshots
+  /// before deleting them. Available for Redis only. Default = NULL, i.e. the
+  /// existing snapshot-retention-limit will not be removed or modified. The
+  /// maximum value allowed is 35 days.
+  ///
+  /// Parameter [userGroupId] :
+  /// The identifier of the UserGroup to be associated with the serverless
+  /// cache. Available for Redis only. Default is NULL - the existing UserGroup
+  /// is not removed.
+  Future<ModifyServerlessCacheResponse> modifyServerlessCache({
+    required String serverlessCacheName,
+    CacheUsageLimits? cacheUsageLimits,
+    String? dailySnapshotTime,
+    String? description,
+    bool? removeUserGroup,
+    List<String>? securityGroupIds,
+    int? snapshotRetentionLimit,
+    String? userGroupId,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ServerlessCacheName'] = serverlessCacheName;
+    cacheUsageLimits?.also((arg) => $request['CacheUsageLimits'] = arg);
+    dailySnapshotTime?.also((arg) => $request['DailySnapshotTime'] = arg);
+    description?.also((arg) => $request['Description'] = arg);
+    removeUserGroup?.also((arg) => $request['RemoveUserGroup'] = arg);
+    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
+    snapshotRetentionLimit
+        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
+    userGroupId?.also((arg) => $request['UserGroupId'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyServerlessCache',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyServerlessCacheRequest'],
+      shapes: shapes,
+      resultWrapper: 'ModifyServerlessCacheResult',
+    );
+    return ModifyServerlessCacheResponse.fromXml($result);
+  }
+
   /// Changes user password(s) and/or access string.
   ///
   /// May throw [UserNotFoundFault].
@@ -5499,6 +6068,10 @@ class ElastiCache {
   /// May throw [SnapshotNotFoundFault].
   /// May throw [UserNotFoundFault].
   /// May throw [UserGroupNotFoundFault].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
   /// May throw [InvalidARNFault].
   /// May throw [TagNotFoundFault].
   ///
@@ -5666,7 +6239,7 @@ class ElastiCache {
     return StartMigrationResponse.fromXml($result);
   }
 
-  /// Represents the input of a <code>TestFailover</code> operation which test
+  /// Represents the input of a <code>TestFailover</code> operation which tests
   /// automatic failover on a specified node group (called shard in the console)
   /// in a replication group (called cluster in the console).
   ///
@@ -5679,7 +6252,7 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// A customer can use this operation to test automatic failover on up to 5
+  /// A customer can use this operation to test automatic failover on up to 15
   /// shards (called node groups in the ElastiCache API and Amazon CLI) in any
   /// rolling 24-hour period.
   /// </li>
@@ -5752,7 +6325,7 @@ class ElastiCache {
   /// Parameter [nodeGroupId] :
   /// The name of the node group (called shard in the console) in this
   /// replication group on which automatic failover is to be tested. You may
-  /// test automatic failover on up to 5 node groups in any rolling 24-hour
+  /// test automatic failover on up to 15 node groups in any rolling 24-hour
   /// period.
   ///
   /// Parameter [replicationGroupId] :
@@ -5777,6 +6350,40 @@ class ElastiCache {
       resultWrapper: 'TestFailoverResult',
     );
     return TestFailoverResult.fromXml($result);
+  }
+
+  /// Async API to test connection between source and target replication group.
+  ///
+  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [ReplicationGroupAlreadyUnderMigrationFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [customerNodeEndpointList] :
+  /// List of endpoints from which data should be migrated. List should have
+  /// only one element.
+  ///
+  /// Parameter [replicationGroupId] :
+  /// The ID of the replication group to which data is to be migrated.
+  Future<TestMigrationResponse> testMigration({
+    required List<CustomerNodeEndpoint> customerNodeEndpointList,
+    required String replicationGroupId,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['CustomerNodeEndpointList'] = customerNodeEndpointList;
+    $request['ReplicationGroupId'] = replicationGroupId;
+    final $result = await _protocol.send(
+      $request,
+      action: 'TestMigration',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['TestMigrationMessage'],
+      shapes: shapes,
+      resultWrapper: 'TestMigrationResult',
+    );
+    return TestMigrationResponse.fromXml($result);
   }
 }
 
@@ -6112,17 +6719,22 @@ class CacheCluster {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
   /// and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -6175,18 +6787,22 @@ class CacheCluster {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
-  /// and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -6587,17 +7203,22 @@ class CacheEngineVersionMessage {
 /// <li>
 /// Current generation:
 ///
+/// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+/// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+/// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+/// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+/// <note>
+/// For region availability, see <a
+/// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+/// Node Types</a>
+/// </note>
 /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
 /// and for Memcached engine version 1.5.16 onward):
 /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
 /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
 /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
 /// <code>cache.m6g.16xlarge</code>
-/// <note>
-/// For region availability, see <a
-/// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-/// Node Types</a>
-/// </note>
+///
 /// <b>M5 node types:</b> <code>cache.m5.large</code>,
 /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
 /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -6650,18 +7271,22 @@ class CacheEngineVersionMessage {
 /// <li>
 /// Current generation:
 ///
-/// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
-/// and for Memcached engine version 1.5.16 onward).
-///
-/// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-/// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-/// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-/// <code>cache.r6g.16xlarge</code>
+/// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+/// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+/// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+/// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
 /// <note>
 /// For region availability, see <a
 /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
 /// Node Types</a>
 /// </note>
+/// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+/// and for Memcached engine version 1.5.16 onward):
+/// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+/// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+/// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+/// <code>cache.r6g.16xlarge</code>
+///
 /// <b>R5 node types:</b> <code>cache.r5.large</code>,
 /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
 /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -7255,6 +7880,35 @@ class CacheSubnetGroupMessage {
   }
 }
 
+/// The usage limits for storage and ElastiCache Processing Units for the cache.
+class CacheUsageLimits {
+  /// The maximum data storage limit in the cache, expressed in Gigabytes.
+  final DataStorage? dataStorage;
+  final ECPUPerSecond? eCPUPerSecond;
+
+  CacheUsageLimits({
+    this.dataStorage,
+    this.eCPUPerSecond,
+  });
+  factory CacheUsageLimits.fromXml(_s.XmlElement elem) {
+    return CacheUsageLimits(
+      dataStorage:
+          _s.extractXmlChild(elem, 'DataStorage')?.let(DataStorage.fromXml),
+      eCPUPerSecond:
+          _s.extractXmlChild(elem, 'ECPUPerSecond')?.let(ECPUPerSecond.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataStorage = this.dataStorage;
+    final eCPUPerSecond = this.eCPUPerSecond;
+    return {
+      if (dataStorage != null) 'DataStorage': dataStorage,
+      if (eCPUPerSecond != null) 'ECPUPerSecond': eCPUPerSecond,
+    };
+  }
+}
+
 enum ChangeType {
   immediate,
   requiresReboot,
@@ -7424,6 +8078,23 @@ class ConfigureShard {
   }
 }
 
+class CopyServerlessCacheSnapshotResponse {
+  /// The response for the attempt to copy the serverless cache snapshot.
+  /// Available for Redis only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  CopyServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory CopyServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return CopyServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
+    );
+  }
+}
+
 class CopySnapshotResult {
   final Snapshot? snapshot;
 
@@ -7526,6 +8197,39 @@ class CreateReplicationGroupResult {
   }
 }
 
+class CreateServerlessCacheResponse {
+  /// The response for the attempt to create the serverless cache.
+  final ServerlessCache? serverlessCache;
+
+  CreateServerlessCacheResponse({
+    this.serverlessCache,
+  });
+  factory CreateServerlessCacheResponse.fromXml(_s.XmlElement elem) {
+    return CreateServerlessCacheResponse(
+      serverlessCache: _s
+          .extractXmlChild(elem, 'ServerlessCache')
+          ?.let(ServerlessCache.fromXml),
+    );
+  }
+}
+
+class CreateServerlessCacheSnapshotResponse {
+  /// The state of a serverless cache snapshot at a specific point in time, to the
+  /// millisecond. Available for Redis only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  CreateServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory CreateServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return CreateServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
+    );
+  }
+}
+
 class CreateSnapshotResult {
   final Snapshot? snapshot;
 
@@ -7559,6 +8263,65 @@ class CustomerNodeEndpoint {
       if (address != null) 'Address': address,
       if (port != null) 'Port': port,
     };
+  }
+}
+
+/// The data storage limit.
+class DataStorage {
+  /// The unit that the storage is measured in, in GB.
+  final DataStorageUnit unit;
+
+  /// The upper limit for data storage the cache is set to use.
+  final int? maximum;
+
+  /// The lower limit for data storage the cache is set to use.
+  final int? minimum;
+
+  DataStorage({
+    required this.unit,
+    this.maximum,
+    this.minimum,
+  });
+  factory DataStorage.fromXml(_s.XmlElement elem) {
+    return DataStorage(
+      unit: _s.extractXmlStringValue(elem, 'Unit')!.toDataStorageUnit(),
+      maximum: _s.extractXmlIntValue(elem, 'Maximum'),
+      minimum: _s.extractXmlIntValue(elem, 'Minimum'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      'Unit': unit.toValue(),
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+    };
+  }
+}
+
+enum DataStorageUnit {
+  gb,
+}
+
+extension DataStorageUnitValueExtension on DataStorageUnit {
+  String toValue() {
+    switch (this) {
+      case DataStorageUnit.gb:
+        return 'GB';
+    }
+  }
+}
+
+extension DataStorageUnitFromString on String {
+  DataStorageUnit toDataStorageUnit() {
+    switch (this) {
+      case 'GB':
+        return DataStorageUnit.gb;
+    }
+    throw Exception('$this is not known in enum DataStorageUnit');
   }
 }
 
@@ -7665,6 +8428,39 @@ class DeleteReplicationGroupResult {
   }
 }
 
+class DeleteServerlessCacheResponse {
+  /// Provides the details of the specified serverless cache that is about to be
+  /// deleted.
+  final ServerlessCache? serverlessCache;
+
+  DeleteServerlessCacheResponse({
+    this.serverlessCache,
+  });
+  factory DeleteServerlessCacheResponse.fromXml(_s.XmlElement elem) {
+    return DeleteServerlessCacheResponse(
+      serverlessCache: _s
+          .extractXmlChild(elem, 'ServerlessCache')
+          ?.let(ServerlessCache.fromXml),
+    );
+  }
+}
+
+class DeleteServerlessCacheSnapshotResponse {
+  /// The snapshot to be deleted. Available for Redis only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  DeleteServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory DeleteServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return DeleteServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
+    );
+  }
+}
+
 class DeleteSnapshotResult {
   final Snapshot? snapshot;
 
@@ -7720,6 +8516,60 @@ class DescribeGlobalReplicationGroupsResult {
   }
 }
 
+class DescribeServerlessCacheSnapshotsResponse {
+  /// An optional marker returned from a prior request to support pagination of
+  /// results from this operation. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// max-results. Available for Redis only.
+  final String? nextToken;
+
+  /// The serverless caches snapshots associated with a given description request.
+  /// Available for Redis only.
+  final List<ServerlessCacheSnapshot>? serverlessCacheSnapshots;
+
+  DescribeServerlessCacheSnapshotsResponse({
+    this.nextToken,
+    this.serverlessCacheSnapshots,
+  });
+  factory DescribeServerlessCacheSnapshotsResponse.fromXml(_s.XmlElement elem) {
+    return DescribeServerlessCacheSnapshotsResponse(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      serverlessCacheSnapshots: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshots')
+          ?.let((elem) => elem
+              .findElements('ServerlessCacheSnapshot')
+              .map(ServerlessCacheSnapshot.fromXml)
+              .toList()),
+    );
+  }
+}
+
+class DescribeServerlessCachesResponse {
+  /// An optional marker returned from a prior request to support pagination of
+  /// results from this operation. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// MaxResults.
+  final String? nextToken;
+
+  /// The serverless caches associated with a given description request.
+  final List<ServerlessCache>? serverlessCaches;
+
+  DescribeServerlessCachesResponse({
+    this.nextToken,
+    this.serverlessCaches,
+  });
+  factory DescribeServerlessCachesResponse.fromXml(_s.XmlElement elem) {
+    return DescribeServerlessCachesResponse(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      serverlessCaches: _s.extractXmlChild(elem, 'ServerlessCaches')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(ServerlessCache.fromXml)
+              .toList()),
+    );
+  }
+}
+
 /// Represents the output of a <code>DescribeSnapshots</code> operation.
 class DescribeSnapshotsListMessage {
   /// An optional marker returned from a prior request. Use this marker for
@@ -7749,7 +8599,7 @@ class DescribeUserGroupsResult {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
   /// the response includes only records beyond the marker, up to the value
-  /// specified by MaxRecords. &gt;
+  /// specified by MaxRecords.&gt;
   final String? marker;
 
   /// Returns a list of user groups.
@@ -7897,8 +8747,40 @@ class EC2SecurityGroup {
   }
 }
 
+/// The configuration for the number of ElastiCache Processing Units (ECPU) the
+/// cache can consume per second.
+class ECPUPerSecond {
+  /// The configuration for the maximum number of ECPUs the cache can consume per
+  /// second.
+  final int? maximum;
+
+  /// The configuration for the minimum number of ECPUs the cache should be able
+  /// consume per second.
+  final int? minimum;
+
+  ECPUPerSecond({
+    this.maximum,
+    this.minimum,
+  });
+  factory ECPUPerSecond.fromXml(_s.XmlElement elem) {
+    return ECPUPerSecond(
+      maximum: _s.extractXmlIntValue(elem, 'Maximum'),
+      minimum: _s.extractXmlIntValue(elem, 'Minimum'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+    };
+  }
+}
+
 /// Represents the information required for client programs to connect to a
-/// cache node.
+/// cache node. This value is read-only.
 class Endpoint {
   /// The DNS hostname of the cache node.
   final String? address;
@@ -8016,6 +8898,23 @@ class EventsMessage {
       events: _s.extractXmlChild(elem, 'Events')?.let(
           (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+}
+
+class ExportServerlessCacheSnapshotResponse {
+  /// The state of a serverless cache at a specific point in time, to the
+  /// millisecond. Available for Redis only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  ExportServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory ExportServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return ExportServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
     );
   }
 }
@@ -8638,6 +9537,22 @@ class ModifyReplicationGroupShardConfigurationResult {
   }
 }
 
+class ModifyServerlessCacheResponse {
+  /// The response for the attempt to modify the serverless cache.
+  final ServerlessCache? serverlessCache;
+
+  ModifyServerlessCacheResponse({
+    this.serverlessCache,
+  });
+  factory ModifyServerlessCacheResponse.fromXml(_s.XmlElement elem) {
+    return ModifyServerlessCacheResponse(
+      serverlessCache: _s
+          .extractXmlChild(elem, 'ServerlessCache')
+          ?.let(ServerlessCache.fromXml),
+    );
+  }
+}
+
 enum MultiAZStatus {
   enabled,
   disabled,
@@ -8717,7 +9632,8 @@ class NodeGroup {
   /// The endpoint of the primary node in this node group (shard).
   final Endpoint? primaryEndpoint;
 
-  /// The endpoint of the replica nodes in this node group (shard).
+  /// The endpoint of the replica nodes in this node group (shard). This value is
+  /// read-only.
   final Endpoint? readerEndpoint;
 
   /// The keyspace for this node group (shard).
@@ -9900,17 +10816,22 @@ class ReservedCacheNode {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
   /// and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -9963,18 +10884,22 @@ class ReservedCacheNode {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
-  /// and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -10137,17 +11062,22 @@ class ReservedCacheNodesOffering {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
   /// and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -10200,18 +11130,22 @@ class ReservedCacheNodesOffering {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
-  /// and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -10406,6 +11340,206 @@ class SecurityGroupMembership {
   factory SecurityGroupMembership.fromXml(_s.XmlElement elem) {
     return SecurityGroupMembership(
       securityGroupId: _s.extractXmlStringValue(elem, 'SecurityGroupId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+}
+
+/// The resource representing a serverless cache.
+class ServerlessCache {
+  /// The Amazon Resource Name (ARN) of the serverless cache.
+  final String? arn;
+
+  /// The cache usage limit for the serverless cache.
+  final CacheUsageLimits? cacheUsageLimits;
+
+  /// When the serverless cache was created.
+  final DateTime? createTime;
+
+  /// The daily time that a cache snapshot will be created. Default is NULL, i.e.
+  /// snapshots will not be created at a specific time on a daily basis. Available
+  /// for Redis only.
+  final String? dailySnapshotTime;
+
+  /// A description of the serverless cache.
+  final String? description;
+  final Endpoint? endpoint;
+
+  /// The engine the serverless cache is compatible with.
+  final String? engine;
+
+  /// The name and version number of the engine the serverless cache is compatible
+  /// with.
+  final String? fullEngineVersion;
+
+  /// The ID of the Amazon Web Services Key Management Service (KMS) key that is
+  /// used to encrypt data at rest in the serverless cache.
+  final String? kmsKeyId;
+
+  /// The version number of the engine the serverless cache is compatible with.
+  final String? majorEngineVersion;
+  final Endpoint? readerEndpoint;
+
+  /// The IDs of the EC2 security groups associated with the serverless cache.
+  final List<String>? securityGroupIds;
+
+  /// The unique identifier of the serverless cache.
+  final String? serverlessCacheName;
+
+  /// The current setting for the number of serverless cache snapshots the system
+  /// will retain. Available for Redis only.
+  final int? snapshotRetentionLimit;
+
+  /// The current status of the serverless cache. The allowed values are CREATING,
+  /// AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
+  final String? status;
+
+  /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache
+  /// will select 2 default subnets across AZs in your VPC. For all other Regions,
+  /// if no subnet IDs are given then ElastiCache will select 3 default subnets
+  /// across AZs in your default VPC.
+  final List<String>? subnetIds;
+
+  /// The identifier of the user group associated with the serverless cache.
+  /// Available for Redis only. Default is NULL.
+  final String? userGroupId;
+
+  ServerlessCache({
+    this.arn,
+    this.cacheUsageLimits,
+    this.createTime,
+    this.dailySnapshotTime,
+    this.description,
+    this.endpoint,
+    this.engine,
+    this.fullEngineVersion,
+    this.kmsKeyId,
+    this.majorEngineVersion,
+    this.readerEndpoint,
+    this.securityGroupIds,
+    this.serverlessCacheName,
+    this.snapshotRetentionLimit,
+    this.status,
+    this.subnetIds,
+    this.userGroupId,
+  });
+  factory ServerlessCache.fromXml(_s.XmlElement elem) {
+    return ServerlessCache(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      cacheUsageLimits: _s
+          .extractXmlChild(elem, 'CacheUsageLimits')
+          ?.let(CacheUsageLimits.fromXml),
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
+      dailySnapshotTime: _s.extractXmlStringValue(elem, 'DailySnapshotTime'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      fullEngineVersion: _s.extractXmlStringValue(elem, 'FullEngineVersion'),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      majorEngineVersion: _s.extractXmlStringValue(elem, 'MajorEngineVersion'),
+      readerEndpoint:
+          _s.extractXmlChild(elem, 'ReaderEndpoint')?.let(Endpoint.fromXml),
+      securityGroupIds: _s.extractXmlChild(elem, 'SecurityGroupIds')?.let(
+          (elem) => _s.extractXmlStringListValues(elem, 'SecurityGroupId')),
+      serverlessCacheName:
+          _s.extractXmlStringValue(elem, 'ServerlessCacheName'),
+      snapshotRetentionLimit:
+          _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      subnetIds: _s
+          .extractXmlChild(elem, 'SubnetIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SubnetId')),
+      userGroupId: _s.extractXmlStringValue(elem, 'UserGroupId'),
+    );
+  }
+}
+
+/// The configuration settings for a specific serverless cache.
+class ServerlessCacheConfiguration {
+  /// The engine that the serverless cache is configured with.
+  final String? engine;
+
+  /// The engine version number that the serverless cache is configured with.
+  final String? majorEngineVersion;
+
+  /// The identifier of a serverless cache.
+  final String? serverlessCacheName;
+
+  ServerlessCacheConfiguration({
+    this.engine,
+    this.majorEngineVersion,
+    this.serverlessCacheName,
+  });
+  factory ServerlessCacheConfiguration.fromXml(_s.XmlElement elem) {
+    return ServerlessCacheConfiguration(
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      majorEngineVersion: _s.extractXmlStringValue(elem, 'MajorEngineVersion'),
+      serverlessCacheName:
+          _s.extractXmlStringValue(elem, 'ServerlessCacheName'),
+    );
+  }
+}
+
+/// The resource representing a serverless cache snapshot. Available for Redis
+/// only.
+class ServerlessCacheSnapshot {
+  /// The Amazon Resource Name (ARN) of a serverless cache snapshot. Available for
+  /// Redis only.
+  final String? arn;
+
+  /// The total size of a serverless cache snapshot, in bytes. Available for Redis
+  /// only.
+  final String? bytesUsedForCache;
+
+  /// The date and time that the source serverless cache's metadata and cache data
+  /// set was obtained for the snapshot. Available for Redis only.
+  final DateTime? createTime;
+
+  /// The time that the serverless cache snapshot will expire. Available for Redis
+  /// only.
+  final DateTime? expiryTime;
+
+  /// The ID of the Amazon Web Services Key Management Service (KMS) key of a
+  /// serverless cache snapshot. Available for Redis only.
+  final String? kmsKeyId;
+
+  /// The configuration of the serverless cache, at the time the snapshot was
+  /// taken. Available for Redis only.
+  final ServerlessCacheConfiguration? serverlessCacheConfiguration;
+
+  /// The identifier of a serverless cache snapshot. Available for Redis only.
+  final String? serverlessCacheSnapshotName;
+
+  /// The type of snapshot of serverless cache. Available for Redis only.
+  final String? snapshotType;
+
+  /// The current status of the serverless cache. Available for Redis only.
+  final String? status;
+
+  ServerlessCacheSnapshot({
+    this.arn,
+    this.bytesUsedForCache,
+    this.createTime,
+    this.expiryTime,
+    this.kmsKeyId,
+    this.serverlessCacheConfiguration,
+    this.serverlessCacheSnapshotName,
+    this.snapshotType,
+    this.status,
+  });
+  factory ServerlessCacheSnapshot.fromXml(_s.XmlElement elem) {
+    return ServerlessCacheSnapshot(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      bytesUsedForCache: _s.extractXmlStringValue(elem, 'BytesUsedForCache'),
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
+      expiryTime: _s.extractXmlDateTimeValue(elem, 'ExpiryTime'),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      serverlessCacheConfiguration: _s
+          .extractXmlChild(elem, 'ServerlessCacheConfiguration')
+          ?.let(ServerlessCacheConfiguration.fromXml),
+      serverlessCacheSnapshotName:
+          _s.extractXmlStringValue(elem, 'ServerlessCacheSnapshotName'),
+      snapshotType: _s.extractXmlStringValue(elem, 'SnapshotType'),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
   }
@@ -10704,17 +11838,22 @@ class Snapshot {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
   /// and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
   /// <code>cache.m6g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
+  ///
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -10767,18 +11906,22 @@ class Snapshot {
   /// <li>
   /// Current generation:
   ///
-  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
-  /// and for Memcached engine version 1.5.16 onward).
-  ///
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -11027,6 +12170,8 @@ enum SourceType {
   cacheSecurityGroup,
   cacheSubnetGroup,
   replicationGroup,
+  serverlessCache,
+  serverlessCacheSnapshot,
   user,
   userGroup,
 }
@@ -11044,6 +12189,10 @@ extension SourceTypeValueExtension on SourceType {
         return 'cache-subnet-group';
       case SourceType.replicationGroup:
         return 'replication-group';
+      case SourceType.serverlessCache:
+        return 'serverless-cache';
+      case SourceType.serverlessCacheSnapshot:
+        return 'serverless-cache-snapshot';
       case SourceType.user:
         return 'user';
       case SourceType.userGroup:
@@ -11065,6 +12214,10 @@ extension SourceTypeFromString on String {
         return SourceType.cacheSubnetGroup;
       case 'replication-group':
         return SourceType.replicationGroup;
+      case 'serverless-cache':
+        return SourceType.serverlessCache;
+      case 'serverless-cache-snapshot':
+        return SourceType.serverlessCacheSnapshot;
       case 'user':
         return SourceType.user;
       case 'user-group':
@@ -11208,6 +12361,21 @@ class TestFailoverResult {
   });
   factory TestFailoverResult.fromXml(_s.XmlElement elem) {
     return TestFailoverResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+}
+
+class TestMigrationResponse {
+  final ReplicationGroup? replicationGroup;
+
+  TestMigrationResponse({
+    this.replicationGroup,
+  });
+  factory TestMigrationResponse.fromXml(_s.XmlElement elem) {
+    return TestMigrationResponse(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
           ?.let(ReplicationGroup.fromXml),
@@ -11618,6 +12786,10 @@ class UserGroup {
   /// A list of replication groups that the user group can access.
   final List<String>? replicationGroups;
 
+  /// Indicates which serverless caches the specified user group is associated
+  /// with. Available for Redis only.
+  final List<String>? serverlessCaches;
+
   /// Indicates user group status. Can be "creating", "active", "modifying",
   /// "deleting".
   final String? status;
@@ -11634,6 +12806,7 @@ class UserGroup {
     this.minimumEngineVersion,
     this.pendingChanges,
     this.replicationGroups,
+    this.serverlessCaches,
     this.status,
     this.userGroupId,
     this.userIds,
@@ -11649,6 +12822,9 @@ class UserGroup {
           ?.let(UserGroupPendingChanges.fromXml),
       replicationGroups: _s
           .extractXmlChild(elem, 'ReplicationGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      serverlessCaches: _s
+          .extractXmlChild(elem, 'ServerlessCaches')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       status: _s.extractXmlStringValue(elem, 'Status'),
       userGroupId: _s.extractXmlStringValue(elem, 'UserGroupId'),
@@ -11905,6 +13081,12 @@ class InvalidCacheSecurityGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+class InvalidCredentialsException extends _s.GenericAwsException {
+  InvalidCredentialsException({String? type, String? message})
+      : super(
+            type: type, code: 'InvalidCredentialsException', message: message);
+}
+
 class InvalidGlobalReplicationGroupStateFault extends _s.GenericAwsException {
   InvalidGlobalReplicationGroupStateFault({String? type, String? message})
       : super(
@@ -11939,6 +13121,22 @@ class InvalidReplicationGroupStateFault extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'InvalidReplicationGroupStateFault',
+            message: message);
+}
+
+class InvalidServerlessCacheSnapshotStateFault extends _s.GenericAwsException {
+  InvalidServerlessCacheSnapshotStateFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidServerlessCacheSnapshotStateFault',
+            message: message);
+}
+
+class InvalidServerlessCacheStateFault extends _s.GenericAwsException {
+  InvalidServerlessCacheStateFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidServerlessCacheStateFault',
             message: message);
 }
 
@@ -12066,6 +13264,53 @@ class ReservedCacheNodesOfferingNotFoundFault extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'ReservedCacheNodesOfferingNotFoundFault',
+            message: message);
+}
+
+class ServerlessCacheAlreadyExistsFault extends _s.GenericAwsException {
+  ServerlessCacheAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServerlessCacheAlreadyExistsFault',
+            message: message);
+}
+
+class ServerlessCacheNotFoundFault extends _s.GenericAwsException {
+  ServerlessCacheNotFoundFault({String? type, String? message})
+      : super(
+            type: type, code: 'ServerlessCacheNotFoundFault', message: message);
+}
+
+class ServerlessCacheQuotaForCustomerExceededFault
+    extends _s.GenericAwsException {
+  ServerlessCacheQuotaForCustomerExceededFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServerlessCacheQuotaForCustomerExceededFault',
+            message: message);
+}
+
+class ServerlessCacheSnapshotAlreadyExistsFault extends _s.GenericAwsException {
+  ServerlessCacheSnapshotAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServerlessCacheSnapshotAlreadyExistsFault',
+            message: message);
+}
+
+class ServerlessCacheSnapshotNotFoundFault extends _s.GenericAwsException {
+  ServerlessCacheSnapshotNotFoundFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServerlessCacheSnapshotNotFoundFault',
+            message: message);
+}
+
+class ServerlessCacheSnapshotQuotaExceededFault extends _s.GenericAwsException {
+  ServerlessCacheSnapshotQuotaExceededFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServerlessCacheSnapshotQuotaExceededFault',
             message: message);
 }
 
@@ -12221,6 +13466,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidCacheParameterGroupStateFault(type: type, message: message),
   'InvalidCacheSecurityGroupStateFault': (type, message) =>
       InvalidCacheSecurityGroupStateFault(type: type, message: message),
+  'InvalidCredentialsException': (type, message) =>
+      InvalidCredentialsException(type: type, message: message),
   'InvalidGlobalReplicationGroupStateFault': (type, message) =>
       InvalidGlobalReplicationGroupStateFault(type: type, message: message),
   'InvalidKMSKeyFault': (type, message) =>
@@ -12231,6 +13478,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidParameterValueException(type: type, message: message),
   'InvalidReplicationGroupStateFault': (type, message) =>
       InvalidReplicationGroupStateFault(type: type, message: message),
+  'InvalidServerlessCacheSnapshotStateFault': (type, message) =>
+      InvalidServerlessCacheSnapshotStateFault(type: type, message: message),
+  'InvalidServerlessCacheStateFault': (type, message) =>
+      InvalidServerlessCacheStateFault(type: type, message: message),
   'InvalidSnapshotStateFault': (type, message) =>
       InvalidSnapshotStateFault(type: type, message: message),
   'InvalidSubnet': (type, message) =>
@@ -12268,6 +13519,19 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ReservedCacheNodeQuotaExceededFault(type: type, message: message),
   'ReservedCacheNodesOfferingNotFoundFault': (type, message) =>
       ReservedCacheNodesOfferingNotFoundFault(type: type, message: message),
+  'ServerlessCacheAlreadyExistsFault': (type, message) =>
+      ServerlessCacheAlreadyExistsFault(type: type, message: message),
+  'ServerlessCacheNotFoundFault': (type, message) =>
+      ServerlessCacheNotFoundFault(type: type, message: message),
+  'ServerlessCacheQuotaForCustomerExceededFault': (type, message) =>
+      ServerlessCacheQuotaForCustomerExceededFault(
+          type: type, message: message),
+  'ServerlessCacheSnapshotAlreadyExistsFault': (type, message) =>
+      ServerlessCacheSnapshotAlreadyExistsFault(type: type, message: message),
+  'ServerlessCacheSnapshotNotFoundFault': (type, message) =>
+      ServerlessCacheSnapshotNotFoundFault(type: type, message: message),
+  'ServerlessCacheSnapshotQuotaExceededFault': (type, message) =>
+      ServerlessCacheSnapshotQuotaExceededFault(type: type, message: message),
   'ServiceLinkedRoleNotFoundFault': (type, message) =>
       ServiceLinkedRoleNotFoundFault(type: type, message: message),
   'ServiceUpdateNotFoundFault': (type, message) =>

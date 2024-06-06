@@ -85,6 +85,7 @@ class CloudHsm {
   ///
   /// Parameter [tagList] :
   /// One or more tags.
+  @Deprecated('This API is deprecated.')
   Future<AddTagsToResourceResponse> addTagsToResource({
     required String resourceArn,
     required List<Tag> tagList,
@@ -133,6 +134,7 @@ class CloudHsm {
   ///
   /// Parameter [label] :
   /// The label of the new high-availability partition group.
+  @Deprecated('This API is deprecated.')
   Future<CreateHapgResponse> createHapg({
     required String label,
   }) async {
@@ -215,6 +217,7 @@ class CloudHsm {
   /// Parameter [syslogIp] :
   /// The IP address for the syslog monitoring server. The AWS CloudHSM service
   /// only supports one syslog monitoring server.
+  @Deprecated('This API is deprecated.')
   Future<CreateHsmResponse> createHsm({
     required String iamRoleArn,
     required String sshKey,
@@ -278,6 +281,7 @@ class CloudHsm {
   ///
   /// Parameter [label] :
   /// The label for the client.
+  @Deprecated('This API is deprecated.')
   Future<CreateLunaClientResponse> createLunaClient({
     required String certificate,
     String? label,
@@ -325,6 +329,7 @@ class CloudHsm {
   ///
   /// Parameter [hapgArn] :
   /// The ARN of the high-availability partition group to delete.
+  @Deprecated('This API is deprecated.')
   Future<DeleteHapgResponse> deleteHapg({
     required String hapgArn,
   }) async {
@@ -371,6 +376,7 @@ class CloudHsm {
   ///
   /// Parameter [hsmArn] :
   /// The ARN of the HSM to delete.
+  @Deprecated('This API is deprecated.')
   Future<DeleteHsmResponse> deleteHsm({
     required String hsmArn,
   }) async {
@@ -416,6 +422,7 @@ class CloudHsm {
   ///
   /// Parameter [clientArn] :
   /// The ARN of the client to delete.
+  @Deprecated('This API is deprecated.')
   Future<DeleteLunaClientResponse> deleteLunaClient({
     required String clientArn,
   }) async {
@@ -461,6 +468,7 @@ class CloudHsm {
   ///
   /// Parameter [hapgArn] :
   /// The ARN of the high-availability partition group to describe.
+  @Deprecated('This API is deprecated.')
   Future<DescribeHapgResponse> describeHapg({
     required String hapgArn,
   }) async {
@@ -512,6 +520,7 @@ class CloudHsm {
   /// Parameter [hsmSerialNumber] :
   /// The serial number of the HSM. Either the <code>HsmArn</code> or the
   /// <code>HsmSerialNumber</code> parameter must be specified.
+  @Deprecated('This API is deprecated.')
   Future<DescribeHsmResponse> describeHsm({
     String? hsmArn,
     String? hsmSerialNumber,
@@ -562,6 +571,7 @@ class CloudHsm {
   ///
   /// Parameter [clientArn] :
   /// The ARN of the client.
+  @Deprecated('This API is deprecated.')
   Future<DescribeLunaClientResponse> describeLunaClient({
     String? certificateFingerprint,
     String? clientArn,
@@ -618,6 +628,7 @@ class CloudHsm {
   /// Parameter [hapgList] :
   /// A list of ARNs that identify the high-availability partition groups that
   /// are associated with the client.
+  @Deprecated('This API is deprecated.')
   Future<GetConfigResponse> getConfig({
     required String clientArn,
     required ClientVersion clientVersion,
@@ -664,6 +675,7 @@ class CloudHsm {
   /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
   /// May throw [InvalidRequestException].
+  @Deprecated('This API is deprecated.')
   Future<ListAvailableZonesResponse> listAvailableZones() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -711,6 +723,7 @@ class CloudHsm {
   /// Parameter [nextToken] :
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListHapgs</code>. Pass null if this is the first call.
+  @Deprecated('This API is deprecated.')
   Future<ListHapgsResponse> listHapgs({
     String? nextToken,
   }) async {
@@ -764,6 +777,7 @@ class CloudHsm {
   /// Parameter [nextToken] :
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListHsms</code>. Pass null if this is the first call.
+  @Deprecated('This API is deprecated.')
   Future<ListHsmsResponse> listHsms({
     String? nextToken,
   }) async {
@@ -816,6 +830,7 @@ class CloudHsm {
   /// Parameter [nextToken] :
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListLunaClients</code>. Pass null if this is the first call.
+  @Deprecated('This API is deprecated.')
   Future<ListLunaClientsResponse> listLunaClients({
     String? nextToken,
   }) async {
@@ -861,6 +876,7 @@ class CloudHsm {
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
+  @Deprecated('This API is deprecated.')
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
@@ -913,6 +929,7 @@ class CloudHsm {
   /// Parameter [partitionSerialList] :
   /// The list of partition serial numbers to make members of the
   /// high-availability partition group.
+  @Deprecated('This API is deprecated.')
   Future<ModifyHapgResponse> modifyHapg({
     required String hapgArn,
     String? label,
@@ -992,6 +1009,7 @@ class CloudHsm {
   /// Parameter [syslogIp] :
   /// The new IP address for the syslog monitoring server. The AWS CloudHSM
   /// service only supports one syslog monitoring server.
+  @Deprecated('This API is deprecated.')
   Future<ModifyHsmResponse> modifyHsm({
     required String hsmArn,
     String? eniIp,
@@ -1051,6 +1069,7 @@ class CloudHsm {
   ///
   /// Parameter [clientArn] :
   /// The ARN of the client.
+  @Deprecated('This API is deprecated.')
   Future<ModifyLunaClientResponse> modifyLunaClient({
     required String certificate,
     required String clientArn,
@@ -1107,6 +1126,7 @@ class CloudHsm {
   ///
   /// Specify only the tag key to remove (not the value). To overwrite the value
   /// for an existing tag, use <a>AddTagsToResource</a>.
+  @Deprecated('This API is deprecated.')
   Future<RemoveTagsFromResourceResponse> removeTagsFromResource({
     required String resourceArn,
     required List<String> tagKeyList,

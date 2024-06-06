@@ -19,6 +19,18 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
+/// <important>
+/// <b>Most of these APIs are no longer supported and will not be updated.</b>
+/// We recommend using the latest versions in the <a
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/welcome.html">Amazon
+/// Chime SDK API reference</a>, in the Amazon Chime SDK.
+///
+/// Using the latest versions requires migrating to dedicated namespaces. For
+/// more information, refer to <a
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+/// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+/// Guide</i>.
+/// </important>
 /// The Amazon Chime application programming interface (API) is designed so
 /// administrators can perform key tasks, such as creating and managing Amazon
 /// Chime accounts, users, and Voice Connectors. This guide provides detailed
@@ -124,6 +136,18 @@ class Chime {
   }
 
   /// Associates phone numbers with the specified Amazon Chime Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnector.html">AssociatePhoneNumbersWithVoiceConnector</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -145,6 +169,8 @@ class Chime {
   /// Chime Voice Connector and removes any previously existing associations. If
   /// false, does not associate any phone numbers that have previously existing
   /// associations.
+  @Deprecated(
+      'Replaced by AssociatePhoneNumbersWithVoiceConnector in the Amazon Chime SDK Voice Namespace')
   Future<AssociatePhoneNumbersWithVoiceConnectorResponse>
       associatePhoneNumbersWithVoiceConnector({
     required List<String> e164PhoneNumbers,
@@ -167,6 +193,18 @@ class Chime {
 
   /// Associates phone numbers with the specified Amazon Chime Voice Connector
   /// group.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnectorGroup.html">AssociatePhoneNumbersWithVoiceConnectorGroup</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -188,6 +226,8 @@ class Chime {
   /// Chime Voice Connector Group and removes any previously existing
   /// associations. If false, does not associate any phone numbers that have
   /// previously existing associations.
+  @Deprecated(
+      'Replaced by AssociatePhoneNumbersWithVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace')
   Future<AssociatePhoneNumbersWithVoiceConnectorGroupResponse>
       associatePhoneNumbersWithVoiceConnectorGroup({
     required List<String> e164PhoneNumbers,
@@ -242,6 +282,18 @@ class Chime {
   }
 
   /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_BatchCreateAttendee.html">BatchCreateAttendee</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   /// For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
@@ -260,6 +312,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
+  @Deprecated(
+      'Replaced by BatchCreateAttendee in the Amazon Chime SDK Meetings Namespace')
   Future<BatchCreateAttendeeResponse> batchCreateAttendee({
     required List<CreateAttendeeRequestItem> attendees,
     required String meetingId,
@@ -278,6 +332,18 @@ class Chime {
   }
 
   /// Adds a specified number of users to a channel.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_BatchCreateChannelMembership.html">BatchCreateChannelMembership</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
@@ -302,6 +368,8 @@ class Chime {
   /// the type filter in <code>ListChannelMemberships</code> equals
   /// <code>HIDDEN</code>. Otherwise hidden members are not returned. This is
   /// only supported by moderators.
+  @Deprecated(
+      'Replaced by BatchCreateChannelMembership in the Amazon Chime SDK Messaging Namespace')
   Future<BatchCreateChannelMembershipResponse> batchCreateChannelMembership({
     required String channelArn,
     required List<String> memberArns,
@@ -596,6 +664,18 @@ class Chime {
   /// AWS account. Only SDK messaging customers use this API.
   /// <code>CreateAppInstance</code> supports idempotency behavior as described
   /// in the AWS API Standard.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstance.html">CreateAppInstance</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -618,6 +698,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// Tags assigned to the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by CreateAppInstance in the Amazon Chime SDK Identity Namespace')
   Future<CreateAppInstanceResponse> createAppInstance({
     required String name,
     String? clientRequestToken,
@@ -642,7 +724,18 @@ class Chime {
   /// Promotes an <code>AppInstanceUser</code> to an
   /// <code>AppInstanceAdmin</code>. The promoted user can perform the following
   /// actions.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceAdmin.html">CreateAppInstanceAdmin</a>,
+  /// in the Amazon Chime SDK.
   ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   /// <ul>
   /// <li>
   /// <code>ChannelModerator</code> actions across all channels in the
@@ -669,6 +762,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by CreateAppInstanceAdmin in the Amazon Chime SDK Identity Namespace')
   Future<CreateAppInstanceAdminResponse> createAppInstanceAdmin({
     required String appInstanceAdminArn,
     required String appInstanceArn,
@@ -689,6 +784,18 @@ class Chime {
   /// Creates a user under an Amazon Chime <code>AppInstance</code>. The request
   /// consists of a unique <code>appInstanceUserId</code> and <code>Name</code>
   /// for that user.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceUser.html">CreateAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -716,6 +823,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// Tags assigned to the <code>AppInstanceUser</code>.
+  @Deprecated(
+      'Replaced by CreateAppInstanceUser in the Amazon Chime SDK Identity Namespace')
   Future<CreateAppInstanceUserResponse> createAppInstanceUser({
     required String appInstanceArn,
     required String appInstanceUserId,
@@ -745,6 +854,18 @@ class Chime {
   /// information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateAttendee.html">CreateAttendee</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -764,6 +885,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// The tag key-value pairs.
+  @Deprecated(
+      'Replaced by CreateAttendee in the Amazon Chime SDK Meetings Namespace')
   Future<CreateAttendeeResponse> createAttendee({
     required String externalUserId,
     required String meetingId,
@@ -826,7 +949,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannel.html">CreateChannel</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -865,6 +999,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// The tags for the creation request.
+  @Deprecated(
+      'Replaced by CreateChannel in the Amazon Chime SDK Messaging Namespace')
   Future<CreateChannelResponse> createChannel({
     required String appInstanceArn,
     required String name,
@@ -909,7 +1045,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelBan.html">CreateChannelBan</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -928,6 +1075,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by CreateChannelBan in the Amazon Chime SDK Messaging Namespace')
   Future<CreateChannelBanResponse> createChannelBan({
     required String channelArn,
     required String memberArn,
@@ -983,7 +1132,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelMembership.html">CreateChannelMembership</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1010,6 +1170,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by CreateChannelMembership in the Amazon Chime SDK Messaging Namespace')
   Future<CreateChannelMembershipResponse> createChannelMembership({
     required String channelArn,
     required String memberArn,
@@ -1055,7 +1217,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelModerator.html">CreateChannelModerator</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1074,6 +1247,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by CreateChannelModerator in the Amazon Chime SDK Messaging Namespace')
   Future<CreateChannelModeratorResponse> createChannelModerator({
     required String channelArn,
     required String channelModeratorArn,
@@ -1096,6 +1271,18 @@ class Chime {
   }
 
   /// Creates a media capture pipeline.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_CreateMediaCapturePipeline">CreateMediaCapturePipeline</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [ResourceLimitExceededException].
   /// May throw [ForbiddenException].
@@ -1127,6 +1314,8 @@ class Chime {
   /// The unique identifier for the client request. The token makes the API
   /// request idempotent. Use a different token for different media pipeline
   /// requests.
+  @Deprecated(
+      'Replaced by CreateMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace')
   Future<CreateMediaCapturePipelineResponse> createMediaCapturePipeline({
     required String sinkArn,
     required MediaPipelineSinkType sinkType,
@@ -1160,7 +1349,19 @@ class Chime {
   /// Chime SDK Media Regions</a> in the <i>Amazon Chime SDK Developer Guide</i>
   /// . For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i> .
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html">CreateMeeting</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1199,6 +1400,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// The tag key-value pairs.
+  @Deprecated(
+      'Replaced by CreateMeeting in the Amazon Chime SDK Meetings Namespace')
   Future<CreateMeetingResponse> createMeeting({
     String? clientRequestToken,
     String? externalMeetingId,
@@ -1233,6 +1436,9 @@ class Chime {
   /// To play welcome audio or implement an interactive voice response (IVR),
   /// use the <code>CreateSipMediaApplicationCall</code> action with the
   /// corresponding SIP media application ID.
+  /// <important>
+  /// <b>This API is is not available in a dedicated namespace.</b>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1283,6 +1489,18 @@ class Chime {
   /// . For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i> .
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeetingWithAttendees.html">CreateMeetingWithAttendees</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1325,6 +1543,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// The tag key-value pairs.
+  @Deprecated(
+      'Replaced by CreateMeetingWithAttendees in the Amazon Chime SDK Meetings Namespace')
   Future<CreateMeetingWithAttendeesResponse> createMeetingWithAttendees({
     List<CreateAttendeeRequestItem>? attendees,
     String? clientRequestToken,
@@ -1391,6 +1611,18 @@ class Chime {
 
   /// Creates a proxy session on the specified Amazon Chime Voice Connector for
   /// the specified participant phone numbers.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html">CreateProxySession</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -1425,6 +1657,8 @@ class Chime {
   /// Parameter [numberSelectionBehavior] :
   /// The preference for proxy phone number reuse, or stickiness, between the
   /// same participants across sessions.
+  @Deprecated(
+      'Replaced by CreateProxySession in the Amazon Chime SDK Voice Namespace')
   Future<CreateProxySessionResponse> createProxySession({
     required List<Capability> capabilities,
     required List<String> participantPhoneNumbers,
@@ -1544,6 +1778,18 @@ class Chime {
   }
 
   /// Creates a SIP media application.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplication.html">CreateSipMediaApplication</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1564,6 +1810,8 @@ class Chime {
   ///
   /// Parameter [name] :
   /// The SIP media application name.
+  @Deprecated(
+      'Replaced by CreateSipMediaApplication in the Amazon Chime SDK Voice Namespace')
   Future<CreateSipMediaApplicationResponse> createSipMediaApplication({
     required String awsRegion,
     required List<SipMediaApplicationEndpoint> endpoints,
@@ -1586,6 +1834,18 @@ class Chime {
   /// Creates an outbound call to a phone number from the phone number specified
   /// in the request, and it invokes the endpoint of the specified
   /// <code>sipMediaApplicationId</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplicationCall.html">CreateSipMediaApplicationCall</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1608,6 +1868,8 @@ class Chime {
   ///
   /// Parameter [sipHeaders] :
   /// The SIP headers added to an outbound call leg.
+  @Deprecated(
+      'Replaced by CreateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace')
   Future<CreateSipMediaApplicationCallResponse> createSipMediaApplicationCall({
     required String fromPhoneNumber,
     required String sipMediaApplicationId,
@@ -1631,6 +1893,18 @@ class Chime {
 
   /// Creates a SIP rule which can be used to run a SIP media application as a
   /// target for a specific trigger type.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipRule.html">CreateSipRule</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1666,6 +1940,8 @@ class Chime {
   /// Parameter [disabled] :
   /// Enables or disables a rule. You must disable rules before you can delete
   /// them.
+  @Deprecated(
+      'Replaced by CreateSipRule in the Amazon Chime SDK Voice Namespace')
   Future<CreateSipRuleResponse> createSipRule({
     required String name,
     required List<SipRuleTargetApplication> targetApplications,
@@ -1740,6 +2016,18 @@ class Chime {
   /// your Amazon Chime Voice Connector to use TLS transport for SIP signaling
   /// and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and
   /// unencrypted outbound calls are blocked.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnector.html">CreateVoiceConnector</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1759,6 +2047,8 @@ class Chime {
   /// Parameter [awsRegion] :
   /// The AWS Region in which the Amazon Chime Voice Connector is created.
   /// Default value: <code>us-east-1</code> .
+  @Deprecated(
+      'Replaced by CreateVoiceConnector in the Amazon Chime SDK Voice Namespace')
   Future<CreateVoiceConnectorResponse> createVoiceConnector({
     required String name,
     required bool requireEncryption,
@@ -1786,6 +2076,18 @@ class Chime {
   /// You can include Amazon Chime Voice Connectors from different AWS Regions
   /// in your group. This creates a fault tolerant mechanism for fallback in
   /// case of availability events.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnectorGroup.html">CreateVoiceConnectorGroup</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1801,6 +2103,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorItems] :
   /// The Amazon Chime Voice Connectors to route inbound calls to.
+  @Deprecated(
+      'Replaced by CreateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace')
   Future<CreateVoiceConnectorGroupResponse> createVoiceConnectorGroup({
     required String name,
     List<VoiceConnectorItem>? voiceConnectorItems,
@@ -1859,6 +2163,18 @@ class Chime {
 
   /// Deletes an <code>AppInstance</code> and all associated data
   /// asynchronously.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstance.html">DeleteAppInstance</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1869,6 +2185,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by DeleteAppInstance in the Amazon Chime SDK Identity Namespace')
   Future<void> deleteAppInstance({
     required String appInstanceArn,
   }) async {
@@ -1882,6 +2200,18 @@ class Chime {
 
   /// Demotes an <code>AppInstanceAdmin</code> to an
   /// <code>AppInstanceUser</code>. This action does not delete the user.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceAdmin.html">DeleteAppInstanceAdmin</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1896,6 +2226,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by DeleteAppInstanceAdmin in the Amazon Chime SDK Identity Namespace')
   Future<void> deleteAppInstanceAdmin({
     required String appInstanceAdminArn,
     required String appInstanceArn,
@@ -1910,6 +2242,18 @@ class Chime {
   }
 
   /// Deletes the streaming configurations of an <code>AppInstance</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceStreamingConfigurations.html">DeleteAppInstanceStreamingConfigurations</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1921,6 +2265,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the streaming configurations being deleted.
+  @Deprecated(
+      'Replaced by DeleteAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace')
   Future<void> deleteAppInstanceStreamingConfigurations({
     required String appInstanceArn,
   }) async {
@@ -1934,6 +2280,18 @@ class Chime {
   }
 
   /// Deletes an <code>AppInstanceUser</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceUser.html">DeleteAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1944,6 +2302,8 @@ class Chime {
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the user request being deleted.
+  @Deprecated(
+      'Replaced by DeleteAppInstanceUser in the Amazon Chime SDK Identity Namespace')
   Future<void> deleteAppInstanceUser({
     required String appInstanceUserArn,
   }) async {
@@ -1962,6 +2322,18 @@ class Chime {
   /// Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteAttendee.html">DeleteAttendee</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1976,6 +2348,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
+  @Deprecated(
+      'Replaced by DeleteAttendee in the Amazon Chime SDK Meetings Namespace')
   Future<void> deleteAttendee({
     required String attendeeId,
     required String meetingId,
@@ -1995,7 +2369,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannel.html">DeleteChannel</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2009,6 +2394,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DeleteChannel in the Amazon Chime SDK Messaging Namespace')
   Future<void> deleteChannel({
     required String channelArn,
     String? chimeBearer,
@@ -2030,7 +2417,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelBan.html">DeleteChannelBan</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2048,6 +2446,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DeleteChannelBan in the Amazon Chime SDK Messaging Namespace')
   Future<void> deleteChannelBan({
     required String channelArn,
     required String memberArn,
@@ -2071,7 +2471,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMembership.html">DeleteChannelMembership</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2089,6 +2500,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DeleteChannelMembership in the Amazon Chime SDK Messaging Namespace')
   Future<void> deleteChannelMembership({
     required String channelArn,
     required String memberArn,
@@ -2114,7 +2527,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMessage.html">DeleteChannelMessage</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2131,6 +2555,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DeleteChannelMessage in the Amazon Chime SDK Messaging Namespace')
   Future<void> deleteChannelMessage({
     required String channelArn,
     required String messageId,
@@ -2154,7 +2580,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelModerator.html">DeleteChannelModerator</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2171,6 +2608,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DeleteChannelModerator in the Amazon Chime SDK Messaging Namespace')
   Future<void> deleteChannelModerator({
     required String channelArn,
     required String channelModeratorArn,
@@ -2218,6 +2657,18 @@ class Chime {
   }
 
   /// Deletes the media capture pipeline.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_DeleteMediaCapturePipeline.html">DeleteMediaCapturePipeline</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
@@ -2229,6 +2680,8 @@ class Chime {
   ///
   /// Parameter [mediaPipelineId] :
   /// The ID of the media capture pipeline being deleted.
+  @Deprecated(
+      'Replaced by DeleteMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace')
   Future<void> deleteMediaCapturePipeline({
     required String mediaPipelineId,
   }) async {
@@ -2246,6 +2699,18 @@ class Chime {
   /// the meeting. For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteMeeting.html">DeleteMeeting</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2257,6 +2722,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
+  @Deprecated(
+      'Replaced by DeleteMeeting in the Amazon Chime SDK Meetings Namespace')
   Future<void> deleteMeeting({
     required String meetingId,
   }) async {
@@ -2298,6 +2765,18 @@ class Chime {
 
   /// Deletes the specified proxy session from the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html">DeleteProxySession</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2312,6 +2791,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime voice connector ID.
+  @Deprecated(
+      'Replaced by DeleteProxySession in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteProxySession({
     required String proxySessionId,
     required String voiceConnectorId,
@@ -2386,6 +2867,18 @@ class Chime {
   }
 
   /// Deletes a SIP media application.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipMediaApplication.html">DeleteSipMediaApplication</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2398,6 +2891,8 @@ class Chime {
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
+  @Deprecated(
+      'Replaced by DeleteSipMediaApplication in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteSipMediaApplication({
     required String sipMediaApplicationId,
   }) async {
@@ -2411,6 +2906,18 @@ class Chime {
   }
 
   /// Deletes a SIP rule. You must disable a SIP rule before you can delete it.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipRule.html">DeleteSipRule</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2423,6 +2930,8 @@ class Chime {
   ///
   /// Parameter [sipRuleId] :
   /// The SIP rule ID.
+  @Deprecated(
+      'Replaced by DeleteSipRule in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteSipRule({
     required String sipRuleId,
   }) async {
@@ -2437,6 +2946,18 @@ class Chime {
   /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers
   /// associated with the Amazon Chime Voice Connector must be disassociated
   /// from it before it can be deleted.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnector.html">DeleteVoiceConnector</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2449,6 +2970,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnector in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnector({
     required String voiceConnectorId,
   }) async {
@@ -2462,6 +2985,18 @@ class Chime {
 
   /// Deletes the emergency calling configuration details from the specified
   /// Amazon Chime Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorEmergencyCallingConfiguration.html">DeleteVoiceConnectorEmergencyCallingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2473,6 +3008,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnectorEmergencyCallingConfiguration({
     required String voiceConnectorId,
   }) async {
@@ -2488,6 +3025,18 @@ class Chime {
   /// Deletes the specified Amazon Chime Voice Connector group. Any
   /// <code>VoiceConnectorItems</code> and phone numbers associated with the
   /// group must be removed before it can be deleted.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorGroup.html">DeleteVoiceConnectorGroup</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2500,6 +3049,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorGroupId] :
   /// The Amazon Chime Voice Connector group ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnectorGroup({
     required String voiceConnectorGroupId,
   }) async {
@@ -2517,7 +3068,18 @@ class Chime {
   /// <note>
   /// If emergency calling is configured for the Amazon Chime Voice Connector,
   /// it must be deleted prior to deleting the origination settings.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorOrigination.html">DeleteVoiceConnectorOrigination</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2529,6 +3091,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnectorOrigination({
     required String voiceConnectorId,
   }) async {
@@ -2543,6 +3107,18 @@ class Chime {
 
   /// Deletes the proxy configuration from the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html">DeleteVoiceProxy</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2554,6 +3130,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnectorProxy({
     required String voiceConnectorId,
   }) async {
@@ -2568,6 +3146,18 @@ class Chime {
 
   /// Deletes the streaming configuration for the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorStreamingConfiguration.html">DeleteVoiceConnectorStreamingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2579,6 +3169,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnectorStreamingConfiguration({
     required String voiceConnectorId,
   }) async {
@@ -2596,7 +3188,18 @@ class Chime {
   /// <note>
   /// If emergency calling is configured for the Amazon Chime Voice Connector,
   /// it must be deleted prior to deleting the termination settings.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTermination.html">DeleteVoiceConnectorTermination</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2608,6 +3211,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnectorTermination({
     required String voiceConnectorId,
   }) async {
@@ -2622,6 +3227,18 @@ class Chime {
 
   /// Deletes the specified SIP credentials used by your equipment to
   /// authenticate during call termination.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTerminationCredentials.html">DeleteVoiceConnectorTerminationCredentials</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2637,6 +3254,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DeleteVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace')
   Future<void> deleteVoiceConnectorTerminationCredentials({
     required List<String> usernames,
     required String voiceConnectorId,
@@ -2654,6 +3273,18 @@ class Chime {
   }
 
   /// Returns the full details of an <code>AppInstance</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstance.html">DescribeAppInstance</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2664,6 +3295,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by DescribeAppInstance in the Amazon Chime SDK Identity Namespace')
   Future<DescribeAppInstanceResponse> describeAppInstance({
     required String appInstanceArn,
   }) async {
@@ -2677,6 +3310,18 @@ class Chime {
   }
 
   /// Returns the full details of an <code>AppInstanceAdmin</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceAdmin.html">DescribeAppInstanceAdmin</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2690,6 +3335,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by DescribeAppInstanceAdmin in the Amazon Chime SDK Identity Namespace')
   Future<DescribeAppInstanceAdminResponse> describeAppInstanceAdmin({
     required String appInstanceAdminArn,
     required String appInstanceArn,
@@ -2705,6 +3352,18 @@ class Chime {
   }
 
   /// Returns the full details of an <code>AppInstanceUser</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceUser.html">DescribeAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2715,6 +3374,8 @@ class Chime {
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
+  @Deprecated(
+      'Replaced by DescribeAppInstanceUser in the Amazon Chime SDK Identity Namespace')
   Future<DescribeAppInstanceUserResponse> describeAppInstanceUser({
     required String appInstanceUserArn,
   }) async {
@@ -2734,7 +3395,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannel.html">DescribeChannel</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2748,6 +3420,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DescribeChannel in the Amazon Chime SDK Messaging Namespace')
   Future<DescribeChannelResponse> describeChannel({
     required String channelArn,
     String? chimeBearer,
@@ -2770,7 +3444,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelBan.html">DescribeChannelBan</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2788,6 +3473,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DescribeChannelBan in the Amazon Chime SDK Messaging Namespace')
   Future<DescribeChannelBanResponse> describeChannelBan({
     required String channelArn,
     required String memberArn,
@@ -2812,7 +3499,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembership.html">DescribeChannelMembership</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2830,6 +3528,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DescribeChannelMembership in the Amazon Chime SDK Messaging Namespace')
   Future<DescribeChannelMembershipResponse> describeChannelMembership({
     required String channelArn,
     required String memberArn,
@@ -2855,7 +3555,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembershipForAppInstanceUser.html">DescribeChannelMembershipForAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2872,6 +3583,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DescribeChannelMembershipForAppInstanceUser in the Amazon Chime SDK Messaging Namespace')
   Future<DescribeChannelMembershipForAppInstanceUserResponse>
       describeChannelMembershipForAppInstanceUser({
     required String appInstanceUserArn,
@@ -2903,7 +3616,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModeratedByAppInstanceUser.html">DescribeChannelModeratedByAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2920,6 +3644,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DescribeChannelModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace')
   Future<DescribeChannelModeratedByAppInstanceUserResponse>
       describeChannelModeratedByAppInstanceUser({
     required String appInstanceUserArn,
@@ -2949,7 +3675,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModerator.html">DescribeChannelModerator</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2967,6 +3704,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by DescribeChannelModerator in the Amazon Chime SDK Messaging Namespace')
   Future<DescribeChannelModeratorResponse> describeChannelModerator({
     required String channelArn,
     required String channelModeratorArn,
@@ -3017,6 +3756,18 @@ class Chime {
 
   /// Disassociates the specified phone numbers from the specified Amazon Chime
   /// Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnector.html">DisassociatePhoneNumbersFromVoiceConnector</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3031,6 +3782,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by DisassociatePhoneNumbersFromVoiceConnector in the Amazon Chime SDK Voice Namespace')
   Future<DisassociatePhoneNumbersFromVoiceConnectorResponse>
       disassociatePhoneNumbersFromVoiceConnector({
     required List<String> e164PhoneNumbers,
@@ -3052,6 +3805,18 @@ class Chime {
 
   /// Disassociates the specified phone numbers from the specified Amazon Chime
   /// Voice Connector group.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnectorGroup.html">DisassociatePhoneNumbersFromVoiceConnectorGroup</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3066,6 +3831,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorGroupId] :
   /// The Amazon Chime Voice Connector group ID.
+  @Deprecated(
+      'Replaced by DisassociatePhoneNumbersFromVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace')
   Future<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse>
       disassociatePhoneNumbersFromVoiceConnectorGroup({
     required List<String> e164PhoneNumbers,
@@ -3171,6 +3938,18 @@ class Chime {
   }
 
   /// Gets the retention settings for an <code>AppInstance</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_GetAppInstanceRetentionSettings.html">GetMessagingRetentionSettings</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3182,6 +3961,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by GetAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace')
   Future<GetAppInstanceRetentionSettingsResponse>
       getAppInstanceRetentionSettings({
     required String appInstanceArn,
@@ -3197,6 +3978,18 @@ class Chime {
   }
 
   /// Gets the streaming settings for an <code>AppInstance</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingStreamingConfigurations.html">GetMessagingStreamingConfigurations</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3208,6 +4001,8 @@ class Chime {
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by GetAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace')
   Future<GetAppInstanceStreamingConfigurationsResponse>
       getAppInstanceStreamingConfigurations({
     required String appInstanceArn,
@@ -3225,7 +4020,19 @@ class Chime {
   /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and
   /// attendee ID. For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i> .
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetAttendee.html">GetAttendee</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3240,6 +4047,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
+  @Deprecated(
+      'Replaced by GetAttendee in the Amazon Chime SDK Meetings Namespace')
   Future<GetAttendeeResponse> getAttendee({
     required String attendeeId,
     required String meetingId,
@@ -3289,7 +4098,18 @@ class Chime {
   /// The x-amz-chime-bearer request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetChannelMessage.html">GetChannelMessage</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3307,6 +4127,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by GetChannelMessage in the Amazon Chime SDK Messaging Namespace')
   Future<GetChannelMessageResponse> getChannelMessage({
     required String channelArn,
     required String messageId,
@@ -3376,6 +4198,18 @@ class Chime {
   }
 
   /// Gets an existing media capture pipeline.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_GetMediaCapturePipeline.html">GetMediaCapturePipeline</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
@@ -3387,6 +4221,8 @@ class Chime {
   ///
   /// Parameter [mediaPipelineId] :
   /// The ID of the pipeline that you want to get.
+  @Deprecated(
+      'Replaced by GetMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace')
   Future<GetMediaCapturePipelineResponse> getMediaCapturePipeline({
     required String mediaPipelineId,
   }) async {
@@ -3400,6 +4236,18 @@ class Chime {
     return GetMediaCapturePipelineResponse.fromJson(response);
   }
 
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html">GetMeeting</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   /// Gets the Amazon Chime SDK meeting details for the specified meeting ID.
   /// For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
@@ -3415,6 +4263,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
+  @Deprecated(
+      'Replaced by GetMeeting in the Amazon Chime SDK Meetings Namespace')
   Future<GetMeetingResponse> getMeeting({
     required String meetingId,
   }) async {
@@ -3428,12 +4278,26 @@ class Chime {
   }
 
   /// The details of the endpoint for the messaging session.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingSessionEndpoint.html">GetMessagingSessionEndpoint</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
   /// May throw [ThrottledClientException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  @Deprecated(
+      'Replaced by GetMessagingSessionEndpoint in the Amazon Chime SDK Messaging Namespace')
   Future<GetMessagingSessionEndpointResponse>
       getMessagingSessionEndpoint() async {
     final response = await _protocol.send(
@@ -3518,6 +4382,18 @@ class Chime {
 
   /// Gets the specified proxy session details for the specified Amazon Chime
   /// Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html">GetProxySession</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3532,6 +4408,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime voice connector ID.
+  @Deprecated(
+      'Replaced by GetProxySession in the Amazon Chime SDK Voice Namespace')
   Future<GetProxySessionResponse> getProxySession({
     required String proxySessionId,
     required String voiceConnectorId,
@@ -3607,6 +4485,18 @@ class Chime {
 
   /// Retrieves the information for a SIP media application, including name, AWS
   /// Region, and endpoints.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplication.html">GetSipMediaApplication</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3618,6 +4508,8 @@ class Chime {
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
+  @Deprecated(
+      'Replaced by GetSipMediaApplication in the Amazon Chime SDK Voice Namespace')
   Future<GetSipMediaApplicationResponse> getSipMediaApplication({
     required String sipMediaApplicationId,
   }) async {
@@ -3632,6 +4524,18 @@ class Chime {
   }
 
   /// Returns the logging configuration for the specified SIP media application.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplicationLoggingConfiguration.html">GetSipMediaApplicationLoggingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3643,6 +4547,8 @@ class Chime {
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
+  @Deprecated(
+      'Replaced by GetSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<GetSipMediaApplicationLoggingConfigurationResponse>
       getSipMediaApplicationLoggingConfiguration({
     required String sipMediaApplicationId,
@@ -3660,6 +4566,18 @@ class Chime {
 
   /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers,
   /// and target endpoints.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipRule.html">GetSipRule</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3671,6 +4589,7 @@ class Chime {
   ///
   /// Parameter [sipRuleId] :
   /// The SIP rule ID.
+  @Deprecated('Replaced by GetSipRule in the Amazon Chime SDK Voice Namespace')
   Future<GetSipRuleResponse> getSipRule({
     required String sipRuleId,
   }) async {
@@ -3748,6 +4667,18 @@ class Chime {
 
   /// Retrieves details for the specified Amazon Chime Voice Connector, such as
   /// timestamps,name, outbound host, and encryption requirements.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnector.html">GetVoiceConnector</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3759,6 +4690,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnector in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorResponse> getVoiceConnector({
     required String voiceConnectorId,
   }) async {
@@ -3773,6 +4706,18 @@ class Chime {
 
   /// Gets the emergency calling configuration details for the specified Amazon
   /// Chime Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorEmergencyCallingConfiguration.html">GetVoiceConnectorEmergencyCallingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3784,6 +4729,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorEmergencyCallingConfigurationResponse>
       getVoiceConnectorEmergencyCallingConfiguration({
     required String voiceConnectorId,
@@ -3801,6 +4748,18 @@ class Chime {
 
   /// Retrieves details for the specified Amazon Chime Voice Connector group,
   /// such as timestamps,name, and associated <code>VoiceConnectorItems</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorGroup.html">GetVoiceConnectorGroup</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3812,6 +4771,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorGroupId] :
   /// The Amazon Chime Voice Connector group ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorGroupResponse> getVoiceConnectorGroup({
     required String voiceConnectorGroupId,
   }) async {
@@ -3828,6 +4789,18 @@ class Chime {
   /// Retrieves the logging configuration details for the specified Amazon Chime
   /// Voice Connector. Shows whether SIP message logs are enabled for sending to
   /// Amazon CloudWatch Logs.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorLoggingConfiguration.html">GetVoiceConnectorLoggingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3839,6 +4812,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorLoggingConfigurationResponse>
       getVoiceConnectorLoggingConfiguration({
     required String voiceConnectorId,
@@ -3855,6 +4830,18 @@ class Chime {
 
   /// Retrieves origination setting details for the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorOrigination.html">GetVoiceConnectorOrigination</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3866,6 +4853,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorOriginationResponse> getVoiceConnectorOrigination({
     required String voiceConnectorId,
   }) async {
@@ -3881,6 +4870,18 @@ class Chime {
 
   /// Gets the proxy configuration details for the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html">GetVoiceConnectorProxy</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3892,6 +4893,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime voice connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorProxyResponse> getVoiceConnectorProxy({
     required String voiceConnectorId,
   }) async {
@@ -3909,6 +4912,18 @@ class Chime {
   /// Chime Voice Connector. Shows whether media streaming is enabled for
   /// sending to Amazon Kinesis. It also shows the retention period, in hours,
   /// for the Amazon Kinesis data.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorStreamingConfiguration.html">GetVoiceConnectorStreamingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3920,6 +4935,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorStreamingConfigurationResponse>
       getVoiceConnectorStreamingConfiguration({
     required String voiceConnectorId,
@@ -3936,6 +4953,18 @@ class Chime {
 
   /// Retrieves termination setting details for the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTermination.html">GetVoiceConnectorTermination</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3947,6 +4976,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorTerminationResponse> getVoiceConnectorTermination({
     required String voiceConnectorId,
   }) async {
@@ -3960,6 +4991,18 @@ class Chime {
     return GetVoiceConnectorTerminationResponse.fromJson(response);
   }
 
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTerminationHealth.html">GetVoiceConnectorTerminationHealth</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   /// Retrieves information about the last time a SIP <code>OPTIONS</code> ping
   /// was received from your SIP infrastructure for the specified Amazon Chime
   /// Voice Connector.
@@ -3974,6 +5017,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by GetVoiceConnectorTerminationHealth in the Amazon Chime SDK Voice Namespace')
   Future<GetVoiceConnectorTerminationHealthResponse>
       getVoiceConnectorTerminationHealth({
     required String voiceConnectorId,
@@ -4080,6 +5125,18 @@ class Chime {
   }
 
   /// Returns a list of the administrators in the <code>AppInstance</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceAdmins.html">ListAppInstanceAdmins</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4097,6 +5154,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token returned from previous API requests until the number of
   /// administrators is reached.
+  @Deprecated(
+      'Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace')
   Future<ListAppInstanceAdminsResponse> listAppInstanceAdmins({
     required String appInstanceArn,
     int? maxResults,
@@ -4125,6 +5184,18 @@ class Chime {
 
   /// List all <code>AppInstanceUsers</code> created under a single
   /// <code>AppInstance</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceUsers.html">ListAppInstanceUsers</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4142,6 +5213,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token passed by previous API calls until all requested users are
   /// returned.
+  @Deprecated(
+      'Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace')
   Future<ListAppInstanceUsersResponse> listAppInstanceUsers({
     required String appInstanceArn,
     int? maxResults,
@@ -4170,6 +5243,18 @@ class Chime {
 
   /// Lists all Amazon Chime <code>AppInstance</code>s created under a single
   /// AWS account.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstances.html">ListAppInstances</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4184,6 +5269,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token passed by previous API requests until you reach the maximum
   /// number of <code>AppInstance</code>s.
+  @Deprecated(
+      'Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace')
   Future<ListAppInstancesResponse> listAppInstances({
     int? maxResults,
     String? nextToken,
@@ -4209,6 +5296,10 @@ class Chime {
   }
 
   /// Lists the tags applied to an Amazon Chime SDK attendee resource.
+  /// <important>
+  /// ListAttendeeTags is not supported in the Amazon Chime SDK Meetings
+  /// Namespace. Update your application to remove calls to this API.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4223,6 +5314,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
+  @Deprecated(
+      'Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.')
   Future<ListAttendeeTagsResponse> listAttendeeTags({
     required String attendeeId,
     required String meetingId,
@@ -4241,6 +5334,18 @@ class Chime {
   /// information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListAttendees.html">ListAttendees</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4258,6 +5363,8 @@ class Chime {
   ///
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
+  @Deprecated(
+      'Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace')
   Future<ListAttendeesResponse> listAttendees({
     required String meetingId,
     int? maxResults,
@@ -4333,7 +5440,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelBans.html">ListChannelBans</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4354,6 +5472,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token passed by previous API calls until all requested bans are
   /// returned.
+  @Deprecated(
+      'Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace')
   Future<ListChannelBansResponse> listChannelBans({
     required String channelArn,
     String? chimeBearer,
@@ -4389,7 +5509,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMemberships.html">ListChannelMemberships</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4417,6 +5548,8 @@ class Chime {
   /// <code>ListChannelMemberships</code>. Hidden members are only returned if
   /// the type filter in <code>ListChannelMemberships</code> equals
   /// <code>HIDDEN</code>. Otherwise hidden members are not returned.
+  @Deprecated(
+      'Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace')
   Future<ListChannelMembershipsResponse> listChannelMemberships({
     required String channelArn,
     String? chimeBearer,
@@ -4456,7 +5589,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html">ListChannelMembershipsForAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4477,6 +5621,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token returned from previous API requests until the number of channel
   /// memberships is reached.
+  @Deprecated(
+      'Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace')
   Future<ListChannelMembershipsForAppInstanceUserResponse>
       listChannelMembershipsForAppInstanceUser({
     String? appInstanceUserArn,
@@ -4521,7 +5667,18 @@ class Chime {
   /// Also, the x-amz-chime-bearer request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMessages.html">ListChannelMessages</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4552,6 +5709,8 @@ class Chime {
   /// Parameter [sortOrder] :
   /// The order in which you want messages sorted. Default is Descending, based
   /// on time created.
+  @Deprecated(
+      'Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace')
   Future<ListChannelMessagesResponse> listChannelMessages({
     required String channelArn,
     String? chimeBearer,
@@ -4595,7 +5754,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelModerators.html">ListChannelModerators</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4616,6 +5786,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token passed by previous API calls until all requested moderators are
   /// returned.
+  @Deprecated(
+      'Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace')
   Future<ListChannelModeratorsResponse> listChannelModerators({
     required String channelArn,
     String? chimeBearer,
@@ -4663,7 +5835,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannels.html">ListChannels</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4689,6 +5872,8 @@ class Chime {
   /// The privacy setting. <code>PUBLIC</code> retrieves all the public
   /// channels. <code>PRIVATE</code> retrieves private channels. Only an
   /// <code>AppInstanceAdmin</code> can retrieve private channels.
+  @Deprecated(
+      'Replaced by ListChannels in the Amazon Chime SDK Messaging Namespace')
   Future<ListChannelsResponse> listChannels({
     required String appInstanceArn,
     String? chimeBearer,
@@ -4727,7 +5912,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelsModeratedByAppInstanceUser.html">ListChannelsModeratedByAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4748,6 +5944,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token returned from previous API requests until the number of channels
   /// moderated by the user is reached.
+  @Deprecated(
+      'Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace')
   Future<ListChannelsModeratedByAppInstanceUserResponse>
       listChannelsModeratedByAppInstanceUser({
     String? appInstanceUserArn,
@@ -4782,6 +5980,18 @@ class Chime {
   }
 
   /// Returns a list of media capture pipelines.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_ListMediaCapturePipelines.html">ListMediaCapturePipelines</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4796,6 +6006,8 @@ class Chime {
   ///
   /// Parameter [nextToken] :
   /// The token used to retrieve the next page of results.
+  @Deprecated(
+      'Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace')
   Future<ListMediaCapturePipelinesResponse> listMediaCapturePipelines({
     int? maxResults,
     String? nextToken,
@@ -4821,6 +6033,18 @@ class Chime {
   }
 
   /// Lists the tags applied to an Amazon Chime SDK meeting resource.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html">ListTagsForResource</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4832,6 +6056,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
+  @Deprecated(
+      'Use ListTagsForResource in the Amazon Chime SDK Meetings Namespace.')
   Future<ListMeetingTagsResponse> listMeetingTags({
     required String meetingId,
   }) async {
@@ -4844,8 +6070,12 @@ class Chime {
     return ListMeetingTagsResponse.fromJson(response);
   }
 
-  /// Lists up to 100 active Amazon Chime SDK meetings. For more information
-  /// about the Amazon Chime SDK, see <a
+  /// Lists up to 100 active Amazon Chime SDK meetings.
+  /// <important>
+  /// ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace.
+  /// Update your application to remove calls to this API.
+  /// </important>
+  /// For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
   ///
@@ -4861,6 +6091,8 @@ class Chime {
   ///
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
+  @Deprecated(
+      'ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.')
   Future<ListMeetingsResponse> listMeetings({
     int? maxResults,
     String? nextToken,
@@ -4986,6 +6218,18 @@ class Chime {
   }
 
   /// Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html">ListProxySessions</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5006,6 +6250,8 @@ class Chime {
   ///
   /// Parameter [status] :
   /// The proxy session status.
+  @Deprecated(
+      'Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace')
   Future<ListProxySessionsResponse> listProxySessions({
     required String voiceConnectorId,
     int? maxResults,
@@ -5134,6 +6380,18 @@ class Chime {
   }
 
   /// Lists the SIP media applications under the administrator's AWS account.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipMediaApplications.html">ListSipMediaApplications</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
@@ -5147,6 +6405,8 @@ class Chime {
   ///
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
+  @Deprecated(
+      'Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace')
   Future<ListSipMediaApplicationsResponse> listSipMediaApplications({
     int? maxResults,
     String? nextToken,
@@ -5172,6 +6432,18 @@ class Chime {
   }
 
   /// Lists the SIP rules under the administrator's AWS account.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipRules.html">ListSipRules</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
@@ -5188,6 +6460,8 @@ class Chime {
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
+  @Deprecated(
+      'Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace')
   Future<ListSipRulesResponse> listSipRules({
     int? maxResults,
     String? nextToken,
@@ -5244,7 +6518,28 @@ class Chime {
     return ListSupportedPhoneNumberCountriesResponse.fromJson(response);
   }
 
-  /// Lists the tags applied to an Amazon Chime SDK meeting resource.
+  /// Lists the tags applied to an Amazon Chime SDK meeting and messaging
+  /// resources.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the applicable latest version in the Amazon Chime SDK.
+  ///
+  /// <ul>
+  /// <li>
+  /// For meetings: <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html">ListTagsForResource</a>.
+  /// </li>
+  /// <li>
+  /// For messaging: <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListTagsForResource.html">ListTagsForResource</a>.
+  /// </li>
+  /// </ul>
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -5255,6 +6550,8 @@ class Chime {
   ///
   /// Parameter [resourceARN] :
   /// The resource ARN.
+  @Deprecated(
+      'Replaced by ListTagsForResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces')
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
   }) async {
@@ -5328,6 +6625,18 @@ class Chime {
 
   /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS
   /// account.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorGroups.html">ListVoiceConnectorGroups</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
@@ -5341,6 +6650,8 @@ class Chime {
   ///
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
+  @Deprecated(
+      'Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace')
   Future<ListVoiceConnectorGroupsResponse> listVoiceConnectorGroups({
     int? maxResults,
     String? nextToken,
@@ -5366,6 +6677,18 @@ class Chime {
   }
 
   /// Lists the SIP credentials for the specified Amazon Chime Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorTerminationCredentials.html">ListVoiceConnectorTerminationCredentials</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5377,6 +6700,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by ListVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace')
   Future<ListVoiceConnectorTerminationCredentialsResponse>
       listVoiceConnectorTerminationCredentials({
     required String voiceConnectorId,
@@ -5393,6 +6718,18 @@ class Chime {
 
   /// Lists the Amazon Chime Voice Connectors for the administrator's AWS
   /// account.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectors.html">ListVoiceConnectors</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
@@ -5406,6 +6743,8 @@ class Chime {
   ///
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
+  @Deprecated(
+      'Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace')
   Future<ListVoiceConnectorsResponse> listVoiceConnectors({
     int? maxResults,
     String? nextToken,
@@ -5461,6 +6800,18 @@ class Chime {
 
   /// Sets the amount of time in days that a given <code>AppInstance</code>
   /// retains data.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_PutAppInstanceRetentionSettings.html">PutAppInstanceRetentionSettings</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5476,6 +6827,8 @@ class Chime {
   ///
   /// Parameter [appInstanceRetentionSettings] :
   /// The time in days to retain data. Data type: number.
+  @Deprecated(
+      'Replaced by PutAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace')
   Future<PutAppInstanceRetentionSettingsResponse>
       putAppInstanceRetentionSettings({
     required String appInstanceArn,
@@ -5495,6 +6848,18 @@ class Chime {
   }
 
   /// The data streaming configurations of an <code>AppInstance</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_PutMessagingStreamingConfigurations.html">PutMessagingStreamingConfigurations</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [NotFoundException].
   /// May throw [BadRequestException].
@@ -5509,6 +6874,8 @@ class Chime {
   ///
   /// Parameter [appInstanceStreamingConfigurations] :
   /// The streaming configurations set for an <code>AppInstance</code>.
+  @Deprecated(
+      'Replaced by PutAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace')
   Future<PutAppInstanceStreamingConfigurationsResponse>
       putAppInstanceStreamingConfigurations({
     required String appInstanceArn,
@@ -5619,6 +6986,18 @@ class Chime {
   }
 
   /// Updates the logging configuration for the specified SIP media application.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutSipMediaApplicationLoggingConfiguration.html">PutSipMediaApplicationLoggingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5633,6 +7012,8 @@ class Chime {
   ///
   /// Parameter [sipMediaApplicationLoggingConfiguration] :
   /// The actual logging configuration.
+  @Deprecated(
+      'Replaced by PutSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<PutSipMediaApplicationLoggingConfigurationResponse>
       putSipMediaApplicationLoggingConfiguration({
     required String sipMediaApplicationId,
@@ -5659,6 +7040,18 @@ class Chime {
   /// Voice Connector, such as emergency phone numbers and calling countries.
   /// Origination and termination settings must be enabled for the Amazon Chime
   /// Voice Connector before emergency calling can be configured.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorEmergencyCallingConfiguration.html">PutVoiceConnectorEmergencyCallingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5673,6 +7066,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by PutVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<PutVoiceConnectorEmergencyCallingConfigurationResponse>
       putVoiceConnectorEmergencyCallingConfiguration({
     required EmergencyCallingConfiguration emergencyCallingConfiguration,
@@ -5695,6 +7090,18 @@ class Chime {
   /// Adds a logging configuration for the specified Amazon Chime Voice
   /// Connector. The logging configuration specifies whether SIP message logs
   /// are enabled for sending to Amazon CloudWatch Logs.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorLoggingConfiguration.html">PutVoiceConnectorLoggingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5709,6 +7116,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by PutVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<PutVoiceConnectorLoggingConfigurationResponse>
       putVoiceConnectorLoggingConfiguration({
     required LoggingConfiguration loggingConfiguration,
@@ -5731,7 +7140,18 @@ class Chime {
   /// <note>
   /// If emergency calling is configured for the Amazon Chime Voice Connector,
   /// it must be deleted prior to turning off origination settings.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorOrigination.html">PutVoiceConnectorOrigination</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5746,6 +7166,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by PutVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace')
   Future<PutVoiceConnectorOriginationResponse> putVoiceConnectorOrigination({
     required Origination origination,
     required String voiceConnectorId,
@@ -5765,6 +7187,18 @@ class Chime {
 
   /// Puts the specified proxy configuration to the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html">PutVoiceConnectorProxy</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [AccessDeniedException].
@@ -5790,6 +7224,8 @@ class Chime {
   ///
   /// Parameter [fallBackPhoneNumber] :
   /// The phone number to route calls to after a proxy session expires.
+  @Deprecated(
+      'Replaced by PutVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace')
   Future<PutVoiceConnectorProxyResponse> putVoiceConnectorProxy({
     required int defaultSessionExpiryMinutes,
     required List<String> phoneNumberPoolCountries,
@@ -5818,6 +7254,18 @@ class Chime {
   /// Connector. The streaming configuration specifies whether media streaming
   /// is enabled for sending to Kinesis. It also sets the retention period, in
   /// hours, for the Amazon Kinesis data.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorStreamingConfiguration.html">PutVoiceConnectorStreamingConfiguration</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5832,6 +7280,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by PutVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace')
   Future<PutVoiceConnectorStreamingConfigurationResponse>
       putVoiceConnectorStreamingConfiguration({
     required StreamingConfiguration streamingConfiguration,
@@ -5854,7 +7304,18 @@ class Chime {
   /// <note>
   /// If emergency calling is configured for the Amazon Chime Voice Connector,
   /// it must be deleted prior to turning off termination settings.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTermination.html">PutVoiceConnectorTermination</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5870,6 +7331,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by PutVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace')
   Future<PutVoiceConnectorTerminationResponse> putVoiceConnectorTermination({
     required Termination termination,
     required String voiceConnectorId,
@@ -5889,6 +7352,18 @@ class Chime {
 
   /// Adds termination SIP credentials for the specified Amazon Chime Voice
   /// Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTerminationCredentials.html">PutVoiceConnectorTerminationCredentials</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -5903,6 +7378,8 @@ class Chime {
   ///
   /// Parameter [credentials] :
   /// The termination SIP credentials.
+  @Deprecated(
+      'Replaced by PutVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace')
   Future<void> putVoiceConnectorTerminationCredentials({
     required String voiceConnectorId,
     List<Credential>? credentials,
@@ -5925,7 +7402,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_RedactChannelMessage.html">RedactChannelMessage</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -5942,6 +7430,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by RedactChannelMessage in the Amazon Chime SDK Messaging Namespace')
   Future<RedactChannelMessageResponse> redactChannelMessage({
     required String channelArn,
     required String messageId,
@@ -6200,7 +7690,18 @@ class Chime {
   /// Also, <code>STANDARD</code> messages can contain 4KB of data and the 1KB
   /// of metadata. <code>CONTROL</code> messages can contain 30 bytes of data
   /// and no metadata.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_SendChannelMessage.html">SendChannelMessage</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -6231,6 +7732,8 @@ class Chime {
   ///
   /// Parameter [metadata] :
   /// The optional metadata for each message.
+  @Deprecated(
+      'Replaced by SendChannelMessage in the Amazon Chime SDK Messaging Namespace')
   Future<SendChannelMessageResponse> sendChannelMessage({
     required String channelArn,
     required String content,
@@ -6273,12 +7776,23 @@ class Chime {
   /// the <a
   /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html">StartStreamTranscription</a>
   /// API in the <i>Amazon Transcribe Developer Guide</i>.
-  /// <important>
+  /// <note>
   /// Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use
   /// of Amazon Transcribe is subject to the <a
   /// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a>,
   /// including the terms specific to the AWS Machine Learning and Artificial
   /// Intelligence Services.
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StartMeetingTranscription.html">StartMeetingTranscription</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
   /// </important>
   ///
   /// May throw [NotFoundException].
@@ -6298,6 +7812,8 @@ class Chime {
   /// The configuration for the current transcription operation. Must contain
   /// <code>EngineTranscribeSettings</code> or
   /// <code>EngineTranscribeMedicalSettings</code>.
+  @Deprecated(
+      'Replaced by StartMeetingTranscription in the Amazon Chime SDK Meetings Namespace')
   Future<void> startMeetingTranscription({
     required String meetingId,
     required TranscriptionConfiguration transcriptionConfiguration,
@@ -6315,6 +7831,18 @@ class Chime {
   }
 
   /// Stops transcription for the specified <code>meetingId</code>.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StopMeetingTranscription.html">StopMeetingTranscription</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
@@ -6327,6 +7855,8 @@ class Chime {
   ///
   /// Parameter [meetingId] :
   /// The unique ID of the meeting for which you stop transcription.
+  @Deprecated(
+      'Replaced by StopMeetingTranscription in the Amazon Chime SDK Meetings Namespace')
   Future<void> stopMeetingTranscription({
     required String meetingId,
   }) async {
@@ -6339,7 +7869,11 @@ class Chime {
     );
   }
 
-  /// Applies the specified tags to the specified Amazon Chime SDK attendee.
+  /// Applies the specified tags to the specified Amazon Chime attendee.
+  /// <important>
+  /// TagAttendee is not supported in the Amazon Chime SDK Meetings Namespace.
+  /// Update your application to remove calls to this API.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6358,6 +7892,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// The tag key-value pairs.
+  @Deprecated(
+      'Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.')
   Future<void> tagAttendee({
     required String attendeeId,
     required String meetingId,
@@ -6376,6 +7912,18 @@ class Chime {
   }
 
   /// Applies the specified tags to the specified Amazon Chime SDK meeting.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html">TagResource</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6391,6 +7939,7 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// The tag key-value pairs.
+  @Deprecated('Use TagResource in the Amazon Chime SDK Meetings Namespace.')
   Future<void> tagMeeting({
     required String meetingId,
     required List<Tag> tags,
@@ -6409,6 +7958,18 @@ class Chime {
 
   /// Applies the specified tags to the specified Amazon Chime SDK meeting
   /// resource.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html">TagResource</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6422,6 +7983,8 @@ class Chime {
   ///
   /// Parameter [tags] :
   /// The tag key-value pairs.
+  @Deprecated(
+      'Replaced by TagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces')
   Future<void> tagResource({
     required String resourceARN,
     required List<Tag> tags,
@@ -6439,6 +8002,10 @@ class Chime {
   }
 
   /// Untags the specified tags from the specified Amazon Chime SDK attendee.
+  /// <important>
+  /// UntagAttendee is not supported in the Amazon Chime SDK Meetings Namespace.
+  /// Update your application to remove calls to this API.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6456,6 +8023,8 @@ class Chime {
   ///
   /// Parameter [tagKeys] :
   /// The tag keys.
+  @Deprecated(
+      'Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.')
   Future<void> untagAttendee({
     required String attendeeId,
     required String meetingId,
@@ -6474,6 +8043,18 @@ class Chime {
   }
 
   /// Untags the specified tags from the specified Amazon Chime SDK meeting.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html">UntagResource</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6488,6 +8069,7 @@ class Chime {
   ///
   /// Parameter [tagKeys] :
   /// The tag keys.
+  @Deprecated('Use UntagResource in the Amazon Chime SDK Meetings Namespace.')
   Future<void> untagMeeting({
     required String meetingId,
     required List<String> tagKeys,
@@ -6507,6 +8089,21 @@ class Chime {
   /// Untags the specified tags from the specified Amazon Chime SDK meeting
   /// resource.
   ///
+  /// Applies the specified tags to the specified Amazon Chime SDK meeting
+  /// resource.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html">UntagResource</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
+  ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
@@ -6519,6 +8116,8 @@ class Chime {
   ///
   /// Parameter [tagKeys] :
   /// The tag keys.
+  @Deprecated(
+      'Replaced by UntagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces')
   Future<void> untagResource({
     required String resourceARN,
     required List<String> tagKeys,
@@ -6609,6 +8208,18 @@ class Chime {
   }
 
   /// Updates <code>AppInstance</code> metadata.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstance.html">UpdateAppInstance</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -6626,6 +8237,8 @@ class Chime {
   ///
   /// Parameter [metadata] :
   /// The metadata that you want to change.
+  @Deprecated(
+      'Replaced by UpdateAppInstance in the Amazon Chime SDK Identity Namespace')
   Future<UpdateAppInstanceResponse> updateAppInstance({
     required String appInstanceArn,
     required String name,
@@ -6646,6 +8259,18 @@ class Chime {
 
   /// Updates the details of an <code>AppInstanceUser</code>. You can update
   /// names and metadata.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstanceUser.html">UpdateAppInstanceUser</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -6663,6 +8288,8 @@ class Chime {
   ///
   /// Parameter [metadata] :
   /// The metadata of the <code>AppInstanceUser</code>.
+  @Deprecated(
+      'Replaced by UpdateAppInstanceUser in the Amazon Chime SDK Identity Namespace')
   Future<UpdateAppInstanceUserResponse> updateAppInstanceUser({
     required String appInstanceUserArn,
     required String name,
@@ -6726,7 +8353,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannel.html">UpdateChannel</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6750,6 +8388,8 @@ class Chime {
   ///
   /// Parameter [metadata] :
   /// The metadata for the update request.
+  @Deprecated(
+      'Replaced by UpdateChannel in the Amazon Chime SDK Messaging Namespace')
   Future<UpdateChannelResponse> updateChannel({
     required String channelArn,
     required ChannelMode mode,
@@ -6780,7 +8420,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelMessage.html">UpdateChannelMessage</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -6804,6 +8455,8 @@ class Chime {
   ///
   /// Parameter [metadata] :
   /// The metadata of the message being updated.
+  @Deprecated(
+      'Replaced by UpdateChannelMessage in the Amazon Chime SDK Messaging Namespace')
   Future<UpdateChannelMessageResponse> updateChannelMessage({
     required String channelArn,
     required String messageId,
@@ -6834,7 +8487,18 @@ class Chime {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
   /// value in the header.
-  /// </note>
+  /// </note> <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelReadMarker.html">UpdateChannelReadMarker</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6849,6 +8513,8 @@ class Chime {
   ///
   /// Parameter [chimeBearer] :
   /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  @Deprecated(
+      'Replaced by UpdateChannelReadMarker in the Amazon Chime SDK Messaging Namespace')
   Future<UpdateChannelReadMarkerResponse> updateChannelReadMarker({
     required String channelArn,
     String? chimeBearer,
@@ -6975,6 +8641,18 @@ class Chime {
 
   /// Updates the specified proxy session details, such as voice or SMS
   /// capabilities.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html">UpdateProxySession</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -6995,6 +8673,8 @@ class Chime {
   ///
   /// Parameter [expiryMinutes] :
   /// The number of minutes allowed for the proxy session.
+  @Deprecated(
+      'Replaced by UpdateProxySession in the Amazon Chime SDK Voice Namespace')
   Future<UpdateProxySessionResponse> updateProxySession({
     required List<Capability> capabilities,
     required String proxySessionId,
@@ -7102,6 +8782,18 @@ class Chime {
   }
 
   /// Updates the details of the specified SIP media application.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplication.html">UpdateSipMediaApplication</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -7120,6 +8812,8 @@ class Chime {
   ///
   /// Parameter [name] :
   /// The new name for the specified SIP media application.
+  @Deprecated(
+      'Replaced by UpdateSipMediaApplication in the Amazon Chime SDK Voice Namespace')
   Future<UpdateSipMediaApplicationResponse> updateSipMediaApplication({
     required String sipMediaApplicationId,
     List<SipMediaApplicationEndpoint>? endpoints,
@@ -7142,6 +8836,18 @@ class Chime {
   /// Invokes the AWS Lambda function associated with the SIP media application
   /// and transaction ID in an update request. The Lambda function can then
   /// return a new set of actions.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplicationCall.html">UpdateSipMediaApplicationCall</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -7162,6 +8868,8 @@ class Chime {
   ///
   /// Parameter [transactionId] :
   /// The ID of the call transaction.
+  @Deprecated(
+      'Replaced by UpdateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace')
   Future<UpdateSipMediaApplicationCallResponse> updateSipMediaApplicationCall({
     required Map<String, String> arguments,
     required String sipMediaApplicationId,
@@ -7181,6 +8889,18 @@ class Chime {
   }
 
   /// Updates the details of the specified SIP rule.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipRule.html">UpdateSipRule</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -7203,6 +8923,8 @@ class Chime {
   ///
   /// Parameter [targetApplications] :
   /// The new value of the list of target applications.
+  @Deprecated(
+      'Replaced by UpdateSipRule in the Amazon Chime SDK Voice Namespace')
   Future<UpdateSipRuleResponse> updateSipRule({
     required String name,
     required String sipRuleId,
@@ -7309,6 +9031,18 @@ class Chime {
   }
 
   /// Updates details for the specified Amazon Chime Voice Connector.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnector.html">UpdateVoiceConnector</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -7326,6 +9060,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
+  @Deprecated(
+      'Replaced by UpdateVoiceConnector in the Amazon Chime SDK Voice Namespace')
   Future<UpdateVoiceConnectorResponse> updateVoiceConnector({
     required String name,
     required bool requireEncryption,
@@ -7346,6 +9082,18 @@ class Chime {
 
   /// Updates details of the specified Amazon Chime Voice Connector group, such
   /// as the name and Amazon Chime Voice Connector priority ranking.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnectorGroup.html">UpdateVoiceConnectorGroup</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -7364,6 +9112,8 @@ class Chime {
   ///
   /// Parameter [voiceConnectorItems] :
   /// The <code>VoiceConnectorItems</code> to associate with the group.
+  @Deprecated(
+      'Replaced by UpdateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace')
   Future<UpdateVoiceConnectorGroupResponse> updateVoiceConnectorGroup({
     required String name,
     required String voiceConnectorGroupId,
@@ -7388,6 +9138,18 @@ class Chime {
   /// Format Location Object file that you include in SIP requests. That helps
   /// ensure that addresses are routed to the appropriate Public Safety
   /// Answering Point.
+  /// <important>
+  /// <b>This API is is no longer supported and will not be updated.</b> We
+  /// recommend using the latest version, <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ValidateE911Address.html">ValidateE911Address</a>,
+  /// in the Amazon Chime SDK.
+  ///
+  /// Using the latest version requires migrating to a dedicated namespace. For
+  /// more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+  /// from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -7417,6 +9179,8 @@ class Chime {
   ///
   /// Parameter [streetNumber] :
   /// The address street number, such as <code>200</code> or <code>2121</code>.
+  @Deprecated(
+      'Replaced by ValidateE911Address in the Amazon Chime SDK Voice Namespace')
   Future<ValidateE911AddressResponse> validateE911Address({
     required String awsAccountId,
     required String city,
@@ -13783,18 +15547,34 @@ class MediaPlacement {
   final String? eventIngestionUrl;
 
   /// The screen data URL.
+  /// <important>
+  /// <b>This parameter is is no longer supported and no longer used by the Amazon
+  /// Chime SDK.</b>
+  /// </important>
   final String? screenDataUrl;
 
   /// The screen sharing URL.
+  /// <important>
+  /// <b>This parameter is is no longer supported and no longer used by the Amazon
+  /// Chime SDK.</b>.
+  /// </important>
   final String? screenSharingUrl;
 
   /// The screen viewing URL.
+  /// <important>
+  /// <b>This parameter is is no longer supported and no longer used by the Amazon
+  /// Chime SDK.</b>
+  /// </important>
   final String? screenViewingUrl;
 
   /// The signaling URL.
   final String? signalingUrl;
 
   /// The turn control URL.
+  /// <important>
+  /// <b>This parameter is is no longer supported and no longer used by the Amazon
+  /// Chime SDK.</b>
+  /// </important>
   final String? turnControlUrl;
 
   MediaPlacement({

@@ -142,15 +142,34 @@ class AppRunner {
   /// <code>1</code> of this name. When you use the same name in subsequent
   /// calls, App Runner creates incremental revisions of the configuration.
   /// <note>
-  /// The name <code>DefaultConfiguration</code> is reserved (it's the
-  /// configuration that App Runner uses if you don't provide a custome one).
-  /// You can't use it to create a new auto scaling configuration, and you can't
-  /// create a revision of it.
+  /// Prior to the release of <a
+  /// href="https://docs.aws.amazon.com/apprunner/latest/relnotes/release-2023-09-22-auto-scale-config.html">Auto
+  /// scale configuration enhancements</a>, the name
+  /// <code>DefaultConfiguration</code> was reserved.
   ///
-  /// When you want to use your own auto scaling configuration for your App
-  /// Runner service, <i>create a configuration with a different name</i>, and
-  /// then provide it when you create or update your service.
-  /// </note>
+  /// This restriction is no longer in place. You can now manage
+  /// <code>DefaultConfiguration</code> the same way you manage your custom auto
+  /// scaling configurations. This means you can do the following with the
+  /// <code>DefaultConfiguration</code> that App Runner provides:
+  ///
+  /// <ul>
+  /// <li>
+  /// Create new revisions of the <code>DefaultConfiguration</code>.
+  /// </li>
+  /// <li>
+  /// Delete the revisions of the <code>DefaultConfiguration</code>.
+  /// </li>
+  /// <li>
+  /// Delete the auto scaling configuration for which the App Runner
+  /// <code>DefaultConfiguration</code> was created.
+  /// </li>
+  /// <li>
+  /// If you delete the auto scaling configuration you can create another custom
+  /// auto scaling configuration with the same <code>DefaultConfiguration</code>
+  /// name. The original <code>DefaultConfiguration</code> resource provided by
+  /// App Runner remains in your account unless you make changes to it.
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [maxConcurrency] :
   /// The maximum number of concurrent requests that you want an instance to
@@ -235,9 +254,9 @@ class AppRunner {
   /// repositories from certain third-party providers. You can share a
   /// connection across multiple services.
   ///
-  /// A connection resource is needed to access GitHub repositories. GitHub
-  /// requires a user interface approval process through the App Runner console
-  /// before you can use the connection.
+  /// A connection resource is needed to access GitHub and Bitbucket
+  /// repositories. Both require a user interface approval process through the
+  /// App Runner console before you can use the connection.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
@@ -561,8 +580,10 @@ class AppRunner {
   }
 
   /// Delete an App Runner automatic scaling configuration resource. You can
-  /// delete a specific revision or the latest active revision. You can't delete
-  /// a configuration that's used by one or more App Runner services.
+  /// delete a top level auto scaling configuration, a specific revision of one,
+  /// or all revisions associated with the top level configuration. You can't
+  /// delete the default auto scaling configuration or a configuration that's
+  /// used by one or more App Runner services.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
@@ -576,9 +597,18 @@ class AppRunner {
   /// ending with either <code>.../<i>name</i> </code> or
   /// <code>.../<i>name</i>/<i>revision</i> </code>. If a revision isn't
   /// specified, the latest active revision is deleted.
+  ///
+  /// Parameter [deleteAllRevisions] :
+  /// Set to <code>true</code> to delete all of the revisions associated with
+  /// the <code>AutoScalingConfigurationArn</code> parameter value.
+  ///
+  /// When <code>DeleteAllRevisions</code> is set to <code>true</code>, the only
+  /// valid value for the Amazon Resource Name (ARN) is a partial ARN ending
+  /// with: <code>.../name</code>.
   Future<DeleteAutoScalingConfigurationResponse>
       deleteAutoScalingConfiguration({
     required String autoScalingConfigurationArn,
+    bool? deleteAllRevisions,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -592,6 +622,8 @@ class AppRunner {
       headers: headers,
       payload: {
         'AutoScalingConfigurationArn': autoScalingConfigurationArn,
+        if (deleteAllRevisions != null)
+          'DeleteAllRevisions': deleteAllRevisions,
       },
     );
 
@@ -1369,6 +1401,69 @@ class AppRunner {
     return ListServicesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of the associated App Runner services using an auto scaling
+  /// configuration.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [autoScalingConfigurationArn] :
+  /// The Amazon Resource Name (ARN) of the App Runner auto scaling
+  /// configuration that you want to list the services for.
+  ///
+  /// The ARN can be a full auto scaling configuration ARN, or a partial ARN
+  /// ending with either <code>.../<i>name</i> </code> or
+  /// <code>.../<i>name</i>/<i>revision</i> </code>. If a revision isn't
+  /// specified, the latest active revision is used.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in each response (result page).
+  /// It's used for a paginated request.
+  ///
+  /// If you don't specify <code>MaxResults</code>, the request retrieves all
+  /// available results in a single response.
+  ///
+  /// Parameter [nextToken] :
+  /// A token from a previous result page. It's used for a paginated request.
+  /// The request retrieves the next result page. All other parameter values
+  /// must be identical to the ones specified in the initial request.
+  ///
+  /// If you don't specify <code>NextToken</code>, the request retrieves the
+  /// first result page.
+  Future<ListServicesForAutoScalingConfigurationResponse>
+      listServicesForAutoScalingConfiguration({
+    required String autoScalingConfigurationArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AppRunner.ListServicesForAutoScalingConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AutoScalingConfigurationArn': autoScalingConfigurationArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListServicesForAutoScalingConfigurationResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// List tags that are associated with for an App Runner resource. The
   /// response contains a list of tag key-value pairs.
   ///
@@ -1696,6 +1791,45 @@ class AppRunner {
     );
   }
 
+  /// Update an auto scaling configuration to be the default. The existing
+  /// default auto scaling configuration will be set to non-default
+  /// automatically.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [autoScalingConfigurationArn] :
+  /// The Amazon Resource Name (ARN) of the App Runner auto scaling
+  /// configuration that you want to set as the default.
+  ///
+  /// The ARN can be a full auto scaling configuration ARN, or a partial ARN
+  /// ending with either <code>.../<i>name</i> </code> or
+  /// <code>.../<i>name</i>/<i>revision</i> </code>. If a revision isn't
+  /// specified, the latest active revision is set as the default.
+  Future<UpdateDefaultAutoScalingConfigurationResponse>
+      updateDefaultAutoScalingConfiguration({
+    required String autoScalingConfigurationArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AppRunner.UpdateDefaultAutoScalingConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AutoScalingConfigurationArn': autoScalingConfigurationArn,
+      },
+    );
+
+    return UpdateDefaultAutoScalingConfigurationResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Update an App Runner service. You can update the source configuration and
   /// instance configuration of the service. You can also update the ARN of the
   /// auto scaling configuration resource that's associated with the service.
@@ -1957,6 +2091,20 @@ class AutoScalingConfiguration {
   /// stamp format.
   final DateTime? deletedAt;
 
+  /// Indicates if this auto scaling configuration has an App Runner service
+  /// associated with it. A value of <code>true</code> indicates one or more
+  /// services are associated. A value of <code>false</code> indicates no services
+  /// are associated.
+  final bool? hasAssociatedService;
+
+  /// Indicates if this auto scaling configuration should be used as the default
+  /// for a new App Runner service that does not have an auto scaling
+  /// configuration ARN specified during creation. Each account can have only one
+  /// default <code>AutoScalingConfiguration</code> per region. The default
+  /// <code>AutoScalingConfiguration</code> can be any revision under the same
+  /// <code>AutoScalingConfigurationName</code>.
+  final bool? isDefault;
+
   /// It's set to <code>true</code> for the configuration with the highest
   /// <code>Revision</code> among all configurations that share the same
   /// <code>AutoScalingConfigurationName</code>. It's set to <code>false</code>
@@ -1995,6 +2143,8 @@ class AutoScalingConfiguration {
     this.autoScalingConfigurationRevision,
     this.createdAt,
     this.deletedAt,
+    this.hasAssociatedService,
+    this.isDefault,
     this.latest,
     this.maxConcurrency,
     this.maxSize,
@@ -2012,6 +2162,8 @@ class AutoScalingConfiguration {
           json['AutoScalingConfigurationRevision'] as int?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       deletedAt: timeStampFromJson(json['DeletedAt']),
+      hasAssociatedService: json['HasAssociatedService'] as bool?,
+      isDefault: json['IsDefault'] as bool?,
       latest: json['Latest'] as bool?,
       maxConcurrency: json['MaxConcurrency'] as int?,
       maxSize: json['MaxSize'] as int?,
@@ -2027,6 +2179,8 @@ class AutoScalingConfiguration {
         this.autoScalingConfigurationRevision;
     final createdAt = this.createdAt;
     final deletedAt = this.deletedAt;
+    final hasAssociatedService = this.hasAssociatedService;
+    final isDefault = this.isDefault;
     final latest = this.latest;
     final maxConcurrency = this.maxConcurrency;
     final maxSize = this.maxSize;
@@ -2041,6 +2195,9 @@ class AutoScalingConfiguration {
         'AutoScalingConfigurationRevision': autoScalingConfigurationRevision,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (deletedAt != null) 'DeletedAt': unixTimestampToJson(deletedAt),
+      if (hasAssociatedService != null)
+        'HasAssociatedService': hasAssociatedService,
+      if (isDefault != null) 'IsDefault': isDefault,
       if (latest != null) 'Latest': latest,
       if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
       if (maxSize != null) 'MaxSize': maxSize,
@@ -2104,10 +2261,38 @@ class AutoScalingConfigurationSummary {
   /// <code>AutoScalingConfigurationName</code>.
   final int? autoScalingConfigurationRevision;
 
+  /// The time when the auto scaling configuration was created. It's in Unix time
+  /// stamp format.
+  final DateTime? createdAt;
+
+  /// Indicates if this auto scaling configuration has an App Runner service
+  /// associated with it. A value of <code>true</code> indicates one or more
+  /// services are associated. A value of <code>false</code> indicates no services
+  /// are associated.
+  final bool? hasAssociatedService;
+
+  /// Indicates if this auto scaling configuration should be used as the default
+  /// for a new App Runner service that does not have an auto scaling
+  /// configuration ARN specified during creation. Each account can have only one
+  /// default <code>AutoScalingConfiguration</code> per region. The default
+  /// <code>AutoScalingConfiguration</code> can be any revision under the same
+  /// <code>AutoScalingConfigurationName</code>.
+  final bool? isDefault;
+
+  /// The current state of the auto scaling configuration. If the status of a
+  /// configuration revision is <code>INACTIVE</code>, it was deleted and can't be
+  /// used. Inactive configuration revisions are permanently removed some time
+  /// after they are deleted.
+  final AutoScalingConfigurationStatus? status;
+
   AutoScalingConfigurationSummary({
     this.autoScalingConfigurationArn,
     this.autoScalingConfigurationName,
     this.autoScalingConfigurationRevision,
+    this.createdAt,
+    this.hasAssociatedService,
+    this.isDefault,
+    this.status,
   });
 
   factory AutoScalingConfigurationSummary.fromJson(Map<String, dynamic> json) {
@@ -2118,6 +2303,10 @@ class AutoScalingConfigurationSummary {
           json['AutoScalingConfigurationName'] as String?,
       autoScalingConfigurationRevision:
           json['AutoScalingConfigurationRevision'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      hasAssociatedService: json['HasAssociatedService'] as bool?,
+      isDefault: json['IsDefault'] as bool?,
+      status: (json['Status'] as String?)?.toAutoScalingConfigurationStatus(),
     );
   }
 
@@ -2126,6 +2315,10 @@ class AutoScalingConfigurationSummary {
     final autoScalingConfigurationName = this.autoScalingConfigurationName;
     final autoScalingConfigurationRevision =
         this.autoScalingConfigurationRevision;
+    final createdAt = this.createdAt;
+    final hasAssociatedService = this.hasAssociatedService;
+    final isDefault = this.isDefault;
+    final status = this.status;
     return {
       if (autoScalingConfigurationArn != null)
         'AutoScalingConfigurationArn': autoScalingConfigurationArn,
@@ -2133,6 +2326,11 @@ class AutoScalingConfigurationSummary {
         'AutoScalingConfigurationName': autoScalingConfigurationName,
       if (autoScalingConfigurationRevision != null)
         'AutoScalingConfigurationRevision': autoScalingConfigurationRevision,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (hasAssociatedService != null)
+        'HasAssociatedService': hasAssociatedService,
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (status != null) 'Status': status.toValue(),
     };
   }
 }
@@ -2378,10 +2576,16 @@ class CodeRepository {
   /// </note>
   final CodeConfiguration? codeConfiguration;
 
+  /// The path of the directory that stores source code and configuration files.
+  /// The build and start commands also execute from here. The path is absolute
+  /// from root and, if not specified, defaults to the repository root.
+  final String? sourceDirectory;
+
   CodeRepository({
     required this.repositoryUrl,
     required this.sourceCodeVersion,
     this.codeConfiguration,
+    this.sourceDirectory,
   });
 
   factory CodeRepository.fromJson(Map<String, dynamic> json) {
@@ -2393,6 +2597,7 @@ class CodeRepository {
           ? CodeConfiguration.fromJson(
               json['CodeConfiguration'] as Map<String, dynamic>)
           : null,
+      sourceDirectory: json['SourceDirectory'] as String?,
     );
   }
 
@@ -2400,10 +2605,12 @@ class CodeRepository {
     final repositoryUrl = this.repositoryUrl;
     final sourceCodeVersion = this.sourceCodeVersion;
     final codeConfiguration = this.codeConfiguration;
+    final sourceDirectory = this.sourceDirectory;
     return {
       'RepositoryUrl': repositoryUrl,
       'SourceCodeVersion': sourceCodeVersion,
       if (codeConfiguration != null) 'CodeConfiguration': codeConfiguration,
+      if (sourceDirectory != null) 'SourceDirectory': sourceDirectory,
     };
   }
 }
@@ -3681,6 +3888,34 @@ class InstanceConfiguration {
   }
 }
 
+enum IpAddressType {
+  ipv4,
+  dualStack,
+}
+
+extension IpAddressTypeValueExtension on IpAddressType {
+  String toValue() {
+    switch (this) {
+      case IpAddressType.ipv4:
+        return 'IPV4';
+      case IpAddressType.dualStack:
+        return 'DUAL_STACK';
+    }
+  }
+}
+
+extension IpAddressTypeFromString on String {
+  IpAddressType toIpAddressType() {
+    switch (this) {
+      case 'IPV4':
+        return IpAddressType.ipv4;
+      case 'DUAL_STACK':
+        return IpAddressType.dualStack;
+    }
+    throw Exception('$this is not known in enum IpAddressType');
+  }
+}
+
 class ListAutoScalingConfigurationsResponse {
   /// A list of summary information records for auto scaling configurations. In a
   /// paginated request, the request returns up to <code>MaxResults</code> records
@@ -3829,6 +4064,41 @@ class ListOperationsResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (operationSummaryList != null)
         'OperationSummaryList': operationSummaryList,
+    };
+  }
+}
+
+class ListServicesForAutoScalingConfigurationResponse {
+  /// A list of service ARN records. In a paginated request, the request returns
+  /// up to <code>MaxResults</code> records for each call.
+  final List<String> serviceArnList;
+
+  /// The token that you can pass in a subsequent request to get the next result
+  /// page. It's returned in a paginated request.
+  final String? nextToken;
+
+  ListServicesForAutoScalingConfigurationResponse({
+    required this.serviceArnList,
+    this.nextToken,
+  });
+
+  factory ListServicesForAutoScalingConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListServicesForAutoScalingConfigurationResponse(
+      serviceArnList: (json['ServiceArnList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceArnList = this.serviceArnList;
+    final nextToken = this.nextToken;
+    return {
+      'ServiceArnList': serviceArnList,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -3999,9 +4269,23 @@ class NetworkConfiguration {
   /// Network configuration settings for inbound message traffic.
   final IngressConfiguration? ingressConfiguration;
 
+  /// App Runner provides you with the option to choose between <i>Internet
+  /// Protocol version 4 (IPv4)</i> and <i>dual stack</i> (IPv4 and IPv6) for your
+  /// incoming public network configuration. This is an optional parameter. If you
+  /// do not specify an <code>IpAddressType</code>, it defaults to select IPv4.
+  /// <note>
+  /// Currently, App Runner supports dual stack for only Public endpoint. Only
+  /// IPv4 is supported for Private endpoint. If you update a service that's using
+  /// dual-stack Public endpoint to a Private endpoint, your App Runner service
+  /// will default to support only IPv4 for Private endpoint and fail to receive
+  /// traffic originating from IPv6 endpoint.
+  /// </note>
+  final IpAddressType? ipAddressType;
+
   NetworkConfiguration({
     this.egressConfiguration,
     this.ingressConfiguration,
+    this.ipAddressType,
   });
 
   factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
@@ -4014,17 +4298,20 @@ class NetworkConfiguration {
           ? IngressConfiguration.fromJson(
               json['IngressConfiguration'] as Map<String, dynamic>)
           : null,
+      ipAddressType: (json['IpAddressType'] as String?)?.toIpAddressType(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final egressConfiguration = this.egressConfiguration;
     final ingressConfiguration = this.ingressConfiguration;
+    final ipAddressType = this.ipAddressType;
     return {
       if (egressConfiguration != null)
         'EgressConfiguration': egressConfiguration,
       if (ingressConfiguration != null)
         'IngressConfiguration': ingressConfiguration,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
     };
   }
 }
@@ -4425,6 +4712,7 @@ class PauseServiceResponse {
 
 enum ProviderType {
   github,
+  bitbucket,
 }
 
 extension ProviderTypeValueExtension on ProviderType {
@@ -4432,6 +4720,8 @@ extension ProviderTypeValueExtension on ProviderType {
     switch (this) {
       case ProviderType.github:
         return 'GITHUB';
+      case ProviderType.bitbucket:
+        return 'BITBUCKET';
     }
   }
 }
@@ -4441,6 +4731,8 @@ extension ProviderTypeFromString on String {
     switch (this) {
       case 'GITHUB':
         return ProviderType.github;
+      case 'BITBUCKET':
+        return ProviderType.bitbucket;
     }
     throw Exception('$this is not known in enum ProviderType');
   }
@@ -4488,6 +4780,8 @@ enum Runtime {
   dotnet_6,
   php_81,
   ruby_31,
+  python_311,
+  nodejs_18,
 }
 
 extension RuntimeValueExtension on Runtime {
@@ -4513,6 +4807,10 @@ extension RuntimeValueExtension on Runtime {
         return 'PHP_81';
       case Runtime.ruby_31:
         return 'RUBY_31';
+      case Runtime.python_311:
+        return 'PYTHON_311';
+      case Runtime.nodejs_18:
+        return 'NODEJS_18';
     }
   }
 }
@@ -4540,6 +4838,10 @@ extension RuntimeFromString on String {
         return Runtime.php_81;
       case 'RUBY_31':
         return Runtime.ruby_31;
+      case 'PYTHON_311':
+        return Runtime.python_311;
+      case 'NODEJS_18':
+        return Runtime.nodejs_18;
     }
     throw Exception('$this is not known in enum Runtime');
   }
@@ -4595,12 +4897,11 @@ class Service {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATE_FAILED</code> – The service failed to create. To troubleshoot
-  /// this failure, read the failure events and logs, change any parameters that
-  /// need to be fixed, and retry the call to create the service.
-  ///
-  /// The failed service isn't usable, and still counts towards your service
-  /// quota. When you're done analyzing the failure, delete the service.
+  /// <code>CREATE_FAILED</code> – The service failed to create. The failed
+  /// service isn't usable, and still counts towards your service quota. To
+  /// troubleshoot this failure, read the failure events and logs, change any
+  /// parameters that need to be fixed, and rebuild your service using
+  /// <code>UpdateService</code>.
   /// </li>
   /// <li>
   /// <code>DELETE_FAILED</code> – The service failed to delete and can't be
@@ -4859,12 +5160,11 @@ class ServiceSummary {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATE_FAILED</code> – The service failed to create. Read the failure
-  /// events and logs, change any parameters that need to be fixed, and retry the
-  /// call to create the service.
-  ///
-  /// The failed service isn't usable, and still counts towards your service
-  /// quota. When you're done analyzing the failure, delete the service.
+  /// <code>CREATE_FAILED</code> – The service failed to create. The failed
+  /// service isn't usable, and still counts towards your service quota. To
+  /// troubleshoot this failure, read the failure events and logs, change any
+  /// parameters that need to be fixed, and rebuild your service using
+  /// <code>UpdateService</code>.
   /// </li>
   /// <li>
   /// <code>DELETE_FAILED</code> – The service failed to delete and can't be
@@ -5173,6 +5473,31 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateDefaultAutoScalingConfigurationResponse {
+  /// A description of the App Runner auto scaling configuration that was set as
+  /// default.
+  final AutoScalingConfiguration autoScalingConfiguration;
+
+  UpdateDefaultAutoScalingConfigurationResponse({
+    required this.autoScalingConfiguration,
+  });
+
+  factory UpdateDefaultAutoScalingConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateDefaultAutoScalingConfigurationResponse(
+      autoScalingConfiguration: AutoScalingConfiguration.fromJson(
+          json['AutoScalingConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingConfiguration = this.autoScalingConfiguration;
+    return {
+      'AutoScalingConfiguration': autoScalingConfiguration,
+    };
   }
 }
 

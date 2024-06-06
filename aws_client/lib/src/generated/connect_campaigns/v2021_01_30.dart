@@ -537,26 +537,56 @@ class ConnectCampaign {
   }
 }
 
+/// Agentless Dialer config
+class AgentlessDialerConfig {
+  final double? dialingCapacity;
+
+  AgentlessDialerConfig({
+    this.dialingCapacity,
+  });
+
+  factory AgentlessDialerConfig.fromJson(Map<String, dynamic> json) {
+    return AgentlessDialerConfig(
+      dialingCapacity: json['dialingCapacity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dialingCapacity = this.dialingCapacity;
+    return {
+      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+    };
+  }
+}
+
 /// Answering Machine Detection config
 class AnswerMachineDetectionConfig {
   /// Enable or disable answering machine detection
   final bool enableAnswerMachineDetection;
 
+  /// Enable or disable await answer machine prompt
+  final bool? awaitAnswerMachinePrompt;
+
   AnswerMachineDetectionConfig({
     required this.enableAnswerMachineDetection,
+    this.awaitAnswerMachinePrompt,
   });
 
   factory AnswerMachineDetectionConfig.fromJson(Map<String, dynamic> json) {
     return AnswerMachineDetectionConfig(
       enableAnswerMachineDetection:
           json['enableAnswerMachineDetection'] as bool,
+      awaitAnswerMachinePrompt: json['awaitAnswerMachinePrompt'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final enableAnswerMachineDetection = this.enableAnswerMachineDetection;
+    final awaitAnswerMachinePrompt = this.awaitAnswerMachinePrompt;
     return {
       'enableAnswerMachineDetection': enableAnswerMachineDetection,
+      if (awaitAnswerMachinePrompt != null)
+        'awaitAnswerMachinePrompt': awaitAnswerMachinePrompt,
     };
   }
 }
@@ -800,16 +830,22 @@ class DialRequest {
 
 /// The possible types of dialer config parameters
 class DialerConfig {
+  final AgentlessDialerConfig? agentlessDialerConfig;
   final PredictiveDialerConfig? predictiveDialerConfig;
   final ProgressiveDialerConfig? progressiveDialerConfig;
 
   DialerConfig({
+    this.agentlessDialerConfig,
     this.predictiveDialerConfig,
     this.progressiveDialerConfig,
   });
 
   factory DialerConfig.fromJson(Map<String, dynamic> json) {
     return DialerConfig(
+      agentlessDialerConfig: json['agentlessDialerConfig'] != null
+          ? AgentlessDialerConfig.fromJson(
+              json['agentlessDialerConfig'] as Map<String, dynamic>)
+          : null,
       predictiveDialerConfig: json['predictiveDialerConfig'] != null
           ? PredictiveDialerConfig.fromJson(
               json['predictiveDialerConfig'] as Map<String, dynamic>)
@@ -822,9 +858,12 @@ class DialerConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final agentlessDialerConfig = this.agentlessDialerConfig;
     final predictiveDialerConfig = this.predictiveDialerConfig;
     final progressiveDialerConfig = this.progressiveDialerConfig;
     return {
+      if (agentlessDialerConfig != null)
+        'agentlessDialerConfig': agentlessDialerConfig,
       if (predictiveDialerConfig != null)
         'predictiveDialerConfig': predictiveDialerConfig,
       if (progressiveDialerConfig != null)
@@ -1387,39 +1426,39 @@ class ListTagsForResourceResponse {
 /// The configuration used for outbound calls.
 class OutboundCallConfig {
   final String connectContactFlowId;
-  final String connectQueueId;
   final AnswerMachineDetectionConfig? answerMachineDetectionConfig;
+  final String? connectQueueId;
   final String? connectSourcePhoneNumber;
 
   OutboundCallConfig({
     required this.connectContactFlowId,
-    required this.connectQueueId,
     this.answerMachineDetectionConfig,
+    this.connectQueueId,
     this.connectSourcePhoneNumber,
   });
 
   factory OutboundCallConfig.fromJson(Map<String, dynamic> json) {
     return OutboundCallConfig(
       connectContactFlowId: json['connectContactFlowId'] as String,
-      connectQueueId: json['connectQueueId'] as String,
       answerMachineDetectionConfig: json['answerMachineDetectionConfig'] != null
           ? AnswerMachineDetectionConfig.fromJson(
               json['answerMachineDetectionConfig'] as Map<String, dynamic>)
           : null,
+      connectQueueId: json['connectQueueId'] as String?,
       connectSourcePhoneNumber: json['connectSourcePhoneNumber'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final connectContactFlowId = this.connectContactFlowId;
-    final connectQueueId = this.connectQueueId;
     final answerMachineDetectionConfig = this.answerMachineDetectionConfig;
+    final connectQueueId = this.connectQueueId;
     final connectSourcePhoneNumber = this.connectSourcePhoneNumber;
     return {
       'connectContactFlowId': connectContactFlowId,
-      'connectQueueId': connectQueueId,
       if (answerMachineDetectionConfig != null)
         'answerMachineDetectionConfig': answerMachineDetectionConfig,
+      if (connectQueueId != null) 'connectQueueId': connectQueueId,
       if (connectSourcePhoneNumber != null)
         'connectSourcePhoneNumber': connectSourcePhoneNumber,
     };
@@ -1429,21 +1468,26 @@ class OutboundCallConfig {
 /// Predictive Dialer config
 class PredictiveDialerConfig {
   final double bandwidthAllocation;
+  final double? dialingCapacity;
 
   PredictiveDialerConfig({
     required this.bandwidthAllocation,
+    this.dialingCapacity,
   });
 
   factory PredictiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return PredictiveDialerConfig(
       bandwidthAllocation: json['bandwidthAllocation'] as double,
+      dialingCapacity: json['dialingCapacity'] as double?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bandwidthAllocation = this.bandwidthAllocation;
+    final dialingCapacity = this.dialingCapacity;
     return {
       'bandwidthAllocation': bandwidthAllocation,
+      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
     };
   }
 }
@@ -1451,21 +1495,26 @@ class PredictiveDialerConfig {
 /// Progressive Dialer config
 class ProgressiveDialerConfig {
   final double bandwidthAllocation;
+  final double? dialingCapacity;
 
   ProgressiveDialerConfig({
     required this.bandwidthAllocation,
+    this.dialingCapacity,
   });
 
   factory ProgressiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return ProgressiveDialerConfig(
       bandwidthAllocation: json['bandwidthAllocation'] as double,
+      dialingCapacity: json['dialingCapacity'] as double?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bandwidthAllocation = this.bandwidthAllocation;
+    final dialingCapacity = this.dialingCapacity;
     return {
       'bandwidthAllocation': bandwidthAllocation,
+      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
     };
   }
 }

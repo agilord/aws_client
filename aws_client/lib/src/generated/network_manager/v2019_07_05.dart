@@ -340,9 +340,6 @@ class NetworkManager {
   /// Parameter [connectAttachmentId] :
   /// The ID of the connection attachment.
   ///
-  /// Parameter [insideCidrBlocks] :
-  /// The inside IP addresses used for BGP peering.
-  ///
   /// Parameter [peerAddress] :
   /// The Connect peer address.
   ///
@@ -355,24 +352,32 @@ class NetworkManager {
   /// Parameter [coreNetworkAddress] :
   /// A Connect peer core network address.
   ///
+  /// Parameter [insideCidrBlocks] :
+  /// The inside IP addresses used for BGP peering.
+  ///
+  /// Parameter [subnetArn] :
+  /// The subnet ARN for the Connect peer.
+  ///
   /// Parameter [tags] :
   /// The tags associated with the peer request.
   Future<CreateConnectPeerResponse> createConnectPeer({
     required String connectAttachmentId,
-    required List<String> insideCidrBlocks,
     required String peerAddress,
     BgpOptions? bgpOptions,
     String? clientToken,
     String? coreNetworkAddress,
+    List<String>? insideCidrBlocks,
+    String? subnetArn,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'ConnectAttachmentId': connectAttachmentId,
-      'InsideCidrBlocks': insideCidrBlocks,
       'PeerAddress': peerAddress,
       if (bgpOptions != null) 'BgpOptions': bgpOptions,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (coreNetworkAddress != null) 'CoreNetworkAddress': coreNetworkAddress,
+      if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
+      if (subnetArn != null) 'SubnetArn': subnetArn,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -4512,6 +4517,9 @@ class ConnectPeer {
   /// The state of the Connect peer.
   final ConnectPeerState? state;
 
+  /// The subnet ARN for the Connect peer.
+  final String? subnetArn;
+
   /// The list of key-value tags associated with the Connect peer.
   final List<Tag>? tags;
 
@@ -4523,6 +4531,7 @@ class ConnectPeer {
     this.createdAt,
     this.edgeLocation,
     this.state,
+    this.subnetArn,
     this.tags,
   });
 
@@ -4538,6 +4547,7 @@ class ConnectPeer {
       createdAt: timeStampFromJson(json['CreatedAt']),
       edgeLocation: json['EdgeLocation'] as String?,
       state: (json['State'] as String?)?.toConnectPeerState(),
+      subnetArn: json['SubnetArn'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -4553,6 +4563,7 @@ class ConnectPeer {
     final createdAt = this.createdAt;
     final edgeLocation = this.edgeLocation;
     final state = this.state;
+    final subnetArn = this.subnetArn;
     final tags = this.tags;
     return {
       if (configuration != null) 'Configuration': configuration,
@@ -4563,6 +4574,7 @@ class ConnectPeer {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
       if (state != null) 'State': state.toValue(),
+      if (subnetArn != null) 'SubnetArn': subnetArn,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -4818,6 +4830,9 @@ class ConnectPeerSummary {
   /// The Region where the edge is located.
   final String? edgeLocation;
 
+  /// The subnet ARN for the Connect peer summary.
+  final String? subnetArn;
+
   /// The list of key-value tags associated with the Connect peer summary.
   final List<Tag>? tags;
 
@@ -4828,6 +4843,7 @@ class ConnectPeerSummary {
     this.coreNetworkId,
     this.createdAt,
     this.edgeLocation,
+    this.subnetArn,
     this.tags,
   });
 
@@ -4840,6 +4856,7 @@ class ConnectPeerSummary {
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       edgeLocation: json['EdgeLocation'] as String?,
+      subnetArn: json['SubnetArn'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -4854,6 +4871,7 @@ class ConnectPeerSummary {
     final coreNetworkId = this.coreNetworkId;
     final createdAt = this.createdAt;
     final edgeLocation = this.edgeLocation;
+    final subnetArn = this.subnetArn;
     final tags = this.tags;
     return {
       if (connectAttachmentId != null)
@@ -4864,6 +4882,7 @@ class ConnectPeerSummary {
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (subnetArn != null) 'SubnetArn': subnetArn,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -9593,7 +9612,9 @@ class RouteTableIdentifier {
   /// The segment edge in a core network.
   final CoreNetworkSegmentEdgeIdentifier? coreNetworkSegmentEdge;
 
-  /// The ARN of the transit gateway route table.
+  /// The ARN of the transit gateway route table for the attachment request. For
+  /// example, <code>"TransitGatewayRouteTableArn":
+  /// "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456"</code>.
   final String? transitGatewayRouteTableArn;
 
   RouteTableIdentifier({
@@ -10213,6 +10234,7 @@ class TransitGatewayRouteTableAttachment {
 
 enum TunnelProtocol {
   gre,
+  noEncap,
 }
 
 extension TunnelProtocolValueExtension on TunnelProtocol {
@@ -10220,6 +10242,8 @@ extension TunnelProtocolValueExtension on TunnelProtocol {
     switch (this) {
       case TunnelProtocol.gre:
         return 'GRE';
+      case TunnelProtocol.noEncap:
+        return 'NO_ENCAP';
     }
   }
 }
@@ -10229,6 +10253,8 @@ extension TunnelProtocolFromString on String {
     switch (this) {
       case 'GRE':
         return TunnelProtocol.gre;
+      case 'NO_ENCAP':
+        return TunnelProtocol.noEncap;
     }
     throw Exception('$this is not known in enum TunnelProtocol');
   }

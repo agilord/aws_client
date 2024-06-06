@@ -338,8 +338,9 @@ class Route53 {
   /// specified values.
   /// </li>
   /// <li>
-  /// <code>UPSERT</code>: If a resource set exists Route 53 updates it with the
-  /// values in the request.
+  /// <code>UPSERT</code>: If a resource set doesn't exist, Route 53 creates it.
+  /// If a resource set exists Route 53 updates it with the values in the
+  /// request.
   /// </li>
   /// </ul>
   /// <b>Syntaxes for Creating, Updating, and Deleting Resource Record Sets</b>
@@ -359,12 +360,13 @@ class Route53 {
   /// <b>Change Propagation to Route 53 DNS Servers</b>
   ///
   /// When you submit a <code>ChangeResourceRecordSets</code> request, Route 53
-  /// propagates your changes to all of the Route 53 authoritative DNS servers.
-  /// While your changes are propagating, <code>GetChange</code> returns a
-  /// status of <code>PENDING</code>. When propagation is complete,
-  /// <code>GetChange</code> returns a status of <code>INSYNC</code>. Changes
-  /// generally propagate to all Route 53 name servers within 60 seconds. For
-  /// more information, see <a
+  /// propagates your changes to all of the Route 53 authoritative DNS servers
+  /// managing the hosted zone. While your changes are propagating,
+  /// <code>GetChange</code> returns a status of <code>PENDING</code>. When
+  /// propagation is complete, <code>GetChange</code> returns a status of
+  /// <code>INSYNC</code>. Changes generally propagate to all Route 53 name
+  /// servers managing the hosted zone within 60 seconds. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>.
   ///
   /// <b>Limits on ChangeResourceRecordSets Requests</b>
@@ -592,6 +594,9 @@ class Route53 {
   /// check, Route 53 creates the health check.
   /// </li>
   /// </ul>
+  /// Route 53 does not store the <code>CallerReference</code> for a deleted
+  /// health check indefinitely. The <code>CallerReference</code> for a deleted
+  /// health check will be deleted after a number of days.
   ///
   /// Parameter [healthCheckConfig] :
   /// A complex type that contains settings for a new health check.
@@ -732,6 +737,11 @@ class Route53 {
   /// you created it. For more information about reusable delegation sets, see
   /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
+  ///
+  /// If you are using a reusable delegation set to create a public hosted zone
+  /// for a subdomain, make sure that the parent hosted zone doesn't use one or
+  /// more of the same name servers. If you have overlapping nameservers, the
+  /// operation will cause a <code>ConflictingDomainsExist</code> error.
   ///
   /// Parameter [hostedZoneConfig] :
   /// (Optional) A complex type that contains the following optional values:
@@ -1254,6 +1264,15 @@ class Route53 {
   /// (such as www.example.com). Amazon Route 53 responds to DNS queries for the
   /// domain or subdomain name by using the resource record sets that
   /// <code>CreateTrafficPolicyInstance</code> created.
+  /// <note>
+  /// After you submit an <code>CreateTrafficPolicyInstance</code> request,
+  /// there's a brief delay while Amazon Route 53 creates the resource record
+  /// sets that are specified in the traffic policy definition. Use
+  /// <code>GetTrafficPolicyInstance</code> with the <code>id</code> of new
+  /// traffic policy instance to confirm that the
+  /// <code>CreateTrafficPolicyInstance</code> request completed successfully.
+  /// For more information, see the <code>State</code> response element.
+  /// </note>
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
@@ -2018,12 +2037,12 @@ class Route53 {
   /// <ul>
   /// <li>
   /// <code>PENDING</code> indicates that the changes in this request have not
-  /// propagated to all Amazon Route 53 DNS servers. This is the initial status
-  /// of all change batch requests.
+  /// propagated to all Amazon Route 53 DNS servers managing the hosted zone.
+  /// This is the initial status of all change batch requests.
   /// </li>
   /// <li>
   /// <code>INSYNC</code> indicates that the changes have propagated to all
-  /// Route 53 DNS servers.
+  /// Route 53 DNS servers managing the hosted zone.
   /// </li>
   /// </ul>
   ///
@@ -2145,6 +2164,8 @@ class Route53 {
   /// Amazon Route 53 uses the two-letter country codes that are specified in <a
   /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard
   /// 3166-1 alpha-2</a>.
+  ///
+  /// Route 53 also supports the country code <b>UA</b> for Ukraine.
   ///
   /// Parameter [subdivisionCode] :
   /// The code for the subdivision, such as a particular state within the United
@@ -2458,11 +2479,11 @@ class Route53 {
 
   /// Gets information about a specified traffic policy instance.
   /// <note>
-  /// After you submit a <code>CreateTrafficPolicyInstance</code> or an
-  /// <code>UpdateTrafficPolicyInstance</code> request, there's a brief delay
-  /// while Amazon Route 53 creates the resource record sets that are specified
-  /// in the traffic policy definition. For more information, see the
-  /// <code>State</code> response element.
+  /// Use <code>GetTrafficPolicyInstance</code> with the <code>id</code> of new
+  /// traffic policy instance to confirm that the
+  /// <code>CreateTrafficPolicyInstance</code> or an
+  /// <code>UpdateTrafficPolicyInstance</code> request completed successfully.
+  /// For more information, see the <code>State</code> response element.
   /// </note> <note>
   /// In the Route 53 console, traffic policy instances are known as policy
   /// records.
@@ -2701,9 +2722,9 @@ class Route53 {
   /// Parameter [maxItems] :
   /// The maximum number of health checks that you want
   /// <code>ListHealthChecks</code> to return in response to the current
-  /// request. Amazon Route 53 returns a maximum of 100 items. If you set
-  /// <code>MaxItems</code> to a value greater than 100, Route 53 returns only
-  /// the first 100 health checks.
+  /// request. Amazon Route 53 returns a maximum of 1000 items. If you set
+  /// <code>MaxItems</code> to a value greater than 1000, Route 53 returns only
+  /// the first 1000 health checks.
   Future<ListHealthChecksResponse> listHealthChecks({
     String? marker,
     String? maxItems,
@@ -2738,6 +2759,9 @@ class Route53 {
   /// hosted zones that are associated with a reusable delegation set, specify
   /// the ID of that reusable delegation set.
   ///
+  /// Parameter [hostedZoneType] :
+  /// (Optional) Specifies if the hosted zone is private.
+  ///
   /// Parameter [marker] :
   /// If the value of <code>IsTruncated</code> in the previous response was
   /// <code>true</code>, you have more hosted zones. To get more hosted zones,
@@ -2760,11 +2784,13 @@ class Route53 {
   /// another request.
   Future<ListHostedZonesResponse> listHostedZones({
     String? delegationSetId,
+    HostedZoneType? hostedZoneType,
     String? marker,
     String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (delegationSetId != null) 'delegationsetid': [delegationSetId],
+      if (hostedZoneType != null) 'hostedzonetype': [hostedZoneType.toValue()],
       if (marker != null) 'marker': [marker],
       if (maxItems != null) 'maxitems': [maxItems],
     };
@@ -3775,6 +3801,12 @@ class Route53 {
   /// mask.
   ///
   /// This call only supports querying public hosted zones.
+  /// <note>
+  /// The <code>TestDnsAnswer </code> returns information similar to what you
+  /// would expect from the answer section of the <code>dig</code> command.
+  /// Therefore, if you query for the name servers of a subdomain that point to
+  /// the parent name servers, those will not be returned.
+  /// </note>
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
@@ -3990,6 +4022,11 @@ class Route53 {
   /// <code>FullyQualifiedDomainName</code> at the interval you specify in
   /// <code>RequestInterval</code>. Using an IPv4 address that is returned by
   /// DNS, Route 53 then checks the health of the endpoint.
+  ///
+  /// If you don't specify a value for <code>IPAddress</code>, you can’t update
+  /// the health check to remove the <code>FullyQualifiedDomainName</code>; if
+  /// you don’t specify a value for <code>IPAddress</code> on creation, a
+  /// <code>FullyQualifiedDomainName</code> is required.
   /// <note>
   /// If you don't specify a value for <code>IPAddress</code>, Route 53 uses
   /// only IPv4 to send health checks to the endpoint. If there's no resource
@@ -4377,6 +4414,15 @@ class Route53 {
     return UpdateTrafficPolicyCommentResponse.fromXml($result.body);
   }
 
+  /// <note>
+  /// After you submit a <code>UpdateTrafficPolicyInstance</code> request,
+  /// there's a brief delay while Route 53 creates the resource record sets that
+  /// are specified in the traffic policy definition. Use
+  /// <code>GetTrafficPolicyInstance</code> with the <code>id</code> of updated
+  /// traffic policy instance confirm that the
+  /// <code>UpdateTrafficPolicyInstance</code> request completed successfully.
+  /// For more information, see the <code>State</code> response element.
+  /// </note>
   /// Updates the resource record sets in a specified hosted zone that were
   /// created based on the settings in a specified traffic policy version.
   ///
@@ -4926,7 +4972,7 @@ class AliasTarget {
   /// in. The environment must have a regionalized subdomain. For a list of
   /// regions and the corresponding hosted zone IDs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html">Elastic
-  /// Beanstalk endpoints and quotas</a> in the the <i>Amazon Web Services General
+  /// Beanstalk endpoints and quotas</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   /// </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the value of the hosted zone ID for the load balancer. Use the
@@ -5724,6 +5770,8 @@ enum CloudWatchRegion {
   usIsoWest_1,
   usIsobEast_1,
   apSoutheast_4,
+  ilCentral_1,
+  caWest_1,
 }
 
 extension CloudWatchRegionValueExtension on CloudWatchRegion {
@@ -5797,6 +5845,10 @@ extension CloudWatchRegionValueExtension on CloudWatchRegion {
         return 'us-isob-east-1';
       case CloudWatchRegion.apSoutheast_4:
         return 'ap-southeast-4';
+      case CloudWatchRegion.ilCentral_1:
+        return 'il-central-1';
+      case CloudWatchRegion.caWest_1:
+        return 'ca-west-1';
     }
   }
 }
@@ -5872,6 +5924,10 @@ extension CloudWatchRegionFromString on String {
         return CloudWatchRegion.usIsobEast_1;
       case 'ap-southeast-4':
         return CloudWatchRegion.apSoutheast_4;
+      case 'il-central-1':
+        return CloudWatchRegion.ilCentral_1;
+      case 'ca-west-1':
+        return CloudWatchRegion.caWest_1;
     }
     throw Exception('$this is not known in enum CloudWatchRegion');
   }
@@ -5950,6 +6006,46 @@ extension ComparisonOperatorFromString on String {
   }
 }
 
+/// A complex type that lists the coordinates for a geoproximity resource
+/// record.
+class Coordinates {
+  /// Specifies a coordinate of the north–south position of a geographic point on
+  /// the surface of the Earth (-90 - 90).
+  final String latitude;
+
+  /// Specifies a coordinate of the east–west position of a geographic point on
+  /// the surface of the Earth (-180 - 180).
+  final String longitude;
+
+  Coordinates({
+    required this.latitude,
+    required this.longitude,
+  });
+  factory Coordinates.fromXml(_s.XmlElement elem) {
+    return Coordinates(
+      latitude: _s.extractXmlStringValue(elem, 'Latitude')!,
+      longitude: _s.extractXmlStringValue(elem, 'Longitude')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final latitude = this.latitude;
+    final longitude = this.longitude;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Latitude', latitude),
+      _s.encodeXmlStringValue('Longitude', longitude),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 class CreateCidrCollectionRequest {
   /// A client-specific token that allows requests to be securely retried so that
   /// the intended outcome will only occur once, retries receive a similar
@@ -6025,6 +6121,9 @@ class CreateHealthCheckRequest {
   /// check, Route 53 creates the health check.
   /// </li>
   /// </ul>
+  /// Route 53 does not store the <code>CallerReference</code> for a deleted
+  /// health check indefinitely. The <code>CallerReference</code> for a deleted
+  /// health check will be deleted after a number of days.
   final String callerReference;
 
   /// A complex type that contains settings for a new health check.
@@ -6094,6 +6193,11 @@ class CreateHostedZoneRequest {
   /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
   /// created it. For more information about reusable delegation sets, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
+  ///
+  /// If you are using a reusable delegation set to create a public hosted zone
+  /// for a subdomain, make sure that the parent hosted zone doesn't use one or
+  /// more of the same name servers. If you have overlapping nameservers, the
+  /// operation will cause a <code>ConflictingDomainsExist</code> error.
   final String? delegationSetId;
 
   /// (Optional) A complex type that contains the following optional values:
@@ -6630,7 +6734,7 @@ class CreateVPCAssociationAuthorizationResponse {
   }
 }
 
-/// A string repesenting the status of DNSSEC signing.
+/// A string representing the status of DNSSEC signing.
 class DNSSECStatus {
   /// A string that represents the current hosted zone signing status.
   ///
@@ -6990,6 +7094,8 @@ class GeoLocation {
   /// Amazon Route 53 uses the two-letter country codes that are specified in <a
   /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard 3166-1
   /// alpha-2</a>.
+  ///
+  /// Route 53 also supports the country code <b>UA</b> for Ukraine.
   final String? countryCode;
 
   /// For geolocation resource record sets, the two-letter code for a state of the
@@ -7087,6 +7193,97 @@ class GeoLocationDetails {
   }
 }
 
+/// (Resource record sets only): A complex type that lets you specify where your
+/// resources are located. Only one of <code>LocalZoneGroup</code>,
+/// <code>Coordinates</code>, or <code>Amazon Web ServicesRegion</code> is
+/// allowed per request at a time.
+///
+/// For more information about geoproximity routing, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html">Geoproximity
+/// routing</a> in the <i>Amazon Route 53 Developer Guide</i>.
+class GeoProximityLocation {
+  /// The Amazon Web Services Region the resource you are directing DNS traffic
+  /// to, is in.
+  final String? awsRegion;
+
+  /// The bias increases or decreases the size of the geographic region from which
+  /// Route 53 routes traffic to a resource.
+  ///
+  /// To use <code>Bias</code> to change the size of the geographic region,
+  /// specify the applicable value for the bias:
+  ///
+  /// <ul>
+  /// <li>
+  /// To expand the size of the geographic region from which Route 53 routes
+  /// traffic to a resource, specify a positive integer from 1 to 99 for the bias.
+  /// Route 53 shrinks the size of adjacent regions.
+  /// </li>
+  /// <li>
+  /// To shrink the size of the geographic region from which Route 53 routes
+  /// traffic to a resource, specify a negative bias of -1 to -99. Route 53
+  /// expands the size of adjacent regions.
+  /// </li>
+  /// </ul>
+  final int? bias;
+
+  /// Contains the longitude and latitude for a geographic region.
+  final Coordinates? coordinates;
+
+  /// Specifies an Amazon Web Services Local Zone Group.
+  ///
+  /// A local Zone Group is usually the Local Zone code without the ending
+  /// character. For example, if the Local Zone is <code>us-east-1-bue-1a</code>
+  /// the Local Zone Group is <code>us-east-1-bue-1</code>.
+  ///
+  /// You can identify the Local Zones Group for a specific Local Zone by using
+  /// the <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html">describe-availability-zones</a>
+  /// CLI command:
+  ///
+  /// This command returns: <code>"GroupName": "us-west-2-den-1"</code>,
+  /// specifying that the Local Zone <code>us-west-2-den-1a</code> belongs to the
+  /// Local Zone Group <code>us-west-2-den-1</code>.
+  final String? localZoneGroup;
+
+  GeoProximityLocation({
+    this.awsRegion,
+    this.bias,
+    this.coordinates,
+    this.localZoneGroup,
+  });
+  factory GeoProximityLocation.fromXml(_s.XmlElement elem) {
+    return GeoProximityLocation(
+      awsRegion: _s.extractXmlStringValue(elem, 'AWSRegion'),
+      bias: _s.extractXmlIntValue(elem, 'Bias'),
+      coordinates:
+          _s.extractXmlChild(elem, 'Coordinates')?.let(Coordinates.fromXml),
+      localZoneGroup: _s.extractXmlStringValue(elem, 'LocalZoneGroup'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final awsRegion = this.awsRegion;
+    final bias = this.bias;
+    final coordinates = this.coordinates;
+    final localZoneGroup = this.localZoneGroup;
+    final $children = <_s.XmlNode>[
+      if (awsRegion != null) _s.encodeXmlStringValue('AWSRegion', awsRegion),
+      if (localZoneGroup != null)
+        _s.encodeXmlStringValue('LocalZoneGroup', localZoneGroup),
+      if (coordinates != null) coordinates.toXml('Coordinates'),
+      if (bias != null) _s.encodeXmlIntValue('Bias', bias),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A complex type that contains the requested limit.
 class GetAccountLimitResponse {
   /// The current number of entities that you have created of the specified type.
@@ -7150,7 +7347,7 @@ class GetDNSSECResponse {
   /// The key-signing keys (KSKs) in your account.
   final List<KeySigningKey> keySigningKeys;
 
-  /// A string repesenting the status of DNSSEC.
+  /// A string representing the status of DNSSEC.
   final DNSSECStatus status;
 
   GetDNSSECResponse({
@@ -7559,7 +7756,7 @@ class HealthCheckConfig {
   /// <code>HealthThreshold</code>.
   /// </li>
   /// <li>
-  /// <b>RECOVERY_CONTROL</b>: The health check is assocated with a Route53
+  /// <b>RECOVERY_CONTROL</b>: The health check is associated with a Route53
   /// Application Recovery Controller routing control. If the routing control
   /// state is <code>ON</code>, the health check is considered healthy. If the
   /// state is <code>OFF</code>, the health check is considered unhealthy.
@@ -8371,6 +8568,29 @@ class HostedZoneSummary {
       name: _s.extractXmlStringValue(elem, 'Name')!,
       owner: HostedZoneOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
     );
+  }
+}
+
+enum HostedZoneType {
+  privateHostedZone,
+}
+
+extension HostedZoneTypeValueExtension on HostedZoneType {
+  String toValue() {
+    switch (this) {
+      case HostedZoneType.privateHostedZone:
+        return 'PrivateHostedZone';
+    }
+  }
+}
+
+extension HostedZoneTypeFromString on String {
+  HostedZoneType toHostedZoneType() {
+    switch (this) {
+      case 'PrivateHostedZone':
+        return HostedZoneType.privateHostedZone;
+    }
+    throw Exception('$this is not known in enum HostedZoneType');
   }
 }
 
@@ -9746,11 +9966,6 @@ class ResourceRecordSet {
   /// NS.
   /// </important> </li>
   /// </ul>
-  /// You can use the * wildcard as the leftmost label in a domain name, for
-  /// example, <code>*.example.com</code>. You can't use an * for one of the
-  /// middle labels, for example, <code>marketing.*.example.com</code>. In
-  /// addition, the * must replace the entire label; for example, you can't
-  /// specify <code>prod*.example.com</code>.
   final String name;
 
   /// The DNS record type. For information about different record types and how
@@ -9916,10 +10131,7 @@ class ResourceRecordSet {
   /// routed to a web server with an IP address of <code>192.0.2.111</code>,
   /// create a resource record set with a <code>Type</code> of <code>A</code> and
   /// a <code>ContinentCode</code> of <code>AF</code>.
-  /// <note>
-  /// Although creating geolocation and geolocation alias resource record sets in
-  /// a private hosted zone is allowed, it's not supported.
-  /// </note>
+  ///
   /// If you create separate resource record sets for overlapping geographic
   /// regions (for example, one resource record set for a continent and one for a
   /// country on the same continent), priority goes to the smallest geographic
@@ -9951,6 +10163,11 @@ class ResourceRecordSet {
   /// values for the <code>Name</code> and <code>Type</code> elements as
   /// geolocation resource record sets.
   final GeoLocation? geoLocation;
+
+  /// <i> GeoproximityLocation resource record sets only:</i> A complex type that
+  /// lets you control how Route 53 responds to DNS queries based on the
+  /// geographic origin of the query and your resources.
+  final GeoProximityLocation? geoProximityLocation;
 
   /// If you want Amazon Route 53 to return this resource record set in response
   /// to a DNS query only when the status of a health check is healthy, include
@@ -10290,6 +10507,7 @@ class ResourceRecordSet {
     this.cidrRoutingConfig,
     this.failover,
     this.geoLocation,
+    this.geoProximityLocation,
     this.healthCheckId,
     this.multiValueAnswer,
     this.region,
@@ -10313,6 +10531,9 @@ class ResourceRecordSet {
           ?.toResourceRecordSetFailover(),
       geoLocation:
           _s.extractXmlChild(elem, 'GeoLocation')?.let(GeoLocation.fromXml),
+      geoProximityLocation: _s
+          .extractXmlChild(elem, 'GeoProximityLocation')
+          ?.let(GeoProximityLocation.fromXml),
       healthCheckId: _s.extractXmlStringValue(elem, 'HealthCheckId'),
       multiValueAnswer: _s.extractXmlBoolValue(elem, 'MultiValueAnswer'),
       region:
@@ -10337,6 +10558,7 @@ class ResourceRecordSet {
     final cidrRoutingConfig = this.cidrRoutingConfig;
     final failover = this.failover;
     final geoLocation = this.geoLocation;
+    final geoProximityLocation = this.geoProximityLocation;
     final healthCheckId = this.healthCheckId;
     final multiValueAnswer = this.multiValueAnswer;
     final region = this.region;
@@ -10369,6 +10591,8 @@ class ResourceRecordSet {
             'TrafficPolicyInstanceId', trafficPolicyInstanceId),
       if (cidrRoutingConfig != null)
         cidrRoutingConfig.toXml('CidrRoutingConfig'),
+      if (geoProximityLocation != null)
+        geoProximityLocation.toXml('GeoProximityLocation'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10439,6 +10663,8 @@ enum ResourceRecordSetRegion {
   euSouth_1,
   euSouth_2,
   apSoutheast_4,
+  ilCentral_1,
+  caWest_1,
 }
 
 extension ResourceRecordSetRegionValueExtension on ResourceRecordSetRegion {
@@ -10502,6 +10728,10 @@ extension ResourceRecordSetRegionValueExtension on ResourceRecordSetRegion {
         return 'eu-south-2';
       case ResourceRecordSetRegion.apSoutheast_4:
         return 'ap-southeast-4';
+      case ResourceRecordSetRegion.ilCentral_1:
+        return 'il-central-1';
+      case ResourceRecordSetRegion.caWest_1:
+        return 'ca-west-1';
     }
   }
 }
@@ -10567,6 +10797,10 @@ extension ResourceRecordSetRegionFromString on String {
         return ResourceRecordSetRegion.euSouth_2;
       case 'ap-southeast-4':
         return ResourceRecordSetRegion.apSoutheast_4;
+      case 'il-central-1':
+        return ResourceRecordSetRegion.ilCentral_1;
+      case 'ca-west-1':
+        return ResourceRecordSetRegion.caWest_1;
     }
     throw Exception('$this is not known in enum ResourceRecordSetRegion');
   }
@@ -11177,6 +11411,11 @@ class UpdateHealthCheckRequest {
   /// <code>FullyQualifiedDomainName</code> at the interval you specify in
   /// <code>RequestInterval</code>. Using an IPv4 address that is returned by DNS,
   /// Route 53 then checks the health of the endpoint.
+  ///
+  /// If you don't specify a value for <code>IPAddress</code>, you can’t update
+  /// the health check to remove the <code>FullyQualifiedDomainName</code>; if you
+  /// don’t specify a value for <code>IPAddress</code> on creation, a
+  /// <code>FullyQualifiedDomainName</code> is required.
   /// <note>
   /// If you don't specify a value for <code>IPAddress</code>, Route 53 uses only
   /// IPv4 to send health checks to the endpoint. If there's no resource record
@@ -11754,6 +11993,8 @@ enum VPCRegion {
   euSouth_1,
   euSouth_2,
   apSoutheast_4,
+  ilCentral_1,
+  caWest_1,
 }
 
 extension VPCRegionValueExtension on VPCRegion {
@@ -11825,6 +12066,10 @@ extension VPCRegionValueExtension on VPCRegion {
         return 'eu-south-2';
       case VPCRegion.apSoutheast_4:
         return 'ap-southeast-4';
+      case VPCRegion.ilCentral_1:
+        return 'il-central-1';
+      case VPCRegion.caWest_1:
+        return 'ca-west-1';
     }
   }
 }
@@ -11898,6 +12143,10 @@ extension VPCRegionFromString on String {
         return VPCRegion.euSouth_2;
       case 'ap-southeast-4':
         return VPCRegion.apSoutheast_4;
+      case 'il-central-1':
+        return VPCRegion.ilCentral_1;
+      case 'ca-west-1':
+        return VPCRegion.caWest_1;
     }
     throw Exception('$this is not known in enum VPCRegion');
   }

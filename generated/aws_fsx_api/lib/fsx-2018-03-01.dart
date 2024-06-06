@@ -126,20 +126,23 @@ class FSx {
 
   /// Cancels an existing Amazon FSx for Lustre data repository task if that
   /// task is in either the <code>PENDING</code> or <code>EXECUTING</code>
-  /// state. When you cancel a task, Amazon FSx does the following.
+  /// state. When you cancel am export task, Amazon FSx does the following.
   ///
   /// <ul>
   /// <li>
   /// Any files that FSx has already exported are not reverted.
   /// </li>
   /// <li>
-  /// FSx continues to export any files that are "in-flight" when the cancel
+  /// FSx continues to export any files that are in-flight when the cancel
   /// operation is received.
   /// </li>
   /// <li>
   /// FSx does not export any files that have not yet been exported.
   /// </li>
   /// </ul>
+  /// For a release task, Amazon FSx will stop releasing files upon
+  /// cancellation. Any files that have already been released will remain in the
+  /// released state.
   ///
   /// May throw [BadRequest].
   /// May throw [UnsupportedOperation].
@@ -269,6 +272,91 @@ class FSx {
     );
 
     return CopyBackupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing volume by using a snapshot from another Amazon FSx for
+  /// OpenZFS file system. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/on-demand-replication.html">on-demand
+  /// data replication</a> in the Amazon FSx for OpenZFS User Guide.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [IncompatibleParameterError].
+  /// May throw [InternalServerError].
+  /// May throw [ServiceLimitExceeded].
+  ///
+  /// Parameter [volumeId] :
+  /// Specifies the ID of the volume that you are copying the snapshot to.
+  ///
+  /// Parameter [copyStrategy] :
+  /// Specifies the strategy to use when copying data from a snapshot to the
+  /// volume.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FULL_COPY</code> - Copies all data from the snapshot to the volume.
+  /// </li>
+  /// <li>
+  /// <code>INCREMENTAL_COPY</code> - Copies only the snapshot data that's
+  /// changed since the previous replication.
+  /// </li>
+  /// </ul> <note>
+  /// <code>CLONE</code> isn't a valid copy strategy option for the
+  /// <code>CopySnapshotAndUpdateVolume</code> operation.
+  /// </note>
+  ///
+  /// Parameter [options] :
+  /// Confirms that you want to delete data on the destination volume that
+  /// wasn’t there during the previous snapshot replication.
+  ///
+  /// Your replication will fail if you don’t include an option for a specific
+  /// type of data and that data is on your destination. For example, if you
+  /// don’t include <code>DELETE_INTERMEDIATE_SNAPSHOTS</code> and there are
+  /// intermediate snapshots on the destination, you can’t copy the snapshot.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETE_INTERMEDIATE_SNAPSHOTS</code> - Deletes snapshots on the
+  /// destination volume that aren’t on the source volume.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_CLONED_VOLUMES</code> - Deletes snapshot clones on the
+  /// destination volume that aren't on the source volume.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_INTERMEDIATE_DATA</code> - Overwrites snapshots on the
+  /// destination volume that don’t match the source snapshot that you’re
+  /// copying.
+  /// </li>
+  /// </ul>
+  Future<CopySnapshotAndUpdateVolumeResponse> copySnapshotAndUpdateVolume({
+    required String sourceSnapshotARN,
+    required String volumeId,
+    String? clientRequestToken,
+    OpenZFSCopyStrategy? copyStrategy,
+    List<UpdateOpenZFSVolumeOption>? options,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSSimbaAPIService_v20180301.CopySnapshotAndUpdateVolume'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SourceSnapshotARN': sourceSnapshotARN,
+        'VolumeId': volumeId,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (copyStrategy != null) 'CopyStrategy': copyStrategy.toValue(),
+        if (options != null)
+          'Options': options.map((e) => e.toValue()).toList(),
+      },
+    );
+
+    return CopySnapshotAndUpdateVolumeResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a backup of an existing Amazon FSx for Windows File Server file
@@ -402,8 +490,8 @@ class FSx {
   /// repository association is a link between a directory on the file system
   /// and an Amazon S3 bucket or prefix. You can have a maximum of 8 data
   /// repository associations on a file system. Data repository associations are
-  /// supported for all file systems except for <code>Scratch_1</code>
-  /// deployment type.
+  /// supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding
+  /// <code>scratch_1</code> deployment type.
   ///
   /// Each data repository association must have a unique Amazon FSx file system
   /// directory and a unique S3 bucket or prefix associated with it. You can
@@ -519,15 +607,23 @@ class FSx {
     return CreateDataRepositoryAssociationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an Amazon FSx for Lustre data repository task. You use data
-  /// repository tasks to perform bulk operations between your Amazon FSx file
-  /// system and its linked data repositories. An example of a data repository
-  /// task is exporting any data and metadata changes, including POSIX metadata,
-  /// to files, directories, and symbolic links (symlinks) from your FSx file
-  /// system to a linked data repository. A
+  /// Creates an Amazon FSx for Lustre data repository task. A
   /// <code>CreateDataRepositoryTask</code> operation will fail if a data
-  /// repository is not linked to the FSx file system. To learn more about data
-  /// repository tasks, see <a
+  /// repository is not linked to the FSx file system.
+  ///
+  /// You use import and export data repository tasks to perform bulk operations
+  /// between your FSx for Lustre file system and its linked data repositories.
+  /// An example of a data repository task is exporting any data and metadata
+  /// changes, including POSIX metadata, to files, directories, and symbolic
+  /// links (symlinks) from your FSx file system to a linked data repository.
+  ///
+  /// You use release data repository tasks to release data from your file
+  /// system for files that are exported to S3. The metadata of released files
+  /// remains on the file system so users or applications can still access
+  /// released files by reading the files again, which will restore data from
+  /// Amazon S3 to the FSx for Lustre file system.
+  ///
+  /// To learn more about data repository tasks, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html">Data
   /// Repository Tasks</a>. To learn more about linking a data repository to
   /// your file system, see <a
@@ -553,6 +649,26 @@ class FSx {
   /// Parameter [type] :
   /// Specifies the type of data repository task to create.
   ///
+  /// <ul>
+  /// <li>
+  /// <code>EXPORT_TO_REPOSITORY</code> tasks export from your Amazon FSx for
+  /// Lustre file system to a linked data repository.
+  /// </li>
+  /// <li>
+  /// <code>IMPORT_METADATA_FROM_REPOSITORY</code> tasks import metadata changes
+  /// from a linked S3 bucket to your Amazon FSx for Lustre file system.
+  /// </li>
+  /// <li>
+  /// <code>RELEASE_DATA_FROM_FILESYSTEM</code> tasks release files in your
+  /// Amazon FSx for Lustre file system that have been exported to a linked S3
+  /// bucket and that meet your specified release criteria.
+  /// </li>
+  /// <li>
+  /// <code>AUTO_RELEASE_DATA</code> tasks automatically release files from an
+  /// Amazon File Cache resource.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [capacityToRelease] :
   /// Specifies the amount of data to release, in GiB, by an Amazon File Cache
   /// <code>AUTO_RELEASE_DATA</code> task that automatically releases files from
@@ -560,26 +676,44 @@ class FSx {
   ///
   /// Parameter [paths] :
   /// A list of paths for the data repository task to use when the task is
-  /// processed. If a path that you provide isn't valid, the task fails.
+  /// processed. If a path that you provide isn't valid, the task fails. If you
+  /// don't provide paths, the default behavior is to export all files to S3
+  /// (for export tasks), import all files from S3 (for import tasks), or
+  /// release all exported files that meet the last accessed time criteria (for
+  /// release tasks).
   ///
   /// <ul>
   /// <li>
-  /// For export tasks, the list contains paths on the Amazon FSx file system
-  /// from which the files are exported to the Amazon S3 bucket. The default
-  /// path is the file system root directory. The paths you provide need to be
-  /// relative to the mount point of the file system. If the mount point is
-  /// <code>/mnt/fsx</code> and <code>/mnt/fsx/path1</code> is a directory or
+  /// For export tasks, the list contains paths on the FSx for Lustre file
+  /// system from which the files are exported to the Amazon S3 bucket. The
+  /// default path is the file system root directory. The paths you provide need
+  /// to be relative to the mount point of the file system. If the mount point
+  /// is <code>/mnt/fsx</code> and <code>/mnt/fsx/path1</code> is a directory or
   /// file on the file system you want to export, then the path to provide is
   /// <code>path1</code>.
   /// </li>
   /// <li>
   /// For import tasks, the list contains paths in the Amazon S3 bucket from
-  /// which POSIX metadata changes are imported to the Amazon FSx file system.
-  /// The path can be an S3 bucket or prefix in the format
+  /// which POSIX metadata changes are imported to the FSx for Lustre file
+  /// system. The path can be an S3 bucket or prefix in the format
   /// <code>s3://myBucket/myPrefix</code> (where <code>myPrefix</code> is
   /// optional).
   /// </li>
+  /// <li>
+  /// For release tasks, the list contains directory or file paths on the FSx
+  /// for Lustre file system from which to release exported files. If a
+  /// directory is specified, files within the directory are released. If a file
+  /// path is specified, only that file is released. To release all exported
+  /// files in the file system, specify a forward slash (/) as the path.
+  /// <note>
+  /// A file must also meet the last accessed time criteria specified in for the
+  /// file to be released.
+  /// </note> </li>
   /// </ul>
+  ///
+  /// Parameter [releaseConfiguration] :
+  /// The configuration that specifies the last accessed time criteria for files
+  /// that will be released from an Amazon FSx for Lustre file system.
   Future<CreateDataRepositoryTaskResponse> createDataRepositoryTask({
     required String fileSystemId,
     required CompletionReport report,
@@ -587,6 +721,7 @@ class FSx {
     int? capacityToRelease,
     String? clientRequestToken,
     List<String>? paths,
+    ReleaseConfiguration? releaseConfiguration,
     List<Tag>? tags,
   }) async {
     _s.validateNumRange(
@@ -613,6 +748,8 @@ class FSx {
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (paths != null) 'Paths': paths,
+        if (releaseConfiguration != null)
+          'ReleaseConfiguration': releaseConfiguration,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -870,7 +1007,9 @@ class FSx {
   /// </li>
   /// </ul>
   /// <b>FSx for ONTAP file systems</b> - The amount of storage capacity that
-  /// you can configure is from 1024 GiB up to 196,608 GiB (192 TiB).
+  /// you can configure depends on the value of the <code>HAPairs</code>
+  /// property. The minimum value is calculated as 1,024 * <code>HAPairs</code>
+  /// and the maximum is calculated as 524,288 * <code>HAPairs</code>.
   ///
   /// <b>FSx for OpenZFS file systems</b> - The amount of storage capacity that
   /// you can configure is from 64 GiB up to 524,288 GiB (512 TiB).
@@ -916,17 +1055,17 @@ class FSx {
   ///
   /// Parameter [fileSystemTypeVersion] :
   /// (Optional) For FSx for Lustre file systems, sets the Lustre version for
-  /// the file system that you're creating. Valid values are <code>2.10</code>
-  /// and <code>2.12</code>:
+  /// the file system that you're creating. Valid values are <code>2.10</code>,
+  /// <code>2.12</code>, and <code>2.15</code>:
   ///
   /// <ul>
   /// <li>
   /// 2.10 is supported by the Scratch and Persistent_1 Lustre deployment types.
   /// </li>
   /// <li>
-  /// 2.12 is supported by all Lustre deployment types. <code>2.12</code> is
-  /// required when setting FSx for Lustre <code>DeploymentType</code> to
-  /// <code>PERSISTENT_2</code>.
+  /// 2.12 and 2.15 are supported by all Lustre deployment types.
+  /// <code>2.12</code> or <code>2.15</code> is required when setting FSx for
+  /// Lustre <code>DeploymentType</code> to <code>PERSISTENT_2</code>.
   /// </li>
   /// </ul>
   /// Default value = <code>2.10</code>, except when <code>DeploymentType</code>
@@ -945,6 +1084,10 @@ class FSx {
   /// A list of IDs specifying the security groups to apply to all network
   /// interfaces created for file system access. This list isn't returned in
   /// later requests to describe the file system.
+  /// <important>
+  /// You must specify a security group if you are creating a Multi-AZ FSx for
+  /// ONTAP file system in a VPC subnet that has been shared with you.
+  /// </important>
   ///
   /// Parameter [storageType] :
   /// Sets the storage type for the file system that you're creating. Valid
@@ -1108,8 +1251,8 @@ class FSx {
   ///
   /// Parameter [fileSystemTypeVersion] :
   /// Sets the version for the Amazon FSx for Lustre file system that you're
-  /// creating from a backup. Valid values are <code>2.10</code> and
-  /// <code>2.12</code>.
+  /// creating from a backup. Valid values are <code>2.10</code>,
+  /// <code>2.12</code>, and <code>2.15</code>.
   ///
   /// You don't need to specify <code>FileSystemTypeVersion</code> because it
   /// will be applied using the backup's <code>FileSystemTypeVersion</code>
@@ -1136,7 +1279,8 @@ class FSx {
   ///
   /// If used to create a file system other than OpenZFS, you must provide a
   /// value that matches the backup's <code>StorageCapacity</code> value. If you
-  /// provide any other value, Amazon FSx responds with a 400 Bad Request.
+  /// provide any other value, Amazon FSx responds with with an HTTP status code
+  /// 400 Bad Request.
   ///
   /// Parameter [storageType] :
   /// Sets the storage type for the Windows or OpenZFS file system that you're
@@ -1315,7 +1459,7 @@ class FSx {
   /// Describes the self-managed Microsoft Active Directory to which you want to
   /// join the SVM. Joining an Active Directory provides user authentication and
   /// access control for SMB clients, including Microsoft Windows and macOS
-  /// client accessing the file system.
+  /// clients accessing the file system.
   ///
   /// Parameter [rootVolumeSecurityStyle] :
   /// The security style of the root volume of the SVM. Specify one of the
@@ -1328,15 +1472,16 @@ class FSx {
   /// data uses a UNIX user as the service account.
   /// </li>
   /// <li>
-  /// <code>NTFS</code> if the file system is managed by a Windows
+  /// <code>NTFS</code> if the file system is managed by a Microsoft Windows
   /// administrator, the majority of users are SMB clients, and an application
-  /// accessing the data uses a Windows user as the service account.
+  /// accessing the data uses a Microsoft Windows user as the service account.
   /// </li>
   /// <li>
-  /// <code>MIXED</code> if the file system is managed by both UNIX and Windows
-  /// administrators and users consist of both NFS and SMB clients.
+  /// <code>MIXED</code> This is an advanced setting. For more information, see
+  /// <a href="fsx/latest/ONTAPGuide/volume-security-style.html">Volume security
+  /// style</a> in the Amazon FSx for NetApp ONTAP User Guide.
   /// </li>
-  /// </ul>
+  /// </ul> <p/>
   ///
   /// Parameter [svmAdminPassword] :
   /// The password to use when managing the SVM using the NetApp ONTAP CLI or
@@ -1537,8 +1682,8 @@ class FSx {
   /// from the Amazon S3 bucket. When deleting a data repository association,
   /// you have the option of deleting the data in the file system that
   /// corresponds to the data repository association. Data repository
-  /// associations are supported for all file systems except for
-  /// <code>Scratch_1</code> deployment type.
+  /// associations are supported on all FSx for Lustre 2.12 and 2.15 file
+  /// systems, excluding <code>scratch_1</code> deployment type.
   ///
   /// May throw [BadRequest].
   /// May throw [IncompatibleParameterError].
@@ -1641,6 +1786,24 @@ class FSx {
   /// system, a final backup is created upon deletion. This final backup isn't
   /// subject to the file system's retention policy, and must be manually
   /// deleted.
+  ///
+  /// To delete an Amazon FSx for Lustre file system, first <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/unmounting-fs.html">unmount</a>
+  /// it from every connected Amazon EC2 instance, then provide a
+  /// <code>FileSystemId</code> value to the <code>DeleFileSystem</code>
+  /// operation. By default, Amazon FSx will not take a final backup when the
+  /// <code>DeleteFileSystem</code> operation is invoked. On file systems not
+  /// linked to an Amazon S3 bucket, set <code>SkipFinalBackup</code> to
+  /// <code>false</code> to take a final backup of the file system you are
+  /// deleting. Backups cannot be enabled on S3-linked file systems. To ensure
+  /// all of your data is written back to S3 before deleting your file system,
+  /// you can either monitor for the <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/monitoring-cloudwatch.html#auto-import-export-metrics">AgeOfOldestQueuedMessage</a>
+  /// metric to be zero (if using automatic export) or you can run an <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/export-data-repo-task-dra.html">export
+  /// data repository task</a>. If you have automatic export enabled and want to
+  /// use an export data repository task, you have to disable automatic export
+  /// before executing the export data repository task.
   ///
   /// The <code>DeleteFileSystem</code> operation returns while the file system
   /// has the <code>DELETING</code> status. You can check the file system
@@ -1788,6 +1951,7 @@ class FSx {
   /// May throw [IncompatibleParameterError].
   /// May throw [InternalServerError].
   /// May throw [VolumeNotFound].
+  /// May throw [ServiceLimitExceeded].
   ///
   /// Parameter [volumeId] :
   /// The ID of the volume that you are deleting.
@@ -1926,8 +2090,8 @@ class FSx {
   /// Cache data repository associations, if one or more
   /// <code>AssociationIds</code> values are provided in the request, or if
   /// filters are used in the request. Data repository associations are
-  /// supported on Amazon File Cache resources and all Amazon FSx for Lustre
-  /// file systems excluding <code>Scratch_1</code> deployment types.
+  /// supported on Amazon File Cache resources and all FSx for Lustre 2.12 and
+  /// 2,15 file systems, excluding <code>scratch_1</code> deployment type.
   ///
   /// You can use filters to narrow the response to include just data repository
   /// associations for specific file systems (use the
@@ -2273,6 +2437,33 @@ class FSx {
     return DescribeFileSystemsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Indicates whether participant accounts in your organization can create
+  /// Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are
+  /// shared by a virtual private cloud (VPC) owner. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html#fsxn-vpc-shared-subnets">Creating
+  /// FSx for ONTAP file systems in shared subnets</a>.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [InternalServerError].
+  Future<DescribeSharedVpcConfigurationResponse>
+      describeSharedVpcConfiguration() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSSimbaAPIService_v20180301.DescribeSharedVpcConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeSharedVpcConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a
   /// <code>SnapshotIds</code> value is provided. Otherwise, this operation
   /// returns all snapshots owned by your Amazon Web Services account in the
@@ -2315,12 +2506,19 @@ class FSx {
   /// The filters structure. The supported names are <code>file-system-id</code>
   /// or <code>volume-id</code>.
   ///
+  /// Parameter [includeShared] :
+  /// Set to <code>false</code> (default) if you want to only see the snapshots
+  /// owned by your Amazon Web Services account. Set to <code>true</code> if you
+  /// want to see the snapshots in your account and the ones shared with you
+  /// from another account.
+  ///
   /// Parameter [snapshotIds] :
   /// The IDs of the snapshots that you want to retrieve. This parameter value
   /// overrides any filters. If any IDs aren't found, a
   /// <code>SnapshotNotFound</code> error occurs.
   Future<DescribeSnapshotsResponse> describeSnapshots({
     List<SnapshotFilter>? filters,
+    bool? includeShared,
     int? maxResults,
     String? nextToken,
     List<String>? snapshotIds,
@@ -2343,6 +2541,7 @@ class FSx {
       headers: headers,
       payload: {
         if (filters != null) 'Filters': filters,
+        if (includeShared != null) 'IncludeShared': includeShared,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (snapshotIds != null) 'SnapshotIds': snapshotIds,
@@ -2449,8 +2648,8 @@ class FSx {
   /// Use this action to disassociate, or remove, one or more Domain Name
   /// Service (DNS) aliases from an Amazon FSx for Windows File Server file
   /// system. If you attempt to disassociate a DNS alias that is not associated
-  /// with the file system, Amazon FSx responds with a 400 Bad Request. For more
-  /// information, see <a
+  /// with the file system, Amazon FSx responds with an HTTP status code 400
+  /// (Bad Request). For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html">Working
   /// with DNS Aliases</a>.
   ///
@@ -2667,6 +2866,39 @@ class FSx {
     return RestoreVolumeFromSnapshotResponse.fromJson(jsonResponse.body);
   }
 
+  /// After performing steps to repair the Active Directory configuration of an
+  /// FSx for Windows File Server file system, use this action to initiate the
+  /// process of Amazon FSx attempting to reconnect to the file system.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
+  Future<StartMisconfiguredStateRecoveryResponse>
+      startMisconfiguredStateRecovery({
+    required String fileSystemId,
+    String? clientRequestToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSSimbaAPIService_v20180301.StartMisconfiguredStateRecovery'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FileSystemId': fileSystemId,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return StartMisconfiguredStateRecoveryResponse.fromJson(jsonResponse.body);
+  }
+
   /// Tags an Amazon FSx resource.
   ///
   /// May throw [BadRequest].
@@ -2740,8 +2972,8 @@ class FSx {
 
   /// Updates the configuration of an existing data repository association on an
   /// Amazon FSx for Lustre file system. Data repository associations are
-  /// supported for all file systems except for <code>Scratch_1</code>
-  /// deployment type.
+  /// supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding
+  /// <code>scratch_1</code> deployment type.
   ///
   /// May throw [BadRequest].
   /// May throw [IncompatibleParameterError].
@@ -2872,7 +3104,13 @@ class FSx {
   /// <code>StorageCapacity</code>
   /// </li>
   /// <li>
+  /// <code>StorageType</code>
+  /// </li>
+  /// <li>
   /// <code>ThroughputCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>DiskIopsConfiguration</code>
   /// </li>
   /// <li>
   /// <code>WeeklyMaintenanceStartTime</code>
@@ -2894,7 +3132,13 @@ class FSx {
   /// <code>DataCompressionType</code>
   /// </li>
   /// <li>
+  /// <code>LogConfiguration</code>
+  /// </li>
+  /// <li>
   /// <code>LustreRootSquashConfiguration</code>
+  /// </li>
+  /// <li>
+  /// <code>PerUnitStorageThroughput</code>
   /// </li>
   /// <li>
   /// <code>StorageCapacity</code>
@@ -2922,6 +3166,9 @@ class FSx {
   /// <code>FsxAdminPassword</code>
   /// </li>
   /// <li>
+  /// <code>HAPairs</code>
+  /// </li>
+  /// <li>
   /// <code>RemoveRouteTableIds</code>
   /// </li>
   /// <li>
@@ -2931,12 +3178,18 @@ class FSx {
   /// <code>ThroughputCapacity</code>
   /// </li>
   /// <li>
+  /// <code>ThroughputCapacityPerHAPair</code>
+  /// </li>
+  /// <li>
   /// <code>WeeklyMaintenanceStartTime</code>
   /// </li>
   /// </ul>
   /// For FSx for OpenZFS file systems, you can update the following properties:
   ///
   /// <ul>
+  /// <li>
+  /// <code>AddRouteTableIds</code>
+  /// </li>
   /// <li>
   /// <code>AutomaticBackupRetentionDays</code>
   /// </li>
@@ -2951,6 +3204,9 @@ class FSx {
   /// </li>
   /// <li>
   /// <code>DiskIopsConfiguration</code>
+  /// </li>
+  /// <li>
+  /// <code>RemoveRouteTableIds</code>
   /// </li>
   /// <li>
   /// <code>StorageCapacity</code>
@@ -2982,7 +3238,7 @@ class FSx {
   /// SDK.
   ///
   /// Parameter [openZFSConfiguration] :
-  /// The configuration updates for an Amazon FSx for OpenZFS file system.
+  /// The configuration updates for an FSx for OpenZFS file system.
   ///
   /// Parameter [storageCapacity] :
   /// Use this parameter to increase the storage capacity of an FSx for Windows
@@ -3030,7 +3286,7 @@ class FSx {
   /// increase storage capacity, the file system must have at least 16 MBps of
   /// throughput capacity. For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html">Managing
-  /// storage capacity</a> in the <i>Amazon FSx for Windows File Server User
+  /// storage capacity</a> in the <i>Amazon FSxfor Windows File Server User
   /// Guide</i>.
   ///
   /// For ONTAP file systems, the storage capacity target value must be at least
@@ -3050,6 +3306,7 @@ class FSx {
     UpdateFileSystemOntapConfiguration? ontapConfiguration,
     UpdateFileSystemOpenZFSConfiguration? openZFSConfiguration,
     int? storageCapacity,
+    StorageType? storageType,
     UpdateFileSystemWindowsConfiguration? windowsConfiguration,
   }) async {
     _s.validateNumRange(
@@ -3079,12 +3336,65 @@ class FSx {
         if (openZFSConfiguration != null)
           'OpenZFSConfiguration': openZFSConfiguration,
         if (storageCapacity != null) 'StorageCapacity': storageCapacity,
+        if (storageType != null) 'StorageType': storageType.toValue(),
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
       },
     );
 
     return UpdateFileSystemResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Configures whether participant accounts in your organization can create
+  /// Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are
+  /// shared by a virtual private cloud (VPC) owner. For more information, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/maz-shared-vpc.html">Amazon
+  /// FSx for NetApp ONTAP User Guide</a>.
+  /// <note>
+  /// We strongly recommend that participant-created Multi-AZ file systems in
+  /// the shared VPC are deleted before you disable this feature. Once the
+  /// feature is disabled, these file systems will enter a
+  /// <code>MISCONFIGURED</code> state and behave like Single-AZ file systems.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/maz-shared-vpc.html#disabling-maz-vpc-sharing">Important
+  /// considerations before disabling shared VPC support for Multi-AZ file
+  /// systems</a>.
+  /// </note>
+  ///
+  /// May throw [BadRequest].
+  /// May throw [IncompatibleParameterError].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [enableFsxRouteTableUpdatesFromParticipantAccounts] :
+  /// Specifies whether participant accounts can create FSx for ONTAP Multi-AZ
+  /// file systems in shared subnets. Set to <code>true</code> to enable or
+  /// <code>false</code> to disable.
+  Future<UpdateSharedVpcConfigurationResponse> updateSharedVpcConfiguration({
+    String? clientRequestToken,
+    String? enableFsxRouteTableUpdatesFromParticipantAccounts,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSSimbaAPIService_v20180301.UpdateSharedVpcConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (enableFsxRouteTableUpdatesFromParticipantAccounts != null)
+          'EnableFsxRouteTableUpdatesFromParticipantAccounts':
+              enableFsxRouteTableUpdatesFromParticipantAccounts,
+      },
+    );
+
+    return UpdateSharedVpcConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the name of an Amazon FSx for OpenZFS snapshot.
@@ -3125,7 +3435,7 @@ class FSx {
     return UpdateSnapshotResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates an Amazon FSx for ONTAP storage virtual machine (SVM).
+  /// Updates an FSx for ONTAP storage virtual machine (SVM).
   ///
   /// May throw [BadRequest].
   /// May throw [IncompatibleParameterError].
@@ -3138,11 +3448,11 @@ class FSx {
   /// <code>svm-0123456789abcdef0</code>.
   ///
   /// Parameter [activeDirectoryConfiguration] :
-  /// Updates the Microsoft Active Directory (AD) configuration for an SVM that
-  /// is joined to an AD.
+  /// Specifies updates to an SVM's Microsoft Active Directory (AD)
+  /// configuration.
   ///
   /// Parameter [svmAdminPassword] :
-  /// Enter a new SvmAdminPassword if you are updating it.
+  /// Specifies a new SvmAdminPassword.
   Future<UpdateStorageVirtualMachineResponse> updateStorageVirtualMachine({
     required String storageVirtualMachineId,
     UpdateSvmActiveDirectoryConfiguration? activeDirectoryConfiguration,
@@ -3257,7 +3567,7 @@ class ActiveDirectoryBackupAttributes {
 }
 
 /// Describes a specific Amazon FSx administrative action for the current
-/// Windows, Lustre, or OpenZFS file system.
+/// Windows, Lustre, OpenZFS, or ONTAP file system or volume.
 class AdministrativeAction {
   final AdministrativeActionType? administrativeActionType;
   final AdministrativeActionFailureDetails? failureDetails;
@@ -3267,10 +3577,14 @@ class AdministrativeAction {
   /// type.
   final int? progressPercent;
 
+  /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're
+  /// copying.
+  final int? remainingTransferBytes;
+
   /// The time that the administrative action request was received.
   final DateTime? requestTime;
 
-  /// Describes the status of the administrative action, as follows:
+  /// The status of the administrative action, as follows:
   ///
   /// <ul>
   /// <li>
@@ -3297,22 +3611,28 @@ class AdministrativeAction {
   /// </ul>
   final Status? status;
 
-  /// Describes the target value for the administration action, provided in the
+  /// The target value for the administration action, provided in the
   /// <code>UpdateFileSystem</code> operation. Returned for
   /// <code>FILE_SYSTEM_UPDATE</code> administrative actions.
   final FileSystem? targetFileSystemValues;
   final Snapshot? targetSnapshotValues;
   final Volume? targetVolumeValues;
 
+  /// The number of bytes that have transferred for the FSx for OpenZFS snapshot
+  /// that you're copying.
+  final int? totalTransferBytes;
+
   AdministrativeAction({
     this.administrativeActionType,
     this.failureDetails,
     this.progressPercent,
+    this.remainingTransferBytes,
     this.requestTime,
     this.status,
     this.targetFileSystemValues,
     this.targetSnapshotValues,
     this.targetVolumeValues,
+    this.totalTransferBytes,
   });
 
   factory AdministrativeAction.fromJson(Map<String, dynamic> json) {
@@ -3324,6 +3644,7 @@ class AdministrativeAction {
               json['FailureDetails'] as Map<String, dynamic>)
           : null,
       progressPercent: json['ProgressPercent'] as int?,
+      remainingTransferBytes: json['RemainingTransferBytes'] as int?,
       requestTime: timeStampFromJson(json['RequestTime']),
       status: (json['Status'] as String?)?.toStatus(),
       targetFileSystemValues: json['TargetFileSystemValues'] != null
@@ -3337,6 +3658,7 @@ class AdministrativeAction {
       targetVolumeValues: json['TargetVolumeValues'] != null
           ? Volume.fromJson(json['TargetVolumeValues'] as Map<String, dynamic>)
           : null,
+      totalTransferBytes: json['TotalTransferBytes'] as int?,
     );
   }
 }
@@ -3367,6 +3689,21 @@ class AdministrativeActionFailureDetails {
 /// or CLI (<code>update-file-system</code>).
 /// </li>
 /// <li>
+/// <code>THROUGHPUT_OPTIMIZATION</code> - After the
+/// <code>FILE_SYSTEM_UPDATE</code> task to increase a file system's throughput
+/// capacity has been completed successfully, a
+/// <code>THROUGHPUT_OPTIMIZATION</code> task starts.
+///
+/// You can track the storage-optimization progress using the
+/// <code>ProgressPercent</code> property. When
+/// <code>THROUGHPUT_OPTIMIZATION</code> has been completed successfully, the
+/// parent <code>FILE_SYSTEM_UPDATE</code> action status changes to
+/// <code>COMPLETED</code>. For more information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html">Managing
+/// throughput capacity</a> in the <i>Amazon FSx for Windows File Server User
+/// Guide</i>.
+/// </li>
+/// <li>
 /// <code>STORAGE_OPTIMIZATION</code> - After the
 /// <code>FILE_SYSTEM_UPDATE</code> task to increase a file system's storage
 /// capacity has been completed successfully, a
@@ -3391,8 +3728,7 @@ class AdministrativeActionFailureDetails {
 /// storage capacity</a> in the <i>Amazon FSx for Windows File Server User
 /// Guide</i>, <a
 /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html">Managing
-/// storage and throughput capacity</a> in the <i>Amazon FSx for Lustre User
-/// Guide</i>, and <a
+/// storage capacity</a> in the <i>Amazon FSx for Lustre User Guide</i>, and <a
 /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html">Managing
 /// storage capacity and provisioned IOPS</a> in the <i>Amazon FSx for NetApp
 /// ONTAP User Guide</i>.
@@ -3410,10 +3746,35 @@ class AdministrativeActionFailureDetails {
 /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_DisassociateFileSystemAliases.html">DisassociateFileSystemAliases</a>.
 /// </li>
 /// <li>
-/// <code>VOLUME_UPDATE</code> - A volume update to an Amazon FSx for NetApp
-/// ONTAP or Amazon FSx for OpenZFS volume initiated from the Amazon FSx
-/// console, API (<code>UpdateVolume</code>), or CLI
-/// (<code>update-volume</code>).
+/// <code>IOPS_OPTIMIZATION</code> - After the <code>FILE_SYSTEM_UPDATE</code>
+/// task to increase a file system's throughput capacity has been completed
+/// successfully, a <code>IOPS_OPTIMIZATION</code> task starts.
+///
+/// You can track the storage-optimization progress using the
+/// <code>ProgressPercent</code> property. When <code>IOPS_OPTIMIZATION</code>
+/// has been completed successfully, the parent <code>FILE_SYSTEM_UPDATE</code>
+/// action status changes to <code>COMPLETED</code>. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-provisioned-ssd-iops.html">Managing
+/// provisioned SSD IOPS</a> in the Amazon FSx for Windows File Server User
+/// Guide.
+/// </li>
+/// <li>
+/// <code>STORAGE_TYPE_OPTIMIZATION</code> - After the
+/// <code>FILE_SYSTEM_UPDATE</code> task to increase a file system's throughput
+/// capacity has been completed successfully, a
+/// <code>STORAGE_TYPE_OPTIMIZATION</code> task starts.
+///
+/// You can track the storage-optimization progress using the
+/// <code>ProgressPercent</code> property. When
+/// <code>STORAGE_TYPE_OPTIMIZATION</code> has been completed successfully, the
+/// parent <code>FILE_SYSTEM_UPDATE</code> action status changes to
+/// <code>COMPLETED</code>.
+/// </li>
+/// <li>
+/// <code>VOLUME_UPDATE</code> - A volume update to an Amazon FSx for OpenZFS
+/// volume initiated from the Amazon FSx console, API
+/// (<code>UpdateVolume</code>), or CLI (<code>update-volume</code>).
 /// </li>
 /// <li>
 /// <code>VOLUME_RESTORE</code> - An Amazon FSx for OpenZFS volume is returned
@@ -3430,6 +3791,19 @@ class AdministrativeActionFailureDetails {
 /// <code>RELEASE_NFS_V3_LOCKS</code> - Tracks the release of Network File
 /// System (NFS) V3 locks on an Amazon FSx for OpenZFS file system.
 /// </li>
+/// <li>
+/// <code>VOLUME_INITIALIZE_WITH_SNAPSHOT</code> - A volume is being created
+/// from a snapshot on a different FSx for OpenZFS file system. You can initiate
+/// this from the Amazon FSx console, API (<code>CreateVolume</code>), or CLI
+/// (<code>create-volume</code>) when using the using the <code>FULL_COPY</code>
+/// strategy.
+/// </li>
+/// <li>
+/// <code>VOLUME_UPDATE_WITH_SNAPSHOT</code> - A volume is being updated from a
+/// snapshot on a different FSx for OpenZFS file system. You can initiate this
+/// from the Amazon FSx console, API (<code>CopySnapshotAndUpdateVolume</code>),
+/// or CLI (<code>copy-snapshot-and-update-volume</code>).
+/// </li>
 /// </ul>
 enum AdministrativeActionType {
   fileSystemUpdate,
@@ -3440,6 +3814,12 @@ enum AdministrativeActionType {
   snapshotUpdate,
   releaseNfsV3Locks,
   volumeRestore,
+  throughputOptimization,
+  iopsOptimization,
+  storageTypeOptimization,
+  misconfiguredStateRecovery,
+  volumeUpdateWithSnapshot,
+  volumeInitializeWithSnapshot,
 }
 
 extension AdministrativeActionTypeValueExtension on AdministrativeActionType {
@@ -3461,6 +3841,18 @@ extension AdministrativeActionTypeValueExtension on AdministrativeActionType {
         return 'RELEASE_NFS_V3_LOCKS';
       case AdministrativeActionType.volumeRestore:
         return 'VOLUME_RESTORE';
+      case AdministrativeActionType.throughputOptimization:
+        return 'THROUGHPUT_OPTIMIZATION';
+      case AdministrativeActionType.iopsOptimization:
+        return 'IOPS_OPTIMIZATION';
+      case AdministrativeActionType.storageTypeOptimization:
+        return 'STORAGE_TYPE_OPTIMIZATION';
+      case AdministrativeActionType.misconfiguredStateRecovery:
+        return 'MISCONFIGURED_STATE_RECOVERY';
+      case AdministrativeActionType.volumeUpdateWithSnapshot:
+        return 'VOLUME_UPDATE_WITH_SNAPSHOT';
+      case AdministrativeActionType.volumeInitializeWithSnapshot:
+        return 'VOLUME_INITIALIZE_WITH_SNAPSHOT';
     }
   }
 }
@@ -3484,8 +3876,68 @@ extension AdministrativeActionTypeFromString on String {
         return AdministrativeActionType.releaseNfsV3Locks;
       case 'VOLUME_RESTORE':
         return AdministrativeActionType.volumeRestore;
+      case 'THROUGHPUT_OPTIMIZATION':
+        return AdministrativeActionType.throughputOptimization;
+      case 'IOPS_OPTIMIZATION':
+        return AdministrativeActionType.iopsOptimization;
+      case 'STORAGE_TYPE_OPTIMIZATION':
+        return AdministrativeActionType.storageTypeOptimization;
+      case 'MISCONFIGURED_STATE_RECOVERY':
+        return AdministrativeActionType.misconfiguredStateRecovery;
+      case 'VOLUME_UPDATE_WITH_SNAPSHOT':
+        return AdministrativeActionType.volumeUpdateWithSnapshot;
+      case 'VOLUME_INITIALIZE_WITH_SNAPSHOT':
+        return AdministrativeActionType.volumeInitializeWithSnapshot;
     }
     throw Exception('$this is not known in enum AdministrativeActionType');
+  }
+}
+
+/// Used to specify configuration options for a volume’s storage aggregate or
+/// aggregates.
+class AggregateConfiguration {
+  /// The list of aggregates that this volume resides on. Aggregates are storage
+  /// pools which make up your primary storage tier. Each high-availability (HA)
+  /// pair has one aggregate. The names of the aggregates map to the names of the
+  /// aggregates in the ONTAP CLI and REST API. For FlexVols, there will always be
+  /// a single entry.
+  ///
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The strings in the value of <code>Aggregates</code> are not are not
+  /// formatted as <code>aggrX</code>, where X is a number between 1 and 6.
+  /// </li>
+  /// <li>
+  /// The value of <code>Aggregates</code> contains aggregates that are not
+  /// present.
+  /// </li>
+  /// <li>
+  /// One or more of the aggregates supplied are too close to the volume limit to
+  /// support adding more volumes.
+  /// </li>
+  /// </ul>
+  final List<String>? aggregates;
+
+  /// The total number of constituents this FlexGroup volume has. Not applicable
+  /// for FlexVols.
+  final int? totalConstituents;
+
+  AggregateConfiguration({
+    this.aggregates,
+    this.totalConstituents,
+  });
+
+  factory AggregateConfiguration.fromJson(Map<String, dynamic> json) {
+    return AggregateConfiguration(
+      aggregates: (json['Aggregates'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      totalConstituents: json['TotalConstituents'] as int?,
+    );
   }
 }
 
@@ -3762,6 +4214,110 @@ extension AutoImportPolicyTypeFromString on String {
         return AutoImportPolicyType.newChangedDeleted;
     }
     throw Exception('$this is not known in enum AutoImportPolicyType');
+  }
+}
+
+/// Sets the autocommit period of files in an FSx for ONTAP SnapLock volume,
+/// which determines how long the files must remain unmodified before they're
+/// automatically transitioned to the write once, read many (WORM) state.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-autocommit">Autocommit</a>.
+class AutocommitPeriod {
+  /// Defines the type of time for the autocommit period of a file in an FSx for
+  /// ONTAP SnapLock volume. Setting this value to <code>NONE</code> disables
+  /// autocommit. The default value is <code>NONE</code>.
+  final AutocommitPeriodType type;
+
+  /// Defines the amount of time for the autocommit period of a file in an FSx for
+  /// ONTAP SnapLock volume. The following ranges are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Minutes</code>: 5 - 65,535
+  /// </li>
+  /// <li>
+  /// <code>Hours</code>: 1 - 65,535
+  /// </li>
+  /// <li>
+  /// <code>Days</code>: 1 - 3,650
+  /// </li>
+  /// <li>
+  /// <code>Months</code>: 1 - 120
+  /// </li>
+  /// <li>
+  /// <code>Years</code>: 1 - 10
+  /// </li>
+  /// </ul>
+  final int? value;
+
+  AutocommitPeriod({
+    required this.type,
+    this.value,
+  });
+
+  factory AutocommitPeriod.fromJson(Map<String, dynamic> json) {
+    return AutocommitPeriod(
+      type: (json['Type'] as String).toAutocommitPeriodType(),
+      value: json['Value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+enum AutocommitPeriodType {
+  minutes,
+  hours,
+  days,
+  months,
+  years,
+  none,
+}
+
+extension AutocommitPeriodTypeValueExtension on AutocommitPeriodType {
+  String toValue() {
+    switch (this) {
+      case AutocommitPeriodType.minutes:
+        return 'MINUTES';
+      case AutocommitPeriodType.hours:
+        return 'HOURS';
+      case AutocommitPeriodType.days:
+        return 'DAYS';
+      case AutocommitPeriodType.months:
+        return 'MONTHS';
+      case AutocommitPeriodType.years:
+        return 'YEARS';
+      case AutocommitPeriodType.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension AutocommitPeriodTypeFromString on String {
+  AutocommitPeriodType toAutocommitPeriodType() {
+    switch (this) {
+      case 'MINUTES':
+        return AutocommitPeriodType.minutes;
+      case 'HOURS':
+        return AutocommitPeriodType.hours;
+      case 'DAYS':
+        return AutocommitPeriodType.days;
+      case 'MONTHS':
+        return AutocommitPeriodType.months;
+      case 'YEARS':
+        return AutocommitPeriodType.years;
+      case 'NONE':
+        return AutocommitPeriodType.none;
+    }
+    throw Exception('$this is not known in enum AutocommitPeriodType');
   }
 }
 
@@ -4160,6 +4716,65 @@ class CopyBackupResponse {
   }
 }
 
+class CopySnapshotAndUpdateVolumeResponse {
+  /// A list of administrative actions for the file system that are in process or
+  /// waiting to be processed. Administrative actions describe changes to the
+  /// Amazon FSx system.
+  final List<AdministrativeAction>? administrativeActions;
+
+  /// The lifecycle state of the destination volume.
+  final VolumeLifecycle? lifecycle;
+
+  /// The ID of the volume that you copied the snapshot to.
+  final String? volumeId;
+
+  CopySnapshotAndUpdateVolumeResponse({
+    this.administrativeActions,
+    this.lifecycle,
+    this.volumeId,
+  });
+
+  factory CopySnapshotAndUpdateVolumeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CopySnapshotAndUpdateVolumeResponse(
+      administrativeActions: (json['AdministrativeActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lifecycle: (json['Lifecycle'] as String?)?.toVolumeLifecycle(),
+      volumeId: json['VolumeId'] as String?,
+    );
+  }
+}
+
+/// Used to specify the configuration options for an FSx for ONTAP volume's
+/// storage aggregate or aggregates.
+class CreateAggregateConfiguration {
+  /// Used to specify the names of aggregates on which the volume will be created.
+  final List<String>? aggregates;
+
+  /// Used to explicitly set the number of constituents within the FlexGroup per
+  /// storage aggregate. This field is optional when creating a FlexGroup volume.
+  /// If unspecified, the default value will be 8. This field cannot be provided
+  /// when creating a FlexVol volume.
+  final int? constituentsPerAggregate;
+
+  CreateAggregateConfiguration({
+    this.aggregates,
+    this.constituentsPerAggregate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final aggregates = this.aggregates;
+    final constituentsPerAggregate = this.constituentsPerAggregate;
+    return {
+      if (aggregates != null) 'Aggregates': aggregates,
+      if (constituentsPerAggregate != null)
+        'ConstituentsPerAggregate': constituentsPerAggregate,
+    };
+  }
+}
+
 /// The response object for the <code>CreateBackup</code> operation.
 class CreateBackupResponse {
   /// A description of the backup.
@@ -4303,7 +4918,7 @@ class CreateFileSystemFromBackupResponse {
 /// <code>ExportPath</code>
 /// </li>
 /// <li>
-/// <code>ImportedChunkSize</code>
+/// <code>ImportedFileChunkSize</code>
 /// </li>
 /// <li>
 /// <code>ImportPath</code>
@@ -4349,6 +4964,10 @@ class CreateFileSystemLustreConfiguration {
   /// association.
   /// </note>
   final AutoImportPolicyType? autoImportPolicy;
+
+  /// The number of days to retain automatic backups. Setting this property to
+  /// <code>0</code> disables automatic backups. You can retain automatic backups
+  /// for a maximum of 90 days. The default is <code>0</code>.
   final int? automaticBackupRetentionDays;
 
   /// (Optional) Not available for use with file systems that are linked to a data
@@ -4602,16 +5221,16 @@ class CreateFileSystemOntapConfiguration {
   /// <code>SINGLE_AZ_1</code> - A file system configured for Single-AZ
   /// redundancy.
   /// </li>
+  /// <li>
+  /// <code>SINGLE_AZ_2</code> - A file system configured with multiple
+  /// high-availability (HA) pairs for Single-AZ redundancy.
+  /// </li>
   /// </ul>
   /// For information about the use cases for Multi-AZ and Single-AZ deployments,
   /// refer to <a
   /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-AZ.html">Choosing
   /// a file system deployment type</a>.
   final OntapDeploymentType deploymentType;
-
-  /// Sets the throughput capacity for the file system that you're creating. Valid
-  /// values are 128, 256, 512, 1024, 2048, and 4096 MBps.
-  final int throughputCapacity;
   final int? automaticBackupRetentionDays;
   final String? dailyAutomaticBackupStartTime;
 
@@ -4633,45 +5252,140 @@ class CreateFileSystemOntapConfiguration {
   /// API.
   final String? fsxAdminPassword;
 
+  /// Specifies how many high-availability (HA) pairs of file servers will power
+  /// your file system. Scale-up file systems are powered by 1 HA pair. The
+  /// default value is 1. FSx for ONTAP scale-out file systems are powered by up
+  /// to 12 HA pairs. The value of this property affects the values of
+  /// <code>StorageCapacity</code>, <code>Iops</code>, and
+  /// <code>ThroughputCapacity</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html">High-availability
+  /// (HA) pairs</a> in the FSx for ONTAP user guide.
+  ///
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value of <code>HAPairs</code> is less than 1 or greater than 12.
+  /// </li>
+  /// <li>
+  /// The value of <code>HAPairs</code> is greater than 1 and the value of
+  /// <code>DeploymentType</code> is <code>SINGLE_AZ_1</code> or
+  /// <code>MULTI_AZ_1</code>.
+  /// </li>
+  /// </ul>
+  final int? hAPairs;
+
   /// Required when <code>DeploymentType</code> is set to <code>MULTI_AZ_1</code>.
   /// This specifies the subnet in which you want the preferred file server to be
   /// located.
   final String? preferredSubnetId;
 
-  /// (Multi-AZ only) Specifies the virtual private cloud (VPC) route tables in
-  /// which your file system's endpoints will be created. You should specify all
-  /// VPC route tables associated with the subnets in which your clients are
-  /// located. By default, Amazon FSx selects your VPC's default route table.
+  /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the
+  /// rules for routing traffic to the correct file server. You should specify all
+  /// virtual private cloud (VPC) route tables associated with the subnets in
+  /// which your clients are located. By default, Amazon FSx selects your VPC's
+  /// default route table.
+  /// <note>
+  /// Amazon FSx manages these route tables for Multi-AZ file systems using
+  /// tag-based authentication. These route tables are tagged with <code>Key:
+  /// AmazonFSx; Value: ManagedByAmazonFSx</code>. When creating FSx for ONTAP
+  /// Multi-AZ file systems using CloudFormation we recommend that you add the
+  /// <code>Key: AmazonFSx; Value: ManagedByAmazonFSx</code> tag manually.
+  /// </note>
   final List<String>? routeTableIds;
+
+  /// Sets the throughput capacity for the file system that you're creating in
+  /// megabytes per second (MBps). For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html">Managing
+  /// throughput capacity</a> in the FSx for ONTAP User Guide.
+  ///
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value of <code>ThroughputCapacity</code> and
+  /// <code>ThroughputCapacityPerHAPair</code> are not the same value.
+  /// </li>
+  /// <li>
+  /// The value of <code>ThroughputCapacity</code> when divided by the value of
+  /// <code>HAPairs</code> is outside of the valid range for
+  /// <code>ThroughputCapacity</code>.
+  /// </li>
+  /// </ul>
+  final int? throughputCapacity;
+
+  /// Use to choose the throughput capacity per HA pair, rather than the total
+  /// throughput for the file system.
+  ///
+  /// You can define either the <code>ThroughputCapacityPerHAPair</code> or the
+  /// <code>ThroughputCapacity</code> when creating a file system, but not both.
+  ///
+  /// This field and <code>ThroughputCapacity</code> are the same for scale-up
+  /// file systems powered by one HA pair.
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>SINGLE_AZ_1</code> and <code>MULTI_AZ_1</code> file systems, valid
+  /// values are 128, 256, 512, 1024, 2048, or 4096 MBps.
+  /// </li>
+  /// <li>
+  /// For <code>SINGLE_AZ_2</code> file systems, valid values are 3072 or 6144
+  /// MBps.
+  /// </li>
+  /// </ul>
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value of <code>ThroughputCapacity</code> and
+  /// <code>ThroughputCapacityPerHAPair</code> are not the same value for file
+  /// systems with one HA pair.
+  /// </li>
+  /// <li>
+  /// The value of deployment type is <code>SINGLE_AZ_2</code> and
+  /// <code>ThroughputCapacity</code> / <code>ThroughputCapacityPerHAPair</code>
+  /// is a valid HA pair (a value between 2 and 12).
+  /// </li>
+  /// <li>
+  /// The value of <code>ThroughputCapacityPerHAPair</code> is not a valid value.
+  /// </li>
+  /// </ul>
+  final int? throughputCapacityPerHAPair;
   final String? weeklyMaintenanceStartTime;
 
   CreateFileSystemOntapConfiguration({
     required this.deploymentType,
-    required this.throughputCapacity,
     this.automaticBackupRetentionDays,
     this.dailyAutomaticBackupStartTime,
     this.diskIopsConfiguration,
     this.endpointIpAddressRange,
     this.fsxAdminPassword,
+    this.hAPairs,
     this.preferredSubnetId,
     this.routeTableIds,
+    this.throughputCapacity,
+    this.throughputCapacityPerHAPair,
     this.weeklyMaintenanceStartTime,
   });
 
   Map<String, dynamic> toJson() {
     final deploymentType = this.deploymentType;
-    final throughputCapacity = this.throughputCapacity;
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final diskIopsConfiguration = this.diskIopsConfiguration;
     final endpointIpAddressRange = this.endpointIpAddressRange;
     final fsxAdminPassword = this.fsxAdminPassword;
+    final hAPairs = this.hAPairs;
     final preferredSubnetId = this.preferredSubnetId;
     final routeTableIds = this.routeTableIds;
+    final throughputCapacity = this.throughputCapacity;
+    final throughputCapacityPerHAPair = this.throughputCapacityPerHAPair;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
       'DeploymentType': deploymentType.toValue(),
-      'ThroughputCapacity': throughputCapacity,
       if (automaticBackupRetentionDays != null)
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
       if (dailyAutomaticBackupStartTime != null)
@@ -4681,8 +5395,12 @@ class CreateFileSystemOntapConfiguration {
       if (endpointIpAddressRange != null)
         'EndpointIpAddressRange': endpointIpAddressRange,
       if (fsxAdminPassword != null) 'FsxAdminPassword': fsxAdminPassword,
+      if (hAPairs != null) 'HAPairs': hAPairs,
       if (preferredSubnetId != null) 'PreferredSubnetId': preferredSubnetId,
       if (routeTableIds != null) 'RouteTableIds': routeTableIds,
+      if (throughputCapacity != null) 'ThroughputCapacity': throughputCapacity,
+      if (throughputCapacityPerHAPair != null)
+        'ThroughputCapacityPerHAPair': throughputCapacityPerHAPair,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
     };
@@ -4698,19 +5416,27 @@ class CreateFileSystemOpenZFSConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// <code>SINGLE_AZ_1</code>- (Default) Creates file systems with throughput
-  /// capacities of 64 - 4,096 MB/s. <code>Single_AZ_1</code> is available in all
-  /// Amazon Web Services Regions where Amazon FSx for OpenZFS is available,
-  /// except US West (Oregon).
+  /// <code>MULTI_AZ_1</code>- Creates file systems with high availability that
+  /// are configured for Multi-AZ redundancy to tolerate temporary unavailability
+  /// in Availability Zones (AZs). <code>Multi_AZ_1</code> is available only in
+  /// the US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific
+  /// (Singapore), Asia Pacific (Tokyo), and Europe (Ireland) Amazon Web Services
+  /// Regions.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_AZ_1</code>- Creates file systems with throughput capacities of
+  /// 64 - 4,096 MB/s. <code>Single_AZ_1</code> is available in all Amazon Web
+  /// Services Regions where Amazon FSx for OpenZFS is available.
   /// </li>
   /// <li>
   /// <code>SINGLE_AZ_2</code>- Creates file systems with throughput capacities of
   /// 160 - 10,240 MB/s using an NVMe L2ARC cache. <code>Single_AZ_2</code> is
   /// available only in the US East (N. Virginia), US East (Ohio), US West
-  /// (Oregon), and Europe (Ireland) Amazon Web Services Regions.
+  /// (Oregon), Asia Pacific (Singapore), Asia Pacific (Tokyo), and Europe
+  /// (Ireland) Amazon Web Services Regions.
   /// </li>
   /// </ul>
-  /// For more information, see: <a
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/availability-durability.html#available-aws-regions">Deployment
   /// type availability</a> and <a
   /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#zfs-fs-performance">File
@@ -4718,17 +5444,17 @@ class CreateFileSystemOpenZFSConfiguration {
   final OpenZFSDeploymentType deploymentType;
 
   /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured
-  /// in megabytes per second (MB/s). Valid values depend on the DeploymentType
+  /// in megabytes per second (MBps). Valid values depend on the DeploymentType
   /// you choose, as follows:
   ///
   /// <ul>
   /// <li>
-  /// For <code>SINGLE_AZ_1</code>, valid values are 64, 128, 256, 512, 1024,
-  /// 2048, 3072, or 4096 MB/s.
+  /// For <code>MULTI_AZ_1</code> and <code>SINGLE_AZ_2</code>, valid values are
+  /// 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.
   /// </li>
   /// <li>
-  /// For <code>SINGLE_AZ_2</code>, valid values are 160, 320, 640, 1280, 2560,
-  /// 3840, 5120, 7680, or 10240 MB/s.
+  /// For <code>SINGLE_AZ_1</code>, valid values are 64, 128, 256, 512, 1024,
+  /// 2048, 3072, or 4096 MBps.
   /// </li>
   /// </ul>
   /// You pay for additional throughput capacity that you provision.
@@ -4756,9 +5482,28 @@ class CreateFileSystemOpenZFSConfiguration {
   final String? dailyAutomaticBackupStartTime;
   final DiskIopsConfiguration? diskIopsConfiguration;
 
+  /// (Multi-AZ only) Specifies the IP address range in which the endpoints to
+  /// access your file system will be created. By default in the Amazon FSx API
+  /// and Amazon FSx console, Amazon FSx selects an available /28 IP address range
+  /// for you from one of the VPC's CIDR ranges. You can have overlapping endpoint
+  /// IP addresses for file systems deployed in the same VPC/route tables.
+  final String? endpointIpAddressRange;
+
+  /// Required when <code>DeploymentType</code> is set to <code>MULTI_AZ_1</code>.
+  /// This specifies the subnet in which you want the preferred file server to be
+  /// located.
+  final String? preferredSubnetId;
+
   /// The configuration Amazon FSx uses when creating the root value of the Amazon
   /// FSx for OpenZFS file system. All volumes are children of the root volume.
   final OpenZFSCreateRootVolumeConfiguration? rootVolumeConfiguration;
+
+  /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the
+  /// rules for routing traffic to the correct file server. You should specify all
+  /// virtual private cloud (VPC) route tables associated with the subnets in
+  /// which your clients are located. By default, Amazon FSx selects your VPC's
+  /// default route table.
+  final List<String>? routeTableIds;
   final String? weeklyMaintenanceStartTime;
 
   CreateFileSystemOpenZFSConfiguration({
@@ -4769,7 +5514,10 @@ class CreateFileSystemOpenZFSConfiguration {
     this.copyTagsToVolumes,
     this.dailyAutomaticBackupStartTime,
     this.diskIopsConfiguration,
+    this.endpointIpAddressRange,
+    this.preferredSubnetId,
     this.rootVolumeConfiguration,
+    this.routeTableIds,
     this.weeklyMaintenanceStartTime,
   });
 
@@ -4781,7 +5529,10 @@ class CreateFileSystemOpenZFSConfiguration {
     final copyTagsToVolumes = this.copyTagsToVolumes;
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final diskIopsConfiguration = this.diskIopsConfiguration;
+    final endpointIpAddressRange = this.endpointIpAddressRange;
+    final preferredSubnetId = this.preferredSubnetId;
     final rootVolumeConfiguration = this.rootVolumeConfiguration;
+    final routeTableIds = this.routeTableIds;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
       'DeploymentType': deploymentType.toValue(),
@@ -4794,8 +5545,12 @@ class CreateFileSystemOpenZFSConfiguration {
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
       if (diskIopsConfiguration != null)
         'DiskIopsConfiguration': diskIopsConfiguration,
+      if (endpointIpAddressRange != null)
+        'EndpointIpAddressRange': endpointIpAddressRange,
+      if (preferredSubnetId != null) 'PreferredSubnetId': preferredSubnetId,
       if (rootVolumeConfiguration != null)
         'RootVolumeConfiguration': rootVolumeConfiguration,
+      if (routeTableIds != null) 'RouteTableIds': routeTableIds,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
     };
@@ -4877,9 +5632,9 @@ class CreateFileSystemWindowsConfiguration {
   /// Windows File Server file system.
   final WindowsAuditLogCreateConfiguration? auditLogConfiguration;
 
-  /// The number of days to retain automatic backups. The default is to retain
-  /// backups for 7 days. Setting this value to 0 disables the creation of
-  /// automatic backups. The maximum retention period for backups is 90 days.
+  /// The number of days to retain automatic backups. Setting this property to
+  /// <code>0</code> disables automatic backups. You can retain automatic backups
+  /// for a maximum of 90 days. The default is <code>30</code>.
   final int? automaticBackupRetentionDays;
 
   /// A boolean flag indicating whether tags for the file system should be copied
@@ -4920,6 +5675,13 @@ class CreateFileSystemWindowsConfiguration {
   /// Availability and Durability: Single-AZ and Multi-AZ File Systems</a>.
   final WindowsDeploymentType? deploymentType;
 
+  /// The SSD IOPS (input/output operations per second) configuration for an
+  /// Amazon FSx for Windows file system. By default, Amazon FSx automatically
+  /// provisions 3 IOPS per GiB of storage capacity. You can provision additional
+  /// IOPS per GiB of storage, up to the maximum limit associated with your chosen
+  /// throughput capacity.
+  final DiskIopsConfiguration? diskIopsConfiguration;
+
   /// Required when <code>DeploymentType</code> is set to <code>MULTI_AZ_1</code>.
   /// This specifies the subnet in which you want the preferred file server to be
   /// located. For in-Amazon Web Services applications, we recommend that you
@@ -4943,6 +5705,7 @@ class CreateFileSystemWindowsConfiguration {
     this.copyTagsToBackups,
     this.dailyAutomaticBackupStartTime,
     this.deploymentType,
+    this.diskIopsConfiguration,
     this.preferredSubnetId,
     this.selfManagedActiveDirectoryConfiguration,
     this.weeklyMaintenanceStartTime,
@@ -4957,6 +5720,7 @@ class CreateFileSystemWindowsConfiguration {
     final copyTagsToBackups = this.copyTagsToBackups;
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final deploymentType = this.deploymentType;
+    final diskIopsConfiguration = this.diskIopsConfiguration;
     final preferredSubnetId = this.preferredSubnetId;
     final selfManagedActiveDirectoryConfiguration =
         this.selfManagedActiveDirectoryConfiguration;
@@ -4973,6 +5737,8 @@ class CreateFileSystemWindowsConfiguration {
       if (dailyAutomaticBackupStartTime != null)
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
       if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (diskIopsConfiguration != null)
+        'DiskIopsConfiguration': diskIopsConfiguration,
       if (preferredSubnetId != null) 'PreferredSubnetId': preferredSubnetId,
       if (selfManagedActiveDirectoryConfiguration != null)
         'SelfManagedActiveDirectoryConfiguration':
@@ -4985,13 +5751,12 @@ class CreateFileSystemWindowsConfiguration {
 
 /// Specifies the configuration of the ONTAP volume that you are creating.
 class CreateOntapVolumeConfiguration {
-  /// Specifies the size of the volume, in megabytes (MB), that you are creating.
-  /// Provide any whole number in the range of 20–104857600 to specify the size of
-  /// the volume.
-  final int sizeInMegabytes;
-
   /// Specifies the ONTAP SVM in which to create the volume.
   final String storageVirtualMachineId;
+
+  /// Use to specify configuration options for a volume’s storage aggregate or
+  /// aggregates.
+  final CreateAggregateConfiguration? aggregateConfiguration;
 
   /// A boolean flag indicating whether tags for the volume should be copied to
   /// backups. This value defaults to false. If it's set to true, all tags for the
@@ -5023,14 +5788,14 @@ class CreateOntapVolumeConfiguration {
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types">Volume
-  /// types</a> in the <i>Amazon FSx for NetApp ONTAP User Guide</i>.
+  /// types</a> in the Amazon FSx for NetApp ONTAP User Guide.
   final InputOntapVolumeType? ontapVolumeType;
 
   /// Specifies the security style for the volume. If a volume's security style is
   /// not specified, it is automatically set to the root volume's security style.
   /// The security style determines the type of permissions that FSx for ONTAP
   /// uses to control data access. For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-security-style">Volume
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style">Volume
   /// security style</a> in the <i>Amazon FSx for NetApp ONTAP User Guide</i>.
   /// Specify one of the following values:
   ///
@@ -5046,11 +5811,27 @@ class CreateOntapVolumeConfiguration {
   /// uses a Windows user as the service account.
   /// </li>
   /// <li>
-  /// <code>MIXED</code> if the file system is managed by both UNIX and Windows
-  /// administrators and users consist of both NFS and SMB clients.
+  /// <code>MIXED</code> This is an advanced setting. For more information, see
+  /// the topic <a
+  /// href="https://docs.netapp.com/us-en/ontap/nfs-admin/security-styles-their-effects-concept.html">What
+  /// the security styles and their effects are</a> in the NetApp Documentation
+  /// Center.
   /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style.html">Volume
+  /// security style</a> in the FSx for ONTAP User Guide.
   final SecurityStyle? securityStyle;
+
+  /// Specifies the configured size of the volume, in bytes.
+  final int? sizeInBytes;
+
+  /// Use <code>SizeInBytes</code> instead. Specifies the size of the volume, in
+  /// megabytes (MB), that you are creating.
+  final int? sizeInMegabytes;
+
+  /// Specifies the SnapLock configuration for an FSx for ONTAP volume.
+  final CreateSnaplockConfiguration? snaplockConfiguration;
 
   /// Specifies the snapshot policy for the volume. There are three built-in
   /// snapshot policies:
@@ -5077,56 +5858,81 @@ class CreateOntapVolumeConfiguration {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snapshots-ontap.html#snapshot-policies">Snapshot
-  /// policies</a> in the <i>Amazon FSx for NetApp ONTAP User Guide</i>.
+  /// policies</a> in the Amazon FSx for NetApp ONTAP User Guide.
   final String? snapshotPolicy;
 
   /// Set to true to enable deduplication, compression, and compaction storage
-  /// efficiency features on the volume, or set to false to disable them. This
-  /// parameter is required.
+  /// efficiency features on the volume, or set to false to disable them.
+  ///
+  /// <code>StorageEfficiencyEnabled</code> is required when creating a
+  /// <code>RW</code> volume (<code>OntapVolumeType</code> set to
+  /// <code>RW</code>).
   final bool? storageEfficiencyEnabled;
   final TieringPolicy? tieringPolicy;
 
+  /// Use to specify the style of an ONTAP volume. FSx for ONTAP offers two styles
+  /// of volumes that you can use for different purposes, FlexVol and FlexGroup
+  /// volumes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-styles.html">Volume
+  /// styles</a> in the Amazon FSx for NetApp ONTAP User Guide.
+  final VolumeStyle? volumeStyle;
+
   CreateOntapVolumeConfiguration({
-    required this.sizeInMegabytes,
     required this.storageVirtualMachineId,
+    this.aggregateConfiguration,
     this.copyTagsToBackups,
     this.junctionPath,
     this.ontapVolumeType,
     this.securityStyle,
+    this.sizeInBytes,
+    this.sizeInMegabytes,
+    this.snaplockConfiguration,
     this.snapshotPolicy,
     this.storageEfficiencyEnabled,
     this.tieringPolicy,
+    this.volumeStyle,
   });
 
   Map<String, dynamic> toJson() {
-    final sizeInMegabytes = this.sizeInMegabytes;
     final storageVirtualMachineId = this.storageVirtualMachineId;
+    final aggregateConfiguration = this.aggregateConfiguration;
     final copyTagsToBackups = this.copyTagsToBackups;
     final junctionPath = this.junctionPath;
     final ontapVolumeType = this.ontapVolumeType;
     final securityStyle = this.securityStyle;
+    final sizeInBytes = this.sizeInBytes;
+    final sizeInMegabytes = this.sizeInMegabytes;
+    final snaplockConfiguration = this.snaplockConfiguration;
     final snapshotPolicy = this.snapshotPolicy;
     final storageEfficiencyEnabled = this.storageEfficiencyEnabled;
     final tieringPolicy = this.tieringPolicy;
+    final volumeStyle = this.volumeStyle;
     return {
-      'SizeInMegabytes': sizeInMegabytes,
       'StorageVirtualMachineId': storageVirtualMachineId,
+      if (aggregateConfiguration != null)
+        'AggregateConfiguration': aggregateConfiguration,
       if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
       if (junctionPath != null) 'JunctionPath': junctionPath,
       if (ontapVolumeType != null) 'OntapVolumeType': ontapVolumeType.toValue(),
       if (securityStyle != null) 'SecurityStyle': securityStyle.toValue(),
+      if (sizeInBytes != null) 'SizeInBytes': sizeInBytes,
+      if (sizeInMegabytes != null) 'SizeInMegabytes': sizeInMegabytes,
+      if (snaplockConfiguration != null)
+        'SnaplockConfiguration': snaplockConfiguration,
       if (snapshotPolicy != null) 'SnapshotPolicy': snapshotPolicy,
       if (storageEfficiencyEnabled != null)
         'StorageEfficiencyEnabled': storageEfficiencyEnabled,
       if (tieringPolicy != null) 'TieringPolicy': tieringPolicy,
+      if (volumeStyle != null) 'VolumeStyle': volumeStyle.toValue(),
     };
   }
 }
 
-/// The snapshot configuration to use when creating an OpenZFS volume from a
-/// snapshot.
+/// The snapshot configuration to use when creating an Amazon FSx for OpenZFS
+/// volume from a snapshot.
 class CreateOpenZFSOriginSnapshotConfiguration {
-  /// The strategy used when copying data from the snapshot to the new volume.
+  /// Specifies the strategy used when copying data from the snapshot to the new
+  /// volume.
   ///
   /// <ul>
   /// <li>
@@ -5138,8 +5944,16 @@ class CreateOpenZFSOriginSnapshotConfiguration {
   /// <li>
   /// <code>FULL_COPY</code> - Copies all data from the snapshot to the new
   /// volume.
+  ///
+  /// Specify this option to create the volume from a snapshot on another FSx for
+  /// OpenZFS file system.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>INCREMENTAL_COPY</code> option is only for updating an existing
+  /// volume by using a snapshot from another FSx for OpenZFS file system. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_CopySnapshotAndUpdateVolume.html">CopySnapshotAndUpdateVolume</a>.
+  /// </note>
   final OpenZFSCopyStrategy copyStrategy;
   final String snapshotARN;
 
@@ -5247,7 +6061,7 @@ class CreateOpenZFSVolumeConfiguration {
   /// properties</a> in the <i>Amazon FSx for OpenZFS User Guide</i>.
   final int? storageCapacityReservationGiB;
 
-  /// An object specifying how much storage users or groups can use on the volume.
+  /// Configures how much storage users and groups can use on the volume.
   final List<OpenZFSUserOrGroupQuota>? userAndGroupQuotas;
 
   CreateOpenZFSVolumeConfiguration({
@@ -5293,6 +6107,103 @@ class CreateOpenZFSVolumeConfiguration {
   }
 }
 
+/// Defines the SnapLock configuration when creating an FSx for ONTAP SnapLock
+/// volume.
+class CreateSnaplockConfiguration {
+  /// Specifies the retention mode of an FSx for ONTAP SnapLock volume. After it
+  /// is set, it can't be changed. You can choose one of the following retention
+  /// modes:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPLIANCE</code>: Files transitioned to write once, read many (WORM)
+  /// on a Compliance volume can't be deleted until their retention periods
+  /// expire. This retention mode is used to address government or
+  /// industry-specific mandates or to protect against ransomware attacks. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-compliance.html">SnapLock
+  /// Compliance</a>.
+  /// </li>
+  /// <li>
+  /// <code>ENTERPRISE</code>: Files transitioned to WORM on an Enterprise volume
+  /// can be deleted by authorized users before their retention periods expire
+  /// using privileged delete. This retention mode is used to advance an
+  /// organization's data integrity and internal compliance or to test retention
+  /// settings before using SnapLock Compliance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html">SnapLock
+  /// Enterprise</a>.
+  /// </li>
+  /// </ul>
+  final SnaplockType snaplockType;
+
+  /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock
+  /// volume. The default value is <code>false</code>. If you set
+  /// <code>AuditLogVolume</code> to <code>true</code>, the SnapLock volume is
+  /// created as an audit log volume. The minimum retention period for an audit
+  /// log volume is six months.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-audit-log-volume">
+  /// SnapLock audit log volumes</a>.
+  final bool? auditLogVolume;
+
+  /// The configuration object for setting the autocommit period of files in an
+  /// FSx for ONTAP SnapLock volume.
+  final AutocommitPeriod? autocommitPeriod;
+
+  /// Enables, disables, or permanently disables privileged delete on an FSx for
+  /// ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock
+  /// administrators to delete WORM files even if they have active retention
+  /// periods. <code>PERMANENTLY_DISABLED</code> is a terminal state. If
+  /// privileged delete is permanently disabled on a SnapLock volume, you can't
+  /// re-enable it. The default value is <code>DISABLED</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html#privileged-delete">Privileged
+  /// delete</a>.
+  final PrivilegedDelete? privilegedDelete;
+
+  /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
+  final SnaplockRetentionPeriod? retentionPeriod;
+
+  /// Enables or disables volume-append mode on an FSx for ONTAP SnapLock volume.
+  /// Volume-append mode allows you to create WORM-appendable files and write data
+  /// to them incrementally. The default value is <code>false</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-append">Volume-append
+  /// mode</a>.
+  final bool? volumeAppendModeEnabled;
+
+  CreateSnaplockConfiguration({
+    required this.snaplockType,
+    this.auditLogVolume,
+    this.autocommitPeriod,
+    this.privilegedDelete,
+    this.retentionPeriod,
+    this.volumeAppendModeEnabled,
+  });
+
+  Map<String, dynamic> toJson() {
+    final snaplockType = this.snaplockType;
+    final auditLogVolume = this.auditLogVolume;
+    final autocommitPeriod = this.autocommitPeriod;
+    final privilegedDelete = this.privilegedDelete;
+    final retentionPeriod = this.retentionPeriod;
+    final volumeAppendModeEnabled = this.volumeAppendModeEnabled;
+    return {
+      'SnaplockType': snaplockType.toValue(),
+      if (auditLogVolume != null) 'AuditLogVolume': auditLogVolume,
+      if (autocommitPeriod != null) 'AutocommitPeriod': autocommitPeriod,
+      if (privilegedDelete != null)
+        'PrivilegedDelete': privilegedDelete.toValue(),
+      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (volumeAppendModeEnabled != null)
+        'VolumeAppendModeEnabled': volumeAppendModeEnabled,
+    };
+  }
+}
+
 class CreateSnapshotResponse {
   /// A description of the snapshot.
   final Snapshot? snapshot;
@@ -5332,7 +6243,7 @@ class CreateStorageVirtualMachineResponse {
 
 /// The configuration that Amazon FSx uses to join the ONTAP storage virtual
 /// machine (SVM) to your self-managed (including on-premises) Microsoft Active
-/// Directory (AD) directory.
+/// Directory directory.
 class CreateSvmActiveDirectoryConfiguration {
   /// The NetBIOS name of the Active Directory computer object that will be
   /// created for your SVM.
@@ -5440,8 +6351,8 @@ extension DataCompressionTypeFromString on String {
 /// </li>
 /// </ul>
 /// Data repository associations are supported on Amazon File Cache resources
-/// and all Amazon FSx for Lustre file systems excluding <code>Scratch_1</code>
-/// deployment types.
+/// and all FSx for Lustre 2.12 and 2.15 file systems, excluding
+/// <code>scratch_1</code> deployment type.
 class DataRepositoryAssociation {
   /// The system-generated, unique ID of the data repository association.
   final String? associationId;
@@ -5837,10 +6748,26 @@ extension DataRepositoryLifecycleFromString on String {
   }
 }
 
-/// A description of the data repository task. You use data repository tasks to
-/// perform bulk transfer operations between an Amazon FSx for Lustre file
-/// system and a linked data repository. An Amazon File Cache resource uses a
-/// task to automatically release files from the cache.
+/// A description of the data repository task.
+///
+/// <ul>
+/// <li>
+/// You use import and export data repository tasks to perform bulk transfer
+/// operations between an Amazon FSx for Lustre file system and a linked data
+/// repository.
+/// </li>
+/// <li>
+/// You use release data repository tasks to release files that have been
+/// exported to a linked S3 bucket from your Amazon FSx for Lustre file system.
+/// </li>
+/// <li>
+/// An Amazon File Cache resource uses a task to automatically release files
+/// from the cache.
+/// </li>
+/// </ul>
+/// To learn more about data repository tasks, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html">Data
+/// Repository Tasks</a>.
 class DataRepositoryTask {
   final DateTime creationTime;
 
@@ -5894,11 +6821,13 @@ class DataRepositoryTask {
   /// from a linked S3 bucket to your Amazon FSx for Lustre file system.
   /// </li>
   /// <li>
-  /// <code>AUTO_RELEASE_DATA</code> tasks automatically release files from an
-  /// Amazon File Cache resource.
+  /// <code>RELEASE_DATA_FROM_FILESYSTEM</code> tasks release files in your Amazon
+  /// FSx for Lustre file system that have been exported to a linked S3 bucket and
+  /// that meet your specified release criteria.
   /// </li>
   /// <li>
-  /// <code>RELEASE_DATA_FROM_FILESYSTEM</code> tasks are not supported.
+  /// <code>AUTO_RELEASE_DATA</code> tasks automatically release files from an
+  /// Amazon File Cache resource.
   /// </li>
   /// </ul>
   final DataRepositoryTaskType type;
@@ -5928,6 +6857,10 @@ class DataRepositoryTask {
   /// (Default) If <code>Paths</code> is not specified, Amazon FSx uses the file
   /// system root directory.
   final List<String>? paths;
+
+  /// The configuration that specifies the last accessed time criteria for files
+  /// that will be released from an Amazon FSx for Lustre file system.
+  final ReleaseConfiguration? releaseConfiguration;
   final CompletionReport? report;
   final String? resourceARN;
 
@@ -5950,6 +6883,7 @@ class DataRepositoryTask {
     this.fileCacheId,
     this.fileSystemId,
     this.paths,
+    this.releaseConfiguration,
     this.report,
     this.resourceARN,
     this.startTime,
@@ -5976,6 +6910,10 @@ class DataRepositoryTask {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      releaseConfiguration: json['ReleaseConfiguration'] != null
+          ? ReleaseConfiguration.fromJson(
+              json['ReleaseConfiguration'] as Map<String, dynamic>)
+          : null,
       report: json['Report'] != null
           ? CompletionReport.fromJson(json['Report'] as Map<String, dynamic>)
           : null,
@@ -6598,8 +7536,21 @@ class DeleteStorageVirtualMachineResponse {
   }
 }
 
-/// Use to specify skipping a final backup, or to add tags to a final backup.
+/// Use to specify skipping a final backup, adding tags to a final backup, or
+/// bypassing the retention period of an FSx for ONTAP SnapLock Enterprise
+/// volume when deleting an FSx for ONTAP volume.
 class DeleteVolumeOntapConfiguration {
+  /// Setting this to <code>true</code> allows a SnapLock administrator to delete
+  /// an FSx for ONTAP SnapLock Enterprise volume with unexpired write once, read
+  /// many (WORM) files. The IAM permission
+  /// <code>fsx:BypassSnaplockEnterpriseRetention</code> is also required to
+  /// delete SnapLock Enterprise volumes with unexpired WORM files. The default
+  /// value is <code>false</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-delete-volume.html">
+  /// Deleting a SnapLock volume</a>.
+  final bool? bypassSnaplockEnterpriseRetention;
   final List<Tag>? finalBackupTags;
 
   /// Set to true if you want to skip taking a final backup of the volume you are
@@ -6607,14 +7558,19 @@ class DeleteVolumeOntapConfiguration {
   final bool? skipFinalBackup;
 
   DeleteVolumeOntapConfiguration({
+    this.bypassSnaplockEnterpriseRetention,
     this.finalBackupTags,
     this.skipFinalBackup,
   });
 
   Map<String, dynamic> toJson() {
+    final bypassSnaplockEnterpriseRetention =
+        this.bypassSnaplockEnterpriseRetention;
     final finalBackupTags = this.finalBackupTags;
     final skipFinalBackup = this.skipFinalBackup;
     return {
+      if (bypassSnaplockEnterpriseRetention != null)
+        'BypassSnaplockEnterpriseRetention': bypassSnaplockEnterpriseRetention,
       if (finalBackupTags != null) 'FinalBackupTags': finalBackupTags,
       if (skipFinalBackup != null) 'SkipFinalBackup': skipFinalBackup,
     };
@@ -6838,6 +7794,24 @@ class DescribeFileSystemsResponse {
   }
 }
 
+class DescribeSharedVpcConfigurationResponse {
+  /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ
+  /// file systems in shared subnets.
+  final String? enableFsxRouteTableUpdatesFromParticipantAccounts;
+
+  DescribeSharedVpcConfigurationResponse({
+    this.enableFsxRouteTableUpdatesFromParticipantAccounts,
+  });
+
+  factory DescribeSharedVpcConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeSharedVpcConfigurationResponse(
+      enableFsxRouteTableUpdatesFromParticipantAccounts:
+          json['EnableFsxRouteTableUpdatesFromParticipantAccounts'] as String?,
+    );
+  }
+}
+
 class DescribeSnapshotsResponse {
   final String? nextToken;
 
@@ -6932,18 +7906,28 @@ class DisassociateFileSystemAliasesResponse {
 }
 
 /// The SSD IOPS (input/output operations per second) configuration for an
-/// Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS file system. The
-/// default is 3 IOPS per GB of storage capacity, but you can provision
-/// additional IOPS per GB of storage. The configuration consists of the total
-/// number of provisioned SSD IOPS and how the amount was provisioned (by the
-/// customer or by the system).
+/// Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for
+/// OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS
+/// per GB of storage capacity. You can provision additional IOPS per GB of
+/// storage. The configuration consists of the total number of provisioned SSD
+/// IOPS and how it is was provisioned, or the mode (by the customer or by
+/// Amazon FSx).
 class DiskIopsConfiguration {
   /// The total number of SSD IOPS provisioned for the file system.
+  ///
+  /// The minimum and maximum values for this property depend on the value of
+  /// <code>HAPairs</code> and <code>StorageCapacity</code>. The minimum value is
+  /// calculated as <code>StorageCapacity</code> * 3 * <code>HAPairs</code> (3
+  /// IOPS per GB of <code>StorageCapacity</code>). The maximum value is
+  /// calculated as 200,000 * <code>HAPairs</code>.
+  ///
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value
+  /// of <code>Iops</code> is outside of the minimum or maximum values.
   final int? iops;
 
-  /// Specifies whether the number of IOPS for the file system is using the system
-  /// default (<code>AUTOMATIC</code>) or was provisioned by the customer
-  /// (<code>USER_PROVISIONED</code>).
+  /// Specifies whether the file system is using the <code>AUTOMATIC</code>
+  /// setting of SSD IOPS of 3 IOPS per GB of storage capacity, or if it using a
+  /// <code>USER_PROVISIONED</code> value.
   final DiskIopsConfigurationMode? mode;
 
   DiskIopsConfiguration({
@@ -7021,6 +8005,51 @@ extension DriveCacheTypeFromString on String {
         return DriveCacheType.read;
     }
     throw Exception('$this is not known in enum DriveCacheType');
+  }
+}
+
+/// Defines the minimum amount of time since last access for a file to be
+/// eligible for release. Only files that have been exported to S3 and that were
+/// last accessed or modified before this point-in-time are eligible to be
+/// released from the Amazon FSx for Lustre file system.
+class DurationSinceLastAccess {
+  /// The unit of time used by the <code>Value</code> parameter to determine if a
+  /// file can be released, based on when it was last accessed. <code>DAYS</code>
+  /// is the only supported value. This is a required parameter.
+  final Unit? unit;
+
+  /// An integer that represents the minimum amount of time (in days) since a file
+  /// was last accessed in the file system. Only exported files with a
+  /// <code>MAX(atime, ctime, mtime)</code> timestamp that is more than this
+  /// amount of time in the past (relative to the task create time) will be
+  /// released. The default of <code>Value</code> is <code>0</code>. This is a
+  /// required parameter.
+  /// <note>
+  /// If an exported file meets the last accessed time criteria, its file or
+  /// directory path must also be specified in the <code>Paths</code> parameter of
+  /// the operation in order for the file to be released.
+  /// </note>
+  final int? value;
+
+  DurationSinceLastAccess({
+    this.unit,
+    this.value,
+  });
+
+  factory DurationSinceLastAccess.fromJson(Map<String, dynamic> json) {
+    return DurationSinceLastAccess(
+      unit: (json['Unit'] as String?)?.toUnit(),
+      value: json['Value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      if (unit != null) 'Unit': unit.toValue(),
+      if (value != null) 'Value': value,
+    };
   }
 }
 
@@ -7648,8 +8677,8 @@ class FileSystem {
   /// <code>WINDOWS</code>, <code>ONTAP</code>, or <code>OPENZFS</code>.
   final FileSystemType? fileSystemType;
 
-  /// The Lustre version of the Amazon FSx for Lustre file system, either
-  /// <code>2.10</code> or <code>2.12</code>.
+  /// The Lustre version of the Amazon FSx for Lustre file system, which can be
+  /// <code>2.10</code>, <code>2.12</code>, or <code>2.15</code>.
   final String? fileSystemTypeVersion;
 
   /// The ID of the Key Management Service (KMS) key used to encrypt Amazon FSx
@@ -7738,6 +8767,9 @@ class FileSystem {
   final String? resourceARN;
 
   /// The storage capacity of the file system in gibibytes (GiB).
+  ///
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value
+  /// of <code>StorageCapacity</code> is outside of the minimum or maximum values.
   final int? storageCapacity;
 
   /// The type of storage the file system is using. If set to <code>SSD</code>,
@@ -7759,8 +8791,9 @@ class FileSystem {
   final List<String>? subnetIds;
 
   /// The tags to associate with the file system. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-  /// your Amazon EC2 resources</a> in the <i>Amazon EC2 User Guide</i>.
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/tag-resources.html">Tagging
+  /// your Amazon FSx resources</a> in the <i>Amazon FSx for Lustre User
+  /// Guide</i>.
   final List<Tag>? tags;
 
   /// The ID of the primary virtual private cloud (VPC) for the file system.
@@ -8345,10 +9378,10 @@ class LustreFileSystemConfiguration {
   ///
   /// The <code>PERSISTENT_1</code> and <code>PERSISTENT_2</code> deployment type
   /// is used for longer-term storage and workloads and encryption of data in
-  /// transit. <code>PERSISTENT_2</code> is built on Lustre v2.12 and offers
-  /// higher <code>PerUnitStorageThroughput</code> (up to 1000 MB/s/TiB) along
-  /// with a lower minimum storage capacity requirement (600 GiB). To learn more
-  /// about FSx for Lustre deployment types, see <a
+  /// transit. <code>PERSISTENT_2</code> offers higher
+  /// <code>PerUnitStorageThroughput</code> (up to 1000 MB/s/TiB) along with a
+  /// lower minimum storage capacity requirement (600 GiB). To learn more about
+  /// FSx for Lustre deployment types, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html">
   /// FSx for Lustre deployment options</a>.
   ///
@@ -8708,6 +9741,7 @@ extension NfsVersionFromString on String {
 enum OntapDeploymentType {
   multiAz_1,
   singleAz_1,
+  singleAz_2,
 }
 
 extension OntapDeploymentTypeValueExtension on OntapDeploymentType {
@@ -8717,6 +9751,8 @@ extension OntapDeploymentTypeValueExtension on OntapDeploymentType {
         return 'MULTI_AZ_1';
       case OntapDeploymentType.singleAz_1:
         return 'SINGLE_AZ_1';
+      case OntapDeploymentType.singleAz_2:
+        return 'SINGLE_AZ_2';
     }
   }
 }
@@ -8728,6 +9764,8 @@ extension OntapDeploymentTypeFromString on String {
         return OntapDeploymentType.multiAz_1;
       case 'SINGLE_AZ_1':
         return OntapDeploymentType.singleAz_1;
+      case 'SINGLE_AZ_2':
+        return OntapDeploymentType.singleAz_2;
     }
     throw Exception('$this is not known in enum OntapDeploymentType');
   }
@@ -8750,6 +9788,10 @@ class OntapFileSystemConfiguration {
   /// <li>
   /// <code>SINGLE_AZ_1</code> - A file system configured for Single-AZ
   /// redundancy.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_AZ_2</code> - A file system configured with multiple
+  /// high-availability (HA) pairs for Single-AZ redundancy.
   /// </li>
   /// </ul>
   /// For information about the use cases for Multi-AZ and Single-AZ deployments,
@@ -8775,12 +9817,78 @@ class OntapFileSystemConfiguration {
   /// used to access data or to manage the file system using the NetApp ONTAP CLI,
   /// REST API, or NetApp SnapMirror.
   final FileSystemEndpoints? endpoints;
+
+  /// You can use the <code>fsxadmin</code> user account to access the NetApp
+  /// ONTAP CLI and REST API. The password value is always redacted in the
+  /// response.
+  final String? fsxAdminPassword;
+
+  /// Specifies how many high-availability (HA) file server pairs the file system
+  /// will have. The default value is 1. The value of this property affects the
+  /// values of <code>StorageCapacity</code>, <code>Iops</code>, and
+  /// <code>ThroughputCapacity</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html">High-availability
+  /// (HA) pairs</a> in the FSx for ONTAP user guide.
+  ///
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value of <code>HAPairs</code> is less than 1 or greater than 12.
+  /// </li>
+  /// <li>
+  /// The value of <code>HAPairs</code> is greater than 1 and the value of
+  /// <code>DeploymentType</code> is <code>SINGLE_AZ_1</code> or
+  /// <code>MULTI_AZ_1</code>.
+  /// </li>
+  /// </ul>
+  final int? hAPairs;
   final String? preferredSubnetId;
 
   /// (Multi-AZ only) The VPC route tables in which your file system's endpoints
   /// are created.
   final List<String>? routeTableIds;
   final int? throughputCapacity;
+
+  /// Use to choose the throughput capacity per HA pair. When the value of
+  /// <code>HAPairs</code> is equal to 1, the value of
+  /// <code>ThroughputCapacityPerHAPair</code> is the total throughput for the
+  /// file system.
+  ///
+  /// This field and <code>ThroughputCapacity</code> cannot be defined in the same
+  /// API call, but one is required.
+  ///
+  /// This field and <code>ThroughputCapacity</code> are the same for file systems
+  /// with one HA pair.
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>SINGLE_AZ_1</code> and <code>MULTI_AZ_1</code>, valid values are
+  /// 128, 256, 512, 1024, 2048, or 4096 MBps.
+  /// </li>
+  /// <li>
+  /// For <code>SINGLE_AZ_2</code>, valid values are 3072 or 6144 MBps.
+  /// </li>
+  /// </ul>
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value of <code>ThroughputCapacity</code> and
+  /// <code>ThroughputCapacityPerHAPair</code> are not the same value.
+  /// </li>
+  /// <li>
+  /// The value of deployment type is <code>SINGLE_AZ_2</code> and
+  /// <code>ThroughputCapacity</code> / <code>ThroughputCapacityPerHAPair</code>
+  /// is a valid HA pair (a value between 2 and 12).
+  /// </li>
+  /// <li>
+  /// The value of <code>ThroughputCapacityPerHAPair</code> is not a valid value.
+  /// </li>
+  /// </ul>
+  final int? throughputCapacityPerHAPair;
   final String? weeklyMaintenanceStartTime;
 
   OntapFileSystemConfiguration({
@@ -8790,9 +9898,12 @@ class OntapFileSystemConfiguration {
     this.diskIopsConfiguration,
     this.endpointIpAddressRange,
     this.endpoints,
+    this.fsxAdminPassword,
+    this.hAPairs,
     this.preferredSubnetId,
     this.routeTableIds,
     this.throughputCapacity,
+    this.throughputCapacityPerHAPair,
     this.weeklyMaintenanceStartTime,
   });
 
@@ -8813,12 +9924,15 @@ class OntapFileSystemConfiguration {
           ? FileSystemEndpoints.fromJson(
               json['Endpoints'] as Map<String, dynamic>)
           : null,
+      fsxAdminPassword: json['FsxAdminPassword'] as String?,
+      hAPairs: json['HAPairs'] as int?,
       preferredSubnetId: json['PreferredSubnetId'] as String?,
       routeTableIds: (json['RouteTableIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       throughputCapacity: json['ThroughputCapacity'] as int?,
+      throughputCapacityPerHAPair: json['ThroughputCapacityPerHAPair'] as int?,
       weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
     );
   }
@@ -8826,6 +9940,10 @@ class OntapFileSystemConfiguration {
 
 /// The configuration of an Amazon FSx for NetApp ONTAP volume.
 class OntapVolumeConfiguration {
+  /// This structure specifies configuration options for a volume’s storage
+  /// aggregate or aggregates.
+  final AggregateConfiguration? aggregateConfiguration;
+
   /// A boolean flag indicating whether tags for the volume should be copied to
   /// backups. This value defaults to false. If it's set to true, all tags for the
   /// volume are copied to all automatic and user-initiated backups where the user
@@ -8886,8 +10004,14 @@ class OntapVolumeConfiguration {
   /// <code>NTFS</code>, or <code>MIXED</code>.
   final SecurityStyle? securityStyle;
 
+  /// The configured size of the volume, in bytes.
+  final int? sizeInBytes;
+
   /// The configured size of the volume, in megabytes (MBs).
   final int? sizeInMegabytes;
+
+  /// The SnapLock configuration object for an FSx for ONTAP SnapLock volume.
+  final SnaplockConfiguration? snaplockConfiguration;
 
   /// Specifies the snapshot policy for the volume. There are three built-in
   /// snapshot policies:
@@ -8914,7 +10038,7 @@ class OntapVolumeConfiguration {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snapshots-ontap.html#snapshot-policies">Snapshot
-  /// policies</a> in the <i>Amazon FSx for NetApp ONTAP User Guide</i>.
+  /// policies</a> in the Amazon FSx for NetApp ONTAP User Guide.
   final String? snapshotPolicy;
 
   /// The volume's storage efficiency setting.
@@ -8939,23 +10063,37 @@ class OntapVolumeConfiguration {
   /// The volume's universally unique identifier (UUID).
   final String? uuid;
 
+  /// Use to specify the style of an ONTAP volume. For more information about
+  /// FlexVols and FlexGroups, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types.html">Volume
+  /// types</a> in Amazon FSx for NetApp ONTAP User Guide.
+  final VolumeStyle? volumeStyle;
+
   OntapVolumeConfiguration({
+    this.aggregateConfiguration,
     this.copyTagsToBackups,
     this.flexCacheEndpointType,
     this.junctionPath,
     this.ontapVolumeType,
     this.securityStyle,
+    this.sizeInBytes,
     this.sizeInMegabytes,
+    this.snaplockConfiguration,
     this.snapshotPolicy,
     this.storageEfficiencyEnabled,
     this.storageVirtualMachineId,
     this.storageVirtualMachineRoot,
     this.tieringPolicy,
     this.uuid,
+    this.volumeStyle,
   });
 
   factory OntapVolumeConfiguration.fromJson(Map<String, dynamic> json) {
     return OntapVolumeConfiguration(
+      aggregateConfiguration: json['AggregateConfiguration'] != null
+          ? AggregateConfiguration.fromJson(
+              json['AggregateConfiguration'] as Map<String, dynamic>)
+          : null,
       copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
       flexCacheEndpointType:
           (json['FlexCacheEndpointType'] as String?)?.toFlexCacheEndpointType(),
@@ -8963,7 +10101,12 @@ class OntapVolumeConfiguration {
       ontapVolumeType:
           (json['OntapVolumeType'] as String?)?.toOntapVolumeType(),
       securityStyle: (json['SecurityStyle'] as String?)?.toSecurityStyle(),
+      sizeInBytes: json['SizeInBytes'] as int?,
       sizeInMegabytes: json['SizeInMegabytes'] as int?,
+      snaplockConfiguration: json['SnaplockConfiguration'] != null
+          ? SnaplockConfiguration.fromJson(
+              json['SnaplockConfiguration'] as Map<String, dynamic>)
+          : null,
       snapshotPolicy: json['SnapshotPolicy'] as String?,
       storageEfficiencyEnabled: json['StorageEfficiencyEnabled'] as bool?,
       storageVirtualMachineId: json['StorageVirtualMachineId'] as String?,
@@ -8973,6 +10116,7 @@ class OntapVolumeConfiguration {
               json['TieringPolicy'] as Map<String, dynamic>)
           : null,
       uuid: json['UUID'] as String?,
+      volumeStyle: (json['VolumeStyle'] as String?)?.toVolumeStyle(),
     );
   }
 }
@@ -9067,6 +10211,7 @@ class OpenZFSClientConfiguration {
 enum OpenZFSCopyStrategy {
   clone,
   fullCopy,
+  incrementalCopy,
 }
 
 extension OpenZFSCopyStrategyValueExtension on OpenZFSCopyStrategy {
@@ -9076,6 +10221,8 @@ extension OpenZFSCopyStrategyValueExtension on OpenZFSCopyStrategy {
         return 'CLONE';
       case OpenZFSCopyStrategy.fullCopy:
         return 'FULL_COPY';
+      case OpenZFSCopyStrategy.incrementalCopy:
+        return 'INCREMENTAL_COPY';
     }
   }
 }
@@ -9087,6 +10234,8 @@ extension OpenZFSCopyStrategyFromString on String {
         return OpenZFSCopyStrategy.clone;
       case 'FULL_COPY':
         return OpenZFSCopyStrategy.fullCopy;
+      case 'INCREMENTAL_COPY':
+        return OpenZFSCopyStrategy.incrementalCopy;
     }
     throw Exception('$this is not known in enum OpenZFSCopyStrategy');
   }
@@ -9212,6 +10361,7 @@ extension OpenZFSDataCompressionTypeFromString on String {
 enum OpenZFSDeploymentType {
   singleAz_1,
   singleAz_2,
+  multiAz_1,
 }
 
 extension OpenZFSDeploymentTypeValueExtension on OpenZFSDeploymentType {
@@ -9221,6 +10371,8 @@ extension OpenZFSDeploymentTypeValueExtension on OpenZFSDeploymentType {
         return 'SINGLE_AZ_1';
       case OpenZFSDeploymentType.singleAz_2:
         return 'SINGLE_AZ_2';
+      case OpenZFSDeploymentType.multiAz_1:
+        return 'MULTI_AZ_1';
     }
   }
 }
@@ -9232,6 +10384,8 @@ extension OpenZFSDeploymentTypeFromString on String {
         return OpenZFSDeploymentType.singleAz_1;
       case 'SINGLE_AZ_2':
         return OpenZFSDeploymentType.singleAz_2;
+      case 'MULTI_AZ_1':
+        return OpenZFSDeploymentType.multiAz_1;
     }
     throw Exception('$this is not known in enum OpenZFSDeploymentType');
   }
@@ -9261,12 +10415,33 @@ class OpenZFSFileSystemConfiguration {
   final String? dailyAutomaticBackupStartTime;
 
   /// Specifies the file-system deployment type. Amazon FSx for OpenZFS
-  /// supports&#x2028; <code>SINGLE_AZ_1</code> and <code>SINGLE_AZ_2</code>.
+  /// supports&#x2028; <code>MULTI_AZ_1</code>, <code>SINGLE_AZ_1</code>, and
+  /// <code>SINGLE_AZ_2</code>.
   final OpenZFSDeploymentType? deploymentType;
   final DiskIopsConfiguration? diskIopsConfiguration;
 
+  /// The IP address of the endpoint that is used to access data or to manage the
+  /// file system.
+  final String? endpointIpAddress;
+
+  /// (Multi-AZ only) Specifies the IP address range in which the endpoints to
+  /// access your file system will be created. By default in the Amazon FSx API
+  /// and Amazon FSx console, Amazon FSx selects an available /28 IP address range
+  /// for you from one of the VPC's CIDR ranges. You can have overlapping endpoint
+  /// IP addresses for file systems deployed in the same VPC/route tables.
+  final String? endpointIpAddressRange;
+
+  /// Required when <code>DeploymentType</code> is set to <code>MULTI_AZ_1</code>.
+  /// This specifies the subnet in which you want the preferred file server to be
+  /// located.
+  final String? preferredSubnetId;
+
   /// The ID of the root volume of the OpenZFS file system.
   final String? rootVolumeId;
+
+  /// (Multi-AZ only) The VPC route tables in which your file system's endpoints
+  /// are created.
+  final List<String>? routeTableIds;
 
   /// The throughput of an Amazon FSx file system, measured in megabytes per
   /// second (MBps).
@@ -9280,7 +10455,11 @@ class OpenZFSFileSystemConfiguration {
     this.dailyAutomaticBackupStartTime,
     this.deploymentType,
     this.diskIopsConfiguration,
+    this.endpointIpAddress,
+    this.endpointIpAddressRange,
+    this.preferredSubnetId,
     this.rootVolumeId,
+    this.routeTableIds,
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
@@ -9299,7 +10478,14 @@ class OpenZFSFileSystemConfiguration {
           ? DiskIopsConfiguration.fromJson(
               json['DiskIopsConfiguration'] as Map<String, dynamic>)
           : null,
+      endpointIpAddress: json['EndpointIpAddress'] as String?,
+      endpointIpAddressRange: json['EndpointIpAddressRange'] as String?,
+      preferredSubnetId: json['PreferredSubnetId'] as String?,
       rootVolumeId: json['RootVolumeId'] as String?,
+      routeTableIds: (json['RouteTableIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       throughputCapacity: json['ThroughputCapacity'] as int?,
       weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
     );
@@ -9335,8 +10521,8 @@ class OpenZFSNfsExport {
   }
 }
 
-/// The snapshot configuration to use when creating an OpenZFS volume from a
-/// snapshot.
+/// The snapshot configuration used when creating an Amazon FSx for OpenZFS
+/// volume from a snapshot.
 class OpenZFSOriginSnapshotConfiguration {
   /// The strategy used when copying data from the snapshot to the new volume.
   ///
@@ -9351,7 +10537,12 @@ class OpenZFSOriginSnapshotConfiguration {
   /// <code>FULL_COPY</code> - Copies all data from the snapshot to the new
   /// volume.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>INCREMENTAL_COPY</code> option is only for updating an existing
+  /// volume by using a snapshot from another FSx for OpenZFS file system. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_CopySnapshotAndUpdateVolume.html">CopySnapshotAndUpdateVolume</a>.
+  /// </note>
   final OpenZFSCopyStrategy? copyStrategy;
   final String? snapshotARN;
 
@@ -9397,16 +10588,18 @@ extension OpenZFSQuotaTypeFromString on String {
   }
 }
 
-/// The configuration for how much storage a user or group can use on the
-/// volume.
+/// Used to configure quotas that define how much storage a user or group can
+/// use on an FSx for OpenZFS volume. For more information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties">Volume
+/// properties</a> in the FSx for OpenZFS User Guide.
 class OpenZFSUserOrGroupQuota {
-  /// The ID of the user or group.
+  /// The ID of the user or group that the quota applies to.
   final int id;
 
-  /// The amount of storage that the user or group can use in gibibytes (GiB).
+  /// The user or group's storage quota, in gibibytes (GiB).
   final int storageCapacityQuotaGiB;
 
-  /// A value that specifies whether the quota applies to a user or group.
+  /// Specifies whether the quota applies to a user or group.
   final OpenZFSQuotaType type;
 
   OpenZFSUserOrGroupQuota({
@@ -9437,6 +10630,31 @@ class OpenZFSUserOrGroupQuota {
 
 /// The configuration of an Amazon FSx for OpenZFS volume.
 class OpenZFSVolumeConfiguration {
+  /// Specifies the strategy used when copying data from the snapshot to the new
+  /// volume.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CLONE</code> - The new volume references the data in the origin
+  /// snapshot. Cloning a snapshot is faster than copying data from the snapshot
+  /// to a new volume and doesn't consume disk throughput. However, the origin
+  /// snapshot can't be deleted if there is a volume using its copied data.
+  /// </li>
+  /// <li>
+  /// <code>FULL_COPY</code> - Copies all data from the snapshot to the new
+  /// volume.
+  ///
+  /// Specify this option to create the volume from a snapshot on another FSx for
+  /// OpenZFS file system.
+  /// </li>
+  /// </ul> <note>
+  /// The <code>INCREMENTAL_COPY</code> option is only for updating an existing
+  /// volume by using a snapshot from another FSx for OpenZFS file system. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_CopySnapshotAndUpdateVolume.html">CopySnapshotAndUpdateVolume</a>.
+  /// </note>
+  final OpenZFSCopyStrategy? copyStrategy;
+
   /// A Boolean value indicating whether tags for the volume should be copied to
   /// snapshots. This value defaults to <code>false</code>. If it's set to
   /// <code>true</code>, all tags for the volume are copied to snapshots where the
@@ -9472,10 +10690,19 @@ class OpenZFSVolumeConfiguration {
   /// snapshot.
   final bool? deleteClonedVolumes;
 
+  /// A Boolean value indicating whether snapshot data that differs between the
+  /// current state and the specified snapshot should be overwritten when a volume
+  /// is restored from a snapshot.
+  final bool? deleteIntermediateData;
+
   /// A Boolean value indicating whether snapshots between the current state and
   /// the specified snapshot should be deleted when a volume is restored from
   /// snapshot.
   final bool? deleteIntermediateSnaphots;
+
+  /// The ID of the snapshot that's being copied or was most recently copied to
+  /// the destination volume.
+  final String? destinationSnapshot;
 
   /// The configuration object for mounting a Network File System (NFS) file
   /// system.
@@ -9499,6 +10726,7 @@ class OpenZFSVolumeConfiguration {
 
   /// Specifies the ID of the snapshot to which the volume was restored.
   final String? restoreToSnapshot;
+  final String? sourceSnapshotARN;
 
   /// The maximum amount of storage in gibibtyes (GiB) that the volume can use
   /// from its parent. You can specify a quota larger than the storage on the
@@ -9517,16 +10745,20 @@ class OpenZFSVolumeConfiguration {
   final String? volumePath;
 
   OpenZFSVolumeConfiguration({
+    this.copyStrategy,
     this.copyTagsToSnapshots,
     this.dataCompressionType,
     this.deleteClonedVolumes,
+    this.deleteIntermediateData,
     this.deleteIntermediateSnaphots,
+    this.destinationSnapshot,
     this.nfsExports,
     this.originSnapshot,
     this.parentVolumeId,
     this.readOnly,
     this.recordSizeKiB,
     this.restoreToSnapshot,
+    this.sourceSnapshotARN,
     this.storageCapacityQuotaGiB,
     this.storageCapacityReservationGiB,
     this.userAndGroupQuotas,
@@ -9535,11 +10767,14 @@ class OpenZFSVolumeConfiguration {
 
   factory OpenZFSVolumeConfiguration.fromJson(Map<String, dynamic> json) {
     return OpenZFSVolumeConfiguration(
+      copyStrategy: (json['CopyStrategy'] as String?)?.toOpenZFSCopyStrategy(),
       copyTagsToSnapshots: json['CopyTagsToSnapshots'] as bool?,
       dataCompressionType: (json['DataCompressionType'] as String?)
           ?.toOpenZFSDataCompressionType(),
       deleteClonedVolumes: json['DeleteClonedVolumes'] as bool?,
+      deleteIntermediateData: json['DeleteIntermediateData'] as bool?,
       deleteIntermediateSnaphots: json['DeleteIntermediateSnaphots'] as bool?,
+      destinationSnapshot: json['DestinationSnapshot'] as String?,
       nfsExports: (json['NfsExports'] as List?)
           ?.whereNotNull()
           .map((e) => OpenZFSNfsExport.fromJson(e as Map<String, dynamic>))
@@ -9552,6 +10787,7 @@ class OpenZFSVolumeConfiguration {
       readOnly: json['ReadOnly'] as bool?,
       recordSizeKiB: json['RecordSizeKiB'] as int?,
       restoreToSnapshot: json['RestoreToSnapshot'] as String?,
+      sourceSnapshotARN: json['SourceSnapshotARN'] as String?,
       storageCapacityQuotaGiB: json['StorageCapacityQuotaGiB'] as int?,
       storageCapacityReservationGiB:
           json['StorageCapacityReservationGiB'] as int?,
@@ -9562,6 +10798,85 @@ class OpenZFSVolumeConfiguration {
           .toList(),
       volumePath: json['VolumePath'] as String?,
     );
+  }
+}
+
+enum PrivilegedDelete {
+  disabled,
+  enabled,
+  permanentlyDisabled,
+}
+
+extension PrivilegedDeleteValueExtension on PrivilegedDelete {
+  String toValue() {
+    switch (this) {
+      case PrivilegedDelete.disabled:
+        return 'DISABLED';
+      case PrivilegedDelete.enabled:
+        return 'ENABLED';
+      case PrivilegedDelete.permanentlyDisabled:
+        return 'PERMANENTLY_DISABLED';
+    }
+  }
+}
+
+extension PrivilegedDeleteFromString on String {
+  PrivilegedDelete toPrivilegedDelete() {
+    switch (this) {
+      case 'DISABLED':
+        return PrivilegedDelete.disabled;
+      case 'ENABLED':
+        return PrivilegedDelete.enabled;
+      case 'PERMANENTLY_DISABLED':
+        return PrivilegedDelete.permanentlyDisabled;
+    }
+    throw Exception('$this is not known in enum PrivilegedDelete');
+  }
+}
+
+/// The configuration that specifies a minimum amount of time since last access
+/// for an exported file to be eligible for release from an Amazon FSx for
+/// Lustre file system. Only files that were last accessed before this
+/// point-in-time can be released. For example, if you specify a last accessed
+/// time criteria of 9 days, only files that were last accessed 9.00001 or more
+/// days ago can be released.
+///
+/// Only file data that has been exported to S3 can be released. Files that have
+/// not yet been exported to S3, such as new or changed files that have not been
+/// exported, are not eligible for release. When files are released, their
+/// metadata stays on the file system, so they can still be accessed later.
+/// Users and applications can access a released file by reading the file again,
+/// which restores data from Amazon S3 to the FSx for Lustre file system.
+/// <note>
+/// If a file meets the last accessed time criteria, its file or directory path
+/// must also be specified with the <code>Paths</code> parameter of the
+/// operation in order for the file to be released.
+/// </note>
+class ReleaseConfiguration {
+  /// Defines the point-in-time since an exported file was last accessed, in order
+  /// for that file to be eligible for release. Only files that were last accessed
+  /// before this point-in-time are eligible to be released from the file system.
+  final DurationSinceLastAccess? durationSinceLastAccess;
+
+  ReleaseConfiguration({
+    this.durationSinceLastAccess,
+  });
+
+  factory ReleaseConfiguration.fromJson(Map<String, dynamic> json) {
+    return ReleaseConfiguration(
+      durationSinceLastAccess: json['DurationSinceLastAccess'] != null
+          ? DurationSinceLastAccess.fromJson(
+              json['DurationSinceLastAccess'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationSinceLastAccess = this.durationSinceLastAccess;
+    return {
+      if (durationSinceLastAccess != null)
+        'DurationSinceLastAccess': durationSinceLastAccess,
+    };
   }
 }
 
@@ -9716,6 +11031,128 @@ class RestoreVolumeFromSnapshotResponse {
   }
 }
 
+/// Specifies the retention period of an FSx for ONTAP SnapLock volume. After it
+/// is set, it can't be changed. Files can't be deleted or modified during the
+/// retention period.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-retention.html">Working
+/// with the retention period in SnapLock</a>.
+class RetentionPeriod {
+  /// Defines the type of time for the retention period of an FSx for ONTAP
+  /// SnapLock volume. Set it to one of the valid types. If you set it to
+  /// <code>INFINITE</code>, the files are retained forever. If you set it to
+  /// <code>UNSPECIFIED</code>, the files are retained until you set an explicit
+  /// retention period.
+  final RetentionPeriodType type;
+
+  /// Defines the amount of time for the retention period of an FSx for ONTAP
+  /// SnapLock volume. You can't set a value for <code>INFINITE</code> or
+  /// <code>UNSPECIFIED</code>. For all other options, the following ranges are
+  /// valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Seconds</code>: 0 - 65,535
+  /// </li>
+  /// <li>
+  /// <code>Minutes</code>: 0 - 65,535
+  /// </li>
+  /// <li>
+  /// <code>Hours</code>: 0 - 24
+  /// </li>
+  /// <li>
+  /// <code>Days</code>: 0 - 365
+  /// </li>
+  /// <li>
+  /// <code>Months</code>: 0 - 12
+  /// </li>
+  /// <li>
+  /// <code>Years</code>: 0 - 100
+  /// </li>
+  /// </ul>
+  final int? value;
+
+  RetentionPeriod({
+    required this.type,
+    this.value,
+  });
+
+  factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
+    return RetentionPeriod(
+      type: (json['Type'] as String).toRetentionPeriodType(),
+      value: json['Value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+enum RetentionPeriodType {
+  seconds,
+  minutes,
+  hours,
+  days,
+  months,
+  years,
+  infinite,
+  unspecified,
+}
+
+extension RetentionPeriodTypeValueExtension on RetentionPeriodType {
+  String toValue() {
+    switch (this) {
+      case RetentionPeriodType.seconds:
+        return 'SECONDS';
+      case RetentionPeriodType.minutes:
+        return 'MINUTES';
+      case RetentionPeriodType.hours:
+        return 'HOURS';
+      case RetentionPeriodType.days:
+        return 'DAYS';
+      case RetentionPeriodType.months:
+        return 'MONTHS';
+      case RetentionPeriodType.years:
+        return 'YEARS';
+      case RetentionPeriodType.infinite:
+        return 'INFINITE';
+      case RetentionPeriodType.unspecified:
+        return 'UNSPECIFIED';
+    }
+  }
+}
+
+extension RetentionPeriodTypeFromString on String {
+  RetentionPeriodType toRetentionPeriodType() {
+    switch (this) {
+      case 'SECONDS':
+        return RetentionPeriodType.seconds;
+      case 'MINUTES':
+        return RetentionPeriodType.minutes;
+      case 'HOURS':
+        return RetentionPeriodType.hours;
+      case 'DAYS':
+        return RetentionPeriodType.days;
+      case 'MONTHS':
+        return RetentionPeriodType.months;
+      case 'YEARS':
+        return RetentionPeriodType.years;
+      case 'INFINITE':
+        return RetentionPeriodType.infinite;
+      case 'UNSPECIFIED':
+        return RetentionPeriodType.unspecified;
+    }
+    throw Exception('$this is not known in enum RetentionPeriodType');
+  }
+}
+
 /// The configuration for an Amazon S3 data repository linked to an Amazon FSx
 /// for Lustre file system with a data repository association. The configuration
 /// consists of an <code>AutoImportPolicy</code> that defines which file events
@@ -9849,13 +11286,14 @@ class SelfManagedActiveDirectoryAttributes {
 }
 
 /// The configuration that Amazon FSx uses to join a FSx for Windows File Server
-/// file system or an ONTAP storage virtual machine (SVM) to a self-managed
-/// (including on-premises) Microsoft Active Directory (AD) directory. For more
-/// information, see <a
+/// file system or an FSx for ONTAP storage virtual machine (SVM) to a
+/// self-managed (including on-premises) Microsoft Active Directory (AD)
+/// directory. For more information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html">
-/// Using Amazon FSx with your self-managed Microsoft Active Directory</a> or <a
+/// Using Amazon FSx for Windows with your self-managed Microsoft Active
+/// Directory</a> or <a
 /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html">Managing
-/// SVMs</a>.
+/// FSx for ONTAP SVMs</a>.
 class SelfManagedActiveDirectoryConfiguration {
   /// A list of up to three IP addresses of DNS servers or domain controllers in
   /// the self-managed AD directory.
@@ -9929,38 +11367,241 @@ class SelfManagedActiveDirectoryConfiguration {
   }
 }
 
-/// The configuration that Amazon FSx uses to join the Windows File Server
-/// instance to a self-managed Microsoft Active Directory (AD) directory.
+/// Specifies changes you are making to the self-managed Microsoft Active
+/// Directory (AD) configuration to which an FSx for Windows File Server file
+/// system or an FSx for ONTAP SVM is joined.
 class SelfManagedActiveDirectoryConfigurationUpdates {
-  /// A list of up to three IP addresses of DNS servers or domain controllers in
-  /// the self-managed AD directory.
+  /// A list of up to three DNS server or domain controller IP addresses in your
+  /// self-managed AD domain.
   final List<String>? dnsIps;
 
-  /// The password for the service account on your self-managed AD domain that
-  /// Amazon FSx will use to join to your AD domain.
+  /// Specifies an updated fully qualified domain name of your self-managed AD
+  /// configuration.
+  final String? domainName;
+
+  /// Specifies the updated name of the self-managed AD domain group whose members
+  /// are granted administrative privileges for the Amazon FSx resource.
+  final String? fileSystemAdministratorsGroup;
+
+  /// Specifies an updated fully qualified distinguished name of the organization
+  /// unit within your self-managed AD.
+  final String? organizationalUnitDistinguishedName;
+
+  /// Specifies the updated password for the service account on your self-managed
+  /// AD domain. Amazon FSx uses this account to join to your self-managed AD
+  /// domain.
   final String? password;
 
-  /// The user name for the service account on your self-managed AD domain that
-  /// Amazon FSx will use to join to your AD domain. This account must have the
-  /// permission to join computers to the domain in the organizational unit
-  /// provided in <code>OrganizationalUnitDistinguishedName</code>.
+  /// Specifies the updated user name for the service account on your self-managed
+  /// AD domain. Amazon FSx uses this account to join to your self-managed AD
+  /// domain.
+  ///
+  /// This account must have the permissions required to join computers to the
+  /// domain in the organizational unit provided in
+  /// <code>OrganizationalUnitDistinguishedName</code>.
   final String? userName;
 
   SelfManagedActiveDirectoryConfigurationUpdates({
     this.dnsIps,
+    this.domainName,
+    this.fileSystemAdministratorsGroup,
+    this.organizationalUnitDistinguishedName,
     this.password,
     this.userName,
   });
 
   Map<String, dynamic> toJson() {
     final dnsIps = this.dnsIps;
+    final domainName = this.domainName;
+    final fileSystemAdministratorsGroup = this.fileSystemAdministratorsGroup;
+    final organizationalUnitDistinguishedName =
+        this.organizationalUnitDistinguishedName;
     final password = this.password;
     final userName = this.userName;
     return {
       if (dnsIps != null) 'DnsIps': dnsIps,
+      if (domainName != null) 'DomainName': domainName,
+      if (fileSystemAdministratorsGroup != null)
+        'FileSystemAdministratorsGroup': fileSystemAdministratorsGroup,
+      if (organizationalUnitDistinguishedName != null)
+        'OrganizationalUnitDistinguishedName':
+            organizationalUnitDistinguishedName,
       if (password != null) 'Password': password,
       if (userName != null) 'UserName': userName,
     };
+  }
+}
+
+/// Specifies the SnapLock configuration for an FSx for ONTAP SnapLock volume.
+class SnaplockConfiguration {
+  /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock
+  /// volume. The default value is <code>false</code>. If you set
+  /// <code>AuditLogVolume</code> to <code>true</code>, the SnapLock volume is
+  /// created as an audit log volume. The minimum retention period for an audit
+  /// log volume is six months.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-audit-log-volume">
+  /// SnapLock audit log volumes</a>.
+  final bool? auditLogVolume;
+
+  /// The configuration object for setting the autocommit period of files in an
+  /// FSx for ONTAP SnapLock volume.
+  final AutocommitPeriod? autocommitPeriod;
+
+  /// Enables, disables, or permanently disables privileged delete on an FSx for
+  /// ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock
+  /// administrators to delete write once, read many (WORM) files even if they
+  /// have active retention periods. <code>PERMANENTLY_DISABLED</code> is a
+  /// terminal state. If privileged delete is permanently disabled on a SnapLock
+  /// volume, you can't re-enable it. The default value is <code>DISABLED</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html#privileged-delete">Privileged
+  /// delete</a>.
+  final PrivilegedDelete? privilegedDelete;
+
+  /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
+  final SnaplockRetentionPeriod? retentionPeriod;
+
+  /// Specifies the retention mode of an FSx for ONTAP SnapLock volume. After it
+  /// is set, it can't be changed. You can choose one of the following retention
+  /// modes:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPLIANCE</code>: Files transitioned to write once, read many (WORM)
+  /// on a Compliance volume can't be deleted until their retention periods
+  /// expire. This retention mode is used to address government or
+  /// industry-specific mandates or to protect against ransomware attacks. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-compliance.html">SnapLock
+  /// Compliance</a>.
+  /// </li>
+  /// <li>
+  /// <code>ENTERPRISE</code>: Files transitioned to WORM on an Enterprise volume
+  /// can be deleted by authorized users before their retention periods expire
+  /// using privileged delete. This retention mode is used to advance an
+  /// organization's data integrity and internal compliance or to test retention
+  /// settings before using SnapLock Compliance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html">SnapLock
+  /// Enterprise</a>.
+  /// </li>
+  /// </ul>
+  final SnaplockType? snaplockType;
+
+  /// Enables or disables volume-append mode on an FSx for ONTAP SnapLock volume.
+  /// Volume-append mode allows you to create WORM-appendable files and write data
+  /// to them incrementally. The default value is <code>false</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-append">Volume-append
+  /// mode</a>.
+  final bool? volumeAppendModeEnabled;
+
+  SnaplockConfiguration({
+    this.auditLogVolume,
+    this.autocommitPeriod,
+    this.privilegedDelete,
+    this.retentionPeriod,
+    this.snaplockType,
+    this.volumeAppendModeEnabled,
+  });
+
+  factory SnaplockConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnaplockConfiguration(
+      auditLogVolume: json['AuditLogVolume'] as bool?,
+      autocommitPeriod: json['AutocommitPeriod'] != null
+          ? AutocommitPeriod.fromJson(
+              json['AutocommitPeriod'] as Map<String, dynamic>)
+          : null,
+      privilegedDelete:
+          (json['PrivilegedDelete'] as String?)?.toPrivilegedDelete(),
+      retentionPeriod: json['RetentionPeriod'] != null
+          ? SnaplockRetentionPeriod.fromJson(
+              json['RetentionPeriod'] as Map<String, dynamic>)
+          : null,
+      snaplockType: (json['SnaplockType'] as String?)?.toSnaplockType(),
+      volumeAppendModeEnabled: json['VolumeAppendModeEnabled'] as bool?,
+    );
+  }
+}
+
+/// The configuration to set the retention period of an FSx for ONTAP SnapLock
+/// volume. The retention period includes default, maximum, and minimum
+/// settings. For more information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-retention.html">Working
+/// with the retention period in SnapLock</a>.
+class SnaplockRetentionPeriod {
+  /// The retention period assigned to a write once, read many (WORM) file by
+  /// default if an explicit retention period is not set for an FSx for ONTAP
+  /// SnapLock volume. The default retention period must be greater than or equal
+  /// to the minimum retention period and less than or equal to the maximum
+  /// retention period.
+  final RetentionPeriod defaultRetention;
+
+  /// The longest retention period that can be assigned to a WORM file on an FSx
+  /// for ONTAP SnapLock volume.
+  final RetentionPeriod maximumRetention;
+
+  /// The shortest retention period that can be assigned to a WORM file on an FSx
+  /// for ONTAP SnapLock volume.
+  final RetentionPeriod minimumRetention;
+
+  SnaplockRetentionPeriod({
+    required this.defaultRetention,
+    required this.maximumRetention,
+    required this.minimumRetention,
+  });
+
+  factory SnaplockRetentionPeriod.fromJson(Map<String, dynamic> json) {
+    return SnaplockRetentionPeriod(
+      defaultRetention: RetentionPeriod.fromJson(
+          json['DefaultRetention'] as Map<String, dynamic>),
+      maximumRetention: RetentionPeriod.fromJson(
+          json['MaximumRetention'] as Map<String, dynamic>),
+      minimumRetention: RetentionPeriod.fromJson(
+          json['MinimumRetention'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultRetention = this.defaultRetention;
+    final maximumRetention = this.maximumRetention;
+    final minimumRetention = this.minimumRetention;
+    return {
+      'DefaultRetention': defaultRetention,
+      'MaximumRetention': maximumRetention,
+      'MinimumRetention': minimumRetention,
+    };
+  }
+}
+
+enum SnaplockType {
+  compliance,
+  enterprise,
+}
+
+extension SnaplockTypeValueExtension on SnaplockType {
+  String toValue() {
+    switch (this) {
+      case SnaplockType.compliance:
+        return 'COMPLIANCE';
+      case SnaplockType.enterprise:
+        return 'ENTERPRISE';
+    }
+  }
+}
+
+extension SnaplockTypeFromString on String {
+  SnaplockType toSnaplockType() {
+    switch (this) {
+      case 'COMPLIANCE':
+        return SnaplockType.compliance;
+      case 'ENTERPRISE':
+        return SnaplockType.enterprise;
+    }
+    throw Exception('$this is not known in enum SnaplockType');
   }
 }
 
@@ -10131,6 +11772,23 @@ extension SnapshotLifecycleFromString on String {
   }
 }
 
+class StartMisconfiguredStateRecoveryResponse {
+  final FileSystem? fileSystem;
+
+  StartMisconfiguredStateRecoveryResponse({
+    this.fileSystem,
+  });
+
+  factory StartMisconfiguredStateRecoveryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMisconfiguredStateRecoveryResponse(
+      fileSystem: json['FileSystem'] != null
+          ? FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 enum Status {
   failed,
   inProgress,
@@ -10174,7 +11832,7 @@ extension StatusFromString on String {
   }
 }
 
-/// The storage type for your Amazon FSx file system.
+/// Specifies the file system's storage type.
 enum StorageType {
   ssd,
   hdd,
@@ -10486,12 +12144,11 @@ extension StorageVirtualMachineSubtypeFromString on String {
   }
 }
 
-/// Describes the configuration of the Microsoft Active Directory (AD) directory
-/// to which the Amazon FSx for ONTAP storage virtual machine (SVM) is joined.
-/// Pleae note, account credentials are not returned in the response payload.
+/// Describes the Microsoft Active Directory (AD) directory configuration to
+/// which the FSx for ONTAP storage virtual machine (SVM) is joined. Note that
+/// account credentials are not returned in the response payload.
 class SvmActiveDirectoryConfiguration {
-  /// The NetBIOS name of the Active Directory computer object that is joined to
-  /// your SVM.
+  /// The NetBIOS name of the AD computer object to which the SVM is joined.
   final String? netBiosName;
   final SelfManagedActiveDirectoryAttributes?
       selfManagedActiveDirectoryConfiguration;
@@ -10749,6 +12406,29 @@ extension TieringPolicyNameFromString on String {
   }
 }
 
+enum Unit {
+  days,
+}
+
+extension UnitValueExtension on Unit {
+  String toValue() {
+    switch (this) {
+      case Unit.days:
+        return 'DAYS';
+    }
+  }
+}
+
+extension UnitFromString on String {
+  Unit toUnit() {
+    switch (this) {
+      case 'DAYS':
+        return Unit.days;
+    }
+    throw Exception('$this is not known in enum Unit');
+  }
+}
+
 /// The response object for <code>UntagResource</code> action.
 class UntagResourceResponse {
   UntagResourceResponse();
@@ -10849,6 +12529,10 @@ class UpdateFileSystemLustreConfiguration {
   /// This parameter is not supported for file systems with a data repository
   /// association.
   final AutoImportPolicyType? autoImportPolicy;
+
+  /// The number of days to retain automatic backups. Setting this property to
+  /// <code>0</code> disables automatic backups. You can retain automatic backups
+  /// for a maximum of 90 days. The default is <code>0</code>.
   final int? automaticBackupRetentionDays;
   final String? dailyAutomaticBackupStartTime;
 
@@ -10877,6 +12561,26 @@ class UpdateFileSystemLustreConfiguration {
   /// Logs.
   final LustreLogCreateConfiguration? logConfiguration;
 
+  /// The throughput of an Amazon FSx for Lustre Persistent SSD-based file system,
+  /// measured in megabytes per second per tebibyte (MB/s/TiB). You can increase
+  /// or decrease your file system's throughput. Valid values depend on the
+  /// deployment type of the file system, as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>PERSISTENT_1</code> SSD-based deployment types, valid values are
+  /// 50, 100, and 200 MB/s/TiB.
+  /// </li>
+  /// <li>
+  /// For <code>PERSISTENT_2</code> SSD-based deployment types, valid values are
+  /// 125, 250, 500, and 1000 MB/s/TiB.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-throughput-capacity.html">
+  /// Managing throughput capacity</a>.
+  final int? perUnitStorageThroughput;
+
   /// The Lustre root squash configuration used when updating an Amazon FSx for
   /// Lustre file system. When enabled, root squash restricts root-level access
   /// from clients that try to access your file system as a root user.
@@ -10893,6 +12597,7 @@ class UpdateFileSystemLustreConfiguration {
     this.dailyAutomaticBackupStartTime,
     this.dataCompressionType,
     this.logConfiguration,
+    this.perUnitStorageThroughput,
     this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
   });
@@ -10903,6 +12608,7 @@ class UpdateFileSystemLustreConfiguration {
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final dataCompressionType = this.dataCompressionType;
     final logConfiguration = this.logConfiguration;
+    final perUnitStorageThroughput = this.perUnitStorageThroughput;
     final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
@@ -10915,6 +12621,8 @@ class UpdateFileSystemLustreConfiguration {
       if (dataCompressionType != null)
         'DataCompressionType': dataCompressionType.toValue(),
       if (logConfiguration != null) 'LogConfiguration': logConfiguration,
+      if (perUnitStorageThroughput != null)
+        'PerUnitStorageThroughput': perUnitStorageThroughput,
       if (rootSquashConfiguration != null)
         'RootSquashConfiguration': rootSquashConfiguration,
       if (weeklyMaintenanceStartTime != null)
@@ -10931,16 +12639,23 @@ class UpdateFileSystemOntapConfiguration {
   final int? automaticBackupRetentionDays;
   final String? dailyAutomaticBackupStartTime;
 
-  /// The SSD IOPS (input/output operations per second) configuration for an
+  /// The SSD IOPS (input output operations per second) configuration for an
   /// Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of
   /// storage capacity, but you can provision additional IOPS per GB of storage.
   /// The configuration consists of an IOPS mode (<code>AUTOMATIC</code> or
   /// <code>USER_PROVISIONED</code>), and in the case of
   /// <code>USER_PROVISIONED</code> IOPS, the total number of SSD IOPS
-  /// provisioned.
+  /// provisioned. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/increase-primary-storage.html">Updating
+  /// SSD storage capacity and IOPS</a>.
   final DiskIopsConfiguration? diskIopsConfiguration;
 
-  /// The ONTAP administrative password for the <code>fsxadmin</code> user.
+  /// Update the password for the <code>fsxadmin</code> user by entering a new
+  /// password. You use the <code>fsxadmin</code> user to access the NetApp ONTAP
+  /// CLI and REST API to manage your file system resources. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html">Managing
+  /// resources using NetApp Applicaton</a>.
   final String? fsxAdminPassword;
 
   /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route
@@ -10949,10 +12664,64 @@ class UpdateFileSystemOntapConfiguration {
   /// table IDs for a file system.
   final List<String>? removeRouteTableIds;
 
-  /// Specifies the throughput of an FSx for NetApp ONTAP file system, measured in
-  /// megabytes per second (MBps). Valid values are 128, 256, 512, 1024, 2048, and
-  /// 4096 MBps.
+  /// Enter a new value to change the amount of throughput capacity for the file
+  /// system in megabytes per second (MBps). For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html">Managing
+  /// throughput capacity</a> in the FSx for ONTAP User Guide.
+  ///
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value of <code>ThroughputCapacity</code> and
+  /// <code>ThroughputCapacityPerHAPair</code> are not the same value.
+  /// </li>
+  /// <li>
+  /// The value of <code>ThroughputCapacity</code> when divided by the value of
+  /// <code>HAPairs</code> is outside of the valid range for
+  /// <code>ThroughputCapacity</code>.
+  /// </li>
+  /// </ul>
   final int? throughputCapacity;
+
+  /// Use to choose the throughput capacity per HA pair, rather than the total
+  /// throughput for the file system.
+  ///
+  /// This field and <code>ThroughputCapacity</code> cannot be defined in the same
+  /// API call, but one is required.
+  ///
+  /// This field and <code>ThroughputCapacity</code> are the same for file systems
+  /// with one HA pair.
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>SINGLE_AZ_1</code> and <code>MULTI_AZ_1</code>, valid values are
+  /// 128, 256, 512, 1024, 2048, or 4096 MBps.
+  /// </li>
+  /// <li>
+  /// For <code>SINGLE_AZ_2</code>, valid values are 3072 or 6144 MBps.
+  /// </li>
+  /// </ul>
+  /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
+  /// following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value of <code>ThroughputCapacity</code> and
+  /// <code>ThroughputCapacityPerHAPair</code> are not the same value for file
+  /// systems with one HA pair.
+  /// </li>
+  /// <li>
+  /// The value of deployment type is <code>SINGLE_AZ_2</code> and
+  /// <code>ThroughputCapacity</code> / <code>ThroughputCapacityPerHAPair</code>
+  /// is a valid HA pair (a value between 2 and 12).
+  /// </li>
+  /// <li>
+  /// The value of <code>ThroughputCapacityPerHAPair</code> is not a valid value.
+  /// </li>
+  /// </ul>
+  final int? throughputCapacityPerHAPair;
   final String? weeklyMaintenanceStartTime;
 
   UpdateFileSystemOntapConfiguration({
@@ -10963,6 +12732,7 @@ class UpdateFileSystemOntapConfiguration {
     this.fsxAdminPassword,
     this.removeRouteTableIds,
     this.throughputCapacity,
+    this.throughputCapacityPerHAPair,
     this.weeklyMaintenanceStartTime,
   });
 
@@ -10974,6 +12744,7 @@ class UpdateFileSystemOntapConfiguration {
     final fsxAdminPassword = this.fsxAdminPassword;
     final removeRouteTableIds = this.removeRouteTableIds;
     final throughputCapacity = this.throughputCapacity;
+    final throughputCapacityPerHAPair = this.throughputCapacityPerHAPair;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
       if (addRouteTableIds != null) 'AddRouteTableIds': addRouteTableIds,
@@ -10987,6 +12758,8 @@ class UpdateFileSystemOntapConfiguration {
       if (removeRouteTableIds != null)
         'RemoveRouteTableIds': removeRouteTableIds,
       if (throughputCapacity != null) 'ThroughputCapacity': throughputCapacity,
+      if (throughputCapacityPerHAPair != null)
+        'ThroughputCapacityPerHAPair': throughputCapacityPerHAPair,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
     };
@@ -10995,6 +12768,9 @@ class UpdateFileSystemOntapConfiguration {
 
 /// The configuration updates for an Amazon FSx for OpenZFS file system.
 class UpdateFileSystemOpenZFSConfiguration {
+  /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route
+  /// tables to associate (add) with your Amazon FSx for OpenZFS file system.
+  final List<String>? addRouteTableIds;
   final int? automaticBackupRetentionDays;
 
   /// A Boolean value indicating whether tags for the file system should be copied
@@ -11018,42 +12794,53 @@ class UpdateFileSystemOpenZFSConfiguration {
   final String? dailyAutomaticBackupStartTime;
   final DiskIopsConfiguration? diskIopsConfiguration;
 
+  /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route
+  /// tables to disassociate (remove) from your Amazon FSx for OpenZFS file
+  /// system. You can use the API operation to retrieve the list of VPC route
+  /// table IDs for a file system.
+  final List<String>? removeRouteTableIds;
+
   /// The throughput of an Amazon FSx for OpenZFS file system, measured in
   /// megabytes per second&#x2028; (MB/s). Valid values depend on the
   /// DeploymentType you choose, as follows:
   ///
   /// <ul>
   /// <li>
-  /// For <code>SINGLE_AZ_1</code>, valid values are 64, 128, 256, 512, 1024,
-  /// 2048, 3072, or 4096 MB/s.
+  /// For <code>MULTI_AZ_1</code> and <code>SINGLE_AZ_2</code>, valid values are
+  /// 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MB/s.
   /// </li>
   /// <li>
-  /// For <code>SINGLE_AZ_2</code>, valid values are 160, 320, 640, 1280, 2560,
-  /// 3840, 5120, 7680, or 10240 MB/s.
+  /// For <code>SINGLE_AZ_1</code>, valid values are 64, 128, 256, 512, 1024,
+  /// 2048, 3072, or 4096 MB/s.
   /// </li>
   /// </ul>
   final int? throughputCapacity;
   final String? weeklyMaintenanceStartTime;
 
   UpdateFileSystemOpenZFSConfiguration({
+    this.addRouteTableIds,
     this.automaticBackupRetentionDays,
     this.copyTagsToBackups,
     this.copyTagsToVolumes,
     this.dailyAutomaticBackupStartTime,
     this.diskIopsConfiguration,
+    this.removeRouteTableIds,
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
 
   Map<String, dynamic> toJson() {
+    final addRouteTableIds = this.addRouteTableIds;
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
     final copyTagsToBackups = this.copyTagsToBackups;
     final copyTagsToVolumes = this.copyTagsToVolumes;
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final diskIopsConfiguration = this.diskIopsConfiguration;
+    final removeRouteTableIds = this.removeRouteTableIds;
     final throughputCapacity = this.throughputCapacity;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
+      if (addRouteTableIds != null) 'AddRouteTableIds': addRouteTableIds,
       if (automaticBackupRetentionDays != null)
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
       if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
@@ -11062,6 +12849,8 @@ class UpdateFileSystemOpenZFSConfiguration {
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
       if (diskIopsConfiguration != null)
         'DiskIopsConfiguration': diskIopsConfiguration,
+      if (removeRouteTableIds != null)
+        'RemoveRouteTableIds': removeRouteTableIds,
       if (throughputCapacity != null) 'ThroughputCapacity': throughputCapacity,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
@@ -11096,9 +12885,10 @@ class UpdateFileSystemWindowsConfiguration {
   /// Windows File Server file system..
   final WindowsAuditLogCreateConfiguration? auditLogConfiguration;
 
-  /// The number of days to retain automatic daily backups. Setting this to zero
-  /// (0) disables automatic daily backups. You can retain automatic daily backups
-  /// for a maximum of 90 days. For more information, see <a
+  /// The number of days to retain automatic backups. Setting this property to
+  /// <code>0</code> disables automatic backups. You can retain automatic backups
+  /// for a maximum of 90 days. The default is <code>30</code>. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#automatic-backups">Working
   /// with Automatic Daily Backups</a>.
   final int? automaticBackupRetentionDays;
@@ -11106,6 +12896,13 @@ class UpdateFileSystemWindowsConfiguration {
   /// The preferred time to start the daily automatic backup, in the UTC time
   /// zone, for example, <code>02:00</code>
   final String? dailyAutomaticBackupStartTime;
+
+  /// The SSD IOPS (input/output operations per second) configuration for an
+  /// Amazon FSx for Windows file system. By default, Amazon FSx automatically
+  /// provisions 3 IOPS per GiB of storage capacity. You can provision additional
+  /// IOPS per GiB of storage, up to the maximum limit associated with your chosen
+  /// throughput capacity.
+  final DiskIopsConfiguration? diskIopsConfiguration;
 
   /// The configuration Amazon FSx uses to join the Windows File Server instance
   /// to the self-managed Microsoft AD directory. You cannot make a self-managed
@@ -11132,6 +12929,7 @@ class UpdateFileSystemWindowsConfiguration {
     this.auditLogConfiguration,
     this.automaticBackupRetentionDays,
     this.dailyAutomaticBackupStartTime,
+    this.diskIopsConfiguration,
     this.selfManagedActiveDirectoryConfiguration,
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
@@ -11141,6 +12939,7 @@ class UpdateFileSystemWindowsConfiguration {
     final auditLogConfiguration = this.auditLogConfiguration;
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
+    final diskIopsConfiguration = this.diskIopsConfiguration;
     final selfManagedActiveDirectoryConfiguration =
         this.selfManagedActiveDirectoryConfiguration;
     final throughputCapacity = this.throughputCapacity;
@@ -11152,6 +12951,8 @@ class UpdateFileSystemWindowsConfiguration {
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
       if (dailyAutomaticBackupStartTime != null)
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
+      if (diskIopsConfiguration != null)
+        'DiskIopsConfiguration': diskIopsConfiguration,
       if (selfManagedActiveDirectoryConfiguration != null)
         'SelfManagedActiveDirectoryConfiguration':
             selfManagedActiveDirectoryConfiguration,
@@ -11179,12 +12980,19 @@ class UpdateOntapVolumeConfiguration {
   /// <code>/vol3</code>.
   final String? junctionPath;
 
-  /// The security style for the volume, which can be <code>UNIX</code>.
+  /// The security style for the volume, which can be <code>UNIX</code>,
   /// <code>NTFS</code>, or <code>MIXED</code>.
   final SecurityStyle? securityStyle;
 
+  /// The configured size of the volume, in bytes.
+  final int? sizeInBytes;
+
   /// Specifies the size of the volume in megabytes.
   final int? sizeInMegabytes;
+
+  /// The configuration object for updating the SnapLock configuration of an FSx
+  /// for ONTAP SnapLock volume.
+  final UpdateSnaplockConfiguration? snaplockConfiguration;
 
   /// Specifies the snapshot policy for the volume. There are three built-in
   /// snapshot policies:
@@ -11225,7 +13033,9 @@ class UpdateOntapVolumeConfiguration {
     this.copyTagsToBackups,
     this.junctionPath,
     this.securityStyle,
+    this.sizeInBytes,
     this.sizeInMegabytes,
+    this.snaplockConfiguration,
     this.snapshotPolicy,
     this.storageEfficiencyEnabled,
     this.tieringPolicy,
@@ -11235,7 +13045,9 @@ class UpdateOntapVolumeConfiguration {
     final copyTagsToBackups = this.copyTagsToBackups;
     final junctionPath = this.junctionPath;
     final securityStyle = this.securityStyle;
+    final sizeInBytes = this.sizeInBytes;
     final sizeInMegabytes = this.sizeInMegabytes;
+    final snaplockConfiguration = this.snaplockConfiguration;
     final snapshotPolicy = this.snapshotPolicy;
     final storageEfficiencyEnabled = this.storageEfficiencyEnabled;
     final tieringPolicy = this.tieringPolicy;
@@ -11243,7 +13055,10 @@ class UpdateOntapVolumeConfiguration {
       if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
       if (junctionPath != null) 'JunctionPath': junctionPath,
       if (securityStyle != null) 'SecurityStyle': securityStyle.toValue(),
+      if (sizeInBytes != null) 'SizeInBytes': sizeInBytes,
       if (sizeInMegabytes != null) 'SizeInMegabytes': sizeInMegabytes,
+      if (snaplockConfiguration != null)
+        'SnaplockConfiguration': snaplockConfiguration,
       if (snapshotPolicy != null) 'SnapshotPolicy': snapshotPolicy,
       if (storageEfficiencyEnabled != null)
         'StorageEfficiencyEnabled': storageEfficiencyEnabled,
@@ -11342,6 +13157,124 @@ class UpdateOpenZFSVolumeConfiguration {
   }
 }
 
+enum UpdateOpenZFSVolumeOption {
+  deleteIntermediateSnapshots,
+  deleteClonedVolumes,
+  deleteIntermediateData,
+}
+
+extension UpdateOpenZFSVolumeOptionValueExtension on UpdateOpenZFSVolumeOption {
+  String toValue() {
+    switch (this) {
+      case UpdateOpenZFSVolumeOption.deleteIntermediateSnapshots:
+        return 'DELETE_INTERMEDIATE_SNAPSHOTS';
+      case UpdateOpenZFSVolumeOption.deleteClonedVolumes:
+        return 'DELETE_CLONED_VOLUMES';
+      case UpdateOpenZFSVolumeOption.deleteIntermediateData:
+        return 'DELETE_INTERMEDIATE_DATA';
+    }
+  }
+}
+
+extension UpdateOpenZFSVolumeOptionFromString on String {
+  UpdateOpenZFSVolumeOption toUpdateOpenZFSVolumeOption() {
+    switch (this) {
+      case 'DELETE_INTERMEDIATE_SNAPSHOTS':
+        return UpdateOpenZFSVolumeOption.deleteIntermediateSnapshots;
+      case 'DELETE_CLONED_VOLUMES':
+        return UpdateOpenZFSVolumeOption.deleteClonedVolumes;
+      case 'DELETE_INTERMEDIATE_DATA':
+        return UpdateOpenZFSVolumeOption.deleteIntermediateData;
+    }
+    throw Exception('$this is not known in enum UpdateOpenZFSVolumeOption');
+  }
+}
+
+class UpdateSharedVpcConfigurationResponse {
+  /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ
+  /// file systems in shared subnets.
+  final String? enableFsxRouteTableUpdatesFromParticipantAccounts;
+
+  UpdateSharedVpcConfigurationResponse({
+    this.enableFsxRouteTableUpdatesFromParticipantAccounts,
+  });
+
+  factory UpdateSharedVpcConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSharedVpcConfigurationResponse(
+      enableFsxRouteTableUpdatesFromParticipantAccounts:
+          json['EnableFsxRouteTableUpdatesFromParticipantAccounts'] as String?,
+    );
+  }
+}
+
+/// Updates the SnapLock configuration for an existing FSx for ONTAP volume.
+class UpdateSnaplockConfiguration {
+  /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock
+  /// volume. The default value is <code>false</code>. If you set
+  /// <code>AuditLogVolume</code> to <code>true</code>, the SnapLock volume is
+  /// created as an audit log volume. The minimum retention period for an audit
+  /// log volume is six months.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-audit-log-volume">
+  /// SnapLock audit log volumes</a>.
+  final bool? auditLogVolume;
+
+  /// The configuration object for setting the autocommit period of files in an
+  /// FSx for ONTAP SnapLock volume.
+  final AutocommitPeriod? autocommitPeriod;
+
+  /// Enables, disables, or permanently disables privileged delete on an FSx for
+  /// ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock
+  /// administrators to delete write once, read many (WORM) files even if they
+  /// have active retention periods. <code>PERMANENTLY_DISABLED</code> is a
+  /// terminal state. If privileged delete is permanently disabled on a SnapLock
+  /// volume, you can't re-enable it. The default value is <code>DISABLED</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html#privileged-delete">Privileged
+  /// delete</a>.
+  final PrivilegedDelete? privilegedDelete;
+
+  /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
+  final SnaplockRetentionPeriod? retentionPeriod;
+
+  /// Enables or disables volume-append mode on an FSx for ONTAP SnapLock volume.
+  /// Volume-append mode allows you to create WORM-appendable files and write data
+  /// to them incrementally. The default value is <code>false</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-append">Volume-append
+  /// mode</a>.
+  final bool? volumeAppendModeEnabled;
+
+  UpdateSnaplockConfiguration({
+    this.auditLogVolume,
+    this.autocommitPeriod,
+    this.privilegedDelete,
+    this.retentionPeriod,
+    this.volumeAppendModeEnabled,
+  });
+
+  Map<String, dynamic> toJson() {
+    final auditLogVolume = this.auditLogVolume;
+    final autocommitPeriod = this.autocommitPeriod;
+    final privilegedDelete = this.privilegedDelete;
+    final retentionPeriod = this.retentionPeriod;
+    final volumeAppendModeEnabled = this.volumeAppendModeEnabled;
+    return {
+      if (auditLogVolume != null) 'AuditLogVolume': auditLogVolume,
+      if (autocommitPeriod != null) 'AutocommitPeriod': autocommitPeriod,
+      if (privilegedDelete != null)
+        'PrivilegedDelete': privilegedDelete.toValue(),
+      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (volumeAppendModeEnabled != null)
+        'VolumeAppendModeEnabled': volumeAppendModeEnabled,
+    };
+  }
+}
+
 class UpdateSnapshotResponse {
   /// Returned after a successful <code>UpdateSnapshot</code> operation,
   /// describing the snapshot that you updated.
@@ -11378,21 +13311,27 @@ class UpdateStorageVirtualMachineResponse {
   }
 }
 
-/// Updates the Microsoft Active Directory (AD) configuration of an SVM joined
-/// to an AD. Please note, account credentials are not returned in the response
-/// payload.
+/// Specifies updates to an FSx for ONTAP storage virtual machine's (SVM)
+/// Microsoft Active Directory (AD) configuration. Note that account credentials
+/// are not returned in the response payload.
 class UpdateSvmActiveDirectoryConfiguration {
+  /// Specifies an updated NetBIOS name of the AD computer object
+  /// <code>NetBiosName</code> to which an SVM is joined.
+  final String? netBiosName;
   final SelfManagedActiveDirectoryConfigurationUpdates?
       selfManagedActiveDirectoryConfiguration;
 
   UpdateSvmActiveDirectoryConfiguration({
+    this.netBiosName,
     this.selfManagedActiveDirectoryConfiguration,
   });
 
   Map<String, dynamic> toJson() {
+    final netBiosName = this.netBiosName;
     final selfManagedActiveDirectoryConfiguration =
         this.selfManagedActiveDirectoryConfiguration;
     return {
+      if (netBiosName != null) 'NetBiosName': netBiosName,
       if (selfManagedActiveDirectoryConfiguration != null)
         'SelfManagedActiveDirectoryConfiguration':
             selfManagedActiveDirectoryConfiguration,
@@ -11418,7 +13357,7 @@ class UpdateVolumeResponse {
   }
 }
 
-/// Describes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
+/// Describes an Amazon FSx volume.
 class Volume {
   /// A list of administrative actions for the volume that are in process or
   /// waiting to be processed. Administrative actions describe changes to the
@@ -11628,6 +13567,34 @@ extension VolumeLifecycleFromString on String {
   }
 }
 
+enum VolumeStyle {
+  flexvol,
+  flexgroup,
+}
+
+extension VolumeStyleValueExtension on VolumeStyle {
+  String toValue() {
+    switch (this) {
+      case VolumeStyle.flexvol:
+        return 'FLEXVOL';
+      case VolumeStyle.flexgroup:
+        return 'FLEXGROUP';
+    }
+  }
+}
+
+extension VolumeStyleFromString on String {
+  VolumeStyle toVolumeStyle() {
+    switch (this) {
+      case 'FLEXVOL':
+        return VolumeStyle.flexvol;
+      case 'FLEXGROUP':
+        return VolumeStyle.flexgroup;
+    }
+    throw Exception('$this is not known in enum VolumeStyle');
+  }
+}
+
 enum VolumeType {
   ontap,
   openzfs,
@@ -11749,7 +13716,7 @@ class WindowsAuditLogConfiguration {
   /// Kinesis Data Firehose delivery stream ARN.
   ///
   /// The name of the Amazon CloudWatch Logs log group must begin with the
-  /// <code>/aws/fsx</code> prefix. The name of the Amazon Kinesis Data Firehouse
+  /// <code>/aws/fsx</code> prefix. The name of the Amazon Kinesis Data Firehose
   /// delivery stream must begin with the <code>aws-fsx</code> prefix.
   ///
   /// The destination ARN (either CloudWatch Logs log group or Kinesis Data
@@ -11837,7 +13804,7 @@ class WindowsAuditLogCreateConfiguration {
   /// </li>
   /// <li>
   /// The name of the Amazon CloudWatch Logs log group must begin with the
-  /// <code>/aws/fsx</code> prefix. The name of the Amazon Kinesis Data Firehouse
+  /// <code>/aws/fsx</code> prefix. The name of the Amazon Kinesis Data Firehose
   /// delivery stream must begin with the <code>aws-fsx</code> prefix.
   /// </li>
   /// <li>
@@ -11962,6 +13929,13 @@ class WindowsFileSystemConfiguration {
   /// and Multi-AZ File Systems</a>.
   final WindowsDeploymentType? deploymentType;
 
+  /// The SSD IOPS (input/output operations per second) configuration for an
+  /// Amazon FSx for Windows file system. By default, Amazon FSx automatically
+  /// provisions 3 IOPS per GiB of storage capacity. You can provision additional
+  /// IOPS per GiB of storage, up to the maximum limit associated with your chosen
+  /// throughput capacity.
+  final DiskIopsConfiguration? diskIopsConfiguration;
+
   /// The list of maintenance operations in progress for this file system.
   final List<FileSystemMaintenanceOperation>? maintenanceOperationsInProgress;
 
@@ -12022,6 +13996,7 @@ class WindowsFileSystemConfiguration {
     this.copyTagsToBackups,
     this.dailyAutomaticBackupStartTime,
     this.deploymentType,
+    this.diskIopsConfiguration,
     this.maintenanceOperationsInProgress,
     this.preferredFileServerIp,
     this.preferredSubnetId,
@@ -12049,6 +14024,10 @@ class WindowsFileSystemConfiguration {
           json['DailyAutomaticBackupStartTime'] as String?,
       deploymentType:
           (json['DeploymentType'] as String?)?.toWindowsDeploymentType(),
+      diskIopsConfiguration: json['DiskIopsConfiguration'] != null
+          ? DiskIopsConfiguration.fromJson(
+              json['DiskIopsConfiguration'] as Map<String, dynamic>)
+          : null,
       maintenanceOperationsInProgress:
           (json['MaintenanceOperationsInProgress'] as List?)
               ?.whereNotNull()

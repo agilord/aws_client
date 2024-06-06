@@ -94,7 +94,7 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// made the request and when, and so on. For more about Organizations and its
 /// support for CloudTrail, see <a
 /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_incident-response.html#orgs_cloudtrail-integration">Logging
-/// Organizations Events with CloudTrail</a> in the <i>Organizations User
+/// Organizations API calls with CloudTrail</a> in the <i>Organizations User
 /// Guide</i>. To learn more about CloudTrail, including how to turn it on and
 /// find your log files, see the <a
 /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">CloudTrail
@@ -144,8 +144,8 @@ class Organizations {
   /// <code>iam:CreateServiceLinkedRole</code> permission so that Organizations
   /// can create the required service-linked role named
   /// <code>AWSServiceRoleForOrganizations</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integration_service-linked-roles">Organizations
-  /// and Service-Linked Roles</a> in the <i>Organizations User Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integrate_services-using_slrs">Organizations
+  /// and service-linked roles</a> in the <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// <b>Enable all features final confirmation</b> handshake: only a principal
@@ -154,11 +154,11 @@ class Organizations {
   /// For more information about invitations, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html">Inviting
   /// an Amazon Web Services account to join your organization</a> in the
-  /// <i>Organizations User Guide.</i> For more information about requests to
+  /// <i>Organizations User Guide</i>. For more information about requests to
   /// enable all features in the organization, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
   /// all features in your organization</a> in the <i>Organizations User
-  /// Guide.</i>
+  /// Guide</i>.
   /// </li>
   /// </ul>
   /// After you accept a handshake, it continues to appear in the results of
@@ -227,7 +227,8 @@ class Organizations {
   /// </li>
   /// </ul>
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -372,20 +373,19 @@ class Organizations {
   /// on using CloudTrail with Organizations, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration">Logging
   /// and monitoring in Organizations</a> in the <i>Organizations User
-  /// Guide.</i>
+  /// Guide</i>.
   /// </li>
   /// </ul> <note>
   /// <ul>
   /// <li>
-  /// You can close only 10% of member accounts, between 10 and 200, within a
+  /// You can close only 10% of member accounts, between 10 and 1000, within a
   /// rolling 30 day period. This quota is not bound by a calendar month, but
-  /// starts when you close an account.
-  ///
-  /// After you reach this limit, you can close additional accounts in the
-  /// Billing console. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/close-account.html">Closing
-  /// an account</a> in the Amazon Web Services Billing and Cost Management User
-  /// Guide.
+  /// starts when you close an account. After you reach this limit, you can
+  /// close additional accounts. For more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
+  /// a member account in your organization</a> and <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Quotas
+  /// for Organizations</a>in the <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// To reinstate a closed account, contact Amazon Web Services Support within
@@ -401,9 +401,6 @@ class Organizations {
   /// Web Services GovCloud User Guide</i>.
   /// </li>
   /// </ul> </note>
-  /// For more information about closing accounts, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
-  /// an Amazon Web Services account</a> in the <i>Organizations User Guide.</i>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountAlreadyClosedException].
@@ -459,7 +456,7 @@ class Organizations {
   /// For information on using CloudTrail with Organizations, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration">Logging
   /// and monitoring in Organizations</a> in the <i>Organizations User
-  /// Guide.</i>
+  /// Guide</i>.
   /// </li>
   /// </ul>
   /// The user who calls the API to create an account must have the
@@ -468,7 +465,7 @@ class Organizations {
   /// service-linked role named <code>AWSServiceRoleForOrganizations</code>. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">Organizations
-  /// and Service-Linked Roles</a> in the <i>Organizations User Guide</i>.
+  /// and service-linked roles</a> in the <i>Organizations User Guide</i>.
   ///
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
@@ -485,8 +482,8 @@ class Organizations {
   ///
   /// For more information about creating accounts, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
-  /// an Amazon Web Services account in Your Organization</a> in the
-  /// <i>Organizations User Guide.</i>
+  /// a member account in your organization</a> in the <i>Organizations User
+  /// Guide</i>.
   /// <important>
   /// <ul>
   /// <li>
@@ -495,10 +492,11 @@ class Organizations {
   /// operate as a standalone account, such as a payment method and signing the
   /// end user license agreement (EULA) is <i>not</i> automatically collected.
   /// If you must remove an account from your organization later, you can do so
-  /// only after you provide the missing information. Follow the steps at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-  /// To leave an organization as a member account</a> in the <i>Organizations
-  /// User Guide</i>.
+  /// only after you provide the missing information. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html">Considerations
+  /// before removing an account from an organization</a> in the
+  /// <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// If you get an exception that indicates that you exceeded your account
@@ -519,7 +517,8 @@ class Organizations {
   /// Management console, and you must be signed in as the root user. For
   /// information on the requirements and process for closing an account, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
-  /// an Amazon Web Services account</a> in the <i>Organizations User Guide</i>.
+  /// a member account in your organization</a> in the <i>Organizations User
+  /// Guide</i>.
   /// </li>
   /// </ul> </important> <note>
   /// When you create a member account with this operation, you can choose
@@ -529,8 +528,8 @@ class Organizations {
   /// the account. If you disable it, only the account root user can access
   /// billing information. For information about how to disable this switch for
   /// an account, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html">Granting
-  /// Access to Your Billing Information and Tools</a>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/control-access-billing.html#grantaccess">Granting
+  /// access to your billing information and tools</a>.
   /// </note>
   ///
   /// May throw [AccessDeniedException].
@@ -592,9 +591,9 @@ class Organizations {
   /// account billing information <i>if</i> they have the required permissions.
   /// If set to <code>DENY</code>, only the root user of the new account can
   /// access account billing information. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
-  /// Access to the Billing and Cost Management Console</a> in the <i>Amazon Web
-  /// Services Billing and Cost Management User Guide</i>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">About
+  /// IAM access to the Billing and Cost Management console</a> in the <i>Amazon
+  /// Web Services Billing and Cost Management User Guide</i>.
   ///
   /// If you don't specify this parameter, the value defaults to
   /// <code>ALLOW</code>, and IAM users and roles with the required permissions
@@ -616,15 +615,15 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Accessing
-  /// and Administering the Member Accounts in Your Organization</a> in the
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Creating
+  /// the OrganizationAccountAccessRole in an invited member account</a> in the
   /// <i>Organizations User Guide</i>
   /// </li>
   /// <li>
   /// Steps 2 and 3 in <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">Tutorial:
-  /// Delegate Access Across Amazon Web Services accounts Using IAM Roles</a> in
-  /// the <i>IAM User Guide</i>
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">IAM
+  /// Tutorial: Delegate access across Amazon Web Services accounts using IAM
+  /// roles</a> in the <i>IAM User Guide</i>
   /// </li>
   /// </ul>
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
@@ -700,7 +699,7 @@ class Organizations {
   /// Organizations automatically creates the required service-linked role named
   /// <code>AWSServiceRoleForOrganizations</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">Organizations
-  /// and Service-Linked Roles</a> in the <i>Organizations User Guide.</i>
+  /// and service-linked roles</a> in the <i>Organizations User Guide</i>.
   ///
   /// Amazon Web Services automatically enables CloudTrail for Amazon Web
   /// Services GovCloud (US) accounts, but you should also do the following:
@@ -733,7 +732,7 @@ class Organizations {
   /// information on inviting standalone accounts in the Amazon Web Services
   /// GovCloud (US) to join an organization, see <a
   /// href="https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">Organizations</a>
-  /// in the <i>Amazon Web Services GovCloud User Guide.</i>
+  /// in the <i>Amazon Web Services GovCloud User Guide</i>.
   ///
   /// Calling <code>CreateGovCloudAccount</code> is an asynchronous request that
   /// Amazon Web Services performs in the background. Because
@@ -752,9 +751,9 @@ class Organizations {
   /// <li>
   /// Check the CloudTrail log for the <code>CreateAccountResult</code> event.
   /// For information on using CloudTrail with Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
-  /// the Activity in Your Organization</a> in the <i>Organizations User
-  /// Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html">Logging
+  /// and monitoring in Organizations</a> in the <i>Organizations User
+  /// Guide</i>.
   /// </li>
   /// </ul> <p/>
   /// When you call the <code>CreateGovCloudAccount</code> action, you create
@@ -774,12 +773,12 @@ class Organizations {
   /// more information and to view a diagram that explains how account access
   /// works, see <a
   /// href="https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">Organizations</a>
-  /// in the <i>Amazon Web Services GovCloud User Guide.</i>
+  /// in the <i>Amazon Web Services GovCloud User Guide</i>.
   ///
   /// For more information about creating accounts, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
-  /// an Amazon Web Services account in Your Organization</a> in the
-  /// <i>Organizations User Guide.</i>
+  /// a member account in your organization</a> in the <i>Organizations User
+  /// Guide</i>.
   /// <important>
   /// <ul>
   /// <li>
@@ -788,11 +787,11 @@ class Organizations {
   /// operate as a standalone account is <i>not</i> automatically collected.
   /// This includes a payment method and signing the end user license agreement
   /// (EULA). If you must remove an account from your organization later, you
-  /// can do so only after you provide the missing information. Follow the steps
-  /// at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-  /// To leave an organization as a member account</a> in the <i>Organizations
-  /// User Guide.</i>
+  /// can do so only after you provide the missing information. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html">Considerations
+  /// before removing an account from an organization</a> in the
+  /// <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// If you get an exception that indicates that you exceeded your account
@@ -814,7 +813,8 @@ class Organizations {
   /// in as the root user. For information on the requirements and process for
   /// closing an account, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
-  /// an Amazon Web Services account</a> in the <i>Organizations User Guide</i>.
+  /// a member account in your organization</a> in the <i>Organizations User
+  /// Guide</i>.
   /// </li>
   /// </ul> </important> <note>
   /// When you create a member account with this operation, you can choose
@@ -825,7 +825,7 @@ class Organizations {
   /// billing information. For information about how to disable this switch for
   /// an account, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html">Granting
-  /// Access to Your Billing Information and Tools</a>.
+  /// access to your billing information and tools</a>.
   /// </note>
   ///
   /// May throw [AccessDeniedException].
@@ -894,9 +894,9 @@ class Organizations {
   /// they have the required permissions. If set to <code>DENY</code>, only the
   /// root user of the new account can access account billing information. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
-  /// Access to the Billing and Cost Management Console</a> in the <i>Amazon Web
-  /// Services Billing and Cost Management User Guide.</i>
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">About
+  /// IAM access to the Billing and Cost Management console</a> in the <i>Amazon
+  /// Web Services Billing and Cost Management User Guide</i>.
   ///
   /// If you don't specify this parameter, the value defaults to
   /// <code>ALLOW</code>, and IAM users and roles with the required permissions
@@ -916,14 +916,22 @@ class Organizations {
   /// <code>OrganizationAccountAccessRole</code>.
   ///
   /// For more information about how to use this role to access the member
-  /// account, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Accessing
-  /// and Administering the Member Accounts in Your Organization</a> in the
-  /// <i>Organizations User Guide</i> and steps 2 and 3 in <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">Tutorial:
-  /// Delegate Access Across Amazon Web Services accounts Using IAM Roles</a> in
-  /// the <i>IAM User Guide.</i>
+  /// account, see the following links:
   ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Creating
+  /// the OrganizationAccountAccessRole in an invited member account</a> in the
+  /// <i>Organizations User Guide</i>
+  /// </li>
+  /// <li>
+  /// Steps 2 and 3 in <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">IAM
+  /// Tutorial: Delegate access across Amazon Web Services accounts using IAM
+  /// roles</a> in the <i>IAM User Guide</i>
+  /// </li>
+  /// </ul>
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
   /// used to validate this parameter. The pattern can include uppercase
   /// letters, lowercase letters, digits with no spaces, and any of the
@@ -991,8 +999,8 @@ class Organizations {
   /// enabled and service control policies automatically enabled in the root. If
   /// you instead choose to create the organization supporting only the
   /// consolidated billing features by setting the <code>FeatureSet</code>
-  /// parameter to <code>CONSOLIDATED_BILLING"</code>, no policy types are
-  /// enabled by default, and you can't use organization policies
+  /// parameter to <code>CONSOLIDATED_BILLING</code>, no policy types are
+  /// enabled by default and you can't use organization policies.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AlreadyInOrganizationException].
@@ -1013,7 +1021,7 @@ class Organizations {
   /// consolidated to and paid by the management account. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-cb-only">Consolidated
-  /// billing</a> in the <i>Organizations User Guide.</i>
+  /// billing</a> in the <i>Organizations User Guide</i>.
   ///
   /// The consolidated billing feature subset isn't available for organizations
   /// in the Amazon Web Services GovCloud (US) Region.
@@ -1024,7 +1032,7 @@ class Organizations {
   /// any policy type to any member account in the organization. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-all">All
-  /// features</a> in the <i>Organizations User Guide.</i>
+  /// features</a> in the <i>Organizations User Guide</i>.
   /// </li>
   /// </ul>
   Future<CreateOrganizationResponse> createOrganization({
@@ -1056,7 +1064,7 @@ class Organizations {
   ///
   /// For more information about OUs, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
-  /// Organizational Units</a> in the <i>Organizations User Guide.</i>
+  /// organizational units (OUs)</a> in the <i>Organizations User Guide</i>.
   ///
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
@@ -1138,13 +1146,14 @@ class Organizations {
   ///
   /// For more information about policies and their use, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html">Managing
-  /// Organization Policies</a>.
+  /// Organizations policies</a>.
   ///
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
   ///
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1162,6 +1171,11 @@ class Organizations {
   /// The policy text content to add to the new policy. The text that you supply
   /// must adhere to the rules of the policy type you specify in the
   /// <code>Type</code> parameter.
+  ///
+  /// The maximum size of a policy document depends on the policy's type. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values">Maximum
+  /// and minimum values</a> in the <i>Organizations User Guide</i>.
   ///
   /// Parameter [description] :
   /// An optional description to assign to the policy.
@@ -1359,7 +1373,8 @@ class Organizations {
   /// units (OUs), roots, and accounts.
   ///
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1585,12 +1600,10 @@ class Organizations {
   /// control policies (SCPs).
   ///
   /// For more information about policy inheritance, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies-inheritance.html">How
-  /// Policy Inheritance Works</a> in the <i>Organizations User Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html">Understanding
+  /// management policy inheritance</a> in the <i>Organizations User Guide</i>.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// This operation can be called from any account in the organization.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1815,7 +1828,7 @@ class Organizations {
 
   /// Retrieves information about a resource policy.
   ///
-  /// You can only call this operation from the organization's management
+  /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
   /// Amazon Web Services service.
   ///
@@ -1864,7 +1877,8 @@ class Organizations {
   /// list</a>".
   ///
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1996,9 +2010,9 @@ class Organizations {
   ///
   /// For more information about integrating other services with Organizations,
   /// including the list of services that work with Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-  /// Organizations with Other Amazon Web Services Services</a> in the
-  /// <i>Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Using
+  /// Organizations with other Amazon Web Services services</a> in the
+  /// <i>Organizations User Guide</i>.
   ///
   /// This operation can be called only from the organization's management
   /// account.
@@ -2052,7 +2066,8 @@ class Organizations {
   /// types for a specified root, and then use this operation.
   ///
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// To view the status of available policy types in the organization, use
   /// <a>DescribeOrganization</a>.
@@ -2141,9 +2156,9 @@ class Organizations {
   /// </important>
   /// For more information about enabling services to integrate with
   /// Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-  /// Organizations with Other Amazon Web Services Services</a> in the
-  /// <i>Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Using
+  /// Organizations with other Amazon Web Services services</a> in the
+  /// <i>Organizations User Guide</i>.
   ///
   /// You can only call this operation from the organization's management
   /// account and only if the organization has <a
@@ -2190,8 +2205,8 @@ class Organizations {
   /// account administration features that Organizations supports. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-  /// All Features in Your Organization</a> in the <i>Organizations User
-  /// Guide.</i>
+  /// all features in your organization</a> in the <i>Organizations User
+  /// Guide</i>.
   /// <important>
   /// This operation is required only for organizations that were created
   /// explicitly with only the consolidated billing features enabled. Calling
@@ -2253,7 +2268,8 @@ class Organizations {
   /// and then use this operation.
   ///
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// You can enable a policy type in a root only if that policy type is
   /// available in the organization. To view the status of available policy
@@ -2339,8 +2355,8 @@ class Organizations {
   /// accounts to your organization. You can't combine accounts from AISPL and
   /// Amazon Web Services or from any other Amazon Web Services seller. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilliing-India.html">Consolidated
-  /// Billing in India</a>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-India.html">Consolidated
+  /// billing in India</a>.
   /// </li>
   /// <li>
   /// If you receive an exception that indicates that you exceeded your account
@@ -2477,10 +2493,10 @@ class Organizations {
   /// </ul>
   /// Amazon Web Services uses the payment method to charge for any billable
   /// (not free tier) Amazon Web Services activity that occurs while the account
-  /// isn't attached to an organization. Follow the steps at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-  /// To leave an organization when all required account information has not yet
-  /// been provided</a> in the <i>Organizations User Guide.</i>
+  /// isn't attached to an organization. For more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html">Considerations
+  /// before removing an account from an organization</a> in the
+  /// <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// The account that you want to leave must not be a delegated administrator
@@ -2492,9 +2508,9 @@ class Organizations {
   /// <li>
   /// You can leave an organization only after you enable IAM user access to
   /// billing in your account. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
-  /// Access to the Billing and Cost Management Console</a> in the <i>Amazon Web
-  /// Services Billing and Cost Management User Guide.</i>
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">About
+  /// IAM access to the Billing and Cost Management console</a> in the <i>Amazon
+  /// Web Services Billing and Cost Management User Guide</i>.
   /// </li>
   /// <li>
   /// After the account leaves the organization, all tags that were attached to
@@ -2505,6 +2521,11 @@ class Organizations {
   /// A newly created account has a waiting period before it can be removed from
   /// its organization. If you get an error that indicates that a wait period is
   /// required, then try again in a few days.
+  /// </li>
+  /// <li>
+  /// If you are using an organization principal to call
+  /// <code>LeaveOrganization</code> across multiple accounts, you can only do
+  /// this up to 5 accounts per second in a single organization.
   /// </li>
   /// </ul> </important>
   ///
@@ -2539,9 +2560,9 @@ class Organizations {
   /// For more information about integrating other services with Organizations,
   /// including the list of services that currently work with Organizations, see
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-  /// Organizations with Other Amazon Web Services Services</a> in the
-  /// <i>Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Using
+  /// Organizations with other Amazon Web Services services</a> in the
+  /// <i>Organizations User Guide</i>.
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
@@ -3985,8 +4006,8 @@ class Organizations {
   /// If provided, the new content for the resource policy. The text must be
   /// correctly formatted JSON that complies with the syntax for the resource
   /// policy's type. For more information, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
-  /// Control Policy Syntax</a> in the <i>Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html">SCP
+  /// syntax</a> in the <i>Organizations User Guide</i>.
   ///
   /// Parameter [tags] :
   /// A list of tags that you want to attach to the newly created resource
@@ -4096,17 +4117,11 @@ class Organizations {
   /// configured with the information required to operate as a standalone
   /// account. When you create an account in an organization using the
   /// Organizations console, API, or CLI commands, the information required of
-  /// standalone accounts is <i>not</i> automatically collected. For an account
-  /// that you want to make standalone, you must choose a support plan, provide
-  /// and verify the required contact information, and provide a current payment
-  /// method. Amazon Web Services uses the payment method to charge for any
-  /// billable (not free tier) Amazon Web Services activity that occurs while
-  /// the account isn't attached to an organization. To remove an account that
-  /// doesn't yet have this information, you must sign in as the member account
-  /// and follow the steps at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-  /// To leave an organization when all required account information has not yet
-  /// been provided</a> in the <i>Organizations User Guide.</i>
+  /// standalone accounts is <i>not</i> automatically collected. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html">Considerations
+  /// before removing an account from an organization</a> in the
+  /// <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// The account that you want to leave must not be a delegated administrator
@@ -4177,7 +4192,8 @@ class Organizations {
   /// </li>
   /// </ul>
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
@@ -4260,7 +4276,8 @@ class Organizations {
   /// </li>
   /// </ul>
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
@@ -4377,7 +4394,8 @@ class Organizations {
   /// change a policy's type.
   ///
   /// This operation can be called only from the organization's management
-  /// account.
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -4403,8 +4421,13 @@ class Organizations {
   /// If provided, the new content for the policy. The text must be correctly
   /// formatted JSON that complies with the syntax for the policy's type. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
-  /// Control Policy Syntax</a> in the <i>Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html">SCP
+  /// syntax</a> in the <i>Organizations User Guide</i>.
+  ///
+  /// The maximum size of a policy document depends on the policy's type. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values">Maximum
+  /// and minimum values</a> in the <i>Organizations User Guide</i>.
   ///
   /// Parameter [description] :
   /// If provided, the new description for the policy.
@@ -4807,9 +4830,8 @@ class CreateAccountResponse {
   /// <a>DescribeCreateAccountStatus</a> to get status about the progress of the
   /// request at later times. You can also check the CloudTrail log for the
   /// <code>CreateAccountResult</code> event. For more information, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
-  /// the Activity in Your Organization</a> in the <i>Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html">Logging
+  /// and monitoring in Organizations</a> in the <i>Organizations User Guide</i>.
   final CreateAccountStatus? createAccountStatus;
 
   CreateAccountResponse({
@@ -6373,7 +6395,7 @@ class Organization {
   /// consolidated billing functionality is available. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-  /// All Features in Your Organization</a> in the <i>Organizations User
+  /// all features in your organization</a> in the <i>Organizations User
   /// Guide</i>.
   final OrganizationFeatureSet? featureSet;
 
@@ -6470,7 +6492,8 @@ class OrganizationalUnit {
   /// Authorization Reference</i>.
   final String? arn;
 
-  /// The unique identifier (ID) associated with this OU.
+  /// The unique identifier (ID) associated with this OU. The ID is unique to the
+  /// organization only.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// organizational unit ID string requires "ou-" followed by from 4 to 32
@@ -6882,7 +6905,8 @@ class Root {
   /// Authorization Reference</i>.
   final String? arn;
 
-  /// The unique identifier (ID) for the root.
+  /// The unique identifier (ID) for the root. The ID is unique to the
+  /// organization only.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
   /// ID string requires "r-" followed by from 4 to 32 lowercase letters or

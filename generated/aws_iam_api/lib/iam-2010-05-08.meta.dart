@@ -133,6 +133,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "BootstrapDatum": {"type": "blob", "flattened": false},
+  "CertificationKeyType": {"type": "string", "flattened": false},
+  "CertificationMapType": {
+    "type": "map",
+    "key": {"shape": "CertificationKeyType"},
+    "value": {"shape": "CertificationValueType"},
+    "flattened": false
+  },
+  "CertificationValueType": {"type": "string", "flattened": false},
   "ChangePasswordRequest": {
     "type": "structure",
     "members": {
@@ -921,6 +929,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "LoginProfile": {"shape": "LoginProfile", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetMFADeviceRequest": {
+    "type": "structure",
+    "members": {
+      "SerialNumber": {"shape": "serialNumberType", "flattened": false},
+      "UserName": {"shape": "userNameType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetMFADeviceResponse": {
+    "type": "structure",
+    "members": {
+      "UserName": {"shape": "userNameType", "flattened": false},
+      "SerialNumber": {"shape": "serialNumberType", "flattened": false},
+      "EnableDate": {"shape": "dateType", "flattened": false},
+      "Certifications": {"shape": "CertificationMapType", "flattened": false}
     },
     "flattened": false
   },

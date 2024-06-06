@@ -425,7 +425,15 @@ class CloudWatch {
   /// Parameter [alarmTypes] :
   /// Use this parameter to specify whether you want the operation to return
   /// metric alarms or composite alarms. If you omit this parameter, only metric
-  /// alarms are returned.
+  /// alarms are returned, even if composite alarms exist in the account.
+  ///
+  /// For example, if you omit this parameter or specify
+  /// <code>MetricAlarms</code>, the operation returns only a list of metric
+  /// alarms. It does not return any composite alarms, even if composite alarms
+  /// exist in the account.
+  ///
+  /// If you specify <code>CompositeAlarms</code>, the operation returns only a
+  /// list of composite alarms, and does not return any metric alarms.
   ///
   /// Parameter [childrenOfAlarmName] :
   /// If you use this parameter and specify the name of a composite alarm, the
@@ -954,7 +962,7 @@ class CloudWatch {
   ///
   /// Parameter [orderBy] :
   /// Determines what statistic to use to rank the contributors. Valid values
-  /// are SUM and MAXIMUM.
+  /// are <code>Sum</code> and <code>Maximum</code>.
   Future<GetInsightRuleReportOutput> getInsightRuleReport({
     required DateTime endTime,
     required int period,
@@ -1149,6 +1157,9 @@ class CloudWatch {
   /// paginates when the <code>MaxDatapoints</code> limit is reached.
   /// <code>TimestampAscending</code> returns the oldest data first and
   /// paginates when the <code>MaxDatapoints</code> limit is reached.
+  ///
+  /// If you omit this parameter, the default of
+  /// <code>TimestampDescending</code> is used.
   Future<GetMetricDataOutput> getMetricData({
     required DateTime endTime,
     required List<MetricDataQuery> metricDataQueries,
@@ -1774,7 +1785,7 @@ class CloudWatch {
   /// </code>
   ///
   /// The ARN format of a Contributor Insights rule is
-  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule/<i>insight-rule-name</i>
   /// </code>
   ///
   /// For more information about ARN format, see <a
@@ -1804,6 +1815,11 @@ class CloudWatch {
   /// the model to display a band of expected normal values when the metric is
   /// graphed.
   ///
+  /// If you have enabled unified cross-account observability, and this account
+  /// is a monitoring account, the metric can be in the same account or a source
+  /// account. You can specify the account ID in the object you specify in the
+  /// <code>SingleMetricAnomalyDetector</code> parameter.
+  ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Anomaly_Detection.html">CloudWatch
   /// Anomaly Detection</a>.
@@ -1823,6 +1839,11 @@ class CloudWatch {
   ///
   /// Parameter [dimensions] :
   /// The metric dimensions to create the anomaly detection model for.
+  ///
+  /// Parameter [metricCharacteristics] :
+  /// Use this object to include parameters to provide information about your
+  /// metric to CloudWatch to help it build more accurate anomaly detection
+  /// models. Currently, it includes the <code>PeriodicSpikes</code> parameter.
   ///
   /// Parameter [metricMathAnomalyDetector] :
   /// The metric math anomaly detector to be created.
@@ -1877,7 +1898,7 @@ class CloudWatch {
   /// <code>Stat</code>
   /// </li>
   /// <li>
-  /// the <code>MetricMatchAnomalyDetector</code> parameters of
+  /// the <code>MetricMathAnomalyDetector</code> parameters of
   /// <code>PutAnomalyDetectorInput</code>
   /// </li>
   /// </ul>
@@ -1889,6 +1910,7 @@ class CloudWatch {
   Future<void> putAnomalyDetector({
     AnomalyDetectorConfiguration? configuration,
     List<Dimension>? dimensions,
+    MetricCharacteristics? metricCharacteristics,
     MetricMathAnomalyDetector? metricMathAnomalyDetector,
     String? metricName,
     String? namespace,
@@ -1898,6 +1920,8 @@ class CloudWatch {
     final $request = <String, dynamic>{};
     configuration?.also((arg) => $request['Configuration'] = arg);
     dimensions?.also((arg) => $request['Dimensions'] = arg);
+    metricCharacteristics
+        ?.also((arg) => $request['MetricCharacteristics'] = arg);
     metricMathAnomalyDetector
         ?.also((arg) => $request['MetricMathAnomalyDetector'] = arg);
     metricName?.also((arg) => $request['MetricName'] = arg);
@@ -1935,9 +1959,22 @@ class CloudWatch {
   /// that goes into ALARM state only when more than one of the underlying
   /// metric alarms are in ALARM state.
   ///
-  /// Currently, the only alarm actions that can be taken by composite alarms
-  /// are notifying SNS topics.
-  /// <note>
+  /// Composite alarms can take the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Notify Amazon SNS topics.
+  /// </li>
+  /// <li>
+  /// Invoke Lambda functions.
+  /// </li>
+  /// <li>
+  /// Create OpsItems in Systems Manager Ops Center.
+  /// </li>
+  /// <li>
+  /// Create incidents in Systems Manager Incident Manager.
+  /// </li>
+  /// </ul> <note>
   /// It is possible to create a loop or cycle of composite alarms, where
   /// composite alarm A depends on composite alarm B, and composite alarm B also
   /// depends on composite alarm A. In this scenario, you can't delete any
@@ -2079,9 +2116,34 @@ class CloudWatch {
   /// <code>ALARM</code> state from any other state. Each action is specified as
   /// an Amazon Resource Name (ARN).
   ///
-  /// Valid Values:
+  /// Valid Values: ]
+  ///
+  /// <b>Amazon SNS actions:</b>
+  ///
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
-  /// </code> |
+  /// </code>
+  ///
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  /// <b>Systems Manager actions:</b>
+  ///
   /// <code>arn:aws:ssm:<i>region</i>:<i>account-id</i>:opsitem:<i>severity</i>
   /// </code>
   ///
@@ -2093,26 +2155,81 @@ class CloudWatch {
   /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
   /// specified as an Amazon Resource Name (ARN).
   ///
-  /// Valid Values:
+  /// Valid Values: ]
+  ///
+  /// <b>Amazon SNS actions:</b>
+  ///
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code>
+  ///
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [oKActions] :
   /// The actions to execute when this alarm transitions to an <code>OK</code>
   /// state from any other state. Each action is specified as an Amazon Resource
   /// Name (ARN).
   ///
-  /// Valid Values:
+  /// Valid Values: ]
+  ///
+  /// <b>Amazon SNS actions:</b>
+  ///
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code>
   ///
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tags] :
-  /// A list of key-value pairs to associate with the composite alarm. You can
-  /// associate as many as 50 tags with an alarm.
+  /// A list of key-value pairs to associate with the alarm. You can associate
+  /// as many as 50 tags with an alarm. To be able to associate tags with the
+  /// alarm when you create the alarm, you must have the
+  /// <code>cloudwatch:TagResource</code> permission.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
-  /// them to scope user permissions, by granting a user permission to access or
+  /// them to scope user permissions by granting a user permission to access or
   /// change only resources with certain tag values.
+  ///
+  /// If you are using this operation to update an existing alarm, any tags you
+  /// specify in this parameter are ignored. To change the tags of an existing
+  /// alarm, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html">UntagResource</a>.
   Future<void> putCompositeAlarm({
     required String alarmName,
     required String alarmRule,
@@ -2458,11 +2575,30 @@ class CloudWatch {
   /// </code>
   /// </li>
   /// </ul>
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
   /// <b>SNS notification action:</b>
   ///
   /// <ul>
   /// <li>
-  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code>
   /// </li>
   /// </ul>
@@ -2505,11 +2641,56 @@ class CloudWatch {
   /// Valid Values: <code>evaluate | ignore</code>
   ///
   /// Parameter [extendedStatistic] :
-  /// The percentile statistic for the metric specified in
-  /// <code>MetricName</code>. Specify a value between p0.0 and p100. When you
-  /// call <code>PutMetricAlarm</code> and specify a <code>MetricName</code>,
-  /// you must specify either <code>Statistic</code> or
-  /// <code>ExtendedStatistic,</code> but not both.
+  /// The extended statistic for the metric specified in
+  /// <code>MetricName</code>. When you call <code>PutMetricAlarm</code> and
+  /// specify a <code>MetricName</code>, you must specify either
+  /// <code>Statistic</code> or <code>ExtendedStatistic</code> but not both.
+  ///
+  /// If you specify <code>ExtendedStatistic</code>, the following are valid
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>p90</code>
+  /// </li>
+  /// <li>
+  /// <code>tm90</code>
+  /// </li>
+  /// <li>
+  /// <code>tc90</code>
+  /// </li>
+  /// <li>
+  /// <code>ts90</code>
+  /// </li>
+  /// <li>
+  /// <code>wm90</code>
+  /// </li>
+  /// <li>
+  /// <code>IQM</code>
+  /// </li>
+  /// <li>
+  /// <code>PR(<i>n</i>:<i>m</i>)</code> where n and m are values of the metric
+  /// </li>
+  /// <li>
+  /// <code>TC(<i>X</i>%:<i>X</i>%)</code> where X is between 10 and 90
+  /// inclusive.
+  /// </li>
+  /// <li>
+  /// <code>TM(<i>X</i>%:<i>X</i>%)</code> where X is between 10 and 90
+  /// inclusive.
+  /// </li>
+  /// <li>
+  /// <code>TS(<i>X</i>%:<i>X</i>%)</code> where X is between 10 and 90
+  /// inclusive.
+  /// </li>
+  /// <li>
+  /// <code>WM(<i>X</i>%:<i>X</i>%)</code> where X is between 10 and 90
+  /// inclusive.
+  /// </li>
+  /// </ul>
+  /// For more information about these extended statistics, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html">CloudWatch
+  /// statistics definitions</a>.
   ///
   /// Parameter [insufficientDataActions] :
   /// The actions to execute when this alarm transitions to the
@@ -2552,11 +2733,30 @@ class CloudWatch {
   /// </code>
   /// </li>
   /// </ul>
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
   /// <b>SNS notification action:</b>
   ///
   /// <ul>
   /// <li>
-  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code>
   /// </li>
   /// </ul>
@@ -2579,10 +2779,11 @@ class CloudWatch {
   /// <code>MetricName</code> or a <code>Metrics</code> array.
   ///
   /// If you are creating an alarm based on a math expression, you cannot
-  /// specify this parameter, or any of the <code>Dimensions</code>,
-  /// <code>Period</code>, <code>Namespace</code>, <code>Statistic</code>, or
-  /// <code>ExtendedStatistic</code> parameters. Instead, you specify all this
-  /// information in the <code>Metrics</code> array.
+  /// specify this parameter, or any of the <code>Namespace</code>,
+  /// <code>Dimensions</code>, <code>Period</code>, <code>Unit</code>,
+  /// <code>Statistic</code>, or <code>ExtendedStatistic</code> parameters.
+  /// Instead, you specify all this information in the <code>Metrics</code>
+  /// array.
   ///
   /// Parameter [metrics] :
   /// An array of <code>MetricDataQuery</code> structures that enable you to
@@ -2600,8 +2801,8 @@ class CloudWatch {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html">MetricDataQuery</a>.
   ///
   /// If you use the <code>Metrics</code> parameter, you cannot include the
-  /// <code>MetricName</code>, <code>Dimensions</code>, <code>Period</code>,
-  /// <code>Namespace</code>, <code>Statistic</code>, or
+  /// <code>Namespace</code>, <code>MetricName</code>, <code>Dimensions</code>,
+  /// <code>Period</code>, <code>Unit</code>, <code>Statistic</code>, or
   /// <code>ExtendedStatistic</code> parameters of <code>PutMetricAlarm</code>
   /// in the same operation. Instead, you retrieve the metrics you are using in
   /// your math expression as part of the <code>Metrics</code> array.
@@ -2651,11 +2852,30 @@ class CloudWatch {
   /// </code>
   /// </li>
   /// </ul>
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
   /// <b>SNS notification action:</b>
   ///
   /// <ul>
   /// <li>
-  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code>
   /// </li>
   /// </ul>
@@ -2707,7 +2927,9 @@ class CloudWatch {
   ///
   /// Parameter [tags] :
   /// A list of key-value pairs to associate with the alarm. You can associate
-  /// as many as 50 tags with an alarm.
+  /// as many as 50 tags with an alarm. To be able to associate tags with the
+  /// alarm when you create the alarm, you must have the
+  /// <code>cloudwatch:TagResource</code> permission.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
   /// them to scope user permissions by granting a user permission to access or
@@ -2757,7 +2979,10 @@ class CloudWatch {
   /// of bytes that an instance receives on all network interfaces. You can also
   /// specify a unit when you create a custom metric. Units help provide
   /// conceptual meaning to your data. Metric data points that specify a unit of
-  /// measure, such as Percent, are aggregated separately.
+  /// measure, such as Percent, are aggregated separately. If you are creating
+  /// an alarm based on a metric math expression, you can specify the unit for
+  /// each metric (if needed) within the objects in the <code>Metrics</code>
+  /// array.
   ///
   /// If you don't specify <code>Unit</code>, CloudWatch retrieves all unit
   /// types that have been published for the metric and attempts to evaluate the
@@ -2861,7 +3086,7 @@ class CloudWatch {
   /// You can publish either individual data points in the <code>Value</code>
   /// field, or arrays of values and the number of times each value occurred
   /// during the period by using the <code>Values</code> and <code>Counts</code>
-  /// fields in the <code>MetricDatum</code> structure. Using the
+  /// fields in the <code>MetricData</code> structure. Using the
   /// <code>Values</code> and <code>Counts</code> method enables you to publish
   /// up to 150 values per metric with one <code>PutMetricData</code> request,
   /// and supports retrieving percentile statistics on this data.
@@ -3016,9 +3241,9 @@ class CloudWatch {
   /// Valid characters are A-Z, a-z, 0-9, "-" and "_".
   ///
   /// Parameter [outputFormat] :
-  /// The output format for the stream. Valid values are <code>json</code> and
-  /// <code>opentelemetry0.7</code>. For more information about metric stream
-  /// output formats, see <a
+  /// The output format for the stream. Valid values are <code>json</code>,
+  /// <code>opentelemetry1.0</code>, and <code>opentelemetry0.7</code>. For more
+  /// information about metric stream output formats, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html">
   /// Metric streams output formats</a>.
   ///
@@ -3071,8 +3296,8 @@ class CloudWatch {
   /// supported by CloudWatch, listed in <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
   /// CloudWatch statistics definitions</a>. If the <code>OutputFormat</code> is
-  /// <code>opentelemetry0.7</code>, you can stream percentile statistics such
-  /// as p95, p99.9, and so on.
+  /// <code>opentelemetry1.0</code> or <code>opentelemetry0.7</code>, you can
+  /// stream percentile statistics such as p95, p99.9, and so on.
   ///
   /// Parameter [tags] :
   /// A list of key-value pairs to associate with the metric stream. You can
@@ -3280,7 +3505,7 @@ class CloudWatch {
   /// </code>
   ///
   /// The ARN format of a Contributor Insights rule is
-  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule/<i>insight-rule-name</i>
   /// </code>
   ///
   /// For more information about ARN format, see <a
@@ -3325,7 +3550,7 @@ class CloudWatch {
   /// </code>
   ///
   /// The ARN format of a Contributor Insights rule is
-  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule/<i>insight-rule-name</i>
   /// </code>
   ///
   /// For more information about ARN format, see <a
@@ -3479,6 +3704,10 @@ extension AlarmTypeFromString on String {
 /// An anomaly detection model associated with a particular CloudWatch metric,
 /// statistic, or metric math expression. You can use the model to display a
 /// band of expected, normal values when the metric is graphed.
+///
+/// If you have enabled unified cross-account observability, and this account is
+/// a monitoring account, the metric can be in the same account or a source
+/// account.
 class AnomalyDetector {
   /// The configuration specifies details about how the anomaly detection model is
   /// to be trained, including time ranges to exclude from use for training the
@@ -3487,6 +3716,12 @@ class AnomalyDetector {
 
   /// The metric dimensions associated with the anomaly detection model.
   final List<Dimension>? dimensions;
+
+  /// This object includes parameters that you can use to provide information
+  /// about your metric to CloudWatch to help it build more accurate anomaly
+  /// detection models. Currently, it includes the <code>PeriodicSpikes</code>
+  /// parameter.
+  final MetricCharacteristics? metricCharacteristics;
 
   /// The CloudWatch metric math expression for this anomaly detector.
   final MetricMathAnomalyDetector? metricMathAnomalyDetector;
@@ -3503,13 +3738,13 @@ class AnomalyDetector {
   /// The statistic associated with the anomaly detection model.
   final String? stat;
 
-  /// The current status of the anomaly detector's training. The possible values
-  /// are <code>TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA</code>
+  /// The current status of the anomaly detector's training.
   final AnomalyDetectorStateValue? stateValue;
 
   AnomalyDetector({
     this.configuration,
     this.dimensions,
+    this.metricCharacteristics,
     this.metricMathAnomalyDetector,
     this.metricName,
     this.namespace,
@@ -3524,6 +3759,9 @@ class AnomalyDetector {
           ?.let(AnomalyDetectorConfiguration.fromXml),
       dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
           elem.findElements('member').map(Dimension.fromXml).toList()),
+      metricCharacteristics: _s
+          .extractXmlChild(elem, 'MetricCharacteristics')
+          ?.let(MetricCharacteristics.fromXml),
       metricMathAnomalyDetector: _s
           .extractXmlChild(elem, 'MetricMathAnomalyDetector')
           ?.let(MetricMathAnomalyDetector.fromXml),
@@ -3542,6 +3780,7 @@ class AnomalyDetector {
   Map<String, dynamic> toJson() {
     final configuration = this.configuration;
     final dimensions = this.dimensions;
+    final metricCharacteristics = this.metricCharacteristics;
     final metricMathAnomalyDetector = this.metricMathAnomalyDetector;
     final metricName = this.metricName;
     final namespace = this.namespace;
@@ -3551,6 +3790,8 @@ class AnomalyDetector {
     return {
       if (configuration != null) 'Configuration': configuration,
       if (dimensions != null) 'Dimensions': dimensions,
+      if (metricCharacteristics != null)
+        'MetricCharacteristics': metricCharacteristics,
       if (metricMathAnomalyDetector != null)
         'MetricMathAnomalyDetector': metricMathAnomalyDetector,
       if (metricName != null) 'MetricName': metricName,
@@ -4651,9 +4892,9 @@ class GetMetricStreamOutput {
   /// The name of the metric stream.
   final String? name;
 
-  /// The output format for the stream. Valid values are <code>json</code> and
-  /// <code>opentelemetry0.7</code>. For more information about metric stream
-  /// output formats, see <a
+  /// The output format for the stream. Valid values are <code>json</code>,
+  /// <code>opentelemetry1.0</code>, and <code>opentelemetry0.7</code>. For more
+  /// information about metric stream output formats, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html">Metric
   /// streams output formats</a>.
   final MetricStreamOutputFormat? outputFormat;
@@ -5705,6 +5946,33 @@ class MetricAlarm {
   }
 }
 
+/// This object includes parameters that you can use to provide information to
+/// CloudWatch to help it build more accurate anomaly detection models.
+class MetricCharacteristics {
+  /// Set this parameter to <code>true</code> if values for this metric
+  /// consistently include spikes that should not be considered to be anomalies.
+  /// With this set to <code>true</code>, CloudWatch will expect to see spikes
+  /// that occurred consistently during the model training period, and won't flag
+  /// future similar spikes as anomalies.
+  final bool? periodicSpikes;
+
+  MetricCharacteristics({
+    this.periodicSpikes,
+  });
+  factory MetricCharacteristics.fromXml(_s.XmlElement elem) {
+    return MetricCharacteristics(
+      periodicSpikes: _s.extractXmlBoolValue(elem, 'PeriodicSpikes'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final periodicSpikes = this.periodicSpikes;
+    return {
+      if (periodicSpikes != null) 'PeriodicSpikes': periodicSpikes,
+    };
+  }
+}
+
 /// This structure is used in both <code>GetMetricData</code> and
 /// <code>PutMetricAlarm</code>. The supported use of this structure is
 /// different for those two operations.
@@ -6168,8 +6436,8 @@ class MetricStreamEntry {
   /// The name of the metric stream.
   final String? name;
 
-  /// The output format of this metric stream. Valid values are <code>json</code>
-  /// and <code>opentelemetry0.7</code>.
+  /// The output format of this metric stream. Valid values are <code>json</code>,
+  /// <code>opentelemetry1.0</code>, and <code>opentelemetry0.7</code>.
   final MetricStreamOutputFormat? outputFormat;
 
   /// The current state of this stream. Valid values are <code>running</code> and
@@ -6272,6 +6540,7 @@ class MetricStreamFilter {
 enum MetricStreamOutputFormat {
   json,
   opentelemetry0_7,
+  opentelemetry1_0,
 }
 
 extension MetricStreamOutputFormatValueExtension on MetricStreamOutputFormat {
@@ -6281,6 +6550,8 @@ extension MetricStreamOutputFormatValueExtension on MetricStreamOutputFormat {
         return 'json';
       case MetricStreamOutputFormat.opentelemetry0_7:
         return 'opentelemetry0.7';
+      case MetricStreamOutputFormat.opentelemetry1_0:
+        return 'opentelemetry1.0';
     }
   }
 }
@@ -6292,6 +6563,8 @@ extension MetricStreamOutputFormatFromString on String {
         return MetricStreamOutputFormat.json;
       case 'opentelemetry0.7':
         return MetricStreamOutputFormat.opentelemetry0_7;
+      case 'opentelemetry1.0':
+        return MetricStreamOutputFormat.opentelemetry1_0;
     }
     throw Exception('$this is not known in enum MetricStreamOutputFormat');
   }
@@ -6310,9 +6583,9 @@ class MetricStreamStatisticsConfiguration {
   /// can include as many as 20 statistics.
   ///
   /// If the <code>OutputFormat</code> for the stream is
-  /// <code>opentelemetry0.7</code>, the only valid values are <code>p<i>??</i>
-  /// </code> percentile statistics such as <code>p90</code>, <code>p99</code> and
-  /// so on.
+  /// <code>opentelemetry1.0</code> or <code>opentelemetry0.7</code>, the only
+  /// valid values are <code>p<i>??</i> </code> percentile statistics such as
+  /// <code>p90</code>, <code>p99</code> and so on.
   ///
   /// If the <code>OutputFormat</code> for the stream is <code>json</code>, the
   /// valid values include the abbreviations for all of the statistics listed in
@@ -6621,8 +6894,15 @@ extension ScanByFromString on String {
 }
 
 /// Designates the CloudWatch metric and statistic that provides the time series
-/// the anomaly detector uses as input.
+/// the anomaly detector uses as input. If you have enabled unified
+/// cross-account observability, and this account is a monitoring account, the
+/// metric can be in the same account or a source account.
 class SingleMetricAnomalyDetector {
+  /// If the CloudWatch metric that provides the time series that the anomaly
+  /// detector uses as input is in another account, specify that account ID here.
+  /// If you omit this parameter, the current account is used.
+  final String? accountId;
+
   /// The metric dimensions to create the anomaly detection model for.
   final List<Dimension>? dimensions;
 
@@ -6636,6 +6916,7 @@ class SingleMetricAnomalyDetector {
   final String? stat;
 
   SingleMetricAnomalyDetector({
+    this.accountId,
     this.dimensions,
     this.metricName,
     this.namespace,
@@ -6643,6 +6924,7 @@ class SingleMetricAnomalyDetector {
   });
   factory SingleMetricAnomalyDetector.fromXml(_s.XmlElement elem) {
     return SingleMetricAnomalyDetector(
+      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
       dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
           elem.findElements('member').map(Dimension.fromXml).toList()),
       metricName: _s.extractXmlStringValue(elem, 'MetricName'),
@@ -6652,11 +6934,13 @@ class SingleMetricAnomalyDetector {
   }
 
   Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
     final dimensions = this.dimensions;
     final metricName = this.metricName;
     final namespace = this.namespace;
     final stat = this.stat;
     return {
+      if (accountId != null) 'AccountId': accountId,
       if (dimensions != null) 'Dimensions': dimensions,
       if (metricName != null) 'MetricName': metricName,
       if (namespace != null) 'Namespace': namespace,

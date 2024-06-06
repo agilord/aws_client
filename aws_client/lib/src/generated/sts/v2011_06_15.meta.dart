@@ -6,7 +6,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "RoleArn": {"shape": "arnType", "flattened": false},
       "RoleSessionName": {"shape": "roleSessionNameType", "flattened": false},
       "PolicyArns": {"shape": "policyDescriptorListType", "flattened": false},
-      "Policy": {"shape": "sessionPolicyDocumentType", "flattened": false},
+      "Policy": {
+        "shape": "unrestrictedSessionPolicyDocumentType",
+        "flattened": false
+      },
       "DurationSeconds": {
         "shape": "roleDurationSecondsType",
         "flattened": false
@@ -16,7 +19,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ExternalId": {"shape": "externalIdType", "flattened": false},
       "SerialNumber": {"shape": "serialNumberType", "flattened": false},
       "TokenCode": {"shape": "tokenCodeType", "flattened": false},
-      "SourceIdentity": {"shape": "sourceIdentityType", "flattened": false}
+      "SourceIdentity": {"shape": "sourceIdentityType", "flattened": false},
+      "ProvidedContexts": {
+        "shape": "ProvidedContextsListType",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -218,6 +225,19 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ProvidedContext": {
+    "type": "structure",
+    "members": {
+      "ProviderArn": {"shape": "arnType", "flattened": false},
+      "ContextAssertion": {"shape": "contextAssertionType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ProvidedContextsListType": {
+    "type": "list",
+    "member": {"shape": "ProvidedContext"},
+    "flattened": false
+  },
   "SAMLAssertionType": {"type": "string", "flattened": false},
   "Subject": {"type": "string", "flattened": false},
   "SubjectType": {"type": "string", "flattened": false},
@@ -235,6 +255,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "arnType": {"type": "string", "flattened": false},
   "assumedRoleIdType": {"type": "string", "flattened": false},
   "clientTokenType": {"type": "string", "flattened": false},
+  "contextAssertionType": {"type": "string", "flattened": false},
   "dateType": {"type": "timestamp", "flattened": false},
   "decodedMessageType": {"type": "string", "flattened": false},
   "durationSecondsType": {"type": "integer", "flattened": false},
@@ -266,6 +287,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "tagValueType": {"type": "string", "flattened": false},
   "tokenCodeType": {"type": "string", "flattened": false},
   "tokenType": {"type": "string", "flattened": false},
+  "unrestrictedSessionPolicyDocumentType": {
+    "type": "string",
+    "flattened": false
+  },
   "urlType": {"type": "string", "flattened": false},
   "userIdType": {"type": "string", "flattened": false},
   "userNameType": {"type": "string", "flattened": false},

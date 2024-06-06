@@ -116,10 +116,11 @@ class IAM {
   /// permission on the IAM role by a permissions policy.
   /// </note>
   /// For more information about roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with roles</a>. For more information about instance profiles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// instance profiles</a>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+  /// roles</a> in the <i>IAM User Guide</i>. For more information about
+  /// instance profiles, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
+  /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [EntityAlreadyExistsException].
@@ -204,7 +205,9 @@ class IAM {
   /// Attaches the specified managed policy to the specified IAM group.
   ///
   /// You use this operation to attach a managed policy to a group. To embed an
-  /// inline policy in a group, use <a>PutGroupPolicy</a>.
+  /// inline policy in a group, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutGroupPolicy.html">
+  /// <code>PutGroupPolicy</code> </a>.
   ///
   /// As a best practice, you can validate your IAM policies. To learn more, see
   /// <a
@@ -260,13 +263,18 @@ class IAM {
   /// role's permission (access) policy.
   /// <note>
   /// You cannot use a managed policy as the role's trust policy. The role's
-  /// trust policy is created at the same time as the role, using
-  /// <a>CreateRole</a>. You can update a role's trust policy using
-  /// <a>UpdateAssumeRolePolicy</a>.
+  /// trust policy is created at the same time as the role, using <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">
+  /// <code>CreateRole</code> </a>. You can update a role's trust policy using
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html">
+  /// <code>UpdateAssumerolePolicy</code> </a>.
   /// </note>
   /// Use this operation to attach a <i>managed</i> policy to a role. To embed
-  /// an inline policy in a role, use <a>PutRolePolicy</a>. For more information
-  /// about policies, see <a
+  /// an inline policy in a role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html">
+  /// <code>PutRolePolicy</code> </a>. For more information about policies, see
+  /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -319,7 +327,9 @@ class IAM {
   /// Attaches the specified managed policy to the specified user.
   ///
   /// You use this operation to attach a <i>managed</i> policy to a user. To
-  /// embed an inline policy in a user, use <a>PutUserPolicy</a>.
+  /// embed an inline policy in a user, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html">
+  /// <code>PutUserPolicy</code> </a>.
   ///
   /// As a best practice, you can validate your IAM policies. To learn more, see
   /// <a
@@ -479,10 +489,11 @@ class IAM {
 
   /// Creates an alias for your Amazon Web Services account. For information
   /// about using an Amazon Web Services account alias, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an alias for your Amazon Web Services account ID</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html">Creating,
+  /// deleting, and listing an Amazon Web Services account alias</a> in the
+  /// <i>Amazon Web Services Sign-In User Guide</i>.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
@@ -750,12 +761,12 @@ class IAM {
   /// access Amazon Web Services.
   /// <note>
   /// Amazon Web Services secures communication with some OIDC identity
-  /// providers (IdPs) through our library of trusted certificate authorities
-  /// (CAs) instead of using a certificate thumbprint to verify your IdP server
-  /// certificate. These OIDC IdPs include Google, Auth0, and those that use an
-  /// Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these
-  /// cases, your legacy thumbprint remains in your configuration, but is no
-  /// longer used for validation.
+  /// providers (IdPs) through our library of trusted root certificate
+  /// authorities (CAs) instead of using a certificate thumbprint to verify your
+  /// IdP server certificate. In these cases, your legacy thumbprint remains in
+  /// your configuration, but is no longer used for validation. These OIDC IdPs
+  /// include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
+  /// bucket to host a JSON Web Key Set (JWKS) endpoint.
   /// </note> <note>
   /// The trust for the OIDC provider is derived from the IAM provider that this
   /// operation creates. Therefore, it is best to limit access to the
@@ -767,29 +778,7 @@ class IAM {
   /// May throw [LimitExceededException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [thumbprintList] :
-  /// A list of server certificate thumbprints for the OpenID Connect (OIDC)
-  /// identity provider's server certificates. Typically this list includes only
-  /// one entry. However, IAM lets you have up to five thumbprints for an OIDC
-  /// provider. This lets you maintain multiple thumbprints if the identity
-  /// provider is rotating certificates.
-  ///
-  /// The server certificate thumbprint is the hex-encoded SHA-1 hash value of
-  /// the X.509 certificate used by the domain where the OpenID Connect provider
-  /// makes its keys available. It is always a 40-character string.
-  ///
-  /// You must provide at least one thumbprint when creating an IAM OIDC
-  /// provider. For example, assume that the OIDC provider is
-  /// <code>server.example.com</code> and the provider stores its keys at
-  /// https://keys.server.example.com/openid-connect. In that case, the
-  /// thumbprint string would be the hex-encoded SHA-1 hash value of the
-  /// certificate used by <code>https://keys.server.example.com.</code>
-  ///
-  /// For more information about obtaining the OIDC provider thumbprint, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html">Obtaining
-  /// the thumbprint for an OpenID Connect provider</a> in the <i>IAM user
-  /// Guide</i>.
+  /// May throw [OpenIdIdpCommunicationErrorException].
   ///
   /// Parameter [url] :
   /// The URL of the identity provider. The URL must begin with
@@ -830,17 +819,43 @@ class IAM {
   /// number of tags, then the entire request fails and the resource is not
   /// created.
   /// </note>
+  ///
+  /// Parameter [thumbprintList] :
+  /// A list of server certificate thumbprints for the OpenID Connect (OIDC)
+  /// identity provider's server certificates. Typically this list includes only
+  /// one entry. However, IAM lets you have up to five thumbprints for an OIDC
+  /// provider. This lets you maintain multiple thumbprints if the identity
+  /// provider is rotating certificates.
+  ///
+  /// This parameter is optional. If it is not included, IAM will retrieve and
+  /// use the top intermediate certificate authority (CA) thumbprint of the
+  /// OpenID Connect identity provider server certificate.
+  ///
+  /// The server certificate thumbprint is the hex-encoded SHA-1 hash value of
+  /// the X.509 certificate used by the domain where the OpenID Connect provider
+  /// makes its keys available. It is always a 40-character string.
+  ///
+  /// For example, assume that the OIDC provider is
+  /// <code>server.example.com</code> and the provider stores its keys at
+  /// https://keys.server.example.com/openid-connect. In that case, the
+  /// thumbprint string would be the hex-encoded SHA-1 hash value of the
+  /// certificate used by <code>https://keys.server.example.com.</code>
+  ///
+  /// For more information about obtaining the OIDC provider thumbprint, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html">Obtaining
+  /// the thumbprint for an OpenID Connect provider</a> in the <i>IAM user
+  /// Guide</i>.
   Future<CreateOpenIDConnectProviderResponse> createOpenIDConnectProvider({
-    required List<String> thumbprintList,
     required String url,
     List<String>? clientIDList,
     List<Tag>? tags,
+    List<String>? thumbprintList,
   }) async {
     final $request = <String, dynamic>{};
-    $request['ThumbprintList'] = thumbprintList;
     $request['Url'] = url;
     clientIDList?.also((arg) => $request['ClientIDList'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
+    thumbprintList?.also((arg) => $request['ThumbprintList'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateOpenIDConnectProvider',
@@ -1088,11 +1103,12 @@ class IAM {
     return CreatePolicyVersionResponse.fromXml($result);
   }
 
-  /// Creates a new role for your Amazon Web Services account. For more
-  /// information about roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">IAM
-  /// roles</a>. For information about quotas for role names and the number of
-  /// roles you can create, see <a
+  /// Creates a new role for your Amazon Web Services account.
+  ///
+  /// For more information about roles, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+  /// roles</a> in the <i>IAM User Guide</i>. For information about quotas for
+  /// role names and the number of roles you can create, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
   /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
@@ -1651,6 +1667,7 @@ class IAM {
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [serialNumber] :
   /// The serial number that uniquely identifies the MFA device. For virtual MFA
@@ -1736,10 +1753,11 @@ class IAM {
 
   /// Deletes the specified Amazon Web Services account alias. For information
   /// about using an Amazon Web Services account alias, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an alias for your Amazon Web Services account ID</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html">Creating,
+  /// deleting, and listing an Amazon Web Services account alias</a> in the
+  /// <i>Amazon Web Services Sign-In User Guide</i>.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
@@ -1876,8 +1894,8 @@ class IAM {
   /// applications running on the instance.
   /// </important>
   /// For more information about instance profiles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// instance profiles</a>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
+  /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [DeleteConflictException].
@@ -2476,6 +2494,7 @@ class IAM {
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [certificateId] :
@@ -2669,6 +2688,7 @@ class IAM {
   /// May throw [DeleteConflictException].
   /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [serialNumber] :
   /// The serial number that uniquely identifies the MFA device. For virtual MFA
@@ -2850,6 +2870,7 @@ class IAM {
   /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [authenticationCode1] :
   /// An authentication code emitted by the device.
@@ -3127,7 +3148,10 @@ class IAM {
   /// began supporting this feature within the last year. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-  /// where data is tracked</a>.
+  /// where data is tracked</a>. For more information about services and actions
+  /// for which action last accessed information is displayed, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-action-last-accessed.html">IAM
+  /// action last accessed information services and actions</a>.
   /// <important>
   /// The service last accessed data includes all attempts to access an Amazon
   /// Web Services API, not just the successful ones. This includes all attempts
@@ -3227,8 +3251,6 @@ class IAM {
   /// The information includes the date and time of last use, along with the
   /// Amazon Web Services service and Region that were specified in the last
   /// request made with that key.
-  ///
-  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [accessKeyId] :
   /// The identifier of an access key.
@@ -3665,7 +3687,7 @@ class IAM {
   /// Retrieves information about the specified instance profile, including the
   /// instance profile's path, GUID, ARN, and role. For more information about
   /// instance profiles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
   /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
@@ -3740,6 +3762,39 @@ class IAM {
       resultWrapper: 'GetLoginProfileResult',
     );
     return GetLoginProfileResponse.fromXml($result);
+  }
+
+  /// Retrieves information about an MFA device for a specified user.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serialNumber] :
+  /// Serial number that uniquely identifies the MFA device. For this API, we
+  /// only accept FIDO security key <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARNs</a>.
+  ///
+  /// Parameter [userName] :
+  /// The friendly name identifying the user.
+  Future<GetMFADeviceResponse> getMFADevice({
+    required String serialNumber,
+    String? userName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['SerialNumber'] = serialNumber;
+    userName?.also((arg) => $request['UserName'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetMFADevice',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['GetMFADeviceRequest'],
+      shapes: shapes,
+      resultWrapper: 'GetMFADeviceResult',
+    );
+    return GetMFADeviceResponse.fromXml($result);
   }
 
   /// Returns information about the specified OpenID Connect (OIDC) provider
@@ -3981,8 +4036,8 @@ class IAM {
   /// Retrieves information about the specified role, including the role's path,
   /// GUID, ARN, and the role's trust policy that grants permission to assume
   /// the role. For more information about roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with roles</a>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+  /// roles</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// Policies returned by this operation are URL-encoded compliant with <a
   /// href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL
@@ -4041,8 +4096,8 @@ class IAM {
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// For more information about roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
-  /// roles to delegate permissions and federate identities</a>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+  /// roles</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -4573,10 +4628,11 @@ class IAM {
   /// implicitly based on the Amazon Web Services access key ID used to sign the
   /// request. If a temporary access key is used, then <code>UserName</code> is
   /// required. If a long-term key is assigned to the user, then
-  /// <code>UserName</code> is not required. This operation works for access
-  /// keys under the Amazon Web Services account. Consequently, you can use this
-  /// operation to manage Amazon Web Services account root user credentials even
-  /// if the Amazon Web Services account has no associated users.
+  /// <code>UserName</code> is not required.
+  ///
+  /// This operation works for access keys under the Amazon Web Services
+  /// account. If the Amazon Web Services account has no associated users, the
+  /// root user returns it's own access key IDs by running this command.
   /// <note>
   /// To ensure the security of your Amazon Web Services account, the secret
   /// access key is accessible only during key and user creation.
@@ -4643,9 +4699,9 @@ class IAM {
   /// Lists the account alias associated with the Amazon Web Services account
   /// (Note: you can have only one). For information about using an Amazon Web
   /// Services account alias, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an alias for your Amazon Web Services account ID</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html">Creating,
+  /// deleting, and listing an Amazon Web Services account alias</a> in the
+  /// <i>Amazon Web Services Sign-In User Guide</i>.
   ///
   /// May throw [ServiceFailureException].
   ///
@@ -5341,8 +5397,8 @@ class IAM {
   /// Lists the instance profiles that have the specified path prefix. If there
   /// are none, the operation returns an empty list. For more information about
   /// instance profiles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// instance profiles</a>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
+  /// instance profiles</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
@@ -5419,8 +5475,8 @@ class IAM {
   /// Lists the instance profiles that have the specified associated IAM role.
   /// If there are none, the operation returns an empty list. For more
   /// information about instance profiles, go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// instance profiles</a>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
+  /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -6201,13 +6257,25 @@ class IAM {
   /// Lists the IAM roles that have the specified path prefix. If there are
   /// none, the operation returns an empty list. For more information about
   /// roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with roles</a>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+  /// roles</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// IAM resource-listing operations return a subset of the available
-  /// attributes for the resource. For example, this operation does not return
-  /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for a role, see <a>GetRole</a>.
+  /// attributes for the resource. This operation does not return the following
+  /// attributes, even though they are an attribute of the returned object:
+  ///
+  /// <ul>
+  /// <li>
+  /// PermissionsBoundary
+  /// </li>
+  /// <li>
+  /// RoleLastUsed
+  /// </li>
+  /// <li>
+  /// Tags
+  /// </li>
+  /// </ul>
+  /// To view all of the information for a role, see <a>GetRole</a>.
   /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -6860,9 +6928,18 @@ class IAM {
   /// account. If there are none, the operation returns an empty list.
   /// <note>
   /// IAM resource-listing operations return a subset of the available
-  /// attributes for the resource. For example, this operation does not return
-  /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for a user, see <a>GetUser</a>.
+  /// attributes for the resource. This operation does not return the following
+  /// attributes, even though they are an attribute of the returned object:
+  ///
+  /// <ul>
+  /// <li>
+  /// PermissionsBoundary
+  /// </li>
+  /// <li>
+  /// Tags
+  /// </li>
+  /// </ul>
+  /// To view all of the information for a user, see <a>GetUser</a>.
   /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -7001,8 +7078,12 @@ class IAM {
   /// specified IAM group.
   ///
   /// A user can also have managed policies attached to it. To attach a managed
-  /// policy to a group, use <a>AttachGroupPolicy</a>. To create a new managed
-  /// policy, use <a>CreatePolicy</a>. For information about policies, see <a
+  /// policy to a group, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html">
+  /// <code>AttachGroupPolicy</code> </a>. To create a new managed policy, use
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html">
+  /// <code>CreatePolicy</code> </a>. For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -7037,7 +7118,7 @@ class IAM {
   /// You must provide policies in JSON format in IAM. However, for
   /// CloudFormation templates formatted in YAML, you can provide the policy in
   /// JSON or YAML format. CloudFormation always converts a YAML policy to JSON
-  /// format before submitting it to = IAM.
+  /// format before submitting it to IAM.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -7150,15 +7231,22 @@ class IAM {
   ///
   /// When you embed an inline policy in a role, the inline policy is used as
   /// part of the role's access (permissions) policy. The role's trust policy is
-  /// created at the same time as the role, using <a>CreateRole</a>. You can
-  /// update a role's trust policy using <a>UpdateAssumeRolePolicy</a>. For more
-  /// information about IAM roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
-  /// roles to delegate permissions and federate identities</a>.
+  /// created at the same time as the role, using <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">
+  /// <code>CreateRole</code> </a>. You can update a role's trust policy using
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html">
+  /// <code>UpdateAssumeRolePolicy</code> </a>. For more information about
+  /// roles, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">IAM
+  /// roles</a> in the <i>IAM User Guide</i>.
   ///
   /// A role can also have a managed policy attached to it. To attach a managed
-  /// policy to a role, use <a>AttachRolePolicy</a>. To create a new managed
-  /// policy, use <a>CreatePolicy</a>. For information about policies, see <a
+  /// policy to a role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html">
+  /// <code>AttachRolePolicy</code> </a>. To create a new managed policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html">
+  /// <code>CreatePolicy</code> </a>. For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -7303,9 +7391,11 @@ class IAM {
   /// specified IAM user.
   ///
   /// An IAM user can also have a managed policy attached to it. To attach a
-  /// managed policy to a user, use <a>AttachUserPolicy</a>. To create a new
-  /// managed policy, use <a>CreatePolicy</a>. For information about policies,
-  /// see <a
+  /// managed policy to a user, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html">
+  /// <code>AttachUserPolicy</code> </a>. To create a new managed policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html">
+  /// <code>CreatePolicy</code> </a>. For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -7433,18 +7523,20 @@ class IAM {
     );
   }
 
-  /// Removes the specified IAM role from the specified EC2 instance profile.
+  /// Removes the specified IAM role from the specified Amazon EC2 instance
+  /// profile.
   /// <important>
   /// Make sure that you do not have any Amazon EC2 instances running with the
   /// role you are about to remove from the instance profile. Removing a role
   /// from an instance profile that is associated with a running instance might
   /// break any applications running on the instance.
   /// </important>
-  /// For more information about IAM roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with roles</a>. For more information about instance profiles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// instance profiles</a>.
+  /// For more information about roles, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+  /// roles</a> in the <i>IAM User Guide</i>. For more information about
+  /// instance profiles, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
+  /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -7582,6 +7674,7 @@ class IAM {
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [authenticationCode1] :
   /// An authentication code emitted by the device.
@@ -7926,12 +8019,12 @@ class IAM {
   /// following list shows each of the supported scenario values and the
   /// resources that you must define to run the simulation.
   ///
-  /// Each of the EC2 scenarios requires that you specify instance, image, and
-  /// security group resources. If your scenario includes an EBS volume, then
-  /// you must specify that volume as a resource. If the EC2 scenario includes
-  /// VPC, then you must supply the network interface resource. If it includes
-  /// an IP subnet, then you must specify the subnet resource. For more
-  /// information on the EC2 scenario options, see <a
+  /// Each of the Amazon EC2 scenarios requires that you specify instance,
+  /// image, and security group resources. If your scenario includes an EBS
+  /// volume, then you must specify that volume as a resource. If the Amazon EC2
+  /// scenario includes VPC, then you must supply the network interface
+  /// resource. If it includes an IP subnet, then you must specify the subnet
+  /// resource. For more information on the Amazon EC2 scenario options, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
   /// platforms</a> in the <i>Amazon EC2 User Guide</i>.
   ///
@@ -8272,12 +8365,12 @@ class IAM {
   /// following list shows each of the supported scenario values and the
   /// resources that you must define to run the simulation.
   ///
-  /// Each of the EC2 scenarios requires that you specify instance, image, and
-  /// security group resources. If your scenario includes an EBS volume, then
-  /// you must specify that volume as a resource. If the EC2 scenario includes
-  /// VPC, then you must supply the network interface resource. If it includes
-  /// an IP subnet, then you must specify the subnet resource. For more
-  /// information on the EC2 scenario options, see <a
+  /// Each of the Amazon EC2 scenarios requires that you specify instance,
+  /// image, and security group resources. If your scenario includes an EBS
+  /// volume, then you must specify that volume as a resource. If the Amazon EC2
+  /// scenario includes VPC, then you must supply the network interface
+  /// resource. If it includes an IP subnet, then you must specify the subnet
+  /// resource. For more information on the Amazon EC2 scenario options, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
   /// platforms</a> in the <i>Amazon EC2 User Guide</i>.
   ///
@@ -9825,12 +9918,12 @@ class IAM {
   /// thumbprint is updated.
   /// <note>
   /// Amazon Web Services secures communication with some OIDC identity
-  /// providers (IdPs) through our library of trusted certificate authorities
-  /// (CAs) instead of using a certificate thumbprint to verify your IdP server
-  /// certificate. These OIDC IdPs include Google, Auth0, and those that use an
-  /// Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these
-  /// cases, your legacy thumbprint remains in your configuration, but is no
-  /// longer used for validation.
+  /// providers (IdPs) through our library of trusted root certificate
+  /// authorities (CAs) instead of using a certificate thumbprint to verify your
+  /// IdP server certificate. In these cases, your legacy thumbprint remains in
+  /// your configuration, but is no longer used for validation. These OIDC IdPs
+  /// include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
+  /// bucket to host a JSON Web Key Set (JWKS) endpoint.
   /// </note> <note>
   /// Trust for the OIDC provider is derived from the provider certificate and
   /// is validated by the thumbprint. Therefore, it is best to limit access to
@@ -9906,6 +9999,10 @@ class IAM {
   /// a console URL. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html">Using
   /// IAM roles</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// IAM role credentials provided by Amazon EC2 instances assigned to the role
+  /// are not subject to the specified maximum session duration.
+  /// </note>
   Future<void> updateRole({
     required String roleName,
     String? description,
@@ -10619,6 +10716,7 @@ class IAM {
   /// May throw [InvalidCertificateException].
   /// May throw [DuplicateCertificateException].
   /// May throw [NoSuchEntityException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [certificateBody] :
@@ -12014,6 +12112,48 @@ class GetLoginProfileResponse {
     return GetLoginProfileResponse(
       loginProfile:
           LoginProfile.fromXml(_s.extractXmlChild(elem, 'LoginProfile')!),
+    );
+  }
+}
+
+class GetMFADeviceResponse {
+  /// Serial number that uniquely identifies the MFA device. For this API, we only
+  /// accept FIDO security key <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARNs</a>.
+  final String serialNumber;
+
+  /// The certifications of a specified user's MFA device. We currently provide
+  /// FIPS-140-2, FIPS-140-3, and FIDO certification levels obtained from <a
+  /// href="https://fidoalliance.org/metadata/"> FIDO Alliance Metadata Service
+  /// (MDS)</a>.
+  final Map<String, String>? certifications;
+
+  /// The date that a specified user's MFA device was first enabled.
+  final DateTime? enableDate;
+
+  /// The friendly name identifying the user.
+  final String? userName;
+
+  GetMFADeviceResponse({
+    required this.serialNumber,
+    this.certifications,
+    this.enableDate,
+    this.userName,
+  });
+  factory GetMFADeviceResponse.fromXml(_s.XmlElement elem) {
+    return GetMFADeviceResponse(
+      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
+      certifications: Map.fromEntries(
+        elem.getElement('Certifications')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
+      userName: _s.extractXmlStringValue(elem, 'UserName'),
     );
   }
 }
@@ -16104,7 +16244,7 @@ class VirtualMFADevice {
 
   /// The base32 seed defined as specified in <a
   /// href="https://tools.ietf.org/html/rfc3548.txt">RFC3548</a>. The
-  /// <code>Base32StringSeed</code> is base64-encoded.
+  /// <code>Base32StringSeed</code> is base32-encoded.
   final Uint8List? base32StringSeed;
 
   /// The date and time on which the virtual MFA device was enabled.
@@ -16706,6 +16846,14 @@ class NoSuchEntityException extends _s.GenericAwsException {
       : super(type: type, code: 'NoSuchEntityException', message: message);
 }
 
+class OpenIdIdpCommunicationErrorException extends _s.GenericAwsException {
+  OpenIdIdpCommunicationErrorException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'OpenIdIdpCommunicationErrorException',
+            message: message);
+}
+
 class PasswordPolicyViolationException extends _s.GenericAwsException {
   PasswordPolicyViolationException({String? type, String? message})
       : super(
@@ -16797,6 +16945,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       MalformedPolicyDocumentException(type: type, message: message),
   'NoSuchEntityException': (type, message) =>
       NoSuchEntityException(type: type, message: message),
+  'OpenIdIdpCommunicationErrorException': (type, message) =>
+      OpenIdIdpCommunicationErrorException(type: type, message: message),
   'PasswordPolicyViolationException': (type, message) =>
       PasswordPolicyViolationException(type: type, message: message),
   'PolicyEvaluationException': (type, message) =>

@@ -1077,14 +1077,19 @@ class ChimeSdkIdentity {
   ///
   /// Parameter [name] :
   /// The name of the <code>AppInstanceBot</code>.
+  ///
+  /// Parameter [configuration] :
+  /// The configuration for the bot update.
   Future<UpdateAppInstanceBotResponse> updateAppInstanceBot({
     required String appInstanceBotArn,
     required String metadata,
     required String name,
+    Configuration? configuration,
   }) async {
     final $payload = <String, dynamic>{
       'Metadata': metadata,
       'Name': name,
+      if (configuration != null) 'Configuration': configuration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2362,6 +2367,67 @@ class Identity {
   }
 }
 
+/// Specifies the type of message that triggers a bot.
+class InvokedBy {
+  /// Sets standard messages as the bot trigger. For standard messages:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL</code>: The bot processes all standard messages.
+  /// </li>
+  /// <li>
+  /// <code>AUTO</code>: The bot responds to ALL messages when the channel has one
+  /// other non-hidden member, and responds to MENTIONS when the channel has more
+  /// than one other non-hidden member.
+  /// </li>
+  /// <li>
+  /// <code>MENTIONS</code>: The bot processes all standard messages that have a
+  /// message attribute with <code>CHIME.mentions</code> and a value of the bot
+  /// ARN.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: The bot processes no standard messages.
+  /// </li>
+  /// </ul>
+  final StandardMessages standardMessages;
+
+  /// Sets targeted messages as the bot trigger. For targeted messages:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL</code>: The bot processes all <code>TargetedMessages</code> sent
+  /// to it. The bot then responds with a targeted message back to the sender.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: The bot processes no targeted messages.
+  /// </li>
+  /// </ul>
+  final TargetedMessages targetedMessages;
+
+  InvokedBy({
+    required this.standardMessages,
+    required this.targetedMessages,
+  });
+
+  factory InvokedBy.fromJson(Map<String, dynamic> json) {
+    return InvokedBy(
+      standardMessages:
+          (json['StandardMessages'] as String).toStandardMessages(),
+      targetedMessages:
+          (json['TargetedMessages'] as String).toTargetedMessages(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final standardMessages = this.standardMessages;
+    final targetedMessages = this.targetedMessages;
+    return {
+      'StandardMessages': standardMessages.toValue(),
+      'TargetedMessages': targetedMessages.toValue(),
+    };
+  }
+}
+
 /// The configuration for an Amazon Lex V2 bot.
 class LexConfiguration {
   /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format:
@@ -2376,9 +2442,15 @@ class LexConfiguration {
   /// languages</a> in the <i>Amazon Lex V2 Developer Guide</i>.
   final String localeId;
 
+  /// Specifies the type of message that triggers a bot.
+  final InvokedBy? invokedBy;
+
+  /// <important>
+  /// <b>Deprecated</b>. Use <code>InvokedBy</code> instead.
+  /// </important>
   /// Determines whether the Amazon Lex V2 bot responds to all standard messages.
   /// Control messages are not supported.
-  final RespondsTo respondsTo;
+  final RespondsTo? respondsTo;
 
   /// The name of the welcome intent configured in the Amazon Lex V2 bot.
   final String? welcomeIntent;
@@ -2386,7 +2458,8 @@ class LexConfiguration {
   LexConfiguration({
     required this.lexBotAliasArn,
     required this.localeId,
-    required this.respondsTo,
+    this.invokedBy,
+    this.respondsTo,
     this.welcomeIntent,
   });
 
@@ -2394,7 +2467,10 @@ class LexConfiguration {
     return LexConfiguration(
       lexBotAliasArn: json['LexBotAliasArn'] as String,
       localeId: json['LocaleId'] as String,
-      respondsTo: (json['RespondsTo'] as String).toRespondsTo(),
+      invokedBy: json['InvokedBy'] != null
+          ? InvokedBy.fromJson(json['InvokedBy'] as Map<String, dynamic>)
+          : null,
+      respondsTo: (json['RespondsTo'] as String?)?.toRespondsTo(),
       welcomeIntent: json['WelcomeIntent'] as String?,
     );
   }
@@ -2402,12 +2478,14 @@ class LexConfiguration {
   Map<String, dynamic> toJson() {
     final lexBotAliasArn = this.lexBotAliasArn;
     final localeId = this.localeId;
+    final invokedBy = this.invokedBy;
     final respondsTo = this.respondsTo;
     final welcomeIntent = this.welcomeIntent;
     return {
       'LexBotAliasArn': lexBotAliasArn,
       'LocaleId': localeId,
-      'RespondsTo': respondsTo.toValue(),
+      if (invokedBy != null) 'InvokedBy': invokedBy,
+      if (respondsTo != null) 'RespondsTo': respondsTo.toValue(),
       if (welcomeIntent != null) 'WelcomeIntent': welcomeIntent,
     };
   }
@@ -2753,6 +2831,44 @@ extension RespondsToFromString on String {
   }
 }
 
+enum StandardMessages {
+  auto,
+  all,
+  mentions,
+  none,
+}
+
+extension StandardMessagesValueExtension on StandardMessages {
+  String toValue() {
+    switch (this) {
+      case StandardMessages.auto:
+        return 'AUTO';
+      case StandardMessages.all:
+        return 'ALL';
+      case StandardMessages.mentions:
+        return 'MENTIONS';
+      case StandardMessages.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension StandardMessagesFromString on String {
+  StandardMessages toStandardMessages() {
+    switch (this) {
+      case 'AUTO':
+        return StandardMessages.auto;
+      case 'ALL':
+        return StandardMessages.all;
+      case 'MENTIONS':
+        return StandardMessages.mentions;
+      case 'NONE':
+        return StandardMessages.none;
+    }
+    throw Exception('$this is not known in enum StandardMessages');
+  }
+}
+
 /// A tag object containing a key-value pair.
 class Tag {
   /// The key in a tag.
@@ -2780,6 +2896,34 @@ class Tag {
       'Key': key,
       'Value': value,
     };
+  }
+}
+
+enum TargetedMessages {
+  all,
+  none,
+}
+
+extension TargetedMessagesValueExtension on TargetedMessages {
+  String toValue() {
+    switch (this) {
+      case TargetedMessages.all:
+        return 'ALL';
+      case TargetedMessages.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension TargetedMessagesFromString on String {
+  TargetedMessages toTargetedMessages() {
+    switch (this) {
+      case 'ALL':
+        return TargetedMessages.all;
+      case 'NONE':
+        return TargetedMessages.none;
+    }
+    throw Exception('$this is not known in enum TargetedMessages');
   }
 }
 

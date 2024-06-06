@@ -101,10 +101,11 @@ class StorageGateway {
   ///
   /// Parameter [gatewayTimezone] :
   /// A value that indicates the time zone you want to set for the gateway. The
-  /// time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example,
-  /// GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the
-  /// time is 2 hours ahead of GMT. The time zone is used, for example, for
-  /// scheduling snapshots and your gateway's maintenance schedule.
+  /// time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For
+  /// example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00
+  /// indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2
+  /// hours ahead of GMT. The time zone is used, for example, for scheduling
+  /// snapshots and your gateway's maintenance schedule.
   ///
   /// Parameter [gatewayType] :
   /// A value that defines the type of gateway to activate. The type specified
@@ -112,7 +113,7 @@ class StorageGateway {
   /// after activation. The default value is <code>CACHED</code>.
   ///
   /// Valid Values: <code>STORED</code> | <code>CACHED</code> | <code>VTL</code>
-  /// | <code>VTL_SNOW</code> | <code>FILE_S3</code> | <code>FILE_FSX_SMB</code>
+  /// | <code>FILE_S3</code> | <code>FILE_FSX_SMB</code>
   ///
   /// Parameter [mediumChangerType] :
   /// The value that indicates the type of medium changer to use for tape
@@ -2522,9 +2523,9 @@ class StorageGateway {
   }
 
   /// Returns metadata about a gateway such as its name, network interfaces,
-  /// configured time zone, and the state (whether the gateway is running or
-  /// not). To specify which gateway to describe, use the Amazon Resource Name
-  /// (ARN) of the gateway in your request.
+  /// time zone, status, and software version. To specify which gateway to
+  /// describe, use the Amazon Resource Name (ARN) of the gateway in your
+  /// request.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -2830,10 +2831,18 @@ class StorageGateway {
     return DescribeTapeRecoveryPointsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns a description of the specified Amazon Resource Name (ARN) of
-  /// virtual tapes. If a <code>TapeARN</code> is not specified, returns a
-  /// description of all virtual tapes associated with the specified gateway.
-  /// This operation is only supported in the tape gateway type.
+  /// Returns a description of virtual tapes that correspond to the specified
+  /// Amazon Resource Names (ARNs). If <code>TapeARN</code> is not specified,
+  /// returns a description of the virtual tapes associated with the specified
+  /// gateway. This operation is only supported for the tape gateway type.
+  ///
+  /// The operation supports pagination. By default, the operation returns a
+  /// maximum of up to 100 tapes. You can optionally specify the
+  /// <code>Limit</code> field in the body to limit the number of tapes in the
+  /// response. If the number of tapes returned in the response is truncated,
+  /// the response includes a <code>Marker</code> field. You can use this
+  /// <code>Marker</code> value in your subsequent request to retrieve the next
+  /// set of tapes.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -3130,6 +3139,17 @@ class StorageGateway {
 
   /// Adds a file gateway to an Active Directory domain. This operation is only
   /// supported for file gateways that support the SMB file protocol.
+  /// <note>
+  /// Joining a domain creates an Active Directory computer account in the
+  /// default organizational unit, using the gateway's <b>Gateway ID</b> as the
+  /// account name (for example, SGW-1234ADE). If your Active Directory
+  /// environment requires that you pre-stage accounts to facilitate the join
+  /// domain process, you will need to create this account ahead of time.
+  ///
+  /// To create the gateway's computer account in an organizational unit other
+  /// than the default, you must specify the organizational unit when joining
+  /// the domain.
+  /// </note>
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -3238,8 +3258,8 @@ class StorageGateway {
   }
 
   /// Gets a list of the file shares for a specific S3 File Gateway, or the list
-  /// of file shares that belong to the calling user account. This operation is
-  /// only supported for S3 File Gateways.
+  /// of file shares that belong to the calling Amazon Web Services account.
+  /// This operation is only supported for S3 File Gateways.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -3702,7 +3722,7 @@ class StorageGateway {
   }
 
   /// Sends you notification through CloudWatch Events when all files written to
-  /// your file share have been uploaded to S3. Amazon S3.
+  /// your file share have been uploaded to Amazon S3.
   ///
   /// Storage Gateway can send a notification through Amazon CloudWatch Events
   /// when all files written to your file share up to that point in time have
@@ -3714,8 +3734,9 @@ class StorageGateway {
   /// This operation is only supported for S3 File Gateways.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-upload-notification">Getting
-  /// file upload notification</a> in the <i>Storage Gateway User Guide</i>.
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification">Getting
+  /// file upload notification</a> in the <i>Amazon S3 File Gateway User
+  /// Guide</i>.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -3751,8 +3772,8 @@ class StorageGateway {
   /// You can subscribe to be notified through an Amazon CloudWatch event when
   /// your <code>RefreshCache</code> operation completes. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
-  /// notified about file operations</a> in the <i>Storage Gateway User
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification">Getting
+  /// notified about file operations</a> in the <i>Amazon S3 File Gateway User
   /// Guide</i>. This operation is Only supported for S3 File Gateways.
   ///
   /// When this API is called, it only initiates the refresh operation. When the
@@ -3767,17 +3788,13 @@ class StorageGateway {
   /// more than two refreshes at any time. We recommend using the
   /// refresh-complete CloudWatch event notification before issuing additional
   /// requests. For more information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
-  /// notified about file operations</a> in the <i>Storage Gateway User
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification">Getting
+  /// notified about file operations</a> in the <i>Amazon S3 File Gateway User
   /// Guide</i>.
   /// <important>
   /// <ul>
   /// <li>
   /// Wait at least 60 seconds between consecutive RefreshCache API requests.
-  /// </li>
-  /// <li>
-  /// RefreshCache does not evict cache entries if invoked consecutively within
-  /// 60 seconds of a previous RefreshCache request.
   /// </li>
   /// <li>
   /// If you invoke the RefreshCache API when two requests are already being
@@ -3790,8 +3807,8 @@ class StorageGateway {
   /// folders in the FolderList parameter.
   /// </note>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
-  /// notified about file operations</a> in the <i>Storage Gateway User
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification">Getting
+  /// notified about file operations</a> in the <i>Amazon S3 File Gateway User
   /// Guide</i>.
   ///
   /// May throw [InvalidGatewayRequestException].
@@ -3806,6 +3823,10 @@ class StorageGateway {
   /// folders at the root of the Amazon S3 bucket. If <code>Recursive</code> is
   /// set to <code>true</code>, the entire S3 bucket that the file share has
   /// access to is refreshed.
+  ///
+  /// Do not include <code>/</code> when specifying folder names. For example,
+  /// you would specify <code>samplefolder</code> rather than
+  /// <code>samplefolder/</code>.
   ///
   /// Parameter [recursive] :
   /// A value that specifies whether to recursively refresh folders in the
@@ -4077,9 +4098,13 @@ class StorageGateway {
     return SetSMBGuestPasswordOutput.fromJson(jsonResponse.body);
   }
 
-  /// Shuts down a gateway. To specify which gateway to shut down, use the
-  /// Amazon Resource Name (ARN) of the gateway in the body of your request.
-  ///
+  /// Shuts down a Tape Gateway or Volume Gateway. To specify which gateway to
+  /// shut down, use the Amazon Resource Name (ARN) of the gateway in the body
+  /// of your request.
+  /// <note>
+  /// This API action cannot be used to shut down S3 File Gateway or FSx File
+  /// Gateway.
+  /// </note>
   /// The operation shuts down the gateway service component running in the
   /// gateway's virtual machine (VM) and not the host VM.
   /// <note>
@@ -4301,9 +4326,10 @@ class StorageGateway {
   /// Updates the bandwidth rate limit schedule for a specified gateway. By
   /// default, gateways do not have bandwidth rate limit schedules, which means
   /// no bandwidth rate limiting is in effect. Use this to initiate or update a
-  /// gateway's bandwidth rate limit schedule. This operation is supported only
-  /// for volume, tape and S3 file gateways. FSx file gateways do not support
-  /// bandwidth rate limits.
+  /// gateway's bandwidth rate limit schedule. This operation is supported for
+  /// volume, tape, and S3 file gateways. S3 file gateways support bandwidth
+  /// rate limits for upload only. FSx file gateways do not support bandwidth
+  /// rate limits.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -5724,6 +5750,13 @@ class BandwidthRateLimitInterval {
   /// The average upload rate limit component of the bandwidth rate limit
   /// interval, in bits per second. This field does not appear in the response if
   /// the upload rate limit is not set.
+  /// <note>
+  /// For Tape Gateway and Volume Gateway, the minimum value is
+  /// <code>51200</code>.
+  ///
+  /// For S3 File Gateway and FSx File Gateway, the minimum value is
+  /// <code>104857600</code>.
+  /// </note>
   final int? averageUploadRateLimitInBitsPerSec;
 
   BandwidthRateLimitInterval({
@@ -6931,6 +6964,9 @@ class DescribeGatewayInformationOutput {
   final String? gatewayType;
 
   /// The type of hardware or software platform on which the gateway is running.
+  /// <note>
+  /// Tape Gateway is no longer available on Snow Family devices.
+  /// </note>
   final HostEnvironment? hostEnvironment;
 
   /// A unique identifier for the specific instance of the host platform running
@@ -6952,6 +6988,9 @@ class DescribeGatewayInformationOutput {
   /// Date after which this gateway will not receive software updates for new
   /// features.
   final String? softwareUpdatesEndDate;
+
+  /// The version number of the software running on the gateway appliance.
+  final String? softwareVersion;
 
   /// A list of the metadata cache sizes that the gateway can support based on its
   /// current hardware specifications.
@@ -6986,6 +7025,7 @@ class DescribeGatewayInformationOutput {
     this.lastSoftwareUpdate,
     this.nextUpdateAvailabilityDate,
     this.softwareUpdatesEndDate,
+    this.softwareVersion,
     this.supportedGatewayCapacities,
     this.tags,
     this.vPCEndpoint,
@@ -7016,6 +7056,7 @@ class DescribeGatewayInformationOutput {
       lastSoftwareUpdate: json['LastSoftwareUpdate'] as String?,
       nextUpdateAvailabilityDate: json['NextUpdateAvailabilityDate'] as String?,
       softwareUpdatesEndDate: json['SoftwareUpdatesEndDate'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
       supportedGatewayCapacities: (json['SupportedGatewayCapacities'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toGatewayCapacity())
@@ -7047,6 +7088,7 @@ class DescribeGatewayInformationOutput {
     final lastSoftwareUpdate = this.lastSoftwareUpdate;
     final nextUpdateAvailabilityDate = this.nextUpdateAvailabilityDate;
     final softwareUpdatesEndDate = this.softwareUpdatesEndDate;
+    final softwareVersion = this.softwareVersion;
     final supportedGatewayCapacities = this.supportedGatewayCapacities;
     final tags = this.tags;
     final vPCEndpoint = this.vPCEndpoint;
@@ -7073,6 +7115,7 @@ class DescribeGatewayInformationOutput {
         'NextUpdateAvailabilityDate': nextUpdateAvailabilityDate,
       if (softwareUpdatesEndDate != null)
         'SoftwareUpdatesEndDate': softwareUpdatesEndDate,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
       if (supportedGatewayCapacities != null)
         'SupportedGatewayCapacities':
             supportedGatewayCapacities.map((e) => e.toValue()).toList(),
@@ -7278,23 +7321,30 @@ class DescribeSMBSettingsOutput {
   ///
   /// <ul>
   /// <li>
-  /// <code>ClientSpecified</code>: If you use this option, requests are
+  /// <code>ClientSpecified</code>: If you choose this option, requests are
   /// established based on what is negotiated by the client. This option is
   /// recommended when you want to maximize compatibility across different clients
-  /// in your environment. Only supported for S3 File Gateways.
+  /// in your environment. Supported only for S3 File Gateway.
   /// </li>
   /// <li>
-  /// <code>MandatorySigning</code>: If you use this option, file gateway only
-  /// allows connections from SMBv2 or SMBv3 clients that have signing enabled.
+  /// <code>MandatorySigning</code>: If you use this option, File Gateway only
+  /// allows connections from SMBv2 or SMBv3 clients that have signing turned on.
   /// This option works with SMB clients on Microsoft Windows Vista, Windows
-  /// Server 2008 or newer.
+  /// Server 2008, or later.
   /// </li>
   /// <li>
-  /// <code>MandatoryEncryption</code>: If you use this option, file gateway only
-  /// allows connections from SMBv3 clients that have encryption enabled. This
-  /// option is highly recommended for environments that handle sensitive data.
-  /// This option works with SMB clients on Microsoft Windows 8, Windows Server
-  /// 2012 or newer.
+  /// <code>MandatoryEncryption</code>: If you use this option, File Gateway only
+  /// allows connections from SMBv3 clients that have encryption turned on. Both
+  /// 256-bit and 128-bit algorithms are allowed. This option is recommended for
+  /// environments that handle sensitive data. It works with SMB clients on
+  /// Microsoft Windows 8, Windows Server 2012, or later.
+  /// </li>
+  /// <li>
+  /// <code>EnforceEncryption</code>: If you use this option, File Gateway only
+  /// allows connections from SMBv3 clients that use 256-bit AES encryption
+  /// algorithms. 128-bit algorithms are not allowed. This option is recommended
+  /// for environments that handle sensitive data. It works with SMB clients on
+  /// Microsoft Windows 8, Windows Server 2012, or later.
   /// </li>
   /// </ul>
   final SMBSecurityStrategy? sMBSecurityStrategy;
@@ -8291,6 +8341,10 @@ extension GatewayCapacityFromString on String {
 
 /// Describes a gateway object.
 class GatewayInfo {
+  /// Date after which this gateway will not receive software updates for new
+  /// features and bug fixes.
+  final String? deprecationDate;
+
   /// The ID of the Amazon EC2 instance that was used to launch the gateway.
   final String? ec2InstanceId;
 
@@ -8319,6 +8373,9 @@ class GatewayInfo {
   final String? gatewayType;
 
   /// The type of hardware or software platform on which the gateway is running.
+  /// <note>
+  /// Tape Gateway is no longer available on Snow Family devices.
+  /// </note>
   final HostEnvironment? hostEnvironment;
 
   /// A unique identifier for the specific instance of the host platform running
@@ -8326,7 +8383,11 @@ class GatewayInfo {
   /// its format depends on the host environment type.
   final String? hostEnvironmentId;
 
+  /// The version number of the software running on the gateway appliance.
+  final String? softwareVersion;
+
   GatewayInfo({
+    this.deprecationDate,
     this.ec2InstanceId,
     this.ec2InstanceRegion,
     this.gatewayARN,
@@ -8336,10 +8397,12 @@ class GatewayInfo {
     this.gatewayType,
     this.hostEnvironment,
     this.hostEnvironmentId,
+    this.softwareVersion,
   });
 
   factory GatewayInfo.fromJson(Map<String, dynamic> json) {
     return GatewayInfo(
+      deprecationDate: json['DeprecationDate'] as String?,
       ec2InstanceId: json['Ec2InstanceId'] as String?,
       ec2InstanceRegion: json['Ec2InstanceRegion'] as String?,
       gatewayARN: json['GatewayARN'] as String?,
@@ -8350,10 +8413,12 @@ class GatewayInfo {
       hostEnvironment:
           (json['HostEnvironment'] as String?)?.toHostEnvironment(),
       hostEnvironmentId: json['HostEnvironmentId'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final deprecationDate = this.deprecationDate;
     final ec2InstanceId = this.ec2InstanceId;
     final ec2InstanceRegion = this.ec2InstanceRegion;
     final gatewayARN = this.gatewayARN;
@@ -8363,7 +8428,9 @@ class GatewayInfo {
     final gatewayType = this.gatewayType;
     final hostEnvironment = this.hostEnvironment;
     final hostEnvironmentId = this.hostEnvironmentId;
+    final softwareVersion = this.softwareVersion;
     return {
+      if (deprecationDate != null) 'DeprecationDate': deprecationDate,
       if (ec2InstanceId != null) 'Ec2InstanceId': ec2InstanceId,
       if (ec2InstanceRegion != null) 'Ec2InstanceRegion': ec2InstanceRegion,
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
@@ -8374,6 +8441,7 @@ class GatewayInfo {
       if (gatewayType != null) 'GatewayType': gatewayType,
       if (hostEnvironment != null) 'HostEnvironment': hostEnvironment.toValue(),
       if (hostEnvironmentId != null) 'HostEnvironmentId': hostEnvironmentId,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
     };
   }
 }
@@ -9941,6 +10009,7 @@ enum SMBSecurityStrategy {
   clientSpecified,
   mandatorySigning,
   mandatoryEncryption,
+  mandatoryEncryptionNoAes128,
 }
 
 extension SMBSecurityStrategyValueExtension on SMBSecurityStrategy {
@@ -9952,6 +10021,8 @@ extension SMBSecurityStrategyValueExtension on SMBSecurityStrategy {
         return 'MandatorySigning';
       case SMBSecurityStrategy.mandatoryEncryption:
         return 'MandatoryEncryption';
+      case SMBSecurityStrategy.mandatoryEncryptionNoAes128:
+        return 'MandatoryEncryptionNoAes128';
     }
   }
 }
@@ -9965,6 +10036,8 @@ extension SMBSecurityStrategyFromString on String {
         return SMBSecurityStrategy.mandatorySigning;
       case 'MandatoryEncryption':
         return SMBSecurityStrategy.mandatoryEncryption;
+      case 'MandatoryEncryptionNoAes128':
+        return SMBSecurityStrategy.mandatoryEncryptionNoAes128;
     }
     throw Exception('$this is not known in enum SMBSecurityStrategy');
   }

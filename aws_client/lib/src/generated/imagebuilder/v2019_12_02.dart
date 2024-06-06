@@ -91,6 +91,42 @@ class Imagebuilder {
     return CancelImageCreationResponse.fromJson(response);
   }
 
+  /// Cancel a specific image lifecycle policy runtime instance.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [lifecycleExecutionId] :
+  /// Identifies the specific runtime instance of the image lifecycle to cancel.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
+  Future<CancelLifecycleExecutionResponse> cancelLifecycleExecution({
+    required String lifecycleExecutionId,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'lifecycleExecutionId': lifecycleExecutionId,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/CancelLifecycleExecution',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelLifecycleExecutionResponse.fromJson(response);
+  }
+
   /// Creates a new component that can be used to build, validate, test, and
   /// assess your image. The component is based on a YAML document that you
   /// specify using exactly one of the following methods:
@@ -145,10 +181,13 @@ class Imagebuilder {
   /// Parameter [changeDescription] :
   /// The change description of the component. Describes what change has been
   /// made in this version, or what makes this version different from other
-  /// versions of this component.
+  /// versions of the component.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token of the component.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [data] :
   /// Component <code>data</code> contains inline YAML document content for the
@@ -266,7 +305,10 @@ class Imagebuilder {
   /// The destination repository for the container image.
   ///
   /// Parameter [clientToken] :
-  /// The client token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [description] :
   /// The description of the container recipe.
@@ -368,7 +410,10 @@ class Imagebuilder {
   /// The name of the distribution configuration.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token of the distribution configuration.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [description] :
   /// The description of the distribution configuration.
@@ -419,7 +464,10 @@ class Imagebuilder {
   /// defines the environment in which your image will be built and tested.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [containerRecipeArn] :
   /// The Amazon Resource Name (ARN) of the container recipe that defines how
@@ -435,6 +483,10 @@ class Imagebuilder {
   /// used to enhance the overall experience of using EC2 Image Builder. Enabled
   /// by default.
   ///
+  /// Parameter [executionRole] :
+  /// The name or Amazon Resource Name (ARN) for the IAM role you create that
+  /// grants Image Builder access to perform workflow actions.
+  ///
   /// Parameter [imageRecipeArn] :
   /// The Amazon Resource Name (ARN) of the image recipe that defines how images
   /// are configured, tested, and assessed.
@@ -447,16 +499,21 @@ class Imagebuilder {
   ///
   /// Parameter [tags] :
   /// The tags of the image.
+  ///
+  /// Parameter [workflows] :
+  /// Contains an array of workflow configuration objects.
   Future<CreateImageResponse> createImage({
     required String infrastructureConfigurationArn,
     String? clientToken,
     String? containerRecipeArn,
     String? distributionConfigurationArn,
     bool? enhancedImageMetadataEnabled,
+    String? executionRole,
     String? imageRecipeArn,
     ImageScanningConfiguration? imageScanningConfiguration,
     ImageTestsConfiguration? imageTestsConfiguration,
     Map<String, String>? tags,
+    List<WorkflowConfiguration>? workflows,
   }) async {
     final $payload = <String, dynamic>{
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
@@ -466,12 +523,14 @@ class Imagebuilder {
         'distributionConfigurationArn': distributionConfigurationArn,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (executionRole != null) 'executionRole': executionRole,
       if (imageRecipeArn != null) 'imageRecipeArn': imageRecipeArn,
       if (imageScanningConfiguration != null)
         'imageScanningConfiguration': imageScanningConfiguration,
       if (imageTestsConfiguration != null)
         'imageTestsConfiguration': imageTestsConfiguration,
       if (tags != null) 'tags': tags,
+      if (workflows != null) 'workflows': workflows,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -504,7 +563,10 @@ class Imagebuilder {
   /// The name of the image pipeline.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [containerRecipeArn] :
   /// The Amazon Resource Name (ARN) of the container recipe that is used to
@@ -522,6 +584,10 @@ class Imagebuilder {
   /// the operating system (OS) version and package list. This information is
   /// used to enhance the overall experience of using EC2 Image Builder. Enabled
   /// by default.
+  ///
+  /// Parameter [executionRole] :
+  /// The name or Amazon Resource Name (ARN) for the IAM role you create that
+  /// grants Image Builder access to perform workflow actions.
   ///
   /// Parameter [imageRecipeArn] :
   /// The Amazon Resource Name (ARN) of the image recipe that will be used to
@@ -541,6 +607,9 @@ class Imagebuilder {
   ///
   /// Parameter [tags] :
   /// The tags of the image pipeline.
+  ///
+  /// Parameter [workflows] :
+  /// Contains an array of workflow configuration objects.
   Future<CreateImagePipelineResponse> createImagePipeline({
     required String infrastructureConfigurationArn,
     required String name,
@@ -549,12 +618,14 @@ class Imagebuilder {
     String? description,
     String? distributionConfigurationArn,
     bool? enhancedImageMetadataEnabled,
+    String? executionRole,
     String? imageRecipeArn,
     ImageScanningConfiguration? imageScanningConfiguration,
     ImageTestsConfiguration? imageTestsConfiguration,
     Schedule? schedule,
     PipelineStatus? status,
     Map<String, String>? tags,
+    List<WorkflowConfiguration>? workflows,
   }) async {
     final $payload = <String, dynamic>{
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
@@ -566,6 +637,7 @@ class Imagebuilder {
         'distributionConfigurationArn': distributionConfigurationArn,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (executionRole != null) 'executionRole': executionRole,
       if (imageRecipeArn != null) 'imageRecipeArn': imageRecipeArn,
       if (imageScanningConfiguration != null)
         'imageScanningConfiguration': imageScanningConfiguration,
@@ -574,6 +646,7 @@ class Imagebuilder {
       if (schedule != null) 'schedule': schedule,
       if (status != null) 'status': status.toValue(),
       if (tags != null) 'tags': tags,
+      if (workflows != null) 'workflows': workflows,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -641,7 +714,10 @@ class Imagebuilder {
   /// The block device mappings of the image recipe.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [description] :
   /// The description of the image recipe.
@@ -709,7 +785,10 @@ class Imagebuilder {
   /// The name of the infrastructure configuration.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [description] :
   /// The description of the infrastructure configuration.
@@ -801,6 +880,185 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return CreateInfrastructureConfigurationResponse.fromJson(response);
+  }
+
+  /// Create a lifecycle policy resource.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [executionRole] :
+  /// The name or Amazon Resource Name (ARN) for the IAM role you create that
+  /// grants Image Builder access to run lifecycle actions.
+  ///
+  /// Parameter [name] :
+  /// The name of the lifecycle policy to create.
+  ///
+  /// Parameter [policyDetails] :
+  /// Configuration details for the lifecycle policy rules.
+  ///
+  /// Parameter [resourceSelection] :
+  /// Selection criteria for the resources that the lifecycle policy applies to.
+  ///
+  /// Parameter [resourceType] :
+  /// The type of Image Builder resource that the lifecycle policy applies to.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
+  ///
+  /// Parameter [description] :
+  /// Optional description for the lifecycle policy.
+  ///
+  /// Parameter [status] :
+  /// Indicates whether the lifecycle policy resource is enabled.
+  ///
+  /// Parameter [tags] :
+  /// Tags to apply to the lifecycle policy resource.
+  Future<CreateLifecyclePolicyResponse> createLifecyclePolicy({
+    required String executionRole,
+    required String name,
+    required List<LifecyclePolicyDetail> policyDetails,
+    required LifecyclePolicyResourceSelection resourceSelection,
+    required LifecyclePolicyResourceType resourceType,
+    String? clientToken,
+    String? description,
+    LifecyclePolicyStatus? status,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'executionRole': executionRole,
+      'name': name,
+      'policyDetails': policyDetails,
+      'resourceSelection': resourceSelection,
+      'resourceType': resourceType.toValue(),
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/CreateLifecyclePolicy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateLifecyclePolicyResponse.fromJson(response);
+  }
+
+  /// Create a new workflow or a new version of an existing workflow.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [InvalidVersionNumberException].
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// The name of the workflow to create.
+  ///
+  /// Parameter [semanticVersion] :
+  /// The semantic version of this workflow resource. The semantic version
+  /// syntax adheres to the following rules.
+  /// <note>
+  /// The semantic version has four nodes:
+  /// &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign
+  /// values for the first three, and can filter on all of them.
+  ///
+  /// <b>Assignment:</b> For the first three nodes you can assign any positive
+  /// integer value, including zero, with an upper limit of 2^30-1, or
+  /// 1073741823 for each node. Image Builder automatically assigns the build
+  /// number to the fourth node.
+  ///
+  /// <b>Patterns:</b> You can use any numeric pattern that adheres to the
+  /// assignment requirements for the nodes that you can assign. For example,
+  /// you might choose a software version pattern, such as 1.0.0, or a date,
+  /// such as 2021.01.01.
+  /// </note>
+  ///
+  /// Parameter [type] :
+  /// The phase in the image build process for which the workflow resource is
+  /// responsible.
+  ///
+  /// Parameter [changeDescription] :
+  /// Describes what change has been made in this version of the workflow, or
+  /// what makes this version different from other versions of the workflow.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
+  ///
+  /// Parameter [data] :
+  /// Contains the UTF-8 encoded YAML document content for the workflow.
+  /// Alternatively, you can specify the <code>uri</code> of a YAML document
+  /// file stored in Amazon S3. However, you cannot specify both properties.
+  ///
+  /// Parameter [description] :
+  /// Describes the workflow.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The ID of the KMS key that is used to encrypt this workflow resource.
+  ///
+  /// Parameter [tags] :
+  /// Tags that apply to the workflow resource.
+  ///
+  /// Parameter [uri] :
+  /// The <code>uri</code> of a YAML component document file. This must be an S3
+  /// URL (<code>s3://bucket/key</code>), and the requester must have permission
+  /// to access the S3 bucket it points to. If you use Amazon S3, you can
+  /// specify component content up to your service quota.
+  ///
+  /// Alternatively, you can specify the YAML document inline, using the
+  /// component <code>data</code> property. You cannot specify both properties.
+  Future<CreateWorkflowResponse> createWorkflow({
+    required String name,
+    required String semanticVersion,
+    required WorkflowType type,
+    String? changeDescription,
+    String? clientToken,
+    String? data,
+    String? description,
+    String? kmsKeyId,
+    Map<String, String>? tags,
+    String? uri,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'semanticVersion': semanticVersion,
+      'type': type.toValue(),
+      if (changeDescription != null) 'changeDescription': changeDescription,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (data != null) 'data': data,
+      if (description != null) 'description': description,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (tags != null) 'tags': tags,
+      if (uri != null) 'uri': uri,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/CreateWorkflow',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorkflowResponse.fromJson(response);
   }
 
   /// Deletes a component build version.
@@ -1023,6 +1281,62 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInfrastructureConfigurationResponse.fromJson(response);
+  }
+
+  /// Delete the specified lifecycle policy resource.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceDependencyException].
+  ///
+  /// Parameter [lifecyclePolicyArn] :
+  /// The Amazon Resource Name (ARN) of the lifecycle policy resource to delete.
+  Future<DeleteLifecyclePolicyResponse> deleteLifecyclePolicy({
+    required String lifecyclePolicyArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'lifecyclePolicyArn': [lifecyclePolicyArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/DeleteLifecyclePolicy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteLifecyclePolicyResponse.fromJson(response);
+  }
+
+  /// Deletes a specific workflow resource.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceDependencyException].
+  ///
+  /// Parameter [workflowBuildVersionArn] :
+  /// The Amazon Resource Name (ARN) of the workflow resource to delete.
+  Future<DeleteWorkflowResponse> deleteWorkflow({
+    required String workflowBuildVersionArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'workflowBuildVersionArn': [workflowBuildVersionArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/DeleteWorkflow',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteWorkflowResponse.fromJson(response);
   }
 
   /// Gets a component object.
@@ -1333,6 +1647,91 @@ class Imagebuilder {
   }
 
   /// Get the runtime information that was logged for a specific runtime
+  /// instance of the lifecycle policy.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [lifecycleExecutionId] :
+  /// Use the unique identifier for a runtime instance of the lifecycle policy
+  /// to get runtime details.
+  Future<GetLifecycleExecutionResponse> getLifecycleExecution({
+    required String lifecycleExecutionId,
+  }) async {
+    final $query = <String, List<String>>{
+      'lifecycleExecutionId': [lifecycleExecutionId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/GetLifecycleExecution',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetLifecycleExecutionResponse.fromJson(response);
+  }
+
+  /// Get details for the specified image lifecycle policy.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [lifecyclePolicyArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the image lifecycle policy
+  /// resource to get.
+  Future<GetLifecyclePolicyResponse> getLifecyclePolicy({
+    required String lifecyclePolicyArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'lifecyclePolicyArn': [lifecyclePolicyArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/GetLifecyclePolicy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetLifecyclePolicyResponse.fromJson(response);
+  }
+
+  /// Get a workflow resource object.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [workflowBuildVersionArn] :
+  /// The Amazon Resource Name (ARN) of the workflow resource that you want to
+  /// get.
+  Future<GetWorkflowResponse> getWorkflow({
+    required String workflowBuildVersionArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'workflowBuildVersionArn': [workflowBuildVersionArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/GetWorkflow',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkflowResponse.fromJson(response);
+  }
+
+  /// Get the runtime information that was logged for a specific runtime
   /// instance of the workflow.
   ///
   /// May throw [ServiceException].
@@ -1434,10 +1833,13 @@ class Imagebuilder {
   /// Parameter [changeDescription] :
   /// The change description of the component. This description indicates the
   /// change that has been made in this version, or what makes this version
-  /// different from other versions of this component.
+  /// different from other versions of the component.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token of the component.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [data] :
   /// The data of the component. Used to specify the data inline. Either
@@ -1616,7 +2018,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListComponentBuildVersionsResponse> listComponentBuildVersions({
     required String componentVersionArn,
@@ -1698,7 +2100,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   ///
   /// Parameter [owner] :
@@ -1768,7 +2170,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   ///
   /// Parameter [owner] :
@@ -1819,7 +2221,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListDistributionConfigurationsResponse>
       listDistributionConfigurations({
@@ -1886,7 +2288,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListImageBuildVersionsResponse> listImageBuildVersions({
     required String imageVersionArn,
@@ -1935,7 +2337,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListImagePackagesResponse> listImagePackages({
     required String imageBuildVersionArn,
@@ -1993,7 +2395,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListImagePipelineImagesResponse> listImagePipelineImages({
     required String imagePipelineArn,
@@ -2060,7 +2462,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListImagePipelinesResponse> listImagePipelines({
     List<Filter>? filters,
@@ -2116,7 +2518,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   ///
   /// Parameter [owner] :
@@ -2185,7 +2587,7 @@ class Imagebuilder {
   /// May throw [CallRateLimitExceededException].
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListImageScanFindingAggregationsResponse>
       listImageScanFindingAggregations({
@@ -2240,7 +2642,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListImageScanFindingsResponse> listImageScanFindings({
     List<ImageScanFindingsFilter>? filters,
@@ -2309,7 +2711,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   ///
   /// Parameter [owner] :
@@ -2365,7 +2767,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListInfrastructureConfigurationsResponse>
       listInfrastructureConfigurations({
@@ -2393,6 +2795,154 @@ class Imagebuilder {
     return ListInfrastructureConfigurationsResponse.fromJson(response);
   }
 
+  /// List resources that the runtime instance of the image lifecycle identified
+  /// for lifecycle actions.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [lifecycleExecutionId] :
+  /// Use the unique identifier for a runtime instance of the lifecycle policy
+  /// to get runtime details.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum items to return in a request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  ///
+  /// Parameter [parentResourceId] :
+  /// You can leave this empty to get a list of Image Builder resources that
+  /// were identified for lifecycle actions.
+  ///
+  /// To get a list of associated resources that are impacted for an individual
+  /// resource (the parent), specify its Amazon Resource Name (ARN). Associated
+  /// resources are produced from your image and distributed when you run a
+  /// build, such as AMIs or container images stored in ECR repositories.
+  Future<ListLifecycleExecutionResourcesResponse>
+      listLifecycleExecutionResources({
+    required String lifecycleExecutionId,
+    int? maxResults,
+    String? nextToken,
+    String? parentResourceId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $payload = <String, dynamic>{
+      'lifecycleExecutionId': lifecycleExecutionId,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (parentResourceId != null) 'parentResourceId': parentResourceId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListLifecycleExecutionResources',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLifecycleExecutionResourcesResponse.fromJson(response);
+  }
+
+  /// Get the lifecycle runtime history for the specified resource.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource for which to get a list of
+  /// lifecycle runtime instances.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum items to return in a request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  Future<ListLifecycleExecutionsResponse> listLifecycleExecutions({
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $payload = <String, dynamic>{
+      'resourceArn': resourceArn,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListLifecycleExecutions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLifecycleExecutionsResponse.fromJson(response);
+  }
+
+  /// Get a list of lifecycle policies in your Amazon Web Services account.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [filters] :
+  /// Streamline results based on one of the following values:
+  /// <code>Name</code>, <code>Status</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum items to return in a request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  Future<ListLifecyclePoliciesResponse> listLifecyclePolicies({
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListLifecyclePolicies',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLifecyclePoliciesResponse.fromJson(response);
+  }
+
   /// Returns the list of tags for the specified resource.
   ///
   /// May throw [ServiceException].
@@ -2414,6 +2964,91 @@ class Imagebuilder {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Get a list of workflow steps that are waiting for action for workflows in
+  /// your Amazon Web Services account.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum items to return in a request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  Future<ListWaitingWorkflowStepsResponse> listWaitingWorkflowSteps({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListWaitingWorkflowSteps',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWaitingWorkflowStepsResponse.fromJson(response);
+  }
+
+  /// Returns a list of build versions for a specific workflow resource.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [workflowVersionArn] :
+  /// The Amazon Resource Name (ARN) of the workflow resource for which to get a
+  /// list of build versions.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum items to return in a request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  Future<ListWorkflowBuildVersionsResponse> listWorkflowBuildVersions({
+    required String workflowVersionArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $payload = <String, dynamic>{
+      'workflowVersionArn': workflowVersionArn,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListWorkflowBuildVersions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkflowBuildVersionsResponse.fromJson(response);
+  }
+
   /// Returns a list of workflow runtime instance metadata objects for a
   /// specific image build version.
   ///
@@ -2433,7 +3068,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListWorkflowExecutionsResponse> listWorkflowExecutions({
     required String imageBuildVersionArn,
@@ -2460,7 +3095,7 @@ class Imagebuilder {
     return ListWorkflowExecutionsResponse.fromJson(response);
   }
 
-  /// Shows runtime data for each step in a runtime instance of the workflow
+  /// Returns runtime data for each step in a runtime instance of the workflow
   /// that you specify in the request.
   ///
   /// May throw [ServiceException].
@@ -2479,7 +3114,7 @@ class Imagebuilder {
   /// The maximum items to return in a request.
   ///
   /// Parameter [nextToken] :
-  /// A token to specify where to start paginating. This is the NextToken from a
+  /// A token to specify where to start paginating. This is the nextToken from a
   /// previously truncated response.
   Future<ListWorkflowStepExecutionsResponse> listWorkflowStepExecutions({
     required String workflowExecutionId,
@@ -2504,6 +3139,61 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return ListWorkflowStepExecutionsResponse.fromJson(response);
+  }
+
+  /// Lists workflow build versions based on filtering parameters.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [byName] :
+  /// Specify all or part of the workflow name to streamline results.
+  ///
+  /// Parameter [filters] :
+  /// Used to streamline search results.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum items to return in a request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  ///
+  /// Parameter [owner] :
+  /// Used to get a list of workflow build version filtered by the identity of
+  /// the creator.
+  Future<ListWorkflowsResponse> listWorkflows({
+    bool? byName,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    Ownership? owner,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $payload = <String, dynamic>{
+      if (byName != null) 'byName': byName,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (owner != null) 'owner': owner.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListWorkflows',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkflowsResponse.fromJson(response);
   }
 
   /// Applies a policy to a component. We recommend that you call the RAM API <a
@@ -2669,6 +3359,63 @@ class Imagebuilder {
     return PutImageRecipePolicyResponse.fromJson(response);
   }
 
+  /// Pauses or resumes image creation when the associated workflow runs a
+  /// <code>WaitForAction</code> step.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [action] :
+  /// The action for the image creation process to take while a workflow
+  /// <code>WaitForAction</code> step waits for an asynchronous action to
+  /// complete.
+  ///
+  /// Parameter [imageBuildVersionArn] :
+  /// The Amazon Resource Name (ARN) of the image build version to send action
+  /// for.
+  ///
+  /// Parameter [stepExecutionId] :
+  /// Uniquely identifies the workflow step that sent the step action.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
+  ///
+  /// Parameter [reason] :
+  /// The reason why this action is sent.
+  Future<SendWorkflowStepActionResponse> sendWorkflowStepAction({
+    required WorkflowStepActionType action,
+    required String imageBuildVersionArn,
+    required String stepExecutionId,
+    String? clientToken,
+    String? reason,
+  }) async {
+    final $payload = <String, dynamic>{
+      'action': action.toValue(),
+      'imageBuildVersionArn': imageBuildVersionArn,
+      'stepExecutionId': stepExecutionId,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (reason != null) 'reason': reason,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/SendWorkflowStepAction',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendWorkflowStepActionResponse.fromJson(response);
+  }
+
   /// Manually triggers a pipeline to create an image.
   ///
   /// May throw [ServiceException].
@@ -2686,7 +3433,10 @@ class Imagebuilder {
   /// manually invoke.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   Future<StartImagePipelineExecutionResponse> startImagePipelineExecution({
     required String imagePipelineArn,
     String? clientToken,
@@ -2702,6 +3452,73 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return StartImagePipelineExecutionResponse.fromJson(response);
+  }
+
+  /// Begin asynchronous resource state update for lifecycle changes to the
+  /// specified image resources.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the Image Builder resource that is updated. The state update
+  /// might also impact associated resources.
+  ///
+  /// Parameter [state] :
+  /// Indicates the lifecycle action to take for this request.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
+  ///
+  /// Parameter [exclusionRules] :
+  /// Skip action on the image resource and associated resources if specified
+  /// exclusion rules are met.
+  ///
+  /// Parameter [executionRole] :
+  /// The name or Amazon Resource Name (ARN) of the IAM role that’s used to
+  /// update image state.
+  ///
+  /// Parameter [includeResources] :
+  /// A list of image resources to update state for.
+  ///
+  /// Parameter [updateAt] :
+  /// The timestamp that indicates when resources are updated by a lifecycle
+  /// action.
+  Future<StartResourceStateUpdateResponse> startResourceStateUpdate({
+    required String resourceArn,
+    required ResourceState state,
+    String? clientToken,
+    ResourceStateUpdateExclusionRules? exclusionRules,
+    String? executionRole,
+    ResourceStateUpdateIncludeResources? includeResources,
+    DateTime? updateAt,
+  }) async {
+    final $payload = <String, dynamic>{
+      'resourceArn': resourceArn,
+      'state': state,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (exclusionRules != null) 'exclusionRules': exclusionRules,
+      if (executionRole != null) 'executionRole': executionRole,
+      if (includeResources != null) 'includeResources': includeResources,
+      if (updateAt != null) 'updateAt': unixTimestampToJson(updateAt),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/StartResourceStateUpdate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartResourceStateUpdateResponse.fromJson(response);
   }
 
   /// Adds a tag to a resource.
@@ -2778,7 +3595,10 @@ class Imagebuilder {
   /// The distributions of the distribution configuration.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token of the distribution configuration.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [description] :
   /// The description of the distribution configuration.
@@ -2805,7 +3625,9 @@ class Imagebuilder {
   }
 
   /// Updates an image pipeline. Image pipelines enable you to automate the
-  /// creation and distribution of images.
+  /// creation and distribution of images. You must specify exactly one recipe
+  /// for your image, using either a <code>containerRecipeArn</code> or an
+  /// <code>imageRecipeArn</code>.
   /// <note>
   /// UpdateImagePipeline does not support selective updates for the pipeline.
   /// You must specify all of the required properties in the update request, not
@@ -2830,7 +3652,10 @@ class Imagebuilder {
   /// Image Builder uses to build images that this image pipeline has updated.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [containerRecipeArn] :
   /// The Amazon Resource Name (ARN) of the container pipeline to update.
@@ -2849,6 +3674,10 @@ class Imagebuilder {
   /// used to enhance the overall experience of using EC2 Image Builder. Enabled
   /// by default.
   ///
+  /// Parameter [executionRole] :
+  /// The name or Amazon Resource Name (ARN) for the IAM role you create that
+  /// grants Image Builder access to perform workflow actions.
+  ///
   /// Parameter [imageRecipeArn] :
   /// The Amazon Resource Name (ARN) of the image recipe that will be used to
   /// configure images updated by this image pipeline.
@@ -2864,6 +3693,9 @@ class Imagebuilder {
   ///
   /// Parameter [status] :
   /// The status of the image pipeline.
+  ///
+  /// Parameter [workflows] :
+  /// Contains the workflows to run for the pipeline.
   Future<UpdateImagePipelineResponse> updateImagePipeline({
     required String imagePipelineArn,
     required String infrastructureConfigurationArn,
@@ -2872,11 +3704,13 @@ class Imagebuilder {
     String? description,
     String? distributionConfigurationArn,
     bool? enhancedImageMetadataEnabled,
+    String? executionRole,
     String? imageRecipeArn,
     ImageScanningConfiguration? imageScanningConfiguration,
     ImageTestsConfiguration? imageTestsConfiguration,
     Schedule? schedule,
     PipelineStatus? status,
+    List<WorkflowConfiguration>? workflows,
   }) async {
     final $payload = <String, dynamic>{
       'imagePipelineArn': imagePipelineArn,
@@ -2888,6 +3722,7 @@ class Imagebuilder {
         'distributionConfigurationArn': distributionConfigurationArn,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (executionRole != null) 'executionRole': executionRole,
       if (imageRecipeArn != null) 'imageRecipeArn': imageRecipeArn,
       if (imageScanningConfiguration != null)
         'imageScanningConfiguration': imageScanningConfiguration,
@@ -2895,6 +3730,7 @@ class Imagebuilder {
         'imageTestsConfiguration': imageTestsConfiguration,
       if (schedule != null) 'schedule': schedule,
       if (status != null) 'status': status.toValue(),
+      if (workflows != null) 'workflows': workflows,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2927,7 +3763,10 @@ class Imagebuilder {
   /// Amazon EC2 AMI.
   ///
   /// Parameter [clientToken] :
-  /// The idempotency token used to make this request idempotent.
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [description] :
   /// The description of the infrastructure configuration.
@@ -3031,6 +3870,74 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateInfrastructureConfigurationResponse.fromJson(response);
+  }
+
+  /// Update the specified lifecycle policy.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [executionRole] :
+  /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder
+  /// uses to update the lifecycle policy.
+  ///
+  /// Parameter [lifecyclePolicyArn] :
+  /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
+  ///
+  /// Parameter [policyDetails] :
+  /// The configuration details for a lifecycle policy resource.
+  ///
+  /// Parameter [resourceSelection] :
+  /// Selection criteria for resources that the lifecycle policy applies to.
+  ///
+  /// Parameter [resourceType] :
+  /// The type of image resource that the lifecycle policy applies to.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier you provide to ensure idempotency of the
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
+  ///
+  /// Parameter [description] :
+  /// Optional description for the lifecycle policy.
+  ///
+  /// Parameter [status] :
+  /// Indicates whether the lifecycle policy resource is enabled.
+  Future<UpdateLifecyclePolicyResponse> updateLifecyclePolicy({
+    required String executionRole,
+    required String lifecyclePolicyArn,
+    required List<LifecyclePolicyDetail> policyDetails,
+    required LifecyclePolicyResourceSelection resourceSelection,
+    required LifecyclePolicyResourceType resourceType,
+    String? clientToken,
+    String? description,
+    LifecyclePolicyStatus? status,
+  }) async {
+    final $payload = <String, dynamic>{
+      'executionRole': executionRole,
+      'lifecyclePolicyArn': lifecyclePolicyArn,
+      'policyDetails': policyDetails,
+      'resourceSelection': resourceSelection,
+      'resourceType': resourceType.toValue(),
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (status != null) 'status': status.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/UpdateLifecyclePolicy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateLifecyclePolicyResponse.fromJson(response);
   }
 }
 
@@ -3293,7 +4200,7 @@ extension BuildTypeFromString on String {
 }
 
 class CancelImageCreationResponse {
-  /// The idempotency token that was used for this request.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The ARN of the image whose creation this request canceled.
@@ -3329,12 +4236,37 @@ class CancelImageCreationResponse {
   }
 }
 
+class CancelLifecycleExecutionResponse {
+  /// The unique identifier for the image lifecycle runtime instance that was
+  /// canceled.
+  final String? lifecycleExecutionId;
+
+  CancelLifecycleExecutionResponse({
+    this.lifecycleExecutionId,
+  });
+
+  factory CancelLifecycleExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return CancelLifecycleExecutionResponse(
+      lifecycleExecutionId: json['lifecycleExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleExecutionId = this.lifecycleExecutionId;
+    return {
+      if (lifecycleExecutionId != null)
+        'lifecycleExecutionId': lifecycleExecutionId,
+    };
+  }
+}
+
 /// A detailed view of a component.
 class Component {
   /// The Amazon Resource Name (ARN) of the component.
   final String? arn;
 
-  /// The change description of the component.
+  /// Describes what change has been made in this version of the component, or
+  /// what makes this version different from other versions of the component.
   final String? changeDescription;
 
   /// Component data contains the YAML document content for the component.
@@ -3628,8 +4560,7 @@ class ComponentParameterDetail {
   }
 }
 
-/// A group of fields that describe the current status of components that are no
-/// longer active.
+/// A group of fields that describe the current status of components.
 class ComponentState {
   /// Describes how or why the component changed state.
   final String? reason;
@@ -4351,10 +5282,10 @@ extension ContainerTypeFromString on String {
 }
 
 class CreateComponentResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
-  /// The Amazon Resource Name (ARN) of the component that this request created.
+  /// The Amazon Resource Name (ARN) of the component that the request created.
   final String? componentBuildVersionArn;
 
   /// The request ID that uniquely identifies this request.
@@ -4388,7 +5319,7 @@ class CreateComponentResponse {
 }
 
 class CreateContainerRecipeResponse {
-  /// The client token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// Returns the Amazon Resource Name (ARN) of the container recipe that the
@@ -4425,7 +5356,7 @@ class CreateContainerRecipeResponse {
 }
 
 class CreateDistributionConfigurationResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the distribution configuration that was
@@ -4465,7 +5396,7 @@ class CreateDistributionConfigurationResponse {
 }
 
 class CreateImagePipelineResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the image pipeline that was created by
@@ -4502,7 +5433,7 @@ class CreateImagePipelineResponse {
 }
 
 class CreateImageRecipeResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the image recipe that was created by this
@@ -4539,10 +5470,10 @@ class CreateImageRecipeResponse {
 }
 
 class CreateImageResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
-  /// The Amazon Resource Name (ARN) of the image that this request created.
+  /// The Amazon Resource Name (ARN) of the image that the request created.
   final String? imageBuildVersionArn;
 
   /// The request ID that uniquely identifies this request.
@@ -4576,7 +5507,7 @@ class CreateImageResponse {
 }
 
 class CreateInfrastructureConfigurationResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the infrastructure configuration that was
@@ -4611,6 +5542,67 @@ class CreateInfrastructureConfigurationResponse {
       if (infrastructureConfigurationArn != null)
         'infrastructureConfigurationArn': infrastructureConfigurationArn,
       if (requestId != null) 'requestId': requestId,
+    };
+  }
+}
+
+class CreateLifecyclePolicyResponse {
+  /// The client token that uniquely identifies the request.
+  final String? clientToken;
+
+  /// The Amazon Resource Name (ARN) of the lifecycle policy that the request
+  /// created.
+  final String? lifecyclePolicyArn;
+
+  CreateLifecyclePolicyResponse({
+    this.clientToken,
+    this.lifecyclePolicyArn,
+  });
+
+  factory CreateLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLifecyclePolicyResponse(
+      clientToken: json['clientToken'] as String?,
+      lifecyclePolicyArn: json['lifecyclePolicyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final lifecyclePolicyArn = this.lifecyclePolicyArn;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (lifecyclePolicyArn != null) 'lifecyclePolicyArn': lifecyclePolicyArn,
+    };
+  }
+}
+
+class CreateWorkflowResponse {
+  /// The client token that uniquely identifies the request.
+  final String? clientToken;
+
+  /// The Amazon Resource Name (ARN) of the workflow resource that the request
+  /// created.
+  final String? workflowBuildVersionArn;
+
+  CreateWorkflowResponse({
+    this.clientToken,
+    this.workflowBuildVersionArn,
+  });
+
+  factory CreateWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return CreateWorkflowResponse(
+      clientToken: json['clientToken'] as String?,
+      workflowBuildVersionArn: json['workflowBuildVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final workflowBuildVersionArn = this.workflowBuildVersionArn;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (workflowBuildVersionArn != null)
+        'workflowBuildVersionArn': workflowBuildVersionArn,
     };
   }
 }
@@ -4970,6 +5962,51 @@ class DeleteInfrastructureConfigurationResponse {
       if (infrastructureConfigurationArn != null)
         'infrastructureConfigurationArn': infrastructureConfigurationArn,
       if (requestId != null) 'requestId': requestId,
+    };
+  }
+}
+
+class DeleteLifecyclePolicyResponse {
+  /// The ARN of the lifecycle policy that was deleted.
+  final String? lifecyclePolicyArn;
+
+  DeleteLifecyclePolicyResponse({
+    this.lifecyclePolicyArn,
+  });
+
+  factory DeleteLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteLifecyclePolicyResponse(
+      lifecyclePolicyArn: json['lifecyclePolicyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyArn = this.lifecyclePolicyArn;
+    return {
+      if (lifecyclePolicyArn != null) 'lifecyclePolicyArn': lifecyclePolicyArn,
+    };
+  }
+}
+
+class DeleteWorkflowResponse {
+  /// The ARN of the workflow resource that this request deleted.
+  final String? workflowBuildVersionArn;
+
+  DeleteWorkflowResponse({
+    this.workflowBuildVersionArn,
+  });
+
+  factory DeleteWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteWorkflowResponse(
+      workflowBuildVersionArn: json['workflowBuildVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowBuildVersionArn = this.workflowBuildVersionArn;
+    return {
+      if (workflowBuildVersionArn != null)
+        'workflowBuildVersionArn': workflowBuildVersionArn,
     };
   }
 }
@@ -5613,7 +6650,7 @@ class GetComponentPolicyResponse {
 }
 
 class GetComponentResponse {
-  /// The component object associated with the specified ARN.
+  /// The component object specified in the request.
   final Component? component;
 
   /// The request ID that uniquely identifies this request.
@@ -5925,6 +6962,56 @@ class GetInfrastructureConfigurationResponse {
   }
 }
 
+class GetLifecycleExecutionResponse {
+  /// Runtime details for the specified runtime instance of the lifecycle policy.
+  final LifecycleExecution? lifecycleExecution;
+
+  GetLifecycleExecutionResponse({
+    this.lifecycleExecution,
+  });
+
+  factory GetLifecycleExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return GetLifecycleExecutionResponse(
+      lifecycleExecution: json['lifecycleExecution'] != null
+          ? LifecycleExecution.fromJson(
+              json['lifecycleExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleExecution = this.lifecycleExecution;
+    return {
+      if (lifecycleExecution != null) 'lifecycleExecution': lifecycleExecution,
+    };
+  }
+}
+
+class GetLifecyclePolicyResponse {
+  /// The ARN of the image lifecycle policy resource that was returned.
+  final LifecyclePolicy? lifecyclePolicy;
+
+  GetLifecyclePolicyResponse({
+    this.lifecyclePolicy,
+  });
+
+  factory GetLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetLifecyclePolicyResponse(
+      lifecyclePolicy: json['lifecyclePolicy'] != null
+          ? LifecyclePolicy.fromJson(
+              json['lifecyclePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicy = this.lifecyclePolicy;
+    return {
+      if (lifecyclePolicy != null) 'lifecyclePolicy': lifecyclePolicy,
+    };
+  }
+}
+
 class GetWorkflowExecutionResponse {
   /// The timestamp when the specified runtime instance of the workflow finished.
   final String? endTime;
@@ -5936,6 +7023,10 @@ class GetWorkflowExecutionResponse {
   /// The output message from the specified runtime instance of the workflow, if
   /// applicable.
   final String? message;
+
+  /// Test workflows are defined within named runtime groups. The parallel group
+  /// is a named group that contains one or more test workflows.
+  final String? parallelGroup;
 
   /// The request ID that uniquely identifies this request.
   final String? requestId;
@@ -5981,6 +7072,7 @@ class GetWorkflowExecutionResponse {
     this.endTime,
     this.imageBuildVersionArn,
     this.message,
+    this.parallelGroup,
     this.requestId,
     this.startTime,
     this.status,
@@ -5998,6 +7090,7 @@ class GetWorkflowExecutionResponse {
       endTime: json['endTime'] as String?,
       imageBuildVersionArn: json['imageBuildVersionArn'] as String?,
       message: json['message'] as String?,
+      parallelGroup: json['parallelGroup'] as String?,
       requestId: json['requestId'] as String?,
       startTime: json['startTime'] as String?,
       status: (json['status'] as String?)?.toWorkflowExecutionStatus(),
@@ -6015,6 +7108,7 @@ class GetWorkflowExecutionResponse {
     final endTime = this.endTime;
     final imageBuildVersionArn = this.imageBuildVersionArn;
     final message = this.message;
+    final parallelGroup = this.parallelGroup;
     final requestId = this.requestId;
     final startTime = this.startTime;
     final status = this.status;
@@ -6030,6 +7124,7 @@ class GetWorkflowExecutionResponse {
       if (imageBuildVersionArn != null)
         'imageBuildVersionArn': imageBuildVersionArn,
       if (message != null) 'message': message,
+      if (parallelGroup != null) 'parallelGroup': parallelGroup,
       if (requestId != null) 'requestId': requestId,
       if (startTime != null) 'startTime': startTime,
       if (status != null) 'status': status.toValue(),
@@ -6043,6 +7138,30 @@ class GetWorkflowExecutionResponse {
         'workflowBuildVersionArn': workflowBuildVersionArn,
       if (workflowExecutionId != null)
         'workflowExecutionId': workflowExecutionId,
+    };
+  }
+}
+
+class GetWorkflowResponse {
+  /// The workflow resource specified in the request.
+  final Workflow? workflow;
+
+  GetWorkflowResponse({
+    this.workflow,
+  });
+
+  factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowResponse(
+      workflow: json['workflow'] != null
+          ? Workflow.fromJson(json['workflow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflow = this.workflow;
+    return {
+      if (workflow != null) 'workflow': workflow,
     };
   }
 }
@@ -6245,12 +7364,20 @@ class Image {
   /// The date on which Image Builder created this image.
   final String? dateCreated;
 
+  /// The time when deprecation occurs for an image resource. This can be a past
+  /// or future date.
+  final DateTime? deprecationTime;
+
   /// The distribution configuration that Image Builder used to create this image.
   final DistributionConfiguration? distributionConfiguration;
 
   /// Indicates whether Image Builder collects additional information about the
   /// image, such as the operating system (OS) version and package list.
   final bool? enhancedImageMetadataEnabled;
+
+  /// The name or Amazon Resource Name (ARN) for the IAM role you create that
+  /// grants Image Builder access to perform workflow actions.
+  final String? executionRole;
 
   /// For images that distribute an AMI, this is the image recipe that Image
   /// Builder used to create the image. For container images, this is empty.
@@ -6267,6 +7394,10 @@ class Image {
 
   /// The infrastructure that Image Builder used to create this image.
   final InfrastructureConfiguration? infrastructureConfiguration;
+
+  /// Identifies the last runtime instance of the lifecycle policy to take action
+  /// on the image.
+  final String? lifecycleExecutionId;
 
   /// The name of the image.
   final String? name;
@@ -6323,18 +7454,24 @@ class Image {
   /// </note>
   final String? version;
 
+  /// Contains the build and test workflows that are associated with the image.
+  final List<WorkflowConfiguration>? workflows;
+
   Image({
     this.arn,
     this.buildType,
     this.containerRecipe,
     this.dateCreated,
+    this.deprecationTime,
     this.distributionConfiguration,
     this.enhancedImageMetadataEnabled,
+    this.executionRole,
     this.imageRecipe,
     this.imageScanningConfiguration,
     this.imageSource,
     this.imageTestsConfiguration,
     this.infrastructureConfiguration,
+    this.lifecycleExecutionId,
     this.name,
     this.osVersion,
     this.outputResources,
@@ -6346,6 +7483,7 @@ class Image {
     this.tags,
     this.type,
     this.version,
+    this.workflows,
   });
 
   factory Image.fromJson(Map<String, dynamic> json) {
@@ -6357,12 +7495,14 @@ class Image {
               json['containerRecipe'] as Map<String, dynamic>)
           : null,
       dateCreated: json['dateCreated'] as String?,
+      deprecationTime: timeStampFromJson(json['deprecationTime']),
       distributionConfiguration: json['distributionConfiguration'] != null
           ? DistributionConfiguration.fromJson(
               json['distributionConfiguration'] as Map<String, dynamic>)
           : null,
       enhancedImageMetadataEnabled:
           json['enhancedImageMetadataEnabled'] as bool?,
+      executionRole: json['executionRole'] as String?,
       imageRecipe: json['imageRecipe'] != null
           ? ImageRecipe.fromJson(json['imageRecipe'] as Map<String, dynamic>)
           : null,
@@ -6379,6 +7519,7 @@ class Image {
           ? InfrastructureConfiguration.fromJson(
               json['infrastructureConfiguration'] as Map<String, dynamic>)
           : null,
+      lifecycleExecutionId: json['lifecycleExecutionId'] as String?,
       name: json['name'] as String?,
       osVersion: json['osVersion'] as String?,
       outputResources: json['outputResources'] != null
@@ -6398,6 +7539,10 @@ class Image {
           ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['type'] as String?)?.toImageType(),
       version: json['version'] as String?,
+      workflows: (json['workflows'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -6406,13 +7551,16 @@ class Image {
     final buildType = this.buildType;
     final containerRecipe = this.containerRecipe;
     final dateCreated = this.dateCreated;
+    final deprecationTime = this.deprecationTime;
     final distributionConfiguration = this.distributionConfiguration;
     final enhancedImageMetadataEnabled = this.enhancedImageMetadataEnabled;
+    final executionRole = this.executionRole;
     final imageRecipe = this.imageRecipe;
     final imageScanningConfiguration = this.imageScanningConfiguration;
     final imageSource = this.imageSource;
     final imageTestsConfiguration = this.imageTestsConfiguration;
     final infrastructureConfiguration = this.infrastructureConfiguration;
+    final lifecycleExecutionId = this.lifecycleExecutionId;
     final name = this.name;
     final osVersion = this.osVersion;
     final outputResources = this.outputResources;
@@ -6424,15 +7572,19 @@ class Image {
     final tags = this.tags;
     final type = this.type;
     final version = this.version;
+    final workflows = this.workflows;
     return {
       if (arn != null) 'arn': arn,
       if (buildType != null) 'buildType': buildType.toValue(),
       if (containerRecipe != null) 'containerRecipe': containerRecipe,
       if (dateCreated != null) 'dateCreated': dateCreated,
+      if (deprecationTime != null)
+        'deprecationTime': unixTimestampToJson(deprecationTime),
       if (distributionConfiguration != null)
         'distributionConfiguration': distributionConfiguration,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (executionRole != null) 'executionRole': executionRole,
       if (imageRecipe != null) 'imageRecipe': imageRecipe,
       if (imageScanningConfiguration != null)
         'imageScanningConfiguration': imageScanningConfiguration,
@@ -6441,6 +7593,8 @@ class Image {
         'imageTestsConfiguration': imageTestsConfiguration,
       if (infrastructureConfiguration != null)
         'infrastructureConfiguration': infrastructureConfiguration,
+      if (lifecycleExecutionId != null)
+        'lifecycleExecutionId': lifecycleExecutionId,
       if (name != null) 'name': name,
       if (osVersion != null) 'osVersion': osVersion,
       if (outputResources != null) 'outputResources': outputResources,
@@ -6452,6 +7606,7 @@ class Image {
       if (tags != null) 'tags': tags,
       if (type != null) 'type': type.toValue(),
       if (version != null) 'version': version,
+      if (workflows != null) 'workflows': workflows,
     };
   }
 }
@@ -6538,7 +7693,7 @@ class ImagePipeline {
   /// This is no longer supported, and does not return a value.
   final String? dateLastRun;
 
-  /// This is no longer supported, and does not return a value.
+  /// The next date when the pipeline is scheduled to run.
   final String? dateNextRun;
 
   /// The date on which this image pipeline was last updated.
@@ -6556,6 +7711,10 @@ class ImagePipeline {
   /// enhance the overall experience of using EC2 Image Builder. Enabled by
   /// default.
   final bool? enhancedImageMetadataEnabled;
+
+  /// The name or Amazon Resource Name (ARN) for the IAM role you create that
+  /// grants Image Builder access to perform workflow actions.
+  final String? executionRole;
 
   /// The Amazon Resource Name (ARN) of the image recipe associated with this
   /// image pipeline.
@@ -6586,6 +7745,9 @@ class ImagePipeline {
   /// The tags of this image pipeline.
   final Map<String, String>? tags;
 
+  /// Contains the workflows that run for the image pipeline.
+  final List<WorkflowConfiguration>? workflows;
+
   ImagePipeline({
     this.arn,
     this.containerRecipeArn,
@@ -6596,6 +7758,7 @@ class ImagePipeline {
     this.description,
     this.distributionConfigurationArn,
     this.enhancedImageMetadataEnabled,
+    this.executionRole,
     this.imageRecipeArn,
     this.imageScanningConfiguration,
     this.imageTestsConfiguration,
@@ -6605,6 +7768,7 @@ class ImagePipeline {
     this.schedule,
     this.status,
     this.tags,
+    this.workflows,
   });
 
   factory ImagePipeline.fromJson(Map<String, dynamic> json) {
@@ -6620,6 +7784,7 @@ class ImagePipeline {
           json['distributionConfigurationArn'] as String?,
       enhancedImageMetadataEnabled:
           json['enhancedImageMetadataEnabled'] as bool?,
+      executionRole: json['executionRole'] as String?,
       imageRecipeArn: json['imageRecipeArn'] as String?,
       imageScanningConfiguration: json['imageScanningConfiguration'] != null
           ? ImageScanningConfiguration.fromJson(
@@ -6639,6 +7804,10 @@ class ImagePipeline {
       status: (json['status'] as String?)?.toPipelineStatus(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      workflows: (json['workflows'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -6652,6 +7821,7 @@ class ImagePipeline {
     final description = this.description;
     final distributionConfigurationArn = this.distributionConfigurationArn;
     final enhancedImageMetadataEnabled = this.enhancedImageMetadataEnabled;
+    final executionRole = this.executionRole;
     final imageRecipeArn = this.imageRecipeArn;
     final imageScanningConfiguration = this.imageScanningConfiguration;
     final imageTestsConfiguration = this.imageTestsConfiguration;
@@ -6661,6 +7831,7 @@ class ImagePipeline {
     final schedule = this.schedule;
     final status = this.status;
     final tags = this.tags;
+    final workflows = this.workflows;
     return {
       if (arn != null) 'arn': arn,
       if (containerRecipeArn != null) 'containerRecipeArn': containerRecipeArn,
@@ -6673,6 +7844,7 @@ class ImagePipeline {
         'distributionConfigurationArn': distributionConfigurationArn,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (executionRole != null) 'executionRole': executionRole,
       if (imageRecipeArn != null) 'imageRecipeArn': imageRecipeArn,
       if (imageScanningConfiguration != null)
         'imageScanningConfiguration': imageScanningConfiguration,
@@ -6685,6 +7857,7 @@ class ImagePipeline {
       if (schedule != null) 'schedule': schedule,
       if (status != null) 'status': status.toValue(),
       if (tags != null) 'tags': tags,
+      if (workflows != null) 'workflows': workflows,
     };
   }
 }
@@ -7344,6 +8517,7 @@ enum ImageStatus {
   failed,
   deprecated,
   deleted,
+  disabled,
 }
 
 extension ImageStatusValueExtension on ImageStatus {
@@ -7371,6 +8545,8 @@ extension ImageStatusValueExtension on ImageStatus {
         return 'DEPRECATED';
       case ImageStatus.deleted:
         return 'DELETED';
+      case ImageStatus.disabled:
+        return 'DISABLED';
     }
   }
 }
@@ -7400,6 +8576,8 @@ extension ImageStatusFromString on String {
         return ImageStatus.deprecated;
       case 'DELETED':
         return ImageStatus.deleted;
+      case 'DISABLED':
+        return ImageStatus.disabled;
     }
     throw Exception('$this is not known in enum ImageStatus');
   }
@@ -7431,8 +8609,16 @@ class ImageSummary {
   /// The date on which Image Builder created this image.
   final String? dateCreated;
 
+  /// The time when deprecation occurs for an image resource. This can be a past
+  /// or future date.
+  final DateTime? deprecationTime;
+
   /// The origin of the base image that Image Builder used to build this image.
   final ImageSource? imageSource;
+
+  /// Identifies the last runtime instance of the lifecycle policy to take action
+  /// on the image.
+  final String? lifecycleExecutionId;
 
   /// The name of the image.
   final String? name;
@@ -7466,7 +8652,9 @@ class ImageSummary {
     this.arn,
     this.buildType,
     this.dateCreated,
+    this.deprecationTime,
     this.imageSource,
+    this.lifecycleExecutionId,
     this.name,
     this.osVersion,
     this.outputResources,
@@ -7483,7 +8671,9 @@ class ImageSummary {
       arn: json['arn'] as String?,
       buildType: (json['buildType'] as String?)?.toBuildType(),
       dateCreated: json['dateCreated'] as String?,
+      deprecationTime: timeStampFromJson(json['deprecationTime']),
       imageSource: (json['imageSource'] as String?)?.toImageSource(),
+      lifecycleExecutionId: json['lifecycleExecutionId'] as String?,
       name: json['name'] as String?,
       osVersion: json['osVersion'] as String?,
       outputResources: json['outputResources'] != null
@@ -7506,7 +8696,9 @@ class ImageSummary {
     final arn = this.arn;
     final buildType = this.buildType;
     final dateCreated = this.dateCreated;
+    final deprecationTime = this.deprecationTime;
     final imageSource = this.imageSource;
+    final lifecycleExecutionId = this.lifecycleExecutionId;
     final name = this.name;
     final osVersion = this.osVersion;
     final outputResources = this.outputResources;
@@ -7520,7 +8712,11 @@ class ImageSummary {
       if (arn != null) 'arn': arn,
       if (buildType != null) 'buildType': buildType.toValue(),
       if (dateCreated != null) 'dateCreated': dateCreated,
+      if (deprecationTime != null)
+        'deprecationTime': unixTimestampToJson(deprecationTime),
       if (imageSource != null) 'imageSource': imageSource.toValue(),
+      if (lifecycleExecutionId != null)
+        'lifecycleExecutionId': lifecycleExecutionId,
       if (name != null) 'name': name,
       if (osVersion != null) 'osVersion': osVersion,
       if (outputResources != null) 'outputResources': outputResources,
@@ -7744,7 +8940,7 @@ class ImageVersion {
 }
 
 class ImportComponentResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the imported component.
@@ -7781,7 +8977,7 @@ class ImportComponentResponse {
 }
 
 class ImportVmImageResponse {
-  /// The idempotency token that was used for this request.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the AMI that was created during the VM
@@ -8336,12 +9532,1216 @@ class LaunchTemplateConfiguration {
   }
 }
 
+/// Contains metadata from a runtime instance of a lifecycle policy.
+class LifecycleExecution {
+  /// The timestamp when the lifecycle runtime instance completed.
+  final DateTime? endTime;
+
+  /// Identifies the lifecycle policy runtime instance.
+  final String? lifecycleExecutionId;
+
+  /// The Amazon Resource Name (ARN) of the lifecycle policy that ran.
+  final String? lifecyclePolicyArn;
+
+  /// Contains information about associated resources that are identified for
+  /// action by the runtime instance of the lifecycle policy.
+  final LifecycleExecutionResourcesImpactedSummary? resourcesImpactedSummary;
+
+  /// The timestamp when the lifecycle runtime instance started.
+  final DateTime? startTime;
+
+  /// Runtime state that reports if the policy action ran successfully, failed, or
+  /// was skipped.
+  final LifecycleExecutionState? state;
+
+  LifecycleExecution({
+    this.endTime,
+    this.lifecycleExecutionId,
+    this.lifecyclePolicyArn,
+    this.resourcesImpactedSummary,
+    this.startTime,
+    this.state,
+  });
+
+  factory LifecycleExecution.fromJson(Map<String, dynamic> json) {
+    return LifecycleExecution(
+      endTime: timeStampFromJson(json['endTime']),
+      lifecycleExecutionId: json['lifecycleExecutionId'] as String?,
+      lifecyclePolicyArn: json['lifecyclePolicyArn'] as String?,
+      resourcesImpactedSummary: json['resourcesImpactedSummary'] != null
+          ? LifecycleExecutionResourcesImpactedSummary.fromJson(
+              json['resourcesImpactedSummary'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['startTime']),
+      state: json['state'] != null
+          ? LifecycleExecutionState.fromJson(
+              json['state'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final lifecycleExecutionId = this.lifecycleExecutionId;
+    final lifecyclePolicyArn = this.lifecyclePolicyArn;
+    final resourcesImpactedSummary = this.resourcesImpactedSummary;
+    final startTime = this.startTime;
+    final state = this.state;
+    return {
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (lifecycleExecutionId != null)
+        'lifecycleExecutionId': lifecycleExecutionId,
+      if (lifecyclePolicyArn != null) 'lifecyclePolicyArn': lifecyclePolicyArn,
+      if (resourcesImpactedSummary != null)
+        'resourcesImpactedSummary': resourcesImpactedSummary,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (state != null) 'state': state,
+    };
+  }
+}
+
+/// Contains details for a resource that the runtime instance of the lifecycle
+/// policy identified for action.
+class LifecycleExecutionResource {
+  /// The account that owns the impacted resource.
+  final String? accountId;
+
+  /// The action to take for the identified resource.
+  final LifecycleExecutionResourceAction? action;
+
+  /// The ending timestamp from the lifecycle action that was applied to the
+  /// resource.
+  final DateTime? endTime;
+
+  /// For an impacted container image, this identifies a list of URIs for
+  /// associated container images distributed to ECR repositories.
+  final List<String>? imageUris;
+
+  /// The Amazon Web Services Region where the lifecycle execution resource is
+  /// stored.
+  final String? region;
+
+  /// Identifies the impacted resource. The resource ID depends on the type of
+  /// resource, as follows.
+  ///
+  /// <ul>
+  /// <li>
+  /// Image Builder image resources: Amazon Resource Name (ARN)
+  /// </li>
+  /// <li>
+  /// Distributed AMIs: AMI ID
+  /// </li>
+  /// <li>
+  /// Container images distributed to an ECR repository: image URI or SHA Digest
+  /// </li>
+  /// </ul>
+  final String? resourceId;
+
+  /// A list of associated resource snapshots for the impacted resource if it’s an
+  /// AMI.
+  final List<LifecycleExecutionSnapshotResource>? snapshots;
+
+  /// The starting timestamp from the lifecycle action that was applied to the
+  /// resource.
+  final DateTime? startTime;
+
+  /// The runtime state for the lifecycle execution.
+  final LifecycleExecutionResourceState? state;
+
+  LifecycleExecutionResource({
+    this.accountId,
+    this.action,
+    this.endTime,
+    this.imageUris,
+    this.region,
+    this.resourceId,
+    this.snapshots,
+    this.startTime,
+    this.state,
+  });
+
+  factory LifecycleExecutionResource.fromJson(Map<String, dynamic> json) {
+    return LifecycleExecutionResource(
+      accountId: json['accountId'] as String?,
+      action: json['action'] != null
+          ? LifecycleExecutionResourceAction.fromJson(
+              json['action'] as Map<String, dynamic>)
+          : null,
+      endTime: timeStampFromJson(json['endTime']),
+      imageUris: (json['imageUris'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      region: json['region'] as String?,
+      resourceId: json['resourceId'] as String?,
+      snapshots: (json['snapshots'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleExecutionSnapshotResource.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      startTime: timeStampFromJson(json['startTime']),
+      state: json['state'] != null
+          ? LifecycleExecutionResourceState.fromJson(
+              json['state'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final action = this.action;
+    final endTime = this.endTime;
+    final imageUris = this.imageUris;
+    final region = this.region;
+    final resourceId = this.resourceId;
+    final snapshots = this.snapshots;
+    final startTime = this.startTime;
+    final state = this.state;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (action != null) 'action': action,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (imageUris != null) 'imageUris': imageUris,
+      if (region != null) 'region': region,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (snapshots != null) 'snapshots': snapshots,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (state != null) 'state': state,
+    };
+  }
+}
+
+/// The lifecycle policy action that was identified for the impacted resource.
+class LifecycleExecutionResourceAction {
+  /// The name of the resource that was identified for a lifecycle policy action.
+  final LifecycleExecutionResourceActionName? name;
+
+  /// The reason why the lifecycle policy action is taken.
+  final String? reason;
+
+  LifecycleExecutionResourceAction({
+    this.name,
+    this.reason,
+  });
+
+  factory LifecycleExecutionResourceAction.fromJson(Map<String, dynamic> json) {
+    return LifecycleExecutionResourceAction(
+      name: (json['name'] as String?)?.toLifecycleExecutionResourceActionName(),
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final reason = this.reason;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+enum LifecycleExecutionResourceActionName {
+  available,
+  delete,
+  deprecate,
+  disable,
+}
+
+extension LifecycleExecutionResourceActionNameValueExtension
+    on LifecycleExecutionResourceActionName {
+  String toValue() {
+    switch (this) {
+      case LifecycleExecutionResourceActionName.available:
+        return 'AVAILABLE';
+      case LifecycleExecutionResourceActionName.delete:
+        return 'DELETE';
+      case LifecycleExecutionResourceActionName.deprecate:
+        return 'DEPRECATE';
+      case LifecycleExecutionResourceActionName.disable:
+        return 'DISABLE';
+    }
+  }
+}
+
+extension LifecycleExecutionResourceActionNameFromString on String {
+  LifecycleExecutionResourceActionName
+      toLifecycleExecutionResourceActionName() {
+    switch (this) {
+      case 'AVAILABLE':
+        return LifecycleExecutionResourceActionName.available;
+      case 'DELETE':
+        return LifecycleExecutionResourceActionName.delete;
+      case 'DEPRECATE':
+        return LifecycleExecutionResourceActionName.deprecate;
+      case 'DISABLE':
+        return LifecycleExecutionResourceActionName.disable;
+    }
+    throw Exception(
+        '$this is not known in enum LifecycleExecutionResourceActionName');
+  }
+}
+
+/// Contains the state of an impacted resource that the runtime instance of the
+/// lifecycle policy identified for action.
+class LifecycleExecutionResourceState {
+  /// Messaging that clarifies the reason for the assigned status.
+  final String? reason;
+
+  /// The runtime status of the lifecycle action taken for the impacted resource.
+  final LifecycleExecutionResourceStatus? status;
+
+  LifecycleExecutionResourceState({
+    this.reason,
+    this.status,
+  });
+
+  factory LifecycleExecutionResourceState.fromJson(Map<String, dynamic> json) {
+    return LifecycleExecutionResourceState(
+      reason: json['reason'] as String?,
+      status: (json['status'] as String?)?.toLifecycleExecutionResourceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+enum LifecycleExecutionResourceStatus {
+  failed,
+  inProgress,
+  skipped,
+  success,
+}
+
+extension LifecycleExecutionResourceStatusValueExtension
+    on LifecycleExecutionResourceStatus {
+  String toValue() {
+    switch (this) {
+      case LifecycleExecutionResourceStatus.failed:
+        return 'FAILED';
+      case LifecycleExecutionResourceStatus.inProgress:
+        return 'IN_PROGRESS';
+      case LifecycleExecutionResourceStatus.skipped:
+        return 'SKIPPED';
+      case LifecycleExecutionResourceStatus.success:
+        return 'SUCCESS';
+    }
+  }
+}
+
+extension LifecycleExecutionResourceStatusFromString on String {
+  LifecycleExecutionResourceStatus toLifecycleExecutionResourceStatus() {
+    switch (this) {
+      case 'FAILED':
+        return LifecycleExecutionResourceStatus.failed;
+      case 'IN_PROGRESS':
+        return LifecycleExecutionResourceStatus.inProgress;
+      case 'SKIPPED':
+        return LifecycleExecutionResourceStatus.skipped;
+      case 'SUCCESS':
+        return LifecycleExecutionResourceStatus.success;
+    }
+    throw Exception(
+        '$this is not known in enum LifecycleExecutionResourceStatus');
+  }
+}
+
+/// Contains details for an image resource that was identified for a lifecycle
+/// action.
+class LifecycleExecutionResourcesImpactedSummary {
+  /// Indicates whether an image resource that was identified for a lifecycle
+  /// action has associated resources that are also impacted.
+  final bool? hasImpactedResources;
+
+  LifecycleExecutionResourcesImpactedSummary({
+    this.hasImpactedResources,
+  });
+
+  factory LifecycleExecutionResourcesImpactedSummary.fromJson(
+      Map<String, dynamic> json) {
+    return LifecycleExecutionResourcesImpactedSummary(
+      hasImpactedResources: json['hasImpactedResources'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hasImpactedResources = this.hasImpactedResources;
+    return {
+      if (hasImpactedResources != null)
+        'hasImpactedResources': hasImpactedResources,
+    };
+  }
+}
+
+/// Contains the state of an impacted snapshot resource that the runtime
+/// instance of the lifecycle policy identified for action.
+class LifecycleExecutionSnapshotResource {
+  /// Identifies the impacted snapshot resource.
+  final String? snapshotId;
+
+  /// The runtime status of the lifecycle action taken for the snapshot.
+  final LifecycleExecutionResourceState? state;
+
+  LifecycleExecutionSnapshotResource({
+    this.snapshotId,
+    this.state,
+  });
+
+  factory LifecycleExecutionSnapshotResource.fromJson(
+      Map<String, dynamic> json) {
+    return LifecycleExecutionSnapshotResource(
+      snapshotId: json['snapshotId'] as String?,
+      state: json['state'] != null
+          ? LifecycleExecutionResourceState.fromJson(
+              json['state'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotId = this.snapshotId;
+    final state = this.state;
+    return {
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (state != null) 'state': state,
+    };
+  }
+}
+
+/// The current state of the runtime instance of the lifecycle policy.
+class LifecycleExecutionState {
+  /// The reason for the current status.
+  final String? reason;
+
+  /// The runtime status of the lifecycle execution.
+  final LifecycleExecutionStatus? status;
+
+  LifecycleExecutionState({
+    this.reason,
+    this.status,
+  });
+
+  factory LifecycleExecutionState.fromJson(Map<String, dynamic> json) {
+    return LifecycleExecutionState(
+      reason: json['reason'] as String?,
+      status: (json['status'] as String?)?.toLifecycleExecutionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+enum LifecycleExecutionStatus {
+  inProgress,
+  cancelled,
+  cancelling,
+  failed,
+  success,
+  pending,
+}
+
+extension LifecycleExecutionStatusValueExtension on LifecycleExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case LifecycleExecutionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case LifecycleExecutionStatus.cancelled:
+        return 'CANCELLED';
+      case LifecycleExecutionStatus.cancelling:
+        return 'CANCELLING';
+      case LifecycleExecutionStatus.failed:
+        return 'FAILED';
+      case LifecycleExecutionStatus.success:
+        return 'SUCCESS';
+      case LifecycleExecutionStatus.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension LifecycleExecutionStatusFromString on String {
+  LifecycleExecutionStatus toLifecycleExecutionStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return LifecycleExecutionStatus.inProgress;
+      case 'CANCELLED':
+        return LifecycleExecutionStatus.cancelled;
+      case 'CANCELLING':
+        return LifecycleExecutionStatus.cancelling;
+      case 'FAILED':
+        return LifecycleExecutionStatus.failed;
+      case 'SUCCESS':
+        return LifecycleExecutionStatus.success;
+      case 'PENDING':
+        return LifecycleExecutionStatus.pending;
+    }
+    throw Exception('$this is not known in enum LifecycleExecutionStatus');
+  }
+}
+
+/// The configuration details for a lifecycle policy resource.
+class LifecyclePolicy {
+  /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
+  final String? arn;
+
+  /// The timestamp when Image Builder created the lifecycle policy resource.
+  final DateTime? dateCreated;
+
+  /// The timestamp for the last time Image Builder ran the lifecycle policy.
+  final DateTime? dateLastRun;
+
+  /// The timestamp when Image Builder updated the lifecycle policy resource.
+  final DateTime? dateUpdated;
+
+  /// Optional description for the lifecycle policy.
+  final String? description;
+
+  /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder
+  /// uses to run the lifecycle policy. This is a custom role that you create.
+  final String? executionRole;
+
+  /// The name of the lifecycle policy.
+  final String? name;
+
+  /// The configuration details for a lifecycle policy resource.
+  final List<LifecyclePolicyDetail>? policyDetails;
+
+  /// Resource selection criteria used to run the lifecycle policy.
+  final LifecyclePolicyResourceSelection? resourceSelection;
+
+  /// The type of resources the lifecycle policy targets.
+  final LifecyclePolicyResourceType? resourceType;
+
+  /// Indicates whether the lifecycle policy resource is enabled.
+  final LifecyclePolicyStatus? status;
+
+  /// To help manage your lifecycle policy resources, you can assign your own
+  /// metadata to each resource in the form of tags. Each tag consists of a key
+  /// and an optional value, both of which you define.
+  final Map<String, String>? tags;
+
+  LifecyclePolicy({
+    this.arn,
+    this.dateCreated,
+    this.dateLastRun,
+    this.dateUpdated,
+    this.description,
+    this.executionRole,
+    this.name,
+    this.policyDetails,
+    this.resourceSelection,
+    this.resourceType,
+    this.status,
+    this.tags,
+  });
+
+  factory LifecyclePolicy.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicy(
+      arn: json['arn'] as String?,
+      dateCreated: timeStampFromJson(json['dateCreated']),
+      dateLastRun: timeStampFromJson(json['dateLastRun']),
+      dateUpdated: timeStampFromJson(json['dateUpdated']),
+      description: json['description'] as String?,
+      executionRole: json['executionRole'] as String?,
+      name: json['name'] as String?,
+      policyDetails: (json['policyDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecyclePolicyDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceSelection: json['resourceSelection'] != null
+          ? LifecyclePolicyResourceSelection.fromJson(
+              json['resourceSelection'] as Map<String, dynamic>)
+          : null,
+      resourceType:
+          (json['resourceType'] as String?)?.toLifecyclePolicyResourceType(),
+      status: (json['status'] as String?)?.toLifecyclePolicyStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final dateCreated = this.dateCreated;
+    final dateLastRun = this.dateLastRun;
+    final dateUpdated = this.dateUpdated;
+    final description = this.description;
+    final executionRole = this.executionRole;
+    final name = this.name;
+    final policyDetails = this.policyDetails;
+    final resourceSelection = this.resourceSelection;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (dateCreated != null) 'dateCreated': unixTimestampToJson(dateCreated),
+      if (dateLastRun != null) 'dateLastRun': unixTimestampToJson(dateLastRun),
+      if (dateUpdated != null) 'dateUpdated': unixTimestampToJson(dateUpdated),
+      if (description != null) 'description': description,
+      if (executionRole != null) 'executionRole': executionRole,
+      if (name != null) 'name': name,
+      if (policyDetails != null) 'policyDetails': policyDetails,
+      if (resourceSelection != null) 'resourceSelection': resourceSelection,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The configuration details for a lifecycle policy resource.
+class LifecyclePolicyDetail {
+  /// Configuration details for the policy action.
+  final LifecyclePolicyDetailAction action;
+
+  /// Specifies the resources that the lifecycle policy applies to.
+  final LifecyclePolicyDetailFilter filter;
+
+  /// Additional rules to specify resources that should be exempt from policy
+  /// actions.
+  final LifecyclePolicyDetailExclusionRules? exclusionRules;
+
+  LifecyclePolicyDetail({
+    required this.action,
+    required this.filter,
+    this.exclusionRules,
+  });
+
+  factory LifecyclePolicyDetail.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyDetail(
+      action: LifecyclePolicyDetailAction.fromJson(
+          json['action'] as Map<String, dynamic>),
+      filter: LifecyclePolicyDetailFilter.fromJson(
+          json['filter'] as Map<String, dynamic>),
+      exclusionRules: json['exclusionRules'] != null
+          ? LifecyclePolicyDetailExclusionRules.fromJson(
+              json['exclusionRules'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final filter = this.filter;
+    final exclusionRules = this.exclusionRules;
+    return {
+      'action': action,
+      'filter': filter,
+      if (exclusionRules != null) 'exclusionRules': exclusionRules,
+    };
+  }
+}
+
+/// Contains selection criteria for the lifecycle policy.
+class LifecyclePolicyDetailAction {
+  /// Specifies the lifecycle action to take.
+  final LifecyclePolicyDetailActionType type;
+
+  /// Specifies the resources that the lifecycle policy applies to.
+  final LifecyclePolicyDetailActionIncludeResources? includeResources;
+
+  LifecyclePolicyDetailAction({
+    required this.type,
+    this.includeResources,
+  });
+
+  factory LifecyclePolicyDetailAction.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyDetailAction(
+      type: (json['type'] as String).toLifecyclePolicyDetailActionType(),
+      includeResources: json['includeResources'] != null
+          ? LifecyclePolicyDetailActionIncludeResources.fromJson(
+              json['includeResources'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final includeResources = this.includeResources;
+    return {
+      'type': type.toValue(),
+      if (includeResources != null) 'includeResources': includeResources,
+    };
+  }
+}
+
+/// Specifies how the lifecycle policy should apply actions to selected
+/// resources.
+class LifecyclePolicyDetailActionIncludeResources {
+  /// Specifies whether the lifecycle action should apply to distributed AMIs.
+  final bool? amis;
+
+  /// Specifies whether the lifecycle action should apply to distributed
+  /// containers.
+  final bool? containers;
+
+  /// Specifies whether the lifecycle action should apply to snapshots associated
+  /// with distributed AMIs.
+  final bool? snapshots;
+
+  LifecyclePolicyDetailActionIncludeResources({
+    this.amis,
+    this.containers,
+    this.snapshots,
+  });
+
+  factory LifecyclePolicyDetailActionIncludeResources.fromJson(
+      Map<String, dynamic> json) {
+    return LifecyclePolicyDetailActionIncludeResources(
+      amis: json['amis'] as bool?,
+      containers: json['containers'] as bool?,
+      snapshots: json['snapshots'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amis = this.amis;
+    final containers = this.containers;
+    final snapshots = this.snapshots;
+    return {
+      if (amis != null) 'amis': amis,
+      if (containers != null) 'containers': containers,
+      if (snapshots != null) 'snapshots': snapshots,
+    };
+  }
+}
+
+enum LifecyclePolicyDetailActionType {
+  delete,
+  deprecate,
+  disable,
+}
+
+extension LifecyclePolicyDetailActionTypeValueExtension
+    on LifecyclePolicyDetailActionType {
+  String toValue() {
+    switch (this) {
+      case LifecyclePolicyDetailActionType.delete:
+        return 'DELETE';
+      case LifecyclePolicyDetailActionType.deprecate:
+        return 'DEPRECATE';
+      case LifecyclePolicyDetailActionType.disable:
+        return 'DISABLE';
+    }
+  }
+}
+
+extension LifecyclePolicyDetailActionTypeFromString on String {
+  LifecyclePolicyDetailActionType toLifecyclePolicyDetailActionType() {
+    switch (this) {
+      case 'DELETE':
+        return LifecyclePolicyDetailActionType.delete;
+      case 'DEPRECATE':
+        return LifecyclePolicyDetailActionType.deprecate;
+      case 'DISABLE':
+        return LifecyclePolicyDetailActionType.disable;
+    }
+    throw Exception(
+        '$this is not known in enum LifecyclePolicyDetailActionType');
+  }
+}
+
+/// Specifies resources that lifecycle policy actions should not apply to.
+class LifecyclePolicyDetailExclusionRules {
+  /// Lists configuration values that apply to AMIs that Image Builder should
+  /// exclude from the lifecycle action.
+  final LifecyclePolicyDetailExclusionRulesAmis? amis;
+
+  /// Contains a list of tags that Image Builder uses to skip lifecycle actions
+  /// for Image Builder image resources that have them.
+  final Map<String, String>? tagMap;
+
+  LifecyclePolicyDetailExclusionRules({
+    this.amis,
+    this.tagMap,
+  });
+
+  factory LifecyclePolicyDetailExclusionRules.fromJson(
+      Map<String, dynamic> json) {
+    return LifecyclePolicyDetailExclusionRules(
+      amis: json['amis'] != null
+          ? LifecyclePolicyDetailExclusionRulesAmis.fromJson(
+              json['amis'] as Map<String, dynamic>)
+          : null,
+      tagMap: (json['tagMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amis = this.amis;
+    final tagMap = this.tagMap;
+    return {
+      if (amis != null) 'amis': amis,
+      if (tagMap != null) 'tagMap': tagMap,
+    };
+  }
+}
+
+/// Defines criteria for AMIs that are excluded from lifecycle actions.
+class LifecyclePolicyDetailExclusionRulesAmis {
+  /// Configures whether public AMIs are excluded from the lifecycle action.
+  final bool? isPublic;
+
+  /// Specifies configuration details for Image Builder to exclude the most recent
+  /// resources from lifecycle actions.
+  final LifecyclePolicyDetailExclusionRulesAmisLastLaunched? lastLaunched;
+
+  /// Configures Amazon Web Services Regions that are excluded from the lifecycle
+  /// action.
+  final List<String>? regions;
+
+  /// Specifies Amazon Web Services accounts whose resources are excluded from the
+  /// lifecycle action.
+  final List<String>? sharedAccounts;
+
+  /// Lists tags that should be excluded from lifecycle actions for the AMIs that
+  /// have them.
+  final Map<String, String>? tagMap;
+
+  LifecyclePolicyDetailExclusionRulesAmis({
+    this.isPublic,
+    this.lastLaunched,
+    this.regions,
+    this.sharedAccounts,
+    this.tagMap,
+  });
+
+  factory LifecyclePolicyDetailExclusionRulesAmis.fromJson(
+      Map<String, dynamic> json) {
+    return LifecyclePolicyDetailExclusionRulesAmis(
+      isPublic: json['isPublic'] as bool?,
+      lastLaunched: json['lastLaunched'] != null
+          ? LifecyclePolicyDetailExclusionRulesAmisLastLaunched.fromJson(
+              json['lastLaunched'] as Map<String, dynamic>)
+          : null,
+      regions: (json['regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sharedAccounts: (json['sharedAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tagMap: (json['tagMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isPublic = this.isPublic;
+    final lastLaunched = this.lastLaunched;
+    final regions = this.regions;
+    final sharedAccounts = this.sharedAccounts;
+    final tagMap = this.tagMap;
+    return {
+      if (isPublic != null) 'isPublic': isPublic,
+      if (lastLaunched != null) 'lastLaunched': lastLaunched,
+      if (regions != null) 'regions': regions,
+      if (sharedAccounts != null) 'sharedAccounts': sharedAccounts,
+      if (tagMap != null) 'tagMap': tagMap,
+    };
+  }
+}
+
+/// Defines criteria to exclude AMIs from lifecycle actions based on the last
+/// time they were used to launch an instance.
+class LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
+  /// Defines the unit of time that the lifecycle policy uses to calculate elapsed
+  /// time since the last instance launched from the AMI. For example: days,
+  /// weeks, months, or years.
+  final LifecyclePolicyTimeUnit unit;
+
+  /// The integer number of units for the time period. For example <code>6</code>
+  /// (months).
+  final int value;
+
+  LifecyclePolicyDetailExclusionRulesAmisLastLaunched({
+    required this.unit,
+    required this.value,
+  });
+
+  factory LifecyclePolicyDetailExclusionRulesAmisLastLaunched.fromJson(
+      Map<String, dynamic> json) {
+    return LifecyclePolicyDetailExclusionRulesAmisLastLaunched(
+      unit: (json['unit'] as String).toLifecyclePolicyTimeUnit(),
+      value: json['value'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'unit': unit.toValue(),
+      'value': value,
+    };
+  }
+}
+
+/// Defines filters that the lifecycle policy uses to determine impacted
+/// resource.
+class LifecyclePolicyDetailFilter {
+  /// Filter resources based on either <code>age</code> or <code>count</code>.
+  final LifecyclePolicyDetailFilterType type;
+
+  /// The number of units for the time period or for the count. For example, a
+  /// value of <code>6</code> might refer to six months or six AMIs.
+  /// <note>
+  /// For count-based filters, this value represents the minimum number of
+  /// resources to keep on hand. If you have fewer resources than this number, the
+  /// resource is excluded from lifecycle actions.
+  /// </note>
+  final int value;
+
+  /// For age-based filters, this is the number of resources to keep on hand after
+  /// the lifecycle <code>DELETE</code> action is applied. Impacted resources are
+  /// only deleted if you have more than this number of resources. If you have
+  /// fewer resources than this number, the impacted resource is not deleted.
+  final int? retainAtLeast;
+
+  /// Defines the unit of time that the lifecycle policy uses to determine
+  /// impacted resources. This is required for age-based rules.
+  final LifecyclePolicyTimeUnit? unit;
+
+  LifecyclePolicyDetailFilter({
+    required this.type,
+    required this.value,
+    this.retainAtLeast,
+    this.unit,
+  });
+
+  factory LifecyclePolicyDetailFilter.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyDetailFilter(
+      type: (json['type'] as String).toLifecyclePolicyDetailFilterType(),
+      value: json['value'] as int,
+      retainAtLeast: json['retainAtLeast'] as int?,
+      unit: (json['unit'] as String?)?.toLifecyclePolicyTimeUnit(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    final retainAtLeast = this.retainAtLeast;
+    final unit = this.unit;
+    return {
+      'type': type.toValue(),
+      'value': value,
+      if (retainAtLeast != null) 'retainAtLeast': retainAtLeast,
+      if (unit != null) 'unit': unit.toValue(),
+    };
+  }
+}
+
+enum LifecyclePolicyDetailFilterType {
+  age,
+  count,
+}
+
+extension LifecyclePolicyDetailFilterTypeValueExtension
+    on LifecyclePolicyDetailFilterType {
+  String toValue() {
+    switch (this) {
+      case LifecyclePolicyDetailFilterType.age:
+        return 'AGE';
+      case LifecyclePolicyDetailFilterType.count:
+        return 'COUNT';
+    }
+  }
+}
+
+extension LifecyclePolicyDetailFilterTypeFromString on String {
+  LifecyclePolicyDetailFilterType toLifecyclePolicyDetailFilterType() {
+    switch (this) {
+      case 'AGE':
+        return LifecyclePolicyDetailFilterType.age;
+      case 'COUNT':
+        return LifecyclePolicyDetailFilterType.count;
+    }
+    throw Exception(
+        '$this is not known in enum LifecyclePolicyDetailFilterType');
+  }
+}
+
+/// Resource selection criteria for the lifecycle policy.
+class LifecyclePolicyResourceSelection {
+  /// A list of recipes that are used as selection criteria for the output images
+  /// that the lifecycle policy applies to.
+  final List<LifecyclePolicyResourceSelectionRecipe>? recipes;
+
+  /// A list of tags that are used as selection criteria for the Image Builder
+  /// image resources that the lifecycle policy applies to.
+  final Map<String, String>? tagMap;
+
+  LifecyclePolicyResourceSelection({
+    this.recipes,
+    this.tagMap,
+  });
+
+  factory LifecyclePolicyResourceSelection.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyResourceSelection(
+      recipes: (json['recipes'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecyclePolicyResourceSelectionRecipe.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      tagMap: (json['tagMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recipes = this.recipes;
+    final tagMap = this.tagMap;
+    return {
+      if (recipes != null) 'recipes': recipes,
+      if (tagMap != null) 'tagMap': tagMap,
+    };
+  }
+}
+
+/// Specifies an Image Builder recipe that the lifecycle policy uses for
+/// resource selection.
+class LifecyclePolicyResourceSelectionRecipe {
+  /// The name of an Image Builder recipe that the lifecycle policy uses for
+  /// resource selection.
+  final String name;
+
+  /// The version of the Image Builder recipe specified by the <code>name</code>
+  /// field.
+  final String semanticVersion;
+
+  LifecyclePolicyResourceSelectionRecipe({
+    required this.name,
+    required this.semanticVersion,
+  });
+
+  factory LifecyclePolicyResourceSelectionRecipe.fromJson(
+      Map<String, dynamic> json) {
+    return LifecyclePolicyResourceSelectionRecipe(
+      name: json['name'] as String,
+      semanticVersion: json['semanticVersion'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final semanticVersion = this.semanticVersion;
+    return {
+      'name': name,
+      'semanticVersion': semanticVersion,
+    };
+  }
+}
+
+enum LifecyclePolicyResourceType {
+  amiImage,
+  containerImage,
+}
+
+extension LifecyclePolicyResourceTypeValueExtension
+    on LifecyclePolicyResourceType {
+  String toValue() {
+    switch (this) {
+      case LifecyclePolicyResourceType.amiImage:
+        return 'AMI_IMAGE';
+      case LifecyclePolicyResourceType.containerImage:
+        return 'CONTAINER_IMAGE';
+    }
+  }
+}
+
+extension LifecyclePolicyResourceTypeFromString on String {
+  LifecyclePolicyResourceType toLifecyclePolicyResourceType() {
+    switch (this) {
+      case 'AMI_IMAGE':
+        return LifecyclePolicyResourceType.amiImage;
+      case 'CONTAINER_IMAGE':
+        return LifecyclePolicyResourceType.containerImage;
+    }
+    throw Exception('$this is not known in enum LifecyclePolicyResourceType');
+  }
+}
+
+enum LifecyclePolicyStatus {
+  disabled,
+  enabled,
+}
+
+extension LifecyclePolicyStatusValueExtension on LifecyclePolicyStatus {
+  String toValue() {
+    switch (this) {
+      case LifecyclePolicyStatus.disabled:
+        return 'DISABLED';
+      case LifecyclePolicyStatus.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension LifecyclePolicyStatusFromString on String {
+  LifecyclePolicyStatus toLifecyclePolicyStatus() {
+    switch (this) {
+      case 'DISABLED':
+        return LifecyclePolicyStatus.disabled;
+      case 'ENABLED':
+        return LifecyclePolicyStatus.enabled;
+    }
+    throw Exception('$this is not known in enum LifecyclePolicyStatus');
+  }
+}
+
+/// Contains a summary of lifecycle policy resources.
+class LifecyclePolicySummary {
+  /// The Amazon Resource Name (ARN) of the lifecycle policy summary resource.
+  final String? arn;
+
+  /// The timestamp when Image Builder created the lifecycle policy resource.
+  final DateTime? dateCreated;
+
+  /// The timestamp for the last time Image Builder ran the lifecycle policy.
+  final DateTime? dateLastRun;
+
+  /// The timestamp when Image Builder updated the lifecycle policy resource.
+  final DateTime? dateUpdated;
+
+  /// Optional description for the lifecycle policy.
+  final String? description;
+
+  /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder
+  /// uses to run the lifecycle policy.
+  final String? executionRole;
+
+  /// The name of the lifecycle policy.
+  final String? name;
+
+  /// The type of resources the lifecycle policy targets.
+  final LifecyclePolicyResourceType? resourceType;
+
+  /// The lifecycle policy resource status.
+  final LifecyclePolicyStatus? status;
+
+  /// To help manage your lifecycle policy resources, you can assign your own
+  /// metadata to each resource in the form of tags. Each tag consists of a key
+  /// and an optional value, both of which you define.
+  final Map<String, String>? tags;
+
+  LifecyclePolicySummary({
+    this.arn,
+    this.dateCreated,
+    this.dateLastRun,
+    this.dateUpdated,
+    this.description,
+    this.executionRole,
+    this.name,
+    this.resourceType,
+    this.status,
+    this.tags,
+  });
+
+  factory LifecyclePolicySummary.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicySummary(
+      arn: json['arn'] as String?,
+      dateCreated: timeStampFromJson(json['dateCreated']),
+      dateLastRun: timeStampFromJson(json['dateLastRun']),
+      dateUpdated: timeStampFromJson(json['dateUpdated']),
+      description: json['description'] as String?,
+      executionRole: json['executionRole'] as String?,
+      name: json['name'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.toLifecyclePolicyResourceType(),
+      status: (json['status'] as String?)?.toLifecyclePolicyStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final dateCreated = this.dateCreated;
+    final dateLastRun = this.dateLastRun;
+    final dateUpdated = this.dateUpdated;
+    final description = this.description;
+    final executionRole = this.executionRole;
+    final name = this.name;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (dateCreated != null) 'dateCreated': unixTimestampToJson(dateCreated),
+      if (dateLastRun != null) 'dateLastRun': unixTimestampToJson(dateLastRun),
+      if (dateUpdated != null) 'dateUpdated': unixTimestampToJson(dateUpdated),
+      if (description != null) 'description': description,
+      if (executionRole != null) 'executionRole': executionRole,
+      if (name != null) 'name': name,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+enum LifecyclePolicyTimeUnit {
+  days,
+  weeks,
+  months,
+  years,
+}
+
+extension LifecyclePolicyTimeUnitValueExtension on LifecyclePolicyTimeUnit {
+  String toValue() {
+    switch (this) {
+      case LifecyclePolicyTimeUnit.days:
+        return 'DAYS';
+      case LifecyclePolicyTimeUnit.weeks:
+        return 'WEEKS';
+      case LifecyclePolicyTimeUnit.months:
+        return 'MONTHS';
+      case LifecyclePolicyTimeUnit.years:
+        return 'YEARS';
+    }
+  }
+}
+
+extension LifecyclePolicyTimeUnitFromString on String {
+  LifecyclePolicyTimeUnit toLifecyclePolicyTimeUnit() {
+    switch (this) {
+      case 'DAYS':
+        return LifecyclePolicyTimeUnit.days;
+      case 'WEEKS':
+        return LifecyclePolicyTimeUnit.weeks;
+      case 'MONTHS':
+        return LifecyclePolicyTimeUnit.months;
+      case 'YEARS':
+        return LifecyclePolicyTimeUnit.years;
+    }
+    throw Exception('$this is not known in enum LifecyclePolicyTimeUnit');
+  }
+}
+
 class ListComponentBuildVersionsResponse {
   /// The list of component summaries for the specified semantic version.
   final List<ComponentSummary>? componentSummaryList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8390,7 +10790,7 @@ class ListComponentsResponse {
   final List<ComponentVersion>? componentVersionList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8433,7 +10833,7 @@ class ListContainerRecipesResponse {
   final List<ContainerRecipeSummary>? containerRecipeSummaryList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8478,7 +10878,7 @@ class ListDistributionConfigurationsResponse {
       distributionConfigurationSummaryList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8526,7 +10926,7 @@ class ListImageBuildVersionsResponse {
   final List<ImageSummary>? imageSummaryList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8568,7 +10968,7 @@ class ListImagePackagesResponse {
   final List<ImagePackage>? imagePackageList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8610,7 +11010,7 @@ class ListImagePipelineImagesResponse {
   final List<ImageSummary>? imageSummaryList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8652,7 +11052,7 @@ class ListImagePipelinesResponse {
   final List<ImagePipeline>? imagePipelineList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8694,7 +11094,7 @@ class ListImageRecipesResponse {
   final List<ImageRecipeSummary>? imageRecipeSummaryList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8759,7 +11159,7 @@ class ListImageScanFindingAggregationsResponse {
   final String? aggregationType;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8811,7 +11211,7 @@ class ListImageScanFindingsResponse {
   final List<ImageScanFinding>? findings;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8863,7 +11263,7 @@ class ListImagesResponse {
   final List<ImageVersion>? imageVersionList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8906,7 +11306,7 @@ class ListInfrastructureConfigurationsResponse {
       infrastructureConfigurationSummaryList;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -8949,6 +11349,136 @@ class ListInfrastructureConfigurationsResponse {
   }
 }
 
+class ListLifecycleExecutionResourcesResponse {
+  /// Runtime details for the specified runtime instance of the lifecycle policy.
+  final String? lifecycleExecutionId;
+
+  /// The current state of the lifecycle runtime instance.
+  final LifecycleExecutionState? lifecycleExecutionState;
+
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  /// A list of resources that were identified for lifecycle actions.
+  final List<LifecycleExecutionResource>? resources;
+
+  ListLifecycleExecutionResourcesResponse({
+    this.lifecycleExecutionId,
+    this.lifecycleExecutionState,
+    this.nextToken,
+    this.resources,
+  });
+
+  factory ListLifecycleExecutionResourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListLifecycleExecutionResourcesResponse(
+      lifecycleExecutionId: json['lifecycleExecutionId'] as String?,
+      lifecycleExecutionState: json['lifecycleExecutionState'] != null
+          ? LifecycleExecutionState.fromJson(
+              json['lifecycleExecutionState'] as Map<String, dynamic>)
+          : null,
+      nextToken: json['nextToken'] as String?,
+      resources: (json['resources'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LifecycleExecutionResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleExecutionId = this.lifecycleExecutionId;
+    final lifecycleExecutionState = this.lifecycleExecutionState;
+    final nextToken = this.nextToken;
+    final resources = this.resources;
+    return {
+      if (lifecycleExecutionId != null)
+        'lifecycleExecutionId': lifecycleExecutionId,
+      if (lifecycleExecutionState != null)
+        'lifecycleExecutionState': lifecycleExecutionState,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resources != null) 'resources': resources,
+    };
+  }
+}
+
+class ListLifecycleExecutionsResponse {
+  /// A list of lifecycle runtime instances for the specified resource.
+  final List<LifecycleExecution>? lifecycleExecutions;
+
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  ListLifecycleExecutionsResponse({
+    this.lifecycleExecutions,
+    this.nextToken,
+  });
+
+  factory ListLifecycleExecutionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLifecycleExecutionsResponse(
+      lifecycleExecutions: (json['lifecycleExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleExecutions = this.lifecycleExecutions;
+    final nextToken = this.nextToken;
+    return {
+      if (lifecycleExecutions != null)
+        'lifecycleExecutions': lifecycleExecutions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListLifecyclePoliciesResponse {
+  /// A list of lifecycle policies in your Amazon Web Services account that meet
+  /// the criteria specified in the request.
+  final List<LifecyclePolicySummary>? lifecyclePolicySummaryList;
+
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  ListLifecyclePoliciesResponse({
+    this.lifecyclePolicySummaryList,
+    this.nextToken,
+  });
+
+  factory ListLifecyclePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListLifecyclePoliciesResponse(
+      lifecyclePolicySummaryList: (json['lifecyclePolicySummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => LifecyclePolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicySummaryList = this.lifecyclePolicySummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (lifecyclePolicySummaryList != null)
+        'lifecyclePolicySummaryList': lifecyclePolicySummaryList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The tags for the specified resource.
   final Map<String, String>? tags;
@@ -8972,6 +11502,80 @@ class ListTagsForResourceResponse {
   }
 }
 
+class ListWaitingWorkflowStepsResponse {
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  /// An array of the workflow steps that are waiting for action in your Amazon
+  /// Web Services account.
+  final List<WorkflowStepExecution>? steps;
+
+  ListWaitingWorkflowStepsResponse({
+    this.nextToken,
+    this.steps,
+  });
+
+  factory ListWaitingWorkflowStepsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWaitingWorkflowStepsResponse(
+      nextToken: json['nextToken'] as String?,
+      steps: (json['steps'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowStepExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final steps = this.steps;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (steps != null) 'steps': steps,
+    };
+  }
+}
+
+class ListWorkflowBuildVersionsResponse {
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  /// A list that contains metadata for the workflow builds that have run for the
+  /// workflow resource specified in the request.
+  final List<WorkflowSummary>? workflowSummaryList;
+
+  ListWorkflowBuildVersionsResponse({
+    this.nextToken,
+    this.workflowSummaryList,
+  });
+
+  factory ListWorkflowBuildVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListWorkflowBuildVersionsResponse(
+      nextToken: json['nextToken'] as String?,
+      workflowSummaryList: (json['workflowSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final workflowSummaryList = this.workflowSummaryList;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (workflowSummaryList != null)
+        'workflowSummaryList': workflowSummaryList,
+    };
+  }
+}
+
 class ListWorkflowExecutionsResponse {
   /// The resource ARN of the image build version for which you requested a list
   /// of workflow runtime details.
@@ -8981,7 +11585,7 @@ class ListWorkflowExecutionsResponse {
   final String? message;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -9041,7 +11645,7 @@ class ListWorkflowStepExecutionsResponse {
   final String? message;
 
   /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service has'ot included in this
+  /// there are additional elements that the service hasn't included in this
   /// request. Use this token with the next request to retrieve additional
   /// objects.
   final String? nextToken;
@@ -9110,6 +11714,42 @@ class ListWorkflowStepExecutionsResponse {
   }
 }
 
+class ListWorkflowsResponse {
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  /// A list of workflow build versions that match the request criteria.
+  final List<WorkflowVersion>? workflowVersionList;
+
+  ListWorkflowsResponse({
+    this.nextToken,
+    this.workflowVersionList,
+  });
+
+  factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowsResponse(
+      nextToken: json['nextToken'] as String?,
+      workflowVersionList: (json['workflowVersionList'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final workflowVersionList = this.workflowVersionList;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (workflowVersionList != null)
+        'workflowVersionList': workflowVersionList,
+    };
+  }
+}
+
 /// Logging configuration defines where Image Builder uploads your logs.
 class Logging {
   /// The Amazon S3 logging configuration.
@@ -9132,6 +11772,34 @@ class Logging {
     return {
       if (s3Logs != null) 's3Logs': s3Logs,
     };
+  }
+}
+
+enum OnWorkflowFailure {
+  $continue,
+  abort,
+}
+
+extension OnWorkflowFailureValueExtension on OnWorkflowFailure {
+  String toValue() {
+    switch (this) {
+      case OnWorkflowFailure.$continue:
+        return 'CONTINUE';
+      case OnWorkflowFailure.abort:
+        return 'ABORT';
+    }
+  }
+}
+
+extension OnWorkflowFailureFromString on String {
+  OnWorkflowFailure toOnWorkflowFailure() {
+    switch (this) {
+      case 'CONTINUE':
+        return OnWorkflowFailure.$continue;
+      case 'ABORT':
+        return OnWorkflowFailure.abort;
+    }
+    throw Exception('$this is not known in enum OnWorkflowFailure');
   }
 }
 
@@ -9580,6 +12248,111 @@ class RemediationRecommendation {
   }
 }
 
+/// The current state of an impacted resource.
+class ResourceState {
+  /// Shows the current lifecycle policy action that was applied to an impacted
+  /// resource.
+  final ResourceStatus? status;
+
+  ResourceState({
+    this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+/// Additional rules to specify resources that should be exempt from ad-hoc
+/// lifecycle actions.
+class ResourceStateUpdateExclusionRules {
+  final LifecyclePolicyDetailExclusionRulesAmis? amis;
+
+  ResourceStateUpdateExclusionRules({
+    this.amis,
+  });
+
+  Map<String, dynamic> toJson() {
+    final amis = this.amis;
+    return {
+      if (amis != null) 'amis': amis,
+    };
+  }
+}
+
+/// Specifies if the lifecycle policy should apply actions to selected
+/// resources.
+class ResourceStateUpdateIncludeResources {
+  /// Specifies whether the lifecycle action should apply to distributed AMIs
+  final bool? amis;
+
+  /// Specifies whether the lifecycle action should apply to distributed
+  /// containers.
+  final bool? containers;
+
+  /// Specifies whether the lifecycle action should apply to snapshots associated
+  /// with distributed AMIs.
+  final bool? snapshots;
+
+  ResourceStateUpdateIncludeResources({
+    this.amis,
+    this.containers,
+    this.snapshots,
+  });
+
+  Map<String, dynamic> toJson() {
+    final amis = this.amis;
+    final containers = this.containers;
+    final snapshots = this.snapshots;
+    return {
+      if (amis != null) 'amis': amis,
+      if (containers != null) 'containers': containers,
+      if (snapshots != null) 'snapshots': snapshots,
+    };
+  }
+}
+
+enum ResourceStatus {
+  available,
+  deleted,
+  deprecated,
+  disabled,
+}
+
+extension ResourceStatusValueExtension on ResourceStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceStatus.available:
+        return 'AVAILABLE';
+      case ResourceStatus.deleted:
+        return 'DELETED';
+      case ResourceStatus.deprecated:
+        return 'DEPRECATED';
+      case ResourceStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension ResourceStatusFromString on String {
+  ResourceStatus toResourceStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return ResourceStatus.available;
+      case 'DELETED':
+        return ResourceStatus.deleted;
+      case 'DEPRECATED':
+        return ResourceStatus.deprecated;
+      case 'DISABLED':
+        return ResourceStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ResourceStatus');
+  }
+}
+
 /// Properties that configure export from your build instance to a compatible
 /// file format for your VM.
 class S3ExportConfiguration {
@@ -9672,7 +12445,7 @@ class S3Logs {
   }
 }
 
-/// A schedule configures how often and when a pipeline will automatically
+/// A schedule configures when and how often a pipeline will automatically
 /// create a new image.
 class Schedule {
   /// The condition configures when the pipeline should trigger a new image build.
@@ -9733,6 +12506,44 @@ class Schedule {
   }
 }
 
+class SendWorkflowStepActionResponse {
+  /// The client token that uniquely identifies the request.
+  final String? clientToken;
+
+  /// The Amazon Resource Name (ARN) of the image build version that received the
+  /// action request.
+  final String? imageBuildVersionArn;
+
+  /// The workflow step that sent the step action.
+  final String? stepExecutionId;
+
+  SendWorkflowStepActionResponse({
+    this.clientToken,
+    this.imageBuildVersionArn,
+    this.stepExecutionId,
+  });
+
+  factory SendWorkflowStepActionResponse.fromJson(Map<String, dynamic> json) {
+    return SendWorkflowStepActionResponse(
+      clientToken: json['clientToken'] as String?,
+      imageBuildVersionArn: json['imageBuildVersionArn'] as String?,
+      stepExecutionId: json['stepExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final imageBuildVersionArn = this.imageBuildVersionArn;
+    final stepExecutionId = this.stepExecutionId;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (imageBuildVersionArn != null)
+        'imageBuildVersionArn': imageBuildVersionArn,
+      if (stepExecutionId != null) 'stepExecutionId': stepExecutionId,
+    };
+  }
+}
+
 /// Includes counts by severity level for medium severity and higher level
 /// findings, plus a total for all of the findings for the specified filter.
 class SeverityCounts {
@@ -9780,11 +12591,10 @@ class SeverityCounts {
 }
 
 class StartImagePipelineExecutionResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
-  /// The Amazon Resource Name (ARN) of the image that was created by this
-  /// request.
+  /// The Amazon Resource Name (ARN) of the image that the request created.
   final String? imageBuildVersionArn;
 
   /// The request ID that uniquely identifies this request.
@@ -9814,6 +12624,37 @@ class StartImagePipelineExecutionResponse {
       if (imageBuildVersionArn != null)
         'imageBuildVersionArn': imageBuildVersionArn,
       if (requestId != null) 'requestId': requestId,
+    };
+  }
+}
+
+class StartResourceStateUpdateResponse {
+  /// Identifies the lifecycle runtime instance that started the resource state
+  /// update.
+  final String? lifecycleExecutionId;
+
+  /// The requested ARN of the Image Builder resource for the asynchronous update.
+  final String? resourceArn;
+
+  StartResourceStateUpdateResponse({
+    this.lifecycleExecutionId,
+    this.resourceArn,
+  });
+
+  factory StartResourceStateUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return StartResourceStateUpdateResponse(
+      lifecycleExecutionId: json['lifecycleExecutionId'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleExecutionId = this.lifecycleExecutionId;
+    final resourceArn = this.resourceArn;
+    return {
+      if (lifecycleExecutionId != null)
+        'lifecycleExecutionId': lifecycleExecutionId,
+      if (resourceArn != null) 'resourceArn': resourceArn,
     };
   }
 }
@@ -9901,7 +12742,7 @@ class UntagResourceResponse {
 }
 
 class UpdateDistributionConfigurationResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the distribution configuration that was
@@ -9941,7 +12782,7 @@ class UpdateDistributionConfigurationResponse {
 }
 
 class UpdateImagePipelineResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the image pipeline that was updated by
@@ -9978,7 +12819,7 @@ class UpdateImagePipelineResponse {
 }
 
 class UpdateInfrastructureConfigurationResponse {
-  /// The idempotency token used to make this request idempotent.
+  /// The client token that uniquely identifies the request.
   final String? clientToken;
 
   /// The Amazon Resource Name (ARN) of the infrastructure configuration that was
@@ -10013,6 +12854,28 @@ class UpdateInfrastructureConfigurationResponse {
       if (infrastructureConfigurationArn != null)
         'infrastructureConfigurationArn': infrastructureConfigurationArn,
       if (requestId != null) 'requestId': requestId,
+    };
+  }
+}
+
+class UpdateLifecyclePolicyResponse {
+  /// The ARN of the image lifecycle policy resource that was updated.
+  final String? lifecyclePolicyArn;
+
+  UpdateLifecyclePolicyResponse({
+    this.lifecyclePolicyArn,
+  });
+
+  factory UpdateLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateLifecyclePolicyResponse(
+      lifecyclePolicyArn: json['lifecyclePolicyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyArn = this.lifecyclePolicyArn;
+    return {
+      if (lifecyclePolicyArn != null) 'lifecyclePolicyArn': lifecyclePolicyArn,
     };
   }
 }
@@ -10138,6 +13001,179 @@ class VulnerablePackage {
   }
 }
 
+/// Defines a process that Image Builder uses to build and test images during
+/// the image creation process.
+class Workflow {
+  /// The Amazon Resource Name (ARN) of the workflow resource.
+  final String? arn;
+
+  /// Describes what change has been made in this version of the workflow, or what
+  /// makes this version different from other versions of the workflow.
+  final String? changeDescription;
+
+  /// Contains the YAML document content for the workflow.
+  final String? data;
+
+  /// The timestamp when Image Builder created the workflow resource.
+  final String? dateCreated;
+
+  /// The description of the workflow.
+  final String? description;
+
+  /// The KMS key identifier used to encrypt the workflow resource.
+  final String? kmsKeyId;
+
+  /// The name of the workflow resource.
+  final String? name;
+
+  /// The owner of the workflow resource.
+  final String? owner;
+
+  /// An array of input parameters that that the image workflow uses to control
+  /// actions or configure settings.
+  final List<WorkflowParameterDetail>? parameters;
+
+  /// Describes the current status of the workflow and the reason for that status.
+  final WorkflowState? state;
+
+  /// The tags that apply to the workflow resource
+  final Map<String, String>? tags;
+
+  /// Specifies the image creation stage that the workflow applies to. Image
+  /// Builder currently supports build and test workflows.
+  final WorkflowType? type;
+
+  /// The workflow resource version. Workflow resources are immutable. To make a
+  /// change, you can clone a workflow or create a new version.
+  final String? version;
+
+  Workflow({
+    this.arn,
+    this.changeDescription,
+    this.data,
+    this.dateCreated,
+    this.description,
+    this.kmsKeyId,
+    this.name,
+    this.owner,
+    this.parameters,
+    this.state,
+    this.tags,
+    this.type,
+    this.version,
+  });
+
+  factory Workflow.fromJson(Map<String, dynamic> json) {
+    return Workflow(
+      arn: json['arn'] as String?,
+      changeDescription: json['changeDescription'] as String?,
+      data: json['data'] as String?,
+      dateCreated: json['dateCreated'] as String?,
+      description: json['description'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      name: json['name'] as String?,
+      owner: json['owner'] as String?,
+      parameters: (json['parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              WorkflowParameterDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: json['state'] != null
+          ? WorkflowState.fromJson(json['state'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['type'] as String?)?.toWorkflowType(),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final changeDescription = this.changeDescription;
+    final data = this.data;
+    final dateCreated = this.dateCreated;
+    final description = this.description;
+    final kmsKeyId = this.kmsKeyId;
+    final name = this.name;
+    final owner = this.owner;
+    final parameters = this.parameters;
+    final state = this.state;
+    final tags = this.tags;
+    final type = this.type;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (changeDescription != null) 'changeDescription': changeDescription,
+      if (data != null) 'data': data,
+      if (dateCreated != null) 'dateCreated': dateCreated,
+      if (description != null) 'description': description,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (name != null) 'name': name,
+      if (owner != null) 'owner': owner,
+      if (parameters != null) 'parameters': parameters,
+      if (state != null) 'state': state,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type.toValue(),
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Contains control settings and configurable inputs for a workflow resource.
+class WorkflowConfiguration {
+  /// The Amazon Resource Name (ARN) of the workflow resource.
+  final String workflowArn;
+
+  /// The action to take if the workflow fails.
+  final OnWorkflowFailure? onFailure;
+
+  /// Test workflows are defined within named runtime groups called parallel
+  /// groups. The parallel group is the named group that contains this test
+  /// workflow. Test workflows within a parallel group can run at the same time.
+  /// Image Builder starts up to five test workflows in the group at the same
+  /// time, and starts additional workflows as others complete, until all
+  /// workflows in the group have completed. This field only applies for test
+  /// workflows.
+  final String? parallelGroup;
+
+  /// Contains parameter values for each of the parameters that the workflow
+  /// document defined for the workflow resource.
+  final List<WorkflowParameter>? parameters;
+
+  WorkflowConfiguration({
+    required this.workflowArn,
+    this.onFailure,
+    this.parallelGroup,
+    this.parameters,
+  });
+
+  factory WorkflowConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkflowConfiguration(
+      workflowArn: json['workflowArn'] as String,
+      onFailure: (json['onFailure'] as String?)?.toOnWorkflowFailure(),
+      parallelGroup: json['parallelGroup'] as String?,
+      parameters: (json['parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowArn = this.workflowArn;
+    final onFailure = this.onFailure;
+    final parallelGroup = this.parallelGroup;
+    final parameters = this.parameters;
+    return {
+      'workflowArn': workflowArn,
+      if (onFailure != null) 'onFailure': onFailure.toValue(),
+      if (parallelGroup != null) 'parallelGroup': parallelGroup,
+      if (parameters != null) 'parameters': parameters,
+    };
+  }
+}
+
 /// Metadata that includes details and status from this runtime instance of the
 /// workflow.
 class WorkflowExecutionMetadata {
@@ -10146,6 +13182,10 @@ class WorkflowExecutionMetadata {
 
   /// The runtime output message from the workflow, if applicable.
   final String? message;
+
+  /// The name of the test group that included the test workflow resource at
+  /// runtime.
+  final String? parallelGroup;
 
   /// The timestamp when the runtime instance of this workflow started.
   final String? startTime;
@@ -10182,6 +13222,7 @@ class WorkflowExecutionMetadata {
   WorkflowExecutionMetadata({
     this.endTime,
     this.message,
+    this.parallelGroup,
     this.startTime,
     this.status,
     this.totalStepCount,
@@ -10197,6 +13238,7 @@ class WorkflowExecutionMetadata {
     return WorkflowExecutionMetadata(
       endTime: json['endTime'] as String?,
       message: json['message'] as String?,
+      parallelGroup: json['parallelGroup'] as String?,
       startTime: json['startTime'] as String?,
       status: (json['status'] as String?)?.toWorkflowExecutionStatus(),
       totalStepCount: json['totalStepCount'] as int?,
@@ -10212,6 +13254,7 @@ class WorkflowExecutionMetadata {
   Map<String, dynamic> toJson() {
     final endTime = this.endTime;
     final message = this.message;
+    final parallelGroup = this.parallelGroup;
     final startTime = this.startTime;
     final status = this.status;
     final totalStepCount = this.totalStepCount;
@@ -10224,6 +13267,7 @@ class WorkflowExecutionMetadata {
     return {
       if (endTime != null) 'endTime': endTime,
       if (message != null) 'message': message,
+      if (parallelGroup != null) 'parallelGroup': parallelGroup,
       if (startTime != null) 'startTime': startTime,
       if (status != null) 'status': status.toValue(),
       if (totalStepCount != null) 'totalStepCount': totalStepCount,
@@ -10248,6 +13292,7 @@ enum WorkflowExecutionStatus {
   failed,
   rollbackInProgress,
   rollbackCompleted,
+  cancelled,
 }
 
 extension WorkflowExecutionStatusValueExtension on WorkflowExecutionStatus {
@@ -10267,6 +13312,8 @@ extension WorkflowExecutionStatusValueExtension on WorkflowExecutionStatus {
         return 'ROLLBACK_IN_PROGRESS';
       case WorkflowExecutionStatus.rollbackCompleted:
         return 'ROLLBACK_COMPLETED';
+      case WorkflowExecutionStatus.cancelled:
+        return 'CANCELLED';
     }
   }
 }
@@ -10288,8 +13335,245 @@ extension WorkflowExecutionStatusFromString on String {
         return WorkflowExecutionStatus.rollbackInProgress;
       case 'ROLLBACK_COMPLETED':
         return WorkflowExecutionStatus.rollbackCompleted;
+      case 'CANCELLED':
+        return WorkflowExecutionStatus.cancelled;
     }
     throw Exception('$this is not known in enum WorkflowExecutionStatus');
+  }
+}
+
+/// Contains a key/value pair that sets the named workflow parameter.
+class WorkflowParameter {
+  /// The name of the workflow parameter to set.
+  final String name;
+
+  /// Sets the value for the named workflow parameter.
+  final List<String> value;
+
+  WorkflowParameter({
+    required this.name,
+    required this.value,
+  });
+
+  factory WorkflowParameter.fromJson(Map<String, dynamic> json) {
+    return WorkflowParameter(
+      name: json['name'] as String,
+      value: (json['value'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
+}
+
+/// Defines a parameter that's used to provide configuration details for the
+/// workflow.
+class WorkflowParameterDetail {
+  /// The name of this input parameter.
+  final String name;
+
+  /// The type of input this parameter provides. The currently supported value is
+  /// "string".
+  final String type;
+
+  /// The default value of this parameter if no input is provided.
+  final List<String>? defaultValue;
+
+  /// Describes this parameter.
+  final String? description;
+
+  WorkflowParameterDetail({
+    required this.name,
+    required this.type,
+    this.defaultValue,
+    this.description,
+  });
+
+  factory WorkflowParameterDetail.fromJson(Map<String, dynamic> json) {
+    return WorkflowParameterDetail(
+      name: json['name'] as String,
+      type: json['type'] as String,
+      defaultValue: (json['defaultValue'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    return {
+      'name': name,
+      'type': type,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// A group of fields that describe the current status of workflow.
+class WorkflowState {
+  /// Describes how or why the workflow changed state.
+  final String? reason;
+
+  /// The current state of the workflow.
+  final WorkflowStatus? status;
+
+  WorkflowState({
+    this.reason,
+    this.status,
+  });
+
+  factory WorkflowState.fromJson(Map<String, dynamic> json) {
+    return WorkflowState(
+      reason: json['reason'] as String?,
+      status: (json['status'] as String?)?.toWorkflowStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+enum WorkflowStatus {
+  deprecated,
+}
+
+extension WorkflowStatusValueExtension on WorkflowStatus {
+  String toValue() {
+    switch (this) {
+      case WorkflowStatus.deprecated:
+        return 'DEPRECATED';
+    }
+  }
+}
+
+extension WorkflowStatusFromString on String {
+  WorkflowStatus toWorkflowStatus() {
+    switch (this) {
+      case 'DEPRECATED':
+        return WorkflowStatus.deprecated;
+    }
+    throw Exception('$this is not known in enum WorkflowStatus');
+  }
+}
+
+enum WorkflowStepActionType {
+  resume,
+  stop,
+}
+
+extension WorkflowStepActionTypeValueExtension on WorkflowStepActionType {
+  String toValue() {
+    switch (this) {
+      case WorkflowStepActionType.resume:
+        return 'RESUME';
+      case WorkflowStepActionType.stop:
+        return 'STOP';
+    }
+  }
+}
+
+extension WorkflowStepActionTypeFromString on String {
+  WorkflowStepActionType toWorkflowStepActionType() {
+    switch (this) {
+      case 'RESUME':
+        return WorkflowStepActionType.resume;
+      case 'STOP':
+        return WorkflowStepActionType.stop;
+    }
+    throw Exception('$this is not known in enum WorkflowStepActionType');
+  }
+}
+
+/// Contains runtime details for an instance of a workflow that ran for the
+/// associated image build version.
+class WorkflowStepExecution {
+  /// The name of the step action.
+  final String? action;
+
+  /// The Amazon Resource Name (ARN) of the image build version that ran the
+  /// workflow.
+  final String? imageBuildVersionArn;
+
+  /// The name of the workflow step.
+  final String? name;
+
+  /// The timestamp when the workflow step started.
+  final String? startTime;
+
+  /// Uniquely identifies the workflow step that ran for the associated image
+  /// build version.
+  final String? stepExecutionId;
+
+  /// The ARN of the workflow resource that ran.
+  final String? workflowBuildVersionArn;
+
+  /// Uniquely identifies the runtime instance of the workflow that contains the
+  /// workflow step that ran for the associated image build version.
+  final String? workflowExecutionId;
+
+  WorkflowStepExecution({
+    this.action,
+    this.imageBuildVersionArn,
+    this.name,
+    this.startTime,
+    this.stepExecutionId,
+    this.workflowBuildVersionArn,
+    this.workflowExecutionId,
+  });
+
+  factory WorkflowStepExecution.fromJson(Map<String, dynamic> json) {
+    return WorkflowStepExecution(
+      action: json['action'] as String?,
+      imageBuildVersionArn: json['imageBuildVersionArn'] as String?,
+      name: json['name'] as String?,
+      startTime: json['startTime'] as String?,
+      stepExecutionId: json['stepExecutionId'] as String?,
+      workflowBuildVersionArn: json['workflowBuildVersionArn'] as String?,
+      workflowExecutionId: json['workflowExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final imageBuildVersionArn = this.imageBuildVersionArn;
+    final name = this.name;
+    final startTime = this.startTime;
+    final stepExecutionId = this.stepExecutionId;
+    final workflowBuildVersionArn = this.workflowBuildVersionArn;
+    final workflowExecutionId = this.workflowExecutionId;
+    return {
+      if (action != null) 'action': action,
+      if (imageBuildVersionArn != null)
+        'imageBuildVersionArn': imageBuildVersionArn,
+      if (name != null) 'name': name,
+      if (startTime != null) 'startTime': startTime,
+      if (stepExecutionId != null) 'stepExecutionId': stepExecutionId,
+      if (workflowBuildVersionArn != null)
+        'workflowBuildVersionArn': workflowBuildVersionArn,
+      if (workflowExecutionId != null)
+        'workflowExecutionId': workflowExecutionId,
+    };
   }
 }
 
@@ -10339,6 +13623,7 @@ enum WorkflowStepExecutionStatus {
   running,
   completed,
   failed,
+  cancelled,
 }
 
 extension WorkflowStepExecutionStatusValueExtension
@@ -10355,6 +13640,8 @@ extension WorkflowStepExecutionStatusValueExtension
         return 'COMPLETED';
       case WorkflowStepExecutionStatus.failed:
         return 'FAILED';
+      case WorkflowStepExecutionStatus.cancelled:
+        return 'CANCELLED';
     }
   }
 }
@@ -10372,6 +13659,8 @@ extension WorkflowStepExecutionStatusFromString on String {
         return WorkflowStepExecutionStatus.completed;
       case 'FAILED':
         return WorkflowStepExecutionStatus.failed;
+      case 'CANCELLED':
+        return WorkflowStepExecutionStatus.cancelled;
     }
     throw Exception('$this is not known in enum WorkflowStepExecutionStatus');
   }
@@ -10472,6 +13761,96 @@ class WorkflowStepMetadata {
   }
 }
 
+/// Contains metadata about the workflow resource.
+class WorkflowSummary {
+  /// The Amazon Resource Name (ARN) of the workflow resource.
+  final String? arn;
+
+  /// The change description for the current version of the workflow resource.
+  final String? changeDescription;
+
+  /// The original creation date of the workflow resource.
+  final String? dateCreated;
+
+  /// Describes the workflow.
+  final String? description;
+
+  /// The name of the workflow.
+  final String? name;
+
+  /// The owner of the workflow resource.
+  final String? owner;
+
+  /// Describes the current state of the workflow resource.
+  final WorkflowState? state;
+
+  /// Contains a list of tags that are defined for the workflow.
+  final Map<String, String>? tags;
+
+  /// The image creation stage that this workflow applies to. Image Builder
+  /// currently supports build and test stage workflows.
+  final WorkflowType? type;
+
+  /// The version of the workflow.
+  final String? version;
+
+  WorkflowSummary({
+    this.arn,
+    this.changeDescription,
+    this.dateCreated,
+    this.description,
+    this.name,
+    this.owner,
+    this.state,
+    this.tags,
+    this.type,
+    this.version,
+  });
+
+  factory WorkflowSummary.fromJson(Map<String, dynamic> json) {
+    return WorkflowSummary(
+      arn: json['arn'] as String?,
+      changeDescription: json['changeDescription'] as String?,
+      dateCreated: json['dateCreated'] as String?,
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      owner: json['owner'] as String?,
+      state: json['state'] != null
+          ? WorkflowState.fromJson(json['state'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['type'] as String?)?.toWorkflowType(),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final changeDescription = this.changeDescription;
+    final dateCreated = this.dateCreated;
+    final description = this.description;
+    final name = this.name;
+    final owner = this.owner;
+    final state = this.state;
+    final tags = this.tags;
+    final type = this.type;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (changeDescription != null) 'changeDescription': changeDescription,
+      if (dateCreated != null) 'dateCreated': dateCreated,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (owner != null) 'owner': owner,
+      if (state != null) 'state': state,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type.toValue(),
+      if (version != null) 'version': version,
+    };
+  }
+}
+
 enum WorkflowType {
   build,
   test,
@@ -10502,6 +13881,73 @@ extension WorkflowTypeFromString on String {
         return WorkflowType.distribution;
     }
     throw Exception('$this is not known in enum WorkflowType');
+  }
+}
+
+/// Contains details about this version of the workflow.
+class WorkflowVersion {
+  /// The Amazon Resource Name (ARN) of the workflow resource.
+  final String? arn;
+
+  /// The timestamp when Image Builder created the workflow version.
+  final String? dateCreated;
+
+  /// Describes the workflow.
+  final String? description;
+
+  /// The name of the workflow.
+  final String? name;
+
+  /// The owner of the workflow resource.
+  final String? owner;
+
+  /// The image creation stage that this workflow applies to. Image Builder
+  /// currently supports build and test stage workflows.
+  final WorkflowType? type;
+
+  /// The semantic version of the workflow resource. The format includes three
+  /// nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;.
+  final String? version;
+
+  WorkflowVersion({
+    this.arn,
+    this.dateCreated,
+    this.description,
+    this.name,
+    this.owner,
+    this.type,
+    this.version,
+  });
+
+  factory WorkflowVersion.fromJson(Map<String, dynamic> json) {
+    return WorkflowVersion(
+      arn: json['arn'] as String?,
+      dateCreated: json['dateCreated'] as String?,
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      owner: json['owner'] as String?,
+      type: (json['type'] as String?)?.toWorkflowType(),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final dateCreated = this.dateCreated;
+    final description = this.description;
+    final name = this.name;
+    final owner = this.owner;
+    final type = this.type;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (dateCreated != null) 'dateCreated': dateCreated,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (owner != null) 'owner': owner,
+      if (type != null) 'type': type.toValue(),
+      if (version != null) 'version': version,
+    };
   }
 }
 

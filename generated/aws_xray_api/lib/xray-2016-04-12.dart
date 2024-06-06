@@ -801,8 +801,8 @@ class XRay {
   /// Input parameters are Name and Value.
   ///
   /// Parameter [timeRangeType] :
-  /// A parameter to indicate whether to query trace summaries by TraceId or
-  /// Event time.
+  /// A parameter to indicate whether to query trace summaries by TraceId, Event
+  /// (trace update time), or Service (segment end time).
   Future<GetTraceSummariesResult> getTraceSummaries({
     required DateTime endTime,
     required DateTime startTime,
@@ -4035,6 +4035,7 @@ class TelemetryRecord {
 enum TimeRangeType {
   traceId,
   event,
+  service,
 }
 
 extension TimeRangeTypeValueExtension on TimeRangeType {
@@ -4044,6 +4045,8 @@ extension TimeRangeTypeValueExtension on TimeRangeType {
         return 'TraceId';
       case TimeRangeType.event:
         return 'Event';
+      case TimeRangeType.service:
+        return 'Service';
     }
   }
 }
@@ -4055,6 +4058,8 @@ extension TimeRangeTypeFromString on String {
         return TimeRangeType.traceId;
       case 'Event':
         return TimeRangeType.event;
+      case 'Service':
+        return TimeRangeType.service;
     }
     throw Exception('$this is not known in enum TimeRangeType');
   }
@@ -4216,6 +4221,9 @@ class TraceSummary {
   /// Service IDs from the trace's segment documents.
   final List<ServiceId>? serviceIds;
 
+  /// The start time of a trace, based on the earliest trace segment start time.
+  final DateTime? startTime;
+
   /// Users from the trace's segment documents.
   final List<TraceUser>? users;
 
@@ -4239,6 +4247,7 @@ class TraceSummary {
     this.responseTimeRootCauses,
     this.revision,
     this.serviceIds,
+    this.startTime,
     this.users,
   });
 
@@ -4296,6 +4305,7 @@ class TraceSummary {
           ?.whereNotNull()
           .map((e) => ServiceId.fromJson(e as Map<String, dynamic>))
           .toList(),
+      startTime: timeStampFromJson(json['StartTime']),
       users: (json['Users'] as List?)
           ?.whereNotNull()
           .map((e) => TraceUser.fromJson(e as Map<String, dynamic>))

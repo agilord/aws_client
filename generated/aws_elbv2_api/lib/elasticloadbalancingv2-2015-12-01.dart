@@ -108,7 +108,7 @@ class ElasticLoadBalancingv2 {
 
   /// Adds the specified tags to the specified Elastic Load Balancing resource.
   /// You can tag your Application Load Balancers, Network Load Balancers,
-  /// Gateway Load Balancers, target groups, listeners, and rules.
+  /// Gateway Load Balancers, target groups, trust stores, listeners, and rules.
   ///
   /// Each tag consists of a key and an optional value. If a resource already
   /// has a tag with the same key, <code>AddTags</code> updates its value.
@@ -119,6 +119,7 @@ class ElasticLoadBalancingv2 {
   /// May throw [TargetGroupNotFoundException].
   /// May throw [ListenerNotFoundException].
   /// May throw [RuleNotFoundException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [resourceArns] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -143,6 +144,39 @@ class ElasticLoadBalancingv2 {
       shapes: shapes,
       resultWrapper: 'AddTagsResult',
     );
+  }
+
+  /// Adds the specified revocation file to the specified trust store.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [InvalidRevocationContentException].
+  /// May throw [TooManyTrustStoreRevocationEntriesException].
+  /// May throw [RevocationContentNotFoundException].
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  ///
+  /// Parameter [revocationContents] :
+  /// The revocation file to add.
+  Future<AddTrustStoreRevocationsOutput> addTrustStoreRevocations({
+    required String trustStoreArn,
+    List<RevocationContent>? revocationContents,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['TrustStoreArn'] = trustStoreArn;
+    revocationContents?.also((arg) => $request['RevocationContents'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'AddTrustStoreRevocations',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['AddTrustStoreRevocationsInput'],
+      shapes: shapes,
+      resultWrapper: 'AddTrustStoreRevocationsResult',
+    );
+    return AddTrustStoreRevocationsOutput.fromXml($result);
   }
 
   /// Creates a listener for the specified Application Load Balancer, Network
@@ -189,6 +223,8 @@ class ElasticLoadBalancingv2 {
   /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
   /// May throw [ALPNPolicyNotSupportedException].
   /// May throw [TooManyTagsException].
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [TrustStoreNotReadyException].
   ///
   /// Parameter [defaultActions] :
   /// The actions for the default rule.
@@ -227,6 +263,9 @@ class ElasticLoadBalancingv2 {
   /// must provide exactly one certificate. Set <code>CertificateArn</code> to
   /// the certificate ARN but do not set <code>IsDefault</code>.
   ///
+  /// Parameter [mutualAuthentication] :
+  /// The mutual authentication configuration information.
+  ///
   /// Parameter [port] :
   /// The port on which the load balancer is listening. You cannot specify a
   /// port for a Gateway Load Balancer.
@@ -255,6 +294,7 @@ class ElasticLoadBalancingv2 {
     required String loadBalancerArn,
     List<String>? alpnPolicy,
     List<Certificate>? certificates,
+    MutualAuthenticationAttributes? mutualAuthentication,
     int? port,
     ProtocolEnum? protocol,
     String? sslPolicy,
@@ -271,6 +311,7 @@ class ElasticLoadBalancingv2 {
     $request['LoadBalancerArn'] = loadBalancerArn;
     alpnPolicy?.also((arg) => $request['AlpnPolicy'] = arg);
     certificates?.also((arg) => $request['Certificates'] = arg);
+    mutualAuthentication?.also((arg) => $request['MutualAuthentication'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     protocol?.also((arg) => $request['Protocol'] = arg.toValue());
     sslPolicy?.also((arg) => $request['SslPolicy'] = arg);
@@ -341,9 +382,22 @@ class ElasticLoadBalancingv2 {
   /// address pool (CoIP pool).
   ///
   /// Parameter [ipAddressType] :
-  /// The type of IP addresses used by the subnets for your load balancer. The
-  /// possible values are <code>ipv4</code> (for IPv4 addresses) and
-  /// <code>dualstack</code> (for IPv4 and IPv6 addresses).
+  /// Note: Internal load balancers must use the <code>ipv4</code> IP address
+  /// type.
+  ///
+  /// [Application Load Balancers] The IP address type. The possible values are
+  /// <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for
+  /// IPv4 and IPv6 addresses), and <code>dualstack-without-public-ipv4</code>
+  /// (for IPv6 only public addresses, with private IPv4 and IPv6 addresses).
+  ///
+  /// [Network Load Balancers] The IP address type. The possible values are
+  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
+  /// (for IPv4 and IPv6 addresses). You can’t specify <code>dualstack</code>
+  /// for a load balancer with a UDP or TCP_UDP listener.
+  ///
+  /// [Gateway Load Balancers] The IP address type. The possible values are
+  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
+  /// (for IPv4 and IPv6 addresses).
   ///
   /// Parameter [scheme] :
   /// The nodes of an Internet-facing load balancer have public IP addresses.
@@ -362,13 +416,12 @@ class ElasticLoadBalancingv2 {
   /// You cannot specify a scheme for a Gateway Load Balancer.
   ///
   /// Parameter [securityGroups] :
-  /// [Application Load Balancers] The IDs of the security groups for the load
-  /// balancer.
+  /// [Application Load Balancers and Network Load Balancers] The IDs of the
+  /// security groups for the load balancer.
   ///
   /// Parameter [subnetMappings] :
-  /// The IDs of the public subnets. You can specify only one subnet per
-  /// Availability Zone. You must specify either subnets or subnet mappings, but
-  /// not both.
+  /// The IDs of the subnets. You can specify only one subnet per Availability
+  /// Zone. You must specify either subnets or subnet mappings, but not both.
   ///
   /// [Application Load Balancers] You must specify subnets from at least two
   /// Availability Zones. You cannot specify Elastic IP addresses for your
@@ -392,10 +445,9 @@ class ElasticLoadBalancingv2 {
   /// subnets.
   ///
   /// Parameter [subnets] :
-  /// The IDs of the public subnets. You can specify only one subnet per
-  /// Availability Zone. You must specify either subnets or subnet mappings, but
-  /// not both. To specify an Elastic IP address, specify subnet mappings
-  /// instead of subnets.
+  /// The IDs of the subnets. You can specify only one subnet per Availability
+  /// Zone. You must specify either subnets or subnet mappings, but not both. To
+  /// specify an Elastic IP address, specify subnet mappings instead of subnets.
   ///
   /// [Application Load Balancers] You must specify subnets from at least two
   /// Availability Zones.
@@ -777,6 +829,60 @@ class ElasticLoadBalancingv2 {
     return CreateTargetGroupOutput.fromXml($result);
   }
 
+  /// Creates a trust store.
+  ///
+  /// May throw [DuplicateTrustStoreNameException].
+  /// May throw [TooManyTrustStoresException].
+  /// May throw [InvalidCaCertificatesBundleException].
+  /// May throw [CaCertificatesBundleNotFoundException].
+  /// May throw [TooManyTagsException].
+  /// May throw [DuplicateTagKeysException].
+  ///
+  /// Parameter [caCertificatesBundleS3Bucket] :
+  /// The Amazon S3 bucket for the ca certificates bundle.
+  ///
+  /// Parameter [caCertificatesBundleS3Key] :
+  /// The Amazon S3 path for the ca certificates bundle.
+  ///
+  /// Parameter [name] :
+  /// The name of the trust store.
+  ///
+  /// This name must be unique per region and cannot be changed after creation.
+  ///
+  /// Parameter [caCertificatesBundleS3ObjectVersion] :
+  /// The Amazon S3 object version for the ca certificates bundle. If undefined
+  /// the current version is used.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the trust store.
+  Future<CreateTrustStoreOutput> createTrustStore({
+    required String caCertificatesBundleS3Bucket,
+    required String caCertificatesBundleS3Key,
+    required String name,
+    String? caCertificatesBundleS3ObjectVersion,
+    List<Tag>? tags,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['CaCertificatesBundleS3Bucket'] = caCertificatesBundleS3Bucket;
+    $request['CaCertificatesBundleS3Key'] = caCertificatesBundleS3Key;
+    $request['Name'] = name;
+    caCertificatesBundleS3ObjectVersion
+        ?.also((arg) => $request['CaCertificatesBundleS3ObjectVersion'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateTrustStore',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateTrustStoreInput'],
+      shapes: shapes,
+      resultWrapper: 'CreateTrustStoreResult',
+    );
+    return CreateTrustStoreOutput.fromXml($result);
+  }
+
   /// Deletes the specified listener.
   ///
   /// Alternatively, your listener is deleted when you delete the load balancer
@@ -899,9 +1005,62 @@ class ElasticLoadBalancingv2 {
     );
   }
 
+  /// Deletes a trust store.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [TrustStoreInUseException].
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  Future<void> deleteTrustStore({
+    required String trustStoreArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['TrustStoreArn'] = trustStoreArn;
+    await _protocol.send(
+      $request,
+      action: 'DeleteTrustStore',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteTrustStoreInput'],
+      shapes: shapes,
+      resultWrapper: 'DeleteTrustStoreResult',
+    );
+  }
+
   /// Deregisters the specified targets from the specified target group. After
   /// the targets are deregistered, they no longer receive traffic from the load
   /// balancer.
+  ///
+  /// The load balancer stops sending requests to targets that are
+  /// deregistering, but uses connection draining to ensure that in-flight
+  /// traffic completes on the existing connections. This deregistration delay
+  /// is configured by default but can be updated for each target group.
+  ///
+  /// For more information, see the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay">
+  /// Deregistration delay</a> in the <i>Application Load Balancers User
+  /// Guide</i>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#deregistration-delay">
+  /// Deregistration delay</a> in the <i>Network Load Balancers User Guide</i>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#deregistration-delay">
+  /// Deregistration delay</a> in the <i>Gateway Load Balancers User Guide</i>
+  /// </li>
+  /// </ul>
+  /// Note: If the specified target does not exist, the action returns
+  /// successfully.
   ///
   /// May throw [TargetGroupNotFoundException].
   /// May throw [InvalidTargetException].
@@ -1302,6 +1461,7 @@ class ElasticLoadBalancingv2 {
   /// May throw [TargetGroupNotFoundException].
   /// May throw [ListenerNotFoundException].
   /// May throw [RuleNotFoundException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [resourceArns] :
   /// The Amazon Resource Names (ARN) of the resources. You can specify up to 20
@@ -1436,14 +1596,20 @@ class ElasticLoadBalancingv2 {
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
   ///
+  /// Parameter [include] :
+  /// Used to inclue anomaly detection information.
+  ///
   /// Parameter [targets] :
   /// The targets.
   Future<DescribeTargetHealthOutput> describeTargetHealth({
     required String targetGroupArn,
+    List<DescribeTargetHealthInputIncludeEnum>? include,
     List<TargetDescription>? targets,
   }) async {
     final $request = <String, dynamic>{};
     $request['TargetGroupArn'] = targetGroupArn;
+    include?.also(
+        (arg) => $request['Include'] = arg.map((e) => e.toValue()).toList());
     targets?.also((arg) => $request['Targets'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -1457,6 +1623,206 @@ class ElasticLoadBalancingv2 {
       resultWrapper: 'DescribeTargetHealthResult',
     );
     return DescribeTargetHealthOutput.fromXml($result);
+  }
+
+  /// Describes all resources associated with the specified trust store.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  ///
+  /// Parameter [marker] :
+  /// The marker for the next set of results. (You received this marker from a
+  /// previous call.)
+  ///
+  /// Parameter [pageSize] :
+  /// The maximum number of results to return with this call.
+  Future<DescribeTrustStoreAssociationsOutput> describeTrustStoreAssociations({
+    required String trustStoreArn,
+    String? marker,
+    int? pageSize,
+  }) async {
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      1,
+      400,
+    );
+    final $request = <String, dynamic>{};
+    $request['TrustStoreArn'] = trustStoreArn;
+    marker?.also((arg) => $request['Marker'] = arg);
+    pageSize?.also((arg) => $request['PageSize'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeTrustStoreAssociations',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTrustStoreAssociationsInput'],
+      shapes: shapes,
+      resultWrapper: 'DescribeTrustStoreAssociationsResult',
+    );
+    return DescribeTrustStoreAssociationsOutput.fromXml($result);
+  }
+
+  /// Describes the revocation files in use by the specified trust store arn, or
+  /// revocation ID.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [RevocationIdNotFoundException].
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  ///
+  /// Parameter [marker] :
+  /// The marker for the next set of results. (You received this marker from a
+  /// previous call.)
+  ///
+  /// Parameter [pageSize] :
+  /// The maximum number of results to return with this call.
+  ///
+  /// Parameter [revocationIds] :
+  /// The revocation IDs of the revocation files you want to describe.
+  Future<DescribeTrustStoreRevocationsOutput> describeTrustStoreRevocations({
+    required String trustStoreArn,
+    String? marker,
+    int? pageSize,
+    List<int>? revocationIds,
+  }) async {
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      1,
+      400,
+    );
+    final $request = <String, dynamic>{};
+    $request['TrustStoreArn'] = trustStoreArn;
+    marker?.also((arg) => $request['Marker'] = arg);
+    pageSize?.also((arg) => $request['PageSize'] = arg);
+    revocationIds?.also((arg) => $request['RevocationIds'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeTrustStoreRevocations',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTrustStoreRevocationsInput'],
+      shapes: shapes,
+      resultWrapper: 'DescribeTrustStoreRevocationsResult',
+    );
+    return DescribeTrustStoreRevocationsOutput.fromXml($result);
+  }
+
+  /// Describes all trust stores for a given account by trust store arn’s or
+  /// name.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  ///
+  /// Parameter [marker] :
+  /// The marker for the next set of results. (You received this marker from a
+  /// previous call.)
+  ///
+  /// Parameter [names] :
+  /// The names of the trust stores.
+  ///
+  /// Parameter [pageSize] :
+  /// The maximum number of results to return with this call.
+  ///
+  /// Parameter [trustStoreArns] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  Future<DescribeTrustStoresOutput> describeTrustStores({
+    String? marker,
+    List<String>? names,
+    int? pageSize,
+    List<String>? trustStoreArns,
+  }) async {
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      1,
+      400,
+    );
+    final $request = <String, dynamic>{};
+    marker?.also((arg) => $request['Marker'] = arg);
+    names?.also((arg) => $request['Names'] = arg);
+    pageSize?.also((arg) => $request['PageSize'] = arg);
+    trustStoreArns?.also((arg) => $request['TrustStoreArns'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeTrustStores',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeTrustStoresInput'],
+      shapes: shapes,
+      resultWrapper: 'DescribeTrustStoresResult',
+    );
+    return DescribeTrustStoresOutput.fromXml($result);
+  }
+
+  /// Retrieves the ca certificate bundle.
+  ///
+  /// This action returns a pre-signed S3 URI which is active for ten minutes.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  Future<GetTrustStoreCaCertificatesBundleOutput>
+      getTrustStoreCaCertificatesBundle({
+    required String trustStoreArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['TrustStoreArn'] = trustStoreArn;
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetTrustStoreCaCertificatesBundle',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['GetTrustStoreCaCertificatesBundleInput'],
+      shapes: shapes,
+      resultWrapper: 'GetTrustStoreCaCertificatesBundleResult',
+    );
+    return GetTrustStoreCaCertificatesBundleOutput.fromXml($result);
+  }
+
+  /// Retrieves the specified revocation file.
+  ///
+  /// This action returns a pre-signed S3 URI which is active for ten minutes.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [RevocationIdNotFoundException].
+  ///
+  /// Parameter [revocationId] :
+  /// The revocation ID of the revocation file.
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  Future<GetTrustStoreRevocationContentOutput> getTrustStoreRevocationContent({
+    required int revocationId,
+    required String trustStoreArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['RevocationId'] = revocationId;
+    $request['TrustStoreArn'] = trustStoreArn;
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetTrustStoreRevocationContent',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['GetTrustStoreRevocationContentInput'],
+      shapes: shapes,
+      resultWrapper: 'GetTrustStoreRevocationContentResult',
+    );
+    return GetTrustStoreRevocationContentOutput.fromXml($result);
   }
 
   /// Replaces the specified properties of the specified listener. Any
@@ -1488,6 +1854,8 @@ class ElasticLoadBalancingv2 {
   /// May throw [InvalidLoadBalancerActionException].
   /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
   /// May throw [ALPNPolicyNotSupportedException].
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [TrustStoreNotReadyException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
@@ -1526,6 +1894,9 @@ class ElasticLoadBalancingv2 {
   /// Parameter [defaultActions] :
   /// The actions for the default rule.
   ///
+  /// Parameter [mutualAuthentication] :
+  /// The mutual authentication configuration information.
+  ///
   /// Parameter [port] :
   /// The port for connections from clients to the load balancer. You cannot
   /// specify a port for a Gateway Load Balancer.
@@ -1551,6 +1922,7 @@ class ElasticLoadBalancingv2 {
     List<String>? alpnPolicy,
     List<Certificate>? certificates,
     List<Action>? defaultActions,
+    MutualAuthenticationAttributes? mutualAuthentication,
     int? port,
     ProtocolEnum? protocol,
     String? sslPolicy,
@@ -1566,6 +1938,7 @@ class ElasticLoadBalancingv2 {
     alpnPolicy?.also((arg) => $request['AlpnPolicy'] = arg);
     certificates?.also((arg) => $request['Certificates'] = arg);
     defaultActions?.also((arg) => $request['DefaultActions'] = arg);
+    mutualAuthentication?.also((arg) => $request['MutualAuthentication'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     protocol?.also((arg) => $request['Protocol'] = arg.toValue());
     sslPolicy?.also((arg) => $request['SslPolicy'] = arg);
@@ -1822,6 +2195,50 @@ class ElasticLoadBalancingv2 {
     return ModifyTargetGroupAttributesOutput.fromXml($result);
   }
 
+  /// Update the ca certificate bundle for a given trust store.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [InvalidCaCertificatesBundleException].
+  /// May throw [CaCertificatesBundleNotFoundException].
+  ///
+  /// Parameter [caCertificatesBundleS3Bucket] :
+  /// The Amazon S3 bucket for the ca certificates bundle.
+  ///
+  /// Parameter [caCertificatesBundleS3Key] :
+  /// The Amazon S3 path for the ca certificates bundle.
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  ///
+  /// Parameter [caCertificatesBundleS3ObjectVersion] :
+  /// The Amazon S3 object version for the ca certificates bundle. If undefined
+  /// the current version is used.
+  Future<ModifyTrustStoreOutput> modifyTrustStore({
+    required String caCertificatesBundleS3Bucket,
+    required String caCertificatesBundleS3Key,
+    required String trustStoreArn,
+    String? caCertificatesBundleS3ObjectVersion,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['CaCertificatesBundleS3Bucket'] = caCertificatesBundleS3Bucket;
+    $request['CaCertificatesBundleS3Key'] = caCertificatesBundleS3Key;
+    $request['TrustStoreArn'] = trustStoreArn;
+    caCertificatesBundleS3ObjectVersion
+        ?.also((arg) => $request['CaCertificatesBundleS3ObjectVersion'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyTrustStore',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyTrustStoreInput'],
+      shapes: shapes,
+      resultWrapper: 'ModifyTrustStoreResult',
+    );
+    return ModifyTrustStoreOutput.fromXml($result);
+  }
+
   /// Registers the specified targets with the specified target group.
   ///
   /// If the target is an EC2 instance, it must be in the <code>running</code>
@@ -1911,6 +2328,7 @@ class ElasticLoadBalancingv2 {
   /// May throw [ListenerNotFoundException].
   /// May throw [RuleNotFoundException].
   /// May throw [TooManyTagsException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [resourceArns] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -1937,6 +2355,36 @@ class ElasticLoadBalancingv2 {
     );
   }
 
+  /// Removes the specified revocation file from the specified trust store.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [RevocationIdNotFoundException].
+  ///
+  /// Parameter [revocationIds] :
+  /// The revocation IDs of the revocation files you want to remove.
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  Future<void> removeTrustStoreRevocations({
+    required List<int> revocationIds,
+    required String trustStoreArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['RevocationIds'] = revocationIds;
+    $request['TrustStoreArn'] = trustStoreArn;
+    await _protocol.send(
+      $request,
+      action: 'RemoveTrustStoreRevocations',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveTrustStoreRevocationsInput'],
+      shapes: shapes,
+      resultWrapper: 'RemoveTrustStoreRevocationsResult',
+    );
+  }
+
   /// Sets the type of IP addresses used by the subnets of the specified load
   /// balancer.
   ///
@@ -1945,10 +2393,22 @@ class ElasticLoadBalancingv2 {
   /// May throw [InvalidSubnetException].
   ///
   /// Parameter [ipAddressType] :
-  /// The IP address type. The possible values are <code>ipv4</code> (for IPv4
-  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses). You
-  /// can’t specify <code>dualstack</code> for a load balancer with a UDP or
-  /// TCP_UDP listener.
+  /// Note: Internal load balancers must use the <code>ipv4</code> IP address
+  /// type.
+  ///
+  /// [Application Load Balancers] The IP address type. The possible values are
+  /// <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for
+  /// IPv4 and IPv6 addresses), and <code>dualstack-without-public-ipv4</code>
+  /// (for IPv6 only public addresses, with private IPv4 and IPv6 addresses).
+  ///
+  /// [Network Load Balancers] The IP address type. The possible values are
+  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
+  /// (for IPv4 and IPv6 addresses). You can’t specify <code>dualstack</code>
+  /// for a load balancer with a UDP or TCP_UDP listener.
+  ///
+  /// [Gateway Load Balancers] The IP address type. The possible values are
+  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
+  /// (for IPv4 and IPv6 addresses).
   ///
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
@@ -2005,11 +2465,13 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Associates the specified security groups with the specified Application
-  /// Load Balancer. The specified security groups override the previously
-  /// associated security groups.
+  /// Load Balancer or Network Load Balancer. The specified security groups
+  /// override the previously associated security groups.
   ///
-  /// You can't specify a security group for a Network Load Balancer or Gateway
-  /// Load Balancer.
+  /// You can't perform this operation on a Network Load Balancer unless you
+  /// specified a security group for the load balancer when you created it.
+  ///
+  /// You can't associate a security group with a Gateway Load Balancer.
   ///
   /// May throw [LoadBalancerNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
@@ -2020,13 +2482,23 @@ class ElasticLoadBalancingv2 {
   ///
   /// Parameter [securityGroups] :
   /// The IDs of the security groups.
+  ///
+  /// Parameter [enforceSecurityGroupInboundRulesOnPrivateLinkTraffic] :
+  /// Indicates whether to evaluate inbound security group rules for traffic
+  /// sent to a Network Load Balancer through Amazon Web Services PrivateLink.
+  /// The default is <code>on</code>.
   Future<SetSecurityGroupsOutput> setSecurityGroups({
     required String loadBalancerArn,
     required List<String> securityGroups,
+    EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
   }) async {
     final $request = <String, dynamic>{};
     $request['LoadBalancerArn'] = loadBalancerArn;
     $request['SecurityGroups'] = securityGroups;
+    enforceSecurityGroupInboundRulesOnPrivateLinkTraffic?.also((arg) =>
+        $request['EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic'] =
+            arg.toValue());
     final $result = await _protocol.send(
       $request,
       action: 'SetSecurityGroups',
@@ -2042,12 +2514,12 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Enables the Availability Zones for the specified public subnets for the
-  /// specified Application Load Balancer or Network Load Balancer. The
-  /// specified subnets replace the previously enabled subnets.
+  /// specified Application Load Balancer, Network Load Balancer or Gateway Load
+  /// Balancer. The specified subnets replace the previously enabled subnets.
   ///
-  /// When you specify subnets for a Network Load Balancer, you must include all
-  /// subnets that were enabled previously, with their existing configurations,
-  /// plus any additional subnets.
+  /// When you specify subnets for a Network Load Balancer, or Gateway Load
+  /// Balancer you must include all subnets that were enabled previously, with
+  /// their existing configurations, plus any additional subnets.
   ///
   /// May throw [LoadBalancerNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
@@ -2060,11 +2532,20 @@ class ElasticLoadBalancingv2 {
   /// The Amazon Resource Name (ARN) of the load balancer.
   ///
   /// Parameter [ipAddressType] :
+  /// [Application Load Balancers] The IP address type. The possible values are
+  /// <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for
+  /// IPv4 and IPv6 addresses), and <code>dualstack-without-public-ipv4</code>
+  /// (for IPv6 only public addresses, with private IPv4 and IPv6 addresses).
+  ///
   /// [Network Load Balancers] The type of IP addresses used by the subnets for
   /// your load balancer. The possible values are <code>ipv4</code> (for IPv4
   /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses). You
   /// can’t specify <code>dualstack</code> for a load balancer with a UDP or
-  /// TCP_UDP listener. .
+  /// TCP_UDP listener.
+  ///
+  /// [Gateway Load Balancers] The type of IP addresses used by the subnets for
+  /// your load balancer. The possible values are <code>ipv4</code> (for IPv4
+  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses).
   ///
   /// Parameter [subnetMappings] :
   /// The IDs of the public subnets. You can specify only one subnet per
@@ -2087,6 +2568,9 @@ class ElasticLoadBalancingv2 {
   /// from the IPv4 range of the subnet. For internet-facing load balancer, you
   /// can specify one IPv6 address per subnet.
   ///
+  /// [Gateway Load Balancers] You can specify subnets from one or more
+  /// Availability Zones.
+  ///
   /// Parameter [subnets] :
   /// The IDs of the public subnets. You can specify only one subnet per
   /// Availability Zone. You must specify either subnets or subnet mappings.
@@ -2101,6 +2585,9 @@ class ElasticLoadBalancingv2 {
   /// one or more Local Zones.
   ///
   /// [Network Load Balancers] You can specify subnets from one or more
+  /// Availability Zones.
+  ///
+  /// [Gateway Load Balancers] You can specify subnets from one or more
   /// Availability Zones.
   Future<SetSubnetsOutput> setSubnets({
     required String loadBalancerArn,
@@ -2297,6 +2784,75 @@ class AddTagsOutput {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return AddTagsOutput();
+  }
+}
+
+class AddTrustStoreRevocationsOutput {
+  /// Information about the revocation file added to the trust store.
+  final List<TrustStoreRevocation>? trustStoreRevocations;
+
+  AddTrustStoreRevocationsOutput({
+    this.trustStoreRevocations,
+  });
+  factory AddTrustStoreRevocationsOutput.fromXml(_s.XmlElement elem) {
+    return AddTrustStoreRevocationsOutput(
+      trustStoreRevocations: _s
+          .extractXmlChild(elem, 'TrustStoreRevocations')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(TrustStoreRevocation.fromXml)
+              .toList()),
+    );
+  }
+}
+
+/// Information about anomaly detection and mitigation.
+class AnomalyDetection {
+  /// Indicates whether anomaly mitigation is in progress.
+  final MitigationInEffectEnum? mitigationInEffect;
+
+  /// The latest anomaly detection result.
+  final AnomalyResultEnum? result;
+
+  AnomalyDetection({
+    this.mitigationInEffect,
+    this.result,
+  });
+  factory AnomalyDetection.fromXml(_s.XmlElement elem) {
+    return AnomalyDetection(
+      mitigationInEffect: _s
+          .extractXmlStringValue(elem, 'MitigationInEffect')
+          ?.toMitigationInEffectEnum(),
+      result: _s.extractXmlStringValue(elem, 'Result')?.toAnomalyResultEnum(),
+    );
+  }
+}
+
+enum AnomalyResultEnum {
+  anomalous,
+  normal,
+}
+
+extension AnomalyResultEnumValueExtension on AnomalyResultEnum {
+  String toValue() {
+    switch (this) {
+      case AnomalyResultEnum.anomalous:
+        return 'anomalous';
+      case AnomalyResultEnum.normal:
+        return 'normal';
+    }
+  }
+}
+
+extension AnomalyResultEnumFromString on String {
+  AnomalyResultEnum toAnomalyResultEnum() {
+    switch (this) {
+      case 'anomalous':
+        return AnomalyResultEnum.anomalous;
+      case 'normal':
+        return AnomalyResultEnum.normal;
+    }
+    throw Exception('$this is not known in enum AnomalyResultEnum');
   }
 }
 
@@ -2780,6 +3336,21 @@ class CreateTargetGroupOutput {
   }
 }
 
+class CreateTrustStoreOutput {
+  /// Information about the trust store created.
+  final List<TrustStore>? trustStores;
+
+  CreateTrustStoreOutput({
+    this.trustStores,
+  });
+  factory CreateTrustStoreOutput.fromXml(_s.XmlElement elem) {
+    return CreateTrustStoreOutput(
+      trustStores: _s.extractXmlChild(elem, 'TrustStores')?.let((elem) =>
+          elem.findElements('member').map(TrustStore.fromXml).toList()),
+    );
+  }
+}
+
 class DeleteListenerOutput {
   DeleteListenerOutput();
   factory DeleteListenerOutput.fromXml(
@@ -2813,6 +3384,15 @@ class DeleteTargetGroupOutput {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteTargetGroupOutput();
+  }
+}
+
+class DeleteTrustStoreOutput {
+  DeleteTrustStoreOutput();
+  factory DeleteTrustStoreOutput.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return DeleteTrustStoreOutput();
   }
 }
 
@@ -3022,6 +3602,37 @@ class DescribeTargetGroupsOutput {
   }
 }
 
+enum DescribeTargetHealthInputIncludeEnum {
+  anomalyDetection,
+  all,
+}
+
+extension DescribeTargetHealthInputIncludeEnumValueExtension
+    on DescribeTargetHealthInputIncludeEnum {
+  String toValue() {
+    switch (this) {
+      case DescribeTargetHealthInputIncludeEnum.anomalyDetection:
+        return 'AnomalyDetection';
+      case DescribeTargetHealthInputIncludeEnum.all:
+        return 'All';
+    }
+  }
+}
+
+extension DescribeTargetHealthInputIncludeEnumFromString on String {
+  DescribeTargetHealthInputIncludeEnum
+      toDescribeTargetHealthInputIncludeEnum() {
+    switch (this) {
+      case 'AnomalyDetection':
+        return DescribeTargetHealthInputIncludeEnum.anomalyDetection;
+      case 'All':
+        return DescribeTargetHealthInputIncludeEnum.all;
+    }
+    throw Exception(
+        '$this is not known in enum DescribeTargetHealthInputIncludeEnum');
+  }
+}
+
 class DescribeTargetHealthOutput {
   /// Information about the health of the targets.
   final List<TargetHealthDescription>? targetHealthDescriptions;
@@ -3038,6 +3649,141 @@ class DescribeTargetHealthOutput {
               .map(TargetHealthDescription.fromXml)
               .toList()),
     );
+  }
+}
+
+class DescribeTrustStoreAssociationsOutput {
+  /// If there are additional results, this is the marker for the next set of
+  /// results. Otherwise, this is null.
+  final String? nextMarker;
+
+  /// Information about the resources the trust store is associated to.
+  final List<TrustStoreAssociation>? trustStoreAssociations;
+
+  DescribeTrustStoreAssociationsOutput({
+    this.nextMarker,
+    this.trustStoreAssociations,
+  });
+  factory DescribeTrustStoreAssociationsOutput.fromXml(_s.XmlElement elem) {
+    return DescribeTrustStoreAssociationsOutput(
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+      trustStoreAssociations: _s
+          .extractXmlChild(elem, 'TrustStoreAssociations')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(TrustStoreAssociation.fromXml)
+              .toList()),
+    );
+  }
+}
+
+/// Information about the revocations used by a trust store.
+class DescribeTrustStoreRevocation {
+  /// The number of revoked certificates.
+  final int? numberOfRevokedEntries;
+
+  /// The revocation ID of a revocation file in use.
+  final int? revocationId;
+
+  /// The type of revocation file.
+  final RevocationType? revocationType;
+
+  /// The Amazon Resource Name (ARN) of the trust store.
+  final String? trustStoreArn;
+
+  DescribeTrustStoreRevocation({
+    this.numberOfRevokedEntries,
+    this.revocationId,
+    this.revocationType,
+    this.trustStoreArn,
+  });
+  factory DescribeTrustStoreRevocation.fromXml(_s.XmlElement elem) {
+    return DescribeTrustStoreRevocation(
+      numberOfRevokedEntries:
+          _s.extractXmlIntValue(elem, 'NumberOfRevokedEntries'),
+      revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
+      revocationType:
+          _s.extractXmlStringValue(elem, 'RevocationType')?.toRevocationType(),
+      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
+    );
+  }
+}
+
+class DescribeTrustStoreRevocationsOutput {
+  /// If there are additional results, this is the marker for the next set of
+  /// results. Otherwise, this is null.
+  final String? nextMarker;
+
+  /// Information about the revocation file in the trust store.
+  final List<DescribeTrustStoreRevocation>? trustStoreRevocations;
+
+  DescribeTrustStoreRevocationsOutput({
+    this.nextMarker,
+    this.trustStoreRevocations,
+  });
+  factory DescribeTrustStoreRevocationsOutput.fromXml(_s.XmlElement elem) {
+    return DescribeTrustStoreRevocationsOutput(
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+      trustStoreRevocations: _s
+          .extractXmlChild(elem, 'TrustStoreRevocations')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(DescribeTrustStoreRevocation.fromXml)
+              .toList()),
+    );
+  }
+}
+
+class DescribeTrustStoresOutput {
+  /// If there are additional results, this is the marker for the next set of
+  /// results. Otherwise, this is null.
+  final String? nextMarker;
+
+  /// Information about the trust stores.
+  final List<TrustStore>? trustStores;
+
+  DescribeTrustStoresOutput({
+    this.nextMarker,
+    this.trustStores,
+  });
+  factory DescribeTrustStoresOutput.fromXml(_s.XmlElement elem) {
+    return DescribeTrustStoresOutput(
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+      trustStores: _s.extractXmlChild(elem, 'TrustStores')?.let((elem) =>
+          elem.findElements('member').map(TrustStore.fromXml).toList()),
+    );
+  }
+}
+
+enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
+  on,
+  off,
+}
+
+extension EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnumValueExtension
+    on EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
+  String toValue() {
+    switch (this) {
+      case EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.on:
+        return 'on';
+      case EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.off:
+        return 'off';
+    }
+  }
+}
+
+extension EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnumFromString
+    on String {
+  EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum
+      toEnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum() {
+    switch (this) {
+      case 'on':
+        return EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.on;
+      case 'off':
+        return EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.off;
+    }
+    throw Exception(
+        '$this is not known in enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum');
   }
 }
 
@@ -3111,6 +3857,34 @@ class ForwardActionConfig {
         'TargetGroupStickinessConfig': targetGroupStickinessConfig,
       if (targetGroups != null) 'TargetGroups': targetGroups,
     };
+  }
+}
+
+class GetTrustStoreCaCertificatesBundleOutput {
+  /// The ca certificate bundles Amazon S3 URI.
+  final String? location;
+
+  GetTrustStoreCaCertificatesBundleOutput({
+    this.location,
+  });
+  factory GetTrustStoreCaCertificatesBundleOutput.fromXml(_s.XmlElement elem) {
+    return GetTrustStoreCaCertificatesBundleOutput(
+      location: _s.extractXmlStringValue(elem, 'Location'),
+    );
+  }
+}
+
+class GetTrustStoreRevocationContentOutput {
+  /// The revocation files Amazon S3 URI.
+  final String? location;
+
+  GetTrustStoreRevocationContentOutput({
+    this.location,
+  });
+  factory GetTrustStoreRevocationContentOutput.fromXml(_s.XmlElement elem) {
+    return GetTrustStoreRevocationContentOutput(
+      location: _s.extractXmlStringValue(elem, 'Location'),
+    );
   }
 }
 
@@ -3233,6 +4007,7 @@ class HttpRequestMethodConditionConfig {
 enum IpAddressType {
   ipv4,
   dualstack,
+  dualstackWithoutPublicIpv4,
 }
 
 extension IpAddressTypeValueExtension on IpAddressType {
@@ -3242,6 +4017,8 @@ extension IpAddressTypeValueExtension on IpAddressType {
         return 'ipv4';
       case IpAddressType.dualstack:
         return 'dualstack';
+      case IpAddressType.dualstackWithoutPublicIpv4:
+        return 'dualstack-without-public-ipv4';
     }
   }
 }
@@ -3253,6 +4030,8 @@ extension IpAddressTypeFromString on String {
         return IpAddressType.ipv4;
       case 'dualstack':
         return IpAddressType.dualstack;
+      case 'dualstack-without-public-ipv4':
+        return IpAddressType.dualstackWithoutPublicIpv4;
     }
     throw Exception('$this is not known in enum IpAddressType');
   }
@@ -3260,6 +4039,26 @@ extension IpAddressTypeFromString on String {
 
 /// Information about an Elastic Load Balancing resource limit for your Amazon
 /// Web Services account.
+///
+/// For more information, see the following:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
+/// for your Application Load Balancers</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Quotas
+/// for your Network Load Balancers</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html">Quotas
+/// for your Gateway Load Balancers</a>
+/// </li>
+/// </ul>
 class Limit {
   /// The maximum value of the limit.
   final String? max;
@@ -3354,6 +4153,9 @@ class Listener {
   /// The Amazon Resource Name (ARN) of the load balancer.
   final String? loadBalancerArn;
 
+  /// The mutual authentication configuration information.
+  final MutualAuthenticationAttributes? mutualAuthentication;
+
   /// The port on which the load balancer is listening.
   final int? port;
 
@@ -3370,6 +4172,7 @@ class Listener {
     this.defaultActions,
     this.listenerArn,
     this.loadBalancerArn,
+    this.mutualAuthentication,
     this.port,
     this.protocol,
     this.sslPolicy,
@@ -3385,6 +4188,9 @@ class Listener {
           (elem) => elem.findElements('member').map(Action.fromXml).toList()),
       listenerArn: _s.extractXmlStringValue(elem, 'ListenerArn'),
       loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
+      mutualAuthentication: _s
+          .extractXmlChild(elem, 'MutualAuthentication')
+          ?.let(MutualAuthenticationAttributes.fromXml),
       port: _s.extractXmlIntValue(elem, 'Port'),
       protocol: _s.extractXmlStringValue(elem, 'Protocol')?.toProtocolEnum(),
       sslPolicy: _s.extractXmlStringValue(elem, 'SslPolicy'),
@@ -3410,9 +4216,21 @@ class LoadBalancer {
   /// The public DNS name of the load balancer.
   final String? dNSName;
 
-  /// The type of IP addresses used by the subnets for your load balancer. The
-  /// possible values are <code>ipv4</code> (for IPv4 addresses) and
-  /// <code>dualstack</code> (for IPv4 and IPv6 addresses).
+  /// Indicates whether to evaluate inbound security group rules for traffic sent
+  /// to a Network Load Balancer through Amazon Web Services PrivateLink.
+  final String? enforceSecurityGroupInboundRulesOnPrivateLinkTraffic;
+
+  /// [Application Load Balancers] The type of IP addresses used for public or
+  /// private connections by the subnets attached to your load balancer. The
+  /// possible values are <code>ipv4</code> (for only IPv4 addresses),
+  /// <code>dualstack</code> (for IPv4 and IPv6 addresses), and
+  /// <code>dualstack-without-public-ipv4</code> (for IPv6 only public addresses,
+  /// with private IPv4 and IPv6 addresses).
+  ///
+  /// [Network Load Balancers and Gateway Load Balancers] The type of IP addresses
+  /// used for public or private connections by the subnets attached to your load
+  /// balancer. The possible values are <code>ipv4</code> (for only IPv4
+  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses).
   final IpAddressType? ipAddressType;
 
   /// The Amazon Resource Name (ARN) of the load balancer.
@@ -3450,6 +4268,7 @@ class LoadBalancer {
     this.createdTime,
     this.customerOwnedIpv4Pool,
     this.dNSName,
+    this.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
     this.ipAddressType,
     this.loadBalancerArn,
     this.loadBalancerName,
@@ -3472,6 +4291,9 @@ class LoadBalancer {
       customerOwnedIpv4Pool:
           _s.extractXmlStringValue(elem, 'CustomerOwnedIpv4Pool'),
       dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
+      enforceSecurityGroupInboundRulesOnPrivateLinkTraffic:
+          _s.extractXmlStringValue(
+              elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic'),
       ipAddressType:
           _s.extractXmlStringValue(elem, 'IpAddressType')?.toIpAddressType(),
       loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
@@ -3576,6 +4398,26 @@ class LoadBalancerAttribute {
   /// seconds. The valid range is 1-4000 seconds. The default is 60 seconds.
   /// </li>
   /// <li>
+  /// <code>client_keep_alive.seconds</code> - The client keep alive value, in
+  /// seconds. The valid range is 60-604800 seconds. The default is 3600 seconds.
+  /// </li>
+  /// <li>
+  /// <code>connection_logs.s3.enabled</code> - Indicates whether connection logs
+  /// are enabled. The value is <code>true</code> or <code>false</code>. The
+  /// default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>connection_logs.s3.bucket</code> - The name of the S3 bucket for the
+  /// connection logs. This attribute is required if connection logs are enabled.
+  /// The bucket must exist in the same region as the load balancer and have a
+  /// bucket policy that grants Elastic Load Balancing permissions to write to the
+  /// bucket.
+  /// </li>
+  /// <li>
+  /// <code>connection_logs.s3.prefix</code> - The prefix for the location in the
+  /// S3 bucket for the connection logs.
+  /// </li>
+  /// <li>
   /// <code>routing.http.desync_mitigation_mode</code> - Determines how the load
   /// balancer handles requests that might pose a security risk to your
   /// application. The possible values are <code>monitor</code>,
@@ -3648,6 +4490,18 @@ class LoadBalancerAttribute {
   /// WAF-enabled load balancer to route requests to targets if it is unable to
   /// forward the request to Amazon Web Services WAF. The possible values are
   /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
+  /// </li>
+  /// </ul>
+  /// The following attributes are supported by only Network Load Balancers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>dns_record.client_routing_policy</code> - Indicates how traffic is
+  /// distributed among the load balancer Availability Zones. The possible values
+  /// are <code>availability_zone_affinity</code> with 100 percent zonal affinity,
+  /// <code>partial_availability_zone_affinity</code> with 85 percent zonal
+  /// affinity, and <code>any_availability_zone</code> with 0 percent zonal
+  /// affinity.
   /// </li>
   /// </ul>
   final String? key;
@@ -3844,6 +4698,34 @@ class Matcher {
   }
 }
 
+enum MitigationInEffectEnum {
+  yes,
+  no,
+}
+
+extension MitigationInEffectEnumValueExtension on MitigationInEffectEnum {
+  String toValue() {
+    switch (this) {
+      case MitigationInEffectEnum.yes:
+        return 'yes';
+      case MitigationInEffectEnum.no:
+        return 'no';
+    }
+  }
+}
+
+extension MitigationInEffectEnumFromString on String {
+  MitigationInEffectEnum toMitigationInEffectEnum() {
+    switch (this) {
+      case 'yes':
+        return MitigationInEffectEnum.yes;
+      case 'no':
+        return MitigationInEffectEnum.no;
+    }
+    throw Exception('$this is not known in enum MitigationInEffectEnum');
+  }
+}
+
 class ModifyListenerOutput {
   /// Information about the modified listener.
   final List<Listener>? listeners;
@@ -3920,6 +4802,61 @@ class ModifyTargetGroupOutput {
       targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
           elem.findElements('member').map(TargetGroup.fromXml).toList()),
     );
+  }
+}
+
+class ModifyTrustStoreOutput {
+  /// Information about the modified trust store.
+  final List<TrustStore>? trustStores;
+
+  ModifyTrustStoreOutput({
+    this.trustStores,
+  });
+  factory ModifyTrustStoreOutput.fromXml(_s.XmlElement elem) {
+    return ModifyTrustStoreOutput(
+      trustStores: _s.extractXmlChild(elem, 'TrustStores')?.let((elem) =>
+          elem.findElements('member').map(TrustStore.fromXml).toList()),
+    );
+  }
+}
+
+/// Information about the mutual authentication attributes of a listener.
+class MutualAuthenticationAttributes {
+  /// Indicates whether expired client certificates are ignored.
+  final bool? ignoreClientCertificateExpiry;
+
+  /// The client certificate handling method. Options are <code>off</code>,
+  /// <code>passthrough</code> or <code>verify</code>. The default value is
+  /// <code>off</code>.
+  final String? mode;
+
+  /// The Amazon Resource Name (ARN) of the trust store.
+  final String? trustStoreArn;
+
+  MutualAuthenticationAttributes({
+    this.ignoreClientCertificateExpiry,
+    this.mode,
+    this.trustStoreArn,
+  });
+  factory MutualAuthenticationAttributes.fromXml(_s.XmlElement elem) {
+    return MutualAuthenticationAttributes(
+      ignoreClientCertificateExpiry:
+          _s.extractXmlBoolValue(elem, 'IgnoreClientCertificateExpiry'),
+      mode: _s.extractXmlStringValue(elem, 'Mode'),
+      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ignoreClientCertificateExpiry = this.ignoreClientCertificateExpiry;
+    final mode = this.mode;
+    final trustStoreArn = this.trustStoreArn;
+    return {
+      if (ignoreClientCertificateExpiry != null)
+        'IgnoreClientCertificateExpiry': ignoreClientCertificateExpiry,
+      if (mode != null) 'Mode': mode,
+      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
+    };
   }
 }
 
@@ -4225,6 +5162,73 @@ class RemoveTagsOutput {
   }
 }
 
+class RemoveTrustStoreRevocationsOutput {
+  RemoveTrustStoreRevocationsOutput();
+  factory RemoveTrustStoreRevocationsOutput.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return RemoveTrustStoreRevocationsOutput();
+  }
+}
+
+/// Information about a revocation file.
+class RevocationContent {
+  /// The type of revocation file.
+  final RevocationType? revocationType;
+
+  /// The Amazon S3 bucket for the revocation file.
+  final String? s3Bucket;
+
+  /// The Amazon S3 path for the revocation file.
+  final String? s3Key;
+
+  /// The Amazon S3 object version of the revocation file.
+  final String? s3ObjectVersion;
+
+  RevocationContent({
+    this.revocationType,
+    this.s3Bucket,
+    this.s3Key,
+    this.s3ObjectVersion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final revocationType = this.revocationType;
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    final s3ObjectVersion = this.s3ObjectVersion;
+    return {
+      if (revocationType != null) 'RevocationType': revocationType.toValue(),
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
+    };
+  }
+}
+
+enum RevocationType {
+  crl,
+}
+
+extension RevocationTypeValueExtension on RevocationType {
+  String toValue() {
+    switch (this) {
+      case RevocationType.crl:
+        return 'CRL';
+    }
+  }
+}
+
+extension RevocationTypeFromString on String {
+  RevocationType toRevocationType() {
+    switch (this) {
+      case 'CRL':
+        return RevocationType.crl;
+    }
+    throw Exception('$this is not known in enum RevocationType');
+  }
+}
+
 /// Information about a rule.
 class Rule {
   /// The actions. Each rule must include exactly one of the following types of
@@ -4276,6 +5280,10 @@ class Rule {
 /// optionally include one or more of each of the following conditions:
 /// <code>http-header</code> and <code>query-string</code>. Note that the value
 /// for a condition cannot be empty.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
+/// for your Application Load Balancers</a>.
 class RuleCondition {
   /// The field in the HTTP request. The following are the possible values:
   ///
@@ -4489,14 +5497,24 @@ class SetRulePrioritiesOutput {
 }
 
 class SetSecurityGroupsOutput {
+  /// Indicates whether to evaluate inbound security group rules for traffic sent
+  /// to a Network Load Balancer through Amazon Web Services PrivateLink.
+  final EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
+      enforceSecurityGroupInboundRulesOnPrivateLinkTraffic;
+
   /// The IDs of the security groups associated with the load balancer.
   final List<String>? securityGroupIds;
 
   SetSecurityGroupsOutput({
+    this.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
     this.securityGroupIds,
   });
   factory SetSecurityGroupsOutput.fromXml(_s.XmlElement elem) {
     return SetSecurityGroupsOutput(
+      enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: _s
+          .extractXmlStringValue(
+              elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic')
+          ?.toEnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum(),
       securityGroupIds: _s
           .extractXmlChild(elem, 'SecurityGroupIds')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -4508,7 +5526,11 @@ class SetSubnetsOutput {
   /// Information about the subnets.
   final List<AvailabilityZone>? availabilityZones;
 
+  /// [Application Load Balancers] The IP address type.
+  ///
   /// [Network Load Balancers] The IP address type.
+  ///
+  /// [Gateway Load Balancers] The IP address type.
   final IpAddressType? ipAddressType;
 
   SetSubnetsOutput({
@@ -4542,6 +5564,8 @@ class SourceIpConditionConfig {
   /// not satisfied by the addresses in the X-Forwarded-For header. To search for
   /// addresses in the X-Forwarded-For header, use
   /// <a>HttpHeaderConditionConfig</a>.
+  ///
+  /// The total number of values must be less than, or equal to five.
   final List<String>? values;
 
   SourceIpConditionConfig({
@@ -4723,8 +5747,8 @@ class TargetDescription {
   /// The port on which the target is listening. If the target group protocol is
   /// GENEVE, the supported port is 6081. If the target type is <code>alb</code>,
   /// the targeted Application Load Balancer must have at least one listener whose
-  /// port matches the target group port. Not used if the target is a Lambda
-  /// function.
+  /// port matches the target group port. This parameter is not used if the target
+  /// is a Lambda function.
   final int? port;
 
   TargetDescription({
@@ -4784,16 +5808,17 @@ class TargetGroup {
   /// not specified, the IP address type defaults to <code>ipv4</code>.
   final TargetGroupIpAddressTypeEnum? ipAddressType;
 
-  /// The Amazon Resource Names (ARN) of the load balancers that route traffic to
-  /// this target group.
+  /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to
+  /// this target group. You can use each target group with only one load
+  /// balancer.
   final List<String>? loadBalancerArns;
 
   /// The HTTP or gRPC codes to use when checking for a successful response from a
   /// target.
   final Matcher? matcher;
 
-  /// The port on which the targets are listening. Not used if the target is a
-  /// Lambda function.
+  /// The port on which the targets are listening. This parameter is not used if
+  /// the target is a Lambda function.
   final int? port;
 
   /// The protocol to use for routing traffic to the targets.
@@ -4963,9 +5988,15 @@ class TargetGroupAttribute {
   /// <li>
   /// <code>load_balancing.algorithm.type</code> - The load balancing algorithm
   /// determines how the load balancer selects targets when routing requests. The
-  /// value is <code>round_robin</code> or
-  /// <code>least_outstanding_requests</code>. The default is
-  /// <code>round_robin</code>.
+  /// value is <code>round_robin</code>, <code>least_outstanding_requests</code>,
+  /// or <code>weighted_random</code>. The default is <code>round_robin</code>.
+  /// </li>
+  /// <li>
+  /// <code>load_balancing.algorithm.anomaly_mitigation</code> - Only available
+  /// when <code>load_balancing.algorithm.type</code> is
+  /// <code>weighted_random</code>. Indicates whether anomaly mitigation is
+  /// enabled. The value is <code>on</code> or <code>off</code>. The default is
+  /// <code>off</code>.
   /// </li>
   /// <li>
   /// <code>slow_start.duration_seconds</code> - The time period, in seconds,
@@ -5016,7 +6047,8 @@ class TargetGroupAttribute {
   /// <code>deregistration_delay.connection_termination.enabled</code> - Indicates
   /// whether the load balancer terminates connections at the end of the
   /// deregistration timeout. The value is <code>true</code> or
-  /// <code>false</code>. The default is <code>false</code>.
+  /// <code>false</code>. For new UDP/TCP_UDP target groups the default is
+  /// <code>true</code>. Otherwise, the default is <code>false</code>.
   /// </li>
   /// <li>
   /// <code>preserve_client_ip.enabled</code> - Indicates whether client IP
@@ -5030,6 +6062,23 @@ class TargetGroupAttribute {
   /// <code>proxy_protocol_v2.enabled</code> - Indicates whether Proxy Protocol
   /// version 2 is enabled. The value is <code>true</code> or <code>false</code>.
   /// The default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>target_health_state.unhealthy.connection_termination.enabled</code> -
+  /// Indicates whether the load balancer terminates connections to unhealthy
+  /// targets. The value is <code>true</code> or <code>false</code>. The default
+  /// is <code>true</code>.
+  /// </li>
+  /// <li>
+  /// <code>target_health_state.unhealthy.draining_interval_seconds</code> - The
+  /// amount of time for Elastic Load Balancing to wait before changing the state
+  /// of an unhealthy target from <code>unhealthy.draining</code> to
+  /// <code>unhealthy</code>. The range is 0-360000 seconds. The default value is
+  /// 0 seconds.
+  ///
+  /// Note: This attribute can only be configured when
+  /// <code>target_health_state.unhealthy.connection_termination.enabled</code> is
+  /// <code>false</code>.
   /// </li>
   /// </ul>
   /// The following attributes are supported only by Gateway Load Balancers:
@@ -5282,6 +6331,13 @@ class TargetHealth {
 
 /// Information about the health of a target.
 class TargetHealthDescription {
+  /// The anomaly detection result for the target.
+  ///
+  /// If no anomalies were detected, the result is <code>normal</code>.
+  ///
+  /// If anomalies were detected, the result is <code>anomalous</code>.
+  final AnomalyDetection? anomalyDetection;
+
   /// The port to use to connect with the target.
   final String? healthCheckPort;
 
@@ -5292,12 +6348,16 @@ class TargetHealthDescription {
   final TargetHealth? targetHealth;
 
   TargetHealthDescription({
+    this.anomalyDetection,
     this.healthCheckPort,
     this.target,
     this.targetHealth,
   });
   factory TargetHealthDescription.fromXml(_s.XmlElement elem) {
     return TargetHealthDescription(
+      anomalyDetection: _s
+          .extractXmlChild(elem, 'AnomalyDetection')
+          ?.let(AnomalyDetection.fromXml),
       healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
       target:
           _s.extractXmlChild(elem, 'Target')?.let(TargetDescription.fromXml),
@@ -5389,6 +6449,7 @@ enum TargetHealthStateEnum {
   initial,
   healthy,
   unhealthy,
+  unhealthyDraining,
   unused,
   draining,
   unavailable,
@@ -5403,6 +6464,8 @@ extension TargetHealthStateEnumValueExtension on TargetHealthStateEnum {
         return 'healthy';
       case TargetHealthStateEnum.unhealthy:
         return 'unhealthy';
+      case TargetHealthStateEnum.unhealthyDraining:
+        return 'unhealthy.draining';
       case TargetHealthStateEnum.unused:
         return 'unused';
       case TargetHealthStateEnum.draining:
@@ -5422,6 +6485,8 @@ extension TargetHealthStateEnumFromString on String {
         return TargetHealthStateEnum.healthy;
       case 'unhealthy':
         return TargetHealthStateEnum.unhealthy;
+      case 'unhealthy.draining':
+        return TargetHealthStateEnum.unhealthyDraining;
       case 'unused':
         return TargetHealthStateEnum.unused;
       case 'draining':
@@ -5471,6 +6536,117 @@ extension TargetTypeEnumFromString on String {
   }
 }
 
+/// Information about a trust store.
+class TrustStore {
+  /// The name of the trust store.
+  final String? name;
+
+  /// The number of ca certificates in the trust store.
+  final int? numberOfCaCertificates;
+
+  /// The current status of the trust store.
+  final TrustStoreStatus? status;
+
+  /// The number of revoked certificates in the trust store.
+  final int? totalRevokedEntries;
+
+  /// The Amazon Resource Name (ARN) of the trust store.
+  final String? trustStoreArn;
+
+  TrustStore({
+    this.name,
+    this.numberOfCaCertificates,
+    this.status,
+    this.totalRevokedEntries,
+    this.trustStoreArn,
+  });
+  factory TrustStore.fromXml(_s.XmlElement elem) {
+    return TrustStore(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      numberOfCaCertificates:
+          _s.extractXmlIntValue(elem, 'NumberOfCaCertificates'),
+      status: _s.extractXmlStringValue(elem, 'Status')?.toTrustStoreStatus(),
+      totalRevokedEntries: _s.extractXmlIntValue(elem, 'TotalRevokedEntries'),
+      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
+    );
+  }
+}
+
+/// Information about the resources a trust store is associated with.
+class TrustStoreAssociation {
+  /// The Amazon Resource Name (ARN) of the resource.
+  final String? resourceArn;
+
+  TrustStoreAssociation({
+    this.resourceArn,
+  });
+  factory TrustStoreAssociation.fromXml(_s.XmlElement elem) {
+    return TrustStoreAssociation(
+      resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
+    );
+  }
+}
+
+/// Information about a revocation file in use by a trust store.
+class TrustStoreRevocation {
+  /// The number of revoked certificates.
+  final int? numberOfRevokedEntries;
+
+  /// The revocation ID of the revocation file.
+  final int? revocationId;
+
+  /// The type of revocation file.
+  final RevocationType? revocationType;
+
+  /// The Amazon Resource Name (ARN) of the trust store.
+  final String? trustStoreArn;
+
+  TrustStoreRevocation({
+    this.numberOfRevokedEntries,
+    this.revocationId,
+    this.revocationType,
+    this.trustStoreArn,
+  });
+  factory TrustStoreRevocation.fromXml(_s.XmlElement elem) {
+    return TrustStoreRevocation(
+      numberOfRevokedEntries:
+          _s.extractXmlIntValue(elem, 'NumberOfRevokedEntries'),
+      revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
+      revocationType:
+          _s.extractXmlStringValue(elem, 'RevocationType')?.toRevocationType(),
+      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
+    );
+  }
+}
+
+enum TrustStoreStatus {
+  active,
+  creating,
+}
+
+extension TrustStoreStatusValueExtension on TrustStoreStatus {
+  String toValue() {
+    switch (this) {
+      case TrustStoreStatus.active:
+        return 'ACTIVE';
+      case TrustStoreStatus.creating:
+        return 'CREATING';
+    }
+  }
+}
+
+extension TrustStoreStatusFromString on String {
+  TrustStoreStatus toTrustStoreStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return TrustStoreStatus.active;
+      case 'CREATING':
+        return TrustStoreStatus.creating;
+    }
+    throw Exception('$this is not known in enum TrustStoreStatus');
+  }
+}
+
 class ALPNPolicyNotSupportedException extends _s.GenericAwsException {
   ALPNPolicyNotSupportedException({String? type, String? message})
       : super(
@@ -5492,6 +6668,14 @@ class AvailabilityZoneNotSupportedException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'AvailabilityZoneNotSupportedException',
+            message: message);
+}
+
+class CaCertificatesBundleNotFoundException extends _s.GenericAwsException {
+  CaCertificatesBundleNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CaCertificatesBundleNotFoundException',
             message: message);
 }
 
@@ -5527,6 +6711,14 @@ class DuplicateTargetGroupNameException extends _s.GenericAwsException {
             message: message);
 }
 
+class DuplicateTrustStoreNameException extends _s.GenericAwsException {
+  DuplicateTrustStoreNameException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'DuplicateTrustStoreNameException',
+            message: message);
+}
+
 class HealthUnavailableException extends _s.GenericAwsException {
   HealthUnavailableException({String? type, String? message})
       : super(type: type, code: 'HealthUnavailableException', message: message);
@@ -5537,6 +6729,14 @@ class IncompatibleProtocolsException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'IncompatibleProtocolsException',
+            message: message);
+}
+
+class InvalidCaCertificatesBundleException extends _s.GenericAwsException {
+  InvalidCaCertificatesBundleException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidCaCertificatesBundleException',
             message: message);
 }
 
@@ -5553,6 +6753,14 @@ class InvalidLoadBalancerActionException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'InvalidLoadBalancerActionException',
+            message: message);
+}
+
+class InvalidRevocationContentException extends _s.GenericAwsException {
+  InvalidRevocationContentException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidRevocationContentException',
             message: message);
 }
 
@@ -5608,6 +6816,22 @@ class PriorityInUseException extends _s.GenericAwsException {
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
+}
+
+class RevocationContentNotFoundException extends _s.GenericAwsException {
+  RevocationContentNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RevocationContentNotFoundException',
+            message: message);
+}
+
+class RevocationIdNotFoundException extends _s.GenericAwsException {
+  RevocationIdNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RevocationIdNotFoundException',
+            message: message);
 }
 
 class RuleNotFoundException extends _s.GenericAwsException {
@@ -5692,6 +6916,21 @@ class TooManyTargetsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyTargetsException', message: message);
 }
 
+class TooManyTrustStoreRevocationEntriesException
+    extends _s.GenericAwsException {
+  TooManyTrustStoreRevocationEntriesException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyTrustStoreRevocationEntriesException',
+            message: message);
+}
+
+class TooManyTrustStoresException extends _s.GenericAwsException {
+  TooManyTrustStoresException({String? type, String? message})
+      : super(
+            type: type, code: 'TooManyTrustStoresException', message: message);
+}
+
 class TooManyUniqueTargetGroupsPerLoadBalancerException
     extends _s.GenericAwsException {
   TooManyUniqueTargetGroupsPerLoadBalancerException(
@@ -5700,6 +6939,23 @@ class TooManyUniqueTargetGroupsPerLoadBalancerException
             type: type,
             code: 'TooManyUniqueTargetGroupsPerLoadBalancerException',
             message: message);
+}
+
+class TrustStoreInUseException extends _s.GenericAwsException {
+  TrustStoreInUseException({String? type, String? message})
+      : super(type: type, code: 'TrustStoreInUseException', message: message);
+}
+
+class TrustStoreNotFoundException extends _s.GenericAwsException {
+  TrustStoreNotFoundException({String? type, String? message})
+      : super(
+            type: type, code: 'TrustStoreNotFoundException', message: message);
+}
+
+class TrustStoreNotReadyException extends _s.GenericAwsException {
+  TrustStoreNotReadyException({String? type, String? message})
+      : super(
+            type: type, code: 'TrustStoreNotReadyException', message: message);
 }
 
 class UnsupportedProtocolException extends _s.GenericAwsException {
@@ -5715,6 +6971,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AllocationIdNotFoundException(type: type, message: message),
   'AvailabilityZoneNotSupportedException': (type, message) =>
       AvailabilityZoneNotSupportedException(type: type, message: message),
+  'CaCertificatesBundleNotFoundException': (type, message) =>
+      CaCertificatesBundleNotFoundException(type: type, message: message),
   'CertificateNotFoundException': (type, message) =>
       CertificateNotFoundException(type: type, message: message),
   'DuplicateListenerException': (type, message) =>
@@ -5725,14 +6983,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DuplicateTagKeysException(type: type, message: message),
   'DuplicateTargetGroupNameException': (type, message) =>
       DuplicateTargetGroupNameException(type: type, message: message),
+  'DuplicateTrustStoreNameException': (type, message) =>
+      DuplicateTrustStoreNameException(type: type, message: message),
   'HealthUnavailableException': (type, message) =>
       HealthUnavailableException(type: type, message: message),
   'IncompatibleProtocolsException': (type, message) =>
       IncompatibleProtocolsException(type: type, message: message),
+  'InvalidCaCertificatesBundleException': (type, message) =>
+      InvalidCaCertificatesBundleException(type: type, message: message),
   'InvalidConfigurationRequestException': (type, message) =>
       InvalidConfigurationRequestException(type: type, message: message),
   'InvalidLoadBalancerActionException': (type, message) =>
       InvalidLoadBalancerActionException(type: type, message: message),
+  'InvalidRevocationContentException': (type, message) =>
+      InvalidRevocationContentException(type: type, message: message),
   'InvalidSchemeException': (type, message) =>
       InvalidSchemeException(type: type, message: message),
   'InvalidSecurityGroupException': (type, message) =>
@@ -5751,6 +7015,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       PriorityInUseException(type: type, message: message),
   'ResourceInUseException': (type, message) =>
       ResourceInUseException(type: type, message: message),
+  'RevocationContentNotFoundException': (type, message) =>
+      RevocationContentNotFoundException(type: type, message: message),
+  'RevocationIdNotFoundException': (type, message) =>
+      RevocationIdNotFoundException(type: type, message: message),
   'RuleNotFoundException': (type, message) =>
       RuleNotFoundException(type: type, message: message),
   'SSLPolicyNotFoundException': (type, message) =>
@@ -5779,9 +7047,19 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyTargetGroupsException(type: type, message: message),
   'TooManyTargetsException': (type, message) =>
       TooManyTargetsException(type: type, message: message),
+  'TooManyTrustStoreRevocationEntriesException': (type, message) =>
+      TooManyTrustStoreRevocationEntriesException(type: type, message: message),
+  'TooManyTrustStoresException': (type, message) =>
+      TooManyTrustStoresException(type: type, message: message),
   'TooManyUniqueTargetGroupsPerLoadBalancerException': (type, message) =>
       TooManyUniqueTargetGroupsPerLoadBalancerException(
           type: type, message: message),
+  'TrustStoreInUseException': (type, message) =>
+      TrustStoreInUseException(type: type, message: message),
+  'TrustStoreNotFoundException': (type, message) =>
+      TrustStoreNotFoundException(type: type, message: message),
+  'TrustStoreNotReadyException': (type, message) =>
+      TrustStoreNotReadyException(type: type, message: message),
   'UnsupportedProtocolException': (type, message) =>
       UnsupportedProtocolException(type: type, message: message),
 };

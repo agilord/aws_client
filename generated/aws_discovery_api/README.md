@@ -3,14 +3,12 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Amazon Web Services Application Discovery Service helps you plan application
-migration projects. It automatically identifies servers, virtual machines
-(VMs), and network dependencies in your on-premises data centers. For more
-information, see the <a
+Amazon Web Services Application Discovery Service (Application Discovery
+Service) helps you plan application migration projects. It automatically
+identifies servers, virtual machines (VMs), and network dependencies in your
+on-premises data centers. For more information, see the <a
 href="https://aws.amazon.com/application-discovery/faqs/">Amazon Web Services
-Application Discovery Service FAQ</a>. Application Discovery Service offers
-three ways of performing discovery and collecting data about your
-on-premises servers:
+Application Discovery Service FAQ</a>.
 
 ## Links
 

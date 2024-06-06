@@ -47,12 +47,12 @@ void validateStringLength(
 }
 
 void validateNumRange(
-  String? name,
-  num? value,
-  int? min,
-  int? max, {
-  bool isRequired = false,
-}) {
+    String? name,
+    num? value,
+    num? min,
+    num? max, {
+      bool isRequired = false,
+    }) {
   if (value == null && !isRequired) return;
 
   ArgumentError.checkNotNull(value, name);
@@ -63,6 +63,6 @@ void validateNumRange(
   }
 
   if (min! > value || value > max!) {
-    throw RangeError.range(value, min, max, name);
+    throw ArgumentError.value(value, name, '$value is not within range [$min - $max]');
   }
 }

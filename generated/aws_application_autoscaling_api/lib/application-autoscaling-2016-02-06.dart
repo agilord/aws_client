@@ -57,10 +57,13 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// Amazon Neptune clusters
 /// </li>
 /// <li>
+/// Amazon SageMaker endpoint variants
+/// </li>
+/// <li>
 /// Amazon SageMaker Serverless endpoint provisioned concurrency
 /// </li>
 /// <li>
-/// Amazon SageMaker endpoint variants
+/// Amazon SageMaker inference components
 /// </li>
 /// <li>
 /// Spot Fleets (Amazon EC2)
@@ -137,9 +140,9 @@ class ApplicationAutoScaling {
   /// even if it no longer has an associated action.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html#delete-step-scaling-policy">Delete
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/create-step-scaling-policy-cli.html#delete-step-scaling-policy">Delete
   /// a step scaling policy</a> and <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#delete-target-tracking-policy">Delete
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/create-target-tracking-policy-cli.html#delete-target-tracking-policy">Delete
   /// a target tracking scaling policy</a> in the <i>Application Auto Scaling
   /// User Guide</i>.
   ///
@@ -244,6 +247,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -338,6 +346,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   ///
@@ -475,6 +487,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -569,6 +586,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   ///
@@ -710,6 +731,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -804,6 +830,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   ///
@@ -956,6 +986,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1051,6 +1086,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   Future<DescribeScalableTargetsResponse> describeScalableTargets({
@@ -1220,6 +1259,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1315,6 +1359,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   Future<DescribeScalingActivitiesResponse> describeScalingActivities({
@@ -1483,6 +1531,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1578,6 +1631,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   Future<DescribeScalingPoliciesResponse> describeScalingPolicies({
@@ -1742,6 +1799,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1837,6 +1899,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   ///
@@ -2059,6 +2125,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -2154,6 +2225,10 @@ class ApplicationAutoScaling {
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
   /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
@@ -2167,7 +2242,7 @@ class ApplicationAutoScaling {
   ///
   /// The following policy types are supported:
   ///
-  /// <code>TargetTrackingScaling</code>—Not supported for Amazon EMR
+  /// <code>TargetTrackingScaling</code>—Not supported for Amazon EMR.
   ///
   /// <code>StepScaling</code>—Not supported for DynamoDB, Amazon Comprehend,
   /// Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
@@ -2351,6 +2426,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -2445,6 +2525,10 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   ///
@@ -2697,6 +2781,11 @@ class ApplicationAutoScaling {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -2792,6 +2881,10 @@ class ApplicationAutoScaling {
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
   /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
+  /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
@@ -2840,10 +2933,10 @@ class ApplicationAutoScaling {
   /// Lambda provisioned concurrency
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint provisioned concurrency
+  /// SageMaker endpoint variants
   /// </li>
   /// <li>
-  /// SageMaker endpoint variants
+  /// SageMaker Serverless endpoint provisioned concurrency
   /// </li>
   /// <li>
   /// Spot Fleets
@@ -3491,6 +3584,8 @@ enum MetricType {
   elastiCacheDatabaseMemoryUsageCountedForEvictPercentage,
   neptuneReaderAverageCPUUtilization,
   sageMakerVariantProvisionedConcurrencyUtilization,
+  elastiCacheDatabaseCapacityUsageCountedForEvictPercentage,
+  sageMakerInferenceComponentInvocationsPerCopy,
 }
 
 extension MetricTypeValueExtension on MetricType {
@@ -3540,6 +3635,10 @@ extension MetricTypeValueExtension on MetricType {
         return 'NeptuneReaderAverageCPUUtilization';
       case MetricType.sageMakerVariantProvisionedConcurrencyUtilization:
         return 'SageMakerVariantProvisionedConcurrencyUtilization';
+      case MetricType.elastiCacheDatabaseCapacityUsageCountedForEvictPercentage:
+        return 'ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage';
+      case MetricType.sageMakerInferenceComponentInvocationsPerCopy:
+        return 'SageMakerInferenceComponentInvocationsPerCopy';
     }
   }
 }
@@ -3592,6 +3691,11 @@ extension MetricTypeFromString on String {
         return MetricType.neptuneReaderAverageCPUUtilization;
       case 'SageMakerVariantProvisionedConcurrencyUtilization':
         return MetricType.sageMakerVariantProvisionedConcurrencyUtilization;
+      case 'ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage':
+        return MetricType
+            .elastiCacheDatabaseCapacityUsageCountedForEvictPercentage;
+      case 'SageMakerInferenceComponentInvocationsPerCopy':
+        return MetricType.sageMakerInferenceComponentInvocationsPerCopy;
     }
     throw Exception('$this is not known in enum MetricType');
   }
@@ -3687,8 +3791,8 @@ extension PolicyTypeFromString on String {
 /// CloudWatch. To determine whether a desired metric already exists by looking
 /// up its namespace and dimension using the CloudWatch metrics dashboard in the
 /// console, follow the procedure in <a
-/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html">Building
-/// dashboards with CloudWatch</a> in the <i>Application Auto Scaling User
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html">Monitor
+/// your resources using CloudWatch</a> in the <i>Application Auto Scaling User
 /// Guide</i>.
 class PredefinedMetricSpecification {
   /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
@@ -3817,6 +3921,7 @@ enum ScalableDimension {
   elasticacheReplicationGroupReplicas,
   neptuneClusterReadReplicaCount,
   sagemakerVariantDesiredProvisionedConcurrency,
+  sagemakerInferenceComponentDesiredCopyCount,
 }
 
 extension ScalableDimensionValueExtension on ScalableDimension {
@@ -3866,6 +3971,8 @@ extension ScalableDimensionValueExtension on ScalableDimension {
         return 'neptune:cluster:ReadReplicaCount';
       case ScalableDimension.sagemakerVariantDesiredProvisionedConcurrency:
         return 'sagemaker:variant:DesiredProvisionedConcurrency';
+      case ScalableDimension.sagemakerInferenceComponentDesiredCopyCount:
+        return 'sagemaker:inference-component:DesiredCopyCount';
     }
   }
 }
@@ -3917,6 +4024,8 @@ extension ScalableDimensionFromString on String {
         return ScalableDimension.neptuneClusterReadReplicaCount;
       case 'sagemaker:variant:DesiredProvisionedConcurrency':
         return ScalableDimension.sagemakerVariantDesiredProvisionedConcurrency;
+      case 'sagemaker:inference-component:DesiredCopyCount':
+        return ScalableDimension.sagemakerInferenceComponentDesiredCopyCount;
     }
     throw Exception('$this is not known in enum ScalableDimension');
   }
@@ -4023,6 +4132,11 @@ class ScalableTarget {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -4120,6 +4234,10 @@ class ScalableTarget {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
+  /// copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
@@ -4314,6 +4432,11 @@ class ScalingActivity {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -4407,6 +4530,10 @@ class ScalingActivity {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
+  /// copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
@@ -4639,6 +4766,11 @@ class ScalingPolicy {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -4732,6 +4864,10 @@ class ScalingPolicy {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
+  /// copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
@@ -4889,6 +5025,11 @@ class ScheduledAction {
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
+  /// <li>
+  /// SageMaker inference component - The resource type is
+  /// <code>inference-component</code> and the unique identifier is the resource
+  /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -5029,6 +5170,10 @@ class ScheduledAction {
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
   /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
+  /// copies across an endpoint for a SageMaker inference component.
   /// </li>
   /// </ul>
   final ScalableDimension? scalableDimension;
@@ -5216,8 +5361,8 @@ extension ServiceNamespaceFromString on String {
 class StepAdjustment {
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number removes
-  /// from the current capacity. For exact capacity, you must specify a positive
-  /// value.
+  /// from the current capacity. For exact capacity, you must specify a
+  /// non-negative value.
   final int scalingAdjustment;
 
   /// The lower bound for the difference between the alarm threshold and the
@@ -5268,6 +5413,10 @@ class StepAdjustment {
 
 /// Represents a step scaling policy configuration to use with Application Auto
 /// Scaling.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
+/// scaling policies</a> in the <i>Application Auto Scaling User Guide</i>.
 class StepScalingPolicyConfiguration {
   /// Specifies how the <code>ScalingAdjustment</code> value in a <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepAdjustment.html">StepAdjustment</a>
@@ -5280,81 +5429,10 @@ class StepScalingPolicyConfiguration {
   final AdjustmentType? adjustmentType;
 
   /// The amount of time, in seconds, to wait for a previous scaling activity to
-  /// take effect.
-  ///
-  /// With scale-out policies, the intention is to continuously (but not
-  /// excessively) scale out. After Application Auto Scaling successfully scales
-  /// out using a step scaling policy, it starts to calculate the cooldown time.
-  /// The scaling policy won't increase the desired capacity again unless either a
-  /// larger scale out is triggered or the cooldown period ends. While the
-  /// cooldown period is in effect, capacity added by the initiating scale-out
-  /// activity is calculated as part of the desired capacity for the next
-  /// scale-out activity. For example, when an alarm triggers a step scaling
-  /// policy to increase the capacity by 2, the scaling activity completes
-  /// successfully, and a cooldown period starts. If the alarm triggers again
-  /// during the cooldown period but at a more aggressive step adjustment of 3,
-  /// the previous increase of 2 is considered part of the current capacity.
-  /// Therefore, only 1 is added to the capacity.
-  ///
-  /// With scale-in policies, the intention is to scale in conservatively to
-  /// protect your application’s availability, so scale-in activities are blocked
-  /// until the cooldown period has expired. However, if another alarm triggers a
-  /// scale-out activity during the cooldown period after a scale-in activity,
-  /// Application Auto Scaling scales out the target immediately. In this case,
-  /// the cooldown period for the scale-in activity stops and doesn't complete.
-  ///
-  /// Application Auto Scaling provides a default value of 600 for Amazon
-  /// ElastiCache replication groups and a default value of 300 for the following
-  /// scalable targets:
-  ///
-  /// <ul>
-  /// <li>
-  /// AppStream 2.0 fleets
-  /// </li>
-  /// <li>
-  /// Aurora DB clusters
-  /// </li>
-  /// <li>
-  /// ECS services
-  /// </li>
-  /// <li>
-  /// EMR clusters
-  /// </li>
-  /// <li>
-  /// Neptune clusters
-  /// </li>
-  /// <li>
-  /// SageMaker Serverless endpoint provisioned concurrency
-  /// </li>
-  /// <li>
-  /// SageMaker endpoint variants
-  /// </li>
-  /// <li>
-  /// Spot Fleets
-  /// </li>
-  /// <li>
-  /// Custom resources
-  /// </li>
-  /// </ul>
-  /// For all other scalable targets, the default value is 0:
-  ///
-  /// <ul>
-  /// <li>
-  /// Amazon Comprehend document classification and entity recognizer endpoints
-  /// </li>
-  /// <li>
-  /// DynamoDB tables and global secondary indexes
-  /// </li>
-  /// <li>
-  /// Amazon Keyspaces tables
-  /// </li>
-  /// <li>
-  /// Lambda provisioned concurrency
-  /// </li>
-  /// <li>
-  /// Amazon MSK broker storage
-  /// </li>
-  /// </ul>
+  /// take effect. If not specified, the default value is 300. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/step-scaling-policy-overview.html#step-scaling-cooldown">Cooldown
+  /// period</a> in the <i>Application Auto Scaling User Guide</i>.
   final int? cooldown;
 
   /// The aggregation type for the CloudWatch metrics. Valid values are
@@ -5707,6 +5785,11 @@ class TargetTrackingMetricStat {
 
 /// Represents a target tracking scaling policy configuration to use with
 /// Application Auto Scaling.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
+/// tracking scaling policies</a> in the <i>Application Auto Scaling User
+/// Guide</i>.
 class TargetTrackingScalingPolicyConfiguration {
   /// The target value for the metric. Although this property accepts numbers of
   /// type Double, it won't accept values that are either too small or too large.
@@ -5738,133 +5821,16 @@ class TargetTrackingScalingPolicyConfiguration {
   final PredefinedMetricSpecification? predefinedMetricSpecification;
 
   /// The amount of time, in seconds, after a scale-in activity completes before
-  /// another scale-in activity can start.
-  ///
-  /// With the <i>scale-in cooldown period</i>, the intention is to scale in
-  /// conservatively to protect your application’s availability, so scale-in
-  /// activities are blocked until the cooldown period has expired. However, if
-  /// another alarm triggers a scale-out activity during the scale-in cooldown
-  /// period, Application Auto Scaling scales out the target immediately. In this
-  /// case, the scale-in cooldown period stops and doesn't complete.
-  ///
-  /// Application Auto Scaling provides a default value of 600 for Amazon
-  /// ElastiCache replication groups and a default value of 300 for the following
-  /// scalable targets:
-  ///
-  /// <ul>
-  /// <li>
-  /// AppStream 2.0 fleets
-  /// </li>
-  /// <li>
-  /// Aurora DB clusters
-  /// </li>
-  /// <li>
-  /// ECS services
-  /// </li>
-  /// <li>
-  /// EMR clusters
-  /// </li>
-  /// <li>
-  /// Neptune clusters
-  /// </li>
-  /// <li>
-  /// SageMaker Serverless endpoint provisioned concurrency
-  /// </li>
-  /// <li>
-  /// SageMaker endpoint variants
-  /// </li>
-  /// <li>
-  /// Spot Fleets
-  /// </li>
-  /// <li>
-  /// Custom resources
-  /// </li>
-  /// </ul>
-  /// For all other scalable targets, the default value is 0:
-  ///
-  /// <ul>
-  /// <li>
-  /// Amazon Comprehend document classification and entity recognizer endpoints
-  /// </li>
-  /// <li>
-  /// DynamoDB tables and global secondary indexes
-  /// </li>
-  /// <li>
-  /// Amazon Keyspaces tables
-  /// </li>
-  /// <li>
-  /// Lambda provisioned concurrency
-  /// </li>
-  /// <li>
-  /// Amazon MSK broker storage
-  /// </li>
-  /// </ul>
+  /// another scale-in activity can start. For more information and for default
+  /// values, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown">Define
+  /// cooldown periods</a> in the <i>Application Auto Scaling User Guide</i>.
   final int? scaleInCooldown;
 
   /// The amount of time, in seconds, to wait for a previous scale-out activity to
-  /// take effect.
-  ///
-  /// With the <i>scale-out cooldown period</i>, the intention is to continuously
-  /// (but not excessively) scale out. After Application Auto Scaling successfully
-  /// scales out using a target tracking scaling policy, it starts to calculate
-  /// the cooldown time. The scaling policy won't increase the desired capacity
-  /// again unless either a larger scale out is triggered or the cooldown period
-  /// ends. While the cooldown period is in effect, the capacity added by the
-  /// initiating scale-out activity is calculated as part of the desired capacity
-  /// for the next scale-out activity.
-  ///
-  /// Application Auto Scaling provides a default value of 600 for Amazon
-  /// ElastiCache replication groups and a default value of 300 for the following
-  /// scalable targets:
-  ///
-  /// <ul>
-  /// <li>
-  /// AppStream 2.0 fleets
-  /// </li>
-  /// <li>
-  /// Aurora DB clusters
-  /// </li>
-  /// <li>
-  /// ECS services
-  /// </li>
-  /// <li>
-  /// EMR clusters
-  /// </li>
-  /// <li>
-  /// Neptune clusters
-  /// </li>
-  /// <li>
-  /// SageMaker Serverless endpoint provisioned concurrency
-  /// </li>
-  /// <li>
-  /// SageMaker endpoint variants
-  /// </li>
-  /// <li>
-  /// Spot Fleets
-  /// </li>
-  /// <li>
-  /// Custom resources
-  /// </li>
-  /// </ul>
-  /// For all other scalable targets, the default value is 0:
-  ///
-  /// <ul>
-  /// <li>
-  /// Amazon Comprehend document classification and entity recognizer endpoints
-  /// </li>
-  /// <li>
-  /// DynamoDB tables and global secondary indexes
-  /// </li>
-  /// <li>
-  /// Amazon Keyspaces tables
-  /// </li>
-  /// <li>
-  /// Lambda provisioned concurrency
-  /// </li>
-  /// <li>
-  /// Amazon MSK broker storage
-  /// </li>
-  /// </ul>
+  /// take effect. For more information and for default values, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown">Define
+  /// cooldown periods</a> in the <i>Application Auto Scaling User Guide</i>.
   final int? scaleOutCooldown;
 
   TargetTrackingScalingPolicyConfiguration({

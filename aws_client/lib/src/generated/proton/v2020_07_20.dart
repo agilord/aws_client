@@ -1578,6 +1578,37 @@ class Proton {
     return DeleteComponentOutput.fromJson(jsonResponse.body);
   }
 
+  /// Delete the deployment.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the deployment to delete.
+  Future<DeleteDeploymentOutput> deleteDeployment({
+    required String id,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AwsProton20200720.DeleteDeployment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'id': id,
+      },
+    );
+
+    return DeleteDeploymentOutput.fromJson(jsonResponse.body);
+  }
+
   /// Delete an environment.
   ///
   /// May throw [ValidationException].
@@ -2030,6 +2061,60 @@ class Proton {
     );
 
     return GetComponentOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Get detailed data for a deployment.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the deployment that you want to get the detailed data for.
+  ///
+  /// Parameter [componentName] :
+  /// The name of a component that you want to get the detailed data for.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of a environment that you want to get the detailed data for.
+  ///
+  /// Parameter [serviceInstanceName] :
+  /// The name of the service instance associated with the given deployment ID.
+  /// <code>serviceName</code> must be specified to identify the service
+  /// instance.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the service associated with the given deployment ID.
+  Future<GetDeploymentOutput> getDeployment({
+    required String id,
+    String? componentName,
+    String? environmentName,
+    String? serviceInstanceName,
+    String? serviceName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AwsProton20200720.GetDeployment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'id': id,
+        if (componentName != null) 'componentName': componentName,
+        if (environmentName != null) 'environmentName': environmentName,
+        if (serviceInstanceName != null)
+          'serviceInstanceName': serviceInstanceName,
+        if (serviceName != null) 'serviceName': serviceName,
+      },
+    );
+
+    return GetDeploymentOutput.fromJson(jsonResponse.body);
   }
 
   /// Get detailed data for an environment.
@@ -2656,11 +2741,15 @@ class Proton {
   /// Parameter [componentName] :
   /// The name of the component whose outputs you want.
   ///
+  /// Parameter [deploymentId] :
+  /// The ID of the deployment whose outputs you want.
+  ///
   /// Parameter [nextToken] :
   /// A token that indicates the location of the next output in the array of
   /// outputs, after the list of outputs that was previously requested.
   Future<ListComponentOutputsOutput> listComponentOutputs({
     required String componentName,
+    String? deploymentId,
     String? nextToken,
   }) async {
     final headers = <String, String>{
@@ -2675,6 +2764,7 @@ class Proton {
       headers: headers,
       payload: {
         'componentName': componentName,
+        if (deploymentId != null) 'deploymentId': deploymentId,
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -2792,6 +2882,75 @@ class Proton {
     return ListComponentsOutput.fromJson(jsonResponse.body);
   }
 
+  /// List deployments. You can filter the result list by environment, service,
+  /// or a single service instance.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [componentName] :
+  /// The name of a component for result list filtering. Proton returns
+  /// deployments associated with that component.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of an environment for result list filtering. Proton returns
+  /// deployments associated with the environment.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of deployments to list.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates the location of the next deployment in the array of
+  /// deployment, after the list of deployment that was previously requested.
+  ///
+  /// Parameter [serviceInstanceName] :
+  /// The name of a service instance for result list filtering. Proton returns
+  /// the deployments associated with the service instance.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of a service for result list filtering. Proton returns
+  /// deployments associated with service instances of the service.
+  Future<ListDeploymentsOutput> listDeployments({
+    String? componentName,
+    String? environmentName,
+    int? maxResults,
+    String? nextToken,
+    String? serviceInstanceName,
+    String? serviceName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AwsProton20200720.ListDeployments'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (componentName != null) 'componentName': componentName,
+        if (environmentName != null) 'environmentName': environmentName,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (serviceInstanceName != null)
+          'serviceInstanceName': serviceInstanceName,
+        if (serviceName != null) 'serviceName': serviceName,
+      },
+    );
+
+    return ListDeploymentsOutput.fromJson(jsonResponse.body);
+  }
+
   /// View a list of environment account connections.
   ///
   /// For more information, see <a
@@ -2869,12 +3028,16 @@ class Proton {
   /// Parameter [environmentName] :
   /// The environment name.
   ///
+  /// Parameter [deploymentId] :
+  /// The ID of the deployment whose outputs you want.
+  ///
   /// Parameter [nextToken] :
   /// A token that indicates the location of the next environment output in the
   /// array of environment outputs, after the list of environment outputs that
   /// was previously requested.
   Future<ListEnvironmentOutputsOutput> listEnvironmentOutputs({
     required String environmentName,
+    String? deploymentId,
     String? nextToken,
   }) async {
     final headers = <String, String>{
@@ -2889,6 +3052,7 @@ class Proton {
       headers: headers,
       payload: {
         'environmentName': environmentName,
+        if (deploymentId != null) 'deploymentId': deploymentId,
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -3194,12 +3358,16 @@ class Proton {
   /// The name of the service that <code>serviceInstanceName</code> is
   /// associated to.
   ///
+  /// Parameter [deploymentId] :
+  /// The ID of the deployment whose outputs you want.
+  ///
   /// Parameter [nextToken] :
   /// A token that indicates the location of the next output in the array of
   /// outputs, after the list of outputs that was previously requested.
   Future<ListServiceInstanceOutputsOutput> listServiceInstanceOutputs({
     required String serviceInstanceName,
     required String serviceName,
+    String? deploymentId,
     String? nextToken,
   }) async {
     final headers = <String, String>{
@@ -3215,6 +3383,7 @@ class Proton {
       payload: {
         'serviceInstanceName': serviceInstanceName,
         'serviceName': serviceName,
+        if (deploymentId != null) 'deploymentId': deploymentId,
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -3354,11 +3523,15 @@ class Proton {
   /// Parameter [serviceName] :
   /// The name of the service whose pipeline's outputs you want.
   ///
+  /// Parameter [deploymentId] :
+  /// The ID of the deployment you want the outputs for.
+  ///
   /// Parameter [nextToken] :
   /// A token that indicates the location of the next output in the array of
   /// outputs, after the list of outputs that was previously requested.
   Future<ListServicePipelineOutputsOutput> listServicePipelineOutputs({
     required String serviceName,
+    String? deploymentId,
     String? nextToken,
   }) async {
     final headers = <String, String>{
@@ -3373,6 +3546,7 @@ class Proton {
       headers: headers,
       payload: {
         'serviceName': serviceName,
+        if (deploymentId != null) 'deploymentId': deploymentId,
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -5208,6 +5382,9 @@ class Component {
   /// A description of the component.
   final String? description;
 
+  /// The ID of the last attempted deployment of this component.
+  final String? lastAttemptedDeploymentId;
+
   /// The last token the client requested.
   final String? lastClientRequestToken;
 
@@ -5216,6 +5393,9 @@ class Component {
 
   /// The time when the component was last deployed successfully.
   final DateTime? lastDeploymentSucceededAt;
+
+  /// The ID of the last successful deployment of this component.
+  final String? lastSucceededDeploymentId;
 
   /// The name of the service instance that this component is attached to.
   /// Provided when a component is attached to a service instance.
@@ -5238,9 +5418,11 @@ class Component {
     required this.name,
     this.deploymentStatusMessage,
     this.description,
+    this.lastAttemptedDeploymentId,
     this.lastClientRequestToken,
     this.lastDeploymentAttemptedAt,
     this.lastDeploymentSucceededAt,
+    this.lastSucceededDeploymentId,
     this.serviceInstanceName,
     this.serviceName,
     this.serviceSpec,
@@ -5258,11 +5440,13 @@ class Component {
       name: json['name'] as String,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
       description: json['description'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
       lastClientRequestToken: json['lastClientRequestToken'] as String?,
       lastDeploymentAttemptedAt:
           timeStampFromJson(json['lastDeploymentAttemptedAt']),
       lastDeploymentSucceededAt:
           timeStampFromJson(json['lastDeploymentSucceededAt']),
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
       serviceInstanceName: json['serviceInstanceName'] as String?,
       serviceName: json['serviceName'] as String?,
       serviceSpec: json['serviceSpec'] as String?,
@@ -5278,9 +5462,11 @@ class Component {
     final name = this.name;
     final deploymentStatusMessage = this.deploymentStatusMessage;
     final description = this.description;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
     final lastClientRequestToken = this.lastClientRequestToken;
     final lastDeploymentAttemptedAt = this.lastDeploymentAttemptedAt;
     final lastDeploymentSucceededAt = this.lastDeploymentSucceededAt;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
     final serviceInstanceName = this.serviceInstanceName;
     final serviceName = this.serviceName;
     final serviceSpec = this.serviceSpec;
@@ -5294,6 +5480,8 @@ class Component {
       if (deploymentStatusMessage != null)
         'deploymentStatusMessage': deploymentStatusMessage,
       if (description != null) 'description': description,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
       if (lastClientRequestToken != null)
         'lastClientRequestToken': lastClientRequestToken,
       if (lastDeploymentAttemptedAt != null)
@@ -5302,6 +5490,8 @@ class Component {
       if (lastDeploymentSucceededAt != null)
         'lastDeploymentSucceededAt':
             unixTimestampToJson(lastDeploymentSucceededAt),
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
       if (serviceInstanceName != null)
         'serviceInstanceName': serviceInstanceName,
       if (serviceName != null) 'serviceName': serviceName,
@@ -5339,6 +5529,54 @@ extension ComponentDeploymentUpdateTypeFromString on String {
   }
 }
 
+/// The detailed data about the current state of the component.
+class ComponentState {
+  /// The name of the service instance that this component is attached to.
+  /// Provided when a component is attached to a service instance.
+  final String? serviceInstanceName;
+
+  /// The name of the service that <code>serviceInstanceName</code> is associated
+  /// with. Provided when a component is attached to a service instance.
+  final String? serviceName;
+
+  /// The service spec that the component uses to access service inputs. Provided
+  /// when a component is attached to a service instance.
+  final String? serviceSpec;
+
+  /// The template file used.
+  final String? templateFile;
+
+  ComponentState({
+    this.serviceInstanceName,
+    this.serviceName,
+    this.serviceSpec,
+    this.templateFile,
+  });
+
+  factory ComponentState.fromJson(Map<String, dynamic> json) {
+    return ComponentState(
+      serviceInstanceName: json['serviceInstanceName'] as String?,
+      serviceName: json['serviceName'] as String?,
+      serviceSpec: json['serviceSpec'] as String?,
+      templateFile: json['templateFile'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceInstanceName = this.serviceInstanceName;
+    final serviceName = this.serviceName;
+    final serviceSpec = this.serviceSpec;
+    final templateFile = this.templateFile;
+    return {
+      if (serviceInstanceName != null)
+        'serviceInstanceName': serviceInstanceName,
+      if (serviceName != null) 'serviceName': serviceName,
+      if (serviceSpec != null) 'serviceSpec': serviceSpec,
+      if (templateFile != null) 'templateFile': templateFile,
+    };
+  }
+}
+
 /// Summary data of an Proton component resource.
 ///
 /// For more information about components, see <a
@@ -5366,11 +5604,17 @@ class ComponentSummary {
   /// The message associated with the component deployment status.
   final String? deploymentStatusMessage;
 
+  /// The ID of the last attempted deployment of this component.
+  final String? lastAttemptedDeploymentId;
+
   /// The time when a deployment of the component was last attempted.
   final DateTime? lastDeploymentAttemptedAt;
 
   /// The time when the component was last deployed successfully.
   final DateTime? lastDeploymentSucceededAt;
+
+  /// The ID of the last successful deployment of this component.
+  final String? lastSucceededDeploymentId;
 
   /// The name of the service instance that this component is attached to.
   /// Provided when a component is attached to a service instance.
@@ -5388,8 +5632,10 @@ class ComponentSummary {
     required this.lastModifiedAt,
     required this.name,
     this.deploymentStatusMessage,
+    this.lastAttemptedDeploymentId,
     this.lastDeploymentAttemptedAt,
     this.lastDeploymentSucceededAt,
+    this.lastSucceededDeploymentId,
     this.serviceInstanceName,
     this.serviceName,
   });
@@ -5405,10 +5651,12 @@ class ComponentSummary {
           nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
       name: json['name'] as String,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
       lastDeploymentAttemptedAt:
           timeStampFromJson(json['lastDeploymentAttemptedAt']),
       lastDeploymentSucceededAt:
           timeStampFromJson(json['lastDeploymentSucceededAt']),
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
       serviceInstanceName: json['serviceInstanceName'] as String?,
       serviceName: json['serviceName'] as String?,
     );
@@ -5422,8 +5670,10 @@ class ComponentSummary {
     final lastModifiedAt = this.lastModifiedAt;
     final name = this.name;
     final deploymentStatusMessage = this.deploymentStatusMessage;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
     final lastDeploymentAttemptedAt = this.lastDeploymentAttemptedAt;
     final lastDeploymentSucceededAt = this.lastDeploymentSucceededAt;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
     final serviceInstanceName = this.serviceInstanceName;
     final serviceName = this.serviceName;
     return {
@@ -5435,12 +5685,16 @@ class ComponentSummary {
       'name': name,
       if (deploymentStatusMessage != null)
         'deploymentStatusMessage': deploymentStatusMessage,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
       if (lastDeploymentAttemptedAt != null)
         'lastDeploymentAttemptedAt':
             unixTimestampToJson(lastDeploymentAttemptedAt),
       if (lastDeploymentSucceededAt != null)
         'lastDeploymentSucceededAt':
             unixTimestampToJson(lastDeploymentSucceededAt),
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
       if (serviceInstanceName != null)
         'serviceInstanceName': serviceInstanceName,
       if (serviceName != null) 'serviceName': serviceName,
@@ -5855,6 +6109,30 @@ class DeleteComponentOutput {
   }
 }
 
+class DeleteDeploymentOutput {
+  /// The detailed data of the deployment being deleted.
+  final Deployment? deployment;
+
+  DeleteDeploymentOutput({
+    this.deployment,
+  });
+
+  factory DeleteDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteDeploymentOutput(
+      deployment: json['deployment'] != null
+          ? Deployment.fromJson(json['deployment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployment = this.deployment;
+    return {
+      if (deployment != null) 'deployment': deployment,
+    };
+  }
+}
+
 class DeleteEnvironmentAccountConnectionOutput {
   /// The detailed data of the environment account connection being deleted.
   final EnvironmentAccountConnection? environmentAccountConnection;
@@ -6109,6 +6387,218 @@ class DeleteTemplateSyncConfigOutput {
   }
 }
 
+/// The detailed information about a deployment.
+class Deployment {
+  /// The Amazon Resource Name (ARN) of the deployment.
+  final String arn;
+
+  /// The date and time the deployment was created.
+  final DateTime createdAt;
+
+  /// The status of the deployment.
+  final DeploymentStatus deploymentStatus;
+
+  /// The name of the environment associated with this deployment.
+  final String environmentName;
+
+  /// The ID of the deployment.
+  final String id;
+
+  /// The date and time the deployment was last modified.
+  final DateTime lastModifiedAt;
+
+  /// The Amazon Resource Name (ARN) of the target of the deployment.
+  final String targetArn;
+
+  /// The date and time the depoyment target was created.
+  final DateTime targetResourceCreatedAt;
+
+  /// The resource type of the deployment target. It can be an environment,
+  /// service, service instance, or component.
+  final DeploymentTargetResourceType targetResourceType;
+
+  /// The date and time the deployment was completed.
+  final DateTime? completedAt;
+
+  /// The name of the component associated with this deployment.
+  final String? componentName;
+
+  /// The deployment status message.
+  final String? deploymentStatusMessage;
+
+  /// The initial state of the target resource at the time of the deployment.
+  final DeploymentState? initialState;
+
+  /// The ID of the last attempted deployment.
+  final String? lastAttemptedDeploymentId;
+
+  /// The ID of the last successful deployment.
+  final String? lastSucceededDeploymentId;
+
+  /// The name of the deployment's service instance.
+  final String? serviceInstanceName;
+
+  /// The name of the service in this deployment.
+  final String? serviceName;
+
+  /// The target state of the target resource at the time of the deployment.
+  final DeploymentState? targetState;
+
+  Deployment({
+    required this.arn,
+    required this.createdAt,
+    required this.deploymentStatus,
+    required this.environmentName,
+    required this.id,
+    required this.lastModifiedAt,
+    required this.targetArn,
+    required this.targetResourceCreatedAt,
+    required this.targetResourceType,
+    this.completedAt,
+    this.componentName,
+    this.deploymentStatusMessage,
+    this.initialState,
+    this.lastAttemptedDeploymentId,
+    this.lastSucceededDeploymentId,
+    this.serviceInstanceName,
+    this.serviceName,
+    this.targetState,
+  });
+
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      deploymentStatus:
+          (json['deploymentStatus'] as String).toDeploymentStatus(),
+      environmentName: json['environmentName'] as String,
+      id: json['id'] as String,
+      lastModifiedAt:
+          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
+      targetArn: json['targetArn'] as String,
+      targetResourceCreatedAt: nonNullableTimeStampFromJson(
+          json['targetResourceCreatedAt'] as Object),
+      targetResourceType: (json['targetResourceType'] as String)
+          .toDeploymentTargetResourceType(),
+      completedAt: timeStampFromJson(json['completedAt']),
+      componentName: json['componentName'] as String?,
+      deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      initialState: json['initialState'] != null
+          ? DeploymentState.fromJson(
+              json['initialState'] as Map<String, dynamic>)
+          : null,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
+      serviceInstanceName: json['serviceInstanceName'] as String?,
+      serviceName: json['serviceName'] as String?,
+      targetState: json['targetState'] != null
+          ? DeploymentState.fromJson(
+              json['targetState'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final deploymentStatus = this.deploymentStatus;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final lastModifiedAt = this.lastModifiedAt;
+    final targetArn = this.targetArn;
+    final targetResourceCreatedAt = this.targetResourceCreatedAt;
+    final targetResourceType = this.targetResourceType;
+    final completedAt = this.completedAt;
+    final componentName = this.componentName;
+    final deploymentStatusMessage = this.deploymentStatusMessage;
+    final initialState = this.initialState;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
+    final serviceInstanceName = this.serviceInstanceName;
+    final serviceName = this.serviceName;
+    final targetState = this.targetState;
+    return {
+      'arn': arn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'deploymentStatus': deploymentStatus.toValue(),
+      'environmentName': environmentName,
+      'id': id,
+      'lastModifiedAt': unixTimestampToJson(lastModifiedAt),
+      'targetArn': targetArn,
+      'targetResourceCreatedAt': unixTimestampToJson(targetResourceCreatedAt),
+      'targetResourceType': targetResourceType.toValue(),
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (componentName != null) 'componentName': componentName,
+      if (deploymentStatusMessage != null)
+        'deploymentStatusMessage': deploymentStatusMessage,
+      if (initialState != null) 'initialState': initialState,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
+      if (serviceInstanceName != null)
+        'serviceInstanceName': serviceInstanceName,
+      if (serviceName != null) 'serviceName': serviceName,
+      if (targetState != null) 'targetState': targetState,
+    };
+  }
+}
+
+/// The detailed data about the current state of the deployment.
+class DeploymentState {
+  /// The state of the component associated with the deployment.
+  final ComponentState? component;
+
+  /// The state of the environment associated with the deployment.
+  final EnvironmentState? environment;
+
+  /// The state of the service instance associated with the deployment.
+  final ServiceInstanceState? serviceInstance;
+
+  /// The state of the service pipeline associated with the deployment.
+  final ServicePipelineState? servicePipeline;
+
+  DeploymentState({
+    this.component,
+    this.environment,
+    this.serviceInstance,
+    this.servicePipeline,
+  });
+
+  factory DeploymentState.fromJson(Map<String, dynamic> json) {
+    return DeploymentState(
+      component: json['component'] != null
+          ? ComponentState.fromJson(json['component'] as Map<String, dynamic>)
+          : null,
+      environment: json['environment'] != null
+          ? EnvironmentState.fromJson(
+              json['environment'] as Map<String, dynamic>)
+          : null,
+      serviceInstance: json['serviceInstance'] != null
+          ? ServiceInstanceState.fromJson(
+              json['serviceInstance'] as Map<String, dynamic>)
+          : null,
+      servicePipeline: json['servicePipeline'] != null
+          ? ServicePipelineState.fromJson(
+              json['servicePipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final component = this.component;
+    final environment = this.environment;
+    final serviceInstance = this.serviceInstance;
+    final servicePipeline = this.servicePipeline;
+    return {
+      if (component != null) 'component': component,
+      if (environment != null) 'environment': environment,
+      if (serviceInstance != null) 'serviceInstance': serviceInstance,
+      if (servicePipeline != null) 'servicePipeline': servicePipeline,
+    };
+  }
+}
+
 enum DeploymentStatus {
   inProgress,
   failed,
@@ -6164,6 +6654,174 @@ extension DeploymentStatusFromString on String {
         return DeploymentStatus.cancelled;
     }
     throw Exception('$this is not known in enum DeploymentStatus');
+  }
+}
+
+/// Summary data of the deployment.
+class DeploymentSummary {
+  /// The Amazon Resource Name (ARN) of the deployment.
+  final String arn;
+
+  /// The date and time the deployment was created.
+  final DateTime createdAt;
+
+  /// The current status of the deployment.
+  final DeploymentStatus deploymentStatus;
+
+  /// The name of the environment associated with the deployment.
+  final String environmentName;
+
+  /// The ID of the deployment.
+  final String id;
+
+  /// The date and time the deployment was last modified.
+  final DateTime lastModifiedAt;
+
+  /// The Amazon Resource Name (ARN) of the target of the deployment.
+  final String targetArn;
+
+  /// The date and time the target resource was created.
+  final DateTime targetResourceCreatedAt;
+
+  /// The resource type of the deployment target. It can be an environment,
+  /// service, service instance, or component.
+  final DeploymentTargetResourceType targetResourceType;
+
+  /// The date and time the deployment was completed.
+  final DateTime? completedAt;
+
+  /// The name of the component associated with the deployment.
+  final String? componentName;
+
+  /// The ID of the last attempted deployment.
+  final String? lastAttemptedDeploymentId;
+
+  /// The ID of the last successful deployment.
+  final String? lastSucceededDeploymentId;
+
+  /// The name of the service instance associated with the deployment.
+  final String? serviceInstanceName;
+
+  /// The name of the service associated with the deployment.
+  final String? serviceName;
+
+  DeploymentSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.deploymentStatus,
+    required this.environmentName,
+    required this.id,
+    required this.lastModifiedAt,
+    required this.targetArn,
+    required this.targetResourceCreatedAt,
+    required this.targetResourceType,
+    this.completedAt,
+    this.componentName,
+    this.lastAttemptedDeploymentId,
+    this.lastSucceededDeploymentId,
+    this.serviceInstanceName,
+    this.serviceName,
+  });
+
+  factory DeploymentSummary.fromJson(Map<String, dynamic> json) {
+    return DeploymentSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      deploymentStatus:
+          (json['deploymentStatus'] as String).toDeploymentStatus(),
+      environmentName: json['environmentName'] as String,
+      id: json['id'] as String,
+      lastModifiedAt:
+          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
+      targetArn: json['targetArn'] as String,
+      targetResourceCreatedAt: nonNullableTimeStampFromJson(
+          json['targetResourceCreatedAt'] as Object),
+      targetResourceType: (json['targetResourceType'] as String)
+          .toDeploymentTargetResourceType(),
+      completedAt: timeStampFromJson(json['completedAt']),
+      componentName: json['componentName'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
+      serviceInstanceName: json['serviceInstanceName'] as String?,
+      serviceName: json['serviceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final deploymentStatus = this.deploymentStatus;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final lastModifiedAt = this.lastModifiedAt;
+    final targetArn = this.targetArn;
+    final targetResourceCreatedAt = this.targetResourceCreatedAt;
+    final targetResourceType = this.targetResourceType;
+    final completedAt = this.completedAt;
+    final componentName = this.componentName;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
+    final serviceInstanceName = this.serviceInstanceName;
+    final serviceName = this.serviceName;
+    return {
+      'arn': arn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'deploymentStatus': deploymentStatus.toValue(),
+      'environmentName': environmentName,
+      'id': id,
+      'lastModifiedAt': unixTimestampToJson(lastModifiedAt),
+      'targetArn': targetArn,
+      'targetResourceCreatedAt': unixTimestampToJson(targetResourceCreatedAt),
+      'targetResourceType': targetResourceType.toValue(),
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (componentName != null) 'componentName': componentName,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
+      if (serviceInstanceName != null)
+        'serviceInstanceName': serviceInstanceName,
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
+}
+
+enum DeploymentTargetResourceType {
+  environment,
+  servicePipeline,
+  serviceInstance,
+  component,
+}
+
+extension DeploymentTargetResourceTypeValueExtension
+    on DeploymentTargetResourceType {
+  String toValue() {
+    switch (this) {
+      case DeploymentTargetResourceType.environment:
+        return 'ENVIRONMENT';
+      case DeploymentTargetResourceType.servicePipeline:
+        return 'SERVICE_PIPELINE';
+      case DeploymentTargetResourceType.serviceInstance:
+        return 'SERVICE_INSTANCE';
+      case DeploymentTargetResourceType.component:
+        return 'COMPONENT';
+    }
+  }
+}
+
+extension DeploymentTargetResourceTypeFromString on String {
+  DeploymentTargetResourceType toDeploymentTargetResourceType() {
+    switch (this) {
+      case 'ENVIRONMENT':
+        return DeploymentTargetResourceType.environment;
+      case 'SERVICE_PIPELINE':
+        return DeploymentTargetResourceType.servicePipeline;
+      case 'SERVICE_INSTANCE':
+        return DeploymentTargetResourceType.serviceInstance;
+      case 'COMPONENT':
+        return DeploymentTargetResourceType.component;
+    }
+    throw Exception('$this is not known in enum DeploymentTargetResourceType');
   }
 }
 
@@ -6265,6 +6923,12 @@ class Environment {
   /// resources are provisioned in.
   final String? environmentAccountId;
 
+  /// The ID of the last attempted deployment of this environment.
+  final String? lastAttemptedDeploymentId;
+
+  /// The ID of the last successful deployment of this environment.
+  final String? lastSucceededDeploymentId;
+
   /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton
   /// to make calls to other services on your behalf.
   final String? protonServiceRoleArn;
@@ -6298,6 +6962,8 @@ class Environment {
     this.description,
     this.environmentAccountConnectionId,
     this.environmentAccountId,
+    this.lastAttemptedDeploymentId,
+    this.lastSucceededDeploymentId,
     this.protonServiceRoleArn,
     this.provisioning,
     this.provisioningRepository,
@@ -6325,6 +6991,8 @@ class Environment {
       environmentAccountConnectionId:
           json['environmentAccountConnectionId'] as String?,
       environmentAccountId: json['environmentAccountId'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
       protonServiceRoleArn: json['protonServiceRoleArn'] as String?,
       provisioning: (json['provisioning'] as String?)?.toProvisioning(),
       provisioningRepository: json['provisioningRepository'] != null
@@ -6351,6 +7019,8 @@ class Environment {
     final description = this.description;
     final environmentAccountConnectionId = this.environmentAccountConnectionId;
     final environmentAccountId = this.environmentAccountId;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
     final protonServiceRoleArn = this.protonServiceRoleArn;
     final provisioning = this.provisioning;
     final provisioningRepository = this.provisioningRepository;
@@ -6376,6 +7046,10 @@ class Environment {
         'environmentAccountConnectionId': environmentAccountConnectionId,
       if (environmentAccountId != null)
         'environmentAccountId': environmentAccountId,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
       if (protonServiceRoleArn != null)
         'protonServiceRoleArn': protonServiceRoleArn,
       if (provisioning != null) 'provisioning': provisioning.toValue(),
@@ -6668,6 +7342,53 @@ class EnvironmentAccountConnectionSummary {
   }
 }
 
+/// The detailed data about the current state of the environment.
+class EnvironmentState {
+  /// The major version of the environment template that was used to create the
+  /// environment.
+  final String templateMajorVersion;
+
+  /// The minor version of the environment template that was used to create the
+  /// environment.
+  final String templateMinorVersion;
+
+  /// The name of the environment template that was used to create the
+  /// environment.
+  final String templateName;
+
+  /// The environment spec that was used to create the environment.
+  final String? spec;
+
+  EnvironmentState({
+    required this.templateMajorVersion,
+    required this.templateMinorVersion,
+    required this.templateName,
+    this.spec,
+  });
+
+  factory EnvironmentState.fromJson(Map<String, dynamic> json) {
+    return EnvironmentState(
+      templateMajorVersion: json['templateMajorVersion'] as String,
+      templateMinorVersion: json['templateMinorVersion'] as String,
+      templateName: json['templateName'] as String,
+      spec: json['spec'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateMajorVersion = this.templateMajorVersion;
+    final templateMinorVersion = this.templateMinorVersion;
+    final templateName = this.templateName;
+    final spec = this.spec;
+    return {
+      'templateMajorVersion': templateMajorVersion,
+      'templateMinorVersion': templateMinorVersion,
+      'templateName': templateName,
+      if (spec != null) 'spec': spec,
+    };
+  }
+}
+
 /// Summary data of an Proton environment resource. An Proton environment is a
 /// set of resources shared across Proton services.
 class EnvironmentSummary {
@@ -6724,6 +7445,12 @@ class EnvironmentSummary {
   /// resources are provisioned in.
   final String? environmentAccountId;
 
+  /// The ID of the last attempted deployment of this environment.
+  final String? lastAttemptedDeploymentId;
+
+  /// The ID of the last successful deployment of this environment.
+  final String? lastSucceededDeploymentId;
+
   /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton
   /// to make calls to other services on your behalf.
   final String? protonServiceRoleArn;
@@ -6747,6 +7474,8 @@ class EnvironmentSummary {
     this.description,
     this.environmentAccountConnectionId,
     this.environmentAccountId,
+    this.lastAttemptedDeploymentId,
+    this.lastSucceededDeploymentId,
     this.protonServiceRoleArn,
     this.provisioning,
   });
@@ -6771,6 +7500,8 @@ class EnvironmentSummary {
       environmentAccountConnectionId:
           json['environmentAccountConnectionId'] as String?,
       environmentAccountId: json['environmentAccountId'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
       protonServiceRoleArn: json['protonServiceRoleArn'] as String?,
       provisioning: (json['provisioning'] as String?)?.toProvisioning(),
     );
@@ -6791,6 +7522,8 @@ class EnvironmentSummary {
     final description = this.description;
     final environmentAccountConnectionId = this.environmentAccountConnectionId;
     final environmentAccountId = this.environmentAccountId;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
     final protonServiceRoleArn = this.protonServiceRoleArn;
     final provisioning = this.provisioning;
     return {
@@ -6813,6 +7546,10 @@ class EnvironmentSummary {
         'environmentAccountConnectionId': environmentAccountConnectionId,
       if (environmentAccountId != null)
         'environmentAccountId': environmentAccountId,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
       if (protonServiceRoleArn != null)
         'protonServiceRoleArn': protonServiceRoleArn,
       if (provisioning != null) 'provisioning': provisioning.toValue(),
@@ -7231,6 +7968,30 @@ class GetComponentOutput {
     final component = this.component;
     return {
       if (component != null) 'component': component,
+    };
+  }
+}
+
+class GetDeploymentOutput {
+  /// The detailed data of the requested deployment.
+  final Deployment? deployment;
+
+  GetDeploymentOutput({
+    this.deployment,
+  });
+
+  factory GetDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentOutput(
+      deployment: json['deployment'] != null
+          ? Deployment.fromJson(json['deployment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployment = this.deployment;
+    return {
+      if (deployment != null) 'deployment': deployment,
     };
   }
 }
@@ -7756,6 +8517,39 @@ class ListComponentsOutput {
     final nextToken = this.nextToken;
     return {
       'components': components,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListDeploymentsOutput {
+  /// An array of deployment with summary data.
+  final List<DeploymentSummary> deployments;
+
+  /// A token that indicates the location of the next deployment in the array of
+  /// deployment, after the current requested list of deployment.
+  final String? nextToken;
+
+  ListDeploymentsOutput({
+    required this.deployments,
+    this.nextToken,
+  });
+
+  factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentsOutput(
+      deployments: (json['deployments'] as List)
+          .whereNotNull()
+          .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
+    return {
+      'deployments': deployments,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -9509,8 +10303,14 @@ class ServiceInstance {
   /// The message associated with the service instance deployment status.
   final String? deploymentStatusMessage;
 
+  /// The ID of the last attempted deployment of this service instance.
+  final String? lastAttemptedDeploymentId;
+
   /// The last client request token received.
   final String? lastClientRequestToken;
+
+  /// The ID of the last successful deployment of this service instance.
+  final String? lastSucceededDeploymentId;
 
   /// The service spec that was used to create the service instance.
   final String? spec;
@@ -9528,7 +10328,9 @@ class ServiceInstance {
     required this.templateMinorVersion,
     required this.templateName,
     this.deploymentStatusMessage,
+    this.lastAttemptedDeploymentId,
     this.lastClientRequestToken,
+    this.lastSucceededDeploymentId,
     this.spec,
   });
 
@@ -9549,7 +10351,9 @@ class ServiceInstance {
       templateMinorVersion: json['templateMinorVersion'] as String,
       templateName: json['templateName'] as String,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
       lastClientRequestToken: json['lastClientRequestToken'] as String?,
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
       spec: json['spec'] as String?,
     );
   }
@@ -9567,7 +10371,9 @@ class ServiceInstance {
     final templateMinorVersion = this.templateMinorVersion;
     final templateName = this.templateName;
     final deploymentStatusMessage = this.deploymentStatusMessage;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
     final lastClientRequestToken = this.lastClientRequestToken;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
     final spec = this.spec;
     return {
       'arn': arn,
@@ -9585,9 +10391,99 @@ class ServiceInstance {
       'templateName': templateName,
       if (deploymentStatusMessage != null)
         'deploymentStatusMessage': deploymentStatusMessage,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
       if (lastClientRequestToken != null)
         'lastClientRequestToken': lastClientRequestToken,
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
       if (spec != null) 'spec': spec,
+    };
+  }
+}
+
+/// The detailed data about the current state of this service instance.
+class ServiceInstanceState {
+  /// The service spec that was used to create the service instance.
+  final String spec;
+
+  /// The major version of the service template that was used to create the
+  /// service pipeline.
+  final String templateMajorVersion;
+
+  /// The minor version of the service template that was used to create the
+  /// service pipeline.
+  final String templateMinorVersion;
+
+  /// The name of the service template that was used to create the service
+  /// instance.
+  final String templateName;
+
+  /// The IDs for the last successful components deployed for this service
+  /// instance.
+  final List<String>? lastSuccessfulComponentDeploymentIds;
+
+  /// The ID for the last successful environment deployed for this service
+  /// instance.
+  final String? lastSuccessfulEnvironmentDeploymentId;
+
+  /// The ID for the last successful service pipeline deployed for this service
+  /// instance.
+  final String? lastSuccessfulServicePipelineDeploymentId;
+
+  ServiceInstanceState({
+    required this.spec,
+    required this.templateMajorVersion,
+    required this.templateMinorVersion,
+    required this.templateName,
+    this.lastSuccessfulComponentDeploymentIds,
+    this.lastSuccessfulEnvironmentDeploymentId,
+    this.lastSuccessfulServicePipelineDeploymentId,
+  });
+
+  factory ServiceInstanceState.fromJson(Map<String, dynamic> json) {
+    return ServiceInstanceState(
+      spec: json['spec'] as String,
+      templateMajorVersion: json['templateMajorVersion'] as String,
+      templateMinorVersion: json['templateMinorVersion'] as String,
+      templateName: json['templateName'] as String,
+      lastSuccessfulComponentDeploymentIds:
+          (json['lastSuccessfulComponentDeploymentIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      lastSuccessfulEnvironmentDeploymentId:
+          json['lastSuccessfulEnvironmentDeploymentId'] as String?,
+      lastSuccessfulServicePipelineDeploymentId:
+          json['lastSuccessfulServicePipelineDeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final spec = this.spec;
+    final templateMajorVersion = this.templateMajorVersion;
+    final templateMinorVersion = this.templateMinorVersion;
+    final templateName = this.templateName;
+    final lastSuccessfulComponentDeploymentIds =
+        this.lastSuccessfulComponentDeploymentIds;
+    final lastSuccessfulEnvironmentDeploymentId =
+        this.lastSuccessfulEnvironmentDeploymentId;
+    final lastSuccessfulServicePipelineDeploymentId =
+        this.lastSuccessfulServicePipelineDeploymentId;
+    return {
+      'spec': spec,
+      'templateMajorVersion': templateMajorVersion,
+      'templateMinorVersion': templateMinorVersion,
+      'templateName': templateName,
+      if (lastSuccessfulComponentDeploymentIds != null)
+        'lastSuccessfulComponentDeploymentIds':
+            lastSuccessfulComponentDeploymentIds,
+      if (lastSuccessfulEnvironmentDeploymentId != null)
+        'lastSuccessfulEnvironmentDeploymentId':
+            lastSuccessfulEnvironmentDeploymentId,
+      if (lastSuccessfulServicePipelineDeploymentId != null)
+        'lastSuccessfulServicePipelineDeploymentId':
+            lastSuccessfulServicePipelineDeploymentId,
     };
   }
 }
@@ -9630,6 +10526,12 @@ class ServiceInstanceSummary {
   /// A service instance deployment status message.
   final String? deploymentStatusMessage;
 
+  /// The ID of the last attempted deployment of this service instance.
+  final String? lastAttemptedDeploymentId;
+
+  /// The ID of the last successful deployment of this service instance.
+  final String? lastSucceededDeploymentId;
+
   ServiceInstanceSummary({
     required this.arn,
     required this.createdAt,
@@ -9643,6 +10545,8 @@ class ServiceInstanceSummary {
     required this.templateMinorVersion,
     required this.templateName,
     this.deploymentStatusMessage,
+    this.lastAttemptedDeploymentId,
+    this.lastSucceededDeploymentId,
   });
 
   factory ServiceInstanceSummary.fromJson(Map<String, dynamic> json) {
@@ -9662,6 +10566,8 @@ class ServiceInstanceSummary {
       templateMinorVersion: json['templateMinorVersion'] as String,
       templateName: json['templateName'] as String,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
     );
   }
 
@@ -9678,6 +10584,8 @@ class ServiceInstanceSummary {
     final templateMinorVersion = this.templateMinorVersion;
     final templateName = this.templateName;
     final deploymentStatusMessage = this.deploymentStatusMessage;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
     return {
       'arn': arn,
       'createdAt': unixTimestampToJson(createdAt),
@@ -9694,6 +10602,10 @@ class ServiceInstanceSummary {
       'templateName': templateName,
       if (deploymentStatusMessage != null)
         'deploymentStatusMessage': deploymentStatusMessage,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
     };
   }
 }
@@ -9730,6 +10642,12 @@ class ServicePipeline {
   /// A service pipeline deployment status message.
   final String? deploymentStatusMessage;
 
+  /// The ID of the last attempted deployment of this service pipeline.
+  final String? lastAttemptedDeploymentId;
+
+  /// The ID of the last successful deployment of this service pipeline.
+  final String? lastSucceededDeploymentId;
+
   /// The service spec that was used to create the service pipeline.
   final String? spec;
 
@@ -9743,6 +10661,8 @@ class ServicePipeline {
     required this.templateMinorVersion,
     required this.templateName,
     this.deploymentStatusMessage,
+    this.lastAttemptedDeploymentId,
+    this.lastSucceededDeploymentId,
     this.spec,
   });
 
@@ -9760,6 +10680,8 @@ class ServicePipeline {
       templateMinorVersion: json['templateMinorVersion'] as String,
       templateName: json['templateName'] as String,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
+      lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
       spec: json['spec'] as String?,
     );
   }
@@ -9774,6 +10696,8 @@ class ServicePipeline {
     final templateMinorVersion = this.templateMinorVersion;
     final templateName = this.templateName;
     final deploymentStatusMessage = this.deploymentStatusMessage;
+    final lastAttemptedDeploymentId = this.lastAttemptedDeploymentId;
+    final lastSucceededDeploymentId = this.lastSucceededDeploymentId;
     final spec = this.spec;
     return {
       'arn': arn,
@@ -9788,6 +10712,57 @@ class ServicePipeline {
       'templateName': templateName,
       if (deploymentStatusMessage != null)
         'deploymentStatusMessage': deploymentStatusMessage,
+      if (lastAttemptedDeploymentId != null)
+        'lastAttemptedDeploymentId': lastAttemptedDeploymentId,
+      if (lastSucceededDeploymentId != null)
+        'lastSucceededDeploymentId': lastSucceededDeploymentId,
+      if (spec != null) 'spec': spec,
+    };
+  }
+}
+
+/// The detailed data about the current state of the service pipeline.
+class ServicePipelineState {
+  /// The major version of the service template that was used to create the
+  /// service pipeline.
+  final String templateMajorVersion;
+
+  /// The minor version of the service template that was used to create the
+  /// service pipeline.
+  final String templateMinorVersion;
+
+  /// The name of the service template that was used to create the service
+  /// pipeline.
+  final String templateName;
+
+  /// The service spec that was used to create the service pipeline.
+  final String? spec;
+
+  ServicePipelineState({
+    required this.templateMajorVersion,
+    required this.templateMinorVersion,
+    required this.templateName,
+    this.spec,
+  });
+
+  factory ServicePipelineState.fromJson(Map<String, dynamic> json) {
+    return ServicePipelineState(
+      templateMajorVersion: json['templateMajorVersion'] as String,
+      templateMinorVersion: json['templateMinorVersion'] as String,
+      templateName: json['templateName'] as String,
+      spec: json['spec'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateMajorVersion = this.templateMajorVersion;
+    final templateMinorVersion = this.templateMinorVersion;
+    final templateName = this.templateName;
+    final spec = this.spec;
+    return {
+      'templateMajorVersion': templateMajorVersion,
+      'templateMinorVersion': templateMinorVersion,
+      'templateName': templateName,
       if (spec != null) 'spec': spec,
     };
   }

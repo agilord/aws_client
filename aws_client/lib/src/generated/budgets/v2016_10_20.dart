@@ -122,6 +122,7 @@ class Budgets {
   /// May throw [DuplicateRecordException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget.
@@ -135,10 +136,16 @@ class Budgets {
   /// subscriber and up to 10 email subscribers. If you include notifications
   /// and subscribers in your <code>CreateBudget</code> call, Amazon Web
   /// Services creates the notifications and subscribers for you.
+  ///
+  /// Parameter [resourceTags] :
+  /// An optional list of tags to associate with the specified budget. Each tag
+  /// consists of a key and a value, and each key must be unique for the
+  /// resource.
   Future<void> createBudget({
     required String accountId,
     required Budget budget,
     List<NotificationWithSubscribers>? notificationsWithSubscribers,
+    List<ResourceTag>? resourceTags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -155,6 +162,7 @@ class Budgets {
         'Budget': budget,
         if (notificationsWithSubscribers != null)
           'NotificationsWithSubscribers': notificationsWithSubscribers,
+        if (resourceTags != null) 'ResourceTags': resourceTags,
       },
     );
   }
@@ -168,6 +176,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [actionType] :
   /// The type of action. This defines the type of tasks that can be carried out
@@ -179,6 +188,11 @@ class Budgets {
   /// Parameter [executionRoleArn] :
   /// The role passed for action execution and reversion. Roles and actions must
   /// be in the same account.
+  ///
+  /// Parameter [resourceTags] :
+  /// An optional list of tags to associate with the specified budget action.
+  /// Each tag consists of a key and a value, and each key must be unique for
+  /// the resource.
   Future<CreateBudgetActionResponse> createBudgetAction({
     required String accountId,
     required ActionThreshold actionThreshold,
@@ -189,6 +203,7 @@ class Budgets {
     required String executionRoleArn,
     required NotificationType notificationType,
     required List<Subscriber> subscribers,
+    List<ResourceTag>? resourceTags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -210,6 +225,7 @@ class Budgets {
         'ExecutionRoleArn': executionRoleArn,
         'NotificationType': notificationType.toValue(),
         'Subscribers': subscribers,
+        if (resourceTags != null) 'ResourceTags': resourceTags,
       },
     );
 
@@ -703,8 +719,8 @@ class Budgets {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
-  /// An integer that shows how many budget name entries a paginated response
-  /// contains.
+  /// An integer that represents how many budgets a paginated response contains.
+  /// The default is 50.
   Future<DescribeBudgetNotificationsForAccountResponse>
       describeBudgetNotificationsForAccount({
     required String accountId,
@@ -715,7 +731,7 @@ class Budgets {
       'maxResults',
       maxResults,
       1,
-      50,
+      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -808,11 +824,11 @@ class Budgets {
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budgets that you
-  /// want descriptions of.
+  /// want to describe.
   ///
   /// Parameter [maxResults] :
-  /// An optional integer that represents how many entries a paginated response
-  /// contains. The maximum is 100.
+  /// An integer that represents how many budgets a paginated response contains.
+  /// The default is 100.
   ///
   /// Parameter [nextToken] :
   /// The pagination token that you include in your request to indicate the next
@@ -826,7 +842,7 @@ class Budgets {
       'maxResults',
       maxResults,
       1,
-      100,
+      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -867,7 +883,7 @@ class Budgets {
   ///
   /// Parameter [maxResults] :
   /// An optional integer that represents how many entries a paginated response
-  /// contains. The maximum is 100.
+  /// contains.
   ///
   /// Parameter [nextToken] :
   /// The pagination token that you include in your request to indicate the next
@@ -928,7 +944,7 @@ class Budgets {
   ///
   /// Parameter [maxResults] :
   /// An optional integer that represents how many entries a paginated response
-  /// contains. The maximum is 100.
+  /// contains.
   ///
   /// Parameter [nextToken] :
   /// The pagination token that you include in your request to indicate the next
@@ -1010,6 +1026,106 @@ class Budgets {
     );
 
     return ExecuteBudgetActionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists tags associated with a budget or budget action resource.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The unique identifier for the resource.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceARN,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates tags for a budget or budget action resource.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The unique identifier for the resource.
+  ///
+  /// Parameter [resourceTags] :
+  /// The tags associated with the resource.
+  Future<void> tagResource({
+    required String resourceARN,
+    required List<ResourceTag> resourceTags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'ResourceTags': resourceTags,
+      },
+    );
+  }
+
+  /// Deletes tags associated with a budget or budget action resource.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The unique identifier for the resource.
+  ///
+  /// Parameter [resourceTagKeys] :
+  /// The key that's associated with the tag.
+  Future<void> untagResource({
+    required String resourceARN,
+    required List<String> resourceTagKeys,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'ResourceTagKeys': resourceTagKeys,
+      },
+    );
   }
 
   /// Updates a budget. You can change every part of a budget except for the
@@ -1638,8 +1754,8 @@ extension AutoAdjustTypeFromString on String {
 /// <code>arn:aws:budgets::AccountId:budget/budgetName</code>
 class Budget {
   /// The name of a budget. The name must be unique within an account. The
-  /// <code>:</code> and <code>\</code> characters aren't allowed in
-  /// <code>BudgetName</code>.
+  /// <code>:</code> and <code>\</code> characters, and the "/action/" substring,
+  /// aren't allowed in <code>BudgetName</code>.
   final String budgetName;
 
   /// Specifies whether this budget tracks costs, usage, RI utilization, RI
@@ -1670,8 +1786,8 @@ class Budget {
   final CalculatedSpend? calculatedSpend;
 
   /// The cost filters, such as <code>Region</code>, <code>Service</code>,
-  /// <code>member account</code>, <code>Tag</code>, or <code>Cost
-  /// Category</code>, that are applied to a budget.
+  /// <code>LinkedAccount</code>, <code>Tag</code>, or <code>CostCategory</code>,
+  /// that are applied to a budget.
   ///
   /// Amazon Web Services Budgets supports the following services as a
   /// <code>Service</code> filter for RI budgets:
@@ -2996,6 +3112,31 @@ class IamActionDefinition {
   }
 }
 
+class ListTagsForResourceResponse {
+  /// The tags associated with the resource.
+  final List<ResourceTag>? resourceTags;
+
+  ListTagsForResourceResponse({
+    this.resourceTags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      resourceTags: (json['ResourceTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTags = this.resourceTags;
+    return {
+      if (resourceTags != null) 'ResourceTags': resourceTags,
+    };
+  }
+}
+
 /// A notification that's associated with a budget. A budget can have up to ten
 /// notifications.
 ///
@@ -3170,6 +3311,36 @@ class NotificationWithSubscribers {
   }
 }
 
+/// The tag structure that contains a tag key and value.
+class ResourceTag {
+  /// The key that's associated with the tag.
+  final String key;
+
+  /// The value that's associated with the tag.
+  final String value;
+
+  ResourceTag({
+    required this.key,
+    required this.value,
+  });
+
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
 /// The service control policies (SCP) action definition details.
 class ScpActionDefinition {
   /// The policy ID attached.
@@ -3205,15 +3376,26 @@ class ScpActionDefinition {
 
 /// The amount of cost or usage that's measured for a budget.
 ///
-/// For example, a <code>Spend</code> for <code>3 GB</code> of S3 usage has the
-/// following parameters:
+/// <i>Cost example:</i> A <code>Spend</code> for <code>3 USD</code> of costs
+/// has the following parameters:
 ///
 /// <ul>
 /// <li>
 /// An <code>Amount</code> of <code>3</code>
 /// </li>
 /// <li>
-/// A <code>unit</code> of <code>GB</code>
+/// A <code>Unit</code> of <code>USD</code>
+/// </li>
+/// </ul>
+/// <i>Usage example:</i> A <code>Spend</code> for <code>3 GB</code> of S3 usage
+/// has the following parameters:
+///
+/// <ul>
+/// <li>
+/// An <code>Amount</code> of <code>3</code>
+/// </li>
+/// <li>
+/// A <code>Unit</code> of <code>GB</code>
 /// </li>
 /// </ul>
 class Spend {
@@ -3222,7 +3404,7 @@ class Spend {
   final String amount;
 
   /// The unit of measurement that's used for the budget forecast, actual spend,
-  /// or budget threshold, such as USD or GBP.
+  /// or budget threshold.
   final String unit;
 
   Spend({
@@ -3363,6 +3545,18 @@ extension SubscriptionTypeFromString on String {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// The type of threshold for a notification.
 enum ThresholdType {
   percentage,
@@ -3475,6 +3669,18 @@ extension TimeUnitFromString on String {
         return TimeUnit.annually;
     }
     throw Exception('$this is not known in enum TimeUnit');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -3605,6 +3811,14 @@ class ResourceLockedException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceLockedException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -3629,6 +3843,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NotFoundException(type: type, message: message),
   'ResourceLockedException': (type, message) =>
       ResourceLockedException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
 };

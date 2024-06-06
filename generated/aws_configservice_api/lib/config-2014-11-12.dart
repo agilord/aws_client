@@ -1036,7 +1036,7 @@ class ConfigService {
   /// The number of rule evaluation results that you want returned.
   ///
   /// This parameter is required if the rule limit for your account is more than
-  /// the default of 150 rules.
+  /// the default of 1000 rules.
   ///
   /// For information about requesting a rule limit increase, see <a
   /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config">Config
@@ -1093,7 +1093,7 @@ class ConfigService {
   /// API returns an unfiltered list. For more information on Detective or
   /// Proactive Config rules, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html">
-  /// <b>Evaluation Mode</b> </a> in the Config Developer Guide.
+  /// <b>Evaluation Mode</b> </a> in the <i>Config Developer Guide</i>.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1252,10 +1252,10 @@ class ConfigService {
   /// configuration recorder is not specified, this action returns the status of
   /// all configuration recorders associated with the account.
   /// <note>
-  /// Currently, you can specify only one configuration recorder per region in
-  /// your account. For a detailed status of recording events over time, add
-  /// your Config events to Amazon CloudWatch metrics and use CloudWatch
-  /// metrics.
+  /// &gt;You can specify only one configuration recorder for each Amazon Web
+  /// Services Region for each account. For a detailed status of recording
+  /// events over time, add your Config events to Amazon CloudWatch metrics and
+  /// use CloudWatch metrics.
   /// </note>
   ///
   /// May throw [NoSuchConfigurationRecorderException].
@@ -1292,8 +1292,8 @@ class ConfigService {
   /// configuration recorder is not specified, this action returns the details
   /// for all configuration recorders associated with the account.
   /// <note>
-  /// Currently, you can specify only one configuration recorder per region in
-  /// your account.
+  /// You can specify only one configuration recorder for each Amazon Web
+  /// Services Region for each account.
   /// </note>
   ///
   /// May throw [NoSuchConfigurationRecorderException].
@@ -1624,7 +1624,7 @@ class ConfigService {
   /// rule names. It is only applicable, when you request all the organization
   /// Config rules.
   ///
-  /// <i>For accounts within an organzation</i>
+  /// <i>For accounts within an organization</i>
   ///
   /// If you deploy an organizational rule or conformance pack in an
   /// organization administrator account, and then establish a delegated
@@ -1765,7 +1765,7 @@ class ConfigService {
   /// conformance packs names. They are only applicable, when you request all
   /// the organization conformance packs.
   ///
-  /// <i>For accounts within an organzation</i>
+  /// <i>For accounts within an organization</i>
   ///
   /// If you deploy an organizational rule or conformance pack in an
   /// organization administrator account, and then establish a delegated
@@ -2981,6 +2981,13 @@ class ConfigService {
     return GetOrganizationCustomRulePolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// For accurate reporting on the compliance status, you must record the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html">Selecting
+  /// Which Resources Config Records</a>.
+  /// </important>
   /// Returns a list of <code>ConfigurationItems</code> for the specified
   /// resource. The list contains details about each state of the resource
   /// during the specified time interval. If you specified a retention period to
@@ -3019,13 +3026,14 @@ class ConfigService {
   /// results are listed in reverse chronological order.
   ///
   /// Parameter [earlierTime] :
-  /// The time stamp that indicates an earlier time. If not specified, the
-  /// action returns paginated results that contain configuration items that
-  /// start when the first configuration item was recorded.
+  /// The chronologically earliest time in the time range for which the history
+  /// requested. If not specified, the action returns paginated results that
+  /// contain configuration items that start when the first configuration item
+  /// was recorded.
   ///
   /// Parameter [laterTime] :
-  /// The time stamp that indicates a later time. If not specified, current time
-  /// is taken.
+  /// The chronologically latest time in the time range for which the history
+  /// requested. If not specified, current time is taken.
   ///
   /// Parameter [limit] :
   /// The maximum number of configuration items returned on each page. The
@@ -3746,29 +3754,33 @@ class ConfigService {
     return PutConfigurationAggregatorResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new configuration recorder to record the selected resource
-  /// configurations.
+  /// Creates a new configuration recorder to record configuration changes for
+  /// specified resource types.
   ///
-  /// You can use this action to change the role <code>roleARN</code> or the
-  /// <code>recordingGroup</code> of an existing recorder. To change the role,
-  /// call the action on the existing configuration recorder and specify a role.
+  /// You can also use this action to change the <code>roleARN</code> or the
+  /// <code>recordingGroup</code> of an existing recorder. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html">
+  /// <b>Managing the Configuration Recorder</b> </a> in the <i>Config Developer
+  /// Guide</i>.
   /// <note>
-  /// Currently, you can specify only one configuration recorder per region in
-  /// your account.
+  /// You can specify only one configuration recorder for each Amazon Web
+  /// Services Region for each account.
   ///
-  /// If <code>ConfigurationRecorder</code> does not have the
-  /// <b>recordingGroup</b> parameter specified, the default is to record all
+  /// If the configuration recorder does not have the
+  /// <code>recordingGroup</code> field specified, the default is to record all
   /// supported resource types.
   /// </note>
   ///
   /// May throw [MaxNumberOfConfigurationRecordersExceededException].
+  /// May throw [ValidationException].
   /// May throw [InvalidConfigurationRecorderNameException].
   /// May throw [InvalidRoleException].
   /// May throw [InvalidRecordingGroupException].
   ///
   /// Parameter [configurationRecorder] :
-  /// The configuration recorder object that records each configuration change
-  /// made to the resources.
+  /// An object for the configuration recorder to record configuration changes
+  /// for specified resource types.
   Future<void> putConfigurationRecorder({
     required ConfigurationRecorder configurationRecorder,
   }) async {
@@ -3793,7 +3805,7 @@ class ConfigService {
   /// across an organization. For information on how many conformance packs you
   /// can have per account, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html">
-  /// <b>Service Limits</b> </a> in the Config Developer Guide.
+  /// <b>Service Limits</b> </a> in the <i>Config Developer Guide</i>.
   ///
   /// This API creates a service-linked role
   /// <code>AWSServiceRoleForConfigConforms</code> in your account. The
@@ -3846,7 +3858,10 @@ class ConfigService {
   /// pack template (max size: 300 KB) that is located in an Amazon S3 bucket in
   /// the same Region as the conformance pack.
   /// <note>
-  /// You must have access to read Amazon S3 bucket.
+  /// You must have access to read Amazon S3 bucket. In addition, in order to
+  /// ensure a successful deployment, the template object must not be in an <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html">archived
+  /// storage class</a> if this parameter is passed.
   /// </note>
   ///
   /// Parameter [templateSSMDocumentDetails] :
@@ -3890,8 +3905,11 @@ class ConfigService {
     return PutConformancePackResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a delivery channel object to deliver configuration information to
-  /// an Amazon S3 bucket and Amazon SNS topic.
+  /// Creates a delivery channel object to deliver configuration information and
+  /// other compliance information to an Amazon S3 bucket and Amazon SNS topic.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html">Notifications
+  /// that Config Sends to an Amazon SNS topic</a>.
   ///
   /// Before you can create a delivery channel, you must create a configuration
   /// recorder.
@@ -4163,7 +4181,7 @@ class ConfigService {
   /// Organization. For information on how many organization conformance packs
   /// and how many Config rules you can have per account, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html">
-  /// <b>Service Limits</b> </a> in the Config Developer Guide.
+  /// <b>Service Limits</b> </a> in the <i>Config Developer Guide</i>.
   ///
   /// Only a management account and a delegated administrator can call this API.
   /// When calling this API with a delegated administrator, you must ensure
@@ -4236,7 +4254,10 @@ class ConfigService {
   /// Location of file containing the template body. The uri must point to the
   /// conformance pack template (max size: 300 KB).
   /// <note>
-  /// You must have access to read Amazon S3 bucket.
+  /// You must have access to read Amazon S3 bucket. In addition, in order to
+  /// ensure a successful deployment, the template object must not be in an <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html">archived
+  /// storage class</a> if this parameter is passed.
   /// </note>
   Future<PutOrganizationConformancePackResponse>
       putOrganizationConformancePack({
@@ -4281,6 +4302,8 @@ class ConfigService {
   /// The target (SSM document) must exist and have permissions to use the
   /// target.
   /// <note>
+  /// <b>Be aware of backward incompatible changes</b>
+  ///
   /// If you make backward incompatible changes to the SSM document, you must
   /// call this again to ensure the remediations can run.
   ///
@@ -4289,6 +4312,8 @@ class ConfigService {
   /// deployed by conformance packs, and rules deployed by Amazon Web Services
   /// Security Hub.
   /// </note> <note>
+  /// <b>Required fields</b>
+  ///
   /// For manual remediation configuration, you need to provide a value for
   /// <code>automationAssumeRole</code> or use a value in the
   /// <code>assumeRole</code>field to remediate your resources. The SSM
@@ -4299,6 +4324,22 @@ class ConfigService {
   /// <code>assumeRole</code> field value is <code>AutomationAssumeRole</code>
   /// and you need to provide a value for <code>AutomationAssumeRole</code> to
   /// remediate your resources.
+  /// </note> <note>
+  /// <b>Auto remediation can be initiated even for compliant resources</b>
+  ///
+  /// If you enable auto remediation for a specific Config rule using the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html">PutRemediationConfigurations</a>
+  /// API or the Config console, it initiates the remediation process for all
+  /// non-compliant resources for that specific rule. The auto remediation
+  /// process relies on the compliance data snapshot which is captured on a
+  /// periodic basis. Any non-compliant resource that is updated between the
+  /// snapshot schedule will continue to be remediated based on the last known
+  /// compliance data snapshot.
+  ///
+  /// This means that in some cases auto remediation can be initiated even for
+  /// compliant resources, since the bootstrap processor uses a database that
+  /// can have stale evaluation results based on the last known compliance data
+  /// snapshot.
   /// </note>
   ///
   /// May throw [InsufficientPermissionsException].
@@ -4332,10 +4373,14 @@ class ConfigService {
   /// an existing exception for a specified resource with a specified Config
   /// rule.
   /// <note>
+  /// <b>Exceptions block auto remediation</b>
+  ///
   /// Config generates a remediation exception when a problem occurs running a
   /// remediation action for a specified resource. Remediation exceptions blocks
   /// auto-remediation until the exception is cleared.
   /// </note> <note>
+  /// <b>Manual remediation is recommended when placing an exception</b>
+  ///
   /// When placing an exception on an Amazon Web Services resource, it is
   /// recommended that remediation is set as manual remediation until the given
   /// Config rule for the specified resource evaluates the resource as
@@ -4346,13 +4391,31 @@ class ConfigService {
   /// <code>NON_COMPLIANT</code> evaluation result can delete resources before
   /// the exception is applied.
   /// </note> <note>
+  /// <b>Exceptions can only be performed on non-compliant resources</b>
+  ///
   /// Placing an exception can only be performed on resources that are
   /// <code>NON_COMPLIANT</code>. If you use this API for <code>COMPLIANT</code>
   /// resources or resources that are <code>NOT_APPLICABLE</code>, a remediation
   /// exception will not be generated. For more information on the conditions
   /// that initiate the possible Config evaluation results, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules">Concepts
-  /// | Config Rules</a> in the Config Developer Guide.
+  /// | Config Rules</a> in the <i>Config Developer Guide</i>.
+  /// </note> <note>
+  /// <b>Auto remediation can be initiated even for compliant resources</b>
+  ///
+  /// If you enable auto remediation for a specific Config rule using the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html">PutRemediationConfigurations</a>
+  /// API or the Config console, it initiates the remediation process for all
+  /// non-compliant resources for that specific rule. The auto remediation
+  /// process relies on the compliance data snapshot which is captured on a
+  /// periodic basis. Any non-compliant resource that is updated between the
+  /// snapshot schedule will continue to be remediated based on the last known
+  /// compliance data snapshot.
+  ///
+  /// This means that in some cases auto remediation can be initiated even for
+  /// compliant resources, since the bootstrap processor uses a database that
+  /// can have stale evaluation results based on the last known compliance data
+  /// snapshot.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
@@ -4590,7 +4653,7 @@ class ConfigService {
   ///
   /// For more information about query components, see the <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/query-components.html">
-  /// <b>Query Components</b> </a> section in the Config Developer Guide.
+  /// <b>Query Components</b> </a> section in the <i>Config Developer Guide</i>.
   /// <note>
   /// If you run an aggregation query (i.e., using <code>GROUP BY</code> or
   /// using aggregate functions such as <code>COUNT</code>; e.g., <code>SELECT
@@ -5657,7 +5720,7 @@ class AggregationAuthorization {
   }
 }
 
-/// The detailed configuration of a specified resource.
+/// The detailed configurations of a specified resource.
 class BaseConfigurationItem {
   /// The 12-digit Amazon Web Services account ID associated with the resource.
   final String? accountId;
@@ -5674,39 +5737,53 @@ class BaseConfigurationItem {
   /// The description of the resource configuration.
   final String? configuration;
 
-  /// The time when the configuration recording was initiated.
+  /// The time when the recording of configuration changes was initiated for the
+  /// resource.
   final DateTime? configurationItemCaptureTime;
 
-  /// The configuration item status. The valid values are:
+  /// The time when configuration changes for the resource were delivered.
+  /// <note>
+  /// This field is optional and is not guaranteed to be present in a
+  /// configuration item (CI). If you are using daily recording, this field will
+  /// be populated. However, if you are using continuous recording, this field
+  /// will be omitted since the delivery time is instantaneous as the CI is
+  /// available right away. For more information on daily recording and continuous
+  /// recording, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
+  /// Frequency</a> in the <i>Config Developer Guide</i>.
+  /// </note>
+  final DateTime? configurationItemDeliveryTime;
+
+  /// The configuration item status. Valid values include:
   ///
   /// <ul>
   /// <li>
-  /// OK – The resource configuration has been updated
+  /// OK – The resource configuration has been updated.
   /// </li>
   /// <li>
-  /// ResourceDiscovered – The resource was newly discovered
+  /// ResourceDiscovered – The resource was newly discovered.
   /// </li>
   /// <li>
-  /// ResourceNotRecorded – The resource was discovered but its configuration was
-  /// not recorded since the recorder excludes the recording of resources of this
-  /// type
+  /// ResourceNotRecorded – The resource was discovered, but its configuration was
+  /// not recorded since the recorder doesn't record resources of this type.
   /// </li>
   /// <li>
   /// ResourceDeleted – The resource was deleted
   /// </li>
   /// <li>
-  /// ResourceDeletedNotRecorded – The resource was deleted but its configuration
-  /// was not recorded since the recorder excludes the recording of resources of
-  /// this type
+  /// ResourceDeletedNotRecorded – The resource was deleted, but its configuration
+  /// was not recorded since the recorder doesn't record resources of this type.
   /// </li>
-  /// </ul> <note>
-  /// The CIs do not incur any cost.
-  /// </note>
+  /// </ul>
   final ConfigurationItemStatus? configurationItemStatus;
 
   /// An identifier that indicates the ordering of the configuration items of a
   /// resource.
   final String? configurationStateId;
+
+  /// The recording frequency that Config uses to record configuration changes for
+  /// the resource.
+  final RecordingFrequency? recordingFrequency;
 
   /// The time stamp when the resource was created.
   final DateTime? resourceCreationTime;
@@ -5734,8 +5811,10 @@ class BaseConfigurationItem {
     this.awsRegion,
     this.configuration,
     this.configurationItemCaptureTime,
+    this.configurationItemDeliveryTime,
     this.configurationItemStatus,
     this.configurationStateId,
+    this.recordingFrequency,
     this.resourceCreationTime,
     this.resourceId,
     this.resourceName,
@@ -5753,9 +5832,13 @@ class BaseConfigurationItem {
       configuration: json['configuration'] as String?,
       configurationItemCaptureTime:
           timeStampFromJson(json['configurationItemCaptureTime']),
+      configurationItemDeliveryTime:
+          timeStampFromJson(json['configurationItemDeliveryTime']),
       configurationItemStatus: (json['configurationItemStatus'] as String?)
           ?.toConfigurationItemStatus(),
       configurationStateId: json['configurationStateId'] as String?,
+      recordingFrequency:
+          (json['recordingFrequency'] as String?)?.toRecordingFrequency(),
       resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
       resourceId: json['resourceId'] as String?,
       resourceName: json['resourceName'] as String?,
@@ -6731,8 +6814,22 @@ class ConfigurationItem {
   /// The description of the resource configuration.
   final String? configuration;
 
-  /// The time when the configuration recording was initiated.
+  /// The time when the recording of configuration changes was initiated for the
+  /// resource.
   final DateTime? configurationItemCaptureTime;
+
+  /// The time when configuration changes for the resource were delivered.
+  /// <note>
+  /// This field is optional and is not guaranteed to be present in a
+  /// configuration item (CI). If you are using daily recording, this field will
+  /// be populated. However, if you are using continuous recording, this field
+  /// will be omitted since the delivery time is instantaneous as the CI is
+  /// available right away. For more information on daily recording and continuous
+  /// recording, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
+  /// Frequency</a> in the <i>Config Developer Guide</i>.
+  /// </note>
+  final DateTime? configurationItemDeliveryTime;
 
   /// Unique MD5 hash that represents the configuration item's state.
   ///
@@ -6740,7 +6837,7 @@ class ConfigurationItem {
   /// items that are associated with the same resource.
   final String? configurationItemMD5Hash;
 
-  /// The configuration item status. The valid values are:
+  /// The configuration item status. Valid values include:
   ///
   /// <ul>
   /// <li>
@@ -6751,25 +6848,25 @@ class ConfigurationItem {
   /// </li>
   /// <li>
   /// ResourceNotRecorded – The resource was discovered but its configuration was
-  /// not recorded since the recorder excludes the recording of resources of this
-  /// type
+  /// not recorded since the recorder doesn't record resources of this type
   /// </li>
   /// <li>
   /// ResourceDeleted – The resource was deleted
   /// </li>
   /// <li>
   /// ResourceDeletedNotRecorded – The resource was deleted but its configuration
-  /// was not recorded since the recorder excludes the recording of resources of
-  /// this type
+  /// was not recorded since the recorder doesn't record resources of this type
   /// </li>
-  /// </ul> <note>
-  /// The CIs do not incur any cost.
-  /// </note>
+  /// </ul>
   final ConfigurationItemStatus? configurationItemStatus;
 
   /// An identifier that indicates the ordering of the configuration items of a
   /// resource.
   final String? configurationStateId;
+
+  /// The recording frequency that Config uses to record configuration changes for
+  /// the resource.
+  final RecordingFrequency? recordingFrequency;
 
   /// A list of CloudTrail event IDs.
   ///
@@ -6820,9 +6917,11 @@ class ConfigurationItem {
     this.awsRegion,
     this.configuration,
     this.configurationItemCaptureTime,
+    this.configurationItemDeliveryTime,
     this.configurationItemMD5Hash,
     this.configurationItemStatus,
     this.configurationStateId,
+    this.recordingFrequency,
     this.relatedEvents,
     this.relationships,
     this.resourceCreationTime,
@@ -6843,10 +6942,14 @@ class ConfigurationItem {
       configuration: json['configuration'] as String?,
       configurationItemCaptureTime:
           timeStampFromJson(json['configurationItemCaptureTime']),
+      configurationItemDeliveryTime:
+          timeStampFromJson(json['configurationItemDeliveryTime']),
       configurationItemMD5Hash: json['configurationItemMD5Hash'] as String?,
       configurationItemStatus: (json['configurationItemStatus'] as String?)
           ?.toConfigurationItemStatus(),
       configurationStateId: json['configurationStateId'] as String?,
+      recordingFrequency:
+          (json['recordingFrequency'] as String?)?.toRecordingFrequency(),
       relatedEvents: (json['relatedEvents'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -6912,29 +7015,95 @@ extension ConfigurationItemStatusFromString on String {
   }
 }
 
-/// An object that represents the recording of configuration changes of an
-/// Amazon Web Services resource.
+/// Records configuration changes to your specified resource types. For more
+/// information about the configuration recorder, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html">
+/// <b>Managing the Configuration Recorder</b> </a> in the <i>Config Developer
+/// Guide</i>.
 class ConfigurationRecorder {
-  /// The name of the recorder. By default, Config automatically assigns the name
-  /// "default" when creating the configuration recorder. You cannot change the
-  /// assigned name.
+  /// The name of the configuration recorder. Config automatically assigns the
+  /// name of "default" when creating the configuration recorder.
+  /// <note>
+  /// You cannot change the name of the configuration recorder after it has been
+  /// created. To change the configuration recorder name, you must delete it and
+  /// create a new configuration recorder with a new name.
+  /// </note>
   final String? name;
 
-  /// Specifies the types of Amazon Web Services resources for which Config
-  /// records configuration changes.
+  /// Specifies which resource types Config records for configuration changes.
+  /// <note>
+  /// <b> High Number of Config Evaluations</b>
+  ///
+  /// You may notice increased activity in your account during your initial month
+  /// recording with Config when compared to subsequent months. During the initial
+  /// bootstrapping process, Config runs evaluations on all the resources in your
+  /// account that you have selected for Config to record.
+  ///
+  /// If you are running ephemeral workloads, you may see increased activity from
+  /// Config as it records configuration changes associated with creating and
+  /// deleting these temporary resources. An <i>ephemeral workload</i> is a
+  /// temporary use of computing resources that are loaded and run when needed.
+  /// Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances,
+  /// Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased
+  /// activity from running ephemeral workloads, you can run these types of
+  /// workloads in a separate account with Config turned off to avoid increased
+  /// configuration recording and rule evaluations.
+  /// </note>
   final RecordingGroup? recordingGroup;
 
-  /// Amazon Resource Name (ARN) of the IAM role used to describe the Amazon Web
-  /// Services resources associated with the account.
+  /// Specifies the default recording frequency that Config uses to record
+  /// configuration changes. Config supports <i>Continuous recording</i> and
+  /// <i>Daily recording</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Continuous recording allows you to record configuration changes continuously
+  /// whenever a change occurs.
+  /// </li>
+  /// <li>
+  /// Daily recording allows you to receive a configuration item (CI) representing
+  /// the most recent state of your resources over the last 24-hour period, only
+  /// if it’s different from the previous CI recorded.
+  /// </li>
+  /// </ul> <note>
+  /// Firewall Manager depends on continuous recording to monitor your resources.
+  /// If you are using Firewall Manager, it is recommended that you set the
+  /// recording frequency to Continuous.
+  /// </note>
+  /// You can also override the recording frequency for specific resource types.
+  final RecordingMode? recordingMode;
+
+  /// Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the
+  /// configuration recorder.
   /// <note>
   /// While the API model does not require this field, the server will reject a
-  /// request without a defined roleARN for the configuration recorder.
+  /// request without a defined <code>roleARN</code> for the configuration
+  /// recorder.
+  /// </note> <note>
+  /// <b>Pre-existing Config role</b>
+  ///
+  /// If you have used an Amazon Web Services service that uses Config, such as
+  /// Security Hub or Control Tower, and an Config role has already been created,
+  /// make sure that the IAM role that you use when setting up Config keeps the
+  /// same minimum permissions as the already created Config role. You must do
+  /// this so that the other Amazon Web Services service continues to run as
+  /// expected.
+  ///
+  /// For example, if Control Tower has an IAM role that allows Config to read
+  /// Amazon Simple Storage Service (Amazon S3) objects, make sure that the same
+  /// permissions are granted within the IAM role you use when setting up Config.
+  /// Otherwise, it may interfere with how Control Tower operates. For more
+  /// information about IAM roles for Config, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/security-iam.html">
+  /// <b>Identity and Access Management for Config</b> </a> in the <i>Config
+  /// Developer Guide</i>.
   /// </note>
   final String? roleARN;
 
   ConfigurationRecorder({
     this.name,
     this.recordingGroup,
+    this.recordingMode,
     this.roleARN,
   });
 
@@ -6945,6 +7114,10 @@ class ConfigurationRecorder {
           ? RecordingGroup.fromJson(
               json['recordingGroup'] as Map<String, dynamic>)
           : null,
+      recordingMode: json['recordingMode'] != null
+          ? RecordingMode.fromJson(
+              json['recordingMode'] as Map<String, dynamic>)
+          : null,
       roleARN: json['roleARN'] as String?,
     );
   }
@@ -6952,10 +7125,12 @@ class ConfigurationRecorder {
   Map<String, dynamic> toJson() {
     final name = this.name;
     final recordingGroup = this.recordingGroup;
+    final recordingMode = this.recordingMode;
     final roleARN = this.roleARN;
     return {
       if (name != null) 'name': name,
       if (recordingGroup != null) 'recordingGroup': recordingGroup,
+      if (recordingMode != null) 'recordingMode': recordingMode,
       if (roleARN != null) 'roleARN': roleARN,
     };
   }
@@ -7945,7 +8120,7 @@ class DescribeConfigRuleEvaluationStatusResponse {
 /// if the filter is not defined, this API returns an unfiltered list. For more
 /// information on Detective or Proactive Config rules, see <a
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html">
-/// <b>Evaluation Mode</b> </a> in the Config Developer Guide.
+/// <b>Evaluation Mode</b> </a> in the <i>Config Developer Guide</i>.
 class DescribeConfigRulesFilters {
   /// The mode of an evaluation. The valid values are Detective or Proactive.
   final EvaluationMode? evaluationMode;
@@ -8561,7 +8736,7 @@ extension EvaluationModeFromString on String {
   }
 }
 
-/// The configuration object for Config rule evaluation mode. The Supported
+/// The configuration object for Config rule evaluation mode. The supported
 /// valid values are Detective or Proactive.
 class EvaluationModeConfiguration {
   /// The mode of an evaluation. The valid values are Detective or Proactive.
@@ -8749,6 +8924,87 @@ extension EventSourceFromString on String {
         return EventSource.awsConfig;
     }
     throw Exception('$this is not known in enum EventSource');
+  }
+}
+
+/// Specifies whether the configuration recorder excludes certain resource types
+/// from being recorded. Use the <code>resourceTypes</code> field to enter a
+/// comma-separated list of resource types you want to exclude from recording.
+///
+/// By default, when Config adds support for a new resource type in the Region
+/// where you set up the configuration recorder, including global resource
+/// types, Config starts recording resources of that type automatically.
+/// <note>
+/// <b>How to use the exclusion recording strategy </b>
+///
+/// To use this option, you must set the <code>useOnly</code> field of <a
+/// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+/// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
+///
+/// Config will then record configuration changes for all supported resource
+/// types, except the resource types that you specify to exclude from being
+/// recorded.
+///
+/// <b>Global resource types and the exclusion recording strategy </b>
+///
+/// Unless specifically listed as exclusions,
+/// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
+/// supported Config Regions were the configuration recorder is enabled.
+///
+/// IAM users, groups, roles, and customer managed policies will be recorded in
+/// the Region where you set up the configuration recorder if that is a Region
+/// where Config was available before February 2022. You cannot be record the
+/// global IAM resouce types in Regions supported by Config after February 2022.
+/// This list where you cannot record the global IAM resource types includes the
+/// following Regions:
+///
+/// <ul>
+/// <li>
+/// Asia Pacific (Hyderabad)
+/// </li>
+/// <li>
+/// Asia Pacific (Melbourne)
+/// </li>
+/// <li>
+/// Canada West (Calgary)
+/// </li>
+/// <li>
+/// Europe (Spain)
+/// </li>
+/// <li>
+/// Europe (Zurich)
+/// </li>
+/// <li>
+/// Israel (Tel Aviv)
+/// </li>
+/// <li>
+/// Middle East (UAE)
+/// </li>
+/// </ul> </note>
+class ExclusionByResourceTypes {
+  /// A comma-separated list of resource types to exclude from recording by the
+  /// configuration recorder.
+  final List<ResourceType>? resourceTypes;
+
+  ExclusionByResourceTypes({
+    this.resourceTypes,
+  });
+
+  factory ExclusionByResourceTypes.fromJson(Map<String, dynamic> json) {
+    return ExclusionByResourceTypes(
+      resourceTypes: (json['resourceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toResourceType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (resourceTypes != null)
+        'resourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+    };
   }
 }
 
@@ -10522,11 +10778,11 @@ class OrganizationCustomPolicyRuleMetadata {
   }
 }
 
-/// An object that specifies metadata for your organization Config Custom Policy
-/// rule including the runtime system in use, which accounts have debug logging
-/// enabled, and other custom rule metadata such as resource type, resource ID
-/// of Amazon Web Services resource, and organization trigger types that trigger
-/// Config to evaluate Amazon Web Services resources against a rule.
+/// metadata for your organization Config Custom Policy rule including the
+/// runtime system in use, which accounts have debug logging enabled, and other
+/// custom rule metadata such as resource type, resource ID of Amazon Web
+/// Services resource, and organization trigger types that trigger Config to
+/// evaluate Amazon Web Services resources against a rule.
 class OrganizationCustomPolicyRuleMetadataNoPolicy {
   /// A list of accounts that you can enable debug logging for your organization
   /// Config Custom Policy rule. List is null when debug logging is enabled for
@@ -11406,105 +11662,369 @@ extension RecorderStatusFromString on String {
   }
 }
 
-/// Specifies which Amazon Web Services resource types Config records for
-/// configuration changes. In the recording group, you specify whether you want
-/// to record all supported resource types or only specific types of resources.
+enum RecordingFrequency {
+  continuous,
+  daily,
+}
+
+extension RecordingFrequencyValueExtension on RecordingFrequency {
+  String toValue() {
+    switch (this) {
+      case RecordingFrequency.continuous:
+        return 'CONTINUOUS';
+      case RecordingFrequency.daily:
+        return 'DAILY';
+    }
+  }
+}
+
+extension RecordingFrequencyFromString on String {
+  RecordingFrequency toRecordingFrequency() {
+    switch (this) {
+      case 'CONTINUOUS':
+        return RecordingFrequency.continuous;
+      case 'DAILY':
+        return RecordingFrequency.daily;
+    }
+    throw Exception('$this is not known in enum RecordingFrequency');
+  }
+}
+
+/// Specifies which resource types Config records for configuration changes. By
+/// default, Config records configuration changes for all current and future
+/// supported resource types in the Amazon Web Services Region where you have
+/// enabled Config, excluding the global IAM resource types: IAM users, groups,
+/// roles, and customer managed policies.
 ///
-/// By default, Config records the configuration changes for all supported types
-/// of <i>regional resources</i> that Config discovers in the region in which it
-/// is running. Regional resources are tied to a region and can be used only in
-/// that region. Examples of regional resources are EC2 instances and EBS
-/// volumes.
-///
-/// You can also have Config record supported types of <i>global resources</i>.
-/// Global resources are not tied to a specific region and can be used in all
-/// regions. The global resource types that Config supports include IAM users,
-/// groups, roles, and customer managed policies.
-/// <important>
-/// Global resource types onboarded to Config recording after February 2022 will
-/// only be recorded in the service's home region for the commercial partition
-/// and Amazon Web Services GovCloud (US) West for the GovCloud partition. You
-/// can view the Configuration Items for these new global resource types only in
-/// their home region and Amazon Web Services GovCloud (US) West.
-///
-/// Supported global resource types onboarded before February 2022 such as
-/// <code>AWS::IAM::Group</code>, <code>AWS::IAM::Policy</code>,
-/// <code>AWS::IAM::Role</code>, <code>AWS::IAM::User</code> remain unchanged,
-/// and they will continue to deliver Configuration Items in all supported
-/// regions in Config. The change will only affect new global resource types
-/// onboarded after February 2022.
-///
-/// To record global resource types onboarded after February 2022, enable All
-/// Supported Resource Types in the home region of the global resource type you
-/// want to record.
-/// </important>
-/// If you don't want Config to record all resources, you can specify which
-/// types of resources it will record with the <code>resourceTypes</code>
-/// parameter.
-///
-/// For a list of supported resource types, see <a
+/// In the recording group, you specify whether you want to record all supported
+/// current and future supported resource types or to include or exclude
+/// specific resources types. For a list of supported resource types, see <a
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
-/// Resource Types</a>.
+/// Resource Types</a> in the <i>Config developer guide</i>.
 ///
-/// For more information and a table of the Home Regions for Global Resource
-/// Types Onboarded after February 2022, see <a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html">Selecting
-/// Which Resources Config Records</a>.
+/// If you don't want Config to record all current and future supported resource
+/// types (excluding the global IAM resource types), use one of the following
+/// recording strategies:
+/// <ol>
+/// <li>
+/// <b>Record all current and future resource types with exclusions</b>
+/// (<code>EXCLUSION_BY_RESOURCE_TYPES</code>), or
+/// </li>
+/// <li>
+/// <b>Record specific resource types</b>
+/// (<code>INCLUSION_BY_RESOURCE_TYPES</code>).
+/// </li> </ol>
+/// If you use the recording strategy to <b>Record all current and future
+/// resource types</b> (<code>ALL_SUPPORTED_RESOURCE_TYPES</code>), you can use
+/// the flag <code>includeGlobalResourceTypes</code> to include the global IAM
+/// resource types in your recording.
+/// <important>
+/// <b>Aurora global clusters are recorded in all enabled Regions</b>
+///
+/// The <code>AWS::RDS::GlobalCluster</code> resource type will be recorded in
+/// all supported Config Regions where the configuration recorder is enabled.
+///
+/// If you do not want to record <code>AWS::RDS::GlobalCluster</code> in all
+/// enabled Regions, use the <code>EXCLUSION_BY_RESOURCE_TYPES</code> or
+/// <code>INCLUSION_BY_RESOURCE_TYPES</code> recording strategy.
+/// </important>
 class RecordingGroup {
-  /// Specifies whether Config records configuration changes for every supported
-  /// type of regional resource.
+  /// Specifies whether Config records configuration changes for all supported
+  /// resource types, excluding the global IAM resource types.
   ///
-  /// If you set this option to <code>true</code>, when Config adds support for a
-  /// new type of regional resource, it starts recording resources of that type
+  /// If you set this field to <code>true</code>, when Config adds support for a
+  /// new resource type, Config starts recording resources of that type
   /// automatically.
   ///
-  /// If you set this option to <code>true</code>, you cannot enumerate a list of
-  /// <code>resourceTypes</code>.
+  /// If you set this field to <code>true</code>, you cannot enumerate specific
+  /// resource types to record in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>,
+  /// or to exclude in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// <note>
+  /// <b>Region availability</b>
+  ///
+  /// Check <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html">Resource
+  /// Coverage by Region Availability</a> to see if a resource type is supported
+  /// in the Amazon Web Services Region where you set up Config.
+  /// </note>
   final bool? allSupported;
 
-  /// Specifies whether Config includes all supported types of global resources
-  /// (for example, IAM resources) with the resources that it records.
+  /// An object that specifies how Config excludes resource types from being
+  /// recorded by the configuration recorder.
+  /// <note>
+  /// <b>Required fields</b>
   ///
-  /// Before you can set this option to <code>true</code>, you must set the
-  /// <code>allSupported</code> option to <code>true</code>.
+  /// To use this option, you must set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
+  /// </note>
+  final ExclusionByResourceTypes? exclusionByResourceTypes;
+
+  /// This option is a bundle which only applies to the global IAM resource types:
+  /// IAM users, groups, roles, and customer managed policies. These global IAM
+  /// resource types can only be recorded by Config in Regions where Config was
+  /// available before February 2022. You cannot be record the global IAM resouce
+  /// types in Regions supported by Config after February 2022. This list where
+  /// you cannot record the global IAM resource types includes the following
+  /// Regions:
   ///
-  /// If you set this option to <code>true</code>, when Config adds support for a
-  /// new type of global resource, it starts recording resources of that type
-  /// automatically.
+  /// <ul>
+  /// <li>
+  /// Asia Pacific (Hyderabad)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Melbourne)
+  /// </li>
+  /// <li>
+  /// Canada West (Calgary)
+  /// </li>
+  /// <li>
+  /// Europe (Spain)
+  /// </li>
+  /// <li>
+  /// Europe (Zurich)
+  /// </li>
+  /// <li>
+  /// Israel (Tel Aviv)
+  /// </li>
+  /// <li>
+  /// Middle East (UAE)
+  /// </li>
+  /// </ul> <important>
+  /// <b>Aurora global clusters are recorded in all enabled Regions</b>
   ///
-  /// The configuration details for any global resource are the same in all
-  /// regions. To prevent duplicate configuration items, you should consider
-  /// customizing Config in only one region to record global resources.
+  /// The <code>AWS::RDS::GlobalCluster</code> resource type will be recorded in
+  /// all supported Config Regions where the configuration recorder is enabled,
+  /// even if <code>includeGlobalResourceTypes</code> is set<code>false</code>.
+  /// The <code>includeGlobalResourceTypes</code> option is a bundle which only
+  /// applies to IAM users, groups, roles, and customer managed policies.
+  ///
+  /// If you do not want to record <code>AWS::RDS::GlobalCluster</code> in all
+  /// enabled Regions, use one of the following recording strategies:
+  /// <ol>
+  /// <li>
+  /// <b>Record all current and future resource types with exclusions</b>
+  /// (<code>EXCLUSION_BY_RESOURCE_TYPES</code>), or
+  /// </li>
+  /// <li>
+  /// <b>Record specific resource types</b>
+  /// (<code>INCLUSION_BY_RESOURCE_TYPES</code>).
+  /// </li> </ol>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all">Selecting
+  /// Which Resources are Recorded</a> in the <i>Config developer guide</i>.
+  /// </important> <important>
+  /// <b>includeGlobalResourceTypes and the exclusion recording strategy</b>
+  ///
+  /// The <code>includeGlobalResourceTypes</code> field has no impact on the
+  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code> recording strategy. This means that
+  /// the global IAM resource types (IAM users, groups, roles, and customer
+  /// managed policies) will not be automatically added as exclusions for
+  /// <code>exclusionByResourceTypes</code> when
+  /// <code>includeGlobalResourceTypes</code> is set to <code>false</code>.
+  ///
+  /// The <code>includeGlobalResourceTypes</code> field should only be used to
+  /// modify the <code>AllSupported</code> field, as the default for the
+  /// <code>AllSupported</code> field is to record configuration changes for all
+  /// supported resource types excluding the global IAM resource types. To include
+  /// the global IAM resource types when <code>AllSupported</code> is set to
+  /// <code>true</code>, make sure to set <code>includeGlobalResourceTypes</code>
+  /// to <code>true</code>.
+  ///
+  /// To exclude the global IAM resource types for the
+  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code> recording strategy, you need to
+  /// manually add them to the <code>resourceTypes</code> field of
+  /// <code>exclusionByResourceTypes</code>.
+  /// </important> <note>
+  /// <b>Required and optional fields</b>
+  ///
+  /// Before you set this field to <code>true</code>, set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>. Optionally, you can set the <code>useOnly</code> field
+  /// of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>.
+  /// </note> <note>
+  /// <b>Overriding fields</b>
+  ///
+  /// If you set this field to <code>false</code> but list global IAM resource
+  /// types in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>,
+  /// Config will still record configuration changes for those specified resource
+  /// types <i>regardless</i> of if you set the
+  /// <code>includeGlobalResourceTypes</code> field to false.
+  ///
+  /// If you do not want to record configuration changes to the global IAM
+  /// resource types (IAM users, groups, roles, and customer managed policies),
+  /// make sure to not list them in the <code>resourceTypes</code> field in
+  /// addition to setting the <code>includeGlobalResourceTypes</code> field to
+  /// false.
+  /// </note>
   final bool? includeGlobalResourceTypes;
 
-  /// A comma-separated list that specifies the types of Amazon Web Services
-  /// resources for which Config records configuration changes (for example,
-  /// <code>AWS::EC2::Instance</code> or <code>AWS::CloudTrail::Trail</code>).
+  /// An object that specifies the recording strategy for the configuration
+  /// recorder.
   ///
-  /// To record all configuration changes, you must set the
-  /// <code>allSupported</code> option to <code>true</code>.
+  /// <ul>
+  /// <li>
+  /// If you set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>, Config records configuration
+  /// changes for all supported resource types, excluding the global IAM resource
+  /// types. You also must set the <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>. When Config adds support for a new resource type,
+  /// Config automatically starts recording resources of that type.
+  /// </li>
+  /// <li>
+  /// If you set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>INCLUSION_BY_RESOURCE_TYPES</code>, Config records configuration
+  /// changes for only the resource types you specify in the
+  /// <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  /// </li>
+  /// <li>
+  /// If you set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>, Config records configuration
+  /// changes for all supported resource types except the resource types that you
+  /// specify to exclude from being recorded in the <code>resourceTypes</code>
+  /// field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </li>
+  /// </ul> <note>
+  /// <b>Required and optional fields</b>
   ///
-  /// If you set the <code>AllSupported</code> option to false and populate the
-  /// <code>ResourceTypes</code> option with values, when Config adds support for
-  /// a new type of resource, it will not record resources of that type unless you
-  /// manually add that type to your recording group.
+  /// The <code>recordingStrategy</code> field is optional when you set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>.
   ///
-  /// For a list of valid <code>resourceTypes</code> values, see the
-  /// <b>resourceType Value</b> column in <a
+  /// The <code>recordingStrategy</code> field is optional when you list resource
+  /// types in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  ///
+  /// The <code>recordingStrategy</code> field is required if you list resource
+  /// types to exclude from recording in the <code>resourceTypes</code> field of
+  /// <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </note> <note>
+  /// <b>Overriding fields</b>
+  ///
+  /// If you choose <code>EXCLUSION_BY_RESOURCE_TYPES</code> for the recording
+  /// strategy, the <code>exclusionByResourceTypes</code> field will override
+  /// other properties in the request.
+  ///
+  /// For example, even if you set <code>includeGlobalResourceTypes</code> to
+  /// false, global IAM resource types will still be automatically recorded in
+  /// this option unless those resource types are specifically listed as
+  /// exclusions in the <code>resourceTypes</code> field of
+  /// <code>exclusionByResourceTypes</code>.
+  /// </note> <note>
+  /// <b>Global resources types and the resource exclusion recording strategy</b>
+  ///
+  /// By default, if you choose the <code>EXCLUSION_BY_RESOURCE_TYPES</code>
+  /// recording strategy, when Config adds support for a new resource type in the
+  /// Region where you set up the configuration recorder, including global
+  /// resource types, Config starts recording resources of that type
+  /// automatically.
+  ///
+  /// Unless specifically listed as exclusions,
+  /// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
+  /// supported Config Regions were the configuration recorder is enabled.
+  ///
+  /// IAM users, groups, roles, and customer managed policies will be recorded in
+  /// the Region where you set up the configuration recorder if that is a Region
+  /// where Config was available before February 2022. You cannot be record the
+  /// global IAM resouce types in Regions supported by Config after February 2022.
+  /// This list where you cannot record the global IAM resource types includes the
+  /// following Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Asia Pacific (Hyderabad)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Melbourne)
+  /// </li>
+  /// <li>
+  /// Canada West (Calgary)
+  /// </li>
+  /// <li>
+  /// Europe (Spain)
+  /// </li>
+  /// <li>
+  /// Europe (Zurich)
+  /// </li>
+  /// <li>
+  /// Israel (Tel Aviv)
+  /// </li>
+  /// <li>
+  /// Middle East (UAE)
+  /// </li>
+  /// </ul> </note>
+  final RecordingStrategy? recordingStrategy;
+
+  /// A comma-separated list that specifies which resource types Config records.
+  ///
+  /// For a list of valid <code>resourceTypes</code> values, see the <b>Resource
+  /// Type Value</b> column in <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
-  /// Amazon Web Services resource Types</a>.
+  /// Amazon Web Services resource Types</a> in the <i>Config developer guide</i>.
+  /// <note>
+  /// <b>Required and optional fields</b>
+  ///
+  /// Optionally, you can set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>INCLUSION_BY_RESOURCE_TYPES</code>.
+  ///
+  /// To record all configuration changes, set the <code>allSupported</code> field
+  /// of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>, and either omit this field or don't specify any
+  /// resource types in this field. If you set the <code>allSupported</code> field
+  /// to <code>false</code> and specify values for <code>resourceTypes</code>,
+  /// when Config adds support for a new type of resource, it will not record
+  /// resources of that type unless you manually add that type to your recording
+  /// group.
+  /// </note> <note>
+  /// <b>Region availability</b>
+  ///
+  /// Before specifying a resource type for Config to track, check <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html">Resource
+  /// Coverage by Region Availability</a> to see if the resource type is supported
+  /// in the Amazon Web Services Region where you set up Config. If a resource
+  /// type is supported by Config in at least one Region, you can enable the
+  /// recording of that resource type in all Regions supported by Config, even if
+  /// the specified resource type is not supported in the Amazon Web Services
+  /// Region where you set up Config.
+  /// </note>
   final List<ResourceType>? resourceTypes;
 
   RecordingGroup({
     this.allSupported,
+    this.exclusionByResourceTypes,
     this.includeGlobalResourceTypes,
+    this.recordingStrategy,
     this.resourceTypes,
   });
 
   factory RecordingGroup.fromJson(Map<String, dynamic> json) {
     return RecordingGroup(
       allSupported: json['allSupported'] as bool?,
+      exclusionByResourceTypes: json['exclusionByResourceTypes'] != null
+          ? ExclusionByResourceTypes.fromJson(
+              json['exclusionByResourceTypes'] as Map<String, dynamic>)
+          : null,
       includeGlobalResourceTypes: json['includeGlobalResourceTypes'] as bool?,
+      recordingStrategy: json['recordingStrategy'] != null
+          ? RecordingStrategy.fromJson(
+              json['recordingStrategy'] as Map<String, dynamic>)
+          : null,
       resourceTypes: (json['resourceTypes'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toResourceType())
@@ -11514,15 +12034,325 @@ class RecordingGroup {
 
   Map<String, dynamic> toJson() {
     final allSupported = this.allSupported;
+    final exclusionByResourceTypes = this.exclusionByResourceTypes;
     final includeGlobalResourceTypes = this.includeGlobalResourceTypes;
+    final recordingStrategy = this.recordingStrategy;
     final resourceTypes = this.resourceTypes;
     return {
       if (allSupported != null) 'allSupported': allSupported,
+      if (exclusionByResourceTypes != null)
+        'exclusionByResourceTypes': exclusionByResourceTypes,
       if (includeGlobalResourceTypes != null)
         'includeGlobalResourceTypes': includeGlobalResourceTypes,
+      if (recordingStrategy != null) 'recordingStrategy': recordingStrategy,
       if (resourceTypes != null)
         'resourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
     };
+  }
+}
+
+/// Specifies the default recording frequency that Config uses to record
+/// configuration changes. Config supports <i>Continuous recording</i> and
+/// <i>Daily recording</i>.
+///
+/// <ul>
+/// <li>
+/// Continuous recording allows you to record configuration changes continuously
+/// whenever a change occurs.
+/// </li>
+/// <li>
+/// Daily recording allows you to receive a configuration item (CI) representing
+/// the most recent state of your resources over the last 24-hour period, only
+/// if it’s different from the previous CI recorded.
+/// </li>
+/// </ul> <note>
+/// Firewall Manager depends on continuous recording to monitor your resources.
+/// If you are using Firewall Manager, it is recommended that you set the
+/// recording frequency to Continuous.
+/// </note>
+/// You can also override the recording frequency for specific resource types.
+class RecordingMode {
+  /// The default recording frequency that Config uses to record configuration
+  /// changes.
+  /// <important>
+  /// Daily recording is not supported for the following resource types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS::Config::ResourceCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConformancePackCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConfigurationRecorder</code>
+  /// </li>
+  /// </ul>
+  /// For the <b>allSupported</b> (<code>ALL_SUPPORTED_RESOURCE_TYPES</code>)
+  /// recording strategy, these resource types will be set to Continuous
+  /// recording.
+  /// </important>
+  final RecordingFrequency recordingFrequency;
+
+  /// An array of <code>recordingModeOverride</code> objects for you to specify
+  /// your overrides for the recording mode. The
+  /// <code>recordingModeOverride</code> object in the
+  /// <code>recordingModeOverrides</code> array consists of three fields: a
+  /// <code>description</code>, the new <code>recordingFrequency</code>, and an
+  /// array of <code>resourceTypes</code> to override.
+  final List<RecordingModeOverride>? recordingModeOverrides;
+
+  RecordingMode({
+    required this.recordingFrequency,
+    this.recordingModeOverrides,
+  });
+
+  factory RecordingMode.fromJson(Map<String, dynamic> json) {
+    return RecordingMode(
+      recordingFrequency:
+          (json['recordingFrequency'] as String).toRecordingFrequency(),
+      recordingModeOverrides: (json['recordingModeOverrides'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecordingModeOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordingFrequency = this.recordingFrequency;
+    final recordingModeOverrides = this.recordingModeOverrides;
+    return {
+      'recordingFrequency': recordingFrequency.toValue(),
+      if (recordingModeOverrides != null)
+        'recordingModeOverrides': recordingModeOverrides,
+    };
+  }
+}
+
+/// An object for you to specify your overrides for the recording mode.
+class RecordingModeOverride {
+  /// The recording frequency that will be applied to all the resource types
+  /// specified in the override.
+  ///
+  /// <ul>
+  /// <li>
+  /// Continuous recording allows you to record configuration changes continuously
+  /// whenever a change occurs.
+  /// </li>
+  /// <li>
+  /// Daily recording allows you to receive a configuration item (CI) representing
+  /// the most recent state of your resources over the last 24-hour period, only
+  /// if it’s different from the previous CI recorded.
+  /// </li>
+  /// </ul> <note>
+  /// Firewall Manager depends on continuous recording to monitor your resources.
+  /// If you are using Firewall Manager, it is recommended that you set the
+  /// recording frequency to Continuous.
+  /// </note>
+  final RecordingFrequency recordingFrequency;
+
+  /// A comma-separated list that specifies which resource types Config includes
+  /// in the override.
+  /// <important>
+  /// Daily recording is not supported for the following resource types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS::Config::ResourceCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConformancePackCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConfigurationRecorder</code>
+  /// </li>
+  /// </ul> </important>
+  final List<ResourceType> resourceTypes;
+
+  /// A description that you provide for the override.
+  final String? description;
+
+  RecordingModeOverride({
+    required this.recordingFrequency,
+    required this.resourceTypes,
+    this.description,
+  });
+
+  factory RecordingModeOverride.fromJson(Map<String, dynamic> json) {
+    return RecordingModeOverride(
+      recordingFrequency:
+          (json['recordingFrequency'] as String).toRecordingFrequency(),
+      resourceTypes: (json['resourceTypes'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toResourceType())
+          .toList(),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordingFrequency = this.recordingFrequency;
+    final resourceTypes = this.resourceTypes;
+    final description = this.description;
+    return {
+      'recordingFrequency': recordingFrequency.toValue(),
+      'resourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Specifies the recording strategy of the configuration recorder.
+class RecordingStrategy {
+  /// The recording strategy for the configuration recorder.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you set this option to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>, Config
+  /// records configuration changes for all supported resource types, excluding
+  /// the global IAM resource types. You also must set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>. When Config adds support for a new resource type,
+  /// Config automatically starts recording resources of that type. For a list of
+  /// supported resource types, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
+  /// Resource Types</a> in the <i>Config developer guide</i>.
+  /// </li>
+  /// <li>
+  /// If you set this option to <code>INCLUSION_BY_RESOURCE_TYPES</code>, Config
+  /// records configuration changes for only the resource types that you specify
+  /// in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  /// </li>
+  /// <li>
+  /// If you set this option to <code>EXCLUSION_BY_RESOURCE_TYPES</code>, Config
+  /// records configuration changes for all supported resource types, except the
+  /// resource types that you specify to exclude from being recorded in the
+  /// <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </li>
+  /// </ul> <note>
+  /// <b>Required and optional fields</b>
+  ///
+  /// The <code>recordingStrategy</code> field is optional when you set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>.
+  ///
+  /// The <code>recordingStrategy</code> field is optional when you list resource
+  /// types in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  ///
+  /// The <code>recordingStrategy</code> field is required if you list resource
+  /// types to exclude from recording in the <code>resourceTypes</code> field of
+  /// <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </note> <note>
+  /// <b>Overriding fields</b>
+  ///
+  /// If you choose <code>EXCLUSION_BY_RESOURCE_TYPES</code> for the recording
+  /// strategy, the <code>exclusionByResourceTypes</code> field will override
+  /// other properties in the request.
+  ///
+  /// For example, even if you set <code>includeGlobalResourceTypes</code> to
+  /// false, global IAM resource types will still be automatically recorded in
+  /// this option unless those resource types are specifically listed as
+  /// exclusions in the <code>resourceTypes</code> field of
+  /// <code>exclusionByResourceTypes</code>.
+  /// </note> <note>
+  /// <b>Global resource types and the exclusion recording strategy</b>
+  ///
+  /// By default, if you choose the <code>EXCLUSION_BY_RESOURCE_TYPES</code>
+  /// recording strategy, when Config adds support for a new resource type in the
+  /// Region where you set up the configuration recorder, including global
+  /// resource types, Config starts recording resources of that type
+  /// automatically.
+  ///
+  /// Unless specifically listed as exclusions,
+  /// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
+  /// supported Config Regions were the configuration recorder is enabled.
+  ///
+  /// IAM users, groups, roles, and customer managed policies will be recorded in
+  /// the Region where you set up the configuration recorder if that is a Region
+  /// where Config was available before February 2022. You cannot be record the
+  /// global IAM resouce types in Regions supported by Config after February 2022.
+  /// This list where you cannot record the global IAM resource types includes the
+  /// following Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Asia Pacific (Hyderabad)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Melbourne)
+  /// </li>
+  /// <li>
+  /// Canada West (Calgary)
+  /// </li>
+  /// <li>
+  /// Europe (Spain)
+  /// </li>
+  /// <li>
+  /// Europe (Zurich)
+  /// </li>
+  /// <li>
+  /// Israel (Tel Aviv)
+  /// </li>
+  /// <li>
+  /// Middle East (UAE)
+  /// </li>
+  /// </ul> </note>
+  final RecordingStrategyType? useOnly;
+
+  RecordingStrategy({
+    this.useOnly,
+  });
+
+  factory RecordingStrategy.fromJson(Map<String, dynamic> json) {
+    return RecordingStrategy(
+      useOnly: (json['useOnly'] as String?)?.toRecordingStrategyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final useOnly = this.useOnly;
+    return {
+      if (useOnly != null) 'useOnly': useOnly.toValue(),
+    };
+  }
+}
+
+enum RecordingStrategyType {
+  allSupportedResourceTypes,
+  inclusionByResourceTypes,
+  exclusionByResourceTypes,
+}
+
+extension RecordingStrategyTypeValueExtension on RecordingStrategyType {
+  String toValue() {
+    switch (this) {
+      case RecordingStrategyType.allSupportedResourceTypes:
+        return 'ALL_SUPPORTED_RESOURCE_TYPES';
+      case RecordingStrategyType.inclusionByResourceTypes:
+        return 'INCLUSION_BY_RESOURCE_TYPES';
+      case RecordingStrategyType.exclusionByResourceTypes:
+        return 'EXCLUSION_BY_RESOURCE_TYPES';
+    }
+  }
+}
+
+extension RecordingStrategyTypeFromString on String {
+  RecordingStrategyType toRecordingStrategyType() {
+    switch (this) {
+      case 'ALL_SUPPORTED_RESOURCE_TYPES':
+        return RecordingStrategyType.allSupportedResourceTypes;
+      case 'INCLUSION_BY_RESOURCE_TYPES':
+        return RecordingStrategyType.inclusionByResourceTypes;
+      case 'EXCLUSION_BY_RESOURCE_TYPES':
+        return RecordingStrategyType.exclusionByResourceTypes;
+    }
+    throw Exception('$this is not known in enum RecordingStrategyType');
   }
 }
 
@@ -11598,12 +12428,17 @@ class RemediationConfiguration {
   /// The type of a resource.
   final String? resourceType;
 
-  /// Maximum time in seconds that Config runs auto-remediation. If you do not
-  /// select a number, the default is 60 seconds.
+  /// Time window to determine whether or not to add a remediation exception to
+  /// prevent infinite remediation attempts. If
+  /// <code>MaximumAutomaticAttempts</code> remediation attempts have been made
+  /// under <code>RetryAttemptSeconds</code>, a remediation exception will be
+  /// added to the resource. If you do not select a number, the default is 60
+  /// seconds.
   ///
-  /// For example, if you specify RetryAttemptSeconds as 50 seconds and
-  /// MaximumAutomaticAttempts as 5, Config will run auto-remediations 5 times
-  /// within 50 seconds before throwing an exception.
+  /// For example, if you specify <code>RetryAttemptSeconds</code> as 50 seconds
+  /// and <code>MaximumAutomaticAttempts</code> as 5, Config will run
+  /// auto-remediations 5 times within 50 seconds before adding a remediation
+  /// exception to the resource.
   final int? retryAttemptSeconds;
 
   /// Version of the target. For example, version of the SSM document.
@@ -12165,8 +13000,11 @@ class ResourceEvaluationFilters {
   /// Stack.
   final String? evaluationContextIdentifier;
 
-  /// Filters all resource evaluations results based on an evaluation mode. the
-  /// valid value for this API is <code>Proactive</code>.
+  /// Filters all resource evaluations results based on an evaluation mode.
+  /// <important>
+  /// Currently, <code>DECTECTIVE</code> is not supported as a valid value. Ignore
+  /// other documentation stating otherwise.
+  /// </important>
   final EvaluationMode? evaluationMode;
 
   /// Returns a <code>TimeWindow</code> object.
@@ -12621,6 +13459,116 @@ enum ResourceType {
   awsRoute53ResolverFirewallRuleGroupAssociation,
   awsSageMakerAppImageConfig,
   awsSageMakerImage,
+  awsEcsTaskSet,
+  awsCassandraKeyspace,
+  awsSignerSigningProfile,
+  awsAmplifyApp,
+  awsAppMeshVirtualNode,
+  awsAppMeshVirtualService,
+  awsAppRunnerVpcConnector,
+  awsAppStreamApplication,
+  awsCodeArtifactRepository,
+  awsEc2PrefixList,
+  awsEc2SpotFleet,
+  awsEvidentlyProject,
+  awsForecastDataset,
+  awsIamSAMLProvider,
+  awsIamServerCertificate,
+  awsPinpointCampaign,
+  awsPinpointInAppTemplate,
+  awsSageMakerDomain,
+  awsTransferAgreement,
+  awsTransferConnector,
+  awsKinesisFirehoseDeliveryStream,
+  awsAmplifyBranch,
+  awsAppIntegrationsEventIntegration,
+  awsAppMeshRoute,
+  awsAthenaPreparedStatement,
+  awsEc2IPAMScope,
+  awsEvidentlyLaunch,
+  awsForecastDatasetGroup,
+  awsGreengrassV2ComponentVersion,
+  awsGroundStationMissionProfile,
+  awsMediaConnectFlowEntitlement,
+  awsMediaConnectFlowVpcInterface,
+  awsMediaTailorPlaybackConfiguration,
+  awsMskConfiguration,
+  awsPersonalizeDataset,
+  awsPersonalizeSchema,
+  awsPersonalizeSolution,
+  awsPinpointEmailTemplate,
+  awsPinpointEventStream,
+  awsResilienceHubApp,
+  awsAcmpcaCertificateAuthority,
+  awsAppConfigHostedConfigurationVersion,
+  awsAppMeshVirtualGateway,
+  awsAppMeshVirtualRouter,
+  awsAppRunnerService,
+  awsCustomerProfilesObjectType,
+  awsDmsEndpoint,
+  awsEc2CapacityReservation,
+  awsEc2ClientVpnEndpoint,
+  awsKendraIndex,
+  awsKinesisVideoStream,
+  awsLogsDestination,
+  awsPinpointEmailChannel,
+  awsS3AccessPoint,
+  awsNetworkManagerCustomerGatewayAssociation,
+  awsNetworkManagerLinkAssociation,
+  awsIoTWirelessMulticastGroup,
+  awsPersonalizeDatasetGroup,
+  awsIoTTwinMakerComponentType,
+  awsCodeBuildReportGroup,
+  awsSageMakerFeatureGroup,
+  awsMskBatchScramSecret,
+  awsAppStreamStack,
+  awsIoTJobTemplate,
+  awsIoTWirelessFuotaTask,
+  awsIoTProvisioningTemplate,
+  awsInspectorV2Filter,
+  awsRoute53ResolverResolverQueryLoggingConfigAssociation,
+  awsServiceDiscoveryInstance,
+  awsTransferCertificate,
+  awsMediaConnectFlowSource,
+  awsApsRuleGroupsNamespace,
+  awsCodeGuruProfilerProfilingGroup,
+  awsRoute53ResolverResolverQueryLoggingConfig,
+  awsBatchSchedulingPolicy,
+  awsAcmpcaCertificateAuthorityActivation,
+  awsAppMeshGatewayRoute,
+  awsAppMeshMesh,
+  awsConnectInstance,
+  awsConnectQuickConnect,
+  awsEc2CarrierGateway,
+  awsEc2IPAMPool,
+  awsEc2TransitGatewayConnect,
+  awsEc2TransitGatewayMulticastDomain,
+  awsEcsCapacityProvider,
+  awsIamInstanceProfile,
+  awsIoTCACertificate,
+  awsIoTTwinMakerSyncJob,
+  awsKafkaConnectConnector,
+  awsLambdaCodeSigningConfig,
+  awsNetworkManagerConnectPeer,
+  awsResourceExplorer2Index,
+  awsAppStreamFleet,
+  awsCognitoUserPool,
+  awsCognitoUserPoolClient,
+  awsCognitoUserPoolGroup,
+  awsEc2NetworkInsightsAccessScope,
+  awsEc2NetworkInsightsAnalysis,
+  awsGrafanaWorkspace,
+  awsGroundStationDataflowEndpointGroup,
+  awsImageBuilderImageRecipe,
+  awsKmsAlias,
+  awsM2Environment,
+  awsQuickSightDataSource,
+  awsQuickSightTemplate,
+  awsQuickSightTheme,
+  awsRdsOptionGroup,
+  awsRedshiftEndpointAccess,
+  awsRoute53ResolverFirewallRuleGroup,
+  awsSsmDocument,
 }
 
 extension ResourceTypeValueExtension on ResourceType {
@@ -13220,6 +14168,226 @@ extension ResourceTypeValueExtension on ResourceType {
         return 'AWS::SageMaker::AppImageConfig';
       case ResourceType.awsSageMakerImage:
         return 'AWS::SageMaker::Image';
+      case ResourceType.awsEcsTaskSet:
+        return 'AWS::ECS::TaskSet';
+      case ResourceType.awsCassandraKeyspace:
+        return 'AWS::Cassandra::Keyspace';
+      case ResourceType.awsSignerSigningProfile:
+        return 'AWS::Signer::SigningProfile';
+      case ResourceType.awsAmplifyApp:
+        return 'AWS::Amplify::App';
+      case ResourceType.awsAppMeshVirtualNode:
+        return 'AWS::AppMesh::VirtualNode';
+      case ResourceType.awsAppMeshVirtualService:
+        return 'AWS::AppMesh::VirtualService';
+      case ResourceType.awsAppRunnerVpcConnector:
+        return 'AWS::AppRunner::VpcConnector';
+      case ResourceType.awsAppStreamApplication:
+        return 'AWS::AppStream::Application';
+      case ResourceType.awsCodeArtifactRepository:
+        return 'AWS::CodeArtifact::Repository';
+      case ResourceType.awsEc2PrefixList:
+        return 'AWS::EC2::PrefixList';
+      case ResourceType.awsEc2SpotFleet:
+        return 'AWS::EC2::SpotFleet';
+      case ResourceType.awsEvidentlyProject:
+        return 'AWS::Evidently::Project';
+      case ResourceType.awsForecastDataset:
+        return 'AWS::Forecast::Dataset';
+      case ResourceType.awsIamSAMLProvider:
+        return 'AWS::IAM::SAMLProvider';
+      case ResourceType.awsIamServerCertificate:
+        return 'AWS::IAM::ServerCertificate';
+      case ResourceType.awsPinpointCampaign:
+        return 'AWS::Pinpoint::Campaign';
+      case ResourceType.awsPinpointInAppTemplate:
+        return 'AWS::Pinpoint::InAppTemplate';
+      case ResourceType.awsSageMakerDomain:
+        return 'AWS::SageMaker::Domain';
+      case ResourceType.awsTransferAgreement:
+        return 'AWS::Transfer::Agreement';
+      case ResourceType.awsTransferConnector:
+        return 'AWS::Transfer::Connector';
+      case ResourceType.awsKinesisFirehoseDeliveryStream:
+        return 'AWS::KinesisFirehose::DeliveryStream';
+      case ResourceType.awsAmplifyBranch:
+        return 'AWS::Amplify::Branch';
+      case ResourceType.awsAppIntegrationsEventIntegration:
+        return 'AWS::AppIntegrations::EventIntegration';
+      case ResourceType.awsAppMeshRoute:
+        return 'AWS::AppMesh::Route';
+      case ResourceType.awsAthenaPreparedStatement:
+        return 'AWS::Athena::PreparedStatement';
+      case ResourceType.awsEc2IPAMScope:
+        return 'AWS::EC2::IPAMScope';
+      case ResourceType.awsEvidentlyLaunch:
+        return 'AWS::Evidently::Launch';
+      case ResourceType.awsForecastDatasetGroup:
+        return 'AWS::Forecast::DatasetGroup';
+      case ResourceType.awsGreengrassV2ComponentVersion:
+        return 'AWS::GreengrassV2::ComponentVersion';
+      case ResourceType.awsGroundStationMissionProfile:
+        return 'AWS::GroundStation::MissionProfile';
+      case ResourceType.awsMediaConnectFlowEntitlement:
+        return 'AWS::MediaConnect::FlowEntitlement';
+      case ResourceType.awsMediaConnectFlowVpcInterface:
+        return 'AWS::MediaConnect::FlowVpcInterface';
+      case ResourceType.awsMediaTailorPlaybackConfiguration:
+        return 'AWS::MediaTailor::PlaybackConfiguration';
+      case ResourceType.awsMskConfiguration:
+        return 'AWS::MSK::Configuration';
+      case ResourceType.awsPersonalizeDataset:
+        return 'AWS::Personalize::Dataset';
+      case ResourceType.awsPersonalizeSchema:
+        return 'AWS::Personalize::Schema';
+      case ResourceType.awsPersonalizeSolution:
+        return 'AWS::Personalize::Solution';
+      case ResourceType.awsPinpointEmailTemplate:
+        return 'AWS::Pinpoint::EmailTemplate';
+      case ResourceType.awsPinpointEventStream:
+        return 'AWS::Pinpoint::EventStream';
+      case ResourceType.awsResilienceHubApp:
+        return 'AWS::ResilienceHub::App';
+      case ResourceType.awsAcmpcaCertificateAuthority:
+        return 'AWS::ACMPCA::CertificateAuthority';
+      case ResourceType.awsAppConfigHostedConfigurationVersion:
+        return 'AWS::AppConfig::HostedConfigurationVersion';
+      case ResourceType.awsAppMeshVirtualGateway:
+        return 'AWS::AppMesh::VirtualGateway';
+      case ResourceType.awsAppMeshVirtualRouter:
+        return 'AWS::AppMesh::VirtualRouter';
+      case ResourceType.awsAppRunnerService:
+        return 'AWS::AppRunner::Service';
+      case ResourceType.awsCustomerProfilesObjectType:
+        return 'AWS::CustomerProfiles::ObjectType';
+      case ResourceType.awsDmsEndpoint:
+        return 'AWS::DMS::Endpoint';
+      case ResourceType.awsEc2CapacityReservation:
+        return 'AWS::EC2::CapacityReservation';
+      case ResourceType.awsEc2ClientVpnEndpoint:
+        return 'AWS::EC2::ClientVpnEndpoint';
+      case ResourceType.awsKendraIndex:
+        return 'AWS::Kendra::Index';
+      case ResourceType.awsKinesisVideoStream:
+        return 'AWS::KinesisVideo::Stream';
+      case ResourceType.awsLogsDestination:
+        return 'AWS::Logs::Destination';
+      case ResourceType.awsPinpointEmailChannel:
+        return 'AWS::Pinpoint::EmailChannel';
+      case ResourceType.awsS3AccessPoint:
+        return 'AWS::S3::AccessPoint';
+      case ResourceType.awsNetworkManagerCustomerGatewayAssociation:
+        return 'AWS::NetworkManager::CustomerGatewayAssociation';
+      case ResourceType.awsNetworkManagerLinkAssociation:
+        return 'AWS::NetworkManager::LinkAssociation';
+      case ResourceType.awsIoTWirelessMulticastGroup:
+        return 'AWS::IoTWireless::MulticastGroup';
+      case ResourceType.awsPersonalizeDatasetGroup:
+        return 'AWS::Personalize::DatasetGroup';
+      case ResourceType.awsIoTTwinMakerComponentType:
+        return 'AWS::IoTTwinMaker::ComponentType';
+      case ResourceType.awsCodeBuildReportGroup:
+        return 'AWS::CodeBuild::ReportGroup';
+      case ResourceType.awsSageMakerFeatureGroup:
+        return 'AWS::SageMaker::FeatureGroup';
+      case ResourceType.awsMskBatchScramSecret:
+        return 'AWS::MSK::BatchScramSecret';
+      case ResourceType.awsAppStreamStack:
+        return 'AWS::AppStream::Stack';
+      case ResourceType.awsIoTJobTemplate:
+        return 'AWS::IoT::JobTemplate';
+      case ResourceType.awsIoTWirelessFuotaTask:
+        return 'AWS::IoTWireless::FuotaTask';
+      case ResourceType.awsIoTProvisioningTemplate:
+        return 'AWS::IoT::ProvisioningTemplate';
+      case ResourceType.awsInspectorV2Filter:
+        return 'AWS::InspectorV2::Filter';
+      case ResourceType.awsRoute53ResolverResolverQueryLoggingConfigAssociation:
+        return 'AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation';
+      case ResourceType.awsServiceDiscoveryInstance:
+        return 'AWS::ServiceDiscovery::Instance';
+      case ResourceType.awsTransferCertificate:
+        return 'AWS::Transfer::Certificate';
+      case ResourceType.awsMediaConnectFlowSource:
+        return 'AWS::MediaConnect::FlowSource';
+      case ResourceType.awsApsRuleGroupsNamespace:
+        return 'AWS::APS::RuleGroupsNamespace';
+      case ResourceType.awsCodeGuruProfilerProfilingGroup:
+        return 'AWS::CodeGuruProfiler::ProfilingGroup';
+      case ResourceType.awsRoute53ResolverResolverQueryLoggingConfig:
+        return 'AWS::Route53Resolver::ResolverQueryLoggingConfig';
+      case ResourceType.awsBatchSchedulingPolicy:
+        return 'AWS::Batch::SchedulingPolicy';
+      case ResourceType.awsAcmpcaCertificateAuthorityActivation:
+        return 'AWS::ACMPCA::CertificateAuthorityActivation';
+      case ResourceType.awsAppMeshGatewayRoute:
+        return 'AWS::AppMesh::GatewayRoute';
+      case ResourceType.awsAppMeshMesh:
+        return 'AWS::AppMesh::Mesh';
+      case ResourceType.awsConnectInstance:
+        return 'AWS::Connect::Instance';
+      case ResourceType.awsConnectQuickConnect:
+        return 'AWS::Connect::QuickConnect';
+      case ResourceType.awsEc2CarrierGateway:
+        return 'AWS::EC2::CarrierGateway';
+      case ResourceType.awsEc2IPAMPool:
+        return 'AWS::EC2::IPAMPool';
+      case ResourceType.awsEc2TransitGatewayConnect:
+        return 'AWS::EC2::TransitGatewayConnect';
+      case ResourceType.awsEc2TransitGatewayMulticastDomain:
+        return 'AWS::EC2::TransitGatewayMulticastDomain';
+      case ResourceType.awsEcsCapacityProvider:
+        return 'AWS::ECS::CapacityProvider';
+      case ResourceType.awsIamInstanceProfile:
+        return 'AWS::IAM::InstanceProfile';
+      case ResourceType.awsIoTCACertificate:
+        return 'AWS::IoT::CACertificate';
+      case ResourceType.awsIoTTwinMakerSyncJob:
+        return 'AWS::IoTTwinMaker::SyncJob';
+      case ResourceType.awsKafkaConnectConnector:
+        return 'AWS::KafkaConnect::Connector';
+      case ResourceType.awsLambdaCodeSigningConfig:
+        return 'AWS::Lambda::CodeSigningConfig';
+      case ResourceType.awsNetworkManagerConnectPeer:
+        return 'AWS::NetworkManager::ConnectPeer';
+      case ResourceType.awsResourceExplorer2Index:
+        return 'AWS::ResourceExplorer2::Index';
+      case ResourceType.awsAppStreamFleet:
+        return 'AWS::AppStream::Fleet';
+      case ResourceType.awsCognitoUserPool:
+        return 'AWS::Cognito::UserPool';
+      case ResourceType.awsCognitoUserPoolClient:
+        return 'AWS::Cognito::UserPoolClient';
+      case ResourceType.awsCognitoUserPoolGroup:
+        return 'AWS::Cognito::UserPoolGroup';
+      case ResourceType.awsEc2NetworkInsightsAccessScope:
+        return 'AWS::EC2::NetworkInsightsAccessScope';
+      case ResourceType.awsEc2NetworkInsightsAnalysis:
+        return 'AWS::EC2::NetworkInsightsAnalysis';
+      case ResourceType.awsGrafanaWorkspace:
+        return 'AWS::Grafana::Workspace';
+      case ResourceType.awsGroundStationDataflowEndpointGroup:
+        return 'AWS::GroundStation::DataflowEndpointGroup';
+      case ResourceType.awsImageBuilderImageRecipe:
+        return 'AWS::ImageBuilder::ImageRecipe';
+      case ResourceType.awsKmsAlias:
+        return 'AWS::KMS::Alias';
+      case ResourceType.awsM2Environment:
+        return 'AWS::M2::Environment';
+      case ResourceType.awsQuickSightDataSource:
+        return 'AWS::QuickSight::DataSource';
+      case ResourceType.awsQuickSightTemplate:
+        return 'AWS::QuickSight::Template';
+      case ResourceType.awsQuickSightTheme:
+        return 'AWS::QuickSight::Theme';
+      case ResourceType.awsRdsOptionGroup:
+        return 'AWS::RDS::OptionGroup';
+      case ResourceType.awsRedshiftEndpointAccess:
+        return 'AWS::Redshift::EndpointAccess';
+      case ResourceType.awsRoute53ResolverFirewallRuleGroup:
+        return 'AWS::Route53Resolver::FirewallRuleGroup';
+      case ResourceType.awsSsmDocument:
+        return 'AWS::SSM::Document';
     }
   }
 }
@@ -13821,6 +14989,227 @@ extension ResourceTypeFromString on String {
         return ResourceType.awsSageMakerAppImageConfig;
       case 'AWS::SageMaker::Image':
         return ResourceType.awsSageMakerImage;
+      case 'AWS::ECS::TaskSet':
+        return ResourceType.awsEcsTaskSet;
+      case 'AWS::Cassandra::Keyspace':
+        return ResourceType.awsCassandraKeyspace;
+      case 'AWS::Signer::SigningProfile':
+        return ResourceType.awsSignerSigningProfile;
+      case 'AWS::Amplify::App':
+        return ResourceType.awsAmplifyApp;
+      case 'AWS::AppMesh::VirtualNode':
+        return ResourceType.awsAppMeshVirtualNode;
+      case 'AWS::AppMesh::VirtualService':
+        return ResourceType.awsAppMeshVirtualService;
+      case 'AWS::AppRunner::VpcConnector':
+        return ResourceType.awsAppRunnerVpcConnector;
+      case 'AWS::AppStream::Application':
+        return ResourceType.awsAppStreamApplication;
+      case 'AWS::CodeArtifact::Repository':
+        return ResourceType.awsCodeArtifactRepository;
+      case 'AWS::EC2::PrefixList':
+        return ResourceType.awsEc2PrefixList;
+      case 'AWS::EC2::SpotFleet':
+        return ResourceType.awsEc2SpotFleet;
+      case 'AWS::Evidently::Project':
+        return ResourceType.awsEvidentlyProject;
+      case 'AWS::Forecast::Dataset':
+        return ResourceType.awsForecastDataset;
+      case 'AWS::IAM::SAMLProvider':
+        return ResourceType.awsIamSAMLProvider;
+      case 'AWS::IAM::ServerCertificate':
+        return ResourceType.awsIamServerCertificate;
+      case 'AWS::Pinpoint::Campaign':
+        return ResourceType.awsPinpointCampaign;
+      case 'AWS::Pinpoint::InAppTemplate':
+        return ResourceType.awsPinpointInAppTemplate;
+      case 'AWS::SageMaker::Domain':
+        return ResourceType.awsSageMakerDomain;
+      case 'AWS::Transfer::Agreement':
+        return ResourceType.awsTransferAgreement;
+      case 'AWS::Transfer::Connector':
+        return ResourceType.awsTransferConnector;
+      case 'AWS::KinesisFirehose::DeliveryStream':
+        return ResourceType.awsKinesisFirehoseDeliveryStream;
+      case 'AWS::Amplify::Branch':
+        return ResourceType.awsAmplifyBranch;
+      case 'AWS::AppIntegrations::EventIntegration':
+        return ResourceType.awsAppIntegrationsEventIntegration;
+      case 'AWS::AppMesh::Route':
+        return ResourceType.awsAppMeshRoute;
+      case 'AWS::Athena::PreparedStatement':
+        return ResourceType.awsAthenaPreparedStatement;
+      case 'AWS::EC2::IPAMScope':
+        return ResourceType.awsEc2IPAMScope;
+      case 'AWS::Evidently::Launch':
+        return ResourceType.awsEvidentlyLaunch;
+      case 'AWS::Forecast::DatasetGroup':
+        return ResourceType.awsForecastDatasetGroup;
+      case 'AWS::GreengrassV2::ComponentVersion':
+        return ResourceType.awsGreengrassV2ComponentVersion;
+      case 'AWS::GroundStation::MissionProfile':
+        return ResourceType.awsGroundStationMissionProfile;
+      case 'AWS::MediaConnect::FlowEntitlement':
+        return ResourceType.awsMediaConnectFlowEntitlement;
+      case 'AWS::MediaConnect::FlowVpcInterface':
+        return ResourceType.awsMediaConnectFlowVpcInterface;
+      case 'AWS::MediaTailor::PlaybackConfiguration':
+        return ResourceType.awsMediaTailorPlaybackConfiguration;
+      case 'AWS::MSK::Configuration':
+        return ResourceType.awsMskConfiguration;
+      case 'AWS::Personalize::Dataset':
+        return ResourceType.awsPersonalizeDataset;
+      case 'AWS::Personalize::Schema':
+        return ResourceType.awsPersonalizeSchema;
+      case 'AWS::Personalize::Solution':
+        return ResourceType.awsPersonalizeSolution;
+      case 'AWS::Pinpoint::EmailTemplate':
+        return ResourceType.awsPinpointEmailTemplate;
+      case 'AWS::Pinpoint::EventStream':
+        return ResourceType.awsPinpointEventStream;
+      case 'AWS::ResilienceHub::App':
+        return ResourceType.awsResilienceHubApp;
+      case 'AWS::ACMPCA::CertificateAuthority':
+        return ResourceType.awsAcmpcaCertificateAuthority;
+      case 'AWS::AppConfig::HostedConfigurationVersion':
+        return ResourceType.awsAppConfigHostedConfigurationVersion;
+      case 'AWS::AppMesh::VirtualGateway':
+        return ResourceType.awsAppMeshVirtualGateway;
+      case 'AWS::AppMesh::VirtualRouter':
+        return ResourceType.awsAppMeshVirtualRouter;
+      case 'AWS::AppRunner::Service':
+        return ResourceType.awsAppRunnerService;
+      case 'AWS::CustomerProfiles::ObjectType':
+        return ResourceType.awsCustomerProfilesObjectType;
+      case 'AWS::DMS::Endpoint':
+        return ResourceType.awsDmsEndpoint;
+      case 'AWS::EC2::CapacityReservation':
+        return ResourceType.awsEc2CapacityReservation;
+      case 'AWS::EC2::ClientVpnEndpoint':
+        return ResourceType.awsEc2ClientVpnEndpoint;
+      case 'AWS::Kendra::Index':
+        return ResourceType.awsKendraIndex;
+      case 'AWS::KinesisVideo::Stream':
+        return ResourceType.awsKinesisVideoStream;
+      case 'AWS::Logs::Destination':
+        return ResourceType.awsLogsDestination;
+      case 'AWS::Pinpoint::EmailChannel':
+        return ResourceType.awsPinpointEmailChannel;
+      case 'AWS::S3::AccessPoint':
+        return ResourceType.awsS3AccessPoint;
+      case 'AWS::NetworkManager::CustomerGatewayAssociation':
+        return ResourceType.awsNetworkManagerCustomerGatewayAssociation;
+      case 'AWS::NetworkManager::LinkAssociation':
+        return ResourceType.awsNetworkManagerLinkAssociation;
+      case 'AWS::IoTWireless::MulticastGroup':
+        return ResourceType.awsIoTWirelessMulticastGroup;
+      case 'AWS::Personalize::DatasetGroup':
+        return ResourceType.awsPersonalizeDatasetGroup;
+      case 'AWS::IoTTwinMaker::ComponentType':
+        return ResourceType.awsIoTTwinMakerComponentType;
+      case 'AWS::CodeBuild::ReportGroup':
+        return ResourceType.awsCodeBuildReportGroup;
+      case 'AWS::SageMaker::FeatureGroup':
+        return ResourceType.awsSageMakerFeatureGroup;
+      case 'AWS::MSK::BatchScramSecret':
+        return ResourceType.awsMskBatchScramSecret;
+      case 'AWS::AppStream::Stack':
+        return ResourceType.awsAppStreamStack;
+      case 'AWS::IoT::JobTemplate':
+        return ResourceType.awsIoTJobTemplate;
+      case 'AWS::IoTWireless::FuotaTask':
+        return ResourceType.awsIoTWirelessFuotaTask;
+      case 'AWS::IoT::ProvisioningTemplate':
+        return ResourceType.awsIoTProvisioningTemplate;
+      case 'AWS::InspectorV2::Filter':
+        return ResourceType.awsInspectorV2Filter;
+      case 'AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation':
+        return ResourceType
+            .awsRoute53ResolverResolverQueryLoggingConfigAssociation;
+      case 'AWS::ServiceDiscovery::Instance':
+        return ResourceType.awsServiceDiscoveryInstance;
+      case 'AWS::Transfer::Certificate':
+        return ResourceType.awsTransferCertificate;
+      case 'AWS::MediaConnect::FlowSource':
+        return ResourceType.awsMediaConnectFlowSource;
+      case 'AWS::APS::RuleGroupsNamespace':
+        return ResourceType.awsApsRuleGroupsNamespace;
+      case 'AWS::CodeGuruProfiler::ProfilingGroup':
+        return ResourceType.awsCodeGuruProfilerProfilingGroup;
+      case 'AWS::Route53Resolver::ResolverQueryLoggingConfig':
+        return ResourceType.awsRoute53ResolverResolverQueryLoggingConfig;
+      case 'AWS::Batch::SchedulingPolicy':
+        return ResourceType.awsBatchSchedulingPolicy;
+      case 'AWS::ACMPCA::CertificateAuthorityActivation':
+        return ResourceType.awsAcmpcaCertificateAuthorityActivation;
+      case 'AWS::AppMesh::GatewayRoute':
+        return ResourceType.awsAppMeshGatewayRoute;
+      case 'AWS::AppMesh::Mesh':
+        return ResourceType.awsAppMeshMesh;
+      case 'AWS::Connect::Instance':
+        return ResourceType.awsConnectInstance;
+      case 'AWS::Connect::QuickConnect':
+        return ResourceType.awsConnectQuickConnect;
+      case 'AWS::EC2::CarrierGateway':
+        return ResourceType.awsEc2CarrierGateway;
+      case 'AWS::EC2::IPAMPool':
+        return ResourceType.awsEc2IPAMPool;
+      case 'AWS::EC2::TransitGatewayConnect':
+        return ResourceType.awsEc2TransitGatewayConnect;
+      case 'AWS::EC2::TransitGatewayMulticastDomain':
+        return ResourceType.awsEc2TransitGatewayMulticastDomain;
+      case 'AWS::ECS::CapacityProvider':
+        return ResourceType.awsEcsCapacityProvider;
+      case 'AWS::IAM::InstanceProfile':
+        return ResourceType.awsIamInstanceProfile;
+      case 'AWS::IoT::CACertificate':
+        return ResourceType.awsIoTCACertificate;
+      case 'AWS::IoTTwinMaker::SyncJob':
+        return ResourceType.awsIoTTwinMakerSyncJob;
+      case 'AWS::KafkaConnect::Connector':
+        return ResourceType.awsKafkaConnectConnector;
+      case 'AWS::Lambda::CodeSigningConfig':
+        return ResourceType.awsLambdaCodeSigningConfig;
+      case 'AWS::NetworkManager::ConnectPeer':
+        return ResourceType.awsNetworkManagerConnectPeer;
+      case 'AWS::ResourceExplorer2::Index':
+        return ResourceType.awsResourceExplorer2Index;
+      case 'AWS::AppStream::Fleet':
+        return ResourceType.awsAppStreamFleet;
+      case 'AWS::Cognito::UserPool':
+        return ResourceType.awsCognitoUserPool;
+      case 'AWS::Cognito::UserPoolClient':
+        return ResourceType.awsCognitoUserPoolClient;
+      case 'AWS::Cognito::UserPoolGroup':
+        return ResourceType.awsCognitoUserPoolGroup;
+      case 'AWS::EC2::NetworkInsightsAccessScope':
+        return ResourceType.awsEc2NetworkInsightsAccessScope;
+      case 'AWS::EC2::NetworkInsightsAnalysis':
+        return ResourceType.awsEc2NetworkInsightsAnalysis;
+      case 'AWS::Grafana::Workspace':
+        return ResourceType.awsGrafanaWorkspace;
+      case 'AWS::GroundStation::DataflowEndpointGroup':
+        return ResourceType.awsGroundStationDataflowEndpointGroup;
+      case 'AWS::ImageBuilder::ImageRecipe':
+        return ResourceType.awsImageBuilderImageRecipe;
+      case 'AWS::KMS::Alias':
+        return ResourceType.awsKmsAlias;
+      case 'AWS::M2::Environment':
+        return ResourceType.awsM2Environment;
+      case 'AWS::QuickSight::DataSource':
+        return ResourceType.awsQuickSightDataSource;
+      case 'AWS::QuickSight::Template':
+        return ResourceType.awsQuickSightTemplate;
+      case 'AWS::QuickSight::Theme':
+        return ResourceType.awsQuickSightTheme;
+      case 'AWS::RDS::OptionGroup':
+        return ResourceType.awsRdsOptionGroup;
+      case 'AWS::Redshift::EndpointAccess':
+        return ResourceType.awsRedshiftEndpointAccess;
+      case 'AWS::Route53Resolver::FirewallRuleGroup':
+        return ResourceType.awsRoute53ResolverFirewallRuleGroup;
+      case 'AWS::SSM::Document':
+        return ResourceType.awsSsmDocument;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -14566,9 +15955,7 @@ class Tag {
 class TemplateSSMDocumentDetails {
   /// The name or Amazon Resource Name (ARN) of the SSM document to use to create
   /// a conformance pack. If you use the document name, Config checks only your
-  /// account and Amazon Web Services Region for the SSM document. If you want to
-  /// use an SSM document from another Region or account, you must provide the
-  /// ARN.
+  /// account and Amazon Web Services Region for the SSM document.
   final String documentName;
 
   /// The version of the SSM document to use to create a conformance pack. By

@@ -32,6 +32,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "AccountsUrl": {"type": "string", "flattened": false},
+  "ActivateOrganizationsAccessInput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "ActivateOrganizationsAccessOutput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
   "ActivateTypeInput": {
     "type": "structure",
     "members": {
@@ -55,6 +65,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AfterContext": {"type": "string", "flattened": false},
+  "AfterValue": {"type": "string", "flattened": false},
   "AllowedValue": {"type": "string", "flattened": false},
   "AllowedValues": {
     "type": "list",
@@ -62,6 +74,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Arn": {"type": "string", "flattened": false},
+  "AttributeChangeType": {"type": "string", "flattened": false},
   "AutoDeployment": {
     "type": "structure",
     "members": {
@@ -120,6 +133,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "BeforeContext": {"type": "string", "flattened": false},
+  "BeforeValue": {"type": "string", "flattened": false},
   "BoxedInteger": {"type": "integer", "flattened": false},
   "BoxedMaxResults": {"type": "integer", "flattened": false},
   "CallAs": {"type": "string", "flattened": false},
@@ -224,7 +239,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "ParentChangeSetId": {"shape": "ChangeSetId", "flattened": false},
-      "RootChangeSetId": {"shape": "ChangeSetId", "flattened": false}
+      "RootChangeSetId": {"shape": "ChangeSetId", "flattened": false},
+      "ImportExistingResources": {
+        "shape": "ImportExistingResources",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -238,6 +257,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "ClientRequestToken": {"type": "string", "flattened": false},
   "ClientToken": {"type": "string", "flattened": false},
+  "ConcurrencyMode": {"type": "string", "flattened": false},
   "ConfigurationSchema": {"type": "string", "flattened": false},
   "ConnectionArn": {"type": "string", "flattened": false},
   "ContinueUpdateRollbackInput": {
@@ -283,6 +303,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "IncludeNestedStacks": {
         "shape": "IncludeNestedStacks",
         "flattened": false
+      },
+      "OnStackFailure": {"shape": "OnStackFailure", "flattened": false},
+      "ImportExistingResources": {
+        "shape": "ImportExistingResources",
+        "flattened": false
       }
     },
     "flattened": false
@@ -292,6 +317,32 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Id": {"shape": "ChangeSetId", "flattened": false},
       "StackId": {"shape": "StackId", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateGeneratedTemplateInput": {
+    "type": "structure",
+    "members": {
+      "Resources": {"shape": "ResourceDefinitions", "flattened": false},
+      "GeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      },
+      "StackName": {"shape": "StackName", "flattened": false},
+      "TemplateConfiguration": {
+        "shape": "TemplateConfiguration",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "CreateGeneratedTemplateOutput": {
+    "type": "structure",
+    "members": {
+      "GeneratedTemplateId": {
+        "shape": "GeneratedTemplateId",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -319,6 +370,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
       "EnableTerminationProtection": {
         "shape": "EnableTerminationProtection",
+        "flattened": false
+      },
+      "RetainExceptOnCreate": {
+        "shape": "RetainExceptOnCreate",
         "flattened": false
       }
     },
@@ -384,6 +439,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "CreationTime": {"type": "timestamp", "flattened": false},
+  "DeactivateOrganizationsAccessInput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "DeactivateOrganizationsAccessOutput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
   "DeactivateTypeInput": {
     "type": "structure",
     "members": {
@@ -411,13 +476,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {},
     "flattened": false
   },
+  "DeleteGeneratedTemplateInput": {
+    "type": "structure",
+    "members": {
+      "GeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "DeleteStackInput": {
     "type": "structure",
     "members": {
       "StackName": {"shape": "StackName", "flattened": false},
       "RetainResources": {"shape": "RetainResources", "flattened": false},
       "RoleARN": {"shape": "RoleARN", "flattened": false},
-      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
+      "DeletionMode": {"shape": "DeletionMode", "flattened": false}
     },
     "flattened": false
   },
@@ -458,6 +534,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {},
     "flattened": false
   },
+  "DeletionMode": {"type": "string", "flattened": false},
   "DeletionTime": {"type": "timestamp", "flattened": false},
   "DeploymentTargets": {
     "type": "structure",
@@ -531,7 +608,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ChangeSetName": {"shape": "ChangeSetNameOrId", "flattened": false},
       "StackName": {"shape": "StackNameOrId", "flattened": false},
-      "NextToken": {"shape": "NextToken", "flattened": false}
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "IncludePropertyValues": {
+        "shape": "IncludePropertyValues",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -562,7 +643,62 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "ParentChangeSetId": {"shape": "ChangeSetId", "flattened": false},
-      "RootChangeSetId": {"shape": "ChangeSetId", "flattened": false}
+      "RootChangeSetId": {"shape": "ChangeSetId", "flattened": false},
+      "OnStackFailure": {"shape": "OnStackFailure", "flattened": false},
+      "ImportExistingResources": {
+        "shape": "ImportExistingResources",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribeGeneratedTemplateInput": {
+    "type": "structure",
+    "members": {
+      "GeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribeGeneratedTemplateOutput": {
+    "type": "structure",
+    "members": {
+      "GeneratedTemplateId": {
+        "shape": "GeneratedTemplateId",
+        "flattened": false
+      },
+      "GeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      },
+      "Resources": {"shape": "ResourceDetails", "flattened": false},
+      "Status": {"shape": "GeneratedTemplateStatus", "flattened": false},
+      "StatusReason": {"shape": "TemplateStatusReason", "flattened": false},
+      "CreationTime": {"shape": "CreationTime", "flattened": false},
+      "LastUpdatedTime": {"shape": "LastUpdatedTime", "flattened": false},
+      "Progress": {"shape": "TemplateProgress", "flattened": false},
+      "StackId": {"shape": "StackId", "flattened": false},
+      "TemplateConfiguration": {
+        "shape": "TemplateConfiguration",
+        "flattened": false
+      },
+      "TotalWarnings": {"shape": "TotalWarnings", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeOrganizationsAccessInput": {
+    "type": "structure",
+    "members": {
+      "CallAs": {"shape": "CallAs", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeOrganizationsAccessOutput": {
+    "type": "structure",
+    "members": {
+      "Status": {"shape": "OrganizationStatus", "flattened": false}
     },
     "flattened": false
   },
@@ -580,6 +716,31 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "PublisherStatus": {"shape": "PublisherStatus", "flattened": false},
       "IdentityProvider": {"shape": "IdentityProvider", "flattened": false},
       "PublisherProfile": {"shape": "PublisherProfile", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeResourceScanInput": {
+    "type": "structure",
+    "members": {
+      "ResourceScanId": {"shape": "ResourceScanId", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeResourceScanOutput": {
+    "type": "structure",
+    "members": {
+      "ResourceScanId": {"shape": "ResourceScanId", "flattened": false},
+      "Status": {"shape": "ResourceScanStatus", "flattened": false},
+      "StatusReason": {"shape": "ResourceScanStatusReason", "flattened": false},
+      "StartTime": {"shape": "Timestamp", "flattened": false},
+      "EndTime": {"shape": "Timestamp", "flattened": false},
+      "PercentageCompleted": {
+        "shape": "PercentageCompleted",
+        "flattened": false
+      },
+      "ResourceTypes": {"shape": "ResourceTypes", "flattened": false},
+      "ResourcesScanned": {"shape": "ResourcesScanned", "flattened": false},
+      "ResourcesRead": {"shape": "ResourcesRead", "flattened": false}
     },
     "flattened": false
   },
@@ -837,6 +998,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Description": {"type": "string", "flattened": false},
+  "DetailedStatus": {"type": "string", "flattened": false},
   "DetectStackDriftInput": {
     "type": "structure",
     "members": {
@@ -920,7 +1082,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ChangeSetName": {"shape": "ChangeSetNameOrId", "flattened": false},
       "StackName": {"shape": "StackNameOrId", "flattened": false},
       "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
-      "DisableRollback": {"shape": "DisableRollback", "flattened": false}
+      "DisableRollback": {"shape": "DisableRollback", "flattened": false},
+      "RetainExceptOnCreate": {
+        "shape": "RetainExceptOnCreate",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -950,6 +1116,34 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "FailedStackInstancesCount": {"type": "integer", "flattened": false},
   "FailureToleranceCount": {"type": "integer", "flattened": false},
   "FailureTolerancePercentage": {"type": "integer", "flattened": false},
+  "GeneratedTemplateDeletionPolicy": {"type": "string", "flattened": false},
+  "GeneratedTemplateId": {"type": "string", "flattened": false},
+  "GeneratedTemplateName": {"type": "string", "flattened": false},
+  "GeneratedTemplateResourceStatus": {"type": "string", "flattened": false},
+  "GeneratedTemplateStatus": {"type": "string", "flattened": false},
+  "GeneratedTemplateUpdateReplacePolicy": {
+    "type": "string",
+    "flattened": false
+  },
+  "GetGeneratedTemplateInput": {
+    "type": "structure",
+    "members": {
+      "Format": {"shape": "TemplateFormat", "flattened": false},
+      "GeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "GetGeneratedTemplateOutput": {
+    "type": "structure",
+    "members": {
+      "Status": {"shape": "GeneratedTemplateStatus", "flattened": false},
+      "TemplateBody": {"shape": "TemplateBody", "flattened": false}
+    },
+    "flattened": false
+  },
   "GetStackPolicyInput": {
     "type": "structure",
     "members": {
@@ -988,7 +1182,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "TemplateURL": {"shape": "TemplateURL", "flattened": false},
       "StackName": {"shape": "StackNameOrId", "flattened": false},
       "StackSetName": {"shape": "StackSetNameOrId", "flattened": false},
-      "CallAs": {"shape": "CallAs", "flattened": false}
+      "CallAs": {"shape": "CallAs", "flattened": false},
+      "TemplateSummaryConfig": {
+        "shape": "TemplateSummaryConfig",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1006,7 +1204,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ResourceIdentifierSummaries": {
         "shape": "ResourceIdentifierSummaries",
         "flattened": false
-      }
+      },
+      "Warnings": {"shape": "Warnings", "flattened": false}
     },
     "flattened": false
   },
@@ -1023,6 +1222,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "HookTypeName": {"type": "string", "flattened": false},
   "HookTypeVersionId": {"type": "string", "flattened": false},
   "IdentityProvider": {"type": "string", "flattened": false},
+  "ImportExistingResources": {"type": "boolean", "flattened": false},
   "ImportStacksToStackSetInput": {
     "type": "structure",
     "members": {
@@ -1057,9 +1257,23 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "InProgressStackInstancesCount": {"type": "integer", "flattened": false},
   "InSyncStackInstancesCount": {"type": "integer", "flattened": false},
   "IncludeNestedStacks": {"type": "boolean", "flattened": false},
+  "IncludePropertyValues": {"type": "boolean", "flattened": false},
   "IsActivated": {"type": "boolean", "flattened": false},
   "IsDefaultConfiguration": {"type": "boolean", "flattened": false},
   "IsDefaultVersion": {"type": "boolean", "flattened": false},
+  "JazzLogicalResourceIds": {
+    "type": "list",
+    "member": {"shape": "LogicalResourceId"},
+    "flattened": false
+  },
+  "JazzResourceIdentifierProperties": {
+    "type": "map",
+    "key": {"shape": "JazzResourceIdentifierPropertyKey"},
+    "value": {"shape": "JazzResourceIdentifierPropertyValue"},
+    "flattened": false
+  },
+  "JazzResourceIdentifierPropertyKey": {"type": "string", "flattened": false},
+  "JazzResourceIdentifierPropertyValue": {"type": "string", "flattened": false},
   "Key": {"type": "string", "flattened": false},
   "LastUpdatedTime": {"type": "timestamp", "flattened": false},
   "LimitName": {"type": "string", "flattened": false},
@@ -1095,6 +1309,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ListGeneratedTemplatesInput": {
+    "type": "structure",
+    "members": {
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "MaxResults": {"shape": "MaxResults", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListGeneratedTemplatesOutput": {
+    "type": "structure",
+    "members": {
+      "Summaries": {"shape": "TemplateSummaries", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false}
+    },
+    "flattened": false
+  },
   "ListImportsInput": {
     "type": "structure",
     "members": {
@@ -1107,6 +1337,92 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Imports": {"shape": "Imports", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListResourceScanRelatedResourcesInput": {
+    "type": "structure",
+    "members": {
+      "ResourceScanId": {"shape": "ResourceScanId", "flattened": false},
+      "Resources": {"shape": "ScannedResourceIdentifiers", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "MaxResults": {"shape": "BoxedMaxResults", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListResourceScanRelatedResourcesOutput": {
+    "type": "structure",
+    "members": {
+      "RelatedResources": {"shape": "RelatedResources", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListResourceScanResourcesInput": {
+    "type": "structure",
+    "members": {
+      "ResourceScanId": {"shape": "ResourceScanId", "flattened": false},
+      "ResourceIdentifier": {"shape": "ResourceIdentifier", "flattened": false},
+      "ResourceTypePrefix": {"shape": "ResourceTypePrefix", "flattened": false},
+      "TagKey": {"shape": "TagKey", "flattened": false},
+      "TagValue": {"shape": "TagValue", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "MaxResults": {"shape": "ResourceScannerMaxResults", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListResourceScanResourcesOutput": {
+    "type": "structure",
+    "members": {
+      "Resources": {"shape": "ScannedResources", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListResourceScansInput": {
+    "type": "structure",
+    "members": {
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "MaxResults": {"shape": "ResourceScannerMaxResults", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListResourceScansOutput": {
+    "type": "structure",
+    "members": {
+      "ResourceScanSummaries": {
+        "shape": "ResourceScanSummaries",
+        "flattened": false
+      },
+      "NextToken": {"shape": "NextToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListStackInstanceResourceDriftsInput": {
+    "type": "structure",
+    "members": {
+      "StackSetName": {"shape": "StackSetNameOrId", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "MaxResults": {"shape": "MaxResults", "flattened": false},
+      "StackInstanceResourceDriftStatuses": {
+        "shape": "StackResourceDriftStatusFilters",
+        "flattened": false
+      },
+      "StackInstanceAccount": {"shape": "Account", "flattened": false},
+      "StackInstanceRegion": {"shape": "Region", "flattened": false},
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListStackInstanceResourceDriftsOutput": {
+    "type": "structure",
+    "members": {
+      "Summaries": {
+        "shape": "StackInstanceResourceDriftsSummaries",
+        "flattened": false
+      },
       "NextToken": {"shape": "NextToken", "flattened": false}
     },
     "flattened": false
@@ -1145,6 +1461,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "StackResourceSummaries": {
         "shape": "StackResourceSummaries",
+        "flattened": false
+      },
+      "NextToken": {"shape": "NextToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListStackSetAutoDeploymentTargetsInput": {
+    "type": "structure",
+    "members": {
+      "StackSetName": {"shape": "StackSetNameOrId", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "MaxResults": {"shape": "MaxResults", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListStackSetAutoDeploymentTargetsOutput": {
+    "type": "structure",
+    "members": {
+      "Summaries": {
+        "shape": "StackSetAutoDeploymentTargetSummaries",
         "flattened": false
       },
       "NextToken": {"shape": "NextToken", "flattened": false}
@@ -1314,6 +1651,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "MajorVersion": {"type": "long", "flattened": false},
+  "ManagedByStack": {"type": "boolean", "flattened": false},
   "ManagedExecution": {
     "type": "structure",
     "members": {
@@ -1343,7 +1681,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "NotificationARN"},
     "flattened": false
   },
+  "NumberOfResources": {"type": "integer", "flattened": false},
   "OnFailure": {"type": "string", "flattened": false},
+  "OnStackFailure": {"type": "string", "flattened": false},
   "OperationResultFilter": {
     "type": "structure",
     "members": {
@@ -1361,6 +1701,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "OperationStatus": {"type": "string", "flattened": false},
   "OptionalSecureUrl": {"type": "string", "flattened": false},
+  "OrganizationStatus": {"type": "string", "flattened": false},
   "OrganizationalUnitId": {"type": "string", "flattened": false},
   "OrganizationalUnitIdList": {
     "type": "list",
@@ -1429,6 +1770,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "Parameter"},
     "flattened": false
   },
+  "PercentageCompleted": {"type": "double", "flattened": false},
   "PermissionModels": {"type": "string", "flattened": false},
   "PhysicalResourceId": {"type": "string", "flattened": false},
   "PhysicalResourceIdContext": {
@@ -1444,8 +1786,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "PolicyAction": {"type": "string", "flattened": false},
   "PrivateTypeArn": {"type": "string", "flattened": false},
   "Properties": {"type": "string", "flattened": false},
+  "PropertyDescription": {"type": "string", "flattened": false},
   "PropertyDifference": {
     "type": "structure",
     "members": {
@@ -1512,6 +1856,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {},
     "flattened": false
   },
+  "RefreshAllResources": {"type": "boolean", "flattened": false},
   "Region": {"type": "string", "flattened": false},
   "RegionConcurrencyType": {"type": "string", "flattened": false},
   "RegionList": {
@@ -1564,6 +1909,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "RegistryType": {"type": "string", "flattened": false},
+  "RelatedResources": {
+    "type": "list",
+    "member": {"shape": "ScannedResource"},
+    "flattened": false
+  },
   "Replacement": {"type": "string", "flattened": false},
   "RequestToken": {"type": "string", "flattened": false},
   "RequiredActivatedType": {
@@ -1584,11 +1934,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "RequiredActivatedType"},
     "flattened": false
   },
+  "RequiredProperty": {"type": "boolean", "flattened": false},
   "RequiresRecreation": {"type": "string", "flattened": false},
   "ResourceAttribute": {"type": "string", "flattened": false},
   "ResourceChange": {
     "type": "structure",
     "members": {
+      "PolicyAction": {"shape": "PolicyAction", "flattened": false},
       "Action": {"shape": "ChangeAction", "flattened": false},
       "LogicalResourceId": {"shape": "LogicalResourceId", "flattened": false},
       "PhysicalResourceId": {"shape": "PhysicalResourceId", "flattened": false},
@@ -1597,7 +1949,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Scope": {"shape": "Scope", "flattened": false},
       "Details": {"shape": "ResourceChangeDetails", "flattened": false},
       "ChangeSetId": {"shape": "ChangeSetId", "flattened": false},
-      "ModuleInfo": {"shape": "ModuleInfo", "flattened": false}
+      "ModuleInfo": {"shape": "ModuleInfo", "flattened": false},
+      "BeforeContext": {"shape": "BeforeContext", "flattened": false},
+      "AfterContext": {"shape": "AfterContext", "flattened": false}
     },
     "flattened": false
   },
@@ -1616,6 +1970,50 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "ResourceChangeDetail"},
     "flattened": false
   },
+  "ResourceDefinition": {
+    "type": "structure",
+    "members": {
+      "ResourceType": {"shape": "ResourceType", "flattened": false},
+      "LogicalResourceId": {"shape": "LogicalResourceId", "flattened": false},
+      "ResourceIdentifier": {
+        "shape": "ResourceIdentifierProperties",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ResourceDefinitions": {
+    "type": "list",
+    "member": {"shape": "ResourceDefinition"},
+    "flattened": false
+  },
+  "ResourceDetail": {
+    "type": "structure",
+    "members": {
+      "ResourceType": {"shape": "ResourceType", "flattened": false},
+      "LogicalResourceId": {"shape": "LogicalResourceId", "flattened": false},
+      "ResourceIdentifier": {
+        "shape": "ResourceIdentifierProperties",
+        "flattened": false
+      },
+      "ResourceStatus": {
+        "shape": "GeneratedTemplateResourceStatus",
+        "flattened": false
+      },
+      "ResourceStatusReason": {
+        "shape": "ResourceStatusReason",
+        "flattened": false
+      },
+      "Warnings": {"shape": "WarningDetails", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ResourceDetails": {
+    "type": "list",
+    "member": {"shape": "ResourceDetail"},
+    "flattened": false
+  },
+  "ResourceIdentifier": {"type": "string", "flattened": false},
   "ResourceIdentifierProperties": {
     "type": "map",
     "key": {"shape": "ResourceIdentifierPropertyKey"},
@@ -1648,6 +2046,31 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "ResourceModel": {"type": "string", "flattened": false},
   "ResourceProperties": {"type": "string", "flattened": false},
+  "ResourcePropertyPath": {"type": "string", "flattened": false},
+  "ResourceScanId": {"type": "string", "flattened": false},
+  "ResourceScanStatus": {"type": "string", "flattened": false},
+  "ResourceScanStatusReason": {"type": "string", "flattened": false},
+  "ResourceScanSummaries": {
+    "type": "list",
+    "member": {"shape": "ResourceScanSummary"},
+    "flattened": false
+  },
+  "ResourceScanSummary": {
+    "type": "structure",
+    "members": {
+      "ResourceScanId": {"shape": "ResourceScanId", "flattened": false},
+      "Status": {"shape": "ResourceScanStatus", "flattened": false},
+      "StatusReason": {"shape": "ResourceScanStatusReason", "flattened": false},
+      "StartTime": {"shape": "Timestamp", "flattened": false},
+      "EndTime": {"shape": "Timestamp", "flattened": false},
+      "PercentageCompleted": {
+        "shape": "PercentageCompleted",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ResourceScannerMaxResults": {"type": "integer", "flattened": false},
   "ResourceSignalStatus": {"type": "string", "flattened": false},
   "ResourceSignalUniqueId": {"type": "string", "flattened": false},
   "ResourceStatus": {"type": "string", "flattened": false},
@@ -1657,7 +2080,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Attribute": {"shape": "ResourceAttribute", "flattened": false},
       "Name": {"shape": "PropertyName", "flattened": false},
-      "RequiresRecreation": {"shape": "RequiresRecreation", "flattened": false}
+      "RequiresRecreation": {"shape": "RequiresRecreation", "flattened": false},
+      "Path": {"shape": "ResourcePropertyPath", "flattened": false},
+      "BeforeValue": {"shape": "BeforeValue", "flattened": false},
+      "AfterValue": {"shape": "AfterValue", "flattened": false},
+      "AttributeChangeType": {
+        "shape": "AttributeChangeType",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1675,11 +2105,18 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "ResourceToSkip": {"type": "string", "flattened": false},
   "ResourceType": {"type": "string", "flattened": false},
+  "ResourceTypePrefix": {"type": "string", "flattened": false},
   "ResourceTypes": {
     "type": "list",
     "member": {"shape": "ResourceType"},
     "flattened": false
   },
+  "ResourcesFailed": {"type": "integer", "flattened": false},
+  "ResourcesPending": {"type": "integer", "flattened": false},
+  "ResourcesProcessing": {"type": "integer", "flattened": false},
+  "ResourcesRead": {"type": "integer", "flattened": false},
+  "ResourcesScanned": {"type": "integer", "flattened": false},
+  "ResourcesSucceeded": {"type": "integer", "flattened": false},
   "ResourcesToImport": {
     "type": "list",
     "member": {"shape": "ResourceToImport"},
@@ -1690,6 +2127,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "ResourceToSkip"},
     "flattened": false
   },
+  "RetainExceptOnCreate": {"type": "boolean", "flattened": false},
   "RetainResources": {
     "type": "list",
     "member": {"shape": "LogicalResourceId"},
@@ -1719,7 +2157,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "StackName": {"shape": "StackNameOrId", "flattened": false},
       "RoleARN": {"shape": "RoleARN", "flattened": false},
-      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
+      "RetainExceptOnCreate": {
+        "shape": "RetainExceptOnCreate",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1745,6 +2187,39 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "S3Bucket": {"type": "string", "flattened": false},
   "S3Url": {"type": "string", "flattened": false},
+  "ScannedResource": {
+    "type": "structure",
+    "members": {
+      "ResourceType": {"shape": "ResourceType", "flattened": false},
+      "ResourceIdentifier": {
+        "shape": "JazzResourceIdentifierProperties",
+        "flattened": false
+      },
+      "ManagedByStack": {"shape": "ManagedByStack", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ScannedResourceIdentifier": {
+    "type": "structure",
+    "members": {
+      "ResourceType": {"shape": "ResourceType", "flattened": false},
+      "ResourceIdentifier": {
+        "shape": "JazzResourceIdentifierProperties",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ScannedResourceIdentifiers": {
+    "type": "list",
+    "member": {"shape": "ScannedResourceIdentifier"},
+    "flattened": false
+  },
+  "ScannedResources": {
+    "type": "list",
+    "member": {"shape": "ScannedResource"},
+    "flattened": false
+  },
   "Scope": {
     "type": "list",
     "member": {"shape": "ResourceAttribute"},
@@ -1835,7 +2310,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "ParentId": {"shape": "StackId", "flattened": false},
       "RootId": {"shape": "StackId", "flattened": false},
-      "DriftInformation": {"shape": "StackDriftInformation", "flattened": false}
+      "DriftInformation": {
+        "shape": "StackDriftInformation",
+        "flattened": false
+      },
+      "RetainExceptOnCreate": {
+        "shape": "RetainExceptOnCreate",
+        "flattened": false
+      },
+      "DeletionMode": {"shape": "DeletionMode", "flattened": false},
+      "DetailedStatus": {"shape": "DetailedStatus", "flattened": false}
     },
     "flattened": false
   },
@@ -1883,7 +2367,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "HookInvocationPoint",
         "flattened": false
       },
-      "HookFailureMode": {"shape": "HookFailureMode", "flattened": false}
+      "HookFailureMode": {"shape": "HookFailureMode", "flattened": false},
+      "DetailedStatus": {"shape": "DetailedStatus", "flattened": false}
     },
     "flattened": false
   },
@@ -1947,6 +2432,34 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "StackInstanceFilters": {
     "type": "list",
     "member": {"shape": "StackInstanceFilter"},
+    "flattened": false
+  },
+  "StackInstanceResourceDriftsSummaries": {
+    "type": "list",
+    "member": {"shape": "StackInstanceResourceDriftsSummary"},
+    "flattened": false
+  },
+  "StackInstanceResourceDriftsSummary": {
+    "type": "structure",
+    "members": {
+      "StackId": {"shape": "StackId", "flattened": false},
+      "LogicalResourceId": {"shape": "LogicalResourceId", "flattened": false},
+      "PhysicalResourceId": {"shape": "PhysicalResourceId", "flattened": false},
+      "PhysicalResourceIdContext": {
+        "shape": "PhysicalResourceIdContext",
+        "flattened": false
+      },
+      "ResourceType": {"shape": "ResourceType", "flattened": false},
+      "PropertyDifferences": {
+        "shape": "PropertyDifferences",
+        "flattened": false
+      },
+      "StackResourceDriftStatus": {
+        "shape": "StackResourceDriftStatus",
+        "flattened": false
+      },
+      "Timestamp": {"shape": "Timestamp", "flattened": false}
+    },
     "flattened": false
   },
   "StackInstanceStatus": {"type": "string", "flattened": false},
@@ -2150,6 +2663,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "StackSetARN": {"type": "string", "flattened": false},
+  "StackSetAutoDeploymentTargetSummaries": {
+    "type": "list",
+    "member": {"shape": "StackSetAutoDeploymentTargetSummary"},
+    "flattened": false
+  },
+  "StackSetAutoDeploymentTargetSummary": {
+    "type": "structure",
+    "members": {
+      "OrganizationalUnitId": {
+        "shape": "OrganizationalUnitId",
+        "flattened": false
+      },
+      "Regions": {"shape": "RegionList", "flattened": false}
+    },
+    "flattened": false
+  },
   "StackSetDriftDetectionDetails": {
     "type": "structure",
     "members": {
@@ -2240,7 +2769,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxConcurrentPercentage": {
         "shape": "MaxConcurrentPercentage",
         "flattened": false
-      }
+      },
+      "ConcurrencyMode": {"shape": "ConcurrencyMode", "flattened": false}
     },
     "flattened": false
   },
@@ -2371,6 +2901,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "TemplateStage"},
     "flattened": false
   },
+  "StartResourceScanInput": {
+    "type": "structure",
+    "members": {
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "StartResourceScanOutput": {
+    "type": "structure",
+    "members": {
+      "ResourceScanId": {"shape": "ResourceScanId", "flattened": false}
+    },
+    "flattened": false
+  },
   "StatusMessage": {"type": "string", "flattened": false},
   "StopStackSetOperationInput": {
     "type": "structure",
@@ -2408,7 +2952,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "TemplateBody": {"type": "string", "flattened": false},
+  "TemplateConfiguration": {
+    "type": "structure",
+    "members": {
+      "DeletionPolicy": {
+        "shape": "GeneratedTemplateDeletionPolicy",
+        "flattened": false
+      },
+      "UpdateReplacePolicy": {
+        "shape": "GeneratedTemplateUpdateReplacePolicy",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "TemplateDescription": {"type": "string", "flattened": false},
+  "TemplateFormat": {"type": "string", "flattened": false},
   "TemplateParameter": {
     "type": "structure",
     "members": {
@@ -2424,7 +2983,55 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "TemplateParameter"},
     "flattened": false
   },
+  "TemplateProgress": {
+    "type": "structure",
+    "members": {
+      "ResourcesSucceeded": {"shape": "ResourcesSucceeded", "flattened": false},
+      "ResourcesFailed": {"shape": "ResourcesFailed", "flattened": false},
+      "ResourcesProcessing": {
+        "shape": "ResourcesProcessing",
+        "flattened": false
+      },
+      "ResourcesPending": {"shape": "ResourcesPending", "flattened": false}
+    },
+    "flattened": false
+  },
   "TemplateStage": {"type": "string", "flattened": false},
+  "TemplateStatusReason": {"type": "string", "flattened": false},
+  "TemplateSummaries": {
+    "type": "list",
+    "member": {"shape": "TemplateSummary"},
+    "flattened": false
+  },
+  "TemplateSummary": {
+    "type": "structure",
+    "members": {
+      "GeneratedTemplateId": {
+        "shape": "GeneratedTemplateId",
+        "flattened": false
+      },
+      "GeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      },
+      "Status": {"shape": "GeneratedTemplateStatus", "flattened": false},
+      "StatusReason": {"shape": "TemplateStatusReason", "flattened": false},
+      "CreationTime": {"shape": "CreationTime", "flattened": false},
+      "LastUpdatedTime": {"shape": "LastUpdatedTime", "flattened": false},
+      "NumberOfResources": {"shape": "NumberOfResources", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TemplateSummaryConfig": {
+    "type": "structure",
+    "members": {
+      "TreatUnrecognizedResourceTypesAsWarnings": {
+        "shape": "TreatUnrecognizedResourceTypesAsWarnings",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "TemplateURL": {"type": "string", "flattened": false},
   "TestTypeInput": {
     "type": "structure",
@@ -2449,10 +3056,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "TimeoutMinutes": {"type": "integer", "flattened": false},
   "Timestamp": {"type": "timestamp", "flattened": false},
   "TotalStackInstancesCount": {"type": "integer", "flattened": false},
+  "TotalWarnings": {"type": "integer", "flattened": false},
   "TransformName": {"type": "string", "flattened": false},
   "TransformsList": {
     "type": "list",
     "member": {"shape": "TransformName"},
+    "flattened": false
+  },
+  "TreatUnrecognizedResourceTypesAsWarnings": {
+    "type": "boolean",
     "flattened": false
   },
   "Type": {"type": "string", "flattened": false},
@@ -2576,6 +3188,43 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "TypeConfigurationIdentifier"},
     "flattened": false
   },
+  "UpdateGeneratedTemplateInput": {
+    "type": "structure",
+    "members": {
+      "GeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      },
+      "NewGeneratedTemplateName": {
+        "shape": "GeneratedTemplateName",
+        "flattened": false
+      },
+      "AddResources": {"shape": "ResourceDefinitions", "flattened": false},
+      "RemoveResources": {
+        "shape": "JazzLogicalResourceIds",
+        "flattened": false
+      },
+      "RefreshAllResources": {
+        "shape": "RefreshAllResources",
+        "flattened": false
+      },
+      "TemplateConfiguration": {
+        "shape": "TemplateConfiguration",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "UpdateGeneratedTemplateOutput": {
+    "type": "structure",
+    "members": {
+      "GeneratedTemplateId": {
+        "shape": "GeneratedTemplateId",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "UpdateStackInput": {
     "type": "structure",
     "members": {
@@ -2607,7 +3256,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "NotificationARNs": {"shape": "NotificationARNs", "flattened": false},
       "Tags": {"shape": "Tags", "flattened": false},
       "DisableRollback": {"shape": "DisableRollback", "flattened": false},
-      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
+      "RetainExceptOnCreate": {
+        "shape": "RetainExceptOnCreate",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2723,5 +3376,43 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "Value": {"type": "string", "flattened": false},
   "Version": {"type": "string", "flattened": false},
   "VersionBump": {"type": "string", "flattened": false},
-  "Visibility": {"type": "string", "flattened": false}
+  "Visibility": {"type": "string", "flattened": false},
+  "WarningDetail": {
+    "type": "structure",
+    "members": {
+      "Type": {"shape": "WarningType", "flattened": false},
+      "Properties": {"shape": "WarningProperties", "flattened": false}
+    },
+    "flattened": false
+  },
+  "WarningDetails": {
+    "type": "list",
+    "member": {"shape": "WarningDetail"},
+    "flattened": false
+  },
+  "WarningProperties": {
+    "type": "list",
+    "member": {"shape": "WarningProperty"},
+    "flattened": false
+  },
+  "WarningProperty": {
+    "type": "structure",
+    "members": {
+      "PropertyPath": {"shape": "PropertyPath", "flattened": false},
+      "Required": {"shape": "RequiredProperty", "flattened": false},
+      "Description": {"shape": "PropertyDescription", "flattened": false}
+    },
+    "flattened": false
+  },
+  "WarningType": {"type": "string", "flattened": false},
+  "Warnings": {
+    "type": "structure",
+    "members": {
+      "UnrecognizedResourceTypes": {
+        "shape": "ResourceTypes",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  }
 };

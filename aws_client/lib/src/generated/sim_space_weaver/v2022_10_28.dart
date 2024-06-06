@@ -19,12 +19,11 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// SimSpace Weaver (SimSpace Weaver) is a managed service that you can use to
-/// build and operate large-scale spatial simulations in the Amazon Web Services
-/// Cloud. For example, you can create a digital twin of a city, crowd
-/// simulations with millions of people and objects, and massively multiplayer
-/// games with hundreds of thousands of connected players. For more information
-/// about SimSpace Weaver, see the <i> <a
+/// SimSpace Weaver (SimSpace Weaver) is a service that you can use to build and
+/// run large-scale spatial simulations in the Amazon Web Services Cloud. For
+/// example, you can create crowd simulations, large real-world environments,
+/// and immersive and interactive experiences. For more information about
+/// SimSpace Weaver, see the <i> <a
 /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/">SimSpace
 /// Weaver User Guide</a> </i>.
 ///
@@ -115,6 +114,9 @@ class SimSpaceWeaver {
   /// Parameter [destination] :
   /// The Amazon S3 bucket and optional folder (object key prefix) where
   /// SimSpace Weaver creates the snapshot file.
+  ///
+  /// The Amazon S3 bucket must be in the same Amazon Web Services Region as the
+  /// simulation.
   ///
   /// Parameter [simulation] :
   /// The name of the simulation.
@@ -518,6 +520,9 @@ class SimSpaceWeaver {
   ///
   /// Provide a <code>SnapshotS3Location</code> to start your simulation from a
   /// snapshot.
+  ///
+  /// The Amazon S3 bucket must be in the same Amazon Web Services Region as the
+  /// simulation.
   ///
   /// If you provide a <code>SnapshotS3Location</code> then you can't provide a
   /// <code>SchemaS3Location</code>.
@@ -1422,7 +1427,7 @@ class S3Destination {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
   /// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
   /// Storage Service User Guide</i>.
-  final String? bucketName;
+  final String bucketName;
 
   /// A string prefix for an Amazon S3 object key. It's usually a folder name. For
   /// more information about folders in Amazon S3, see <a
@@ -1432,7 +1437,7 @@ class S3Destination {
   final String? objectKeyPrefix;
 
   S3Destination({
-    this.bucketName,
+    required this.bucketName,
     this.objectKeyPrefix,
   });
 
@@ -1440,7 +1445,7 @@ class S3Destination {
     final bucketName = this.bucketName;
     final objectKeyPrefix = this.objectKeyPrefix;
     return {
-      if (bucketName != null) 'BucketName': bucketName,
+      'BucketName': bucketName,
       if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
     };
   }
@@ -1456,24 +1461,24 @@ class S3Location {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
   /// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
   /// Storage Service User Guide</i>.
-  final String? bucketName;
+  final String bucketName;
 
   /// The key name of an object in Amazon S3. For more information about Amazon S3
   /// objects and object keys, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/uploading-downloading-objects.html">Uploading,
   /// downloading, and working with objects in Amazon S3</a> in the <i>Amazon
   /// Simple Storage Service User Guide</i>.
-  final String? objectKey;
+  final String objectKey;
 
   S3Location({
-    this.bucketName,
-    this.objectKey,
+    required this.bucketName,
+    required this.objectKey,
   });
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      bucketName: json['BucketName'] as String?,
-      objectKey: json['ObjectKey'] as String?,
+      bucketName: json['BucketName'] as String,
+      objectKey: json['ObjectKey'] as String,
     );
   }
 
@@ -1481,8 +1486,8 @@ class S3Location {
     final bucketName = this.bucketName;
     final objectKey = this.objectKey;
     return {
-      if (bucketName != null) 'BucketName': bucketName,
-      if (objectKey != null) 'ObjectKey': objectKey,
+      'BucketName': bucketName,
+      'ObjectKey': objectKey,
     };
   }
 }

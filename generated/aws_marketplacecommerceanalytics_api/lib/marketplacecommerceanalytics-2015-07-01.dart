@@ -226,12 +226,12 @@ class MarketplaceCommerceAnalytics {
     return GenerateDataSetResult.fromJson(jsonResponse.body);
   }
 
-  /// Given a data set type and a from date, asynchronously publishes the
-  /// requested customer support data to the specified S3 bucket and notifies
-  /// the specified SNS topic once the data is available. Returns a unique
-  /// request identifier that can be used to correlate requests with
-  /// notifications from the SNS topic. Data sets will be published in
-  /// comma-separated values (CSV) format with the file name
+  /// <i>This target has been deprecated.</i> Given a data set type and a from
+  /// date, asynchronously publishes the requested customer support data to the
+  /// specified S3 bucket and notifies the specified SNS topic once the data is
+  /// available. Returns a unique request identifier that can be used to
+  /// correlate requests with notifications from the SNS topic. Data sets will
+  /// be published in comma-separated values (CSV) format with the file name
   /// {data_set_type}_YYYY-MM-DD'T'HH-mm-ss'Z'.csv. If a file with the same name
   /// already exists (e.g. if the same data set is requested twice), the
   /// original file will be overwritten by the new file. Requires a Role with an
@@ -242,13 +242,13 @@ class MarketplaceCommerceAnalytics {
   /// May throw [MarketplaceCommerceAnalyticsException].
   ///
   /// Parameter [dataSetType] :
-  /// Specifies the data set type to be written to the output csv file. The data
-  /// set types customer_support_contacts_data and
-  /// test_customer_support_contacts_data both result in a csv file containing
-  /// the following fields: Product Id, Product Code, Customer Guid,
-  /// Subscription Guid, Subscription Start Date, Organization, AWS Account Id,
-  /// Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP
-  /// Code, Operation Type, and Operation Time.
+  /// <i>This target has been deprecated.</i> Specifies the data set type to be
+  /// written to the output csv file. The data set types
+  /// customer_support_contacts_data and test_customer_support_contacts_data
+  /// both result in a csv file containing the following fields: Product Id,
+  /// Product Code, Customer Guid, Subscription Guid, Subscription Start Date,
+  /// Organization, AWS Account Id, Given Name, Surname, Telephone Number,
+  /// Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.
   ///
   ///
   /// <ul>
@@ -262,32 +262,39 @@ class MarketplaceCommerceAnalytics {
   /// </ul>
   ///
   /// Parameter [destinationS3BucketName] :
-  /// The name (friendly name, not ARN) of the destination S3 bucket.
+  /// <i>This target has been deprecated.</i> The name (friendly name, not ARN)
+  /// of the destination S3 bucket.
   ///
   /// Parameter [fromDate] :
-  /// The start date from which to retrieve the data set in UTC. This parameter
-  /// only affects the customer_support_contacts_data data set type.
+  /// <i>This target has been deprecated.</i> The start date from which to
+  /// retrieve the data set in UTC. This parameter only affects the
+  /// customer_support_contacts_data data set type.
   ///
   /// Parameter [roleNameArn] :
-  /// The Amazon Resource Name (ARN) of the Role with an attached permissions
-  /// policy to interact with the provided AWS services.
+  /// <i>This target has been deprecated.</i> The Amazon Resource Name (ARN) of
+  /// the Role with an attached permissions policy to interact with the provided
+  /// AWS services.
   ///
   /// Parameter [snsTopicArn] :
-  /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when
-  /// the data set has been published or if an error has occurred.
+  /// <i>This target has been deprecated.</i> Amazon Resource Name (ARN) for the
+  /// SNS Topic that will be notified when the data set has been published or if
+  /// an error has occurred.
   ///
   /// Parameter [customerDefinedValues] :
-  /// (Optional) Key-value pairs which will be returned, unmodified, in the
-  /// Amazon SNS notification message and the data set metadata file.
+  /// <i>This target has been deprecated.</i> (Optional) Key-value pairs which
+  /// will be returned, unmodified, in the Amazon SNS notification message and
+  /// the data set metadata file.
   ///
   /// Parameter [destinationS3Prefix] :
-  /// (Optional) The desired S3 prefix for the published data set, similar to a
-  /// directory path in standard file systems. For example, if given the bucket
-  /// name "mybucket" and the prefix "myprefix/mydatasets", the output file
-  /// "outputfile" would be published to
+  /// <i>This target has been deprecated.</i> (Optional) The desired S3 prefix
+  /// for the published data set, similar to a directory path in standard file
+  /// systems. For example, if given the bucket name "mybucket" and the prefix
+  /// "myprefix/mydatasets", the output file "outputfile" would be published to
   /// "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory
   /// structure does not exist, it will be created. If no prefix is provided,
   /// the data set will be published to the S3 bucket root.
+  @Deprecated(
+      'This target has been deprecated. As of December 2022 Product Support Connection is no longer supported.')
   Future<StartSupportDataExportResult> startSupportDataExport({
     required SupportDataSetType dataSetType,
     required String destinationS3BucketName,
@@ -486,11 +493,14 @@ class GenerateDataSetResult {
   }
 }
 
-/// Container for the result of the StartSupportDataExport operation.
+/// <i>This target has been deprecated.</i> Container for the result of the
+/// StartSupportDataExport operation.
+@Deprecated(
+    'This target has been deprecated. As of December 2022 Product Support Connection is no longer supported.')
 class StartSupportDataExportResult {
-  /// A unique identifier representing a specific request to the
-  /// StartSupportDataExport operation. This identifier can be used to correlate a
-  /// request with notifications from the SNS topic.
+  /// <i>This target has been deprecated.</i> A unique identifier representing a
+  /// specific request to the StartSupportDataExport operation. This identifier
+  /// can be used to correlate a request with notifications from the SNS topic.
   final String? dataSetRequestId;
 
   StartSupportDataExportResult({

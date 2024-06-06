@@ -106,6 +106,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "EngineVersion": {"shape": "String", "flattened": false},
       "BackupRetentionPeriod": {"shape": "IntegerOptional", "flattened": false},
+      "StorageType": {"shape": "String", "flattened": false},
       "AllocatedStorage": {"shape": "IntegerOptional", "flattened": false},
       "Iops": {"shape": "IntegerOptional", "flattened": false}
     },
@@ -266,7 +267,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "GlobalClusterIdentifier": {
         "shape": "GlobalClusterIdentifier",
         "flattened": false
-      }
+      },
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -353,7 +355,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DBClusterIdentifier": {"shape": "String", "flattened": false},
       "StorageType": {"shape": "String", "flattened": false},
       "TdeCredentialArn": {"shape": "String", "flattened": false},
-      "TdeCredentialPassword": {"shape": "String", "flattened": false},
+      "TdeCredentialPassword": {"shape": "SensitiveString", "flattened": false},
       "StorageEncrypted": {"shape": "BooleanOptional", "flattened": false},
       "KmsKeyId": {"shape": "String", "flattened": false},
       "Domain": {"shape": "String", "flattened": false},
@@ -532,7 +534,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "GlobalClusterIdentifier": {
         "shape": "GlobalClusterIdentifier",
         "flattened": false
-      }
+      },
+      "IOOptimizedNextAllowedModificationTime": {
+        "shape": "TStamp",
+        "flattened": false
+      },
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -701,7 +708,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "IAMDatabaseAuthenticationEnabled": {
         "shape": "Boolean",
         "flattened": false
-      }
+      },
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1724,7 +1732,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ServerlessV2ScalingConfiguration": {
         "shape": "ServerlessV2ScalingConfiguration",
         "flattened": false
-      }
+      },
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1797,7 +1806,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "NewDBInstanceIdentifier": {"shape": "String", "flattened": false},
       "StorageType": {"shape": "String", "flattened": false},
       "TdeCredentialArn": {"shape": "String", "flattened": false},
-      "TdeCredentialPassword": {"shape": "String", "flattened": false},
+      "TdeCredentialPassword": {"shape": "SensitiveString", "flattened": false},
       "CACertificateIdentifier": {"shape": "String", "flattened": false},
       "Domain": {"shape": "String", "flattened": false},
       "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false},
@@ -2239,7 +2248,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ServerlessV2ScalingConfiguration": {
         "shape": "ServerlessV2ScalingConfiguration",
         "flattened": false
-      }
+      },
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -2280,7 +2290,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ServerlessV2ScalingConfiguration": {
         "shape": "ServerlessV2ScalingConfiguration",
         "flattened": false
-      }
+      },
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -2291,6 +2302,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "SensitiveString": {"type": "string", "flattened": false},
   "ServerlessV2ScalingConfiguration": {
     "type": "structure",
     "members": {

@@ -21,19 +21,18 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Web Services Billing Conductor is a fully managed service that you
 /// can use to customize a <a
-/// href="https://docs.aws.amazon.com/billingconductor/latest/userguide/understanding-eb.html#eb-other-definitions">pro
-/// forma</a> version of your billing data each month, to accurately show or
-/// chargeback your end customers. Amazon Web Services Billing Conductor doesn't
-/// change the way you're billed by Amazon Web Services each month by design.
-/// Instead, it provides you with a mechanism to configure, generate, and
-/// display rates to certain customers over a given billing period. You can also
-/// analyze the difference between the rates you apply to your accounting
-/// groupings relative to your actual rates from Amazon Web Services. As a
-/// result of your Amazon Web Services Billing Conductor configuration, the
-/// payer account can also see the custom rate applied on the billing details
-/// page of the <a href="https://console.aws.amazon.com/billing">Amazon Web
-/// Services Billing console</a>, or configure a cost and usage report per
-/// billing group.
+/// href="https://docs.aws.amazon.com/billingconductor/latest/userguide/understanding-eb.html#eb-other-definitions">proforma</a>
+/// version of your billing data each month, to accurately show or chargeback
+/// your end customers. Amazon Web Services Billing Conductor doesn't change the
+/// way you're billed by Amazon Web Services each month by design. Instead, it
+/// provides you with a mechanism to configure, generate, and display rates to
+/// certain customers over a given billing period. You can also analyze the
+/// difference between the rates you apply to your accounting groupings relative
+/// to your actual rates from Amazon Web Services. As a result of your Amazon
+/// Web Services Billing Conductor configuration, the payer account can also see
+/// the custom rate applied on the billing details page of the <a
+/// href="https://console.aws.amazon.com/billing">Amazon Web Services Billing
+/// console</a>, or configure a cost and usage report per billing group.
 ///
 /// This documentation shows how you can configure Amazon Web Services Billing
 /// Conductor using its API. For more information about using the <a
@@ -226,7 +225,7 @@ class BillingConductor {
   ///
   /// Parameter [accountGrouping] :
   /// The set of accounts that will be under the billing group. The set of
-  /// accounts resemble the linked accounts in a consolidated family.
+  /// accounts resemble the linked accounts in a consolidated billing family.
   ///
   /// Parameter [computationPreference] :
   /// The preferences and settings that will be used to compute the Amazon Web
@@ -305,6 +304,10 @@ class BillingConductor {
   /// Parameter [name] :
   /// The name of the custom line item.
   ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account in which this custom line item will be
+  /// applied to.
+  ///
   /// Parameter [billingPeriodRange] :
   /// A time range for which the custom line item is effective.
   ///
@@ -320,6 +323,7 @@ class BillingConductor {
     required CustomLineItemChargeDetails chargeDetails,
     required String description,
     required String name,
+    String? accountId,
     CustomLineItemBillingPeriodRange? billingPeriodRange,
     String? clientToken,
     Map<String, String>? tags,
@@ -332,6 +336,7 @@ class BillingConductor {
       'ChargeDetails': chargeDetails,
       'Description': description,
       'Name': name,
+      if (accountId != null) 'AccountId': accountId,
       if (billingPeriodRange != null) 'BillingPeriodRange': billingPeriodRange,
       if (tags != null) 'Tags': tags,
     };
@@ -678,6 +683,64 @@ class BillingConductor {
       exceptionFnMap: _exceptionFns,
     );
     return DisassociatePricingRulesOutput.fromJson(response);
+  }
+
+  /// Retrieves the margin summary report, which includes the Amazon Web
+  /// Services cost and charged amount (pro forma cost) by Amazon Web Service
+  /// for a specific billing group.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Number (ARN) that uniquely identifies the billing
+  /// group.
+  ///
+  /// Parameter [billingPeriodRange] :
+  /// A time range for which the margin summary is effective. You can specify up
+  /// to 12 months.
+  ///
+  /// Parameter [groupBy] :
+  /// A list of strings that specify the attributes that are used to break down
+  /// costs in the margin summary reports for the billing group. For example,
+  /// you can view your costs by the Amazon Web Service name or the billing
+  /// period.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of margin summary reports to retrieve.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used on subsequent calls to get reports.
+  Future<GetBillingGroupCostReportOutput> getBillingGroupCostReport({
+    required String arn,
+    BillingPeriodRange? billingPeriodRange,
+    List<GroupByAttributeName>? groupBy,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      200,
+      300,
+    );
+    final $payload = <String, dynamic>{
+      'Arn': arn,
+      if (billingPeriodRange != null) 'BillingPeriodRange': billingPeriodRange,
+      if (groupBy != null) 'GroupBy': groupBy.map((e) => e.toValue()).toList(),
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-billing-group-cost-report',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBillingGroupCostReportOutput.fromJson(response);
   }
 
   /// This is a paginated call to list linked accounts that are linked to the
@@ -1265,6 +1328,10 @@ class BillingConductor {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the billing group being updated.
   ///
+  /// Parameter [accountGrouping] :
+  /// Specifies if the billing group has automatic account association
+  /// (<code>AutoAssociate</code>) enabled.
+  ///
   /// Parameter [computationPreference] :
   /// The preferences and settings that will be used to compute the Amazon Web
   /// Services charges for a billing group.
@@ -1280,6 +1347,7 @@ class BillingConductor {
   /// The status of the billing group. Only one of the valid values can be used.
   Future<UpdateBillingGroupOutput> updateBillingGroup({
     required String arn,
+    UpdateBillingGroupAccountGrouping? accountGrouping,
     ComputationPreference? computationPreference,
     String? description,
     String? name,
@@ -1287,6 +1355,7 @@ class BillingConductor {
   }) async {
     final $payload = <String, dynamic>{
       'Arn': arn,
+      if (accountGrouping != null) 'AccountGrouping': accountGrouping,
       if (computationPreference != null)
         'ComputationPreference': computationPreference,
       if (description != null) 'Description': description,
@@ -1487,21 +1556,28 @@ class AccountAssociationsListElement {
 }
 
 /// The set of accounts that will be under the billing group. The set of
-/// accounts resemble the linked accounts in a consolidated family.
+/// accounts resemble the linked accounts in a consolidated billing family.
 class AccountGrouping {
   /// The account IDs that make up the billing group. Account IDs must be a part
   /// of the consolidated billing family, and not associated with another billing
   /// group.
   final List<String> linkedAccountIds;
 
+  /// Specifies if this billing group will automatically associate newly added
+  /// Amazon Web Services accounts that join your consolidated billing family.
+  final bool? autoAssociate;
+
   AccountGrouping({
     required this.linkedAccountIds,
+    this.autoAssociate,
   });
 
   Map<String, dynamic> toJson() {
     final linkedAccountIds = this.linkedAccountIds;
+    final autoAssociate = this.autoAssociate;
     return {
       'LinkedAccountIds': linkedAccountIds,
+      if (autoAssociate != null) 'AutoAssociate': autoAssociate,
     };
   }
 }
@@ -1660,6 +1736,40 @@ class AssociateResourceResponseElement {
   }
 }
 
+/// The key-value pair that represents the attribute by which the
+/// <code>BillingGroupCostReportResults</code> are grouped. For example, if you
+/// want a service-level breakdown for Amazon Simple Storage Service (Amazon S3)
+/// of the billing group, the attribute will be a key-value pair of
+/// <code>"PRODUCT_NAME"</code> and <code>"S3"</code>.
+class Attribute {
+  /// The key in a key-value pair that describes the margin summary.
+  final String? key;
+
+  /// The value in a key-value pair that describes the margin summary.
+  final String? value;
+
+  Attribute({
+    this.key,
+    this.value,
+  });
+
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 class BatchAssociateResourcesToCustomLineItemOutput {
   /// A list of <code>AssociateResourceResponseElement</code> for each resource
   /// that failed association to a percentage custom line item.
@@ -1812,8 +1922,89 @@ class BillingGroupCostReportElement {
   }
 }
 
+/// A paginated call to retrieve a list of summary reports of actual Amazon Web
+/// Services charges and the calculated Amazon Web Services charges, broken down
+/// by attributes.
+class BillingGroupCostReportResultElement {
+  /// The actual Amazon Web Services charges for the billing group.
+  final String? awsCost;
+
+  /// The Amazon Resource Number (ARN) that uniquely identifies the billing group.
+  final String? arn;
+
+  /// The list of key-value pairs that represent the attributes by which the
+  /// <code>BillingGroupCostReportResults</code> are grouped. For example, if you
+  /// want the Amazon S3 service-level breakdown of a billing group for November
+  /// 2023, the attributes list will contain a key-value pair of
+  /// <code>"PRODUCT_NAME"</code> and <code>"S3"</code> and a key-value pair of
+  /// <code>"BILLING_PERIOD"</code> and <code>"Nov 2023"</code>.
+  final List<Attribute>? attributes;
+
+  /// The displayed currency.
+  final String? currency;
+
+  /// The billing group margin.
+  final String? margin;
+
+  /// The percentage of the billing group margin.
+  final String? marginPercentage;
+
+  /// The hypothetical Amazon Web Services charges based on the associated pricing
+  /// plan of a billing group.
+  final String? proformaCost;
+
+  BillingGroupCostReportResultElement({
+    this.awsCost,
+    this.arn,
+    this.attributes,
+    this.currency,
+    this.margin,
+    this.marginPercentage,
+    this.proformaCost,
+  });
+
+  factory BillingGroupCostReportResultElement.fromJson(
+      Map<String, dynamic> json) {
+    return BillingGroupCostReportResultElement(
+      awsCost: json['AWSCost'] as String?,
+      arn: json['Arn'] as String?,
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      currency: json['Currency'] as String?,
+      margin: json['Margin'] as String?,
+      marginPercentage: json['MarginPercentage'] as String?,
+      proformaCost: json['ProformaCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsCost = this.awsCost;
+    final arn = this.arn;
+    final attributes = this.attributes;
+    final currency = this.currency;
+    final margin = this.margin;
+    final marginPercentage = this.marginPercentage;
+    final proformaCost = this.proformaCost;
+    return {
+      if (awsCost != null) 'AWSCost': awsCost,
+      if (arn != null) 'Arn': arn,
+      if (attributes != null) 'Attributes': attributes,
+      if (currency != null) 'Currency': currency,
+      if (margin != null) 'Margin': margin,
+      if (marginPercentage != null) 'MarginPercentage': marginPercentage,
+      if (proformaCost != null) 'ProformaCost': proformaCost,
+    };
+  }
+}
+
 /// A representation of a billing group.
 class BillingGroupListElement {
+  /// Specifies if the billing group has automatic account association
+  /// (<code>AutoAssociate</code>) enabled.
+  final ListBillingGroupAccountGrouping? accountGrouping;
+
   /// The Amazon Resource Number (ARN) that can be used to uniquely identify the
   /// billing group.
   final String? arn;
@@ -1844,6 +2035,7 @@ class BillingGroupListElement {
   final String? statusReason;
 
   BillingGroupListElement({
+    this.accountGrouping,
     this.arn,
     this.computationPreference,
     this.creationTime,
@@ -1858,6 +2050,10 @@ class BillingGroupListElement {
 
   factory BillingGroupListElement.fromJson(Map<String, dynamic> json) {
     return BillingGroupListElement(
+      accountGrouping: json['AccountGrouping'] != null
+          ? ListBillingGroupAccountGrouping.fromJson(
+              json['AccountGrouping'] as Map<String, dynamic>)
+          : null,
       arn: json['Arn'] as String?,
       computationPreference: json['ComputationPreference'] != null
           ? ComputationPreference.fromJson(
@@ -1875,6 +2071,7 @@ class BillingGroupListElement {
   }
 
   Map<String, dynamic> toJson() {
+    final accountGrouping = this.accountGrouping;
     final arn = this.arn;
     final computationPreference = this.computationPreference;
     final creationTime = this.creationTime;
@@ -1886,6 +2083,7 @@ class BillingGroupListElement {
     final status = this.status;
     final statusReason = this.statusReason;
     return {
+      if (accountGrouping != null) 'AccountGrouping': accountGrouping,
       if (arn != null) 'Arn': arn,
       if (computationPreference != null)
         'ComputationPreference': computationPreference,
@@ -1926,6 +2124,34 @@ extension BillingGroupStatusFromString on String {
         return BillingGroupStatus.primaryAccountMissing;
     }
     throw Exception('$this is not known in enum BillingGroupStatus');
+  }
+}
+
+/// A time range for which the margin summary is effective. The time range can
+/// be up to 12 months.
+class BillingPeriodRange {
+  /// The exclusive end billing period that defines a billing period range for the
+  /// margin summary. For example, if you choose a billing period that starts in
+  /// October 2023 and ends in December 2023, the margin summary will only include
+  /// data from October 2023 and November 2023.
+  final String exclusiveEndBillingPeriod;
+
+  /// The inclusive start billing period that defines a billing period range for
+  /// the margin summary.
+  final String inclusiveStartBillingPeriod;
+
+  BillingPeriodRange({
+    required this.exclusiveEndBillingPeriod,
+    required this.inclusiveStartBillingPeriod,
+  });
+
+  Map<String, dynamic> toJson() {
+    final exclusiveEndBillingPeriod = this.exclusiveEndBillingPeriod;
+    final inclusiveStartBillingPeriod = this.inclusiveStartBillingPeriod;
+    return {
+      'ExclusiveEndBillingPeriod': exclusiveEndBillingPeriod,
+      'InclusiveStartBillingPeriod': inclusiveStartBillingPeriod,
+    };
   }
 }
 
@@ -2142,6 +2368,9 @@ class CustomLineItemChargeDetails {
   /// details of a flat custom line item.
   final CustomLineItemFlatChargeDetails? flat;
 
+  /// A representation of the line item filter.
+  final List<LineItemFilter>? lineItemFilters;
+
   /// A <code>CustomLineItemPercentageChargeDetails</code> that describes the
   /// charge details of a percentage custom line item.
   final CustomLineItemPercentageChargeDetails? percentage;
@@ -2149,16 +2378,19 @@ class CustomLineItemChargeDetails {
   CustomLineItemChargeDetails({
     required this.type,
     this.flat,
+    this.lineItemFilters,
     this.percentage,
   });
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     final flat = this.flat;
+    final lineItemFilters = this.lineItemFilters;
     final percentage = this.percentage;
     return {
       'Type': type.toValue(),
       if (flat != null) 'Flat': flat,
+      if (lineItemFilters != null) 'LineItemFilters': lineItemFilters,
       if (percentage != null) 'Percentage': percentage,
     };
   }
@@ -2184,6 +2416,10 @@ class CustomLineItemFlatChargeDetails {
 
 /// A representation of a custom line item.
 class CustomLineItemListElement {
+  /// The Amazon Web Services account in which this custom line item will be
+  /// applied to.
+  final String? accountId;
+
   /// The Amazon Resource Names (ARNs) for custom line items.
   final String? arn;
 
@@ -2219,6 +2455,7 @@ class CustomLineItemListElement {
   final String? productCode;
 
   CustomLineItemListElement({
+    this.accountId,
     this.arn,
     this.associationSize,
     this.billingGroupArn,
@@ -2233,6 +2470,7 @@ class CustomLineItemListElement {
 
   factory CustomLineItemListElement.fromJson(Map<String, dynamic> json) {
     return CustomLineItemListElement(
+      accountId: json['AccountId'] as String?,
       arn: json['Arn'] as String?,
       associationSize: json['AssociationSize'] as int?,
       billingGroupArn: json['BillingGroupArn'] as String?,
@@ -2250,6 +2488,7 @@ class CustomLineItemListElement {
   }
 
   Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
     final arn = this.arn;
     final associationSize = this.associationSize;
     final billingGroupArn = this.billingGroupArn;
@@ -2261,6 +2500,7 @@ class CustomLineItemListElement {
     final name = this.name;
     final productCode = this.productCode;
     return {
+      if (accountId != null) 'AccountId': accountId,
       if (arn != null) 'Arn': arn,
       if (associationSize != null) 'AssociationSize': associationSize,
       if (billingGroupArn != null) 'BillingGroupArn': billingGroupArn,
@@ -2359,6 +2599,10 @@ extension CustomLineItemTypeFromString on String {
 
 /// A representation of a custom line item version.
 class CustomLineItemVersionListElement {
+  /// The Amazon Web Services account in which this custom line item will be
+  /// applied to.
+  final String? accountId;
+
   /// A list of custom line item Amazon Resource Names (ARNs) to retrieve
   /// information.
   final String? arn;
@@ -2399,6 +2643,7 @@ class CustomLineItemVersionListElement {
   final int? startTime;
 
   CustomLineItemVersionListElement({
+    this.accountId,
     this.arn,
     this.associationSize,
     this.billingGroupArn,
@@ -2416,6 +2661,7 @@ class CustomLineItemVersionListElement {
 
   factory CustomLineItemVersionListElement.fromJson(Map<String, dynamic> json) {
     return CustomLineItemVersionListElement(
+      accountId: json['AccountId'] as String?,
       arn: json['Arn'] as String?,
       associationSize: json['AssociationSize'] as int?,
       billingGroupArn: json['BillingGroupArn'] as String?,
@@ -2436,6 +2682,7 @@ class CustomLineItemVersionListElement {
   }
 
   Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
     final arn = this.arn;
     final associationSize = this.associationSize;
     final billingGroupArn = this.billingGroupArn;
@@ -2450,6 +2697,7 @@ class CustomLineItemVersionListElement {
     final startBillingPeriod = this.startBillingPeriod;
     final startTime = this.startTime;
     return {
+      if (accountId != null) 'AccountId': accountId,
       if (arn != null) 'Arn': arn,
       if (associationSize != null) 'AssociationSize': associationSize,
       if (billingGroupArn != null) 'BillingGroupArn': billingGroupArn,
@@ -2490,7 +2738,7 @@ class DeleteBillingGroupOutput {
 }
 
 class DeleteCustomLineItemOutput {
-  /// Then ARN of the deleted custom line item.
+  /// The ARN of the deleted custom line item.
   final String? arn;
 
   DeleteCustomLineItemOutput({
@@ -2659,6 +2907,164 @@ class FreeTierConfig {
   }
 }
 
+class GetBillingGroupCostReportOutput {
+  /// The list of margin summary reports.
+  final List<BillingGroupCostReportResultElement>?
+      billingGroupCostReportResults;
+
+  /// The pagination token used on subsequent calls to get reports.
+  final String? nextToken;
+
+  GetBillingGroupCostReportOutput({
+    this.billingGroupCostReportResults,
+    this.nextToken,
+  });
+
+  factory GetBillingGroupCostReportOutput.fromJson(Map<String, dynamic> json) {
+    return GetBillingGroupCostReportOutput(
+      billingGroupCostReportResults:
+          (json['BillingGroupCostReportResults'] as List?)
+              ?.whereNotNull()
+              .map((e) => BillingGroupCostReportResultElement.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingGroupCostReportResults = this.billingGroupCostReportResults;
+    final nextToken = this.nextToken;
+    return {
+      if (billingGroupCostReportResults != null)
+        'BillingGroupCostReportResults': billingGroupCostReportResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+enum GroupByAttributeName {
+  productName,
+  billingPeriod,
+}
+
+extension GroupByAttributeNameValueExtension on GroupByAttributeName {
+  String toValue() {
+    switch (this) {
+      case GroupByAttributeName.productName:
+        return 'PRODUCT_NAME';
+      case GroupByAttributeName.billingPeriod:
+        return 'BILLING_PERIOD';
+    }
+  }
+}
+
+extension GroupByAttributeNameFromString on String {
+  GroupByAttributeName toGroupByAttributeName() {
+    switch (this) {
+      case 'PRODUCT_NAME':
+        return GroupByAttributeName.productName;
+      case 'BILLING_PERIOD':
+        return GroupByAttributeName.billingPeriod;
+    }
+    throw Exception('$this is not known in enum GroupByAttributeName');
+  }
+}
+
+/// A representation of the line item filter for your custom line item. You can
+/// use line item filters to include or exclude specific resource values from
+/// the billing group's total cost. For example, if you create a custom line
+/// item and you want to filter out a value, such as Savings Plan discounts, you
+/// can update <code>LineItemFilter</code> to exclude it.
+class LineItemFilter {
+  /// The attribute of the line item filter. This specifies what attribute that
+  /// you can filter on.
+  final LineItemFilterAttributeName attribute;
+
+  /// The match criteria of the line item filter. This parameter specifies whether
+  /// not to include the resource value from the billing group total cost.
+  final MatchOption matchOption;
+
+  /// The values of the line item filter. This specifies the values to filter on.
+  /// Currently, you can only exclude Savings Plan discounts.
+  final List<LineItemFilterValue> values;
+
+  LineItemFilter({
+    required this.attribute,
+    required this.matchOption,
+    required this.values,
+  });
+
+  factory LineItemFilter.fromJson(Map<String, dynamic> json) {
+    return LineItemFilter(
+      attribute: (json['Attribute'] as String).toLineItemFilterAttributeName(),
+      matchOption: (json['MatchOption'] as String).toMatchOption(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toLineItemFilterValue())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final matchOption = this.matchOption;
+    final values = this.values;
+    return {
+      'Attribute': attribute.toValue(),
+      'MatchOption': matchOption.toValue(),
+      'Values': values.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+enum LineItemFilterAttributeName {
+  lineItemType,
+}
+
+extension LineItemFilterAttributeNameValueExtension
+    on LineItemFilterAttributeName {
+  String toValue() {
+    switch (this) {
+      case LineItemFilterAttributeName.lineItemType:
+        return 'LINE_ITEM_TYPE';
+    }
+  }
+}
+
+extension LineItemFilterAttributeNameFromString on String {
+  LineItemFilterAttributeName toLineItemFilterAttributeName() {
+    switch (this) {
+      case 'LINE_ITEM_TYPE':
+        return LineItemFilterAttributeName.lineItemType;
+    }
+    throw Exception('$this is not known in enum LineItemFilterAttributeName');
+  }
+}
+
+enum LineItemFilterValue {
+  savingsPlanNegation,
+}
+
+extension LineItemFilterValueValueExtension on LineItemFilterValue {
+  String toValue() {
+    switch (this) {
+      case LineItemFilterValue.savingsPlanNegation:
+        return 'SAVINGS_PLAN_NEGATION';
+    }
+  }
+}
+
+extension LineItemFilterValueFromString on String {
+  LineItemFilterValue toLineItemFilterValue() {
+    switch (this) {
+      case 'SAVINGS_PLAN_NEGATION':
+        return LineItemFilterValue.savingsPlanNegation;
+    }
+    throw Exception('$this is not known in enum LineItemFilterValue');
+  }
+}
+
 /// The filter on the account ID of the linked account, or any of the following:
 ///
 /// <code>MONITORED</code>: linked accounts that are associated to billing
@@ -2738,6 +3144,30 @@ class ListAccountAssociationsOutput {
   }
 }
 
+/// Specifies if the billing group has the following features enabled.
+class ListBillingGroupAccountGrouping {
+  /// Specifies if this billing group will automatically associate newly added
+  /// Amazon Web Services accounts that join your consolidated billing family.
+  final bool? autoAssociate;
+
+  ListBillingGroupAccountGrouping({
+    this.autoAssociate,
+  });
+
+  factory ListBillingGroupAccountGrouping.fromJson(Map<String, dynamic> json) {
+    return ListBillingGroupAccountGrouping(
+      autoAssociate: json['AutoAssociate'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoAssociate = this.autoAssociate;
+    return {
+      if (autoAssociate != null) 'AutoAssociate': autoAssociate,
+    };
+  }
+}
+
 /// The filter used to retrieve specific
 /// <code>BillingGroupCostReportElements</code>.
 class ListBillingGroupCostReportsFilter {
@@ -2799,6 +3229,10 @@ class ListBillingGroupsFilter {
   /// information.
   final List<String>? arns;
 
+  /// Specifies if this billing group will automatically associate newly added
+  /// Amazon Web Services accounts that join your consolidated billing family.
+  final bool? autoAssociate;
+
   /// The pricing plan Amazon Resource Names (ARNs) to retrieve information.
   final String? pricingPlan;
 
@@ -2808,16 +3242,19 @@ class ListBillingGroupsFilter {
 
   ListBillingGroupsFilter({
     this.arns,
+    this.autoAssociate,
     this.pricingPlan,
     this.statuses,
   });
 
   Map<String, dynamic> toJson() {
     final arns = this.arns;
+    final autoAssociate = this.autoAssociate;
     final pricingPlan = this.pricingPlan;
     final statuses = this.statuses;
     return {
       if (arns != null) 'Arns': arns,
+      if (autoAssociate != null) 'AutoAssociate': autoAssociate,
       if (pricingPlan != null) 'PricingPlan': pricingPlan,
       if (statuses != null)
         'Statuses': statuses.map((e) => e.toValue()).toList(),
@@ -2868,6 +3305,9 @@ class ListCustomLineItemChargeDetails {
   /// details of a flat custom line item.
   final ListCustomLineItemFlatChargeDetails? flat;
 
+  /// A representation of the line item filter.
+  final List<LineItemFilter>? lineItemFilters;
+
   /// A <code>ListCustomLineItemPercentageChargeDetails</code> that describes the
   /// charge details of a percentage custom line item.
   final ListCustomLineItemPercentageChargeDetails? percentage;
@@ -2875,6 +3315,7 @@ class ListCustomLineItemChargeDetails {
   ListCustomLineItemChargeDetails({
     required this.type,
     this.flat,
+    this.lineItemFilters,
     this.percentage,
   });
 
@@ -2885,6 +3326,10 @@ class ListCustomLineItemChargeDetails {
           ? ListCustomLineItemFlatChargeDetails.fromJson(
               json['Flat'] as Map<String, dynamic>)
           : null,
+      lineItemFilters: (json['LineItemFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => LineItemFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       percentage: json['Percentage'] != null
           ? ListCustomLineItemPercentageChargeDetails.fromJson(
               json['Percentage'] as Map<String, dynamic>)
@@ -2895,10 +3340,12 @@ class ListCustomLineItemChargeDetails {
   Map<String, dynamic> toJson() {
     final type = this.type;
     final flat = this.flat;
+    final lineItemFilters = this.lineItemFilters;
     final percentage = this.percentage;
     return {
       'Type': type.toValue(),
       if (flat != null) 'Flat': flat,
+      if (lineItemFilters != null) 'LineItemFilters': lineItemFilters,
       if (percentage != null) 'Percentage': percentage,
     };
   }
@@ -3037,6 +3484,10 @@ class ListCustomLineItemVersionsOutput {
 /// A filter that specifies the custom line items and billing groups to retrieve
 /// FFLI information.
 class ListCustomLineItemsFilter {
+  /// The Amazon Web Services accounts in which this custom line item will be
+  /// applied to.
+  final List<String>? accountIds;
+
   /// A list of custom line item ARNs to retrieve information.
   final List<String>? arns;
 
@@ -3047,16 +3498,19 @@ class ListCustomLineItemsFilter {
   final List<String>? names;
 
   ListCustomLineItemsFilter({
+    this.accountIds,
     this.arns,
     this.billingGroups,
     this.names,
   });
 
   Map<String, dynamic> toJson() {
+    final accountIds = this.accountIds;
     final arns = this.arns;
     final billingGroups = this.billingGroups;
     final names = this.names;
     return {
+      if (accountIds != null) 'AccountIds': accountIds,
       if (arns != null) 'Arns': arns,
       if (billingGroups != null) 'BillingGroups': billingGroups,
       if (names != null) 'Names': names,
@@ -3442,6 +3896,29 @@ class ListTagsForResourceResponse {
   }
 }
 
+enum MatchOption {
+  notEqual,
+}
+
+extension MatchOptionValueExtension on MatchOption {
+  String toValue() {
+    switch (this) {
+      case MatchOption.notEqual:
+        return 'NOT_EQUAL';
+    }
+  }
+}
+
+extension MatchOptionFromString on String {
+  MatchOption toMatchOption() {
+    switch (this) {
+      case 'NOT_EQUAL':
+        return MatchOption.notEqual;
+    }
+    throw Exception('$this is not known in enum MatchOption');
+  }
+}
+
 /// A representation of a pricing plan.
 class PricingPlanListElement {
   /// The pricing plan Amazon Resource Names (ARN). This can be used to uniquely
@@ -3754,7 +4231,36 @@ class UntagResourceResponse {
   }
 }
 
+/// Specifies if the billing group has the following features enabled.
+class UpdateBillingGroupAccountGrouping {
+  /// Specifies if this billing group will automatically associate newly added
+  /// Amazon Web Services accounts that join your consolidated billing family.
+  final bool? autoAssociate;
+
+  UpdateBillingGroupAccountGrouping({
+    this.autoAssociate,
+  });
+
+  factory UpdateBillingGroupAccountGrouping.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateBillingGroupAccountGrouping(
+      autoAssociate: json['AutoAssociate'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoAssociate = this.autoAssociate;
+    return {
+      if (autoAssociate != null) 'AutoAssociate': autoAssociate,
+    };
+  }
+}
+
 class UpdateBillingGroupOutput {
+  /// Specifies if the billing group has automatic account association
+  /// (<code>AutoAssociate</code>) enabled.
+  final UpdateBillingGroupAccountGrouping? accountGrouping;
+
   /// The Amazon Resource Name (ARN) of the billing group that was updated.
   final String? arn;
 
@@ -3785,6 +4291,7 @@ class UpdateBillingGroupOutput {
   final String? statusReason;
 
   UpdateBillingGroupOutput({
+    this.accountGrouping,
     this.arn,
     this.description,
     this.lastModifiedTime,
@@ -3798,6 +4305,10 @@ class UpdateBillingGroupOutput {
 
   factory UpdateBillingGroupOutput.fromJson(Map<String, dynamic> json) {
     return UpdateBillingGroupOutput(
+      accountGrouping: json['AccountGrouping'] != null
+          ? UpdateBillingGroupAccountGrouping.fromJson(
+              json['AccountGrouping'] as Map<String, dynamic>)
+          : null,
       arn: json['Arn'] as String?,
       description: json['Description'] as String?,
       lastModifiedTime: json['LastModifiedTime'] as int?,
@@ -3811,6 +4322,7 @@ class UpdateBillingGroupOutput {
   }
 
   Map<String, dynamic> toJson() {
+    final accountGrouping = this.accountGrouping;
     final arn = this.arn;
     final description = this.description;
     final lastModifiedTime = this.lastModifiedTime;
@@ -3821,6 +4333,7 @@ class UpdateBillingGroupOutput {
     final status = this.status;
     final statusReason = this.statusReason;
     return {
+      if (accountGrouping != null) 'AccountGrouping': accountGrouping,
       if (arn != null) 'Arn': arn,
       if (description != null) 'Description': description,
       if (lastModifiedTime != null) 'LastModifiedTime': lastModifiedTime,
@@ -3841,20 +4354,26 @@ class UpdateCustomLineItemChargeDetails {
   /// charge details of a flat custom line item.
   final UpdateCustomLineItemFlatChargeDetails? flat;
 
+  /// A representation of the line item filter.
+  final List<LineItemFilter>? lineItemFilters;
+
   /// An <code>UpdateCustomLineItemPercentageChargeDetails</code> that describes
   /// the new charge details of a percentage custom line item.
   final UpdateCustomLineItemPercentageChargeDetails? percentage;
 
   UpdateCustomLineItemChargeDetails({
     this.flat,
+    this.lineItemFilters,
     this.percentage,
   });
 
   Map<String, dynamic> toJson() {
     final flat = this.flat;
+    final lineItemFilters = this.lineItemFilters;
     final percentage = this.percentage;
     return {
       if (flat != null) 'Flat': flat,
+      if (lineItemFilters != null) 'LineItemFilters': lineItemFilters,
       if (percentage != null) 'Percentage': percentage,
     };
   }

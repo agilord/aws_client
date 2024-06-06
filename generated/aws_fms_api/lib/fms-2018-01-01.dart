@@ -303,7 +303,11 @@ class FMS {
   /// Deletes the security group if it was created through Firewall Manager and
   /// if it's no longer associated with any resources through another policy
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// For security group common policies, even if set to <code>False</code>,
+  /// Firewall Manager deletes all security groups created by Firewall Manager
+  /// that aren't associated with any other resources through another policy.
+  /// </note>
   /// After the cleanup, in-scope resources are no longer protected by web ACLs
   /// in this policy. Protection of out-of-scope resources remains unchanged.
   /// Scope is determined by tags that you create and accounts that you
@@ -477,7 +481,7 @@ class FMS {
   }
 
   /// Returns information about the specified account's administrative scope.
-  /// The admistrative scope defines the resources that an Firewall Manager
+  /// The administrative scope defines the resources that an Firewall Manager
   /// administrator can manage.
   ///
   /// May throw [InvalidOperationException].
@@ -487,7 +491,7 @@ class FMS {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [adminAccount] :
-  /// The administator account that you want to get the details for.
+  /// The administrator account that you want to get the details for.
   Future<GetAdminScopeResponse> getAdminScope({
     required String adminAccount,
   }) async {
@@ -550,30 +554,8 @@ class FMS {
   /// account. Details include resources that are in and out of compliance with
   /// the specified policy.
   ///
-  /// <ul>
-  /// <li>
-  /// Resources are considered noncompliant for WAF and Shield Advanced policies
-  /// if the specified policy has not been applied to them.
-  /// </li>
-  /// <li>
-  /// Resources are considered noncompliant for security group policies if they
-  /// are in scope of the policy, they violate one or more of the policy rules,
-  /// and remediation is disabled or not possible.
-  /// </li>
-  /// <li>
-  /// Resources are considered noncompliant for Network Firewall policies if a
-  /// firewall is missing in the VPC, if the firewall endpoint isn't set up in
-  /// an expected Availability Zone and subnet, if a subnet created by the
-  /// Firewall Manager doesn't have the expected route table, and for
-  /// modifications to a firewall policy that violate the Firewall Manager
-  /// policy's rules.
-  /// </li>
-  /// <li>
-  /// Resources are considered noncompliant for DNS Firewall policies if a DNS
-  /// Firewall rule group is missing from the rule group associations for the
-  /// VPC.
-  /// </li>
-  /// </ul>
+  /// The reasons for resources being considered compliant depend on the
+  /// Firewall Manager policy type.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
@@ -855,8 +837,29 @@ class FMS {
   /// The Amazon Web Services account ID that you want the details for.
   ///
   /// Parameter [policyId] :
-  /// The ID of the Firewall Manager policy that you want the details for. This
-  /// currently only supports security group content audit policies.
+  /// The ID of the Firewall Manager policy that you want the details for. You
+  /// can get violation details for the following policy types:
+  ///
+  /// <ul>
+  /// <li>
+  /// DNS Firewall
+  /// </li>
+  /// <li>
+  /// Imported Network Firewall
+  /// </li>
+  /// <li>
+  /// Network Firewall
+  /// </li>
+  /// <li>
+  /// Security group content audit
+  /// </li>
+  /// <li>
+  /// Network ACL
+  /// </li>
+  /// <li>
+  /// Third-party firewall
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource that has violations.
@@ -1679,40 +1682,67 @@ class FMS {
 
   /// Creates an Firewall Manager policy.
   ///
+  /// A Firewall Manager policy is specific to the individual policy type. If
+  /// you want to enforce multiple policy types across accounts, you can create
+  /// multiple policies. You can create more than one policy for each type.
+  ///
+  /// If you add a new account to an organization that you created with
+  /// Organizations, Firewall Manager automatically applies the policy to the
+  /// resources in that account that are within scope of the policy.
+  ///
   /// Firewall Manager provides the following types of policies:
   ///
   /// <ul>
   /// <li>
-  /// An WAF policy (type WAFV2), which defines rule groups to run first in the
-  /// corresponding WAF web ACL and rule groups to run last in the web ACL.
-  /// </li>
-  /// <li>
-  /// An WAF Classic policy (type WAF), which defines a rule group.
-  /// </li>
-  /// <li>
-  /// A Shield Advanced policy, which applies Shield Advanced protection to
+  /// <b>WAF policy</b> - This policy applies WAF web ACL protections to
   /// specified accounts and resources.
   /// </li>
   /// <li>
-  /// A security group policy, which manages VPC security groups across your
-  /// Amazon Web Services organization.
+  /// <b>Shield Advanced policy</b> - This policy applies Shield Advanced
+  /// protection to specified accounts and resources.
   /// </li>
   /// <li>
-  /// An Network Firewall policy, which provides firewall rules to filter
-  /// network traffic in specified Amazon VPCs.
+  /// <b>Security Groups policy</b> - This type of policy gives you control over
+  /// security groups that are in use throughout your organization in
+  /// Organizations and lets you enforce a baseline set of rules across your
+  /// organization.
   /// </li>
   /// <li>
-  /// A DNS Firewall policy, which provides Route 53 Resolver DNS Firewall rules
-  /// to filter DNS queries for specified VPCs.
+  /// <b>Network ACL policy</b> - This type of policy gives you control over the
+  /// network ACLs that are in use throughout your organization in Organizations
+  /// and lets you enforce a baseline set of first and last network ACL rules
+  /// across your organization.
   /// </li>
-  /// </ul>
-  /// Each policy is specific to one of the types. If you want to enforce more
-  /// than one policy type across accounts, create multiple policies. You can
-  /// create multiple policies for each type.
+  /// <li>
+  /// <b>Network Firewall policy</b> - This policy applies Network Firewall
+  /// protection to your organization's VPCs.
+  /// </li>
+  /// <li>
+  /// <b>DNS Firewall policy</b> - This policy applies Amazon Route 53 Resolver
+  /// DNS Firewall protections to your organization's VPCs.
+  /// </li>
+  /// <li>
+  /// <b>Third-party firewall policy</b> - This policy applies third-party
+  /// firewall protections. Third-party firewalls are available by subscription
+  /// through the Amazon Web Services Marketplace console at <a
+  /// href="http://aws.amazon.com/marketplace">Amazon Web Services
+  /// Marketplace</a>.
   ///
-  /// You must be subscribed to Shield Advanced to create a Shield Advanced
-  /// policy. For more information about subscribing to Shield Advanced, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/DDOSAPIReference/API_CreateSubscription.html">CreateSubscription</a>.
+  /// <ul>
+  /// <li>
+  /// <b>Palo Alto Networks Cloud NGFW policy</b> - This policy applies Palo
+  /// Alto Networks Cloud Next Generation Firewall (NGFW) protections and Palo
+  /// Alto Networks Cloud NGFW rulestacks to your organization's VPCs.
+  /// </li>
+  /// <li>
+  /// <b>Fortigate CNF policy</b> - This policy applies Fortigate Cloud Native
+  /// Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution
+  /// that blocks Zero-Day threats and secures cloud infrastructures with
+  /// industry-leading advanced threat prevention, smart web application
+  /// firewalls (WAF), and API protection.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -2046,7 +2076,7 @@ class AdminAccountSummary {
   final bool? defaultAdmin;
 
   /// The current status of the request to onboard a member account as an Firewall
-  /// Manager administator.
+  /// Manager administrator.
   ///
   /// <ul>
   /// <li>
@@ -2526,6 +2556,79 @@ class ComplianceViolator {
   }
 }
 
+/// Information about the <code>CreateNetworkAcl</code> action in Amazon EC2.
+/// This is a remediation option in <code>RemediationAction</code>.
+class CreateNetworkAclAction {
+  /// Brief description of this remediation action.
+  final String? description;
+
+  /// Indicates whether it is possible for Firewall Manager to perform this
+  /// remediation action. A false value indicates that auto remediation is
+  /// disabled or Firewall Manager is unable to perform the action due to a
+  /// conflict of some kind.
+  final bool? fMSCanRemediate;
+
+  /// The VPC that's associated with the remediation action.
+  final ActionTarget? vpc;
+
+  CreateNetworkAclAction({
+    this.description,
+    this.fMSCanRemediate,
+    this.vpc,
+  });
+
+  factory CreateNetworkAclAction.fromJson(Map<String, dynamic> json) {
+    return CreateNetworkAclAction(
+      description: json['Description'] as String?,
+      fMSCanRemediate: json['FMSCanRemediate'] as bool?,
+      vpc: json['Vpc'] != null
+          ? ActionTarget.fromJson(json['Vpc'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Information about the <code>CreateNetworkAclEntries</code> action in Amazon
+/// EC2. This is a remediation option in <code>RemediationAction</code>.
+class CreateNetworkAclEntriesAction {
+  /// Brief description of this remediation action.
+  final String? description;
+
+  /// Indicates whether it is possible for Firewall Manager to perform this
+  /// remediation action. A false value indicates that auto remediation is
+  /// disabled or Firewall Manager is unable to perform the action due to a
+  /// conflict of some kind.
+  final bool? fMSCanRemediate;
+
+  /// Lists the entries that the remediation action would create.
+  final List<EntryDescription>? networkAclEntriesToBeCreated;
+
+  /// The network ACL that's associated with the remediation action.
+  final ActionTarget? networkAclId;
+
+  CreateNetworkAclEntriesAction({
+    this.description,
+    this.fMSCanRemediate,
+    this.networkAclEntriesToBeCreated,
+    this.networkAclId,
+  });
+
+  factory CreateNetworkAclEntriesAction.fromJson(Map<String, dynamic> json) {
+    return CreateNetworkAclEntriesAction(
+      description: json['Description'] as String?,
+      fMSCanRemediate: json['FMSCanRemediate'] as bool?,
+      networkAclEntriesToBeCreated:
+          (json['NetworkAclEntriesToBeCreated'] as List?)
+              ?.whereNotNull()
+              .map((e) => EntryDescription.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      networkAclId: json['NetworkAclId'] != null
+          ? ActionTarget.fromJson(json['NetworkAclId'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 enum CustomerPolicyScopeIdType {
   account,
   orgUnit,
@@ -2579,6 +2682,47 @@ extension CustomerPolicyStatusFromString on String {
         return CustomerPolicyStatus.outOfAdminScope;
     }
     throw Exception('$this is not known in enum CustomerPolicyStatus');
+  }
+}
+
+/// Information about the <code>DeleteNetworkAclEntries</code> action in Amazon
+/// EC2. This is a remediation option in <code>RemediationAction</code>.
+class DeleteNetworkAclEntriesAction {
+  /// Brief description of this remediation action.
+  final String? description;
+
+  /// Indicates whether it is possible for Firewall Manager to perform this
+  /// remediation action. A false value indicates that auto remediation is
+  /// disabled or Firewall Manager is unable to perform the action due to a
+  /// conflict of some kind.
+  final bool? fMSCanRemediate;
+
+  /// Lists the entries that the remediation action would delete.
+  final List<EntryDescription>? networkAclEntriesToBeDeleted;
+
+  /// The network ACL that's associated with the remediation action.
+  final ActionTarget? networkAclId;
+
+  DeleteNetworkAclEntriesAction({
+    this.description,
+    this.fMSCanRemediate,
+    this.networkAclEntriesToBeDeleted,
+    this.networkAclId,
+  });
+
+  factory DeleteNetworkAclEntriesAction.fromJson(Map<String, dynamic> json) {
+    return DeleteNetworkAclEntriesAction(
+      description: json['Description'] as String?,
+      fMSCanRemediate: json['FMSCanRemediate'] as bool?,
+      networkAclEntriesToBeDeleted:
+          (json['NetworkAclEntriesToBeDeleted'] as List?)
+              ?.whereNotNull()
+              .map((e) => EntryDescription.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      networkAclId: json['NetworkAclId'] != null
+          ? ActionTarget.fromJson(json['NetworkAclId'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -3064,6 +3208,181 @@ class EC2ReplaceRouteTableAssociationAction {
   }
 }
 
+/// Describes a single rule in a network ACL.
+class EntryDescription {
+  /// Describes a rule in a network ACL.
+  ///
+  /// Each network ACL has a set of numbered ingress rules and a separate set of
+  /// numbered egress rules. When determining whether a packet should be allowed
+  /// in or out of a subnet associated with the network ACL, Amazon Web Services
+  /// processes the entries in the network ACL according to the rule numbers, in
+  /// ascending order.
+  ///
+  /// When you manage an individual network ACL, you explicitly specify the rule
+  /// numbers. When you specify the network ACL rules in a Firewall Manager
+  /// policy, you provide the rules to run first, in the order that you want them
+  /// to run, and the rules to run last, in the order that you want them to run.
+  /// Firewall Manager assigns the rule numbers for you when you save the network
+  /// ACL policy specification.
+  final NetworkAclEntry? entryDetail;
+
+  /// The rule number for the entry. ACL entries are processed in ascending order
+  /// by rule number. In a Firewall Manager network ACL policy, Firewall Manager
+  /// assigns rule numbers.
+  final int? entryRuleNumber;
+
+  /// Specifies whether the entry is managed by Firewall Manager or by a user,
+  /// and, for Firewall Manager-managed entries, specifies whether the entry is
+  /// among those that run first in the network ACL or those that run last.
+  final EntryType? entryType;
+
+  EntryDescription({
+    this.entryDetail,
+    this.entryRuleNumber,
+    this.entryType,
+  });
+
+  factory EntryDescription.fromJson(Map<String, dynamic> json) {
+    return EntryDescription(
+      entryDetail: json['EntryDetail'] != null
+          ? NetworkAclEntry.fromJson(
+              json['EntryDetail'] as Map<String, dynamic>)
+          : null,
+      entryRuleNumber: json['EntryRuleNumber'] as int?,
+      entryType: (json['EntryType'] as String?)?.toEntryType(),
+    );
+  }
+}
+
+enum EntryType {
+  fmsManagedFirstEntry,
+  fmsManagedLastEntry,
+  customEntry,
+}
+
+extension EntryTypeValueExtension on EntryType {
+  String toValue() {
+    switch (this) {
+      case EntryType.fmsManagedFirstEntry:
+        return 'FMS_MANAGED_FIRST_ENTRY';
+      case EntryType.fmsManagedLastEntry:
+        return 'FMS_MANAGED_LAST_ENTRY';
+      case EntryType.customEntry:
+        return 'CUSTOM_ENTRY';
+    }
+  }
+}
+
+extension EntryTypeFromString on String {
+  EntryType toEntryType() {
+    switch (this) {
+      case 'FMS_MANAGED_FIRST_ENTRY':
+        return EntryType.fmsManagedFirstEntry;
+      case 'FMS_MANAGED_LAST_ENTRY':
+        return EntryType.fmsManagedLastEntry;
+      case 'CUSTOM_ENTRY':
+        return EntryType.customEntry;
+    }
+    throw Exception('$this is not known in enum EntryType');
+  }
+}
+
+/// Detailed information about an entry violation in a network ACL. The
+/// violation is against the network ACL specification inside the Firewall
+/// Manager network ACL policy. This data object is part of
+/// <code>InvalidNetworkAclEntriesViolation</code>.
+class EntryViolation {
+  /// The evaluation location within the ordered list of entries where the
+  /// <code>ExpectedEntry</code> is currently located.
+  final String? actualEvaluationOrder;
+
+  /// The list of entries that are in conflict with <code>ExpectedEntry</code>.
+  final List<EntryDescription>? entriesWithConflicts;
+
+  /// The entry that's currently in the <code>ExpectedEvaluationOrder</code>
+  /// location, in place of the expected entry.
+  final EntryDescription? entryAtExpectedEvaluationOrder;
+
+  /// Descriptions of the violations that Firewall Manager found for these
+  /// entries.
+  final List<EntryViolationReason>? entryViolationReasons;
+
+  /// The Firewall Manager-managed network ACL entry that is involved in the entry
+  /// violation.
+  final EntryDescription? expectedEntry;
+
+  /// The evaluation location within the ordered list of entries where the
+  /// <code>ExpectedEntry</code> should be, according to the network ACL policy
+  /// specifications.
+  final String? expectedEvaluationOrder;
+
+  EntryViolation({
+    this.actualEvaluationOrder,
+    this.entriesWithConflicts,
+    this.entryAtExpectedEvaluationOrder,
+    this.entryViolationReasons,
+    this.expectedEntry,
+    this.expectedEvaluationOrder,
+  });
+
+  factory EntryViolation.fromJson(Map<String, dynamic> json) {
+    return EntryViolation(
+      actualEvaluationOrder: json['ActualEvaluationOrder'] as String?,
+      entriesWithConflicts: (json['EntriesWithConflicts'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntryDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entryAtExpectedEvaluationOrder: json['EntryAtExpectedEvaluationOrder'] !=
+              null
+          ? EntryDescription.fromJson(
+              json['EntryAtExpectedEvaluationOrder'] as Map<String, dynamic>)
+          : null,
+      entryViolationReasons: (json['EntryViolationReasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEntryViolationReason())
+          .toList(),
+      expectedEntry: json['ExpectedEntry'] != null
+          ? EntryDescription.fromJson(
+              json['ExpectedEntry'] as Map<String, dynamic>)
+          : null,
+      expectedEvaluationOrder: json['ExpectedEvaluationOrder'] as String?,
+    );
+  }
+}
+
+enum EntryViolationReason {
+  missingExpectedEntry,
+  incorrectEntryOrder,
+  entryConflict,
+}
+
+extension EntryViolationReasonValueExtension on EntryViolationReason {
+  String toValue() {
+    switch (this) {
+      case EntryViolationReason.missingExpectedEntry:
+        return 'MISSING_EXPECTED_ENTRY';
+      case EntryViolationReason.incorrectEntryOrder:
+        return 'INCORRECT_ENTRY_ORDER';
+      case EntryViolationReason.entryConflict:
+        return 'ENTRY_CONFLICT';
+    }
+  }
+}
+
+extension EntryViolationReasonFromString on String {
+  EntryViolationReason toEntryViolationReason() {
+    switch (this) {
+      case 'MISSING_EXPECTED_ENTRY':
+        return EntryViolationReason.missingExpectedEntry;
+      case 'INCORRECT_ENTRY_ORDER':
+        return EntryViolationReason.incorrectEntryOrder;
+      case 'ENTRY_CONFLICT':
+        return EntryViolationReason.entryConflict;
+    }
+    throw Exception('$this is not known in enum EntryViolationReason');
+  }
+}
+
 /// Describes the compliance status for the account. An account is considered
 /// noncompliant if it includes resources that are not protected by the
 /// specified policy or that don't comply with the policy.
@@ -3370,7 +3689,7 @@ class GetAdminScopeResponse {
   final AdminScope? adminScope;
 
   /// The current status of the request to onboard a member account as an Firewall
-  /// Manager administator.
+  /// Manager administrator.
   ///
   /// <ul>
   /// <li>
@@ -3677,6 +3996,47 @@ class GetViolationDetailsResponse {
           ? ViolationDetail.fromJson(
               json['ViolationDetail'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+/// Violation detail for the entries in a network ACL resource.
+class InvalidNetworkAclEntriesViolation {
+  /// The network ACL containing the entry violations.
+  final String? currentAssociatedNetworkAcl;
+
+  /// Detailed information about the entry violations in the network ACL.
+  final List<EntryViolation>? entryViolations;
+
+  /// The subnet that's associated with the network ACL.
+  final String? subnet;
+
+  /// The Availability Zone where the network ACL is in use.
+  final String? subnetAvailabilityZone;
+
+  /// The VPC where the violation was found.
+  final String? vpc;
+
+  InvalidNetworkAclEntriesViolation({
+    this.currentAssociatedNetworkAcl,
+    this.entryViolations,
+    this.subnet,
+    this.subnetAvailabilityZone,
+    this.vpc,
+  });
+
+  factory InvalidNetworkAclEntriesViolation.fromJson(
+      Map<String, dynamic> json) {
+    return InvalidNetworkAclEntriesViolation(
+      currentAssociatedNetworkAcl:
+          json['CurrentAssociatedNetworkAcl'] as String?,
+      entryViolations: (json['EntryViolations'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntryViolation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subnet: json['Subnet'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      vpc: json['Vpc'] as String?,
     );
   }
 }
@@ -4043,6 +4403,297 @@ extension MarketplaceSubscriptionOnboardingStatusFromString on String {
     }
     throw Exception(
         '$this is not known in enum MarketplaceSubscriptionOnboardingStatus');
+  }
+}
+
+/// Defines a Firewall Manager network ACL policy. This is used in the
+/// <code>PolicyOption</code> of a <code>SecurityServicePolicyData</code> for a
+/// <code>Policy</code>, when the <code>SecurityServicePolicyData</code> type is
+/// set to <code>NETWORK_ACL_COMMON</code>.
+///
+/// For information about network ACLs, see <a
+/// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html">Control
+/// traffic to subnets using network ACLs</a> in the <i>Amazon Virtual Private
+/// Cloud User Guide</i>.
+class NetworkAclCommonPolicy {
+  /// The definition of the first and last rules for the network ACL policy.
+  final NetworkAclEntrySet networkAclEntrySet;
+
+  NetworkAclCommonPolicy({
+    required this.networkAclEntrySet,
+  });
+
+  factory NetworkAclCommonPolicy.fromJson(Map<String, dynamic> json) {
+    return NetworkAclCommonPolicy(
+      networkAclEntrySet: NetworkAclEntrySet.fromJson(
+          json['NetworkAclEntrySet'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkAclEntrySet = this.networkAclEntrySet;
+    return {
+      'NetworkAclEntrySet': networkAclEntrySet,
+    };
+  }
+}
+
+/// Describes a rule in a network ACL.
+///
+/// Each network ACL has a set of numbered ingress rules and a separate set of
+/// numbered egress rules. When determining whether a packet should be allowed
+/// in or out of a subnet associated with the network ACL, Amazon Web Services
+/// processes the entries in the network ACL according to the rule numbers, in
+/// ascending order.
+///
+/// When you manage an individual network ACL, you explicitly specify the rule
+/// numbers. When you specify the network ACL rules in a Firewall Manager
+/// policy, you provide the rules to run first, in the order that you want them
+/// to run, and the rules to run last, in the order that you want them to run.
+/// Firewall Manager assigns the rule numbers for you when you save the network
+/// ACL policy specification.
+class NetworkAclEntry {
+  /// Indicates whether the rule is an egress, or outbound, rule (applied to
+  /// traffic leaving the subnet). If it's not an egress rule, then it's an
+  /// ingress, or inbound, rule.
+  final bool egress;
+
+  /// The protocol number. A value of "-1" means all protocols.
+  final String protocol;
+
+  /// Indicates whether to allow or deny the traffic that matches the rule.
+  final NetworkAclRuleAction ruleAction;
+
+  /// The IPv4 network range to allow or deny, in CIDR notation.
+  final String? cidrBlock;
+
+  /// ICMP protocol: The ICMP type and code.
+  final NetworkAclIcmpTypeCode? icmpTypeCode;
+
+  /// The IPv6 network range to allow or deny, in CIDR notation.
+  final String? ipv6CidrBlock;
+
+  /// TCP or UDP protocols: The range of ports the rule applies to.
+  final NetworkAclPortRange? portRange;
+
+  NetworkAclEntry({
+    required this.egress,
+    required this.protocol,
+    required this.ruleAction,
+    this.cidrBlock,
+    this.icmpTypeCode,
+    this.ipv6CidrBlock,
+    this.portRange,
+  });
+
+  factory NetworkAclEntry.fromJson(Map<String, dynamic> json) {
+    return NetworkAclEntry(
+      egress: json['Egress'] as bool,
+      protocol: json['Protocol'] as String,
+      ruleAction: (json['RuleAction'] as String).toNetworkAclRuleAction(),
+      cidrBlock: json['CidrBlock'] as String?,
+      icmpTypeCode: json['IcmpTypeCode'] != null
+          ? NetworkAclIcmpTypeCode.fromJson(
+              json['IcmpTypeCode'] as Map<String, dynamic>)
+          : null,
+      ipv6CidrBlock: json['Ipv6CidrBlock'] as String?,
+      portRange: json['PortRange'] != null
+          ? NetworkAclPortRange.fromJson(
+              json['PortRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final egress = this.egress;
+    final protocol = this.protocol;
+    final ruleAction = this.ruleAction;
+    final cidrBlock = this.cidrBlock;
+    final icmpTypeCode = this.icmpTypeCode;
+    final ipv6CidrBlock = this.ipv6CidrBlock;
+    final portRange = this.portRange;
+    return {
+      'Egress': egress,
+      'Protocol': protocol,
+      'RuleAction': ruleAction.toValue(),
+      if (cidrBlock != null) 'CidrBlock': cidrBlock,
+      if (icmpTypeCode != null) 'IcmpTypeCode': icmpTypeCode,
+      if (ipv6CidrBlock != null) 'Ipv6CidrBlock': ipv6CidrBlock,
+      if (portRange != null) 'PortRange': portRange,
+    };
+  }
+}
+
+/// The configuration of the first and last rules for the network ACL policy,
+/// and the remediation settings for each.
+class NetworkAclEntrySet {
+  /// Applies only when remediation is enabled for the policy as a whole. Firewall
+  /// Manager uses this setting when it finds policy violations that involve
+  /// conflicts between the custom entries and the policy entries.
+  ///
+  /// If forced remediation is disabled, Firewall Manager marks the network ACL as
+  /// noncompliant and does not try to remediate. For more information about the
+  /// remediation behavior, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html#network-acls-remediation">Remediation
+  /// for managed network ACLs</a> in the <i>Firewall Manager Developer Guide</i>.
+  final bool forceRemediateForFirstEntries;
+
+  /// Applies only when remediation is enabled for the policy as a whole. Firewall
+  /// Manager uses this setting when it finds policy violations that involve
+  /// conflicts between the custom entries and the policy entries.
+  ///
+  /// If forced remediation is disabled, Firewall Manager marks the network ACL as
+  /// noncompliant and does not try to remediate. For more information about the
+  /// remediation behavior, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html#network-acls-remediation">Remediation
+  /// for managed network ACLs</a> in the <i>Firewall Manager Developer Guide</i>.
+  final bool forceRemediateForLastEntries;
+
+  /// The rules that you want to run first in the Firewall Manager managed network
+  /// ACLs.
+  /// <note>
+  /// Provide these in the order in which you want them to run. Firewall Manager
+  /// will assign the specific rule numbers for you, in the network ACLs that it
+  /// creates.
+  /// </note>
+  /// You must specify at least one first entry or one last entry in any network
+  /// ACL policy.
+  final List<NetworkAclEntry>? firstEntries;
+
+  /// The rules that you want to run last in the Firewall Manager managed network
+  /// ACLs.
+  /// <note>
+  /// Provide these in the order in which you want them to run. Firewall Manager
+  /// will assign the specific rule numbers for you, in the network ACLs that it
+  /// creates.
+  /// </note>
+  /// You must specify at least one first entry or one last entry in any network
+  /// ACL policy.
+  final List<NetworkAclEntry>? lastEntries;
+
+  NetworkAclEntrySet({
+    required this.forceRemediateForFirstEntries,
+    required this.forceRemediateForLastEntries,
+    this.firstEntries,
+    this.lastEntries,
+  });
+
+  factory NetworkAclEntrySet.fromJson(Map<String, dynamic> json) {
+    return NetworkAclEntrySet(
+      forceRemediateForFirstEntries:
+          json['ForceRemediateForFirstEntries'] as bool,
+      forceRemediateForLastEntries:
+          json['ForceRemediateForLastEntries'] as bool,
+      firstEntries: (json['FirstEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkAclEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastEntries: (json['LastEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkAclEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forceRemediateForFirstEntries = this.forceRemediateForFirstEntries;
+    final forceRemediateForLastEntries = this.forceRemediateForLastEntries;
+    final firstEntries = this.firstEntries;
+    final lastEntries = this.lastEntries;
+    return {
+      'ForceRemediateForFirstEntries': forceRemediateForFirstEntries,
+      'ForceRemediateForLastEntries': forceRemediateForLastEntries,
+      if (firstEntries != null) 'FirstEntries': firstEntries,
+      if (lastEntries != null) 'LastEntries': lastEntries,
+    };
+  }
+}
+
+/// ICMP protocol: The ICMP type and code.
+class NetworkAclIcmpTypeCode {
+  /// ICMP code.
+  final int? code;
+
+  /// ICMP type.
+  final int? type;
+
+  NetworkAclIcmpTypeCode({
+    this.code,
+    this.type,
+  });
+
+  factory NetworkAclIcmpTypeCode.fromJson(Map<String, dynamic> json) {
+    return NetworkAclIcmpTypeCode(
+      code: json['Code'] as int?,
+      type: json['Type'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final type = this.type;
+    return {
+      if (code != null) 'Code': code,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// TCP or UDP protocols: The range of ports the rule applies to.
+class NetworkAclPortRange {
+  /// The beginning port number of the range.
+  final int? from;
+
+  /// The ending port number of the range.
+  final int? to;
+
+  NetworkAclPortRange({
+    this.from,
+    this.to,
+  });
+
+  factory NetworkAclPortRange.fromJson(Map<String, dynamic> json) {
+    return NetworkAclPortRange(
+      from: json['From'] as int?,
+      to: json['To'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final from = this.from;
+    final to = this.to;
+    return {
+      if (from != null) 'From': from,
+      if (to != null) 'To': to,
+    };
+  }
+}
+
+enum NetworkAclRuleAction {
+  allow,
+  deny,
+}
+
+extension NetworkAclRuleActionValueExtension on NetworkAclRuleAction {
+  String toValue() {
+    switch (this) {
+      case NetworkAclRuleAction.allow:
+        return 'allow';
+      case NetworkAclRuleAction.deny:
+        return 'deny';
+    }
+  }
+}
+
+extension NetworkAclRuleActionFromString on String {
+  NetworkAclRuleAction toNetworkAclRuleAction() {
+    switch (this) {
+      case 'allow':
+        return NetworkAclRuleAction.allow;
+      case 'deny':
+        return NetworkAclRuleAction.deny;
+    }
+    throw Exception('$this is not known in enum NetworkAclRuleAction');
   }
 }
 
@@ -4885,18 +5536,41 @@ class Policy {
   /// resource types, specify a resource type of <code>ResourceTypeList</code> and
   /// then specify the resource types in a <code>ResourceTypeList</code>.
   ///
-  /// For WAF and Shield Advanced, resource types include
-  /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>,
+  /// The following are valid resource types for each Firewall Manager policy
+  /// type:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Web Services WAF Classic - <code>AWS::ApiGateway::Stage</code>,
+  /// <code>AWS::CloudFront::Distribution</code>, and
+  /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>.
+  /// </li>
+  /// <li>
+  /// WAF - <code>AWS::ApiGateway::Stage</code>,
+  /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>, and
+  /// <code>AWS::CloudFront::Distribution</code>.
+  /// </li>
+  /// <li>
+  /// Shield Advanced - <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>,
   /// <code>AWS::ElasticLoadBalancing::LoadBalancer</code>,
   /// <code>AWS::EC2::EIP</code>, and <code>AWS::CloudFront::Distribution</code>.
-  /// For a security group common policy, valid values are
-  /// <code>AWS::EC2::NetworkInterface</code> and <code>AWS::EC2::Instance</code>.
-  /// For a security group content audit policy, valid values are
-  /// <code>AWS::EC2::SecurityGroup</code>,
+  /// </li>
+  /// <li>
+  /// Network ACL - <code>AWS::EC2::Subnet</code>.
+  /// </li>
+  /// <li>
+  /// Security group usage audit - <code>AWS::EC2::SecurityGroup</code>.
+  /// </li>
+  /// <li>
+  /// Security group content audit - <code>AWS::EC2::SecurityGroup</code>,
   /// <code>AWS::EC2::NetworkInterface</code>, and
-  /// <code>AWS::EC2::Instance</code>. For a security group usage audit policy,
-  /// the value is <code>AWS::EC2::SecurityGroup</code>. For an Network Firewall
-  /// policy or DNS Firewall policy, the value is <code>AWS::EC2::VPC</code>.
+  /// <code>AWS::EC2::Instance</code>.
+  /// </li>
+  /// <li>
+  /// DNS Firewall, Network Firewall, and third-party firewall -
+  /// <code>AWS::EC2::VPC</code>.
+  /// </li>
+  /// </ul>
   final String resourceType;
 
   /// Details about the security service that is being used to protect the
@@ -4982,7 +5656,7 @@ class Policy {
   /// </ul>
   final Map<CustomerPolicyScopeIdType, List<String>>? includeMap;
 
-  /// The definition of the Network Firewall firewall policy.
+  /// Your description of the Firewall Manager policy.
   final String? policyDescription;
 
   /// The ID of the Firewall Manager policy.
@@ -5254,9 +5928,12 @@ extension PolicyComplianceStatusTypeFromString on String {
   }
 }
 
-/// Contains the Network Firewall firewall policy options to configure the
-/// policy's deployment model and third-party firewall policy settings.
+/// Contains the settings to configure a network ACL policy, a Network Firewall
+/// firewall policy deployment model, or a third-party firewall policy.
 class PolicyOption {
+  /// Defines a Firewall Manager network ACL policy.
+  final NetworkAclCommonPolicy? networkAclCommonPolicy;
+
   /// Defines the deployment model to use for the firewall policy.
   final NetworkFirewallPolicy? networkFirewallPolicy;
 
@@ -5264,12 +5941,17 @@ class PolicyOption {
   final ThirdPartyFirewallPolicy? thirdPartyFirewallPolicy;
 
   PolicyOption({
+    this.networkAclCommonPolicy,
     this.networkFirewallPolicy,
     this.thirdPartyFirewallPolicy,
   });
 
   factory PolicyOption.fromJson(Map<String, dynamic> json) {
     return PolicyOption(
+      networkAclCommonPolicy: json['NetworkAclCommonPolicy'] != null
+          ? NetworkAclCommonPolicy.fromJson(
+              json['NetworkAclCommonPolicy'] as Map<String, dynamic>)
+          : null,
       networkFirewallPolicy: json['NetworkFirewallPolicy'] != null
           ? NetworkFirewallPolicy.fromJson(
               json['NetworkFirewallPolicy'] as Map<String, dynamic>)
@@ -5282,9 +5964,12 @@ class PolicyOption {
   }
 
   Map<String, dynamic> toJson() {
+    final networkAclCommonPolicy = this.networkAclCommonPolicy;
     final networkFirewallPolicy = this.networkFirewallPolicy;
     final thirdPartyFirewallPolicy = this.thirdPartyFirewallPolicy;
     return {
+      if (networkAclCommonPolicy != null)
+        'NetworkAclCommonPolicy': networkAclCommonPolicy,
       if (networkFirewallPolicy != null)
         'NetworkFirewallPolicy': networkFirewallPolicy,
       if (thirdPartyFirewallPolicy != null)
@@ -5339,16 +6024,7 @@ class PolicySummary {
   /// The type of resource protected by or in scope of the policy. This is in the
   /// format shown in the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
-  /// Web Services Resource Types Reference</a>. For WAF and Shield Advanced,
-  /// examples include <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code> and
-  /// <code>AWS::CloudFront::Distribution</code>. For a security group common
-  /// policy, valid values are <code>AWS::EC2::NetworkInterface</code> and
-  /// <code>AWS::EC2::Instance</code>. For a security group content audit policy,
-  /// valid values are <code>AWS::EC2::SecurityGroup</code>,
-  /// <code>AWS::EC2::NetworkInterface</code>, and
-  /// <code>AWS::EC2::Instance</code>. For a security group usage audit policy,
-  /// the value is <code>AWS::EC2::SecurityGroup</code>. For an Network Firewall
-  /// policy or DNS Firewall policy, the value is <code>AWS::EC2::VPC</code>.
+  /// Web Services Resource Types Reference</a>.
   final String? resourceType;
 
   /// The service that the policy is using to protect the resources. This
@@ -5715,6 +6391,17 @@ class RegionScope {
 /// Information about an individual action you can take to remediate a
 /// violation.
 class RemediationAction {
+  /// Information about the <code>CreateNetworkAcl</code> action in Amazon EC2.
+  final CreateNetworkAclAction? createNetworkAclAction;
+
+  /// Information about the <code>CreateNetworkAclEntries</code> action in Amazon
+  /// EC2.
+  final CreateNetworkAclEntriesAction? createNetworkAclEntriesAction;
+
+  /// Information about the <code>DeleteNetworkAclEntries</code> action in Amazon
+  /// EC2.
+  final DeleteNetworkAclEntriesAction? deleteNetworkAclEntriesAction;
+
   /// A description of a remediation action.
   final String? description;
 
@@ -5745,7 +6432,14 @@ class RemediationAction {
   final FMSPolicyUpdateFirewallCreationConfigAction?
       fMSPolicyUpdateFirewallCreationConfigAction;
 
+  /// Information about the <code>ReplaceNetworkAclAssociation</code> action in
+  /// Amazon EC2.
+  final ReplaceNetworkAclAssociationAction? replaceNetworkAclAssociationAction;
+
   RemediationAction({
+    this.createNetworkAclAction,
+    this.createNetworkAclEntriesAction,
+    this.deleteNetworkAclEntriesAction,
     this.description,
     this.eC2AssociateRouteTableAction,
     this.eC2CopyRouteTableAction,
@@ -5755,10 +6449,25 @@ class RemediationAction {
     this.eC2ReplaceRouteAction,
     this.eC2ReplaceRouteTableAssociationAction,
     this.fMSPolicyUpdateFirewallCreationConfigAction,
+    this.replaceNetworkAclAssociationAction,
   });
 
   factory RemediationAction.fromJson(Map<String, dynamic> json) {
     return RemediationAction(
+      createNetworkAclAction: json['CreateNetworkAclAction'] != null
+          ? CreateNetworkAclAction.fromJson(
+              json['CreateNetworkAclAction'] as Map<String, dynamic>)
+          : null,
+      createNetworkAclEntriesAction:
+          json['CreateNetworkAclEntriesAction'] != null
+              ? CreateNetworkAclEntriesAction.fromJson(
+                  json['CreateNetworkAclEntriesAction'] as Map<String, dynamic>)
+              : null,
+      deleteNetworkAclEntriesAction:
+          json['DeleteNetworkAclEntriesAction'] != null
+              ? DeleteNetworkAclEntriesAction.fromJson(
+                  json['DeleteNetworkAclEntriesAction'] as Map<String, dynamic>)
+              : null,
       description: json['Description'] as String?,
       eC2AssociateRouteTableAction: json['EC2AssociateRouteTableAction'] != null
           ? EC2AssociateRouteTableAction.fromJson(
@@ -5794,6 +6503,12 @@ class RemediationAction {
           json['FMSPolicyUpdateFirewallCreationConfigAction'] != null
               ? FMSPolicyUpdateFirewallCreationConfigAction.fromJson(
                   json['FMSPolicyUpdateFirewallCreationConfigAction']
+                      as Map<String, dynamic>)
+              : null,
+      replaceNetworkAclAssociationAction:
+          json['ReplaceNetworkAclAssociationAction'] != null
+              ? ReplaceNetworkAclAssociationAction.fromJson(
+                  json['ReplaceNetworkAclAssociationAction']
                       as Map<String, dynamic>)
               : null,
     );
@@ -5847,6 +6562,45 @@ class RemediationActionWithOrder {
       remediationAction: json['RemediationAction'] != null
           ? RemediationAction.fromJson(
               json['RemediationAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Information about the <code>ReplaceNetworkAclAssociation</code> action in
+/// Amazon EC2. This is a remediation option in <code>RemediationAction</code>.
+class ReplaceNetworkAclAssociationAction {
+  final ActionTarget? associationId;
+
+  /// Brief description of this remediation action.
+  final String? description;
+
+  /// Indicates whether it is possible for Firewall Manager to perform this
+  /// remediation action. A false value indicates that auto remediation is
+  /// disabled or Firewall Manager is unable to perform the action due to a
+  /// conflict of some kind.
+  final bool? fMSCanRemediate;
+
+  /// The network ACL that's associated with the remediation action.
+  final ActionTarget? networkAclId;
+
+  ReplaceNetworkAclAssociationAction({
+    this.associationId,
+    this.description,
+    this.fMSCanRemediate,
+    this.networkAclId,
+  });
+
+  factory ReplaceNetworkAclAssociationAction.fromJson(
+      Map<String, dynamic> json) {
+    return ReplaceNetworkAclAssociationAction(
+      associationId: json['AssociationId'] != null
+          ? ActionTarget.fromJson(json['AssociationId'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      fMSCanRemediate: json['FMSCanRemediate'] as bool?,
+      networkAclId: json['NetworkAclId'] != null
+          ? ActionTarget.fromJson(json['NetworkAclId'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -6071,11 +6825,19 @@ class ResourceSetSummary {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/tag-editor.html">Working
 /// with Tag Editor</a>.
+///
+/// Every resource tag must have a string value, either a non-empty string or an
+/// empty string. If you don't provide a value for a resource tag, Firewall
+/// Manager saves the value as an empty string: "". When Firewall Manager
+/// compares tags, it only matches two tags if they have the same key and the
+/// same value. A tag with an empty string value only matches with tags that
+/// also have an empty string value.
 class ResourceTag {
   /// The resource tag key.
   final String key;
 
-  /// The resource tag value.
+  /// The resource tag value. To specify an empty string value, either don't
+  /// provide this or specify it as "".
   final String? value;
 
   ResourceTag({
@@ -6135,6 +6897,9 @@ class ResourceViolation {
   /// was deleted.
   final FirewallSubnetMissingVPCEndpointViolation?
       firewallSubnetMissingVPCEndpointViolation;
+
+  /// Violation detail for the entries in a network ACL resource.
+  final InvalidNetworkAclEntriesViolation? invalidNetworkAclEntriesViolation;
   final NetworkFirewallBlackHoleRouteDetectedViolation?
       networkFirewallBlackHoleRouteDetectedViolation;
 
@@ -6214,6 +6979,7 @@ class ResourceViolation {
     this.dnsRuleGroupPriorityConflictViolation,
     this.firewallSubnetIsOutOfScopeViolation,
     this.firewallSubnetMissingVPCEndpointViolation,
+    this.invalidNetworkAclEntriesViolation,
     this.networkFirewallBlackHoleRouteDetectedViolation,
     this.networkFirewallInternetTrafficNotInspectedViolation,
     this.networkFirewallInvalidRouteConfigurationViolation,
@@ -6274,6 +7040,12 @@ class ResourceViolation {
           json['FirewallSubnetMissingVPCEndpointViolation'] != null
               ? FirewallSubnetMissingVPCEndpointViolation.fromJson(
                   json['FirewallSubnetMissingVPCEndpointViolation']
+                      as Map<String, dynamic>)
+              : null,
+      invalidNetworkAclEntriesViolation:
+          json['InvalidNetworkAclEntriesViolation'] != null
+              ? InvalidNetworkAclEntriesViolation.fromJson(
+                  json['InvalidNetworkAclEntriesViolation']
                       as Map<String, dynamic>)
               : null,
       networkFirewallBlackHoleRouteDetectedViolation:
@@ -6619,6 +7391,7 @@ class SecurityServicePolicyData {
   /// </note> </li>
   /// <li>
   /// Example: <code>IMPORT_NETWORK_FIREWALL</code>
+  ///
   /// <code>"{\"type\":\"IMPORT_NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:000000000000:stateless-rulegroup\/rg1\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:drop\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:pass\"],\"networkFirewallStatelessCustomActions\":[],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:aws-managed:stateful-rulegroup\/ThreatSignaturesEmergingEventsStrictOrder\",\"priority\":8}],\"networkFirewallStatefulEngineOptions\":{\"ruleOrder\":\"STRICT_ORDER\"},\"networkFirewallStatefulDefaultActions\":[\"aws:drop_strict\"]}}"</code>
   ///
   /// <code>"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}"</code>
@@ -6697,18 +7470,6 @@ class SecurityServicePolicyData {
   /// to <code>NULL</code>.
   /// </li>
   /// <li>
-  /// Example: <code>THIRD_PARTY_FIREWALL</code>
-  ///
-  /// <code>"{ "type":"THIRD_PARTY_FIREWALL",
-  /// "thirdPartyFirewall":"PALO_ALTO_NETWORKS_CLOUD_NGFW",
-  /// "thirdPartyFirewallConfig":{ "thirdPartyFirewallPolicyList":["global-1"] },
-  /// "firewallDeploymentModel":{ "distributedFirewallDeploymentModel":{
-  /// "distributedFirewallOrchestrationConfig":{ "firewallCreationConfig":{
-  /// "endpointLocation":{ "availabilityZoneConfigList":[ {
-  /// "availabilityZoneName":"${AvailabilityZone}" } ] } },
-  /// "allowedIPV4CidrList":[ ] } } } }"</code>
-  /// </li>
-  /// <li>
   /// Example: <code>SECURITY_GROUPS_COMMON</code>
   ///
   /// <code>"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false,
@@ -6730,7 +7491,7 @@ class SecurityServicePolicyData {
   /// identifies and reports when the security groups created by this policy
   /// become non-compliant.
   ///
-  /// Firewall Manager won't distrubute system tags added by Amazon Web Services
+  /// Firewall Manager won't distribute system tags added by Amazon Web Services
   /// services into the replica security groups. System tags begin with the
   /// <code>aws:</code> prefix.
   /// </li>
@@ -6760,13 +7521,39 @@ class SecurityServicePolicyData {
   /// <code>"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"</code>
   /// </li>
   /// <li>
+  /// Example: <code>SHIELD_ADVANCED</code> with web ACL management
+  ///
+  /// <code>"{\"type\":\"SHIELD_ADVANCED\",\"optimizeUnassociatedWebACL\":true}"</code>
+  ///
+  /// If you set <code>optimizeUnassociatedWebACL</code> to <code>true</code>,
+  /// Firewall Manager creates web ACLs in accounts within the policy scope if the
+  /// web ACLs will be used by at least one resource. Firewall Manager creates web
+  /// ACLs in the accounts within policy scope only if the web ACLs will be used
+  /// by at least one resource. If at any time an account comes into policy scope,
+  /// Firewall Manager automatically creates a web ACL in the account if at least
+  /// one resource will use the web ACL.
+  ///
+  /// Upon enablement, Firewall Manager performs a one-time cleanup of unused web
+  /// ACLs in your account. The cleanup process can take several hours. If a
+  /// resource leaves policy scope after Firewall Manager creates a web ACL,
+  /// Firewall Manager doesn't disassociate the resource from the web ACL. If you
+  /// want Firewall Manager to clean up the web ACL, you must first manually
+  /// disassociate the resources from the web ACL, and then enable the manage
+  /// unused web ACLs option in your policy.
+  ///
+  /// If you set <code>optimizeUnassociatedWebACL</code> to <code>false</code>,
+  /// and Firewall Manager automatically creates an empty web ACL in each account
+  /// that's within policy scope.
+  /// </li>
+  /// <li>
   /// Specification for <code>SHIELD_ADVANCED</code> for Amazon CloudFront
   /// distributions
   ///
   /// <code>"{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\":
   /// {\"automaticResponseStatus\":\"ENABLED|IGNORED|DISABLED\",
   /// \"automaticResponseAction\":\"BLOCK|COUNT\"},
-  /// \"overrideCustomerWebaclClassic\":true|false}"</code>
+  /// \"overrideCustomerWebaclClassic\":true|false,
+  /// \"optimizeUnassociatedWebACL\":true|false}"</code>
   ///
   /// For example:
   /// <code>"{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\":
@@ -6783,12 +7570,33 @@ class SecurityServicePolicyData {
   /// this <code>ManagedServiceData</code> configuration is an empty string.
   /// </li>
   /// <li>
-  /// Example: <code>WAFV2</code> - Account takeover prevention and Bot Control
-  /// managed rule groups, and rule action override
+  /// Example: <code>THIRD_PARTY_FIREWALL</code>
   ///
-  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesATPRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesATPRuleSet\":{\"loginPath\":\"/loginpath\",\"requestInspection\":{\"payloadType\":\"FORM_ENCODED|JSON\",\"usernameField\":{\"identifier\":\"/form/username\"},\"passwordField\":{\"identifier\":\"/form/password\"}}}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true},{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesBotControlRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesBotControlRuleSet\":{\"inspectionLevel\":\"TARGETED|COMMON\"}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true,\"ruleActionOverrides\":[{\"name\":\"Rule1\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}},{\"name\":\"Rule2\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true}"</code>
+  /// Replace <code>THIRD_PARTY_FIREWALL_NAME</code> with the name of the
+  /// third-party firewall.
+  ///
+  /// <code>"{ "type":"THIRD_PARTY_FIREWALL",
+  /// "thirdPartyFirewall":"THIRD_PARTY_FIREWALL_NAME",
+  /// "thirdPartyFirewallConfig":{ "thirdPartyFirewallPolicyList":["global-1"] },
+  /// "firewallDeploymentModel":{ "distributedFirewallDeploymentModel":{
+  /// "distributedFirewallOrchestrationConfig":{ "firewallCreationConfig":{
+  /// "endpointLocation":{ "availabilityZoneConfigList":[ {
+  /// "availabilityZoneName":"${AvailabilityZone}" } ] } },
+  /// "allowedIPV4CidrList":[ ] } } } }"</code>
+  /// </li>
+  /// <li>
+  /// Example: <code>WAFV2</code> - Account takeover prevention, Bot Control
+  /// managed rule groups, optimize unassociated web ACL, and rule action override
+  ///
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesATPRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesATPRuleSet\":{\"loginPath\":\"/loginpath\",\"requestInspection\":{\"payloadType\":\"FORM_ENCODED|JSON\",\"usernameField\":{\"identifier\":\"/form/username\"},\"passwordField\":{\"identifier\":\"/form/password\"}}}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true},{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesBotControlRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesBotControlRuleSet\":{\"inspectionLevel\":\"TARGETED|COMMON\"}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true,\"ruleActionOverrides\":[{\"name\":\"Rule1\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}},{\"name\":\"Rule2\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"optimizeUnassociatedWebACL\":true}"</code>
   ///
   /// <ul>
+  /// <li>
+  /// Bot Control - For information about
+  /// <code>AWSManagedRulesBotControlRuleSet</code> managed rule groups, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesBotControlRuleSet.html">AWSManagedRulesBotControlRuleSet</a>
+  /// in the <i>WAF API Reference</i>.
+  /// </li>
   /// <li>
   /// Fraud Control account takeover prevention (ATP) - For information about the
   /// properties available for <code>AWSManagedRulesATPRuleSet</code> managed rule
@@ -6797,10 +7605,26 @@ class SecurityServicePolicyData {
   /// in the <i>WAF API Reference</i>.
   /// </li>
   /// <li>
-  /// Bot Control - For information about
-  /// <code>AWSManagedRulesBotControlRuleSet</code> managed rule groups, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesBotControlRuleSet.html">AWSManagedRulesBotControlRuleSet</a>
-  /// in the <i>WAF API Reference</i>.
+  /// Optimize unassociated web ACL - If you set
+  /// <code>optimizeUnassociatedWebACL</code> to <code>true</code>, Firewall
+  /// Manager creates web ACLs in accounts within the policy scope if the web ACLs
+  /// will be used by at least one resource. Firewall Manager creates web ACLs in
+  /// the accounts within policy scope only if the web ACLs will be used by at
+  /// least one resource. If at any time an account comes into policy scope,
+  /// Firewall Manager automatically creates a web ACL in the account if at least
+  /// one resource will use the web ACL.
+  ///
+  /// Upon enablement, Firewall Manager performs a one-time cleanup of unused web
+  /// ACLs in your account. The cleanup process can take several hours. If a
+  /// resource leaves policy scope after Firewall Manager creates a web ACL,
+  /// Firewall Manager disassociates the resource from the web ACL, but won't
+  /// clean up the unused web ACL. Firewall Manager only cleans up unused web ACLs
+  /// when you first enable management of unused web ACLs in a policy.
+  ///
+  /// If you set <code>optimizeUnassociatedWebACL</code> to <code>false</code>
+  /// Firewall Manager doesn't manage unused web ACLs, and Firewall Manager
+  /// automatically creates an empty web ACL in each account that's within policy
+  /// scope.
   /// </li>
   /// <li>
   /// Rule action overrides - Firewall Manager supports rule action overrides only
@@ -6816,20 +7640,34 @@ class SecurityServicePolicyData {
   /// Example: <code>WAFV2</code> - <code>CAPTCHA</code> and
   /// <code>Challenge</code> configs
   ///
-  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"captchaConfig\":{\"immunityTimeProperty\":{\"immunityTime\":500}},\"challengeConfig\":{\"immunityTimeProperty\":{\"immunityTime\":800}},\"tokenDomains\":[\"google.com\",\"amazon.com\"]}"</code>
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"captchaConfig\":{\"immunityTimeProperty\":{\"immunityTime\":500}},\"challengeConfig\":{\"immunityTimeProperty\":{\"immunityTime\":800}},\"tokenDomains\":[\"google.com\",\"amazon.com\"],\"associationConfig\":{\"requestBody\":{\"CLOUDFRONT\":{\"defaultSizeInspectionLimit\":\"KB_16\"}}}}"</code>
   ///
-  /// If you update the policy's values for <code>captchaConfig</code>,
-  /// <code>challengeConfig</code>, or <code>tokenDomains</code>, Firewall Manager
-  /// will overwrite your local web ACLs to contain the new value(s). However, if
-  /// you don't update the policy's <code>captchaConfig</code>,
+  /// <ul>
+  /// <li>
+  /// <code>CAPTCHA</code> and <code>Challenge</code> configs - If you update the
+  /// policy's values for <code>associationConfig</code>,
+  /// <code>captchaConfig</code>, <code>challengeConfig</code>, or
+  /// <code>tokenDomains</code>, Firewall Manager will overwrite your local web
+  /// ACLs to contain the new value(s). However, if you don't update the policy's
+  /// <code>associationConfig</code>, <code>captchaConfig</code>,
   /// <code>challengeConfig</code>, or <code>tokenDomains</code> values, the
   /// values in your local web ACLs will remain unchanged. For information about
-  /// CAPTCHA and Challenge configs, see <a
+  /// association configs, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_AssociationConfig.html">AssociationConfig</a>.
+  /// For information about CAPTCHA and Challenge configs, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_CaptchaConfig.html">CaptchaConfig</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_ChallengeConfig.html">ChallengeConfig</a>
   /// in the <i>WAF API Reference</i>.
   /// </li>
+  /// <li>
+  /// <code>defaultSizeInspectionLimit</code> - Specifies the maximum size of the
+  /// web request body component that an associated Amazon CloudFront distribution
+  /// should send to WAF for inspection. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_RequestBodyAssociatedResourceTypeConfig.html#WAF-Type-RequestBodyAssociatedResourceTypeConfig-DefaultSizeInspectionLimit">DefaultSizeInspectionLimit</a>
+  /// in the <i>WAF API Reference</i>.
+  /// </li>
+  /// </ul> </li>
   /// <li>
   /// Example: <code>WAFV2</code> - Firewall Manager support for WAF managed rule
   /// group versioning
@@ -6885,8 +7723,8 @@ class SecurityServicePolicyData {
   /// </ul>
   final String? managedServiceData;
 
-  /// Contains the Network Firewall firewall policy options to configure a
-  /// centralized deployment model.
+  /// Contains the settings to configure a network ACL policy, a Network Firewall
+  /// firewall policy deployment model, or a third-party firewall policy.
   final PolicyOption? policyOption;
 
   SecurityServicePolicyData({
@@ -6928,6 +7766,7 @@ enum SecurityServiceType {
   dnsFirewall,
   thirdPartyFirewall,
   importNetworkFirewall,
+  networkAclCommon,
 }
 
 extension SecurityServiceTypeValueExtension on SecurityServiceType {
@@ -6953,6 +7792,8 @@ extension SecurityServiceTypeValueExtension on SecurityServiceType {
         return 'THIRD_PARTY_FIREWALL';
       case SecurityServiceType.importNetworkFirewall:
         return 'IMPORT_NETWORK_FIREWALL';
+      case SecurityServiceType.networkAclCommon:
+        return 'NETWORK_ACL_COMMON';
     }
   }
 }
@@ -6980,6 +7821,8 @@ extension SecurityServiceTypeFromString on String {
         return SecurityServiceType.thirdPartyFirewall;
       case 'IMPORT_NETWORK_FIREWALL':
         return SecurityServiceType.importNetworkFirewall;
+      case 'NETWORK_ACL_COMMON':
+        return SecurityServiceType.networkAclCommon;
     }
     throw Exception('$this is not known in enum SecurityServiceType');
   }
@@ -6989,21 +7832,66 @@ extension SecurityServiceTypeFromString on String {
 /// Network Firewall firewall policy.
 class StatefulEngineOptions {
   /// Indicates how to manage the order of stateful rule evaluation for the
-  /// policy. <code>DEFAULT_ACTION_ORDER</code> is the default behavior. Stateful
-  /// rules are provided to the rule engine as Suricata compatible strings, and
-  /// Suricata evaluates them based on certain settings. For more information, see
-  /// <a
+  /// policy. Stateful rules are provided to the rule engine as Suricata
+  /// compatible strings, and Suricata evaluates them based on certain settings.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
   /// order for stateful rules</a> in the <i>Network Firewall Developer Guide</i>.
+  ///
+  /// Default: <code>DEFAULT_ACTION_ORDER</code>
   final RuleOrder? ruleOrder;
+
+  /// Indicates how Network Firewall should handle traffic when a network
+  /// connection breaks midstream.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DROP</code> - Fail closed and drop all subsequent traffic going to the
+  /// firewall.
+  /// </li>
+  /// <li>
+  /// <code>CONTINUE</code> - Continue to apply rules to subsequent traffic
+  /// without context from traffic before the break. This impacts the behavior of
+  /// rules that depend on context. For example, with a stateful rule that drops
+  /// HTTP traffic, Network Firewall won't match subsequent traffic because the it
+  /// won't have the context from session initialization, which defines the
+  /// application layer protocol as HTTP. However, a TCP-layer rule using a
+  /// <code>flow:stateless</code> rule would still match, and so would the
+  /// <code>aws:drop_strict</code> default action.
+  /// </li>
+  /// <li>
+  /// <code>REJECT</code> - Fail closed and drop all subsequent traffic going to
+  /// the firewall. With this option, Network Firewall also sends a TCP reject
+  /// packet back to the client so the client can immediately establish a new
+  /// session. With the new session, Network Firewall will have context and will
+  /// apply rules appropriately.
+  ///
+  /// For applications that are reliant on long-lived TCP connections that trigger
+  /// Gateway Load Balancer idle timeouts, this is the recommended setting.
+  /// </li>
+  /// <li>
+  /// <code>FMS_IGNORE</code> - Firewall Manager doesn't monitor or modify the
+  /// Network Firewall stream exception policy settings.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/stream-exception-policy.html">Stream
+  /// exception policy in your firewall policy</a> in the <i>Network Firewall
+  /// Developer Guide</i>.
+  ///
+  /// Default: <code>FMS_IGNORE</code>
+  final StreamExceptionPolicy? streamExceptionPolicy;
 
   StatefulEngineOptions({
     this.ruleOrder,
+    this.streamExceptionPolicy,
   });
 
   factory StatefulEngineOptions.fromJson(Map<String, dynamic> json) {
     return StatefulEngineOptions(
       ruleOrder: (json['RuleOrder'] as String?)?.toRuleOrder(),
+      streamExceptionPolicy:
+          (json['StreamExceptionPolicy'] as String?)?.toStreamExceptionPolicy(),
     );
   }
 }
@@ -7080,6 +7968,44 @@ class StatelessRuleGroup {
       resourceId: json['ResourceId'] as String?,
       ruleGroupName: json['RuleGroupName'] as String?,
     );
+  }
+}
+
+enum StreamExceptionPolicy {
+  drop,
+  $continue,
+  reject,
+  fmsIgnore,
+}
+
+extension StreamExceptionPolicyValueExtension on StreamExceptionPolicy {
+  String toValue() {
+    switch (this) {
+      case StreamExceptionPolicy.drop:
+        return 'DROP';
+      case StreamExceptionPolicy.$continue:
+        return 'CONTINUE';
+      case StreamExceptionPolicy.reject:
+        return 'REJECT';
+      case StreamExceptionPolicy.fmsIgnore:
+        return 'FMS_IGNORE';
+    }
+  }
+}
+
+extension StreamExceptionPolicyFromString on String {
+  StreamExceptionPolicy toStreamExceptionPolicy() {
+    switch (this) {
+      case 'DROP':
+        return StreamExceptionPolicy.drop;
+      case 'CONTINUE':
+        return StreamExceptionPolicy.$continue;
+      case 'REJECT':
+        return StreamExceptionPolicy.reject;
+      case 'FMS_IGNORE':
+        return StreamExceptionPolicy.fmsIgnore;
+    }
+    throw Exception('$this is not known in enum StreamExceptionPolicy');
   }
 }
 
@@ -7520,6 +8446,7 @@ enum ViolationReason {
   resourceMissingDnsFirewall,
   routeHasOutOfScopeEndpoint,
   firewallSubnetMissingVpceEndpoint,
+  invalidNetworkAclEntry,
 }
 
 extension ViolationReasonValueExtension on ViolationReason {
@@ -7581,6 +8508,8 @@ extension ViolationReasonValueExtension on ViolationReason {
         return 'ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT';
       case ViolationReason.firewallSubnetMissingVpceEndpoint:
         return 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT';
+      case ViolationReason.invalidNetworkAclEntry:
+        return 'INVALID_NETWORK_ACL_ENTRY';
     }
   }
 }
@@ -7644,6 +8573,8 @@ extension ViolationReasonFromString on String {
         return ViolationReason.routeHasOutOfScopeEndpoint;
       case 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT':
         return ViolationReason.firewallSubnetMissingVpceEndpoint;
+      case 'INVALID_NETWORK_ACL_ENTRY':
+        return ViolationReason.invalidNetworkAclEntry;
     }
     throw Exception('$this is not known in enum ViolationReason');
   }

@@ -793,28 +793,28 @@ class DeleteSessionResponse {
 /// The next action that Amazon Lex V2 should take.
 class DialogAction {
   /// The next action that the bot should take in its interaction with the user.
-  /// The possible values are:
+  /// The following values are possible:
   ///
   /// <ul>
   /// <li>
-  /// <code>Close</code> - Indicates that there will not be a response from the
+  /// <code>Close</code> – Indicates that there will not be a response from the
   /// user. For example, the statement "Your order has been placed" does not
   /// require a response.
   /// </li>
   /// <li>
-  /// <code>ConfirmIntent</code> - The next action is asking the user if the
+  /// <code>ConfirmIntent</code> – The next action is asking the user if the
   /// intent is complete and ready to be fulfilled. This is a yes/no question such
   /// as "Place the order?"
   /// </li>
   /// <li>
-  /// <code>Delegate</code> - The next action is determined by Amazon Lex V2.
+  /// <code>Delegate</code> – The next action is determined by Amazon Lex V2.
   /// </li>
   /// <li>
-  /// <code>ElicitIntent</code> - The next action is to elicit an intent from the
+  /// <code>ElicitIntent</code> – The next action is to elicit an intent from the
   /// user.
   /// </li>
   /// <li>
-  /// <code>ElicitSlot</code> - The next action is to elicit a slot value from the
+  /// <code>ElicitSlot</code> – The next action is to elicit a slot value from the
   /// user.
   /// </li>
   /// </ul>
@@ -833,7 +833,7 @@ class DialogAction {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/lexv2/latest/dg/using-spelling.html">
+  /// href="https://docs.aws.amazon.com/lexv2/latest/dg/spelling-styles.html">
   /// Using spelling to enter slot values </a>.
   final StyleType? slotElicitationStyle;
 
@@ -1085,15 +1085,42 @@ class Intent {
   /// The name of the intent.
   final String name;
 
-  /// Contains information about whether fulfillment of the intent has been
-  /// confirmed.
+  /// Indicates whether the intent has been <code>Confirmed</code>,
+  /// <code>Denied</code>, or <code>None</code> if the confirmation stage has not
+  /// yet been reached.
   final ConfirmationState? confirmationState;
 
   /// A map of all of the slots for the intent. The name of the slot maps to the
   /// value of the slot. If a slot has not been filled, the value is null.
   final Map<String, Slot>? slots;
 
-  /// Contains fulfillment information for the intent.
+  /// Indicates the fulfillment state for the intent. The meanings of each value
+  /// are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Failed</code> – The bot failed to fulfill the intent.
+  /// </li>
+  /// <li>
+  /// <code>Fulfilled</code> – The bot has completed fulfillment of the intent.
+  /// </li>
+  /// <li>
+  /// <code>FulfillmentInProgress</code> – The bot is in the middle of fulfilling
+  /// the intent.
+  /// </li>
+  /// <li>
+  /// <code>InProgress</code> – The bot is in the middle of eliciting the slot
+  /// values that are necessary to fulfill the intent.
+  /// </li>
+  /// <li>
+  /// <code>ReadyForFulfillment</code> – The bot has elicited all the slot values
+  /// for the intent and is ready to fulfill the intent.
+  /// </li>
+  /// <li>
+  /// <code>Waiting</code> – The bot is waiting for a response from the user
+  /// (limited to streaming conversations).
+  /// </li>
+  /// </ul>
   final IntentState? state;
 
   Intent({
@@ -1177,12 +1204,16 @@ extension IntentStateFromString on String {
   }
 }
 
-/// An intent that Amazon Lex V2 determined might satisfy the user's utterance.
-/// The intents are ordered by the confidence score.
+/// An object containing information about an intent that Amazon Lex V2
+/// determined might satisfy the user's utterance. The intents are ordered by
+/// the confidence score.
 class Interpretation {
   /// A list of intents that might satisfy the user's utterance. The intents are
   /// ordered by the confidence score.
   final Intent? intent;
+
+  /// Specifies the service that interpreted the input.
+  final InterpretationSource? interpretationSource;
 
   /// Determines the threshold where Amazon Lex V2 will insert the
   /// <code>AMAZON.FallbackIntent</code>, <code>AMAZON.KendraSearchIntent</code>,
@@ -1200,6 +1231,7 @@ class Interpretation {
 
   Interpretation({
     this.intent,
+    this.interpretationSource,
     this.nluConfidence,
     this.sentimentResponse,
   });
@@ -1209,6 +1241,8 @@ class Interpretation {
       intent: json['intent'] != null
           ? Intent.fromJson(json['intent'] as Map<String, dynamic>)
           : null,
+      interpretationSource:
+          (json['interpretationSource'] as String?)?.toInterpretationSource(),
       nluConfidence: json['nluConfidence'] != null
           ? ConfidenceScore.fromJson(
               json['nluConfidence'] as Map<String, dynamic>)
@@ -1222,13 +1256,44 @@ class Interpretation {
 
   Map<String, dynamic> toJson() {
     final intent = this.intent;
+    final interpretationSource = this.interpretationSource;
     final nluConfidence = this.nluConfidence;
     final sentimentResponse = this.sentimentResponse;
     return {
       if (intent != null) 'intent': intent,
+      if (interpretationSource != null)
+        'interpretationSource': interpretationSource.toValue(),
       if (nluConfidence != null) 'nluConfidence': nluConfidence,
       if (sentimentResponse != null) 'sentimentResponse': sentimentResponse,
     };
+  }
+}
+
+enum InterpretationSource {
+  bedrock,
+  lex,
+}
+
+extension InterpretationSourceValueExtension on InterpretationSource {
+  String toValue() {
+    switch (this) {
+      case InterpretationSource.bedrock:
+        return 'Bedrock';
+      case InterpretationSource.lex:
+        return 'Lex';
+    }
+  }
+}
+
+extension InterpretationSourceFromString on String {
+  InterpretationSource toInterpretationSource() {
+    switch (this) {
+      case 'Bedrock':
+        return InterpretationSource.bedrock;
+      case 'Lex':
+        return InterpretationSource.lex;
+    }
+    throw Exception('$this is not known in enum InterpretationSource');
   }
 }
 
@@ -1322,18 +1387,18 @@ class PutSessionResponse {
   /// that the messages are defined in the bot.
   final String? messages;
 
-  /// Request-specific information passed between the client application and
-  /// Amazon Lex V2. These are the same as the <code>requestAttribute</code>
-  /// parameter in the call to the <code>PutSession</code> operation.
+  /// A base-64-encoded gzipped field that provides request-specific information
+  /// passed between the client application and Amazon Lex V2. These are the same
+  /// as the <code>requestAttribute</code> parameter in the call to the
+  /// <code>PutSession</code> operation.
   final String? requestAttributes;
 
   /// The identifier of the session that received the data.
   final String? sessionId;
 
-  /// Represents the current state of the dialog between the user and the bot.
-  ///
-  /// Use this to determine the progress of the conversation and what the next
-  /// action may be.
+  /// A base-64-encoded gzipped field that represents the current state of the
+  /// dialog between the user and the bot. Use this to determine the progress of
+  /// the conversation and what the next action may be.
   final String? sessionState;
 
   PutSessionResponse({
@@ -1454,7 +1519,8 @@ class RecognizeUtteranceResponse {
   /// request.
   final String? contentType;
 
-  /// Indicates whether the input mode to the operation was text or speech.
+  /// Indicates whether the input mode to the operation was text, speech, or from
+  /// a touch-tone keypad.
   final String? inputMode;
 
   /// The text used to process the request.
@@ -2013,18 +2079,22 @@ extension StyleTypeFromString on String {
   }
 }
 
-/// The value of a slot.
+/// Information about the value provided for a slot and Amazon Lex V2's
+/// interpretation.
 class Value {
-  /// The value that Amazon Lex V2 determines for the slot. The actual value
-  /// depends on the setting of the value selection strategy for the bot. You can
-  /// choose to use the value entered by the user, or you can have Amazon Lex V2
-  /// choose the first value in the <code>resolvedValues</code> list.
+  /// The value that Amazon Lex V2 determines for the slot, given the user input.
+  /// The actual value depends on the setting of the value selection strategy for
+  /// the bot. You can choose to use the value entered by the user, or you can
+  /// have Amazon Lex V2 choose the first value in the <code>resolvedValues</code>
+  /// list.
   final String interpretedValue;
 
-  /// The text of the utterance from the user that was entered for the slot.
+  /// The part of the user's response to the slot elicitation that Amazon Lex V2
+  /// determines is relevant to the slot value.
   final String? originalValue;
 
-  /// A list of additional values that have been recognized for the slot.
+  /// A list of values that Amazon Lex V2 determines are possible resolutions for
+  /// the user input. The first value matches the <code>interpretedValue</code>.
   final List<String>? resolvedValues;
 
   Value({

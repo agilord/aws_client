@@ -88,6 +88,7 @@ class SsmSap {
   /// action does not aﬀect the existing setup of your SAP workloads on Amazon
   /// EC2.
   ///
+  /// May throw [UnauthorizedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
@@ -143,6 +144,7 @@ class SsmSap {
   /// Gets the component of an application registered with AWS Systems Manager
   /// for SAP.
   ///
+  /// May throw [UnauthorizedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
@@ -262,6 +264,9 @@ class SsmSap {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
+  /// Parameter [filters] :
+  /// The filter of name, value, and operator.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return with a single call. To retrieve
   /// the remaining results, make another call with the returned nextToken
@@ -270,6 +275,7 @@ class SsmSap {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<ListApplicationsOutput> listApplications({
+    List<Filter>? filters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -280,6 +286,7 @@ class SsmSap {
       50,
     );
     final $payload = <String, dynamic>{
+      if (filters != null) 'Filters': filters,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -294,6 +301,7 @@ class SsmSap {
 
   /// Lists all the components registered with AWS Systems Manager for SAP.
   ///
+  /// May throw [UnauthorizedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -382,6 +390,63 @@ class SsmSap {
       exceptionFnMap: _exceptionFns,
     );
     return ListDatabasesOutput.fromJson(response);
+  }
+
+  /// Returns a list of operations events.
+  ///
+  /// Available parameters include <code>OperationID</code>, as well as optional
+  /// parameters <code>MaxResults</code>, <code>NextToken</code>, and
+  /// <code>Filters</code>.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [operationId] :
+  /// The ID of the operation.
+  ///
+  /// Parameter [filters] :
+  /// Optionally specify filters to narrow the returned operation event items.
+  ///
+  /// Valid filter names include <code>status</code>, <code>resourceID</code>,
+  /// and <code>resourceType</code>. The valid operator for all three filters is
+  /// <code>Equals</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned nextToken
+  /// value.
+  ///
+  /// If you do not specify a value for <code>MaxResults</code>, the request
+  /// returns 50 items per page by default.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  Future<ListOperationEventsOutput> listOperationEvents({
+    required String operationId,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      'OperationId': operationId,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-operation-events',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListOperationEventsOutput.fromJson(response);
   }
 
   /// Lists the operations performed by AWS Systems Manager for SAP.
@@ -496,6 +561,7 @@ class SsmSap {
   /// Amazon EC2 instance(s) must have access to the secrets created in AWS
   /// Secrets Manager to manage SAP applications and components.
   ///
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
@@ -506,11 +572,14 @@ class SsmSap {
   /// Parameter [applicationType] :
   /// The type of the application.
   ///
+  /// Parameter [instances] :
+  /// The Amazon EC2 instances on which your SAP application is running.
+  ///
   /// Parameter [credentials] :
   /// The credentials of the SAP application.
   ///
-  /// Parameter [instances] :
-  /// The Amazon EC2 instances on which your SAP application is running.
+  /// Parameter [databaseArn] :
+  /// The Amazon Resource Name of the SAP HANA database.
   ///
   /// Parameter [sapInstanceNumber] :
   /// The SAP instance number of the application.
@@ -523,8 +592,9 @@ class SsmSap {
   Future<RegisterApplicationOutput> registerApplication({
     required String applicationId,
     required ApplicationType applicationType,
-    required List<ApplicationCredential> credentials,
     required List<String> instances,
+    List<ApplicationCredential>? credentials,
+    String? databaseArn,
     String? sapInstanceNumber,
     String? sid,
     Map<String, String>? tags,
@@ -532,8 +602,9 @@ class SsmSap {
     final $payload = <String, dynamic>{
       'ApplicationId': applicationId,
       'ApplicationType': applicationType.toValue(),
-      'Credentials': credentials,
       'Instances': instances,
+      if (credentials != null) 'Credentials': credentials,
+      if (databaseArn != null) 'DatabaseArn': databaseArn,
       if (sapInstanceNumber != null) 'SapInstanceNumber': sapInstanceNumber,
       if (sid != null) 'Sid': sid,
       if (tags != null) 'Tags': tags,
@@ -545,6 +616,103 @@ class SsmSap {
       exceptionFnMap: _exceptionFns,
     );
     return RegisterApplicationOutput.fromJson(response);
+  }
+
+  /// Request is an operation which starts an application.
+  ///
+  /// Parameter <code>ApplicationId</code> is required.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The ID of the application.
+  Future<StartApplicationOutput> startApplication({
+    required String applicationId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ApplicationId': applicationId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/start-application',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartApplicationOutput.fromJson(response);
+  }
+
+  /// Refreshes a registered application.
+  ///
+  /// May throw [UnauthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The ID of the application.
+  Future<StartApplicationRefreshOutput> startApplicationRefresh({
+    required String applicationId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ApplicationId': applicationId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/start-application-refresh',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartApplicationRefreshOutput.fromJson(response);
+  }
+
+  /// Request is an operation to stop an application.
+  ///
+  /// Parameter <code>ApplicationId</code> is required. Parameters
+  /// <code>StopConnectedEntity</code> and
+  /// <code>IncludeEc2InstanceShutdown</code> are optional.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The ID of the application.
+  ///
+  /// Parameter [includeEc2InstanceShutdown] :
+  /// Boolean. If included and if set to <code>True</code>, the StopApplication
+  /// operation will shut down the associated Amazon EC2 instance in addition to
+  /// the application.
+  ///
+  /// Parameter [stopConnectedEntity] :
+  /// Specify the <code>ConnectedEntityType</code>. Accepted type is
+  /// <code>DBMS</code>.
+  ///
+  /// If this parameter is included, the connected DBMS (Database Management
+  /// System) will be stopped.
+  Future<StopApplicationOutput> stopApplication({
+    required String applicationId,
+    bool? includeEc2InstanceShutdown,
+    ConnectedEntityType? stopConnectedEntity,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ApplicationId': applicationId,
+      if (includeEc2InstanceShutdown != null)
+        'IncludeEc2InstanceShutdown': includeEc2InstanceShutdown,
+      if (stopConnectedEntity != null)
+        'StopConnectedEntity': stopConnectedEntity.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/stop-application',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StopApplicationOutput.fromJson(response);
   }
 
   /// Creates tag for a resource by specifying the ARN.
@@ -604,29 +772,42 @@ class SsmSap {
   /// Updates the settings of an application registered with AWS Systems Manager
   /// for SAP.
   ///
+  /// May throw [UnauthorizedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The ID of the application.
+  ///
+  /// Parameter [backint] :
+  /// Installation of AWS Backint Agent for SAP HANA.
   ///
   /// Parameter [credentialsToAddOrUpdate] :
   /// The credentials to be added or updated.
   ///
   /// Parameter [credentialsToRemove] :
   /// The credentials to be removed.
+  ///
+  /// Parameter [databaseArn] :
+  /// The Amazon Resource Name of the SAP HANA database that replaces the
+  /// current SAP HANA connection with the SAP_ABAP application.
   Future<UpdateApplicationSettingsOutput> updateApplicationSettings({
     required String applicationId,
+    BackintConfig? backint,
     List<ApplicationCredential>? credentialsToAddOrUpdate,
     List<ApplicationCredential>? credentialsToRemove,
+    String? databaseArn,
   }) async {
     final $payload = <String, dynamic>{
       'ApplicationId': applicationId,
+      if (backint != null) 'Backint': backint,
       if (credentialsToAddOrUpdate != null)
         'CredentialsToAddOrUpdate': credentialsToAddOrUpdate,
       if (credentialsToRemove != null)
         'CredentialsToRemove': credentialsToRemove,
+      if (databaseArn != null) 'DatabaseArn': databaseArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -635,6 +816,44 @@ class SsmSap {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApplicationSettingsOutput.fromJson(response);
+  }
+}
+
+enum AllocationType {
+  vpcSubnet,
+  elasticIp,
+  overlay,
+  unknown,
+}
+
+extension AllocationTypeValueExtension on AllocationType {
+  String toValue() {
+    switch (this) {
+      case AllocationType.vpcSubnet:
+        return 'VPC_SUBNET';
+      case AllocationType.elasticIp:
+        return 'ELASTIC_IP';
+      case AllocationType.overlay:
+        return 'OVERLAY';
+      case AllocationType.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension AllocationTypeFromString on String {
+  AllocationType toAllocationType() {
+    switch (this) {
+      case 'VPC_SUBNET':
+        return AllocationType.vpcSubnet;
+      case 'ELASTIC_IP':
+        return AllocationType.elasticIp;
+      case 'OVERLAY':
+        return AllocationType.overlay;
+      case 'UNKNOWN':
+        return AllocationType.unknown;
+    }
+    throw Exception('$this is not known in enum AllocationType');
   }
 }
 
@@ -648,6 +867,9 @@ class Application {
 
   /// The components of the application.
   final List<String>? components;
+
+  /// The latest discovery result for the application.
+  final ApplicationDiscoveryStatus? discoveryStatus;
 
   /// The ID of the application.
   final String? id;
@@ -668,6 +890,7 @@ class Application {
     this.appRegistryArn,
     this.arn,
     this.components,
+    this.discoveryStatus,
     this.id,
     this.lastUpdated,
     this.status,
@@ -683,6 +906,8 @@ class Application {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      discoveryStatus:
+          (json['DiscoveryStatus'] as String?)?.toApplicationDiscoveryStatus(),
       id: json['Id'] as String?,
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       status: (json['Status'] as String?)?.toApplicationStatus(),
@@ -695,6 +920,7 @@ class Application {
     final appRegistryArn = this.appRegistryArn;
     final arn = this.arn;
     final components = this.components;
+    final discoveryStatus = this.discoveryStatus;
     final id = this.id;
     final lastUpdated = this.lastUpdated;
     final status = this.status;
@@ -704,6 +930,7 @@ class Application {
       if (appRegistryArn != null) 'AppRegistryArn': appRegistryArn,
       if (arn != null) 'Arn': arn,
       if (components != null) 'Components': components,
+      if (discoveryStatus != null) 'DiscoveryStatus': discoveryStatus.toValue(),
       if (id != null) 'Id': id,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
       if (status != null) 'Status': status.toValue(),
@@ -748,6 +975,50 @@ class ApplicationCredential {
       'DatabaseName': databaseName,
       'SecretId': secretId,
     };
+  }
+}
+
+enum ApplicationDiscoveryStatus {
+  success,
+  registrationFailed,
+  refreshFailed,
+  registering,
+  deleting,
+}
+
+extension ApplicationDiscoveryStatusValueExtension
+    on ApplicationDiscoveryStatus {
+  String toValue() {
+    switch (this) {
+      case ApplicationDiscoveryStatus.success:
+        return 'SUCCESS';
+      case ApplicationDiscoveryStatus.registrationFailed:
+        return 'REGISTRATION_FAILED';
+      case ApplicationDiscoveryStatus.refreshFailed:
+        return 'REFRESH_FAILED';
+      case ApplicationDiscoveryStatus.registering:
+        return 'REGISTERING';
+      case ApplicationDiscoveryStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension ApplicationDiscoveryStatusFromString on String {
+  ApplicationDiscoveryStatus toApplicationDiscoveryStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return ApplicationDiscoveryStatus.success;
+      case 'REGISTRATION_FAILED':
+        return ApplicationDiscoveryStatus.registrationFailed;
+      case 'REFRESH_FAILED':
+        return ApplicationDiscoveryStatus.refreshFailed;
+      case 'REGISTERING':
+        return ApplicationDiscoveryStatus.registering;
+      case 'DELETING':
+        return ApplicationDiscoveryStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ApplicationDiscoveryStatus');
   }
 }
 
@@ -815,6 +1086,9 @@ class ApplicationSummary {
   /// The Amazon Resource Name (ARN) of the application.
   final String? arn;
 
+  /// The status of the latest discovery.
+  final ApplicationDiscoveryStatus? discoveryStatus;
+
   /// The ID of the application.
   final String? id;
 
@@ -826,6 +1100,7 @@ class ApplicationSummary {
 
   ApplicationSummary({
     this.arn,
+    this.discoveryStatus,
     this.id,
     this.tags,
     this.type,
@@ -834,6 +1109,8 @@ class ApplicationSummary {
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
       arn: json['Arn'] as String?,
+      discoveryStatus:
+          (json['DiscoveryStatus'] as String?)?.toApplicationDiscoveryStatus(),
       id: json['Id'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -843,11 +1120,13 @@ class ApplicationSummary {
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final discoveryStatus = this.discoveryStatus;
     final id = this.id;
     final tags = this.tags;
     final type = this.type;
     return {
       if (arn != null) 'Arn': arn,
+      if (discoveryStatus != null) 'DiscoveryStatus': discoveryStatus.toValue(),
       if (id != null) 'Id': id,
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type.toValue(),
@@ -857,6 +1136,7 @@ class ApplicationSummary {
 
 enum ApplicationType {
   hana,
+  sapAbap,
 }
 
 extension ApplicationTypeValueExtension on ApplicationType {
@@ -864,6 +1144,8 @@ extension ApplicationTypeValueExtension on ApplicationType {
     switch (this) {
       case ApplicationType.hana:
         return 'HANA';
+      case ApplicationType.sapAbap:
+        return 'SAP_ABAP';
     }
   }
 }
@@ -873,8 +1155,147 @@ extension ApplicationTypeFromString on String {
     switch (this) {
       case 'HANA':
         return ApplicationType.hana;
+      case 'SAP_ABAP':
+        return ApplicationType.sapAbap;
     }
     throw Exception('$this is not known in enum ApplicationType');
+  }
+}
+
+/// Describes the properties of the associated host.
+class AssociatedHost {
+  /// The ID of the Amazon EC2 instance.
+  final String? ec2InstanceId;
+
+  /// The name of the host.
+  final String? hostname;
+
+  /// The IP addresses of the associated host.
+  final List<IpAddressMember>? ipAddresses;
+
+  /// The version of the operating system.
+  final String? osVersion;
+
+  AssociatedHost({
+    this.ec2InstanceId,
+    this.hostname,
+    this.ipAddresses,
+    this.osVersion,
+  });
+
+  factory AssociatedHost.fromJson(Map<String, dynamic> json) {
+    return AssociatedHost(
+      ec2InstanceId: json['Ec2InstanceId'] as String?,
+      hostname: json['Hostname'] as String?,
+      ipAddresses: (json['IpAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpAddressMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      osVersion: json['OsVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ec2InstanceId = this.ec2InstanceId;
+    final hostname = this.hostname;
+    final ipAddresses = this.ipAddresses;
+    final osVersion = this.osVersion;
+    return {
+      if (ec2InstanceId != null) 'Ec2InstanceId': ec2InstanceId,
+      if (hostname != null) 'Hostname': hostname,
+      if (ipAddresses != null) 'IpAddresses': ipAddresses,
+      if (osVersion != null) 'OsVersion': osVersion,
+    };
+  }
+}
+
+/// Configuration parameters for AWS Backint Agent for SAP HANA. You can backup
+/// your SAP HANA database with AWS Backup or Amazon S3.
+class BackintConfig {
+  /// AWS service for your database backup.
+  final BackintMode backintMode;
+
+  /// <p/>
+  final bool ensureNoBackupInProcess;
+
+  BackintConfig({
+    required this.backintMode,
+    required this.ensureNoBackupInProcess,
+  });
+
+  Map<String, dynamic> toJson() {
+    final backintMode = this.backintMode;
+    final ensureNoBackupInProcess = this.ensureNoBackupInProcess;
+    return {
+      'BackintMode': backintMode.toValue(),
+      'EnsureNoBackupInProcess': ensureNoBackupInProcess,
+    };
+  }
+}
+
+enum BackintMode {
+  awsBackup,
+}
+
+extension BackintModeValueExtension on BackintMode {
+  String toValue() {
+    switch (this) {
+      case BackintMode.awsBackup:
+        return 'AWSBackup';
+    }
+  }
+}
+
+extension BackintModeFromString on String {
+  BackintMode toBackintMode() {
+    switch (this) {
+      case 'AWSBackup':
+        return BackintMode.awsBackup;
+    }
+    throw Exception('$this is not known in enum BackintMode');
+  }
+}
+
+enum ClusterStatus {
+  online,
+  standby,
+  maintenance,
+  offline,
+  none,
+}
+
+extension ClusterStatusValueExtension on ClusterStatus {
+  String toValue() {
+    switch (this) {
+      case ClusterStatus.online:
+        return 'ONLINE';
+      case ClusterStatus.standby:
+        return 'STANDBY';
+      case ClusterStatus.maintenance:
+        return 'MAINTENANCE';
+      case ClusterStatus.offline:
+        return 'OFFLINE';
+      case ClusterStatus.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension ClusterStatusFromString on String {
+  ClusterStatus toClusterStatus() {
+    switch (this) {
+      case 'ONLINE':
+        return ClusterStatus.online;
+      case 'STANDBY':
+        return ClusterStatus.standby;
+      case 'MAINTENANCE':
+        return ClusterStatus.maintenance;
+      case 'OFFLINE':
+        return ClusterStatus.offline;
+      case 'NONE':
+        return ClusterStatus.none;
+    }
+    throw Exception('$this is not known in enum ClusterStatus');
   }
 }
 
@@ -883,14 +1304,31 @@ class Component {
   /// The ID of the application.
   final String? applicationId;
 
+  /// The Amazon Resource Name (ARN) of the component.
+  final String? arn;
+
+  /// The associated host of the component.
+  final AssociatedHost? associatedHost;
+
+  /// The child components of a highly available environment. For example, in a
+  /// highly available SAP on AWS workload, the child component consists of the
+  /// primary and secondar instances.
+  final List<String>? childComponents;
+
   /// The ID of the component.
   final String? componentId;
 
   /// The type of the component.
   final ComponentType? componentType;
 
+  /// The connection specifications for the database of the component.
+  final DatabaseConnection? databaseConnection;
+
   /// The SAP HANA databases of the component.
   final List<String>? databases;
+
+  /// The SAP HANA version of the component.
+  final String? hdbVersion;
 
   /// The hosts of the component.
   final List<Host>? hosts;
@@ -898,66 +1336,182 @@ class Component {
   /// The time at which the component was last updated.
   final DateTime? lastUpdated;
 
+  /// The parent component of a highly available environment. For example, in a
+  /// highly available SAP on AWS workload, the parent component consists of the
+  /// entire setup, including the child components.
+  final String? parentComponent;
+
   /// The primary host of the component.
   final String? primaryHost;
 
+  /// Details of the SAP HANA system replication for the component.
+  final Resilience? resilience;
+
+  /// The SAP feature of the component.
+  final String? sapFeature;
+
+  /// The hostname of the component.
+  final String? sapHostname;
+
+  /// The kernel version of the component.
+  final String? sapKernelVersion;
+
+  /// The SAP System Identifier of the application component.
+  final String? sid;
+
   /// The status of the component.
+  ///
+  /// <ul>
+  /// <li>
+  /// ACTIVATED - this status has been deprecated.
+  /// </li>
+  /// <li>
+  /// STARTING - the component is in the process of being started.
+  /// </li>
+  /// <li>
+  /// STOPPED - the component is not running.
+  /// </li>
+  /// <li>
+  /// STOPPING - the component is in the process of being stopped.
+  /// </li>
+  /// <li>
+  /// RUNNING - the component is running.
+  /// </li>
+  /// <li>
+  /// RUNNING_WITH_ERROR - one or more child component(s) of the parent component
+  /// is not running. Call <a
+  /// href="https://docs.aws.amazon.com/ssmsap/latest/APIReference/API_GetComponent.html">
+  /// <code>GetComponent</code> </a> to review the status of each child component.
+  /// </li>
+  /// <li>
+  /// UNDEFINED - AWS Systems Manager for SAP cannot provide the component status
+  /// based on the discovered information. Verify your SAP application.
+  /// </li>
+  /// </ul>
   final ComponentStatus? status;
+
+  /// The SAP system number of the application component.
+  final String? systemNumber;
 
   Component({
     this.applicationId,
+    this.arn,
+    this.associatedHost,
+    this.childComponents,
     this.componentId,
     this.componentType,
+    this.databaseConnection,
     this.databases,
+    this.hdbVersion,
     this.hosts,
     this.lastUpdated,
+    this.parentComponent,
     this.primaryHost,
+    this.resilience,
+    this.sapFeature,
+    this.sapHostname,
+    this.sapKernelVersion,
+    this.sid,
     this.status,
+    this.systemNumber,
   });
 
   factory Component.fromJson(Map<String, dynamic> json) {
     return Component(
       applicationId: json['ApplicationId'] as String?,
+      arn: json['Arn'] as String?,
+      associatedHost: json['AssociatedHost'] != null
+          ? AssociatedHost.fromJson(
+              json['AssociatedHost'] as Map<String, dynamic>)
+          : null,
+      childComponents: (json['ChildComponents'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       componentId: json['ComponentId'] as String?,
       componentType: (json['ComponentType'] as String?)?.toComponentType(),
+      databaseConnection: json['DatabaseConnection'] != null
+          ? DatabaseConnection.fromJson(
+              json['DatabaseConnection'] as Map<String, dynamic>)
+          : null,
       databases: (json['Databases'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      hdbVersion: json['HdbVersion'] as String?,
       hosts: (json['Hosts'] as List?)
           ?.whereNotNull()
           .map((e) => Host.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
+      parentComponent: json['ParentComponent'] as String?,
       primaryHost: json['PrimaryHost'] as String?,
+      resilience: json['Resilience'] != null
+          ? Resilience.fromJson(json['Resilience'] as Map<String, dynamic>)
+          : null,
+      sapFeature: json['SapFeature'] as String?,
+      sapHostname: json['SapHostname'] as String?,
+      sapKernelVersion: json['SapKernelVersion'] as String?,
+      sid: json['Sid'] as String?,
       status: (json['Status'] as String?)?.toComponentStatus(),
+      systemNumber: json['SystemNumber'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final applicationId = this.applicationId;
+    final arn = this.arn;
+    final associatedHost = this.associatedHost;
+    final childComponents = this.childComponents;
     final componentId = this.componentId;
     final componentType = this.componentType;
+    final databaseConnection = this.databaseConnection;
     final databases = this.databases;
+    final hdbVersion = this.hdbVersion;
     final hosts = this.hosts;
     final lastUpdated = this.lastUpdated;
+    final parentComponent = this.parentComponent;
     final primaryHost = this.primaryHost;
+    final resilience = this.resilience;
+    final sapFeature = this.sapFeature;
+    final sapHostname = this.sapHostname;
+    final sapKernelVersion = this.sapKernelVersion;
+    final sid = this.sid;
     final status = this.status;
+    final systemNumber = this.systemNumber;
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
+      if (arn != null) 'Arn': arn,
+      if (associatedHost != null) 'AssociatedHost': associatedHost,
+      if (childComponents != null) 'ChildComponents': childComponents,
       if (componentId != null) 'ComponentId': componentId,
       if (componentType != null) 'ComponentType': componentType.toValue(),
+      if (databaseConnection != null) 'DatabaseConnection': databaseConnection,
       if (databases != null) 'Databases': databases,
+      if (hdbVersion != null) 'HdbVersion': hdbVersion,
       if (hosts != null) 'Hosts': hosts,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
+      if (parentComponent != null) 'ParentComponent': parentComponent,
       if (primaryHost != null) 'PrimaryHost': primaryHost,
+      if (resilience != null) 'Resilience': resilience,
+      if (sapFeature != null) 'SapFeature': sapFeature,
+      if (sapHostname != null) 'SapHostname': sapHostname,
+      if (sapKernelVersion != null) 'SapKernelVersion': sapKernelVersion,
+      if (sid != null) 'Sid': sid,
       if (status != null) 'Status': status.toValue(),
+      if (systemNumber != null) 'SystemNumber': systemNumber,
     };
   }
 }
 
 enum ComponentStatus {
   activated,
+  starting,
+  stopped,
+  stopping,
+  running,
+  runningWithError,
+  undefined,
 }
 
 extension ComponentStatusValueExtension on ComponentStatus {
@@ -965,6 +1519,18 @@ extension ComponentStatusValueExtension on ComponentStatus {
     switch (this) {
       case ComponentStatus.activated:
         return 'ACTIVATED';
+      case ComponentStatus.starting:
+        return 'STARTING';
+      case ComponentStatus.stopped:
+        return 'STOPPED';
+      case ComponentStatus.stopping:
+        return 'STOPPING';
+      case ComponentStatus.running:
+        return 'RUNNING';
+      case ComponentStatus.runningWithError:
+        return 'RUNNING_WITH_ERROR';
+      case ComponentStatus.undefined:
+        return 'UNDEFINED';
     }
   }
 }
@@ -974,6 +1540,18 @@ extension ComponentStatusFromString on String {
     switch (this) {
       case 'ACTIVATED':
         return ComponentStatus.activated;
+      case 'STARTING':
+        return ComponentStatus.starting;
+      case 'STOPPED':
+        return ComponentStatus.stopped;
+      case 'STOPPING':
+        return ComponentStatus.stopping;
+      case 'RUNNING':
+        return ComponentStatus.running;
+      case 'RUNNING_WITH_ERROR':
+        return ComponentStatus.runningWithError;
+      case 'UNDEFINED':
+        return ComponentStatus.undefined;
     }
     throw Exception('$this is not known in enum ComponentStatus');
   }
@@ -983,6 +1561,9 @@ extension ComponentStatusFromString on String {
 class ComponentSummary {
   /// The ID of the application.
   final String? applicationId;
+
+  /// The Amazon Resource Name (ARN) of the component summary.
+  final String? arn;
 
   /// The ID of the component.
   final String? componentId;
@@ -995,6 +1576,7 @@ class ComponentSummary {
 
   ComponentSummary({
     this.applicationId,
+    this.arn,
     this.componentId,
     this.componentType,
     this.tags,
@@ -1003,6 +1585,7 @@ class ComponentSummary {
   factory ComponentSummary.fromJson(Map<String, dynamic> json) {
     return ComponentSummary(
       applicationId: json['ApplicationId'] as String?,
+      arn: json['Arn'] as String?,
       componentId: json['ComponentId'] as String?,
       componentType: (json['ComponentType'] as String?)?.toComponentType(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1012,11 +1595,13 @@ class ComponentSummary {
 
   Map<String, dynamic> toJson() {
     final applicationId = this.applicationId;
+    final arn = this.arn;
     final componentId = this.componentId;
     final componentType = this.componentType;
     final tags = this.tags;
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
+      if (arn != null) 'Arn': arn,
       if (componentId != null) 'ComponentId': componentId,
       if (componentType != null) 'ComponentType': componentType.toValue(),
       if (tags != null) 'Tags': tags,
@@ -1026,6 +1611,13 @@ class ComponentSummary {
 
 enum ComponentType {
   hana,
+  hanaNode,
+  abap,
+  ascs,
+  dialog,
+  webdisp,
+  wd,
+  ers,
 }
 
 extension ComponentTypeValueExtension on ComponentType {
@@ -1033,6 +1625,20 @@ extension ComponentTypeValueExtension on ComponentType {
     switch (this) {
       case ComponentType.hana:
         return 'HANA';
+      case ComponentType.hanaNode:
+        return 'HANA_NODE';
+      case ComponentType.abap:
+        return 'ABAP';
+      case ComponentType.ascs:
+        return 'ASCS';
+      case ComponentType.dialog:
+        return 'DIALOG';
+      case ComponentType.webdisp:
+        return 'WEBDISP';
+      case ComponentType.wd:
+        return 'WD';
+      case ComponentType.ers:
+        return 'ERS';
     }
   }
 }
@@ -1042,8 +1648,45 @@ extension ComponentTypeFromString on String {
     switch (this) {
       case 'HANA':
         return ComponentType.hana;
+      case 'HANA_NODE':
+        return ComponentType.hanaNode;
+      case 'ABAP':
+        return ComponentType.abap;
+      case 'ASCS':
+        return ComponentType.ascs;
+      case 'DIALOG':
+        return ComponentType.dialog;
+      case 'WEBDISP':
+        return ComponentType.webdisp;
+      case 'WD':
+        return ComponentType.wd;
+      case 'ERS':
+        return ComponentType.ers;
     }
     throw Exception('$this is not known in enum ComponentType');
+  }
+}
+
+enum ConnectedEntityType {
+  dbms,
+}
+
+extension ConnectedEntityTypeValueExtension on ConnectedEntityType {
+  String toValue() {
+    switch (this) {
+      case ConnectedEntityType.dbms:
+        return 'DBMS';
+    }
+  }
+}
+
+extension ConnectedEntityTypeFromString on String {
+  ConnectedEntityType toConnectedEntityType() {
+    switch (this) {
+      case 'DBMS':
+        return ConnectedEntityType.dbms;
+    }
+    throw Exception('$this is not known in enum ConnectedEntityType');
   }
 }
 
@@ -1167,12 +1810,80 @@ class Database {
   }
 }
 
+/// The connection specifications for the database.
+class DatabaseConnection {
+  /// The IP address for connection.
+  final String? connectionIp;
+
+  /// The Amazon Resource Name of the connected SAP HANA database.
+  final String? databaseArn;
+
+  /// The method of connection.
+  final DatabaseConnectionMethod? databaseConnectionMethod;
+
+  DatabaseConnection({
+    this.connectionIp,
+    this.databaseArn,
+    this.databaseConnectionMethod,
+  });
+
+  factory DatabaseConnection.fromJson(Map<String, dynamic> json) {
+    return DatabaseConnection(
+      connectionIp: json['ConnectionIp'] as String?,
+      databaseArn: json['DatabaseArn'] as String?,
+      databaseConnectionMethod: (json['DatabaseConnectionMethod'] as String?)
+          ?.toDatabaseConnectionMethod(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionIp = this.connectionIp;
+    final databaseArn = this.databaseArn;
+    final databaseConnectionMethod = this.databaseConnectionMethod;
+    return {
+      if (connectionIp != null) 'ConnectionIp': connectionIp,
+      if (databaseArn != null) 'DatabaseArn': databaseArn,
+      if (databaseConnectionMethod != null)
+        'DatabaseConnectionMethod': databaseConnectionMethod.toValue(),
+    };
+  }
+}
+
+enum DatabaseConnectionMethod {
+  direct,
+  overlay,
+}
+
+extension DatabaseConnectionMethodValueExtension on DatabaseConnectionMethod {
+  String toValue() {
+    switch (this) {
+      case DatabaseConnectionMethod.direct:
+        return 'DIRECT';
+      case DatabaseConnectionMethod.overlay:
+        return 'OVERLAY';
+    }
+  }
+}
+
+extension DatabaseConnectionMethodFromString on String {
+  DatabaseConnectionMethod toDatabaseConnectionMethod() {
+    switch (this) {
+      case 'DIRECT':
+        return DatabaseConnectionMethod.direct;
+      case 'OVERLAY':
+        return DatabaseConnectionMethod.overlay;
+    }
+    throw Exception('$this is not known in enum DatabaseConnectionMethod');
+  }
+}
+
 enum DatabaseStatus {
   running,
   starting,
   stopped,
   warning,
   unknown,
+  error,
 }
 
 extension DatabaseStatusValueExtension on DatabaseStatus {
@@ -1188,6 +1899,8 @@ extension DatabaseStatusValueExtension on DatabaseStatus {
         return 'WARNING';
       case DatabaseStatus.unknown:
         return 'UNKNOWN';
+      case DatabaseStatus.error:
+        return 'ERROR';
     }
   }
 }
@@ -1205,6 +1918,8 @@ extension DatabaseStatusFromString on String {
         return DatabaseStatus.warning;
       case 'UNKNOWN':
         return DatabaseStatus.unknown;
+      case 'ERROR':
+        return DatabaseStatus.error;
     }
     throw Exception('$this is not known in enum DatabaseStatus');
   }
@@ -1432,8 +2147,12 @@ class GetComponentOutput {
   /// The component of an application registered with AWS Systems Manager for SAP.
   final Component? component;
 
+  /// The tags of a component.
+  final Map<String, String>? tags;
+
   GetComponentOutput({
     this.component,
+    this.tags,
   });
 
   factory GetComponentOutput.fromJson(Map<String, dynamic> json) {
@@ -1441,13 +2160,17 @@ class GetComponentOutput {
       component: json['Component'] != null
           ? Component.fromJson(json['Component'] as Map<String, dynamic>)
           : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final component = this.component;
+    final tags = this.tags;
     return {
       if (component != null) 'Component': component,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -1533,6 +2256,9 @@ class GetResourcePermissionOutput {
 
 /// Describes the properties of the Dedicated Host.
 class Host {
+  /// The ID of Amazon EC2 instance.
+  final String? eC2InstanceId;
+
   /// The IP address of the Dedicated Host.
   final String? hostIp;
 
@@ -1545,32 +2271,43 @@ class Host {
   /// The instance ID of the instance on the Dedicated Host.
   final String? instanceId;
 
+  /// The version of the operating system.
+  final String? osVersion;
+
   Host({
+    this.eC2InstanceId,
     this.hostIp,
     this.hostName,
     this.hostRole,
     this.instanceId,
+    this.osVersion,
   });
 
   factory Host.fromJson(Map<String, dynamic> json) {
     return Host(
+      eC2InstanceId: json['EC2InstanceId'] as String?,
       hostIp: json['HostIp'] as String?,
       hostName: json['HostName'] as String?,
       hostRole: (json['HostRole'] as String?)?.toHostRole(),
       instanceId: json['InstanceId'] as String?,
+      osVersion: json['OsVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final eC2InstanceId = this.eC2InstanceId;
     final hostIp = this.hostIp;
     final hostName = this.hostName;
     final hostRole = this.hostRole;
     final instanceId = this.instanceId;
+    final osVersion = this.osVersion;
     return {
+      if (eC2InstanceId != null) 'EC2InstanceId': eC2InstanceId,
       if (hostIp != null) 'HostIp': hostIp,
       if (hostName != null) 'HostName': hostName,
       if (hostRole != null) 'HostRole': hostRole.toValue(),
       if (instanceId != null) 'InstanceId': instanceId,
+      if (osVersion != null) 'OsVersion': osVersion,
     };
   }
 }
@@ -1610,6 +2347,43 @@ extension HostRoleFromString on String {
         return HostRole.unknown;
     }
     throw Exception('$this is not known in enum HostRole');
+  }
+}
+
+/// Provides information of the IP address.
+class IpAddressMember {
+  /// The type of allocation for the IP address.
+  final AllocationType? allocationType;
+
+  /// The IP address.
+  final String? ipAddress;
+
+  /// The primary IP address.
+  final bool? primary;
+
+  IpAddressMember({
+    this.allocationType,
+    this.ipAddress,
+    this.primary,
+  });
+
+  factory IpAddressMember.fromJson(Map<String, dynamic> json) {
+    return IpAddressMember(
+      allocationType: (json['AllocationType'] as String?)?.toAllocationType(),
+      ipAddress: json['IpAddress'] as String?,
+      primary: json['Primary'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocationType = this.allocationType;
+    final ipAddress = this.ipAddress;
+    final primary = this.primary;
+    return {
+      if (allocationType != null) 'AllocationType': allocationType.toValue(),
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (primary != null) 'Primary': primary,
+    };
   }
 }
 
@@ -1708,6 +2482,39 @@ class ListDatabasesOutput {
     return {
       if (databases != null) 'Databases': databases,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListOperationEventsOutput {
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
+
+  /// A returned list of operation events that meet the filter criteria.
+  final List<OperationEvent>? operationEvents;
+
+  ListOperationEventsOutput({
+    this.nextToken,
+    this.operationEvents,
+  });
+
+  factory ListOperationEventsOutput.fromJson(Map<String, dynamic> json) {
+    return ListOperationEventsOutput(
+      nextToken: json['NextToken'] as String?,
+      operationEvents: (json['OperationEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => OperationEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final operationEvents = this.operationEvents;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (operationEvents != null) 'OperationEvents': operationEvents,
     };
   }
 }
@@ -1863,6 +2670,161 @@ class Operation {
   }
 }
 
+/// An operation event returns details for an operation, including key
+/// milestones which can be used to monitor and track operations in progress.
+///
+/// Operation events contain:
+///
+/// <ul>
+/// <li>
+/// Description string
+/// </li>
+/// <li>
+/// Resource, including its ARN and type
+/// </li>
+/// <li>
+/// Status
+/// </li>
+/// <li>
+/// StatusMessage string
+/// </li>
+/// <li>
+/// TimeStamp
+/// </li>
+/// </ul>
+/// Operation event examples include StartApplication or StopApplication.
+class OperationEvent {
+  /// A description of the operation event. For example, "Stop the EC2 instance
+  /// i-abcdefgh987654321".
+  final String? description;
+
+  /// The resource involved in the operations event.
+  ///
+  /// Contains <code>ResourceArn</code> ARN and <code>ResourceType</code>.
+  final Resource? resource;
+
+  /// The status of the operation event. The possible statuses are:
+  /// <code>IN_PROGRESS</code>, <code>COMPLETED</code>, and <code>FAILED</code>.
+  final OperationEventStatus? status;
+
+  /// The status message relating to a specific operation event.
+  final String? statusMessage;
+
+  /// The timestamp of the specified operation event.
+  final DateTime? timestamp;
+
+  OperationEvent({
+    this.description,
+    this.resource,
+    this.status,
+    this.statusMessage,
+    this.timestamp,
+  });
+
+  factory OperationEvent.fromJson(Map<String, dynamic> json) {
+    return OperationEvent(
+      description: json['Description'] as String?,
+      resource: json['Resource'] != null
+          ? Resource.fromJson(json['Resource'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toOperationEventStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final resource = this.resource;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final timestamp = this.timestamp;
+    return {
+      if (description != null) 'Description': description,
+      if (resource != null) 'Resource': resource,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+enum OperationEventStatus {
+  inProgress,
+  completed,
+  failed,
+}
+
+extension OperationEventStatusValueExtension on OperationEventStatus {
+  String toValue() {
+    switch (this) {
+      case OperationEventStatus.inProgress:
+        return 'IN_PROGRESS';
+      case OperationEventStatus.completed:
+        return 'COMPLETED';
+      case OperationEventStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension OperationEventStatusFromString on String {
+  OperationEventStatus toOperationEventStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return OperationEventStatus.inProgress;
+      case 'COMPLETED':
+        return OperationEventStatus.completed;
+      case 'FAILED':
+        return OperationEventStatus.failed;
+    }
+    throw Exception('$this is not known in enum OperationEventStatus');
+  }
+}
+
+enum OperationMode {
+  primary,
+  logreplay,
+  deltaDatashipping,
+  logreplayReadaccess,
+  none,
+}
+
+extension OperationModeValueExtension on OperationMode {
+  String toValue() {
+    switch (this) {
+      case OperationMode.primary:
+        return 'PRIMARY';
+      case OperationMode.logreplay:
+        return 'LOGREPLAY';
+      case OperationMode.deltaDatashipping:
+        return 'DELTA_DATASHIPPING';
+      case OperationMode.logreplayReadaccess:
+        return 'LOGREPLAY_READACCESS';
+      case OperationMode.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension OperationModeFromString on String {
+  OperationMode toOperationMode() {
+    switch (this) {
+      case 'PRIMARY':
+        return OperationMode.primary;
+      case 'LOGREPLAY':
+        return OperationMode.logreplay;
+      case 'DELTA_DATASHIPPING':
+        return OperationMode.deltaDatashipping;
+      case 'LOGREPLAY_READACCESS':
+        return OperationMode.logreplayReadaccess;
+      case 'NONE':
+        return OperationMode.none;
+    }
+    throw Exception('$this is not known in enum OperationMode');
+  }
+}
+
 enum OperationStatus {
   inprogress,
   success,
@@ -1972,6 +2934,208 @@ class RegisterApplicationOutput {
   }
 }
 
+enum ReplicationMode {
+  primary,
+  none,
+  sync,
+  syncmem,
+  async,
+}
+
+extension ReplicationModeValueExtension on ReplicationMode {
+  String toValue() {
+    switch (this) {
+      case ReplicationMode.primary:
+        return 'PRIMARY';
+      case ReplicationMode.none:
+        return 'NONE';
+      case ReplicationMode.sync:
+        return 'SYNC';
+      case ReplicationMode.syncmem:
+        return 'SYNCMEM';
+      case ReplicationMode.async:
+        return 'ASYNC';
+    }
+  }
+}
+
+extension ReplicationModeFromString on String {
+  ReplicationMode toReplicationMode() {
+    switch (this) {
+      case 'PRIMARY':
+        return ReplicationMode.primary;
+      case 'NONE':
+        return ReplicationMode.none;
+      case 'SYNC':
+        return ReplicationMode.sync;
+      case 'SYNCMEM':
+        return ReplicationMode.syncmem;
+      case 'ASYNC':
+        return ReplicationMode.async;
+    }
+    throw Exception('$this is not known in enum ReplicationMode');
+  }
+}
+
+/// Details of the SAP HANA system replication for the instance.
+class Resilience {
+  /// The cluster status of the component.
+  final ClusterStatus? clusterStatus;
+
+  /// Indicates if or not enqueue replication is enabled for the ASCS component.
+  final bool? enqueueReplication;
+
+  /// The operation mode of the component.
+  final OperationMode? hsrOperationMode;
+
+  /// The replication mode of the component.
+  final ReplicationMode? hsrReplicationMode;
+
+  /// The tier of the component.
+  final String? hsrTier;
+
+  Resilience({
+    this.clusterStatus,
+    this.enqueueReplication,
+    this.hsrOperationMode,
+    this.hsrReplicationMode,
+    this.hsrTier,
+  });
+
+  factory Resilience.fromJson(Map<String, dynamic> json) {
+    return Resilience(
+      clusterStatus: (json['ClusterStatus'] as String?)?.toClusterStatus(),
+      enqueueReplication: json['EnqueueReplication'] as bool?,
+      hsrOperationMode:
+          (json['HsrOperationMode'] as String?)?.toOperationMode(),
+      hsrReplicationMode:
+          (json['HsrReplicationMode'] as String?)?.toReplicationMode(),
+      hsrTier: json['HsrTier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterStatus = this.clusterStatus;
+    final enqueueReplication = this.enqueueReplication;
+    final hsrOperationMode = this.hsrOperationMode;
+    final hsrReplicationMode = this.hsrReplicationMode;
+    final hsrTier = this.hsrTier;
+    return {
+      if (clusterStatus != null) 'ClusterStatus': clusterStatus.toValue(),
+      if (enqueueReplication != null) 'EnqueueReplication': enqueueReplication,
+      if (hsrOperationMode != null)
+        'HsrOperationMode': hsrOperationMode.toValue(),
+      if (hsrReplicationMode != null)
+        'HsrReplicationMode': hsrReplicationMode.toValue(),
+      if (hsrTier != null) 'HsrTier': hsrTier,
+    };
+  }
+}
+
+/// The resource contains a <code>ResourceArn</code> and the
+/// <code>ResourceType</code>.
+class Resource {
+  /// The Amazon Resource Name (ARN) of the source resource.
+  ///
+  /// Example of <code>ResourceArn</code>:
+  /// "<code>arn:aws:ec2:us-east-1:111111111111:instance/i-abcdefgh987654321</code>"
+  final String? resourceArn;
+
+  /// The resource type.
+  ///
+  /// Example of <code>ResourceType</code>:
+  /// "<code>AWS::SystemsManagerSAP::Component</code>" or
+  /// "<code>AWS::EC2::Instance</code>".
+  final String? resourceType;
+
+  Resource({
+    this.resourceArn,
+    this.resourceType,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final resourceType = this.resourceType;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+class StartApplicationOutput {
+  /// The ID of the operation.
+  final String? operationId;
+
+  StartApplicationOutput({
+    this.operationId,
+  });
+
+  factory StartApplicationOutput.fromJson(Map<String, dynamic> json) {
+    return StartApplicationOutput(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class StartApplicationRefreshOutput {
+  /// The ID of the operation.
+  final String? operationId;
+
+  StartApplicationRefreshOutput({
+    this.operationId,
+  });
+
+  factory StartApplicationRefreshOutput.fromJson(Map<String, dynamic> json) {
+    return StartApplicationRefreshOutput(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class StopApplicationOutput {
+  /// The ID of the operation.
+  final String? operationId;
+
+  StopApplicationOutput({
+    this.operationId,
+  });
+
+  factory StopApplicationOutput.fromJson(Map<String, dynamic> json) {
+    return StopApplicationOutput(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2043,6 +3207,11 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class UnauthorizedException extends _s.GenericAwsException {
+  UnauthorizedException({String? type, String? message})
+      : super(type: type, code: 'UnauthorizedException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -2055,6 +3224,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'UnauthorizedException': (type, message) =>
+      UnauthorizedException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

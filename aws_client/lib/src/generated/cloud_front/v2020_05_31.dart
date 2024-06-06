@@ -22,7 +22,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// This is the <i>Amazon CloudFront API Reference</i>. This guide is for
 /// developers who need detailed information about CloudFront API actions, data
 /// types, and errors. For detailed information about CloudFront features, see
-/// the <i>Amazon CloudFront Developer Guide</i>.
+/// the <a
+/// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Amazon
+/// CloudFront Developer Guide</a>.
 class CloudFront {
   final _s.RestXmlProtocol _protocol;
   CloudFront({
@@ -106,6 +108,23 @@ class CloudFront {
   /// <code>CreateContinuousDeploymentPolicy</code> to incrementally move
   /// traffic to the staging distribution.
   ///
+  /// This API operation requires the following IAM permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html">GetDistribution</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateDistribution.html">CreateDistribution</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CopyDistribution.html">CopyDistribution</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [CNAMEAlreadyExists].
   /// May throw [DistributionAlreadyExists].
   /// May throw [InvalidOrigin].
@@ -160,6 +179,7 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [TooManyDistributionsAssociatedToOriginAccessControl].
   /// May throw [NoSuchResponseHeadersPolicy].
   /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
@@ -179,6 +199,14 @@ class CloudFront {
   /// The identifier of the primary distribution whose configuration you are
   /// copying. To get a distribution ID, use <code>ListDistributions</code>.
   ///
+  /// Parameter [enabled] :
+  /// A Boolean flag to specify the state of the staging distribution when it's
+  /// created. When you set this value to <code>True</code>, the staging
+  /// distribution is enabled. When you set this value to <code>False</code>,
+  /// the staging distribution is disabled.
+  ///
+  /// If you omit this field, the default value is <code>True</code>.
+  ///
   /// Parameter [ifMatch] :
   /// The version identifier of the primary distribution whose configuration you
   /// are copying. This is the <code>ETag</code> value returned in the response
@@ -191,6 +219,7 @@ class CloudFront {
   Future<CopyDistributionResult> copyDistribution2020_05_31({
     required String callerReference,
     required String primaryDistributionId,
+    bool? enabled,
     String? ifMatch,
     bool? staging,
   }) async {
@@ -206,6 +235,7 @@ class CloudFront {
       payload: CopyDistributionRequest(
               callerReference: callerReference,
               primaryDistributionId: primaryDistributionId,
+              enabled: enabled,
               ifMatch: ifMatch,
               staging: staging)
           .toXml(
@@ -448,13 +478,26 @@ class CloudFront {
     );
   }
 
-  /// Create a new distribution with tags.
+  /// Create a new distribution with tags. This API operation requires the
+  /// following IAM permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateDistribution.html">CreateDistribution</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [CNAMEAlreadyExists].
   /// May throw [DistributionAlreadyExists].
   /// May throw [InvalidOrigin].
   /// May throw [InvalidOriginAccessIdentity].
   /// May throw [InvalidOriginAccessControl].
+  /// May throw [IllegalOriginAccessConfiguration].
   /// May throw [AccessDenied].
   /// May throw [TooManyTrustedSigners].
   /// May throw [TrustedSignerDoesNotExist].
@@ -502,6 +545,7 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [TooManyDistributionsAssociatedToOriginAccessControl].
   /// May throw [NoSuchResponseHeadersPolicy].
   /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
@@ -663,7 +707,9 @@ class CloudFront {
     );
   }
 
-  /// Create a new invalidation.
+  /// Create a new invalidation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html">Invalidating
+  /// files</a> in the <i>Amazon CloudFront Developer Guide</i>.
   ///
   /// May throw [AccessDenied].
   /// May throw [MissingBody].
@@ -730,6 +776,55 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return CreateKeyGroupResult(
       keyGroup: KeyGroup.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
+  /// Specifies the key value store resource to add to your account. In your
+  /// account, the key value store names must be unique. You can also import key
+  /// value store data in JSON format from an S3 bucket by providing a valid
+  /// <code>ImportSource</code> that you own.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [EntityLimitExceeded].
+  /// May throw [EntityAlreadyExists].
+  /// May throw [EntitySizeLimitExceeded].
+  /// May throw [InvalidArgument].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [name] :
+  /// The name of the key value store. The minimum length is 1 character and the
+  /// maximum length is 64 characters.
+  ///
+  /// Parameter [comment] :
+  /// The comment of the key value store.
+  ///
+  /// Parameter [importSource] :
+  /// The S3 bucket that provides the source for the import. The source must be
+  /// in a valid JSON format.
+  Future<CreateKeyValueStoreResult> createKeyValueStore2020_05_31({
+    required String name,
+    String? comment,
+    ImportSource? importSource,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/key-value-store/',
+      payload: CreateKeyValueStoreRequest(
+              name: name, comment: comment, importSource: importSource)
+          .toXml(
+        'CreateKeyValueStoreRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateKeyValueStoreResult(
+      keyValueStore: KeyValueStore.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
       location: _s.extractHeaderStringValue($result.headers, 'Location'),
     );
@@ -931,10 +1026,9 @@ class CloudFront {
   /// A unique name to identify this real-time log configuration.
   ///
   /// Parameter [samplingRate] :
-  /// The sampling rate for this real-time log configuration. The sampling rate
-  /// determines the percentage of viewer requests that are represented in the
-  /// real-time log data. You must provide an integer between 1 and 100,
-  /// inclusive.
+  /// The sampling rate for this real-time log configuration. You can specify a
+  /// whole number between 1 and 100 (inclusive) to determine the percentage of
+  /// viewer requests that are represented in the real-time log data.
   Future<CreateRealtimeLogConfigResult> createRealtimeLogConfig2020_05_31({
     required List<EndPoint> endPoints,
     required List<String> fields,
@@ -1365,6 +1459,35 @@ class CloudFront {
     );
   }
 
+  /// Specifies the key value store to delete.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [EntityNotFound].
+  /// May throw [CannotDeleteEntityWhileInUse].
+  /// May throw [PreconditionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [ifMatch] :
+  /// The key value store to delete, if a match occurs.
+  ///
+  /// Parameter [name] :
+  /// The name of the key value store.
+  Future<void> deleteKeyValueStore2020_05_31({
+    required String ifMatch,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/2020-05-31/key-value-store/${Uri.encodeComponent(name)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Disables additional CloudWatch metrics for the specified CloudFront
   /// distribution.
   ///
@@ -1694,6 +1817,30 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return DescribeFunctionResult(
       functionSummary: FunctionSummary.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Specifies the key value store and its configuration.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidArgument].
+  /// May throw [EntityNotFound].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [name] :
+  /// The name of the key value store.
+  Future<DescribeKeyValueStoreResult> describeKeyValueStore2020_05_31({
+    required String name,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/key-value-store/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return DescribeKeyValueStoreResult(
+      keyValueStore: KeyValueStore.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
     );
   }
@@ -3027,6 +3174,12 @@ class CloudFront {
   /// distributions. If you specify "null" for the ID, the request returns a
   /// list of the distributions that aren't associated with a web ACL.
   ///
+  /// For WAFV2, this is the ARN of the web ACL, such as
+  /// <code>arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
+  ///
+  /// For WAF Classic, this is the ID of the web ACL, such as
+  /// <code>a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
+  ///
   /// Parameter [marker] :
   /// Use <code>Marker</code> and <code>MaxItems</code> to control pagination of
   /// results. If you have more than <code>MaxItems</code> distributions that
@@ -3265,6 +3418,42 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return ListKeyGroupsResult(
       keyGroupList: KeyGroupList.fromXml($elem),
+    );
+  }
+
+  /// Specifies the key value stores to list.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidArgument].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [marker] :
+  /// The marker associated with the key value stores list.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of items in the key value stores list.
+  ///
+  /// Parameter [status] :
+  /// The status of the request for the key value stores list.
+  Future<ListKeyValueStoresResult> listKeyValueStores2020_05_31({
+    String? marker,
+    String? maxItems,
+    String? status,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+      if (status != null) 'Status': [status],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/key-value-store',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListKeyValueStoresResult(
+      keyValueStoreList: KeyValueStoreList.fromXml($elem),
     );
   }
 
@@ -4011,6 +4200,7 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [TooManyDistributionsAssociatedToOriginAccessControl].
   /// May throw [NoSuchResponseHeadersPolicy].
   /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
@@ -4073,6 +4263,19 @@ class CloudFront {
   /// continuous deployment policy and move your domain's traffic back to the
   /// primary distribution.
   ///
+  /// This API operation requires the following IAM permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html">GetDistribution</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [AccessDenied].
   /// May throw [CNAMEAlreadyExists].
   /// May throw [IllegalUpdate].
@@ -4124,6 +4327,7 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [TooManyDistributionsAssociatedToOriginAccessControl].
   /// May throw [NoSuchResponseHeadersPolicy].
   /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
@@ -4394,6 +4598,53 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return UpdateKeyGroupResult(
       keyGroup: KeyGroup.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Specifies the key value store to update.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidArgument].
+  /// May throw [EntityNotFound].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [PreconditionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [comment] :
+  /// The comment of the key value store to update.
+  ///
+  /// Parameter [ifMatch] :
+  /// The key value store to update, if a match occurs.
+  ///
+  /// Parameter [name] :
+  /// The name of the key value store to update.
+  Future<UpdateKeyValueStoreResult> updateKeyValueStore2020_05_31({
+    required String comment,
+    required String ifMatch,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri: '/2020-05-31/key-value-store/${Uri.encodeComponent(name)}',
+      headers: headers,
+      payload: UpdateKeyValueStoreRequest(
+              comment: comment, ifMatch: ifMatch, name: name)
+          .toXml(
+        'UpdateKeyValueStoreRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateKeyValueStoreResult(
+      keyValueStore: KeyValueStore.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
     );
   }
@@ -4795,9 +5046,8 @@ class ActiveTrustedKeyGroups {
 /// URLs and signed cookies.
 class ActiveTrustedSigners {
   /// This field is <code>true</code> if any of the Amazon Web Services accounts
-  /// in the list have active CloudFront key pairs that CloudFront can use to
-  /// verify the signatures of signed URLs and signed cookies. If not, this field
-  /// is <code>false</code>.
+  /// in the list are configured as trusted signers. If not, this field is
+  /// <code>false</code>.
   final bool enabled;
 
   /// The number of Amazon Web Services accounts in the list.
@@ -5053,8 +5303,10 @@ class AllowedMethods {
 /// in the <i>Amazon CloudFront Developer Guide</i>.
 ///
 /// If you don't want to specify any cache behaviors, include only an empty
-/// <code>CacheBehaviors</code> element. Don't include an empty
-/// <code>CacheBehavior</code> element because this is invalid.
+/// <code>CacheBehaviors</code> element. For more information, see <a
+/// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CacheBehaviors.html">CacheBehaviors</a>.
+/// Don't include an empty <code>CacheBehavior</code> element because this is
+/// invalid.
 ///
 /// To delete all cache behaviors in an existing distribution, update the
 /// distribution configuration and include only an empty
@@ -7025,7 +7277,8 @@ class ContinuousDeploymentSingleHeaderConfig {
 /// Contains the percentage of traffic to send to a staging distribution.
 class ContinuousDeploymentSingleWeightConfig {
   /// The percentage of traffic to send to a staging distribution, expressed as a
-  /// decimal number between 0 and .15.
+  /// decimal number between 0 and 0.15. For example, a value of 0.10 means 10% of
+  /// traffic is sent to the staging distribution.
   final double weight;
   final SessionStickinessConfig? sessionStickinessConfig;
 
@@ -7241,6 +7494,14 @@ class CopyDistributionRequest {
   /// copying. To get a distribution ID, use <code>ListDistributions</code>.
   final String primaryDistributionId;
 
+  /// A Boolean flag to specify the state of the staging distribution when it's
+  /// created. When you set this value to <code>True</code>, the staging
+  /// distribution is enabled. When you set this value to <code>False</code>, the
+  /// staging distribution is disabled.
+  ///
+  /// If you omit this field, the default value is <code>True</code>.
+  final bool? enabled;
+
   /// The version identifier of the primary distribution whose configuration you
   /// are copying. This is the <code>ETag</code> value returned in the response to
   /// <code>GetDistribution</code> and <code>GetDistributionConfig</code>.
@@ -7254,6 +7515,7 @@ class CopyDistributionRequest {
   CopyDistributionRequest({
     required this.callerReference,
     required this.primaryDistributionId,
+    this.enabled,
     this.ifMatch,
     this.staging,
   });
@@ -7261,20 +7523,24 @@ class CopyDistributionRequest {
   Map<String, dynamic> toJson() {
     final callerReference = this.callerReference;
     final primaryDistributionId = this.primaryDistributionId;
+    final enabled = this.enabled;
     final ifMatch = this.ifMatch;
     final staging = this.staging;
     return {
       'CallerReference': callerReference,
+      if (enabled != null) 'Enabled': enabled,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final callerReference = this.callerReference;
     final primaryDistributionId = this.primaryDistributionId;
+    final enabled = this.enabled;
     final ifMatch = this.ifMatch;
     final staging = this.staging;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
+      if (enabled != null) _s.encodeXmlBoolValue('Enabled', enabled),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7632,6 +7898,81 @@ class CreateKeyGroupResult {
   }
 }
 
+class CreateKeyValueStoreRequest {
+  /// The name of the key value store. The minimum length is 1 character and the
+  /// maximum length is 64 characters.
+  final String name;
+
+  /// The comment of the key value store.
+  final String? comment;
+
+  /// The S3 bucket that provides the source for the import. The source must be in
+  /// a valid JSON format.
+  final ImportSource? importSource;
+
+  CreateKeyValueStoreRequest({
+    required this.name,
+    this.comment,
+    this.importSource,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final comment = this.comment;
+    final importSource = this.importSource;
+    return {
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+      if (importSource != null) 'ImportSource': importSource,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final comment = this.comment;
+    final importSource = this.importSource;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      if (importSource != null) importSource.toXml('ImportSource'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateKeyValueStoreResult {
+  /// The <code>ETag</code> in the resulting key value store.
+  final String? eTag;
+
+  /// The resulting key value store.
+  final KeyValueStore? keyValueStore;
+
+  /// The location of the resulting key value store.
+  final String? location;
+
+  CreateKeyValueStoreResult({
+    this.eTag,
+    this.keyValueStore,
+    this.location,
+  });
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final keyValueStore = this.keyValueStore;
+    final location = this.location;
+    return {
+      if (keyValueStore != null) 'KeyValueStore': keyValueStore,
+    };
+  }
+}
+
 class CreateMonitoringSubscriptionResult {
   /// A monitoring subscription. This structure contains information about whether
   /// additional CloudWatch metrics are enabled for a given CloudFront
@@ -7747,10 +8088,9 @@ class CreateRealtimeLogConfigRequest {
   /// A unique name to identify this real-time log configuration.
   final String name;
 
-  /// The sampling rate for this real-time log configuration. The sampling rate
-  /// determines the percentage of viewer requests that are represented in the
-  /// real-time log data. You must provide an integer between 1 and 100,
-  /// inclusive.
+  /// The sampling rate for this real-time log configuration. You can specify a
+  /// whole number between 1 and 100 (inclusive) to determine the percentage of
+  /// viewer requests that are represented in the real-time log data.
   final int samplingRate;
 
   CreateRealtimeLogConfigRequest({
@@ -8420,8 +8760,8 @@ class DefaultCacheBehavior {
   final ForwardedValues? forwardedValues;
 
   /// A list of CloudFront functions that are associated with this cache behavior.
-  /// CloudFront functions must be published to the <code>LIVE</code> stage to
-  /// associate them with a cache behavior.
+  /// Your functions must be published to the <code>LIVE</code> stage to associate
+  /// them with a cache behavior.
   final FunctionAssociations? functionAssociations;
 
   /// A complex type that contains zero or more Lambda@Edge function associations
@@ -8767,6 +9107,27 @@ class DescribeFunctionResult {
   }
 }
 
+class DescribeKeyValueStoreResult {
+  /// The <code>ETag</code> of the resulting key value store.
+  final String? eTag;
+
+  /// The resulting key value store.
+  final KeyValueStore? keyValueStore;
+
+  DescribeKeyValueStoreResult({
+    this.eTag,
+    this.keyValueStore,
+  });
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final keyValueStore = this.keyValueStore;
+    return {
+      if (keyValueStore != null) 'KeyValueStore': keyValueStore,
+    };
+  }
+}
+
 /// A distribution tells CloudFront where you want content to be delivered from,
 /// and the details about how to track and manage content delivery.
 class Distribution {
@@ -8969,10 +9330,10 @@ class DistributionConfig {
   /// a Default Root Object</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final String? defaultRootObject;
 
-  /// (Optional) Specify the maximum HTTP version(s) that you want viewers to use
-  /// to communicate with CloudFront. The default value for new web distributions
-  /// is <code>http2</code>. Viewers that don't support HTTP/2 automatically use
-  /// an earlier HTTP version.
+  /// (Optional) Specify the HTTP version(s) that you want viewers to use to
+  /// communicate with CloudFront. The default value for new web distributions is
+  /// <code>http2</code>. Viewers that don't support HTTP/2 automatically use an
+  /// earlier HTTP version.
   ///
   /// For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or
   /// later, and must support Server Name Indication (SNI).
@@ -9080,9 +9441,9 @@ class DistributionConfig {
   /// A unique identifier that specifies the WAF web ACL, if any, to associate
   /// with this distribution. To specify a web ACL created using the latest
   /// version of WAF, use the ACL ARN, for example
-  /// <code>arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
+  /// <code>arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
   /// To specify a web ACL created using WAF Classic, use the ACL ID, for example
-  /// <code>473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
+  /// <code>a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
   ///
   /// WAF is a web application firewall that lets you monitor the HTTP and HTTPS
   /// requests that are forwarded to CloudFront, and lets you control access to
@@ -9492,7 +9853,9 @@ class DistributionSummary {
   /// distribution of your content.
   final Restrictions restrictions;
 
-  /// Whether the primary distribution has a staging distribution enabled.
+  /// A Boolean that indicates whether this is a staging distribution. When this
+  /// value is <code>true</code>, this is a staging distribution. When this value
+  /// is <code>false</code>, this is not a staging distribution.
   final bool staging;
 
   /// The current status of the distribution. When the status is
@@ -9959,7 +10322,7 @@ class FieldLevelEncryptionConfig {
   }
 }
 
-/// List of field-level encrpytion configurations.
+/// List of field-level encryption configurations.
 class FieldLevelEncryptionList {
   /// The maximum number of elements you want in the response body.
   final int maxItems;
@@ -10176,8 +10539,7 @@ class FieldLevelEncryptionProfileSummary {
   /// ID for the field-level encryption profile summary.
   final String id;
 
-  /// The time when the the field-level encryption profile summary was last
-  /// updated.
+  /// The time when the field-level encryption profile summary was last updated.
   final DateTime lastModifiedTime;
 
   /// Name for the field-level encryption profile summary.
@@ -10605,14 +10967,14 @@ class FunctionAssociation {
 }
 
 /// A list of CloudFront functions that are associated with a cache behavior in
-/// a CloudFront distribution. CloudFront functions must be published to the
+/// a CloudFront distribution. Your functions must be published to the
 /// <code>LIVE</code> stage to associate them with a cache behavior.
 class FunctionAssociations {
   /// The number of CloudFront functions in the list.
   final int quantity;
 
   /// The CloudFront functions that are associated with a cache behavior in a
-  /// CloudFront distribution. CloudFront functions must be published to the
+  /// CloudFront distribution. Your functions must be published to the
   /// <code>LIVE</code> stage to associate them with a cache behavior.
   final List<FunctionAssociation>? items;
 
@@ -10664,36 +11026,48 @@ class FunctionConfig {
   /// A comment to describe the function.
   final String comment;
 
-  /// The function's runtime environment. The only valid value is
-  /// <code>cloudfront-js-1.0</code>.
+  /// The function's runtime environment version.
   final FunctionRuntime runtime;
+
+  /// The configuration for the key value store associations.
+  final KeyValueStoreAssociations? keyValueStoreAssociations;
 
   FunctionConfig({
     required this.comment,
     required this.runtime,
+    this.keyValueStoreAssociations,
   });
   factory FunctionConfig.fromXml(_s.XmlElement elem) {
     return FunctionConfig(
       comment: _s.extractXmlStringValue(elem, 'Comment')!,
       runtime: _s.extractXmlStringValue(elem, 'Runtime')!.toFunctionRuntime(),
+      keyValueStoreAssociations: _s
+          .extractXmlChild(elem, 'KeyValueStoreAssociations')
+          ?.let(KeyValueStoreAssociations.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
     final comment = this.comment;
     final runtime = this.runtime;
+    final keyValueStoreAssociations = this.keyValueStoreAssociations;
     return {
       'Comment': comment,
       'Runtime': runtime.toValue(),
+      if (keyValueStoreAssociations != null)
+        'KeyValueStoreAssociations': keyValueStoreAssociations,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final comment = this.comment;
     final runtime = this.runtime;
+    final keyValueStoreAssociations = this.keyValueStoreAssociations;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Comment', comment),
       _s.encodeXmlStringValue('Runtime', runtime.toValue()),
+      if (keyValueStoreAssociations != null)
+        keyValueStoreAssociations.toXml('KeyValueStoreAssociations'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10809,6 +11183,7 @@ class FunctionMetadata {
 
 enum FunctionRuntime {
   cloudfrontJs_1_0,
+  cloudfrontJs_2_0,
 }
 
 extension FunctionRuntimeValueExtension on FunctionRuntime {
@@ -10816,6 +11191,8 @@ extension FunctionRuntimeValueExtension on FunctionRuntime {
     switch (this) {
       case FunctionRuntime.cloudfrontJs_1_0:
         return 'cloudfront-js-1.0';
+      case FunctionRuntime.cloudfrontJs_2_0:
+        return 'cloudfront-js-2.0';
     }
   }
 }
@@ -10825,6 +11202,8 @@ extension FunctionRuntimeFromString on String {
     switch (this) {
       case 'cloudfront-js-1.0':
         return FunctionRuntime.cloudfrontJs_1_0;
+      case 'cloudfront-js-2.0':
+        return FunctionRuntime.cloudfrontJs_2_0;
     }
     throw Exception('$this is not known in enum FunctionRuntime');
   }
@@ -11823,6 +12202,69 @@ extension ICPRecordalStatusFromString on String {
   }
 }
 
+/// The import source for the key value store.
+class ImportSource {
+  /// The Amazon Resource Name (ARN) of the import source for the key value store.
+  final String sourceARN;
+
+  /// The source type of the import source for the key value store.
+  final ImportSourceType sourceType;
+
+  ImportSource({
+    required this.sourceARN,
+    required this.sourceType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceARN = this.sourceARN;
+    final sourceType = this.sourceType;
+    return {
+      'SourceARN': sourceARN,
+      'SourceType': sourceType.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final sourceARN = this.sourceARN;
+    final sourceType = this.sourceType;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('SourceType', sourceType.toValue()),
+      _s.encodeXmlStringValue('SourceARN', sourceARN),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ImportSourceType {
+  s3,
+}
+
+extension ImportSourceTypeValueExtension on ImportSourceType {
+  String toValue() {
+    switch (this) {
+      case ImportSourceType.s3:
+        return 'S3';
+    }
+  }
+}
+
+extension ImportSourceTypeFromString on String {
+  ImportSourceType toImportSourceType() {
+    switch (this) {
+      case 'S3':
+        return ImportSourceType.s3;
+    }
+    throw Exception('$this is not known in enum ImportSourceType');
+  }
+}
+
 /// An invalidation.
 class Invalidation {
   /// The date and time the invalidation request was first made.
@@ -12307,6 +12749,199 @@ class KeyPairIds {
     return {
       'Quantity': quantity,
       if (items != null) 'Items': items,
+    };
+  }
+}
+
+/// The key value store. Use this to separate data from function code, allowing
+/// you to update data without having to publish a new version of a function.
+/// The key value store holds keys and their corresponding values.
+class KeyValueStore {
+  /// The Amazon Resource Name (ARN) of the key value store.
+  final String arn;
+
+  /// A comment for the key value store.
+  final String comment;
+
+  /// The unique Id for the key value store.
+  final String id;
+
+  /// The last-modified time of the key value store.
+  final DateTime lastModifiedTime;
+
+  /// The name of the key value store.
+  final String name;
+
+  /// The status of the key value store.
+  final String? status;
+
+  KeyValueStore({
+    required this.arn,
+    required this.comment,
+    required this.id,
+    required this.lastModifiedTime,
+    required this.name,
+    this.status,
+  });
+  factory KeyValueStore.fromXml(_s.XmlElement elem) {
+    return KeyValueStore(
+      arn: _s.extractXmlStringValue(elem, 'ARN')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final comment = this.comment;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'ARN': arn,
+      'Comment': comment,
+      'Id': id,
+      'LastModifiedTime': iso8601ToJson(lastModifiedTime),
+      'Name': name,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The key value store association.
+class KeyValueStoreAssociation {
+  /// The Amazon Resource Name (ARN) of the key value store association.
+  final String keyValueStoreARN;
+
+  KeyValueStoreAssociation({
+    required this.keyValueStoreARN,
+  });
+  factory KeyValueStoreAssociation.fromXml(_s.XmlElement elem) {
+    return KeyValueStoreAssociation(
+      keyValueStoreARN: _s.extractXmlStringValue(elem, 'KeyValueStoreARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyValueStoreARN = this.keyValueStoreARN;
+    return {
+      'KeyValueStoreARN': keyValueStoreARN,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final keyValueStoreARN = this.keyValueStoreARN;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('KeyValueStoreARN', keyValueStoreARN),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The key value store associations.
+class KeyValueStoreAssociations {
+  /// The quantity of key value store associations.
+  final int quantity;
+
+  /// The items of the key value store association.
+  final List<KeyValueStoreAssociation>? items;
+
+  KeyValueStoreAssociations({
+    required this.quantity,
+    this.items,
+  });
+  factory KeyValueStoreAssociations.fromXml(_s.XmlElement elem) {
+    return KeyValueStoreAssociations(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('KeyValueStoreAssociation')
+          .map(KeyValueStoreAssociation.fromXml)
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => e.toXml('KeyValueStoreAssociation'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The key value store list.
+class KeyValueStoreList {
+  /// The maximum number of items in the key value store list.
+  final int maxItems;
+
+  /// The quantity of the key value store list.
+  final int quantity;
+
+  /// The items of the key value store list.
+  final List<KeyValueStore>? items;
+
+  /// The next marker associated with the key value store list.
+  final String? nextMarker;
+
+  KeyValueStoreList({
+    required this.maxItems,
+    required this.quantity,
+    this.items,
+    this.nextMarker,
+  });
+  factory KeyValueStoreList.fromXml(_s.XmlElement elem) {
+    return KeyValueStoreList(
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('KeyValueStore')
+          .map(KeyValueStore.fromXml)
+          .toList()),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
     };
   }
 }
@@ -12854,6 +13489,22 @@ class ListKeyGroupsResult {
   }
 }
 
+class ListKeyValueStoresResult {
+  /// The resulting key value stores list.
+  final KeyValueStoreList? keyValueStoreList;
+
+  ListKeyValueStoresResult({
+    this.keyValueStoreList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final keyValueStoreList = this.keyValueStoreList;
+    return {
+      if (keyValueStoreList != null) 'KeyValueStoreList': keyValueStoreList,
+    };
+  }
+}
+
 class ListOriginAccessControlsResult {
   /// A list of origin access controls.
   final OriginAccessControlList? originAccessControlList;
@@ -13230,10 +13881,10 @@ class MonitoringSubscription {
 /// An Elastic Load Balancing load balancer
 /// </li>
 /// <li>
-/// An AWS Elemental MediaPackage endpoint
+/// An Elemental MediaPackage endpoint
 /// </li>
 /// <li>
-/// An AWS Elemental MediaStore container
+/// An Elemental MediaStore container
 /// </li>
 /// <li>
 /// Any other HTTP server, running on an Amazon EC2 instance or any other kind
@@ -13462,7 +14113,8 @@ class OriginAccessControl {
 
 /// A CloudFront origin access control configuration.
 class OriginAccessControlConfig {
-  /// A name to identify the origin access control.
+  /// A name to identify the origin access control. You can specify up to 64
+  /// characters.
   final String name;
 
   /// The type of origin that this origin access control is for.
@@ -13640,6 +14292,8 @@ class OriginAccessControlList {
 enum OriginAccessControlOriginTypes {
   s3,
   mediastore,
+  mediapackagev2,
+  lambda,
 }
 
 extension OriginAccessControlOriginTypesValueExtension
@@ -13650,6 +14304,10 @@ extension OriginAccessControlOriginTypesValueExtension
         return 's3';
       case OriginAccessControlOriginTypes.mediastore:
         return 'mediastore';
+      case OriginAccessControlOriginTypes.mediapackagev2:
+        return 'mediapackagev2';
+      case OriginAccessControlOriginTypes.lambda:
+        return 'lambda';
     }
   }
 }
@@ -13661,6 +14319,10 @@ extension OriginAccessControlOriginTypesFromString on String {
         return OriginAccessControlOriginTypes.s3;
       case 'mediastore':
         return OriginAccessControlOriginTypes.mediastore;
+      case 'mediapackagev2':
+        return OriginAccessControlOriginTypes.mediapackagev2;
+      case 'lambda':
+        return OriginAccessControlOriginTypes.lambda;
     }
     throw Exception(
         '$this is not known in enum OriginAccessControlOriginTypes');
@@ -13865,7 +14527,7 @@ class OriginCustomHeader {
 /// An origin group includes two origins (a primary origin and a second origin
 /// to failover to) and a failover criteria that you specify. You create an
 /// origin group to support origin failover in CloudFront. When you create or
-/// update a distribution, you can specifiy the origin group instead of a single
+/// update a distribution, you can specify the origin group instead of a single
 /// origin, and CloudFront will failover from the primary origin to the second
 /// origin under the failover conditions that you've chosen.
 class OriginGroup {
@@ -17167,6 +17829,8 @@ class ResponseHeadersPolicySecurityHeadersConfig {
   ///
   /// For more information about the <code>Strict-Transport-Security</code> HTTP
   /// response header, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-response-headers-policies.html#understanding-response-headers-policies-security">Security
+  /// headers</a> in the <i>Amazon CloudFront Developer Guide</i> and <a
   /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a>
   /// in the MDN Web Docs.
   final ResponseHeadersPolicyStrictTransportSecurity? strictTransportSecurity;
@@ -17678,14 +18342,22 @@ class S3Origin {
 /// origin is a custom origin or an S3 bucket that is configured as a website
 /// endpoint, use the <code>CustomOriginConfig</code> element instead.
 class S3OriginConfig {
+  /// <note>
+  /// If you're using origin access control (OAC) instead of origin access
+  /// identity, specify an empty <code>OriginAccessIdentity</code> element. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html">Restricting
+  /// access to an Amazon Web Services</a> in the <i>Amazon CloudFront Developer
+  /// Guide</i>.
+  /// </note>
   /// The CloudFront origin access identity to associate with the origin. Use an
   /// origin access identity to configure the origin so that viewers can
   /// <i>only</i> access objects in an Amazon S3 bucket through CloudFront. The
   /// format of the value is:
   ///
-  /// origin-access-identity/cloudfront/<i>ID-of-origin-access-identity</i>
+  /// <code>origin-access-identity/cloudfront/ID-of-origin-access-identity</code>
   ///
-  /// where <code> <i>ID-of-origin-access-identity</i> </code> is the value that
+  /// The <code> <i>ID-of-origin-access-identity</i> </code> is the value that
   /// CloudFront returned in the <code>ID</code> element when you created the
   /// origin access identity.
   ///
@@ -17788,7 +18460,7 @@ class SessionStickinessConfig {
   /// part of the same session. Allowed values are 300–3600 seconds (5–60
   /// minutes).
   ///
-  /// The value must be less than or equal to <code>IdleTTL</code>.
+  /// The value must be greater than or equal to <code>IdleTTL</code>.
   final int maximumTTL;
 
   SessionStickinessConfig({
@@ -18914,8 +19586,8 @@ class TrustedKeyGroups {
 /// to verify the signatures of signed URLs and signed cookies.
 class TrustedSigners {
   /// This field is <code>true</code> if any of the Amazon Web Services accounts
-  /// have public keys that CloudFront can use to verify the signatures of signed
-  /// URLs and signed cookies. If not, this field is <code>false</code>.
+  /// in the list are configured as trusted signers. If not, this field is
+  /// <code>false</code>.
   final bool enabled;
 
   /// The number of Amazon Web Services accounts in the list.
@@ -19221,6 +19893,70 @@ class UpdateKeyGroupResult {
     final keyGroup = this.keyGroup;
     return {
       if (keyGroup != null) 'KeyGroup': keyGroup,
+    };
+  }
+}
+
+class UpdateKeyValueStoreRequest {
+  /// The comment of the key value store to update.
+  final String comment;
+
+  /// The key value store to update, if a match occurs.
+  final String ifMatch;
+
+  /// The name of the key value store to update.
+  final String name;
+
+  UpdateKeyValueStoreRequest({
+    required this.comment,
+    required this.ifMatch,
+    required this.name,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    return {
+      'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final comment = this.comment;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class UpdateKeyValueStoreResult {
+  /// The <code>ETag</code> of the resulting key value store.
+  final String? eTag;
+
+  /// The resulting key value store to update.
+  final KeyValueStore? keyValueStore;
+
+  UpdateKeyValueStoreResult({
+    this.eTag,
+    this.keyValueStore,
+  });
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final keyValueStore = this.keyValueStore;
+    return {
+      if (keyValueStore != null) 'KeyValueStore': keyValueStore,
     };
   }
 }
@@ -19798,6 +20534,12 @@ class CannotChangeImmutablePublicKeyFields extends _s.GenericAwsException {
             message: message);
 }
 
+class CannotDeleteEntityWhileInUse extends _s.GenericAwsException {
+  CannotDeleteEntityWhileInUse({String? type, String? message})
+      : super(
+            type: type, code: 'CannotDeleteEntityWhileInUse', message: message);
+}
+
 class CloudFrontOriginAccessIdentityAlreadyExists
     extends _s.GenericAwsException {
   CloudFrontOriginAccessIdentityAlreadyExists({String? type, String? message})
@@ -19839,6 +20581,26 @@ class DistributionAlreadyExists extends _s.GenericAwsException {
 class DistributionNotDisabled extends _s.GenericAwsException {
   DistributionNotDisabled({String? type, String? message})
       : super(type: type, code: 'DistributionNotDisabled', message: message);
+}
+
+class EntityAlreadyExists extends _s.GenericAwsException {
+  EntityAlreadyExists({String? type, String? message})
+      : super(type: type, code: 'EntityAlreadyExists', message: message);
+}
+
+class EntityLimitExceeded extends _s.GenericAwsException {
+  EntityLimitExceeded({String? type, String? message})
+      : super(type: type, code: 'EntityLimitExceeded', message: message);
+}
+
+class EntityNotFound extends _s.GenericAwsException {
+  EntityNotFound({String? type, String? message})
+      : super(type: type, code: 'EntityNotFound', message: message);
+}
+
+class EntitySizeLimitExceeded extends _s.GenericAwsException {
+  EntitySizeLimitExceeded({String? type, String? message})
+      : super(type: type, code: 'EntitySizeLimitExceeded', message: message);
 }
 
 class FieldLevelEncryptionConfigAlreadyExists extends _s.GenericAwsException {
@@ -20717,6 +21479,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CachePolicyInUse(type: type, message: message),
   'CannotChangeImmutablePublicKeyFields': (type, message) =>
       CannotChangeImmutablePublicKeyFields(type: type, message: message),
+  'CannotDeleteEntityWhileInUse': (type, message) =>
+      CannotDeleteEntityWhileInUse(type: type, message: message),
   'CloudFrontOriginAccessIdentityAlreadyExists': (type, message) =>
       CloudFrontOriginAccessIdentityAlreadyExists(type: type, message: message),
   'CloudFrontOriginAccessIdentityInUse': (type, message) =>
@@ -20729,6 +21493,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DistributionAlreadyExists(type: type, message: message),
   'DistributionNotDisabled': (type, message) =>
       DistributionNotDisabled(type: type, message: message),
+  'EntityAlreadyExists': (type, message) =>
+      EntityAlreadyExists(type: type, message: message),
+  'EntityLimitExceeded': (type, message) =>
+      EntityLimitExceeded(type: type, message: message),
+  'EntityNotFound': (type, message) =>
+      EntityNotFound(type: type, message: message),
+  'EntitySizeLimitExceeded': (type, message) =>
+      EntitySizeLimitExceeded(type: type, message: message),
   'FieldLevelEncryptionConfigAlreadyExists': (type, message) =>
       FieldLevelEncryptionConfigAlreadyExists(type: type, message: message),
   'FieldLevelEncryptionConfigInUse': (type, message) =>

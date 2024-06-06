@@ -20,9 +20,9 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The Amazon Chime SDK meetings APIs in this section allow software developers
-/// to create Amazon Chime SDK meetings, set the AWS Regions for meetings,
-/// create and manage users, and send and receive meeting notifications. For
-/// more information about the meeting APIs, see <a
+/// to create Amazon Chime SDK meetings, set the Amazon Web Services Regions for
+/// meetings, create and manage users, and send and receive meeting
+/// notifications. For more information about the meeting APIs, see <a
 /// href="https://docs.aws.amazon.com/chime/latest/APIReference/API_Operations_Amazon_Chime_SDK_Meetings.html">Amazon
 /// Chime SDK meetings</a>.
 class ChimeSdkMeetings {
@@ -102,6 +102,20 @@ class ChimeSdkMeetings {
   ///
   /// <ul>
   /// <li>
+  /// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+  /// you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Video</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
+  /// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code>
+  /// when you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Content</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
   /// You can't set <code>content</code> capabilities to
   /// <code>SendReceive</code> or <code>Receive</code> unless you also set
   /// <code>video</code> capabilities to <code>SendReceive</code> or
@@ -132,6 +146,8 @@ class ChimeSdkMeetings {
   /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [capabilities] :
   /// The capabilities (<code>audio</code>, <code>video</code>, or
@@ -202,6 +218,20 @@ class ChimeSdkMeetings {
   ///
   /// <ul>
   /// <li>
+  /// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+  /// you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Video</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
+  /// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code>
+  /// when you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Content</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
   /// You can't set <code>content</code> capabilities to
   /// <code>SendReceive</code> or <code>Receive</code> unless you also set
   /// <code>video</code> capabilities to <code>SendReceive</code> or
@@ -253,6 +283,7 @@ class ChimeSdkMeetings {
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [UnauthorizedException].
   /// May throw [ThrottlingException].
@@ -280,8 +311,8 @@ class ChimeSdkMeetings {
   /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
   /// <code>us-west-2</code>.
   ///
-  /// Available values in AWS GovCloud (US) Regions: <code>us-gov-east-1</code>,
-  /// <code>us-gov-west-1</code>.
+  /// Available values in Amazon Web Services GovCloud (US) Regions:
+  /// <code>us-gov-east-1</code>, <code>us-gov-west-1</code>.
   ///
   /// Parameter [clientRequestToken] :
   /// The unique identifier for the client request. Use a different token for
@@ -322,8 +353,8 @@ class ChimeSdkMeetings {
   /// Naming and Usage Conventions</a> in the <i>AWS General Reference</i>.
   /// </li>
   /// <li>
-  /// You can only tag resources that are located in the specified AWS Region
-  /// for the AWS account.
+  /// You can only tag resources that are located in the specified Amazon Web
+  /// Services Region for the Amazon Web Services account.
   /// </li>
   /// <li>
   /// To add tags to a resource, you need the necessary permissions for the
@@ -399,6 +430,7 @@ class ChimeSdkMeetings {
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [UnauthorizedException].
   /// May throw [ThrottlingException].
@@ -429,8 +461,8 @@ class ChimeSdkMeetings {
   /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
   /// <code>us-west-2</code>.
   ///
-  /// Available values in AWS GovCloud (US) Regions: <code>us-gov-east-1</code>,
-  /// <code>us-gov-west-1</code>.
+  /// Available values in Amazon Web Services GovCloud (US) Regions:
+  /// <code>us-gov-east-1</code>, <code>us-gov-west-1</code>.
   ///
   /// Parameter [clientRequestToken] :
   /// The unique identifier for the client request. Use a different token for
@@ -658,6 +690,13 @@ class ChimeSdkMeetings {
 
   /// Returns a list of the tags available for the specified resource.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedException].
+  /// May throw [LimitExceededException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
@@ -691,13 +730,21 @@ class ChimeSdkMeetings {
   /// the <a
   /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html">StartStreamTranscription</a>
   /// API in the <i>Amazon Transcribe Developer Guide</i>.
-  /// <important>
-  /// Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use
-  /// of Amazon Transcribe is subject to the <a
-  /// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a>,
-  /// including the terms specific to the AWS Machine Learning and Artificial
-  /// Intelligence Services.
-  /// </important>
+  /// <note>
+  /// By default, Amazon Transcribe may use and store audio content processed by
+  /// the service to develop and improve Amazon Web Services AI/ML services as
+  /// further described in section 50 of the <a
+  /// href="https://aws.amazon.com/service-terms/">Amazon Web Services Service
+  /// Terms</a>. Using Amazon Transcribe may be subject to federal and state
+  /// laws or regulations regarding the recording or interception of electronic
+  /// communications. It is your and your end users’ responsibility to comply
+  /// with all applicable laws regarding the recording, including properly
+  /// notifying all participants in a recorded session or communication that the
+  /// session or communication is being recorded, and obtaining all necessary
+  /// consents. You can opt out from Amazon Web Services using audio content to
+  /// develop and improve AWS AI/ML services by configuring an AI services opt
+  /// out policy using Amazon Web Services Organizations.
+  /// </note>
   ///
   /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
@@ -738,11 +785,19 @@ class ChimeSdkMeetings {
   /// Using Amazon Chime SDK live transcription </a> in the <i>Amazon Chime SDK
   /// Developer Guide</i>.
   /// <important>
-  /// Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use
-  /// of Amazon Transcribe is subject to the <a
-  /// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a>,
-  /// including the terms specific to the AWS Machine Learning and Artificial
-  /// Intelligence Services.
+  /// By default, Amazon Transcribe may use and store audio content processed by
+  /// the service to develop and improve Amazon Web Services AI/ML services as
+  /// further described in section 50 of the <a
+  /// href="https://aws.amazon.com/service-terms/">Amazon Web Services Service
+  /// Terms</a>. Using Amazon Transcribe may be subject to federal and state
+  /// laws or regulations regarding the recording or interception of electronic
+  /// communications. It is your and your end users’ responsibility to comply
+  /// with all applicable laws regarding the recording, including properly
+  /// notifying all participants in a recorded session or communication that the
+  /// session or communication is being recorded, and obtaining all necessary
+  /// consents. You can opt out from Amazon Web Services using audio content to
+  /// develop and improve Amazon Web Services AI/ML services by configuring an
+  /// AI services opt out policy using Amazon Web Services Organizations.
   /// </important>
   ///
   /// May throw [ForbiddenException].
@@ -771,6 +826,12 @@ class ChimeSdkMeetings {
   /// The resource that supports tags.
   ///
   /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedException].
+  /// May throw [LimitExceededException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
@@ -808,8 +869,8 @@ class ChimeSdkMeetings {
   /// resource you want to untag.
   /// </li>
   /// <li>
-  /// You can only tag resources that are located in the specified AWS Region
-  /// for the calling AWS account.
+  /// You can only tag resources that are located in the specified Amazon Web
+  /// Services Region for the calling Amazon Web Services account.
   /// </li>
   /// </ul>
   /// <b>Minimum permissions</b>
@@ -825,6 +886,12 @@ class ChimeSdkMeetings {
   /// <code>ChimeSDKMeetings:DeleteTags</code>
   ///
   /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedException].
+  /// May throw [LimitExceededException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
@@ -858,6 +925,20 @@ class ChimeSdkMeetings {
   ///
   /// <ul>
   /// <li>
+  /// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+  /// you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Video</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
+  /// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code>
+  /// when you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Content</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
   /// You can't set <code>content</code> capabilities to
   /// <code>SendReceive</code> or <code>Receive</code> unless you also set
   /// <code>video</code> capabilities to <code>SendReceive</code> or
@@ -888,6 +969,8 @@ class ChimeSdkMeetings {
   /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [attendeeId] :
   /// The ID of the attendee associated with the update request.
@@ -939,6 +1022,20 @@ class Attendee {
   /// When using capabilities, be aware of these corner cases:
   ///
   /// <ul>
+  /// <li>
+  /// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+  /// you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Video</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
+  /// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
+  /// you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Content</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
   /// <li>
   /// You can't set <code>content</code> capabilities to <code>SendReceive</code>
   /// or <code>Receive</code> unless you also set <code>video</code> capabilities
@@ -1013,11 +1110,25 @@ class Attendee {
 /// <note>
 /// You use the capabilities with a set of values that control what the
 /// capabilities can do, such as <code>SendReceive</code> data. For more
-/// information about those values, see .
+/// information, refer to and .
 /// </note>
 /// When using capabilities, be aware of these corner cases:
 ///
 /// <ul>
+/// <li>
+/// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+/// you create a meeting, all API requests that include
+/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+/// <code>AttendeeCapabilities:Video</code> will be rejected with
+/// <code>ValidationError 400</code>.
+/// </li>
+/// <li>
+/// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
+/// you create a meeting, all API requests that include
+/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+/// <code>AttendeeCapabilities:Content</code> will be rejected with
+/// <code>ValidationError 400</code>.
+/// </li>
 /// <li>
 /// You can't set <code>content</code> capabilities to <code>SendReceive</code>
 /// or <code>Receive</code> unless you also set <code>video</code> capabilities
@@ -1030,15 +1141,15 @@ class Attendee {
 /// <li>
 /// When you change an <code>audio</code> capability from <code>None</code> or
 /// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , and
-/// if the attendee left their microphone unmuted, audio will flow from the
-/// attendee to the other meeting participants.
+/// an attendee unmutes their microphone, audio flows from the attendee to the
+/// other meeting participants.
 /// </li>
 /// <li>
 /// When you change a <code>video</code> or <code>content</code> capability from
 /// <code>None</code> or <code>Receive</code> to <code>Send</code> or
-/// <code>SendReceive</code> , and if the attendee turned on their video or
-/// content streams, remote attendees can receive those streams, but only after
-/// media renegotiation between the client and the Amazon Chime back-end server.
+/// <code>SendReceive</code> , and the attendee turns on their video or content
+/// streams, remote attendees can receive those streams, but only after media
+/// renegotiation between the client and the Amazon Chime back-end server.
 /// </li>
 /// </ul>
 class AttendeeCapabilities {
@@ -1073,6 +1184,36 @@ class AttendeeCapabilities {
       'Audio': audio.toValue(),
       'Content': content.toValue(),
       'Video': video.toValue(),
+    };
+  }
+}
+
+/// Lists the maximum number of attendees allowed into the meeting.
+/// <note>
+/// If you specify <code>FHD</code> for
+/// <code>MeetingFeatures:Video:MaxResolution</code>, or if you specify
+/// <code>UHD</code> for <code>MeetingFeatures:Content:MaxResolution</code>, the
+/// maximum number of attendees changes from the default of <code>250</code> to
+/// <code>25</code>.
+/// </note>
+class AttendeeFeatures {
+  /// The maximum number of attendees allowed into the meeting.
+  final int? maxCount;
+
+  AttendeeFeatures({
+    this.maxCount,
+  });
+
+  factory AttendeeFeatures.fromJson(Map<String, dynamic> json) {
+    return AttendeeFeatures(
+      maxCount: json['MaxCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCount = this.maxCount;
+    return {
+      if (maxCount != null) 'MaxCount': maxCount,
     };
   }
 }
@@ -1152,6 +1293,75 @@ class BatchCreateAttendeeResponse {
       if (attendees != null) 'Attendees': attendees,
       if (errors != null) 'Errors': errors,
     };
+  }
+}
+
+/// Lists the content (screen share) features for the meeting. Applies to all
+/// attendees.
+/// <note>
+/// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
+/// you create a meeting, all API requests that include
+/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+/// <code>AttendeeCapabilities:Content</code> will be rejected with
+/// <code>ValidationError 400</code>.
+/// </note>
+class ContentFeatures {
+  /// The maximum resolution for the meeting content.
+  /// <note>
+  /// Defaults to <code>FHD</code>. To use <code>UHD</code>, you must also provide
+  /// a <code>MeetingFeatures:Attendee:MaxCount</code> value and override the
+  /// default size limit of 250 attendees.
+  /// </note>
+  final ContentResolution? maxResolution;
+
+  ContentFeatures({
+    this.maxResolution,
+  });
+
+  factory ContentFeatures.fromJson(Map<String, dynamic> json) {
+    return ContentFeatures(
+      maxResolution: (json['MaxResolution'] as String?)?.toContentResolution(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxResolution = this.maxResolution;
+    return {
+      if (maxResolution != null) 'MaxResolution': maxResolution.toValue(),
+    };
+  }
+}
+
+enum ContentResolution {
+  none,
+  fhd,
+  uhd,
+}
+
+extension ContentResolutionValueExtension on ContentResolution {
+  String toValue() {
+    switch (this) {
+      case ContentResolution.none:
+        return 'None';
+      case ContentResolution.fhd:
+        return 'FHD';
+      case ContentResolution.uhd:
+        return 'UHD';
+    }
+  }
+}
+
+extension ContentResolutionFromString on String {
+  ContentResolution toContentResolution() {
+    switch (this) {
+      case 'None':
+        return ContentResolution.none;
+      case 'FHD':
+        return ContentResolution.fhd;
+      case 'UHD':
+        return ContentResolution.uhd;
+    }
+    throw Exception('$this is not known in enum ContentResolution');
   }
 }
 
@@ -1341,8 +1551,8 @@ class EngineTranscribeMedicalSettings {
   /// in the transcription output.
   final TranscribeMedicalContentIdentificationType? contentIdentificationType;
 
-  /// The AWS Region passed to Amazon Transcribe Medical. If you don't specify a
-  /// Region, Amazon Chime uses the meeting's Region.
+  /// The Amazon Web Services Region passed to Amazon Transcribe Medical. If you
+  /// don't specify a Region, Amazon Chime uses the meeting's Region.
   final TranscribeMedicalRegion? region;
 
   /// The name of the vocabulary passed to Amazon Transcribe Medical.
@@ -1489,7 +1699,7 @@ class EngineTranscribeSettings {
   /// and <code>LanguageOptions</code>.
   final TranscribeLanguageCode? preferredLanguage;
 
-  /// The AWS Region in which to use Amazon Transcribe.
+  /// The Amazon Web Services Region in which to use Amazon Transcribe.
   ///
   /// If you don't specify a Region, then the <a
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html">MediaRegion</a>
@@ -1782,18 +1992,34 @@ class MediaPlacement {
   final String? eventIngestionUrl;
 
   /// The screen data URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
   final String? screenDataUrl;
 
   /// The screen sharing URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
   final String? screenSharingUrl;
 
   /// The screen viewing URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
   final String? screenViewingUrl;
 
   /// The signaling URL.
   final String? signalingUrl;
 
   /// The turn control URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
   final String? turnControlUrl;
 
   MediaPlacement({
@@ -1865,8 +2091,8 @@ class Meeting {
   /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
   /// <code>us-west-2</code>.
   ///
-  /// Available values in AWS GovCloud (US) Regions: <code>us-gov-east-1</code>,
-  /// <code>us-gov-west-1</code>.
+  /// Available values in Amazon Web Services GovCloud (US) Regions:
+  /// <code>us-gov-east-1</code>, <code>us-gov-west-1</code>.
   final String? mediaRegion;
 
   /// The ARN of the meeting.
@@ -1977,25 +2203,52 @@ extension MeetingFeatureStatusFromString on String {
 
 /// The configuration settings of the features available to a meeting.
 class MeetingFeaturesConfiguration {
+  /// The configuration settings for the attendee features available to a meeting.
+  final AttendeeFeatures? attendee;
+
   /// The configuration settings for the audio features available to a meeting.
   final AudioFeatures? audio;
 
+  /// The configuration settings for the content features available to a meeting.
+  final ContentFeatures? content;
+
+  /// The configuration settings for the video features available to a meeting.
+  final VideoFeatures? video;
+
   MeetingFeaturesConfiguration({
+    this.attendee,
     this.audio,
+    this.content,
+    this.video,
   });
 
   factory MeetingFeaturesConfiguration.fromJson(Map<String, dynamic> json) {
     return MeetingFeaturesConfiguration(
+      attendee: json['Attendee'] != null
+          ? AttendeeFeatures.fromJson(json['Attendee'] as Map<String, dynamic>)
+          : null,
       audio: json['Audio'] != null
           ? AudioFeatures.fromJson(json['Audio'] as Map<String, dynamic>)
+          : null,
+      content: json['Content'] != null
+          ? ContentFeatures.fromJson(json['Content'] as Map<String, dynamic>)
+          : null,
+      video: json['Video'] != null
+          ? VideoFeatures.fromJson(json['Video'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final attendee = this.attendee;
     final audio = this.audio;
+    final content = this.content;
+    final video = this.video;
     return {
+      if (attendee != null) 'Attendee': attendee,
       if (audio != null) 'Audio': audio,
+      if (content != null) 'Content': content,
+      if (video != null) 'Video': video,
     };
   }
 }
@@ -2003,7 +2256,8 @@ class MeetingFeaturesConfiguration {
 /// The configuration for resource targets to receive notifications when meeting
 /// and attendee events occur.
 class NotificationsConfiguration {
-  /// The ARN of the AWS Lambda function in the notifications configuration.
+  /// The ARN of the Amazon Web Services Lambda function in the notifications
+  /// configuration.
   final String? lambdaFunctionArn;
 
   /// The ARN of the SNS topic.
@@ -2606,6 +2860,74 @@ class UpdateAttendeeCapabilitiesResponse {
     return {
       if (attendee != null) 'Attendee': attendee,
     };
+  }
+}
+
+/// The video features set for the meeting. Applies to all attendees.
+/// <note>
+/// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+/// you create a meeting, all API requests that include
+/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+/// <code>AttendeeCapabilities:Video</code> will be rejected with
+/// <code>ValidationError 400</code>.
+/// </note>
+class VideoFeatures {
+  /// The maximum video resolution for the meeting. Applies to all attendees.
+  /// <note>
+  /// Defaults to <code>HD</code>. To use <code>FHD</code>, you must also provide
+  /// a <code>MeetingFeatures:Attendee:MaxCount</code> value and override the
+  /// default size limit of 250 attendees.
+  /// </note>
+  final VideoResolution? maxResolution;
+
+  VideoFeatures({
+    this.maxResolution,
+  });
+
+  factory VideoFeatures.fromJson(Map<String, dynamic> json) {
+    return VideoFeatures(
+      maxResolution: (json['MaxResolution'] as String?)?.toVideoResolution(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxResolution = this.maxResolution;
+    return {
+      if (maxResolution != null) 'MaxResolution': maxResolution.toValue(),
+    };
+  }
+}
+
+enum VideoResolution {
+  none,
+  hd,
+  fhd,
+}
+
+extension VideoResolutionValueExtension on VideoResolution {
+  String toValue() {
+    switch (this) {
+      case VideoResolution.none:
+        return 'None';
+      case VideoResolution.hd:
+        return 'HD';
+      case VideoResolution.fhd:
+        return 'FHD';
+    }
+  }
+}
+
+extension VideoResolutionFromString on String {
+  VideoResolution toVideoResolution() {
+    switch (this) {
+      case 'None':
+        return VideoResolution.none;
+      case 'HD':
+        return VideoResolution.hd;
+      case 'FHD':
+        return VideoResolution.fhd;
+    }
+    throw Exception('$this is not known in enum VideoResolution');
   }
 }
 

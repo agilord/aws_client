@@ -123,7 +123,10 @@ class Snowball {
   /// Creates an address for a Snow device to be shipped to. In most regions,
   /// addresses are validated at the time of creation. The address you provide
   /// must be located within the serviceable area of your region. If the address
-  /// is invalid or unsupported, then an exception is thrown.
+  /// is invalid or unsupported, then an exception is thrown. If providing an
+  /// address as a JSON file through the <code>cli-input-json</code> option,
+  /// include the full file path. For example, <code>--cli-input-json
+  /// file://create-address.json</code>.
   ///
   /// May throw [InvalidAddressException].
   /// May throw [UnsupportedAddressException].
@@ -450,7 +453,9 @@ class Snowball {
   /// <li>
   /// Description: Snowball Edge Storage Optimized with EC2 Compute
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul> <note>
+  /// This device is replaced with T98.
+  /// </note> <p/> </li>
   /// <li>
   /// Device type: <b>STANDARD</b>
   ///
@@ -480,16 +485,16 @@ class Snowball {
   /// </note> </li>
   /// </ul> <p/> </li>
   /// <li>
-  /// Device type: <b>V3_5C</b>
+  /// Snow Family device type: <b>RACK_5U_C</b>
   ///
   /// <ul>
   /// <li>
-  /// Capacity: T32
+  /// Capacity: T13
   /// </li>
   /// <li>
-  /// Description: Snowball Edge Compute Optimized without GPU
+  /// Description: Snowblade.
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul> </li>
   /// <li>
   /// Device type: <b>V3_5S</b>
   ///
@@ -500,7 +505,7 @@ class Snowball {
   /// <li>
   /// Description: Snowball Edge Storage Optimized 210TB
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul> </li>
   /// </ul>
   ///
   /// May throw [InvalidResourceException].
@@ -534,6 +539,10 @@ class Snowball {
   /// The forwarding address ID for a job. This field is not supported in most
   /// Regions.
   ///
+  /// Parameter [impactLevel] :
+  /// The highest impact level of data that will be stored or processed on the
+  /// device, provided at job creation.
+  ///
   /// Parameter [jobType] :
   /// Defines the type of job that you're creating.
   ///
@@ -556,12 +565,17 @@ class Snowball {
   /// Services Snow Family supports Amazon S3 and NFS (Network File System) and
   /// the Amazon Web Services Storage Gateway service Tape Gateway type.
   ///
+  /// Parameter [pickupDetails] :
+  /// Information identifying the person picking up the device.
+  ///
   /// Parameter [remoteManagement] :
   /// Allows you to securely operate and manage Snowcone devices remotely from
   /// outside of your internal network. When set to
   /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
   /// available when the device arrives at your location. Otherwise, you need to
-  /// use the Snowball Client to manage the device.
+  /// use the Snowball Edge client to manage the device. When set to
+  /// <code>NOT_INSTALLED</code>, remote management will not be available on the
+  /// device.
   ///
   /// Parameter [resources] :
   /// Defines the Amazon S3 buckets associated with this job.
@@ -646,11 +660,13 @@ class Snowball {
     String? description,
     DeviceConfiguration? deviceConfiguration,
     String? forwardingAddressId,
+    ImpactLevel? impactLevel,
     JobType? jobType,
     String? kmsKeyARN,
     String? longTermPricingId,
     Notification? notification,
     OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    PickupDetails? pickupDetails,
     RemoteManagement? remoteManagement,
     JobResource? resources,
     String? roleARN,
@@ -677,12 +693,14 @@ class Snowball {
           'DeviceConfiguration': deviceConfiguration,
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
+        if (impactLevel != null) 'ImpactLevel': impactLevel.toValue(),
         if (jobType != null) 'JobType': jobType.toValue(),
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
         if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
         if (notification != null) 'Notification': notification,
         if (onDeviceServiceConfiguration != null)
           'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+        if (pickupDetails != null) 'PickupDetails': pickupDetails,
         if (remoteManagement != null)
           'RemoteManagement': remoteManagement.toValue(),
         if (resources != null) 'Resources': resources,
@@ -709,16 +727,16 @@ class Snowball {
   /// The type of long-term pricing option you want for the device, either
   /// 1-year or 3-year long-term pricing.
   ///
+  /// Parameter [snowballType] :
+  /// The type of Snow Family devices to use for the long-term pricing job.
+  ///
   /// Parameter [isLongTermPricingAutoRenew] :
   /// Specifies whether the current long-term pricing type for the device should
   /// be renewed.
-  ///
-  /// Parameter [snowballType] :
-  /// The type of Snow Family devices to use for the long-term pricing job.
   Future<CreateLongTermPricingResult> createLongTermPricing({
     required LongTermPricingType longTermPricingType,
+    required SnowballType snowballType,
     bool? isLongTermPricingAutoRenew,
-    SnowballType? snowballType,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -732,9 +750,9 @@ class Snowball {
       headers: headers,
       payload: {
         'LongTermPricingType': longTermPricingType.toValue(),
+        'SnowballType': snowballType.toValue(),
         if (isLongTermPricingAutoRenew != null)
           'IsLongTermPricingAutoRenew': isLongTermPricingAutoRenew,
-        if (snowballType != null) 'SnowballType': snowballType.toValue(),
       },
     );
 
@@ -1184,14 +1202,14 @@ class Snowball {
     return ListClustersResult.fromJson(jsonResponse.body);
   }
 
-  /// This action returns a list of the different Amazon EC2 Amazon Machine
-  /// Images (AMIs) that are owned by your Amazon Web Services accountthat would
-  /// be supported for use on a Snow device. Currently, supported AMIs are based
-  /// on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS -
-  /// Jammy images, available on the Amazon Web Services Marketplace. Ubuntu
-  /// 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but
-  /// still supported for use on devices through Amazon EC2 VM Import/Export and
-  /// running locally in AMIs.
+  /// This action returns a list of the different Amazon EC2-compatible Amazon
+  /// Machine Images (AMIs) that are owned by your Amazon Web Services
+  /// accountthat would be supported for use on a Snow device. Currently,
+  /// supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal,
+  /// or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services
+  /// Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer
+  /// supported in the Market, but still supported for use on devices through
+  /// Amazon EC2 VM Import/Export and running locally in AMIs.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [Ec2RequestFailedException].
@@ -1318,6 +1336,47 @@ class Snowball {
     );
 
     return ListLongTermPricingResult.fromJson(jsonResponse.body);
+  }
+
+  /// A list of locations from which the customer can choose to pickup a device.
+  ///
+  /// May throw [InvalidResourceException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of locations to list per page.
+  ///
+  /// Parameter [nextToken] :
+  /// HTTP requests are stateless. To identify what object comes "next" in the
+  /// list of <code>ListPickupLocationsRequest</code> objects, you have the
+  /// option of specifying <code>NextToken</code> as the starting point for your
+  /// returned list.
+  Future<ListPickupLocationsResult> listPickupLocations({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.ListPickupLocations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListPickupLocationsResult.fromJson(jsonResponse.body);
   }
 
   /// Lists all supported versions for Snow on-device services. Returns an array
@@ -1524,6 +1583,7 @@ class Snowball {
     String? forwardingAddressId,
     Notification? notification,
     OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    PickupDetails? pickupDetails,
     JobResource? resources,
     String? roleARN,
     ShippingOption? shippingOption,
@@ -1548,6 +1608,7 @@ class Snowball {
         if (notification != null) 'Notification': notification,
         if (onDeviceServiceConfiguration != null)
           'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+        if (pickupDetails != null) 'PickupDetails': pickupDetails,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
@@ -1687,6 +1748,10 @@ class Address {
   /// The third line in a street address that a Snow device is to be delivered to.
   final String? street3;
 
+  /// Differentiates between delivery address and pickup address in the customer
+  /// account. Provided at job creation.
+  final AddressType? type;
+
   Address({
     this.addressId,
     this.city,
@@ -1702,6 +1767,7 @@ class Address {
     this.street1,
     this.street2,
     this.street3,
+    this.type,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {
@@ -1720,6 +1786,7 @@ class Address {
       street1: json['Street1'] as String?,
       street2: json['Street2'] as String?,
       street3: json['Street3'] as String?,
+      type: (json['Type'] as String?)?.toAddressType(),
     );
   }
 
@@ -1738,6 +1805,7 @@ class Address {
     final street1 = this.street1;
     final street2 = this.street2;
     final street3 = this.street3;
+    final type = this.type;
     return {
       if (addressId != null) 'AddressId': addressId,
       if (city != null) 'City': city,
@@ -1754,7 +1822,36 @@ class Address {
       if (street1 != null) 'Street1': street1,
       if (street2 != null) 'Street2': street2,
       if (street3 != null) 'Street3': street3,
+      if (type != null) 'Type': type.toValue(),
     };
+  }
+}
+
+enum AddressType {
+  custPickup,
+  awsShip,
+}
+
+extension AddressTypeValueExtension on AddressType {
+  String toValue() {
+    switch (this) {
+      case AddressType.custPickup:
+        return 'CUST_PICKUP';
+      case AddressType.awsShip:
+        return 'AWS_SHIP';
+    }
+  }
+}
+
+extension AddressTypeFromString on String {
+  AddressType toAddressType() {
+    switch (this) {
+      case 'CUST_PICKUP':
+        return AddressType.custPickup;
+      case 'AWS_SHIP':
+        return AddressType.awsShip;
+    }
+    throw Exception('$this is not known in enum AddressType');
   }
 }
 
@@ -2028,7 +2125,7 @@ class CreateClusterResult {
   final String? clusterId;
 
   /// List of jobs created for this cluster. For syntax, see <a
-  /// href="https://docs.aws.amazon.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax">ListJobsResult$JobListEntries</a>
+  /// href="http://amazonaws.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax">ListJobsResult$JobListEntries</a>
   /// in this guide.
   final List<JobListEntry>? jobListEntries;
 
@@ -2341,7 +2438,7 @@ extension DeviceServiceNameFromString on String {
 /// An object representing the metadata and configuration settings of EKS
 /// Anywhere on the Snow Family device.
 class EKSOnDeviceServiceConfiguration {
-  /// The version of EKS Anywhere on the Snow Family device.
+  /// The optional version of EKS Anywhere on the Snow Family device.
   final String? eKSAnywhereVersion;
 
   /// The Kubernetes version for EKS Anywhere on the Snow Family device.
@@ -2370,9 +2467,9 @@ class EKSOnDeviceServiceConfiguration {
 }
 
 /// A JSON-formatted object that contains the IDs for an Amazon Machine Image
-/// (AMI), including the Amazon EC2 AMI ID and the Snow device AMI ID. Each AMI
-/// has these two IDs to simplify identifying the AMI in both the Amazon Web
-/// Services Cloud and on the device.
+/// (AMI), including the Amazon EC2-compatible AMI ID and the Snow device AMI
+/// ID. Each AMI has these two IDs to simplify identifying the AMI in both the
+/// Amazon Web Services Cloud and on the device.
 class Ec2AmiResource {
   /// The ID of the AMI in Amazon EC2.
   final String amiId;
@@ -2523,6 +2620,49 @@ class INDTaxDocuments {
   }
 }
 
+enum ImpactLevel {
+  il2,
+  il4,
+  il5,
+  il6,
+  il99,
+}
+
+extension ImpactLevelValueExtension on ImpactLevel {
+  String toValue() {
+    switch (this) {
+      case ImpactLevel.il2:
+        return 'IL2';
+      case ImpactLevel.il4:
+        return 'IL4';
+      case ImpactLevel.il5:
+        return 'IL5';
+      case ImpactLevel.il6:
+        return 'IL6';
+      case ImpactLevel.il99:
+        return 'IL99';
+    }
+  }
+}
+
+extension ImpactLevelFromString on String {
+  ImpactLevel toImpactLevel() {
+    switch (this) {
+      case 'IL2':
+        return ImpactLevel.il2;
+      case 'IL4':
+        return ImpactLevel.il4;
+      case 'IL5':
+        return ImpactLevel.il5;
+      case 'IL6':
+        return ImpactLevel.il6;
+      case 'IL99':
+        return ImpactLevel.il99;
+    }
+    throw Exception('$this is not known in enum ImpactLevel');
+  }
+}
+
 /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
 /// and a value that indicates whether the job is a job part, in the case of an
 /// export job.
@@ -2652,6 +2792,10 @@ class JobMetadata {
   /// shipped to its primary address. This field is not supported in most regions.
   final String? forwardingAddressId;
 
+  /// The highest impact level of data that will be stored or processed on the
+  /// device, provided at job creation.
+  final ImpactLevel? impactLevel;
+
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   final String? jobId;
@@ -2687,6 +2831,9 @@ class JobMetadata {
   /// Services Snow Family device.
   final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
 
+  /// Information identifying the person picking up the device.
+  final PickupDetails? pickupDetails;
+
   /// Allows you to securely operate and manage Snowcone devices remotely from
   /// outside of your internal network. When set to
   /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
@@ -2719,6 +2866,9 @@ class JobMetadata {
   /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   final SnowballCapacity? snowballCapacityPreference;
 
+  /// Unique ID associated with a device.
+  final String? snowballId;
+
   /// The type of device used with this job.
   final SnowballType? snowballType;
 
@@ -2734,6 +2884,7 @@ class JobMetadata {
     this.description,
     this.deviceConfiguration,
     this.forwardingAddressId,
+    this.impactLevel,
     this.jobId,
     this.jobLogInfo,
     this.jobState,
@@ -2742,11 +2893,13 @@ class JobMetadata {
     this.longTermPricingId,
     this.notification,
     this.onDeviceServiceConfiguration,
+    this.pickupDetails,
     this.remoteManagement,
     this.resources,
     this.roleARN,
     this.shippingDetails,
     this.snowballCapacityPreference,
+    this.snowballId,
     this.snowballType,
     this.taxDocuments,
   });
@@ -2766,6 +2919,7 @@ class JobMetadata {
               json['DeviceConfiguration'] as Map<String, dynamic>)
           : null,
       forwardingAddressId: json['ForwardingAddressId'] as String?,
+      impactLevel: (json['ImpactLevel'] as String?)?.toImpactLevel(),
       jobId: json['JobId'] as String?,
       jobLogInfo: json['JobLogInfo'] != null
           ? JobLogs.fromJson(json['JobLogInfo'] as Map<String, dynamic>)
@@ -2781,6 +2935,10 @@ class JobMetadata {
           ? OnDeviceServiceConfiguration.fromJson(
               json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
           : null,
+      pickupDetails: json['PickupDetails'] != null
+          ? PickupDetails.fromJson(
+              json['PickupDetails'] as Map<String, dynamic>)
+          : null,
       remoteManagement:
           (json['RemoteManagement'] as String?)?.toRemoteManagement(),
       resources: json['Resources'] != null
@@ -2793,6 +2951,7 @@ class JobMetadata {
           : null,
       snowballCapacityPreference:
           (json['SnowballCapacityPreference'] as String?)?.toSnowballCapacity(),
+      snowballId: json['SnowballId'] as String?,
       snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
       taxDocuments: json['TaxDocuments'] != null
           ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
@@ -3170,6 +3329,32 @@ class ListLongTermPricingResult {
   }
 }
 
+class ListPickupLocationsResult {
+  /// Information about the address of pickup locations.
+  final List<Address>? addresses;
+
+  /// HTTP requests are stateless. To identify what object comes "next" in the
+  /// list of <code>ListPickupLocationsResult</code> objects, you have the option
+  /// of specifying <code>NextToken</code> as the starting point for your returned
+  /// list.
+  final String? nextToken;
+
+  ListPickupLocationsResult({
+    this.addresses,
+    this.nextToken,
+  });
+
+  factory ListPickupLocationsResult.fromJson(Map<String, dynamic> json) {
+    return ListPickupLocationsResult(
+      addresses: (json['Addresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListServiceVersionsResult {
   /// The name of the service for which the system provided supported versions.
   final ServiceName serviceName;
@@ -3355,6 +3540,10 @@ class NFSOnDeviceServiceConfiguration {
 /// want to have Amazon SNS notifications sent out for all job states with
 /// <code>NotifyAll</code> set to true.
 class Notification {
+  /// Used to send SNS notifications for the person picking up the device
+  /// (identified during job creation).
+  final String? devicePickupSnsTopicARN;
+
   /// The list of job states that will trigger a notification for this job.
   final List<JobState>? jobStatesToNotify;
 
@@ -3373,6 +3562,7 @@ class Notification {
   final String? snsTopicARN;
 
   Notification({
+    this.devicePickupSnsTopicARN,
     this.jobStatesToNotify,
     this.notifyAll,
     this.snsTopicARN,
@@ -3380,6 +3570,7 @@ class Notification {
 
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
+      devicePickupSnsTopicARN: json['DevicePickupSnsTopicARN'] as String?,
       jobStatesToNotify: (json['JobStatesToNotify'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toJobState())
@@ -3390,10 +3581,13 @@ class Notification {
   }
 
   Map<String, dynamic> toJson() {
+    final devicePickupSnsTopicARN = this.devicePickupSnsTopicARN;
     final jobStatesToNotify = this.jobStatesToNotify;
     final notifyAll = this.notifyAll;
     final snsTopicARN = this.snsTopicARN;
     return {
+      if (devicePickupSnsTopicARN != null)
+        'DevicePickupSnsTopicARN': devicePickupSnsTopicARN,
       if (jobStatesToNotify != null)
         'JobStatesToNotify': jobStatesToNotify.map((e) => e.toValue()).toList(),
       if (notifyAll != null) 'NotifyAll': notifyAll,
@@ -3460,9 +3654,82 @@ class OnDeviceServiceConfiguration {
   }
 }
 
+/// Information identifying the person picking up the device.
+class PickupDetails {
+  /// The unique ID for a device that will be picked up.
+  final String? devicePickupId;
+
+  /// The email address of the person picking up the device.
+  final String? email;
+
+  /// Expiration date of the credential identifying the person picking up the
+  /// device.
+  final DateTime? identificationExpirationDate;
+
+  /// Organization that issued the credential identifying the person picking up
+  /// the device.
+  final String? identificationIssuingOrg;
+
+  /// The number on the credential identifying the person picking up the device.
+  final String? identificationNumber;
+
+  /// The name of the person picking up the device.
+  final String? name;
+
+  /// The phone number of the person picking up the device.
+  final String? phoneNumber;
+
+  PickupDetails({
+    this.devicePickupId,
+    this.email,
+    this.identificationExpirationDate,
+    this.identificationIssuingOrg,
+    this.identificationNumber,
+    this.name,
+    this.phoneNumber,
+  });
+
+  factory PickupDetails.fromJson(Map<String, dynamic> json) {
+    return PickupDetails(
+      devicePickupId: json['DevicePickupId'] as String?,
+      email: json['Email'] as String?,
+      identificationExpirationDate:
+          timeStampFromJson(json['IdentificationExpirationDate']),
+      identificationIssuingOrg: json['IdentificationIssuingOrg'] as String?,
+      identificationNumber: json['IdentificationNumber'] as String?,
+      name: json['Name'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devicePickupId = this.devicePickupId;
+    final email = this.email;
+    final identificationExpirationDate = this.identificationExpirationDate;
+    final identificationIssuingOrg = this.identificationIssuingOrg;
+    final identificationNumber = this.identificationNumber;
+    final name = this.name;
+    final phoneNumber = this.phoneNumber;
+    return {
+      if (devicePickupId != null) 'DevicePickupId': devicePickupId,
+      if (email != null) 'Email': email,
+      if (identificationExpirationDate != null)
+        'IdentificationExpirationDate':
+            unixTimestampToJson(identificationExpirationDate),
+      if (identificationIssuingOrg != null)
+        'IdentificationIssuingOrg': identificationIssuingOrg,
+      if (identificationNumber != null)
+        'IdentificationNumber': identificationNumber,
+      if (name != null) 'Name': name,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
+}
+
 enum RemoteManagement {
   installedOnly,
   installedAutostart,
+  notInstalled,
 }
 
 extension RemoteManagementValueExtension on RemoteManagement {
@@ -3472,6 +3739,8 @@ extension RemoteManagementValueExtension on RemoteManagement {
         return 'INSTALLED_ONLY';
       case RemoteManagement.installedAutostart:
         return 'INSTALLED_AUTOSTART';
+      case RemoteManagement.notInstalled:
+        return 'NOT_INSTALLED';
     }
   }
 }
@@ -3483,6 +3752,8 @@ extension RemoteManagementFromString on String {
         return RemoteManagement.installedOnly;
       case 'INSTALLED_AUTOSTART':
         return RemoteManagement.installedAutostart;
+      case 'NOT_INSTALLED':
+        return RemoteManagement.notInstalled;
     }
     throw Exception('$this is not known in enum RemoteManagement');
   }
@@ -3845,6 +4116,7 @@ enum SnowballCapacity {
   t32,
   noPreference,
   t240,
+  t13,
 }
 
 extension SnowballCapacityValueExtension on SnowballCapacity {
@@ -3870,6 +4142,8 @@ extension SnowballCapacityValueExtension on SnowballCapacity {
         return 'NoPreference';
       case SnowballCapacity.t240:
         return 'T240';
+      case SnowballCapacity.t13:
+        return 'T13';
     }
   }
 }
@@ -3897,6 +4171,8 @@ extension SnowballCapacityFromString on String {
         return SnowballCapacity.noPreference;
       case 'T240':
         return SnowballCapacity.t240;
+      case 'T13':
+        return SnowballCapacity.t13;
     }
     throw Exception('$this is not known in enum SnowballCapacity');
   }
@@ -3912,6 +4188,7 @@ enum SnowballType {
   snc1Ssd,
   v3_5c,
   v3_5s,
+  rack_5uC,
 }
 
 extension SnowballTypeValueExtension on SnowballType {
@@ -3935,6 +4212,8 @@ extension SnowballTypeValueExtension on SnowballType {
         return 'V3_5C';
       case SnowballType.v3_5s:
         return 'V3_5S';
+      case SnowballType.rack_5uC:
+        return 'RACK_5U_C';
     }
   }
 }
@@ -3960,6 +4239,8 @@ extension SnowballTypeFromString on String {
         return SnowballType.v3_5c;
       case 'V3_5S':
         return SnowballType.v3_5s;
+      case 'RACK_5U_C':
+        return SnowballType.rack_5uC;
     }
     throw Exception('$this is not known in enum SnowballType');
   }

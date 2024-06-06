@@ -22,7 +22,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// This section contains the Amazon Managed Workflows for Apache Airflow (MWAA)
 /// API reference documentation. For more information, see <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html">What
-/// Is Amazon MWAA?</a>.
+/// is Amazon MWAA?</a>.
 class Mwaa {
   final _s.RestJsonProtocol _protocol;
   Mwaa({
@@ -122,17 +122,32 @@ class Mwaa {
   ///
   /// Parameter [airflowVersion] :
   /// The Apache Airflow version for your environment. If no value is specified,
-  /// it defaults to the latest version. Valid values: <code>1.10.12</code>,
-  /// <code>2.0.2</code>, <code>2.2.2</code>, and <code>2.4.3</code>. For more
-  /// information, see <a
+  /// it defaults to the latest version. For more information, see <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html">Apache
   /// Airflow versions on Amazon Managed Workflows for Apache Airflow
   /// (MWAA)</a>.
   ///
+  /// Valid values: <code>1.10.12</code>, <code>2.0.2</code>,
+  /// <code>2.2.2</code>, <code>2.4.3</code>, <code>2.5.1</code>,
+  /// <code>2.6.3</code>, <code>2.7.2</code> <code>2.8.1</code>
+  ///
+  /// Parameter [endpointManagement] :
+  /// Defines whether the VPC endpoints configured for the environment are
+  /// created, and managed, by the customer or by Amazon MWAA. If set to
+  /// <code>SERVICE</code>, Amazon MWAA will create and manage the required VPC
+  /// endpoints in your VPC. If set to <code>CUSTOMER</code>, you must create,
+  /// and manage, the VPC endpoints for your VPC. If you choose to create an
+  /// environment in a shared VPC, you must set this value to
+  /// <code>CUSTOMER</code>. In a shared VPC deployment, the environment will
+  /// remain in <code>PENDING</code> status until you create the VPC endpoints.
+  /// If you do not take action to create the endpoints within 72 hours, the
+  /// status will change to <code>CREATE_FAILED</code>. You can delete the
+  /// failed environment and create a new one.
+  ///
   /// Parameter [environmentClass] :
   /// The environment class type. Valid values: <code>mw1.small</code>,
-  /// <code>mw1.medium</code>, <code>mw1.large</code>. For more information, see
-  /// <a
+  /// <code>mw1.medium</code>, <code>mw1.large</code>, <code>mw1.xlarge</code>,
+  /// and <code>mw1.2xlarge</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html">Amazon
   /// MWAA environment class</a>.
   ///
@@ -146,6 +161,21 @@ class Mwaa {
   /// Parameter [loggingConfiguration] :
   /// Defines the Apache Airflow logs to send to CloudWatch Logs.
   ///
+  /// Parameter [maxWebservers] :
+  /// The maximum number of web servers that you want to run in your
+  /// environment. Amazon MWAA scales the number of Apache Airflow web servers
+  /// up to the number you specify for <code>MaxWebservers</code> when you
+  /// interact with your Apache Airflow environment using Apache Airflow REST
+  /// API, or the Apache Airflow CLI. For example, in scenarios where your
+  /// workload requires network calls to the Apache Airflow REST API with a high
+  /// transaction-per-second (TPS) rate, Amazon MWAA will increase the number of
+  /// web servers up to the number set in <code>MaxWebserers</code>. As TPS
+  /// rates decrease Amazon MWAA disposes of the additional web servers, and
+  /// scales down to the number set in <code>MinxWebserers</code>.
+  ///
+  /// Valid values: Accepts between <code>2</code> and <code>5</code>. Defaults
+  /// to <code>2</code>.
+  ///
   /// Parameter [maxWorkers] :
   /// The maximum number of workers that you want to run in your environment.
   /// MWAA scales the number of Apache Airflow workers up to the number you
@@ -154,6 +184,18 @@ class Mwaa {
   /// queue, MWAA disposes of the extra workers leaving the one worker that is
   /// included with your environment, or the number you specify in
   /// <code>MinWorkers</code>.
+  ///
+  /// Parameter [minWebservers] :
+  /// The minimum number of web servers that you want to run in your
+  /// environment. Amazon MWAA scales the number of Apache Airflow web servers
+  /// up to the number you specify for <code>MaxWebservers</code> when you
+  /// interact with your Apache Airflow environment using Apache Airflow REST
+  /// API, or the Apache Airflow CLI. As the transaction-per-second rate, and
+  /// the network load, decrease, Amazon MWAA disposes of the additional web
+  /// servers, and scales down to the number set in <code>MinxWebserers</code>.
+  ///
+  /// Valid values: Accepts between <code>2</code> and <code>5</code>. Defaults
+  /// to <code>2</code>.
   ///
   /// Parameter [minWorkers] :
   /// The minimum number of workers that you want to run in your environment.
@@ -197,10 +239,11 @@ class Mwaa {
   ///
   /// <ul>
   /// <li>
-  /// v2 - Accepts between 2 to 5. Defaults to 2.
+  /// v2 - Accepts between <code>2</code> to <code>5</code>. Defaults to
+  /// <code>2</code>.
   /// </li>
   /// <li>
-  /// v1 - Accepts 1.
+  /// v1 - Accepts <code>1</code>.
   /// </li>
   /// </ul>
   ///
@@ -239,8 +282,8 @@ class Mwaa {
   /// Amazon Web Services resources</a>.
   ///
   /// Parameter [webserverAccessMode] :
-  /// The Apache Airflow <i>Web server</i> access mode. For more information,
-  /// see <a
+  /// Defines the access mode for the Apache Airflow <i>web server</i>. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html">Apache
   /// Airflow access modes</a>.
   ///
@@ -258,10 +301,13 @@ class Mwaa {
     required String sourceBucketArn,
     Map<String, String>? airflowConfigurationOptions,
     String? airflowVersion,
+    EndpointManagement? endpointManagement,
     String? environmentClass,
     String? kmsKey,
     LoggingConfigurationInput? loggingConfiguration,
+    int? maxWebservers,
     int? maxWorkers,
+    int? minWebservers,
     int? minWorkers,
     String? pluginsS3ObjectVersion,
     String? pluginsS3Path,
@@ -275,9 +321,21 @@ class Mwaa {
     String? weeklyMaintenanceWindowStart,
   }) async {
     _s.validateNumRange(
+      'maxWebservers',
+      maxWebservers,
+      2,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
       'maxWorkers',
       maxWorkers,
       1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'minWebservers',
+      minWebservers,
+      2,
       1152921504606846976,
     );
     _s.validateNumRange(
@@ -300,11 +358,15 @@ class Mwaa {
       if (airflowConfigurationOptions != null)
         'AirflowConfigurationOptions': airflowConfigurationOptions,
       if (airflowVersion != null) 'AirflowVersion': airflowVersion,
+      if (endpointManagement != null)
+        'EndpointManagement': endpointManagement.toValue(),
       if (environmentClass != null) 'EnvironmentClass': environmentClass,
       if (kmsKey != null) 'KmsKey': kmsKey,
       if (loggingConfiguration != null)
         'LoggingConfiguration': loggingConfiguration,
+      if (maxWebservers != null) 'MaxWebservers': maxWebservers,
       if (maxWorkers != null) 'MaxWorkers': maxWorkers,
+      if (minWebservers != null) 'MinWebservers': minWebservers,
       if (minWorkers != null) 'MinWorkers': minWorkers,
       if (pluginsS3ObjectVersion != null)
         'PluginsS3ObjectVersion': pluginsS3ObjectVersion,
@@ -471,6 +533,8 @@ class Mwaa {
   /// more about the metrics published to Amazon CloudWatch, see <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html">Amazon
   /// MWAA performance metrics in Amazon CloudWatch</a>.
+  @Deprecated(
+      'This API is for internal use and not meant for public use, and is no longer available.')
   Future<void> publishMetrics({
     required String environmentName,
     required List<MetricDatum> metricData,
@@ -570,9 +634,20 @@ class Mwaa {
   /// Airflow configuration options</a>.
   ///
   /// Parameter [airflowVersion] :
-  /// The Apache Airflow version for your environment. If no value is specified,
-  /// defaults to the latest version. Valid values: <code>1.10.12</code>,
-  /// <code>2.0.2</code>, <code>2.2.2</code>, and <code>2.4.3</code>.
+  /// The Apache Airflow version for your environment. To upgrade your
+  /// environment, specify a newer version of Apache Airflow supported by Amazon
+  /// MWAA.
+  ///
+  /// Before you upgrade an environment, make sure your requirements, DAGs,
+  /// plugins, and other resources used in your workflows are compatible with
+  /// the new Apache Airflow version. For more information about updating your
+  /// resources, see <a
+  /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html">Upgrading
+  /// an Amazon MWAA environment</a>.
+  ///
+  /// Valid values: <code>1.10.12</code>, <code>2.0.2</code>,
+  /// <code>2.2.2</code>, <code>2.4.3</code>, <code>2.5.1</code>,
+  /// <code>2.6.3</code>, <code>2.7.2</code>, <code>2.8.1</code>.
   ///
   /// Parameter [dagS3Path] :
   /// The relative path to the DAGs folder on your Amazon S3 bucket. For
@@ -582,8 +657,8 @@ class Mwaa {
   ///
   /// Parameter [environmentClass] :
   /// The environment class type. Valid values: <code>mw1.small</code>,
-  /// <code>mw1.medium</code>, <code>mw1.large</code>. For more information, see
-  /// <a
+  /// <code>mw1.medium</code>, <code>mw1.large</code>, <code>mw1.xlarge</code>,
+  /// and <code>mw1.2xlarge</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html">Amazon
   /// MWAA environment class</a>.
   ///
@@ -598,6 +673,21 @@ class Mwaa {
   /// Parameter [loggingConfiguration] :
   /// The Apache Airflow log types to send to CloudWatch Logs.
   ///
+  /// Parameter [maxWebservers] :
+  /// The maximum number of web servers that you want to run in your
+  /// environment. Amazon MWAA scales the number of Apache Airflow web servers
+  /// up to the number you specify for <code>MaxWebservers</code> when you
+  /// interact with your Apache Airflow environment using Apache Airflow REST
+  /// API, or the Apache Airflow CLI. For example, in scenarios where your
+  /// workload requires network calls to the Apache Airflow REST API with a high
+  /// transaction-per-second (TPS) rate, Amazon MWAA will increase the number of
+  /// web servers up to the number set in <code>MaxWebserers</code>. As TPS
+  /// rates decrease Amazon MWAA disposes of the additional web servers, and
+  /// scales down to the number set in <code>MinxWebserers</code>.
+  ///
+  /// Valid values: Accepts between <code>2</code> and <code>5</code>. Defaults
+  /// to <code>2</code>.
+  ///
   /// Parameter [maxWorkers] :
   /// The maximum number of workers that you want to run in your environment.
   /// MWAA scales the number of Apache Airflow workers up to the number you
@@ -606,6 +696,18 @@ class Mwaa {
   /// queue, MWAA disposes of the extra workers leaving the one worker that is
   /// included with your environment, or the number you specify in
   /// <code>MinWorkers</code>.
+  ///
+  /// Parameter [minWebservers] :
+  /// The minimum number of web servers that you want to run in your
+  /// environment. Amazon MWAA scales the number of Apache Airflow web servers
+  /// up to the number you specify for <code>MaxWebservers</code> when you
+  /// interact with your Apache Airflow environment using Apache Airflow REST
+  /// API, or the Apache Airflow CLI. As the transaction-per-second rate, and
+  /// the network load, decrease, Amazon MWAA disposes of the additional web
+  /// servers, and scales down to the number set in <code>MinxWebserers</code>.
+  ///
+  /// Valid values: Accepts between <code>2</code> and <code>5</code>. Defaults
+  /// to <code>2</code>.
   ///
   /// Parameter [minWorkers] :
   /// The minimum number of workers that you want to run in your environment.
@@ -709,7 +811,9 @@ class Mwaa {
     String? environmentClass,
     String? executionRoleArn,
     LoggingConfigurationInput? loggingConfiguration,
+    int? maxWebservers,
     int? maxWorkers,
+    int? minWebservers,
     int? minWorkers,
     UpdateNetworkConfigurationInput? networkConfiguration,
     String? pluginsS3ObjectVersion,
@@ -724,9 +828,21 @@ class Mwaa {
     String? weeklyMaintenanceWindowStart,
   }) async {
     _s.validateNumRange(
+      'maxWebservers',
+      maxWebservers,
+      2,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
       'maxWorkers',
       maxWorkers,
       1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'minWebservers',
+      minWebservers,
+      2,
       1152921504606846976,
     );
     _s.validateNumRange(
@@ -750,7 +866,9 @@ class Mwaa {
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (loggingConfiguration != null)
         'LoggingConfiguration': loggingConfiguration,
+      if (maxWebservers != null) 'MaxWebservers': maxWebservers,
       if (maxWorkers != null) 'MaxWorkers': maxWorkers,
+      if (minWebservers != null) 'MinWebservers': minWebservers,
       if (minWorkers != null) 'MinWorkers': minWorkers,
       if (networkConfiguration != null)
         'NetworkConfiguration': networkConfiguration,
@@ -833,6 +951,14 @@ class CreateEnvironmentOutput {
 }
 
 class CreateWebLoginTokenResponse {
+  /// The user name of the Apache Airflow identity creating the web login token.
+  final String? airflowIdentity;
+
+  /// The name of the IAM identity creating the web login token. This might be an
+  /// IAM user, or an assumed or federated identity. For example,
+  /// <code>assumed-role/Admin/your-name</code>.
+  final String? iamIdentity;
+
   /// The Airflow web server hostname for the environment.
   final String? webServerHostname;
 
@@ -840,21 +966,29 @@ class CreateWebLoginTokenResponse {
   final String? webToken;
 
   CreateWebLoginTokenResponse({
+    this.airflowIdentity,
+    this.iamIdentity,
     this.webServerHostname,
     this.webToken,
   });
 
   factory CreateWebLoginTokenResponse.fromJson(Map<String, dynamic> json) {
     return CreateWebLoginTokenResponse(
+      airflowIdentity: json['AirflowIdentity'] as String?,
+      iamIdentity: json['IamIdentity'] as String?,
       webServerHostname: json['WebServerHostname'] as String?,
       webToken: json['WebToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final airflowIdentity = this.airflowIdentity;
+    final iamIdentity = this.iamIdentity;
     final webServerHostname = this.webServerHostname;
     final webToken = this.webToken;
     return {
+      if (airflowIdentity != null) 'AirflowIdentity': airflowIdentity,
+      if (iamIdentity != null) 'IamIdentity': iamIdentity,
       if (webServerHostname != null) 'WebServerHostname': webServerHostname,
       if (webToken != null) 'WebToken': webToken,
     };
@@ -877,6 +1011,8 @@ class DeleteEnvironmentOutput {
 /// about the metrics published to Amazon CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html">Amazon
 /// MWAA performance metrics in Amazon CloudWatch</a>.
+@Deprecated(
+    'This type is for internal use and not meant for public use. Data set for this type will be ignored.')
 class Dimension {
   /// <b>Internal only</b>. The name of the dimension.
   final String name;
@@ -899,6 +1035,34 @@ class Dimension {
   }
 }
 
+enum EndpointManagement {
+  customer,
+  service,
+}
+
+extension EndpointManagementValueExtension on EndpointManagement {
+  String toValue() {
+    switch (this) {
+      case EndpointManagement.customer:
+        return 'CUSTOMER';
+      case EndpointManagement.service:
+        return 'SERVICE';
+    }
+  }
+}
+
+extension EndpointManagementFromString on String {
+  EndpointManagement toEndpointManagement() {
+    switch (this) {
+      case 'CUSTOMER':
+        return EndpointManagement.customer;
+      case 'SERVICE':
+        return EndpointManagement.service;
+    }
+    throw Exception('$this is not known in enum EndpointManagement');
+  }
+}
+
 /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 class Environment {
   /// A list of key-value pairs containing the Apache Airflow configuration
@@ -907,13 +1071,22 @@ class Environment {
   /// Airflow configuration options</a>.
   final Map<String, String>? airflowConfigurationOptions;
 
-  /// The Apache Airflow version on your environment. Valid values:
-  /// <code>1.10.12</code>, <code>2.0.2</code>, <code>2.2.2</code>, and
-  /// <code>2.4.3</code>.
+  /// The Apache Airflow version on your environment.
+  ///
+  /// Valid values: <code>1.10.12</code>, <code>2.0.2</code>, <code>2.2.2</code>,
+  /// <code>2.4.3</code>, <code>2.5.1</code>, <code>2.6.3</code>,
+  /// <code>2.7.2</code>, <code>2.8.1</code>.
   final String? airflowVersion;
 
   /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
   final String? arn;
+
+  /// The queue ARN for the environment's <a
+  /// href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/celery.html">Celery
+  /// Executor</a>. Amazon MWAA uses a Celery Executor to distribute tasks across
+  /// multiple workers. When you create an environment in a shared VPC, you must
+  /// provide access to the Celery Executor queue from your VPC.
+  final String? celeryExecutorQueue;
 
   /// The day and time the environment was created.
   final DateTime? createdAt;
@@ -924,9 +1097,19 @@ class Environment {
   /// or updating DAGs</a>.
   final String? dagS3Path;
 
+  /// The VPC endpoint for the environment's Amazon RDS database.
+  final String? databaseVpcEndpointService;
+
+  /// Defines whether the VPC endpoints configured for the environment are
+  /// created, and managed, by the customer or by Amazon MWAA. If set to
+  /// <code>SERVICE</code>, Amazon MWAA will create and manage the required VPC
+  /// endpoints in your VPC. If set to <code>CUSTOMER</code>, you must create, and
+  /// manage, the VPC endpoints in your VPC.
+  final EndpointManagement? endpointManagement;
+
   /// The environment class type. Valid values: <code>mw1.small</code>,
-  /// <code>mw1.medium</code>, <code>mw1.large</code>. For more information, see
-  /// <a
+  /// <code>mw1.medium</code>, <code>mw1.large</code>, <code>mw1.xlarge</code>,
+  /// and <code>mw1.2xlarge</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html">Amazon
   /// MWAA environment class</a>.
   final String? environmentClass;
@@ -939,8 +1122,7 @@ class Environment {
   /// MWAA Execution role</a>.
   final String? executionRoleArn;
 
-  /// The Amazon Web Services Key Management Service (KMS) encryption key used to
-  /// encrypt the data in your environment.
+  /// The KMS encryption key used to encrypt the data in your environment.
   final String? kmsKey;
 
   /// The status of the last update on the environment.
@@ -949,9 +1131,36 @@ class Environment {
   /// The Apache Airflow logs published to CloudWatch Logs.
   final LoggingConfiguration? loggingConfiguration;
 
+  /// The maximum number of web servers that you want to run in your environment.
+  /// Amazon MWAA scales the number of Apache Airflow web servers up to the number
+  /// you specify for <code>MaxWebservers</code> when you interact with your
+  /// Apache Airflow environment using Apache Airflow REST API, or the Apache
+  /// Airflow CLI. For example, in scenarios where your workload requires network
+  /// calls to the Apache Airflow REST API with a high transaction-per-second
+  /// (TPS) rate, Amazon MWAA will increase the number of web servers up to the
+  /// number set in <code>MaxWebserers</code>. As TPS rates decrease Amazon MWAA
+  /// disposes of the additional web servers, and scales down to the number set in
+  /// <code>MinxWebserers</code>.
+  ///
+  /// Valid values: Accepts between <code>2</code> and <code>5</code>. Defaults to
+  /// <code>2</code>.
+  final int? maxWebservers;
+
   /// The maximum number of workers that run in your environment. For example,
   /// <code>20</code>.
   final int? maxWorkers;
+
+  /// The minimum number of web servers that you want to run in your environment.
+  /// Amazon MWAA scales the number of Apache Airflow web servers up to the number
+  /// you specify for <code>MaxWebservers</code> when you interact with your
+  /// Apache Airflow environment using Apache Airflow REST API, or the Apache
+  /// Airflow CLI. As the transaction-per-second rate, and the network load,
+  /// decrease, Amazon MWAA disposes of the additional web servers, and scales
+  /// down to the number set in <code>MinxWebserers</code>.
+  ///
+  /// Valid values: Accepts between <code>2</code> and <code>5</code>. Defaults to
+  /// <code>2</code>.
+  final int? minWebservers;
 
   /// The minimum number of workers that run in your environment. For example,
   /// <code>2</code>.
@@ -1055,12 +1264,22 @@ class Environment {
   /// a startup script</a>.
   final String? startupScriptS3Path;
 
-  /// The status of the Amazon MWAA environment. Valid values:
+  /// The status of the Amazon MWAA environment.
+  ///
+  /// Valid values:
   ///
   /// <ul>
   /// <li>
   /// <code>CREATING</code> - Indicates the request to create the environment is
   /// in progress.
+  /// </li>
+  /// <li>
+  /// <code>CREATING_SNAPSHOT</code> - Indicates the request to update environment
+  /// details, or upgrade the environment version, is in progress and Amazon MWAA
+  /// is creating a storage volume snapshot of the Amazon RDS database cluster
+  /// associated with the environment. A database snapshot is a backup created at
+  /// a specific point in time. Amazon MWAA uses snapshots to recover environment
+  /// metadata if the process to update or upgrade an environment fails.
   /// </li>
   /// <li>
   /// <code>CREATE_FAILED</code> - Indicates the request to create the environment
@@ -1071,8 +1290,19 @@ class Environment {
   /// environment is ready to use.
   /// </li>
   /// <li>
+  /// <code>PENDING</code> - Indicates the request was successful, but the process
+  /// to create the environment is paused until you create the required VPC
+  /// endpoints in your VPC. After you create the VPC endpoints, the process
+  /// resumes.
+  /// </li>
+  /// <li>
   /// <code>UPDATING</code> - Indicates the request to update the environment is
   /// in progress.
+  /// </li>
+  /// <li>
+  /// <code>ROLLING_BACK</code> - Indicates the request to update environment
+  /// details, or upgrade the environment version, failed and Amazon MWAA is
+  /// restoring the environment using the latest storage volume snapshot.
   /// </li>
   /// <li>
   /// <code>DELETING</code> - Indicates the request to delete the environment is
@@ -1084,12 +1314,19 @@ class Environment {
   /// </li>
   /// <li>
   /// <code>UNAVAILABLE</code> - Indicates the request failed, but the environment
-  /// was unable to rollback and is not in a stable state.
+  /// did not return to its previous state and is not stable.
   /// </li>
   /// <li>
   /// <code>UPDATE_FAILED</code> - Indicates the request to update the environment
-  /// failed, and the environment has rolled back successfully and is ready to
-  /// use.
+  /// failed, and the environment was restored to its previous state successfully
+  /// and is ready to use.
+  /// </li>
+  /// <li>
+  /// <code>MAINTENANCE</code> - Indicates that the environment is undergoing
+  /// maintenance. Depending on the type of work Amazon MWAA is performing, your
+  /// environment might become unavailable during this process. After all
+  /// operations are done, your environment will return to its status prior to
+  /// mainteneace operations.
   /// </li>
   /// </ul>
   /// We recommend reviewing our troubleshooting guide for a list of common errors
@@ -1104,17 +1341,20 @@ class Environment {
   /// Amazon Web Services resources</a>.
   final Map<String, String>? tags;
 
-  /// The Apache Airflow <i>Web server</i> access mode. For more information, see
+  /// The Apache Airflow <i>web server</i> access mode. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html">Apache
   /// Airflow access modes</a>.
   final WebserverAccessMode? webserverAccessMode;
 
-  /// The Apache Airflow <i>Web server</i> host name for the Amazon MWAA
+  /// The Apache Airflow <i>web server</i> host name for the Amazon MWAA
   /// environment. For more information, see <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html">Accessing
   /// the Apache Airflow UI</a>.
   final String? webserverUrl;
+
+  /// The VPC endpoint for the environment's web server.
+  final String? webserverVpcEndpointService;
 
   /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour
   /// standard time that weekly maintenance updates are scheduled. For example:
@@ -1125,14 +1365,19 @@ class Environment {
     this.airflowConfigurationOptions,
     this.airflowVersion,
     this.arn,
+    this.celeryExecutorQueue,
     this.createdAt,
     this.dagS3Path,
+    this.databaseVpcEndpointService,
+    this.endpointManagement,
     this.environmentClass,
     this.executionRoleArn,
     this.kmsKey,
     this.lastUpdate,
     this.loggingConfiguration,
+    this.maxWebservers,
     this.maxWorkers,
+    this.minWebservers,
     this.minWorkers,
     this.name,
     this.networkConfiguration,
@@ -1149,6 +1394,7 @@ class Environment {
     this.tags,
     this.webserverAccessMode,
     this.webserverUrl,
+    this.webserverVpcEndpointService,
     this.weeklyMaintenanceWindowStart,
   });
 
@@ -1159,8 +1405,12 @@ class Environment {
               ?.map((k, e) => MapEntry(k, e as String)),
       airflowVersion: json['AirflowVersion'] as String?,
       arn: json['Arn'] as String?,
+      celeryExecutorQueue: json['CeleryExecutorQueue'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       dagS3Path: json['DagS3Path'] as String?,
+      databaseVpcEndpointService: json['DatabaseVpcEndpointService'] as String?,
+      endpointManagement:
+          (json['EndpointManagement'] as String?)?.toEndpointManagement(),
       environmentClass: json['EnvironmentClass'] as String?,
       executionRoleArn: json['ExecutionRoleArn'] as String?,
       kmsKey: json['KmsKey'] as String?,
@@ -1171,7 +1421,9 @@ class Environment {
           ? LoggingConfiguration.fromJson(
               json['LoggingConfiguration'] as Map<String, dynamic>)
           : null,
+      maxWebservers: json['MaxWebservers'] as int?,
       maxWorkers: json['MaxWorkers'] as int?,
+      minWebservers: json['MinWebservers'] as int?,
       minWorkers: json['MinWorkers'] as int?,
       name: json['Name'] as String?,
       networkConfiguration: json['NetworkConfiguration'] != null
@@ -1195,6 +1447,8 @@ class Environment {
       webserverAccessMode:
           (json['WebserverAccessMode'] as String?)?.toWebserverAccessMode(),
       webserverUrl: json['WebserverUrl'] as String?,
+      webserverVpcEndpointService:
+          json['WebserverVpcEndpointService'] as String?,
       weeklyMaintenanceWindowStart:
           json['WeeklyMaintenanceWindowStart'] as String?,
     );
@@ -1204,14 +1458,19 @@ class Environment {
     final airflowConfigurationOptions = this.airflowConfigurationOptions;
     final airflowVersion = this.airflowVersion;
     final arn = this.arn;
+    final celeryExecutorQueue = this.celeryExecutorQueue;
     final createdAt = this.createdAt;
     final dagS3Path = this.dagS3Path;
+    final databaseVpcEndpointService = this.databaseVpcEndpointService;
+    final endpointManagement = this.endpointManagement;
     final environmentClass = this.environmentClass;
     final executionRoleArn = this.executionRoleArn;
     final kmsKey = this.kmsKey;
     final lastUpdate = this.lastUpdate;
     final loggingConfiguration = this.loggingConfiguration;
+    final maxWebservers = this.maxWebservers;
     final maxWorkers = this.maxWorkers;
+    final minWebservers = this.minWebservers;
     final minWorkers = this.minWorkers;
     final name = this.name;
     final networkConfiguration = this.networkConfiguration;
@@ -1228,21 +1487,30 @@ class Environment {
     final tags = this.tags;
     final webserverAccessMode = this.webserverAccessMode;
     final webserverUrl = this.webserverUrl;
+    final webserverVpcEndpointService = this.webserverVpcEndpointService;
     final weeklyMaintenanceWindowStart = this.weeklyMaintenanceWindowStart;
     return {
       if (airflowConfigurationOptions != null)
         'AirflowConfigurationOptions': airflowConfigurationOptions,
       if (airflowVersion != null) 'AirflowVersion': airflowVersion,
       if (arn != null) 'Arn': arn,
+      if (celeryExecutorQueue != null)
+        'CeleryExecutorQueue': celeryExecutorQueue,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (dagS3Path != null) 'DagS3Path': dagS3Path,
+      if (databaseVpcEndpointService != null)
+        'DatabaseVpcEndpointService': databaseVpcEndpointService,
+      if (endpointManagement != null)
+        'EndpointManagement': endpointManagement.toValue(),
       if (environmentClass != null) 'EnvironmentClass': environmentClass,
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (kmsKey != null) 'KmsKey': kmsKey,
       if (lastUpdate != null) 'LastUpdate': lastUpdate,
       if (loggingConfiguration != null)
         'LoggingConfiguration': loggingConfiguration,
+      if (maxWebservers != null) 'MaxWebservers': maxWebservers,
       if (maxWorkers != null) 'MaxWorkers': maxWorkers,
+      if (minWebservers != null) 'MinWebservers': minWebservers,
       if (minWorkers != null) 'MinWorkers': minWorkers,
       if (name != null) 'Name': name,
       if (networkConfiguration != null)
@@ -1265,6 +1533,8 @@ class Environment {
       if (webserverAccessMode != null)
         'WebserverAccessMode': webserverAccessMode.toValue(),
       if (webserverUrl != null) 'WebserverUrl': webserverUrl,
+      if (webserverVpcEndpointService != null)
+        'WebserverVpcEndpointService': webserverVpcEndpointService,
       if (weeklyMaintenanceWindowStart != null)
         'WeeklyMaintenanceWindowStart': weeklyMaintenanceWindowStart,
     };
@@ -1280,6 +1550,10 @@ enum EnvironmentStatus {
   deleted,
   unavailable,
   updateFailed,
+  rollingBack,
+  creatingSnapshot,
+  pending,
+  maintenance,
 }
 
 extension EnvironmentStatusValueExtension on EnvironmentStatus {
@@ -1301,6 +1575,14 @@ extension EnvironmentStatusValueExtension on EnvironmentStatus {
         return 'UNAVAILABLE';
       case EnvironmentStatus.updateFailed:
         return 'UPDATE_FAILED';
+      case EnvironmentStatus.rollingBack:
+        return 'ROLLING_BACK';
+      case EnvironmentStatus.creatingSnapshot:
+        return 'CREATING_SNAPSHOT';
+      case EnvironmentStatus.pending:
+        return 'PENDING';
+      case EnvironmentStatus.maintenance:
+        return 'MAINTENANCE';
     }
   }
 }
@@ -1324,6 +1606,14 @@ extension EnvironmentStatusFromString on String {
         return EnvironmentStatus.unavailable;
       case 'UPDATE_FAILED':
         return EnvironmentStatus.updateFailed;
+      case 'ROLLING_BACK':
+        return EnvironmentStatus.rollingBack;
+      case 'CREATING_SNAPSHOT':
+        return EnvironmentStatus.creatingSnapshot;
+      case 'PENDING':
+        return EnvironmentStatus.pending;
+      case 'MAINTENANCE':
+        return EnvironmentStatus.maintenance;
     }
     throw Exception('$this is not known in enum EnvironmentStatus');
   }
@@ -1615,6 +1905,8 @@ extension LoggingLevelFromString on String {
 /// the metrics published to Amazon CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html">Amazon
 /// MWAA performance metrics in Amazon CloudWatch</a>.
+@Deprecated(
+    'This type is for internal use and not meant for public use. Data set for this type will be ignored.')
 class MetricDatum {
   /// <b>Internal only</b>. The name of the metric.
   final String metricName;
@@ -1776,6 +2068,8 @@ class NetworkConfiguration {
   }
 }
 
+@Deprecated(
+    'This type is for internal use and not meant for public use. Data set for this type will be ignored.')
 class PublishMetricsOutput {
   PublishMetricsOutput();
 
@@ -1793,6 +2087,8 @@ class PublishMetricsOutput {
 /// CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html">Amazon
 /// MWAA performance metrics in Amazon CloudWatch</a>.
+@Deprecated(
+    'This type is for internal use and not meant for public use. Data set for this type will be ignored.')
 class StatisticSet {
   /// <b>Internal only</b>. The maximum value of the sample set.
   final double? maximum;

@@ -19,10 +19,10 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// The Amazon Chime SDK Messaging APIs in this section allow software
+/// The Amazon Chime SDK messaging APIs in this section allow software
 /// developers to send and receive messages in custom messaging applications.
 /// These APIs depend on the frameworks provided by the Amazon Chime SDK
-/// Identity APIs. For more information about the messaging APIs, see <a
+/// identity APIs. For more information about the messaging APIs, see <a
 /// href="https://docs.aws.amazon.com/chime/latest/APIReference/API_Operations_Amazon_Chime_SDK_Messaging.html">Amazon
 /// Chime SDK messaging</a>.
 class ChimeSdkMessaging {
@@ -164,8 +164,8 @@ class ChimeSdkMessaging {
     return BatchCreateChannelMembershipResponse.fromJson(response);
   }
 
-  /// Calls back Chime SDK Messaging with a processing response message. This
-  /// should be invoked from the processor Lambda. This is a developer API.
+  /// Calls back Amazon Chime SDK messaging with a processing response message.
+  /// This should be invoked from the processor Lambda. This is a developer API.
   ///
   /// You can return one of the following processing responses:
   ///
@@ -402,7 +402,7 @@ class ChimeSdkMessaging {
   /// The Standard message type
   /// </li> </ol> <note>
   /// Channel flows don't process Control or System messages. For more
-  /// information about the message types provided by Chime SDK Messaging, refer
+  /// information about the message types provided by Chime SDK messaging, refer
   /// to <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/using-the-messaging-sdk.html#msg-types">Message
   /// types</a> in the <i>Amazon Chime developer guide</i>.
@@ -1248,7 +1248,7 @@ class ChimeSdkMessaging {
 
   /// Gets the membership preferences of an <code>AppInstanceUser</code> or
   /// <code>AppInstanceBot</code> for the specified channel. A user or a bot
-  /// must be a member of the channel and own the membership to be able to
+  /// must be a member of the channel and own the membership in order to
   /// retrieve membership preferences. Users or bots in the
   /// <code>AppInstanceAdmin</code> and channel moderator roles can't retrieve
   /// preferences for other users or bots. Banned users or bots can't retrieve
@@ -1365,7 +1365,7 @@ class ChimeSdkMessaging {
   /// </dd> <dt>FAILED</dt> <dd>
   /// Processing failed
   /// </dd> <dt>DENIED</dt> <dd>
-  /// Messasge denied by the processor
+  /// Message denied by the processor
   /// </dd> </dl> <note>
   /// <ul>
   /// <li>
@@ -1656,7 +1656,7 @@ class ChimeSdkMessaging {
     return ListChannelMembershipsResponse.fromJson(response);
   }
 
-  /// Lists all channels that anr <code>AppInstanceUser</code> or
+  /// Lists all channels that an <code>AppInstanceUser</code> or
   /// <code>AppInstanceBot</code> is a part of. Only an
   /// <code>AppInstanceAdmin</code> can call the API with a user ARN that is not
   /// their own.
@@ -2188,12 +2188,12 @@ class ChimeSdkMessaging {
   }
 
   /// Sets the membership preferences of an <code>AppInstanceUser</code> or
-  /// <code>AppIntanceBot</code> for the specified channel. The user or bot must
-  /// be a member of the channel. Only the user or bot who owns the membership
-  /// can set preferences. Users or bots in the <code>AppInstanceAdmin</code>
-  /// and channel moderator roles can't set preferences for other users or
-  /// users. Banned users or bots can't set membership preferences for the
-  /// channel from which they are banned.
+  /// <code>AppInstanceBot</code> for the specified channel. The user or bot
+  /// must be a member of the channel. Only the user or bot who owns the
+  /// membership can set preferences. Users or bots in the
+  /// <code>AppInstanceAdmin</code> and channel moderator roles can't set
+  /// preferences for other users. Banned users or bots can't set membership
+  /// preferences for the channel from which they are banned.
   /// <note>
   /// The x-amz-chime-bearer request header is mandatory. Use the ARN of an
   /// <code>AppInstanceUser</code> or <code>AppInstanceBot</code> that makes the
@@ -2398,9 +2398,12 @@ class ChimeSdkMessaging {
   /// ARN of the <code>AppInstanceUser</code> or <code>AppInstanceBot</code>
   /// that makes the API call as the value in the header.
   ///
-  /// Also, <code>STANDARD</code> messages can contain 4KB of data and the 1KB
-  /// of metadata. <code>CONTROL</code> messages can contain 30 bytes of data
-  /// and no metadata.
+  /// Also, <code>STANDARD</code> messages can be up to 4KB in size and contain
+  /// metadata. Metadata is arbitrary, and you can use it in a variety of ways,
+  /// such as containing a link to an attachment.
+  ///
+  /// <code>CONTROL</code> messages are limited to 30 bytes and do not contain
+  /// metadata.
   /// </note>
   ///
   /// May throw [BadRequestException].
@@ -2419,7 +2422,7 @@ class ChimeSdkMessaging {
   /// that makes the API call.
   ///
   /// Parameter [content] :
-  /// The content of the message.
+  /// The content of the channel message.
   ///
   /// Parameter [persistence] :
   /// Boolean that controls whether the message is persisted on the back end.
@@ -2427,6 +2430,13 @@ class ChimeSdkMessaging {
   ///
   /// Parameter [type] :
   /// The type of message, <code>STANDARD</code> or <code>CONTROL</code>.
+  ///
+  /// <code>STANDARD</code> messages can be up to 4KB in size and contain
+  /// metadata. Metadata is arbitrary, and you can use it in a variety of ways,
+  /// such as containing a link to an attachment.
+  ///
+  /// <code>CONTROL</code> messages are limited to 30 bytes and do not contain
+  /// metadata.
   ///
   /// Parameter [clientRequestToken] :
   /// The <code>Idempotency</code> token for each client request.
@@ -2447,6 +2457,13 @@ class ChimeSdkMessaging {
   ///
   /// Parameter [subChannelId] :
   /// The ID of the SubChannel in the request.
+  ///
+  /// Parameter [target] :
+  /// The target of a message. Must be a member of the channel, such as another
+  /// user, a bot, or the sender. Only the target and the sender can view
+  /// targeted messages. Only users who can see targeted messages can take
+  /// actions on them. However, administrators can delete targeted messages that
+  /// they can’t see.
   Future<SendChannelMessageResponse> sendChannelMessage({
     required String channelArn,
     required String chimeBearer,
@@ -2459,6 +2476,7 @@ class ChimeSdkMessaging {
     String? metadata,
     PushNotificationConfiguration? pushNotification,
     String? subChannelId,
+    List<Target>? target,
   }) async {
     final headers = <String, String>{
       'x-amz-chime-bearer': chimeBearer.toString(),
@@ -2473,6 +2491,7 @@ class ChimeSdkMessaging {
       if (metadata != null) 'Metadata': metadata,
       if (pushNotification != null) 'PushNotification': pushNotification,
       if (subChannelId != null) 'SubChannelId': subChannelId,
+      if (target != null) 'Target': target,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2663,7 +2682,7 @@ class ChimeSdkMessaging {
   /// that makes the API call.
   ///
   /// Parameter [content] :
-  /// The content of the message being updated.
+  /// The content of the channel message.
   ///
   /// Parameter [messageId] :
   /// The ID string of the message being updated.
@@ -3517,10 +3536,21 @@ class ChannelMessage {
   /// The ARN of the channel.
   final String? channelArn;
 
-  /// The message content.
+  /// The content of the channel message. For Amazon Lex V2 bot responses, this
+  /// field holds a list of messages originating from the bot. For more
+  /// information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final String? content;
 
-  /// The content type of the channel message.
+  /// The content type of the channel message. For Amazon Lex V2 bot responses,
+  /// the content type is <code>application/amz-chime-lex-msgs</code> for success
+  /// responses and <code>application/amz-chime-lex-error</code> for failure
+  /// responses. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final String? contentType;
 
   /// The time at which the message was created.
@@ -3532,9 +3562,12 @@ class ChannelMessage {
   /// The time at which a message was updated.
   final DateTime? lastUpdatedTimestamp;
 
-  /// The attributes for the message, used for message filtering along with a
-  /// <code>FilterRule</code> defined in the
-  /// <code>PushNotificationPreferences</code>.
+  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
+  /// attributes are mapped to specific fields from the bot. For more information,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final Map<String, MessageAttributeValue>? messageAttributes;
 
   /// The ID of a message.
@@ -3558,6 +3591,12 @@ class ChannelMessage {
   /// The ID of the SubChannel.
   final String? subChannelId;
 
+  /// The target of a message, a sender, a user, or a bot. Only the target and the
+  /// sender can view targeted messages. Only users who can see targeted messages
+  /// can take actions on them. However, administrators can delete targeted
+  /// messages that they can’t see.
+  final List<Target>? target;
+
   /// The message type.
   final ChannelMessageType? type;
 
@@ -3576,6 +3615,7 @@ class ChannelMessage {
     this.sender,
     this.status,
     this.subChannelId,
+    this.target,
     this.type,
   });
 
@@ -3603,6 +3643,10 @@ class ChannelMessage {
               json['Status'] as Map<String, dynamic>)
           : null,
       subChannelId: json['SubChannelId'] as String?,
+      target: (json['Target'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
       type: (json['Type'] as String?)?.toChannelMessageType(),
     );
   }
@@ -3622,6 +3666,7 @@ class ChannelMessage {
     final sender = this.sender;
     final status = this.status;
     final subChannelId = this.subChannelId;
+    final target = this.target;
     final type = this.type;
     return {
       if (channelArn != null) 'ChannelArn': channelArn,
@@ -3641,6 +3686,7 @@ class ChannelMessage {
       if (sender != null) 'Sender': sender,
       if (status != null) 'Status': status,
       if (subChannelId != null) 'SubChannelId': subChannelId,
+      if (target != null) 'Target': target,
       if (type != null) 'Type': type.toValue(),
     };
   }
@@ -3651,15 +3697,28 @@ class ChannelMessageCallback {
   /// The message ID.
   final String messageId;
 
-  /// The message content.
+  /// The message content. For Amazon Lex V2 bot responses, this field holds a
+  /// list of messages originating from the bot. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final String? content;
 
-  /// The content type of the call-back message.
+  /// The content type of the call-back message. For Amazon Lex V2 bot responses,
+  /// the content type is <code>application/amz-chime-lex-msgs</code> for success
+  /// responses and <code>application/amz-chime-lex-error</code> for failure
+  /// responses. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final String? contentType;
 
-  /// The attributes for the message, used for message filtering along with a
-  /// <code>FilterRule</code> defined in the
-  /// <code>PushNotificationPreferences</code>.
+  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
+  /// attributes are mapped to specific fields from the bot. For more information,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final Map<String, MessageAttributeValue>? messageAttributes;
 
   /// The message metadata.
@@ -3770,7 +3829,7 @@ extension ChannelMessageStatusFromString on String {
 
 /// Stores information about a message status.
 class ChannelMessageStatusStructure {
-  /// Contains more details about the messasge status.
+  /// Contains more details about the message status.
   final String? detail;
 
   /// The message status value.
@@ -3800,10 +3859,22 @@ class ChannelMessageStatusStructure {
 
 /// Summary of the messages in a <code>Channel</code>.
 class ChannelMessageSummary {
-  /// The content of the message.
+  /// The content of the channel message. For Amazon Lex V2 bot responses, this
+  /// field holds a list of messages originating from the bot. For more
+  /// information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final String? content;
 
-  /// The content type of the channel messsage listed in the summary.
+  /// The content type of the channel message listed in the summary. For Amazon
+  /// Lex V2 bot responses, the content type is
+  /// <code>application/amz-chime-lex-msgs</code> for success responses and
+  /// <code>application/amz-chime-lex-error</code> for failure responses. For more
+  /// information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final String? contentType;
 
   /// The time at which the message summary was created.
@@ -3815,7 +3886,12 @@ class ChannelMessageSummary {
   /// The time at which a message was last updated.
   final DateTime? lastUpdatedTimestamp;
 
-  /// The message attribues listed in a the summary of a channel message.
+  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
+  /// attributes are mapped to specific fields from the bot. For more information,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
   final Map<String, MessageAttributeValue>? messageAttributes;
 
   /// The ID of the message.
@@ -3835,6 +3911,12 @@ class ChannelMessageSummary {
   /// flow, the value determines the processing stage.
   final ChannelMessageStatusStructure? status;
 
+  /// The target of a message, a sender, a user, or a bot. Only the target and the
+  /// sender can view targeted messages. Only users who can see targeted messages
+  /// can take actions on them. However, administrators can delete targeted
+  /// messages that they can’t see.
+  final List<Target>? target;
+
   /// The type of message.
   final ChannelMessageType? type;
 
@@ -3850,6 +3932,7 @@ class ChannelMessageSummary {
     this.redacted,
     this.sender,
     this.status,
+    this.target,
     this.type,
   });
 
@@ -3873,6 +3956,10 @@ class ChannelMessageSummary {
           ? ChannelMessageStatusStructure.fromJson(
               json['Status'] as Map<String, dynamic>)
           : null,
+      target: (json['Target'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
       type: (json['Type'] as String?)?.toChannelMessageType(),
     );
   }
@@ -3889,6 +3976,7 @@ class ChannelMessageSummary {
     final redacted = this.redacted;
     final sender = this.sender;
     final status = this.status;
+    final target = this.target;
     final type = this.type;
     return {
       if (content != null) 'Content': content,
@@ -3905,6 +3993,7 @@ class ChannelMessageSummary {
       if (redacted != null) 'Redacted': redacted,
       if (sender != null) 'Sender': sender,
       if (status != null) 'Status': status,
+      if (target != null) 'Target': target,
       if (type != null) 'Type': type.toValue(),
     };
   }
@@ -4100,7 +4189,8 @@ class ChannelSummary {
   /// The ARN of the channel.
   final String? channelArn;
 
-  /// The time at which the last persistent message in a channel was sent.
+  /// The time at which the last persistent message visible to the caller in a
+  /// channel was sent.
   final DateTime? lastMessageTimestamp;
 
   /// The metadata of the channel.
@@ -6009,6 +6099,32 @@ class Tag {
     return {
       'Key': key,
       'Value': value,
+    };
+  }
+}
+
+/// The target of a message, a sender, a user, or a bot. Only the target and the
+/// sender can view targeted messages. Only users who can see targeted messages
+/// can take actions on them. However, administrators can delete targeted
+/// messages that they can’t see.
+class Target {
+  /// The ARN of the target channel member.
+  final String? memberArn;
+
+  Target({
+    this.memberArn,
+  });
+
+  factory Target.fromJson(Map<String, dynamic> json) {
+    return Target(
+      memberArn: json['MemberArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberArn = this.memberArn;
+    return {
+      if (memberArn != null) 'MemberArn': memberArn,
     };
   }
 }

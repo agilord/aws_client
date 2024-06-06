@@ -2958,7 +2958,7 @@ class DirectConnect {
   /// support jumbo frames. Updating the connection disrupts network
   /// connectivity for all virtual interfaces associated with the connection for
   /// up to 30 seconds. To check whether your connection supports jumbo frames,
-  /// call <a>DescribeConnections</a>. To check whether your virtual q interface
+  /// call <a>DescribeConnections</a>. To check whether your virtual interface
   /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
   ///
   /// May throw [DirectConnectServerException].
@@ -3725,7 +3725,7 @@ class Connection {
   /// address family (IPv4/IPv6).
   final HasLogicalRedundancy? hasLogicalRedundancy;
 
-  /// Indicates whether jumbo frames (9001 MTU) are supported.
+  /// Indicates whether jumbo frames are supported.
   final bool? jumboFrameCapable;
 
   /// The ID of the LAG.
@@ -5442,7 +5442,7 @@ class Interconnect {
   /// </ul>
   final InterconnectState? interconnectState;
 
-  /// Indicates whether jumbo frames (9001 MTU) are supported.
+  /// Indicates whether jumbo frames are supported.
   final bool? jumboFrameCapable;
 
   /// The ID of the LAG.
@@ -5656,7 +5656,7 @@ class Lag {
   /// family (IPv4/IPv6).
   final HasLogicalRedundancy? hasLogicalRedundancy;
 
-  /// Indicates whether jumbo frames (9001 MTU) are supported.
+  /// Indicates whether jumbo frames are supported.
   final bool? jumboFrameCapable;
 
   /// The ID of the LAG.
@@ -7112,7 +7112,7 @@ class VirtualInterface {
   /// The ID of the Direct Connect gateway.
   final String? directConnectGatewayId;
 
-  /// Indicates whether jumbo frames (9001 MTU) are supported.
+  /// Indicates whether jumbo frames are supported.
   final bool? jumboFrameCapable;
 
   /// The location of the connection.

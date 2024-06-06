@@ -19,8 +19,13 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Comprehend Medical; extracts structured information from unstructured
-/// clinical text. Use these actions to gain insight in your documents.
+/// Amazon Comprehend Medical extracts structured information from unstructured
+/// clinical text. Use these actions to gain insight in your documents. Amazon
+/// Comprehend Medical only detects entities in English language texts. Amazon
+/// Comprehend Medical places limits on the sizes of files allowed for different
+/// API operations. To learn more, see <a
+/// href="https://docs.aws.amazon.com/comprehend-medical/latest/dev/comprehendmedical-quotas.html">Guidelines
+/// and quotas</a> in the <i>Amazon Comprehend Medical Developer Guide</i>.
 class ComprehendMedical {
   final _s.JsonProtocol _protocol;
   ComprehendMedical({
@@ -59,7 +64,7 @@ class ComprehendMedical {
   /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
-  /// The identifier that Comprehend Medical; generated for the job. The
+  /// The identifier that Amazon Comprehend Medical generated for the job. The
   /// <code>StartEntitiesDetectionV2Job</code> operation returns this identifier
   /// in its response.
   Future<DescribeEntitiesDetectionV2JobResponse>
@@ -127,7 +132,7 @@ class ComprehendMedical {
   /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
-  /// The identifier that Comprehend Medical; generated for the job. The
+  /// The identifier that Amazon Comprehend Medical generated for the job. The
   /// <code>StartPHIDetectionJob</code> operation returns this identifier in its
   /// response.
   Future<DescribePHIDetectionJobResponse> describePHIDetectionJob({
@@ -221,7 +226,7 @@ class ComprehendMedical {
   ///
   /// Inspects the clinical text for a variety of medical entities and returns
   /// specific information about them such as entity category, location, and
-  /// confidence score on that information .
+  /// confidence score on that information.
   ///
   /// May throw [InternalServerException].
   /// May throw [ServiceUnavailableException].
@@ -232,7 +237,7 @@ class ComprehendMedical {
   ///
   /// Parameter [text] :
   /// A UTF-8 text string containing the clinical content being examined for
-  /// entities. Each string must contain fewer than 20,000 bytes of characters.
+  /// entities.
   @Deprecated('This operation is deprecated, use DetectEntitiesV2 instead.')
   Future<DetectEntitiesResponse> detectEntities({
     required String text,
@@ -279,7 +284,7 @@ class ComprehendMedical {
   ///
   /// Parameter [text] :
   /// A UTF-8 string containing the clinical content being examined for
-  /// entities. Each string must contain fewer than 20,000 bytes of characters.
+  /// entities.
   Future<DetectEntitiesV2Response> detectEntitiesV2({
     required String text,
   }) async {
@@ -315,7 +320,7 @@ class ComprehendMedical {
   ///
   /// Parameter [text] :
   /// A UTF-8 text string containing the clinical content being examined for PHI
-  /// entities. Each string must contain fewer than 20,000 bytes of characters.
+  /// entities.
   Future<DetectPHIResponse> detectPHI({
     required String text,
   }) async {
@@ -351,8 +356,7 @@ class ComprehendMedical {
   /// May throw [TextSizeLimitExceededException].
   ///
   /// Parameter [text] :
-  /// The input text used for analysis. The input for InferICD10CM is a string
-  /// from 1 to 10000 characters.
+  /// The input text used for analysis.
   Future<InferICD10CMResponse> inferICD10CM({
     required String text,
   }) async {
@@ -387,8 +391,7 @@ class ComprehendMedical {
   /// May throw [TextSizeLimitExceededException].
   ///
   /// Parameter [text] :
-  /// The input text used for analysis. The input for InferRxNorm is a string
-  /// from 1 to 10000 characters.
+  /// The input text used for analysis.
   Future<InferRxNormResponse> inferRxNorm({
     required String text,
   }) async {
@@ -422,8 +425,7 @@ class ComprehendMedical {
   /// May throw [TextSizeLimitExceededException].
   ///
   /// Parameter [text] :
-  /// The input text to be analyzed using InferSNOMEDCT. The text should be a
-  /// string with 1 to 10000 characters.
+  /// The input text to be analyzed using InferSNOMEDCT.
   Future<InferSNOMEDCTResponse> inferSNOMEDCT({
     required String text,
   }) async {
@@ -541,8 +543,8 @@ class ComprehendMedical {
     return ListICD10CMInferenceJobsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of protected health information (PHI) detection jobs that you
-  /// have submitted.
+  /// Gets a list of protected health information (PHI) detection jobs you have
+  /// submitted.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ValidationException].
@@ -692,10 +694,10 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Comprehend Medical; read access to your input data.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
-  /// Role-Based Permissions Required for Asynchronous Operations</a>.
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">Role-Based
+  /// Permissions Required for Asynchronous Operations</a>.
   ///
   /// Parameter [inputDataConfig] :
   /// The input configuration that specifies the format and location of the
@@ -703,14 +705,14 @@ class ComprehendMedical {
   ///
   /// Parameter [languageCode] :
   /// The language of the input documents. All documents must be in the same
-  /// language. Comprehend Medical; processes files in US English (en).
+  /// language. Amazon Comprehend Medical processes files in US English (en).
   ///
   /// Parameter [outputDataConfig] :
   /// The output configuration that specifies where to send the output files.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Comprehend Medical; generates one for you.
+  /// token, Amazon Comprehend Medical generates one for you.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -763,8 +765,8 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Comprehend Medical; read access to your input data.
-  /// For more information, see <a
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
   /// Role-Based Permissions Required for Asynchronous Operations</a>.
   ///
@@ -780,7 +782,7 @@ class ComprehendMedical {
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Comprehend Medical; generates one.
+  /// token, Amazon Comprehend Medical generates one.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -833,8 +835,8 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Comprehend Medical; read access to your input data.
-  /// For more information, see <a
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
   /// Role-Based Permissions Required for Asynchronous Operations</a>.
   ///
@@ -850,7 +852,7 @@ class ComprehendMedical {
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Comprehend Medical; generates one.
+  /// token, Amazon Comprehend Medical generates one.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -903,8 +905,8 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Comprehend Medical; read access to your input data.
-  /// For more information, see <a
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
   /// Role-Based Permissions Required for Asynchronous Operations</a>.
   ///
@@ -920,7 +922,7 @@ class ComprehendMedical {
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Comprehend Medical; generates one.
+  /// token, Amazon Comprehend Medical generates one.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -1192,8 +1194,8 @@ class Attribute {
   /// identifier.
   final int? id;
 
-  /// The level of confidence that Comprehend Medical; has that this attribute is
-  /// correctly related to this entity.
+  /// The level of confidence that Amazon Comprehend Medical has that this
+  /// attribute is correctly related to this entity.
   final double? relationshipScore;
 
   /// The type of relationship between the entity and attribute. Type for the
@@ -1201,8 +1203,8 @@ class Attribute {
   /// the same time as the <code>Date_Expression</code>.
   final RelationshipType? relationshipType;
 
-  /// The level of confidence that Comprehend Medical; has that the segment of
-  /// text is correctly recognized as an attribute.
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as an attribute.
   final double? score;
 
   /// The segment of input text extracted as this attribute.
@@ -1313,7 +1315,7 @@ extension AttributeNameFromString on String {
 /// The number of characters in the input text to be analyzed.
 class Characters {
   /// The number of characters present in the input text document as processed by
-  /// Comprehend Medical.
+  /// Amazon Comprehend Medical.
   final int? originalTextCharacters;
 
   Characters({
@@ -1371,8 +1373,8 @@ class ComprehendMedicalAsyncJobFilter {
 
 /// Provides information about a detection job.
 class ComprehendMedicalAsyncJobProperties {
-  /// The Amazon Resource Name (ARN) that gives Comprehend Medical; read access to
-  /// your input data.
+  /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read
+  /// access to your input data.
   final String? dataAccessRoleArn;
 
   /// The time that the detection job completed.
@@ -1581,7 +1583,7 @@ class DetectEntitiesResponse {
   /// The collection of medical entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
   /// text, the entity category, where the entity text begins and ends, and the
-  /// level of confidence that Comprehend Medical; has in the detection and
+  /// level of confidence that Amazon Comprehend Medical has in the detection and
   /// analysis. Attributes and traits of the entity are also returned.
   final List<Entity> entities;
 
@@ -1670,7 +1672,7 @@ class DetectPHIResponse {
   /// The collection of PHI entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
   /// text, the entity category, where the entity text begins and ends, and the
-  /// level of confidence that Comprehend Medical; has in its detection.
+  /// level of confidence that Amazon Comprehend Medical has in its detection.
   final List<Entity> entities;
 
   /// The version of the model used to analyze the documents. The version number
@@ -1721,8 +1723,8 @@ class Entity {
   /// unique within this response rather than a global unique identifier.
   final int? id;
 
-  /// The level of confidence that Comprehend Medical; has in the accuracy of the
-  /// detection.
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of the detection.
   final double? score;
 
   /// The segment of input text extracted as this entity.
@@ -2366,6 +2368,7 @@ extension ICD10CMEntityTypeFromString on String {
 enum ICD10CMRelationshipType {
   overlap,
   systemOrganSite,
+  quality,
 }
 
 extension ICD10CMRelationshipTypeValueExtension on ICD10CMRelationshipType {
@@ -2375,6 +2378,8 @@ extension ICD10CMRelationshipTypeValueExtension on ICD10CMRelationshipType {
         return 'OVERLAP';
       case ICD10CMRelationshipType.systemOrganSite:
         return 'SYSTEM_ORGAN_SITE';
+      case ICD10CMRelationshipType.quality:
+        return 'QUALITY';
     }
   }
 }
@@ -2386,6 +2391,8 @@ extension ICD10CMRelationshipTypeFromString on String {
         return ICD10CMRelationshipType.overlap;
       case 'SYSTEM_ORGAN_SITE':
         return ICD10CMRelationshipType.systemOrganSite;
+      case 'QUALITY':
+        return ICD10CMRelationshipType.quality;
     }
     throw Exception('$this is not known in enum ICD10CMRelationshipType');
   }
@@ -2398,8 +2405,8 @@ class ICD10CMTrait {
   /// Provides a name or contextual description about the trait.
   final ICD10CMTraitName? name;
 
-  /// The level of confidence that Comprehend Medical; has that the segment of
-  /// text is correctly recognized as a trait.
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as a trait.
   final double? score;
 
   ICD10CMTrait({
@@ -2540,8 +2547,8 @@ class InferSNOMEDCTResponse {
   /// The collection of medical concept entities extracted from the input text and
   /// their associated information. For each entity, the response provides the
   /// entity text, the entity category, where the entity text begins and ends, and
-  /// the level of confidence that Comprehend Medical has in the detection and
-  /// analysis. Attributes and traits of the entity are also returned.
+  /// the level of confidence that Amazon Comprehend Medical has in the detection
+  /// and analysis. Attributes and traits of the entity are also returned.
   final List<SNOMEDCTEntity> entities;
 
   /// The number of characters in the input request documentation.
@@ -2592,9 +2599,6 @@ class InferSNOMEDCTResponse {
 class InputDataConfig {
   /// The URI of the S3 bucket that contains the input data. The bucket must be in
   /// the same region as the API endpoint that you are calling.
-  ///
-  /// Each file in the document collection must be less than 40 KB. You can store
-  /// a maximum of 30 GB in the bucket.
   final String s3Bucket;
 
   /// The path to the input data files in the S3 bucket.
@@ -2839,9 +2843,9 @@ class OutputDataConfig {
   /// the output.
   final String s3Bucket;
 
-  /// The path to the output data files in the S3 bucket. Comprehend Medical;
-  /// creates an output directory using the job ID so that the output from one job
-  /// does not overwrite the output of another.
+  /// The path to the output data files in the S3 bucket. Amazon Comprehend
+  /// Medical creates an output directory using the job ID so that the output from
+  /// one job does not overwrite the output of another.
   final String? s3Key;
 
   OutputDataConfig({
@@ -2887,6 +2891,8 @@ enum RelationshipType {
   direction,
   systemOrganSite,
   amount,
+  usage,
+  quality,
 }
 
 extension RelationshipTypeValueExtension on RelationshipType {
@@ -2932,6 +2938,10 @@ extension RelationshipTypeValueExtension on RelationshipType {
         return 'SYSTEM_ORGAN_SITE';
       case RelationshipType.amount:
         return 'AMOUNT';
+      case RelationshipType.usage:
+        return 'USAGE';
+      case RelationshipType.quality:
+        return 'QUALITY';
     }
   }
 }
@@ -2979,6 +2989,10 @@ extension RelationshipTypeFromString on String {
         return RelationshipType.systemOrganSite;
       case 'AMOUNT':
         return RelationshipType.amount;
+      case 'USAGE':
+        return RelationshipType.usage;
+      case 'QUALITY':
+        return RelationshipType.quality;
     }
     throw Exception('$this is not known in enum RelationshipType');
   }
@@ -3006,8 +3020,8 @@ class RxNormAttribute {
   /// attribute is accurately linked to an entity.
   final double? relationshipScore;
 
-  /// The level of confidence that Comprehend Medical has that the segment of text
-  /// is correctly recognized as an attribute.
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as an attribute.
   final double? score;
 
   /// The segment of input text which corresponds to the detected attribute.
@@ -3292,6 +3306,7 @@ class RxNormTrait {
 
 enum RxNormTraitName {
   negation,
+  pastHistory,
 }
 
 extension RxNormTraitNameValueExtension on RxNormTraitName {
@@ -3299,6 +3314,8 @@ extension RxNormTraitNameValueExtension on RxNormTraitName {
     switch (this) {
       case RxNormTraitName.negation:
         return 'NEGATION';
+      case RxNormTraitName.pastHistory:
+        return 'PAST_HISTORY';
     }
   }
 }
@@ -3308,6 +3325,8 @@ extension RxNormTraitNameFromString on String {
     switch (this) {
       case 'NEGATION':
         return RxNormTraitName.negation;
+      case 'PAST_HISTORY':
+        return RxNormTraitName.pastHistory;
     }
     throw Exception('$this is not known in enum RxNormTraitName');
   }
@@ -3334,8 +3353,8 @@ class SNOMEDCTAttribute {
   /// identifier.
   final int? id;
 
-  /// The level of confidence that Comprehend Medical has that this attribute is
-  /// correctly related to this entity.
+  /// The level of confidence that Amazon Comprehend Medical has that this
+  /// attribute is correctly related to this entity.
   final double? relationshipScore;
 
   /// The type of relationship that exists between the entity and the related
@@ -3346,8 +3365,8 @@ class SNOMEDCTAttribute {
   /// indicating the likelihood of the match.
   final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
 
-  /// The level of confidence that Comprehend Medical has that the segment of text
-  /// is correctly recognized as an attribute.
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as an attribute.
   final double? score;
 
   /// The segment of input text extracted as this attribute.
@@ -3457,8 +3476,8 @@ class SNOMEDCTConcept {
   /// The description of the SNOMED-CT concept.
   final String? description;
 
-  /// The level of confidence Comprehend Medical has that the entity should be
-  /// linked to the identified SNOMED-CT concept.
+  /// The level of confidence Amazon Comprehend Medical has that the entity should
+  /// be linked to the identified SNOMED-CT concept.
   final double? score;
 
   SNOMEDCTConcept({
@@ -3509,7 +3528,7 @@ class SNOMEDCTDetails {
 /// The collection of medical entities extracted from the input text and their
 /// associated information. For each entity, the response provides the entity
 /// text, the entity category, where the entity text begins and ends, and the
-/// level of confidence that Comprehend Medical has in the detection and
+/// level of confidence that Amazon Comprehend Medical has in the detection and
 /// analysis. Attributes and traits of the entity are also returned.
 class SNOMEDCTEntity {
   /// An extracted segment of the text that is an attribute of an entity, or
@@ -3536,8 +3555,8 @@ class SNOMEDCTEntity {
   /// indicating the likelihood of the match.
   final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
 
-  /// The level of confidence that Comprehend Medical has in the accuracy of the
-  /// detected entity.
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of the detected entity.
   final double? score;
 
   /// The segment of input text extracted as this entity.
@@ -3667,6 +3686,7 @@ enum SNOMEDCTRelationshipType {
   testUnits,
   direction,
   systemOrganSite,
+  testUnit,
 }
 
 extension SNOMEDCTRelationshipTypeValueExtension on SNOMEDCTRelationshipType {
@@ -3684,6 +3704,8 @@ extension SNOMEDCTRelationshipTypeValueExtension on SNOMEDCTRelationshipType {
         return 'DIRECTION';
       case SNOMEDCTRelationshipType.systemOrganSite:
         return 'SYSTEM_ORGAN_SITE';
+      case SNOMEDCTRelationshipType.testUnit:
+        return 'TEST_UNIT';
     }
   }
 }
@@ -3703,6 +3725,8 @@ extension SNOMEDCTRelationshipTypeFromString on String {
         return SNOMEDCTRelationshipType.direction;
       case 'SYSTEM_ORGAN_SITE':
         return SNOMEDCTRelationshipType.systemOrganSite;
+      case 'TEST_UNIT':
+        return SNOMEDCTRelationshipType.testUnit;
     }
     throw Exception('$this is not known in enum SNOMEDCTRelationshipType');
   }
@@ -3713,8 +3737,8 @@ class SNOMEDCTTrait {
   /// The name or contextual description of a detected trait.
   final SNOMEDCTTraitName? name;
 
-  /// The level of confidence that Comprehend Medical has in the accuracy of a
-  /// detected trait.
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of a detected trait.
   final double? score;
 
   SNOMEDCTTrait({
@@ -3958,8 +3982,8 @@ class Trait {
   /// Provides a name or contextual description about the trait.
   final AttributeName? name;
 
-  /// The level of confidence that Comprehend Medical; has in the accuracy of this
-  /// trait.
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of this trait.
   final double? score;
 
   Trait({
@@ -3975,7 +3999,7 @@ class Trait {
   }
 }
 
-/// An attribute that was extracted, but Comprehend Medical; was unable to
+/// An attribute that was extracted, but Amazon Comprehend Medical was unable to
 /// relate to an entity.
 class UnmappedAttribute {
   /// The specific attribute that has been extracted but not mapped to an entity.

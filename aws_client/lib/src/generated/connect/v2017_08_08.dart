@@ -115,6 +115,50 @@ class Connect {
   /// This API is in preview release for Amazon Connect and is subject to
   /// change.
   ///
+  /// Associates the specified dataset for a Amazon Connect instance with the
+  /// target account. You can associate only one dataset in a single call.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [dataSetId] :
+  /// The identifier of the dataset to associate with the target account.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [targetAccountId] :
+  /// The identifier of the target account. Use to associate a dataset to a
+  /// different account than the one containing the Amazon Connect instance. If
+  /// not specified, by default this value is the Amazon Web Services account
+  /// that has the Amazon Connect instance.
+  Future<AssociateAnalyticsDataSetResponse> associateAnalyticsDataSet({
+    required String dataSetId,
+    required String instanceId,
+    String? targetAccountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DataSetId': dataSetId,
+      if (targetAccountId != null) 'TargetAccountId': targetAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/analytics-data/instance/${Uri.encodeComponent(instanceId)}/association',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AssociateAnalyticsDataSetResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
   /// Associates an approved origin to an Amazon Connect instance.
   ///
   /// May throw [ResourceNotFoundException].
@@ -227,6 +271,47 @@ class Connect {
     );
   }
 
+  /// Associates a connect resource to a flow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [flowId] :
+  /// The identifier of the flow.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [resourceId] :
+  /// The identifier of the resource.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  Future<void> associateFlow({
+    required String flowId,
+    required String instanceId,
+    required String resourceId,
+    required FlowAssociationResourceType resourceType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'FlowId': flowId,
+      'ResourceId': resourceId,
+      'ResourceType': resourceType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/flow-associations/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// This API is in preview release for Amazon Connect and is subject to
   /// change.
   ///
@@ -253,7 +338,30 @@ class Connect {
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
   ///
   /// Parameter [resourceType] :
-  /// A valid resource type.
+  /// A valid resource type. To <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/enable-contact-analysis-segment-streams.html">enable
+  /// streaming for real-time analysis of contacts</a>, use the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// For chat contacts, use
+  /// <code>REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS</code>.
+  /// </li>
+  /// <li>
+  /// For voice contacts, use
+  /// <code>REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS</code>.
+  /// </li>
+  /// </ul> <note>
+  /// <code>REAL_TIME_CONTACT_ANALYSIS_SEGMENTS</code> is deprecated, but it is
+  /// still supported and will apply only to VOICE channel contacts. Use
+  /// <code>REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS</code> for voice contacts
+  /// moving forward.
+  ///
+  /// If you have previously associated a stream with
+  /// <code>REAL_TIME_CONTACT_ANALYSIS_SEGMENTS</code>, no action is needed to
+  /// update the stream to
+  /// <code>REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS</code>.
+  /// </note>
   ///
   /// Parameter [storageConfig] :
   /// A valid storage type.
@@ -510,6 +618,304 @@ class Connect {
     return AssociateSecurityKeyResponse.fromJson(response);
   }
 
+  /// Associates an agent with a traffic distribution group.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [trafficDistributionGroupId] :
+  /// The identifier of the traffic distribution group. This can be the ID or
+  /// the ARN if the API is being called in the Region where the traffic
+  /// distribution group was created. The ARN must be provided if the call is
+  /// from the replicated Region.
+  ///
+  /// Parameter [userId] :
+  /// The identifier of the user account. This can be the ID or the ARN of the
+  /// user.
+  Future<void> associateTrafficDistributionGroupUser({
+    required String instanceId,
+    required String trafficDistributionGroupId,
+    required String userId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      'UserId': userId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/traffic-distribution-group/${Uri.encodeComponent(trafficDistributionGroupId)}/user',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// &gt;Associates a set of proficiencies with a user.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN of the instance).
+  ///
+  /// Parameter [userId] :
+  /// The identifier of the user account.
+  ///
+  /// Parameter [userProficiencies] :
+  /// The proficiencies to associate with the user.
+  Future<void> associateUserProficiencies({
+    required String instanceId,
+    required String userId,
+    required List<UserProficiency> userProficiencies,
+  }) async {
+    final $payload = <String, dynamic>{
+      'UserProficiencies': userProficiencies,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/associate-proficiencies',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Associates a list of analytics datasets for a given Amazon Connect
+  /// instance to a target account. You can associate multiple datasets in a
+  /// single call.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [dataSetIds] :
+  /// An array of dataset identifiers to associate.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [targetAccountId] :
+  /// The identifier of the target account. Use to associate a dataset to a
+  /// different account than the one containing the Amazon Connect instance. If
+  /// not specified, by default this value is the Amazon Web Services account
+  /// that has the Amazon Connect instance.
+  Future<BatchAssociateAnalyticsDataSetResponse>
+      batchAssociateAnalyticsDataSet({
+    required List<String> dataSetIds,
+    required String instanceId,
+    String? targetAccountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DataSetIds': dataSetIds,
+      if (targetAccountId != null) 'TargetAccountId': targetAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/analytics-data/instance/${Uri.encodeComponent(instanceId)}/associations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchAssociateAnalyticsDataSetResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Removes a list of analytics datasets associated with a given Amazon
+  /// Connect instance. You can disassociate multiple datasets in a single call.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [dataSetIds] :
+  /// An array of associated dataset identifiers to remove.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [targetAccountId] :
+  /// The identifier of the target account. Use to disassociate a dataset from a
+  /// different account than the one containing the Amazon Connect instance. If
+  /// not specified, by default this value is the Amazon Web Services account
+  /// that has the Amazon Connect instance.
+  Future<BatchDisassociateAnalyticsDataSetResponse>
+      batchDisassociateAnalyticsDataSet({
+    required List<String> dataSetIds,
+    required String instanceId,
+    String? targetAccountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DataSetIds': dataSetIds,
+      if (targetAccountId != null) 'TargetAccountId': targetAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/analytics-data/instance/${Uri.encodeComponent(instanceId)}/associations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDisassociateAnalyticsDataSetResponse.fromJson(response);
+  }
+
+  /// Allows you to retrieve metadata about multiple attached files on an
+  /// associated resource. Each attached file provided in the input list must be
+  /// associated with the input AssociatedResourceArn.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associatedResourceArn] :
+  /// The resource to which the attached file is (being) uploaded to. <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
+  /// are the only current supported resource.
+  /// <note>
+  /// This value must be a valid ARN.
+  /// </note>
+  ///
+  /// Parameter [fileIds] :
+  /// The unique identifiers of the attached file resource.
+  ///
+  /// Parameter [instanceId] :
+  /// The unique identifier of the Connect instance.
+  Future<BatchGetAttachedFileMetadataResponse> batchGetAttachedFileMetadata({
+    required String associatedResourceArn,
+    required List<String> fileIds,
+    required String instanceId,
+  }) async {
+    final $query = <String, List<String>>{
+      'associatedResourceArn': [associatedResourceArn],
+    };
+    final $payload = <String, dynamic>{
+      'FileIds': fileIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/attached-files/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetAttachedFileMetadataResponse.fromJson(response);
+  }
+
+  /// Retrieve the flow associations for the given resources.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [resourceIds] :
+  /// A list of resource identifiers to retrieve flow associations.
+  ///
+  /// Parameter [resourceType] :
+  /// The type of resource association.
+  Future<BatchGetFlowAssociationResponse> batchGetFlowAssociation({
+    required String instanceId,
+    required List<String> resourceIds,
+    ListFlowAssociationResourceType? resourceType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ResourceIds': resourceIds,
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/flow-associations-batch/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetFlowAssociationResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// Only the Amazon Connect outbound campaigns service principal is allowed to
+  /// assume a role in your account and call this API.
+  /// </note>
+  /// Allows you to create a batch of contacts in Amazon Connect. The outbound
+  /// campaigns capability ingests dial requests via the <a
+  /// href="https://docs.aws.amazon.com/connect-outbound/latest/APIReference/API_PutDialRequestBatch.html">PutDialRequestBatch</a>
+  /// API. It then uses BatchPutContact to create contacts corresponding to
+  /// those dial requests. If agents are available, the dial requests are dialed
+  /// out, which results in a voice call. The resulting voice call uses the same
+  /// contactId that was created by BatchPutContact.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [IdempotencyException].
+  ///
+  /// Parameter [contactDataRequestList] :
+  /// List of individual contact requests.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  Future<BatchPutContactResponse> batchPutContact({
+    required List<ContactDataRequest> contactDataRequestList,
+    required String instanceId,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactDataRequestList': contactDataRequestList,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/contact/batch/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchPutContactResponse.fromJson(response);
+  }
+
   /// Claims an available phone number to your Amazon Connect instance or
   /// traffic distribution group. You can call this API only in the same Amazon
   /// Web Services Region where the Amazon Connect instance or traffic
@@ -530,6 +936,22 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html">ClaimPhoneNumber</a>
   /// operation.
   /// </important>
+  /// If you plan to claim and release numbers frequently, contact us for a
+  /// service quota exception. Otherwise, it is possible you will be blocked
+  /// from claiming and releasing any more numbers until up to 180 days past the
+  /// oldest number released has expired.
+  ///
+  /// By default you can claim and release up to 200% of your maximum number of
+  /// active phone numbers. If you claim and release phone numbers using the UI
+  /// or API during a rolling 180 day cycle that exceeds 200% of your phone
+  /// number service level quota, you will be blocked from claiming any more
+  /// numbers until 180 days past the oldest number released has expired.
+  ///
+  /// For example, if you already have 99 claimed numbers and a service level
+  /// quota of 99 phone numbers, and in any 180 day period you release 99, claim
+  /// 99, and then release 99, you will have exceeded the 200% limit. At that
+  /// point you are blocked from claiming any more numbers until you open an
+  /// Amazon Web Services support ticket.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -542,10 +964,6 @@ class Connect {
   /// The phone number you want to claim. Phone numbers are formatted <code>[+]
   /// [country code] [subscriber number including area code]</code>.
   ///
-  /// Parameter [targetArn] :
-  /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
-  /// distribution groups that phone numbers are claimed to.
-  ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. If not provided, the Amazon Web Services SDK
@@ -556,26 +974,40 @@ class Connect {
   /// Pattern:
   /// <code>^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</code>
   ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance that phone numbers are
+  /// claimed to. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance. You
+  /// must enter <code>InstanceId</code> or <code>TargetArn</code>.
+  ///
   /// Parameter [phoneNumberDescription] :
   /// The description of the phone number.
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+  ///
+  /// Parameter [targetArn] :
+  /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
+  /// distribution groups that phone number inbound traffic is routed through.
+  /// You must enter <code>InstanceId</code> or <code>TargetArn</code>.
   Future<ClaimPhoneNumberResponse> claimPhoneNumber({
     required String phoneNumber,
-    required String targetArn,
     String? clientToken,
+    String? instanceId,
     String? phoneNumberDescription,
     Map<String, String>? tags,
+    String? targetArn,
   }) async {
     final $payload = <String, dynamic>{
       'PhoneNumber': phoneNumber,
-      'TargetArn': targetArn,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (instanceId != null) 'InstanceId': instanceId,
       if (phoneNumberDescription != null)
         'PhoneNumberDescription': phoneNumberDescription,
       if (tags != null) 'Tags': tags,
+      if (targetArn != null) 'TargetArn': targetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -584,6 +1016,46 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ClaimPhoneNumberResponse.fromJson(response);
+  }
+
+  /// Allows you to confirm that the attached file has been uploaded using the
+  /// pre-signed URL provided in the StartAttachedFileUpload API.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associatedResourceArn] :
+  /// The resource to which the attached file is (being) uploaded to. <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
+  /// are the only current supported resource.
+  /// <note>
+  /// This value must be a valid ARN.
+  /// </note>
+  ///
+  /// Parameter [fileId] :
+  /// The unique identifier of the attached file resource.
+  ///
+  /// Parameter [instanceId] :
+  /// The unique identifier of the Connect instance.
+  Future<void> completeAttachedFileUpload({
+    required String associatedResourceArn,
+    required String fileId,
+    required String instanceId,
+  }) async {
+    final $query = <String, List<String>>{
+      'associatedResourceArn': [associatedResourceArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/attached-files/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(fileId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -618,7 +1090,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateAgentStatusResponse> createAgentStatus({
     required String instanceId,
     required String name,
@@ -665,7 +1137,12 @@ class Connect {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [content] :
-  /// The content of the flow.
+  /// The JSON string that represents the content of the flow. For an example,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html">Example
+  /// flow in Amazon Connect Flow language</a>.
+  ///
+  /// Length Constraints: Minimum length of 1. Maximum length of 256000.
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
@@ -681,15 +1158,22 @@ class Connect {
   /// Parameter [description] :
   /// The description of the flow.
   ///
+  /// Parameter [status] :
+  /// Indicates the flow status as either <code>SAVED</code> or
+  /// <code>PUBLISHED</code>. The <code>PUBLISHED</code> status will initiate
+  /// validation on the content. the <code>SAVED</code> status does not initiate
+  /// validation of the content. <code>SAVED</code> | <code>PUBLISHED</code>.
+  ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateContactFlowResponse> createContactFlow({
     required String content,
     required String instanceId,
     required String name,
     required ContactFlowType type,
     String? description,
+    ContactFlowStatus? status,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -697,6 +1181,7 @@ class Connect {
       'Name': name,
       'Type': type.toValue(),
       if (description != null) 'Description': description,
+      if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -722,7 +1207,10 @@ class Connect {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [content] :
-  /// The content of the flow module.
+  /// The JSON string that represents the content of the flow. For an example,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html">Example
+  /// flow in Amazon Connect Flow language</a>.
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance. You can <a
@@ -744,7 +1232,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateContactFlowModuleResponse> createContactFlowModule({
     required String content,
     required String instanceId,
@@ -863,7 +1351,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateHoursOfOperationResponse> createHoursOfOperation({
     required List<HoursOfOperationConfig> config,
     required String instanceId,
@@ -925,6 +1413,10 @@ class Connect {
   ///
   /// Parameter [instanceAlias] :
   /// The name for your instance.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, <code>{ "tags": {"key1":"value1", "key2":"value2"} }</code>.
   Future<CreateInstanceResponse> createInstance({
     required DirectoryType identityManagementType,
     required bool inboundCallsEnabled,
@@ -932,6 +1424,7 @@ class Connect {
     String? clientToken,
     String? directoryId,
     String? instanceAlias,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'IdentityManagementType': identityManagementType.toValue(),
@@ -940,6 +1433,7 @@ class Connect {
       if (clientToken != null) 'ClientToken': clientToken,
       if (directoryId != null) 'DirectoryId': directoryId,
       if (instanceAlias != null) 'InstanceAlias': instanceAlias,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -988,7 +1482,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateIntegrationAssociationResponse> createIntegrationAssociation({
     required String instanceId,
     required String integrationArn,
@@ -1074,10 +1568,191 @@ class Connect {
     return CreateParticipantResponse.fromJson(response);
   }
 
+  /// Enables rehydration of chats for the lifespan of a contact. For more
+  /// information about chat rehydration, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html">Enable
+  /// persistent chat</a> in the <i>Amazon Connect Administrator Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [initialContactId] :
+  /// This is the contactId of the current contact that the
+  /// <code>CreatePersistentContactAssociation</code> API is being called from.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [rehydrationType] :
+  /// The contactId chosen for rehydration depends on the type chosen.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENTIRE_PAST_SESSION</code>: Rehydrates a chat from the most recently
+  /// terminated past chat contact of the specified past ended chat session. To
+  /// use this type, provide the <code>initialContactId</code> of the past ended
+  /// chat session in the <code>sourceContactId</code> field. In this type,
+  /// Amazon Connect determines what the most recent chat contact on the past
+  /// ended chat session and uses it to start a persistent chat.
+  /// </li>
+  /// <li>
+  /// <code>FROM_SEGMENT</code>: Rehydrates a chat from the specified past chat
+  /// contact provided in the <code>sourceContactId</code> field.
+  /// </li>
+  /// </ul>
+  /// The actual contactId used for rehydration is provided in the response of
+  /// this API.
+  ///
+  /// To illustrate how to use rehydration type, consider the following example:
+  /// A customer starts a chat session. Agent a1 accepts the chat and a
+  /// conversation starts between the customer and Agent a1. This first contact
+  /// creates a contact ID <b>C1</b>. Agent a1 then transfers the chat to Agent
+  /// a2. This creates another contact ID <b>C2</b>. At this point Agent a2 ends
+  /// the chat. The customer is forwarded to the disconnect flow for a post chat
+  /// survey that creates another contact ID <b>C3</b>. After the chat survey,
+  /// the chat session ends. Later, the customer returns and wants to resume
+  /// their past chat session. At this point, the customer can have following
+  /// use cases:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Use Case 1</b>: The customer wants to continue the past chat session
+  /// but they want to hide the post chat survey. For this they will use the
+  /// following configuration:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Configuration</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// SourceContactId = "C2"
+  /// </li>
+  /// <li>
+  /// RehydrationType = "FROM_SEGMENT"
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Expected behavior</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// This starts a persistent chat session from the specified past ended
+  /// contact (C2). Transcripts of past chat sessions C2 and C1 are accessible
+  /// in the current persistent chat session. Note that chat segment C3 is
+  /// dropped from the persistent chat session.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Use Case 2</b>: The customer wants to continue the past chat session
+  /// and see the transcript of the entire past engagement, including the post
+  /// chat survey. For this they will use the following configuration:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Configuration</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// SourceContactId = "C1"
+  /// </li>
+  /// <li>
+  /// RehydrationType = "ENTIRE_PAST_SESSION"
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Expected behavior</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// This starts a persistent chat session from the most recently ended chat
+  /// contact (C3). Transcripts of past chat sessions C3, C2 and C1 are
+  /// accessible in the current persistent chat session.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </li>
+  /// </ul>
+  ///
+  /// Parameter [sourceContactId] :
+  /// The contactId from which a persistent chat session must be started.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  Future<CreatePersistentContactAssociationResponse>
+      createPersistentContactAssociation({
+    required String initialContactId,
+    required String instanceId,
+    required RehydrationType rehydrationType,
+    required String sourceContactId,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'RehydrationType': rehydrationType.toValue(),
+      'SourceContactId': sourceContactId,
+      if (clientToken != null) 'ClientToken': clientToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact/persistent-contact-association/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(initialContactId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePersistentContactAssociationResponse.fromJson(response);
+  }
+
+  /// Creates a new predefined attribute for the specified Amazon Connect
+  /// instance.
+  ///
+  /// May throw [DuplicateResourceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the predefined attribute.
+  ///
+  /// Parameter [values] :
+  /// The values of the predefined attribute.
+  Future<void> createPredefinedAttribute({
+    required String instanceId,
+    required String name,
+    required PredefinedAttributeValues values,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'Values': values,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/predefined-attributes/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates a prompt. For more information about prompts, such as supported
   /// file types and maximum length, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/prompts.html">Create
-  /// prompts</a> in the <i>Amazon Connect Administrator's Guide</i>.
+  /// prompts</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [DuplicateResourceException].
   /// May throw [InvalidRequestException].
@@ -1095,14 +1770,17 @@ class Connect {
   /// The name of the prompt.
   ///
   /// Parameter [s3Uri] :
-  /// The URI for the S3 bucket where the prompt is stored.
+  /// The URI for the S3 bucket where the prompt is stored. You can provide S3
+  /// pre-signed URLs returned by the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_GetPromptFile.html">GetPromptFile</a>
+  /// API instead of providing S3 URIs.
   ///
   /// Parameter [description] :
   /// The description of the prompt.
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreatePromptResponse> createPrompt({
     required String instanceId,
     required String name,
@@ -1130,19 +1808,33 @@ class Connect {
   ///
   /// Creates a new queue for the specified Amazon Connect instance.
   /// <important>
-  /// If the number being used in the input is claimed to a traffic distribution
-  /// group, and you are calling this API using an instance in the Amazon Web
-  /// Services Region where the traffic distribution group was created, you can
-  /// use either a full phone number ARN or UUID value for the
-  /// <code>OutboundCallerIdNumberId</code> value of the <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig">OutboundCallerConfig</a>
-  /// request body parameter. However, if the number is claimed to a traffic
-  /// distribution group and you are calling this API using an instance in the
-  /// alternate Amazon Web Services Region associated with the traffic
-  /// distribution group, you must provide a full phone number ARN. If a UUID is
-  /// provided in this scenario, you will receive a
-  /// <code>ResourceNotFoundException</code>.
-  /// </important>
+  /// <ul>
+  /// <li>
+  /// If the phone number is claimed to a traffic distribution group that was
+  /// created in the same Region as the Amazon Connect instance where you are
+  /// calling this API, then you can use a full phone number ARN or a UUID for
+  /// <code>OutboundCallerIdNumberId</code>. However, if the phone number is
+  /// claimed to a traffic distribution group that is in one Region, and you are
+  /// calling this API from an instance in another Amazon Web Services Region
+  /// that is associated with the traffic distribution group, you must provide a
+  /// full phone number ARN. If a UUID is provided in this scenario, you will
+  /// receive a <code>ResourceNotFoundException</code>.
+  /// </li>
+  /// <li>
+  /// Only use the phone number ARN format that doesn't contain
+  /// <code>instance</code> in the path, for example,
+  /// <code>arn:aws:connect:us-east-1:1234567890:phone-number/uuid</code>. This
+  /// is the same ARN format that is returned when you call the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html">ListPhoneNumbersV2</a>
+  /// API.
+  /// </li>
+  /// <li>
+  /// If you plan to use IAM policies to allow/deny access to this API for phone
+  /// number resources claimed to a traffic distribution group, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_resource-level-policy-examples.html#allow-deny-queue-actions-replica-region">Allow
+  /// or Deny queue API actions for phone numbers in a replica Region</a>.
+  /// </li>
+  /// </ul> </important>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -1178,7 +1870,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateQueueResponse> createQueue({
     required String hoursOfOperationId,
     required String instanceId,
@@ -1230,7 +1922,7 @@ class Connect {
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
   ///
   /// Parameter [name] :
-  /// The name of the quick connect.
+  /// A unique name of the quick connect.
   ///
   /// Parameter [quickConnectConfig] :
   /// Configuration settings for the quick connect.
@@ -1240,7 +1932,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateQuickConnectResponse> createQuickConnect({
     required String instanceId,
     required String name,
@@ -1291,6 +1983,11 @@ class Connect {
   /// Parameter [name] :
   /// The name of the routing profile. Must not be more than 127 characters.
   ///
+  /// Parameter [agentAvailabilityTimer] :
+  /// Whether agents with this routing profile will have their routing order
+  /// calculated based on <i>longest idle time</i> or <i>time since their last
+  /// inbound contact</i>.
+  ///
   /// Parameter [queueConfigs] :
   /// The inbound queues associated with the routing profile. If no queue is
   /// added, the agent can make only outbound calls.
@@ -1304,13 +2001,14 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateRoutingProfileResponse> createRoutingProfile({
     required String defaultOutboundQueueId,
     required String description,
     required String instanceId,
     required List<MediaConcurrency> mediaConcurrencies,
     required String name,
+    AgentAvailabilityTimer? agentAvailabilityTimer,
     List<RoutingProfileQueueConfig>? queueConfigs,
     Map<String, String>? tags,
   }) async {
@@ -1319,6 +2017,8 @@ class Connect {
       'Description': description,
       'MediaConcurrencies': mediaConcurrencies,
       'Name': name,
+      if (agentAvailabilityTimer != null)
+        'AgentAvailabilityTimer': agentAvailabilityTimer.toValue(),
       if (queueConfigs != null) 'QueueConfigs': queueConfigs,
       if (tags != null) 'Tags': tags,
     };
@@ -1397,9 +2097,6 @@ class Connect {
     return CreateRuleResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
-  ///
   /// Creates a security profile.
   ///
   /// May throw [InvalidRequestException].
@@ -1418,12 +2115,25 @@ class Connect {
   /// Parameter [securityProfileName] :
   /// The name of the security profile.
   ///
+  /// Parameter [allowedAccessControlHierarchyGroupId] :
+  /// The identifier of the hierarchy group that a security profile uses to
+  /// restrict access to resources in Amazon Connect.
+  ///
   /// Parameter [allowedAccessControlTags] :
   /// The list of tags that a security profile uses to restrict access to
   /// resources in Amazon Connect.
   ///
+  /// Parameter [applications] :
+  /// A list of third-party applications that the security profile will give
+  /// access to.
+  ///
   /// Parameter [description] :
   /// The description of the security profile.
+  ///
+  /// Parameter [hierarchyRestrictedResources] :
+  /// The list of resources that a security profile applies hierarchy
+  /// restrictions to in Amazon Connect. Following are acceptable ResourceNames:
+  /// <code>User</code>.
   ///
   /// Parameter [permissions] :
   /// Permissions assigned to the security profile. For a list of valid
@@ -1439,21 +2149,30 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateSecurityProfileResponse> createSecurityProfile({
     required String instanceId,
     required String securityProfileName,
+    String? allowedAccessControlHierarchyGroupId,
     Map<String, String>? allowedAccessControlTags,
+    List<Application>? applications,
     String? description,
+    List<String>? hierarchyRestrictedResources,
     List<String>? permissions,
     List<String>? tagRestrictedResources,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'SecurityProfileName': securityProfileName,
+      if (allowedAccessControlHierarchyGroupId != null)
+        'AllowedAccessControlHierarchyGroupId':
+            allowedAccessControlHierarchyGroupId,
       if (allowedAccessControlTags != null)
         'AllowedAccessControlTags': allowedAccessControlTags,
+      if (applications != null) 'Applications': applications,
       if (description != null) 'Description': description,
+      if (hierarchyRestrictedResources != null)
+        'HierarchyRestrictedResources': hierarchyRestrictedResources,
       if (permissions != null) 'Permissions': permissions,
       if (tagRestrictedResources != null)
         'TagRestrictedResources': tagRestrictedResources,
@@ -1546,7 +2265,16 @@ class Connect {
 
   /// Creates a traffic distribution group given an Amazon Connect instance that
   /// has been replicated.
-  ///
+  /// <note>
+  /// The <code>SignInConfig</code> distribution is available only on a default
+  /// <code>TrafficDistributionGroup</code> (see the <code>IsDefault</code>
+  /// parameter in the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html">TrafficDistributionGroup</a>
+  /// data type). If you call <code>UpdateTrafficDistribution</code> with a
+  /// modified <code>SignInConfig</code> and a non-default
+  /// <code>TrafficDistributionGroup</code>, an
+  /// <code>InvalidRequestException</code> is returned.
+  /// </note>
   /// For more information about creating traffic distribution groups, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html">Set
   /// up traffic distribution groups</a> in the <i>Amazon Connect Administrator
@@ -1580,7 +2308,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateTrafficDistributionGroupResponse>
       createTrafficDistributionGroup({
     required String instanceId,
@@ -1627,7 +2355,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateUseCaseResponse> createUseCase({
     required String instanceId,
     required String integrationAssociationId,
@@ -1649,9 +2377,16 @@ class Connect {
   }
 
   /// Creates a user account for the specified Amazon Connect instance.
-  ///
-  /// For information about how to create user accounts using the Amazon Connect
-  /// console, see <a
+  /// <important>
+  /// Certain <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html">UserIdentityInfo</a>
+  /// parameters are required in some situations. For example,
+  /// <code>Email</code> is required if you are using SAML for identity
+  /// management. <code>FirstName</code> and <code>LastName</code> are required
+  /// if you are using Amazon Connect or SAML for identity management.
+  /// </important>
+  /// For information about how to create users using the Amazon Connect admin
+  /// website, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html">Add
   /// Users</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
@@ -1683,6 +2418,20 @@ class Connect {
   /// using SAML for identity management, the user name can include up to 64
   /// characters from [a-zA-Z0-9_-.\@]+.
   ///
+  /// Username can include @ only if used in an email format. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Correct: testuser
+  /// </li>
+  /// <li>
+  /// Correct: testuser@example.com
+  /// </li>
+  /// <li>
+  /// Incorrect: testuser@example
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [directoryUserId] :
   /// The identifier of the user account in the directory used for identity
   /// management. If Amazon Connect cannot access the directory, you can specify
@@ -1708,7 +2457,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateUserResponse> createUser({
     required String instanceId,
     required UserPhoneConfig phoneConfig,
@@ -1766,7 +2515,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateUserHierarchyGroupResponse> createUserHierarchyGroup({
     required String instanceId,
     required String name,
@@ -1785,6 +2534,134 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return CreateUserHierarchyGroupResponse.fromJson(response);
+  }
+
+  /// Creates a new view with the possible status of <code>SAVED</code> or
+  /// <code>PUBLISHED</code>.
+  ///
+  /// The views will have a unique name for each connect instance.
+  ///
+  /// It performs basic content validation if the status is <code>SAVED</code>
+  /// or full content validation if the status is set to <code>PUBLISHED</code>.
+  /// An error is returned if validation fails. It associates either the
+  /// <code>$SAVED</code> qualifier or both of the <code>$SAVED</code> and
+  /// <code>$LATEST</code> qualifiers with the provided view content based on
+  /// the status. The view is idempotent if ClientToken is provided.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [content] :
+  /// View content containing all content necessary to render a view except for
+  /// runtime input data.
+  ///
+  /// The total uncompressed content has a maximum file size of 400kB.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the view.
+  ///
+  /// Parameter [status] :
+  /// Indicates the view status as either <code>SAVED</code> or
+  /// <code>PUBLISHED</code>. The <code>PUBLISHED</code> status will initiate
+  /// validation on the content.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique Id for each create view request to avoid duplicate view creation.
+  /// For example, the view is idempotent ClientToken is provided.
+  ///
+  /// Parameter [description] :
+  /// The description of the view.
+  ///
+  /// Parameter [tags] :
+  /// The tags associated with the view resource (not specific to view
+  /// version).These tags can be used to organize, track, or control access for
+  /// this resource. For example, { "tags": {"key1":"value1", "key2":"value2"}
+  /// }.
+  Future<CreateViewResponse> createView({
+    required ViewInputContent content,
+    required String instanceId,
+    required String name,
+    required ViewStatus status,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Content': content,
+      'Name': name,
+      'Status': status.toValue(),
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/views/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateViewResponse.fromJson(response);
+  }
+
+  /// Publishes a new version of the view identifier.
+  ///
+  /// Versions are immutable and monotonically increasing.
+  ///
+  /// It returns the highest version if there is no change in content compared
+  /// to that version. An error is displayed if the supplied ViewContentSha256
+  /// is different from the ViewContentSha256 of the <code>$LATEST</code> alias.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [viewId] :
+  /// The identifier of the view. Both <code>ViewArn</code> and
+  /// <code>ViewId</code> can be used.
+  ///
+  /// Parameter [versionDescription] :
+  /// The description for the version being published.
+  ///
+  /// Parameter [viewContentSha256] :
+  /// Indicates the checksum value of the latest published view content.
+  Future<CreateViewVersionResponse> createViewVersion({
+    required String instanceId,
+    required String viewId,
+    String? versionDescription,
+    String? viewContentSha256,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (versionDescription != null) 'VersionDescription': versionDescription,
+      if (viewContentSha256 != null) 'ViewContentSha256': viewContentSha256,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/views/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(viewId)}/versions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateViewVersionResponse.fromJson(response);
   }
 
   /// Creates a custom vocabulary associated with your Amazon Connect instance.
@@ -1834,7 +2711,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<CreateVocabularyResponse> createVocabulary({
     required String content,
     required String instanceId,
@@ -1903,6 +2780,49 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return DeactivateEvaluationFormResponse.fromJson(response);
+  }
+
+  /// Deletes an attached file along with the underlying S3 Object.
+  /// <important>
+  /// The attached file is <b>permanently deleted</b> if S3 bucket versioning is
+  /// not enabled.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associatedResourceArn] :
+  /// The resource to which the attached file is (being) uploaded to. <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
+  /// are the only current supported resource.
+  /// <note>
+  /// This value must be a valid ARN.
+  /// </note>
+  ///
+  /// Parameter [fileId] :
+  /// The unique identifier of the attached file resource.
+  ///
+  /// Parameter [instanceId] :
+  /// The unique identifier of the Connect instance.
+  Future<void> deleteAttachedFile({
+    required String associatedResourceArn,
+    required String fileId,
+    required String instanceId,
+  }) async {
+    final $query = <String, List<String>>{
+      'associatedResourceArn': [associatedResourceArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/attached-files/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(fileId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Deletes a contact evaluation in the specified Amazon Connect instance.
@@ -2133,6 +3053,34 @@ class Connect {
     );
   }
 
+  /// Deletes a predefined attribute from the specified Amazon Connect instance.
+  ///
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the predefined attribute.
+  Future<void> deletePredefinedAttribute({
+    required String instanceId,
+    required String name,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/predefined-attributes/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a prompt.
   ///
   /// May throw [InvalidRequestException].
@@ -2161,7 +3109,56 @@ class Connect {
     );
   }
 
+  /// Deletes a queue.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [queueId] :
+  /// The identifier for the queue.
+  Future<void> deleteQueue({
+    required String instanceId,
+    required String queueId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/queues/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(queueId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a quick connect.
+  /// <important>
+  /// After calling <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteUser.html">DeleteUser</a>,
+  /// it's important to call <code>DeleteQuickConnect</code> to delete any
+  /// records related to the deleted users. This will help you:
+  ///
+  /// <ul>
+  /// <li>
+  /// Avoid dangling resources that impact your service quotas.
+  /// </li>
+  /// <li>
+  /// Remove deleted users so they don't appear to agents as transfer options.
+  /// </li>
+  /// <li>
+  /// Avoid the disruption of other Amazon Connect processes, such as instance
+  /// replication and syncing if you're using <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html">Amazon
+  /// Connect Global Resiliency</a>.
+  /// </li>
+  /// </ul> </important>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -2185,6 +3182,35 @@ class Connect {
       method: 'DELETE',
       requestUri:
           '/quick-connects/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(quickConnectId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<void> deleteRoutingProfile({
+    required String instanceId,
+    required String routingProfileId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2217,9 +3243,6 @@ class Connect {
     );
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
-  ///
   /// Deletes a security profile.
   ///
   /// May throw [InvalidRequestException].
@@ -2347,6 +3370,25 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/delete-users.html">Delete
   /// Users from Your Amazon Connect Instance</a> in the <i>Amazon Connect
   /// Administrator Guide</i>.
+  /// <important>
+  /// After calling DeleteUser, call <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteQuickConnect.html">DeleteQuickConnect</a>
+  /// to delete any records related to the deleted users. This will help you:
+  ///
+  /// <ul>
+  /// <li>
+  /// Avoid dangling resources that impact your service quotas.
+  /// </li>
+  /// <li>
+  /// Remove deleted users so they don't appear to agents as transfer options.
+  /// </li>
+  /// <li>
+  /// Avoid the disruption of other Amazon Connect processes, such as instance
+  /// replication and syncing if you're using <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html">Amazon
+  /// Connect Global Resiliency</a>.
+  /// </li>
+  /// </ul> </important>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -2400,6 +3442,72 @@ class Connect {
       method: 'DELETE',
       requestUri:
           '/user-hierarchy-groups/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(hierarchyGroupId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the view entirely. It deletes the view and all associated
+  /// qualifiers (versions and aliases).
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [viewId] :
+  /// The identifier of the view. Both <code>ViewArn</code> and
+  /// <code>ViewId</code> can be used.
+  Future<void> deleteView({
+    required String instanceId,
+    required String viewId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/views/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(viewId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the particular version specified in <code>ViewVersion</code>
+  /// identifier.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [viewId] :
+  /// The identifier of the view. Both <code>ViewArn</code> and
+  /// <code>ViewId</code> can be used.
+  ///
+  /// Parameter [viewVersion] :
+  /// The version number of the view.
+  Future<void> deleteViewVersion({
+    required String instanceId,
+    required String viewId,
+    required int viewVersion,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/views/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(viewId)}/versions/${Uri.encodeComponent(viewVersion.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2538,6 +3646,18 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html">Amazon
   /// Connect Flow language</a>.
   ///
+  /// Use the <code>$SAVED</code> alias in the request to describe the
+  /// <code>SAVED</code> content of a Flow. For example,
+  /// <code>arn:aws:.../contact-flow/{id}:$SAVED</code>. Once a contact flow is
+  /// published, <code>$SAVED</code> needs to be supplied to view saved content
+  /// that has not been published.
+  ///
+  /// In the response, <b>Status</b> indicates the flow status as either
+  /// <code>SAVED</code> or <code>PUBLISHED</code>. The <code>PUBLISHED</code>
+  /// status will initiate validation on the content. <code>SAVED</code> does
+  /// not initiate validation of the content. <code>SAVED</code> |
+  /// <code>PUBLISHED</code>
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -2565,6 +3685,12 @@ class Connect {
   }
 
   /// Describes the specified flow module.
+  ///
+  /// Use the <code>$SAVED</code> alias in the request to describe the
+  /// <code>SAVED</code> content of a Flow. For example,
+  /// <code>arn:aws:.../contact-flow/{id}:$SAVED</code>. Once a contact flow is
+  /// published, <code>$SAVED</code> needs to be supplied to view saved content
+  /// that has not been published.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidRequestException].
@@ -2811,6 +3937,35 @@ class Connect {
     return DescribePhoneNumberResponse.fromJson(response);
   }
 
+  /// Describes a predefined attribute for the specified Amazon Connect
+  /// instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the predefined attribute.
+  Future<DescribePredefinedAttributeResponse> describePredefinedAttribute({
+    required String instanceId,
+    required String name,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/predefined-attributes/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribePredefinedAttributeResponse.fromJson(response);
+  }
+
   /// Describes the prompt.
   ///
   /// May throw [InvalidRequestException].
@@ -2959,9 +4114,6 @@ class Connect {
     return DescribeRuleResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
-  ///
   /// Gets basic information about the security profle.
   ///
   /// May throw [InvalidRequestException].
@@ -3018,7 +4170,7 @@ class Connect {
     return DescribeTrafficDistributionGroupResponse.fromJson(response);
   }
 
-  /// Describes the specified user account. You can <a
+  /// Describes the specified user. You can <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
   /// the instance ID in the Amazon Connect console</a> (it’s the final part of
   /// the ARN). The console does not display the user IDs. Instead, list the
@@ -3107,6 +4259,49 @@ class Connect {
     return DescribeUserHierarchyStructureResponse.fromJson(response);
   }
 
+  /// Retrieves the view for the specified Amazon Connect instance and view
+  /// identifier.
+  ///
+  /// The view identifier can be supplied as a ViewId or ARN.
+  ///
+  /// <code>$SAVED</code> needs to be supplied if a view is unpublished.
+  ///
+  /// The view identifier can contain an optional qualifier, for example,
+  /// <code>&lt;view-id&gt;:$SAVED</code>, which is either an actual version
+  /// number or an Amazon Connect managed qualifier <code>$SAVED |
+  /// $LATEST</code>. If it is not supplied, then <code>$LATEST</code> is
+  /// assumed for customer managed views and an error is returned if there is no
+  /// published content available. Version 1 is assumed for Amazon Web Services
+  /// managed views.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [viewId] :
+  /// The ViewId of the view. This must be an ARN for Amazon Web Services
+  /// managed views.
+  Future<DescribeViewResponse> describeView({
+    required String instanceId,
+    required String viewId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/views/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(viewId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeViewResponse.fromJson(response);
+  }
+
   /// Describes the specified vocabulary.
   ///
   /// May throw [InvalidRequestException].
@@ -3134,6 +4329,48 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeVocabularyResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Removes the dataset ID associated with a given Amazon Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [dataSetId] :
+  /// The identifier of the dataset to remove.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [targetAccountId] :
+  /// The identifier of the target account. Use to associate a dataset to a
+  /// different account than the one containing the Amazon Connect instance. If
+  /// not specified, by default this value is the Amazon Web Services account
+  /// that has the Amazon Connect instance.
+  Future<void> disassociateAnalyticsDataSet({
+    required String dataSetId,
+    required String instanceId,
+    String? targetAccountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DataSetId': dataSetId,
+      if (targetAccountId != null) 'TargetAccountId': targetAccountId,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/analytics-data/instance/${Uri.encodeComponent(instanceId)}/association',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -3202,6 +4439,39 @@ class Connect {
       payload: $payload,
       method: 'POST',
       requestUri: '/instance/${Uri.encodeComponent(instanceId)}/bot',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociates a connect resource from a flow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [resourceId] :
+  /// The identifier of the resource.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  Future<void> disassociateFlow({
+    required String instanceId,
+    required String resourceId,
+    required FlowAssociationResourceType resourceType,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/flow-associations/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(resourceId)}/${Uri.encodeComponent(resourceType.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3474,6 +4744,81 @@ class Connect {
     );
   }
 
+  /// Disassociates an agent from a traffic distribution group.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [trafficDistributionGroupId] :
+  /// The identifier of the traffic distribution group. This can be the ID or
+  /// the ARN if the API is being called in the Region where the traffic
+  /// distribution group was created. The ARN must be provided if the call is
+  /// from the replicated Region.
+  ///
+  /// Parameter [userId] :
+  /// The identifier for the user. This can be the ID or the ARN of the user.
+  Future<void> disassociateTrafficDistributionGroupUser({
+    required String instanceId,
+    required String trafficDistributionGroupId,
+    required String userId,
+  }) async {
+    final $query = <String, List<String>>{
+      'InstanceId': [instanceId],
+      'UserId': [userId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/traffic-distribution-group/${Uri.encodeComponent(trafficDistributionGroupId)}/user',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociates a set of proficiencies from a user.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [userId] :
+  /// The identifier of the user account.
+  ///
+  /// Parameter [userProficiencies] :
+  /// The proficiencies to disassociate from the user.
+  Future<void> disassociateUserProficiencies({
+    required String instanceId,
+    required String userId,
+    required List<UserProficiencyDisassociate> userProficiencies,
+  }) async {
+    final $payload = <String, dynamic>{
+      'UserProficiencies': userProficiencies,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/disassociate-proficiencies',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Dismisses contacts from an agent’s CCP and returns the agent to an
   /// available state, which allows the agent to receive a new routed contact.
   /// Contacts can only be dismissed if they are in a <code>MISSED</code>,
@@ -3513,6 +4858,61 @@ class Connect {
           '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/contact',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Provides a pre-signed URL for download of an approved attached file. This
+  /// API also returns metadata about the attached file. It will only return a
+  /// downloadURL if the status of the attached file is <code>APPROVED</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associatedResourceArn] :
+  /// The resource to which the attached file is (being) uploaded to. <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
+  /// are the only current supported resource.
+  /// <note>
+  /// This value must be a valid ARN.
+  /// </note>
+  ///
+  /// Parameter [fileId] :
+  /// The unique identifier of the attached file resource.
+  ///
+  /// Parameter [instanceId] :
+  /// The unique identifier of the Connect instance.
+  ///
+  /// Parameter [urlExpiryInSeconds] :
+  /// Optional override for the expiry of the pre-signed S3 URL in seconds. The
+  /// default value is 300.
+  Future<GetAttachedFileResponse> getAttachedFile({
+    required String associatedResourceArn,
+    required String fileId,
+    required String instanceId,
+    int? urlExpiryInSeconds,
+  }) async {
+    _s.validateNumRange(
+      'urlExpiryInSeconds',
+      urlExpiryInSeconds,
+      5,
+      300,
+    );
+    final $query = <String, List<String>>{
+      'associatedResourceArn': [associatedResourceArn],
+      if (urlExpiryInSeconds != null)
+        'urlExpiryInSeconds': [urlExpiryInSeconds.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/attached-files/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(fileId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAttachedFileResponse.fromJson(response);
   }
 
   /// Retrieves the contact attributes for the specified contact.
@@ -3626,6 +5026,13 @@ class Connect {
   ///
   /// The actual OLDEST_CONTACT_AGE is 24 seconds.
   ///
+  /// When the filter <code>RoutingStepExpression</code> is used, this metric is
+  /// still calculated from enqueue time. For example, if a contact that has
+  /// been queued under <code>&lt;Expression 1&gt;</code> for 10 seconds has
+  /// expired and <code>&lt;Expression 2&gt;</code> becomes active, then
+  /// <code>OLDEST_CONTACT_AGE</code> for this queue will be counted starting
+  /// from 10, not 0.
+  ///
   /// Name in real-time metrics report: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time">Oldest</a>
   /// </dd> <dt>SLOTS_ACTIVE</dt> <dd>
@@ -3654,11 +5061,19 @@ class Connect {
   /// <li>
   /// Channels: 3 (VOICE, CHAT, and TASK channels are supported.)
   /// </li>
+  /// <li>
+  /// RoutingStepExpressions: 50
+  /// </li>
   /// </ul>
   /// Metric data is retrieved only for the resources associated with the queues
   /// or routing profiles, and by any channels included in the filter. (You
   /// cannot filter by both queue AND routing profile.) You can include both
   /// resource IDs and resource ARNs in the same request.
+  ///
+  /// When using the <code>RoutingStepExpression</code> filter, you need to pass
+  /// exactly one <code>QueueId</code>. The filter is also case sensitive so
+  /// when using the <code>RoutingStepExpression</code> filter, grouping by
+  /// <code>ROUTING_STEP_EXPRESSION</code> is required.
   ///
   /// Currently tagging is only supported on the resources that are passed in
   /// the filter.
@@ -3687,6 +5102,10 @@ class Connect {
   /// <li>
   /// If no <code>Grouping</code> is included in the request, a summary of
   /// metrics is returned.
+  /// </li>
+  /// <li>
+  /// When using the <code>RoutingStepExpression</code> filter, group by
+  /// <code>ROUTING_STEP_EXPRESSION</code> is required.
   /// </li>
   /// </ul>
   ///
@@ -3822,7 +5241,15 @@ class Connect {
     return GetCurrentUserDataResponse.fromJson(response);
   }
 
-  /// Retrieves a token for federation.
+  /// Supports SAML sign-in for Amazon Connect. Retrieves a token for
+  /// federation. The token is for the Amazon Connect user which corresponds to
+  /// the IAM credentials that were used to invoke this action.
+  ///
+  /// For more information about how SAML sign-in works in Amazon Connect, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html
+  /// ">Configure SAML with IAM for Amazon Connect in the <i>Amazon Connect
+  /// Administrator Guide</i>.</a>
   /// <note>
   /// This API doesn't support root users. If you try to invoke
   /// GetFederationToken with root credentials, an error message similar to the
@@ -3855,11 +5282,56 @@ class Connect {
     return GetFederationTokenResponse.fromJson(response);
   }
 
+  /// Retrieves the flow associated for a given resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [resourceId] :
+  /// The identifier of the resource.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  Future<GetFlowAssociationResponse> getFlowAssociation({
+    required String instanceId,
+    required String resourceId,
+    required FlowAssociationResourceType resourceType,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/flow-associations/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(resourceId)}/${Uri.encodeComponent(resourceType.toValue())}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFlowAssociationResponse.fromJson(response);
+  }
+
   /// Gets historical metric data from the specified Amazon Connect instance.
   ///
   /// For a description of each historical metric, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html">Historical
   /// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
+  /// <note>
+  /// We recommend using the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html">GetMetricDataV2</a>
+  /// API. It provides more flexibility, features, and the ability to query
+  /// longer time ranges than <code>GetMetricData</code>. Use it to retrieve
+  /// historical agent and contact metrics for the last 3 months, at varying
+  /// intervals. You can also use it to build custom dashboards to measure
+  /// historical queue and agent performance. For example, you can track the
+  /// number of incoming contacts for the last 7 days, with data split by day,
+  /// to see how contact volume changed per day of the week.
+  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -3881,6 +5353,9 @@ class Connect {
   /// or channels included in the filter. You can include both queue IDs and
   /// queue ARNs in the same request. VOICE, CHAT, and TASK channels are
   /// supported.
+  ///
+  /// RoutingStepExpression is not a valid filter for GetMetricData and we
+  /// recommend switching to GetMetricDataV2 for more up-to-date features.
   /// <note>
   /// To filter by <code>Queues</code>, enter the queue ID/ARN, not the name of
   /// the queue.
@@ -4025,6 +5500,9 @@ class Connect {
   /// If no grouping is specified, a summary of metrics for all queues is
   /// returned.
   ///
+  /// RoutingStepExpression is not a valid filter for GetMetricData and we
+  /// recommend switching to GetMetricDataV2 for more up-to-date features.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
   ///
@@ -4073,16 +5551,12 @@ class Connect {
   /// the previous version of this API. It has new metrics, offers filtering at
   /// a metric level, and offers the ability to filter and group data by
   /// channels, queues, routing profiles, agents, and agent hierarchy levels. It
-  /// can retrieve historical data for the last 35 days, in 24-hour intervals.
+  /// can retrieve historical data for the last 3 months, at varying intervals.
   ///
   /// For a description of the historical metrics that are supported by
   /// <code>GetMetricDataV2</code> and <code>GetMetricData</code>, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html">Historical
-  /// metrics definitions</a> in the <i>Amazon Connect Administrator's
-  /// Guide</i>.
-  ///
-  /// This API is not available in the Amazon Web Services GovCloud (US)
-  /// Regions.
+  /// metrics definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -4096,13 +5570,20 @@ class Connect {
   /// later than the start time timestamp. It cannot be later than the current
   /// timestamp.
   ///
-  /// The time range between the start and end time must be less than 24 hours.
-  ///
   /// Parameter [filters] :
   /// The filters to apply to returned metrics. You can filter on the following
   /// resources:
   ///
   /// <ul>
+  /// <li>
+  /// Agents
+  /// </li>
+  /// <li>
+  /// Channels
+  /// </li>
+  /// <li>
+  /// Feature
+  /// </li>
   /// <li>
   /// Queues
   /// </li>
@@ -4110,10 +5591,7 @@ class Connect {
   /// Routing profiles
   /// </li>
   /// <li>
-  /// Agents
-  /// </li>
-  /// <li>
-  /// Channels
+  /// Routing step expression
   /// </li>
   /// <li>
   /// User hierarchy groups
@@ -4124,7 +5602,7 @@ class Connect {
   ///
   /// To filter by phone number, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html">Create
-  /// a historical metrics report</a> in the <i>Amazon Connect Administrator's
+  /// a historical metrics report</a> in the <i>Amazon Connect Administrator
   /// Guide</i>.
   ///
   /// Note the following limits:
@@ -4132,21 +5610,58 @@ class Connect {
   /// <ul>
   /// <li>
   /// <b>Filter keys</b>: A maximum of 5 filter keys are supported in a single
-  /// request. Valid filter keys: <code>QUEUE</code> |
-  /// <code>ROUTING_PROFILE</code> | <code>AGENT</code> | <code>CHANNEL</code> |
+  /// request. Valid filter keys: <code>AGENT</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_ONE</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_TWO</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_THREE</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_FOUR</code> |
-  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code>
+  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code> | <code>CASE_TEMPLATE_ARN</code> |
+  /// <code>CASE_STATUS</code> | <code>CHANNEL</code> |
+  /// <code>contact/segmentAttributes/connect:Subtype</code> |
+  /// <code>FEATURE</code> | <code>FLOW_TYPE</code> |
+  /// <code>FLOWS_NEXT_RESOURCE_ID</code> |
+  /// <code>FLOWS_NEXT_RESOURCE_QUEUE_ID</code> |
+  /// <code>FLOWS_OUTCOME_TYPE</code> | <code>FLOWS_RESOURCE_ID</code> |
+  /// <code>INITIATION_METHOD</code> | <code>RESOURCE_PUBLISHED_TIMESTAMP</code>
+  /// | <code>ROUTING_PROFILE</code> | <code>ROUTING_STEP_EXPRESSION</code> |
+  /// <code>QUEUE</code> | <code>Q_CONNECT_ENABLED</code> |
   /// </li>
   /// <li>
   /// <b>Filter values</b>: A maximum of 100 filter values are supported in a
-  /// single request. For example, a <code>GetMetricDataV2</code> request can
-  /// filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100
-  /// filter values. <code>VOICE</code>, <code>CHAT</code>, and
-  /// <code>TASK</code> are valid <code>filterValue</code> for the
-  /// <code>CHANNEL</code> filter key.
+  /// single request. VOICE, CHAT, and TASK are valid <code>filterValue</code>
+  /// for the CHANNEL filter key. They do not count towards limitation of 100
+  /// filter values. For example, a GetMetricDataV2 request can filter by 50
+  /// queues, 35 agents, and 15 routing profiles for a total of 100 filter
+  /// values, along with 3 channel filters.
+  ///
+  /// <code>contact_lens_conversational_analytics</code> is a valid filterValue
+  /// for the <code>FEATURE</code> filter key. It is available only to contacts
+  /// analyzed by Contact Lens conversational analytics.
+  ///
+  /// <code>connect:Chat</code>, <code>connect:SMS</code>,
+  /// <code>connect:Telephony</code>, and <code>connect:WebRTC</code> are valid
+  /// <code>filterValue</code> examples (not exhaustive) for the
+  /// <code>contact/segmentAttributes/connect:Subtype filter</code> key.
+  ///
+  /// <code>ROUTING_STEP_EXPRESSION</code> is a valid filter key with a filter
+  /// value up to 3000 length. This filter is case and order sensitive. JSON
+  /// string fields must be sorted in ascending order and JSON array order
+  /// should be kept as is.
+  ///
+  /// <code>Q_CONNECT_ENABLED</code>. TRUE and FALSE are the only valid
+  /// filterValues for the <code>Q_CONNECT_ENABLED</code> filter key.
+  ///
+  /// <ul>
+  /// <li>
+  /// TRUE includes all contacts that had Amazon Q in Connect enabled as part of
+  /// the flow.
+  /// </li>
+  /// <li>
+  /// FALSE includes all contacts that did not have Amazon Q in Connect enabled
+  /// as part of the flow
+  /// </li>
+  /// </ul>
+  /// This filter is available only for contact record-driven metrics.
   /// </li>
   /// </ul>
   ///
@@ -4155,9 +5670,18 @@ class Connect {
   /// metric. The following historical metrics are available. For a description
   /// of each metric, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html">Historical
-  /// metrics definitions</a> in the <i>Amazon Connect Administrator's
-  /// Guide</i>.
-  /// <dl> <dt>AGENT_ADHERENT_TIME</dt> <dd>
+  /// metrics definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
+  /// <dl> <dt>ABANDONMENT_RATE</dt> <dd>
+  /// Unit: Percent
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#abandonment-rate-historical">Abandonment
+  /// rate</a>
+  /// </dd> <dt>AGENT_ADHERENT_TIME</dt> <dd>
   /// This metric is available only in Amazon Web Services Regions where <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region">Forecasting,
   /// capacity planning, and scheduling</a> is available.
@@ -4166,15 +5690,56 @@ class Connect {
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
   /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherent-time-historical">Adherent
+  /// time</a>
+  /// </dd> <dt>AGENT_ANSWER_RATE</dt> <dd>
+  /// Unit: Percent
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-answer-rate-historical">Agent
+  /// answer rate</a>
+  /// </dd> <dt>AGENT_NON_ADHERENT_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#non-adherent-time">Non-adherent
+  /// time</a>
   /// </dd> <dt>AGENT_NON_RESPONSE</dt> <dd>
   /// Unit: Count
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
   /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-non-response">Agent
+  /// non-response</a>
+  /// </dd> <dt>AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy
+  ///
+  /// Data for this metric is available starting from October 1, 2023 0:00:00
+  /// GMT.
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-nonresponse-no-abandon-historical">Agent
+  /// non-response without customer abandons</a>
   /// </dd> <dt>AGENT_OCCUPANCY</dt> <dd>
   /// Unit: Percentage
   ///
   /// Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#occupancy-historical">Occupancy</a>
   /// </dd> <dt>AGENT_SCHEDULE_ADHERENCE</dt> <dd>
   /// This metric is available only in Amazon Web Services Regions where <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region">Forecasting,
@@ -4184,6 +5749,9 @@ class Connect {
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
   /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherence-historical">Adherence</a>
   /// </dd> <dt>AGENT_SCHEDULED_TIME</dt> <dd>
   /// This metric is available only in Amazon Web Services Regions where <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region">Forecasting,
@@ -4193,17 +5761,44 @@ class Connect {
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
   /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#scheduled-time-historical">Scheduled
+  /// time</a>
   /// </dd> <dt>AVG_ABANDON_TIME</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
-  /// </dd> <dt>AVG_AFTER_CONTACT_WORK_TIME</dt> <dd>
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-abandon-time-historical">Average
+  /// queue abandon time</a>
+  /// </dd> <dt>AVG_ACTIVE_TIME</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
-  /// </dd> <dt>AVG_AGENT_CONNECTING_TIME</dt> <dd>
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-active-time-historical">Average
+  /// active time</a>
+  /// </dd> <dt>AVG_AFTER_CONTACT_WORK_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid metric filter key: <code>INITIATION_METHOD</code>
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-acw-time-historical">Average
+  /// after contact work time</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>AVG_AGENT_CONNECTING_TIME</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid metric filter key: <code>INITIATION_METHOD</code>. For now, this
@@ -4213,114 +5808,781 @@ class Connect {
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
   /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-avg-agent-api-connecting-time">Average
+  /// agent API connecting time</a>
+  /// <note>
+  /// The <code>Negate</code> key in Metric Level Filters is not applicable for
+  /// this metric.
+  /// </note> </dd> <dt>AVG_AGENT_PAUSE_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-pause-time-historical">Average
+  /// agent pause time</a>
+  /// </dd> <dt>AVG_CASE_RELATED_CONTACTS</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Required filter key: CASE_TEMPLATE_ARN
+  ///
+  /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contacts-case-historical">Average
+  /// contacts per case</a>
+  /// </dd> <dt>AVG_CASE_RESOLUTION_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Required filter key: CASE_TEMPLATE_ARN
+  ///
+  /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-case-resolution-time-historical">Average
+  /// case resolution time</a>
+  /// </dd> <dt>AVG_CONTACT_DURATION</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contact-duration-historical">Average
+  /// contact duration</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>AVG_CONVERSATION_DURATION</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-conversation-duration-historical">Average
+  /// conversation duration</a>
+  /// </dd> <dt>AVG_FLOW_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Channel,
+  /// contact/segmentAttributes/connect:Subtype, Flow type, Flows module
+  /// resource ID, Flows next resource ID, Flows next resource queue ID, Flows
+  /// outcome type, Flows resource ID, Initiation method, Resource published
+  /// timestamp
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-flow-time-historical">Average
+  /// flow time</a>
+  /// </dd> <dt>AVG_GREETING_TIME_AGENT</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-greeting-time-agent-historical">Average
+  /// agent greeting time</a>
   /// </dd> <dt>AVG_HANDLE_TIME</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
-  /// </dd> <dt>AVG_HOLD_TIME</dt> <dd>
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype,
+  /// RoutingStepExpression
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-handle-time-historical">Average
+  /// handle time</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>AVG_HOLD_TIME</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
-  /// </dd> <dt>AVG_INTERACTION_AND_HOLD_TIME</dt> <dd>
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-customer-hold-time-historical">Average
+  /// customer hold time</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>AVG_HOLD_TIME_ALL_CONTACTS</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
-  /// </dd> <dt>AVG_INTERACTION_TIME</dt> <dd>
-  /// Unit: Seconds
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
-  /// </dd> <dt>AVG_QUEUE_ANSWER_TIME</dt> <dd>
-  /// Unit: Seconds
-  ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
-  /// </dd> <dt>CONTACTS_ABANDONED</dt> <dd>
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#avg-customer-hold-time-all-contacts-historical">Average
+  /// customer hold time all contacts</a>
+  /// </dd> <dt>AVG_HOLDS</dt> <dd>
   /// Unit: Count
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-holds-historical">Average
+  /// holds</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>AVG_INTERACTION_AND_HOLD_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-customer-hold-time-historical">Average
+  /// agent interaction and customer hold time</a>
+  /// </dd> <dt>AVG_INTERACTION_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid metric filter key: <code>INITIATION_METHOD</code>
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Feature,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-time-historical">Average
+  /// agent interaction time</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>AVG_INTERRUPTIONS_AGENT</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-agent-historical">Average
+  /// agent interruptions</a>
+  /// </dd> <dt>AVG_INTERRUPTION_TIME_AGENT</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-time-agent-historical">Average
+  /// agent interruption time</a>
+  /// </dd> <dt>AVG_NON_TALK_TIME</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##average-non-talk-time-historical">Average
+  /// non-talk time</a>
+  /// </dd> <dt>AVG_QUEUE_ANSWER_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Feature,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-answer-time-historical">Average
+  /// queue answer time</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>AVG_RESOLUTION_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-resolution-time-historical">Average
+  /// resolution time</a>
+  /// </dd> <dt>AVG_TALK_TIME</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-historical">Average
+  /// talk time</a>
+  /// </dd> <dt>AVG_TALK_TIME_AGENT</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-agent-historical">Average
+  /// agent talk time</a>
+  /// </dd> <dt>AVG_TALK_TIME_CUSTOMER</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-customer-historical">Average
+  /// customer talk time</a>
+  /// </dd> <dt>CASES_CREATED</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Required filter key: CASE_TEMPLATE_ARN
+  ///
+  /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##cases-created-historical">Cases
+  /// created</a>
+  /// </dd> <dt>CONTACTS_ABANDONED</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Metric filter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Valid values: <code>API</code>| <code>Incoming</code> |
+  /// <code>Outbound</code> | <code>Transfer</code> | <code>Callback</code> |
+  /// <code>Queue_Transfer</code>| <code>Disconnect</code>
+  /// </li>
+  /// </ul>
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype,
+  /// RoutingStepExpression, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-historical">Contact
+  /// abandoned</a>
+  /// </dd> <dt>CONTACTS_ABANDONED_IN_X</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>LT</code> (for "Less than").
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-x-historical">Contacts
+  /// abandoned in X seconds</a>
+  /// </dd> <dt>CONTACTS_ANSWERED_IN_X</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>LT</code> (for "Less than").
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-answered-x-historical">Contacts
+  /// answered in X seconds</a>
   /// </dd> <dt>CONTACTS_CREATED</dt> <dd>
   /// Unit: Count
   ///
   /// Valid metric filter key: <code>INITIATION_METHOD</code>
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
-  /// </dd> <dt>CONTACTS_HANDLED</dt> <dd>
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Feature,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-created-historical">Contacts
+  /// created</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>CONTACTS_HANDLED</dt> <dd>
   /// Unit: Count
   ///
   /// Valid metric filter key: <code>INITIATION_METHOD</code>,
   /// <code>DISCONNECT_REASON</code>
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype,
+  /// RoutingStepExpression, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#api-contacts-handled-historical">API
+  /// contacts handled</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid metric filter key: <code>INITIATION_METHOD</code>
+  ///
+  /// Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical">Contacts
+  /// handled (connected to agent timestamp)</a>
   /// </dd> <dt>CONTACTS_HOLD_ABANDONS</dt> <dd>
   /// Unit: Count
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical">Contacts
+  /// hold disconnect</a>
+  /// </dd> <dt>CONTACTS_ON_HOLD_AGENT_DISCONNECT</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-agent-disconnect-historical">Contacts
+  /// hold agent disconnect</a>
+  /// </dd> <dt>CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical">Contacts
+  /// hold customer disconnect</a>
+  /// </dd> <dt>CONTACTS_PUT_ON_HOLD</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical">Contacts
+  /// put on hold</a>
+  /// </dd> <dt>CONTACTS_TRANSFERRED_OUT_EXTERNAL</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-external-historical">Contacts
+  /// transferred out external</a>
+  /// </dd> <dt>CONTACTS_TRANSFERRED_OUT_INTERNAL</dt> <dd>
+  /// Unit: Percent
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-internal-historical">Contacts
+  /// transferred out internal</a>
   /// </dd> <dt>CONTACTS_QUEUED</dt> <dd>
   /// Unit: Count
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-historical">Contacts
+  /// queued</a>
+  /// </dd> <dt>CONTACTS_QUEUED_BY_ENQUEUE</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy,
+  /// contact/segmentAttributes/connect:Subtype
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-by-enqueue-historical">Contacts
+  /// queued (enqueue timestamp)</a>
+  /// </dd> <dt>CONTACTS_RESOLVED_IN_X</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// Threshold: For <code>ThresholdValue</code> enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>LT</code> (for "Less than").
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-resolved-historical">Contacts
+  /// resolved in X</a>
   /// </dd> <dt>CONTACTS_TRANSFERRED_OUT</dt> <dd>
   /// Unit: Count
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
-  /// </dd> <dt>CONTACTS_TRANSFERRED_OUT_BY_AGENT</dt> <dd>
+  /// Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  /// Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-historical">Contacts
+  /// transferred out</a>
+  /// <note>
+  /// Feature is a valid filter but not a valid grouping.
+  /// </note> </dd> <dt>CONTACTS_TRANSFERRED_OUT_BY_AGENT</dt> <dd>
   /// Unit: Count
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical">Contacts
+  /// transferred out by agent</a>
   /// </dd> <dt>CONTACTS_TRANSFERRED_OUT_FROM_QUEUE</dt> <dd>
   /// Unit: Count
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical">Contacts
+  /// transferred out queue</a>
+  /// </dd> <dt>CURRENT_CASES</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Required filter key: CASE_TEMPLATE_ARN
+  ///
+  /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#current-cases-historical">Current
+  /// cases</a>
+  /// </dd> <dt>FLOWS_OUTCOME</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Channel,
+  /// contact/segmentAttributes/connect:Subtype, Flow type, Flows module
+  /// resource ID, Flows next resource ID, Flows next resource queue ID, Flows
+  /// outcome type, Flows resource ID, Initiation method, Resource published
+  /// timestamp
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-historical">Flows
+  /// outcome</a>
+  /// </dd> <dt>FLOWS_STARTED</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Channel,
+  /// contact/segmentAttributes/connect:Subtype, Flow type, Flows module
+  /// resource ID, Flows resource ID, Initiation method, Resource published
+  /// timestamp
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-started-historical">Flows
+  /// started</a>
+  /// </dd> <dt>MAX_FLOW_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Channel,
+  /// contact/segmentAttributes/connect:Subtype, Flow type, Flows module
+  /// resource ID, Flows next resource ID, Flows next resource queue ID, Flows
+  /// outcome type, Flows resource ID, Initiation method, Resource published
+  /// timestamp
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-flow-time-historical">Maximum
+  /// flow time</a>
   /// </dd> <dt>MAX_QUEUED_TIME</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-queued-time-historical">Maximum
+  /// queued time</a>
+  /// </dd> <dt>MIN_FLOW_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Channel,
+  /// contact/segmentAttributes/connect:Subtype, Flow type, Flows module
+  /// resource ID, Flows next resource ID, Flows next resource queue ID, Flows
+  /// outcome type, Flows resource ID, Initiation method, Resource published
+  /// timestamp
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#minimum-flow-time-historical">Minimum
+  /// flow time</a>
+  /// </dd> <dt>PERCENT_CASES_FIRST_CONTACT_RESOLVED</dt> <dd>
+  /// Unit: Percent
+  ///
+  /// Required filter key: CASE_TEMPLATE_ARN
+  ///
+  /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-first-contact-historical">Cases
+  /// resolved on first contact</a>
+  /// </dd> <dt>PERCENT_CONTACTS_STEP_EXPIRED</dt> <dd>
+  /// Unit: Percent
+  ///
+  /// Valid groupings and filters: Queue, RoutingStepExpression
+  ///
+  /// UI name: Not available
+  /// </dd> <dt>PERCENT_CONTACTS_STEP_JOINED</dt> <dd>
+  /// Unit: Percent
+  ///
+  /// Valid groupings and filters: Queue, RoutingStepExpression
+  ///
+  /// UI name: Not available
+  /// </dd> <dt>PERCENT_FLOWS_OUTCOME</dt> <dd>
+  /// Unit: Percent
+  ///
+  /// Valid metric filter key: <code>FLOWS_OUTCOME_TYPE</code>
+  ///
+  /// Valid groupings and filters: Channel,
+  /// contact/segmentAttributes/connect:Subtype, Flow type, Flows module
+  /// resource ID, Flows next resource ID, Flows next resource queue ID, Flows
+  /// outcome type, Flows resource ID, Initiation method, Resource published
+  /// timestamp
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-percentage-historical">Flows
+  /// outcome percentage</a>.
+  /// <note>
+  /// The <code>FLOWS_OUTCOME_TYPE</code> is not a valid grouping.
+  /// </note> </dd> <dt>PERCENT_NON_TALK_TIME</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Percentage
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ntt-historical">Non-talk
+  /// time percent</a>
+  /// </dd> <dt>PERCENT_TALK_TIME</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Percentage
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#tt-historical">Talk
+  /// time percent</a>
+  /// </dd> <dt>PERCENT_TALK_TIME_AGENT</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Percentage
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttagent-historical">Agent
+  /// talk time percent</a>
+  /// </dd> <dt>PERCENT_TALK_TIME_CUSTOMER</dt> <dd>
+  /// This metric is available only for contacts analyzed by Contact Lens
+  /// conversational analytics.
+  ///
+  /// Unit: Percentage
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttcustomer-historical">Customer
+  /// talk time percent</a>
+  /// </dd> <dt>REOPENED_CASE_ACTIONS</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Required filter key: CASE_TEMPLATE_ARN
+  ///
+  /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-reopened-historical">Cases
+  /// reopened</a>
+  /// </dd> <dt>RESOLVED_CASE_ACTIONS</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Required filter key: CASE_TEMPLATE_ARN
+  ///
+  /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-historicall">Cases
+  /// resolved</a>
   /// </dd> <dt>SERVICE_LEVEL</dt> <dd>
   /// You can include up to 20 SERVICE_LEVEL metrics in a request.
   ///
   /// Unit: Percent
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect
   ///
   /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
   /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
   /// enter <code>LT</code> (for "Less than").
-  /// </dd> <dt>SUM_CONTACTS_ANSWERED_IN_X</dt> <dd>
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#service-level-historical">Service
+  /// level X</a>
+  /// </dd> <dt>STEP_CONTACTS_QUEUED</dt> <dd>
   /// Unit: Count
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
+  /// Valid groupings and filters: Queue, RoutingStepExpression
   ///
-  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
-  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
-  /// enter <code>LT</code> (for "Less than").
-  /// </dd> <dt>SUM_CONTACTS_ABANDONED_IN_X</dt> <dd>
-  /// Unit: Count
+  /// UI name: Not available
+  /// </dd> <dt>SUM_AFTER_CONTACT_WORK_TIME</dt> <dd>
+  /// Unit: Seconds
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
   ///
-  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
-  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
-  /// enter <code>LT</code> (for "Less than").
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#acw-historical">After
+  /// contact work time</a>
+  /// </dd> <dt>SUM_CONNECTING_TIME_AGENT</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid metric filter key: <code>INITIATION_METHOD</code>. This metric only
+  /// supports the following filter keys as <code>INITIATION_METHOD</code>:
+  /// <code>INBOUND</code> | <code>OUTBOUND</code> | <code>CALLBACK</code> |
+  /// <code>API</code>
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-agent-api-connecting-time">Agent
+  /// API connecting time</a>
+  /// <note>
+  /// The <code>Negate</code> key in Metric Level Filters is not applicable for
+  /// this metric.
+  /// </note> </dd> <dt>SUM_CONTACT_FLOW_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-flow-time-historical">Contact
+  /// flow time</a>
+  /// </dd> <dt>SUM_CONTACT_TIME_AGENT</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-on-contact-time-historical">Agent
+  /// on contact time</a>
   /// </dd> <dt>SUM_CONTACTS_DISCONNECTED </dt> <dd>
   /// Valid metric filter key: <code>DISCONNECT_REASON</code>
   ///
   /// Unit: Count
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-disconnected-historical">Contact
+  /// disconnected</a>
+  /// </dd> <dt>SUM_ERROR_STATUS_TIME_AGENT</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#error-status-time-historical">Error
+  /// status time</a>
+  /// </dd> <dt>SUM_HANDLE_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-handle-time-historical">Contact
+  /// handle time</a>
+  /// </dd> <dt>SUM_HOLD_TIME</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#customer-hold-time-historical">Customer
+  /// hold time</a>
+  /// </dd> <dt>SUM_IDLE_TIME_AGENT</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-idle-time-historica">Agent
+  /// idle time</a>
+  /// </dd> <dt>SUM_INTERACTION_AND_HOLD_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-interaction-hold-time-historical">Agent
+  /// interaction and hold time</a>
+  /// </dd> <dt>SUM_INTERACTION_TIME</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-interaction-time-historical">Agent
+  /// interaction time</a>
+  /// </dd> <dt>SUM_NON_PRODUCTIVE_TIME_AGENT</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#npt-historical">Non-Productive
+  /// Time</a>
+  /// </dd> <dt>SUM_ONLINE_TIME_AGENT</dt> <dd>
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#online-time-historical">Online
+  /// time</a>
   /// </dd> <dt>SUM_RETRY_CALLBACK_ATTEMPTS</dt> <dd>
   /// Unit: Count
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile
+  /// Valid groupings and filters: Queue, Channel, Routing Profile,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#callback-attempts-historical">Callback
+  /// attempts</a>
   /// </dd> </dl>
   ///
   /// Parameter [resourceArn] :
@@ -4330,10 +6592,10 @@ class Connect {
   /// Parameter [startTime] :
   /// The timestamp, in UNIX Epoch time format, at which to start the reporting
   /// interval for the retrieval of historical metrics data. The time must be
-  /// before the end time timestamp. The time range between the start and end
-  /// time must be less than 24 hours. The start time cannot be earlier than 35
-  /// days before the time of the request. Historical metrics are available for
-  /// 35 days.
+  /// before the end time timestamp. The start and end time depends on the
+  /// <code>IntervalPeriod</code> selected. By default the time range between
+  /// start and end time is 35 days. Historical metrics are available for 3
+  /// months.
   ///
   /// Parameter [groupings] :
   /// The grouping applied to the metrics that are returned. For example, when
@@ -4343,13 +6605,71 @@ class Connect {
   ///
   /// If no grouping is specified, a summary of all metrics is returned.
   ///
-  /// Valid grouping keys: <code>QUEUE</code> | <code>ROUTING_PROFILE</code> |
-  /// <code>AGENT</code> | <code>CHANNEL</code> |
+  /// Valid grouping keys: <code>AGENT</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_ONE</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_TWO</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_THREE</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_FOUR</code> |
-  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code>
+  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code> | <code>CASE_TEMPLATE_ARN</code> |
+  /// <code>CASE_STATUS</code> | <code>CHANNEL</code> |
+  /// <code>contact/segmentAttributes/connect:Subtype</code> |
+  /// <code>FLOWS_RESOURCE_ID</code> | <code>FLOWS_MODULE_RESOURCE_ID</code> |
+  /// <code>FLOW_TYPE</code> | <code>FLOWS_OUTCOME_TYPE</code> |
+  /// <code>INITIATION_METHOD</code> | <code>Q_CONNECT_ENABLED</code> |
+  /// <code>QUEUE</code> | <code>RESOURCE_PUBLISHED_TIMESTAMP</code> |
+  /// <code>ROUTING_PROFILE</code> | <code>ROUTING_STEP_EXPRESSION</code>
+  ///
+  /// Parameter [interval] :
+  /// The interval period and timezone to apply to returned metrics.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IntervalPeriod</code>: An aggregated grouping applied to request
+  /// metrics. Valid <code>IntervalPeriod</code> values are:
+  /// <code>FIFTEEN_MIN</code> | <code>THIRTY_MIN</code> | <code>HOUR</code> |
+  /// <code>DAY</code> | <code>WEEK</code> | <code>TOTAL</code>.
+  ///
+  /// For example, if <code>IntervalPeriod</code> is selected
+  /// <code>THIRTY_MIN</code>, <code>StartTime</code> and <code>EndTime</code>
+  /// differs by 1 day, then Amazon Connect returns 48 results in the response.
+  /// Each result is aggregated by the THIRTY_MIN period. By default Amazon
+  /// Connect aggregates results based on the <code>TOTAL</code> interval
+  /// period.
+  ///
+  /// The following list describes restrictions on <code>StartTime</code> and
+  /// <code>EndTime</code> based on which <code>IntervalPeriod</code> is
+  /// requested.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FIFTEEN_MIN</code>: The difference between <code>StartTime</code>
+  /// and <code>EndTime</code> must be less than 3 days.
+  /// </li>
+  /// <li>
+  /// <code>THIRTY_MIN</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 3 days.
+  /// </li>
+  /// <li>
+  /// <code>HOUR</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 3 days.
+  /// </li>
+  /// <li>
+  /// <code>DAY</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 35 days.
+  /// </li>
+  /// <li>
+  /// <code>WEEK</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 35 days.
+  /// </li>
+  /// <li>
+  /// <code>TOTAL</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 35 days.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>TimeZone</code>: The timezone applied to requested metrics.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -4364,6 +6684,7 @@ class Connect {
     required String resourceArn,
     required DateTime startTime,
     List<String>? groupings,
+    IntervalDetails? interval,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -4380,6 +6701,7 @@ class Connect {
       'ResourceArn': resourceArn,
       'StartTime': unixTimestampToJson(startTime),
       if (groupings != null) 'Groupings': groupings,
+      if (interval != null) 'Interval': interval,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -4470,7 +6792,10 @@ class Connect {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
-  /// The identifier of the traffic distribution group.
+  /// The identifier of the traffic distribution group. This can be the ID or
+  /// the ARN if the API is being called in the Region where the traffic
+  /// distribution group was created. The ARN must be provided if the call is
+  /// from the replicated Region.
   Future<GetTrafficDistributionResponse> getTrafficDistribution({
     required String id,
   }) async {
@@ -4481,6 +6806,65 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return GetTrafficDistributionResponse.fromJson(response);
+  }
+
+  /// Imports a claimed phone number from an external service, such as Amazon
+  /// Pinpoint, into an Amazon Connect instance. You can call this API only in
+  /// the same Amazon Web Services Region where the Amazon Connect instance was
+  /// created.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  /// May throw [IdempotencyException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [sourcePhoneNumberArn] :
+  /// The claimed phone number ARN being imported from the external service,
+  /// such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the
+  /// ARN of the phone number to import from Amazon Pinpoint.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  ///
+  /// Parameter [phoneNumberDescription] :
+  /// The description of the phone number.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+  Future<ImportPhoneNumberResponse> importPhoneNumber({
+    required String instanceId,
+    required String sourcePhoneNumberArn,
+    String? clientToken,
+    String? phoneNumberDescription,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      'SourcePhoneNumberArn': sourcePhoneNumberArn,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (phoneNumberDescription != null)
+        'PhoneNumberDescription': phoneNumberDescription,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/phone-number/import',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ImportPhoneNumberResponse.fromJson(response);
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -4534,6 +6918,60 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListAgentStatusResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Lists the association status of requested dataset ID for a given Amazon
+  /// Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [dataSetId] :
+  /// The identifier of the dataset to get the association status.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListAnalyticsDataAssociationsResponse> listAnalyticsDataAssociations({
+    required String instanceId,
+    String? dataSetId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (dataSetId != null) 'DataSetId': [dataSetId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/analytics-data/instance/${Uri.encodeComponent(instanceId)}/association',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAnalyticsDataAssociationsResponse.fromJson(response);
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -4796,7 +7234,9 @@ class Connect {
   /// change.
   ///
   /// For the specified <code>referenceTypes</code>, returns a list of
-  /// references associated with the contact.
+  /// references associated with the contact. <i>References</i> are links to
+  /// documents that are related to a contact, such as emails, attachments, or
+  /// URLs.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -4984,6 +7424,57 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListEvaluationFormsResponse.fromJson(response);
+  }
+
+  /// List the flow association based on the filters.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  Future<ListFlowAssociationsResponse> listFlowAssociations({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    ListFlowAssociationResourceType? resourceType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (resourceType != null) 'ResourceType': [resourceType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/flow-associations-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFlowAssociationsResponse.fromJson(response);
   }
 
   /// Provides information about the hours of operation for the specified Amazon
@@ -5193,6 +7684,9 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
   ///
+  /// Parameter [integrationArn] :
+  /// The Amazon Resource Name (ARN) of the integration.
+  ///
   /// Parameter [integrationType] :
   /// The integration type.
   ///
@@ -5204,6 +7698,7 @@ class Connect {
   /// previous response in the next request to retrieve the next set of results.
   Future<ListIntegrationAssociationsResponse> listIntegrationAssociations({
     required String instanceId,
+    String? integrationArn,
     IntegrationType? integrationType,
     int? maxResults,
     String? nextToken,
@@ -5215,6 +7710,7 @@ class Connect {
       100,
     );
     final $query = <String, List<String>>{
+      if (integrationArn != null) 'integrationArn': [integrationArn],
       if (integrationType != null)
         'integrationType': [integrationType.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -5340,6 +7836,16 @@ class Connect {
   /// Up Phone Numbers for Your Contact Center</a> in the <i>Amazon Connect
   /// Administrator Guide</i>.
   /// <important>
+  /// <ul>
+  /// <li>
+  /// We recommend using <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html">ListPhoneNumbersV2</a>
+  /// to return phone number types. ListPhoneNumbers doesn't support number
+  /// types <code>UIFN</code>, <code>SHARED</code>, <code>THIRD_PARTY_TF</code>,
+  /// and <code>THIRD_PARTY_DID</code>. While it returns numbers of those types,
+  /// it incorrectly lists them as <code>TOLL_FREE</code> or <code>DID</code>.
+  /// </li>
+  /// <li>
   /// The phone number <code>Arn</code> value that is returned from each of the
   /// items in the <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbers.html#connect-ListPhoneNumbers-response-PhoneNumberSummaryList">PhoneNumberSummaryList</a>
@@ -5348,7 +7854,8 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html">ListPhoneNumbersV2</a>
   /// API. It returns the new phone number ARN that can be used to tag phone
   /// number resources.
-  /// </important>
+  /// </li>
+  /// </ul> </important>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -5374,6 +7881,14 @@ class Connect {
   ///
   /// Parameter [phoneNumberTypes] :
   /// The type of phone number.
+  /// <note>
+  /// We recommend using <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html">ListPhoneNumbersV2</a>
+  /// to return phone number types. While ListPhoneNumbers returns number types
+  /// <code>UIFN</code>, <code>SHARED</code>, <code>THIRD_PARTY_TF</code>, and
+  /// <code>THIRD_PARTY_DID</code>, it incorrectly lists them as
+  /// <code>TOLL_FREE</code> or <code>DID</code>.
+  /// </note>
   Future<ListPhoneNumbersResponse> listPhoneNumbers({
     required String instanceId,
     int? maxResults,
@@ -5415,12 +7930,33 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html">Set
   /// Up Phone Numbers for Your Contact Center</a> in the <i>Amazon Connect
   /// Administrator Guide</i>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// When given an instance ARN, <code>ListPhoneNumbersV2</code> returns only
+  /// the phone numbers claimed to the instance.
+  /// </li>
+  /// <li>
+  /// When given a traffic distribution group ARN
+  /// <code>ListPhoneNumbersV2</code> returns only the phone numbers claimed to
+  /// the traffic distribution group.
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance that phone numbers are
+  /// claimed to. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance. If
+  /// both <code>TargetArn</code> and <code>InstanceId</code> are not provided,
+  /// this API lists numbers claimed to all the Amazon Connect instances
+  /// belonging to your account in the same AWS Region as the request.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -5441,11 +7977,13 @@ class Connect {
   ///
   /// Parameter [targetArn] :
   /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
-  /// distribution groups that phone numbers are claimed to. If
-  /// <code>TargetArn</code> input is not provided, this API lists numbers
-  /// claimed to all the Amazon Connect instances belonging to your account in
-  /// the same Amazon Web Services Region as the request.
+  /// distribution groups that phone number inbound traffic is routed through.
+  /// If both <code>TargetArn</code> and <code>InstanceId</code> input are not
+  /// provided, this API lists numbers claimed to all the Amazon Connect
+  /// instances belonging to your account in the same Amazon Web Services Region
+  /// as the request.
   Future<ListPhoneNumbersV2Response> listPhoneNumbersV2({
+    String? instanceId,
     int? maxResults,
     String? nextToken,
     List<PhoneNumberCountryCode>? phoneNumberCountryCodes,
@@ -5460,6 +7998,7 @@ class Connect {
       1000,
     );
     final $payload = <String, dynamic>{
+      if (instanceId != null) 'InstanceId': instanceId,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (phoneNumberCountryCodes != null)
@@ -5477,6 +8016,49 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListPhoneNumbersV2Response.fromJson(response);
+  }
+
+  /// Lists predefined attributes for the specified Amazon Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListPredefinedAttributesResponse> listPredefinedAttributes({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/predefined-attributes/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPredefinedAttributesResponse.fromJson(response);
   }
 
   /// Provides information about the prompts for the specified Amazon Connect
@@ -5660,9 +8242,9 @@ class Connect {
   /// previous response in the next request to retrieve the next set of results.
   ///
   /// Parameter [quickConnectTypes] :
-  /// The type of quick connect. In the Amazon Connect console, when you create
-  /// a quick connect, you are prompted to assign one of the following types:
-  /// Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+  /// The type of quick connect. In the Amazon Connect admin website, when you
+  /// create a quick connect, you are prompted to assign one of the following
+  /// types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
   Future<ListQuickConnectsResponse> listQuickConnects({
     required String instanceId,
     int? maxResults,
@@ -5689,6 +8271,69 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListQuickConnectsResponse.fromJson(response);
+  }
+
+  /// Provides a list of analysis segments for a real-time analysis session.
+  ///
+  /// May throw [OutputTypeNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact in this instance of Amazon Connect.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [outputType] :
+  /// The Contact Lens output type to be returned.
+  ///
+  /// Parameter [segmentTypes] :
+  /// Enum with segment types . Each value corresponds to a segment type
+  /// returned in the segments list of the API. Each segment type has its own
+  /// structure. Different channels may have different sets of supported segment
+  /// types.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListRealtimeContactAnalysisSegmentsV2Response>
+      listRealtimeContactAnalysisSegmentsV2({
+    required String contactId,
+    required String instanceId,
+    required RealTimeContactAnalysisOutputType outputType,
+    required List<RealTimeContactAnalysisSegmentType> segmentTypes,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'OutputType': outputType.toValue(),
+      'SegmentTypes': segmentTypes.map((e) => e.toValue()).toList(),
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact/list-real-time-analysis-segments-v2/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRealtimeContactAnalysisSegmentsV2Response.fromJson(response);
   }
 
   /// Lists the queues associated with a routing profile.
@@ -5897,9 +8542,56 @@ class Connect {
     return ListSecurityKeysResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
+  /// Returns a list of third-party applications in a specific security profile.
   ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [securityProfileId] :
+  /// The identifier for the security profle.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListSecurityProfileApplicationsResponse>
+      listSecurityProfileApplications({
+    required String instanceId,
+    required String securityProfileId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/security-profiles-applications/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(securityProfileId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSecurityProfileApplicationsResponse.fromJson(response);
+  }
+
   /// Lists the permissions granted to a security profile.
   ///
   /// May throw [InvalidRequestException].
@@ -6096,6 +8788,53 @@ class Connect {
     return ListTaskTemplatesResponse.fromJson(response);
   }
 
+  /// Lists traffic distribution group users.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [trafficDistributionGroupId] :
+  /// The identifier of the traffic distribution group. This can be the ID or
+  /// the ARN if the API is being called in the Region where the traffic
+  /// distribution group was created. The ARN must be provided if the call is
+  /// from the replicated Region.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListTrafficDistributionGroupUsersResponse>
+      listTrafficDistributionGroupUsers({
+    required String trafficDistributionGroupId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/traffic-distribution-group/${Uri.encodeComponent(trafficDistributionGroupId)}/user',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTrafficDistributionGroupUsersResponse.fromJson(response);
+  }
+
   /// Lists traffic distribution groups.
   ///
   /// May throw [InvalidRequestException].
@@ -6239,6 +8978,54 @@ class Connect {
     return ListUserHierarchyGroupsResponse.fromJson(response);
   }
 
+  /// Lists proficiencies associated with a user.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [userId] :
+  /// The identifier of the user account.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListUserProficienciesResponse> listUserProficiencies({
+    required String instanceId,
+    required String userId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/proficiencies',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListUserProficienciesResponse.fromJson(response);
+  }
+
   /// Provides summary information about the users for the specified Amazon
   /// Connect instance.
   ///
@@ -6285,6 +9072,112 @@ class Connect {
     return ListUsersResponse.fromJson(response);
   }
 
+  /// Returns all the available versions for the specified Amazon Connect
+  /// instance and view identifier.
+  ///
+  /// Results will be sorted from highest to lowest.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [viewId] :
+  /// The identifier of the view. Both <code>ViewArn</code> and
+  /// <code>ViewId</code> can be used.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page. The default MaxResult
+  /// size is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListViewVersionsResponse> listViewVersions({
+    required String instanceId,
+    required String viewId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/views/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(viewId)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListViewVersionsResponse.fromJson(response);
+  }
+
+  /// Returns views in the given instance.
+  ///
+  /// Results are sorted primarily by type, and secondarily by name.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page. The default MaxResult
+  /// size is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [type] :
+  /// The type of the view.
+  Future<ListViewsResponse> listViews({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    ViewType? type,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (type != null) 'type': [type.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/views/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListViewsResponse.fromJson(response);
+  }
+
   /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP)
   /// of the user specified by <i>userId</i> will be set to silent monitoring
   /// mode on the contact.
@@ -6310,6 +9203,7 @@ class Connect {
   /// Parameter [allowedMonitorCapabilities] :
   /// Specify which monitoring actions the user is allowed to take. For example,
   /// whether the user is allowed to escalate from silent monitoring to barge.
+  /// AllowedMonitorCapabilities is required if barge is enabled.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -6340,6 +9234,44 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return MonitorContactResponse.fromJson(response);
+  }
+
+  /// Allows pausing an ongoing task contact.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the
+  /// <code>instanceId</code> in the ARN of the instance.
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the flow.
+  Future<void> pauseContact({
+    required String contactId,
+    required String instanceId,
+    String? contactFlowId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InstanceId': instanceId,
+      if (contactFlowId != null) 'ContactFlowId': contactFlowId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/pause',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Changes the current status of a user or agent in Amazon Connect. If the
@@ -6390,13 +9322,29 @@ class Connect {
   /// Web Services Region where the number was claimed.
   /// <important>
   /// To release phone numbers from a traffic distribution group, use the
-  /// <code>ReleasePhoneNumber</code> API, not the Amazon Connect console.
+  /// <code>ReleasePhoneNumber</code> API, not the Amazon Connect admin website.
   ///
   /// After releasing a phone number, the phone number enters into a cooldown
-  /// period of 30 days. It cannot be searched for or claimed again until the
-  /// period has ended. If you accidentally release a phone number, contact
-  /// Amazon Web Services Support.
+  /// period for up to 180 days. It cannot be searched for or claimed again
+  /// until the period has ended. If you accidentally release a phone number,
+  /// contact Amazon Web Services Support.
   /// </important>
+  /// If you plan to claim and release numbers frequently, contact us for a
+  /// service quota exception. Otherwise, it is possible you will be blocked
+  /// from claiming and releasing any more numbers until up to 180 days past the
+  /// oldest number released has expired.
+  ///
+  /// By default you can claim and release up to 200% of your maximum number of
+  /// active phone numbers. If you claim and release phone numbers using the UI
+  /// or API during a rolling 180 day cycle that exceeds 200% of your phone
+  /// number service level quota, you will be blocked from claiming any more
+  /// numbers until 180 days past the oldest number released has expired.
+  ///
+  /// For example, if you already have 99 claimed numbers and a service level
+  /// quota of 99 phone numbers, and in any 180 day period you release 99, claim
+  /// 99, and then release 99, you will have exceeded the 200% limit. At that
+  /// point you are blocked from claiming any more numbers until you open an
+  /// Amazon Web Services support ticket.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -6432,7 +9380,8 @@ class Connect {
   }
 
   /// Replicates an Amazon Connect instance in the specified Amazon Web Services
-  /// Region.
+  /// Region and copies configuration information for Amazon Connect resources
+  /// across Amazon Web Services Regions.
   ///
   /// For more information about replicating an Amazon Connect instance, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html">Create
@@ -6488,10 +9437,50 @@ class Connect {
     return ReplicateInstanceResponse.fromJson(response);
   }
 
-  /// When a contact is being recorded, and the recording has been suspended
-  /// using SuspendContactRecording, this API resumes recording the call.
+  /// Allows resuming a task contact in a paused state.
   ///
-  /// Only voice recordings are supported at this time.
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the
+  /// <code>instanceId</code> in the ARN of the instance.
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the flow.
+  Future<void> resumeContact({
+    required String contactId,
+    required String instanceId,
+    String? contactFlowId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InstanceId': instanceId,
+      if (contactFlowId != null) 'ContactFlowId': contactFlowId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/resume',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// When a contact is being recorded, and the recording has been suspended
+  /// using SuspendContactRecording, this API resumes recording whatever
+  /// recording is selected in the flow configuration: call, screen, or both. If
+  /// only call recording or only screen recording is enabled, then it would
+  /// resume.
+  ///
+  /// Voice and screen recordings are supported.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -6543,9 +9532,12 @@ class Connect {
   /// Parameter [phoneNumberType] :
   /// The type of phone number.
   ///
-  /// Parameter [targetArn] :
-  /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
-  /// distribution groups that phone numbers are claimed to.
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance that phone numbers are
+  /// claimed to. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance. You
+  /// must enter <code>InstanceId</code> or <code>TargetArn</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -6557,13 +9549,19 @@ class Connect {
   /// Parameter [phoneNumberPrefix] :
   /// The prefix of the phone number. If provided, it must contain
   /// <code>+</code> as part of the country code.
+  ///
+  /// Parameter [targetArn] :
+  /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
+  /// distribution groups that phone number inbound traffic is routed through.
+  /// You must enter <code>InstanceId</code> or <code>TargetArn</code>.
   Future<SearchAvailablePhoneNumbersResponse> searchAvailablePhoneNumbers({
     required PhoneNumberCountryCode phoneNumberCountryCode,
     required PhoneNumberType phoneNumberType,
-    required String targetArn,
+    String? instanceId,
     int? maxResults,
     String? nextToken,
     String? phoneNumberPrefix,
+    String? targetArn,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6574,10 +9572,11 @@ class Connect {
     final $payload = <String, dynamic>{
       'PhoneNumberCountryCode': phoneNumberCountryCode.toValue(),
       'PhoneNumberType': phoneNumberType.toValue(),
-      'TargetArn': targetArn,
+      if (instanceId != null) 'InstanceId': instanceId,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (phoneNumberPrefix != null) 'PhoneNumberPrefix': phoneNumberPrefix,
+      if (targetArn != null) 'TargetArn': targetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -6588,9 +9587,341 @@ class Connect {
     return SearchAvailablePhoneNumbersResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
+  /// Searches the flow modules in an Amazon Connect instance, with optional
+  /// filtering.
   ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return contact flow modules.
+  /// <note>
+  /// The <code>name</code> and <code>description</code> fields support
+  /// "contains" queries with a minimum of 2 characters and a maximum of 25
+  /// characters. Any queries with character lengths outside of this range will
+  /// result in invalid results.
+  /// </note>
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results.
+  Future<SearchContactFlowModulesResponse> searchContactFlowModules({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    ContactFlowModuleSearchCriteria? searchCriteria,
+    ContactFlowModuleSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-contact-flow-modules',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchContactFlowModulesResponse.fromJson(response);
+  }
+
+  /// Searches the contact flows in an Amazon Connect instance, with optional
+  /// filtering.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return flows.
+  /// <note>
+  /// The <code>name</code> and <code>description</code> fields support
+  /// "contains" queries with a minimum of 2 characters and a maximum of 25
+  /// characters. Any queries with character lengths outside of this range will
+  /// result in invalid results.
+  /// </note>
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results.
+  Future<SearchContactFlowsResponse> searchContactFlows({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    ContactFlowSearchCriteria? searchCriteria,
+    ContactFlowSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-contact-flows',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchContactFlowsResponse.fromJson(response);
+  }
+
+  /// Searches contacts in an Amazon Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of Amazon Connect instance. You can find the instance ID in
+  /// the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [timeRange] :
+  /// Time range that you want to search results.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return contacts.
+  ///
+  /// Parameter [sort] :
+  /// Specifies a field to sort by and a sort order.
+  Future<SearchContactsResponse> searchContacts({
+    required String instanceId,
+    required SearchContactsTimeRange timeRange,
+    int? maxResults,
+    String? nextToken,
+    SearchCriteria? searchCriteria,
+    Sort? sort,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      'TimeRange': timeRange,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (sort != null) 'Sort': sort,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-contacts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchContactsResponse.fromJson(response);
+  }
+
+  /// Searches the hours of operation in an Amazon Connect instance, with
+  /// optional filtering.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return hours of operations.
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results.
+  Future<SearchHoursOfOperationsResponse> searchHoursOfOperations({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    HoursOfOperationSearchCriteria? searchCriteria,
+    HoursOfOperationSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-hours-of-operations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchHoursOfOperationsResponse.fromJson(response);
+  }
+
+  /// Predefined attributes that meet certain criteria.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return predefined attributes.
+  Future<SearchPredefinedAttributesResponse> searchPredefinedAttributes({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    PredefinedAttributeSearchCriteria? searchCriteria,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-predefined-attributes',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchPredefinedAttributesResponse.fromJson(response);
+  }
+
+  /// Searches prompts in an Amazon Connect instance, with optional filtering.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return prompts.
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results.
+  Future<SearchPromptsResponse> searchPrompts({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    PromptSearchCriteria? searchCriteria,
+    PromptSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-prompts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchPromptsResponse.fromJson(response);
+  }
+
   /// Searches queues in an Amazon Connect instance, with optional filtering.
   ///
   /// May throw [InvalidRequestException].
@@ -6633,7 +9964,7 @@ class Connect {
       'maxResults',
       maxResults,
       1,
-      100,
+      500,
     );
     final $payload = <String, dynamic>{
       'InstanceId': instanceId,
@@ -6651,9 +9982,118 @@ class Connect {
     return SearchQueuesResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
+  /// Searches quick connects in an Amazon Connect instance, with optional
+  /// filtering.
   ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return quick connects.
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results.
+  Future<SearchQuickConnectsResponse> searchQuickConnects({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    QuickConnectSearchCriteria? searchCriteria,
+    QuickConnectSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-quick-connects',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchQuickConnectsResponse.fromJson(response);
+  }
+
+  /// Searches tags used in an Amazon Connect instance using optional search
+  /// criteria.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  /// May throw [MaximumResultReturnedException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [resourceTypes] :
+  /// The list of resource types to be used to search tags from. If not provided
+  /// or if any empty list is provided, this API will search from all supported
+  /// resource types.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return tags.
+  Future<SearchResourceTagsResponse> searchResourceTags({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    List<String>? resourceTypes,
+    ResourceTagsSearchCriteria? searchCriteria,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceTypes != null) 'ResourceTypes': resourceTypes,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-resource-tags',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchResourceTagsResponse.fromJson(response);
+  }
+
   /// Searches routing profiles in an Amazon Connect instance, with optional
   /// filtering.
   ///
@@ -6697,7 +10137,7 @@ class Connect {
       'maxResults',
       maxResults,
       1,
-      100,
+      500,
     );
     final $payload = <String, dynamic>{
       'InstanceId': instanceId,
@@ -6715,9 +10155,6 @@ class Connect {
     return SearchRoutingProfilesResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
-  ///
   /// Searches security profiles in an Amazon Connect instance, with optional
   /// filtering.
   ///
@@ -6796,6 +10233,9 @@ class Connect {
   /// The identifier of the Amazon Connect instance. You can <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  /// <note>
+  /// InstanceID is a required field. The "Required: No" below is incorrect.
+  /// </note>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -6807,7 +10247,7 @@ class Connect {
   /// Parameter [searchFilter] :
   /// Filters to be applied to search results.
   Future<SearchUsersResponse> searchUsers({
-    String? instanceId,
+    required String instanceId,
     int? maxResults,
     String? nextToken,
     UserSearchCriteria? searchCriteria,
@@ -6817,10 +10257,10 @@ class Connect {
       'maxResults',
       maxResults,
       1,
-      100,
+      500,
     );
     final $payload = <String, dynamic>{
-      if (instanceId != null) 'InstanceId': instanceId,
+      'InstanceId': instanceId,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (searchCriteria != null) 'SearchCriteria': searchCriteria,
@@ -6897,6 +10337,176 @@ class Connect {
     return SearchVocabulariesResponse.fromJson(response);
   }
 
+  /// Processes chat integration events from Amazon Web Services or external
+  /// integrations to Amazon Connect. A chat integration event includes:
+  ///
+  /// <ul>
+  /// <li>
+  /// SourceId, DestinationId, and Subtype: a set of identifiers, uniquely
+  /// representing a chat
+  /// </li>
+  /// <li>
+  /// ChatEvent: details of the chat action to perform such as sending a
+  /// message, event, or disconnecting from a chat
+  /// </li>
+  /// </ul>
+  /// When a chat integration event is sent with chat identifiers that do not
+  /// map to an active chat contact, a new chat contact is also created before
+  /// handling chat action.
+  ///
+  /// Access to this API is currently restricted to Amazon Pinpoint for
+  /// supporting SMS integration.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [destinationId] :
+  /// Chat system identifier, used in part to uniquely identify chat. This is
+  /// associated with the Amazon Connect instance and flow to be used to start
+  /// chats. For SMS, this is the phone number destination of inbound SMS
+  /// messages represented by an Amazon Pinpoint phone number ARN.
+  ///
+  /// Parameter [event] :
+  /// Chat integration event payload
+  ///
+  /// Parameter [sourceId] :
+  /// External identifier of chat customer participant, used in part to uniquely
+  /// identify a chat. For SMS, this is the E164 phone number of the chat
+  /// customer participant.
+  ///
+  /// Parameter [newSessionDetails] :
+  /// Contact properties to apply when starting a new chat. If the integration
+  /// event is handled with an existing chat, this is ignored.
+  ///
+  /// Parameter [subtype] :
+  /// Classification of a channel. This is used in part to uniquely identify
+  /// chat.
+  ///
+  /// Valid value: <code>["connect:sms"]</code>
+  Future<SendChatIntegrationEventResponse> sendChatIntegrationEvent({
+    required String destinationId,
+    required ChatEvent event,
+    required String sourceId,
+    NewSessionDetails? newSessionDetails,
+    String? subtype,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DestinationId': destinationId,
+      'Event': event,
+      'SourceId': sourceId,
+      if (newSessionDetails != null) 'NewSessionDetails': newSessionDetails,
+      if (subtype != null) 'Subtype': subtype,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/chat-integration-event',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendChatIntegrationEventResponse.fromJson(response);
+  }
+
+  /// Provides a pre-signed Amazon S3 URL in response for uploading your
+  /// content.
+  /// <important>
+  /// You may only use this API to upload attachments to a <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Connect
+  /// Case</a>.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [associatedResourceArn] :
+  /// The resource to which the attached file is (being) uploaded to. <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
+  /// are the only current supported resource.
+  /// <note>
+  /// This value must be a valid ARN.
+  /// </note>
+  ///
+  /// Parameter [fileName] :
+  /// A case-sensitive name of the attached file being uploaded.
+  ///
+  /// Parameter [fileSizeInBytes] :
+  /// The size of the attached file in bytes.
+  ///
+  /// Parameter [fileUseCaseType] :
+  /// The use case for the file.
+  ///
+  /// Parameter [instanceId] :
+  /// The unique identifier of the Connect instance.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  ///
+  /// Parameter [createdBy] :
+  /// Represents the identity that created the file.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, <code>{ "Tags": {"key1":"value1", "key2":"value2"} }</code>.
+  ///
+  /// Parameter [urlExpiryInSeconds] :
+  /// Optional override for the expiry of the pre-signed S3 URL in seconds. The
+  /// default value is 300.
+  Future<StartAttachedFileUploadResponse> startAttachedFileUpload({
+    required String associatedResourceArn,
+    required String fileName,
+    required int fileSizeInBytes,
+    required FileUseCaseType fileUseCaseType,
+    required String instanceId,
+    String? clientToken,
+    CreatedByInfo? createdBy,
+    Map<String, String>? tags,
+    int? urlExpiryInSeconds,
+  }) async {
+    _s.validateNumRange(
+      'fileSizeInBytes',
+      fileSizeInBytes,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'urlExpiryInSeconds',
+      urlExpiryInSeconds,
+      5,
+      300,
+    );
+    final $query = <String, List<String>>{
+      'associatedResourceArn': [associatedResourceArn],
+    };
+    final $payload = <String, dynamic>{
+      'FileName': fileName,
+      'FileSizeInBytes': fileSizeInBytes,
+      'FileUseCaseType': fileUseCaseType.toValue(),
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (tags != null) 'Tags': tags,
+      if (urlExpiryInSeconds != null) 'UrlExpiryInSeconds': urlExpiryInSeconds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/attached-files/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartAttachedFileUploadResponse.fromJson(response);
+  }
+
   /// Initiates a flow to start a new chat for the customer. Response of this
   /// API provides a token required to obtain credentials from the <a
   /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html">CreateParticipantConnection</a>
@@ -6938,11 +10548,11 @@ class Connect {
   ///
   /// Parameter [contactFlowId] :
   /// The identifier of the flow for initiating the chat. To see the
-  /// ContactFlowId in the Amazon Connect console user interface, on the
-  /// navigation menu go to <b>Routing</b>, <b>Contact Flows</b>. Choose the
-  /// flow. On the flow page, under the name of the flow, choose <b>Show
-  /// additional flow information</b>. The ContactFlowId is the last part of the
-  /// ARN, shown here in bold:
+  /// ContactFlowId in the Amazon Connect admin website, on the navigation menu
+  /// go to <b>Routing</b>, <b>Contact Flows</b>. Choose the flow. On the flow
+  /// page, under the name of the flow, choose <b>Show additional flow
+  /// information</b>. The ContactFlowId is the last part of the ARN, shown here
+  /// in bold:
   ///
   /// arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/<b>846ec553-a005-41c0-8341-xxxxxxxxxxxx</b>
   ///
@@ -6977,7 +10587,8 @@ class Connect {
   /// retries safe with idempotent APIs</a>.
   ///
   /// Parameter [initialMessage] :
-  /// The initial message to be sent to the newly created chat.
+  /// The initial message to be sent to the newly created chat. If you have a
+  /// Lex bot in your flow, the initial message is not delivered to the Lex bot.
   ///
   /// Parameter [persistentChat] :
   /// Enable persistent chats. For more information about enabling persistent
@@ -6990,6 +10601,24 @@ class Connect {
   /// related to the chat starting.
   /// <note>
   /// You cannot provide data for both RelatedContactId and PersistentChat.
+  /// </note>
+  ///
+  /// Parameter [segmentAttributes] :
+  /// A set of system defined key-value pairs stored on individual contact
+  /// segments using an attribute map. The attributes are standard Amazon
+  /// Connect attributes. They can be accessed in flows.
+  ///
+  /// Attribute keys can include only alphanumeric, -, and _.
+  ///
+  /// This field can be used to show channel subtype, such as
+  /// <code>connect:Guide</code>.
+  /// <note>
+  /// The types
+  /// <code>application/vnd.amazonaws.connect.message.interactive</code> and
+  /// <code>application/vnd.amazonaws.connect.message.interactive.response</code>
+  /// must be present in the SupportedMessagingContentTypes field of this API in
+  /// order to set <code>SegmentAttributes</code> as {<code> "connect:Subtype":
+  /// {"valueString" : "connect:Guide" }}</code>.
   /// </note>
   ///
   /// Parameter [supportedMessagingContentTypes] :
@@ -7023,6 +10652,7 @@ class Connect {
     ChatMessage? initialMessage,
     PersistentChat? persistentChat,
     String? relatedContactId,
+    Map<String, SegmentAttributeValue>? segmentAttributes,
     List<String>? supportedMessagingContentTypes,
   }) async {
     _s.validateNumRange(
@@ -7042,6 +10672,7 @@ class Connect {
       if (initialMessage != null) 'InitialMessage': initialMessage,
       if (persistentChat != null) 'PersistentChat': persistentChat,
       if (relatedContactId != null) 'RelatedContactId': relatedContactId,
+      if (segmentAttributes != null) 'SegmentAttributes': segmentAttributes,
       if (supportedMessagingContentTypes != null)
         'SupportedMessagingContentTypes': supportedMessagingContentTypes,
     };
@@ -7261,7 +10892,7 @@ class Connect {
   ///
   /// Parameter [contactFlowId] :
   /// The identifier of the flow for the outbound call. To see the ContactFlowId
-  /// in the Amazon Connect console user interface, on the navigation menu go to
+  /// in the Amazon Connect admin website, on the navigation menu go to
   /// <b>Routing</b>, <b>Contact Flows</b>. Choose the flow. On the flow page,
   /// under the name of the flow, choose <b>Show additional flow
   /// information</b>. The ContactFlowId is the last part of the ARN, shown here
@@ -7300,11 +10931,34 @@ class Connect {
   /// retries safe with idempotent APIs</a>. The token is valid for 7 days after
   /// creation. If a contact is already started, the contact ID is returned.
   ///
+  /// Parameter [description] :
+  /// A description of the voice contact that is shown to an agent in the
+  /// Contact Control Panel (CCP).
+  ///
+  /// Parameter [name] :
+  /// The name of a voice contact that is shown to an agent in the Contact
+  /// Control Panel (CCP).
+  ///
   /// Parameter [queueId] :
   /// The queue for the call. If you specify a queue, the phone displayed for
   /// caller ID is the phone number specified in the queue. If you do not
   /// specify a queue, the queue defined in the flow is used. If you do not
   /// specify a queue, you must specify a source phone number.
+  ///
+  /// Parameter [references] :
+  /// A formatted URL that is shown to an agent in the Contact Control Panel
+  /// (CCP). Contacts can have the following reference types at the time of
+  /// creation: <code>URL</code> | <code>NUMBER</code> | <code>STRING</code> |
+  /// <code>DATE</code> | <code>EMAIL</code>. <code>ATTACHMENT</code> is not a
+  /// supported reference type during voice contact creation.
+  ///
+  /// Parameter [relatedContactId] :
+  /// The <code>contactId</code> that is related to this contact. Linking voice,
+  /// task, or chat by using <code>RelatedContactID</code> copies over contact
+  /// attributes from the related contact to the new contact. All updates to
+  /// user-defined attributes in the new contact are limited to the individual
+  /// contact ID. There are no limits to the number of contacts that can be
+  /// linked by using <code>RelatedContactId</code>.
   ///
   /// Parameter [sourcePhoneNumber] :
   /// The phone number associated with the Amazon Connect instance, in E.164
@@ -7325,7 +10979,11 @@ class Connect {
     Map<String, String>? attributes,
     String? campaignId,
     String? clientToken,
+    String? description,
+    String? name,
     String? queueId,
+    Map<String, Reference>? references,
+    String? relatedContactId,
     String? sourcePhoneNumber,
     TrafficType? trafficType,
   }) async {
@@ -7338,7 +10996,11 @@ class Connect {
       if (attributes != null) 'Attributes': attributes,
       if (campaignId != null) 'CampaignId': campaignId,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
       if (queueId != null) 'QueueId': queueId,
+      if (references != null) 'References': references,
+      if (relatedContactId != null) 'RelatedContactId': relatedContactId,
       if (sourcePhoneNumber != null) 'SourcePhoneNumber': sourcePhoneNumber,
       if (trafficType != null) 'TrafficType': trafficType.toValue(),
     };
@@ -7351,7 +11013,65 @@ class Connect {
     return StartOutboundVoiceContactResponse.fromJson(response);
   }
 
-  /// Initiates a flow to start a new task.
+  /// Initiates a flow to start a new task contact. For more information about
+  /// task contacts, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html">Concepts:
+  /// Tasks in Amazon Connect</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  ///
+  /// When using <code>PreviousContactId</code> and
+  /// <code>RelatedContactId</code> input parameters, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PreviousContactId</code>
+  ///
+  /// <ul>
+  /// <li>
+  /// Any updates to user-defined task contact attributes on any contact linked
+  /// through the same <code>PreviousContactId</code> will affect every contact
+  /// in the chain.
+  /// </li>
+  /// <li>
+  /// There can be a maximum of 12 linked task contacts in a chain. That is, 12
+  /// task contacts can be created that share the same
+  /// <code>PreviousContactId</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>RelatedContactId</code>
+  ///
+  /// <ul>
+  /// <li>
+  /// Copies contact attributes from the related task contact to the new
+  /// contact.
+  /// </li>
+  /// <li>
+  /// Any update on attributes in a new task contact does not update attributes
+  /// on previous contact.
+  /// </li>
+  /// <li>
+  /// There’s no limit on the number of task contacts that can be created that
+  /// use the same <code>RelatedContactId</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// In addition, when calling StartTaskContact include only one of these
+  /// parameters: <code>ContactFlowID</code>, <code>QuickConnectID</code>, or
+  /// <code>TaskTemplateID</code>. Only one parameter is required as long as the
+  /// task template has a flow configured to run it. If more than one parameter
+  /// is specified, or only the <code>TaskTemplateID</code> is specified but it
+  /// does not have a flow configured, the request returns an error because
+  /// Amazon Connect cannot identify the unique flow to run when the task is
+  /// created.
+  ///
+  /// A <code>ServiceQuotaExceededException</code> occurs when the number of
+  /// open tasks exceeds the active tasks quota or there are already 12 tasks
+  /// referencing the same <code>PreviousContactId</code>. For more information
+  /// about service quotas for task contacts, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html">Amazon
+  /// Connect service quotas</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -7387,11 +11107,11 @@ class Connect {
   ///
   /// Parameter [contactFlowId] :
   /// The identifier of the flow for initiating the tasks. To see the
-  /// ContactFlowId in the Amazon Connect console user interface, on the
-  /// navigation menu go to <b>Routing</b>, <b>Contact Flows</b>. Choose the
-  /// flow. On the flow page, under the name of the flow, choose <b>Show
-  /// additional flow information</b>. The ContactFlowId is the last part of the
-  /// ARN, shown here in bold:
+  /// ContactFlowId in the Amazon Connect admin website, on the navigation menu
+  /// go to <b>Routing</b>, <b>Contact Flows</b>. Choose the flow. On the flow
+  /// page, under the name of the flow, choose <b>Show additional flow
+  /// information</b>. The ContactFlowId is the last part of the ARN, shown here
+  /// in bold:
   ///
   /// arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/<b>846ec553-a005-41c0-8341-xxxxxxxxxxxx</b>
   ///
@@ -7400,19 +11120,35 @@ class Connect {
   /// Panel (CCP).
   ///
   /// Parameter [previousContactId] :
-  /// The identifier of the previous chat, voice, or task contact.
+  /// The identifier of the previous chat, voice, or task contact. Any updates
+  /// to user-defined attributes to task contacts linked using the same
+  /// <code>PreviousContactID</code> will affect every contact in the chain.
+  /// There can be a maximum of 12 linked task contacts in a chain.
   ///
   /// Parameter [quickConnectId] :
-  /// The identifier for the quick connect.
+  /// The identifier for the quick connect. Tasks that are created by using
+  /// <code>QuickConnectId</code> will use the flow that is defined on agent or
+  /// queue quick connect. For more information about quick connects, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/quick-connects.html">Create
+  /// quick connects</a>.
   ///
   /// Parameter [references] :
   /// A formatted URL that is shown to an agent in the Contact Control Panel
-  /// (CCP).
+  /// (CCP). Tasks can have the following reference types at the time of
+  /// creation: <code>URL</code> | <code>NUMBER</code> | <code>STRING</code> |
+  /// <code>DATE</code> | <code>EMAIL</code>. <code>ATTACHMENT</code> is not a
+  /// supported reference type during task creation.
   ///
   /// Parameter [relatedContactId] :
   /// The contactId that is <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks">related</a>
-  /// to this contact.
+  /// to this contact. Linking tasks together by using
+  /// <code>RelatedContactID</code> copies over contact attributes from the
+  /// related task contact to the new task contact. All updates to user-defined
+  /// attributes in the new task contact are limited to the individual contact
+  /// ID, unlike what happens when tasks are linked by using
+  /// <code>PreviousContactID</code>. There are no limits to the number of
+  /// contacts that can be linked by using <code>RelatedContactId</code>.
   ///
   /// Parameter [scheduledTime] :
   /// The timestamp, in Unix Epoch seconds format, at which to start running the
@@ -7420,7 +11156,10 @@ class Connect {
   /// up to 6 days in future.
   ///
   /// Parameter [taskTemplateId] :
-  /// A unique identifier for the task template.
+  /// A unique identifier for the task template. For more information about task
+  /// templates, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html">Create
+  /// task templates</a> in the <i>Amazon Connect Administrator Guide</i>.
   Future<StartTaskContactResponse> startTaskContact({
     required String instanceId,
     required String name,
@@ -7459,8 +11198,102 @@ class Connect {
     return StartTaskContactResponse.fromJson(response);
   }
 
-  /// Ends the specified contact. This call does not work for the following
-  /// initiation methods:
+  /// Places an inbound in-app, web, or video call to a contact, and then
+  /// initiates the flow. It performs the actions in the flow that are specified
+  /// (in ContactFlowId) and present in the Amazon Connect instance (specified
+  /// as InstanceId).
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the flow for the call. To see the ContactFlowId in the
+  /// Amazon Connect admin website, on the navigation menu go to <b>Routing</b>,
+  /// <b>Contact Flows</b>. Choose the flow. On the flow page, under the name of
+  /// the flow, choose <b>Show additional flow information</b>. The
+  /// ContactFlowId is the last part of the ARN, shown here in bold:
+  ///
+  /// arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/<b>846ec553-a005-41c0-8341-xxxxxxxxxxxx</b>
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [allowedCapabilities] :
+  /// Information about the video sharing capabilities of the participants
+  /// (customer, agent).
+  ///
+  /// Parameter [attributes] :
+  /// A custom key-value pair using an attribute map. The attributes are
+  /// standard Amazon Connect attributes, and can be accessed in flows just like
+  /// any other contact attributes.
+  ///
+  /// There can be up to 32,768 UTF-8 bytes across all key-value pairs per
+  /// contact. Attribute keys can include only alphanumeric, -, and _
+  /// characters.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  ///
+  /// The token is valid for 7 days after creation. If a contact is already
+  /// started, the contact ID is returned.
+  ///
+  /// Parameter [description] :
+  /// A description of the task that is shown to an agent in the Contact Control
+  /// Panel (CCP).
+  ///
+  /// Parameter [references] :
+  /// A formatted URL that is shown to an agent in the Contact Control Panel
+  /// (CCP). Tasks can have the following reference types at the time of
+  /// creation: <code>URL</code> | <code>NUMBER</code> | <code>STRING</code> |
+  /// <code>DATE</code> | <code>EMAIL</code>. <code>ATTACHMENT</code> is not a
+  /// supported reference type during task creation.
+  ///
+  /// Parameter [relatedContactId] :
+  /// The unique identifier for an Amazon Connect contact. This identifier is
+  /// related to the contact starting.
+  Future<StartWebRTCContactResponse> startWebRTCContact({
+    required String contactFlowId,
+    required String instanceId,
+    required ParticipantDetails participantDetails,
+    AllowedCapabilities? allowedCapabilities,
+    Map<String, String>? attributes,
+    String? clientToken,
+    String? description,
+    Map<String, Reference>? references,
+    String? relatedContactId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactFlowId': contactFlowId,
+      'InstanceId': instanceId,
+      'ParticipantDetails': participantDetails,
+      if (allowedCapabilities != null)
+        'AllowedCapabilities': allowedCapabilities,
+      if (attributes != null) 'Attributes': attributes,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (references != null) 'References': references,
+      if (relatedContactId != null) 'RelatedContactId': relatedContactId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/contact/webrtc',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartWebRTCContactResponse.fromJson(response);
+  }
+
+  /// Ends the specified contact. Use this API to stop queued callbacks. It does
+  /// not work for voice contacts that use the following initiation methods:
   ///
   /// <ul>
   /// <li>
@@ -7472,7 +11305,15 @@ class Connect {
   /// <li>
   /// QUEUE_TRANSFER
   /// </li>
+  /// <li>
+  /// EXTERNAL_OUTBOUND
+  /// </li>
+  /// <li>
+  /// MONITOR
+  /// </li>
   /// </ul>
+  /// Chat and task contacts can be terminated in any state, regardless of
+  /// initiation method.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ContactNotFoundException].
@@ -7487,13 +11328,19 @@ class Connect {
   /// The identifier of the Amazon Connect instance. You can <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [disconnectReason] :
+  /// The reason a contact can be disconnected. Only Amazon Connect outbound
+  /// campaigns can provide this field.
   Future<void> stopContact({
     required String contactId,
     required String instanceId,
+    DisconnectReason? disconnectReason,
   }) async {
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InstanceId': instanceId,
+      if (disconnectReason != null) 'DisconnectReason': disconnectReason,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -7634,15 +11481,17 @@ class Connect {
     return SubmitContactEvaluationResponse.fromJson(response);
   }
 
-  /// When a contact is being recorded, this API suspends recording the call.
-  /// For example, you might suspend the call recording while collecting
+  /// When a contact is being recorded, this API suspends recording whatever is
+  /// selected in the flow configuration: call, screen, or both. If only call
+  /// recording or only screen recording is enabled, then it would be suspended.
+  /// For example, you might suspend the screen recording while collecting
   /// sensitive information, such as a credit card number. Then use
-  /// ResumeContactRecording to restart recording.
+  /// ResumeContactRecording to restart recording the screen.
   ///
   /// The period of time that the recording is suspended is filled with silence
   /// in the final recording.
   ///
-  /// Only voice recordings are supported at this time.
+  /// Voice and screen recordings are supported.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -7677,6 +11526,49 @@ class Connect {
     );
   }
 
+  /// Adds the specified tags to the contact resource. For more information
+  /// about this API is used, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html">Set
+  /// up granular billing for a detailed view of your Amazon Connect usage</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact in this instance of Amazon Connect.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be assigned to the contact resource. For example, { "Tags":
+  /// {"key1":"value1", "key2":"value2"} }.
+  /// <note>
+  /// Authorization is not supported by this tag.
+  /// </note>
+  Future<void> tagContact({
+    required String contactId,
+    required String instanceId,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InstanceId': instanceId,
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/tags',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Adds the specified tags to the specified resource.
   ///
   /// Some of the supported resource types are agents, routing profiles, queues,
@@ -7702,7 +11594,7 @@ class Connect {
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -7778,7 +11670,7 @@ class Connect {
   /// The identifier for the queue.
   ///
   /// Parameter [userId] :
-  /// The identifier for the user.
+  /// The identifier for the user. This can be the ID or the ARN of the user.
   Future<TransferContactResponse> transferContact({
     required String contactFlowId,
     required String contactId,
@@ -7802,6 +11694,46 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return TransferContactResponse.fromJson(response);
+  }
+
+  /// Removes the specified tags from the contact resource. For more information
+  /// about this API is used, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html">Set
+  /// up granular billing for a detailed view of your Amazon Connect usage</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact in this instance of Amazon Connect.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of tag keys. Existing tags on the contact whose keys are members of
+  /// this list will be removed.
+  Future<void> untagContact({
+    required String contactId,
+    required String instanceId,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'TagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/contact/tags/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Removes the specified tags from the specified resource.
@@ -7986,6 +11918,25 @@ class Connect {
   /// Attribute keys can include only alphanumeric, dash, and underscore
   /// characters.
   ///
+  /// When the attributes for a contact exceed 32 KB, the contact is routed down
+  /// the Error branch of the flow. As a mitigation, consider the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Remove unnecessary attributes by setting their values to empty.
+  /// </li>
+  /// <li>
+  /// If the attributes are only used in one flow and don't need to be referred
+  /// to outside of that flow (for example, by a Lambda or another flow), then
+  /// use flow attributes. This way you aren't needlessly persisting the 32 KB
+  /// of information from one flow to another. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html">Flow
+  /// block: Set contact attributes</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [initialContactId] :
   /// The identifier of the contact. This is the identifier of the contact
   /// associated with the first interaction with the contact center.
@@ -8063,6 +12014,12 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html">Amazon
   /// Connect Flow language</a>.
   ///
+  /// Use the <code>$SAVED</code> alias in the request to describe the
+  /// <code>SAVED</code> content of a Flow. For example,
+  /// <code>arn:aws:.../contact-flow/{id}:$SAVED</code>. Once a contact flow is
+  /// published, <code>$SAVED</code> needs to be supplied to view saved content
+  /// that has not been published.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidContactFlowException].
   /// May throw [InvalidParameterException].
@@ -8074,9 +12031,12 @@ class Connect {
   /// The identifier of the flow.
   ///
   /// Parameter [content] :
-  /// The JSON string that represents flow's content. For an example, see <a
+  /// The JSON string that represents the content of the flow. For an example,
+  /// see <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html">Example
-  /// contact flow in Amazon Connect Flow language</a>.
+  /// flow in Amazon Connect Flow language</a>.
+  ///
+  /// Length Constraints: Minimum length of 1. Maximum length of 256000.
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
@@ -8146,6 +12106,12 @@ class Connect {
 
   /// Updates specified flow module for the specified Amazon Connect instance.
   ///
+  /// Use the <code>$SAVED</code> alias in the request to describe the
+  /// <code>SAVED</code> content of a Flow. For example,
+  /// <code>arn:aws:.../contact-flow/{id}:$SAVED</code>. Once a contact flow is
+  /// published, <code>$SAVED</code> needs to be supplied to view saved content
+  /// that has not been published.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidContactFlowModuleException].
@@ -8157,7 +12123,10 @@ class Connect {
   /// The identifier of the flow module.
   ///
   /// Parameter [content] :
-  /// The content of the flow module.
+  /// The JSON string that represents the content of the flow. For an example,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html">Example
+  /// flow in Amazon Connect Flow language</a>.
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance. You can <a
@@ -8266,6 +12235,75 @@ class Connect {
       method: 'POST',
       requestUri:
           '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}/name',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates routing priority and age on the contact (<b>QueuePriority</b> and
+  /// <b>QueueTimeAdjustmentInSeconds</b>). These properties can be used to
+  /// change a customer's position in the queue. For example, you can move a
+  /// contact to the back of the queue by setting a lower routing priority
+  /// relative to other contacts in queue; or you can move a contact to the
+  /// front of the queue by increasing the routing age which will make the
+  /// contact look artificially older and therefore higher up in the
+  /// first-in-first-out routing order. Note that adjusting the routing age of a
+  /// contact affects only its position in queue, and not its actual queue wait
+  /// time as reported through metrics. These properties can also be updated by
+  /// using <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/change-routing-priority.html">the
+  /// Set routing priority / age flow block</a>.
+  /// <note>
+  /// Either <b>QueuePriority</b> or <b>QueueTimeAdjustmentInSeconds</b> should
+  /// be provided within the request body, but not both.
+  /// </note>
+  ///
+  /// May throw [ResourceConflictException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact in this instance of Amazon Connect.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [queuePriority] :
+  /// Priority of the contact in the queue. The default priority for new
+  /// contacts is 5. You can raise the priority of a contact compared to other
+  /// contacts in the queue by assigning them a higher priority, such as 1 or 2.
+  ///
+  /// Parameter [queueTimeAdjustmentSeconds] :
+  /// The number of seconds to add or subtract from the contact's routing age.
+  /// Contacts are routed to agents on a first-come, first-serve basis. This
+  /// means that changing their amount of time in queue compared to others also
+  /// changes their position in queue.
+  Future<void> updateContactRoutingData({
+    required String contactId,
+    required String instanceId,
+    int? queuePriority,
+    int? queueTimeAdjustmentSeconds,
+  }) async {
+    _s.validateNumRange(
+      'queuePriority',
+      queuePriority,
+      1,
+      9223372036854776000.0,
+    );
+    final $payload = <String, dynamic>{
+      if (queuePriority != null) 'QueuePriority': queuePriority,
+      if (queueTimeAdjustmentSeconds != null)
+        'QueueTimeAdjustmentSeconds': queueTimeAdjustmentSeconds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contacts/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}/routing-data',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -8619,24 +12657,34 @@ class Connect {
   /// Parameter [phoneNumberId] :
   /// A unique identifier for the phone number.
   ///
-  /// Parameter [targetArn] :
-  /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
-  /// distribution groups that phone numbers are claimed to.
-  ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. If not provided, the Amazon Web Services SDK
   /// populates this field. For more information about idempotency, see <a
   /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
   /// retries safe with idempotent APIs</a>.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance that phone numbers are
+  /// claimed to. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance. You
+  /// must enter <code>InstanceId</code> or <code>TargetArn</code>.
+  ///
+  /// Parameter [targetArn] :
+  /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
+  /// distribution groups that phone number inbound traffic is routed through.
+  /// You must enter <code>InstanceId</code> or <code>TargetArn</code>.
   Future<UpdatePhoneNumberResponse> updatePhoneNumber({
     required String phoneNumberId,
-    required String targetArn,
     String? clientToken,
+    String? instanceId,
+    String? targetArn,
   }) async {
     final $payload = <String, dynamic>{
-      'TargetArn': targetArn,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (targetArn != null) 'TargetArn': targetArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8645,6 +12693,88 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePhoneNumberResponse.fromJson(response);
+  }
+
+  /// Updates a phone number’s metadata.
+  /// <important>
+  /// To verify the status of a previous UpdatePhoneNumberMetadata operation,
+  /// call the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html">DescribePhoneNumber</a>
+  /// API.
+  /// </important>
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [IdempotencyException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [phoneNumberId] :
+  /// The Amazon Resource Name (ARN) or resource ID of the phone number.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  ///
+  /// Parameter [phoneNumberDescription] :
+  /// The description of the phone number.
+  Future<void> updatePhoneNumberMetadata({
+    required String phoneNumberId,
+    String? clientToken,
+    String? phoneNumberDescription,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (phoneNumberDescription != null)
+        'PhoneNumberDescription': phoneNumberDescription,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/phone-number/${Uri.encodeComponent(phoneNumberId)}/metadata',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates a predefined attribute for the specified Amazon Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the predefined attribute.
+  ///
+  /// Parameter [values] :
+  /// The values of the predefined attribute.
+  Future<void> updatePredefinedAttribute({
+    required String instanceId,
+    required String name,
+    PredefinedAttributeValues? values,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (values != null) 'Values': values,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/predefined-attributes/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Updates a prompt.
@@ -8670,7 +12800,10 @@ class Connect {
   /// The name of the prompt.
   ///
   /// Parameter [s3Uri] :
-  /// The URI for the S3 bucket where the prompt is stored.
+  /// The URI for the S3 bucket where the prompt is stored. You can provide S3
+  /// pre-signed URLs returned by the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_GetPromptFile.html">GetPromptFile</a>
+  /// API instead of providing S3 URIs.
   Future<UpdatePromptResponse> updatePrompt({
     required String instanceId,
     required String promptId,
@@ -8828,19 +12961,33 @@ class Connect {
   /// Updates the outbound caller ID name, number, and outbound whisper flow for
   /// a specified queue.
   /// <important>
-  /// If the number being used in the input is claimed to a traffic distribution
-  /// group, and you are calling this API using an instance in the Amazon Web
-  /// Services Region where the traffic distribution group was created, you can
-  /// use either a full phone number ARN or UUID value for the
-  /// <code>OutboundCallerIdNumberId</code> value of the <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig">OutboundCallerConfig</a>
-  /// request body parameter. However, if the number is claimed to a traffic
-  /// distribution group and you are calling this API using an instance in the
-  /// alternate Amazon Web Services Region associated with the traffic
-  /// distribution group, you must provide a full phone number ARN. If a UUID is
-  /// provided in this scenario, you will receive a
-  /// <code>ResourceNotFoundException</code>.
-  /// </important>
+  /// <ul>
+  /// <li>
+  /// If the phone number is claimed to a traffic distribution group that was
+  /// created in the same Region as the Amazon Connect instance where you are
+  /// calling this API, then you can use a full phone number ARN or a UUID for
+  /// <code>OutboundCallerIdNumberId</code>. However, if the phone number is
+  /// claimed to a traffic distribution group that is in one Region, and you are
+  /// calling this API from an instance in another Amazon Web Services Region
+  /// that is associated with the traffic distribution group, you must provide a
+  /// full phone number ARN. If a UUID is provided in this scenario, you will
+  /// receive a <code>ResourceNotFoundException</code>.
+  /// </li>
+  /// <li>
+  /// Only use the phone number ARN format that doesn't contain
+  /// <code>instance</code> in the path, for example,
+  /// <code>arn:aws:connect:us-east-1:1234567890:phone-number/uuid</code>. This
+  /// is the same ARN format that is returned when you call the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html">ListPhoneNumbersV2</a>
+  /// API.
+  /// </li>
+  /// <li>
+  /// If you plan to use IAM policies to allow/deny access to this API for phone
+  /// number resources claimed to a traffic distribution group, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_resource-level-policy-examples.html#allow-deny-queue-actions-replica-region">Allow
+  /// or Deny queue API actions for phone numbers in a replica Region</a>.
+  /// </li>
+  /// </ul> </important>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -8986,6 +13133,45 @@ class Connect {
       method: 'POST',
       requestUri:
           '/quick-connects/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(quickConnectId)}/name',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Whether agents with this routing profile will have their routing order
+  /// calculated based on <i>time since their last inbound contact</i> or
+  /// <i>longest idle time</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [agentAvailabilityTimer] :
+  /// Whether agents with this routing profile will have their routing order
+  /// calculated based on <i>time since their last inbound contact</i> or
+  /// <i>longest idle time</i>.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<void> updateRoutingProfileAgentAvailabilityTimer({
+    required AgentAvailabilityTimer agentAvailabilityTimer,
+    required String instanceId,
+    required String routingProfileId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AgentAvailabilityTimer': agentAvailabilityTimer.toValue(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/agent-availability-timer',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -9202,9 +13388,6 @@ class Connect {
     );
   }
 
-  /// This API is in preview release for Amazon Connect and is subject to
-  /// change.
-  ///
   /// Updates a security profile.
   ///
   /// May throw [InvalidRequestException].
@@ -9221,12 +13404,24 @@ class Connect {
   /// Parameter [securityProfileId] :
   /// The identifier for the security profle.
   ///
+  /// Parameter [allowedAccessControlHierarchyGroupId] :
+  /// The identifier of the hierarchy group that a security profile uses to
+  /// restrict access to resources in Amazon Connect.
+  ///
   /// Parameter [allowedAccessControlTags] :
   /// The list of tags that a security profile uses to restrict access to
   /// resources in Amazon Connect.
   ///
+  /// Parameter [applications] :
+  /// A list of the third-party application's metadata.
+  ///
   /// Parameter [description] :
   /// The description of the security profile.
+  ///
+  /// Parameter [hierarchyRestrictedResources] :
+  /// The list of resources that a security profile applies hierarchy
+  /// restrictions to in Amazon Connect. Following are acceptable ResourceNames:
+  /// <code>User</code>.
   ///
   /// Parameter [permissions] :
   /// The permissions granted to a security profile. For a list of valid
@@ -9240,15 +13435,24 @@ class Connect {
   Future<void> updateSecurityProfile({
     required String instanceId,
     required String securityProfileId,
+    String? allowedAccessControlHierarchyGroupId,
     Map<String, String>? allowedAccessControlTags,
+    List<Application>? applications,
     String? description,
+    List<String>? hierarchyRestrictedResources,
     List<String>? permissions,
     List<String>? tagRestrictedResources,
   }) async {
     final $payload = <String, dynamic>{
+      if (allowedAccessControlHierarchyGroupId != null)
+        'AllowedAccessControlHierarchyGroupId':
+            allowedAccessControlHierarchyGroupId,
       if (allowedAccessControlTags != null)
         'AllowedAccessControlTags': allowedAccessControlTags,
+      if (applications != null) 'Applications': applications,
       if (description != null) 'Description': description,
+      if (hierarchyRestrictedResources != null)
+        'HierarchyRestrictedResources': hierarchyRestrictedResources,
       if (permissions != null) 'Permissions': permissions,
       if (tagRestrictedResources != null)
         'TagRestrictedResources': tagRestrictedResources,
@@ -9337,7 +13541,16 @@ class Connect {
   }
 
   /// Updates the traffic distribution for a given traffic distribution group.
-  ///
+  /// <note>
+  /// The <code>SignInConfig</code> distribution is available only on a default
+  /// <code>TrafficDistributionGroup</code> (see the <code>IsDefault</code>
+  /// parameter in the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html">TrafficDistributionGroup</a>
+  /// data type). If you call <code>UpdateTrafficDistribution</code> with a
+  /// modified <code>SignInConfig</code> and a non-default
+  /// <code>TrafficDistributionGroup</code>, an
+  /// <code>InvalidRequestException</code> is returned.
+  /// </note>
   /// For more information about updating a traffic distribution group, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html">Update
   /// telephony traffic distribution across Amazon Web Services Regions </a> in
@@ -9356,13 +13569,24 @@ class Connect {
   /// distribution group was created. The ARN must be provided if the call is
   /// from the replicated Region.
   ///
+  /// Parameter [agentConfig] :
+  /// The distribution of agents between the instance and its replica(s).
+  ///
+  /// Parameter [signInConfig] :
+  /// The distribution that determines which Amazon Web Services Regions should
+  /// be used to sign in agents in to both the instance and its replica(s).
+  ///
   /// Parameter [telephonyConfig] :
   /// The distribution of traffic between the instance and its replica(s).
   Future<void> updateTrafficDistribution({
     required String id,
+    AgentConfig? agentConfig,
+    SignInConfig? signInConfig,
     TelephonyConfig? telephonyConfig,
   }) async {
     final $payload = <String, dynamic>{
+      if (agentConfig != null) 'AgentConfig': agentConfig,
+      if (signInConfig != null) 'SignInConfig': signInConfig,
       if (telephonyConfig != null) 'TelephonyConfig': telephonyConfig,
     };
     final response = await _protocol.send(
@@ -9558,6 +13782,42 @@ class Connect {
     );
   }
 
+  /// Updates the properties associated with the proficiencies of a user.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instance
+  /// ID in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [userId] :
+  /// The identifier of the user account.
+  ///
+  /// Parameter [userProficiencies] :
+  /// The proficiencies to be updated for the user. Proficiencies must first be
+  /// associated to the user. You can do this using AssociateUserProficiencies
+  /// API.
+  Future<void> updateUserProficiencies({
+    required String instanceId,
+    required String userId,
+    required List<UserProficiency> userProficiencies,
+  }) async {
+    final $payload = <String, dynamic>{
+      'UserProficiencies': userProficiencies,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/proficiencies',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Assigns the specified routing profile to the specified user.
   ///
   /// May throw [InvalidRequestException].
@@ -9627,6 +13887,107 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
   }
+
+  /// Updates the view content of the given view identifier in the specified
+  /// Amazon Connect instance.
+  ///
+  /// It performs content validation if <code>Status</code> is set to
+  /// <code>SAVED</code> and performs full content validation if
+  /// <code>Status</code> is <code>PUBLISHED</code>. Note that the
+  /// <code>$SAVED</code> alias' content will always be updated, but the
+  /// <code>$LATEST</code> alias' content will only be updated if
+  /// <code>Status</code> is <code>PUBLISHED</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [content] :
+  /// View content containing all content necessary to render a view except for
+  /// runtime input data and the runtime input schema, which is auto-generated
+  /// by this operation.
+  ///
+  /// The total uncompressed content has a maximum file size of 400kB.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [status] :
+  /// Indicates the view status as either <code>SAVED</code> or
+  /// <code>PUBLISHED</code>. The <code>PUBLISHED</code> status will initiate
+  /// validation on the content.
+  ///
+  /// Parameter [viewId] :
+  /// The identifier of the view. Both <code>ViewArn</code> and
+  /// <code>ViewId</code> can be used.
+  Future<UpdateViewContentResponse> updateViewContent({
+    required ViewInputContent content,
+    required String instanceId,
+    required ViewStatus status,
+    required String viewId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Content': content,
+      'Status': status.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/views/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(viewId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateViewContentResponse.fromJson(response);
+  }
+
+  /// Updates the view metadata. Note that either <code>Name</code> or
+  /// <code>Description</code> must be provided.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [viewId] :
+  /// The identifier of the view. Both <code>ViewArn</code> and
+  /// <code>ViewId</code> can be used.
+  ///
+  /// Parameter [description] :
+  /// The description of the view.
+  ///
+  /// Parameter [name] :
+  /// The name of the view.
+  Future<void> updateViewMetadata({
+    required String instanceId,
+    required String viewId,
+    String? description,
+    String? name,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/views/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(viewId)}/metadata',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
 }
 
 /// Information about an action.
@@ -9657,6 +14018,10 @@ enum ActionType {
   assignContactCategory,
   generateEventbridgeEvent,
   sendNotification,
+  createCase,
+  updateCase,
+  endAssociatedTasks,
+  submitAutoEvaluation,
 }
 
 extension ActionTypeValueExtension on ActionType {
@@ -9670,6 +14035,14 @@ extension ActionTypeValueExtension on ActionType {
         return 'GENERATE_EVENTBRIDGE_EVENT';
       case ActionType.sendNotification:
         return 'SEND_NOTIFICATION';
+      case ActionType.createCase:
+        return 'CREATE_CASE';
+      case ActionType.updateCase:
+        return 'UPDATE_CASE';
+      case ActionType.endAssociatedTasks:
+        return 'END_ASSOCIATED_TASKS';
+      case ActionType.submitAutoEvaluation:
+        return 'SUBMIT_AUTO_EVALUATION';
     }
   }
 }
@@ -9685,6 +14058,14 @@ extension ActionTypeFromString on String {
         return ActionType.generateEventbridgeEvent;
       case 'SEND_NOTIFICATION':
         return ActionType.sendNotification;
+      case 'CREATE_CASE':
+        return ActionType.createCase;
+      case 'UPDATE_CASE':
+        return ActionType.updateCase;
+      case 'END_ASSOCIATED_TASKS':
+        return ActionType.endAssociatedTasks;
+      case 'SUBMIT_AUTO_EVALUATION':
+        return ActionType.submitAutoEvaluation;
     }
     throw Exception('$this is not known in enum ActionType');
   }
@@ -9726,6 +14107,60 @@ class ActivateEvaluationFormResponse {
   }
 }
 
+enum AgentAvailabilityTimer {
+  timeSinceLastActivity,
+  timeSinceLastInbound,
+}
+
+extension AgentAvailabilityTimerValueExtension on AgentAvailabilityTimer {
+  String toValue() {
+    switch (this) {
+      case AgentAvailabilityTimer.timeSinceLastActivity:
+        return 'TIME_SINCE_LAST_ACTIVITY';
+      case AgentAvailabilityTimer.timeSinceLastInbound:
+        return 'TIME_SINCE_LAST_INBOUND';
+    }
+  }
+}
+
+extension AgentAvailabilityTimerFromString on String {
+  AgentAvailabilityTimer toAgentAvailabilityTimer() {
+    switch (this) {
+      case 'TIME_SINCE_LAST_ACTIVITY':
+        return AgentAvailabilityTimer.timeSinceLastActivity;
+      case 'TIME_SINCE_LAST_INBOUND':
+        return AgentAvailabilityTimer.timeSinceLastInbound;
+    }
+    throw Exception('$this is not known in enum AgentAvailabilityTimer');
+  }
+}
+
+/// The distribution of agents between the instance and its replica(s).
+class AgentConfig {
+  /// Information about traffic distributions.
+  final List<Distribution> distributions;
+
+  AgentConfig({
+    required this.distributions,
+  });
+
+  factory AgentConfig.fromJson(Map<String, dynamic> json) {
+    return AgentConfig(
+      distributions: (json['Distributions'] as List)
+          .whereNotNull()
+          .map((e) => Distribution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributions = this.distributions;
+    return {
+      'Distributions': distributions,
+    };
+  }
+}
+
 /// Information about the <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Contact.html">contact</a>
 /// associated to the user.
@@ -9733,6 +14168,12 @@ class AgentContactReference {
   /// The <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html">state
   /// of the contact</a>.
+  /// <note>
+  /// When <code>AgentContactState</code> is set to <code>CONNECTED_ONHOLD</code>,
+  /// <code>StateStartTimestamp</code> is not changed. Instead,
+  /// <code>StateStartTimestamp</code> reflects the time the contact was
+  /// <code>CONNECTED</code> to the agent.
+  /// </note>
   final ContactState? agentContactState;
 
   /// The channel of the contact.
@@ -9803,35 +14244,163 @@ class AgentContactReference {
   }
 }
 
+/// Information about an agent hierarchy group.
+class AgentHierarchyGroup {
+  /// The Amazon Resource Name (ARN) of the group.
+  final String? arn;
+
+  AgentHierarchyGroup({
+    this.arn,
+  });
+
+  factory AgentHierarchyGroup.fromJson(Map<String, dynamic> json) {
+    return AgentHierarchyGroup(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+/// A structure that defines search criteria for contacts using agent hierarchy
+/// group levels. For more information about agent hierarchies, see <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html">Set
+/// Up Agent Hierarchies</a> in the <i>Amazon Connect Administrator Guide</i>.
+class AgentHierarchyGroups {
+  /// The identifiers for level 1 hierarchy groups.
+  final List<String>? l1Ids;
+
+  /// The identifiers for level 2 hierarchy groups.
+  final List<String>? l2Ids;
+
+  /// The identifiers for level 3 hierarchy groups.
+  final List<String>? l3Ids;
+
+  /// The identifiers for level 4 hierarchy groups.
+  final List<String>? l4Ids;
+
+  /// The identifiers for level 5 hierarchy groups.
+  final List<String>? l5Ids;
+
+  AgentHierarchyGroups({
+    this.l1Ids,
+    this.l2Ids,
+    this.l3Ids,
+    this.l4Ids,
+    this.l5Ids,
+  });
+
+  Map<String, dynamic> toJson() {
+    final l1Ids = this.l1Ids;
+    final l2Ids = this.l2Ids;
+    final l3Ids = this.l3Ids;
+    final l4Ids = this.l4Ids;
+    final l5Ids = this.l5Ids;
+    return {
+      if (l1Ids != null) 'L1Ids': l1Ids,
+      if (l2Ids != null) 'L2Ids': l2Ids,
+      if (l3Ids != null) 'L3Ids': l3Ids,
+      if (l4Ids != null) 'L4Ids': l4Ids,
+      if (l5Ids != null) 'L5Ids': l5Ids,
+    };
+  }
+}
+
 /// Information about the agent who accepted the contact.
 class AgentInfo {
+  /// Agent pause duration for a contact in seconds.
+  final int? agentPauseDurationInSeconds;
+  final ParticipantCapabilities? capabilities;
+
   /// The timestamp when the contact was connected to the agent.
   final DateTime? connectedToAgentTimestamp;
+
+  /// Information regarding Agent’s device.
+  final DeviceInfo? deviceInfo;
+
+  /// The agent hierarchy groups for the agent.
+  final HierarchyGroups? hierarchyGroups;
 
   /// The identifier of the agent who accepted the contact.
   final String? id;
 
   AgentInfo({
+    this.agentPauseDurationInSeconds,
+    this.capabilities,
     this.connectedToAgentTimestamp,
+    this.deviceInfo,
+    this.hierarchyGroups,
     this.id,
   });
 
   factory AgentInfo.fromJson(Map<String, dynamic> json) {
     return AgentInfo(
+      agentPauseDurationInSeconds: json['AgentPauseDurationInSeconds'] as int?,
+      capabilities: json['Capabilities'] != null
+          ? ParticipantCapabilities.fromJson(
+              json['Capabilities'] as Map<String, dynamic>)
+          : null,
       connectedToAgentTimestamp:
           timeStampFromJson(json['ConnectedToAgentTimestamp']),
+      deviceInfo: json['DeviceInfo'] != null
+          ? DeviceInfo.fromJson(json['DeviceInfo'] as Map<String, dynamic>)
+          : null,
+      hierarchyGroups: json['HierarchyGroups'] != null
+          ? HierarchyGroups.fromJson(
+              json['HierarchyGroups'] as Map<String, dynamic>)
+          : null,
       id: json['Id'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final agentPauseDurationInSeconds = this.agentPauseDurationInSeconds;
+    final capabilities = this.capabilities;
     final connectedToAgentTimestamp = this.connectedToAgentTimestamp;
+    final deviceInfo = this.deviceInfo;
+    final hierarchyGroups = this.hierarchyGroups;
     final id = this.id;
     return {
+      if (agentPauseDurationInSeconds != null)
+        'AgentPauseDurationInSeconds': agentPauseDurationInSeconds,
+      if (capabilities != null) 'Capabilities': capabilities,
       if (connectedToAgentTimestamp != null)
         'ConnectedToAgentTimestamp':
             unixTimestampToJson(connectedToAgentTimestamp),
+      if (deviceInfo != null) 'DeviceInfo': deviceInfo,
+      if (hierarchyGroups != null) 'HierarchyGroups': hierarchyGroups,
       if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Information about the quality of the Agent's media connection
+class AgentQualityMetrics {
+  /// Information about the audio quality of the Agent
+  final AudioQualityMetricsInfo? audio;
+
+  AgentQualityMetrics({
+    this.audio,
+  });
+
+  factory AgentQualityMetrics.fromJson(Map<String, dynamic> json) {
+    return AgentQualityMetrics(
+      audio: json['Audio'] != null
+          ? AudioQualityMetricsInfo.fromJson(
+              json['Audio'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audio = this.audio;
+    return {
+      if (audio != null) 'Audio': audio,
     };
   }
 }
@@ -9850,6 +14419,12 @@ class AgentStatus {
   /// The display order of the agent status.
   final int? displayOrder;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the agent status.
   final String? name;
 
@@ -9857,7 +14432,7 @@ class AgentStatus {
   final AgentStatusState? state;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   /// The type of agent status.
@@ -9868,6 +14443,8 @@ class AgentStatus {
     this.agentStatusId,
     this.description,
     this.displayOrder,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
     this.state,
     this.tags,
@@ -9880,6 +14457,8 @@ class AgentStatus {
       agentStatusId: json['AgentStatusId'] as String?,
       description: json['Description'] as String?,
       displayOrder: json['DisplayOrder'] as int?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       state: (json['State'] as String?)?.toAgentStatusState(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -9893,6 +14472,8 @@ class AgentStatus {
     final agentStatusId = this.agentStatusId;
     final description = this.description;
     final displayOrder = this.displayOrder;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final state = this.state;
     final tags = this.tags;
@@ -9902,6 +14483,9 @@ class AgentStatus {
       if (agentStatusId != null) 'AgentStatusId': agentStatusId,
       if (description != null) 'Description': description,
       if (displayOrder != null) 'DisplayOrder': displayOrder,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
       if (state != null) 'State': state.toValue(),
       if (tags != null) 'Tags': tags,
@@ -9984,6 +14568,12 @@ class AgentStatusSummary {
   /// The identifier for an agent status.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the agent status.
   final String? name;
 
@@ -9993,6 +14583,8 @@ class AgentStatusSummary {
   AgentStatusSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
     this.type,
   });
@@ -10001,6 +14593,8 @@ class AgentStatusSummary {
     return AgentStatusSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       type: (json['Type'] as String?)?.toAgentStatusType(),
     );
@@ -10009,11 +14603,16 @@ class AgentStatusSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final type = this.type;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
       if (type != null) 'Type': type.toValue(),
     };
@@ -10053,6 +14652,77 @@ extension AgentStatusTypeFromString on String {
   }
 }
 
+/// Information about the capabilities enabled for participants of the contact.
+class AllowedCapabilities {
+  /// Information about the agent's video sharing capabilities.
+  final ParticipantCapabilities? agent;
+
+  /// Information about the customer's video sharing capabilities.
+  final ParticipantCapabilities? customer;
+
+  AllowedCapabilities({
+    this.agent,
+    this.customer,
+  });
+
+  Map<String, dynamic> toJson() {
+    final agent = this.agent;
+    final customer = this.customer;
+    return {
+      if (agent != null) 'Agent': agent,
+      if (customer != null) 'Customer': customer,
+    };
+  }
+}
+
+/// This API is in preview release for Amazon Connect and is subject to change.
+///
+/// Information about associations that are successfully created:
+/// <code>DataSetId</code>, <code>TargetAccountId</code>,
+/// <code>ResourceShareId</code>, <code>ResourceShareArn</code>.
+class AnalyticsDataAssociationResult {
+  /// The identifier of the dataset.
+  final String? dataSetId;
+
+  /// The Amazon Resource Name (ARN) of the Resource Access Manager share.
+  final String? resourceShareArn;
+
+  /// The Resource Access Manager share ID.
+  final String? resourceShareId;
+
+  /// The identifier of the target account.
+  final String? targetAccountId;
+
+  AnalyticsDataAssociationResult({
+    this.dataSetId,
+    this.resourceShareArn,
+    this.resourceShareId,
+    this.targetAccountId,
+  });
+
+  factory AnalyticsDataAssociationResult.fromJson(Map<String, dynamic> json) {
+    return AnalyticsDataAssociationResult(
+      dataSetId: json['DataSetId'] as String?,
+      resourceShareArn: json['ResourceShareArn'] as String?,
+      resourceShareId: json['ResourceShareId'] as String?,
+      targetAccountId: json['TargetAccountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetId = this.dataSetId;
+    final resourceShareArn = this.resourceShareArn;
+    final resourceShareId = this.resourceShareId;
+    final targetAccountId = this.targetAccountId;
+    return {
+      if (dataSetId != null) 'DataSetId': dataSetId,
+      if (resourceShareArn != null) 'ResourceShareArn': resourceShareArn,
+      if (resourceShareId != null) 'ResourceShareId': resourceShareId,
+      if (targetAccountId != null) 'TargetAccountId': targetAccountId,
+    };
+  }
+}
+
 /// Configuration of the answering machine detection.
 class AnswerMachineDetectionConfig {
   /// Wait for the answering machine prompt.
@@ -10080,9 +14750,170 @@ class AnswerMachineDetectionConfig {
   }
 }
 
+enum AnsweringMachineDetectionStatus {
+  answered,
+  undetected,
+  error,
+  humanAnswered,
+  sitToneDetected,
+  sitToneBusy,
+  sitToneInvalidNumber,
+  faxMachineDetected,
+  voicemailBeep,
+  voicemailNoBeep,
+  amdUnresolved,
+  amdUnanswered,
+  amdError,
+  amdNotApplicable,
+}
+
+extension AnsweringMachineDetectionStatusValueExtension
+    on AnsweringMachineDetectionStatus {
+  String toValue() {
+    switch (this) {
+      case AnsweringMachineDetectionStatus.answered:
+        return 'ANSWERED';
+      case AnsweringMachineDetectionStatus.undetected:
+        return 'UNDETECTED';
+      case AnsweringMachineDetectionStatus.error:
+        return 'ERROR';
+      case AnsweringMachineDetectionStatus.humanAnswered:
+        return 'HUMAN_ANSWERED';
+      case AnsweringMachineDetectionStatus.sitToneDetected:
+        return 'SIT_TONE_DETECTED';
+      case AnsweringMachineDetectionStatus.sitToneBusy:
+        return 'SIT_TONE_BUSY';
+      case AnsweringMachineDetectionStatus.sitToneInvalidNumber:
+        return 'SIT_TONE_INVALID_NUMBER';
+      case AnsweringMachineDetectionStatus.faxMachineDetected:
+        return 'FAX_MACHINE_DETECTED';
+      case AnsweringMachineDetectionStatus.voicemailBeep:
+        return 'VOICEMAIL_BEEP';
+      case AnsweringMachineDetectionStatus.voicemailNoBeep:
+        return 'VOICEMAIL_NO_BEEP';
+      case AnsweringMachineDetectionStatus.amdUnresolved:
+        return 'AMD_UNRESOLVED';
+      case AnsweringMachineDetectionStatus.amdUnanswered:
+        return 'AMD_UNANSWERED';
+      case AnsweringMachineDetectionStatus.amdError:
+        return 'AMD_ERROR';
+      case AnsweringMachineDetectionStatus.amdNotApplicable:
+        return 'AMD_NOT_APPLICABLE';
+    }
+  }
+}
+
+extension AnsweringMachineDetectionStatusFromString on String {
+  AnsweringMachineDetectionStatus toAnsweringMachineDetectionStatus() {
+    switch (this) {
+      case 'ANSWERED':
+        return AnsweringMachineDetectionStatus.answered;
+      case 'UNDETECTED':
+        return AnsweringMachineDetectionStatus.undetected;
+      case 'ERROR':
+        return AnsweringMachineDetectionStatus.error;
+      case 'HUMAN_ANSWERED':
+        return AnsweringMachineDetectionStatus.humanAnswered;
+      case 'SIT_TONE_DETECTED':
+        return AnsweringMachineDetectionStatus.sitToneDetected;
+      case 'SIT_TONE_BUSY':
+        return AnsweringMachineDetectionStatus.sitToneBusy;
+      case 'SIT_TONE_INVALID_NUMBER':
+        return AnsweringMachineDetectionStatus.sitToneInvalidNumber;
+      case 'FAX_MACHINE_DETECTED':
+        return AnsweringMachineDetectionStatus.faxMachineDetected;
+      case 'VOICEMAIL_BEEP':
+        return AnsweringMachineDetectionStatus.voicemailBeep;
+      case 'VOICEMAIL_NO_BEEP':
+        return AnsweringMachineDetectionStatus.voicemailNoBeep;
+      case 'AMD_UNRESOLVED':
+        return AnsweringMachineDetectionStatus.amdUnresolved;
+      case 'AMD_UNANSWERED':
+        return AnsweringMachineDetectionStatus.amdUnanswered;
+      case 'AMD_ERROR':
+        return AnsweringMachineDetectionStatus.amdError;
+      case 'AMD_NOT_APPLICABLE':
+        return AnsweringMachineDetectionStatus.amdNotApplicable;
+    }
+    throw Exception(
+        '$this is not known in enum AnsweringMachineDetectionStatus');
+  }
+}
+
+/// This API is in preview release for Amazon Connect and is subject to change.
+///
+/// A third-party application's metadata.
+class Application {
+  /// The permissions that the agent is granted on the application. Only the
+  /// <code>ACCESS</code> permission is supported.
+  final List<String>? applicationPermissions;
+
+  /// Namespace of the application that you want to give access to.
+  final String? namespace;
+
+  Application({
+    this.applicationPermissions,
+    this.namespace,
+  });
+
+  factory Application.fromJson(Map<String, dynamic> json) {
+    return Application(
+      applicationPermissions: (json['ApplicationPermissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      namespace: json['Namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationPermissions = this.applicationPermissions;
+    final namespace = this.namespace;
+    return {
+      if (applicationPermissions != null)
+        'ApplicationPermissions': applicationPermissions,
+      if (namespace != null) 'Namespace': namespace,
+    };
+  }
+}
+
+enum ArtifactStatus {
+  approved,
+  rejected,
+  inProgress,
+}
+
+extension ArtifactStatusValueExtension on ArtifactStatus {
+  String toValue() {
+    switch (this) {
+      case ArtifactStatus.approved:
+        return 'APPROVED';
+      case ArtifactStatus.rejected:
+        return 'REJECTED';
+      case ArtifactStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension ArtifactStatusFromString on String {
+  ArtifactStatus toArtifactStatus() {
+    switch (this) {
+      case 'APPROVED':
+        return ArtifactStatus.approved;
+      case 'REJECTED':
+        return ArtifactStatus.rejected;
+      case 'IN_PROGRESS':
+        return ArtifactStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum ArtifactStatus');
+  }
+}
+
 /// This action must be set if <code>TriggerEventSource</code> is one of the
 /// following values: <code>OnPostCallAnalysisAvailable</code> |
 /// <code>OnRealTimeCallAnalysisAvailable</code> |
+/// <code>OnRealTimeChatAnalysisAvailable</code> |
 /// <code>OnPostChatAnalysisAvailable</code>. Contact is categorized using the
 /// rule name.
 ///
@@ -10100,11 +14931,67 @@ class AssignContactCategoryActionDefinition {
   }
 }
 
+class AssociateAnalyticsDataSetResponse {
+  /// The identifier of the dataset that was associated.
+  final String? dataSetId;
+
+  /// The Amazon Resource Name (ARN) of the Resource Access Manager share.
+  final String? resourceShareArn;
+
+  /// The Resource Access Manager share ID that is generated.
+  final String? resourceShareId;
+
+  /// The identifier of the target account.
+  final String? targetAccountId;
+
+  AssociateAnalyticsDataSetResponse({
+    this.dataSetId,
+    this.resourceShareArn,
+    this.resourceShareId,
+    this.targetAccountId,
+  });
+
+  factory AssociateAnalyticsDataSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateAnalyticsDataSetResponse(
+      dataSetId: json['DataSetId'] as String?,
+      resourceShareArn: json['ResourceShareArn'] as String?,
+      resourceShareId: json['ResourceShareId'] as String?,
+      targetAccountId: json['TargetAccountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetId = this.dataSetId;
+    final resourceShareArn = this.resourceShareArn;
+    final resourceShareId = this.resourceShareId;
+    final targetAccountId = this.targetAccountId;
+    return {
+      if (dataSetId != null) 'DataSetId': dataSetId,
+      if (resourceShareArn != null) 'ResourceShareArn': resourceShareArn,
+      if (resourceShareId != null) 'ResourceShareId': resourceShareId,
+      if (targetAccountId != null) 'TargetAccountId': targetAccountId,
+    };
+  }
+}
+
 class AssociateDefaultVocabularyResponse {
   AssociateDefaultVocabularyResponse();
 
   factory AssociateDefaultVocabularyResponse.fromJson(Map<String, dynamic> _) {
     return AssociateDefaultVocabularyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class AssociateFlowResponse {
+  AssociateFlowResponse();
+
+  factory AssociateFlowResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateFlowResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -10159,6 +15046,156 @@ class AssociateSecurityKeyResponse {
   }
 }
 
+class AssociateTrafficDistributionGroupUserResponse {
+  AssociateTrafficDistributionGroupUserResponse();
+
+  factory AssociateTrafficDistributionGroupUserResponse.fromJson(
+      Map<String, dynamic> _) {
+    return AssociateTrafficDistributionGroupUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information about the attached file.
+class AttachedFile {
+  /// The time of Creation of the file resource as an ISO timestamp. It's
+  /// specified in ISO 8601 format: <code>yyyy-MM-ddThh:mm:ss.SSSZ</code>. For
+  /// example, <code>2024-05-03T02:41:28.172Z</code>.
+  final String creationTime;
+
+  /// The unique identifier of the attached file resource (ARN).
+  final String fileArn;
+
+  /// The unique identifier of the attached file resource.
+  final String fileId;
+
+  /// A case-sensitive name of the attached file being uploaded.
+  final String fileName;
+
+  /// The size of the attached file in bytes.
+  final int fileSizeInBytes;
+
+  /// The current status of the attached file.
+  final FileStatusType fileStatus;
+
+  /// The resource to which the attached file is (being) uploaded to. <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
+  /// are the only current supported resource.
+  /// <note>
+  /// This value must be a valid ARN.
+  /// </note>
+  final String? associatedResourceArn;
+
+  /// Represents the identity that created the file.
+  final CreatedByInfo? createdBy;
+
+  /// The use case for the file.
+  final FileUseCaseType? fileUseCaseType;
+
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, <code>{ "Tags": {"key1":"value1", "key2":"value2"} }</code>.
+  final Map<String, String>? tags;
+
+  AttachedFile({
+    required this.creationTime,
+    required this.fileArn,
+    required this.fileId,
+    required this.fileName,
+    required this.fileSizeInBytes,
+    required this.fileStatus,
+    this.associatedResourceArn,
+    this.createdBy,
+    this.fileUseCaseType,
+    this.tags,
+  });
+
+  factory AttachedFile.fromJson(Map<String, dynamic> json) {
+    return AttachedFile(
+      creationTime: json['CreationTime'] as String,
+      fileArn: json['FileArn'] as String,
+      fileId: json['FileId'] as String,
+      fileName: json['FileName'] as String,
+      fileSizeInBytes: json['FileSizeInBytes'] as int,
+      fileStatus: (json['FileStatus'] as String).toFileStatusType(),
+      associatedResourceArn: json['AssociatedResourceArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? CreatedByInfo.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      fileUseCaseType:
+          (json['FileUseCaseType'] as String?)?.toFileUseCaseType(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final fileArn = this.fileArn;
+    final fileId = this.fileId;
+    final fileName = this.fileName;
+    final fileSizeInBytes = this.fileSizeInBytes;
+    final fileStatus = this.fileStatus;
+    final associatedResourceArn = this.associatedResourceArn;
+    final createdBy = this.createdBy;
+    final fileUseCaseType = this.fileUseCaseType;
+    final tags = this.tags;
+    return {
+      'CreationTime': creationTime,
+      'FileArn': fileArn,
+      'FileId': fileId,
+      'FileName': fileName,
+      'FileSizeInBytes': fileSizeInBytes,
+      'FileStatus': fileStatus.toValue(),
+      if (associatedResourceArn != null)
+        'AssociatedResourceArn': associatedResourceArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (fileUseCaseType != null) 'FileUseCaseType': fileUseCaseType.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Error describing a failure to retrieve attached file metadata through
+/// BatchGetAttachedFileMetadata action.
+class AttachedFileError {
+  /// Status code describing the failure.
+  final String? errorCode;
+
+  /// Why the attached file couldn't be retrieved.
+  final String? errorMessage;
+
+  /// The unique identifier of the attached file resource.
+  final String? fileId;
+
+  AttachedFileError({
+    this.errorCode,
+    this.errorMessage,
+    this.fileId,
+  });
+
+  factory AttachedFileError.fromJson(Map<String, dynamic> json) {
+    return AttachedFileError(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      fileId: json['FileId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final fileId = this.fileId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (fileId != null) 'FileId': fileId,
+    };
+  }
+}
+
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>ATTACHMENT</code>. Otherwise, null.
 class AttachmentReference {
@@ -10197,6 +15234,36 @@ class AttachmentReference {
   }
 }
 
+/// The attendee information, including attendee ID and join token.
+class Attendee {
+  /// The Amazon Chime SDK attendee ID.
+  final String? attendeeId;
+
+  /// The join token used by the Amazon Chime SDK attendee.
+  final String? joinToken;
+
+  Attendee({
+    this.attendeeId,
+    this.joinToken,
+  });
+
+  factory Attendee.fromJson(Map<String, dynamic> json) {
+    return Attendee(
+      attendeeId: json['AttendeeId'] as String?,
+      joinToken: json['JoinToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendeeId = this.attendeeId;
+    final joinToken = this.joinToken;
+    return {
+      if (attendeeId != null) 'AttendeeId': attendeeId,
+      if (joinToken != null) 'JoinToken': joinToken,
+    };
+  }
+}
+
 /// A toggle for an individual feature at the instance level.
 class Attribute {
   /// The type of attribute.
@@ -10224,6 +15291,138 @@ class Attribute {
     return {
       if (attributeType != null) 'AttributeType': attributeType.toValue(),
       if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// A list of conditions which would be applied together with an
+/// <code>AND</code> condition.
+class AttributeAndCondition {
+  final HierarchyGroupCondition? hierarchyGroupCondition;
+
+  /// A leaf node condition which can be used to specify a tag condition.
+  final List<TagCondition>? tagConditions;
+
+  AttributeAndCondition({
+    this.hierarchyGroupCondition,
+    this.tagConditions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final hierarchyGroupCondition = this.hierarchyGroupCondition;
+    final tagConditions = this.tagConditions;
+    return {
+      if (hierarchyGroupCondition != null)
+        'HierarchyGroupCondition': hierarchyGroupCondition,
+      if (tagConditions != null) 'TagConditions': tagConditions,
+    };
+  }
+}
+
+/// An object to specify the predefined attribute condition.
+class AttributeCondition {
+  /// The operator of the condition.
+  final String? comparisonOperator;
+
+  /// The name of predefined attribute.
+  final String? name;
+
+  /// The proficiency level of the condition.
+  final double? proficiencyLevel;
+
+  /// The value of predefined attribute.
+  final String? value;
+
+  AttributeCondition({
+    this.comparisonOperator,
+    this.name,
+    this.proficiencyLevel,
+    this.value,
+  });
+
+  factory AttributeCondition.fromJson(Map<String, dynamic> json) {
+    return AttributeCondition(
+      comparisonOperator: json['ComparisonOperator'] as String?,
+      name: json['Name'] as String?,
+      proficiencyLevel: json['ProficiencyLevel'] as double?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final name = this.name;
+    final proficiencyLevel = this.proficiencyLevel;
+    final value = this.value;
+    return {
+      if (comparisonOperator != null) 'ComparisonOperator': comparisonOperator,
+      if (name != null) 'Name': name,
+      if (proficiencyLevel != null) 'ProficiencyLevel': proficiencyLevel,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Has audio-specific configurations as the operating parameter for Echo
+/// Reduction.
+class AudioFeatures {
+  /// Makes echo reduction available to clients who connect to the meeting.
+  final MeetingFeatureStatus? echoReduction;
+
+  AudioFeatures({
+    this.echoReduction,
+  });
+
+  factory AudioFeatures.fromJson(Map<String, dynamic> json) {
+    return AudioFeatures(
+      echoReduction:
+          (json['EchoReduction'] as String?)?.toMeetingFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final echoReduction = this.echoReduction;
+    return {
+      if (echoReduction != null) 'EchoReduction': echoReduction.toValue(),
+    };
+  }
+}
+
+/// Contains information for score and potential quality issues for Audio
+class AudioQualityMetricsInfo {
+  /// List of potential issues causing degradation of quality on a media
+  /// connection. If the service did not detect any potential quality issues the
+  /// list is empty.
+  ///
+  /// Valid values: <code>HighPacketLoss</code> | <code>HighRoundTripTime</code> |
+  /// <code>HighJitterBuffer</code>
+  final List<String>? potentialQualityIssues;
+
+  /// Number measuring the estimated quality of the media connection.
+  final double? qualityScore;
+
+  AudioQualityMetricsInfo({
+    this.potentialQualityIssues,
+    this.qualityScore,
+  });
+
+  factory AudioQualityMetricsInfo.fromJson(Map<String, dynamic> json) {
+    return AudioQualityMetricsInfo(
+      potentialQualityIssues: (json['PotentialQualityIssues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      qualityScore: json['QualityScore'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final potentialQualityIssues = this.potentialQualityIssues;
+    final qualityScore = this.qualityScore;
+    return {
+      if (potentialQualityIssues != null)
+        'PotentialQualityIssues': potentialQualityIssues,
+      if (qualityScore != null) 'QualityScore': qualityScore,
     };
   }
 }
@@ -10269,6 +15468,181 @@ class AvailableNumberSummary {
   }
 }
 
+class BatchAssociateAnalyticsDataSetResponse {
+  /// Information about associations that are successfully created:
+  /// <code>DataSetId</code>, <code>TargetAccountId</code>,
+  /// <code>ResourceShareId</code>, <code>ResourceShareArn</code>.
+  final List<AnalyticsDataAssociationResult>? created;
+
+  /// A list of errors for datasets that aren't successfully associated with the
+  /// target account.
+  final List<ErrorResult>? errors;
+
+  BatchAssociateAnalyticsDataSetResponse({
+    this.created,
+    this.errors,
+  });
+
+  factory BatchAssociateAnalyticsDataSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchAssociateAnalyticsDataSetResponse(
+      created: (json['Created'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnalyticsDataAssociationResult.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final errors = this.errors;
+    return {
+      if (created != null) 'Created': created,
+      if (errors != null) 'Errors': errors,
+    };
+  }
+}
+
+class BatchDisassociateAnalyticsDataSetResponse {
+  /// An array of successfully disassociated dataset identifiers.
+  final List<String>? deleted;
+
+  /// A list of errors for any datasets not successfully removed.
+  final List<ErrorResult>? errors;
+
+  BatchDisassociateAnalyticsDataSetResponse({
+    this.deleted,
+    this.errors,
+  });
+
+  factory BatchDisassociateAnalyticsDataSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDisassociateAnalyticsDataSetResponse(
+      deleted: (json['Deleted'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleted = this.deleted;
+    final errors = this.errors;
+    return {
+      if (deleted != null) 'Deleted': deleted,
+      if (errors != null) 'Errors': errors,
+    };
+  }
+}
+
+class BatchGetAttachedFileMetadataResponse {
+  /// List of errors of attached files that could not be retrieved.
+  final List<AttachedFileError>? errors;
+
+  /// List of attached files that were successfully retrieved.
+  final List<AttachedFile>? files;
+
+  BatchGetAttachedFileMetadataResponse({
+    this.errors,
+    this.files,
+  });
+
+  factory BatchGetAttachedFileMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAttachedFileMetadataResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedFileError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      files: (json['Files'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final files = this.files;
+    return {
+      if (errors != null) 'Errors': errors,
+      if (files != null) 'Files': files,
+    };
+  }
+}
+
+class BatchGetFlowAssociationResponse {
+  /// Information about flow associations.
+  final List<FlowAssociationSummary>? flowAssociationSummaryList;
+
+  BatchGetFlowAssociationResponse({
+    this.flowAssociationSummaryList,
+  });
+
+  factory BatchGetFlowAssociationResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetFlowAssociationResponse(
+      flowAssociationSummaryList: (json['FlowAssociationSummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => FlowAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowAssociationSummaryList = this.flowAssociationSummaryList;
+    return {
+      if (flowAssociationSummaryList != null)
+        'FlowAssociationSummaryList': flowAssociationSummaryList,
+    };
+  }
+}
+
+class BatchPutContactResponse {
+  /// List of requests for which contact creation failed.
+  final List<FailedRequest>? failedRequestList;
+
+  /// List of requests for which contact was successfully created.
+  final List<SuccessfulRequest>? successfulRequestList;
+
+  BatchPutContactResponse({
+    this.failedRequestList,
+    this.successfulRequestList,
+  });
+
+  factory BatchPutContactResponse.fromJson(Map<String, dynamic> json) {
+    return BatchPutContactResponse(
+      failedRequestList: (json['FailedRequestList'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulRequestList: (json['SuccessfulRequestList'] as List?)
+          ?.whereNotNull()
+          .map((e) => SuccessfulRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequestList = this.failedRequestList;
+    final successfulRequestList = this.successfulRequestList;
+    return {
+      if (failedRequestList != null) 'FailedRequestList': failedRequestList,
+      if (successfulRequestList != null)
+        'SuccessfulRequestList': successfulRequestList,
+    };
+  }
+}
+
 enum BehaviorType {
   routeCurrentChannelOnly,
   routeAnyChannel,
@@ -10294,6 +15668,29 @@ extension BehaviorTypeFromString on String {
         return BehaviorType.routeAnyChannel;
     }
     throw Exception('$this is not known in enum BehaviorType');
+  }
+}
+
+/// Information associated with a campaign.
+class Campaign {
+  /// A unique identifier for a campaign.
+  final String? campaignId;
+
+  Campaign({
+    this.campaignId,
+  });
+
+  factory Campaign.fromJson(Map<String, dynamic> json) {
+    return Campaign(
+      campaignId: json['CampaignId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignId = this.campaignId;
+    return {
+      if (campaignId != null) 'CampaignId': campaignId,
+    };
   }
 }
 
@@ -10327,6 +15724,113 @@ extension ChannelFromString on String {
         return Channel.task;
     }
     throw Exception('$this is not known in enum Channel');
+  }
+}
+
+/// Chat integration event containing payload to perform different chat actions
+/// such as:
+///
+/// <ul>
+/// <li>
+/// Sending a chat message
+/// </li>
+/// <li>
+/// Sending a chat event, such as typing
+/// </li>
+/// <li>
+/// Disconnecting from a chat
+/// </li>
+/// </ul>
+class ChatEvent {
+  /// Type of chat integration event.
+  final ChatEventType type;
+
+  /// Content of the message or event. This is required when <code>Type</code> is
+  /// <code>MESSAGE</code> and for certain <code>ContentTypes</code> when
+  /// <code>Type</code> is <code>EVENT</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// For allowed message content, see the <code>Content</code> parameter in the
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendMessage.html">SendMessage</a>
+  /// topic in the <i>Amazon Connect Participant Service API Reference</i>.
+  /// </li>
+  /// <li>
+  /// For allowed event content, see the <code>Content</code> parameter in the <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendEvent.html">SendEvent</a>
+  /// topic in the <i>Amazon Connect Participant Service API Reference</i>.
+  /// </li>
+  /// </ul>
+  final String? content;
+
+  /// Type of content. This is required when <code>Type</code> is
+  /// <code>MESSAGE</code> or <code>EVENT</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// For allowed message content types, see the <code>ContentType</code>
+  /// parameter in the <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendMessage.html">SendMessage</a>
+  /// topic in the <i>Amazon Connect Participant Service API Reference</i>.
+  /// </li>
+  /// <li>
+  /// For allowed event content types, see the <code>ContentType</code> parameter
+  /// in the <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendEvent.html">SendEvent</a>
+  /// topic in the <i>Amazon Connect Participant Service API Reference</i>.
+  /// </li>
+  /// </ul>
+  final String? contentType;
+
+  ChatEvent({
+    required this.type,
+    this.content,
+    this.contentType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final content = this.content;
+    final contentType = this.contentType;
+    return {
+      'Type': type.toValue(),
+      if (content != null) 'Content': content,
+      if (contentType != null) 'ContentType': contentType,
+    };
+  }
+}
+
+enum ChatEventType {
+  disconnect,
+  message,
+  event,
+}
+
+extension ChatEventTypeValueExtension on ChatEventType {
+  String toValue() {
+    switch (this) {
+      case ChatEventType.disconnect:
+        return 'DISCONNECT';
+      case ChatEventType.message:
+        return 'MESSAGE';
+      case ChatEventType.event:
+        return 'EVENT';
+    }
+  }
+}
+
+extension ChatEventTypeFromString on String {
+  ChatEventType toChatEventType() {
+    switch (this) {
+      case 'DISCONNECT':
+        return ChatEventType.disconnect;
+      case 'MESSAGE':
+        return ChatEventType.message;
+      case 'EVENT':
+        return ChatEventType.event;
+    }
+    throw Exception('$this is not known in enum ChatEventType');
   }
 }
 
@@ -10440,6 +15944,12 @@ class ClaimPhoneNumberResponse {
 /// Information about a phone number that has been claimed to your Amazon
 /// Connect instance or traffic distribution group.
 class ClaimedPhoneNumberSummary {
+  /// The identifier of the Amazon Connect instance that phone numbers are claimed
+  /// to. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  final String? instanceId;
+
   /// The phone number. Phone numbers are formatted <code>[+] [country code]
   /// [subscriber number including area code]</code>.
   final String? phoneNumber;
@@ -10461,23 +15971,25 @@ class ClaimedPhoneNumberSummary {
   /// <ul>
   /// <li>
   /// <code>CLAIMED</code> means the previous <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html">ClaimedPhoneNumber</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html">ClaimPhoneNumber</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>
   /// operation succeeded.
   /// </li>
   /// <li>
   /// <code>IN_PROGRESS</code> means a <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html">ClaimedPhoneNumber</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html">ClaimPhoneNumber</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>,
   /// or <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumberMetadata.html">UpdatePhoneNumberMetadata</a>
   /// operation is still in progress and has not yet completed. You can call <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html">DescribePhoneNumber</a>
   /// at a later time to verify if the previous operation has completed.
   /// </li>
   /// <li>
   /// <code>FAILED</code> indicates that the previous <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html">ClaimedPhoneNumber</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html">ClaimPhoneNumber</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>
   /// operation has failed. It will include a message indicating the failure
@@ -10497,15 +16009,21 @@ class ClaimedPhoneNumberSummary {
   /// The type of phone number.
   final PhoneNumberType? phoneNumberType;
 
+  /// The claimed phone number ARN that was previously imported from the external
+  /// service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks
+  /// like the ARN of the phone number that was imported from Amazon Pinpoint.
+  final String? sourcePhoneNumberArn;
+
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
-  /// distribution groups that phone numbers are claimed to.
+  /// distribution groups that phone number inbound traffic is routed through.
   final String? targetArn;
 
   ClaimedPhoneNumberSummary({
+    this.instanceId,
     this.phoneNumber,
     this.phoneNumberArn,
     this.phoneNumberCountryCode,
@@ -10513,12 +16031,14 @@ class ClaimedPhoneNumberSummary {
     this.phoneNumberId,
     this.phoneNumberStatus,
     this.phoneNumberType,
+    this.sourcePhoneNumberArn,
     this.tags,
     this.targetArn,
   });
 
   factory ClaimedPhoneNumberSummary.fromJson(Map<String, dynamic> json) {
     return ClaimedPhoneNumberSummary(
+      instanceId: json['InstanceId'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
       phoneNumberArn: json['PhoneNumberArn'] as String?,
       phoneNumberCountryCode: (json['PhoneNumberCountryCode'] as String?)
@@ -10531,6 +16051,7 @@ class ClaimedPhoneNumberSummary {
           : null,
       phoneNumberType:
           (json['PhoneNumberType'] as String?)?.toPhoneNumberType(),
+      sourcePhoneNumberArn: json['SourcePhoneNumberArn'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       targetArn: json['TargetArn'] as String?,
@@ -10538,6 +16059,7 @@ class ClaimedPhoneNumberSummary {
   }
 
   Map<String, dynamic> toJson() {
+    final instanceId = this.instanceId;
     final phoneNumber = this.phoneNumber;
     final phoneNumberArn = this.phoneNumberArn;
     final phoneNumberCountryCode = this.phoneNumberCountryCode;
@@ -10545,9 +16067,11 @@ class ClaimedPhoneNumberSummary {
     final phoneNumberId = this.phoneNumberId;
     final phoneNumberStatus = this.phoneNumberStatus;
     final phoneNumberType = this.phoneNumberType;
+    final sourcePhoneNumberArn = this.sourcePhoneNumberArn;
     final tags = this.tags;
     final targetArn = this.targetArn;
     return {
+      if (instanceId != null) 'InstanceId': instanceId,
       if (phoneNumber != null) 'PhoneNumber': phoneNumber,
       if (phoneNumberArn != null) 'PhoneNumberArn': phoneNumberArn,
       if (phoneNumberCountryCode != null)
@@ -10557,6 +16081,8 @@ class ClaimedPhoneNumberSummary {
       if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
       if (phoneNumberStatus != null) 'PhoneNumberStatus': phoneNumberStatus,
       if (phoneNumberType != null) 'PhoneNumberType': phoneNumberType.toValue(),
+      if (sourcePhoneNumberArn != null)
+        'SourcePhoneNumberArn': sourcePhoneNumberArn,
       if (tags != null) 'Tags': tags,
       if (targetArn != null) 'TargetArn': targetArn,
     };
@@ -10586,19 +16112,85 @@ extension ComparisonFromString on String {
   }
 }
 
+/// Response from CompleteAttachedFileUpload API
+class CompleteAttachedFileUploadResponse {
+  CompleteAttachedFileUploadResponse();
+
+  factory CompleteAttachedFileUploadResponse.fromJson(Map<String, dynamic> _) {
+    return CompleteAttachedFileUploadResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information required to join the call.
+class ConnectionData {
+  /// The attendee information, including attendee ID and join token.
+  final Attendee? attendee;
+
+  /// A meeting created using the Amazon Chime SDK.
+  final Meeting? meeting;
+
+  ConnectionData({
+    this.attendee,
+    this.meeting,
+  });
+
+  factory ConnectionData.fromJson(Map<String, dynamic> json) {
+    return ConnectionData(
+      attendee: json['Attendee'] != null
+          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
+          : null,
+      meeting: json['Meeting'] != null
+          ? Meeting.fromJson(json['Meeting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendee = this.attendee;
+    final meeting = this.meeting;
+    return {
+      if (attendee != null) 'Attendee': attendee,
+      if (meeting != null) 'Meeting': meeting,
+    };
+  }
+}
+
 /// Contains information about a contact.
 class Contact {
   /// Information about the agent who accepted the contact.
   final AgentInfo? agentInfo;
 
+  /// Indicates how an <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/how-to-create-campaigns.html">outbound
+  /// campaign</a> call is actually disposed if the contact is connected to Amazon
+  /// Connect.
+  final AnsweringMachineDetectionStatus? answeringMachineDetectionStatus;
+
   /// The Amazon Resource Name (ARN) for the contact.
   final String? arn;
+  final Campaign? campaign;
 
   /// How the contact reached your contact center.
   final Channel? channel;
 
+  /// The timestamp when customer endpoint connected to Amazon Connect.
+  final DateTime? connectedToSystemTimestamp;
+
+  /// Information about the Customer on the contact.
+  final Customer? customer;
+
+  /// Information about customer’s voice activity.
+  final CustomerVoiceActivity? customerVoiceActivity;
+
   /// The description of the contact.
   final String? description;
+
+  /// Information about the call disconnect experience.
+  final DisconnectDetails? disconnectDetails;
 
   /// The timestamp when the customer endpoint disconnected from Amazon Connect.
   final DateTime? disconnectTimestamp;
@@ -10619,8 +16211,16 @@ class Contact {
   /// <code>CALLBACK</code>, this is when the callback contact was created. For
   /// <code>TRANSFER</code> and <code>QUEUE_TRANSFER</code>, this is when the
   /// transfer was initiated. For <code>API</code>, this is when the request
-  /// arrived.
+  /// arrived. For <code>EXTERNAL_OUTBOUND</code>, this is when the agent started
+  /// dialing the external participant. For <code>MONITOR</code>, this is when the
+  /// supervisor started listening to a contact.
   final DateTime? initiationTimestamp;
+
+  /// The timestamp when the contact was last paused.
+  final DateTime? lastPausedTimestamp;
+
+  /// The timestamp when the contact was last resumed.
+  final DateTime? lastResumedTimestamp;
 
   /// The timestamp when contact was last updated.
   final DateTime? lastUpdateTimestamp;
@@ -10632,37 +16232,89 @@ class Contact {
   /// contact.
   final String? previousContactId;
 
+  /// Information about the quality of the participant's media connection.
+  final QualityMetrics? qualityMetrics;
+
   /// If this contact was queued, this contains information about the queue.
   final QueueInfo? queueInfo;
+
+  /// An integer that represents the queue priority to be applied to the contact
+  /// (lower priorities are routed preferentially). Cannot be specified if the
+  /// QueueTimeAdjustmentSeconds is specified. Must be statically defined, must be
+  /// larger than zero, and a valid integer value. Default Value is 5.
+  final int? queuePriority;
+
+  /// An integer that represents the queue time adjust to be applied to the
+  /// contact, in seconds (longer / larger queue time are routed preferentially).
+  /// Cannot be specified if the QueuePriority is specified. Must be statically
+  /// defined and a valid integer value.
+  final int? queueTimeAdjustmentSeconds;
 
   /// The contactId that is <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html#relatedcontactid">related</a>
   /// to this contact.
   final String? relatedContactId;
 
+  /// Latest routing criteria on the contact.
+  final RoutingCriteria? routingCriteria;
+
   /// The timestamp, in Unix epoch time format, at which to start running the
   /// inbound flow.
   final DateTime? scheduledTimestamp;
+
+  /// A set of system defined key-value pairs stored on individual contact
+  /// segments using an attribute map. The attributes are standard Amazon Connect
+  /// attributes and can be accessed in flows. Attribute keys can include only
+  /// alphanumeric, -, and _ characters. This field can be used to show channel
+  /// subtype. For example, <code>connect:Guide</code> or
+  /// <code>connect:SMS</code>.
+  final Map<String, SegmentAttributeValue>? segmentAttributes;
+
+  /// Tags associated with the contact. This contains both Amazon Web Services
+  /// generated and user-defined tags.
+  final Map<String, String>? tags;
+
+  /// Total pause count for a contact.
+  final int? totalPauseCount;
+
+  /// Total pause duration for a contact in seconds.
+  final int? totalPauseDurationInSeconds;
 
   /// Information about Amazon Connect Wisdom.
   final WisdomInfo? wisdomInfo;
 
   Contact({
     this.agentInfo,
+    this.answeringMachineDetectionStatus,
     this.arn,
+    this.campaign,
     this.channel,
+    this.connectedToSystemTimestamp,
+    this.customer,
+    this.customerVoiceActivity,
     this.description,
+    this.disconnectDetails,
     this.disconnectTimestamp,
     this.id,
     this.initialContactId,
     this.initiationMethod,
     this.initiationTimestamp,
+    this.lastPausedTimestamp,
+    this.lastResumedTimestamp,
     this.lastUpdateTimestamp,
     this.name,
     this.previousContactId,
+    this.qualityMetrics,
     this.queueInfo,
+    this.queuePriority,
+    this.queueTimeAdjustmentSeconds,
     this.relatedContactId,
+    this.routingCriteria,
     this.scheduledTimestamp,
+    this.segmentAttributes,
+    this.tags,
+    this.totalPauseCount,
+    this.totalPauseDurationInSeconds,
     this.wisdomInfo,
   });
 
@@ -10671,23 +16323,61 @@ class Contact {
       agentInfo: json['AgentInfo'] != null
           ? AgentInfo.fromJson(json['AgentInfo'] as Map<String, dynamic>)
           : null,
+      answeringMachineDetectionStatus:
+          (json['AnsweringMachineDetectionStatus'] as String?)
+              ?.toAnsweringMachineDetectionStatus(),
       arn: json['Arn'] as String?,
+      campaign: json['Campaign'] != null
+          ? Campaign.fromJson(json['Campaign'] as Map<String, dynamic>)
+          : null,
       channel: (json['Channel'] as String?)?.toChannel(),
+      connectedToSystemTimestamp:
+          timeStampFromJson(json['ConnectedToSystemTimestamp']),
+      customer: json['Customer'] != null
+          ? Customer.fromJson(json['Customer'] as Map<String, dynamic>)
+          : null,
+      customerVoiceActivity: json['CustomerVoiceActivity'] != null
+          ? CustomerVoiceActivity.fromJson(
+              json['CustomerVoiceActivity'] as Map<String, dynamic>)
+          : null,
       description: json['Description'] as String?,
+      disconnectDetails: json['DisconnectDetails'] != null
+          ? DisconnectDetails.fromJson(
+              json['DisconnectDetails'] as Map<String, dynamic>)
+          : null,
       disconnectTimestamp: timeStampFromJson(json['DisconnectTimestamp']),
       id: json['Id'] as String?,
       initialContactId: json['InitialContactId'] as String?,
       initiationMethod:
           (json['InitiationMethod'] as String?)?.toContactInitiationMethod(),
       initiationTimestamp: timeStampFromJson(json['InitiationTimestamp']),
+      lastPausedTimestamp: timeStampFromJson(json['LastPausedTimestamp']),
+      lastResumedTimestamp: timeStampFromJson(json['LastResumedTimestamp']),
       lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
       name: json['Name'] as String?,
       previousContactId: json['PreviousContactId'] as String?,
+      qualityMetrics: json['QualityMetrics'] != null
+          ? QualityMetrics.fromJson(
+              json['QualityMetrics'] as Map<String, dynamic>)
+          : null,
       queueInfo: json['QueueInfo'] != null
           ? QueueInfo.fromJson(json['QueueInfo'] as Map<String, dynamic>)
           : null,
+      queuePriority: json['QueuePriority'] as int?,
+      queueTimeAdjustmentSeconds: json['QueueTimeAdjustmentSeconds'] as int?,
       relatedContactId: json['RelatedContactId'] as String?,
+      routingCriteria: json['RoutingCriteria'] != null
+          ? RoutingCriteria.fromJson(
+              json['RoutingCriteria'] as Map<String, dynamic>)
+          : null,
       scheduledTimestamp: timeStampFromJson(json['ScheduledTimestamp']),
+      segmentAttributes: (json['SegmentAttributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, SegmentAttributeValue.fromJson(e as Map<String, dynamic>))),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      totalPauseCount: json['TotalPauseCount'] as int?,
+      totalPauseDurationInSeconds: json['TotalPauseDurationInSeconds'] as int?,
       wisdomInfo: json['WisdomInfo'] != null
           ? WisdomInfo.fromJson(json['WisdomInfo'] as Map<String, dynamic>)
           : null,
@@ -10696,26 +16386,54 @@ class Contact {
 
   Map<String, dynamic> toJson() {
     final agentInfo = this.agentInfo;
+    final answeringMachineDetectionStatus =
+        this.answeringMachineDetectionStatus;
     final arn = this.arn;
+    final campaign = this.campaign;
     final channel = this.channel;
+    final connectedToSystemTimestamp = this.connectedToSystemTimestamp;
+    final customer = this.customer;
+    final customerVoiceActivity = this.customerVoiceActivity;
     final description = this.description;
+    final disconnectDetails = this.disconnectDetails;
     final disconnectTimestamp = this.disconnectTimestamp;
     final id = this.id;
     final initialContactId = this.initialContactId;
     final initiationMethod = this.initiationMethod;
     final initiationTimestamp = this.initiationTimestamp;
+    final lastPausedTimestamp = this.lastPausedTimestamp;
+    final lastResumedTimestamp = this.lastResumedTimestamp;
     final lastUpdateTimestamp = this.lastUpdateTimestamp;
     final name = this.name;
     final previousContactId = this.previousContactId;
+    final qualityMetrics = this.qualityMetrics;
     final queueInfo = this.queueInfo;
+    final queuePriority = this.queuePriority;
+    final queueTimeAdjustmentSeconds = this.queueTimeAdjustmentSeconds;
     final relatedContactId = this.relatedContactId;
+    final routingCriteria = this.routingCriteria;
     final scheduledTimestamp = this.scheduledTimestamp;
+    final segmentAttributes = this.segmentAttributes;
+    final tags = this.tags;
+    final totalPauseCount = this.totalPauseCount;
+    final totalPauseDurationInSeconds = this.totalPauseDurationInSeconds;
     final wisdomInfo = this.wisdomInfo;
     return {
       if (agentInfo != null) 'AgentInfo': agentInfo,
+      if (answeringMachineDetectionStatus != null)
+        'AnsweringMachineDetectionStatus':
+            answeringMachineDetectionStatus.toValue(),
       if (arn != null) 'Arn': arn,
+      if (campaign != null) 'Campaign': campaign,
       if (channel != null) 'Channel': channel.toValue(),
+      if (connectedToSystemTimestamp != null)
+        'ConnectedToSystemTimestamp':
+            unixTimestampToJson(connectedToSystemTimestamp),
+      if (customer != null) 'Customer': customer,
+      if (customerVoiceActivity != null)
+        'CustomerVoiceActivity': customerVoiceActivity,
       if (description != null) 'Description': description,
+      if (disconnectDetails != null) 'DisconnectDetails': disconnectDetails,
       if (disconnectTimestamp != null)
         'DisconnectTimestamp': unixTimestampToJson(disconnectTimestamp),
       if (id != null) 'Id': id,
@@ -10724,15 +16442,96 @@ class Contact {
         'InitiationMethod': initiationMethod.toValue(),
       if (initiationTimestamp != null)
         'InitiationTimestamp': unixTimestampToJson(initiationTimestamp),
+      if (lastPausedTimestamp != null)
+        'LastPausedTimestamp': unixTimestampToJson(lastPausedTimestamp),
+      if (lastResumedTimestamp != null)
+        'LastResumedTimestamp': unixTimestampToJson(lastResumedTimestamp),
       if (lastUpdateTimestamp != null)
         'LastUpdateTimestamp': unixTimestampToJson(lastUpdateTimestamp),
       if (name != null) 'Name': name,
       if (previousContactId != null) 'PreviousContactId': previousContactId,
+      if (qualityMetrics != null) 'QualityMetrics': qualityMetrics,
       if (queueInfo != null) 'QueueInfo': queueInfo,
+      if (queuePriority != null) 'QueuePriority': queuePriority,
+      if (queueTimeAdjustmentSeconds != null)
+        'QueueTimeAdjustmentSeconds': queueTimeAdjustmentSeconds,
       if (relatedContactId != null) 'RelatedContactId': relatedContactId,
+      if (routingCriteria != null) 'RoutingCriteria': routingCriteria,
       if (scheduledTimestamp != null)
         'ScheduledTimestamp': unixTimestampToJson(scheduledTimestamp),
+      if (segmentAttributes != null) 'SegmentAttributes': segmentAttributes,
+      if (tags != null) 'Tags': tags,
+      if (totalPauseCount != null) 'TotalPauseCount': totalPauseCount,
+      if (totalPauseDurationInSeconds != null)
+        'TotalPauseDurationInSeconds': totalPauseDurationInSeconds,
       if (wisdomInfo != null) 'WisdomInfo': wisdomInfo,
+    };
+  }
+}
+
+/// A structure that defines search criteria for contacts using analysis outputs
+/// from Amazon Connect Contact Lens.
+class ContactAnalysis {
+  /// Search criteria based on transcript analyzed by Amazon Connect Contact Lens.
+  final Transcript? transcript;
+
+  ContactAnalysis({
+    this.transcript,
+  });
+
+  Map<String, dynamic> toJson() {
+    final transcript = this.transcript;
+    return {
+      if (transcript != null) 'Transcript': transcript,
+    };
+  }
+}
+
+/// Request object with information to create a contact.
+class ContactDataRequest {
+  /// List of attributes to be stored in a contact.
+  final Map<String, String>? attributes;
+
+  /// Structure to store information associated with a campaign.
+  final Campaign? campaign;
+
+  /// Endpoint of the customer for which contact will be initiated.
+  final Endpoint? customerEndpoint;
+
+  /// The identifier of the queue associated with the Amazon Connect instance in
+  /// which contacts that are created will be queued.
+  final String? queueId;
+
+  /// Identifier to uniquely identify individual requests in the batch.
+  final String? requestIdentifier;
+
+  /// Endpoint associated with the Amazon Connect instance from which outbound
+  /// contact will be initiated for the campaign.
+  final Endpoint? systemEndpoint;
+
+  ContactDataRequest({
+    this.attributes,
+    this.campaign,
+    this.customerEndpoint,
+    this.queueId,
+    this.requestIdentifier,
+    this.systemEndpoint,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final campaign = this.campaign;
+    final customerEndpoint = this.customerEndpoint;
+    final queueId = this.queueId;
+    final requestIdentifier = this.requestIdentifier;
+    final systemEndpoint = this.systemEndpoint;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (campaign != null) 'Campaign': campaign,
+      if (customerEndpoint != null) 'CustomerEndpoint': customerEndpoint,
+      if (queueId != null) 'QueueId': queueId,
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+      if (systemEndpoint != null) 'SystemEndpoint': systemEndpoint,
     };
   }
 }
@@ -10765,7 +16564,12 @@ class ContactFlow {
   /// The Amazon Resource Name (ARN) of the flow.
   final String? arn;
 
-  /// The content of the flow.
+  /// The JSON string that represents the content of the flow. For an example, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html">Example
+  /// flow in Amazon Connect Flow language</a>.
+  ///
+  /// Length Constraints: Minimum length of 1. Maximum length of 256000.
   final String? content;
 
   /// The description of the flow.
@@ -10780,8 +16584,11 @@ class ContactFlow {
   /// The type of flow.
   final ContactFlowState? state;
 
+  /// The status of the contact flow.
+  final ContactFlowStatus? status;
+
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   /// The type of the flow. For descriptions of the available types, see <a
@@ -10796,6 +16603,7 @@ class ContactFlow {
     this.id,
     this.name,
     this.state,
+    this.status,
     this.tags,
     this.type,
   });
@@ -10808,6 +16616,7 @@ class ContactFlow {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       state: (json['State'] as String?)?.toContactFlowState(),
+      status: (json['Status'] as String?)?.toContactFlowStatus(),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['Type'] as String?)?.toContactFlowType(),
@@ -10821,6 +16630,7 @@ class ContactFlow {
     final id = this.id;
     final name = this.name;
     final state = this.state;
+    final status = this.status;
     final tags = this.tags;
     final type = this.type;
     return {
@@ -10830,6 +16640,7 @@ class ContactFlow {
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
       if (state != null) 'State': state.toValue(),
+      if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type.toValue(),
     };
@@ -10841,7 +16652,10 @@ class ContactFlowModule {
   /// The Amazon Resource Name (ARN).
   final String? arn;
 
-  /// The content of the flow module.
+  /// The JSON string that represents the content of the flow. For an example, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html">Example
+  /// flow in Amazon Connect Flow language</a>.
   final String? content;
 
   /// The description of the flow module.
@@ -10860,7 +16674,7 @@ class ContactFlowModule {
   final ContactFlowModuleStatus? status;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   ContactFlowModule({
@@ -10906,6 +16720,51 @@ class ContactFlowModule {
       if (state != null) 'State': state.toValue(),
       if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// The search criteria to be used to return flow modules.
+class ContactFlowModuleSearchCriteria {
+  /// A list of conditions which would be applied together with an
+  /// <code>AND</code> condition.
+  final List<ContactFlowModuleSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<ContactFlowModuleSearchCriteria>? orConditions;
+  final StringCondition? stringCondition;
+
+  ContactFlowModuleSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// The search criteria to be used to return flow modules.
+class ContactFlowModuleSearchFilter {
+  final ControlPlaneTagFilter? tagFilter;
+
+  ContactFlowModuleSearchFilter({
+    this.tagFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagFilter = this.tagFilter;
+    return {
+      if (tagFilter != null) 'TagFilter': tagFilter,
     };
   }
 }
@@ -11010,6 +16869,69 @@ class ContactFlowModuleSummary {
   }
 }
 
+/// The search criteria to be used to return contact flows.
+class ContactFlowSearchCriteria {
+  /// A list of conditions which would be applied together with an
+  /// <code>AND</code> condition.
+  final List<ContactFlowSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<ContactFlowSearchCriteria>? orConditions;
+
+  /// The state of the flow.
+  final ContactFlowState? stateCondition;
+
+  /// The status of the flow.
+  final ContactFlowStatus? statusCondition;
+  final StringCondition? stringCondition;
+
+  /// The type of flow.
+  final ContactFlowType? typeCondition;
+
+  ContactFlowSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stateCondition,
+    this.statusCondition,
+    this.stringCondition,
+    this.typeCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stateCondition = this.stateCondition;
+    final statusCondition = this.statusCondition;
+    final stringCondition = this.stringCondition;
+    final typeCondition = this.typeCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stateCondition != null) 'StateCondition': stateCondition.toValue(),
+      if (statusCondition != null) 'StatusCondition': statusCondition.toValue(),
+      if (stringCondition != null) 'StringCondition': stringCondition,
+      if (typeCondition != null) 'TypeCondition': typeCondition.toValue(),
+    };
+  }
+}
+
+/// Filters to be applied to search results.
+class ContactFlowSearchFilter {
+  final ControlPlaneTagFilter? tagFilter;
+
+  ContactFlowSearchFilter({
+    this.tagFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagFilter = this.tagFilter;
+    return {
+      if (tagFilter != null) 'TagFilter': tagFilter,
+    };
+  }
+}
+
 enum ContactFlowState {
   active,
   archived,
@@ -11038,6 +16960,34 @@ extension ContactFlowStateFromString on String {
   }
 }
 
+enum ContactFlowStatus {
+  published,
+  saved,
+}
+
+extension ContactFlowStatusValueExtension on ContactFlowStatus {
+  String toValue() {
+    switch (this) {
+      case ContactFlowStatus.published:
+        return 'PUBLISHED';
+      case ContactFlowStatus.saved:
+        return 'SAVED';
+    }
+  }
+}
+
+extension ContactFlowStatusFromString on String {
+  ContactFlowStatus toContactFlowStatus() {
+    switch (this) {
+      case 'PUBLISHED':
+        return ContactFlowStatus.published;
+      case 'SAVED':
+        return ContactFlowStatus.saved;
+    }
+    throw Exception('$this is not known in enum ContactFlowStatus');
+  }
+}
+
 /// Contains summary information about a flow.
 ///
 /// You can also create and update flows using the <a
@@ -11049,6 +16999,9 @@ class ContactFlowSummary {
 
   /// The type of flow.
   final ContactFlowState? contactFlowState;
+
+  /// The status of the contact flow.
+  final ContactFlowStatus? contactFlowStatus;
 
   /// The type of flow.
   final ContactFlowType? contactFlowType;
@@ -11062,6 +17015,7 @@ class ContactFlowSummary {
   ContactFlowSummary({
     this.arn,
     this.contactFlowState,
+    this.contactFlowStatus,
     this.contactFlowType,
     this.id,
     this.name,
@@ -11072,6 +17026,8 @@ class ContactFlowSummary {
       arn: json['Arn'] as String?,
       contactFlowState:
           (json['ContactFlowState'] as String?)?.toContactFlowState(),
+      contactFlowStatus:
+          (json['ContactFlowStatus'] as String?)?.toContactFlowStatus(),
       contactFlowType:
           (json['ContactFlowType'] as String?)?.toContactFlowType(),
       id: json['Id'] as String?,
@@ -11082,6 +17038,7 @@ class ContactFlowSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final contactFlowState = this.contactFlowState;
+    final contactFlowStatus = this.contactFlowStatus;
     final contactFlowType = this.contactFlowType;
     final id = this.id;
     final name = this.name;
@@ -11089,6 +17046,8 @@ class ContactFlowSummary {
       if (arn != null) 'Arn': arn,
       if (contactFlowState != null)
         'ContactFlowState': contactFlowState.toValue(),
+      if (contactFlowStatus != null)
+        'ContactFlowStatus': contactFlowStatus.toValue(),
       if (contactFlowType != null) 'ContactFlowType': contactFlowType.toValue(),
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
@@ -11168,6 +17127,7 @@ enum ContactInitiationMethod {
   api,
   disconnect,
   monitor,
+  externalOutbound,
 }
 
 extension ContactInitiationMethodValueExtension on ContactInitiationMethod {
@@ -11189,6 +17149,8 @@ extension ContactInitiationMethodValueExtension on ContactInitiationMethod {
         return 'DISCONNECT';
       case ContactInitiationMethod.monitor:
         return 'MONITOR';
+      case ContactInitiationMethod.externalOutbound:
+        return 'EXTERNAL_OUTBOUND';
     }
   }
 }
@@ -11212,8 +17174,189 @@ extension ContactInitiationMethodFromString on String {
         return ContactInitiationMethod.disconnect;
       case 'MONITOR':
         return ContactInitiationMethod.monitor;
+      case 'EXTERNAL_OUTBOUND':
+        return ContactInitiationMethod.externalOutbound;
     }
     throw Exception('$this is not known in enum ContactInitiationMethod');
+  }
+}
+
+/// Information of returned contact.
+class ContactSearchSummary {
+  /// Information about the agent who accepted the contact.
+  final ContactSearchSummaryAgentInfo? agentInfo;
+
+  /// The Amazon Resource Name (ARN) of the contact.
+  final String? arn;
+
+  /// How the contact reached your contact center.
+  final Channel? channel;
+
+  /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+  final DateTime? disconnectTimestamp;
+
+  /// The identifier of the contact summary.
+  final String? id;
+
+  /// If this contact is related to other contacts, this is the ID of the initial
+  /// contact.
+  final String? initialContactId;
+
+  /// Indicates how the contact was initiated.
+  final ContactInitiationMethod? initiationMethod;
+
+  /// The date and time this contact was initiated, in UTC time. For
+  /// <code>INBOUND</code>, this is when the contact arrived. For
+  /// <code>OUTBOUND</code>, this is when the agent began dialing. For
+  /// <code>CALLBACK</code>, this is when the callback contact was created. For
+  /// <code>TRANSFER</code> and <code>QUEUE_TRANSFER</code>, this is when the
+  /// transfer was initiated. For API, this is when the request arrived. For
+  /// <code>EXTERNAL_OUTBOUND</code>, this is when the agent started dialing the
+  /// external participant. For <code>MONITOR</code>, this is when the supervisor
+  /// started listening to a contact.
+  final DateTime? initiationTimestamp;
+
+  /// If this contact is not the first contact, this is the ID of the previous
+  /// contact.
+  final String? previousContactId;
+
+  /// If this contact was queued, this contains information about the queue.
+  final ContactSearchSummaryQueueInfo? queueInfo;
+
+  /// The timestamp, in Unix epoch time format, at which to start running the
+  /// inbound flow.
+  final DateTime? scheduledTimestamp;
+
+  ContactSearchSummary({
+    this.agentInfo,
+    this.arn,
+    this.channel,
+    this.disconnectTimestamp,
+    this.id,
+    this.initialContactId,
+    this.initiationMethod,
+    this.initiationTimestamp,
+    this.previousContactId,
+    this.queueInfo,
+    this.scheduledTimestamp,
+  });
+
+  factory ContactSearchSummary.fromJson(Map<String, dynamic> json) {
+    return ContactSearchSummary(
+      agentInfo: json['AgentInfo'] != null
+          ? ContactSearchSummaryAgentInfo.fromJson(
+              json['AgentInfo'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      channel: (json['Channel'] as String?)?.toChannel(),
+      disconnectTimestamp: timeStampFromJson(json['DisconnectTimestamp']),
+      id: json['Id'] as String?,
+      initialContactId: json['InitialContactId'] as String?,
+      initiationMethod:
+          (json['InitiationMethod'] as String?)?.toContactInitiationMethod(),
+      initiationTimestamp: timeStampFromJson(json['InitiationTimestamp']),
+      previousContactId: json['PreviousContactId'] as String?,
+      queueInfo: json['QueueInfo'] != null
+          ? ContactSearchSummaryQueueInfo.fromJson(
+              json['QueueInfo'] as Map<String, dynamic>)
+          : null,
+      scheduledTimestamp: timeStampFromJson(json['ScheduledTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentInfo = this.agentInfo;
+    final arn = this.arn;
+    final channel = this.channel;
+    final disconnectTimestamp = this.disconnectTimestamp;
+    final id = this.id;
+    final initialContactId = this.initialContactId;
+    final initiationMethod = this.initiationMethod;
+    final initiationTimestamp = this.initiationTimestamp;
+    final previousContactId = this.previousContactId;
+    final queueInfo = this.queueInfo;
+    final scheduledTimestamp = this.scheduledTimestamp;
+    return {
+      if (agentInfo != null) 'AgentInfo': agentInfo,
+      if (arn != null) 'Arn': arn,
+      if (channel != null) 'Channel': channel.toValue(),
+      if (disconnectTimestamp != null)
+        'DisconnectTimestamp': unixTimestampToJson(disconnectTimestamp),
+      if (id != null) 'Id': id,
+      if (initialContactId != null) 'InitialContactId': initialContactId,
+      if (initiationMethod != null)
+        'InitiationMethod': initiationMethod.toValue(),
+      if (initiationTimestamp != null)
+        'InitiationTimestamp': unixTimestampToJson(initiationTimestamp),
+      if (previousContactId != null) 'PreviousContactId': previousContactId,
+      if (queueInfo != null) 'QueueInfo': queueInfo,
+      if (scheduledTimestamp != null)
+        'ScheduledTimestamp': unixTimestampToJson(scheduledTimestamp),
+    };
+  }
+}
+
+/// Information about the agent who accepted the contact.
+class ContactSearchSummaryAgentInfo {
+  /// The timestamp when the contact was connected to the agent.
+  final DateTime? connectedToAgentTimestamp;
+
+  /// The identifier of the agent who accepted the contact.
+  final String? id;
+
+  ContactSearchSummaryAgentInfo({
+    this.connectedToAgentTimestamp,
+    this.id,
+  });
+
+  factory ContactSearchSummaryAgentInfo.fromJson(Map<String, dynamic> json) {
+    return ContactSearchSummaryAgentInfo(
+      connectedToAgentTimestamp:
+          timeStampFromJson(json['ConnectedToAgentTimestamp']),
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectedToAgentTimestamp = this.connectedToAgentTimestamp;
+    final id = this.id;
+    return {
+      if (connectedToAgentTimestamp != null)
+        'ConnectedToAgentTimestamp':
+            unixTimestampToJson(connectedToAgentTimestamp),
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// If this contact was queued, this contains information about the queue.
+class ContactSearchSummaryQueueInfo {
+  /// The timestamp when the contact was added to the queue.
+  final DateTime? enqueueTimestamp;
+
+  /// The unique identifier for the queue.
+  final String? id;
+
+  ContactSearchSummaryQueueInfo({
+    this.enqueueTimestamp,
+    this.id,
+  });
+
+  factory ContactSearchSummaryQueueInfo.fromJson(Map<String, dynamic> json) {
+    return ContactSearchSummaryQueueInfo(
+      enqueueTimestamp: timeStampFromJson(json['EnqueueTimestamp']),
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enqueueTimestamp = this.enqueueTimestamp;
+    final id = this.id;
+    return {
+      if (enqueueTimestamp != null)
+        'EnqueueTimestamp': unixTimestampToJson(enqueueTimestamp),
+      if (id != null) 'Id': id,
+    };
   }
 }
 
@@ -11324,6 +17467,58 @@ class ControlPlaneTagFilter {
   }
 }
 
+/// An object that can be used to specify Tag conditions or Hierarchy Group
+/// conditions inside the <code>SearchFilter</code>.
+///
+/// This accepts an <code>OR</code> of <code>AND</code> (List of List) input
+/// where:
+///
+/// <ul>
+/// <li>
+/// The top level list specifies conditions that need to be applied with
+/// <code>OR</code> operator
+/// </li>
+/// <li>
+/// The inner list specifies conditions that need to be applied with
+/// <code>AND</code> operator.
+/// </li>
+/// </ul> <note>
+/// Only one field can be populated. Maximum number of allowed Tag conditions is
+/// 25. Maximum number of allowed Hierarchy Group conditions is 20.
+/// </note>
+class ControlPlaneUserAttributeFilter {
+  /// A list of conditions which would be applied together with an
+  /// <code>AND</code> condition.
+  final AttributeAndCondition? andCondition;
+  final HierarchyGroupCondition? hierarchyGroupCondition;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<AttributeAndCondition>? orConditions;
+  final TagCondition? tagCondition;
+
+  ControlPlaneUserAttributeFilter({
+    this.andCondition,
+    this.hierarchyGroupCondition,
+    this.orConditions,
+    this.tagCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andCondition = this.andCondition;
+    final hierarchyGroupCondition = this.hierarchyGroupCondition;
+    final orConditions = this.orConditions;
+    final tagCondition = this.tagCondition;
+    return {
+      if (andCondition != null) 'AndCondition': andCondition,
+      if (hierarchyGroupCondition != null)
+        'HierarchyGroupCondition': hierarchyGroupCondition,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (tagCondition != null) 'TagCondition': tagCondition,
+    };
+  }
+}
+
 class CreateAgentStatusResponse {
   /// The Amazon Resource Name (ARN) of the agent status.
   final String? agentStatusARN;
@@ -11349,6 +17544,39 @@ class CreateAgentStatusResponse {
     return {
       if (agentStatusARN != null) 'AgentStatusARN': agentStatusARN,
       if (agentStatusId != null) 'AgentStatusId': agentStatusId,
+    };
+  }
+}
+
+/// The <code>CreateCase</code> action definition.
+class CreateCaseActionDefinition {
+  /// An array of objects with <code>Field ID</code> and <code>Value</code> data.
+  final List<FieldValue> fields;
+
+  /// A unique identifier of a template.
+  final String templateId;
+
+  CreateCaseActionDefinition({
+    required this.fields,
+    required this.templateId,
+  });
+
+  factory CreateCaseActionDefinition.fromJson(Map<String, dynamic> json) {
+    return CreateCaseActionDefinition(
+      fields: (json['Fields'] as List)
+          .whereNotNull()
+          .map((e) => FieldValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      templateId: json['TemplateId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final templateId = this.templateId;
+    return {
+      'Fields': fields,
+      'TemplateId': templateId,
     };
   }
 }
@@ -11563,6 +17791,31 @@ class CreateParticipantResponse {
       if (participantCredentials != null)
         'ParticipantCredentials': participantCredentials,
       if (participantId != null) 'ParticipantId': participantId,
+    };
+  }
+}
+
+class CreatePersistentContactAssociationResponse {
+  /// The contactId from which a persistent chat session is started. This field is
+  /// populated only for persistent chat.
+  final String? continuedFromContactId;
+
+  CreatePersistentContactAssociationResponse({
+    this.continuedFromContactId,
+  });
+
+  factory CreatePersistentContactAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreatePersistentContactAssociationResponse(
+      continuedFromContactId: json['ContinuedFromContactId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continuedFromContactId = this.continuedFromContactId;
+    return {
+      if (continuedFromContactId != null)
+        'ContinuedFromContactId': continuedFromContactId,
     };
   }
 }
@@ -11890,6 +18143,55 @@ class CreateUserResponse {
   }
 }
 
+class CreateViewResponse {
+  /// A view resource object. Contains metadata and content necessary to render
+  /// the view.
+  final View? view;
+
+  CreateViewResponse({
+    this.view,
+  });
+
+  factory CreateViewResponse.fromJson(Map<String, dynamic> json) {
+    return CreateViewResponse(
+      view: json['View'] != null
+          ? View.fromJson(json['View'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final view = this.view;
+    return {
+      if (view != null) 'View': view,
+    };
+  }
+}
+
+class CreateViewVersionResponse {
+  /// All view data is contained within the View object.
+  final View? view;
+
+  CreateViewVersionResponse({
+    this.view,
+  });
+
+  factory CreateViewVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateViewVersionResponse(
+      view: json['View'] != null
+          ? View.fromJson(json['View'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final view = this.view;
+    return {
+      if (view != null) 'View': view,
+    };
+  }
+}
+
 class CreateVocabularyResponse {
   /// The current state of the custom vocabulary.
   final VocabularyState state;
@@ -11922,6 +18224,40 @@ class CreateVocabularyResponse {
       'State': state.toValue(),
       'VocabularyArn': vocabularyArn,
       'VocabularyId': vocabularyId,
+    };
+  }
+}
+
+/// Information on the identity that created the file.
+class CreatedByInfo {
+  /// STS or IAM ARN representing the identity of API Caller. SDK users cannot
+  /// populate this and this value is calculated automatically if
+  /// <code>ConnectUserArn</code> is not provided.
+  final String? awsIdentityArn;
+
+  /// An agent ARN representing a <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-resources-for-iam-policies">connect
+  /// user</a>.
+  final String? connectUserArn;
+
+  CreatedByInfo({
+    this.awsIdentityArn,
+    this.connectUserArn,
+  });
+
+  factory CreatedByInfo.fromJson(Map<String, dynamic> json) {
+    return CreatedByInfo(
+      awsIdentityArn: json['AWSIdentityArn'] as String?,
+      connectUserArn: json['ConnectUserArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsIdentityArn = this.awsIdentityArn;
+    final connectUserArn = this.connectUserArn;
+    return {
+      if (awsIdentityArn != null) 'AWSIdentityArn': awsIdentityArn,
+      if (connectUserArn != null) 'ConnectUserArn': connectUserArn,
     };
   }
 }
@@ -12207,6 +18543,100 @@ class CurrentMetricSortCriteria {
   }
 }
 
+/// Information about the Customer on the contact.
+class Customer {
+  final ParticipantCapabilities? capabilities;
+
+  /// Information regarding Customer’s device.
+  final DeviceInfo? deviceInfo;
+
+  Customer({
+    this.capabilities,
+    this.deviceInfo,
+  });
+
+  factory Customer.fromJson(Map<String, dynamic> json) {
+    return Customer(
+      capabilities: json['Capabilities'] != null
+          ? ParticipantCapabilities.fromJson(
+              json['Capabilities'] as Map<String, dynamic>)
+          : null,
+      deviceInfo: json['DeviceInfo'] != null
+          ? DeviceInfo.fromJson(json['DeviceInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capabilities = this.capabilities;
+    final deviceInfo = this.deviceInfo;
+    return {
+      if (capabilities != null) 'Capabilities': capabilities,
+      if (deviceInfo != null) 'DeviceInfo': deviceInfo,
+    };
+  }
+}
+
+/// Information about the quality of the Customer's media connection
+class CustomerQualityMetrics {
+  /// Information about the audio quality of the Customer
+  final AudioQualityMetricsInfo? audio;
+
+  CustomerQualityMetrics({
+    this.audio,
+  });
+
+  factory CustomerQualityMetrics.fromJson(Map<String, dynamic> json) {
+    return CustomerQualityMetrics(
+      audio: json['Audio'] != null
+          ? AudioQualityMetricsInfo.fromJson(
+              json['Audio'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audio = this.audio;
+    return {
+      if (audio != null) 'Audio': audio,
+    };
+  }
+}
+
+/// Information about customer’s voice activity.
+class CustomerVoiceActivity {
+  /// Timestamp that measures the end of the customer greeting from an outbound
+  /// voice call.
+  final DateTime? greetingEndTimestamp;
+
+  /// Timestamp that measures the beginning of the customer greeting from an
+  /// outbound voice call.
+  final DateTime? greetingStartTimestamp;
+
+  CustomerVoiceActivity({
+    this.greetingEndTimestamp,
+    this.greetingStartTimestamp,
+  });
+
+  factory CustomerVoiceActivity.fromJson(Map<String, dynamic> json) {
+    return CustomerVoiceActivity(
+      greetingEndTimestamp: timeStampFromJson(json['GreetingEndTimestamp']),
+      greetingStartTimestamp: timeStampFromJson(json['GreetingStartTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final greetingEndTimestamp = this.greetingEndTimestamp;
+    final greetingStartTimestamp = this.greetingStartTimestamp;
+    return {
+      if (greetingEndTimestamp != null)
+        'GreetingEndTimestamp': unixTimestampToJson(greetingEndTimestamp),
+      if (greetingStartTimestamp != null)
+        'GreetingStartTimestamp': unixTimestampToJson(greetingStartTimestamp),
+    };
+  }
+}
+
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>DATE</code>. Otherwise, null.
 class DateReference {
@@ -12323,6 +18753,19 @@ class DefaultVocabulary {
   }
 }
 
+/// Response from DeleteAttachedFile API
+class DeleteAttachedFileResponse {
+  DeleteAttachedFileResponse();
+
+  factory DeleteAttachedFileResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAttachedFileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteContactFlowModuleResponse {
   DeleteContactFlowModuleResponse();
 
@@ -12365,6 +18808,30 @@ class DeleteTrafficDistributionGroupResponse {
   factory DeleteTrafficDistributionGroupResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteTrafficDistributionGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteViewResponse {
+  DeleteViewResponse();
+
+  factory DeleteViewResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteViewResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteViewVersionResponse {
+  DeleteViewVersionResponse();
+
+  factory DeleteViewVersionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteViewVersionResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -12688,6 +19155,33 @@ class DescribePhoneNumberResponse {
   }
 }
 
+class DescribePredefinedAttributeResponse {
+  /// Information about the predefined attribute.
+  final PredefinedAttribute? predefinedAttribute;
+
+  DescribePredefinedAttributeResponse({
+    this.predefinedAttribute,
+  });
+
+  factory DescribePredefinedAttributeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribePredefinedAttributeResponse(
+      predefinedAttribute: json['PredefinedAttribute'] != null
+          ? PredefinedAttribute.fromJson(
+              json['PredefinedAttribute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predefinedAttribute = this.predefinedAttribute;
+    return {
+      if (predefinedAttribute != null)
+        'PredefinedAttribute': predefinedAttribute,
+    };
+  }
+}
+
 class DescribePromptResponse {
   /// Information about the prompt.
   final Prompt? prompt;
@@ -12935,6 +19429,30 @@ class DescribeUserResponse {
   }
 }
 
+class DescribeViewResponse {
+  /// All view data is contained within the View object.
+  final View? view;
+
+  DescribeViewResponse({
+    this.view,
+  });
+
+  factory DescribeViewResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeViewResponse(
+      view: json['View'] != null
+          ? View.fromJson(json['View'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final view = this.view;
+    return {
+      if (view != null) 'View': view,
+    };
+  }
+}
+
 class DescribeVocabularyResponse {
   /// A list of specific words that you want Contact Lens for Amazon Connect to
   /// recognize in your audio input. They are generally domain-specific words and
@@ -12960,6 +19478,43 @@ class DescribeVocabularyResponse {
   }
 }
 
+/// Information regarding the device.
+class DeviceInfo {
+  /// Operating system that the participant used for the call.
+  final String? operatingSystem;
+
+  /// Name of the platform that the participant used for the call.
+  final String? platformName;
+
+  /// Version of the platform that the participant used for the call.
+  final String? platformVersion;
+
+  DeviceInfo({
+    this.operatingSystem,
+    this.platformName,
+    this.platformVersion,
+  });
+
+  factory DeviceInfo.fromJson(Map<String, dynamic> json) {
+    return DeviceInfo(
+      operatingSystem: json['OperatingSystem'] as String?,
+      platformName: json['PlatformName'] as String?,
+      platformVersion: json['PlatformVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operatingSystem = this.operatingSystem;
+    final platformName = this.platformName;
+    final platformVersion = this.platformVersion;
+    return {
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem,
+      if (platformName != null) 'PlatformName': platformName,
+      if (platformVersion != null) 'PlatformVersion': platformVersion,
+    };
+  }
+}
+
 /// Contains information about the dimensions for a set of metrics.
 class Dimensions {
   /// The channel used for grouping and filters.
@@ -12969,10 +19524,14 @@ class Dimensions {
   final QueueReference? queue;
   final RoutingProfileReference? routingProfile;
 
+  /// The expression of a step in a routing criteria.
+  final String? routingStepExpression;
+
   Dimensions({
     this.channel,
     this.queue,
     this.routingProfile,
+    this.routingStepExpression,
   });
 
   factory Dimensions.fromJson(Map<String, dynamic> json) {
@@ -12985,6 +19544,7 @@ class Dimensions {
           ? RoutingProfileReference.fromJson(
               json['RoutingProfile'] as Map<String, dynamic>)
           : null,
+      routingStepExpression: json['RoutingStepExpression'] as String?,
     );
   }
 
@@ -12992,10 +19552,13 @@ class Dimensions {
     final channel = this.channel;
     final queue = this.queue;
     final routingProfile = this.routingProfile;
+    final routingStepExpression = this.routingStepExpression;
     return {
       if (channel != null) 'Channel': channel.toValue(),
       if (queue != null) 'Queue': queue,
       if (routingProfile != null) 'RoutingProfile': routingProfile,
+      if (routingStepExpression != null)
+        'RoutingStepExpression': routingStepExpression,
     };
   }
 }
@@ -13030,6 +19593,74 @@ extension DirectoryTypeFromString on String {
         return DirectoryType.existingDirectory;
     }
     throw Exception('$this is not known in enum DirectoryType');
+  }
+}
+
+class DisassociateFlowResponse {
+  DisassociateFlowResponse();
+
+  factory DisassociateFlowResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateFlowResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DisassociateTrafficDistributionGroupUserResponse {
+  DisassociateTrafficDistributionGroupUserResponse();
+
+  factory DisassociateTrafficDistributionGroupUserResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateTrafficDistributionGroupUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information about the call disconnect experience.
+class DisconnectDetails {
+  /// Indicates the potential disconnection issues for a call. This field is not
+  /// populated if the service does not detect potential issues.
+  final String? potentialDisconnectIssue;
+
+  DisconnectDetails({
+    this.potentialDisconnectIssue,
+  });
+
+  factory DisconnectDetails.fromJson(Map<String, dynamic> json) {
+    return DisconnectDetails(
+      potentialDisconnectIssue: json['PotentialDisconnectIssue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final potentialDisconnectIssue = this.potentialDisconnectIssue;
+    return {
+      if (potentialDisconnectIssue != null)
+        'PotentialDisconnectIssue': potentialDisconnectIssue,
+    };
+  }
+}
+
+/// Contains details about why a contact was disconnected. Only Amazon Connect
+/// outbound campaigns can provide this field.
+class DisconnectReason {
+  /// A code that indicates how the contact was terminated.
+  final String? code;
+
+  DisconnectReason({
+    this.code,
+  });
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    return {
+      if (code != null) 'Code': code,
+    };
   }
 }
 
@@ -13075,6 +19706,37 @@ class Distribution {
   }
 }
 
+/// Metadata used to download the attached file.
+class DownloadUrlMetadata {
+  /// A pre-signed URL that should be used to download the attached file.
+  final String? url;
+
+  /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
+  /// format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+  final String? urlExpiry;
+
+  DownloadUrlMetadata({
+    this.url,
+    this.urlExpiry,
+  });
+
+  factory DownloadUrlMetadata.fromJson(Map<String, dynamic> json) {
+    return DownloadUrlMetadata(
+      url: json['Url'] as String?,
+      urlExpiry: json['UrlExpiry'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    final urlExpiry = this.urlExpiry;
+    return {
+      if (url != null) 'Url': url,
+      if (urlExpiry != null) 'UrlExpiry': urlExpiry,
+    };
+  }
+}
+
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>EMAIL</code>. Otherwise, null.
 class EmailReference {
@@ -13103,6 +19765,19 @@ class EmailReference {
       if (name != null) 'Name': name,
       if (value != null) 'Value': value,
     };
+  }
+}
+
+/// An empty value.
+class EmptyFieldValue {
+  EmptyFieldValue();
+
+  factory EmptyFieldValue.fromJson(Map<String, dynamic> _) {
+    return EmptyFieldValue();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -13166,6 +19841,107 @@ extension EncryptionTypeFromString on String {
   }
 }
 
+/// End associated tasks related to a case.
+class EndAssociatedTasksActionDefinition {
+  EndAssociatedTasksActionDefinition();
+
+  factory EndAssociatedTasksActionDefinition.fromJson(Map<String, dynamic> _) {
+    return EndAssociatedTasksActionDefinition();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information about the endpoint.
+class Endpoint {
+  /// Address of the endpoint.
+  final String? address;
+
+  /// Type of the endpoint.
+  final EndpointType? type;
+
+  Endpoint({
+    this.address,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final type = this.type;
+    return {
+      if (address != null) 'Address': address,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum EndpointType {
+  telephoneNumber,
+  voip,
+  contactFlow,
+}
+
+extension EndpointTypeValueExtension on EndpointType {
+  String toValue() {
+    switch (this) {
+      case EndpointType.telephoneNumber:
+        return 'TELEPHONE_NUMBER';
+      case EndpointType.voip:
+        return 'VOIP';
+      case EndpointType.contactFlow:
+        return 'CONTACT_FLOW';
+    }
+  }
+}
+
+extension EndpointTypeFromString on String {
+  EndpointType toEndpointType() {
+    switch (this) {
+      case 'TELEPHONE_NUMBER':
+        return EndpointType.telephoneNumber;
+      case 'VOIP':
+        return EndpointType.voip;
+      case 'CONTACT_FLOW':
+        return EndpointType.contactFlow;
+    }
+    throw Exception('$this is not known in enum EndpointType');
+  }
+}
+
+/// This API is in preview release for Amazon Connect and is subject to change.
+///
+/// List of errors for dataset association failures.
+class ErrorResult {
+  /// The error code.
+  final String? errorCode;
+
+  /// The corresponding error message for the error code.
+  final String? errorMessage;
+
+  ErrorResult({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory ErrorResult.fromJson(Map<String, dynamic> json) {
+    return ErrorResult(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
 /// Information about a contact evaluation.
 class Evaluation {
   /// A map of question identifiers to answer value.
@@ -13196,7 +19972,7 @@ class Evaluation {
   final Map<String, EvaluationScore>? scores;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   Evaluation({
@@ -13395,7 +20171,7 @@ class EvaluationForm {
   final EvaluationFormScoringStrategy? scoringStrategy;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   EvaluationForm({
@@ -14449,6 +21225,12 @@ class EvaluationMetadata {
 /// Information about notes for a contact evaluation.
 class EvaluationNote {
   /// The note for an item (section or question) in a contact evaluation.
+  /// <note>
+  /// Even though a note in an evaluation can have up to 3072 chars, there is also
+  /// a limit on the total number of chars for all the notes in the evaluation
+  /// combined. Assuming there are N questions in the evaluation being submitted,
+  /// then the max char limit for all notes combined is N x 1024.
+  /// </note>
   final String? value;
 
   EvaluationNote({
@@ -14643,11 +21425,15 @@ class EventBridgeActionDefinition {
 enum EventSourceName {
   onPostCallAnalysisAvailable,
   onRealTimeCallAnalysisAvailable,
+  onRealTimeChatAnalysisAvailable,
   onPostChatAnalysisAvailable,
   onZendeskTicketCreate,
   onZendeskTicketStatusUpdate,
   onSalesforceCaseCreate,
   onContactEvaluationSubmit,
+  onMetricDataUpdate,
+  onCaseCreate,
+  onCaseUpdate,
 }
 
 extension EventSourceNameValueExtension on EventSourceName {
@@ -14657,6 +21443,8 @@ extension EventSourceNameValueExtension on EventSourceName {
         return 'OnPostCallAnalysisAvailable';
       case EventSourceName.onRealTimeCallAnalysisAvailable:
         return 'OnRealTimeCallAnalysisAvailable';
+      case EventSourceName.onRealTimeChatAnalysisAvailable:
+        return 'OnRealTimeChatAnalysisAvailable';
       case EventSourceName.onPostChatAnalysisAvailable:
         return 'OnPostChatAnalysisAvailable';
       case EventSourceName.onZendeskTicketCreate:
@@ -14667,6 +21455,12 @@ extension EventSourceNameValueExtension on EventSourceName {
         return 'OnSalesforceCaseCreate';
       case EventSourceName.onContactEvaluationSubmit:
         return 'OnContactEvaluationSubmit';
+      case EventSourceName.onMetricDataUpdate:
+        return 'OnMetricDataUpdate';
+      case EventSourceName.onCaseCreate:
+        return 'OnCaseCreate';
+      case EventSourceName.onCaseUpdate:
+        return 'OnCaseUpdate';
     }
   }
 }
@@ -14678,6 +21472,8 @@ extension EventSourceNameFromString on String {
         return EventSourceName.onPostCallAnalysisAvailable;
       case 'OnRealTimeCallAnalysisAvailable':
         return EventSourceName.onRealTimeCallAnalysisAvailable;
+      case 'OnRealTimeChatAnalysisAvailable':
+        return EventSourceName.onRealTimeChatAnalysisAvailable;
       case 'OnPostChatAnalysisAvailable':
         return EventSourceName.onPostChatAnalysisAvailable;
       case 'OnZendeskTicketCreate':
@@ -14688,8 +21484,337 @@ extension EventSourceNameFromString on String {
         return EventSourceName.onSalesforceCaseCreate;
       case 'OnContactEvaluationSubmit':
         return EventSourceName.onContactEvaluationSubmit;
+      case 'OnMetricDataUpdate':
+        return EventSourceName.onMetricDataUpdate;
+      case 'OnCaseCreate':
+        return EventSourceName.onCaseCreate;
+      case 'OnCaseUpdate':
+        return EventSourceName.onCaseUpdate;
     }
     throw Exception('$this is not known in enum EventSourceName');
+  }
+}
+
+/// An object to specify the expiration of a routing step.
+class Expiry {
+  /// The number of seconds to wait before expiring the routing step.
+  final int? durationInSeconds;
+
+  /// The timestamp indicating when the routing step expires.
+  final DateTime? expiryTimestamp;
+
+  Expiry({
+    this.durationInSeconds,
+    this.expiryTimestamp,
+  });
+
+  factory Expiry.fromJson(Map<String, dynamic> json) {
+    return Expiry(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+      expiryTimestamp: timeStampFromJson(json['ExpiryTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    final expiryTimestamp = this.expiryTimestamp;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      if (expiryTimestamp != null)
+        'ExpiryTimestamp': unixTimestampToJson(expiryTimestamp),
+    };
+  }
+}
+
+/// A tagged union to specify expression for a routing step.
+class Expression {
+  /// List of routing expressions which will be AND-ed together.
+  final List<Expression>? andExpression;
+
+  /// An object to specify the predefined attribute condition.
+  final AttributeCondition? attributeCondition;
+
+  /// List of routing expressions which will be OR-ed together.
+  final List<Expression>? orExpression;
+
+  Expression({
+    this.andExpression,
+    this.attributeCondition,
+    this.orExpression,
+  });
+
+  factory Expression.fromJson(Map<String, dynamic> json) {
+    return Expression(
+      andExpression: (json['AndExpression'] as List?)
+          ?.whereNotNull()
+          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attributeCondition: json['AttributeCondition'] != null
+          ? AttributeCondition.fromJson(
+              json['AttributeCondition'] as Map<String, dynamic>)
+          : null,
+      orExpression: (json['OrExpression'] as List?)
+          ?.whereNotNull()
+          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final andExpression = this.andExpression;
+    final attributeCondition = this.attributeCondition;
+    final orExpression = this.orExpression;
+    return {
+      if (andExpression != null) 'AndExpression': andExpression,
+      if (attributeCondition != null) 'AttributeCondition': attributeCondition,
+      if (orExpression != null) 'OrExpression': orExpression,
+    };
+  }
+}
+
+/// Request for which contact failed to be generated.
+class FailedRequest {
+  /// Reason code for the failure.
+  final FailureReasonCode? failureReasonCode;
+
+  /// Why the request to create a contact failed.
+  final String? failureReasonMessage;
+
+  /// Request identifier provided in the API call in the ContactDataRequest to
+  /// create a contact.
+  final String? requestIdentifier;
+
+  FailedRequest({
+    this.failureReasonCode,
+    this.failureReasonMessage,
+    this.requestIdentifier,
+  });
+
+  factory FailedRequest.fromJson(Map<String, dynamic> json) {
+    return FailedRequest(
+      failureReasonCode:
+          (json['FailureReasonCode'] as String?)?.toFailureReasonCode(),
+      failureReasonMessage: json['FailureReasonMessage'] as String?,
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureReasonCode = this.failureReasonCode;
+    final failureReasonMessage = this.failureReasonMessage;
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (failureReasonCode != null)
+        'FailureReasonCode': failureReasonCode.toValue(),
+      if (failureReasonMessage != null)
+        'FailureReasonMessage': failureReasonMessage,
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+enum FailureReasonCode {
+  invalidAttributeKey,
+  invalidCustomerEndpoint,
+  invalidSystemEndpoint,
+  invalidQueue,
+  missingCampaign,
+  missingCustomerEndpoint,
+  missingQueueIdAndSystemEndpoint,
+  requestThrottled,
+  idempotencyException,
+  internalError,
+}
+
+extension FailureReasonCodeValueExtension on FailureReasonCode {
+  String toValue() {
+    switch (this) {
+      case FailureReasonCode.invalidAttributeKey:
+        return 'INVALID_ATTRIBUTE_KEY';
+      case FailureReasonCode.invalidCustomerEndpoint:
+        return 'INVALID_CUSTOMER_ENDPOINT';
+      case FailureReasonCode.invalidSystemEndpoint:
+        return 'INVALID_SYSTEM_ENDPOINT';
+      case FailureReasonCode.invalidQueue:
+        return 'INVALID_QUEUE';
+      case FailureReasonCode.missingCampaign:
+        return 'MISSING_CAMPAIGN';
+      case FailureReasonCode.missingCustomerEndpoint:
+        return 'MISSING_CUSTOMER_ENDPOINT';
+      case FailureReasonCode.missingQueueIdAndSystemEndpoint:
+        return 'MISSING_QUEUE_ID_AND_SYSTEM_ENDPOINT';
+      case FailureReasonCode.requestThrottled:
+        return 'REQUEST_THROTTLED';
+      case FailureReasonCode.idempotencyException:
+        return 'IDEMPOTENCY_EXCEPTION';
+      case FailureReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension FailureReasonCodeFromString on String {
+  FailureReasonCode toFailureReasonCode() {
+    switch (this) {
+      case 'INVALID_ATTRIBUTE_KEY':
+        return FailureReasonCode.invalidAttributeKey;
+      case 'INVALID_CUSTOMER_ENDPOINT':
+        return FailureReasonCode.invalidCustomerEndpoint;
+      case 'INVALID_SYSTEM_ENDPOINT':
+        return FailureReasonCode.invalidSystemEndpoint;
+      case 'INVALID_QUEUE':
+        return FailureReasonCode.invalidQueue;
+      case 'MISSING_CAMPAIGN':
+        return FailureReasonCode.missingCampaign;
+      case 'MISSING_CUSTOMER_ENDPOINT':
+        return FailureReasonCode.missingCustomerEndpoint;
+      case 'MISSING_QUEUE_ID_AND_SYSTEM_ENDPOINT':
+        return FailureReasonCode.missingQueueIdAndSystemEndpoint;
+      case 'REQUEST_THROTTLED':
+        return FailureReasonCode.requestThrottled;
+      case 'IDEMPOTENCY_EXCEPTION':
+        return FailureReasonCode.idempotencyException;
+      case 'INTERNAL_ERROR':
+        return FailureReasonCode.internalError;
+    }
+    throw Exception('$this is not known in enum FailureReasonCode');
+  }
+}
+
+/// Object for case field values.
+class FieldValue {
+  /// Unique identifier of a field.
+  final String id;
+
+  /// Union of potential field value types.
+  final FieldValueUnion value;
+
+  FieldValue({
+    required this.id,
+    required this.value,
+  });
+
+  factory FieldValue.fromJson(Map<String, dynamic> json) {
+    return FieldValue(
+      id: json['Id'] as String,
+      value: FieldValueUnion.fromJson(json['Value'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final value = this.value;
+    return {
+      'Id': id,
+      'Value': value,
+    };
+  }
+}
+
+/// Object to store union of Field values.
+class FieldValueUnion {
+  /// A Boolean number value type.
+  final bool? booleanValue;
+
+  /// a Double number value type.
+  final double? doubleValue;
+
+  /// An empty value.
+  final EmptyFieldValue? emptyValue;
+
+  /// String value type.
+  final String? stringValue;
+
+  FieldValueUnion({
+    this.booleanValue,
+    this.doubleValue,
+    this.emptyValue,
+    this.stringValue,
+  });
+
+  factory FieldValueUnion.fromJson(Map<String, dynamic> json) {
+    return FieldValueUnion(
+      booleanValue: json['BooleanValue'] as bool?,
+      doubleValue: json['DoubleValue'] as double?,
+      emptyValue: json['EmptyValue'] != null
+          ? EmptyFieldValue.fromJson(json['EmptyValue'] as Map<String, dynamic>)
+          : null,
+      stringValue: json['StringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final emptyValue = this.emptyValue;
+    final stringValue = this.stringValue;
+    return {
+      if (booleanValue != null) 'BooleanValue': booleanValue,
+      if (doubleValue != null) 'DoubleValue': doubleValue,
+      if (emptyValue != null) 'EmptyValue': emptyValue,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
+enum FileStatusType {
+  approved,
+  rejected,
+  processing,
+  failed,
+}
+
+extension FileStatusTypeValueExtension on FileStatusType {
+  String toValue() {
+    switch (this) {
+      case FileStatusType.approved:
+        return 'APPROVED';
+      case FileStatusType.rejected:
+        return 'REJECTED';
+      case FileStatusType.processing:
+        return 'PROCESSING';
+      case FileStatusType.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension FileStatusTypeFromString on String {
+  FileStatusType toFileStatusType() {
+    switch (this) {
+      case 'APPROVED':
+        return FileStatusType.approved;
+      case 'REJECTED':
+        return FileStatusType.rejected;
+      case 'PROCESSING':
+        return FileStatusType.processing;
+      case 'FAILED':
+        return FileStatusType.failed;
+    }
+    throw Exception('$this is not known in enum FileStatusType');
+  }
+}
+
+enum FileUseCaseType {
+  attachment,
+}
+
+extension FileUseCaseTypeValueExtension on FileUseCaseType {
+  String toValue() {
+    switch (this) {
+      case FileUseCaseType.attachment:
+        return 'ATTACHMENT';
+    }
+  }
+}
+
+extension FileUseCaseTypeFromString on String {
+  FileUseCaseType toFileUseCaseType() {
+    switch (this) {
+      case 'ATTACHMENT':
+        return FileUseCaseType.attachment;
+    }
+    throw Exception('$this is not known in enum FileUseCaseType');
   }
 }
 
@@ -14741,21 +21866,198 @@ class Filters {
   /// A list of up to 100 routing profile IDs or ARNs.
   final List<String>? routingProfiles;
 
+  /// A list of expressions as a filter, in which an expression is an object of a
+  /// step in a routing criteria.
+  final List<String>? routingStepExpressions;
+
   Filters({
     this.channels,
     this.queues,
     this.routingProfiles,
+    this.routingStepExpressions,
   });
 
   Map<String, dynamic> toJson() {
     final channels = this.channels;
     final queues = this.queues;
     final routingProfiles = this.routingProfiles;
+    final routingStepExpressions = this.routingStepExpressions;
     return {
       if (channels != null)
         'Channels': channels.map((e) => e.toValue()).toList(),
       if (queues != null) 'Queues': queues,
       if (routingProfiles != null) 'RoutingProfiles': routingProfiles,
+      if (routingStepExpressions != null)
+        'RoutingStepExpressions': routingStepExpressions,
+    };
+  }
+}
+
+enum FlowAssociationResourceType {
+  smsPhoneNumber,
+}
+
+extension FlowAssociationResourceTypeValueExtension
+    on FlowAssociationResourceType {
+  String toValue() {
+    switch (this) {
+      case FlowAssociationResourceType.smsPhoneNumber:
+        return 'SMS_PHONE_NUMBER';
+    }
+  }
+}
+
+extension FlowAssociationResourceTypeFromString on String {
+  FlowAssociationResourceType toFlowAssociationResourceType() {
+    switch (this) {
+      case 'SMS_PHONE_NUMBER':
+        return FlowAssociationResourceType.smsPhoneNumber;
+    }
+    throw Exception('$this is not known in enum FlowAssociationResourceType');
+  }
+}
+
+/// Information about flow associations.
+class FlowAssociationSummary {
+  /// The identifier of the flow.
+  final String? flowId;
+
+  /// The identifier of the resource.
+  final String? resourceId;
+
+  /// The type of resource association.
+  final ListFlowAssociationResourceType? resourceType;
+
+  FlowAssociationSummary({
+    this.flowId,
+    this.resourceId,
+    this.resourceType,
+  });
+
+  factory FlowAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return FlowAssociationSummary(
+      flowId: json['FlowId'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      resourceType: (json['ResourceType'] as String?)
+          ?.toListFlowAssociationResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowId = this.flowId;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    return {
+      if (flowId != null) 'FlowId': flowId,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+    };
+  }
+}
+
+/// Response from GetAttachedFile API.
+class GetAttachedFileResponse {
+  /// The size of the attached file in bytes.
+  final int fileSizeInBytes;
+
+  /// The resource to which the attached file is (being) uploaded to. <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
+  /// are the only current supported resource.
+  final String? associatedResourceArn;
+
+  /// Represents the identity that created the file.
+  final CreatedByInfo? createdBy;
+
+  /// The time of Creation of the file resource as an ISO timestamp. It's
+  /// specified in ISO 8601 format: <code>yyyy-MM-ddThh:mm:ss.SSSZ</code>. For
+  /// example, <code>2024-05-03T02:41:28.172Z</code>.
+  final String? creationTime;
+
+  /// URL and expiry to be used when downloading the attached file.
+  final DownloadUrlMetadata? downloadUrlMetadata;
+
+  /// The unique identifier of the attached file resource (ARN).
+  final String? fileArn;
+
+  /// The unique identifier of the attached file resource.
+  final String? fileId;
+
+  /// A case-sensitive name of the attached file being uploaded.
+  final String? fileName;
+
+  /// The current status of the attached file.
+  final FileStatusType? fileStatus;
+
+  /// The use case for the file.
+  final FileUseCaseType? fileUseCaseType;
+
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, <code>{ "Tags": {"key1":"value1", "key2":"value2"} }</code>.
+  final Map<String, String>? tags;
+
+  GetAttachedFileResponse({
+    required this.fileSizeInBytes,
+    this.associatedResourceArn,
+    this.createdBy,
+    this.creationTime,
+    this.downloadUrlMetadata,
+    this.fileArn,
+    this.fileId,
+    this.fileName,
+    this.fileStatus,
+    this.fileUseCaseType,
+    this.tags,
+  });
+
+  factory GetAttachedFileResponse.fromJson(Map<String, dynamic> json) {
+    return GetAttachedFileResponse(
+      fileSizeInBytes: json['FileSizeInBytes'] as int,
+      associatedResourceArn: json['AssociatedResourceArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? CreatedByInfo.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationTime: json['CreationTime'] as String?,
+      downloadUrlMetadata: json['DownloadUrlMetadata'] != null
+          ? DownloadUrlMetadata.fromJson(
+              json['DownloadUrlMetadata'] as Map<String, dynamic>)
+          : null,
+      fileArn: json['FileArn'] as String?,
+      fileId: json['FileId'] as String?,
+      fileName: json['FileName'] as String?,
+      fileStatus: (json['FileStatus'] as String?)?.toFileStatusType(),
+      fileUseCaseType:
+          (json['FileUseCaseType'] as String?)?.toFileUseCaseType(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSizeInBytes = this.fileSizeInBytes;
+    final associatedResourceArn = this.associatedResourceArn;
+    final createdBy = this.createdBy;
+    final creationTime = this.creationTime;
+    final downloadUrlMetadata = this.downloadUrlMetadata;
+    final fileArn = this.fileArn;
+    final fileId = this.fileId;
+    final fileName = this.fileName;
+    final fileStatus = this.fileStatus;
+    final fileUseCaseType = this.fileUseCaseType;
+    final tags = this.tags;
+    return {
+      'FileSizeInBytes': fileSizeInBytes,
+      if (associatedResourceArn != null)
+        'AssociatedResourceArn': associatedResourceArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (creationTime != null) 'CreationTime': creationTime,
+      if (downloadUrlMetadata != null)
+        'DownloadUrlMetadata': downloadUrlMetadata,
+      if (fileArn != null) 'FileArn': fileArn,
+      if (fileId != null) 'FileId': fileId,
+      if (fileName != null) 'FileName': fileName,
+      if (fileStatus != null) 'FileStatus': fileStatus.toValue(),
+      if (fileUseCaseType != null) 'FileUseCaseType': fileUseCaseType.toValue(),
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -14887,7 +22189,7 @@ class GetFederationTokenResponse {
   /// The Amazon Resource Name (ARN) of the user.
   final String? userArn;
 
-  /// The identifier for the user.
+  /// The identifier for the user. This can be the ID or the ARN of the user.
   final String? userId;
 
   GetFederationTokenResponse({
@@ -14918,6 +22220,43 @@ class GetFederationTokenResponse {
       if (signInUrl != null) 'SignInUrl': signInUrl,
       if (userArn != null) 'UserArn': userArn,
       if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+class GetFlowAssociationResponse {
+  /// The identifier of the flow.
+  final String? flowId;
+
+  /// The identifier of the resource.
+  final String? resourceId;
+
+  /// A valid resource type.
+  final FlowAssociationResourceType? resourceType;
+
+  GetFlowAssociationResponse({
+    this.flowId,
+    this.resourceId,
+    this.resourceType,
+  });
+
+  factory GetFlowAssociationResponse.fromJson(Map<String, dynamic> json) {
+    return GetFlowAssociationResponse(
+      flowId: json['FlowId'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      resourceType:
+          (json['ResourceType'] as String?)?.toFlowAssociationResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowId = this.flowId;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    return {
+      if (flowId != null) 'FlowId': flowId,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
     };
   }
 }
@@ -14997,23 +22336,38 @@ class GetMetricDataV2Response {
 }
 
 class GetPromptFileResponse {
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// A generated URL to the prompt that can be given to an unauthorized user so
   /// they can access the prompt in S3.
   final String? promptPresignedUrl;
 
   GetPromptFileResponse({
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.promptPresignedUrl,
   });
 
   factory GetPromptFileResponse.fromJson(Map<String, dynamic> json) {
     return GetPromptFileResponse(
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       promptPresignedUrl: json['PromptPresignedUrl'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final promptPresignedUrl = this.promptPresignedUrl;
     return {
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (promptPresignedUrl != null) 'PromptPresignedUrl': promptPresignedUrl,
     };
   }
@@ -15064,7 +22418,7 @@ class GetTaskTemplateResponse {
   final TaskTemplateStatus? status;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   GetTaskTemplateResponse({
@@ -15145,6 +22499,9 @@ class GetTaskTemplateResponse {
 }
 
 class GetTrafficDistributionResponse {
+  /// The distribution of agents between the instance and its replica(s).
+  final AgentConfig? agentConfig;
+
   /// The Amazon Resource Name (ARN) of the traffic distribution group.
   final String? arn;
 
@@ -15154,19 +22511,31 @@ class GetTrafficDistributionResponse {
   /// replicated Region.
   final String? id;
 
+  /// The distribution that determines which Amazon Web Services Regions should be
+  /// used to sign in agents in to both the instance and its replica(s).
+  final SignInConfig? signInConfig;
+
   /// The distribution of traffic between the instance and its replicas.
   final TelephonyConfig? telephonyConfig;
 
   GetTrafficDistributionResponse({
+    this.agentConfig,
     this.arn,
     this.id,
+    this.signInConfig,
     this.telephonyConfig,
   });
 
   factory GetTrafficDistributionResponse.fromJson(Map<String, dynamic> json) {
     return GetTrafficDistributionResponse(
+      agentConfig: json['AgentConfig'] != null
+          ? AgentConfig.fromJson(json['AgentConfig'] as Map<String, dynamic>)
+          : null,
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      signInConfig: json['SignInConfig'] != null
+          ? SignInConfig.fromJson(json['SignInConfig'] as Map<String, dynamic>)
+          : null,
       telephonyConfig: json['TelephonyConfig'] != null
           ? TelephonyConfig.fromJson(
               json['TelephonyConfig'] as Map<String, dynamic>)
@@ -15175,12 +22544,16 @@ class GetTrafficDistributionResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final agentConfig = this.agentConfig;
     final arn = this.arn;
     final id = this.id;
+    final signInConfig = this.signInConfig;
     final telephonyConfig = this.telephonyConfig;
     return {
+      if (agentConfig != null) 'AgentConfig': agentConfig,
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (signInConfig != null) 'SignInConfig': signInConfig,
       if (telephonyConfig != null) 'TelephonyConfig': telephonyConfig,
     };
   }
@@ -15190,6 +22563,7 @@ enum Grouping {
   queue,
   channel,
   routingProfile,
+  routingStepExpression,
 }
 
 extension GroupingValueExtension on Grouping {
@@ -15201,6 +22575,8 @@ extension GroupingValueExtension on Grouping {
         return 'CHANNEL';
       case Grouping.routingProfile:
         return 'ROUTING_PROFILE';
+      case Grouping.routingStepExpression:
+        return 'ROUTING_STEP_EXPRESSION';
     }
   }
 }
@@ -15214,6 +22590,8 @@ extension GroupingFromString on String {
         return Grouping.channel;
       case 'ROUTING_PROFILE':
         return Grouping.routingProfile;
+      case 'ROUTING_STEP_EXPRESSION':
+        return Grouping.routingStepExpression;
     }
     throw Exception('$this is not known in enum Grouping');
   }
@@ -15230,6 +22608,12 @@ class HierarchyGroup {
   /// The identifier of the hierarchy group.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The identifier of the level in the hierarchy group.
   final String? levelId;
 
@@ -15237,13 +22621,15 @@ class HierarchyGroup {
   final String? name;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   HierarchyGroup({
     this.arn,
     this.hierarchyPath,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.levelId,
     this.name,
     this.tags,
@@ -15257,6 +22643,8 @@ class HierarchyGroup {
               json['HierarchyPath'] as Map<String, dynamic>)
           : null,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       levelId: json['LevelId'] as String?,
       name: json['Name'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -15268,6 +22656,8 @@ class HierarchyGroup {
     final arn = this.arn;
     final hierarchyPath = this.hierarchyPath;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final levelId = this.levelId;
     final name = this.name;
     final tags = this.tags;
@@ -15275,6 +22665,9 @@ class HierarchyGroup {
       if (arn != null) 'Arn': arn,
       if (hierarchyPath != null) 'HierarchyPath': hierarchyPath,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (levelId != null) 'LevelId': levelId,
       if (name != null) 'Name': name,
       if (tags != null) 'Tags': tags,
@@ -15343,12 +22736,20 @@ class HierarchyGroupSummary {
   /// The identifier of the hierarchy group.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the hierarchy group.
   final String? name;
 
   HierarchyGroupSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
   });
 
@@ -15356,6 +22757,8 @@ class HierarchyGroupSummary {
     return HierarchyGroupSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
   }
@@ -15363,10 +22766,15 @@ class HierarchyGroupSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
     };
   }
@@ -15402,6 +22810,68 @@ class HierarchyGroupSummaryReference {
   }
 }
 
+/// Information about the agent hierarchy. Hierarchies can be configured with up
+/// to five levels.
+class HierarchyGroups {
+  /// The group at level one of the agent hierarchy.
+  final AgentHierarchyGroup? level1;
+
+  /// The group at level two of the agent hierarchy.
+  final AgentHierarchyGroup? level2;
+
+  /// The group at level three of the agent hierarchy.
+  final AgentHierarchyGroup? level3;
+
+  /// The group at level four of the agent hierarchy.
+  final AgentHierarchyGroup? level4;
+
+  /// The group at level five of the agent hierarchy.
+  final AgentHierarchyGroup? level5;
+
+  HierarchyGroups({
+    this.level1,
+    this.level2,
+    this.level3,
+    this.level4,
+    this.level5,
+  });
+
+  factory HierarchyGroups.fromJson(Map<String, dynamic> json) {
+    return HierarchyGroups(
+      level1: json['Level1'] != null
+          ? AgentHierarchyGroup.fromJson(json['Level1'] as Map<String, dynamic>)
+          : null,
+      level2: json['Level2'] != null
+          ? AgentHierarchyGroup.fromJson(json['Level2'] as Map<String, dynamic>)
+          : null,
+      level3: json['Level3'] != null
+          ? AgentHierarchyGroup.fromJson(json['Level3'] as Map<String, dynamic>)
+          : null,
+      level4: json['Level4'] != null
+          ? AgentHierarchyGroup.fromJson(json['Level4'] as Map<String, dynamic>)
+          : null,
+      level5: json['Level5'] != null
+          ? AgentHierarchyGroup.fromJson(json['Level5'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final level1 = this.level1;
+    final level2 = this.level2;
+    final level3 = this.level3;
+    final level4 = this.level4;
+    final level5 = this.level5;
+    return {
+      if (level1 != null) 'Level1': level1,
+      if (level2 != null) 'Level2': level2,
+      if (level3 != null) 'Level3': level3,
+      if (level4 != null) 'Level4': level4,
+      if (level5 != null) 'Level5': level5,
+    };
+  }
+}
+
 /// Contains information about a hierarchy level.
 class HierarchyLevel {
   /// The Amazon Resource Name (ARN) of the hierarchy level.
@@ -15410,12 +22880,20 @@ class HierarchyLevel {
   /// The identifier of the hierarchy level.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the hierarchy level.
   final String? name;
 
   HierarchyLevel({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
   });
 
@@ -15423,6 +22901,8 @@ class HierarchyLevel {
     return HierarchyLevel(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
   }
@@ -15430,10 +22910,15 @@ class HierarchyLevel {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
     };
   }
@@ -15964,11 +23449,17 @@ class HoursOfOperation {
   /// The identifier for the hours of operation.
   final String? hoursOfOperationId;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name for the hours of operation.
   final String? name;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   /// The time zone for the hours of operation.
@@ -15979,6 +23470,8 @@ class HoursOfOperation {
     this.description,
     this.hoursOfOperationArn,
     this.hoursOfOperationId,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
     this.tags,
     this.timeZone,
@@ -15994,6 +23487,8 @@ class HoursOfOperation {
       description: json['Description'] as String?,
       hoursOfOperationArn: json['HoursOfOperationArn'] as String?,
       hoursOfOperationId: json['HoursOfOperationId'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -16006,6 +23501,8 @@ class HoursOfOperation {
     final description = this.description;
     final hoursOfOperationArn = this.hoursOfOperationArn;
     final hoursOfOperationId = this.hoursOfOperationId;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final tags = this.tags;
     final timeZone = this.timeZone;
@@ -16015,6 +23512,9 @@ class HoursOfOperation {
       if (hoursOfOperationArn != null)
         'HoursOfOperationArn': hoursOfOperationArn,
       if (hoursOfOperationId != null) 'HoursOfOperationId': hoursOfOperationId,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
       if (tags != null) 'Tags': tags,
       if (timeZone != null) 'TimeZone': timeZone,
@@ -16114,6 +23614,56 @@ extension HoursOfOperationDaysFromString on String {
   }
 }
 
+/// The search criteria to be used to return hours of operations.
+class HoursOfOperationSearchCriteria {
+  /// A list of conditions which would be applied together with an AND condition.
+  final List<HoursOfOperationSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an OR condition.
+  final List<HoursOfOperationSearchCriteria>? orConditions;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code>, <code>description</code>, <code>timezone</code>, and
+  /// <code>resourceID</code>.
+  /// </note>
+  final StringCondition? stringCondition;
+
+  HoursOfOperationSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// Filters to be applied to search results.
+class HoursOfOperationSearchFilter {
+  final ControlPlaneTagFilter? tagFilter;
+
+  HoursOfOperationSearchFilter({
+    this.tagFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagFilter = this.tagFilter;
+    return {
+      if (tagFilter != null) 'TagFilter': tagFilter,
+    };
+  }
+}
+
 /// Contains summary information about hours of operation for a contact center.
 class HoursOfOperationSummary {
   /// The Amazon Resource Name (ARN) of the hours of operation.
@@ -16122,12 +23672,20 @@ class HoursOfOperationSummary {
   /// The identifier of the hours of operation.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the hours of operation.
   final String? name;
 
   HoursOfOperationSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
   });
 
@@ -16135,6 +23693,8 @@ class HoursOfOperationSummary {
     return HoursOfOperationSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
   }
@@ -16142,10 +23702,15 @@ class HoursOfOperationSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
     };
   }
@@ -16181,6 +23746,35 @@ class HoursOfOperationTimeSlice {
   }
 }
 
+class ImportPhoneNumberResponse {
+  /// The Amazon Resource Name (ARN) of the phone number.
+  final String? phoneNumberArn;
+
+  /// A unique identifier for the phone number.
+  final String? phoneNumberId;
+
+  ImportPhoneNumberResponse({
+    this.phoneNumberArn,
+    this.phoneNumberId,
+  });
+
+  factory ImportPhoneNumberResponse.fromJson(Map<String, dynamic> json) {
+    return ImportPhoneNumberResponse(
+      phoneNumberArn: json['PhoneNumberArn'] as String?,
+      phoneNumberId: json['PhoneNumberId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberArn = this.phoneNumberArn;
+    final phoneNumberId = this.phoneNumberId;
+    return {
+      if (phoneNumberArn != null) 'PhoneNumberArn': phoneNumberArn,
+      if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
+    };
+  }
+}
+
 /// The Amazon Connect instance.
 class Instance {
   /// The Amazon Resource Name (ARN) of the instance.
@@ -16200,6 +23794,10 @@ class Instance {
   /// Whether inbound calls are enabled.
   final bool? inboundCallsEnabled;
 
+  /// This URL allows contact center users to access the Amazon Connect admin
+  /// website.
+  final String? instanceAccessUrl;
+
   /// The alias of instance.
   final String? instanceAlias;
 
@@ -16215,17 +23813,22 @@ class Instance {
   /// Relevant details why the instance was not successfully created.
   final InstanceStatusReason? statusReason;
 
+  /// The tags of an instance.
+  final Map<String, String>? tags;
+
   Instance({
     this.arn,
     this.createdTime,
     this.id,
     this.identityManagementType,
     this.inboundCallsEnabled,
+    this.instanceAccessUrl,
     this.instanceAlias,
     this.instanceStatus,
     this.outboundCallsEnabled,
     this.serviceRole,
     this.statusReason,
+    this.tags,
   });
 
   factory Instance.fromJson(Map<String, dynamic> json) {
@@ -16236,6 +23839,7 @@ class Instance {
       identityManagementType:
           (json['IdentityManagementType'] as String?)?.toDirectoryType(),
       inboundCallsEnabled: json['InboundCallsEnabled'] as bool?,
+      instanceAccessUrl: json['InstanceAccessUrl'] as String?,
       instanceAlias: json['InstanceAlias'] as String?,
       instanceStatus: (json['InstanceStatus'] as String?)?.toInstanceStatus(),
       outboundCallsEnabled: json['OutboundCallsEnabled'] as bool?,
@@ -16244,6 +23848,8 @@ class Instance {
           ? InstanceStatusReason.fromJson(
               json['StatusReason'] as Map<String, dynamic>)
           : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -16253,11 +23859,13 @@ class Instance {
     final id = this.id;
     final identityManagementType = this.identityManagementType;
     final inboundCallsEnabled = this.inboundCallsEnabled;
+    final instanceAccessUrl = this.instanceAccessUrl;
     final instanceAlias = this.instanceAlias;
     final instanceStatus = this.instanceStatus;
     final outboundCallsEnabled = this.outboundCallsEnabled;
     final serviceRole = this.serviceRole;
     final statusReason = this.statusReason;
+    final tags = this.tags;
     return {
       if (arn != null) 'Arn': arn,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
@@ -16266,12 +23874,14 @@ class Instance {
         'IdentityManagementType': identityManagementType.toValue(),
       if (inboundCallsEnabled != null)
         'InboundCallsEnabled': inboundCallsEnabled,
+      if (instanceAccessUrl != null) 'InstanceAccessUrl': instanceAccessUrl,
       if (instanceAlias != null) 'InstanceAlias': instanceAlias,
       if (instanceStatus != null) 'InstanceStatus': instanceStatus.toValue(),
       if (outboundCallsEnabled != null)
         'OutboundCallsEnabled': outboundCallsEnabled,
       if (serviceRole != null) 'ServiceRole': serviceRole,
       if (statusReason != null) 'StatusReason': statusReason,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -16287,6 +23897,7 @@ enum InstanceAttributeType {
   multiPartyConference,
   highVolumeOutbound,
   enhancedContactMonitoring,
+  enhancedChatMonitoring,
 }
 
 extension InstanceAttributeTypeValueExtension on InstanceAttributeType {
@@ -16312,6 +23923,8 @@ extension InstanceAttributeTypeValueExtension on InstanceAttributeType {
         return 'HIGH_VOLUME_OUTBOUND';
       case InstanceAttributeType.enhancedContactMonitoring:
         return 'ENHANCED_CONTACT_MONITORING';
+      case InstanceAttributeType.enhancedChatMonitoring:
+        return 'ENHANCED_CHAT_MONITORING';
     }
   }
 }
@@ -16339,6 +23952,8 @@ extension InstanceAttributeTypeFromString on String {
         return InstanceAttributeType.highVolumeOutbound;
       case 'ENHANCED_CONTACT_MONITORING':
         return InstanceAttributeType.enhancedContactMonitoring;
+      case 'ENHANCED_CHAT_MONITORING':
+        return InstanceAttributeType.enhancedChatMonitoring;
     }
     throw Exception('$this is not known in enum InstanceAttributeType');
   }
@@ -16483,6 +24098,9 @@ enum InstanceStorageResourceType {
   realTimeContactAnalysisSegments,
   attachments,
   contactEvaluations,
+  screenRecordings,
+  realTimeContactAnalysisChatSegments,
+  realTimeContactAnalysisVoiceSegments,
 }
 
 extension InstanceStorageResourceTypeValueExtension
@@ -16507,6 +24125,12 @@ extension InstanceStorageResourceTypeValueExtension
         return 'ATTACHMENTS';
       case InstanceStorageResourceType.contactEvaluations:
         return 'CONTACT_EVALUATIONS';
+      case InstanceStorageResourceType.screenRecordings:
+        return 'SCREEN_RECORDINGS';
+      case InstanceStorageResourceType.realTimeContactAnalysisChatSegments:
+        return 'REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS';
+      case InstanceStorageResourceType.realTimeContactAnalysisVoiceSegments:
+        return 'REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS';
     }
   }
 }
@@ -16532,6 +24156,12 @@ extension InstanceStorageResourceTypeFromString on String {
         return InstanceStorageResourceType.attachments;
       case 'CONTACT_EVALUATIONS':
         return InstanceStorageResourceType.contactEvaluations;
+      case 'SCREEN_RECORDINGS':
+        return InstanceStorageResourceType.screenRecordings;
+      case 'REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS':
+        return InstanceStorageResourceType.realTimeContactAnalysisChatSegments;
+      case 'REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS':
+        return InstanceStorageResourceType.realTimeContactAnalysisVoiceSegments;
     }
     throw Exception('$this is not known in enum InstanceStorageResourceType');
   }
@@ -16554,6 +24184,10 @@ class InstanceSummary {
   /// Whether inbound calls are enabled.
   final bool? inboundCallsEnabled;
 
+  /// This URL allows contact center users to access the Amazon Connect admin
+  /// website.
+  final String? instanceAccessUrl;
+
   /// The alias of the instance.
   final String? instanceAlias;
 
@@ -16572,6 +24206,7 @@ class InstanceSummary {
     this.id,
     this.identityManagementType,
     this.inboundCallsEnabled,
+    this.instanceAccessUrl,
     this.instanceAlias,
     this.instanceStatus,
     this.outboundCallsEnabled,
@@ -16586,6 +24221,7 @@ class InstanceSummary {
       identityManagementType:
           (json['IdentityManagementType'] as String?)?.toDirectoryType(),
       inboundCallsEnabled: json['InboundCallsEnabled'] as bool?,
+      instanceAccessUrl: json['InstanceAccessUrl'] as String?,
       instanceAlias: json['InstanceAlias'] as String?,
       instanceStatus: (json['InstanceStatus'] as String?)?.toInstanceStatus(),
       outboundCallsEnabled: json['OutboundCallsEnabled'] as bool?,
@@ -16599,6 +24235,7 @@ class InstanceSummary {
     final id = this.id;
     final identityManagementType = this.identityManagementType;
     final inboundCallsEnabled = this.inboundCallsEnabled;
+    final instanceAccessUrl = this.instanceAccessUrl;
     final instanceAlias = this.instanceAlias;
     final instanceStatus = this.instanceStatus;
     final outboundCallsEnabled = this.outboundCallsEnabled;
@@ -16611,6 +24248,7 @@ class InstanceSummary {
         'IdentityManagementType': identityManagementType.toValue(),
       if (inboundCallsEnabled != null)
         'InboundCallsEnabled': inboundCallsEnabled,
+      if (instanceAccessUrl != null) 'InstanceAccessUrl': instanceAccessUrl,
       if (instanceAlias != null) 'InstanceAlias': instanceAlias,
       if (instanceStatus != null) 'InstanceStatus': instanceStatus.toValue(),
       if (outboundCallsEnabled != null)
@@ -16705,7 +24343,10 @@ enum IntegrationType {
   pinpointApp,
   wisdomAssistant,
   wisdomKnowledgeBase,
+  wisdomQuickResponses,
   casesDomain,
+  application,
+  fileScanner,
 }
 
 extension IntegrationTypeValueExtension on IntegrationType {
@@ -16721,8 +24362,14 @@ extension IntegrationTypeValueExtension on IntegrationType {
         return 'WISDOM_ASSISTANT';
       case IntegrationType.wisdomKnowledgeBase:
         return 'WISDOM_KNOWLEDGE_BASE';
+      case IntegrationType.wisdomQuickResponses:
+        return 'WISDOM_QUICK_RESPONSES';
       case IntegrationType.casesDomain:
         return 'CASES_DOMAIN';
+      case IntegrationType.application:
+        return 'APPLICATION';
+      case IntegrationType.fileScanner:
+        return 'FILE_SCANNER';
     }
   }
 }
@@ -16740,10 +24387,126 @@ extension IntegrationTypeFromString on String {
         return IntegrationType.wisdomAssistant;
       case 'WISDOM_KNOWLEDGE_BASE':
         return IntegrationType.wisdomKnowledgeBase;
+      case 'WISDOM_QUICK_RESPONSES':
+        return IntegrationType.wisdomQuickResponses;
       case 'CASES_DOMAIN':
         return IntegrationType.casesDomain;
+      case 'APPLICATION':
+        return IntegrationType.application;
+      case 'FILE_SCANNER':
+        return IntegrationType.fileScanner;
     }
     throw Exception('$this is not known in enum IntegrationType');
+  }
+}
+
+/// Information about the interval period to use for returning results.
+class IntervalDetails {
+  /// <code>IntervalPeriod</code>: An aggregated grouping applied to request
+  /// metrics. Valid <code>IntervalPeriod</code> values are:
+  /// <code>FIFTEEN_MIN</code> | <code>THIRTY_MIN</code> | <code>HOUR</code> |
+  /// <code>DAY</code> | <code>WEEK</code> | <code>TOTAL</code>.
+  ///
+  /// For example, if <code>IntervalPeriod</code> is selected
+  /// <code>THIRTY_MIN</code>, <code>StartTime</code> and <code>EndTime</code>
+  /// differs by 1 day, then Amazon Connect returns 48 results in the response.
+  /// Each result is aggregated by the THIRTY_MIN period. By default Amazon
+  /// Connect aggregates results based on the <code>TOTAL</code> interval period.
+  ///
+  /// The following list describes restrictions on <code>StartTime</code> and
+  /// <code>EndTime</code> based on what <code>IntervalPeriod</code> is requested.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FIFTEEN_MIN</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 3 days.
+  /// </li>
+  /// <li>
+  /// <code>THIRTY_MIN</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 3 days.
+  /// </li>
+  /// <li>
+  /// <code>HOUR</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 3 days.
+  /// </li>
+  /// <li>
+  /// <code>DAY</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 35 days.
+  /// </li>
+  /// <li>
+  /// <code>WEEK</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 35 days.
+  /// </li>
+  /// <li>
+  /// <code>TOTAL</code>: The difference between <code>StartTime</code> and
+  /// <code>EndTime</code> must be less than 35 days.
+  /// </li>
+  /// </ul>
+  final IntervalPeriod? intervalPeriod;
+
+  /// The timezone applied to requested metrics.
+  final String? timeZone;
+
+  IntervalDetails({
+    this.intervalPeriod,
+    this.timeZone,
+  });
+
+  Map<String, dynamic> toJson() {
+    final intervalPeriod = this.intervalPeriod;
+    final timeZone = this.timeZone;
+    return {
+      if (intervalPeriod != null) 'IntervalPeriod': intervalPeriod.toValue(),
+      if (timeZone != null) 'TimeZone': timeZone,
+    };
+  }
+}
+
+enum IntervalPeriod {
+  fifteenMin,
+  thirtyMin,
+  hour,
+  day,
+  week,
+  total,
+}
+
+extension IntervalPeriodValueExtension on IntervalPeriod {
+  String toValue() {
+    switch (this) {
+      case IntervalPeriod.fifteenMin:
+        return 'FIFTEEN_MIN';
+      case IntervalPeriod.thirtyMin:
+        return 'THIRTY_MIN';
+      case IntervalPeriod.hour:
+        return 'HOUR';
+      case IntervalPeriod.day:
+        return 'DAY';
+      case IntervalPeriod.week:
+        return 'WEEK';
+      case IntervalPeriod.total:
+        return 'TOTAL';
+    }
+  }
+}
+
+extension IntervalPeriodFromString on String {
+  IntervalPeriod toIntervalPeriod() {
+    switch (this) {
+      case 'FIFTEEN_MIN':
+        return IntervalPeriod.fifteenMin;
+      case 'THIRTY_MIN':
+        return IntervalPeriod.thirtyMin;
+      case 'HOUR':
+        return IntervalPeriod.hour;
+      case 'DAY':
+        return IntervalPeriod.day;
+      case 'WEEK':
+        return IntervalPeriod.week;
+      case 'TOTAL':
+        return IntervalPeriod.total;
+    }
+    throw Exception('$this is not known in enum IntervalPeriod');
   }
 }
 
@@ -17004,6 +24767,44 @@ class ListAgentStatusResponse {
       if (agentStatusSummaryList != null)
         'AgentStatusSummaryList': agentStatusSummaryList,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListAnalyticsDataAssociationsResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// An array of successful results: <code>DataSetId</code>,
+  /// <code>TargetAccountId</code>, <code>ResourceShareId</code>,
+  /// <code>ResourceShareArn</code>. This is a paginated API, so
+  /// <code>nextToken</code> is given if there are more results to be returned.
+  final List<AnalyticsDataAssociationResult>? results;
+
+  ListAnalyticsDataAssociationsResponse({
+    this.nextToken,
+    this.results,
+  });
+
+  factory ListAnalyticsDataAssociationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAnalyticsDataAssociationsResponse(
+      nextToken: json['NextToken'] as String?,
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnalyticsDataAssociationResult.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final results = this.results;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (results != null) 'Results': results,
     };
   }
 }
@@ -17322,6 +25123,66 @@ class ListEvaluationFormsResponse {
   }
 }
 
+enum ListFlowAssociationResourceType {
+  voicePhoneNumber,
+}
+
+extension ListFlowAssociationResourceTypeValueExtension
+    on ListFlowAssociationResourceType {
+  String toValue() {
+    switch (this) {
+      case ListFlowAssociationResourceType.voicePhoneNumber:
+        return 'VOICE_PHONE_NUMBER';
+    }
+  }
+}
+
+extension ListFlowAssociationResourceTypeFromString on String {
+  ListFlowAssociationResourceType toListFlowAssociationResourceType() {
+    switch (this) {
+      case 'VOICE_PHONE_NUMBER':
+        return ListFlowAssociationResourceType.voicePhoneNumber;
+    }
+    throw Exception(
+        '$this is not known in enum ListFlowAssociationResourceType');
+  }
+}
+
+class ListFlowAssociationsResponse {
+  /// Summary of flow associations.
+  final List<FlowAssociationSummary>? flowAssociationSummaryList;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListFlowAssociationsResponse({
+    this.flowAssociationSummaryList,
+    this.nextToken,
+  });
+
+  factory ListFlowAssociationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFlowAssociationsResponse(
+      flowAssociationSummaryList: (json['FlowAssociationSummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => FlowAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowAssociationSummaryList = this.flowAssociationSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (flowAssociationSummaryList != null)
+        'FlowAssociationSummaryList': flowAssociationSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListHoursOfOperationsResponse {
   /// Information about the hours of operation.
   final List<HoursOfOperationSummary>? hoursOfOperationSummaryList;
@@ -17601,6 +25462,12 @@ class ListPhoneNumbersResponse {
 /// Information about phone numbers that have been claimed to your Amazon
 /// Connect instance or traffic distribution group.
 class ListPhoneNumbersSummary {
+  /// The identifier of the Amazon Connect instance that phone numbers are claimed
+  /// to. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  final String? instanceId;
+
   /// The phone number. Phone numbers are formatted <code>[+] [country code]
   /// [subscriber number including area code]</code>.
   final String? phoneNumber;
@@ -17611,52 +25478,74 @@ class ListPhoneNumbersSummary {
   /// The ISO country code.
   final PhoneNumberCountryCode? phoneNumberCountryCode;
 
+  /// The description of the phone number.
+  final String? phoneNumberDescription;
+
   /// A unique identifier for the phone number.
   final String? phoneNumberId;
 
   /// The type of phone number.
   final PhoneNumberType? phoneNumberType;
 
+  /// The claimed phone number ARN that was previously imported from the external
+  /// service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks
+  /// like the ARN of the phone number that was imported from Amazon Pinpoint.
+  final String? sourcePhoneNumberArn;
+
   /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
-  /// distribution groups that phone numbers are claimed to.
+  /// distribution groups that phone number inbound traffic is routed through.
   final String? targetArn;
 
   ListPhoneNumbersSummary({
+    this.instanceId,
     this.phoneNumber,
     this.phoneNumberArn,
     this.phoneNumberCountryCode,
+    this.phoneNumberDescription,
     this.phoneNumberId,
     this.phoneNumberType,
+    this.sourcePhoneNumberArn,
     this.targetArn,
   });
 
   factory ListPhoneNumbersSummary.fromJson(Map<String, dynamic> json) {
     return ListPhoneNumbersSummary(
+      instanceId: json['InstanceId'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
       phoneNumberArn: json['PhoneNumberArn'] as String?,
       phoneNumberCountryCode: (json['PhoneNumberCountryCode'] as String?)
           ?.toPhoneNumberCountryCode(),
+      phoneNumberDescription: json['PhoneNumberDescription'] as String?,
       phoneNumberId: json['PhoneNumberId'] as String?,
       phoneNumberType:
           (json['PhoneNumberType'] as String?)?.toPhoneNumberType(),
+      sourcePhoneNumberArn: json['SourcePhoneNumberArn'] as String?,
       targetArn: json['TargetArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final instanceId = this.instanceId;
     final phoneNumber = this.phoneNumber;
     final phoneNumberArn = this.phoneNumberArn;
     final phoneNumberCountryCode = this.phoneNumberCountryCode;
+    final phoneNumberDescription = this.phoneNumberDescription;
     final phoneNumberId = this.phoneNumberId;
     final phoneNumberType = this.phoneNumberType;
+    final sourcePhoneNumberArn = this.sourcePhoneNumberArn;
     final targetArn = this.targetArn;
     return {
+      if (instanceId != null) 'InstanceId': instanceId,
       if (phoneNumber != null) 'PhoneNumber': phoneNumber,
       if (phoneNumberArn != null) 'PhoneNumberArn': phoneNumberArn,
       if (phoneNumberCountryCode != null)
         'PhoneNumberCountryCode': phoneNumberCountryCode.toValue(),
+      if (phoneNumberDescription != null)
+        'PhoneNumberDescription': phoneNumberDescription,
       if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
       if (phoneNumberType != null) 'PhoneNumberType': phoneNumberType.toValue(),
+      if (sourcePhoneNumberArn != null)
+        'SourcePhoneNumberArn': sourcePhoneNumberArn,
       if (targetArn != null) 'TargetArn': targetArn,
     };
   }
@@ -17699,6 +25588,42 @@ class ListPhoneNumbersV2Response {
   }
 }
 
+class ListPredefinedAttributesResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// Summary of the predefined attributes.
+  final List<PredefinedAttributeSummary>? predefinedAttributeSummaryList;
+
+  ListPredefinedAttributesResponse({
+    this.nextToken,
+    this.predefinedAttributeSummaryList,
+  });
+
+  factory ListPredefinedAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPredefinedAttributesResponse(
+      nextToken: json['NextToken'] as String?,
+      predefinedAttributeSummaryList: (json['PredefinedAttributeSummaryList']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PredefinedAttributeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final predefinedAttributeSummaryList = this.predefinedAttributeSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (predefinedAttributeSummaryList != null)
+        'PredefinedAttributeSummaryList': predefinedAttributeSummaryList,
+    };
+  }
+}
+
 class ListPromptsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -17733,6 +25658,12 @@ class ListPromptsResponse {
 }
 
 class ListQueueQuickConnectsResponse {
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// If there are additional results, this is the token for the next set of
   /// results.
   final String? nextToken;
@@ -17741,12 +25672,16 @@ class ListQueueQuickConnectsResponse {
   final List<QuickConnectSummary>? quickConnectSummaryList;
 
   ListQueueQuickConnectsResponse({
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.nextToken,
     this.quickConnectSummaryList,
   });
 
   factory ListQueueQuickConnectsResponse.fromJson(Map<String, dynamic> json) {
     return ListQueueQuickConnectsResponse(
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       nextToken: json['NextToken'] as String?,
       quickConnectSummaryList: (json['QuickConnectSummaryList'] as List?)
           ?.whereNotNull()
@@ -17756,9 +25691,14 @@ class ListQueueQuickConnectsResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final nextToken = this.nextToken;
     final quickConnectSummaryList = this.quickConnectSummaryList;
     return {
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (nextToken != null) 'NextToken': nextToken,
       if (quickConnectSummaryList != null)
         'QuickConnectSummaryList': quickConnectSummaryList,
@@ -17833,7 +25773,63 @@ class ListQuickConnectsResponse {
   }
 }
 
+class ListRealtimeContactAnalysisSegmentsV2Response {
+  /// The channel of the contact. <code>Voice</code> will not be returned.
+  final RealTimeContactAnalysisSupportedChannel channel;
+
+  /// An analyzed transcript or category.
+  final List<RealtimeContactAnalysisSegment> segments;
+
+  /// Status of real-time contact analysis.
+  final RealTimeContactAnalysisStatus status;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListRealtimeContactAnalysisSegmentsV2Response({
+    required this.channel,
+    required this.segments,
+    required this.status,
+    this.nextToken,
+  });
+
+  factory ListRealtimeContactAnalysisSegmentsV2Response.fromJson(
+      Map<String, dynamic> json) {
+    return ListRealtimeContactAnalysisSegmentsV2Response(
+      channel: (json['Channel'] as String)
+          .toRealTimeContactAnalysisSupportedChannel(),
+      segments: (json['Segments'] as List)
+          .whereNotNull()
+          .map((e) => RealtimeContactAnalysisSegment.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String).toRealTimeContactAnalysisStatus(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channel = this.channel;
+    final segments = this.segments;
+    final status = this.status;
+    final nextToken = this.nextToken;
+    return {
+      'Channel': channel.toValue(),
+      'Segments': segments,
+      'Status': status.toValue(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListRoutingProfileQueuesResponse {
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// If there are additional results, this is the token for the next set of
   /// results.
   final String? nextToken;
@@ -17843,12 +25839,16 @@ class ListRoutingProfileQueuesResponse {
       routingProfileQueueConfigSummaryList;
 
   ListRoutingProfileQueuesResponse({
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.nextToken,
     this.routingProfileQueueConfigSummaryList,
   });
 
   factory ListRoutingProfileQueuesResponse.fromJson(Map<String, dynamic> json) {
     return ListRoutingProfileQueuesResponse(
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       nextToken: json['NextToken'] as String?,
       routingProfileQueueConfigSummaryList:
           (json['RoutingProfileQueueConfigSummaryList'] as List?)
@@ -17860,10 +25860,15 @@ class ListRoutingProfileQueuesResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final nextToken = this.nextToken;
     final routingProfileQueueConfigSummaryList =
         this.routingProfileQueueConfigSummaryList;
     return {
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (nextToken != null) 'NextToken': nextToken,
       if (routingProfileQueueConfigSummaryList != null)
         'RoutingProfileQueueConfigSummaryList':
@@ -17972,7 +25977,62 @@ class ListSecurityKeysResponse {
   }
 }
 
+class ListSecurityProfileApplicationsResponse {
+  /// A list of the third-party application's metadata.
+  final List<Application>? applications;
+
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListSecurityProfileApplicationsResponse({
+    this.applications,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
+    this.nextToken,
+  });
+
+  factory ListSecurityProfileApplicationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSecurityProfileApplicationsResponse(
+      applications: (json['Applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Application.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
+    final nextToken = this.nextToken;
+    return {
+      if (applications != null) 'Applications': applications,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListSecurityProfilePermissionsResponse {
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// If there are additional results, this is the token for the next set of
   /// results.
   final String? nextToken;
@@ -17984,6 +26044,8 @@ class ListSecurityProfilePermissionsResponse {
   final List<String>? permissions;
 
   ListSecurityProfilePermissionsResponse({
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.nextToken,
     this.permissions,
   });
@@ -17991,6 +26053,8 @@ class ListSecurityProfilePermissionsResponse {
   factory ListSecurityProfilePermissionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSecurityProfilePermissionsResponse(
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       nextToken: json['NextToken'] as String?,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
@@ -18000,9 +26064,14 @@ class ListSecurityProfilePermissionsResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final nextToken = this.nextToken;
     final permissions = this.permissions;
     return {
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (nextToken != null) 'NextToken': nextToken,
       if (permissions != null) 'Permissions': permissions,
     };
@@ -18099,6 +26168,46 @@ class ListTaskTemplatesResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (taskTemplates != null) 'TaskTemplates': taskTemplates,
+    };
+  }
+}
+
+class ListTrafficDistributionGroupUsersResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// A list of traffic distribution group users.
+  final List<TrafficDistributionGroupUserSummary>?
+      trafficDistributionGroupUserSummaryList;
+
+  ListTrafficDistributionGroupUsersResponse({
+    this.nextToken,
+    this.trafficDistributionGroupUserSummaryList,
+  });
+
+  factory ListTrafficDistributionGroupUsersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListTrafficDistributionGroupUsersResponse(
+      nextToken: json['NextToken'] as String?,
+      trafficDistributionGroupUserSummaryList:
+          (json['TrafficDistributionGroupUserSummaryList'] as List?)
+              ?.whereNotNull()
+              .map((e) => TrafficDistributionGroupUserSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final trafficDistributionGroupUserSummaryList =
+        this.trafficDistributionGroupUserSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (trafficDistributionGroupUserSummaryList != null)
+        'TrafficDistributionGroupUserSummaryList':
+            trafficDistributionGroupUserSummaryList,
     };
   }
 }
@@ -18211,6 +26320,55 @@ class ListUserHierarchyGroupsResponse {
   }
 }
 
+class ListUserProficienciesResponse {
+  /// The region in which a user's proficiencies were last modified.
+  final String? lastModifiedRegion;
+
+  /// The last time that the user's proficiencies are were modified.
+  final DateTime? lastModifiedTime;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// Information about the user proficiencies.
+  final List<UserProficiency>? userProficiencyList;
+
+  ListUserProficienciesResponse({
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
+    this.nextToken,
+    this.userProficiencyList,
+  });
+
+  factory ListUserProficienciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListUserProficienciesResponse(
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      nextToken: json['NextToken'] as String?,
+      userProficiencyList: (json['UserProficiencyList'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserProficiency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
+    final nextToken = this.nextToken;
+    final userProficiencyList = this.userProficiencyList;
+    return {
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (userProficiencyList != null)
+        'UserProficiencyList': userProficiencyList,
+    };
+  }
+}
+
 class ListUsersResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -18240,6 +26398,73 @@ class ListUsersResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (userSummaryList != null) 'UserSummaryList': userSummaryList,
+    };
+  }
+}
+
+class ListViewVersionsResponse {
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  final String? nextToken;
+
+  /// A list of view version summaries.
+  final List<ViewVersionSummary>? viewVersionSummaryList;
+
+  ListViewVersionsResponse({
+    this.nextToken,
+    this.viewVersionSummaryList,
+  });
+
+  factory ListViewVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListViewVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      viewVersionSummaryList: (json['ViewVersionSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ViewVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final viewVersionSummaryList = this.viewVersionSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (viewVersionSummaryList != null)
+        'ViewVersionSummaryList': viewVersionSummaryList,
+    };
+  }
+}
+
+class ListViewsResponse {
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  final String? nextToken;
+
+  /// A list of view summaries.
+  final List<ViewSummary>? viewsSummaryList;
+
+  ListViewsResponse({
+    this.nextToken,
+    this.viewsSummaryList,
+  });
+
+  factory ListViewsResponse.fromJson(Map<String, dynamic> json) {
+    return ListViewsResponse(
+      nextToken: json['NextToken'] as String?,
+      viewsSummaryList: (json['ViewsSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ViewSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final viewsSummaryList = this.viewsSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (viewsSummaryList != null) 'ViewsSummaryList': viewsSummaryList,
     };
   }
 }
@@ -18295,6 +26520,161 @@ class MediaConcurrency {
   }
 }
 
+/// A set of endpoints used by clients to connect to the media service group for
+/// an Amazon Chime SDK meeting.
+class MediaPlacement {
+  /// The audio fallback URL.
+  final String? audioFallbackUrl;
+
+  /// The audio host URL.
+  final String? audioHostUrl;
+
+  /// The event ingestion URL to which you send client meeting events.
+  final String? eventIngestionUrl;
+
+  /// The signaling URL.
+  final String? signalingUrl;
+
+  /// The turn control URL.
+  final String? turnControlUrl;
+
+  MediaPlacement({
+    this.audioFallbackUrl,
+    this.audioHostUrl,
+    this.eventIngestionUrl,
+    this.signalingUrl,
+    this.turnControlUrl,
+  });
+
+  factory MediaPlacement.fromJson(Map<String, dynamic> json) {
+    return MediaPlacement(
+      audioFallbackUrl: json['AudioFallbackUrl'] as String?,
+      audioHostUrl: json['AudioHostUrl'] as String?,
+      eventIngestionUrl: json['EventIngestionUrl'] as String?,
+      signalingUrl: json['SignalingUrl'] as String?,
+      turnControlUrl: json['TurnControlUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioFallbackUrl = this.audioFallbackUrl;
+    final audioHostUrl = this.audioHostUrl;
+    final eventIngestionUrl = this.eventIngestionUrl;
+    final signalingUrl = this.signalingUrl;
+    final turnControlUrl = this.turnControlUrl;
+    return {
+      if (audioFallbackUrl != null) 'AudioFallbackUrl': audioFallbackUrl,
+      if (audioHostUrl != null) 'AudioHostUrl': audioHostUrl,
+      if (eventIngestionUrl != null) 'EventIngestionUrl': eventIngestionUrl,
+      if (signalingUrl != null) 'SignalingUrl': signalingUrl,
+      if (turnControlUrl != null) 'TurnControlUrl': turnControlUrl,
+    };
+  }
+}
+
+/// A meeting created using the Amazon Chime SDK.
+class Meeting {
+  /// The media placement for the meeting.
+  final MediaPlacement? mediaPlacement;
+
+  /// The Amazon Web Services Region in which you create the meeting.
+  final String? mediaRegion;
+
+  /// The configuration settings of the features available to a meeting.
+  final MeetingFeaturesConfiguration? meetingFeatures;
+
+  /// The Amazon Chime SDK meeting ID.
+  final String? meetingId;
+
+  Meeting({
+    this.mediaPlacement,
+    this.mediaRegion,
+    this.meetingFeatures,
+    this.meetingId,
+  });
+
+  factory Meeting.fromJson(Map<String, dynamic> json) {
+    return Meeting(
+      mediaPlacement: json['MediaPlacement'] != null
+          ? MediaPlacement.fromJson(
+              json['MediaPlacement'] as Map<String, dynamic>)
+          : null,
+      mediaRegion: json['MediaRegion'] as String?,
+      meetingFeatures: json['MeetingFeatures'] != null
+          ? MeetingFeaturesConfiguration.fromJson(
+              json['MeetingFeatures'] as Map<String, dynamic>)
+          : null,
+      meetingId: json['MeetingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaPlacement = this.mediaPlacement;
+    final mediaRegion = this.mediaRegion;
+    final meetingFeatures = this.meetingFeatures;
+    final meetingId = this.meetingId;
+    return {
+      if (mediaPlacement != null) 'MediaPlacement': mediaPlacement,
+      if (mediaRegion != null) 'MediaRegion': mediaRegion,
+      if (meetingFeatures != null) 'MeetingFeatures': meetingFeatures,
+      if (meetingId != null) 'MeetingId': meetingId,
+    };
+  }
+}
+
+enum MeetingFeatureStatus {
+  available,
+  unavailable,
+}
+
+extension MeetingFeatureStatusValueExtension on MeetingFeatureStatus {
+  String toValue() {
+    switch (this) {
+      case MeetingFeatureStatus.available:
+        return 'AVAILABLE';
+      case MeetingFeatureStatus.unavailable:
+        return 'UNAVAILABLE';
+    }
+  }
+}
+
+extension MeetingFeatureStatusFromString on String {
+  MeetingFeatureStatus toMeetingFeatureStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return MeetingFeatureStatus.available;
+      case 'UNAVAILABLE':
+        return MeetingFeatureStatus.unavailable;
+    }
+    throw Exception('$this is not known in enum MeetingFeatureStatus');
+  }
+}
+
+/// The configuration settings of the features available to a meeting.
+class MeetingFeaturesConfiguration {
+  /// The configuration settings for the audio features available to a meeting.
+  final AudioFeatures? audio;
+
+  MeetingFeaturesConfiguration({
+    this.audio,
+  });
+
+  factory MeetingFeaturesConfiguration.fromJson(Map<String, dynamic> json) {
+    return MeetingFeaturesConfiguration(
+      audio: json['Audio'] != null
+          ? AudioFeatures.fromJson(json['Audio'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audio = this.audio;
+    return {
+      if (audio != null) 'Audio': audio,
+    };
+  }
+}
+
 /// Contains the name, thresholds, and metric filters.
 class MetricDataV2 {
   /// The metric name, thresholds, and metric filters of the returned metric.
@@ -18339,7 +26719,7 @@ class MetricFilterV2 {
   /// <code>InitiationMethod</code> and <code>DisconnectReason</code> in the
   /// contact record. For more information, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord">ContactTraceRecord</a>
-  /// in the <i>Amazon Connect Administrator's Guide</i>.
+  /// in the <i>Amazon Connect Administrator Guide</i>.
   final String? metricFilterKey;
 
   /// The values to use for filtering data.
@@ -18355,9 +26735,16 @@ class MetricFilterV2 {
   /// <code>OTHER</code> | <code>EXPIRED</code> | <code>API</code>
   final List<String>? metricFilterValues;
 
+  /// The flag to use to filter on requested metric filter values or to not filter
+  /// on requested metric filter values. By default the negate is
+  /// <code>false</code>, which indicates to filter on the requested metric
+  /// filter.
+  final bool? negate;
+
   MetricFilterV2({
     this.metricFilterKey,
     this.metricFilterValues,
+    this.negate,
   });
 
   factory MetricFilterV2.fromJson(Map<String, dynamic> json) {
@@ -18367,15 +26754,61 @@ class MetricFilterV2 {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      negate: json['Negate'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final metricFilterKey = this.metricFilterKey;
     final metricFilterValues = this.metricFilterValues;
+    final negate = this.negate;
     return {
       if (metricFilterKey != null) 'MetricFilterKey': metricFilterKey,
       if (metricFilterValues != null) 'MetricFilterValues': metricFilterValues,
+      if (negate != null) 'Negate': negate,
+    };
+  }
+}
+
+/// The interval period with the start and end time for the metrics.
+class MetricInterval {
+  /// The timestamp, in UNIX Epoch time format. End time is based on the interval
+  /// period selected. For example, If <code>IntervalPeriod</code> is selected
+  /// <code>THIRTY_MIN</code>, <code>StartTime</code> and <code>EndTime</code> in
+  /// the API request differs by 1 day, then 48 results are returned in the
+  /// response. Each result is aggregated by the 30 minutes period, with each
+  /// <code>StartTime</code> and <code>EndTime</code> differing by 30 minutes.
+  final DateTime? endTime;
+
+  /// The interval period provided in the API request.
+  final IntervalPeriod? interval;
+
+  /// The timestamp, in UNIX Epoch time format. Start time is based on the
+  /// interval period selected.
+  final DateTime? startTime;
+
+  MetricInterval({
+    this.endTime,
+    this.interval,
+    this.startTime,
+  });
+
+  factory MetricInterval.fromJson(Map<String, dynamic> json) {
+    return MetricInterval(
+      endTime: timeStampFromJson(json['EndTime']),
+      interval: (json['Interval'] as String?)?.toIntervalPeriod(),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final interval = this.interval;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (interval != null) 'Interval': interval.toValue(),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
@@ -18388,9 +26821,13 @@ class MetricResultV2 {
   /// The dimension for the metrics.
   final Map<String, String>? dimensions;
 
+  /// The interval period with the start and end time for the metrics.
+  final MetricInterval? metricInterval;
+
   MetricResultV2({
     this.collections,
     this.dimensions,
+    this.metricInterval,
   });
 
   factory MetricResultV2.fromJson(Map<String, dynamic> json) {
@@ -18401,15 +26838,21 @@ class MetricResultV2 {
           .toList(),
       dimensions: (json['Dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      metricInterval: json['MetricInterval'] != null
+          ? MetricInterval.fromJson(
+              json['MetricInterval'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final collections = this.collections;
     final dimensions = this.dimensions;
+    final metricInterval = this.metricInterval;
     return {
       if (collections != null) 'Collections': collections,
       if (dimensions != null) 'Dimensions': dimensions,
+      if (metricInterval != null) 'MetricInterval': metricInterval,
     };
   }
 }
@@ -18517,6 +26960,56 @@ class MonitorContactResponse {
   }
 }
 
+/// Payload of chat properties to apply when starting a new contact.
+class NewSessionDetails {
+  /// A custom key-value pair using an attribute map. The attributes are standard
+  /// Amazon Connect attributes. They can be accessed in flows just like any other
+  /// contact attributes.
+  ///
+  /// There can be up to 32,768 UTF-8 bytes across all key-value pairs per
+  /// contact. Attribute keys can include only alphanumeric, dash, and underscore
+  /// characters.
+  final Map<String, String>? attributes;
+  final ParticipantDetails? participantDetails;
+  final ChatStreamingConfiguration? streamingConfiguration;
+
+  /// The supported chat message content types. Supported types are
+  /// <code>text/plain</code>, <code>text/markdown</code>,
+  /// <code>application/json</code>,
+  /// <code>application/vnd.amazonaws.connect.message.interactive</code>, and
+  /// <code>application/vnd.amazonaws.connect.message.interactive.response</code>.
+  ///
+  /// Content types must always contain <code> text/plain</code>. You can then put
+  /// any other supported type in the list. For example, all the following lists
+  /// are valid because they contain <code>text/plain</code>: <code>[text/plain,
+  /// text/markdown, application/json]</code>, <code> [text/markdown,
+  /// text/plain]</code>, <code>[text/plain, application/json,
+  /// application/vnd.amazonaws.connect.message.interactive.response]</code>.
+  final List<String>? supportedMessagingContentTypes;
+
+  NewSessionDetails({
+    this.attributes,
+    this.participantDetails,
+    this.streamingConfiguration,
+    this.supportedMessagingContentTypes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final participantDetails = this.participantDetails;
+    final streamingConfiguration = this.streamingConfiguration;
+    final supportedMessagingContentTypes = this.supportedMessagingContentTypes;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (participantDetails != null) 'ParticipantDetails': participantDetails,
+      if (streamingConfiguration != null)
+        'StreamingConfiguration': streamingConfiguration,
+      if (supportedMessagingContentTypes != null)
+        'SupportedMessagingContentTypes': supportedMessagingContentTypes,
+    };
+  }
+}
+
 enum NotificationContentType {
   plainText,
 }
@@ -18569,7 +27062,7 @@ class NotificationRecipientType {
   final List<String>? userIds;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect
   /// users with the specified tags will be notified.
   final Map<String, String>? userTags;
 
@@ -18778,6 +27271,31 @@ class OutboundCallerConfig {
   }
 }
 
+/// The configuration for the allowed capabilities for participants present over
+/// the call.
+class ParticipantCapabilities {
+  /// The configuration having the video sharing capabilities for participants
+  /// over the call.
+  final VideoCapability? video;
+
+  ParticipantCapabilities({
+    this.video,
+  });
+
+  factory ParticipantCapabilities.fromJson(Map<String, dynamic> json) {
+    return ParticipantCapabilities(
+      video: (json['Video'] as String?)?.toVideoCapability(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final video = this.video;
+    return {
+      if (video != null) 'Video': video.toValue(),
+    };
+  }
+}
+
 /// The customer's details.
 class ParticipantDetails {
   /// Display name of the participant.
@@ -18823,6 +27341,7 @@ enum ParticipantRole {
   customer,
   system,
   customBot,
+  supervisor,
 }
 
 extension ParticipantRoleValueExtension on ParticipantRole {
@@ -18836,6 +27355,8 @@ extension ParticipantRoleValueExtension on ParticipantRole {
         return 'SYSTEM';
       case ParticipantRole.customBot:
         return 'CUSTOM_BOT';
+      case ParticipantRole.supervisor:
+        return 'SUPERVISOR';
     }
   }
 }
@@ -18851,6 +27372,8 @@ extension ParticipantRoleFromString on String {
         return ParticipantRole.system;
       case 'CUSTOM_BOT':
         return ParticipantRole.customBot;
+      case 'SUPERVISOR':
+        return ParticipantRole.supervisor;
     }
     throw Exception('$this is not known in enum ParticipantRole');
   }
@@ -19009,6 +27532,18 @@ class ParticipantTokenCredentials {
       if (expiry != null) 'Expiry': expiry,
       if (participantToken != null) 'ParticipantToken': participantToken,
     };
+  }
+}
+
+class PauseContactResponse {
+  PauseContactResponse();
+
+  factory PauseContactResponse.fromJson(Map<String, dynamic> _) {
+    return PauseContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -20287,23 +28822,25 @@ class PhoneNumberQuickConnectConfig {
 /// <ul>
 /// <li>
 /// <code>CLAIMED</code> means the previous <a
-/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html">ClaimedPhoneNumber</a>
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html">ClaimPhoneNumber</a>
 /// or <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>
 /// operation succeeded.
 /// </li>
 /// <li>
 /// <code>IN_PROGRESS</code> means a <a
-/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html">ClaimedPhoneNumber</a>
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html">ClaimPhoneNumber</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>,
 /// or <a
-/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumberMetadata.html">UpdatePhoneNumberMetadata</a>
 /// operation is still in progress and has not yet completed. You can call <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html">DescribePhoneNumber</a>
 /// at a later time to verify if the previous operation has completed.
 /// </li>
 /// <li>
 /// <code>FAILED</code> indicates that the previous <a
-/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html">ClaimedPhoneNumber</a>
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html">ClaimPhoneNumber</a>
 /// or <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html">UpdatePhoneNumber</a>
 /// operation has failed. It will include a message indicating the failure
@@ -20401,6 +28938,11 @@ class PhoneNumberSummary {
 enum PhoneNumberType {
   tollFree,
   did,
+  uifn,
+  shared,
+  thirdPartyTf,
+  thirdPartyDid,
+  shortCode,
 }
 
 extension PhoneNumberTypeValueExtension on PhoneNumberType {
@@ -20410,6 +28952,16 @@ extension PhoneNumberTypeValueExtension on PhoneNumberType {
         return 'TOLL_FREE';
       case PhoneNumberType.did:
         return 'DID';
+      case PhoneNumberType.uifn:
+        return 'UIFN';
+      case PhoneNumberType.shared:
+        return 'SHARED';
+      case PhoneNumberType.thirdPartyTf:
+        return 'THIRD_PARTY_TF';
+      case PhoneNumberType.thirdPartyDid:
+        return 'THIRD_PARTY_DID';
+      case PhoneNumberType.shortCode:
+        return 'SHORT_CODE';
     }
   }
 }
@@ -20421,6 +28973,16 @@ extension PhoneNumberTypeFromString on String {
         return PhoneNumberType.tollFree;
       case 'DID':
         return PhoneNumberType.did;
+      case 'UIFN':
+        return PhoneNumberType.uifn;
+      case 'SHARED':
+        return PhoneNumberType.shared;
+      case 'THIRD_PARTY_TF':
+        return PhoneNumberType.thirdPartyTf;
+      case 'THIRD_PARTY_DID':
+        return PhoneNumberType.thirdPartyDid;
+      case 'SHORT_CODE':
+        return PhoneNumberType.shortCode;
     }
     throw Exception('$this is not known in enum PhoneNumberType');
   }
@@ -20487,10 +29049,157 @@ extension PhoneTypeFromString on String {
   }
 }
 
+/// Information about a predefined attribute.
+class PredefinedAttribute {
+  /// Last modified region.
+  final String? lastModifiedRegion;
+
+  /// Last modified time.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the predefined attribute.
+  final String? name;
+
+  /// The values of the predefined attribute.
+  final PredefinedAttributeValues? values;
+
+  PredefinedAttribute({
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
+    this.name,
+    this.values,
+  });
+
+  factory PredefinedAttribute.fromJson(Map<String, dynamic> json) {
+    return PredefinedAttribute(
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      values: json['Values'] != null
+          ? PredefinedAttributeValues.fromJson(
+              json['Values'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// The search criteria to be used to return predefined attributes.
+class PredefinedAttributeSearchCriteria {
+  /// A list of conditions which would be applied together with an
+  /// <code>AND</code> condition.
+  final List<PredefinedAttributeSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<PredefinedAttributeSearchCriteria>? orConditions;
+  final StringCondition? stringCondition;
+
+  PredefinedAttributeSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// Summary of a predefined attribute.
+class PredefinedAttributeSummary {
+  /// Last modified region.
+  final String? lastModifiedRegion;
+
+  /// Last modified time.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the predefined attribute.
+  final String? name;
+
+  PredefinedAttributeSummary({
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
+    this.name,
+  });
+
+  factory PredefinedAttributeSummary.fromJson(Map<String, dynamic> json) {
+    return PredefinedAttributeSummary(
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    return {
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Information about values of a predefined attribute.
+class PredefinedAttributeValues {
+  /// Predefined attribute values of type string list.
+  final List<String>? stringList;
+
+  PredefinedAttributeValues({
+    this.stringList,
+  });
+
+  factory PredefinedAttributeValues.fromJson(Map<String, dynamic> json) {
+    return PredefinedAttributeValues(
+      stringList: (json['StringList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stringList = this.stringList;
+    return {
+      if (stringList != null) 'StringList': stringList,
+    };
+  }
+}
+
 /// Information about a prompt.
 class Prompt {
-  /// A description for the prompt.
+  /// The description of the prompt.
   final String? description;
+
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
 
   /// The name of the prompt.
   final String? name;
@@ -20502,11 +29211,13 @@ class Prompt {
   final String? promptId;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   Prompt({
     this.description,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
     this.promptARN,
     this.promptId,
@@ -20516,6 +29227,8 @@ class Prompt {
   factory Prompt.fromJson(Map<String, dynamic> json) {
     return Prompt(
       description: json['Description'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       promptARN: json['PromptARN'] as String?,
       promptId: json['PromptId'] as String?,
@@ -20526,16 +29239,70 @@ class Prompt {
 
   Map<String, dynamic> toJson() {
     final description = this.description;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final promptARN = this.promptARN;
     final promptId = this.promptId;
     final tags = this.tags;
     return {
       if (description != null) 'Description': description,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
       if (promptARN != null) 'PromptARN': promptARN,
       if (promptId != null) 'PromptId': promptId,
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// The search criteria to be used to return prompts.
+class PromptSearchCriteria {
+  /// A list of conditions which would be applied together with an AND condition.
+  final List<PromptSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an OR condition.
+  final List<PromptSearchCriteria>? orConditions;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code>, <code>description</code>, and <code>resourceID</code>.
+  /// </note>
+  final StringCondition? stringCondition;
+
+  PromptSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// Filters to be applied to search results.
+class PromptSearchFilter {
+  final ControlPlaneTagFilter? tagFilter;
+
+  PromptSearchFilter({
+    this.tagFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagFilter = this.tagFilter;
+    return {
+      if (tagFilter != null) 'TagFilter': tagFilter,
     };
   }
 }
@@ -20548,12 +29315,20 @@ class PromptSummary {
   /// The identifier of the prompt.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the prompt.
   final String? name;
 
   PromptSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
   });
 
@@ -20561,6 +29336,8 @@ class PromptSummary {
     return PromptSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
   }
@@ -20568,10 +29345,15 @@ class PromptSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
     };
   }
@@ -20589,6 +29371,41 @@ class PutUserStatusResponse {
   }
 }
 
+/// Information about the quality of the participant's media connection.
+class QualityMetrics {
+  /// Information about the quality of Agent media connection.
+  final AgentQualityMetrics? agent;
+
+  /// Information about the quality of Customer media connection.
+  final CustomerQualityMetrics? customer;
+
+  QualityMetrics({
+    this.agent,
+    this.customer,
+  });
+
+  factory QualityMetrics.fromJson(Map<String, dynamic> json) {
+    return QualityMetrics(
+      agent: json['Agent'] != null
+          ? AgentQualityMetrics.fromJson(json['Agent'] as Map<String, dynamic>)
+          : null,
+      customer: json['Customer'] != null
+          ? CustomerQualityMetrics.fromJson(
+              json['Customer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agent = this.agent;
+    final customer = this.customer;
+    return {
+      if (agent != null) 'Agent': agent,
+      if (customer != null) 'Customer': customer,
+    };
+  }
+}
+
 /// Contains information about a queue.
 class Queue {
   /// The description of the queue.
@@ -20596,6 +29413,12 @@ class Queue {
 
   /// The identifier for the hours of operation.
   final String? hoursOfOperationId;
+
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
 
   /// The maximum number of contacts that can be in the queue before it is
   /// considered full.
@@ -20617,12 +29440,14 @@ class Queue {
   final QueueStatus? status;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   Queue({
     this.description,
     this.hoursOfOperationId,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.maxContacts,
     this.name,
     this.outboundCallerConfig,
@@ -20636,6 +29461,8 @@ class Queue {
     return Queue(
       description: json['Description'] as String?,
       hoursOfOperationId: json['HoursOfOperationId'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       maxContacts: json['MaxContacts'] as int?,
       name: json['Name'] as String?,
       outboundCallerConfig: json['OutboundCallerConfig'] != null
@@ -20653,6 +29480,8 @@ class Queue {
   Map<String, dynamic> toJson() {
     final description = this.description;
     final hoursOfOperationId = this.hoursOfOperationId;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final maxContacts = this.maxContacts;
     final name = this.name;
     final outboundCallerConfig = this.outboundCallerConfig;
@@ -20663,6 +29492,9 @@ class Queue {
     return {
       if (description != null) 'Description': description,
       if (hoursOfOperationId != null) 'HoursOfOperationId': hoursOfOperationId,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (maxContacts != null) 'MaxContacts': maxContacts,
       if (name != null) 'Name': name,
       if (outboundCallerConfig != null)
@@ -20783,6 +29615,12 @@ class QueueSearchCriteria {
 
   /// The type of queue.
   final SearchableQueueType? queueTypeCondition;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code>, <code>description</code>, and <code>resourceID</code>.
+  /// </note>
   final StringCondition? stringCondition;
 
   QueueSearchCriteria({
@@ -20859,6 +29697,12 @@ class QueueSummary {
   /// The identifier of the queue.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the queue.
   final String? name;
 
@@ -20868,6 +29712,8 @@ class QueueSummary {
   QueueSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
     this.queueType,
   });
@@ -20876,6 +29722,8 @@ class QueueSummary {
     return QueueSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       queueType: (json['QueueType'] as String?)?.toQueueType(),
     );
@@ -20884,11 +29732,16 @@ class QueueSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final queueType = this.queueType;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
       if (queueType != null) 'QueueType': queueType.toValue(),
     };
@@ -20928,6 +29781,12 @@ class QuickConnect {
   /// The description.
   final String? description;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the quick connect.
   final String? name;
 
@@ -20941,11 +29800,13 @@ class QuickConnect {
   final String? quickConnectId;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   QuickConnect({
     this.description,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
     this.quickConnectARN,
     this.quickConnectConfig,
@@ -20956,6 +29817,8 @@ class QuickConnect {
   factory QuickConnect.fromJson(Map<String, dynamic> json) {
     return QuickConnect(
       description: json['Description'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       quickConnectARN: json['QuickConnectARN'] as String?,
       quickConnectConfig: json['QuickConnectConfig'] != null
@@ -20970,6 +29833,8 @@ class QuickConnect {
 
   Map<String, dynamic> toJson() {
     final description = this.description;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final quickConnectARN = this.quickConnectARN;
     final quickConnectConfig = this.quickConnectConfig;
@@ -20977,6 +29842,9 @@ class QuickConnect {
     final tags = this.tags;
     return {
       if (description != null) 'Description': description,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
       if (quickConnectARN != null) 'QuickConnectARN': quickConnectARN,
       if (quickConnectConfig != null) 'QuickConnectConfig': quickConnectConfig,
@@ -20988,9 +29856,9 @@ class QuickConnect {
 
 /// Contains configuration settings for a quick connect.
 class QuickConnectConfig {
-  /// The type of quick connect. In the Amazon Connect console, when you create a
-  /// quick connect, you are prompted to assign one of the following types: Agent
-  /// (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+  /// The type of quick connect. In the Amazon Connect admin website, when you
+  /// create a quick connect, you are prompted to assign one of the following
+  /// types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
   final QuickConnectType quickConnectType;
 
   /// The phone configuration. This is required only if QuickConnectType is
@@ -21043,6 +29911,55 @@ class QuickConnectConfig {
   }
 }
 
+/// The search criteria to be used to return quick connects.
+class QuickConnectSearchCriteria {
+  /// A list of conditions which would be applied together with an AND condition.
+  final List<QuickConnectSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an OR condition.
+  final List<QuickConnectSearchCriteria>? orConditions;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code>, <code>description</code>, and <code>resourceID</code>.
+  /// </note>
+  final StringCondition? stringCondition;
+
+  QuickConnectSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// Filters to be applied to search results.
+class QuickConnectSearchFilter {
+  final ControlPlaneTagFilter? tagFilter;
+
+  QuickConnectSearchFilter({
+    this.tagFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagFilter = this.tagFilter;
+    return {
+      if (tagFilter != null) 'TagFilter': tagFilter,
+    };
+  }
+}
+
 /// Contains summary information about a quick connect.
 class QuickConnectSummary {
   /// The Amazon Resource Name (ARN) of the quick connect.
@@ -21051,17 +29968,25 @@ class QuickConnectSummary {
   /// The identifier for the quick connect.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the quick connect.
   final String? name;
 
-  /// The type of quick connect. In the Amazon Connect console, when you create a
-  /// quick connect, you are prompted to assign one of the following types: Agent
-  /// (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+  /// The type of quick connect. In the Amazon Connect admin website, when you
+  /// create a quick connect, you are prompted to assign one of the following
+  /// types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
   final QuickConnectType? quickConnectType;
 
   QuickConnectSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
     this.quickConnectType,
   });
@@ -21070,6 +29995,8 @@ class QuickConnectSummary {
     return QuickConnectSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       quickConnectType:
           (json['QuickConnectType'] as String?)?.toQuickConnectType(),
@@ -21079,11 +30006,16 @@ class QuickConnectSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final quickConnectType = this.quickConnectType;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
       if (quickConnectType != null)
         'QuickConnectType': quickConnectType.toValue(),
@@ -21146,6 +30078,822 @@ class ReadOnlyFieldInfo {
     final id = this.id;
     return {
       if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Object that describes attached file.
+class RealTimeContactAnalysisAttachment {
+  /// A unique identifier for the attachment.
+  final String attachmentId;
+
+  /// A case-sensitive name of the attachment being uploaded. Can be redacted.
+  final String attachmentName;
+
+  /// Describes the MIME file type of the attachment. For a list of supported file
+  /// types, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html">Feature
+  /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
+  final String? contentType;
+
+  /// Status of the attachment.
+  final ArtifactStatus? status;
+
+  RealTimeContactAnalysisAttachment({
+    required this.attachmentId,
+    required this.attachmentName,
+    this.contentType,
+    this.status,
+  });
+
+  factory RealTimeContactAnalysisAttachment.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisAttachment(
+      attachmentId: json['AttachmentId'] as String,
+      attachmentName: json['AttachmentName'] as String,
+      contentType: json['ContentType'] as String?,
+      status: (json['Status'] as String?)?.toArtifactStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final attachmentName = this.attachmentName;
+    final contentType = this.contentType;
+    final status = this.status;
+    return {
+      'AttachmentId': attachmentId,
+      'AttachmentName': attachmentName,
+      if (contentType != null) 'ContentType': contentType,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// Provides information about the category rule that was matched.
+class RealTimeContactAnalysisCategoryDetails {
+  /// List of PointOfInterest - objects describing a single match of a rule.
+  final List<RealTimeContactAnalysisPointOfInterest> pointsOfInterest;
+
+  RealTimeContactAnalysisCategoryDetails({
+    required this.pointsOfInterest,
+  });
+
+  factory RealTimeContactAnalysisCategoryDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisCategoryDetails(
+      pointsOfInterest: (json['PointsOfInterest'] as List)
+          .whereNotNull()
+          .map((e) => RealTimeContactAnalysisPointOfInterest.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pointsOfInterest = this.pointsOfInterest;
+    return {
+      'PointsOfInterest': pointsOfInterest,
+    };
+  }
+}
+
+/// Begin and end offsets for a part of text.
+class RealTimeContactAnalysisCharacterInterval {
+  /// The beginning of the character interval.
+  final int beginOffsetChar;
+
+  /// The end of the character interval.
+  final int endOffsetChar;
+
+  RealTimeContactAnalysisCharacterInterval({
+    required this.beginOffsetChar,
+    required this.endOffsetChar,
+  });
+
+  factory RealTimeContactAnalysisCharacterInterval.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisCharacterInterval(
+      beginOffsetChar: json['BeginOffsetChar'] as int,
+      endOffsetChar: json['EndOffsetChar'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffsetChar = this.beginOffsetChar;
+    final endOffsetChar = this.endOffsetChar;
+    return {
+      'BeginOffsetChar': beginOffsetChar,
+      'EndOffsetChar': endOffsetChar,
+    };
+  }
+}
+
+/// Potential issues that are detected based on an artificial intelligence
+/// analysis of each turn in the conversation.
+class RealTimeContactAnalysisIssueDetected {
+  /// List of the transcript items (segments) that are associated with a given
+  /// issue.
+  final List<RealTimeContactAnalysisTranscriptItemWithContent> transcriptItems;
+
+  RealTimeContactAnalysisIssueDetected({
+    required this.transcriptItems,
+  });
+
+  factory RealTimeContactAnalysisIssueDetected.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisIssueDetected(
+      transcriptItems: (json['TranscriptItems'] as List)
+          .whereNotNull()
+          .map((e) => RealTimeContactAnalysisTranscriptItemWithContent.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transcriptItems = this.transcriptItems;
+    return {
+      'TranscriptItems': transcriptItems,
+    };
+  }
+}
+
+enum RealTimeContactAnalysisOutputType {
+  raw,
+  redacted,
+}
+
+extension RealTimeContactAnalysisOutputTypeValueExtension
+    on RealTimeContactAnalysisOutputType {
+  String toValue() {
+    switch (this) {
+      case RealTimeContactAnalysisOutputType.raw:
+        return 'Raw';
+      case RealTimeContactAnalysisOutputType.redacted:
+        return 'Redacted';
+    }
+  }
+}
+
+extension RealTimeContactAnalysisOutputTypeFromString on String {
+  RealTimeContactAnalysisOutputType toRealTimeContactAnalysisOutputType() {
+    switch (this) {
+      case 'Raw':
+        return RealTimeContactAnalysisOutputType.raw;
+      case 'Redacted':
+        return RealTimeContactAnalysisOutputType.redacted;
+    }
+    throw Exception(
+        '$this is not known in enum RealTimeContactAnalysisOutputType');
+  }
+}
+
+/// The section of the contact transcript segment that category rule was
+/// detected.
+class RealTimeContactAnalysisPointOfInterest {
+  /// List of the transcript items (segments) that are associated with a given
+  /// point of interest.
+  final List<RealTimeContactAnalysisTranscriptItemWithCharacterOffsets>?
+      transcriptItems;
+
+  RealTimeContactAnalysisPointOfInterest({
+    this.transcriptItems,
+  });
+
+  factory RealTimeContactAnalysisPointOfInterest.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisPointOfInterest(
+      transcriptItems: (json['TranscriptItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => RealTimeContactAnalysisTranscriptItemWithCharacterOffsets
+              .fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transcriptItems = this.transcriptItems;
+    return {
+      if (transcriptItems != null) 'TranscriptItems': transcriptItems,
+    };
+  }
+}
+
+/// Segment containing list of attachments.
+class RealTimeContactAnalysisSegmentAttachments {
+  /// List of objects describing an individual attachment.
+  final List<RealTimeContactAnalysisAttachment> attachments;
+
+  /// The identifier of the segment.
+  final String id;
+
+  /// The identifier of the participant.
+  final String participantId;
+
+  /// The role of the participant. For example, is it a customer, agent, or
+  /// system.
+  final ParticipantRole participantRole;
+
+  /// Field describing the time of the event. It can have different
+  /// representations of time.
+  final RealTimeContactAnalysisTimeData time;
+
+  /// The display name of the participant. Can be redacted.
+  final String? displayName;
+
+  RealTimeContactAnalysisSegmentAttachments({
+    required this.attachments,
+    required this.id,
+    required this.participantId,
+    required this.participantRole,
+    required this.time,
+    this.displayName,
+  });
+
+  factory RealTimeContactAnalysisSegmentAttachments.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisSegmentAttachments(
+      attachments: (json['Attachments'] as List)
+          .whereNotNull()
+          .map((e) => RealTimeContactAnalysisAttachment.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String,
+      participantId: json['ParticipantId'] as String,
+      participantRole: (json['ParticipantRole'] as String).toParticipantRole(),
+      time: RealTimeContactAnalysisTimeData.fromJson(
+          json['Time'] as Map<String, dynamic>),
+      displayName: json['DisplayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachments = this.attachments;
+    final id = this.id;
+    final participantId = this.participantId;
+    final participantRole = this.participantRole;
+    final time = this.time;
+    final displayName = this.displayName;
+    return {
+      'Attachments': attachments,
+      'Id': id,
+      'ParticipantId': participantId,
+      'ParticipantRole': participantRole.toValue(),
+      'Time': time,
+      if (displayName != null) 'DisplayName': displayName,
+    };
+  }
+}
+
+/// The matched category rules.
+class RealTimeContactAnalysisSegmentCategories {
+  /// Map between the name of the matched rule and
+  /// RealTimeContactAnalysisCategoryDetails.
+  final Map<String, RealTimeContactAnalysisCategoryDetails> matchedDetails;
+
+  RealTimeContactAnalysisSegmentCategories({
+    required this.matchedDetails,
+  });
+
+  factory RealTimeContactAnalysisSegmentCategories.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisSegmentCategories(
+      matchedDetails: (json['MatchedDetails'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(
+              k,
+              RealTimeContactAnalysisCategoryDetails.fromJson(
+                  e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchedDetails = this.matchedDetails;
+    return {
+      'MatchedDetails': matchedDetails,
+    };
+  }
+}
+
+/// Segment type describing a contact event.
+class RealTimeContactAnalysisSegmentEvent {
+  /// Type of the event. For example,
+  /// <code>application/vnd.amazonaws.connect.event.participant.left</code>.
+  final String eventType;
+
+  /// The identifier of the contact event.
+  final String id;
+
+  /// Field describing the time of the event. It can have different
+  /// representations of time.
+  final RealTimeContactAnalysisTimeData time;
+
+  /// The display name of the participant. Can be redacted.
+  final String? displayName;
+
+  /// The identifier of the participant.
+  final String? participantId;
+
+  /// The role of the participant. For example, is it a customer, agent, or
+  /// system.
+  final ParticipantRole? participantRole;
+
+  RealTimeContactAnalysisSegmentEvent({
+    required this.eventType,
+    required this.id,
+    required this.time,
+    this.displayName,
+    this.participantId,
+    this.participantRole,
+  });
+
+  factory RealTimeContactAnalysisSegmentEvent.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisSegmentEvent(
+      eventType: json['EventType'] as String,
+      id: json['Id'] as String,
+      time: RealTimeContactAnalysisTimeData.fromJson(
+          json['Time'] as Map<String, dynamic>),
+      displayName: json['DisplayName'] as String?,
+      participantId: json['ParticipantId'] as String?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final id = this.id;
+    final time = this.time;
+    final displayName = this.displayName;
+    final participantId = this.participantId;
+    final participantRole = this.participantRole;
+    return {
+      'EventType': eventType,
+      'Id': id,
+      'Time': time,
+      if (displayName != null) 'DisplayName': displayName,
+      if (participantId != null) 'ParticipantId': participantId,
+      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+    };
+  }
+}
+
+/// Segment type containing a list of detected issues.
+class RealTimeContactAnalysisSegmentIssues {
+  /// List of the issues detected.
+  final List<RealTimeContactAnalysisIssueDetected> issuesDetected;
+
+  RealTimeContactAnalysisSegmentIssues({
+    required this.issuesDetected,
+  });
+
+  factory RealTimeContactAnalysisSegmentIssues.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisSegmentIssues(
+      issuesDetected: (json['IssuesDetected'] as List)
+          .whereNotNull()
+          .map((e) => RealTimeContactAnalysisIssueDetected.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuesDetected = this.issuesDetected;
+    return {
+      'IssuesDetected': issuesDetected,
+    };
+  }
+}
+
+/// The analyzed transcript segment.
+class RealTimeContactAnalysisSegmentTranscript {
+  /// The content of the transcript. Can be redacted.
+  final String content;
+
+  /// The identifier of the transcript.
+  final String id;
+
+  /// The identifier of the participant.
+  final String participantId;
+
+  /// The role of the participant. For example, is it a customer, agent, or
+  /// system.
+  final ParticipantRole participantRole;
+
+  /// Field describing the time of the event. It can have different
+  /// representations of time.
+  final RealTimeContactAnalysisTimeData time;
+
+  /// The type of content of the item. For example, <code>text/plain</code>.
+  final String? contentType;
+
+  /// The display name of the participant.
+  final String? displayName;
+
+  /// Object describing redaction that was applied to the transcript. If
+  /// transcript has the field it means part of the transcript was redacted.
+  final RealTimeContactAnalysisTranscriptItemRedaction? redaction;
+
+  /// The sentiment detected for this piece of transcript.
+  final RealTimeContactAnalysisSentimentLabel? sentiment;
+
+  RealTimeContactAnalysisSegmentTranscript({
+    required this.content,
+    required this.id,
+    required this.participantId,
+    required this.participantRole,
+    required this.time,
+    this.contentType,
+    this.displayName,
+    this.redaction,
+    this.sentiment,
+  });
+
+  factory RealTimeContactAnalysisSegmentTranscript.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisSegmentTranscript(
+      content: json['Content'] as String,
+      id: json['Id'] as String,
+      participantId: json['ParticipantId'] as String,
+      participantRole: (json['ParticipantRole'] as String).toParticipantRole(),
+      time: RealTimeContactAnalysisTimeData.fromJson(
+          json['Time'] as Map<String, dynamic>),
+      contentType: json['ContentType'] as String?,
+      displayName: json['DisplayName'] as String?,
+      redaction: json['Redaction'] != null
+          ? RealTimeContactAnalysisTranscriptItemRedaction.fromJson(
+              json['Redaction'] as Map<String, dynamic>)
+          : null,
+      sentiment: (json['Sentiment'] as String?)
+          ?.toRealTimeContactAnalysisSentimentLabel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final id = this.id;
+    final participantId = this.participantId;
+    final participantRole = this.participantRole;
+    final time = this.time;
+    final contentType = this.contentType;
+    final displayName = this.displayName;
+    final redaction = this.redaction;
+    final sentiment = this.sentiment;
+    return {
+      'Content': content,
+      'Id': id,
+      'ParticipantId': participantId,
+      'ParticipantRole': participantRole.toValue(),
+      'Time': time,
+      if (contentType != null) 'ContentType': contentType,
+      if (displayName != null) 'DisplayName': displayName,
+      if (redaction != null) 'Redaction': redaction,
+      if (sentiment != null) 'Sentiment': sentiment.toValue(),
+    };
+  }
+}
+
+enum RealTimeContactAnalysisSegmentType {
+  transcript,
+  categories,
+  issues,
+  event,
+  attachments,
+}
+
+extension RealTimeContactAnalysisSegmentTypeValueExtension
+    on RealTimeContactAnalysisSegmentType {
+  String toValue() {
+    switch (this) {
+      case RealTimeContactAnalysisSegmentType.transcript:
+        return 'Transcript';
+      case RealTimeContactAnalysisSegmentType.categories:
+        return 'Categories';
+      case RealTimeContactAnalysisSegmentType.issues:
+        return 'Issues';
+      case RealTimeContactAnalysisSegmentType.event:
+        return 'Event';
+      case RealTimeContactAnalysisSegmentType.attachments:
+        return 'Attachments';
+    }
+  }
+}
+
+extension RealTimeContactAnalysisSegmentTypeFromString on String {
+  RealTimeContactAnalysisSegmentType toRealTimeContactAnalysisSegmentType() {
+    switch (this) {
+      case 'Transcript':
+        return RealTimeContactAnalysisSegmentType.transcript;
+      case 'Categories':
+        return RealTimeContactAnalysisSegmentType.categories;
+      case 'Issues':
+        return RealTimeContactAnalysisSegmentType.issues;
+      case 'Event':
+        return RealTimeContactAnalysisSegmentType.event;
+      case 'Attachments':
+        return RealTimeContactAnalysisSegmentType.attachments;
+    }
+    throw Exception(
+        '$this is not known in enum RealTimeContactAnalysisSegmentType');
+  }
+}
+
+enum RealTimeContactAnalysisSentimentLabel {
+  positive,
+  negative,
+  neutral,
+}
+
+extension RealTimeContactAnalysisSentimentLabelValueExtension
+    on RealTimeContactAnalysisSentimentLabel {
+  String toValue() {
+    switch (this) {
+      case RealTimeContactAnalysisSentimentLabel.positive:
+        return 'POSITIVE';
+      case RealTimeContactAnalysisSentimentLabel.negative:
+        return 'NEGATIVE';
+      case RealTimeContactAnalysisSentimentLabel.neutral:
+        return 'NEUTRAL';
+    }
+  }
+}
+
+extension RealTimeContactAnalysisSentimentLabelFromString on String {
+  RealTimeContactAnalysisSentimentLabel
+      toRealTimeContactAnalysisSentimentLabel() {
+    switch (this) {
+      case 'POSITIVE':
+        return RealTimeContactAnalysisSentimentLabel.positive;
+      case 'NEGATIVE':
+        return RealTimeContactAnalysisSentimentLabel.negative;
+      case 'NEUTRAL':
+        return RealTimeContactAnalysisSentimentLabel.neutral;
+    }
+    throw Exception(
+        '$this is not known in enum RealTimeContactAnalysisSentimentLabel');
+  }
+}
+
+enum RealTimeContactAnalysisStatus {
+  inProgress,
+  failed,
+  completed,
+}
+
+extension RealTimeContactAnalysisStatusValueExtension
+    on RealTimeContactAnalysisStatus {
+  String toValue() {
+    switch (this) {
+      case RealTimeContactAnalysisStatus.inProgress:
+        return 'IN_PROGRESS';
+      case RealTimeContactAnalysisStatus.failed:
+        return 'FAILED';
+      case RealTimeContactAnalysisStatus.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension RealTimeContactAnalysisStatusFromString on String {
+  RealTimeContactAnalysisStatus toRealTimeContactAnalysisStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return RealTimeContactAnalysisStatus.inProgress;
+      case 'FAILED':
+        return RealTimeContactAnalysisStatus.failed;
+      case 'COMPLETED':
+        return RealTimeContactAnalysisStatus.completed;
+    }
+    throw Exception('$this is not known in enum RealTimeContactAnalysisStatus');
+  }
+}
+
+enum RealTimeContactAnalysisSupportedChannel {
+  voice,
+  chat,
+}
+
+extension RealTimeContactAnalysisSupportedChannelValueExtension
+    on RealTimeContactAnalysisSupportedChannel {
+  String toValue() {
+    switch (this) {
+      case RealTimeContactAnalysisSupportedChannel.voice:
+        return 'VOICE';
+      case RealTimeContactAnalysisSupportedChannel.chat:
+        return 'CHAT';
+    }
+  }
+}
+
+extension RealTimeContactAnalysisSupportedChannelFromString on String {
+  RealTimeContactAnalysisSupportedChannel
+      toRealTimeContactAnalysisSupportedChannel() {
+    switch (this) {
+      case 'VOICE':
+        return RealTimeContactAnalysisSupportedChannel.voice;
+      case 'CHAT':
+        return RealTimeContactAnalysisSupportedChannel.chat;
+    }
+    throw Exception(
+        '$this is not known in enum RealTimeContactAnalysisSupportedChannel');
+  }
+}
+
+/// Object describing time with which the segment is associated. It can have
+/// different representations of time. Currently supported: absoluteTime
+class RealTimeContactAnalysisTimeData {
+  /// Time represented in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
+  /// 2019-11-08T02:41:28.172Z.
+  final DateTime? absoluteTime;
+
+  RealTimeContactAnalysisTimeData({
+    this.absoluteTime,
+  });
+
+  factory RealTimeContactAnalysisTimeData.fromJson(Map<String, dynamic> json) {
+    return RealTimeContactAnalysisTimeData(
+      absoluteTime: timeStampFromJson(json['AbsoluteTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTime = this.absoluteTime;
+    return {
+      if (absoluteTime != null) 'AbsoluteTime': iso8601ToJson(absoluteTime),
+    };
+  }
+}
+
+/// Object describing redaction applied to the segment.
+class RealTimeContactAnalysisTranscriptItemRedaction {
+  /// List of character intervals each describing a part of the text that was
+  /// redacted. For <code>OutputType.Raw</code>, part of the original text that
+  /// contains data that can be redacted. For <code> OutputType.Redacted</code>,
+  /// part of the string with redaction tag.
+  final List<RealTimeContactAnalysisCharacterInterval>? characterOffsets;
+
+  RealTimeContactAnalysisTranscriptItemRedaction({
+    this.characterOffsets,
+  });
+
+  factory RealTimeContactAnalysisTranscriptItemRedaction.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisTranscriptItemRedaction(
+      characterOffsets: (json['CharacterOffsets'] as List?)
+          ?.whereNotNull()
+          .map((e) => RealTimeContactAnalysisCharacterInterval.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final characterOffsets = this.characterOffsets;
+    return {
+      if (characterOffsets != null) 'CharacterOffsets': characterOffsets,
+    };
+  }
+}
+
+/// Transcript representation containing Id and list of character intervals that
+/// are associated with analysis data. For example, this object within a
+/// <code>RealTimeContactAnalysisPointOfInterest</code> in
+/// <code>Category.MatchedDetails</code> would have character interval
+/// describing part of the text that matched category.
+class RealTimeContactAnalysisTranscriptItemWithCharacterOffsets {
+  /// Transcript identifier. Matches the identifier from one of the
+  /// TranscriptSegments.
+  final String id;
+
+  /// List of character intervals within transcript content/text.
+  final RealTimeContactAnalysisCharacterInterval? characterOffsets;
+
+  RealTimeContactAnalysisTranscriptItemWithCharacterOffsets({
+    required this.id,
+    this.characterOffsets,
+  });
+
+  factory RealTimeContactAnalysisTranscriptItemWithCharacterOffsets.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisTranscriptItemWithCharacterOffsets(
+      id: json['Id'] as String,
+      characterOffsets: json['CharacterOffsets'] != null
+          ? RealTimeContactAnalysisCharacterInterval.fromJson(
+              json['CharacterOffsets'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final characterOffsets = this.characterOffsets;
+    return {
+      'Id': id,
+      if (characterOffsets != null) 'CharacterOffsets': characterOffsets,
+    };
+  }
+}
+
+/// Transcript representation containing Id, Content and list of character
+/// intervals that are associated with analysis data. For example, this object
+/// within an issue detected would describe both content that contains
+/// identified issue and intervals where that content is taken from.
+class RealTimeContactAnalysisTranscriptItemWithContent {
+  /// Transcript identifier. Matches the identifier from one of the
+  /// TranscriptSegments.
+  final String id;
+  final RealTimeContactAnalysisCharacterInterval? characterOffsets;
+
+  /// Part of the transcript content that contains identified issue. Can be
+  /// redacted
+  final String? content;
+
+  RealTimeContactAnalysisTranscriptItemWithContent({
+    required this.id,
+    this.characterOffsets,
+    this.content,
+  });
+
+  factory RealTimeContactAnalysisTranscriptItemWithContent.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisTranscriptItemWithContent(
+      id: json['Id'] as String,
+      characterOffsets: json['CharacterOffsets'] != null
+          ? RealTimeContactAnalysisCharacterInterval.fromJson(
+              json['CharacterOffsets'] as Map<String, dynamic>)
+          : null,
+      content: json['Content'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final characterOffsets = this.characterOffsets;
+    final content = this.content;
+    return {
+      'Id': id,
+      if (characterOffsets != null) 'CharacterOffsets': characterOffsets,
+      if (content != null) 'Content': content,
+    };
+  }
+}
+
+/// An analyzed segment for a real-time analysis session.
+class RealtimeContactAnalysisSegment {
+  /// The analyzed attachments.
+  final RealTimeContactAnalysisSegmentAttachments? attachments;
+  final RealTimeContactAnalysisSegmentCategories? categories;
+  final RealTimeContactAnalysisSegmentEvent? event;
+  final RealTimeContactAnalysisSegmentIssues? issues;
+  final RealTimeContactAnalysisSegmentTranscript? transcript;
+
+  RealtimeContactAnalysisSegment({
+    this.attachments,
+    this.categories,
+    this.event,
+    this.issues,
+    this.transcript,
+  });
+
+  factory RealtimeContactAnalysisSegment.fromJson(Map<String, dynamic> json) {
+    return RealtimeContactAnalysisSegment(
+      attachments: json['Attachments'] != null
+          ? RealTimeContactAnalysisSegmentAttachments.fromJson(
+              json['Attachments'] as Map<String, dynamic>)
+          : null,
+      categories: json['Categories'] != null
+          ? RealTimeContactAnalysisSegmentCategories.fromJson(
+              json['Categories'] as Map<String, dynamic>)
+          : null,
+      event: json['Event'] != null
+          ? RealTimeContactAnalysisSegmentEvent.fromJson(
+              json['Event'] as Map<String, dynamic>)
+          : null,
+      issues: json['Issues'] != null
+          ? RealTimeContactAnalysisSegmentIssues.fromJson(
+              json['Issues'] as Map<String, dynamic>)
+          : null,
+      transcript: json['Transcript'] != null
+          ? RealTimeContactAnalysisSegmentTranscript.fromJson(
+              json['Transcript'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachments = this.attachments;
+    final categories = this.categories;
+    final event = this.event;
+    final issues = this.issues;
+    final transcript = this.transcript;
+    return {
+      if (attachments != null) 'Attachments': attachments,
+      if (categories != null) 'Categories': categories,
+      if (event != null) 'Event': event,
+      if (issues != null) 'Issues': issues,
+      if (transcript != null) 'Transcript': transcript,
     };
   }
 }
@@ -21424,6 +31172,23 @@ class RequiredFieldInfo {
   }
 }
 
+/// The search criteria to be used to search tags.
+class ResourceTagsSearchCriteria {
+  /// The search criteria to be used to return tags.
+  final TagSearchCondition? tagSearchCondition;
+
+  ResourceTagsSearchCriteria({
+    this.tagSearchCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagSearchCondition = this.tagSearchCondition;
+    return {
+      if (tagSearchCondition != null) 'TagSearchCondition': tagSearchCondition,
+    };
+  }
+}
+
 class ResumeContactRecordingResponse {
   ResumeContactRecordingResponse();
 
@@ -21436,8 +31201,115 @@ class ResumeContactRecordingResponse {
   }
 }
 
+class ResumeContactResponse {
+  ResumeContactResponse();
+
+  factory ResumeContactResponse.fromJson(Map<String, dynamic> _) {
+    return ResumeContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Latest routing criteria on the contact.
+class RoutingCriteria {
+  /// The timestamp indicating when the routing criteria is set to active. A
+  /// routing criteria is activated when contact is transferred to a queue.
+  /// ActivationTimestamp will be set on routing criteria for contacts in agent
+  /// queue even though Routing criteria is never activated for contacts in agent
+  /// queue.
+  final DateTime? activationTimestamp;
+
+  /// Information about the index of the routing criteria.
+  final int? index;
+
+  /// List of routing steps. When Amazon Connect does not find an available agent
+  /// meeting the requirements in a step for a given step duration, the routing
+  /// criteria will move on to the next step sequentially until a join is
+  /// completed with an agent. When all steps are exhausted, the contact will be
+  /// offered to any agent in the queue.
+  final List<Step>? steps;
+
+  RoutingCriteria({
+    this.activationTimestamp,
+    this.index,
+    this.steps,
+  });
+
+  factory RoutingCriteria.fromJson(Map<String, dynamic> json) {
+    return RoutingCriteria(
+      activationTimestamp: timeStampFromJson(json['ActivationTimestamp']),
+      index: json['Index'] as int?,
+      steps: (json['Steps'] as List?)
+          ?.whereNotNull()
+          .map((e) => Step.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationTimestamp = this.activationTimestamp;
+    final index = this.index;
+    final steps = this.steps;
+    return {
+      if (activationTimestamp != null)
+        'ActivationTimestamp': unixTimestampToJson(activationTimestamp),
+      if (index != null) 'Index': index,
+      if (steps != null) 'Steps': steps,
+    };
+  }
+}
+
+enum RoutingCriteriaStepStatus {
+  active,
+  inactive,
+  joined,
+  expired,
+}
+
+extension RoutingCriteriaStepStatusValueExtension on RoutingCriteriaStepStatus {
+  String toValue() {
+    switch (this) {
+      case RoutingCriteriaStepStatus.active:
+        return 'ACTIVE';
+      case RoutingCriteriaStepStatus.inactive:
+        return 'INACTIVE';
+      case RoutingCriteriaStepStatus.joined:
+        return 'JOINED';
+      case RoutingCriteriaStepStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension RoutingCriteriaStepStatusFromString on String {
+  RoutingCriteriaStepStatus toRoutingCriteriaStepStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return RoutingCriteriaStepStatus.active;
+      case 'INACTIVE':
+        return RoutingCriteriaStepStatus.inactive;
+      case 'JOINED':
+        return RoutingCriteriaStepStatus.joined;
+      case 'EXPIRED':
+        return RoutingCriteriaStepStatus.expired;
+    }
+    throw Exception('$this is not known in enum RoutingCriteriaStepStatus');
+  }
+}
+
 /// Contains information about a routing profile.
 class RoutingProfile {
+  /// Whether agents with this routing profile will have their routing order
+  /// calculated based on <i>time since their last inbound contact</i> or
+  /// <i>longest idle time</i>.
+  final AgentAvailabilityTimer? agentAvailabilityTimer;
+
+  /// The IDs of the associated queue.
+  final List<String>? associatedQueueIds;
+
   /// The identifier of the default outbound queue for this routing profile.
   final String? defaultOutboundQueueId;
 
@@ -21448,6 +31320,15 @@ class RoutingProfile {
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
   final String? instanceId;
+
+  /// Whether this a default routing profile.
+  final bool? isDefault;
+
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
 
   /// The channels agents can handle in the Contact Control Panel (CCP) for this
   /// routing profile.
@@ -21469,13 +31350,18 @@ class RoutingProfile {
   final String? routingProfileId;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   RoutingProfile({
+    this.agentAvailabilityTimer,
+    this.associatedQueueIds,
     this.defaultOutboundQueueId,
     this.description,
     this.instanceId,
+    this.isDefault,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.mediaConcurrencies,
     this.name,
     this.numberOfAssociatedQueues,
@@ -21487,9 +31373,18 @@ class RoutingProfile {
 
   factory RoutingProfile.fromJson(Map<String, dynamic> json) {
     return RoutingProfile(
+      agentAvailabilityTimer: (json['AgentAvailabilityTimer'] as String?)
+          ?.toAgentAvailabilityTimer(),
+      associatedQueueIds: (json['AssociatedQueueIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       defaultOutboundQueueId: json['DefaultOutboundQueueId'] as String?,
       description: json['Description'] as String?,
       instanceId: json['InstanceId'] as String?,
+      isDefault: json['IsDefault'] as bool?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       mediaConcurrencies: (json['MediaConcurrencies'] as List?)
           ?.whereNotNull()
           .map((e) => MediaConcurrency.fromJson(e as Map<String, dynamic>))
@@ -21505,9 +31400,14 @@ class RoutingProfile {
   }
 
   Map<String, dynamic> toJson() {
+    final agentAvailabilityTimer = this.agentAvailabilityTimer;
+    final associatedQueueIds = this.associatedQueueIds;
     final defaultOutboundQueueId = this.defaultOutboundQueueId;
     final description = this.description;
     final instanceId = this.instanceId;
+    final isDefault = this.isDefault;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final mediaConcurrencies = this.mediaConcurrencies;
     final name = this.name;
     final numberOfAssociatedQueues = this.numberOfAssociatedQueues;
@@ -21516,10 +31416,17 @@ class RoutingProfile {
     final routingProfileId = this.routingProfileId;
     final tags = this.tags;
     return {
+      if (agentAvailabilityTimer != null)
+        'AgentAvailabilityTimer': agentAvailabilityTimer.toValue(),
+      if (associatedQueueIds != null) 'AssociatedQueueIds': associatedQueueIds,
       if (defaultOutboundQueueId != null)
         'DefaultOutboundQueueId': defaultOutboundQueueId,
       if (description != null) 'Description': description,
       if (instanceId != null) 'InstanceId': instanceId,
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (mediaConcurrencies != null) 'MediaConcurrencies': mediaConcurrencies,
       if (name != null) 'Name': name,
       if (numberOfAssociatedQueues != null)
@@ -21700,6 +31607,13 @@ class RoutingProfileSearchCriteria {
 
   /// A list of conditions which would be applied together with an OR condition.
   final List<RoutingProfileSearchCriteria>? orConditions;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>associatedQueueIds</code>, <code>name</code>,
+  /// <code>description</code>, and <code>resourceID</code>.
+  /// </note>
   final StringCondition? stringCondition;
 
   RoutingProfileSearchCriteria({
@@ -21744,12 +31658,20 @@ class RoutingProfileSummary {
   /// The identifier of the routing profile.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the routing profile.
   final String? name;
 
   RoutingProfileSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
   });
 
@@ -21757,6 +31679,8 @@ class RoutingProfileSummary {
     return RoutingProfileSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
   }
@@ -21764,10 +31688,15 @@ class RoutingProfileSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
     };
   }
@@ -21806,7 +31735,7 @@ class Rule {
   final RuleTriggerEventSource triggerEventSource;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   Rule({
@@ -21879,13 +31808,52 @@ class RuleAction {
   final ActionType actionType;
 
   /// Information about the contact category action.
+  ///
+  /// Supported only for <code>TriggerEventSource</code> values:
+  /// <code>OnPostCallAnalysisAvailable</code> |
+  /// <code>OnRealTimeCallAnalysisAvailable</code> |
+  /// <code>OnRealTimeChatAnalysisAvailable</code> |
+  /// <code>OnPostChatAnalysisAvailable</code> |
+  /// <code>OnZendeskTicketCreate</code> |
+  /// <code>OnZendeskTicketStatusUpdate</code> |
+  /// <code>OnSalesforceCaseCreate</code>
   final AssignContactCategoryActionDefinition? assignContactCategoryAction;
 
+  /// Information about the create case action.
+  ///
+  /// Supported only for <code>TriggerEventSource</code> values:
+  /// <code>OnPostCallAnalysisAvailable</code> |
+  /// <code>OnPostChatAnalysisAvailable</code>.
+  final CreateCaseActionDefinition? createCaseAction;
+
+  /// Information about the end associated tasks action.
+  ///
+  /// Supported only for <code>TriggerEventSource</code> values:
+  /// <code>OnCaseUpdate</code>.
+  final EndAssociatedTasksActionDefinition? endAssociatedTasksAction;
+
   /// Information about the EventBridge action.
+  ///
+  /// Supported only for <code>TriggerEventSource</code> values:
+  /// <code>OnPostCallAnalysisAvailable</code> |
+  /// <code>OnRealTimeCallAnalysisAvailable</code> |
+  /// <code>OnRealTimeChatAnalysisAvailable</code> |
+  /// <code>OnPostChatAnalysisAvailable</code> |
+  /// <code>OnContactEvaluationSubmit</code> | <code>OnMetricDataUpdate</code>
   final EventBridgeActionDefinition? eventBridgeAction;
 
   /// Information about the send notification action.
+  ///
+  /// Supported only for <code>TriggerEventSource</code> values:
+  /// <code>OnPostCallAnalysisAvailable</code> |
+  /// <code>OnRealTimeCallAnalysisAvailable</code> |
+  /// <code>OnRealTimeChatAnalysisAvailable</code> |
+  /// <code>OnPostChatAnalysisAvailable</code> |
+  /// <code>OnContactEvaluationSubmit</code> | <code>OnMetricDataUpdate</code>
   final SendNotificationActionDefinition? sendNotificationAction;
+
+  /// Information about the submit automated evaluation action.
+  final SubmitAutoEvaluationActionDefinition? submitAutoEvaluationAction;
 
   /// Information about the task action. This field is required if
   /// <code>TriggerEventSource</code> is one of the following values:
@@ -21894,12 +31862,22 @@ class RuleAction {
   /// <code>OnSalesforceCaseCreate</code>
   final TaskActionDefinition? taskAction;
 
+  /// Information about the update case action.
+  ///
+  /// Supported only for <code>TriggerEventSource</code> values:
+  /// <code>OnCaseCreate</code> | <code>OnCaseUpdate</code>.
+  final UpdateCaseActionDefinition? updateCaseAction;
+
   RuleAction({
     required this.actionType,
     this.assignContactCategoryAction,
+    this.createCaseAction,
+    this.endAssociatedTasksAction,
     this.eventBridgeAction,
     this.sendNotificationAction,
+    this.submitAutoEvaluationAction,
     this.taskAction,
+    this.updateCaseAction,
   });
 
   factory RuleAction.fromJson(Map<String, dynamic> json) {
@@ -21909,6 +31887,14 @@ class RuleAction {
           ? AssignContactCategoryActionDefinition.fromJson(
               json['AssignContactCategoryAction'] as Map<String, dynamic>)
           : null,
+      createCaseAction: json['CreateCaseAction'] != null
+          ? CreateCaseActionDefinition.fromJson(
+              json['CreateCaseAction'] as Map<String, dynamic>)
+          : null,
+      endAssociatedTasksAction: json['EndAssociatedTasksAction'] != null
+          ? EndAssociatedTasksActionDefinition.fromJson(
+              json['EndAssociatedTasksAction'] as Map<String, dynamic>)
+          : null,
       eventBridgeAction: json['EventBridgeAction'] != null
           ? EventBridgeActionDefinition.fromJson(
               json['EventBridgeAction'] as Map<String, dynamic>)
@@ -21917,9 +31903,17 @@ class RuleAction {
           ? SendNotificationActionDefinition.fromJson(
               json['SendNotificationAction'] as Map<String, dynamic>)
           : null,
+      submitAutoEvaluationAction: json['SubmitAutoEvaluationAction'] != null
+          ? SubmitAutoEvaluationActionDefinition.fromJson(
+              json['SubmitAutoEvaluationAction'] as Map<String, dynamic>)
+          : null,
       taskAction: json['TaskAction'] != null
           ? TaskActionDefinition.fromJson(
               json['TaskAction'] as Map<String, dynamic>)
+          : null,
+      updateCaseAction: json['UpdateCaseAction'] != null
+          ? UpdateCaseActionDefinition.fromJson(
+              json['UpdateCaseAction'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -21927,17 +31921,27 @@ class RuleAction {
   Map<String, dynamic> toJson() {
     final actionType = this.actionType;
     final assignContactCategoryAction = this.assignContactCategoryAction;
+    final createCaseAction = this.createCaseAction;
+    final endAssociatedTasksAction = this.endAssociatedTasksAction;
     final eventBridgeAction = this.eventBridgeAction;
     final sendNotificationAction = this.sendNotificationAction;
+    final submitAutoEvaluationAction = this.submitAutoEvaluationAction;
     final taskAction = this.taskAction;
+    final updateCaseAction = this.updateCaseAction;
     return {
       'ActionType': actionType.toValue(),
       if (assignContactCategoryAction != null)
         'AssignContactCategoryAction': assignContactCategoryAction,
+      if (createCaseAction != null) 'CreateCaseAction': createCaseAction,
+      if (endAssociatedTasksAction != null)
+        'EndAssociatedTasksAction': endAssociatedTasksAction,
       if (eventBridgeAction != null) 'EventBridgeAction': eventBridgeAction,
       if (sendNotificationAction != null)
         'SendNotificationAction': sendNotificationAction,
+      if (submitAutoEvaluationAction != null)
+        'SubmitAutoEvaluationAction': submitAutoEvaluationAction,
       if (taskAction != null) 'TaskAction': taskAction,
+      if (updateCaseAction != null) 'UpdateCaseAction': updateCaseAction,
     };
   }
 }
@@ -22050,7 +32054,8 @@ class RuleSummary {
 /// <code>TriggerEventSource</code> is one of the following values:
 /// <code>OnZendeskTicketCreate</code> |
 /// <code>OnZendeskTicketStatusUpdate</code> |
-/// <code>OnSalesforceCaseCreate</code>
+/// <code>OnSalesforceCaseCreate</code> | <code>OnContactEvaluationSubmit</code>
+/// | <code>OnMetricDataUpdate</code>.
 class RuleTriggerEventSource {
   /// The name of the event source.
   final EventSourceName eventSourceName;
@@ -22159,6 +32164,418 @@ class SearchAvailablePhoneNumbersResponse {
   }
 }
 
+class SearchContactFlowModulesResponse {
+  /// The total number of contact flows which matched your search query.
+  final int? approximateTotalCount;
+
+  /// The search criteria to be used to return contact flow modules.
+  final List<ContactFlowModule>? contactFlowModules;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  SearchContactFlowModulesResponse({
+    this.approximateTotalCount,
+    this.contactFlowModules,
+    this.nextToken,
+  });
+
+  factory SearchContactFlowModulesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchContactFlowModulesResponse(
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      contactFlowModules: (json['ContactFlowModules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContactFlowModule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateTotalCount = this.approximateTotalCount;
+    final contactFlowModules = this.contactFlowModules;
+    final nextToken = this.nextToken;
+    return {
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (contactFlowModules != null) 'ContactFlowModules': contactFlowModules,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class SearchContactFlowsResponse {
+  /// The total number of contact flows which matched your search query.
+  final int? approximateTotalCount;
+
+  /// Information about the contact flows.
+  final List<ContactFlow>? contactFlows;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  SearchContactFlowsResponse({
+    this.approximateTotalCount,
+    this.contactFlows,
+    this.nextToken,
+  });
+
+  factory SearchContactFlowsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchContactFlowsResponse(
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      contactFlows: (json['ContactFlows'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContactFlow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateTotalCount = this.approximateTotalCount;
+    final contactFlows = this.contactFlows;
+    final nextToken = this.nextToken;
+    return {
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (contactFlows != null) 'ContactFlows': contactFlows,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+enum SearchContactsMatchType {
+  matchAll,
+  matchAny,
+}
+
+extension SearchContactsMatchTypeValueExtension on SearchContactsMatchType {
+  String toValue() {
+    switch (this) {
+      case SearchContactsMatchType.matchAll:
+        return 'MATCH_ALL';
+      case SearchContactsMatchType.matchAny:
+        return 'MATCH_ANY';
+    }
+  }
+}
+
+extension SearchContactsMatchTypeFromString on String {
+  SearchContactsMatchType toSearchContactsMatchType() {
+    switch (this) {
+      case 'MATCH_ALL':
+        return SearchContactsMatchType.matchAll;
+      case 'MATCH_ANY':
+        return SearchContactsMatchType.matchAny;
+    }
+    throw Exception('$this is not known in enum SearchContactsMatchType');
+  }
+}
+
+class SearchContactsResponse {
+  /// Information about the contacts.
+  final List<ContactSearchSummary> contacts;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// The total number of contacts which matched your search query.
+  final int? totalCount;
+
+  SearchContactsResponse({
+    required this.contacts,
+    this.nextToken,
+    this.totalCount,
+  });
+
+  factory SearchContactsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchContactsResponse(
+      contacts: (json['Contacts'] as List)
+          .whereNotNull()
+          .map((e) => ContactSearchSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contacts = this.contacts;
+    final nextToken = this.nextToken;
+    final totalCount = this.totalCount;
+    return {
+      'Contacts': contacts,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
+}
+
+/// A structure of time range that you want to search results.
+class SearchContactsTimeRange {
+  /// The end time of the time range.
+  final DateTime endTime;
+
+  /// The start time of the time range.
+  final DateTime startTime;
+
+  /// The type of timestamp to search.
+  final SearchContactsTimeRangeType type;
+
+  SearchContactsTimeRange({
+    required this.endTime,
+    required this.startTime,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final type = this.type;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+      'Type': type.toValue(),
+    };
+  }
+}
+
+enum SearchContactsTimeRangeType {
+  initiationTimestamp,
+  scheduledTimestamp,
+  connectedToAgentTimestamp,
+  disconnectTimestamp,
+}
+
+extension SearchContactsTimeRangeTypeValueExtension
+    on SearchContactsTimeRangeType {
+  String toValue() {
+    switch (this) {
+      case SearchContactsTimeRangeType.initiationTimestamp:
+        return 'INITIATION_TIMESTAMP';
+      case SearchContactsTimeRangeType.scheduledTimestamp:
+        return 'SCHEDULED_TIMESTAMP';
+      case SearchContactsTimeRangeType.connectedToAgentTimestamp:
+        return 'CONNECTED_TO_AGENT_TIMESTAMP';
+      case SearchContactsTimeRangeType.disconnectTimestamp:
+        return 'DISCONNECT_TIMESTAMP';
+    }
+  }
+}
+
+extension SearchContactsTimeRangeTypeFromString on String {
+  SearchContactsTimeRangeType toSearchContactsTimeRangeType() {
+    switch (this) {
+      case 'INITIATION_TIMESTAMP':
+        return SearchContactsTimeRangeType.initiationTimestamp;
+      case 'SCHEDULED_TIMESTAMP':
+        return SearchContactsTimeRangeType.scheduledTimestamp;
+      case 'CONNECTED_TO_AGENT_TIMESTAMP':
+        return SearchContactsTimeRangeType.connectedToAgentTimestamp;
+      case 'DISCONNECT_TIMESTAMP':
+        return SearchContactsTimeRangeType.disconnectTimestamp;
+    }
+    throw Exception('$this is not known in enum SearchContactsTimeRangeType');
+  }
+}
+
+/// A structure of search criteria to be used to return contacts.
+class SearchCriteria {
+  /// The agent hierarchy groups of the agent at the time of handling the contact.
+  final AgentHierarchyGroups? agentHierarchyGroups;
+
+  /// The identifiers of agents who handled the contacts.
+  final List<String>? agentIds;
+
+  /// The list of channels associated with contacts.
+  final List<Channel>? channels;
+
+  /// Search criteria based on analysis outputs from Amazon Connect Contact Lens.
+  final ContactAnalysis? contactAnalysis;
+
+  /// The list of initiation methods associated with contacts.
+  final List<ContactInitiationMethod>? initiationMethods;
+
+  /// The list of queue IDs associated with contacts.
+  final List<String>? queueIds;
+
+  /// The search criteria based on user-defined contact attributes that have been
+  /// configured for contact search. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html">Search
+  /// by customer contact attributes</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  /// <important>
+  /// To use <code>SearchableContactAttributes</code> in a search request, the
+  /// <code>GetContactAttributes</code> action is required to perform an API
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions">https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions</a>Actions
+  /// defined by Amazon Connect.
+  /// </important>
+  final SearchableContactAttributes? searchableContactAttributes;
+
+  SearchCriteria({
+    this.agentHierarchyGroups,
+    this.agentIds,
+    this.channels,
+    this.contactAnalysis,
+    this.initiationMethods,
+    this.queueIds,
+    this.searchableContactAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final agentHierarchyGroups = this.agentHierarchyGroups;
+    final agentIds = this.agentIds;
+    final channels = this.channels;
+    final contactAnalysis = this.contactAnalysis;
+    final initiationMethods = this.initiationMethods;
+    final queueIds = this.queueIds;
+    final searchableContactAttributes = this.searchableContactAttributes;
+    return {
+      if (agentHierarchyGroups != null)
+        'AgentHierarchyGroups': agentHierarchyGroups,
+      if (agentIds != null) 'AgentIds': agentIds,
+      if (channels != null)
+        'Channels': channels.map((e) => e.toValue()).toList(),
+      if (contactAnalysis != null) 'ContactAnalysis': contactAnalysis,
+      if (initiationMethods != null)
+        'InitiationMethods': initiationMethods.map((e) => e.toValue()).toList(),
+      if (queueIds != null) 'QueueIds': queueIds,
+      if (searchableContactAttributes != null)
+        'SearchableContactAttributes': searchableContactAttributes,
+    };
+  }
+}
+
+class SearchHoursOfOperationsResponse {
+  /// The total number of hours of operations which matched your search query.
+  final int? approximateTotalCount;
+
+  /// Information about the hours of operations.
+  final List<HoursOfOperation>? hoursOfOperations;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  SearchHoursOfOperationsResponse({
+    this.approximateTotalCount,
+    this.hoursOfOperations,
+    this.nextToken,
+  });
+
+  factory SearchHoursOfOperationsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchHoursOfOperationsResponse(
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      hoursOfOperations: (json['HoursOfOperations'] as List?)
+          ?.whereNotNull()
+          .map((e) => HoursOfOperation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateTotalCount = this.approximateTotalCount;
+    final hoursOfOperations = this.hoursOfOperations;
+    final nextToken = this.nextToken;
+    return {
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (hoursOfOperations != null) 'HoursOfOperations': hoursOfOperations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class SearchPredefinedAttributesResponse {
+  /// The approximate number of predefined attributes which matched your search
+  /// query.
+  final int? approximateTotalCount;
+
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  final String? nextToken;
+
+  /// Predefined attributes matched by the search criteria.
+  final List<PredefinedAttribute>? predefinedAttributes;
+
+  SearchPredefinedAttributesResponse({
+    this.approximateTotalCount,
+    this.nextToken,
+    this.predefinedAttributes,
+  });
+
+  factory SearchPredefinedAttributesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SearchPredefinedAttributesResponse(
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      nextToken: json['NextToken'] as String?,
+      predefinedAttributes: (json['PredefinedAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => PredefinedAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateTotalCount = this.approximateTotalCount;
+    final nextToken = this.nextToken;
+    final predefinedAttributes = this.predefinedAttributes;
+    return {
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (predefinedAttributes != null)
+        'PredefinedAttributes': predefinedAttributes,
+    };
+  }
+}
+
+class SearchPromptsResponse {
+  /// The total number of quick connects which matched your search query.
+  final int? approximateTotalCount;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// Information about the prompts.
+  final List<Prompt>? prompts;
+
+  SearchPromptsResponse({
+    this.approximateTotalCount,
+    this.nextToken,
+    this.prompts,
+  });
+
+  factory SearchPromptsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchPromptsResponse(
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      nextToken: json['NextToken'] as String?,
+      prompts: (json['Prompts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Prompt.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateTotalCount = this.approximateTotalCount;
+    final nextToken = this.nextToken;
+    final prompts = this.prompts;
+    return {
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (prompts != null) 'Prompts': prompts,
+    };
+  }
+}
+
 class SearchQueuesResponse {
   /// The total number of queues which matched your search query.
   final int? approximateTotalCount;
@@ -22196,6 +32613,80 @@ class SearchQueuesResponse {
         'ApproximateTotalCount': approximateTotalCount,
       if (nextToken != null) 'NextToken': nextToken,
       if (queues != null) 'Queues': queues,
+    };
+  }
+}
+
+class SearchQuickConnectsResponse {
+  /// The total number of quick connects which matched your search query.
+  final int? approximateTotalCount;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// Information about the quick connects.
+  final List<QuickConnect>? quickConnects;
+
+  SearchQuickConnectsResponse({
+    this.approximateTotalCount,
+    this.nextToken,
+    this.quickConnects,
+  });
+
+  factory SearchQuickConnectsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchQuickConnectsResponse(
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      nextToken: json['NextToken'] as String?,
+      quickConnects: (json['QuickConnects'] as List?)
+          ?.whereNotNull()
+          .map((e) => QuickConnect.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateTotalCount = this.approximateTotalCount;
+    final nextToken = this.nextToken;
+    final quickConnects = this.quickConnects;
+    return {
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (quickConnects != null) 'QuickConnects': quickConnects,
+    };
+  }
+}
+
+class SearchResourceTagsResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// A list of tags used in the Amazon Connect instance.
+  final List<TagSet>? tags;
+
+  SearchResourceTagsResponse({
+    this.nextToken,
+    this.tags,
+  });
+
+  factory SearchResourceTagsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchResourceTagsResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -22358,6 +32849,56 @@ class SearchVocabulariesResponse {
   }
 }
 
+/// A structure that defines search criteria based on user-defined contact
+/// attributes that are configured for contact search.
+class SearchableContactAttributes {
+  /// The list of criteria based on user-defined contact attributes that are
+  /// configured for contact search.
+  final List<SearchableContactAttributesCriteria> criteria;
+
+  /// The match type combining search criteria using multiple searchable contact
+  /// attributes.
+  final SearchContactsMatchType? matchType;
+
+  SearchableContactAttributes({
+    required this.criteria,
+    this.matchType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final criteria = this.criteria;
+    final matchType = this.matchType;
+    return {
+      'Criteria': criteria,
+      if (matchType != null) 'MatchType': matchType.toValue(),
+    };
+  }
+}
+
+/// The search criteria based on user-defned contact attribute key and values to
+/// search on.
+class SearchableContactAttributesCriteria {
+  /// The key containing a searchable user-defined contact attribute.
+  final String key;
+
+  /// The list of values to search for within a user-defined contact attribute.
+  final List<String> values;
+
+  SearchableContactAttributesCriteria({
+    required this.key,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key,
+      'Values': values,
+    };
+  }
+}
+
 enum SearchableQueueType {
   standard,
 }
@@ -22422,6 +32963,10 @@ class SecurityKey {
 
 /// Contains information about a security profile.
 class SecurityProfile {
+  /// The identifier of the hierarchy group that a security profile uses to
+  /// restrict access to resources in Amazon Connect.
+  final String? allowedAccessControlHierarchyGroupId;
+
   /// The list of tags that a security profile uses to restrict access to
   /// resources in Amazon Connect.
   final Map<String, String>? allowedAccessControlTags;
@@ -22432,8 +32977,19 @@ class SecurityProfile {
   /// The description of the security profile.
   final String? description;
 
+  /// The list of resources that a security profile applies hierarchy restrictions
+  /// to in Amazon Connect. Following are acceptable ResourceNames:
+  /// <code>User</code>.
+  final List<String>? hierarchyRestrictedResources;
+
   /// The identifier for the security profile.
   final String? id;
+
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
 
   /// The organization resource identifier for the security profile.
   final String? organizationResourceId;
@@ -22446,14 +33002,18 @@ class SecurityProfile {
   final List<String>? tagRestrictedResources;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   SecurityProfile({
+    this.allowedAccessControlHierarchyGroupId,
     this.allowedAccessControlTags,
     this.arn,
     this.description,
+    this.hierarchyRestrictedResources,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.organizationResourceId,
     this.securityProfileName,
     this.tagRestrictedResources,
@@ -22462,12 +33022,21 @@ class SecurityProfile {
 
   factory SecurityProfile.fromJson(Map<String, dynamic> json) {
     return SecurityProfile(
+      allowedAccessControlHierarchyGroupId:
+          json['AllowedAccessControlHierarchyGroupId'] as String?,
       allowedAccessControlTags:
           (json['AllowedAccessControlTags'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       arn: json['Arn'] as String?,
       description: json['Description'] as String?,
+      hierarchyRestrictedResources:
+          (json['HierarchyRestrictedResources'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       organizationResourceId: json['OrganizationResourceId'] as String?,
       securityProfileName: json['SecurityProfileName'] as String?,
       tagRestrictedResources: (json['TagRestrictedResources'] as List?)
@@ -22480,20 +33049,33 @@ class SecurityProfile {
   }
 
   Map<String, dynamic> toJson() {
+    final allowedAccessControlHierarchyGroupId =
+        this.allowedAccessControlHierarchyGroupId;
     final allowedAccessControlTags = this.allowedAccessControlTags;
     final arn = this.arn;
     final description = this.description;
+    final hierarchyRestrictedResources = this.hierarchyRestrictedResources;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final organizationResourceId = this.organizationResourceId;
     final securityProfileName = this.securityProfileName;
     final tagRestrictedResources = this.tagRestrictedResources;
     final tags = this.tags;
     return {
+      if (allowedAccessControlHierarchyGroupId != null)
+        'AllowedAccessControlHierarchyGroupId':
+            allowedAccessControlHierarchyGroupId,
       if (allowedAccessControlTags != null)
         'AllowedAccessControlTags': allowedAccessControlTags,
       if (arn != null) 'Arn': arn,
       if (description != null) 'Description': description,
+      if (hierarchyRestrictedResources != null)
+        'HierarchyRestrictedResources': hierarchyRestrictedResources,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (organizationResourceId != null)
         'OrganizationResourceId': organizationResourceId,
       if (securityProfileName != null)
@@ -22555,7 +33137,7 @@ class SecurityProfileSearchSummary {
   final String? securityProfileName;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   SecurityProfileSearchSummary({
@@ -22607,12 +33189,20 @@ class SecurityProfileSummary {
   /// The identifier of the security profile.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the security profile.
   final String? name;
 
   SecurityProfileSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.name,
   });
 
@@ -22620,6 +33210,8 @@ class SecurityProfileSummary {
     return SecurityProfileSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
   }
@@ -22627,10 +33219,15 @@ class SecurityProfileSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
     };
   }
@@ -22648,6 +33245,62 @@ class SecurityProfilesSearchFilter {
     final tagFilter = this.tagFilter;
     return {
       if (tagFilter != null) 'TagFilter': tagFilter,
+    };
+  }
+}
+
+/// A value for a segment attribute. This is structured as a map where the key
+/// is <code>valueString</code> and the value is a string.
+class SegmentAttributeValue {
+  /// The value of a segment attribute.
+  final String? valueString;
+
+  SegmentAttributeValue({
+    this.valueString,
+  });
+
+  factory SegmentAttributeValue.fromJson(Map<String, dynamic> json) {
+    return SegmentAttributeValue(
+      valueString: json['ValueString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final valueString = this.valueString;
+    return {
+      if (valueString != null) 'ValueString': valueString,
+    };
+  }
+}
+
+class SendChatIntegrationEventResponse {
+  /// Identifier of chat contact used to handle integration event. This may be
+  /// null if the integration event is not valid without an already existing chat
+  /// contact.
+  final String? initialContactId;
+
+  /// Whether handling the integration event resulted in creating a new chat or
+  /// acting on existing chat.
+  final bool? newChatCreated;
+
+  SendChatIntegrationEventResponse({
+    this.initialContactId,
+    this.newChatCreated,
+  });
+
+  factory SendChatIntegrationEventResponse.fromJson(Map<String, dynamic> json) {
+    return SendChatIntegrationEventResponse(
+      initialContactId: json['InitialContactId'] as String?,
+      newChatCreated: json['NewChatCreated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initialContactId = this.initialContactId;
+    final newChatCreated = this.newChatCreated;
+    return {
+      if (initialContactId != null) 'InitialContactId': initialContactId,
+      if (newChatCreated != null) 'NewChatCreated': newChatCreated,
     };
   }
 }
@@ -22707,6 +33360,63 @@ class SendNotificationActionDefinition {
       'DeliveryMethod': deliveryMethod.toValue(),
       'Recipient': recipient,
       if (subject != null) 'Subject': subject,
+    };
+  }
+}
+
+/// The distribution that determines which Amazon Web Services Regions should be
+/// used to sign in agents in to both the instance and its replica(s).
+class SignInConfig {
+  /// Information about traffic distributions.
+  final List<SignInDistribution> distributions;
+
+  SignInConfig({
+    required this.distributions,
+  });
+
+  factory SignInConfig.fromJson(Map<String, dynamic> json) {
+    return SignInConfig(
+      distributions: (json['Distributions'] as List)
+          .whereNotNull()
+          .map((e) => SignInDistribution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributions = this.distributions;
+    return {
+      'Distributions': distributions,
+    };
+  }
+}
+
+/// The distribution of sign in traffic between the instance and its replica(s).
+class SignInDistribution {
+  /// Whether sign in distribution is enabled.
+  final bool enabled;
+
+  /// The Amazon Web Services Region of the sign in distribution.
+  final String region;
+
+  SignInDistribution({
+    required this.enabled,
+    required this.region,
+  });
+
+  factory SignInDistribution.fromJson(Map<String, dynamic> json) {
+    return SignInDistribution(
+      enabled: json['Enabled'] as bool,
+      region: json['Region'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final region = this.region;
+    return {
+      'Enabled': enabled,
+      'Region': region,
     };
   }
 }
@@ -22787,6 +33497,29 @@ extension SingleSelectQuestionRuleCategoryAutomationConditionFromString
   }
 }
 
+/// A structure that defineds the field name to sort by and a sort order.
+class Sort {
+  /// The name of the field on which to sort.
+  final SortableFieldName fieldName;
+
+  /// An ascending or descending sort.
+  final SortOrder order;
+
+  Sort({
+    required this.fieldName,
+    required this.order,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final order = this.order;
+    return {
+      'FieldName': fieldName.toValue(),
+      'Order': order.toValue(),
+    };
+  }
+}
+
 enum SortOrder {
   ascending,
   descending,
@@ -22815,9 +33548,58 @@ extension SortOrderFromString on String {
   }
 }
 
+enum SortableFieldName {
+  initiationTimestamp,
+  scheduledTimestamp,
+  connectedToAgentTimestamp,
+  disconnectTimestamp,
+  initiationMethod,
+  channel,
+}
+
+extension SortableFieldNameValueExtension on SortableFieldName {
+  String toValue() {
+    switch (this) {
+      case SortableFieldName.initiationTimestamp:
+        return 'INITIATION_TIMESTAMP';
+      case SortableFieldName.scheduledTimestamp:
+        return 'SCHEDULED_TIMESTAMP';
+      case SortableFieldName.connectedToAgentTimestamp:
+        return 'CONNECTED_TO_AGENT_TIMESTAMP';
+      case SortableFieldName.disconnectTimestamp:
+        return 'DISCONNECT_TIMESTAMP';
+      case SortableFieldName.initiationMethod:
+        return 'INITIATION_METHOD';
+      case SortableFieldName.channel:
+        return 'CHANNEL';
+    }
+  }
+}
+
+extension SortableFieldNameFromString on String {
+  SortableFieldName toSortableFieldName() {
+    switch (this) {
+      case 'INITIATION_TIMESTAMP':
+        return SortableFieldName.initiationTimestamp;
+      case 'SCHEDULED_TIMESTAMP':
+        return SortableFieldName.scheduledTimestamp;
+      case 'CONNECTED_TO_AGENT_TIMESTAMP':
+        return SortableFieldName.connectedToAgentTimestamp;
+      case 'DISCONNECT_TIMESTAMP':
+        return SortableFieldName.disconnectTimestamp;
+      case 'INITIATION_METHOD':
+        return SortableFieldName.initiationMethod;
+      case 'CHANNEL':
+        return SortableFieldName.channel;
+    }
+    throw Exception('$this is not known in enum SortableFieldName');
+  }
+}
+
 enum SourceType {
   salesforce,
   zendesk,
+  cases,
 }
 
 extension SourceTypeValueExtension on SourceType {
@@ -22827,6 +33609,8 @@ extension SourceTypeValueExtension on SourceType {
         return 'SALESFORCE';
       case SourceType.zendesk:
         return 'ZENDESK';
+      case SourceType.cases:
+        return 'CASES';
     }
   }
 }
@@ -22838,8 +33622,75 @@ extension SourceTypeFromString on String {
         return SourceType.salesforce;
       case 'ZENDESK':
         return SourceType.zendesk;
+      case 'CASES':
+        return SourceType.cases;
     }
     throw Exception('$this is not known in enum SourceType');
+  }
+}
+
+/// Response from StartAttachedFileUpload API.
+class StartAttachedFileUploadResponse {
+  /// Represents the identity that created the file.
+  final CreatedByInfo? createdBy;
+
+  /// The time of Creation of the file resource as an ISO timestamp. It's
+  /// specified in ISO 8601 format: <code>yyyy-MM-ddThh:mm:ss.SSSZ</code>. For
+  /// example, <code>2024-05-03T02:41:28.172Z</code>.
+  final String? creationTime;
+
+  /// The unique identifier of the attached file resource (ARN).
+  final String? fileArn;
+
+  /// The unique identifier of the attached file resource.
+  final String? fileId;
+
+  /// The current status of the attached file.
+  final FileStatusType? fileStatus;
+
+  /// Information to be used while uploading the attached file.
+  final UploadUrlMetadata? uploadUrlMetadata;
+
+  StartAttachedFileUploadResponse({
+    this.createdBy,
+    this.creationTime,
+    this.fileArn,
+    this.fileId,
+    this.fileStatus,
+    this.uploadUrlMetadata,
+  });
+
+  factory StartAttachedFileUploadResponse.fromJson(Map<String, dynamic> json) {
+    return StartAttachedFileUploadResponse(
+      createdBy: json['CreatedBy'] != null
+          ? CreatedByInfo.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationTime: json['CreationTime'] as String?,
+      fileArn: json['FileArn'] as String?,
+      fileId: json['FileId'] as String?,
+      fileStatus: (json['FileStatus'] as String?)?.toFileStatusType(),
+      uploadUrlMetadata: json['UploadUrlMetadata'] != null
+          ? UploadUrlMetadata.fromJson(
+              json['UploadUrlMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdBy = this.createdBy;
+    final creationTime = this.creationTime;
+    final fileArn = this.fileArn;
+    final fileId = this.fileId;
+    final fileStatus = this.fileStatus;
+    final uploadUrlMetadata = this.uploadUrlMetadata;
+    return {
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (creationTime != null) 'CreationTime': creationTime,
+      if (fileArn != null) 'FileArn': fileArn,
+      if (fileId != null) 'FileId': fileId,
+      if (fileStatus != null) 'FileStatus': fileStatus.toValue(),
+      if (uploadUrlMetadata != null) 'UploadUrlMetadata': uploadUrlMetadata,
+    };
   }
 }
 
@@ -22999,6 +33850,57 @@ class StartTaskContactResponse {
   }
 }
 
+class StartWebRTCContactResponse {
+  /// Information required for the client application (mobile application or
+  /// website) to connect to the call.
+  final ConnectionData? connectionData;
+
+  /// The identifier of the contact in this instance of Amazon Connect.
+  final String? contactId;
+
+  /// The identifier for a contact participant. The <code>ParticipantId</code> for
+  /// a contact participant is the same throughout the contact lifecycle.
+  final String? participantId;
+
+  /// The token used by the contact participant to call the <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html">CreateParticipantConnection</a>
+  /// API. The participant token is valid for the lifetime of a contact
+  /// participant.
+  final String? participantToken;
+
+  StartWebRTCContactResponse({
+    this.connectionData,
+    this.contactId,
+    this.participantId,
+    this.participantToken,
+  });
+
+  factory StartWebRTCContactResponse.fromJson(Map<String, dynamic> json) {
+    return StartWebRTCContactResponse(
+      connectionData: json['ConnectionData'] != null
+          ? ConnectionData.fromJson(
+              json['ConnectionData'] as Map<String, dynamic>)
+          : null,
+      contactId: json['ContactId'] as String?,
+      participantId: json['ParticipantId'] as String?,
+      participantToken: json['ParticipantToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionData = this.connectionData;
+    final contactId = this.contactId;
+    final participantId = this.participantId;
+    final participantToken = this.participantToken;
+    return {
+      if (connectionData != null) 'ConnectionData': connectionData,
+      if (contactId != null) 'ContactId': contactId,
+      if (participantId != null) 'ParticipantId': participantId,
+      if (participantToken != null) 'ParticipantToken': participantToken,
+    };
+  }
+}
+
 enum Statistic {
   sum,
   max,
@@ -23029,6 +33931,47 @@ extension StatisticFromString on String {
         return Statistic.avg;
     }
     throw Exception('$this is not known in enum Statistic');
+  }
+}
+
+/// Step signifies the criteria to be used for routing to an agent
+class Step {
+  /// An object to specify the expiration of a routing step.
+  final Expiry? expiry;
+
+  /// A tagged union to specify expression for a routing step.
+  final Expression? expression;
+
+  /// Represents status of the Routing step.
+  final RoutingCriteriaStepStatus? status;
+
+  Step({
+    this.expiry,
+    this.expression,
+    this.status,
+  });
+
+  factory Step.fromJson(Map<String, dynamic> json) {
+    return Step(
+      expiry: json['Expiry'] != null
+          ? Expiry.fromJson(json['Expiry'] as Map<String, dynamic>)
+          : null,
+      expression: json['Expression'] != null
+          ? Expression.fromJson(json['Expression'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toRoutingCriteriaStepStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expiry = this.expiry;
+    final expression = this.expression;
+    final status = this.status;
+    return {
+      if (expiry != null) 'Expiry': expiry,
+      if (expression != null) 'Expression': expression,
+      if (status != null) 'Status': status.toValue(),
+    };
   }
 }
 
@@ -23141,7 +34084,8 @@ extension StringComparisonTypeFromString on String {
 
 /// A leaf node condition which can be used to specify a string condition.
 /// <note>
-/// The currently supported value for <code>FieldName</code>: <code>name</code>
+/// The currently supported values for <code>FieldName</code> are
+/// <code>name</code> and <code>description</code>.
 /// </note>
 class StringCondition {
   /// The type of comparison to be made when evaluating the string condition.
@@ -23202,6 +34146,30 @@ class StringReference {
   }
 }
 
+/// Information about the submit automated evaluation action.
+class SubmitAutoEvaluationActionDefinition {
+  /// The identifier of the auto-evaluation enabled form.
+  final String evaluationFormId;
+
+  SubmitAutoEvaluationActionDefinition({
+    required this.evaluationFormId,
+  });
+
+  factory SubmitAutoEvaluationActionDefinition.fromJson(
+      Map<String, dynamic> json) {
+    return SubmitAutoEvaluationActionDefinition(
+      evaluationFormId: json['EvaluationFormId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationFormId = this.evaluationFormId;
+    return {
+      'EvaluationFormId': evaluationFormId,
+    };
+  }
+}
+
 class SubmitContactEvaluationResponse {
   /// The Amazon Resource Name (ARN) for the contact evaluation resource.
   final String evaluationArn;
@@ -23227,6 +34195,37 @@ class SubmitContactEvaluationResponse {
     return {
       'EvaluationArn': evaluationArn,
       'EvaluationId': evaluationId,
+    };
+  }
+}
+
+/// Request for which contact was successfully created.
+class SuccessfulRequest {
+  /// The contactId of the contact that was created successfully.
+  final String? contactId;
+
+  /// Request identifier provided in the API call in the ContactDataRequest to
+  /// create a contact.
+  final String? requestIdentifier;
+
+  SuccessfulRequest({
+    this.contactId,
+    this.requestIdentifier,
+  });
+
+  factory SuccessfulRequest.fromJson(Map<String, dynamic> json) {
+    return SuccessfulRequest(
+      contactId: json['ContactId'] as String?,
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (contactId != null) 'ContactId': contactId,
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
     };
   }
 }
@@ -23263,6 +34262,87 @@ class TagCondition {
     return {
       if (tagKey != null) 'TagKey': tagKey,
       if (tagValue != null) 'TagValue': tagValue,
+    };
+  }
+}
+
+class TagContactResponse {
+  TagContactResponse();
+
+  factory TagContactResponse.fromJson(Map<String, dynamic> _) {
+    return TagContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The search criteria to be used to return tags.
+class TagSearchCondition {
+  /// The tag key used in the tag search condition.
+  final String? tagKey;
+
+  /// The type of comparison to be made when evaluating the tag key in tag search
+  /// condition.
+  final StringComparisonType? tagKeyComparisonType;
+
+  /// The tag value used in the tag search condition.
+  final String? tagValue;
+
+  /// The type of comparison to be made when evaluating the tag value in tag
+  /// search condition.
+  final StringComparisonType? tagValueComparisonType;
+
+  TagSearchCondition({
+    this.tagKey,
+    this.tagKeyComparisonType,
+    this.tagValue,
+    this.tagValueComparisonType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagKey = this.tagKey;
+    final tagKeyComparisonType = this.tagKeyComparisonType;
+    final tagValue = this.tagValue;
+    final tagValueComparisonType = this.tagValueComparisonType;
+    return {
+      if (tagKey != null) 'tagKey': tagKey,
+      if (tagKeyComparisonType != null)
+        'tagKeyComparisonType': tagKeyComparisonType.toValue(),
+      if (tagValue != null) 'tagValue': tagValue,
+      if (tagValueComparisonType != null)
+        'tagValueComparisonType': tagValueComparisonType.toValue(),
+    };
+  }
+}
+
+/// A tag set contains tag key and tag value.
+class TagSet {
+  /// The tag key in the tagSet.
+  final String? key;
+
+  /// The tag value in the tagSet.
+  final String? value;
+
+  TagSet({
+    this.key,
+    this.value,
+  });
+
+  factory TagSet.fromJson(Map<String, dynamic> json) {
+    return TagSet(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
     };
   }
 }
@@ -23803,6 +34883,23 @@ class TrafficDistributionGroup {
   /// The Amazon Resource Name (ARN).
   final String? instanceArn;
 
+  /// Whether this is the default traffic distribution group created during
+  /// instance replication. The default traffic distribution group cannot be
+  /// deleted by the <code>DeleteTrafficDistributionGroup</code> API. The default
+  /// traffic distribution group is deleted as part of the process for deleting a
+  /// replica.
+  /// <note>
+  /// The <code>SignInConfig</code> distribution is available only on a default
+  /// <code>TrafficDistributionGroup</code> (see the <code>IsDefault</code>
+  /// parameter in the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html">TrafficDistributionGroup</a>
+  /// data type). If you call <code>UpdateTrafficDistribution</code> with a
+  /// modified <code>SignInConfig</code> and a non-default
+  /// <code>TrafficDistributionGroup</code>, an
+  /// <code>InvalidRequestException</code> is returned.
+  /// </note>
+  final bool? isDefault;
+
   /// The name of the traffic distribution group.
   final String? name;
 
@@ -23836,14 +34933,14 @@ class TrafficDistributionGroup {
   /// </li>
   /// <li>
   /// <code>UPDATE_IN_PROGRESS</code> means the previous <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateTrafficDistributionGroup.html">UpdateTrafficDistributionGroup</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateTrafficDistribution.html">UpdateTrafficDistribution</a>
   /// operation is still in progress and has not yet completed.
   /// </li>
   /// </ul>
   final TrafficDistributionGroupStatus? status;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   TrafficDistributionGroup({
@@ -23851,6 +34948,7 @@ class TrafficDistributionGroup {
     this.description,
     this.id,
     this.instanceArn,
+    this.isDefault,
     this.name,
     this.status,
     this.tags,
@@ -23862,6 +34960,7 @@ class TrafficDistributionGroup {
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       instanceArn: json['InstanceArn'] as String?,
+      isDefault: json['IsDefault'] as bool?,
       name: json['Name'] as String?,
       status: (json['Status'] as String?)?.toTrafficDistributionGroupStatus(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -23874,6 +34973,7 @@ class TrafficDistributionGroup {
     final description = this.description;
     final id = this.id;
     final instanceArn = this.instanceArn;
+    final isDefault = this.isDefault;
     final name = this.name;
     final status = this.status;
     final tags = this.tags;
@@ -23882,6 +34982,7 @@ class TrafficDistributionGroup {
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (instanceArn != null) 'InstanceArn': instanceArn,
+      if (isDefault != null) 'IsDefault': isDefault,
       if (name != null) 'Name': name,
       if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
@@ -23953,6 +35054,13 @@ class TrafficDistributionGroupSummary {
   /// The Amazon Resource Name (ARN) of the traffic distribution group.
   final String? instanceArn;
 
+  /// Whether this is the default traffic distribution group created during
+  /// instance replication. The default traffic distribution group cannot be
+  /// deleted by the <code>DeleteTrafficDistributionGroup</code> API. The default
+  /// traffic distribution group is deleted as part of the process for deleting a
+  /// replica.
+  final bool? isDefault;
+
   /// The name of the traffic distribution group.
   final String? name;
 
@@ -23996,6 +35104,7 @@ class TrafficDistributionGroupSummary {
     this.arn,
     this.id,
     this.instanceArn,
+    this.isDefault,
     this.name,
     this.status,
   });
@@ -24005,6 +35114,7 @@ class TrafficDistributionGroupSummary {
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
       instanceArn: json['InstanceArn'] as String?,
+      isDefault: json['IsDefault'] as bool?,
       name: json['Name'] as String?,
       status: (json['Status'] as String?)?.toTrafficDistributionGroupStatus(),
     );
@@ -24014,14 +35124,40 @@ class TrafficDistributionGroupSummary {
     final arn = this.arn;
     final id = this.id;
     final instanceArn = this.instanceArn;
+    final isDefault = this.isDefault;
     final name = this.name;
     final status = this.status;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
       if (instanceArn != null) 'InstanceArn': instanceArn,
+      if (isDefault != null) 'IsDefault': isDefault,
       if (name != null) 'Name': name,
       if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// Summary information about a traffic distribution group user.
+class TrafficDistributionGroupUserSummary {
+  /// The identifier for the user. This can be the ID or the ARN of the user.
+  final String? userId;
+
+  TrafficDistributionGroupUserSummary({
+    this.userId,
+  });
+
+  factory TrafficDistributionGroupUserSummary.fromJson(
+      Map<String, dynamic> json) {
+    return TrafficDistributionGroupUserSummary(
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    return {
+      if (userId != null) 'UserId': userId,
     };
   }
 }
@@ -24051,6 +35187,63 @@ extension TrafficTypeFromString on String {
         return TrafficType.campaign;
     }
     throw Exception('$this is not known in enum TrafficType');
+  }
+}
+
+/// A structure that defines search criteria and matching logic to search for
+/// contacts by matching text with transcripts analyzed by Amazon Connect
+/// Contact Lens.
+class Transcript {
+  /// The list of search criteria based on Contact Lens conversational analytics
+  /// transcript.
+  final List<TranscriptCriteria> criteria;
+
+  /// The match type combining search criteria using multiple transcript criteria.
+  final SearchContactsMatchType? matchType;
+
+  Transcript({
+    required this.criteria,
+    this.matchType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final criteria = this.criteria;
+    final matchType = this.matchType;
+    return {
+      'Criteria': criteria,
+      if (matchType != null) 'MatchType': matchType.toValue(),
+    };
+  }
+}
+
+/// A structure that defines search criteria base on words or phrases,
+/// participants in the Contact Lens conversational analytics transcript.
+class TranscriptCriteria {
+  /// The match type combining search criteria using multiple search texts in a
+  /// transcript criteria.
+  final SearchContactsMatchType matchType;
+
+  /// The participant role in a transcript
+  final ParticipantRole participantRole;
+
+  /// The words or phrases used to search within a transcript.
+  final List<String> searchText;
+
+  TranscriptCriteria({
+    required this.matchType,
+    required this.participantRole,
+    required this.searchText,
+  });
+
+  Map<String, dynamic> toJson() {
+    final matchType = this.matchType;
+    final participantRole = this.participantRole;
+    final searchText = this.searchText;
+    return {
+      'MatchType': matchType.toValue(),
+      'ParticipantRole': participantRole.toValue(),
+      'SearchText': searchText,
+    };
   }
 }
 
@@ -24113,6 +35306,44 @@ extension UnitFromString on String {
         return Unit.percent;
     }
     throw Exception('$this is not known in enum Unit');
+  }
+}
+
+class UntagContactResponse {
+  UntagContactResponse();
+
+  factory UntagContactResponse.fromJson(Map<String, dynamic> _) {
+    return UntagContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The <code>UpdateCase</code> action definition.
+class UpdateCaseActionDefinition {
+  /// An array of objects with <code>Field ID</code> and Value data.
+  final List<FieldValue> fields;
+
+  UpdateCaseActionDefinition({
+    required this.fields,
+  });
+
+  factory UpdateCaseActionDefinition.fromJson(Map<String, dynamic> json) {
+    return UpdateCaseActionDefinition(
+      fields: (json['Fields'] as List)
+          .whereNotNull()
+          .map((e) => FieldValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    return {
+      'Fields': fields,
+    };
   }
 }
 
@@ -24224,6 +35455,18 @@ class UpdateContactResponse {
 
   factory UpdateContactResponse.fromJson(Map<String, dynamic> _) {
     return UpdateContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateContactRoutingDataResponse {
+  UpdateContactRoutingDataResponse();
+
+  factory UpdateContactRoutingDataResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateContactRoutingDataResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -24494,6 +35737,83 @@ class UpdateTrafficDistributionResponse {
   }
 }
 
+class UpdateViewContentResponse {
+  /// A view resource object. Contains metadata and content necessary to render
+  /// the view.
+  final View? view;
+
+  UpdateViewContentResponse({
+    this.view,
+  });
+
+  factory UpdateViewContentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateViewContentResponse(
+      view: json['View'] != null
+          ? View.fromJson(json['View'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final view = this.view;
+    return {
+      if (view != null) 'View': view,
+    };
+  }
+}
+
+class UpdateViewMetadataResponse {
+  UpdateViewMetadataResponse();
+
+  factory UpdateViewMetadataResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateViewMetadataResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Fields required when uploading an attached file.
+class UploadUrlMetadata {
+  /// A map of headers that should be provided when uploading the attached file.
+  final Map<String, String>? headersToInclude;
+
+  /// A pre-signed S3 URL that should be used for uploading the attached file.
+  final String? url;
+
+  /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
+  /// format: <code>yyyy-MM-ddThh:mm:ss.SSSZ</code>. For example,
+  /// <code>2019-11-08T02:41:28.172Z</code>.
+  final String? urlExpiry;
+
+  UploadUrlMetadata({
+    this.headersToInclude,
+    this.url,
+    this.urlExpiry,
+  });
+
+  factory UploadUrlMetadata.fromJson(Map<String, dynamic> json) {
+    return UploadUrlMetadata(
+      headersToInclude: (json['HeadersToInclude'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      url: json['Url'] as String?,
+      urlExpiry: json['UrlExpiry'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headersToInclude = this.headersToInclude;
+    final url = this.url;
+    final urlExpiry = this.urlExpiry;
+    return {
+      if (headersToInclude != null) 'HeadersToInclude': headersToInclude,
+      if (url != null) 'Url': url,
+      if (urlExpiry != null) 'UrlExpiry': urlExpiry,
+    };
+  }
+}
+
 /// The URL reference.
 class UrlReference {
   /// Identifier of the URL reference.
@@ -24608,6 +35928,12 @@ class User {
   /// Information about the user identity.
   final UserIdentityInfo? identityInfo;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// Information about the phone configuration for the user.
   final UserPhoneConfig? phoneConfig;
 
@@ -24629,6 +35955,8 @@ class User {
     this.hierarchyGroupId,
     this.id,
     this.identityInfo,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.phoneConfig,
     this.routingProfileId,
     this.securityProfileIds,
@@ -24646,6 +35974,8 @@ class User {
           ? UserIdentityInfo.fromJson(
               json['IdentityInfo'] as Map<String, dynamic>)
           : null,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       phoneConfig: json['PhoneConfig'] != null
           ? UserPhoneConfig.fromJson(
               json['PhoneConfig'] as Map<String, dynamic>)
@@ -24667,6 +35997,8 @@ class User {
     final hierarchyGroupId = this.hierarchyGroupId;
     final id = this.id;
     final identityInfo = this.identityInfo;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final phoneConfig = this.phoneConfig;
     final routingProfileId = this.routingProfileId;
     final securityProfileIds = this.securityProfileIds;
@@ -24678,6 +36010,9 @@ class User {
       if (hierarchyGroupId != null) 'HierarchyGroupId': hierarchyGroupId,
       if (id != null) 'Id': id,
       if (identityInfo != null) 'IdentityInfo': identityInfo,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (phoneConfig != null) 'PhoneConfig': phoneConfig,
       if (routingProfileId != null) 'RoutingProfileId': routingProfileId,
       if (securityProfileIds != null) 'SecurityProfileIds': securityProfileIds,
@@ -24844,6 +36179,13 @@ class UserDataFilters {
 }
 
 /// Contains information about the identity of a user.
+/// <note>
+/// For Amazon Connect instances that are created with the
+/// <code>EXISTING_DIRECTORY</code> identity management type,
+/// <code>FirstName</code>, <code>LastName</code>, and <code>Email</code> cannot
+/// be updated from within Amazon Connect because they are managed by the
+/// directory.
+/// </note>
 class UserIdentityInfo {
   /// The email address. If you are using SAML for identity management and include
   /// this parameter, an error is returned.
@@ -24937,7 +36279,11 @@ class UserPhoneConfig {
   /// The phone type.
   final PhoneType phoneType;
 
-  /// The After Call Work (ACW) timeout setting, in seconds.
+  /// The After Call Work (ACW) timeout setting, in seconds. This parameter has a
+  /// minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter
+  /// 0 if you don't want to allocate a specific amount of ACW time. It
+  /// essentially means an indefinite amount of time. When the conversation ends,
+  /// ACW starts; the agent must choose Close contact to end ACW.
   /// <note>
   /// When returned by a <code>SearchUsers</code> call,
   /// <code>AfterContactWorkTimeLimit</code> is returned in milliseconds.
@@ -24977,6 +36323,68 @@ class UserPhoneConfig {
         'AfterContactWorkTimeLimit': afterContactWorkTimeLimit,
       if (autoAccept != null) 'AutoAccept': autoAccept,
       if (deskPhoneNumber != null) 'DeskPhoneNumber': deskPhoneNumber,
+    };
+  }
+}
+
+/// Information about proficiency of a user.
+class UserProficiency {
+  /// The name of user's proficiency. You must use name of predefined attribute
+  /// present in the Amazon Connect instance.
+  final String attributeName;
+
+  /// The value of user's proficiency. You must use value of predefined attribute
+  /// present in the Amazon Connect instance.
+  final String attributeValue;
+
+  /// The level of the proficiency. The valid values are 1, 2, 3, 4 and 5.
+  final double level;
+
+  UserProficiency({
+    required this.attributeName,
+    required this.attributeValue,
+    required this.level,
+  });
+
+  factory UserProficiency.fromJson(Map<String, dynamic> json) {
+    return UserProficiency(
+      attributeName: json['AttributeName'] as String,
+      attributeValue: json['AttributeValue'] as String,
+      level: json['Level'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    final level = this.level;
+    return {
+      'AttributeName': attributeName,
+      'AttributeValue': attributeValue,
+      'Level': level,
+    };
+  }
+}
+
+/// Information about proficiency to be disassociated from the user.
+class UserProficiencyDisassociate {
+  /// The name of user's proficiency.
+  final String attributeName;
+
+  /// The value of user's proficiency.
+  final String attributeValue;
+
+  UserProficiencyDisassociate({
+    required this.attributeName,
+    required this.attributeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    return {
+      'AttributeName': attributeName,
+      'AttributeValue': attributeValue,
     };
   }
 }
@@ -25063,6 +36471,11 @@ class UserSearchCriteria {
   final List<UserSearchCriteria>? orConditions;
 
   /// A leaf node condition which can be used to specify a string condition.
+  ///
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>Username</code>, <code>FirstName</code>, <code>LastName</code>,
+  /// <code>RoutingProfileId</code>, <code>SecurityProfileId</code>,
+  /// <code>ResourceId</code>.
   final StringCondition? stringCondition;
 
   UserSearchCriteria({
@@ -25091,14 +36504,41 @@ class UserSearchCriteria {
 class UserSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
+  /// An object that can be used to specify Tag conditions or Hierarchy Group
+  /// conditions inside the SearchFilter.
+  ///
+  /// This accepts an <code>OR</code> of <code>AND</code> (List of List) input
+  /// where:
+  ///
+  /// <ul>
+  /// <li>
+  /// The top level list specifies conditions that need to be applied with
+  /// <code>OR</code> operator.
+  /// </li>
+  /// <li>
+  /// The inner list specifies conditions that need to be applied with
+  /// <code>AND</code> operator.
+  /// </li>
+  /// </ul> <note>
+  /// Only one field can be populated. This object can’t be used along with
+  /// TagFilter. Request can either contain TagFilter or UserAttributeFilter if
+  /// SearchFilter is specified, combination of both is not supported and such
+  /// request will throw AccessDeniedException.
+  /// </note>
+  final ControlPlaneUserAttributeFilter? userAttributeFilter;
+
   UserSearchFilter({
     this.tagFilter,
+    this.userAttributeFilter,
   });
 
   Map<String, dynamic> toJson() {
     final tagFilter = this.tagFilter;
+    final userAttributeFilter = this.userAttributeFilter;
     return {
       if (tagFilter != null) 'TagFilter': tagFilter,
+      if (userAttributeFilter != null)
+        'UserAttributeFilter': userAttributeFilter,
     };
   }
 }
@@ -25128,7 +36568,7 @@ class UserSearchSummary {
   final List<String>? securityProfileIds;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   /// The name of the user.
@@ -25206,12 +36646,20 @@ class UserSummary {
   /// The identifier of the user account.
   final String? id;
 
+  /// The Amazon Web Services Region where this resource was last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when this resource was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The Amazon Connect user name of the user account.
   final String? username;
 
   UserSummary({
     this.arn,
     this.id,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
     this.username,
   });
 
@@ -25219,6 +36667,8 @@ class UserSummary {
     return UserSummary(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       username: json['Username'] as String?,
     );
   }
@@ -25226,11 +36676,403 @@ class UserSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
     final username = this.username;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (username != null) 'Username': username,
+    };
+  }
+}
+
+enum VideoCapability {
+  send,
+}
+
+extension VideoCapabilityValueExtension on VideoCapability {
+  String toValue() {
+    switch (this) {
+      case VideoCapability.send:
+        return 'SEND';
+    }
+  }
+}
+
+extension VideoCapabilityFromString on String {
+  VideoCapability toVideoCapability() {
+    switch (this) {
+      case 'SEND':
+        return VideoCapability.send;
+    }
+    throw Exception('$this is not known in enum VideoCapability');
+  }
+}
+
+/// A view resource object. Contains metadata and content necessary to render
+/// the view.
+class View {
+  /// The Amazon Resource Name (ARN) of the view.
+  final String? arn;
+
+  /// View content containing all content necessary to render a view except for
+  /// runtime input data.
+  final ViewContent? content;
+
+  /// The timestamp of when the view was created.
+  final DateTime? createdTime;
+
+  /// The description of the view.
+  final String? description;
+
+  /// The identifier of the view.
+  final String? id;
+
+  /// Latest timestamp of the <code>UpdateViewContent</code> or
+  /// <code>CreateViewVersion</code> operations.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the view.
+  final String? name;
+
+  /// Indicates the view status as either <code>SAVED</code> or
+  /// <code>PUBLISHED</code>. The <code>PUBLISHED</code> status will initiate
+  /// validation on the content.
+  final ViewStatus? status;
+
+  /// The tags associated with the view resource (not specific to view version).
+  final Map<String, String>? tags;
+
+  /// The type of the view - <code>CUSTOMER_MANAGED</code>.
+  final ViewType? type;
+
+  /// Current version of the view.
+  final int? version;
+
+  /// The description of the version.
+  final String? versionDescription;
+
+  /// Indicates the checksum value of the latest published view content.
+  final String? viewContentSha256;
+
+  View({
+    this.arn,
+    this.content,
+    this.createdTime,
+    this.description,
+    this.id,
+    this.lastModifiedTime,
+    this.name,
+    this.status,
+    this.tags,
+    this.type,
+    this.version,
+    this.versionDescription,
+    this.viewContentSha256,
+  });
+
+  factory View.fromJson(Map<String, dynamic> json) {
+    return View(
+      arn: json['Arn'] as String?,
+      content: json['Content'] != null
+          ? ViewContent.fromJson(json['Content'] as Map<String, dynamic>)
+          : null,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toViewStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['Type'] as String?)?.toViewType(),
+      version: json['Version'] as int?,
+      versionDescription: json['VersionDescription'] as String?,
+      viewContentSha256: json['ViewContentSha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final content = this.content;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    final type = this.type;
+    final version = this.version;
+    final versionDescription = this.versionDescription;
+    final viewContentSha256 = this.viewContentSha256;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (content != null) 'Content': content,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type.toValue(),
+      if (version != null) 'Version': version,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
+      if (viewContentSha256 != null) 'ViewContentSha256': viewContentSha256,
+    };
+  }
+}
+
+/// View content containing all content necessary to render a view except for
+/// runtime input data.
+class ViewContent {
+  /// A list of possible actions from the view.
+  final List<String>? actions;
+
+  /// The data schema matching data that the view template must be provided to
+  /// render.
+  final String? inputSchema;
+
+  /// The view template representing the structure of the view.
+  final String? template;
+
+  ViewContent({
+    this.actions,
+    this.inputSchema,
+    this.template,
+  });
+
+  factory ViewContent.fromJson(Map<String, dynamic> json) {
+    return ViewContent(
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      inputSchema: json['InputSchema'] as String?,
+      template: json['Template'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final inputSchema = this.inputSchema;
+    final template = this.template;
+    return {
+      if (actions != null) 'Actions': actions,
+      if (inputSchema != null) 'InputSchema': inputSchema,
+      if (template != null) 'Template': template,
+    };
+  }
+}
+
+/// View content containing all content necessary to render a view except for
+/// runtime input data and the runtime input schema, which is auto-generated by
+/// this operation.
+class ViewInputContent {
+  /// A list of possible actions from the view.
+  final List<String>? actions;
+
+  /// The view template representing the structure of the view.
+  final String? template;
+
+  ViewInputContent({
+    this.actions,
+    this.template,
+  });
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final template = this.template;
+    return {
+      if (actions != null) 'Actions': actions,
+      if (template != null) 'Template': template,
+    };
+  }
+}
+
+enum ViewStatus {
+  published,
+  saved,
+}
+
+extension ViewStatusValueExtension on ViewStatus {
+  String toValue() {
+    switch (this) {
+      case ViewStatus.published:
+        return 'PUBLISHED';
+      case ViewStatus.saved:
+        return 'SAVED';
+    }
+  }
+}
+
+extension ViewStatusFromString on String {
+  ViewStatus toViewStatus() {
+    switch (this) {
+      case 'PUBLISHED':
+        return ViewStatus.published;
+      case 'SAVED':
+        return ViewStatus.saved;
+    }
+    throw Exception('$this is not known in enum ViewStatus');
+  }
+}
+
+/// A summary of a view's metadata.
+class ViewSummary {
+  /// The Amazon Resource Name (ARN) of the view.
+  final String? arn;
+
+  /// The description of the view.
+  final String? description;
+
+  /// The identifier of the view.
+  final String? id;
+
+  /// The name of the view.
+  final String? name;
+
+  /// Indicates the view status as either <code>SAVED</code> or
+  /// <code>PUBLISHED</code>. The <code>PUBLISHED</code> status will initiate
+  /// validation on the content.
+  final ViewStatus? status;
+
+  /// The type of the view.
+  final ViewType? type;
+
+  ViewSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.name,
+    this.status,
+    this.type,
+  });
+
+  factory ViewSummary.fromJson(Map<String, dynamic> json) {
+    return ViewSummary(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toViewStatus(),
+      type: (json['Type'] as String?)?.toViewType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum ViewType {
+  customerManaged,
+  awsManaged,
+}
+
+extension ViewTypeValueExtension on ViewType {
+  String toValue() {
+    switch (this) {
+      case ViewType.customerManaged:
+        return 'CUSTOMER_MANAGED';
+      case ViewType.awsManaged:
+        return 'AWS_MANAGED';
+    }
+  }
+}
+
+extension ViewTypeFromString on String {
+  ViewType toViewType() {
+    switch (this) {
+      case 'CUSTOMER_MANAGED':
+        return ViewType.customerManaged;
+      case 'AWS_MANAGED':
+        return ViewType.awsManaged;
+    }
+    throw Exception('$this is not known in enum ViewType');
+  }
+}
+
+/// A summary of a view version's metadata.
+class ViewVersionSummary {
+  /// The Amazon Resource Name (ARN) of the view version.
+  final String? arn;
+
+  /// The description of the view version.
+  final String? description;
+
+  /// The identifier of the view version.
+  final String? id;
+
+  /// The name of the view version.
+  final String? name;
+
+  /// The type of the view version.
+  final ViewType? type;
+
+  /// The sequentially incremented version of the view version.
+  final int? version;
+
+  /// The description of the view version.
+  final String? versionDescription;
+
+  ViewVersionSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.name,
+    this.type,
+    this.version,
+    this.versionDescription,
+  });
+
+  factory ViewVersionSummary.fromJson(Map<String, dynamic> json) {
+    return ViewVersionSummary(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toViewType(),
+      version: json['Version'] as int?,
+      versionDescription: json['VersionDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    final version = this.version;
+    final versionDescription = this.versionDescription;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.toValue(),
+      if (version != null) 'Version': version,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
     };
   }
 }
@@ -25271,7 +37113,7 @@ class Vocabulary {
   final String? failureReason;
 
   /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
 
   Vocabulary({
@@ -25645,6 +37487,11 @@ class AccessDeniedException extends _s.GenericAwsException {
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class ContactFlowNotPublishedException extends _s.GenericAwsException {
   ContactFlowNotPublishedException({String? type, String? message})
       : super(
@@ -25710,12 +37557,26 @@ class LimitExceededException extends _s.GenericAwsException {
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+class MaximumResultReturnedException extends _s.GenericAwsException {
+  MaximumResultReturnedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MaximumResultReturnedException',
+            message: message);
+}
+
 class OutboundContactNotPermittedException extends _s.GenericAwsException {
   OutboundContactNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OutboundContactNotPermittedException',
             message: message);
+}
+
+class OutputTypeNotFoundException extends _s.GenericAwsException {
+  OutputTypeNotFoundException({String? type, String? message})
+      : super(
+            type: type, code: 'OutputTypeNotFoundException', message: message);
 }
 
 class PropertyValidationException extends _s.GenericAwsException {
@@ -25757,6 +37618,11 @@ class ThrottlingException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+class TooManyRequestsException extends _s.GenericAwsException {
+  TooManyRequestsException({String? type, String? message})
+      : super(type: type, code: 'TooManyRequestsException', message: message);
+}
+
 class UserNotFoundException extends _s.GenericAwsException {
   UserNotFoundException({String? type, String? message})
       : super(type: type, code: 'UserNotFoundException', message: message);
@@ -25765,6 +37631,8 @@ class UserNotFoundException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'ContactFlowNotPublishedException': (type, message) =>
       ContactFlowNotPublishedException(type: type, message: message),
   'ContactNotFoundException': (type, message) =>
@@ -25787,8 +37655,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidRequestException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
+  'MaximumResultReturnedException': (type, message) =>
+      MaximumResultReturnedException(type: type, message: message),
   'OutboundContactNotPermittedException': (type, message) =>
       OutboundContactNotPermittedException(type: type, message: message),
+  'OutputTypeNotFoundException': (type, message) =>
+      OutputTypeNotFoundException(type: type, message: message),
   'PropertyValidationException': (type, message) =>
       PropertyValidationException(type: type, message: message),
   'ResourceConflictException': (type, message) =>
@@ -25803,6 +37675,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'TooManyRequestsException': (type, message) =>
+      TooManyRequestsException(type: type, message: message),
   'UserNotFoundException': (type, message) =>
       UserNotFoundException(type: type, message: message),
 };

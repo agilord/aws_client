@@ -50,6 +50,97 @@ class SecretsManager {
     _protocol.close();
   }
 
+  /// Retrieves the contents of the encrypted fields <code>SecretString</code>
+  /// or <code>SecretBinary</code> for up to 20 secrets. To retrieve a single
+  /// secret, call <a>GetSecretValue</a>.
+  ///
+  /// To choose which secrets to retrieve, you can specify a list of secrets by
+  /// name or ARN, or you can use filters. If Secrets Manager encounters errors
+  /// such as <code>AccessDeniedException</code> while attempting to retrieve
+  /// any of the secrets, you can see the errors in <code>Errors</code> in the
+  /// response.
+  ///
+  /// Secrets Manager generates CloudTrail <code>GetSecretValue</code> log
+  /// entries for each secret you request when you call this action. Do not
+  /// include sensitive information in request parameters because it might be
+  /// logged. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html">Logging
+  /// Secrets Manager events with CloudTrail</a>.
+  ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:BatchGetSecretValue</code>, and you must have
+  /// <code>secretsmanager:GetSecretValue</code> for each secret. If you use
+  /// filters, you must also have <code>secretsmanager:ListSecrets</code>. If
+  /// the secrets are encrypted using customer-managed keys instead of the
+  /// Amazon Web Services managed key <code>aws/secretsmanager</code>, then you
+  /// also need <code>kms:Decrypt</code> permissions for the keys. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [DecryptionFailure].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [filters] :
+  /// The filters to choose which secrets to retrieve. You must include
+  /// <code>Filters</code> or <code>SecretIdList</code>, but not both.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of results to include in the response.
+  ///
+  /// If there are more results available, in the response, Secrets Manager
+  /// includes <code>NextToken</code>. To get the next results, call
+  /// <code>BatchGetSecretValue</code> again with the value from
+  /// <code>NextToken</code>. To use this parameter, you must also use the
+  /// <code>Filters</code> parameter.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates where the output should continue from, if a
+  /// previous call did not show all results. To get the next results, call
+  /// <code>BatchGetSecretValue</code> again with this value.
+  ///
+  /// Parameter [secretIdList] :
+  /// The ARN or names of the secrets to retrieve. You must include
+  /// <code>Filters</code> or <code>SecretIdList</code>, but not both.
+  Future<BatchGetSecretValueResponse> batchGetSecretValue({
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? secretIdList,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'secretsmanager.BatchGetSecretValue'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (secretIdList != null) 'SecretIdList': secretIdList,
+      },
+    );
+
+    return BatchGetSecretValueResponse.fromJson(jsonResponse.body);
+  }
+
   /// Turns off automatic rotation, and if a rotation is currently in progress,
   /// cancels the rotation.
   ///
@@ -209,11 +300,12 @@ class SecretsManager {
   /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
   /// SDKs to call this operation, then you can leave this parameter empty. The
   /// CLI or SDK generates a random UUID for you and includes it as the value
-  /// for this parameter in the request. If you don't use the SDK and instead
-  /// generate a raw HTTP request to the Secrets Manager service endpoint, then
-  /// you must generate a <code>ClientRequestToken</code> yourself for the new
-  /// version and include the value in the request.
+  /// for this parameter in the request.
   /// </note>
+  /// If you generate a raw HTTP request to the Secrets Manager service
+  /// endpoint, then you must generate a <code>ClientRequestToken</code> and
+  /// include it in the request.
+  ///
   /// This value helps ensure idempotency. Secrets Manager uses this value to
   /// prevent the accidental creation of duplicate versions if there are
   /// failures and retries during a rotation. We recommend that you generate a
@@ -318,34 +410,10 @@ class SecretsManager {
   /// quotation marks around the parameter, you should use single quotes to
   /// avoid confusion with the double quotes required in the JSON text.
   ///
-  /// The following restrictions apply to tags:
-  ///
-  /// <ul>
-  /// <li>
-  /// Maximum number of tags per secret: 50
-  /// </li>
-  /// <li>
-  /// Maximum key length: 127 Unicode characters in UTF-8
-  /// </li>
-  /// <li>
-  /// Maximum value length: 255 Unicode characters in UTF-8
-  /// </li>
-  /// <li>
-  /// Tag keys and values are case sensitive.
-  /// </li>
-  /// <li>
-  /// Do not use the <code>aws:</code> prefix in your tag names or values
-  /// because Amazon Web Services reserves it for Amazon Web Services use. You
-  /// can't edit or delete tag names or values with this prefix. Tags with this
-  /// prefix do not count against your tags per secret limit.
-  /// </li>
-  /// <li>
-  /// If you use your tagging schema across multiple services and resources,
-  /// other services might have restrictions on allowed characters. Generally
-  /// allowed characters: letters, spaces, and numbers representable in UTF-8,
-  /// plus the following special characters: + - = . _ : / @.
-  /// </li>
-  /// </ul>
+  /// For tag quotas and naming restrictions, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas">Service
+  /// quotas for Tagging</a> in the <i>Amazon Web Services General Reference
+  /// guide</i>.
   Future<CreateSecretResponse> createSecret({
     required String name,
     List<ReplicaRegionType>? addReplicaRegions,
@@ -603,13 +671,12 @@ class SecretsManager {
 
   /// Generates a random password. We recommend that you specify the maximum
   /// length and include every character type that the system you are generating
-  /// a password for can support.
+  /// a password for can support. By default, Secrets Manager uses uppercase and
+  /// lowercase letters, numbers, and the following characters in passwords:
+  /// <code>!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</code>
   ///
   /// Secrets Manager generates a CloudTrail log entry when you call this
-  /// action. Do not include sensitive information in request parameters because
-  /// it might be logged. For more information, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html">Logging
-  /// Secrets Manager events with CloudTrail</a>.
+  /// action.
   ///
   /// <b>Required permissions: </b>
   /// <code>secretsmanager:GetRandomPassword</code>. For more information, see
@@ -756,6 +823,9 @@ class SecretsManager {
   /// Retrieves the contents of the encrypted fields <code>SecretString</code>
   /// or <code>SecretBinary</code> from the specified version of a secret,
   /// whichever contains content.
+  ///
+  /// To retrieve the values for a group of secrets, call
+  /// <a>BatchGetSecretValue</a>.
   ///
   /// We recommend that you cache your secret values by using client-side
   /// caching. Caching secrets improves speed and reduces your costs. For more
@@ -932,14 +1002,14 @@ class SecretsManager {
   /// Services account, not including secrets that are marked for deletion. To
   /// see secrets marked for deletion, use the Secrets Manager console.
   ///
-  /// ListSecrets is eventually consistent, however it might not reflect changes
-  /// from the last five minutes. To get the latest information for a specific
-  /// secret, use <a>DescribeSecret</a>.
+  /// All Secrets Manager operations are eventually consistent. ListSecrets
+  /// might not reflect changes from the last five minutes. You can get more
+  /// recent information for a specific secret by calling <a>DescribeSecret</a>.
   ///
   /// To list the versions of a secret, use <a>ListSecretVersionIds</a>.
   ///
-  /// To get the secret value from <code>SecretString</code> or
-  /// <code>SecretBinary</code>, call <a>GetSecretValue</a>.
+  /// To retrieve the values for the secrets, call <a>BatchGetSecretValue</a> or
+  /// <a>GetSecretValue</a>.
   ///
   /// For information about finding secrets in the console, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
@@ -959,6 +1029,7 @@ class SecretsManager {
   /// and access control in Secrets Manager</a>.
   ///
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InternalServiceError].
   ///
@@ -1067,6 +1138,27 @@ class SecretsManager {
   /// Specifies whether to block resource-based policies that allow broad access
   /// to the secret, for example those that use a wildcard for the principal. By
   /// default, public policies aren't blocked.
+  /// <important>
+  /// Resource policy validation and the BlockPublicPolicy parameter help
+  /// protect your resources by preventing public access from being granted
+  /// through the resource policies that are directly attached to your secrets.
+  /// In addition to using these features, carefully inspect the following
+  /// policies to confirm that they do not grant public access:
+  ///
+  /// <ul>
+  /// <li>
+  /// Identity-based policies attached to associated Amazon Web Services
+  /// principals (for example, IAM roles)
+  /// </li>
+  /// <li>
+  /// Resource-based policies attached to associated Amazon Web Services
+  /// resources (for example, Key Management Service (KMS) keys)
+  /// </li>
+  /// </ul>
+  /// To review permissions to your secrets, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/determine-acccess_examine-iam-policies.html">Determine
+  /// who has permissions to your secrets</a>.
+  /// </important>
   Future<PutResourcePolicyResponse> putResourcePolicy({
     required String resourcePolicy,
     required String secretId,
@@ -1161,18 +1253,20 @@ class SecretsManager {
   /// A unique identifier for the new version of the secret.
   /// <note>
   /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
-  /// SDKs to call this operation, then you can leave this parameter empty
-  /// because they generate a random UUID for you. If you don't use the SDK and
-  /// instead generate a raw HTTP request to the Secrets Manager service
-  /// endpoint, then you must generate a <code>ClientRequestToken</code>
-  /// yourself for new versions and include that value in the request.
+  /// SDKs to call this operation, then you can leave this parameter empty. The
+  /// CLI or SDK generates a random UUID for you and includes it as the value
+  /// for this parameter in the request.
   /// </note>
+  /// If you generate a raw HTTP request to the Secrets Manager service
+  /// endpoint, then you must generate a <code>ClientRequestToken</code> and
+  /// include it in the request.
+  ///
   /// This value helps ensure idempotency. Secrets Manager uses this value to
   /// prevent the accidental creation of duplicate versions if there are
-  /// failures and retries during the Lambda rotation function processing. We
-  /// recommend that you generate a <a
+  /// failures and retries during a rotation. We recommend that you generate a
+  /// <a
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
-  /// value to ensure uniqueness within the specified secret.
+  /// value to ensure uniqueness of your versions within the specified secret.
   ///
   /// <ul>
   /// <li>
@@ -1321,8 +1415,13 @@ class SecretsManager {
   /// Secrets Manager events with CloudTrail</a>.
   ///
   /// <b>Required permissions: </b>
-  /// <code>secretsmanager:ReplicateSecretToRegions</code>. For more
-  /// information, see <a
+  /// <code>secretsmanager:ReplicateSecretToRegions</code>. If the primary
+  /// secret is encrypted with a KMS key other than
+  /// <code>aws/secretsmanager</code>, you also need <code>kms:Decrypt</code>
+  /// permission to the key. To encrypt the replicated secret with a KMS key
+  /// other than <code>aws/secretsmanager</code>, you need
+  /// <code>kms:GenerateDataKey</code> and <code>kms:Encrypt</code> to the key.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
   /// IAM policy actions for Secrets Manager</a> and <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
@@ -1470,25 +1569,26 @@ class SecretsManager {
   /// a secret from a partial ARN</a>.
   ///
   /// Parameter [clientRequestToken] :
-  /// A unique identifier for the new version of the secret that helps ensure
-  /// idempotency. Secrets Manager uses this value to prevent the accidental
-  /// creation of duplicate versions if there are failures and retries during
-  /// rotation. This value becomes the <code>VersionId</code> of the new
-  /// version.
-  ///
+  /// A unique identifier for the new version of the secret. You only need to
+  /// specify this value if you implement your own retry logic and you want to
+  /// ensure that Secrets Manager doesn't attempt to create a secret version
+  /// twice.
+  /// <note>
   /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
-  /// SDK to call this operation, then you can leave this parameter empty. The
-  /// CLI or SDK generates a random UUID for you and includes that in the
-  /// request for this parameter. If you don't use the SDK and instead generate
-  /// a raw HTTP request to the Secrets Manager service endpoint, then you must
-  /// generate a <code>ClientRequestToken</code> yourself for new versions and
-  /// include that value in the request.
+  /// SDKs to call this operation, then you can leave this parameter empty. The
+  /// CLI or SDK generates a random UUID for you and includes it as the value
+  /// for this parameter in the request.
+  /// </note>
+  /// If you generate a raw HTTP request to the Secrets Manager service
+  /// endpoint, then you must generate a <code>ClientRequestToken</code> and
+  /// include it in the request.
   ///
-  /// You only need to specify this value if you implement your own retry logic
-  /// and you want to ensure that Secrets Manager doesn't attempt to create a
-  /// secret version twice. We recommend that you generate a <a
+  /// This value helps ensure idempotency. Secrets Manager uses this value to
+  /// prevent the accidental creation of duplicate versions if there are
+  /// failures and retries during a rotation. We recommend that you generate a
+  /// <a
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
-  /// value to ensure uniqueness within the specified secret.
+  /// value to ensure uniqueness of your versions within the specified secret.
   ///
   /// Parameter [rotateImmediately] :
   /// Specifies whether to rotate the secret immediately or wait until the next
@@ -1599,34 +1699,11 @@ class SecretsManager {
   /// versions of the secret. This operation appends tags to the existing list
   /// of tags.
   ///
-  /// The following restrictions apply to tags:
-  ///
-  /// <ul>
-  /// <li>
-  /// Maximum number of tags per secret: 50
-  /// </li>
-  /// <li>
-  /// Maximum key length: 127 Unicode characters in UTF-8
-  /// </li>
-  /// <li>
-  /// Maximum value length: 255 Unicode characters in UTF-8
-  /// </li>
-  /// <li>
-  /// Tag keys and values are case sensitive.
-  /// </li>
-  /// <li>
-  /// Do not use the <code>aws:</code> prefix in your tag names or values
-  /// because Amazon Web Services reserves it for Amazon Web Services use. You
-  /// can't edit or delete tag names or values with this prefix. Tags with this
-  /// prefix do not count against your tags per secret limit.
-  /// </li>
-  /// <li>
-  /// If you use your tagging schema across multiple services and resources,
-  /// other services might have restrictions on allowed characters. Generally
-  /// allowed characters: letters, spaces, and numbers representable in UTF-8,
-  /// plus the following special characters: + - = . _ : / @.
-  /// </li>
-  /// </ul> <important>
+  /// For tag quotas and naming restrictions, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas">Service
+  /// quotas for Tagging</a> in the <i>Amazon Web Services General Reference
+  /// guide</i>.
+  /// <important>
   /// If you use tags as part of your security strategy, then adding or removing
   /// a tag can change permissions. If successfully completing this operation
   /// would result in you losing your permissions for this secret, then the
@@ -1803,9 +1880,11 @@ class SecretsManager {
   /// IAM policy actions for Secrets Manager</a> and <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>. If you use a customer managed
-  /// key, you must also have <code>kms:GenerateDataKey</code> and
-  /// <code>kms:Decrypt</code> permissions on the key. For more information, see
-  /// <a
+  /// key, you must also have <code>kms:GenerateDataKey</code>,
+  /// <code>kms:Encrypt</code>, and <code>kms:Decrypt</code> permissions on the
+  /// key. If you change the KMS key and you don't have <code>kms:Encrypt</code>
+  /// permission to the new key, Secrets Manager does not re-ecrypt existing
+  /// secret versions with the new key. For more information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html">
   /// Secret encryption and decryption</a>.
   ///
@@ -1836,12 +1915,18 @@ class SecretsManager {
   /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
   /// SDKs to call this operation, then you can leave this parameter empty. The
   /// CLI or SDK generates a random UUID for you and includes it as the value
-  /// for this parameter in the request. If you don't use the SDK and instead
-  /// generate a raw HTTP request to the Secrets Manager service endpoint, then
-  /// you must generate a <code>ClientRequestToken</code> yourself for the new
-  /// version and include the value in the request.
+  /// for this parameter in the request.
   /// </note>
-  /// This value becomes the <code>VersionId</code> of the new version.
+  /// If you generate a raw HTTP request to the Secrets Manager service
+  /// endpoint, then you must generate a <code>ClientRequestToken</code> and
+  /// include it in the request.
+  ///
+  /// This value helps ensure idempotency. Secrets Manager uses this value to
+  /// prevent the accidental creation of duplicate versions if there are
+  /// failures and retries during a rotation. We recommend that you generate a
+  /// <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
+  /// value to ensure uniqueness of your versions within the specified secret.
   ///
   /// Parameter [description] :
   /// The description of the secret.
@@ -1850,8 +1935,10 @@ class SecretsManager {
   /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
   /// encrypt new secret versions as well as any existing versions with the
   /// staging labels <code>AWSCURRENT</code>, <code>AWSPENDING</code>, or
-  /// <code>AWSPREVIOUS</code>. For more information about versions and staging
-  /// labels, see <a
+  /// <code>AWSPREVIOUS</code>. If you don't have <code>kms:Encrypt</code>
+  /// permission to the new key, Secrets Manager does not re-ecrypt existing
+  /// secret versions with the new key. For more information about versions and
+  /// staging labels, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version">Concepts:
   /// Version</a>.
   ///
@@ -2100,6 +2187,73 @@ class SecretsManager {
   }
 }
 
+/// The error Secrets Manager encountered while retrieving an individual secret
+/// as part of <a>BatchGetSecretValue</a>.
+class APIErrorType {
+  /// The error Secrets Manager encountered while retrieving an individual secret
+  /// as part of <a>BatchGetSecretValue</a>, for example
+  /// <code>ResourceNotFoundException</code>,<code>InvalidParameterException</code>,
+  /// <code>InvalidRequestException</code>, <code>DecryptionFailure</code>, or
+  /// <code>AccessDeniedException</code>.
+  final String? errorCode;
+
+  /// A message describing the error.
+  final String? message;
+
+  /// The ARN or name of the secret.
+  final String? secretId;
+
+  APIErrorType({
+    this.errorCode,
+    this.message,
+    this.secretId,
+  });
+
+  factory APIErrorType.fromJson(Map<String, dynamic> json) {
+    return APIErrorType(
+      errorCode: json['ErrorCode'] as String?,
+      message: json['Message'] as String?,
+      secretId: json['SecretId'] as String?,
+    );
+  }
+}
+
+class BatchGetSecretValueResponse {
+  /// A list of errors Secrets Manager encountered while attempting to retrieve
+  /// individual secrets.
+  final List<APIErrorType>? errors;
+
+  /// Secrets Manager includes this value if there's more output available than
+  /// what is included in the current response. This can occur even when the
+  /// response includes no values at all, such as when you ask for a filtered view
+  /// of a long list. To get the next results, call
+  /// <code>BatchGetSecretValue</code> again with this value.
+  final String? nextToken;
+
+  /// A list of secret values.
+  final List<SecretValueEntry>? secretValues;
+
+  BatchGetSecretValueResponse({
+    this.errors,
+    this.nextToken,
+    this.secretValues,
+  });
+
+  factory BatchGetSecretValueResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetSecretValueResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => APIErrorType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      secretValues: (json['SecretValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecretValueEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class CancelRotateSecretResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -2262,14 +2416,23 @@ class DescribeSecretResponse {
   final DateTime? lastChangedDate;
 
   /// The last date and time that Secrets Manager rotated the secret. If the
-  /// secret isn't configured for rotation, Secrets Manager returns null.
+  /// secret isn't configured for rotation or rotation has been disabled, Secrets
+  /// Manager returns null.
   final DateTime? lastRotatedDate;
 
   /// The name of the secret.
   final String? name;
 
   /// The next rotation is scheduled to occur on or before this date. If the
-  /// secret isn't configured for rotation, Secrets Manager returns null.
+  /// secret isn't configured for rotation or rotation has been disabled, Secrets
+  /// Manager returns null. If rotation fails, Secrets Manager retries the entire
+  /// rotation process multiple times. If rotation is unsuccessful, this date may
+  /// be in the past.
+  ///
+  /// This date represents the latest date that rotation will occur, but it is not
+  /// an approximate rotation date. In some cases, for example if you turn off
+  /// automatic rotation and then turn it back on, the next rotation may occur
+  /// much sooner than this date.
   final DateTime? nextRotationDate;
 
   /// The ID of the service that created this secret. For more information, see <a
@@ -2567,10 +2730,9 @@ class GetSecretValueResponse {
   final String? name;
 
   /// The decrypted secret value, if the secret value was originally provided as
-  /// binary data in the form of a byte array. The response parameter represents
-  /// the binary data as a <a
-  /// href="https://tools.ietf.org/html/rfc4648#section-4">base64-encoded</a>
-  /// string.
+  /// binary data in the form of a byte array. When you retrieve a
+  /// <code>SecretBinary</code> using the HTTP API, the Python SDK, or the Amazon
+  /// Web Services CLI, the value is Base64-encoded. Otherwise, it is not encoded.
   ///
   /// If the secret was created by using the Secrets Manager console, or if the
   /// secret value was originally provided as a string, then this field is
@@ -3023,15 +3185,12 @@ class SecretListEntry {
   /// rotated.
   final DateTime? lastRotatedDate;
 
-  /// The friendly name of the secret. You can use forward slashes in the name to
-  /// represent a path hierarchy. For example,
-  /// <code>/prod/databases/dbserver1</code> could represent the secret for a
-  /// server named <code>dbserver1</code> in the folder <code>databases</code> in
-  /// the folder <code>prod</code>.
+  /// The friendly name of the secret.
   final String? name;
 
   /// The next rotation is scheduled to occur on or before this date. If the
-  /// secret isn't configured for rotation, Secrets Manager returns null.
+  /// secret isn't configured for rotation or rotation has been disabled, Secrets
+  /// Manager returns null.
   final DateTime? nextRotationDate;
 
   /// Returns the name of the service that created the secret.
@@ -3119,6 +3278,61 @@ class SecretListEntry {
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// A structure that contains the secret value and other details for a secret.
+class SecretValueEntry {
+  /// The Amazon Resource Name (ARN) of the secret.
+  final String? arn;
+
+  /// The date the secret was created.
+  final DateTime? createdDate;
+
+  /// The friendly name of the secret.
+  final String? name;
+
+  /// The decrypted secret value, if the secret value was originally provided as
+  /// binary data in the form of a byte array. The parameter represents the binary
+  /// data as a <a
+  /// href="https://tools.ietf.org/html/rfc4648#section-4">base64-encoded</a>
+  /// string.
+  final Uint8List? secretBinary;
+
+  /// The decrypted secret value, if the secret value was originally provided as a
+  /// string or through the Secrets Manager console.
+  final String? secretString;
+
+  /// The unique version identifier of this version of the secret.
+  final String? versionId;
+
+  /// A list of all of the staging labels currently attached to this version of
+  /// the secret.
+  final List<String>? versionStages;
+
+  SecretValueEntry({
+    this.arn,
+    this.createdDate,
+    this.name,
+    this.secretBinary,
+    this.secretString,
+    this.versionId,
+    this.versionStages,
+  });
+
+  factory SecretValueEntry.fromJson(Map<String, dynamic> json) {
+    return SecretValueEntry(
+      arn: json['ARN'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      name: json['Name'] as String?,
+      secretBinary: _s.decodeNullableUint8List(json['SecretBinary'] as String?),
+      secretString: json['SecretString'] as String?,
+      versionId: json['VersionId'] as String?,
+      versionStages: (json['VersionStages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
           .toList(),
     );
   }

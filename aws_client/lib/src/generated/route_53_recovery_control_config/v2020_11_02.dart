@@ -436,6 +436,25 @@ class Route53RecoveryControlConfig {
     return DescribeSafetyRuleResponse.fromJson(response);
   }
 
+  /// Get information about the resource policy for a cluster.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  Future<GetResourcePolicyResponse> getResourcePolicy({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/resourcePolicy/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetResourcePolicyResponse.fromJson(response);
+  }
+
   /// Returns an array of all Amazon Route 53 health checks associated with a
   /// specific routing control.
   ///
@@ -858,6 +877,9 @@ class AssertionRule {
   /// value.
   final int waitPeriodMs;
 
+  /// The Amazon Web Services account ID of the assertion rule owner.
+  final String? owner;
+
   AssertionRule({
     required this.assertedControls,
     required this.controlPanelArn,
@@ -866,6 +888,7 @@ class AssertionRule {
     required this.safetyRuleArn,
     required this.status,
     required this.waitPeriodMs,
+    this.owner,
   });
 
   factory AssertionRule.fromJson(Map<String, dynamic> json) {
@@ -881,6 +904,7 @@ class AssertionRule {
       safetyRuleArn: json['SafetyRuleArn'] as String,
       status: (json['Status'] as String).toStatus(),
       waitPeriodMs: json['WaitPeriodMs'] as int,
+      owner: json['Owner'] as String?,
     );
   }
 
@@ -892,6 +916,7 @@ class AssertionRule {
     final safetyRuleArn = this.safetyRuleArn;
     final status = this.status;
     final waitPeriodMs = this.waitPeriodMs;
+    final owner = this.owner;
     return {
       'AssertedControls': assertedControls,
       'ControlPanelArn': controlPanelArn,
@@ -900,6 +925,7 @@ class AssertionRule {
       'SafetyRuleArn': safetyRuleArn,
       'Status': status.toValue(),
       'WaitPeriodMs': waitPeriodMs,
+      if (owner != null) 'Owner': owner,
     };
   }
 }
@@ -956,6 +982,9 @@ class Cluster {
   /// The name of the cluster.
   final String? name;
 
+  /// The Amazon Web Services account ID of the cluster owner.
+  final String? owner;
+
   /// Deployment status of a resource. Status can be one of the following:
   /// PENDING, DEPLOYED, PENDING_DELETION.
   final Status? status;
@@ -964,6 +993,7 @@ class Cluster {
     this.clusterArn,
     this.clusterEndpoints,
     this.name,
+    this.owner,
     this.status,
   });
 
@@ -975,6 +1005,7 @@ class Cluster {
           .map((e) => ClusterEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
       status: (json['Status'] as String?)?.toStatus(),
     );
   }
@@ -983,11 +1014,13 @@ class Cluster {
     final clusterArn = this.clusterArn;
     final clusterEndpoints = this.clusterEndpoints;
     final name = this.name;
+    final owner = this.owner;
     final status = this.status;
     return {
       if (clusterArn != null) 'ClusterArn': clusterArn,
       if (clusterEndpoints != null) 'ClusterEndpoints': clusterEndpoints,
       if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
       if (status != null) 'Status': status.toValue(),
     };
   }
@@ -1049,6 +1082,9 @@ class ControlPanel {
   /// the name.
   final String? name;
 
+  /// The Amazon Web Services account ID of the control panel owner.
+  final String? owner;
+
   /// The number of routing controls in the control panel.
   final int? routingControlCount;
 
@@ -1061,6 +1097,7 @@ class ControlPanel {
     this.controlPanelArn,
     this.defaultControlPanel,
     this.name,
+    this.owner,
     this.routingControlCount,
     this.status,
   });
@@ -1071,6 +1108,7 @@ class ControlPanel {
       controlPanelArn: json['ControlPanelArn'] as String?,
       defaultControlPanel: json['DefaultControlPanel'] as bool?,
       name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
       routingControlCount: json['RoutingControlCount'] as int?,
       status: (json['Status'] as String?)?.toStatus(),
     );
@@ -1081,6 +1119,7 @@ class ControlPanel {
     final controlPanelArn = this.controlPanelArn;
     final defaultControlPanel = this.defaultControlPanel;
     final name = this.name;
+    final owner = this.owner;
     final routingControlCount = this.routingControlCount;
     final status = this.status;
     return {
@@ -1089,6 +1128,7 @@ class ControlPanel {
       if (defaultControlPanel != null)
         'DefaultControlPanel': defaultControlPanel,
       if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
       if (routingControlCount != null)
         'RoutingControlCount': routingControlCount,
       if (status != null) 'Status': status.toValue(),
@@ -1408,6 +1448,9 @@ class GatingRule {
   /// value.
   final int waitPeriodMs;
 
+  /// The Amazon Web Services account ID of the gating rule owner.
+  final String? owner;
+
   GatingRule({
     required this.controlPanelArn,
     required this.gatingControls,
@@ -1417,6 +1460,7 @@ class GatingRule {
     required this.status,
     required this.targetControls,
     required this.waitPeriodMs,
+    this.owner,
   });
 
   factory GatingRule.fromJson(Map<String, dynamic> json) {
@@ -1436,6 +1480,7 @@ class GatingRule {
           .map((e) => e as String)
           .toList(),
       waitPeriodMs: json['WaitPeriodMs'] as int,
+      owner: json['Owner'] as String?,
     );
   }
 
@@ -1448,6 +1493,7 @@ class GatingRule {
     final status = this.status;
     final targetControls = this.targetControls;
     final waitPeriodMs = this.waitPeriodMs;
+    final owner = this.owner;
     return {
       'ControlPanelArn': controlPanelArn,
       'GatingControls': gatingControls,
@@ -1457,6 +1503,7 @@ class GatingRule {
       'Status': status.toValue(),
       'TargetControls': targetControls,
       'WaitPeriodMs': waitPeriodMs,
+      if (owner != null) 'Owner': owner,
     };
   }
 }
@@ -1492,6 +1539,28 @@ class GatingRuleUpdate {
       'Name': name,
       'SafetyRuleArn': safetyRuleArn,
       'WaitPeriodMs': waitPeriodMs,
+    };
+  }
+}
+
+class GetResourcePolicyResponse {
+  /// The resource policy.
+  final String? policy;
+
+  GetResourcePolicyResponse({
+    this.policy,
+  });
+
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
     };
   }
 }
@@ -1806,6 +1875,9 @@ class RoutingControl {
   /// The name of the routing control.
   final String? name;
 
+  /// The Amazon Web Services account ID of the routing control owner.
+  final String? owner;
+
   /// The Amazon Resource Name (ARN) of the routing control.
   final String? routingControlArn;
 
@@ -1816,6 +1888,7 @@ class RoutingControl {
   RoutingControl({
     this.controlPanelArn,
     this.name,
+    this.owner,
     this.routingControlArn,
     this.status,
   });
@@ -1824,6 +1897,7 @@ class RoutingControl {
     return RoutingControl(
       controlPanelArn: json['ControlPanelArn'] as String?,
       name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
       routingControlArn: json['RoutingControlArn'] as String?,
       status: (json['Status'] as String?)?.toStatus(),
     );
@@ -1832,11 +1906,13 @@ class RoutingControl {
   Map<String, dynamic> toJson() {
     final controlPanelArn = this.controlPanelArn;
     final name = this.name;
+    final owner = this.owner;
     final routingControlArn = this.routingControlArn;
     final status = this.status;
     return {
       if (controlPanelArn != null) 'ControlPanelArn': controlPanelArn,
       if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
       if (routingControlArn != null) 'RoutingControlArn': routingControlArn,
       if (status != null) 'Status': status.toValue(),
     };

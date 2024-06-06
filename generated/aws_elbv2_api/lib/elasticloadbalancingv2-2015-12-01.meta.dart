@@ -54,6 +54,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "AddTagsOutput": {"type": "structure", "members": {}, "flattened": false},
+  "AddTrustStoreRevocationsInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "RevocationContents": {"shape": "RevocationContents", "flattened": false}
+    },
+    "flattened": false
+  },
+  "AddTrustStoreRevocationsOutput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreRevocations": {
+        "shape": "TrustStoreRevocations",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "AllocationId": {"type": "string", "flattened": false},
   "AlpnPolicyName": {
     "type": "list",
@@ -61,6 +79,18 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "AlpnPolicyValue": {"type": "string", "flattened": false},
+  "AnomalyDetection": {
+    "type": "structure",
+    "members": {
+      "Result": {"shape": "AnomalyResultEnum", "flattened": false},
+      "MitigationInEffect": {
+        "shape": "MitigationInEffectEnum",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "AnomalyResultEnum": {"type": "string", "flattened": false},
   "AuthenticateCognitoActionAuthenticationRequestExtraParams": {
     "type": "map",
     "key": {"shape": "AuthenticateCognitoActionAuthenticationRequestParamName"},
@@ -284,7 +314,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Certificates": {"shape": "CertificateList", "flattened": false},
       "DefaultActions": {"shape": "Actions", "flattened": false},
       "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false},
-      "Tags": {"shape": "TagList", "flattened": false}
+      "Tags": {"shape": "TagList", "flattened": false},
+      "MutualAuthentication": {
+        "shape": "MutualAuthenticationAttributes",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -383,6 +417,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "CreateTrustStoreInput": {
+    "type": "structure",
+    "members": {
+      "Name": {"shape": "TrustStoreName", "flattened": false},
+      "CaCertificatesBundleS3Bucket": {"shape": "S3Bucket", "flattened": false},
+      "CaCertificatesBundleS3Key": {"shape": "S3Key", "flattened": false},
+      "CaCertificatesBundleS3ObjectVersion": {
+        "shape": "S3ObjectVersion",
+        "flattened": false
+      },
+      "Tags": {"shape": "TagList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateTrustStoreOutput": {
+    "type": "structure",
+    "members": {
+      "TrustStores": {"shape": "TrustStores", "flattened": false}
+    },
+    "flattened": false
+  },
   "CreatedTime": {"type": "timestamp", "flattened": false},
   "CustomerOwnedIpv4Pool": {"type": "string", "flattened": false},
   "DNSName": {"type": "string", "flattened": false},
@@ -427,6 +482,18 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "DeleteTargetGroupOutput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "DeleteTrustStoreInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteTrustStoreOutput": {
     "type": "structure",
     "members": {},
     "flattened": false
@@ -614,8 +681,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "TargetGroupArn": {"shape": "TargetGroupArn", "flattened": false},
-      "Targets": {"shape": "TargetDescriptions", "flattened": false}
+      "Targets": {"shape": "TargetDescriptions", "flattened": false},
+      "Include": {
+        "shape": "ListOfDescribeTargetHealthIncludeOptions",
+        "flattened": false
+      }
     },
+    "flattened": false
+  },
+  "DescribeTargetHealthInputIncludeEnum": {
+    "type": "string",
     "flattened": false
   },
   "DescribeTargetHealthOutput": {
@@ -628,7 +703,92 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeTrustStoreAssociationsInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "Marker": {"shape": "Marker", "flattened": false},
+      "PageSize": {"shape": "PageSize", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeTrustStoreAssociationsOutput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreAssociations": {
+        "shape": "TrustStoreAssociations",
+        "flattened": false
+      },
+      "NextMarker": {"shape": "Marker", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeTrustStoreRevocation": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "RevocationId": {"shape": "RevocationId", "flattened": false},
+      "RevocationType": {"shape": "RevocationType", "flattened": false},
+      "NumberOfRevokedEntries": {
+        "shape": "NumberOfRevokedEntries",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribeTrustStoreRevocationResponse": {
+    "type": "list",
+    "member": {"shape": "DescribeTrustStoreRevocation"},
+    "flattened": false
+  },
+  "DescribeTrustStoreRevocationsInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "RevocationIds": {"shape": "RevocationIds", "flattened": false},
+      "Marker": {"shape": "Marker", "flattened": false},
+      "PageSize": {"shape": "PageSize", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeTrustStoreRevocationsOutput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreRevocations": {
+        "shape": "DescribeTrustStoreRevocationResponse",
+        "flattened": false
+      },
+      "NextMarker": {"shape": "Marker", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeTrustStoresInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArns": {"shape": "TrustStoreArns", "flattened": false},
+      "Names": {"shape": "TrustStoreNames", "flattened": false},
+      "Marker": {"shape": "Marker", "flattened": false},
+      "PageSize": {"shape": "PageSize", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeTrustStoresOutput": {
+    "type": "structure",
+    "members": {
+      "TrustStores": {"shape": "TrustStores", "flattened": false},
+      "NextMarker": {"shape": "Marker", "flattened": false}
+    },
+    "flattened": false
+  },
   "Description": {"type": "string", "flattened": false},
+  "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic": {
+    "type": "string",
+    "flattened": false
+  },
+  "EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum": {
+    "type": "string",
+    "flattened": false
+  },
   "FixedResponseActionConfig": {
     "type": "structure",
     "members": {
@@ -658,6 +818,35 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "TargetGroupStickinessConfig",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "GetTrustStoreCaCertificatesBundleInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetTrustStoreCaCertificatesBundleOutput": {
+    "type": "structure",
+    "members": {
+      "Location": {"shape": "Location", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetTrustStoreRevocationContentInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "RevocationId": {"shape": "RevocationId", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetTrustStoreRevocationContentOutput": {
+    "type": "structure",
+    "members": {
+      "Location": {"shape": "Location", "flattened": false}
     },
     "flattened": false
   },
@@ -695,6 +884,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "IPv6Address": {"type": "string", "flattened": false},
+  "IgnoreClientCertificateExpiry": {"type": "boolean", "flattened": false},
   "IpAddress": {"type": "string", "flattened": false},
   "IpAddressType": {"type": "string", "flattened": false},
   "IsDefault": {"type": "boolean", "flattened": false},
@@ -709,6 +899,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "Limits": {
     "type": "list",
     "member": {"shape": "Limit"},
+    "flattened": false
+  },
+  "ListOfDescribeTargetHealthIncludeOptions": {
+    "type": "list",
+    "member": {"shape": "DescribeTargetHealthInputIncludeEnum"},
     "flattened": false
   },
   "ListOfString": {
@@ -726,7 +921,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Certificates": {"shape": "CertificateList", "flattened": false},
       "SslPolicy": {"shape": "SslPolicyName", "flattened": false},
       "DefaultActions": {"shape": "Actions", "flattened": false},
-      "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false}
+      "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false},
+      "MutualAuthentication": {
+        "shape": "MutualAuthenticationAttributes",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -761,6 +960,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "IpAddressType": {"shape": "IpAddressType", "flattened": false},
       "CustomerOwnedIpv4Pool": {
         "shape": "CustomerOwnedIpv4Pool",
+        "flattened": false
+      },
+      "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic": {
+        "shape": "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic",
         "flattened": false
       }
     },
@@ -824,6 +1027,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "LoadBalancer"},
     "flattened": false
   },
+  "Location": {"type": "string", "flattened": false},
   "Marker": {"type": "string", "flattened": false},
   "Matcher": {
     "type": "structure",
@@ -834,6 +1038,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Max": {"type": "string", "flattened": false},
+  "MitigationInEffectEnum": {"type": "string", "flattened": false},
+  "Mode": {"type": "string", "flattened": false},
   "ModifyListenerInput": {
     "type": "structure",
     "members": {
@@ -843,7 +1049,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "SslPolicy": {"shape": "SslPolicyName", "flattened": false},
       "Certificates": {"shape": "CertificateList", "flattened": false},
       "DefaultActions": {"shape": "Actions", "flattened": false},
-      "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false}
+      "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false},
+      "MutualAuthentication": {
+        "shape": "MutualAuthenticationAttributes",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -935,7 +1145,41 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ModifyTrustStoreInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "CaCertificatesBundleS3Bucket": {"shape": "S3Bucket", "flattened": false},
+      "CaCertificatesBundleS3Key": {"shape": "S3Key", "flattened": false},
+      "CaCertificatesBundleS3ObjectVersion": {
+        "shape": "S3ObjectVersion",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ModifyTrustStoreOutput": {
+    "type": "structure",
+    "members": {
+      "TrustStores": {"shape": "TrustStores", "flattened": false}
+    },
+    "flattened": false
+  },
+  "MutualAuthenticationAttributes": {
+    "type": "structure",
+    "members": {
+      "Mode": {"shape": "Mode", "flattened": false},
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "IgnoreClientCertificateExpiry": {
+        "shape": "IgnoreClientCertificateExpiry",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "Name": {"type": "string", "flattened": false},
+  "NumberOfCaCertificates": {"type": "integer", "flattened": false},
+  "NumberOfRevokedEntries": {"type": "long", "flattened": false},
   "OutpostId": {"type": "string", "flattened": false},
   "PageSize": {"type": "integer", "flattened": false},
   "Path": {"type": "string", "flattened": false},
@@ -1026,12 +1270,47 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "RemoveTagsOutput": {"type": "structure", "members": {}, "flattened": false},
+  "RemoveTrustStoreRevocationsInput": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "RevocationIds": {"shape": "RevocationIds", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RemoveTrustStoreRevocationsOutput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
   "ResourceArn": {"type": "string", "flattened": false},
   "ResourceArns": {
     "type": "list",
     "member": {"shape": "ResourceArn"},
     "flattened": false
   },
+  "RevocationContent": {
+    "type": "structure",
+    "members": {
+      "S3Bucket": {"shape": "S3Bucket", "flattened": false},
+      "S3Key": {"shape": "S3Key", "flattened": false},
+      "S3ObjectVersion": {"shape": "S3ObjectVersion", "flattened": false},
+      "RevocationType": {"shape": "RevocationType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RevocationContents": {
+    "type": "list",
+    "member": {"shape": "RevocationContent"},
+    "flattened": false
+  },
+  "RevocationId": {"type": "long", "flattened": false},
+  "RevocationIds": {
+    "type": "list",
+    "member": {"shape": "RevocationId"},
+    "flattened": false
+  },
+  "RevocationType": {"type": "string", "flattened": false},
   "Rule": {
     "type": "structure",
     "members": {
@@ -1102,6 +1381,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "Rule"},
     "flattened": false
   },
+  "S3Bucket": {"type": "string", "flattened": false},
+  "S3Key": {"type": "string", "flattened": false},
+  "S3ObjectVersion": {"type": "string", "flattened": false},
   "SecurityGroupId": {"type": "string", "flattened": false},
   "SecurityGroups": {
     "type": "list",
@@ -1141,14 +1423,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "LoadBalancerArn": {"shape": "LoadBalancerArn", "flattened": false},
-      "SecurityGroups": {"shape": "SecurityGroups", "flattened": false}
+      "SecurityGroups": {"shape": "SecurityGroups", "flattened": false},
+      "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic": {
+        "shape": "EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum",
+        "flattened": false
+      }
     },
     "flattened": false
   },
   "SetSecurityGroupsOutput": {
     "type": "structure",
     "members": {
-      "SecurityGroupIds": {"shape": "SecurityGroups", "flattened": false}
+      "SecurityGroupIds": {"shape": "SecurityGroups", "flattened": false},
+      "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic": {
+        "shape": "EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1394,7 +1684,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Target": {"shape": "TargetDescription", "flattened": false},
       "HealthCheckPort": {"shape": "HealthCheckPort", "flattened": false},
-      "TargetHealth": {"shape": "TargetHealth", "flattened": false}
+      "TargetHealth": {"shape": "TargetHealth", "flattened": false},
+      "AnomalyDetection": {"shape": "AnomalyDetection", "flattened": false}
     },
     "flattened": false
   },
@@ -1407,6 +1698,76 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "TargetHealthStateEnum": {"type": "string", "flattened": false},
   "TargetId": {"type": "string", "flattened": false},
   "TargetTypeEnum": {"type": "string", "flattened": false},
+  "TotalRevokedEntries": {"type": "long", "flattened": false},
+  "TrustStore": {
+    "type": "structure",
+    "members": {
+      "Name": {"shape": "TrustStoreName", "flattened": false},
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "Status": {"shape": "TrustStoreStatus", "flattened": false},
+      "NumberOfCaCertificates": {
+        "shape": "NumberOfCaCertificates",
+        "flattened": false
+      },
+      "TotalRevokedEntries": {
+        "shape": "TotalRevokedEntries",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "TrustStoreArn": {"type": "string", "flattened": false},
+  "TrustStoreArns": {
+    "type": "list",
+    "member": {"shape": "TrustStoreArn"},
+    "flattened": false
+  },
+  "TrustStoreAssociation": {
+    "type": "structure",
+    "members": {
+      "ResourceArn": {
+        "shape": "TrustStoreAssociationResourceArn",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "TrustStoreAssociationResourceArn": {"type": "string", "flattened": false},
+  "TrustStoreAssociations": {
+    "type": "list",
+    "member": {"shape": "TrustStoreAssociation"},
+    "flattened": false
+  },
+  "TrustStoreName": {"type": "string", "flattened": false},
+  "TrustStoreNames": {
+    "type": "list",
+    "member": {"shape": "TrustStoreName"},
+    "flattened": false
+  },
+  "TrustStoreRevocation": {
+    "type": "structure",
+    "members": {
+      "TrustStoreArn": {"shape": "TrustStoreArn", "flattened": false},
+      "RevocationId": {"shape": "RevocationId", "flattened": false},
+      "RevocationType": {"shape": "RevocationType", "flattened": false},
+      "NumberOfRevokedEntries": {
+        "shape": "NumberOfRevokedEntries",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "TrustStoreRevocations": {
+    "type": "list",
+    "member": {"shape": "TrustStoreRevocation"},
+    "flattened": false
+  },
+  "TrustStoreStatus": {"type": "string", "flattened": false},
+  "TrustStores": {
+    "type": "list",
+    "member": {"shape": "TrustStore"},
+    "flattened": false
+  },
   "VpcId": {"type": "string", "flattened": false},
   "ZoneName": {"type": "string", "flattened": false}
 };

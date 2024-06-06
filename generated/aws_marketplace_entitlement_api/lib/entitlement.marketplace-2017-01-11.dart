@@ -83,6 +83,12 @@ class MarketplaceEntitlementService {
     int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMPEntitlementService.GetEntitlements'
@@ -249,57 +255,29 @@ class GetEntitlementsResult {
   }
 }
 
-/// An internal error has occurred. Retry your request. If the problem persists,
-/// post a message with details on the AWS forums.
-class InternalServiceErrorException implements _s.AwsException {
-  final String? message;
-
-  InternalServiceErrorException({
-    this.message,
-  });
-
-  factory InternalServiceErrorException.fromJson(Map<String, dynamic> json) {
-    return InternalServiceErrorException(
-      message: json['message'] as String?,
-    );
-  }
+class InternalServiceErrorException extends _s.GenericAwsException {
+  InternalServiceErrorException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InternalServiceErrorException',
+            message: message);
 }
 
-/// One or more parameters in your request was invalid.
-class InvalidParameterException implements _s.AwsException {
-  final String? message;
-
-  InvalidParameterException({
-    this.message,
-  });
-
-  factory InvalidParameterException.fromJson(Map<String, dynamic> json) {
-    return InvalidParameterException(
-      message: json['message'] as String?,
-    );
-  }
+class InvalidParameterException extends _s.GenericAwsException {
+  InvalidParameterException({String? type, String? message})
+      : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
-/// The calls to the GetEntitlements API are throttled.
-class ThrottlingException implements _s.AwsException {
-  final String? message;
-
-  ThrottlingException({
-    this.message,
-  });
-
-  factory ThrottlingException.fromJson(Map<String, dynamic> json) {
-    return ThrottlingException(
-      message: json['message'] as String?,
-    );
-  }
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InternalServiceErrorException': (type, message) =>
-      InternalServiceErrorException(message: message),
+      InternalServiceErrorException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
-      InvalidParameterException(message: message),
+      InvalidParameterException(type: type, message: message),
   'ThrottlingException': (type, message) =>
-      ThrottlingException(message: message),
+      ThrottlingException(type: type, message: message),
 };

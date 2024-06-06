@@ -59,6 +59,13 @@ class VpcLattice {
   /// change the priority of listener rules. This can be useful when bulk
   /// updating or swapping rule priority.
   ///
+  /// <b>Required permissions:</b> <code>vpc-lattice:UpdateRule</code>
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/security_iam_service-with-iam.html">How
+  /// Amazon VPC Lattice works with IAM</a> in the <i>Amazon VPC Lattice User
+  /// Guide</i>.
+  ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
@@ -94,7 +101,7 @@ class VpcLattice {
 
   /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon
   /// Kinesis Data Firehose. The service network owner can use the access logs
-  /// to audit the services in the network. The service network owner will only
+  /// to audit the services in the network. The service network owner can only
   /// see access logs from clients and services that are associated with their
   /// service network. Access log entries represent traffic originated from VPCs
   /// associated with that network. For more information, see <a
@@ -162,12 +169,8 @@ class VpcLattice {
   /// May throw [InternalServerException].
   ///
   /// Parameter [defaultAction] :
-  /// The action for the default rule. Each listener has a default rule. Each
-  /// rule consists of a priority, one or more actions, and one or more
-  /// conditions. The default rule is the rule that's used if no other rules
-  /// match. Each rule must include exactly one of the following types of
-  /// actions: <code>forward </code>or <code>fixed-response</code>, and it must
-  /// be the last action to be performed.
+  /// The action for the default rule. Each listener has a default rule. The
+  /// default rule is used if no other rules match.
   ///
   /// Parameter [name] :
   /// The name of the listener. A listener name must be unique within a service.
@@ -175,7 +178,7 @@ class VpcLattice {
   /// as the first or last character, or immediately after another hyphen.
   ///
   /// Parameter [protocol] :
-  /// The listener protocol HTTP or HTTPS.
+  /// The listener protocol.
   ///
   /// Parameter [serviceIdentifier] :
   /// The ID or Amazon Resource Name (ARN) of the service.
@@ -188,9 +191,8 @@ class VpcLattice {
   /// identical, the retry fails.
   ///
   /// Parameter [port] :
-  /// The listener port. You can specify a value from <code>1</code> to
-  /// <code>65535</code>. For HTTP, the default is <code>80</code>. For HTTPS,
-  /// the default is <code>443</code>.
+  /// The listener port. You can specify a value from 1 to 65535. For HTTP, the
+  /// default is 80. For HTTPS, the default is 443.
   ///
   /// Parameter [tags] :
   /// The tags for the listener.
@@ -448,7 +450,9 @@ class VpcLattice {
     return CreateServiceNetworkResponse.fromJson(response);
   }
 
-  /// Associates a service with a service network.
+  /// Associates a service with a service network. For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations">Manage
+  /// service associations</a> in the <i>Amazon VPC Lattice User Guide</i>.
   ///
   /// You can't use this operation if the service and service network are
   /// already associated or if there is a disassociation or deletion in
@@ -462,6 +466,7 @@ class VpcLattice {
   /// network account and the association owner account.
   ///
   /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
@@ -617,8 +622,7 @@ class VpcLattice {
   /// identical, the retry fails.
   ///
   /// Parameter [config] :
-  /// The target group configuration. If <code>type</code> is set to
-  /// <code>LAMBDA</code>, this parameter doesn't apply.
+  /// The target group configuration.
   ///
   /// Parameter [tags] :
   /// The tags for the target group.
@@ -668,10 +672,10 @@ class VpcLattice {
   }
 
   /// Deletes the specified auth policy. If an auth is set to
-  /// <code>AWS_IAM</code> and the auth policy is deleted, all requests will be
-  /// denied by default. If you are trying to remove the auth policy completely,
-  /// you must set the auth_type to <code>NONE</code>. If auth is enabled on the
-  /// resource, but no auth policy is set, all requests will be denied.
+  /// <code>AWS_IAM</code> and the auth policy is deleted, all requests are
+  /// denied. If you are trying to remove the auth policy completely, you must
+  /// set the auth type to <code>NONE</code>. If auth is enabled on the
+  /// resource, but no auth policy is set, all requests are denied.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -838,7 +842,7 @@ class VpcLattice {
   }
 
   /// Deletes the association between a specified service and the specific
-  /// service network. This request will fail if an association is still in
+  /// service network. This operation fails if an association is still in
   /// progress.
   ///
   /// May throw [ValidationException].
@@ -1174,6 +1178,7 @@ class VpcLattice {
   /// Retrieves information about the specified target group.
   ///
   /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1196,6 +1201,7 @@ class VpcLattice {
   /// service.
   ///
   /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
@@ -1328,9 +1334,9 @@ class VpcLattice {
   /// Every association in Amazon VPC Lattice is given a unique Amazon Resource
   /// Name (ARN), such as when a service network is associated with a VPC or
   /// when a service is associated with a service network. If the association is
-  /// for a resource that is shared with another account, the association will
-  /// include the local account ID as the prefix in the ARN for each account the
-  /// resource is shared with.
+  /// for a resource that is shared with another account, the association
+  /// includes the local account ID as the prefix in the ARN for each account
+  /// the resource is shared with.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1506,6 +1512,7 @@ class VpcLattice {
   /// Lists the tags for the specified resource.
   ///
   /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
@@ -1541,7 +1548,7 @@ class VpcLattice {
   /// The target group type.
   ///
   /// Parameter [vpcIdentifier] :
-  /// The ID or Amazon Resource Name (ARN) of the service.
+  /// The ID or Amazon Resource Name (ARN) of the VPC.
   Future<ListTargetGroupsResponse> listTargetGroups({
     int? maxResults,
     String? nextToken,
@@ -1591,7 +1598,7 @@ class VpcLattice {
   /// A pagination token for the next page of results.
   ///
   /// Parameter [targets] :
-  /// The targets to list.
+  /// The targets.
   Future<ListTargetsResponse> listTargets({
     required String targetGroupIdentifier,
     int? maxResults,
@@ -1624,6 +1631,10 @@ class VpcLattice {
 
   /// Creates or updates the auth policy. The policy string in JSON must not
   /// contain newlines or blank lines.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html">Auth
+  /// policies</a> in the <i>Amazon VPC Lattice User Guide</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1751,6 +1762,7 @@ class VpcLattice {
   /// Removes the specified tags from the specified resource.
   ///
   /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
@@ -2025,6 +2037,7 @@ class VpcLattice {
   /// Updates the specified target group.
   ///
   /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
@@ -2336,9 +2349,7 @@ class CreateListenerResponse {
 }
 
 class CreateRuleResponse {
-  /// The rule action. Each rule must include exactly one of the following types
-  /// of actions: <code>forward </code>or <code>fixed-response</code>, and it must
-  /// be the last action to be performed.
+  /// The rule action.
   final RuleAction? action;
 
   /// The Amazon Resource Name (ARN) of the rule.
@@ -2460,7 +2471,7 @@ class CreateServiceNetworkServiceAssociationResponse {
   /// The ID of the association.
   final String? id;
 
-  /// The operation's status.
+  /// The association status.
   final ServiceNetworkServiceAssociationStatus? status;
 
   CreateServiceNetworkServiceAssociationResponse({
@@ -2518,7 +2529,7 @@ class CreateServiceNetworkVpcAssociationResponse {
   /// The IDs of the security groups.
   final List<String>? securityGroupIds;
 
-  /// The operation's status.
+  /// The association status.
   final ServiceNetworkVpcAssociationStatus? status;
 
   CreateServiceNetworkVpcAssociationResponse({
@@ -2582,8 +2593,8 @@ class CreateServiceResponse {
   /// The name of the service.
   final String? name;
 
-  /// The status. If the status is <code>CREATE_FAILED</code>, you will have to
-  /// delete and recreate the service.
+  /// The status. If the status is <code>CREATE_FAILED</code>, you must delete and
+  /// recreate the service.
   final ServiceStatus? status;
 
   CreateServiceResponse({
@@ -2638,8 +2649,7 @@ class CreateTargetGroupResponse {
   /// The Amazon Resource Name (ARN) of the target group.
   final String? arn;
 
-  /// The target group configuration. If <code>type</code> is set to
-  /// <code>LAMBDA</code>, this parameter doesn't apply.
+  /// The target group configuration.
   final TargetGroupConfig? config;
 
   /// The ID of the target group.
@@ -2648,7 +2658,7 @@ class CreateTargetGroupResponse {
   /// The name of the target group.
   final String? name;
 
-  /// The operation's status. You can retry the operation if the status is
+  /// The status. You can retry the operation if the status is
   /// <code>CREATE_FAILED</code>. However, if you retry it while the status is
   /// <code>CREATE_IN_PROGRESS</code>, there is no change in the status.
   final TargetGroupStatus? status;
@@ -2775,7 +2785,7 @@ class DeleteServiceNetworkServiceAssociationResponse {
   /// The ID of the association.
   final String? id;
 
-  /// The operation's status. You can retry the operation if the status is
+  /// The status. You can retry the operation if the status is
   /// <code>DELETE_FAILED</code>. However, if you retry it when the status is
   /// <code>DELETE_IN_PROGRESS</code>, there is no change in the status.
   final ServiceNetworkServiceAssociationStatus? status;
@@ -2816,7 +2826,7 @@ class DeleteServiceNetworkVpcAssociationResponse {
   final String? id;
 
   /// The status. You can retry the operation if the status is
-  /// <code>DELETE_FAILED</code>. However, if you retry it when the status is
+  /// <code>DELETE_FAILED</code>. However, if you retry it while the status is
   /// <code>DELETE_IN_PROGRESS</code>, there is no change in the status.
   final ServiceNetworkVpcAssociationStatus? status;
 
@@ -2996,7 +3006,7 @@ class DnsEntry {
   }
 }
 
-/// Information about an action that returns a custom HTTP response.
+/// Describes an action that returns a custom HTTP response.
 class FixedResponseAction {
   /// The HTTP response code.
   final int statusCode;
@@ -3030,7 +3040,7 @@ class ForwardAction {
   /// receives half of the traffic.
   ///
   /// The default value is 1. This means that if only one target group is
-  /// provided, there is no need to set the weight; 100% of traffic will go to
+  /// provided, there is no need to set the weight; 100% of the traffic goes to
   /// that target group.
   final List<WeightedTargetGroup> targetGroups;
 
@@ -3138,7 +3148,7 @@ class GetAuthPolicyResponse {
   /// type is set to <code>AWS_IAM</code>. If you provide a policy, then
   /// authentication and authorization decisions are made based on this policy and
   /// the client's IAM policy. If the auth type is <code>NONE</code>, then any
-  /// auth policy you provide will remain inactive. For more information, see <a
+  /// auth policy that you provide remains inactive. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network">Create
   /// a service network</a> in the <i>Amazon VPC Lattice User Guide</i>.
   final AuthPolicyState? state;
@@ -3891,7 +3901,7 @@ class HeaderMatch {
   /// The name of the header.
   final String name;
 
-  /// Indicates whether the match is case sensitive. Defaults to false.
+  /// Indicates whether the match is case sensitive.
   final bool? caseSensitive;
 
   HeaderMatch({
@@ -3920,15 +3930,15 @@ class HeaderMatch {
   }
 }
 
-/// Describes a header match type. Only one can be provided.
+/// Describes a header match type.
 class HeaderMatchType {
-  /// Specifies a contains type match.
+  /// A contains type match.
   final String? contains;
 
-  /// Specifies an exact type match.
+  /// An exact type match.
   final String? exact;
 
-  /// Specifies a prefix type match. Matches the value with the prefix.
+  /// A prefix type match. Matches the value with the prefix.
   final String? prefix;
 
   HeaderMatchType({
@@ -3957,9 +3967,9 @@ class HeaderMatchType {
   }
 }
 
-/// The health check configuration of a target group. Health check
-/// configurations aren't used for <code>LAMBDA</code> and <code>ALB</code>
-/// target groups.
+/// Describes the health check configuration of a target group. Health check
+/// configurations aren't used for target groups of type <code>LAMBDA</code> or
+/// <code>ALB</code>.
 class HealthCheckConfig {
   /// Indicates whether health checking is enabled.
   final bool? enabled;
@@ -3978,7 +3988,6 @@ class HealthCheckConfig {
   final int? healthyThresholdCount;
 
   /// The codes to use when checking for a successful response from a target.
-  /// These are called <i>Success codes</i> in the console.
   final Matcher? matcher;
 
   /// The destination for health checks on the targets. If the protocol version is
@@ -4167,8 +4176,37 @@ extension IpAddressTypeFromString on String {
   }
 }
 
+enum LambdaEventStructureVersion {
+  v1,
+  v2,
+}
+
+extension LambdaEventStructureVersionValueExtension
+    on LambdaEventStructureVersion {
+  String toValue() {
+    switch (this) {
+      case LambdaEventStructureVersion.v1:
+        return 'V1';
+      case LambdaEventStructureVersion.v2:
+        return 'V2';
+    }
+  }
+}
+
+extension LambdaEventStructureVersionFromString on String {
+  LambdaEventStructureVersion toLambdaEventStructureVersion() {
+    switch (this) {
+      case 'V1':
+        return LambdaEventStructureVersion.v1;
+      case 'V2':
+        return LambdaEventStructureVersion.v2;
+    }
+    throw Exception('$this is not known in enum LambdaEventStructureVersion');
+  }
+}
+
 class ListAccessLogSubscriptionsResponse {
-  /// The access log subscriptions.
+  /// Information about the access log subscriptions.
   final List<AccessLogSubscriptionSummary> items;
 
   /// A pagination token for the next page of results.
@@ -4371,7 +4409,7 @@ class ListServiceNetworksResponse {
 }
 
 class ListServicesResponse {
-  /// The services.
+  /// Information about the services.
   final List<ServiceSummary>? items;
 
   /// If there are additional results, a pagination token for the next page of
@@ -4404,7 +4442,7 @@ class ListServicesResponse {
 }
 
 class ListTagsForResourceResponse {
-  /// The tags.
+  /// Information about the tags.
   final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
@@ -4495,6 +4533,7 @@ class ListTargetsResponse {
 enum ListenerProtocol {
   http,
   https,
+  tlsPassthrough,
 }
 
 extension ListenerProtocolValueExtension on ListenerProtocol {
@@ -4504,6 +4543,8 @@ extension ListenerProtocolValueExtension on ListenerProtocol {
         return 'HTTP';
       case ListenerProtocol.https:
         return 'HTTPS';
+      case ListenerProtocol.tlsPassthrough:
+        return 'TLS_PASSTHROUGH';
     }
   }
 }
@@ -4515,6 +4556,8 @@ extension ListenerProtocolFromString on String {
         return ListenerProtocol.http;
       case 'HTTPS':
         return ListenerProtocol.https;
+      case 'TLS_PASSTHROUGH':
+        return ListenerProtocol.tlsPassthrough;
     }
     throw Exception('$this is not known in enum ListenerProtocol');
   }
@@ -4587,8 +4630,8 @@ class ListenerSummary {
   }
 }
 
-/// The codes to use when checking for a successful response from a target for
-/// health checks.
+/// Describes the codes to use when checking for a successful response from a
+/// target for health checks.
 class Matcher {
   /// The HTTP code to use when checking for a successful response from a target.
   final String? httpCode;
@@ -4617,7 +4660,7 @@ class PathMatch {
   /// The type of path match.
   final PathMatchType match;
 
-  /// Indicates whether the match is case sensitive. Defaults to false.
+  /// Indicates whether the match is case sensitive.
   final bool? caseSensitive;
 
   PathMatch({
@@ -4682,7 +4725,7 @@ class PutAuthPolicyResponse {
   /// type is set to <code>AWS_IAM</code>. If you provide a policy, then
   /// authentication and authorization decisions are made based on this policy and
   /// the client's IAM policy. If the Auth type is <code>NONE</code>, then, any
-  /// auth policy you provide will remain inactive. For more information, see <a
+  /// auth policy that you provide remains inactive. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network">Create
   /// a service network</a> in the <i>Amazon VPC Lattice User Guide</i>.
   final AuthPolicyState? state;
@@ -4756,11 +4799,9 @@ class RegisterTargetsResponse {
   }
 }
 
-/// Describes the action for a rule. Each rule must include exactly one of the
-/// following types of actions: <code>forward </code>or
-/// <code>fixed-response</code>, and it must be the last action to be performed.
+/// Describes the action for a rule.
 class RuleAction {
-  /// Describes the rule action that returns a custom HTTP response.
+  /// The fixed response action. The rule returns a custom HTTP response.
   final FixedResponseAction? fixedResponse;
 
   /// The forward action. Traffic that matches the rule is forwarded to the
@@ -4831,9 +4872,7 @@ class RuleSummary {
   /// The ID of the rule.
   final String? id;
 
-  /// Indicates whether this is the default rule. Listener rules are created when
-  /// you create a listener. Each listener has a default rule for checking
-  /// connection requests.
+  /// Indicates whether this is the default listener rule.
   final bool? isDefault;
 
   /// The date and time that the listener rule was last updated, specified in
@@ -4888,7 +4927,7 @@ class RuleSummary {
   }
 }
 
-/// Represents an object when updating a rule.
+/// Describes a rule update.
 class RuleUpdate {
   /// The ID or Amazon Resource Name (ARN) of the rule.
   final String ruleIdentifier;
@@ -4963,7 +5002,7 @@ class RuleUpdateFailure {
 
 /// Describes a successful rule update.
 class RuleUpdateSuccess {
-  /// The action for the default rule.
+  /// The action for the rule.
   final RuleAction? action;
 
   /// The Amazon Resource Name (ARN) of the listener.
@@ -5092,7 +5131,7 @@ class ServiceNetworkServiceAssociationSummary {
   /// The custom domain name of the service.
   final String? customDomainName;
 
-  /// DNS information about the service.
+  /// The DNS information.
   final DnsEntry? dnsEntry;
 
   /// The ID of the association.
@@ -5459,7 +5498,7 @@ class ServiceSummary {
   /// The custom domain name of the service.
   final String? customDomainName;
 
-  /// DNS information about the service.
+  /// The DNS information.
   final DnsEntry? dnsEntry;
 
   /// The ID of the service.
@@ -5536,15 +5575,15 @@ class TagResourceResponse {
 
 /// Describes a target.
 class Target {
-  /// The ID of the target. If the target type of the target group is
-  /// <code>INSTANCE</code>, this is an instance ID. If the target type is
-  /// <code>IP</code> , this is an IP address. If the target type is
-  /// <code>LAMBDA</code>, this is the ARN of the Lambda function. If the target
-  /// type is <code>ALB</code>, this is the ARN of the Application Load Balancer.
+  /// The ID of the target. If the target group type is <code>INSTANCE</code>,
+  /// this is an instance ID. If the target group type is <code>IP</code>, this is
+  /// an IP address. If the target group type is <code>LAMBDA</code>, this is the
+  /// ARN of a Lambda function. If the target group type is <code>ALB</code>, this
+  /// is the ARN of an Application Load Balancer.
   final String id;
 
-  /// The port on which the target is listening. For HTTP, the default is
-  /// <code>80</code>. For HTTPS, the default is <code>443</code>.
+  /// The port on which the target is listening. For HTTP, the default is 80. For
+  /// HTTPS, the default is 443.
   final int? port;
 
   Target({
@@ -5577,11 +5616,11 @@ class TargetFailure {
   /// The failure message.
   final String? failureMessage;
 
-  /// The ID of the target. If the target type of the target group is
-  /// <code>INSTANCE</code>, this is an instance ID. If the target type is
-  /// <code>IP</code> , this is an IP address. If the target type is
-  /// <code>LAMBDA</code>, this is the ARN of the Lambda function. If the target
-  /// type is <code>ALB</code>, this is the ARN of the Application Load Balancer.
+  /// The ID of the target. If the target group type is <code>INSTANCE</code>,
+  /// this is an instance ID. If the target group type is <code>IP</code>, this is
+  /// an IP address. If the target group type is <code>LAMBDA</code>, this is the
+  /// ARN of a Lambda function. If the target group type is <code>ALB</code>, this
+  /// is the ARN of an Application Load Balancer.
   final String? id;
 
   /// The port on which the target is listening. This parameter doesn't apply if
@@ -5618,69 +5657,88 @@ class TargetFailure {
   }
 }
 
-/// Describes the configuration of a target group. Lambda functions don't
-/// support target group configuration.
+/// Describes the configuration of a target group.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html">Target
+/// groups</a> in the <i>Amazon VPC Lattice User Guide</i>.
 class TargetGroupConfig {
-  /// The port on which the targets are listening. For HTTP, the default is
-  /// <code>80</code>. For HTTPS, the default is <code>443</code>
-  final int port;
-
-  /// The protocol to use for routing traffic to the targets. Default is the
-  /// protocol of a target group.
-  final TargetGroupProtocol protocol;
-
-  /// The ID of the VPC.
-  final String vpcIdentifier;
-
-  /// The health check configuration.
+  /// The health check configuration. Not supported if the target group type is
+  /// <code>LAMBDA</code> or <code>ALB</code>.
   final HealthCheckConfig? healthCheck;
 
-  /// The type of IP address used for the target group. The possible values are
-  /// <code>ipv4</code> and <code>ipv6</code>. This is an optional parameter. If
-  /// not specified, the IP address type defaults to <code>ipv4</code>.
+  /// The type of IP address used for the target group. Supported only if the
+  /// target group type is <code>IP</code>. The default is <code>IPV4</code>.
   final IpAddressType? ipAddressType;
 
-  /// The protocol version. Default value is <code>HTTP1</code>.
+  /// The version of the event structure that your Lambda function receives.
+  /// Supported only if the target group type is <code>LAMBDA</code>. The default
+  /// is <code>V1</code>.
+  final LambdaEventStructureVersion? lambdaEventStructureVersion;
+
+  /// The port on which the targets are listening. For HTTP, the default is 80.
+  /// For HTTPS, the default is 443. Not supported if the target group type is
+  /// <code>LAMBDA</code>.
+  final int? port;
+
+  /// The protocol to use for routing traffic to the targets. The default is the
+  /// protocol of the target group. Not supported if the target group type is
+  /// <code>LAMBDA</code>.
+  final TargetGroupProtocol? protocol;
+
+  /// The protocol version. The default is <code>HTTP1</code>. Not supported if
+  /// the target group type is <code>LAMBDA</code>.
   final TargetGroupProtocolVersion? protocolVersion;
 
+  /// The ID of the VPC. Not supported if the target group type is
+  /// <code>LAMBDA</code>.
+  final String? vpcIdentifier;
+
   TargetGroupConfig({
-    required this.port,
-    required this.protocol,
-    required this.vpcIdentifier,
     this.healthCheck,
     this.ipAddressType,
+    this.lambdaEventStructureVersion,
+    this.port,
+    this.protocol,
     this.protocolVersion,
+    this.vpcIdentifier,
   });
 
   factory TargetGroupConfig.fromJson(Map<String, dynamic> json) {
     return TargetGroupConfig(
-      port: json['port'] as int,
-      protocol: (json['protocol'] as String).toTargetGroupProtocol(),
-      vpcIdentifier: json['vpcIdentifier'] as String,
       healthCheck: json['healthCheck'] != null
           ? HealthCheckConfig.fromJson(
               json['healthCheck'] as Map<String, dynamic>)
           : null,
       ipAddressType: (json['ipAddressType'] as String?)?.toIpAddressType(),
+      lambdaEventStructureVersion:
+          (json['lambdaEventStructureVersion'] as String?)
+              ?.toLambdaEventStructureVersion(),
+      port: json['port'] as int?,
+      protocol: (json['protocol'] as String?)?.toTargetGroupProtocol(),
       protocolVersion:
           (json['protocolVersion'] as String?)?.toTargetGroupProtocolVersion(),
+      vpcIdentifier: json['vpcIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final port = this.port;
-    final protocol = this.protocol;
-    final vpcIdentifier = this.vpcIdentifier;
     final healthCheck = this.healthCheck;
     final ipAddressType = this.ipAddressType;
+    final lambdaEventStructureVersion = this.lambdaEventStructureVersion;
+    final port = this.port;
+    final protocol = this.protocol;
     final protocolVersion = this.protocolVersion;
+    final vpcIdentifier = this.vpcIdentifier;
     return {
-      'port': port,
-      'protocol': protocol.toValue(),
-      'vpcIdentifier': vpcIdentifier,
       if (healthCheck != null) 'healthCheck': healthCheck,
       if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+      if (lambdaEventStructureVersion != null)
+        'lambdaEventStructureVersion': lambdaEventStructureVersion.toValue(),
+      if (port != null) 'port': port,
+      if (protocol != null) 'protocol': protocol.toValue(),
       if (protocolVersion != null) 'protocolVersion': protocolVersion.toValue(),
+      if (vpcIdentifier != null) 'vpcIdentifier': vpcIdentifier,
     };
   }
 }
@@ -5688,6 +5746,7 @@ class TargetGroupConfig {
 enum TargetGroupProtocol {
   http,
   https,
+  tcp,
 }
 
 extension TargetGroupProtocolValueExtension on TargetGroupProtocol {
@@ -5697,6 +5756,8 @@ extension TargetGroupProtocolValueExtension on TargetGroupProtocol {
         return 'HTTP';
       case TargetGroupProtocol.https:
         return 'HTTPS';
+      case TargetGroupProtocol.tcp:
+        return 'TCP';
     }
   }
 }
@@ -5708,6 +5769,8 @@ extension TargetGroupProtocolFromString on String {
         return TargetGroupProtocol.http;
       case 'HTTPS':
         return TargetGroupProtocol.https;
+      case 'TCP':
+        return TargetGroupProtocol.tcp;
     }
     throw Exception('$this is not known in enum TargetGroupProtocol');
   }
@@ -5791,6 +5854,10 @@ extension TargetGroupStatusFromString on String {
 }
 
 /// Summary information about a target group.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html">Target
+/// groups</a> in the <i>Amazon VPC Lattice User Guide</i>.
 class TargetGroupSummary {
   /// The ARN (Amazon Resource Name) of the target group.
   final String? arn;
@@ -5803,9 +5870,13 @@ class TargetGroupSummary {
   final String? id;
 
   /// The type of IP address used for the target group. The possible values are
-  /// <code>ipv4</code> and <code>ipv6</code>. This is an optional parameter. If
-  /// not specified, the IP address type defaults to <code>ipv4</code>.
+  /// <code>IPV4</code> and <code>IPV6</code>. This is an optional parameter. If
+  /// not specified, the default is <code>IPV4</code>.
   final IpAddressType? ipAddressType;
+
+  /// The version of the event structure that your Lambda function receives.
+  /// Supported only if the target group type is <code>LAMBDA</code>.
+  final LambdaEventStructureVersion? lambdaEventStructureVersion;
 
   /// The date and time that the target group was last updated, specified in
   /// ISO-8601 format.
@@ -5820,7 +5891,7 @@ class TargetGroupSummary {
   /// The protocol of the target group.
   final TargetGroupProtocol? protocol;
 
-  /// The list of Amazon Resource Names (ARNs) of the service.
+  /// The Amazon Resource Names (ARNs) of the service.
   final List<String>? serviceArns;
 
   /// The status.
@@ -5837,6 +5908,7 @@ class TargetGroupSummary {
     this.createdAt,
     this.id,
     this.ipAddressType,
+    this.lambdaEventStructureVersion,
     this.lastUpdatedAt,
     this.name,
     this.port,
@@ -5853,6 +5925,9 @@ class TargetGroupSummary {
       createdAt: timeStampFromJson(json['createdAt']),
       id: json['id'] as String?,
       ipAddressType: (json['ipAddressType'] as String?)?.toIpAddressType(),
+      lambdaEventStructureVersion:
+          (json['lambdaEventStructureVersion'] as String?)
+              ?.toLambdaEventStructureVersion(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       name: json['name'] as String?,
       port: json['port'] as int?,
@@ -5872,6 +5947,7 @@ class TargetGroupSummary {
     final createdAt = this.createdAt;
     final id = this.id;
     final ipAddressType = this.ipAddressType;
+    final lambdaEventStructureVersion = this.lambdaEventStructureVersion;
     final lastUpdatedAt = this.lastUpdatedAt;
     final name = this.name;
     final port = this.port;
@@ -5885,6 +5961,8 @@ class TargetGroupSummary {
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (id != null) 'id': id,
       if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+      if (lambdaEventStructureVersion != null)
+        'lambdaEventStructureVersion': lambdaEventStructureVersion.toValue(),
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       if (name != null) 'name': name,
       if (port != null) 'port': port,
@@ -5985,11 +6063,11 @@ extension TargetStatusFromString on String {
 
 /// Summary information about a target.
 class TargetSummary {
-  /// The ID of the target. If the target type of the target group is
-  /// <code>INSTANCE</code>, this is an instance ID. If the target type is
-  /// <code>IP</code> , this is an IP address. If the target type is
-  /// <code>LAMBDA</code>, this is the ARN of the Lambda function. If the target
-  /// type is <code>ALB</code>, this is the ARN of the Application Load Balancer.
+  /// The ID of the target. If the target group type is <code>INSTANCE</code>,
+  /// this is an instance ID. If the target group type is <code>IP</code>, this is
+  /// an IP address. If the target group type is <code>LAMBDA</code>, this is the
+  /// ARN of a Lambda function. If the target type is <code>ALB</code>, this is
+  /// the ARN of an Application Load Balancer.
   final String? id;
 
   /// The port on which the target is listening.
@@ -6002,26 +6080,26 @@ class TargetSummary {
   ///
   /// <ul>
   /// <li>
-  /// <code>Draining</code>: The target is being deregistered. No new connections
-  /// will be sent to this target while current connections are being drained.
-  /// Default draining time is 5 minutes.
+  /// <code>DRAINING</code>: The target is being deregistered. No new connections
+  /// are sent to this target while current connections are being drained. The
+  /// default draining time is 5 minutes.
   /// </li>
   /// <li>
-  /// <code>Unavailable</code>: Health checks are unavailable for the target
+  /// <code>UNAVAILABLE</code>: Health checks are unavailable for the target
   /// group.
   /// </li>
   /// <li>
-  /// <code>Healthy</code>: The target is healthy.
+  /// <code>HEALTHY</code>: The target is healthy.
   /// </li>
   /// <li>
-  /// <code>Unhealthy</code>: The target is unhealthy.
+  /// <code>UNHEALTHY</code>: The target is unhealthy.
   /// </li>
   /// <li>
-  /// <code>Initial</code>: Initial health checks on the target are being
+  /// <code>INITIAL</code>: Initial health checks on the target are being
   /// performed.
   /// </li>
   /// <li>
-  /// <code>Unused</code>: Target group is not used in a service.
+  /// <code>UNUSED</code>: Target group is not used in a service.
   /// </li>
   /// </ul>
   final TargetStatus? status;
@@ -6482,13 +6560,13 @@ class WeightedTargetGroup {
   final String targetGroupIdentifier;
 
   /// Only required if you specify multiple target groups for a forward action.
-  /// The "weight" determines how requests are distributed to the target group.
-  /// For example, if you specify two target groups, each with a weight of 10,
-  /// each target group receives half the requests. If you specify two target
-  /// groups, one with a weight of 10 and the other with a weight of 20, the
-  /// target group with a weight of 20 receives twice as many requests as the
-  /// other target group. If there's only one target group specified, then the
-  /// default value is 100.
+  /// The weight determines how requests are distributed to the target group. For
+  /// example, if you specify two target groups, each with a weight of 10, each
+  /// target group receives half the requests. If you specify two target groups,
+  /// one with a weight of 10 and the other with a weight of 20, the target group
+  /// with a weight of 20 receives twice as many requests as the other target
+  /// group. If there's only one target group specified, then the default value is
+  /// 100.
   final int? weight;
 
   WeightedTargetGroup({

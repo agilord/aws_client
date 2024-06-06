@@ -1353,6 +1353,8 @@ class DashPackage {
   /// (MPD).  When set to FULL, elements like SegmentTemplate and
   /// ContentProtection are included in each Representation.  When set to COMPACT,
   /// duplicate elements are combined and presented at the AdaptationSet level.
+  /// When set to DRM_TOP_LEVEL_COMPACT, content protection elements are placed
+  /// the MPD level and referenced at the AdaptationSet level.
   final ManifestLayout? manifestLayout;
 
   /// Time window (in seconds) contained in each manifest.
@@ -2438,6 +2440,7 @@ class ListTagsForResourceResponse {
 enum ManifestLayout {
   full,
   compact,
+  drmTopLevelCompact,
 }
 
 extension ManifestLayoutValueExtension on ManifestLayout {
@@ -2447,6 +2450,8 @@ extension ManifestLayoutValueExtension on ManifestLayout {
         return 'FULL';
       case ManifestLayout.compact:
         return 'COMPACT';
+      case ManifestLayout.drmTopLevelCompact:
+        return 'DRM_TOP_LEVEL_COMPACT';
     }
   }
 }
@@ -2458,6 +2463,8 @@ extension ManifestLayoutFromString on String {
         return ManifestLayout.full;
       case 'COMPACT':
         return ManifestLayout.compact;
+      case 'DRM_TOP_LEVEL_COMPACT':
+        return ManifestLayout.drmTopLevelCompact;
     }
     throw Exception('$this is not known in enum ManifestLayout');
   }

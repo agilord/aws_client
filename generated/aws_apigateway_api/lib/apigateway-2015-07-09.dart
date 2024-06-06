@@ -21,7 +21,7 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon API Gateway helps developers deliver robust, secure, and scalable
 /// mobile and web application back ends. API Gateway allows developers to
-/// securely connect mobile and web applications to APIs that run on AWS Lambda,
+/// securely connect mobile and web applications to APIs that run on Lambda,
 /// Amazon EC2, or other publicly addressable web services that are hosted
 /// outside of AWS.
 class APIGateway {
@@ -62,8 +62,8 @@ class APIGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [customerId] :
-  /// An AWS Marketplace customer identifier , when integrating with the AWS
-  /// SaaS Marketplace.
+  /// An Amazon Web Services Marketplace customer identifier, when integrating
+  /// with the Amazon Web Services SaaS Marketplace.
   ///
   /// Parameter [description] :
   /// The description of the ApiKey.
@@ -459,9 +459,9 @@ class APIGateway {
   /// The name of the DomainName resource.
   ///
   /// Parameter [certificateArn] :
-  /// The reference to an AWS-managed certificate that will be used by
-  /// edge-optimized endpoint for this domain name. AWS Certificate Manager is
-  /// the only supported source.
+  /// The reference to an Amazon Web Services-managed certificate that will be
+  /// used by edge-optimized endpoint for this domain name. Certificate Manager
+  /// is the only supported source.
   ///
   /// Parameter [certificateBody] :
   /// [Deprecated] The body of the server certificate that will be used by
@@ -495,9 +495,9 @@ class APIGateway {
   /// ACM imported or private CA certificate ARN as the regionalCertificateArn.
   ///
   /// Parameter [regionalCertificateArn] :
-  /// The reference to an AWS-managed certificate that will be used by regional
-  /// endpoint for this domain name. AWS Certificate Manager is the only
-  /// supported source.
+  /// The reference to an Amazon Web Services-managed certificate that will be
+  /// used by regional endpoint for this domain name. Certificate Manager is the
+  /// only supported source.
   ///
   /// Parameter [regionalCertificateName] :
   /// The user-friendly name of the certificate that will be used by regional
@@ -581,7 +581,8 @@ class APIGateway {
   ///
   /// Parameter [schema] :
   /// The schema for the model. For <code>application/json</code> models, this
-  /// should be JSON schema draft 4 model.
+  /// should be JSON schema draft 4 model. The maximum size of the model is 400
+  /// KB.
   Future<Model> createModel({
     required String contentType,
     required String name,
@@ -698,7 +699,7 @@ class APIGateway {
   ///
   /// Parameter [apiKeySource] :
   /// The source of the API key for metering requests according to a usage plan.
-  /// Valid values are: &gt;<code>HEADER</code> to read the API key from the
+  /// Valid values are: <code>HEADER</code> to read the API key from the
   /// <code>X-API-Key</code> header of a request. <code>AUTHORIZER</code> to
   /// read the API key from the <code>UsageIdentifierKey</code> from a custom
   /// authorizer.
@@ -975,8 +976,8 @@ class APIGateway {
   ///
   /// Parameter [targetArns] :
   /// The ARN of the network load balancer of the VPC targeted by the VPC link.
-  /// The network load balancer must be owned by the same AWS account of the API
-  /// owner.
+  /// The network load balancer must be owned by the same Amazon Web Services
+  /// account of the API owner.
   ///
   /// Parameter [description] :
   /// The description of the VPC link.
@@ -1696,8 +1697,8 @@ class APIGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [customerId] :
-  /// The identifier of a customer in AWS Marketplace or an external system,
-  /// such as a developer portal.
+  /// The identifier of a customer in Amazon Web Services Marketplace or an
+  /// external system, such as a developer portal.
   ///
   /// Parameter [includeValues] :
   /// A boolean flag to specify whether (<code>true</code>) or not
@@ -3255,9 +3256,9 @@ class APIGateway {
   ///
   /// Parameter [mode] :
   /// A query parameter to indicate whether to overwrite
-  /// (<code>OVERWRITE</code>) any existing DocumentationParts definition or to
-  /// merge (<code>MERGE</code>) the new definition into the existing one. The
-  /// default value is <code>MERGE</code>.
+  /// (<code>overwrite</code>) any existing DocumentationParts definition or to
+  /// merge (<code>merge</code>) the new definition into the existing one. The
+  /// default value is <code>merge</code>.
   Future<DocumentationPartIds> importDocumentationParts({
     required Uint8List body,
     required String restApiId,
@@ -3316,11 +3317,6 @@ class APIGateway {
   /// To handle imported <code>basepath</code>, set <code>parameters</code> as
   /// <code>basepath=ignore</code>, <code>basepath=prepend</code> or
   /// <code>basepath=split</code>.
-  ///
-  /// For example, the AWS CLI command to exclude documentation from the
-  /// imported API is:
-  ///
-  /// The AWS CLI command to set the regional endpoint on the imported API is:
   Future<RestApi> importRestApi({
     required Uint8List body,
     bool? failOnWarnings,
@@ -4305,7 +4301,7 @@ class APIGateway {
   /// The version identifier of the to-be-updated documentation version.
   ///
   /// Parameter [restApiId] :
-  /// The string identifier of the associated RestApi..
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
   /// For more information about supported patch operations, see <a
@@ -4570,7 +4566,8 @@ class APIGateway {
     return MethodResponse.fromJson(response);
   }
 
-  /// Changes information about a model.
+  /// Changes information about a model. The maximum size of the model is 400
+  /// KB.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4927,8 +4924,8 @@ class ApiKey {
   /// The timestamp when the API Key was created.
   final DateTime? createdDate;
 
-  /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS
-  /// Marketplace.
+  /// An Amazon Web Services Marketplace customer identifier, when integrating
+  /// with the Amazon Web Services SaaS Marketplace.
   final String? customerId;
 
   /// The description of the API Key.
@@ -6045,9 +6042,9 @@ class DocumentationVersions {
 /// Represents a custom domain name as a user-friendly host name of an API
 /// (RestApi).
 class DomainName {
-  /// The reference to an AWS-managed certificate that will be used by
-  /// edge-optimized endpoint for this domain name. AWS Certificate Manager is the
-  /// only supported source.
+  /// The reference to an Amazon Web Services-managed certificate that will be
+  /// used by edge-optimized endpoint for this domain name. Certificate Manager is
+  /// the only supported source.
   final String? certificateArn;
 
   /// The name of the certificate that will be used by edge-optimized endpoint for
@@ -6101,9 +6098,9 @@ class DomainName {
   /// ACM imported or private CA certificate ARN as the regionalCertificateArn.
   final String? ownershipVerificationCertificateArn;
 
-  /// The reference to an AWS-managed certificate that will be used for validating
-  /// the regional domain name. AWS Certificate Manager is the only supported
-  /// source.
+  /// The reference to an Amazon Web Services-managed certificate that will be
+  /// used for validating the regional domain name. Certificate Manager is the
+  /// only supported source.
   final String? regionalCertificateArn;
 
   /// The name of the certificate that will be used for validating the regional
@@ -6536,7 +6533,8 @@ class GatewayResponses {
   }
 }
 
-/// Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
+/// Represents an <code>HTTP</code>, <code>HTTP_PROXY</code>, <code>AWS</code>,
+/// <code>AWS_PROXY</code>, or Mock integration.
 class Integration {
   /// A list of request parameters whose values API Gateway caches. To be valid
   /// values for <code>cacheKeyParameters</code>, these parameters must also be
@@ -6575,10 +6573,13 @@ class Integration {
   /// Gateway to assume, use the role's Amazon Resource Name (ARN). To require
   /// that the caller's identity be passed through from the request, specify the
   /// string <code>arn:aws:iam::\*:user/\*</code>. To use resource-based
-  /// permissions on supported AWS services, specify null.
+  /// permissions on supported Amazon Web Services services, specify null.
   final String? credentials;
 
-  /// Specifies the integration's HTTP method type.
+  /// Specifies the integration's HTTP method type. For the Type property, if you
+  /// specify <code>MOCK</code>, this property is optional. For Lambda
+  /// integrations, you must set the integration method to <code>POST</code>. For
+  /// all other types, you must specify this property.
   final String? httpMethod;
 
   /// Specifies the integration's responses.
@@ -6644,10 +6645,8 @@ class Integration {
   ///
   /// For <code>HTTP</code> or <code>HTTP_PROXY</code> integrations, the URI must
   /// be a fully formed, encoded HTTP(S) URL according to the RFC-3986
-  /// specification, for either standard integration, where
-  /// <code>connectionType</code> is not <code>VPC_LINK</code>, or private
-  /// integration, where <code>connectionType</code> is <code>VPC_LINK</code>. For
-  /// a private HTTP integration, the URI is not used for routing. For
+  /// specification for standard integrations. If <code>connectionType</code> is
+  /// <code>VPC_LINK</code> specify the Network Load Balancer DNS name. For
   /// <code>AWS</code> or <code>AWS_PROXY</code> integrations, the URI is of the
   /// form
   /// <code>arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}</code>.
@@ -6658,11 +6657,11 @@ class Integration {
   /// Web Services service action-based API, using an
   /// Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing
   /// {service_api} refers to a supported action {name} plus any required input
-  /// parameters. Alternatively, path can be used for an AWS service path-based
-  /// API. The ensuing service_api refers to the path to an Amazon Web Services
-  /// service resource, including the region of the integrated Amazon Web Services
-  /// service, if applicable. For example, for integration with the S3 API of
-  /// GetObject, the uri can be either
+  /// parameters. Alternatively, path can be used for an Amazon Web Services
+  /// service path-based API. The ensuing service_api refers to the path to an
+  /// Amazon Web Services service resource, including the region of the integrated
+  /// Amazon Web Services service, if applicable. For example, for integration
+  /// with the S3 API of GetObject, the uri can be either
   /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}</code>
   /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>
   final String? uri;
@@ -6753,9 +6752,9 @@ class IntegrationResponse {
   /// if the success response returns nothing and the error response returns some
   /// string, you could use the <code>.+</code> regex to match error response.
   /// However, make sure that the error response does not contain any newline
-  /// (<code>\n</code>) character in such cases. If the back end is an AWS Lambda
-  /// function, the AWS Lambda function error header is matched. For all other
-  /// HTTP and AWS back ends, the HTTP status code is matched.
+  /// (<code>\n</code>) character in such cases. If the back end is an Lambda
+  /// function, the Lambda function error header is matched. For all other HTTP
+  /// and Amazon Web Services back ends, the HTTP status code is matched.
   final String? selectionPattern;
 
   /// Specifies the status code that is used to map the integration response to an
@@ -6785,11 +6784,11 @@ class IntegrationResponse {
 }
 
 /// The integration type. The valid value is <code>HTTP</code> for integrating
-/// an API method with an HTTP backend; <code>AWS</code> with any AWS service
-/// endpoints; <code>MOCK</code> for testing without actually invoking the
-/// backend; <code>HTTP_PROXY</code> for integrating with the HTTP proxy
-/// integration; <code>AWS_PROXY</code> for integrating with the Lambda proxy
-/// integration.
+/// an API method with an HTTP backend; <code>AWS</code> with any Amazon Web
+/// Services service endpoints; <code>MOCK</code> for testing without actually
+/// invoking the backend; <code>HTTP_PROXY</code> for integrating with the HTTP
+/// proxy integration; <code>AWS_PROXY</code> for integrating with the Lambda
+/// proxy integration.
 enum IntegrationType {
   http,
   aws,
@@ -7023,67 +7022,45 @@ class MethodResponse {
 
 /// Specifies the method setting properties.
 class MethodSetting {
-  /// Specifies whether the cached responses are encrypted. The PATCH path for
-  /// this setting is <code>/{method_setting_key}/caching/dataEncrypted</code>,
-  /// and the value is a Boolean.
+  /// Specifies whether the cached responses are encrypted.
   final bool? cacheDataEncrypted;
 
   /// Specifies the time to live (TTL), in seconds, for cached responses. The
-  /// higher the TTL, the longer the response will be cached. The PATCH path for
-  /// this setting is <code>/{method_setting_key}/caching/ttlInSeconds</code>, and
-  /// the value is an integer.
+  /// higher the TTL, the longer the response will be cached.
   final int? cacheTtlInSeconds;
 
   /// Specifies whether responses should be cached and returned for requests. A
-  /// cache cluster must be enabled on the stage for responses to be cached. The
-  /// PATCH path for this setting is
-  /// <code>/{method_setting_key}/caching/enabled</code>, and the value is a
-  /// Boolean.
+  /// cache cluster must be enabled on the stage for responses to be cached.
   final bool? cachingEnabled;
 
   /// Specifies whether data trace logging is enabled for this method, which
-  /// affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for
-  /// this setting is <code>/{method_setting_key}/logging/dataTrace</code>, and
-  /// the value is a Boolean.
+  /// affects the log entries pushed to Amazon CloudWatch Logs. This can be useful
+  /// to troubleshoot APIs, but can result in logging sensitive data. We recommend
+  /// that you don't enable this option for production APIs.
   final bool? dataTraceEnabled;
 
   /// Specifies the logging level for this method, which affects the log entries
-  /// pushed to Amazon CloudWatch Logs. The PATCH path for this setting is
-  /// <code>/{method_setting_key}/logging/loglevel</code>, and the available
-  /// levels are <code>OFF</code>, <code>ERROR</code>, and <code>INFO</code>.
-  /// Choose <code>ERROR</code> to write only error-level entries to CloudWatch
-  /// Logs, or choose <code>INFO</code> to include all <code>ERROR</code> events
-  /// as well as extra informational events.
+  /// pushed to Amazon CloudWatch Logs. Valid values are <code>OFF</code>,
+  /// <code>ERROR</code>, and <code>INFO</code>. Choose <code>ERROR</code> to
+  /// write only error-level entries to CloudWatch Logs, or choose
+  /// <code>INFO</code> to include all <code>ERROR</code> events as well as extra
+  /// informational events.
   final String? loggingLevel;
 
-  /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The
-  /// PATCH path for this setting is
-  /// <code>/{method_setting_key}/metrics/enabled</code>, and the value is a
-  /// Boolean.
+  /// Specifies whether Amazon CloudWatch metrics are enabled for this method.
   final bool? metricsEnabled;
 
   /// Specifies whether authorization is required for a cache invalidation
-  /// request. The PATCH path for this setting is
-  /// <code>/{method_setting_key}/caching/requireAuthorizationForCacheControl</code>,
-  /// and the value is a Boolean.
+  /// request.
   final bool? requireAuthorizationForCacheControl;
 
-  /// Specifies the throttling burst limit. The PATCH path for this setting is
-  /// <code>/{method_setting_key}/throttling/burstLimit</code>, and the value is
-  /// an integer.
+  /// Specifies the throttling burst limit.
   final int? throttlingBurstLimit;
 
-  /// Specifies the throttling rate limit. The PATCH path for this setting is
-  /// <code>/{method_setting_key}/throttling/rateLimit</code>, and the value is a
-  /// double.
+  /// Specifies the throttling rate limit.
   final double? throttlingRateLimit;
 
-  /// Specifies how to handle unauthorized requests for cache invalidation. The
-  /// PATCH path for this setting is
-  /// <code>/{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy</code>,
-  /// and the available values are <code>FAIL_WITH_403</code>,
-  /// <code>SUCCEED_WITH_RESPONSE_HEADER</code>,
-  /// <code>SUCCEED_WITHOUT_RESPONSE_HEADER</code>.
+  /// Specifies how to handle unauthorized requests for cache invalidation.
   final UnauthorizedCacheControlHeaderStrategy?
       unauthorizedCacheControlHeaderStrategy;
 
@@ -7648,6 +7625,9 @@ class RestApi {
   /// of the caller and Method configuration.
   final String? policy;
 
+  /// The API's root resource ID.
+  final String? rootResourceId;
+
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
   final Map<String, String>? tags;
@@ -7670,6 +7650,7 @@ class RestApi {
     this.minimumCompressionSize,
     this.name,
     this.policy,
+    this.rootResourceId,
     this.tags,
     this.version,
     this.warnings,
@@ -7693,6 +7674,7 @@ class RestApi {
       minimumCompressionSize: json['minimumCompressionSize'] as int?,
       name: json['name'] as String?,
       policy: json['policy'] as String?,
+      rootResourceId: json['rootResourceId'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
@@ -7874,7 +7856,9 @@ class Stage {
   /// Settings for logging access in this stage.
   final AccessLogSettings? accessLogSettings;
 
-  /// Specifies whether a cache cluster is enabled for the stage.
+  /// Specifies whether a cache cluster is enabled for the stage. To activate a
+  /// method-level cache, set <code>CachingEnabled</code> to <code>true</code> for
+  /// a method.
   final bool? cacheClusterEnabled;
 
   /// The stage's cache capacity in GB. For more information about choosing a
@@ -8082,7 +8066,7 @@ class TestInvokeAuthorizerResponse {
   /// authorizer succeeded.
   final int? clientStatus;
 
-  /// The execution latency of the test authorizer request.
+  /// The execution latency, in ms, of the test authorizer request.
   final int? latency;
 
   /// The API Gateway execution log for the test authorizer request.
@@ -8128,7 +8112,7 @@ class TestInvokeMethodResponse {
   /// The headers of the HTTP response.
   final Map<String, String>? headers;
 
-  /// The execution latency of the test invoke request.
+  /// The execution latency, in ms, of the test invoke request.
   final int? latency;
 
   /// The API Gateway execution log for the test invoke request.
@@ -8335,8 +8319,8 @@ class UsagePlan {
   /// The name of a usage plan.
   final String? name;
 
-  /// The AWS Markeplace product identifier to associate with the usage plan as a
-  /// SaaS product on AWS Marketplace.
+  /// The Amazon Web Services Marketplace product identifier to associate with the
+  /// usage plan as a SaaS product on the Amazon Web Services Marketplace.
   final String? productCode;
 
   /// The target maximum number of permitted requests per a given unit time
@@ -8488,8 +8472,8 @@ class VpcLink {
   final Map<String, String>? tags;
 
   /// The ARN of the network load balancer of the VPC targeted by the VPC link.
-  /// The network load balancer must be owned by the same AWS account of the API
-  /// owner.
+  /// The network load balancer must be owned by the same Amazon Web Services
+  /// account of the API owner.
   final List<String>? targetArns;
 
   VpcLink({

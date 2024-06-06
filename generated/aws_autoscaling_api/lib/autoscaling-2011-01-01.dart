@@ -421,9 +421,8 @@ class AutoScaling {
   /// the <a>CompleteLifecycleAction</a> API call.</b>
   /// </li> </ol>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
-  /// EC2 Auto Scaling lifecycle hooks</a> in the <i>Amazon EC2 Auto Scaling
-  /// User Guide</i>.
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/completing-lifecycle-hooks.html">Complete
+  /// a lifecycle action</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
   /// May throw [ResourceContentionFault].
   ///
@@ -484,14 +483,11 @@ class AutoScaling {
   /// for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
   ///
-  /// For introductory exercises for creating an Auto Scaling group, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/GettingStartedTutorial.html">Getting
-  /// started with Amazon EC2 Auto Scaling</a> and <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-register-lbs-with-asg.html">Tutorial:
-  /// Set up a scaled and load-balanced application</a> in the <i>Amazon EC2
-  /// Auto Scaling User Guide</i>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Auto
-  /// Scaling groups</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  /// If you're new to Amazon EC2 Auto Scaling, see the introductory tutorials
+  /// in <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/get-started-with-ec2-auto-scaling.html">Get
+  /// started with Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling
+  /// User Guide</i>.
   ///
   /// Every Auto Scaling group has three size properties
   /// (<code>DesiredCapacity</code>, <code>MaxSize</code>, and
@@ -644,6 +640,12 @@ class AutoScaling {
   /// an Auto Scaling group using an EC2 instance</a> in the <i>Amazon EC2 Auto
   /// Scaling User Guide</i>.
   ///
+  /// Parameter [instanceMaintenancePolicy] :
+  /// An instance maintenance policy. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html">Set
+  /// instance maintenance policy</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
+  ///
   /// Parameter [launchConfigurationName] :
   /// The name of the launch configuration to use to launch instances.
   ///
@@ -781,6 +783,7 @@ class AutoScaling {
     int? healthCheckGracePeriod,
     String? healthCheckType,
     String? instanceId,
+    InstanceMaintenancePolicy? instanceMaintenancePolicy,
     String? launchConfigurationName,
     LaunchTemplateSpecification? launchTemplate,
     List<LifecycleHookSpecification>? lifecycleHookSpecificationList,
@@ -812,6 +815,8 @@ class AutoScaling {
         ?.also((arg) => $request['HealthCheckGracePeriod'] = arg);
     healthCheckType?.also((arg) => $request['HealthCheckType'] = arg);
     instanceId?.also((arg) => $request['InstanceId'] = arg);
+    instanceMaintenancePolicy
+        ?.also((arg) => $request['InstanceMaintenancePolicy'] = arg);
     launchConfigurationName
         ?.also((arg) => $request['LaunchConfigurationName'] = arg);
     launchTemplate?.also((arg) => $request['LaunchTemplate'] = arg);
@@ -1599,7 +1604,7 @@ class AutoScaling {
   }
 
   /// Gets information about the instance refreshes for the specified Auto
-  /// Scaling group.
+  /// Scaling group from the previous six weeks.
   ///
   /// This operation is part of the <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-refresh.html">instance
@@ -2528,10 +2533,10 @@ class AutoScaling {
   /// Detaches one or more traffic sources from the specified Auto Scaling
   /// group.
   ///
-  /// When you detach a taffic, it enters the <code>Removing</code> state while
-  /// deregistering the instances in the group. When all instances are
-  /// deregistered, then you can no longer describe the traffic source using the
-  /// <a>DescribeTrafficSources</a> API call. The instances continue to run.
+  /// When you detach a traffic source, it enters the <code>Removing</code>
+  /// state while deregistering the instances in the group. When all instances
+  /// are deregistered, then you can no longer describe the traffic source using
+  /// the <a>DescribeTrafficSources</a> API call. The instances continue to run.
   ///
   /// May throw [ResourceContentionFault].
   ///
@@ -3331,7 +3336,7 @@ class AutoScaling {
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number
   /// removes from the current capacity. For exact capacity, you must specify a
-  /// positive value.
+  /// non-negative value.
   ///
   /// Required if the policy type is <code>SimpleScaling</code>. (Not used with
   /// any other policy type.)
@@ -3820,10 +3825,10 @@ class AutoScaling {
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
   Future<RollbackInstanceRefreshAnswer> rollbackInstanceRefresh({
-    String? autoScalingGroupName,
+    required String autoScalingGroupName,
   }) async {
     final $request = <String, dynamic>{};
-    autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
+    $request['AutoScalingGroupName'] = autoScalingGroupName;
     final $result = await _protocol.send(
       $request,
       action: 'RollbackInstanceRefresh',
@@ -3980,10 +3985,7 @@ class AutoScaling {
     );
   }
 
-  /// Starts an instance refresh. During an instance refresh, Amazon EC2 Auto
-  /// Scaling performs a rolling update of instances in an Auto Scaling group.
-  /// Instances are terminated first and then replaced, which temporarily
-  /// reduces the capacity available within your Auto Scaling group.
+  /// Starts an instance refresh.
   ///
   /// This operation is part of the <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-refresh.html">instance
@@ -4042,9 +4044,9 @@ class AutoScaling {
   /// Parameter [preferences] :
   /// Sets your preferences for the instance refresh so that it performs as
   /// expected when you start it. Includes the instance warmup time, the minimum
-  /// healthy percentage, and the behaviors that you want Amazon EC2 Auto
-  /// Scaling to use if instances that are in <code>Standby</code> state or
-  /// protected from scale in are found. You can also choose to enable
+  /// and maximum healthy percentages, and the behaviors that you want Amazon
+  /// EC2 Auto Scaling to use if instances that are in <code>Standby</code>
+  /// state or protected from scale in are found. You can also choose to enable
   /// additional features, such as the following:
   ///
   /// <ul>
@@ -4053,6 +4055,9 @@ class AutoScaling {
   /// </li>
   /// <li>
   /// Checkpoints
+  /// </li>
+  /// <li>
+  /// CloudWatch alarms
   /// </li>
   /// <li>
   /// Skip matching
@@ -4356,6 +4361,12 @@ class AutoScaling {
   /// Only specify <code>EC2</code> if you must clear a value that was
   /// previously set.
   ///
+  /// Parameter [instanceMaintenancePolicy] :
+  /// An instance maintenance policy. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html">Set
+  /// instance maintenance policy</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
+  ///
   /// Parameter [launchConfigurationName] :
   /// The name of the launch configuration. If you specify
   /// <code>LaunchConfigurationName</code> in your update request, you can't
@@ -4453,6 +4464,7 @@ class AutoScaling {
     String? desiredCapacityType,
     int? healthCheckGracePeriod,
     String? healthCheckType,
+    InstanceMaintenancePolicy? instanceMaintenancePolicy,
     String? launchConfigurationName,
     LaunchTemplateSpecification? launchTemplate,
     int? maxInstanceLifetime,
@@ -4478,6 +4490,8 @@ class AutoScaling {
     healthCheckGracePeriod
         ?.also((arg) => $request['HealthCheckGracePeriod'] = arg);
     healthCheckType?.also((arg) => $request['HealthCheckType'] = arg);
+    instanceMaintenancePolicy
+        ?.also((arg) => $request['InstanceMaintenancePolicy'] = arg);
     launchConfigurationName
         ?.also((arg) => $request['LaunchConfigurationName'] = arg);
     launchTemplate?.also((arg) => $request['LaunchTemplate'] = arg);
@@ -4846,6 +4860,31 @@ class Alarm {
   }
 }
 
+/// Specifies the CloudWatch alarm specification to use in an instance refresh.
+class AlarmSpecification {
+  /// The names of one or more CloudWatch alarms to monitor for the instance
+  /// refresh. You can specify up to 10 alarms.
+  final List<String>? alarms;
+
+  AlarmSpecification({
+    this.alarms,
+  });
+  factory AlarmSpecification.fromXml(_s.XmlElement elem) {
+    return AlarmSpecification(
+      alarms: _s
+          .extractXmlChild(elem, 'Alarms')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarms = this.alarms;
+    return {
+      if (alarms != null) 'Alarms': alarms,
+    };
+  }
+}
+
 class AttachLoadBalancerTargetGroupsResultType {
   AttachLoadBalancerTargetGroupsResultType();
   factory AttachLoadBalancerTargetGroupsResultType.fromXml(
@@ -4921,6 +4960,9 @@ class AutoScalingGroup {
 
   /// The duration of the health check grace period, in seconds.
   final int? healthCheckGracePeriod;
+
+  /// An instance maintenance policy.
+  final InstanceMaintenancePolicy? instanceMaintenancePolicy;
 
   /// The EC2 instances associated with the group.
   final List<Instance>? instances;
@@ -5000,6 +5042,7 @@ class AutoScalingGroup {
     this.desiredCapacityType,
     this.enabledMetrics,
     this.healthCheckGracePeriod,
+    this.instanceMaintenancePolicy,
     this.instances,
     this.launchConfigurationName,
     this.launchTemplate,
@@ -5044,6 +5087,9 @@ class AutoScalingGroup {
           elem.findElements('member').map(EnabledMetric.fromXml).toList()),
       healthCheckGracePeriod:
           _s.extractXmlIntValue(elem, 'HealthCheckGracePeriod'),
+      instanceMaintenancePolicy: _s
+          .extractXmlChild(elem, 'InstanceMaintenancePolicy')
+          ?.let(InstanceMaintenancePolicy.fromXml),
       instances: _s.extractXmlChild(elem, 'Instances')?.let(
           (elem) => elem.findElements('member').map(Instance.fromXml).toList()),
       launchConfigurationName:
@@ -6526,6 +6572,55 @@ extension InstanceGenerationFromString on String {
   }
 }
 
+/// Describes an instance maintenance policy.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html">Set
+/// instance maintenance policy</a> in the <i>Amazon EC2 Auto Scaling User
+/// Guide</i>.
+class InstanceMaintenancePolicy {
+  /// Specifies the upper threshold as a percentage of the desired capacity of the
+  /// Auto Scaling group. It represents the maximum percentage of the group that
+  /// can be in service and healthy, or pending, to support your workload when
+  /// replacing instances. Value range is 100 to 200. To clear a previously set
+  /// value, specify a value of <code>-1</code>.
+  ///
+  /// Both <code>MinHealthyPercentage</code> and <code>MaxHealthyPercentage</code>
+  /// must be specified, and the difference between them cannot be greater than
+  /// 100. A large range increases the number of instances that can be replaced at
+  /// the same time.
+  final int? maxHealthyPercentage;
+
+  /// Specifies the lower threshold as a percentage of the desired capacity of the
+  /// Auto Scaling group. It represents the minimum percentage of the group to
+  /// keep in service, healthy, and ready to use to support your workload when
+  /// replacing instances. Value range is 0 to 100. To clear a previously set
+  /// value, specify a value of <code>-1</code>.
+  final int? minHealthyPercentage;
+
+  InstanceMaintenancePolicy({
+    this.maxHealthyPercentage,
+    this.minHealthyPercentage,
+  });
+  factory InstanceMaintenancePolicy.fromXml(_s.XmlElement elem) {
+    return InstanceMaintenancePolicy(
+      maxHealthyPercentage: _s.extractXmlIntValue(elem, 'MaxHealthyPercentage'),
+      minHealthyPercentage: _s.extractXmlIntValue(elem, 'MinHealthyPercentage'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxHealthyPercentage = this.maxHealthyPercentage;
+    final minHealthyPercentage = this.minHealthyPercentage;
+    return {
+      if (maxHealthyPercentage != null)
+        'MaxHealthyPercentage': maxHealthyPercentage,
+      if (minHealthyPercentage != null)
+        'MinHealthyPercentage': minHealthyPercentage,
+    };
+  }
+}
+
 enum InstanceMetadataEndpointState {
   disabled,
   enabled,
@@ -7193,6 +7288,35 @@ class InstanceRequirements {
   /// Default: Any local storage type
   final List<LocalStorageType>? localStorageTypes;
 
+  /// [Price protection] The price protection threshold for Spot Instances, as a
+  /// percentage of an identified On-Demand price. The identified On-Demand price
+  /// is the price of the lowest priced current generation C, M, or R instance
+  /// type with your specified attributes. If no current generation C, M, or R
+  /// instance type matches your attributes, then the identified price is from
+  /// either the lowest priced current generation instance types or, failing that,
+  /// the lowest priced previous generation instance types that match your
+  /// attributes. When Amazon EC2 Auto Scaling selects instance types with your
+  /// attributes, we will exclude instance types whose price exceeds your
+  /// specified threshold.
+  ///
+  /// The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets
+  /// as a percentage.
+  ///
+  /// If you set <code>DesiredCapacityType</code> to <code>vcpu</code> or
+  /// <code>memory-mib</code>, the price protection threshold is based on the
+  /// per-vCPU or per-memory price instead of the per instance price.
+  /// <note>
+  /// Only one of <code>SpotMaxPricePercentageOverLowestPrice</code> or
+  /// <code>MaxSpotPriceAsPercentageOfOptimalOnDemandPrice</code> can be
+  /// specified. If you don't specify either, Amazon EC2 Auto Scaling will
+  /// automatically apply optimal price protection to consistently select from a
+  /// wide range of instance types. To indicate no price protection threshold for
+  /// Spot Instances, meaning you want to consider all instance types that match
+  /// your attributes, include one of these parameters and specify a high value,
+  /// such as <code>999999</code>.
+  /// </note>
+  final int? maxSpotPriceAsPercentageOfOptimalOnDemandPrice;
+
   /// The minimum and maximum amount of memory per vCPU for an instance type, in
   /// GiB.
   ///
@@ -7210,18 +7334,26 @@ class InstanceRequirements {
   /// Default: No minimum or maximum limits
   final NetworkInterfaceCountRequest? networkInterfaceCount;
 
-  /// The price protection threshold for On-Demand Instances. This is the maximum
-  /// you’ll pay for an On-Demand Instance, expressed as a percentage higher than
-  /// the least expensive current generation M, C, or R instance type with your
-  /// specified attributes. When Amazon EC2 Auto Scaling selects instance types
-  /// with your attributes, we will exclude instance types whose price is higher
-  /// than your threshold. The parameter accepts an integer, which Amazon EC2 Auto
-  /// Scaling interprets as a percentage. To turn off price protection, specify a
-  /// high value, such as <code>999999</code>.
+  /// [Price protection] The price protection threshold for On-Demand Instances,
+  /// as a percentage higher than an identified On-Demand price. The identified
+  /// On-Demand price is the price of the lowest priced current generation C, M,
+  /// or R instance type with your specified attributes. If no current generation
+  /// C, M, or R instance type matches your attributes, then the identified price
+  /// is from either the lowest priced current generation instance types or,
+  /// failing that, the lowest priced previous generation instance types that
+  /// match your attributes. When Amazon EC2 Auto Scaling selects instance types
+  /// with your attributes, we will exclude instance types whose price exceeds
+  /// your specified threshold.
+  ///
+  /// The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets
+  /// as a percentage.
+  ///
+  /// To turn off price protection, specify a high value, such as
+  /// <code>999999</code>.
   ///
   /// If you set <code>DesiredCapacityType</code> to <code>vcpu</code> or
   /// <code>memory-mib</code>, the price protection threshold is applied based on
-  /// the per vCPU or per memory price instead of the per instance price.
+  /// the per-vCPU or per-memory price instead of the per instance price.
   ///
   /// Default: <code>20</code>
   final int? onDemandMaxPricePercentageOverLowestPrice;
@@ -7232,20 +7364,33 @@ class InstanceRequirements {
   /// Default: <code>false</code>
   final bool? requireHibernateSupport;
 
-  /// The price protection threshold for Spot Instances. This is the maximum
-  /// you’ll pay for a Spot Instance, expressed as a percentage higher than the
-  /// least expensive current generation M, C, or R instance type with your
-  /// specified attributes. When Amazon EC2 Auto Scaling selects instance types
-  /// with your attributes, we will exclude instance types whose price is higher
-  /// than your threshold. The parameter accepts an integer, which Amazon EC2 Auto
-  /// Scaling interprets as a percentage. To turn off price protection, specify a
-  /// high value, such as <code>999999</code>.
+  /// [Price protection] The price protection threshold for Spot Instances, as a
+  /// percentage higher than an identified Spot price. The identified Spot price
+  /// is the price of the lowest priced current generation C, M, or R instance
+  /// type with your specified attributes. If no current generation C, M, or R
+  /// instance type matches your attributes, then the identified price is from
+  /// either the lowest priced current generation instance types or, failing that,
+  /// the lowest priced previous generation instance types that match your
+  /// attributes. When Amazon EC2 Auto Scaling selects instance types with your
+  /// attributes, we will exclude instance types whose price exceeds your
+  /// specified threshold.
+  ///
+  /// The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets
+  /// as a percentage.
   ///
   /// If you set <code>DesiredCapacityType</code> to <code>vcpu</code> or
-  /// <code>memory-mib</code>, the price protection threshold is applied based on
-  /// the per vCPU or per memory price instead of the per instance price.
-  ///
-  /// Default: <code>100</code>
+  /// <code>memory-mib</code>, the price protection threshold is based on the
+  /// per-vCPU or per-memory price instead of the per instance price.
+  /// <note>
+  /// Only one of <code>SpotMaxPricePercentageOverLowestPrice</code> or
+  /// <code>MaxSpotPriceAsPercentageOfOptimalOnDemandPrice</code> can be
+  /// specified. If you don't specify either, Amazon EC2 Auto Scaling will
+  /// automatically apply optimal price protection to consistently select from a
+  /// wide range of instance types. To indicate no price protection threshold for
+  /// Spot Instances, meaning you want to consider all instance types that match
+  /// your attributes, include one of these parameters and specify a high value,
+  /// such as <code>999999</code>.
+  /// </note>
   final int? spotMaxPricePercentageOverLowestPrice;
 
   /// The minimum and maximum total local storage size for an instance type, in
@@ -7271,6 +7416,7 @@ class InstanceRequirements {
     this.instanceGenerations,
     this.localStorage,
     this.localStorageTypes,
+    this.maxSpotPriceAsPercentageOfOptimalOnDemandPrice,
     this.memoryGiBPerVCpu,
     this.networkBandwidthGbps,
     this.networkInterfaceCount,
@@ -7337,6 +7483,8 @@ class InstanceRequirements {
               .extractXmlStringListValues(elem, 'member')
               .map((s) => s.toLocalStorageType())
               .toList()),
+      maxSpotPriceAsPercentageOfOptimalOnDemandPrice: _s.extractXmlIntValue(
+          elem, 'MaxSpotPriceAsPercentageOfOptimalOnDemandPrice'),
       memoryGiBPerVCpu: _s
           .extractXmlChild(elem, 'MemoryGiBPerVCpu')
           ?.let(MemoryGiBPerVCpuRequest.fromXml),
@@ -7375,6 +7523,8 @@ class InstanceRequirements {
     final instanceGenerations = this.instanceGenerations;
     final localStorage = this.localStorage;
     final localStorageTypes = this.localStorageTypes;
+    final maxSpotPriceAsPercentageOfOptimalOnDemandPrice =
+        this.maxSpotPriceAsPercentageOfOptimalOnDemandPrice;
     final memoryGiBPerVCpu = this.memoryGiBPerVCpu;
     final networkBandwidthGbps = this.networkBandwidthGbps;
     final networkInterfaceCount = this.networkInterfaceCount;
@@ -7414,6 +7564,9 @@ class InstanceRequirements {
       if (localStorage != null) 'LocalStorage': localStorage.toValue(),
       if (localStorageTypes != null)
         'LocalStorageTypes': localStorageTypes.map((e) => e.toValue()).toList(),
+      if (maxSpotPriceAsPercentageOfOptimalOnDemandPrice != null)
+        'MaxSpotPriceAsPercentageOfOptimalOnDemandPrice':
+            maxSpotPriceAsPercentageOfOptimalOnDemandPrice,
       if (memoryGiBPerVCpu != null) 'MemoryGiBPerVCpu': memoryGiBPerVCpu,
       if (networkBandwidthGbps != null)
         'NetworkBandwidthGbps': networkBandwidthGbps,
@@ -8851,7 +9004,7 @@ class MetricGranularityType {
 }
 
 /// This structure defines the CloudWatch metric to return, along with the
-/// statistic, period, and unit.
+/// statistic and unit.
 ///
 /// For more information about the CloudWatch terminology below, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
@@ -10065,9 +10218,13 @@ class RecordLifecycleActionHeartbeatAnswer {
 
 /// Describes the preferences for an instance refresh.
 class RefreshPreferences {
+  /// (Optional) The CloudWatch alarm specification. CloudWatch alarms can be used
+  /// to identify any issues and fail the operation if an alarm threshold is met.
+  final AlarmSpecification? alarmSpecification;
+
   /// (Optional) Indicates whether to roll back the Auto Scaling group to its
-  /// previous configuration if the instance refresh fails. The default is
-  /// <code>false</code>.
+  /// previous configuration if the instance refresh fails or a CloudWatch alarm
+  /// threshold is met. The default is <code>false</code>.
   ///
   /// A rollback is not supported in the following situations:
   ///
@@ -10085,6 +10242,10 @@ class RefreshPreferences {
   /// <code>$Default</code> version.
   /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-refresh-rollback.html">Undo
+  /// changes with a rollback</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
   final bool? autoRollback;
 
   /// (Optional) The amount of time, in seconds, to wait after a checkpoint before
@@ -10121,14 +10282,29 @@ class RefreshPreferences {
   /// property otherwise.
   final int? instanceWarmup;
 
-  /// The amount of capacity in the Auto Scaling group that must pass your group's
-  /// health checks to allow the operation to continue. The value is expressed as
-  /// a percentage of the desired capacity of the Auto Scaling group (rounded up
-  /// to the nearest integer). The default is <code>90</code>.
+  /// Specifies the maximum percentage of the group that can be in service and
+  /// healthy, or pending, to support your workload when replacing instances. The
+  /// value is expressed as a percentage of the desired capacity of the Auto
+  /// Scaling group. Value range is 100 to 200.
   ///
-  /// Setting the minimum healthy percentage to 100 percent limits the rate of
-  /// replacement to one instance at a time. In contrast, setting it to 0 percent
-  /// has the effect of replacing all instances at the same time.
+  /// If you specify <code>MaxHealthyPercentage</code>, you must also specify
+  /// <code>MinHealthyPercentage</code>, and the difference between them cannot be
+  /// greater than 100. A larger range increases the number of instances that can
+  /// be replaced at the same time.
+  ///
+  /// If you do not specify this property, the default is 100 percent, or the
+  /// percentage set in the instance maintenance policy for the Auto Scaling
+  /// group, if defined.
+  final int? maxHealthyPercentage;
+
+  /// Specifies the minimum percentage of the group to keep in service, healthy,
+  /// and ready to use to support your workload to allow the operation to
+  /// continue. The value is expressed as a percentage of the desired capacity of
+  /// the Auto Scaling group. Value range is 0 to 100.
+  ///
+  /// If you do not specify this property, the default is 90 percent, or the
+  /// percentage set in the instance maintenance policy for the Auto Scaling
+  /// group, if defined.
   final int? minHealthyPercentage;
 
   /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if
@@ -10177,10 +10353,12 @@ class RefreshPreferences {
   final StandbyInstances? standbyInstances;
 
   RefreshPreferences({
+    this.alarmSpecification,
     this.autoRollback,
     this.checkpointDelay,
     this.checkpointPercentages,
     this.instanceWarmup,
+    this.maxHealthyPercentage,
     this.minHealthyPercentage,
     this.scaleInProtectedInstances,
     this.skipMatching,
@@ -10188,12 +10366,16 @@ class RefreshPreferences {
   });
   factory RefreshPreferences.fromXml(_s.XmlElement elem) {
     return RefreshPreferences(
+      alarmSpecification: _s
+          .extractXmlChild(elem, 'AlarmSpecification')
+          ?.let(AlarmSpecification.fromXml),
       autoRollback: _s.extractXmlBoolValue(elem, 'AutoRollback'),
       checkpointDelay: _s.extractXmlIntValue(elem, 'CheckpointDelay'),
       checkpointPercentages: _s
           .extractXmlChild(elem, 'CheckpointPercentages')
           ?.let((elem) => _s.extractXmlIntListValues(elem, 'member')),
       instanceWarmup: _s.extractXmlIntValue(elem, 'InstanceWarmup'),
+      maxHealthyPercentage: _s.extractXmlIntValue(elem, 'MaxHealthyPercentage'),
       minHealthyPercentage: _s.extractXmlIntValue(elem, 'MinHealthyPercentage'),
       scaleInProtectedInstances: _s
           .extractXmlStringValue(elem, 'ScaleInProtectedInstances')
@@ -10206,20 +10388,25 @@ class RefreshPreferences {
   }
 
   Map<String, dynamic> toJson() {
+    final alarmSpecification = this.alarmSpecification;
     final autoRollback = this.autoRollback;
     final checkpointDelay = this.checkpointDelay;
     final checkpointPercentages = this.checkpointPercentages;
     final instanceWarmup = this.instanceWarmup;
+    final maxHealthyPercentage = this.maxHealthyPercentage;
     final minHealthyPercentage = this.minHealthyPercentage;
     final scaleInProtectedInstances = this.scaleInProtectedInstances;
     final skipMatching = this.skipMatching;
     final standbyInstances = this.standbyInstances;
     return {
+      if (alarmSpecification != null) 'AlarmSpecification': alarmSpecification,
       if (autoRollback != null) 'AutoRollback': autoRollback,
       if (checkpointDelay != null) 'CheckpointDelay': checkpointDelay,
       if (checkpointPercentages != null)
         'CheckpointPercentages': checkpointPercentages,
       if (instanceWarmup != null) 'InstanceWarmup': instanceWarmup,
+      if (maxHealthyPercentage != null)
+        'MaxHealthyPercentage': maxHealthyPercentage,
       if (minHealthyPercentage != null)
         'MinHealthyPercentage': minHealthyPercentage,
       if (scaleInProtectedInstances != null)
@@ -10847,12 +11034,8 @@ class StartInstanceRefreshAnswer {
 class StepAdjustment {
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number removes
-  /// from the current capacity.
-  ///
-  /// The amount by which to scale. The adjustment is based on the value that you
-  /// specified in the <code>AdjustmentType</code> property (either an absolute
-  /// number or a percentage). A positive value adds to the current capacity and a
-  /// negative number subtracts from the current capacity.
+  /// from the current capacity. For exact capacity, you must specify a
+  /// non-negative value.
   final int scalingAdjustment;
 
   /// The lower bound for the difference between the alarm threshold and the

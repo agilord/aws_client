@@ -167,6 +167,38 @@ class Elasticsearch {
     return AuthorizeVpcEndpointAccessResponse.fromJson(response);
   }
 
+  /// Cancels a pending configuration change on an Amazon OpenSearch Service
+  /// domain.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [domainName] :
+  /// Name of the OpenSearch Service domain configuration request to cancel.
+  ///
+  /// Parameter [dryRun] :
+  /// When set to <b>True</b>, returns the list of change IDs and properties
+  /// that will be cancelled without actually cancelling the change.
+  Future<CancelDomainConfigChangeResponse> cancelDomainConfigChange({
+    required String domainName,
+    bool? dryRun,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (dryRun != null) 'DryRun': dryRun,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/config/cancel',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelDomainConfigChangeResponse.fromJson(response);
+  }
+
   /// Cancels a scheduled service software update for an Amazon ES domain. You
   /// can only perform this operation before the
   /// <code>AutomatedUpdateDate</code> and when the <code>UpdateStatus</code> is
@@ -2708,6 +2740,52 @@ extension AutoTuneTypeFromString on String {
   }
 }
 
+/// Contains the details of the cancelled domain config change.
+class CancelDomainConfigChangeResponse {
+  /// The unique identifiers of the changes that were cancelled.
+  final List<String>? cancelledChangeIds;
+
+  /// The domain change properties that were cancelled.
+  final List<CancelledChangeProperty>? cancelledChangeProperties;
+
+  /// Whether or not the request was a dry run. If <b>True</b>, the changes were
+  /// not actually cancelled.
+  final bool? dryRun;
+
+  CancelDomainConfigChangeResponse({
+    this.cancelledChangeIds,
+    this.cancelledChangeProperties,
+    this.dryRun,
+  });
+
+  factory CancelDomainConfigChangeResponse.fromJson(Map<String, dynamic> json) {
+    return CancelDomainConfigChangeResponse(
+      cancelledChangeIds: (json['CancelledChangeIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cancelledChangeProperties: (json['CancelledChangeProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CancelledChangeProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dryRun: json['DryRun'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelledChangeIds = this.cancelledChangeIds;
+    final cancelledChangeProperties = this.cancelledChangeProperties;
+    final dryRun = this.dryRun;
+    return {
+      if (cancelledChangeIds != null) 'CancelledChangeIds': cancelledChangeIds,
+      if (cancelledChangeProperties != null)
+        'CancelledChangeProperties': cancelledChangeProperties,
+      if (dryRun != null) 'DryRun': dryRun,
+    };
+  }
+}
+
 /// The result of a <code>CancelElasticsearchServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
 class CancelElasticsearchServiceSoftwareUpdateResponse {
@@ -2737,34 +2815,105 @@ class CancelElasticsearchServiceSoftwareUpdateResponse {
   }
 }
 
+/// A property change that was cancelled for an Amazon OpenSearch Service
+/// domain.
+class CancelledChangeProperty {
+  /// The current value of the property, after the change was cancelled.
+  final String? activeValue;
+
+  /// The pending value of the property that was cancelled. This would have been
+  /// the eventual value of the property if the chance had not been cancelled.
+  final String? cancelledValue;
+
+  /// The name of the property whose change was cancelled.
+  final String? propertyName;
+
+  CancelledChangeProperty({
+    this.activeValue,
+    this.cancelledValue,
+    this.propertyName,
+  });
+
+  factory CancelledChangeProperty.fromJson(Map<String, dynamic> json) {
+    return CancelledChangeProperty(
+      activeValue: json['ActiveValue'] as String?,
+      cancelledValue: json['CancelledValue'] as String?,
+      propertyName: json['PropertyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeValue = this.activeValue;
+    final cancelledValue = this.cancelledValue;
+    final propertyName = this.propertyName;
+    return {
+      if (activeValue != null) 'ActiveValue': activeValue,
+      if (cancelledValue != null) 'CancelledValue': cancelledValue,
+      if (propertyName != null) 'PropertyName': propertyName,
+    };
+  }
+}
+
 /// Specifies change details of the domain configuration change.
 class ChangeProgressDetails {
   /// The unique change identifier associated with a specific domain configuration
   /// change.
   final String? changeId;
 
+  /// The current status of the configuration change.
+  final ConfigChangeStatus? configChangeStatus;
+
+  /// The IAM principal who initiated the configuration change.
+  final InitiatedBy? initiatedBy;
+
+  /// The last time that the configuration change was updated.
+  final DateTime? lastUpdatedTime;
+
   /// Contains an optional message associated with the domain configuration
   /// change.
   final String? message;
 
+  /// The time that the configuration change was initiated, in Universal
+  /// Coordinated Time (UTC).
+  final DateTime? startTime;
+
   ChangeProgressDetails({
     this.changeId,
+    this.configChangeStatus,
+    this.initiatedBy,
+    this.lastUpdatedTime,
     this.message,
+    this.startTime,
   });
 
   factory ChangeProgressDetails.fromJson(Map<String, dynamic> json) {
     return ChangeProgressDetails(
       changeId: json['ChangeId'] as String?,
+      configChangeStatus:
+          (json['ConfigChangeStatus'] as String?)?.toConfigChangeStatus(),
+      initiatedBy: (json['InitiatedBy'] as String?)?.toInitiatedBy(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       message: json['Message'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final changeId = this.changeId;
+    final configChangeStatus = this.configChangeStatus;
+    final initiatedBy = this.initiatedBy;
+    final lastUpdatedTime = this.lastUpdatedTime;
     final message = this.message;
+    final startTime = this.startTime;
     return {
       if (changeId != null) 'ChangeId': changeId,
+      if (configChangeStatus != null)
+        'ConfigChangeStatus': configChangeStatus.toValue(),
+      if (initiatedBy != null) 'InitiatedBy': initiatedBy.toValue(),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (message != null) 'Message': message,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
@@ -2827,6 +2976,15 @@ class ChangeProgressStatusDetails {
   /// completed.
   final List<String>? completedProperties;
 
+  /// The current status of the configuration change.
+  final ConfigChangeStatus? configChangeStatus;
+
+  /// The IAM principal who initiated the configuration change.
+  final InitiatedBy? initiatedBy;
+
+  /// The last time that the status of the configuration change was updated.
+  final DateTime? lastUpdatedTime;
+
   /// The list of properties involved in the domain configuration change that are
   /// still in pending.
   final List<String>? pendingProperties;
@@ -2846,6 +3004,9 @@ class ChangeProgressStatusDetails {
     this.changeId,
     this.changeProgressStages,
     this.completedProperties,
+    this.configChangeStatus,
+    this.initiatedBy,
+    this.lastUpdatedTime,
     this.pendingProperties,
     this.startTime,
     this.status,
@@ -2863,6 +3024,10 @@ class ChangeProgressStatusDetails {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      configChangeStatus:
+          (json['ConfigChangeStatus'] as String?)?.toConfigChangeStatus(),
+      initiatedBy: (json['InitiatedBy'] as String?)?.toInitiatedBy(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       pendingProperties: (json['PendingProperties'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2877,6 +3042,9 @@ class ChangeProgressStatusDetails {
     final changeId = this.changeId;
     final changeProgressStages = this.changeProgressStages;
     final completedProperties = this.completedProperties;
+    final configChangeStatus = this.configChangeStatus;
+    final initiatedBy = this.initiatedBy;
+    final lastUpdatedTime = this.lastUpdatedTime;
     final pendingProperties = this.pendingProperties;
     final startTime = this.startTime;
     final status = this.status;
@@ -2887,6 +3055,11 @@ class ChangeProgressStatusDetails {
         'ChangeProgressStages': changeProgressStages,
       if (completedProperties != null)
         'CompletedProperties': completedProperties,
+      if (configChangeStatus != null)
+        'ConfigChangeStatus': configChangeStatus.toValue(),
+      if (initiatedBy != null) 'InitiatedBy': initiatedBy.toValue(),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (pendingProperties != null) 'PendingProperties': pendingProperties,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       if (status != null) 'Status': status.toValue(),
@@ -3028,6 +3201,64 @@ class CompatibleVersionsMap {
       if (sourceVersion != null) 'SourceVersion': sourceVersion,
       if (targetVersions != null) 'TargetVersions': targetVersions,
     };
+  }
+}
+
+enum ConfigChangeStatus {
+  pending,
+  initializing,
+  validating,
+  validationFailed,
+  applyingChanges,
+  completed,
+  pendingUserInput,
+  cancelled,
+}
+
+extension ConfigChangeStatusValueExtension on ConfigChangeStatus {
+  String toValue() {
+    switch (this) {
+      case ConfigChangeStatus.pending:
+        return 'Pending';
+      case ConfigChangeStatus.initializing:
+        return 'Initializing';
+      case ConfigChangeStatus.validating:
+        return 'Validating';
+      case ConfigChangeStatus.validationFailed:
+        return 'ValidationFailed';
+      case ConfigChangeStatus.applyingChanges:
+        return 'ApplyingChanges';
+      case ConfigChangeStatus.completed:
+        return 'Completed';
+      case ConfigChangeStatus.pendingUserInput:
+        return 'PendingUserInput';
+      case ConfigChangeStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
+}
+
+extension ConfigChangeStatusFromString on String {
+  ConfigChangeStatus toConfigChangeStatus() {
+    switch (this) {
+      case 'Pending':
+        return ConfigChangeStatus.pending;
+      case 'Initializing':
+        return ConfigChangeStatus.initializing;
+      case 'Validating':
+        return ConfigChangeStatus.validating;
+      case 'ValidationFailed':
+        return ConfigChangeStatus.validationFailed;
+      case 'ApplyingChanges':
+        return ConfigChangeStatus.applyingChanges;
+      case 'Completed':
+        return ConfigChangeStatus.completed;
+      case 'PendingUserInput':
+        return ConfigChangeStatus.pendingUserInput;
+      case 'Cancelled':
+        return ConfigChangeStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum ConfigChangeStatus');
   }
 }
 
@@ -3889,10 +4120,13 @@ class DomainEndpointOptions {
   /// endpoint of Elasticsearch domain. <br/> It can be one of the following
   /// values:
   /// <ul>
-  /// <li><b>Policy-Min-TLS-1-0-2019-07: </b> TLS security policy which supports
-  /// TLSv1.0 and higher.</li>
-  /// <li><b>Policy-Min-TLS-1-2-2019-07: </b> TLS security policy which supports
-  /// only TLSv1.2</li>
+  /// <li><b>Policy-Min-TLS-1-0-2019-07: </b> TLS security policy that supports
+  /// TLS version 1.0 to TLS version 1.2</li>
+  /// <li><b>Policy-Min-TLS-1-2-2019-07: </b> TLS security policy that supports
+  /// only TLS version 1.2</li>
+  /// <li><b>Policy-Min-TLS-1-2-PFS-2023-10: </b> TLS security policy that
+  /// supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy
+  /// cipher suites</li>
   /// </ul>
   final TLSSecurityPolicy? tLSSecurityPolicy;
 
@@ -4150,6 +4384,60 @@ extension DomainPackageStatusFromString on String {
         return DomainPackageStatus.dissociationFailed;
     }
     throw Exception('$this is not known in enum DomainPackageStatus');
+  }
+}
+
+enum DomainProcessingStatusType {
+  creating,
+  active,
+  modifying,
+  upgradingEngineVersion,
+  updatingServiceSoftware,
+  isolated,
+  deleting,
+}
+
+extension DomainProcessingStatusTypeValueExtension
+    on DomainProcessingStatusType {
+  String toValue() {
+    switch (this) {
+      case DomainProcessingStatusType.creating:
+        return 'Creating';
+      case DomainProcessingStatusType.active:
+        return 'Active';
+      case DomainProcessingStatusType.modifying:
+        return 'Modifying';
+      case DomainProcessingStatusType.upgradingEngineVersion:
+        return 'UpgradingEngineVersion';
+      case DomainProcessingStatusType.updatingServiceSoftware:
+        return 'UpdatingServiceSoftware';
+      case DomainProcessingStatusType.isolated:
+        return 'Isolated';
+      case DomainProcessingStatusType.deleting:
+        return 'Deleting';
+    }
+  }
+}
+
+extension DomainProcessingStatusTypeFromString on String {
+  DomainProcessingStatusType toDomainProcessingStatusType() {
+    switch (this) {
+      case 'Creating':
+        return DomainProcessingStatusType.creating;
+      case 'Active':
+        return DomainProcessingStatusType.active;
+      case 'Modifying':
+        return DomainProcessingStatusType.modifying;
+      case 'UpgradingEngineVersion':
+        return DomainProcessingStatusType.upgradingEngineVersion;
+      case 'UpdatingServiceSoftware':
+        return DomainProcessingStatusType.updatingServiceSoftware;
+      case 'Isolated':
+        return DomainProcessingStatusType.isolated;
+      case 'Deleting':
+        return DomainProcessingStatusType.deleting;
+    }
+    throw Exception('$this is not known in enum DomainProcessingStatusType');
   }
 }
 
@@ -4843,6 +5131,9 @@ class ElasticsearchDomainConfig {
   /// Log publishing options for the given domain.
   final LogPublishingOptionsStatus? logPublishingOptions;
 
+  /// Information about the domain properties that are currently being modified.
+  final List<ModifyingProperties>? modifyingProperties;
+
   /// Specifies the <code>NodeToNodeEncryptionOptions</code> for the Elasticsearch
   /// domain.
   final NodeToNodeEncryptionOptionsStatus? nodeToNodeEncryptionOptions;
@@ -4869,6 +5160,7 @@ class ElasticsearchDomainConfig {
     this.elasticsearchVersion,
     this.encryptionAtRestOptions,
     this.logPublishingOptions,
+    this.modifyingProperties,
     this.nodeToNodeEncryptionOptions,
     this.snapshotOptions,
     this.vPCOptions,
@@ -4924,6 +5216,10 @@ class ElasticsearchDomainConfig {
           ? LogPublishingOptionsStatus.fromJson(
               json['LogPublishingOptions'] as Map<String, dynamic>)
           : null,
+      modifyingProperties: (json['ModifyingProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModifyingProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
           ? NodeToNodeEncryptionOptionsStatus.fromJson(
               json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
@@ -4952,6 +5248,7 @@ class ElasticsearchDomainConfig {
     final elasticsearchVersion = this.elasticsearchVersion;
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
     final logPublishingOptions = this.logPublishingOptions;
+    final modifyingProperties = this.modifyingProperties;
     final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
     final snapshotOptions = this.snapshotOptions;
     final vPCOptions = this.vPCOptions;
@@ -4975,6 +5272,8 @@ class ElasticsearchDomainConfig {
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (logPublishingOptions != null)
         'LogPublishingOptions': logPublishingOptions,
+      if (modifyingProperties != null)
+        'ModifyingProperties': modifyingProperties,
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
@@ -5038,6 +5337,9 @@ class ElasticsearchDomainStatus {
   /// The current status of the Elasticsearch domain's endpoint options.
   final DomainEndpointOptions? domainEndpointOptions;
 
+  /// The status of any changes that are currently in progress for the domain.
+  final DomainProcessingStatusType? domainProcessingStatus;
+
   /// The <code>EBSOptions</code> for the specified domain. See <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
   /// target="_blank">Configuring EBS-based Storage</a> for more information.
@@ -5058,6 +5360,9 @@ class ElasticsearchDomainStatus {
 
   /// Log publishing options for the given domain.
   final Map<LogType, LogPublishingOption>? logPublishingOptions;
+
+  /// Information about the domain properties that are currently being modified.
+  final List<ModifyingProperties>? modifyingProperties;
 
   /// Specifies the status of the <code>NodeToNodeEncryptionOptions</code>.
   final NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions;
@@ -5098,12 +5403,14 @@ class ElasticsearchDomainStatus {
     this.created,
     this.deleted,
     this.domainEndpointOptions,
+    this.domainProcessingStatus,
     this.eBSOptions,
     this.elasticsearchVersion,
     this.encryptionAtRestOptions,
     this.endpoint,
     this.endpoints,
     this.logPublishingOptions,
+    this.modifyingProperties,
     this.nodeToNodeEncryptionOptions,
     this.processing,
     this.serviceSoftwareOptions,
@@ -5144,6 +5451,8 @@ class ElasticsearchDomainStatus {
           ? DomainEndpointOptions.fromJson(
               json['DomainEndpointOptions'] as Map<String, dynamic>)
           : null,
+      domainProcessingStatus: (json['DomainProcessingStatus'] as String?)
+          ?.toDomainProcessingStatusType(),
       eBSOptions: json['EBSOptions'] != null
           ? EBSOptions.fromJson(json['EBSOptions'] as Map<String, dynamic>)
           : null,
@@ -5159,6 +5468,10 @@ class ElasticsearchDomainStatus {
           (json['LogPublishingOptions'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(k.toLogType(),
                   LogPublishingOption.fromJson(e as Map<String, dynamic>))),
+      modifyingProperties: (json['ModifyingProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModifyingProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
           ? NodeToNodeEncryptionOptions.fromJson(
               json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
@@ -5193,12 +5506,14 @@ class ElasticsearchDomainStatus {
     final created = this.created;
     final deleted = this.deleted;
     final domainEndpointOptions = this.domainEndpointOptions;
+    final domainProcessingStatus = this.domainProcessingStatus;
     final eBSOptions = this.eBSOptions;
     final elasticsearchVersion = this.elasticsearchVersion;
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
     final endpoint = this.endpoint;
     final endpoints = this.endpoints;
     final logPublishingOptions = this.logPublishingOptions;
+    final modifyingProperties = this.modifyingProperties;
     final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
     final processing = this.processing;
     final serviceSoftwareOptions = this.serviceSoftwareOptions;
@@ -5222,6 +5537,8 @@ class ElasticsearchDomainStatus {
       if (deleted != null) 'Deleted': deleted,
       if (domainEndpointOptions != null)
         'DomainEndpointOptions': domainEndpointOptions,
+      if (domainProcessingStatus != null)
+        'DomainProcessingStatus': domainProcessingStatus.toValue(),
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (elasticsearchVersion != null)
         'ElasticsearchVersion': elasticsearchVersion,
@@ -5232,6 +5549,8 @@ class ElasticsearchDomainStatus {
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
+      if (modifyingProperties != null)
+        'ModifyingProperties': modifyingProperties,
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (processing != null) 'Processing': processing,
@@ -5732,6 +6051,34 @@ extension InboundCrossClusterSearchConnectionStatusCodeFromString on String {
     }
     throw Exception(
         '$this is not known in enum InboundCrossClusterSearchConnectionStatusCode');
+  }
+}
+
+enum InitiatedBy {
+  customer,
+  service,
+}
+
+extension InitiatedByValueExtension on InitiatedBy {
+  String toValue() {
+    switch (this) {
+      case InitiatedBy.customer:
+        return 'CUSTOMER';
+      case InitiatedBy.service:
+        return 'SERVICE';
+    }
+  }
+}
+
+extension InitiatedByFromString on String {
+  InitiatedBy toInitiatedBy() {
+    switch (this) {
+      case 'CUSTOMER':
+        return InitiatedBy.customer;
+      case 'SERVICE':
+        return InitiatedBy.service;
+    }
+    throw Exception('$this is not known in enum InitiatedBy');
   }
 }
 
@@ -6295,6 +6642,59 @@ class MasterUserOptions {
       if (masterUserARN != null) 'MasterUserARN': masterUserARN,
       if (masterUserName != null) 'MasterUserName': masterUserName,
       if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
+    };
+  }
+}
+
+/// Information about the domain properties that are currently being modified.
+class ModifyingProperties {
+  /// The current value of the domain property that is being modified.
+  final String? activeValue;
+
+  /// The name of the property that is currently being modified.
+  final String? name;
+
+  /// The value that the property that is currently being modified will eventually
+  /// have.
+  final String? pendingValue;
+
+  /// The type of value that is currently being modified. Properties can have two
+  /// types:
+  ///
+  /// <ul>
+  /// <li><b>PLAIN_TEXT</b>: Contain direct values such as "1", "True", or
+  /// "c5.large.search".</li>
+  /// <li><b>STRINGIFIED_JSON</b>: Contain content in JSON format, such as
+  /// {"Enabled":"True"}".</li>
+  /// </ul>
+  final PropertyValueType? valueType;
+
+  ModifyingProperties({
+    this.activeValue,
+    this.name,
+    this.pendingValue,
+    this.valueType,
+  });
+
+  factory ModifyingProperties.fromJson(Map<String, dynamic> json) {
+    return ModifyingProperties(
+      activeValue: json['ActiveValue'] as String?,
+      name: json['Name'] as String?,
+      pendingValue: json['PendingValue'] as String?,
+      valueType: (json['ValueType'] as String?)?.toPropertyValueType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeValue = this.activeValue;
+    final name = this.name;
+    final pendingValue = this.pendingValue;
+    final valueType = this.valueType;
+    return {
+      if (activeValue != null) 'ActiveValue': activeValue,
+      if (name != null) 'Name': name,
+      if (pendingValue != null) 'PendingValue': pendingValue,
+      if (valueType != null) 'ValueType': valueType.toValue(),
     };
   }
 }
@@ -6917,6 +7317,34 @@ extension PrincipalTypeFromString on String {
         return PrincipalType.awsService;
     }
     throw Exception('$this is not known in enum PrincipalType');
+  }
+}
+
+enum PropertyValueType {
+  plainText,
+  stringifiedJson,
+}
+
+extension PropertyValueTypeValueExtension on PropertyValueType {
+  String toValue() {
+    switch (this) {
+      case PropertyValueType.plainText:
+        return 'PLAIN_TEXT';
+      case PropertyValueType.stringifiedJson:
+        return 'STRINGIFIED_JSON';
+    }
+  }
+}
+
+extension PropertyValueTypeFromString on String {
+  PropertyValueType toPropertyValueType() {
+    switch (this) {
+      case 'PLAIN_TEXT':
+        return PropertyValueType.plainText;
+      case 'STRINGIFIED_JSON':
+        return PropertyValueType.stringifiedJson;
+    }
+    throw Exception('$this is not known in enum PropertyValueType');
   }
 }
 
@@ -7828,6 +8256,7 @@ class StorageTypeLimit {
 enum TLSSecurityPolicy {
   policyMinTls_1_0_2019_07,
   policyMinTls_1_2_2019_07,
+  policyMinTls_1_2Pfs_2023_10,
 }
 
 extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
@@ -7837,6 +8266,8 @@ extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
         return 'Policy-Min-TLS-1-0-2019-07';
       case TLSSecurityPolicy.policyMinTls_1_2_2019_07:
         return 'Policy-Min-TLS-1-2-2019-07';
+      case TLSSecurityPolicy.policyMinTls_1_2Pfs_2023_10:
+        return 'Policy-Min-TLS-1-2-PFS-2023-10';
     }
   }
 }
@@ -7848,6 +8279,8 @@ extension TLSSecurityPolicyFromString on String {
         return TLSSecurityPolicy.policyMinTls_1_0_2019_07;
       case 'Policy-Min-TLS-1-2-2019-07':
         return TLSSecurityPolicy.policyMinTls_1_2_2019_07;
+      case 'Policy-Min-TLS-1-2-PFS-2023-10':
+        return TLSSecurityPolicy.policyMinTls_1_2Pfs_2023_10;
     }
     throw Exception('$this is not known in enum TLSSecurityPolicy');
   }

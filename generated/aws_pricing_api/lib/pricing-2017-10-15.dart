@@ -19,39 +19,42 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Amazon Web Services Price List API is a centralized and convenient way to
-/// programmatically query Amazon Web Services for services, products, and
+/// The Amazon Web Services Price List API is a centralized and convenient way
+/// to programmatically query Amazon Web Services for services, products, and
 /// pricing information. The Amazon Web Services Price List uses standardized
 /// product attributes such as <code>Location</code>, <code>Storage
 /// Class</code>, and <code>Operating System</code>, and provides prices at the
-/// SKU level. You can use the Amazon Web Services Price List to build cost
-/// control and scenario planning tools, reconcile billing data, forecast future
-/// spend for budgeting purposes, and provide cost benefit analysis that compare
-/// your internal workloads with Amazon Web Services.
+/// SKU level. You can use the Amazon Web Services Price List to do the
+/// following:
 ///
+/// <ul>
+/// <li>
+/// Build cost control and scenario planning tools
+/// </li>
+/// <li>
+/// Reconcile billing data
+/// </li>
+/// <li>
+/// Forecast future spend for budgeting purposes
+/// </li>
+/// <li>
+/// Provide cost benefit analysis that compare your internal workloads with
+/// Amazon Web Services
+/// </li>
+/// </ul>
 /// Use <code>GetServices</code> without a service code to retrieve the service
-/// codes for all AWS services, then <code>GetServices</code> with a service
-/// code to retrieve the attribute names for that service. After you have the
-/// service code and attribute names, you can use
+/// codes for all Amazon Web Services, then <code>GetServices</code> with a
+/// service code to retrieve the attribute names for that service. After you
+/// have the service code and attribute names, you can use
 /// <code>GetAttributeValues</code> to see what values are available for an
 /// attribute. With the service code and an attribute name and value, you can
 /// use <code>GetProducts</code> to find specific products that you're
 /// interested in, such as an <code>AmazonEC2</code> instance, with a
 /// <code>Provisioned IOPS</code> <code>volumeType</code>.
 ///
-/// Service Endpoint
-///
-/// Amazon Web Services Price List service API provides the following two
-/// endpoints:
-///
-/// <ul>
-/// <li>
-/// https://api.pricing.us-east-1.amazonaws.com
-/// </li>
-/// <li>
-/// https://api.pricing.ap-south-1.amazonaws.com
-/// </li>
-/// </ul>
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/price-changes.html">Using
+/// the Amazon Web Services Price List API</a> in the <i>Billing User Guide</i>.
 class Pricing {
   final _s.JsonProtocol _protocol;
   Pricing({
@@ -90,10 +93,11 @@ class Pricing {
   /// <code>operation</code>, <code>locationType</code>, and
   /// <code>instanceCapacity10xlarge</code>.
   ///
-  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [NotFoundException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [ThrottlingException].
   /// May throw [ExpiredNextTokenException].
   ///
   /// Parameter [formatVersion] :
@@ -153,10 +157,11 @@ class Pricing {
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html">Billing
   /// and Cost Management User Guide</a>.
   ///
-  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [NotFoundException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [ThrottlingException].
   /// May throw [ExpiredNextTokenException].
   ///
   /// Parameter [attributeName] :
@@ -216,25 +221,27 @@ class Pricing {
   /// This returns the URL that you can retrieve your Price List file from. This
   /// URL is based on the <code>PriceListArn</code> and <code>FileFormat</code>
   /// that you retrieve from the <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
-  /// <code>ListPriceLists</code> </a> response.
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">ListPriceLists</a>
+  /// response.
   ///
-  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalErrorException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [fileFormat] :
   /// The format that you want to retrieve your Price List files in. The
   /// <code>FileFormat</code> can be obtained from the <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
-  /// <code>ListPriceLists</code> </a> response.
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">ListPriceLists</a>
+  /// response.
   ///
   /// Parameter [priceListArn] :
   /// The unique identifier that maps to where your Price List files are
   /// located. <code>PriceListArn</code> can be obtained from the <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
-  /// <code>ListPriceLists</code> </a> response.
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">ListPriceLists</a>
+  /// response.
   Future<GetPriceListFileUrlResponse> getPriceListFileUrl({
     required String fileFormat,
     required String priceListArn,
@@ -260,10 +267,11 @@ class Pricing {
 
   /// Returns a list of all products that match the filter criteria.
   ///
-  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [NotFoundException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [ThrottlingException].
   /// May throw [ExpiredNextTokenException].
   ///
   /// Parameter [serviceCode] :
@@ -333,15 +341,17 @@ class Pricing {
   /// filter to get the Price List reference that's specific to a specific
   /// Amazon Web Services Region. You can use the <code>PriceListArn</code> from
   /// the response to get your preferred Price List files through the <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetPriceListFileUrl.html">
-  /// <code>GetPriceListFileUrl</code> </a> API.
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetPriceListFileUrl.html">GetPriceListFileUrl</a>
+  /// API.
   ///
-  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [NotFoundException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [ExpiredNextTokenException].
+  /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalErrorException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ExpiredNextTokenException].
   ///
   /// Parameter [currencyCode] :
   /// The three alphabetical character ISO-4217 currency code that the Price
@@ -355,12 +365,14 @@ class Pricing {
   /// you want to retrieve. For example, to get the list of applicable Amazon
   /// EC2 price lists, use <code>AmazonEC2</code>. For a full list of service
   /// codes containing On-Demand and Reserved Instance (RI) pricing, use the <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_DescribeServices.html#awscostmanagement-pricing_DescribeServices-request-FormatVersion">
-  /// <code>DescribeServices</code> </a> API.
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_DescribeServices.html#awscostmanagement-pricing_DescribeServices-request-FormatVersion">DescribeServices</a>
+  /// API.
   ///
-  /// To retrieve the Compute Savings Plan price lists, use
-  /// <code>ComputeSavingsPlans</code>. To retrieve Machine Learning Savings
-  /// Plans price lists, use <code>MachineLearningSavingsPlans</code>.
+  /// To retrieve the Reserved Instance and Compute Savings Plan price lists,
+  /// use <code>ComputeSavingsPlans</code>.
+  ///
+  /// To retrieve Machine Learning Savings Plans price lists, use
+  /// <code>MachineLearningSavingsPlans</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in the response.
@@ -375,8 +387,8 @@ class Pricing {
   /// Virginia)</code> Region, use <code>us-east-1</code>. If nothing is
   /// specified, you retrieve price lists for all applicable Regions. The
   /// available <code>RegionCode</code> list can be retrieved from <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html">
-  /// <code>GetAttributeValues</code> </a> API.
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html">GetAttributeValues</a>
+  /// API.
   Future<ListPriceListsResponse> listPriceLists({
     required String currencyCode,
     required DateTime effectiveDate,
@@ -732,6 +744,16 @@ class NotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
@@ -745,4 +767,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidParameterException(type: type, message: message),
   'NotFoundException': (type, message) =>
       NotFoundException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
 };

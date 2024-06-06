@@ -237,7 +237,10 @@ class IoT {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass
+  /// at this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   Future<AssociateTargetsWithJobResponse> associateTargetsWithJob({
     required String jobId,
@@ -888,8 +891,8 @@ class IoT {
   /// action.
   /// <note>
   /// The CSR must include a public key that is either an RSA key with a length
-  /// of at least 2048 bits or an ECC key from NIST P-25 or NIST P-384 curves.
-  /// For supported certificates, consult <a
+  /// of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST
+  /// P-521 curves. For supported certificates, consult <a
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms">
   /// Certificate signing algorithms supported by IoT</a>.
   /// </note> <note>
@@ -964,6 +967,76 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return CreateCertificateFromCsrResponse.fromJson(response);
+  }
+
+  /// Creates an Amazon Web Services IoT Core certificate provider. You can use
+  /// Amazon Web Services IoT Core certificate provider to customize how to sign
+  /// a certificate signing request (CSR) in IoT fleet provisioning. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/provisioning-cert-provider.html">Customizing
+  /// certificate signing using Amazon Web Services IoT Core certificate
+  /// provider</a> from <i>Amazon Web Services IoT Core Developer Guide</i>.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateCertificateProvider</a>
+  /// action.
+  /// <important>
+  /// After you create a certificate provider, the behavior of <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr">
+  /// <code>CreateCertificateFromCsr</code> API for fleet provisioning</a> will
+  /// change and all API calls to <code>CreateCertificateFromCsr</code> will
+  /// invoke the certificate provider to create the certificates. It can take up
+  /// to a few minutes for this behavior to change after a certificate provider
+  /// is created.
+  /// </important>
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [accountDefaultForOperations] :
+  /// A list of the operations that the certificate provider will use to
+  /// generate certificates. Valid value: <code>CreateCertificateFromCsr</code>.
+  ///
+  /// Parameter [certificateProviderName] :
+  /// The name of the certificate provider.
+  ///
+  /// Parameter [lambdaFunctionArn] :
+  /// The ARN of the Lambda function that defines the authentication logic.
+  ///
+  /// Parameter [clientToken] :
+  /// A string that you can optionally pass in the
+  /// <code>CreateCertificateProvider</code> request to make sure the request is
+  /// idempotent.
+  ///
+  /// Parameter [tags] :
+  /// Metadata which can be used to manage the certificate provider.
+  Future<CreateCertificateProviderResponse> createCertificateProvider({
+    required List<CertificateProviderOperation> accountDefaultForOperations,
+    required String certificateProviderName,
+    required String lambdaFunctionArn,
+    String? clientToken,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'accountDefaultForOperations':
+          accountDefaultForOperations.map((e) => e.toValue()).toList(),
+      'lambdaFunctionArn': lambdaFunctionArn,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/certificate-providers/${Uri.encodeComponent(certificateProviderName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCertificateProviderResponse.fromJson(response);
   }
 
   /// Use this API to define a Custom Metric published by your devices to Device
@@ -1117,6 +1190,9 @@ class IoT {
   /// handshake. Currently you can specify only one certificate ARN. This value
   /// is not required for Amazon Web Services-managed domains.
   ///
+  /// Parameter [serverCertificateConfig] :
+  /// The server certificate configuration.
+  ///
   /// Parameter [serviceType] :
   /// The type of service delivered by the endpoint.
   /// <note>
@@ -1149,6 +1225,7 @@ class IoT {
     AuthorizerConfig? authorizerConfig,
     String? domainName,
     List<String>? serverCertificateArns,
+    ServerCertificateConfig? serverCertificateConfig,
     ServiceType? serviceType,
     List<Tag>? tags,
     TlsConfig? tlsConfig,
@@ -1159,6 +1236,8 @@ class IoT {
       if (domainName != null) 'domainName': domainName,
       if (serverCertificateArns != null)
         'serverCertificateArns': serverCertificateArns,
+      if (serverCertificateConfig != null)
+        'serverCertificateConfig': serverCertificateConfig,
       if (serviceType != null) 'serviceType': serviceType.toValue(),
       if (tags != null) 'tags': tags,
       if (tlsConfig != null) 'tlsConfig': tlsConfig,
@@ -1360,6 +1439,17 @@ class IoT {
   /// Parameter [description] :
   /// A short text description of the job.
   ///
+  /// Parameter [destinationPackageVersions] :
+  /// The package version Amazon Resource Names (ARNs) that are installed on the
+  /// device when the job successfully completes. The package version must be in
+  /// either the Published or Deprecated state when the job deploys. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  ///
+  /// <b>Note:</b>The following Length Constraints relates to a single ARN. Up
+  /// to 25 package version ARNs are allowed.
+  ///
   /// Parameter [document] :
   /// The job document. Required if you don't specify a value for
   /// <code>documentSource</code>.
@@ -1379,7 +1469,7 @@ class IoT {
   /// <code>document</code>.
   ///
   /// For example, <code>--document-source
-  /// https://s3.<i>region-code</i>.amazonaws.com/example-firmware/device-firmware.1.0</code>.
+  /// https://s3.<i>region-code</i>.amazonaws.com/example-firmware/device-firmware.1.0</code>
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Methods
@@ -1403,7 +1493,10 @@ class IoT {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass
+  /// at this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   ///
   /// Parameter [presignedUrlConfig] :
@@ -1440,6 +1533,7 @@ class IoT {
     required List<String> targets,
     AbortConfig? abortConfig,
     String? description,
+    List<String>? destinationPackageVersions,
     String? document,
     Map<String, String>? documentParameters,
     String? documentSource,
@@ -1457,6 +1551,8 @@ class IoT {
       'targets': targets,
       if (abortConfig != null) 'abortConfig': abortConfig,
       if (description != null) 'description': description,
+      if (destinationPackageVersions != null)
+        'destinationPackageVersions': destinationPackageVersions,
       if (document != null) 'document': document,
       if (documentParameters != null) 'documentParameters': documentParameters,
       if (documentSource != null) 'documentSource': documentSource,
@@ -1501,24 +1597,32 @@ class IoT {
   /// A unique identifier for the job template. We recommend using a UUID.
   /// Alpha-numeric characters, "-", and "_" are valid for use here.
   ///
+  /// Parameter [destinationPackageVersions] :
+  /// The package version Amazon Resource Names (ARNs) that are installed on the
+  /// device when the job successfully completes. The package version must be in
+  /// either the Published or Deprecated state when the job deploys. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  ///
+  /// <b>Note:</b>The following Length Constraints relates to a single ARN. Up
+  /// to 25 package version ARNs are allowed.
+  ///
   /// Parameter [document] :
   /// The job document. Required if you don't specify a value for
   /// <code>documentSource</code>.
   ///
   /// Parameter [documentSource] :
-  /// An S3 link to the job document to use in the template. Required if you
-  /// don't specify a value for <code>document</code>.
-  /// <note>
-  /// If the job document resides in an S3 bucket, you must use a placeholder
-  /// link when specifying the document.
+  /// An S3 link, or S3 object URL, to the job document. The link is an Amazon
+  /// S3 object URL and is required if you don't specify a value for
+  /// <code>document</code>.
   ///
-  /// The placeholder link is of the following form:
+  /// For example, <code>--document-source
+  /// https://s3.<i>region-code</i>.amazonaws.com/example-firmware/device-firmware.1.0</code>
   ///
-  /// <code>${aws:iot:s3-presigned-url:https://s3.amazonaws.com/<i>bucket</i>/<i>key</i>}</code>
-  ///
-  /// where <i>bucket</i> is your bucket name and <i>key</i> is the object in
-  /// the bucket to which you are linking.
-  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Methods
+  /// for accessing a bucket</a>.
   ///
   /// Parameter [jobArn] :
   /// The ARN of the job to use as the basis for the job template.
@@ -1536,6 +1640,7 @@ class IoT {
     required String description,
     required String jobTemplateId,
     AbortConfig? abortConfig,
+    List<String>? destinationPackageVersions,
     String? document,
     String? documentSource,
     String? jobArn,
@@ -1549,6 +1654,8 @@ class IoT {
     final $payload = <String, dynamic>{
       'description': description,
       if (abortConfig != null) 'abortConfig': abortConfig,
+      if (destinationPackageVersions != null)
+        'destinationPackageVersions': destinationPackageVersions,
       if (document != null) 'document': document,
       if (documentSource != null) 'documentSource': documentSource,
       if (jobArn != null) 'jobArn': jobArn,
@@ -1686,7 +1793,8 @@ class IoT {
   /// The devices targeted to receive OTA updates.
   ///
   /// Parameter [additionalParameters] :
-  /// A list of additional OTA update parameters which are name-value pairs.
+  /// A list of additional OTA update parameters, which are name-value pairs.
+  /// They won't be sent to devices as a part of the Job document.
   ///
   /// Parameter [awsJobAbortConfig] :
   /// The criteria that determine when and how a job abort takes place.
@@ -1764,6 +1872,123 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return CreateOTAUpdateResponse.fromJson(response);
+  }
+
+  /// Creates an IoT software package that can be deployed to your fleet.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreatePackage</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetIndexingConfiguration</a>
+  /// actions.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the new software package.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [description] :
+  /// A summary of the package being created. This can be used to outline the
+  /// package's contents or purpose.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the package.
+  Future<CreatePackageResponse> createPackage({
+    required String packageName,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/packages/${Uri.encodeComponent(packageName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePackageResponse.fromJson(response);
+  }
+
+  /// Creates a new version for an existing IoT software package.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreatePackageVersion</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetIndexingConfiguration</a>
+  /// actions.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the associated software package.
+  ///
+  /// Parameter [versionName] :
+  /// The name of the new package version.
+  ///
+  /// Parameter [attributes] :
+  /// Metadata that can be used to define a package version’s configuration. For
+  /// example, the S3 file location, configuration options that are being sent
+  /// to the device or fleet.
+  ///
+  /// The combined size of all the attributes on a package version is limited to
+  /// 3KB.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [description] :
+  /// A summary of the package version being created. This can be used to
+  /// outline the package's contents or purpose.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the package version.
+  Future<CreatePackageVersionResponse> createPackageVersion({
+    required String packageName,
+    required String versionName,
+    Map<String, String>? attributes,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final $payload = <String, dynamic>{
+      if (attributes != null) 'attributes': attributes,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/packages/${Uri.encodeComponent(packageName)}/versions/${Uri.encodeComponent(versionName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePackageVersionResponse.fromJson(response);
   }
 
   /// Creates an IoT policy.
@@ -2208,6 +2433,9 @@ class IoT {
   /// Specifies the behaviors that, when violated by a device (thing), cause an
   /// alert.
   ///
+  /// Parameter [metricsExportConfig] :
+  /// Specifies the MQTT topic and role ARN required for metric export.
+  ///
   /// Parameter [securityProfileDescription] :
   /// A description of the security profile.
   ///
@@ -2219,6 +2447,7 @@ class IoT {
     List<MetricToRetain>? additionalMetricsToRetainV2,
     Map<AlertTargetType, AlertTarget>? alertTargets,
     List<Behavior>? behaviors,
+    MetricsExportConfig? metricsExportConfig,
     String? securityProfileDescription,
     List<Tag>? tags,
   }) async {
@@ -2230,6 +2459,8 @@ class IoT {
       if (alertTargets != null)
         'alertTargets': alertTargets.map((k, e) => MapEntry(k.toValue(), e)),
       if (behaviors != null) 'behaviors': behaviors,
+      if (metricsExportConfig != null)
+        'metricsExportConfig': metricsExportConfig,
       if (securityProfileDescription != null)
         'securityProfileDescription': securityProfileDescription,
       if (tags != null) 'tags': tags,
@@ -2362,6 +2593,10 @@ class IoT {
   /// This is a control plane operation. See <a
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
   /// for information about authorizing control plane actions.
+  ///
+  /// If the <code>ThingGroup</code> that you create has the exact same
+  /// attributes as an existing <code>ThingGroup</code>, you will get a 200
+  /// success response.
   /// </note>
   /// Requires permission to access the <a
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateThingGroup</a>
@@ -2716,6 +2951,38 @@ class IoT {
     );
   }
 
+  /// Deletes a certificate provider.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteCertificateProvider</a>
+  /// action.
+  ///
+  /// If you delete the certificate provider resource, the behavior of
+  /// <code>CreateCertificateFromCsr</code> will resume, and IoT will create
+  /// certificates signed by IoT from a certificate signing request (CSR).
+  ///
+  /// May throw [DeleteConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [certificateProviderName] :
+  /// The name of the certificate provider.
+  Future<void> deleteCertificateProvider({
+    required String certificateProviderName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/certificate-providers/${Uri.encodeComponent(certificateProviderName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a Device Defender detect custom metric.
   ///
   /// Requires permission to access the <a
@@ -2917,7 +3184,10 @@ class IoT {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass
+  /// at this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   Future<void> deleteJob({
     required String jobId,
@@ -2985,7 +3255,10 @@ class IoT {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass
+  /// at this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   Future<void> deleteJobExecution({
     required int executionNumber,
@@ -3093,6 +3366,80 @@ class IoT {
       payload: null,
       method: 'DELETE',
       requestUri: '/otaUpdates/${Uri.encodeComponent(otaUpdateId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a specific version from a software package.
+  ///
+  /// <b>Note:</b> All package versions must be deleted before deleting the
+  /// software package.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeletePackageVersion</a>
+  /// action.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the target software package.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<void> deletePackage({
+    required String packageName,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/packages/${Uri.encodeComponent(packageName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a specific version from a software package.
+  ///
+  /// <b>Note:</b> If a package version is designated as default, you must
+  /// remove the designation from the software package using the
+  /// <a>UpdatePackage</a> action.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the associated software package.
+  ///
+  /// Parameter [versionName] :
+  /// The name of the target package version.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<void> deletePackageVersion({
+    required String packageName,
+    required String versionName,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/packages/${Uri.encodeComponent(packageName)}/versions/${Uri.encodeComponent(versionName)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -3825,6 +4172,34 @@ class IoT {
     return DescribeCertificateResponse.fromJson(response);
   }
 
+  /// Describes a certificate provider.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeCertificateProvider</a>
+  /// action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [certificateProviderName] :
+  /// The name of the certificate provider.
+  Future<DescribeCertificateProviderResponse> describeCertificateProvider({
+    required String certificateProviderName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/certificate-providers/${Uri.encodeComponent(certificateProviderName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeCertificateProviderResponse.fromJson(response);
+  }
+
   /// Gets information about a Device Defender detect custom metric.
   ///
   /// Requires permission to access the <a
@@ -3953,9 +4328,13 @@ class IoT {
     return DescribeDomainConfigurationResponse.fromJson(response);
   }
 
-  /// Returns a unique endpoint specific to the Amazon Web Services account
-  /// making the call.
-  ///
+  /// Returns or creates a unique endpoint specific to the Amazon Web Services
+  /// account making the call.
+  /// <note>
+  /// The first time <code>DescribeEndpoint</code> is called, an endpoint is
+  /// created. All subsequent calls to <code>DescribeEndpoint</code> return the
+  /// same endpoint.
+  /// </note>
   /// Requires permission to access the <a
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeEndpoint</a>
   /// action.
@@ -3992,7 +4371,8 @@ class IoT {
   /// </ul>
   /// We strongly recommend that customers use the newer
   /// <code>iot:Data-ATS</code> endpoint type to avoid issues related to the
-  /// widespread distrust of Symantec certificate authorities.
+  /// widespread distrust of Symantec certificate authorities. ATS Signed
+  /// Certificates are more secure and are trusted by most popular browsers.
   Future<DescribeEndpointResponse> describeEndpoint({
     String? endpointType,
   }) async {
@@ -4998,6 +5378,79 @@ class IoT {
     return GetOTAUpdateResponse.fromJson(response);
   }
 
+  /// Gets information about the specified software package.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetPackage</a>
+  /// action.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the target software package.
+  Future<GetPackageResponse> getPackage({
+    required String packageName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/packages/${Uri.encodeComponent(packageName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPackageResponse.fromJson(response);
+  }
+
+  /// Gets information about the specified software package's configuration.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetPackageConfiguration</a>
+  /// action.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<GetPackageConfigurationResponse> getPackageConfiguration() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/package-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPackageConfigurationResponse.fromJson(response);
+  }
+
+  /// Gets information about the specified package version.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetPackageVersion</a>
+  /// action.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the associated package.
+  ///
+  /// Parameter [versionName] :
+  /// The name of the target package version.
+  Future<GetPackageVersionResponse> getPackageVersion({
+    required String packageName,
+    required String versionName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/packages/${Uri.encodeComponent(packageName)}/versions/${Uri.encodeComponent(versionName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPackageVersionResponse.fromJson(response);
+  }
+
   /// Groups the aggregated values that match the query into percentile
   /// groupings. The default percentile groupings are: 1,5,25,50,75,95,99,
   /// although you can specify your own when you call
@@ -5122,6 +5575,10 @@ class IoT {
   }
 
   /// Gets a registration code used to register a CA certificate with IoT.
+  ///
+  /// IoT will create a registration code as part of this API call if the
+  /// registration code doesn't exist or has been deleted. If you already have a
+  /// registration code, this API call will return the same registration code.
   ///
   /// Requires permission to access the <a
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetRegistrationCode</a>
@@ -5863,6 +6320,43 @@ class IoT {
     return ListCACertificatesResponse.fromJson(response);
   }
 
+  /// Lists all your certificate providers in your Amazon Web Services account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListCertificateProviders</a>
+  /// action.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [ascendingOrder] :
+  /// Returns the list of certificate providers in ascending alphabetical order.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or <code>null</code> if there are
+  /// no more results.
+  Future<ListCertificateProvidersResponse> listCertificateProviders({
+    bool? ascendingOrder,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (ascendingOrder != null)
+        'isAscendingOrder': [ascendingOrder.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/certificate-providers/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCertificateProvidersResponse.fromJson(response);
+  }
+
   /// Lists the certificates registered in your Amazon Web Services account.
   ///
   /// The results are paginated with a default page size of 25. You can use the
@@ -6377,7 +6871,10 @@ class IoT {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass
+  /// at this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   ///
   /// Parameter [nextToken] :
@@ -6479,7 +6976,10 @@ class IoT {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass
+  /// at this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   ///
   /// Parameter [nextToken] :
@@ -6794,6 +7294,95 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return ListOutgoingCertificatesResponse.fromJson(response);
+  }
+
+  /// Lists the software package versions associated to the account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListPackageVersions</a>
+  /// action.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the target software package.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  ///
+  /// Parameter [status] :
+  /// The status of the package version. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  Future<ListPackageVersionsResponse> listPackageVersions({
+    required String packageName,
+    int? maxResults,
+    String? nextToken,
+    PackageVersionStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (status != null) 'status': [status.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/packages/${Uri.encodeComponent(packageName)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPackageVersionsResponse.fromJson(response);
+  }
+
+  /// Lists the software packages associated to the account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListPackages</a>
+  /// action.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned at one time.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<ListPackagesResponse> listPackages({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/packages',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPackagesResponse.fromJson(response);
   }
 
   /// Lists your policies.
@@ -8767,7 +9356,12 @@ class IoT {
   /// The search index name.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return at one time.
+  /// The maximum number of results to return per page at one time. This maximum
+  /// number cannot exceed 100. The response might contain fewer results but
+  /// will never contain more. You can use <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken">
+  /// <code>nextToken</code> </a> to retrieve the next set of results until
+  /// <code>nextToken</code> returns <code>NULL</code>.
   ///
   /// Parameter [nextToken] :
   /// The token used to get the next set of results, or <code>null</code> if
@@ -8786,7 +9380,7 @@ class IoT {
       'maxResults',
       maxResults,
       1,
-      500,
+      1152921504606846976,
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
@@ -9749,6 +10343,49 @@ class IoT {
     );
   }
 
+  /// Updates a certificate provider.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateCertificateProvider</a>
+  /// action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [certificateProviderName] :
+  /// The name of the certificate provider.
+  ///
+  /// Parameter [accountDefaultForOperations] :
+  /// A list of the operations that the certificate provider will use to
+  /// generate certificates. Valid value: <code>CreateCertificateFromCsr</code>.
+  ///
+  /// Parameter [lambdaFunctionArn] :
+  /// The Lambda function ARN that's associated with the certificate provider.
+  Future<UpdateCertificateProviderResponse> updateCertificateProvider({
+    required String certificateProviderName,
+    List<CertificateProviderOperation>? accountDefaultForOperations,
+    String? lambdaFunctionArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accountDefaultForOperations != null)
+        'accountDefaultForOperations':
+            accountDefaultForOperations.map((e) => e.toValue()).toList(),
+      if (lambdaFunctionArn != null) 'lambdaFunctionArn': lambdaFunctionArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/certificate-providers/${Uri.encodeComponent(certificateProviderName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCertificateProviderResponse.fromJson(response);
+  }
+
   /// Updates a Device Defender detect custom metric.
   ///
   /// Requires permission to access the <a
@@ -9846,6 +10483,9 @@ class IoT {
   /// Parameter [removeAuthorizerConfig] :
   /// Removes the authorization configuration from a domain.
   ///
+  /// Parameter [serverCertificateConfig] :
+  /// The server certificate configuration.
+  ///
   /// Parameter [tlsConfig] :
   /// An object that specifies the TLS configuration for a domain.
   Future<UpdateDomainConfigurationResponse> updateDomainConfiguration({
@@ -9853,6 +10493,7 @@ class IoT {
     AuthorizerConfig? authorizerConfig,
     DomainConfigurationStatus? domainConfigurationStatus,
     bool? removeAuthorizerConfig,
+    ServerCertificateConfig? serverCertificateConfig,
     TlsConfig? tlsConfig,
   }) async {
     final $payload = <String, dynamic>{
@@ -9861,6 +10502,8 @@ class IoT {
         'domainConfigurationStatus': domainConfigurationStatus.toValue(),
       if (removeAuthorizerConfig != null)
         'removeAuthorizerConfig': removeAuthorizerConfig,
+      if (serverCertificateConfig != null)
+        'serverCertificateConfig': serverCertificateConfig,
       if (tlsConfig != null) 'tlsConfig': tlsConfig,
     };
     final response = await _protocol.send(
@@ -10120,7 +10763,10 @@ class IoT {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass
+  /// at this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   ///
   /// Parameter [presignedUrlConfig] :
@@ -10202,6 +10848,182 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMitigationActionResponse.fromJson(response);
+  }
+
+  /// Updates the supported fields for a specific software package.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdatePackage</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetIndexingConfiguration</a>
+  /// actions.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the target software package.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [defaultVersionName] :
+  /// The name of the default package version.
+  ///
+  /// <b>Note:</b> You cannot name a <code>defaultVersion</code> and set
+  /// <code>unsetDefaultVersion</code> equal to <code>true</code> at the same
+  /// time.
+  ///
+  /// Parameter [description] :
+  /// The package description.
+  ///
+  /// Parameter [unsetDefaultVersion] :
+  /// Indicates whether you want to remove the named default package version
+  /// from the software package. Set as <code>true</code> to remove the default
+  /// package version.
+  ///
+  /// <b>Note:</b> You cannot name a <code>defaultVersion</code> and set
+  /// <code>unsetDefaultVersion</code> equal to <code>true</code> at the same
+  /// time.
+  Future<void> updatePackage({
+    required String packageName,
+    String? clientToken,
+    String? defaultVersionName,
+    String? description,
+    bool? unsetDefaultVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final $payload = <String, dynamic>{
+      if (defaultVersionName != null) 'defaultVersionName': defaultVersionName,
+      if (description != null) 'description': description,
+      if (unsetDefaultVersion != null)
+        'unsetDefaultVersion': unsetDefaultVersion,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/packages/${Uri.encodeComponent(packageName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the software package configuration.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdatePackageConfiguration</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">iam:PassRole</a>
+  /// actions.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [versionUpdateByJobsConfig] :
+  /// Configuration to manage job's package version reporting. This updates the
+  /// thing's reserved named shadow that the job targets.
+  Future<void> updatePackageConfiguration({
+    String? clientToken,
+    VersionUpdateByJobsConfig? versionUpdateByJobsConfig,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final $payload = <String, dynamic>{
+      if (versionUpdateByJobsConfig != null)
+        'versionUpdateByJobsConfig': versionUpdateByJobsConfig,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/package-configuration',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the supported fields for a specific package version.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdatePackageVersion</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetIndexingConfiguration</a>
+  /// actions.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [packageName] :
+  /// The name of the associated software package.
+  ///
+  /// Parameter [versionName] :
+  /// The name of the target package version.
+  ///
+  /// Parameter [action] :
+  /// The status that the package version should be assigned. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  ///
+  /// Parameter [attributes] :
+  /// Metadata that can be used to define a package version’s configuration. For
+  /// example, the Amazon S3 file location, configuration options that are being
+  /// sent to the device or fleet.
+  ///
+  /// <b>Note:</b> Attributes can be updated only when the package version is in
+  /// a draft state.
+  ///
+  /// The combined size of all the attributes on a package version is limited to
+  /// 3KB.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [description] :
+  /// The package version description.
+  Future<void> updatePackageVersion({
+    required String packageName,
+    required String versionName,
+    PackageVersionAction? action,
+    Map<String, String>? attributes,
+    String? clientToken,
+    String? description,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final $payload = <String, dynamic>{
+      if (action != null) 'action': action.toValue(),
+      if (attributes != null) 'attributes': attributes,
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/packages/${Uri.encodeComponent(packageName)}/versions/${Uri.encodeComponent(versionName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Updates a provisioning template.
@@ -10435,11 +11257,17 @@ class IoT {
   /// profile. If any <code>behaviors</code> are defined in the current
   /// invocation, an exception occurs.
   ///
+  /// Parameter [deleteMetricsExportConfig] :
+  /// Set the value as true to delete metrics export related configurations.
+  ///
   /// Parameter [expectedVersion] :
   /// The expected version of the security profile. A new version is generated
   /// whenever the security profile is updated. If you specify a value that is
   /// different from the actual version, a <code>VersionConflictException</code>
   /// is thrown.
+  ///
+  /// Parameter [metricsExportConfig] :
+  /// Specifies the MQTT topic and role ARN required for metric export.
   ///
   /// Parameter [securityProfileDescription] :
   /// A description of the security profile.
@@ -10452,7 +11280,9 @@ class IoT {
     bool? deleteAdditionalMetricsToRetain,
     bool? deleteAlertTargets,
     bool? deleteBehaviors,
+    bool? deleteMetricsExportConfig,
     int? expectedVersion,
+    MetricsExportConfig? metricsExportConfig,
     String? securityProfileDescription,
   }) async {
     final $query = <String, List<String>>{
@@ -10471,6 +11301,10 @@ class IoT {
         'deleteAdditionalMetricsToRetain': deleteAdditionalMetricsToRetain,
       if (deleteAlertTargets != null) 'deleteAlertTargets': deleteAlertTargets,
       if (deleteBehaviors != null) 'deleteBehaviors': deleteBehaviors,
+      if (deleteMetricsExportConfig != null)
+        'deleteMetricsExportConfig': deleteMetricsExportConfig,
+      if (metricsExportConfig != null)
+        'metricsExportConfig': metricsExportConfig,
       if (securityProfileDescription != null)
         'securityProfileDescription': securityProfileDescription,
     };
@@ -12903,7 +13737,14 @@ class Behavior {
 
   /// The criteria that determine if a device is behaving normally in regard to
   /// the <code>metric</code>.
+  /// <note>
+  /// In the IoT console, you can choose to be sent an alert through Amazon SNS
+  /// when IoT Device Defender detects that a device is behaving anomalously.
+  /// </note>
   final BehaviorCriteria? criteria;
+
+  /// Value indicates exporting metrics related to the behavior when it is true.
+  final bool? exportMetric;
 
   /// What is measured by the behavior.
   final String? metric;
@@ -12920,6 +13761,7 @@ class Behavior {
   Behavior({
     required this.name,
     this.criteria,
+    this.exportMetric,
     this.metric,
     this.metricDimension,
     this.suppressAlerts,
@@ -12931,6 +13773,7 @@ class Behavior {
       criteria: json['criteria'] != null
           ? BehaviorCriteria.fromJson(json['criteria'] as Map<String, dynamic>)
           : null,
+      exportMetric: json['exportMetric'] as bool?,
       metric: json['metric'] as String?,
       metricDimension: json['metricDimension'] != null
           ? MetricDimension.fromJson(
@@ -12943,12 +13786,14 @@ class Behavior {
   Map<String, dynamic> toJson() {
     final name = this.name;
     final criteria = this.criteria;
+    final exportMetric = this.exportMetric;
     final metric = this.metric;
     final metricDimension = this.metricDimension;
     final suppressAlerts = this.suppressAlerts;
     return {
       'name': name,
       if (criteria != null) 'criteria': criteria,
+      if (exportMetric != null) 'exportMetric': exportMetric,
       if (metric != null) 'metric': metric,
       if (metricDimension != null) 'metricDimension': metricDimension,
       if (suppressAlerts != null) 'suppressAlerts': suppressAlerts,
@@ -13688,6 +14533,51 @@ extension CertificateModeFromString on String {
   }
 }
 
+enum CertificateProviderOperation {
+  createCertificateFromCsr,
+}
+
+extension CertificateProviderOperationValueExtension
+    on CertificateProviderOperation {
+  String toValue() {
+    switch (this) {
+      case CertificateProviderOperation.createCertificateFromCsr:
+        return 'CreateCertificateFromCsr';
+    }
+  }
+}
+
+extension CertificateProviderOperationFromString on String {
+  CertificateProviderOperation toCertificateProviderOperation() {
+    switch (this) {
+      case 'CreateCertificateFromCsr':
+        return CertificateProviderOperation.createCertificateFromCsr;
+    }
+    throw Exception('$this is not known in enum CertificateProviderOperation');
+  }
+}
+
+/// The certificate provider summary.
+class CertificateProviderSummary {
+  /// The ARN of the certificate provider.
+  final String? certificateProviderArn;
+
+  /// The name of the certificate provider.
+  final String? certificateProviderName;
+
+  CertificateProviderSummary({
+    this.certificateProviderArn,
+    this.certificateProviderName,
+  });
+
+  factory CertificateProviderSummary.fromJson(Map<String, dynamic> json) {
+    return CertificateProviderSummary(
+      certificateProviderArn: json['certificateProviderArn'] as String?,
+      certificateProviderName: json['certificateProviderName'] as String?,
+    );
+  }
+}
+
 enum CertificateStatus {
   active,
   inactive,
@@ -14224,6 +15114,27 @@ class CreateCertificateFromCsrResponse {
   }
 }
 
+class CreateCertificateProviderResponse {
+  /// The ARN of the certificate provider.
+  final String? certificateProviderArn;
+
+  /// The name of the certificate provider.
+  final String? certificateProviderName;
+
+  CreateCertificateProviderResponse({
+    this.certificateProviderArn,
+    this.certificateProviderName,
+  });
+
+  factory CreateCertificateProviderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCertificateProviderResponse(
+      certificateProviderArn: json['certificateProviderArn'] as String?,
+      certificateProviderName: json['certificateProviderName'] as String?,
+    );
+  }
+}
+
 class CreateCustomMetricResponse {
   /// The Amazon Resource Number (ARN) of the custom metric. For example,
   /// <code>arn:<i>aws-partition</i>:iot:<i>region</i>:<i>accountId</i>:custommetric/<i>metricName</i>
@@ -14478,6 +15389,80 @@ class CreateOTAUpdateResponse {
       otaUpdateId: json['otaUpdateId'] as String?,
       otaUpdateStatus:
           (json['otaUpdateStatus'] as String?)?.toOTAUpdateStatus(),
+    );
+  }
+}
+
+class CreatePackageResponse {
+  /// The package description.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) for the package.
+  final String? packageArn;
+
+  /// The name of the software package.
+  final String? packageName;
+
+  CreatePackageResponse({
+    this.description,
+    this.packageArn,
+    this.packageName,
+  });
+
+  factory CreatePackageResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePackageResponse(
+      description: json['description'] as String?,
+      packageArn: json['packageArn'] as String?,
+      packageName: json['packageName'] as String?,
+    );
+  }
+}
+
+class CreatePackageVersionResponse {
+  /// Metadata that were added to the package version that can be used to define a
+  /// package version’s configuration.
+  final Map<String, String>? attributes;
+
+  /// The package version description.
+  final String? description;
+
+  /// Error reason for a package version failure during creation or update.
+  final String? errorReason;
+
+  /// The name of the associated software package.
+  final String? packageName;
+
+  /// The Amazon Resource Name (ARN) for the package.
+  final String? packageVersionArn;
+
+  /// The status of the package version. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  final PackageVersionStatus? status;
+
+  /// The name of the new package version.
+  final String? versionName;
+
+  CreatePackageVersionResponse({
+    this.attributes,
+    this.description,
+    this.errorReason,
+    this.packageName,
+    this.packageVersionArn,
+    this.status,
+    this.versionName,
+  });
+
+  factory CreatePackageVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePackageVersionResponse(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      description: json['description'] as String?,
+      errorReason: json['errorReason'] as String?,
+      packageName: json['packageName'] as String?,
+      packageVersionArn: json['packageVersionArn'] as String?,
+      status: (json['status'] as String?)?.toPackageVersionStatus(),
+      versionName: json['versionName'] as String?,
     );
   }
 }
@@ -15008,6 +15993,14 @@ class DeleteCACertificateResponse {
   }
 }
 
+class DeleteCertificateProviderResponse {
+  DeleteCertificateProviderResponse();
+
+  factory DeleteCertificateProviderResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCertificateProviderResponse();
+  }
+}
+
 class DeleteCustomMetricResponse {
   DeleteCustomMetricResponse();
 
@@ -15053,6 +16046,22 @@ class DeleteOTAUpdateResponse {
 
   factory DeleteOTAUpdateResponse.fromJson(Map<String, dynamic> _) {
     return DeleteOTAUpdateResponse();
+  }
+}
+
+class DeletePackageResponse {
+  DeletePackageResponse();
+
+  factory DeletePackageResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePackageResponse();
+  }
+}
+
+class DeletePackageVersionResponse {
+  DeletePackageVersionResponse();
+
+  factory DeletePackageVersionResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePackageVersionResponse();
   }
 }
 
@@ -15474,6 +16483,54 @@ class DescribeCACertificateResponse {
   }
 }
 
+class DescribeCertificateProviderResponse {
+  /// A list of the operations that the certificate provider will use to generate
+  /// certificates. Valid value: <code>CreateCertificateFromCsr</code>.
+  final List<CertificateProviderOperation>? accountDefaultForOperations;
+
+  /// The ARN of the certificate provider.
+  final String? certificateProviderArn;
+
+  /// The name of the certificate provider.
+  final String? certificateProviderName;
+
+  /// The date-time string that indicates when the certificate provider was
+  /// created.
+  final DateTime? creationDate;
+
+  /// The Lambda function ARN that's associated with the certificate provider.
+  final String? lambdaFunctionArn;
+
+  /// The date-time string that indicates when the certificate provider was last
+  /// updated.
+  final DateTime? lastModifiedDate;
+
+  DescribeCertificateProviderResponse({
+    this.accountDefaultForOperations,
+    this.certificateProviderArn,
+    this.certificateProviderName,
+    this.creationDate,
+    this.lambdaFunctionArn,
+    this.lastModifiedDate,
+  });
+
+  factory DescribeCertificateProviderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeCertificateProviderResponse(
+      accountDefaultForOperations:
+          (json['accountDefaultForOperations'] as List?)
+              ?.whereNotNull()
+              .map((e) => (e as String).toCertificateProviderOperation())
+              .toList(),
+      certificateProviderArn: json['certificateProviderArn'] as String?,
+      certificateProviderName: json['certificateProviderName'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lambdaFunctionArn: json['lambdaFunctionArn'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    );
+  }
+}
+
 /// The output of the DescribeCertificate operation.
 class DescribeCertificateResponse {
   /// The description of the certificate.
@@ -15645,6 +16702,9 @@ class DescribeDomainConfigurationResponse {
   /// The date and time the domain configuration's status was last changed.
   final DateTime? lastStatusChangeDate;
 
+  /// The server certificate configuration.
+  final ServerCertificateConfig? serverCertificateConfig;
+
   /// A list containing summary information about the server certificate included
   /// in the domain configuration.
   final List<ServerCertificateSummary>? serverCertificates;
@@ -15663,6 +16723,7 @@ class DescribeDomainConfigurationResponse {
     this.domainName,
     this.domainType,
     this.lastStatusChangeDate,
+    this.serverCertificateConfig,
     this.serverCertificates,
     this.serviceType,
     this.tlsConfig,
@@ -15682,6 +16743,10 @@ class DescribeDomainConfigurationResponse {
       domainName: json['domainName'] as String?,
       domainType: (json['domainType'] as String?)?.toDomainType(),
       lastStatusChangeDate: timeStampFromJson(json['lastStatusChangeDate']),
+      serverCertificateConfig: json['serverCertificateConfig'] != null
+          ? ServerCertificateConfig.fromJson(
+              json['serverCertificateConfig'] as Map<String, dynamic>)
+          : null,
       serverCertificates: (json['serverCertificates'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -15920,6 +16985,17 @@ class DescribeJobTemplateResponse {
   /// A description of the job template.
   final String? description;
 
+  /// The package version Amazon Resource Names (ARNs) that are installed on the
+  /// device when the job successfully completes. The package version must be in
+  /// either the Published or Deprecated state when the job deploys. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  ///
+  /// <b>Note:</b>The following Length Constraints relates to a single ARN. Up to
+  /// 25 package version ARNs are allowed.
+  final List<String>? destinationPackageVersions;
+
   /// The job document.
   final String? document;
 
@@ -15947,6 +17023,7 @@ class DescribeJobTemplateResponse {
     this.abortConfig,
     this.createdAt,
     this.description,
+    this.destinationPackageVersions,
     this.document,
     this.documentSource,
     this.jobExecutionsRetryConfig,
@@ -15965,6 +17042,10 @@ class DescribeJobTemplateResponse {
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      destinationPackageVersions: (json['destinationPackageVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       document: json['document'] as String?,
       documentSource: json['documentSource'] as String?,
       jobExecutionsRetryConfig: json['jobExecutionsRetryConfig'] != null
@@ -16314,6 +17395,9 @@ class DescribeSecurityProfileResponse {
   /// The time the security profile was last modified.
   final DateTime? lastModifiedDate;
 
+  /// Specifies the MQTT topic and role ARN required for metric export.
+  final MetricsExportConfig? metricsExportConfig;
+
   /// The ARN of the security profile.
   final String? securityProfileArn;
 
@@ -16335,6 +17419,7 @@ class DescribeSecurityProfileResponse {
     this.behaviors,
     this.creationDate,
     this.lastModifiedDate,
+    this.metricsExportConfig,
     this.securityProfileArn,
     this.securityProfileDescription,
     this.securityProfileName,
@@ -16361,6 +17446,10 @@ class DescribeSecurityProfileResponse {
           .toList(),
       creationDate: timeStampFromJson(json['creationDate']),
       lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      metricsExportConfig: json['metricsExportConfig'] != null
+          ? MetricsExportConfig.fromJson(
+              json['metricsExportConfig'] as Map<String, dynamic>)
+          : null,
       securityProfileArn: json['securityProfileArn'] as String?,
       securityProfileDescription: json['securityProfileDescription'] as String?,
       securityProfileName: json['securityProfileName'] as String?,
@@ -18020,6 +19109,41 @@ extension FleetMetricUnitFromString on String {
   }
 }
 
+/// A geolocation target that you select to index. Each geolocation target
+/// contains a <code>name</code> and <code>order</code> key-value pair that
+/// specifies the geolocation target fields.
+class GeoLocationTarget {
+  /// The <code>name</code> of the geolocation target field. If the target field
+  /// is part of a named shadow, you must select the named shadow using the
+  /// <code>namedShadow</code> filter.
+  final String? name;
+
+  /// The <code>order</code> of the geolocation target field. This field is
+  /// optional. The default value is <code>LatLon</code>.
+  final TargetFieldOrder? order;
+
+  GeoLocationTarget({
+    this.name,
+    this.order,
+  });
+
+  factory GeoLocationTarget.fromJson(Map<String, dynamic> json) {
+    return GeoLocationTarget(
+      name: json['name'] as String?,
+      order: (json['order'] as String?)?.toTargetFieldOrder(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final order = this.order;
+    return {
+      if (name != null) 'name': name,
+      if (order != null) 'order': order.toValue(),
+    };
+  }
+}
+
 class GetBehaviorModelTrainingSummariesResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -18187,6 +19311,123 @@ class GetOTAUpdateResponse {
           ? OTAUpdateInfo.fromJson(
               json['otaUpdateInfo'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+class GetPackageConfigurationResponse {
+  /// The version that is associated to a specific job.
+  final VersionUpdateByJobsConfig? versionUpdateByJobsConfig;
+
+  GetPackageConfigurationResponse({
+    this.versionUpdateByJobsConfig,
+  });
+
+  factory GetPackageConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetPackageConfigurationResponse(
+      versionUpdateByJobsConfig: json['versionUpdateByJobsConfig'] != null
+          ? VersionUpdateByJobsConfig.fromJson(
+              json['versionUpdateByJobsConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetPackageResponse {
+  /// The date the package was created.
+  final DateTime? creationDate;
+
+  /// The name of the default package version.
+  final String? defaultVersionName;
+
+  /// The package description.
+  final String? description;
+
+  /// The date when the package was last updated.
+  final DateTime? lastModifiedDate;
+
+  /// The ARN for the package.
+  final String? packageArn;
+
+  /// The name of the software package.
+  final String? packageName;
+
+  GetPackageResponse({
+    this.creationDate,
+    this.defaultVersionName,
+    this.description,
+    this.lastModifiedDate,
+    this.packageArn,
+    this.packageName,
+  });
+
+  factory GetPackageResponse.fromJson(Map<String, dynamic> json) {
+    return GetPackageResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      defaultVersionName: json['defaultVersionName'] as String?,
+      description: json['description'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      packageArn: json['packageArn'] as String?,
+      packageName: json['packageName'] as String?,
+    );
+  }
+}
+
+class GetPackageVersionResponse {
+  /// Metadata that were added to the package version that can be used to define a
+  /// package version’s configuration.
+  final Map<String, String>? attributes;
+
+  /// The date when the package version was created.
+  final DateTime? creationDate;
+
+  /// The package version description.
+  final String? description;
+
+  /// Error reason for a package version failure during creation or update.
+  final String? errorReason;
+
+  /// The date when the package version was last updated.
+  final DateTime? lastModifiedDate;
+
+  /// The name of the software package.
+  final String? packageName;
+
+  /// The ARN for the package version.
+  final String? packageVersionArn;
+
+  /// The status associated to the package version. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  final PackageVersionStatus? status;
+
+  /// The name of the package version.
+  final String? versionName;
+
+  GetPackageVersionResponse({
+    this.attributes,
+    this.creationDate,
+    this.description,
+    this.errorReason,
+    this.lastModifiedDate,
+    this.packageName,
+    this.packageVersionArn,
+    this.status,
+    this.versionName,
+  });
+
+  factory GetPackageVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetPackageVersionResponse(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      errorReason: json['errorReason'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      packageName: json['packageName'] as String?,
+      packageVersionArn: json['packageVersionArn'] as String?,
+      status: (json['status'] as String?)?.toPackageVersionStatus(),
+      versionName: json['versionName'] as String?,
     );
   }
 }
@@ -18669,12 +19910,38 @@ extension IndexStatusFromString on String {
   }
 }
 
-/// Provides additional filters for specific data sources. Named shadow is the
-/// only data source that currently supports and requires a filter. To add named
-/// shadows to your fleet indexing configuration, set
-/// <code>namedShadowIndexingMode</code> to be <code>ON</code> and specify your
-/// shadow names in <code>filter</code>.
+/// Provides additional selections for named shadows and geolocation data.
+///
+/// To add named shadows to your fleet indexing configuration, set
+/// <code>namedShadowIndexingMode</code> to be ON and specify your shadow names
+/// in <code>namedShadowNames</code> filter.
+///
+/// To add geolocation data to your fleet indexing configuration:
+///
+/// <ul>
+/// <li>
+/// If you store geolocation data in a class/unnamed shadow, set
+/// <code>thingIndexingMode</code> to be <code>REGISTRY_AND_SHADOW</code> and
+/// specify your geolocation data in <code>geoLocations</code> filter.
+/// </li>
+/// <li>
+/// If you store geolocation data in a named shadow, set
+/// <code>namedShadowIndexingMode</code> to be <code>ON</code>, add the shadow
+/// name in <code>namedShadowNames</code> filter, and specify your geolocation
+/// data in <code>geoLocations</code> filter. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html">Managing
+/// fleet indexing</a>.
+/// </li>
+/// </ul>
 class IndexingFilter {
+  /// The list of geolocation targets that you select to index. The default
+  /// maximum number of geolocation targets for indexing is <code>1</code>. To
+  /// increase the limit, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits">Amazon
+  /// Web Services IoT Device Management Quotas</a> in the <i>Amazon Web Services
+  /// General Reference</i>.
+  final List<GeoLocationTarget>? geoLocations;
+
   /// The shadow names that you select to index. The default maximum number of
   /// shadow names for indexing is 10. To increase the limit, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits">Amazon
@@ -18683,11 +19950,16 @@ class IndexingFilter {
   final List<String>? namedShadowNames;
 
   IndexingFilter({
+    this.geoLocations,
     this.namedShadowNames,
   });
 
   factory IndexingFilter.fromJson(Map<String, dynamic> json) {
     return IndexingFilter(
+      geoLocations: (json['geoLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => GeoLocationTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
       namedShadowNames: (json['namedShadowNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -18696,8 +19968,10 @@ class IndexingFilter {
   }
 
   Map<String, dynamic> toJson() {
+    final geoLocations = this.geoLocations;
     final namedShadowNames = this.namedShadowNames;
     return {
+      if (geoLocations != null) 'geoLocations': geoLocations,
       if (namedShadowNames != null) 'namedShadowNames': namedShadowNames,
     };
   }
@@ -18916,6 +20190,20 @@ class Job {
   /// A short text description of the job.
   final String? description;
 
+  /// The package version Amazon Resource Names (ARNs) that are installed on the
+  /// device when the job successfully completes. The package version must be in
+  /// either the Published or Deprecated state when the job deploys. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.The package version must be in either the Published or
+  /// Deprecated state when the job deploys. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  ///
+  /// <b>Note:</b>The following Length Constraints relates to a single ARN. Up to
+  /// 25 package version ARNs are allowed.
+  final List<String>? destinationPackageVersions;
+
   /// A key-value map that pairs the patterns that need to be replaced in a
   /// managed template job document schema. You can use the description of each
   /// key as a guidance to specify the inputs during runtime when creating a job.
@@ -18965,7 +20253,10 @@ class Job {
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
-  /// The <code>namespaceId</code> feature is in public preview.
+  /// The <code>namespaceId</code> feature is only supported by IoT Greengrass at
+  /// this time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html">Setting
+  /// up IoT Greengrass core devices.</a>
   /// </note>
   final String? namespaceId;
 
@@ -19017,6 +20308,7 @@ class Job {
     this.completedAt,
     this.createdAt,
     this.description,
+    this.destinationPackageVersions,
     this.documentParameters,
     this.forceCanceled,
     this.isConcurrent,
@@ -19047,6 +20339,10 @@ class Job {
       completedAt: timeStampFromJson(json['completedAt']),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      destinationPackageVersions: (json['destinationPackageVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       documentParameters: (json['documentParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       forceCanceled: json['forceCanceled'] as bool?,
@@ -19699,6 +20995,9 @@ class KafkaAction {
   /// The Kafka topic for messages to be sent to the Kafka broker.
   final String topic;
 
+  /// The list of Kafka headers that you specify.
+  final List<KafkaActionHeader>? headers;
+
   /// The Kafka message key.
   final String? key;
 
@@ -19709,6 +21008,7 @@ class KafkaAction {
     required this.clientProperties,
     required this.destinationArn,
     required this.topic,
+    this.headers,
     this.key,
     this.partition,
   });
@@ -19719,6 +21019,10 @@ class KafkaAction {
           .map((k, e) => MapEntry(k, e as String)),
       destinationArn: json['destinationArn'] as String,
       topic: json['topic'] as String,
+      headers: (json['headers'] as List?)
+          ?.whereNotNull()
+          .map((e) => KafkaActionHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
       key: json['key'] as String?,
       partition: json['partition'] as String?,
     );
@@ -19728,14 +21032,52 @@ class KafkaAction {
     final clientProperties = this.clientProperties;
     final destinationArn = this.destinationArn;
     final topic = this.topic;
+    final headers = this.headers;
     final key = this.key;
     final partition = this.partition;
     return {
       'clientProperties': clientProperties,
       'destinationArn': destinationArn,
       'topic': topic,
+      if (headers != null) 'headers': headers,
       if (key != null) 'key': key,
       if (partition != null) 'partition': partition,
+    };
+  }
+}
+
+/// Specifies a Kafka header using key-value pairs when you create a Rule’s
+/// Kafka Action. You can use these headers to route data from IoT clients to
+/// downstream Kafka clusters without modifying your message payload.
+///
+/// For more information about Rule's Kafka action, see <a
+/// href="https://docs.aws.amazon.com/iot/latest/developerguide/apache-kafka-rule-action.html">Apache
+/// Kafka</a>.
+class KafkaActionHeader {
+  /// The key of the Kafka header.
+  final String key;
+
+  /// The value of the Kafka header.
+  final String value;
+
+  KafkaActionHeader({
+    required this.key,
+    required this.value,
+  });
+
+  factory KafkaActionHeader.fromJson(Map<String, dynamic> json) {
+    return KafkaActionHeader(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
     };
   }
 }
@@ -20059,6 +21401,31 @@ class ListCACertificatesResponse {
           .map((e) => CACertificate.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['nextMarker'] as String?,
+    );
+  }
+}
+
+class ListCertificateProvidersResponse {
+  /// The list of certificate providers in your Amazon Web Services account.
+  final List<CertificateProviderSummary>? certificateProviders;
+
+  /// The token for the next set of results, or <code>null</code> if there are no
+  /// more results.
+  final String? nextToken;
+
+  ListCertificateProvidersResponse({
+    this.certificateProviders,
+    this.nextToken,
+  });
+
+  factory ListCertificateProvidersResponse.fromJson(Map<String, dynamic> json) {
+    return ListCertificateProvidersResponse(
+      certificateProviders: (json['certificateProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CertificateProviderSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 }
@@ -20501,6 +21868,52 @@ class ListOutgoingCertificatesResponse {
       outgoingCertificates: (json['outgoingCertificates'] as List?)
           ?.whereNotNull()
           .map((e) => OutgoingCertificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListPackageVersionsResponse {
+  /// The token for the next set of results.
+  final String? nextToken;
+
+  /// Lists the package versions associated to the package.
+  final List<PackageVersionSummary>? packageVersionSummaries;
+
+  ListPackageVersionsResponse({
+    this.nextToken,
+    this.packageVersionSummaries,
+  });
+
+  factory ListPackageVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPackageVersionsResponse(
+      nextToken: json['nextToken'] as String?,
+      packageVersionSummaries: (json['packageVersionSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackageVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListPackagesResponse {
+  /// The token for the next set of results.
+  final String? nextToken;
+
+  /// The software package summary.
+  final List<PackageSummary>? packageSummaries;
+
+  ListPackagesResponse({
+    this.nextToken,
+    this.packageSummaries,
+  });
+
+  factory ListPackagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPackagesResponse(
+      nextToken: json['nextToken'] as String?,
+      packageSummaries: (json['packageSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackageSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -21676,17 +23089,23 @@ class MetricToRetain {
   /// What is measured by the behavior.
   final String metric;
 
+  /// The value indicates exporting metrics related to the <code>MetricToRetain
+  /// </code> when it's true.
+  final bool? exportMetric;
+
   /// The dimension of a metric. This can't be used with custom metrics.
   final MetricDimension? metricDimension;
 
   MetricToRetain({
     required this.metric,
+    this.exportMetric,
     this.metricDimension,
   });
 
   factory MetricToRetain.fromJson(Map<String, dynamic> json) {
     return MetricToRetain(
       metric: json['metric'] as String,
+      exportMetric: json['exportMetric'] as bool?,
       metricDimension: json['metricDimension'] != null
           ? MetricDimension.fromJson(
               json['metricDimension'] as Map<String, dynamic>)
@@ -21696,9 +23115,11 @@ class MetricToRetain {
 
   Map<String, dynamic> toJson() {
     final metric = this.metric;
+    final exportMetric = this.exportMetric;
     final metricDimension = this.metricDimension;
     return {
       'metric': metric,
+      if (exportMetric != null) 'exportMetric': exportMetric,
       if (metricDimension != null) 'metricDimension': metricDimension,
     };
   }
@@ -21773,6 +23194,38 @@ class MetricValue {
       if (numbers != null) 'numbers': numbers,
       if (ports != null) 'ports': ports,
       if (strings != null) 'strings': strings,
+    };
+  }
+}
+
+/// Set configurations for metrics export.
+class MetricsExportConfig {
+  /// The MQTT topic that Device Defender Detect should publish messages to for
+  /// metrics export.
+  final String mqttTopic;
+
+  /// This role ARN has permission to publish MQTT messages, after which Device
+  /// Defender Detect can assume the role and publish messages on your behalf.
+  final String roleArn;
+
+  MetricsExportConfig({
+    required this.mqttTopic,
+    required this.roleArn,
+  });
+
+  factory MetricsExportConfig.fromJson(Map<String, dynamic> json) {
+    return MetricsExportConfig(
+      mqttTopic: json['mqttTopic'] as String,
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mqttTopic = this.mqttTopic;
+    final roleArn = this.roleArn;
+    return {
+      'mqttTopic': mqttTopic,
+      'roleArn': roleArn,
     };
   }
 }
@@ -22222,7 +23675,8 @@ class NonCompliantResource {
 
 /// Describes a file to be associated with an OTA update.
 class OTAUpdateFile {
-  /// A list of name/attribute pairs.
+  /// A list of name-attribute pairs. They won't be sent to devices as a part of
+  /// the Job document.
   final Map<String, String>? attributes;
 
   /// The code signing method of the file.
@@ -22567,6 +24021,136 @@ class OutgoingCertificate {
       transferDate: timeStampFromJson(json['transferDate']),
       transferMessage: json['transferMessage'] as String?,
       transferredTo: json['transferredTo'] as String?,
+    );
+  }
+}
+
+/// A summary of information about a software package.
+class PackageSummary {
+  /// The date that the package was created.
+  final DateTime? creationDate;
+
+  /// The name of the default package version.
+  final String? defaultVersionName;
+
+  /// The date that the package was last updated.
+  final DateTime? lastModifiedDate;
+
+  /// The name for the target software package.
+  final String? packageName;
+
+  PackageSummary({
+    this.creationDate,
+    this.defaultVersionName,
+    this.lastModifiedDate,
+    this.packageName,
+  });
+
+  factory PackageSummary.fromJson(Map<String, dynamic> json) {
+    return PackageSummary(
+      creationDate: timeStampFromJson(json['creationDate']),
+      defaultVersionName: json['defaultVersionName'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      packageName: json['packageName'] as String?,
+    );
+  }
+}
+
+enum PackageVersionAction {
+  publish,
+  deprecate,
+}
+
+extension PackageVersionActionValueExtension on PackageVersionAction {
+  String toValue() {
+    switch (this) {
+      case PackageVersionAction.publish:
+        return 'PUBLISH';
+      case PackageVersionAction.deprecate:
+        return 'DEPRECATE';
+    }
+  }
+}
+
+extension PackageVersionActionFromString on String {
+  PackageVersionAction toPackageVersionAction() {
+    switch (this) {
+      case 'PUBLISH':
+        return PackageVersionAction.publish;
+      case 'DEPRECATE':
+        return PackageVersionAction.deprecate;
+    }
+    throw Exception('$this is not known in enum PackageVersionAction');
+  }
+}
+
+enum PackageVersionStatus {
+  draft,
+  published,
+  deprecated,
+}
+
+extension PackageVersionStatusValueExtension on PackageVersionStatus {
+  String toValue() {
+    switch (this) {
+      case PackageVersionStatus.draft:
+        return 'DRAFT';
+      case PackageVersionStatus.published:
+        return 'PUBLISHED';
+      case PackageVersionStatus.deprecated:
+        return 'DEPRECATED';
+    }
+  }
+}
+
+extension PackageVersionStatusFromString on String {
+  PackageVersionStatus toPackageVersionStatus() {
+    switch (this) {
+      case 'DRAFT':
+        return PackageVersionStatus.draft;
+      case 'PUBLISHED':
+        return PackageVersionStatus.published;
+      case 'DEPRECATED':
+        return PackageVersionStatus.deprecated;
+    }
+    throw Exception('$this is not known in enum PackageVersionStatus');
+  }
+}
+
+/// A summary of information about a package version.
+class PackageVersionSummary {
+  /// The date that the package version was created.
+  final DateTime? creationDate;
+
+  /// The date that the package version was last updated.
+  final DateTime? lastModifiedDate;
+
+  /// The name of the associated software package.
+  final String? packageName;
+
+  /// The status of the package version. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle">Package
+  /// version lifecycle</a>.
+  final PackageVersionStatus? status;
+
+  /// The name of the target package version.
+  final String? versionName;
+
+  PackageVersionSummary({
+    this.creationDate,
+    this.lastModifiedDate,
+    this.packageName,
+    this.status,
+    this.versionName,
+  });
+
+  factory PackageVersionSummary.fromJson(Map<String, dynamic> json) {
+    return PackageVersionSummary(
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      packageName: json['packageName'] as String?,
+      status: (json['status'] as String?)?.toPackageVersionStatus(),
+      versionName: json['versionName'] as String?,
     );
   }
 }
@@ -23797,6 +25381,10 @@ class SchedulingConfig {
   /// maximum duration between <code>startTime</code> and <code>endTime</code> is
   /// two years. The date and time format for the <code>endTime</code> is
   /// YYYY-MM-DD for the date and HH:MM for the time.
+  ///
+  /// For more information on the syntax for <code>endTime</code> when using an
+  /// API command or the Command Line Interface, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">Timestamp</a>.
   final String? endTime;
 
   /// An optional configuration within the <code>SchedulingConfig</code> to setup
@@ -23810,6 +25398,10 @@ class SchedulingConfig {
   /// year in advance and must be scheduled a minimum of thirty minutes from the
   /// current time. The date and time format for the <code>startTime</code> is
   /// YYYY-MM-DD for the date and HH:MM for the time.
+  ///
+  /// For more information on the syntax for <code>startTime</code> when using an
+  /// API command or the Command Line Interface, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">Timestamp</a>.
   final String? startTime;
 
   SchedulingConfig({
@@ -23940,6 +25532,35 @@ class SecurityProfileTargetMapping {
               json['target'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// The server certificate configuration.
+class ServerCertificateConfig {
+  /// A Boolean value that indicates whether Online Certificate Status Protocol
+  /// (OCSP) server certificate check is enabled or not.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-domain-ocsp-config.html">Configuring
+  /// OCSP server-certificate stapling in domain configuration</a> from Amazon Web
+  /// Services IoT Core Developer Guide.
+  final bool? enableOCSPCheck;
+
+  ServerCertificateConfig({
+    this.enableOCSPCheck,
+  });
+
+  factory ServerCertificateConfig.fromJson(Map<String, dynamic> json) {
+    return ServerCertificateConfig(
+      enableOCSPCheck: json['enableOCSPCheck'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableOCSPCheck = this.enableOCSPCheck;
+    return {
+      if (enableOCSPCheck != null) 'enableOCSPCheck': enableOCSPCheck,
+    };
   }
 }
 
@@ -24681,6 +26302,34 @@ class TagResourceResponse {
   }
 }
 
+enum TargetFieldOrder {
+  latLon,
+  lonLat,
+}
+
+extension TargetFieldOrderValueExtension on TargetFieldOrder {
+  String toValue() {
+    switch (this) {
+      case TargetFieldOrder.latLon:
+        return 'LatLon';
+      case TargetFieldOrder.lonLat:
+        return 'LonLat';
+    }
+  }
+}
+
+extension TargetFieldOrderFromString on String {
+  TargetFieldOrder toTargetFieldOrder() {
+    switch (this) {
+      case 'LatLon':
+        return TargetFieldOrder.latLon;
+      case 'LonLat':
+        return TargetFieldOrder.lonLat;
+    }
+    throw Exception('$this is not known in enum TargetFieldOrder');
+  }
+}
+
 enum TargetSelection {
   continuous,
   snapshot,
@@ -25123,6 +26772,9 @@ class ThingGroupIndexingConfiguration {
   /// <a
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field">Managed
   /// fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.
+  /// <note>
+  /// You can't modify managed fields by updating fleet indexing configuration.
+  /// </note>
   final List<Field>? managedFields;
 
   ThingGroupIndexingConfiguration({
@@ -25288,15 +26940,39 @@ class ThingIndexingConfiguration {
   /// Defender Detect.</a>
   final DeviceDefenderIndexingMode? deviceDefenderIndexingMode;
 
-  /// Provides additional filters for specific data sources. Named shadow is the
-  /// only data source that currently supports and requires a filter. To add named
-  /// shadows to your fleet indexing configuration, set
-  /// <code>namedShadowIndexingMode</code> to be <code>ON</code> and specify your
-  /// shadow names in <code>filter</code>.
+  /// Provides additional selections for named shadows and geolocation data.
+  ///
+  /// To add named shadows to your fleet indexing configuration, set
+  /// <code>namedShadowIndexingMode</code> to be ON and specify your shadow names
+  /// in <code>namedShadowNames</code> filter.
+  ///
+  /// To add geolocation data to your fleet indexing configuration:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you store geolocation data in a class/unnamed shadow, set
+  /// <code>thingIndexingMode</code> to be <code>REGISTRY_AND_SHADOW</code> and
+  /// specify your geolocation data in <code>geoLocations</code> filter.
+  /// </li>
+  /// <li>
+  /// If you store geolocation data in a named shadow, set
+  /// <code>namedShadowIndexingMode</code> to be <code>ON</code>, add the shadow
+  /// name in <code>namedShadowNames</code> filter, and specify your geolocation
+  /// data in <code>geoLocations</code> filter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html">Managing
+  /// fleet indexing</a>.
+  /// </li>
+  /// </ul>
   final IndexingFilter? filter;
 
   /// Contains fields that are indexed and whose types are already known by the
-  /// Fleet Indexing service.
+  /// Fleet Indexing service. This is an optional field. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field">Managed
+  /// fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.
+  /// <note>
+  /// You can't modify managed fields by updating fleet indexing configuration.
+  /// </note>
   final List<Field>? managedFields;
 
   /// Named shadow indexing mode. Valid values are:
@@ -26241,6 +27917,27 @@ class UpdateCACertificateParams {
   }
 }
 
+class UpdateCertificateProviderResponse {
+  /// The ARN of the certificate provider.
+  final String? certificateProviderArn;
+
+  /// The name of the certificate provider.
+  final String? certificateProviderName;
+
+  UpdateCertificateProviderResponse({
+    this.certificateProviderArn,
+    this.certificateProviderName,
+  });
+
+  factory UpdateCertificateProviderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCertificateProviderResponse(
+      certificateProviderArn: json['certificateProviderArn'] as String?,
+      certificateProviderName: json['certificateProviderName'] as String?,
+    );
+  }
+}
+
 class UpdateCustomMetricResponse {
   /// The creation date of the custom metric in milliseconds since epoch.
   final DateTime? creationDate;
@@ -26429,6 +28126,30 @@ class UpdateMitigationActionResponse {
   }
 }
 
+class UpdatePackageConfigurationResponse {
+  UpdatePackageConfigurationResponse();
+
+  factory UpdatePackageConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePackageConfigurationResponse();
+  }
+}
+
+class UpdatePackageResponse {
+  UpdatePackageResponse();
+
+  factory UpdatePackageResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePackageResponse();
+  }
+}
+
+class UpdatePackageVersionResponse {
+  UpdatePackageVersionResponse();
+
+  factory UpdatePackageVersionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePackageVersionResponse();
+  }
+}
+
 class UpdateProvisioningTemplateResponse {
   UpdateProvisioningTemplateResponse();
 
@@ -26502,6 +28223,9 @@ class UpdateSecurityProfileResponse {
   /// The time the security profile was last modified.
   final DateTime? lastModifiedDate;
 
+  /// Specifies the MQTT topic and role ARN required for metric export.
+  final MetricsExportConfig? metricsExportConfig;
+
   /// The ARN of the security profile that was updated.
   final String? securityProfileArn;
 
@@ -26521,6 +28245,7 @@ class UpdateSecurityProfileResponse {
     this.behaviors,
     this.creationDate,
     this.lastModifiedDate,
+    this.metricsExportConfig,
     this.securityProfileArn,
     this.securityProfileDescription,
     this.securityProfileName,
@@ -26547,6 +28272,10 @@ class UpdateSecurityProfileResponse {
           .toList(),
       creationDate: timeStampFromJson(json['creationDate']),
       lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      metricsExportConfig: json['metricsExportConfig'] != null
+          ? MetricsExportConfig.fromJson(
+              json['metricsExportConfig'] as Map<String, dynamic>)
+          : null,
       securityProfileArn: json['securityProfileArn'] as String?,
       securityProfileDescription: json['securityProfileDescription'] as String?,
       securityProfileName: json['securityProfileName'] as String?,
@@ -26733,6 +28462,43 @@ extension VerificationStateFromString on String {
         return VerificationState.unknown;
     }
     throw Exception('$this is not known in enum VerificationState');
+  }
+}
+
+/// Configuration to manage IoT Job's package version reporting. If configured,
+/// Jobs updates the thing's reserved named shadow with the package version
+/// information up on successful job completion.
+///
+/// <b>Note:</b> For each job, the destinationPackageVersions attribute has to
+/// be set with the correct data for Jobs to report to the thing shadow.
+class VersionUpdateByJobsConfig {
+  /// Indicates whether the Job is enabled or not.
+  final bool? enabled;
+
+  /// The Amazon Resource Name (ARN) of the role that grants permission to the IoT
+  /// jobs service to update the reserved named shadow when the job successfully
+  /// completes.
+  final String? roleArn;
+
+  VersionUpdateByJobsConfig({
+    this.enabled,
+    this.roleArn,
+  });
+
+  factory VersionUpdateByJobsConfig.fromJson(Map<String, dynamic> json) {
+    return VersionUpdateByJobsConfig(
+      enabled: json['enabled'] as bool?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final roleArn = this.roleArn;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
   }
 }
 
@@ -27130,6 +28896,14 @@ class ResourceRegistrationFailureException extends _s.GenericAwsException {
             message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
@@ -27167,6 +28941,11 @@ class TransferConflictException extends _s.GenericAwsException {
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
+}
+
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String? type, String? message})
+      : super(type: type, code: 'ValidationException', message: message);
 }
 
 class VersionConflictException extends _s.GenericAwsException {
@@ -27227,6 +29006,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ResourceRegistrationFailureException': (type, message) =>
       ResourceRegistrationFailureException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>
       ServiceUnavailableException(type: type, message: message),
   'SqlParseException': (type, message) =>
@@ -27241,6 +29022,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TransferConflictException(type: type, message: message),
   'UnauthorizedException': (type, message) =>
       UnauthorizedException(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
   'VersionConflictException': (type, message) =>
       VersionConflictException(type: type, message: message),
   'VersionsLimitExceededException': (type, message) =>

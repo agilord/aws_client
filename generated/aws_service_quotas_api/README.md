@@ -3,10 +3,10 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-With Service Quotas, you can view and manage your quotas easily as your AWS
-workloads grow. Quotas, also referred to as limits, are the maximum number
-of resources that you can create in your AWS account. For more information,
-see the <a
+With Service Quotas, you can view and manage your quotas easily as your
+Amazon Web Services workloads grow. Quotas, also referred to as limits, are
+the maximum number of resources that you can create in your Amazon Web
+Services account. For more information, see the <a
 href="https://docs.aws.amazon.com/servicequotas/latest/userguide/">Service
 Quotas User Guide</a>.
 

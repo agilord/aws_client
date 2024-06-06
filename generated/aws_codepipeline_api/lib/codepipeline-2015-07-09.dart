@@ -19,12 +19,12 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// This is the AWS CodePipeline API Reference. This guide provides descriptions
-/// of the actions and data types for AWS CodePipeline. Some functionality for
-/// your pipeline can only be configured through the API. For more information,
-/// see the <a
-/// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html">AWS
-/// CodePipeline User Guide</a>.
+/// This is the CodePipeline API Reference. This guide provides descriptions of
+/// the actions and data types for CodePipeline. Some functionality for your
+/// pipeline can only be configured through the API. For more information, see
+/// the <a
+/// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html">CodePipeline
+/// User Guide</a>.
 class CodePipeline {
   final _s.JsonProtocol _protocol;
   CodePipeline({
@@ -65,9 +65,9 @@ class CodePipeline {
   /// receipt.
   ///
   /// Parameter [nonce] :
-  /// A system-generated random number that AWS CodePipeline uses to ensure that
-  /// the job is being worked on by only one job worker. Get this number from
-  /// the response of the <a>PollForJobs</a> request that returned this job.
+  /// A system-generated random number that CodePipeline uses to ensure that the
+  /// job is being worked on by only one job worker. Get this number from the
+  /// response of the <a>PollForJobs</a> request that returned this job.
   Future<AcknowledgeJobOutput> acknowledgeJob({
     required String jobId,
     required String nonce,
@@ -108,9 +108,9 @@ class CodePipeline {
   /// The unique system-generated ID of the job.
   ///
   /// Parameter [nonce] :
-  /// A system-generated random number that AWS CodePipeline uses to ensure that
-  /// the job is being worked on by only one job worker. Get this number from
-  /// the response to a <a>GetThirdPartyJobDetails</a> request.
+  /// A system-generated random number that CodePipeline uses to ensure that the
+  /// job is being worked on by only one job worker. Get this number from the
+  /// response to a <a>GetThirdPartyJobDetails</a> request.
   Future<AcknowledgeThirdPartyJobOutput> acknowledgeThirdPartyJob({
     required String clientToken,
     required String jobId,
@@ -137,7 +137,7 @@ class CodePipeline {
   }
 
   /// Creates a new custom action that can be used in all pipelines associated
-  /// with the AWS account. Only used for custom actions.
+  /// with the Amazon Web Services account. Only used for custom actions.
   ///
   /// May throw [ValidationException].
   /// May throw [LimitExceededException].
@@ -156,8 +156,7 @@ class CodePipeline {
   /// The details of the output artifact of the action, such as its commit ID.
   ///
   /// Parameter [provider] :
-  /// The provider of the service used in the custom action, such as AWS
-  /// CodeDeploy.
+  /// The provider of the service used in the custom action, such as CodeDeploy.
   ///
   /// Parameter [version] :
   /// The version identifier of the custom action.
@@ -281,8 +280,7 @@ class CodePipeline {
   /// or deploy.
   ///
   /// Parameter [provider] :
-  /// The provider of the service used in the custom action, such as AWS
-  /// CodeDeploy.
+  /// The provider of the service used in the custom action, such as CodeDeploy.
   ///
   /// Parameter [version] :
   /// The version of the custom action to delete.
@@ -336,10 +334,10 @@ class CodePipeline {
   }
 
   /// Deletes a previously created webhook by name. Deleting the webhook stops
-  /// AWS CodePipeline from starting a pipeline every time an external event
-  /// occurs. The API returns successfully when trying to delete a webhook that
-  /// is already deleted. If a deleted webhook is re-created by calling
-  /// PutWebhook with the same name, it will have a different URL.
+  /// CodePipeline from starting a pipeline every time an external event occurs.
+  /// The API returns successfully when trying to delete a webhook that is
+  /// already deleted. If a deleted webhook is re-created by calling PutWebhook
+  /// with the same name, it will have a different URL.
   ///
   /// May throw [ValidationException].
   /// May throw [ConcurrentModificationException].
@@ -558,8 +556,8 @@ class CodePipeline {
 
   /// Returns information about a job. Used for custom actions only.
   /// <important>
-  /// When this API is called, AWS CodePipeline returns temporary credentials
-  /// for the S3 bucket used to store artifacts for the pipeline, if the action
+  /// When this API is called, CodePipeline returns temporary credentials for
+  /// the S3 bucket used to store artifacts for the pipeline, if the action
   /// requires access to that S3 bucket for input or output artifacts. This API
   /// also returns any secret values defined for the action.
   /// </important>
@@ -601,7 +599,7 @@ class CodePipeline {
   ///
   /// Parameter [name] :
   /// The name of the pipeline for which you want to get information. Pipeline
-  /// names must be unique under an AWS user account.
+  /// names must be unique in an Amazon Web Services account.
   ///
   /// Parameter [version] :
   /// The version number of the pipeline. If you do not specify a version,
@@ -709,8 +707,8 @@ class CodePipeline {
   /// Requests the details of a job for a third party action. Used for partner
   /// actions only.
   /// <important>
-  /// When this API is called, AWS CodePipeline returns temporary credentials
-  /// for the S3 bucket used to store artifacts for the pipeline, if the action
+  /// When this API is called, CodePipeline returns temporary credentials for
+  /// the S3 bucket used to store artifacts for the pipeline, if the action
   /// requires access to that S3 bucket for input or output artifacts. This API
   /// also returns any secret values defined for the action.
   /// </important>
@@ -811,7 +809,7 @@ class CodePipeline {
     return ListActionExecutionsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets a summary of all AWS CodePipeline action types associated with your
+  /// Gets a summary of all CodePipeline action types associated with your
   /// account.
   ///
   /// May throw [ValidationException].
@@ -862,6 +860,9 @@ class CodePipeline {
   /// The name of the pipeline for which you want to get execution summary
   /// information.
   ///
+  /// Parameter [filter] :
+  /// The pipeline execution to filter on.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. To retrieve the
   /// remaining results, make another call with the returned nextToken value.
@@ -874,6 +875,7 @@ class CodePipeline {
   /// next set of pipeline executions in the list.
   Future<ListPipelineExecutionsOutput> listPipelineExecutions({
     required String pipelineName,
+    PipelineExecutionFilter? filter,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -895,6 +897,7 @@ class CodePipeline {
       headers: headers,
       payload: {
         'pipelineName': pipelineName,
+        if (filter != null) 'filter': filter,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -995,9 +998,9 @@ class CodePipeline {
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets a listing of all the webhooks in this AWS Region for this account.
-  /// The output lists all webhooks and includes the webhook URL and ARN and the
-  /// configuration for each webhook.
+  /// Gets a listing of all the webhooks in this Amazon Web Services Region for
+  /// this account. The output lists all webhooks and includes the webhook URL
+  /// and ARN and the configuration for each webhook.
   ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
@@ -1038,13 +1041,14 @@ class CodePipeline {
     return ListWebhooksOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about any jobs for AWS CodePipeline to act on.
+  /// Returns information about any jobs for CodePipeline to act on.
   /// <code>PollForJobs</code> is valid only for action types with "Custom" in
-  /// the owner field. If the action type contains "AWS" or "ThirdParty" in the
-  /// owner field, the <code>PollForJobs</code> action returns an error.
+  /// the owner field. If the action type contains <code>AWS</code> or
+  /// <code>ThirdParty</code> in the owner field, the <code>PollForJobs</code>
+  /// action returns an error.
   /// <important>
-  /// When this API is called, AWS CodePipeline returns temporary credentials
-  /// for the S3 bucket used to store artifacts for the pipeline, if the action
+  /// When this API is called, CodePipeline returns temporary credentials for
+  /// the S3 bucket used to store artifacts for the pipeline, if the action
   /// requires access to that S3 bucket for input or output artifacts. This API
   /// also returns any secret values defined for the action.
   /// </important>
@@ -1098,8 +1102,8 @@ class CodePipeline {
   /// Determines whether there are any third party jobs for a job worker to act
   /// on. Used for partner actions only.
   /// <important>
-  /// When this API is called, AWS CodePipeline returns temporary credentials
-  /// for the S3 bucket used to store artifacts for the pipeline, if the action
+  /// When this API is called, CodePipeline returns temporary credentials for
+  /// the S3 bucket used to store artifacts for the pipeline, if the action
   /// requires access to that S3 bucket for input or output artifacts.
   /// </important>
   ///
@@ -1140,7 +1144,7 @@ class CodePipeline {
     return PollForThirdPartyJobsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Provides information to AWS CodePipeline about new revisions to a source.
+  /// Provides information to CodePipeline about new revisions to a source.
   ///
   /// May throw [PipelineNotFoundException].
   /// May throw [StageNotFoundException].
@@ -1186,8 +1190,8 @@ class CodePipeline {
     return PutActionRevisionOutput.fromJson(jsonResponse.body);
   }
 
-  /// Provides the response to a manual approval request to AWS CodePipeline.
-  /// Valid responses include Approved and Rejected.
+  /// Provides the response to a manual approval request to CodePipeline. Valid
+  /// responses include Approved and Rejected.
   ///
   /// May throw [InvalidApprovalTokenException].
   /// May throw [ApprovalAlreadyCompletedException].
@@ -1289,12 +1293,12 @@ class CodePipeline {
   /// ID returned from <code>PollForJobs</code>.
   ///
   /// Parameter [continuationToken] :
-  /// A token generated by a job worker, such as an AWS CodeDeploy deployment
-  /// ID, that a successful job provides to identify a custom action in
-  /// progress. Future jobs use this token to identify the running instance of
-  /// the action. It can be reused to return more information about the progress
-  /// of the custom action. When the action is complete, no continuation token
-  /// should be supplied.
+  /// A token generated by a job worker, such as a CodeDeploy deployment ID,
+  /// that a successful job provides to identify a custom action in progress.
+  /// Future jobs use this token to identify the running instance of the action.
+  /// It can be reused to return more information about the progress of the
+  /// custom action. When the action is complete, no continuation token should
+  /// be supplied.
   ///
   /// Parameter [currentRevision] :
   /// The ID of the current revision of the artifact successfully worked on by
@@ -1396,12 +1400,12 @@ class CodePipeline {
   /// returned from <code>PollForThirdPartyJobs</code>.
   ///
   /// Parameter [continuationToken] :
-  /// A token generated by a job worker, such as an AWS CodeDeploy deployment
-  /// ID, that a successful job provides to identify a partner action in
-  /// progress. Future jobs use this token to identify the running instance of
-  /// the action. It can be reused to return more information about the progress
-  /// of the partner action. When the action is complete, no continuation token
-  /// should be supplied.
+  /// A token generated by a job worker, such as a CodeDeploy deployment ID,
+  /// that a successful job provides to identify a partner action in progress.
+  /// Future jobs use this token to identify the running instance of the action.
+  /// It can be reused to return more information about the progress of the
+  /// partner action. When the action is complete, no continuation token should
+  /// be supplied.
   ///
   /// Parameter [currentRevision] :
   /// Represents information about a current revision.
@@ -1515,10 +1519,15 @@ class CodePipeline {
     );
   }
 
-  /// Resumes the pipeline execution by retrying the last failed actions in a
-  /// stage. You can retry a stage immediately if any of the actions in the
-  /// stage fail. When you retry, all actions that are still in progress
-  /// continue working, and failed actions are triggered again.
+  /// You can retry a stage that has failed without having to run a pipeline
+  /// again from the beginning. You do this by either retrying the failed
+  /// actions in a stage or by retrying all actions in the stage starting from
+  /// the first action in the stage. When you retry the failed actions in a
+  /// stage, all actions that are still in progress continue working, and failed
+  /// actions are triggered again. When you retry a failed stage from the first
+  /// action in the stage, the stage cannot have any actions in progress. Before
+  /// a stage can be retried, it must either have all actions failed or some
+  /// actions failed and some succeeded.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -1536,8 +1545,7 @@ class CodePipeline {
   /// The name of the pipeline that contains the failed stage.
   ///
   /// Parameter [retryMode] :
-  /// The scope of the retry attempt. Currently, the only supported value is
-  /// FAILED_ACTIONS.
+  /// The scope of the retry attempt.
   ///
   /// Parameter [stageName] :
   /// The name of the failed stage to be retried.
@@ -1568,12 +1576,56 @@ class CodePipeline {
     return RetryStageExecutionOutput.fromJson(jsonResponse.body);
   }
 
+  /// Rolls back a stage execution.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [PipelineNotFoundException].
+  /// May throw [PipelineExecutionNotFoundException].
+  /// May throw [PipelineExecutionOutdatedException].
+  /// May throw [StageNotFoundException].
+  /// May throw [UnableToRollbackStageException].
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline for which the stage will be rolled back.
+  ///
+  /// Parameter [stageName] :
+  /// The name of the stage in the pipeline to be rolled back.
+  ///
+  /// Parameter [targetPipelineExecutionId] :
+  /// The pipeline execution ID for the stage to be rolled back to.
+  Future<RollbackStageOutput> rollbackStage({
+    required String pipelineName,
+    required String stageName,
+    required String targetPipelineExecutionId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodePipeline_20150709.RollbackStage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'pipelineName': pipelineName,
+        'stageName': stageName,
+        'targetPipelineExecutionId': targetPipelineExecutionId,
+      },
+    );
+
+    return RollbackStageOutput.fromJson(jsonResponse.body);
+  }
+
   /// Starts the specified pipeline. Specifically, it begins processing the
   /// latest commit to the source location specified as part of the pipeline.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [PipelineNotFoundException].
+  /// May throw [ConcurrentPipelineExecutionsLimitExceededException].
   ///
   /// Parameter [name] :
   /// The name of the pipeline to start.
@@ -1581,9 +1633,22 @@ class CodePipeline {
   /// Parameter [clientRequestToken] :
   /// The system-generated unique ID used to identify a unique execution
   /// request.
+  ///
+  /// Parameter [sourceRevisions] :
+  /// A list that allows you to specify, or override, the source revision for a
+  /// pipeline execution that's being started. A source revision is the version
+  /// with all the changes to your application code, or source artifact, for the
+  /// pipeline execution.
+  ///
+  /// Parameter [variables] :
+  /// A list that overrides pipeline variables for a pipeline execution that's
+  /// being started. Variable names must match <code>[A-Za-z0-9@\-_]+</code>,
+  /// and the values can be anything except an empty string.
   Future<StartPipelineExecutionOutput> startPipelineExecution({
     required String name,
     String? clientRequestToken,
+    List<SourceRevisionOverride>? sourceRevisions,
+    List<PipelineVariable>? variables,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1599,6 +1664,8 @@ class CodePipeline {
         'name': name,
         'clientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (sourceRevisions != null) 'sourceRevisions': sourceRevisions,
+        if (variables != null) 'variables': variables,
       },
     );
 
@@ -1699,7 +1766,7 @@ class CodePipeline {
     );
   }
 
-  /// Removes tags from an AWS resource.
+  /// Removes tags from an Amazon Web Services resource.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -1799,10 +1866,11 @@ class CodePipeline {
   }
 }
 
-/// Represents an AWS session credentials object. These credentials are
-/// temporary credentials that are issued by AWS Secure Token Service (STS).
-/// They can be used to access input and output artifacts in the S3 bucket used
-/// to store artifact for the pipeline in AWS CodePipeline.
+/// Represents an Amazon Web Services session credentials object. These
+/// credentials are temporary credentials that are issued by Amazon Web Services
+/// Secure Token Service (STS). They can be used to access input and output
+/// artifacts in the S3 bucket used to store artifact for the pipeline in
+/// CodePipeline.
 class AWSSessionCredentials {
   /// The access key for the session.
   final String accessKeyId;
@@ -2074,13 +2142,13 @@ class ActionDeclaration {
   /// values for an action. For more information, see <a
   /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements">Action
   /// Structure Requirements in CodePipeline</a>. For the list of configuration
-  /// properties for the AWS CloudFormation action type in CodePipeline, see <a
+  /// properties for the CloudFormation action type in CodePipeline, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html">Configuration
-  /// Properties Reference</a> in the <i>AWS CloudFormation User Guide</i>. For
+  /// Properties Reference</a> in the <i>CloudFormation User Guide</i>. For
   /// template snippets with examples, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html">Using
-  /// Parameter Override Functions with CodePipeline Pipelines</a> in the <i>AWS
-  /// CloudFormation User Guide</i>.
+  /// Parameter Override Functions with CodePipeline Pipelines</a> in the
+  /// <i>CloudFormation User Guide</i>.
   ///
   /// The values can be represented in either JSON or YAML format. For example,
   /// the JSON configuration item format is as follows:
@@ -2102,7 +2170,7 @@ class ActionDeclaration {
   /// build artifact.
   final List<OutputArtifact>? outputArtifacts;
 
-  /// The action declaration's AWS Region, such as us-east-1.
+  /// The action declaration's Amazon Web Services Region, such as us-east-1.
   final String? region;
 
   /// The ARN of the IAM service role that performs the declared action. This is
@@ -2111,6 +2179,13 @@ class ActionDeclaration {
 
   /// The order in which actions are run.
   final int? runOrder;
+
+  /// A timeout duration in minutes that can be applied against the ActionType’s
+  /// default timeout value specified in <a
+  /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/limits.html">Quotas
+  /// for CodePipeline </a>. This attribute is available only to the manual
+  /// approval ActionType.
+  final int? timeoutInMinutes;
 
   ActionDeclaration({
     required this.actionTypeId,
@@ -2122,6 +2197,7 @@ class ActionDeclaration {
     this.region,
     this.roleArn,
     this.runOrder,
+    this.timeoutInMinutes,
   });
 
   factory ActionDeclaration.fromJson(Map<String, dynamic> json) {
@@ -2143,6 +2219,7 @@ class ActionDeclaration {
       region: json['region'] as String?,
       roleArn: json['roleArn'] as String?,
       runOrder: json['runOrder'] as int?,
+      timeoutInMinutes: json['timeoutInMinutes'] as int?,
     );
   }
 
@@ -2156,6 +2233,7 @@ class ActionDeclaration {
     final region = this.region;
     final roleArn = this.roleArn;
     final runOrder = this.runOrder;
+    final timeoutInMinutes = this.timeoutInMinutes;
     return {
       'actionTypeId': actionTypeId,
       'name': name,
@@ -2166,6 +2244,7 @@ class ActionDeclaration {
       if (region != null) 'region': region,
       if (roleArn != null) 'roleArn': roleArn,
       if (runOrder != null) 'runOrder': runOrder,
+      if (timeoutInMinutes != null) 'timeoutInMinutes': timeoutInMinutes,
     };
   }
 }
@@ -2181,14 +2260,14 @@ class ActionExecution {
   /// </note>
   final String? actionExecutionId;
 
-  /// The details of an error returned by a URL external to AWS.
+  /// The details of an error returned by a URL external to Amazon Web Services.
   final ErrorDetails? errorDetails;
 
   /// The external ID of the run of the action.
   final String? externalExecutionId;
 
-  /// The URL of a resource external to AWS that is used when running the action
-  /// (for example, an external repository URL).
+  /// The URL of a resource external to Amazon Web Services that is used when
+  /// running the action (for example, an external repository URL).
   final String? externalExecutionUrl;
 
   /// The last status change of the action.
@@ -2280,6 +2359,9 @@ class ActionExecutionDetail {
   /// <code>InProgress</code>, <code>Succeeded</code>, and <code>Failed</code>.
   final ActionExecutionStatus? status;
 
+  /// The ARN of the user who changed the pipeline execution details.
+  final String? updatedBy;
+
   ActionExecutionDetail({
     this.actionExecutionId,
     this.actionName,
@@ -2291,6 +2373,7 @@ class ActionExecutionDetail {
     this.stageName,
     this.startTime,
     this.status,
+    this.updatedBy,
   });
 
   factory ActionExecutionDetail.fromJson(Map<String, dynamic> json) {
@@ -2310,22 +2393,34 @@ class ActionExecutionDetail {
       stageName: json['stageName'] as String?,
       startTime: timeStampFromJson(json['startTime']),
       status: (json['status'] as String?)?.toActionExecutionStatus(),
+      updatedBy: json['updatedBy'] as String?,
     );
   }
 }
 
 /// Filter values for the action execution.
 class ActionExecutionFilter {
+  /// The latest execution in the pipeline.
+  /// <note>
+  /// Filtering on the latest execution is available for executions run on or
+  /// after February 08, 2024.
+  /// </note>
+  final LatestInPipelineExecutionFilter? latestInPipelineExecution;
+
   /// The pipeline execution ID used to filter action execution history.
   final String? pipelineExecutionId;
 
   ActionExecutionFilter({
+    this.latestInPipelineExecution,
     this.pipelineExecutionId,
   });
 
   Map<String, dynamic> toJson() {
+    final latestInPipelineExecution = this.latestInPipelineExecution;
     final pipelineExecutionId = this.pipelineExecutionId;
     return {
+      if (latestInPipelineExecution != null)
+        'latestInPipelineExecution': latestInPipelineExecution,
       if (pipelineExecutionId != null)
         'pipelineExecutionId': pipelineExecutionId,
     };
@@ -2347,7 +2442,7 @@ class ActionExecutionInput {
   /// output by this action fall under this namespace.
   final String? namespace;
 
-  /// The AWS Region for the action, such as us-east-1.
+  /// The Amazon Web Services Region for the action, such as us-east-1.
   final String? region;
 
   /// Configuration data for an action execution with all variable references
@@ -2428,6 +2523,8 @@ class ActionExecutionOutput {
 
 /// Execution result information, such as the external execution ID.
 class ActionExecutionResult {
+  final ErrorDetails? errorDetails;
+
   /// The action provider's external ID for the action execution.
   final String? externalExecutionId;
 
@@ -2439,6 +2536,7 @@ class ActionExecutionResult {
   final String? externalExecutionUrl;
 
   ActionExecutionResult({
+    this.errorDetails,
     this.externalExecutionId,
     this.externalExecutionSummary,
     this.externalExecutionUrl,
@@ -2446,6 +2544,9 @@ class ActionExecutionResult {
 
   factory ActionExecutionResult.fromJson(Map<String, dynamic> json) {
     return ActionExecutionResult(
+      errorDetails: json['errorDetails'] != null
+          ? ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>)
+          : null,
       externalExecutionId: json['externalExecutionId'] as String?,
       externalExecutionSummary: json['externalExecutionSummary'] as String?,
       externalExecutionUrl: json['externalExecutionUrl'] as String?,
@@ -2797,7 +2898,7 @@ class ActionTypeExecutor {
   final int? jobTimeout;
 
   /// The policy statement that specifies the permissions in the CodePipeline
-  /// customer’s account that are needed to successfully run an action.
+  /// customer account that are needed to successfully run an action.
   ///
   /// To grant permission to another account, specify the account ID as the
   /// Principal, a domain-style identifier defined by the service, for example
@@ -2877,8 +2978,8 @@ class ActionTypeId {
 
   /// The provider of the service being called by the action. Valid providers are
   /// determined by the action category. For example, an action in the Deploy
-  /// category type might have a provider of AWS CodeDeploy, which would be
-  /// specified as CodeDeploy. For more information, see <a
+  /// category type might have a provider of CodeDeploy, which would be specified
+  /// as <code>CodeDeploy</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers">Valid
   /// Action Types and Providers in CodePipeline</a>.
   final String provider;
@@ -2985,8 +3086,8 @@ class ActionTypeIdentifier {
 
 /// Details identifying the users with permissions to use the action type.
 class ActionTypePermissions {
-  /// A list of AWS account IDs with access to use the action type in their
-  /// pipelines.
+  /// A list of Amazon Web Services account IDs with access to use the action type
+  /// in their pipelines.
   final List<String> allowedAccounts;
 
   ActionTypePermissions({
@@ -3076,20 +3177,19 @@ class ActionTypeProperty {
 
 /// Returns information about the settings for an action type.
 class ActionTypeSettings {
-  /// The URL returned to the AWS CodePipeline console that provides a deep link
-  /// to the resources of the external system, such as the configuration page for
-  /// an AWS CodeDeploy deployment group. This link is provided as part of the
-  /// action display in the pipeline.
+  /// The URL returned to the CodePipeline console that provides a deep link to
+  /// the resources of the external system, such as the configuration page for a
+  /// CodeDeploy deployment group. This link is provided as part of the action
+  /// display in the pipeline.
   final String? entityUrlTemplate;
 
-  /// The URL returned to the AWS CodePipeline console that contains a link to the
+  /// The URL returned to the CodePipeline console that contains a link to the
   /// top-level landing page for the external system, such as the console page for
-  /// AWS CodeDeploy. This link is shown on the pipeline view page in the AWS
-  /// CodePipeline console and provides a link to the execution entity of the
-  /// external action.
+  /// CodeDeploy. This link is shown on the pipeline view page in the CodePipeline
+  /// console and provides a link to the execution entity of the external action.
   final String? executionUrlTemplate;
 
-  /// The URL returned to the AWS CodePipeline console that contains a link to the
+  /// The URL returned to the CodePipeline console that contains a link to the
   /// page where customers can update or change the configuration of the external
   /// action.
   final String? revisionUrlTemplate;
@@ -3237,8 +3337,11 @@ extension ApprovalStatusFromString on String {
   }
 }
 
-/// Represents information about an artifact that is worked on by actions in the
-/// pipeline.
+/// Artifacts are the files that are worked on by actions in the pipeline. See
+/// the action configuration for each action for details about artifact
+/// parameters. For example, the S3 source action artifact is a file name (or
+/// file path), and the files are generally provided as a ZIP file. Example
+/// artifact name: SampleApp_Windows.zip
 class Artifact {
   /// The location of an artifact.
   final ArtifactLocation? location;
@@ -3385,15 +3488,14 @@ class ArtifactRevision {
   final String? revisionId;
 
   /// Summary information about the most recent revision of the artifact. For
-  /// GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3
+  /// GitHub and CodeCommit repositories, the commit message. For Amazon S3
   /// buckets or actions, the user-provided content of a
   /// <code>codepipeline-artifact-revision-summary</code> key specified in the
   /// object metadata.
   final String? revisionSummary;
 
   /// The commit ID for the artifact revision. For artifacts stored in GitHub or
-  /// AWS CodeCommit repositories, the commit ID is linked to a commit details
-  /// page.
+  /// CodeCommit repositories, the commit ID is linked to a commit details page.
   final String? revisionUrl;
 
   ArtifactRevision({
@@ -3428,15 +3530,15 @@ class ArtifactStore {
   /// The S3 bucket used for storing the artifacts for a pipeline. You can specify
   /// the name of an S3 bucket but not a folder in the bucket. A folder to contain
   /// the pipeline artifacts is created for you based on the name of the pipeline.
-  /// You can use any S3 bucket in the same AWS Region as the pipeline to store
-  /// your pipeline artifacts.
+  /// You can use any S3 bucket in the same Amazon Web Services Region as the
+  /// pipeline to store your pipeline artifacts.
   final String location;
 
   /// The type of the artifact store, such as S3.
   final ArtifactStoreType type;
 
   /// The encryption key used to encrypt the data in the artifact store, such as
-  /// an AWS Key Management Service (AWS KMS) key. If this is undefined, the
+  /// an Amazon Web Services Key Management Service key. If this is undefined, the
   /// default key for Amazon S3 is used.
   final EncryptionKey? encryptionKey;
 
@@ -3652,19 +3754,22 @@ class DeregisterWebhookWithThirdPartyOutput {
 }
 
 /// Represents information about the key used to encrypt data in the artifact
-/// store, such as an AWS Key Management Service (AWS KMS) key.
+/// store, such as an Amazon Web Services Key Management Service (Key Management
+/// Service) key.
 class EncryptionKey {
-  /// The ID used to identify the key. For an AWS KMS key, you can use the key ID,
-  /// the key ARN, or the alias ARN.
+  /// The ID used to identify the key. For an Amazon Web Services KMS key, you can
+  /// use the key ID, the key ARN, or the alias ARN.
   /// <note>
-  /// Aliases are recognized only in the account that created the customer master
-  /// key (CMK). For cross-account actions, you can only use the key ID or key ARN
-  /// to identify the key.
+  /// Aliases are recognized only in the account that created the KMS key. For
+  /// cross-account actions, you can only use the key ID or key ARN to identify
+  /// the key. Cross-account actions involve using the role from the other account
+  /// (AccountB), so specifying the key ID will use the key from the other account
+  /// (AccountB).
   /// </note>
   final String id;
 
-  /// The type of encryption key, such as an AWS Key Management Service (AWS KMS)
-  /// key. When creating or updating a pipeline, the value must be set to 'KMS'.
+  /// The type of encryption key, such as an Amazon Web Services KMS key. When
+  /// creating or updating a pipeline, the value must be set to 'KMS'.
   final EncryptionKeyType type;
 
   EncryptionKey({
@@ -3712,7 +3817,7 @@ extension EncryptionKeyTypeFromString on String {
   }
 }
 
-/// Represents information about an error in AWS CodePipeline.
+/// Represents information about an error in CodePipeline.
 class ErrorDetails {
   /// The system ID or number code of the error.
   final String? code;
@@ -3737,7 +3842,7 @@ class ErrorDetails {
 /// passes through stages in the pipeline.
 class ExecutionDetails {
   /// The system-generated unique ID of this action used to identify this job
-  /// worker in any external systems, such as AWS CodeDeploy.
+  /// worker in any external systems, such as CodeDeploy.
   final String? externalExecutionId;
 
   /// The percentage of work completed on the action, represented on a scale of 0
@@ -3766,6 +3871,39 @@ class ExecutionDetails {
   }
 }
 
+enum ExecutionMode {
+  queued,
+  superseded,
+  parallel,
+}
+
+extension ExecutionModeValueExtension on ExecutionMode {
+  String toValue() {
+    switch (this) {
+      case ExecutionMode.queued:
+        return 'QUEUED';
+      case ExecutionMode.superseded:
+        return 'SUPERSEDED';
+      case ExecutionMode.parallel:
+        return 'PARALLEL';
+    }
+  }
+}
+
+extension ExecutionModeFromString on String {
+  ExecutionMode toExecutionMode() {
+    switch (this) {
+      case 'QUEUED':
+        return ExecutionMode.queued;
+      case 'SUPERSEDED':
+        return ExecutionMode.superseded;
+      case 'PARALLEL':
+        return ExecutionMode.parallel;
+    }
+    throw Exception('$this is not known in enum ExecutionMode');
+  }
+}
+
 /// The interaction or event that started a pipeline execution.
 class ExecutionTrigger {
   /// Detail related to the event that started a pipeline execution, such as the
@@ -3787,6 +3925,34 @@ class ExecutionTrigger {
       triggerDetail: json['triggerDetail'] as String?,
       triggerType: (json['triggerType'] as String?)?.toTriggerType(),
     );
+  }
+}
+
+enum ExecutionType {
+  standard,
+  rollback,
+}
+
+extension ExecutionTypeValueExtension on ExecutionType {
+  String toValue() {
+    switch (this) {
+      case ExecutionType.standard:
+        return 'STANDARD';
+      case ExecutionType.rollback:
+        return 'ROLLBACK';
+    }
+  }
+}
+
+extension ExecutionTypeFromString on String {
+  ExecutionType toExecutionType() {
+    switch (this) {
+      case 'STANDARD':
+        return ExecutionType.standard;
+      case 'ROLLBACK':
+        return ExecutionType.rollback;
+    }
+    throw Exception('$this is not known in enum ExecutionType');
   }
 }
 
@@ -3856,6 +4022,31 @@ extension ExecutorTypeFromString on String {
         return ExecutorType.lambda;
     }
     throw Exception('$this is not known in enum ExecutorType');
+  }
+}
+
+/// The configuration that specifies the result, such as rollback, to occur upon
+/// stage failure.
+class FailureConditions {
+  /// The specified result for when the failure conditions are met, such as
+  /// rolling back the stage.
+  final Result? result;
+
+  FailureConditions({
+    this.result,
+  });
+
+  factory FailureConditions.fromJson(Map<String, dynamic> json) {
+    return FailureConditions(
+      result: (json['result'] as String?)?.toResult(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    return {
+      if (result != null) 'result': result.toValue(),
+    };
   }
 }
 
@@ -4089,10 +4280,320 @@ class GetThirdPartyJobDetailsOutput {
   }
 }
 
+/// The Git repository branches specified as filter criteria to start the
+/// pipeline.
+class GitBranchFilterCriteria {
+  /// The list of patterns of Git branches that, when a commit is pushed, are to
+  /// be excluded from starting the pipeline.
+  final List<String>? excludes;
+
+  /// The list of patterns of Git branches that, when a commit is pushed, are to
+  /// be included as criteria that starts the pipeline.
+  final List<String>? includes;
+
+  GitBranchFilterCriteria({
+    this.excludes,
+    this.includes,
+  });
+
+  factory GitBranchFilterCriteria.fromJson(Map<String, dynamic> json) {
+    return GitBranchFilterCriteria(
+      excludes: (json['excludes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includes: (json['includes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final excludes = this.excludes;
+    final includes = this.includes;
+    return {
+      if (excludes != null) 'excludes': excludes,
+      if (includes != null) 'includes': includes,
+    };
+  }
+}
+
+/// A type of trigger configuration for Git-based source actions.
+/// <note>
+/// You can specify the Git configuration trigger type for all third-party
+/// Git-based source actions that are supported by the
+/// <code>CodeStarSourceConnection</code> action type.
+/// </note>
+class GitConfiguration {
+  /// The name of the pipeline source action where the trigger configuration, such
+  /// as Git tags, is specified. The trigger configuration will start the pipeline
+  /// upon the specified change only.
+  /// <note>
+  /// You can only specify one trigger configuration per source action.
+  /// </note>
+  final String sourceActionName;
+
+  /// The field where the repository event that will start the pipeline is
+  /// specified as pull requests.
+  final List<GitPullRequestFilter>? pullRequest;
+
+  /// The field where the repository event that will start the pipeline, such as
+  /// pushing Git tags, is specified with details.
+  final List<GitPushFilter>? push;
+
+  GitConfiguration({
+    required this.sourceActionName,
+    this.pullRequest,
+    this.push,
+  });
+
+  factory GitConfiguration.fromJson(Map<String, dynamic> json) {
+    return GitConfiguration(
+      sourceActionName: json['sourceActionName'] as String,
+      pullRequest: (json['pullRequest'] as List?)
+          ?.whereNotNull()
+          .map((e) => GitPullRequestFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      push: (json['push'] as List?)
+          ?.whereNotNull()
+          .map((e) => GitPushFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceActionName = this.sourceActionName;
+    final pullRequest = this.pullRequest;
+    final push = this.push;
+    return {
+      'sourceActionName': sourceActionName,
+      if (pullRequest != null) 'pullRequest': pullRequest,
+      if (push != null) 'push': push,
+    };
+  }
+}
+
+/// The Git repository file paths specified as filter criteria to start the
+/// pipeline.
+class GitFilePathFilterCriteria {
+  /// The list of patterns of Git repository file paths that, when a commit is
+  /// pushed, are to be excluded from starting the pipeline.
+  final List<String>? excludes;
+
+  /// The list of patterns of Git repository file paths that, when a commit is
+  /// pushed, are to be included as criteria that starts the pipeline.
+  final List<String>? includes;
+
+  GitFilePathFilterCriteria({
+    this.excludes,
+    this.includes,
+  });
+
+  factory GitFilePathFilterCriteria.fromJson(Map<String, dynamic> json) {
+    return GitFilePathFilterCriteria(
+      excludes: (json['excludes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includes: (json['includes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final excludes = this.excludes;
+    final includes = this.includes;
+    return {
+      if (excludes != null) 'excludes': excludes,
+      if (includes != null) 'includes': includes,
+    };
+  }
+}
+
+enum GitPullRequestEventType {
+  open,
+  updated,
+  closed,
+}
+
+extension GitPullRequestEventTypeValueExtension on GitPullRequestEventType {
+  String toValue() {
+    switch (this) {
+      case GitPullRequestEventType.open:
+        return 'OPEN';
+      case GitPullRequestEventType.updated:
+        return 'UPDATED';
+      case GitPullRequestEventType.closed:
+        return 'CLOSED';
+    }
+  }
+}
+
+extension GitPullRequestEventTypeFromString on String {
+  GitPullRequestEventType toGitPullRequestEventType() {
+    switch (this) {
+      case 'OPEN':
+        return GitPullRequestEventType.open;
+      case 'UPDATED':
+        return GitPullRequestEventType.updated;
+      case 'CLOSED':
+        return GitPullRequestEventType.closed;
+    }
+    throw Exception('$this is not known in enum GitPullRequestEventType');
+  }
+}
+
+/// The event criteria for the pull request trigger configuration, such as the
+/// lists of branches or file paths to include and exclude.
+class GitPullRequestFilter {
+  /// The field that specifies to filter on branches for the pull request trigger
+  /// configuration.
+  final GitBranchFilterCriteria? branches;
+
+  /// The field that specifies which pull request events to filter on (opened,
+  /// updated, closed) for the trigger configuration.
+  final List<GitPullRequestEventType>? events;
+
+  /// The field that specifies to filter on file paths for the pull request
+  /// trigger configuration.
+  final GitFilePathFilterCriteria? filePaths;
+
+  GitPullRequestFilter({
+    this.branches,
+    this.events,
+    this.filePaths,
+  });
+
+  factory GitPullRequestFilter.fromJson(Map<String, dynamic> json) {
+    return GitPullRequestFilter(
+      branches: json['branches'] != null
+          ? GitBranchFilterCriteria.fromJson(
+              json['branches'] as Map<String, dynamic>)
+          : null,
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toGitPullRequestEventType())
+          .toList(),
+      filePaths: json['filePaths'] != null
+          ? GitFilePathFilterCriteria.fromJson(
+              json['filePaths'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branches = this.branches;
+    final events = this.events;
+    final filePaths = this.filePaths;
+    return {
+      if (branches != null) 'branches': branches,
+      if (events != null) 'events': events.map((e) => e.toValue()).toList(),
+      if (filePaths != null) 'filePaths': filePaths,
+    };
+  }
+}
+
+/// The event criteria that specify when a specified repository event will start
+/// the pipeline for the specified trigger configuration, such as the lists of
+/// Git tags to include and exclude.
+class GitPushFilter {
+  /// The field that specifies to filter on branches for the push trigger
+  /// configuration.
+  final GitBranchFilterCriteria? branches;
+
+  /// The field that specifies to filter on file paths for the push trigger
+  /// configuration.
+  final GitFilePathFilterCriteria? filePaths;
+
+  /// The field that contains the details for the Git tags trigger configuration.
+  final GitTagFilterCriteria? tags;
+
+  GitPushFilter({
+    this.branches,
+    this.filePaths,
+    this.tags,
+  });
+
+  factory GitPushFilter.fromJson(Map<String, dynamic> json) {
+    return GitPushFilter(
+      branches: json['branches'] != null
+          ? GitBranchFilterCriteria.fromJson(
+              json['branches'] as Map<String, dynamic>)
+          : null,
+      filePaths: json['filePaths'] != null
+          ? GitFilePathFilterCriteria.fromJson(
+              json['filePaths'] as Map<String, dynamic>)
+          : null,
+      tags: json['tags'] != null
+          ? GitTagFilterCriteria.fromJson(json['tags'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branches = this.branches;
+    final filePaths = this.filePaths;
+    final tags = this.tags;
+    return {
+      if (branches != null) 'branches': branches,
+      if (filePaths != null) 'filePaths': filePaths,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The Git tags specified as filter criteria for whether a Git tag repository
+/// event will start the pipeline.
+class GitTagFilterCriteria {
+  /// The list of patterns of Git tags that, when pushed, are to be excluded from
+  /// starting the pipeline.
+  final List<String>? excludes;
+
+  /// The list of patterns of Git tags that, when pushed, are to be included as
+  /// criteria that starts the pipeline.
+  final List<String>? includes;
+
+  GitTagFilterCriteria({
+    this.excludes,
+    this.includes,
+  });
+
+  factory GitTagFilterCriteria.fromJson(Map<String, dynamic> json) {
+    return GitTagFilterCriteria(
+      excludes: (json['excludes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includes: (json['includes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final excludes = this.excludes;
+    final includes = this.includes;
+    return {
+      if (excludes != null) 'excludes': excludes,
+      if (includes != null) 'includes': includes,
+    };
+  }
+}
+
 /// Represents information about an artifact to be worked on, such as a test or
 /// build artifact.
 class InputArtifact {
   /// The name of the artifact to be worked on (for example, "My App").
+  ///
+  /// Artifacts are the files that are worked on by actions in the pipeline. See
+  /// the action configuration for each action for details about artifact
+  /// parameters. For example, the S3 source action input artifact is a file name
+  /// (or file path), and the files are generally provided as a ZIP file. Example
+  /// artifact name: SampleApp_Windows.zip
   ///
   /// The input artifact of an action must exactly match the output artifact
   /// declared in a preceding action, but the input artifact does not have to be
@@ -4121,7 +4622,7 @@ class InputArtifact {
 
 /// Represents information about a job.
 class Job {
-  /// The ID of the AWS account to use when performing the job.
+  /// The ID of the Amazon Web Services account to use when performing the job.
   final String? accountId;
 
   /// Other data about a job.
@@ -4130,8 +4631,8 @@ class Job {
   /// The unique system-generated ID of the job.
   final String? id;
 
-  /// A system-generated random number that AWS CodePipeline uses to ensure that
-  /// the job is being worked on by only one job worker. Use this number in an
+  /// A system-generated random number that CodePipeline uses to ensure that the
+  /// job is being worked on by only one job worker. Use this number in an
   /// <a>AcknowledgeJob</a> request.
   final String? nonce;
 
@@ -4163,18 +4664,19 @@ class JobData {
   /// Represents information about an action type.
   final ActionTypeId? actionTypeId;
 
-  /// Represents an AWS session credentials object. These credentials are
-  /// temporary credentials that are issued by AWS Secure Token Service (STS).
-  /// They can be used to access input and output artifacts in the S3 bucket used
-  /// to store artifacts for the pipeline in AWS CodePipeline.
+  /// Represents an Amazon Web Services session credentials object. These
+  /// credentials are temporary credentials that are issued by Amazon Web Services
+  /// Secure Token Service (STS). They can be used to access input and output
+  /// artifacts in the S3 bucket used to store artifacts for the pipeline in
+  /// CodePipeline.
   final AWSSessionCredentials? artifactCredentials;
 
-  /// A system-generated token, such as a AWS CodeDeploy deployment ID, required
-  /// by a job to continue the job asynchronously.
+  /// A system-generated token, such as a deployment ID, required by a job to
+  /// continue the job asynchronously.
   final String? continuationToken;
 
   /// Represents information about the key used to encrypt data in the artifact
-  /// store, such as an AWS Key Management Service (AWS KMS) key.
+  /// store, such as an KMS key.
   final EncryptionKey? encryptionKey;
 
   /// The artifact supplied to the job.
@@ -4237,7 +4739,7 @@ class JobData {
 
 /// Represents information about the details of a job.
 class JobDetails {
-  /// The AWS account ID associated with the job.
+  /// The Amazon Web Services account ID associated with the job.
   final String? accountId;
 
   /// Represents other information about a job required for a job worker to
@@ -4377,6 +4879,43 @@ class LambdaExecutorConfiguration {
     final lambdaFunctionArn = this.lambdaFunctionArn;
     return {
       'lambdaFunctionArn': lambdaFunctionArn,
+    };
+  }
+}
+
+/// The field that specifies to filter on the latest execution in the pipeline.
+/// <note>
+/// Filtering on the latest execution is available for executions run on or
+/// after February 08, 2024.
+/// </note>
+class LatestInPipelineExecutionFilter {
+  /// The execution ID for the latest execution in the pipeline.
+  final String pipelineExecutionId;
+
+  /// The start time to filter on for the latest execution in the pipeline. Valid
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// All
+  /// </li>
+  /// <li>
+  /// Latest
+  /// </li>
+  /// </ul>
+  final StartTimeRange startTimeRange;
+
+  LatestInPipelineExecutionFilter({
+    required this.pipelineExecutionId,
+    required this.startTimeRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final startTimeRange = this.startTimeRange;
+    return {
+      'pipelineExecutionId': pipelineExecutionId,
+      'startTimeRange': startTimeRange.toValue(),
     };
   }
 }
@@ -4679,7 +5218,7 @@ class PipelineDeclaration {
   /// The name of the pipeline.
   final String name;
 
-  /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform
+  /// The Amazon Resource Name (ARN) for CodePipeline to use to either perform
   /// actions with no <code>actionRoleArn</code>, or to use to assume roles for
   /// actions with an <code>actionRoleArn</code>.
   final String roleArn;
@@ -4697,9 +5236,9 @@ class PipelineDeclaration {
   /// </note>
   final ArtifactStore? artifactStore;
 
-  /// A mapping of <code>artifactStore</code> objects and their corresponding AWS
-  /// Regions. There must be an artifact store for the pipeline Region and for
-  /// each cross-region action in the pipeline.
+  /// A mapping of <code>artifactStore</code> objects and their corresponding
+  /// Amazon Web Services Regions. There must be an artifact store for the
+  /// pipeline Region and for each cross-region action in the pipeline.
   /// <note>
   /// You must include either <code>artifactStore</code> or
   /// <code>artifactStores</code> in your pipeline, but you cannot use both. If
@@ -4707,6 +5246,49 @@ class PipelineDeclaration {
   /// <code>artifactStores</code>.
   /// </note>
   final Map<String, ArtifactStore>? artifactStores;
+
+  /// The method that the pipeline will use to handle multiple executions. The
+  /// default mode is SUPERSEDED.
+  final ExecutionMode? executionMode;
+
+  /// CodePipeline provides the following pipeline types, which differ in
+  /// characteristics and price, so that you can tailor your pipeline features and
+  /// cost to the needs of your applications.
+  ///
+  /// <ul>
+  /// <li>
+  /// V1 type pipelines have a JSON structure that contains standard pipeline,
+  /// stage, and action-level parameters.
+  /// </li>
+  /// <li>
+  /// V2 type pipelines have the same structure as a V1 type, along with
+  /// additional parameters for release safety and trigger configuration.
+  /// </li>
+  /// </ul> <important>
+  /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON
+  /// when creating or updating a pipeline will result in the pipeline having the
+  /// V2 type of pipeline and the associated costs.
+  /// </important>
+  /// For information about pricing for CodePipeline, see <a
+  /// href="http://aws.amazon.com/codepipeline/pricing/">Pricing</a>.
+  ///
+  /// For information about which type of pipeline to choose, see <a
+  /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html">What
+  /// type of pipeline is right for me?</a>.
+  final PipelineType? pipelineType;
+
+  /// The trigger configuration specifying a type of event, such as Git tags, that
+  /// starts the pipeline.
+  /// <note>
+  /// When a trigger configuration is specified, default change detection for
+  /// repository and branch commits is disabled.
+  /// </note>
+  final List<PipelineTriggerDeclaration>? triggers;
+
+  /// A list that defines the pipeline variables for a pipeline resource. Variable
+  /// names can have alphanumeric and underscore characters, and the values must
+  /// match <code>[A-Za-z0-9@\-_]+</code>.
+  final List<PipelineVariableDeclaration>? variables;
 
   /// The version number of the pipeline. A new pipeline always has a version
   /// number of 1. This number is incremented when a pipeline is updated.
@@ -4718,6 +5300,10 @@ class PipelineDeclaration {
     required this.stages,
     this.artifactStore,
     this.artifactStores,
+    this.executionMode,
+    this.pipelineType,
+    this.triggers,
+    this.variables,
     this.version,
   });
 
@@ -4736,6 +5322,18 @@ class PipelineDeclaration {
       artifactStores: (json['artifactStores'] as Map<String, dynamic>?)?.map(
           (k, e) =>
               MapEntry(k, ArtifactStore.fromJson(e as Map<String, dynamic>))),
+      executionMode: (json['executionMode'] as String?)?.toExecutionMode(),
+      pipelineType: (json['pipelineType'] as String?)?.toPipelineType(),
+      triggers: (json['triggers'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PipelineTriggerDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      variables: (json['variables'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PipelineVariableDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       version: json['version'] as int?,
     );
   }
@@ -4746,6 +5344,10 @@ class PipelineDeclaration {
     final stages = this.stages;
     final artifactStore = this.artifactStore;
     final artifactStores = this.artifactStores;
+    final executionMode = this.executionMode;
+    final pipelineType = this.pipelineType;
+    final triggers = this.triggers;
+    final variables = this.variables;
     final version = this.version;
     return {
       'name': name,
@@ -4753,6 +5355,10 @@ class PipelineDeclaration {
       'stages': stages,
       if (artifactStore != null) 'artifactStore': artifactStore,
       if (artifactStores != null) 'artifactStores': artifactStores,
+      if (executionMode != null) 'executionMode': executionMode.toValue(),
+      if (pipelineType != null) 'pipelineType': pipelineType.toValue(),
+      if (triggers != null) 'triggers': triggers,
+      if (variables != null) 'variables': variables,
       if (version != null) 'version': version,
     };
   }
@@ -4764,6 +5370,13 @@ class PipelineExecution {
   /// execution.
   final List<ArtifactRevision>? artifactRevisions;
 
+  /// The method that the pipeline will use to handle multiple executions. The
+  /// default mode is SUPERSEDED.
+  final ExecutionMode? executionMode;
+
+  /// The type of the pipeline execution.
+  final ExecutionType? executionType;
+
   /// The ID of the pipeline execution.
   final String? pipelineExecutionId;
 
@@ -4772,6 +5385,9 @@ class PipelineExecution {
 
   /// The version number of the pipeline with the specified pipeline execution.
   final int? pipelineVersion;
+
+  /// The metadata about the execution pertaining to stage rollback.
+  final PipelineRollbackMetadata? rollbackMetadata;
 
   /// The status of the pipeline execution.
   ///
@@ -4814,14 +5430,23 @@ class PipelineExecution {
 
   /// A summary that contains a description of the pipeline execution status.
   final String? statusSummary;
+  final ExecutionTrigger? trigger;
+
+  /// A list of pipeline variables used for the pipeline execution.
+  final List<ResolvedPipelineVariable>? variables;
 
   PipelineExecution({
     this.artifactRevisions,
+    this.executionMode,
+    this.executionType,
     this.pipelineExecutionId,
     this.pipelineName,
     this.pipelineVersion,
+    this.rollbackMetadata,
     this.status,
     this.statusSummary,
+    this.trigger,
+    this.variables,
   });
 
   factory PipelineExecution.fromJson(Map<String, dynamic> json) {
@@ -4830,12 +5455,44 @@ class PipelineExecution {
           ?.whereNotNull()
           .map((e) => ArtifactRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
+      executionMode: (json['executionMode'] as String?)?.toExecutionMode(),
+      executionType: (json['executionType'] as String?)?.toExecutionType(),
       pipelineExecutionId: json['pipelineExecutionId'] as String?,
       pipelineName: json['pipelineName'] as String?,
       pipelineVersion: json['pipelineVersion'] as int?,
+      rollbackMetadata: json['rollbackMetadata'] != null
+          ? PipelineRollbackMetadata.fromJson(
+              json['rollbackMetadata'] as Map<String, dynamic>)
+          : null,
       status: (json['status'] as String?)?.toPipelineExecutionStatus(),
       statusSummary: json['statusSummary'] as String?,
+      trigger: json['trigger'] != null
+          ? ExecutionTrigger.fromJson(json['trigger'] as Map<String, dynamic>)
+          : null,
+      variables: (json['variables'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResolvedPipelineVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
+  }
+}
+
+/// The pipeline execution to filter on.
+class PipelineExecutionFilter {
+  /// Filter for pipeline executions where the stage was successful in the current
+  /// pipeline version.
+  final SucceededInStageFilter? succeededInStage;
+
+  PipelineExecutionFilter({
+    this.succeededInStage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final succeededInStage = this.succeededInStage;
+    return {
+      if (succeededInStage != null) 'succeededInStage': succeededInStage,
+    };
   }
 }
 
@@ -4894,12 +5551,22 @@ extension PipelineExecutionStatusFromString on String {
 
 /// Summary information about a pipeline execution.
 class PipelineExecutionSummary {
+  /// The method that the pipeline will use to handle multiple executions. The
+  /// default mode is SUPERSEDED.
+  final ExecutionMode? executionMode;
+
+  /// Type of the pipeline execution.
+  final ExecutionType? executionType;
+
   /// The date and time of the last change to the pipeline execution, in timestamp
   /// format.
   final DateTime? lastUpdateTime;
 
   /// The ID of the pipeline execution.
   final String? pipelineExecutionId;
+
+  /// The metadata for the stage execution to be rolled back.
+  final PipelineRollbackMetadata? rollbackMetadata;
 
   /// A list of the source artifact revisions that initiated a pipeline execution.
   final List<SourceRevision>? sourceRevisions;
@@ -4942,6 +5609,9 @@ class PipelineExecutionSummary {
   /// </ul>
   final PipelineExecutionStatus? status;
 
+  /// Status summary for the pipeline.
+  final String? statusSummary;
+
   /// The interaction that stopped a pipeline execution.
   final StopExecutionTrigger? stopTrigger;
 
@@ -4951,25 +5621,36 @@ class PipelineExecutionSummary {
   final ExecutionTrigger? trigger;
 
   PipelineExecutionSummary({
+    this.executionMode,
+    this.executionType,
     this.lastUpdateTime,
     this.pipelineExecutionId,
+    this.rollbackMetadata,
     this.sourceRevisions,
     this.startTime,
     this.status,
+    this.statusSummary,
     this.stopTrigger,
     this.trigger,
   });
 
   factory PipelineExecutionSummary.fromJson(Map<String, dynamic> json) {
     return PipelineExecutionSummary(
+      executionMode: (json['executionMode'] as String?)?.toExecutionMode(),
+      executionType: (json['executionType'] as String?)?.toExecutionType(),
       lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
       pipelineExecutionId: json['pipelineExecutionId'] as String?,
+      rollbackMetadata: json['rollbackMetadata'] != null
+          ? PipelineRollbackMetadata.fromJson(
+              json['rollbackMetadata'] as Map<String, dynamic>)
+          : null,
       sourceRevisions: (json['sourceRevisions'] as List?)
           ?.whereNotNull()
           .map((e) => SourceRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
       startTime: timeStampFromJson(json['startTime']),
       status: (json['status'] as String?)?.toPipelineExecutionStatus(),
+      statusSummary: json['statusSummary'] as String?,
       stopTrigger: json['stopTrigger'] != null
           ? StopExecutionTrigger.fromJson(
               json['stopTrigger'] as Map<String, dynamic>)
@@ -4989,12 +5670,23 @@ class PipelineMetadata {
   /// The Amazon Resource Name (ARN) of the pipeline.
   final String? pipelineArn;
 
+  /// The date and time that polling for source changes (periodic checks) was
+  /// stopped for the pipeline, in timestamp format. You can migrate (update) a
+  /// polling pipeline to use event-based change detection. For example, for a
+  /// pipeline with a CodeCommit source, we recommend you migrate (update) your
+  /// pipeline to use CloudWatch Events. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html">Migrate
+  /// polling pipelines to use event-based change detection</a> in the
+  /// CodePipeline User Guide.
+  final DateTime? pollingDisabledAt;
+
   /// The date and time the pipeline was last updated, in timestamp format.
   final DateTime? updated;
 
   PipelineMetadata({
     this.created,
     this.pipelineArn,
+    this.pollingDisabledAt,
     this.updated,
   });
 
@@ -5002,7 +5694,25 @@ class PipelineMetadata {
     return PipelineMetadata(
       created: timeStampFromJson(json['created']),
       pipelineArn: json['pipelineArn'] as String?,
+      pollingDisabledAt: timeStampFromJson(json['pollingDisabledAt']),
       updated: timeStampFromJson(json['updated']),
+    );
+  }
+}
+
+/// The metadata for the stage execution to be rolled back.
+class PipelineRollbackMetadata {
+  /// The pipeline execution ID to which the stage will be rolled back.
+  final String? rollbackTargetPipelineExecutionId;
+
+  PipelineRollbackMetadata({
+    this.rollbackTargetPipelineExecutionId,
+  });
+
+  factory PipelineRollbackMetadata.fromJson(Map<String, dynamic> json) {
+    return PipelineRollbackMetadata(
+      rollbackTargetPipelineExecutionId:
+          json['rollbackTargetPipelineExecutionId'] as String?,
     );
   }
 }
@@ -5012,8 +5722,38 @@ class PipelineSummary {
   /// The date and time the pipeline was created, in timestamp format.
   final DateTime? created;
 
+  /// The method that the pipeline will use to handle multiple executions. The
+  /// default mode is SUPERSEDED.
+  final ExecutionMode? executionMode;
+
   /// The name of the pipeline.
   final String? name;
+
+  /// CodePipeline provides the following pipeline types, which differ in
+  /// characteristics and price, so that you can tailor your pipeline features and
+  /// cost to the needs of your applications.
+  ///
+  /// <ul>
+  /// <li>
+  /// V1 type pipelines have a JSON structure that contains standard pipeline,
+  /// stage, and action-level parameters.
+  /// </li>
+  /// <li>
+  /// V2 type pipelines have the same structure as a V1 type, along with
+  /// additional parameters for release safety and trigger configuration.
+  /// </li>
+  /// </ul> <important>
+  /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON
+  /// when creating or updating a pipeline will result in the pipeline having the
+  /// V2 type of pipeline and the associated costs.
+  /// </important>
+  /// For information about pricing for CodePipeline, see <a
+  /// href="http://aws.amazon.com/codepipeline/pricing/">Pricing</a>.
+  ///
+  /// For information about which type of pipeline to choose, see <a
+  /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html">What
+  /// type of pipeline is right for me?</a>.
+  final PipelineType? pipelineType;
 
   /// The date and time of the last update to the pipeline, in timestamp format.
   final DateTime? updated;
@@ -5023,7 +5763,9 @@ class PipelineSummary {
 
   PipelineSummary({
     this.created,
+    this.executionMode,
     this.name,
+    this.pipelineType,
     this.updated,
     this.version,
   });
@@ -5031,10 +5773,169 @@ class PipelineSummary {
   factory PipelineSummary.fromJson(Map<String, dynamic> json) {
     return PipelineSummary(
       created: timeStampFromJson(json['created']),
+      executionMode: (json['executionMode'] as String?)?.toExecutionMode(),
       name: json['name'] as String?,
+      pipelineType: (json['pipelineType'] as String?)?.toPipelineType(),
       updated: timeStampFromJson(json['updated']),
       version: json['version'] as int?,
     );
+  }
+}
+
+/// Represents information about the specified trigger configuration, such as
+/// the filter criteria and the source stage for the action that contains the
+/// trigger.
+/// <note>
+/// This is only supported for the <code>CodeStarSourceConnection</code> action
+/// type.
+/// </note> <note>
+/// When a trigger configuration is specified, default change detection for
+/// repository and branch commits is disabled.
+/// </note>
+class PipelineTriggerDeclaration {
+  /// Provides the filter criteria and the source stage for the repository event
+  /// that starts the pipeline, such as Git tags.
+  final GitConfiguration gitConfiguration;
+
+  /// The source provider for the event, such as connections configured for a
+  /// repository with Git tags, for the specified trigger configuration.
+  final PipelineTriggerProviderType providerType;
+
+  PipelineTriggerDeclaration({
+    required this.gitConfiguration,
+    required this.providerType,
+  });
+
+  factory PipelineTriggerDeclaration.fromJson(Map<String, dynamic> json) {
+    return PipelineTriggerDeclaration(
+      gitConfiguration: GitConfiguration.fromJson(
+          json['gitConfiguration'] as Map<String, dynamic>),
+      providerType:
+          (json['providerType'] as String).toPipelineTriggerProviderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gitConfiguration = this.gitConfiguration;
+    final providerType = this.providerType;
+    return {
+      'gitConfiguration': gitConfiguration,
+      'providerType': providerType.toValue(),
+    };
+  }
+}
+
+enum PipelineTriggerProviderType {
+  codeStarSourceConnection,
+}
+
+extension PipelineTriggerProviderTypeValueExtension
+    on PipelineTriggerProviderType {
+  String toValue() {
+    switch (this) {
+      case PipelineTriggerProviderType.codeStarSourceConnection:
+        return 'CodeStarSourceConnection';
+    }
+  }
+}
+
+extension PipelineTriggerProviderTypeFromString on String {
+  PipelineTriggerProviderType toPipelineTriggerProviderType() {
+    switch (this) {
+      case 'CodeStarSourceConnection':
+        return PipelineTriggerProviderType.codeStarSourceConnection;
+    }
+    throw Exception('$this is not known in enum PipelineTriggerProviderType');
+  }
+}
+
+enum PipelineType {
+  v1,
+  v2,
+}
+
+extension PipelineTypeValueExtension on PipelineType {
+  String toValue() {
+    switch (this) {
+      case PipelineType.v1:
+        return 'V1';
+      case PipelineType.v2:
+        return 'V2';
+    }
+  }
+}
+
+extension PipelineTypeFromString on String {
+  PipelineType toPipelineType() {
+    switch (this) {
+      case 'V1':
+        return PipelineType.v1;
+      case 'V2':
+        return PipelineType.v2;
+    }
+    throw Exception('$this is not known in enum PipelineType');
+  }
+}
+
+/// A pipeline-level variable used for a pipeline execution.
+class PipelineVariable {
+  /// The name of a pipeline-level variable.
+  final String name;
+
+  /// The value of a pipeline-level variable.
+  final String value;
+
+  PipelineVariable({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
+}
+
+/// A variable declared at the pipeline level.
+class PipelineVariableDeclaration {
+  /// The name of a pipeline-level variable.
+  final String name;
+
+  /// The value of a pipeline-level variable.
+  final String? defaultValue;
+
+  /// The description of a pipeline-level variable. It's used to add additional
+  /// context about the variable, and not being used at time when pipeline
+  /// executes.
+  final String? description;
+
+  PipelineVariableDeclaration({
+    required this.name,
+    this.defaultValue,
+    this.description,
+  });
+
+  factory PipelineVariableDeclaration.fromJson(Map<String, dynamic> json) {
+    return PipelineVariableDeclaration(
+      name: json['name'] as String,
+      defaultValue: json['defaultValue'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    return {
+      'name': name,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+    };
   }
 }
 
@@ -5140,6 +6041,50 @@ class RegisterWebhookWithThirdPartyOutput {
   }
 }
 
+/// A pipeline-level variable used for a pipeline execution.
+class ResolvedPipelineVariable {
+  /// The name of a pipeline-level variable.
+  final String? name;
+
+  /// The resolved value of a pipeline-level variable.
+  final String? resolvedValue;
+
+  ResolvedPipelineVariable({
+    this.name,
+    this.resolvedValue,
+  });
+
+  factory ResolvedPipelineVariable.fromJson(Map<String, dynamic> json) {
+    return ResolvedPipelineVariable(
+      name: json['name'] as String?,
+      resolvedValue: json['resolvedValue'] as String?,
+    );
+  }
+}
+
+enum Result {
+  rollback,
+}
+
+extension ResultValueExtension on Result {
+  String toValue() {
+    switch (this) {
+      case Result.rollback:
+        return 'ROLLBACK';
+    }
+  }
+}
+
+extension ResultFromString on String {
+  Result toResult() {
+    switch (this) {
+      case 'ROLLBACK':
+        return Result.rollback;
+    }
+    throw Exception('$this is not known in enum Result');
+  }
+}
+
 /// Represents the output of a <code>RetryStageExecution</code> action.
 class RetryStageExecutionOutput {
   /// The ID of the current workflow execution in the failed stage.
@@ -5152,6 +6097,22 @@ class RetryStageExecutionOutput {
   factory RetryStageExecutionOutput.fromJson(Map<String, dynamic> json) {
     return RetryStageExecutionOutput(
       pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    );
+  }
+}
+
+class RollbackStageOutput {
+  /// The execution ID of the pipeline execution for the stage that has been
+  /// rolled back.
+  final String pipelineExecutionId;
+
+  RollbackStageOutput({
+    required this.pipelineExecutionId,
+  });
+
+  factory RollbackStageOutput.fromJson(Map<String, dynamic> json) {
+    return RollbackStageOutput(
+      pipelineExecutionId: json['pipelineExecutionId'] as String,
     );
   }
 }
@@ -5210,15 +6171,14 @@ class SourceRevision {
   final String? revisionId;
 
   /// Summary information about the most recent revision of the artifact. For
-  /// GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3
+  /// GitHub and CodeCommit repositories, the commit message. For Amazon S3
   /// buckets or actions, the user-provided content of a
   /// <code>codepipeline-artifact-revision-summary</code> key specified in the
   /// object metadata.
   final String? revisionSummary;
 
   /// The commit ID for the artifact revision. For artifacts stored in GitHub or
-  /// AWS CodeCommit repositories, the commit ID is linked to a commit details
-  /// page.
+  /// CodeCommit repositories, the commit ID is linked to a commit details page.
   final String? revisionUrl;
 
   SourceRevision({
@@ -5235,6 +6195,73 @@ class SourceRevision {
       revisionSummary: json['revisionSummary'] as String?,
       revisionUrl: json['revisionUrl'] as String?,
     );
+  }
+}
+
+/// A list that allows you to specify, or override, the source revision for a
+/// pipeline execution that's being started. A source revision is the version
+/// with all the changes to your application code, or source artifact, for the
+/// pipeline execution.
+class SourceRevisionOverride {
+  /// The name of the action where the override will be applied.
+  final String actionName;
+
+  /// The type of source revision, based on the source provider. For example, the
+  /// revision type for the CodeCommit action provider is the commit ID.
+  final SourceRevisionType revisionType;
+
+  /// The source revision, or version of your source artifact, with the changes
+  /// that you want to run in the pipeline execution.
+  final String revisionValue;
+
+  SourceRevisionOverride({
+    required this.actionName,
+    required this.revisionType,
+    required this.revisionValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final revisionType = this.revisionType;
+    final revisionValue = this.revisionValue;
+    return {
+      'actionName': actionName,
+      'revisionType': revisionType.toValue(),
+      'revisionValue': revisionValue,
+    };
+  }
+}
+
+enum SourceRevisionType {
+  commitId,
+  imageDigest,
+  s3ObjectVersionId,
+}
+
+extension SourceRevisionTypeValueExtension on SourceRevisionType {
+  String toValue() {
+    switch (this) {
+      case SourceRevisionType.commitId:
+        return 'COMMIT_ID';
+      case SourceRevisionType.imageDigest:
+        return 'IMAGE_DIGEST';
+      case SourceRevisionType.s3ObjectVersionId:
+        return 'S3_OBJECT_VERSION_ID';
+    }
+  }
+}
+
+extension SourceRevisionTypeFromString on String {
+  SourceRevisionType toSourceRevisionType() {
+    switch (this) {
+      case 'COMMIT_ID':
+        return SourceRevisionType.commitId;
+      case 'IMAGE_DIGEST':
+        return SourceRevisionType.imageDigest;
+      case 'S3_OBJECT_VERSION_ID':
+        return SourceRevisionType.s3ObjectVersionId;
+    }
+    throw Exception('$this is not known in enum SourceRevisionType');
   }
 }
 
@@ -5265,10 +6292,16 @@ class StageDeclaration {
   /// Reserved for future use.
   final List<BlockerDeclaration>? blockers;
 
+  /// The method to use when a stage has not completed successfully. For example,
+  /// configuring this field for rollback will roll back a failed stage
+  /// automatically to the last successful pipeline execution in the stage.
+  final FailureConditions? onFailure;
+
   StageDeclaration({
     required this.actions,
     required this.name,
     this.blockers,
+    this.onFailure,
   });
 
   factory StageDeclaration.fromJson(Map<String, dynamic> json) {
@@ -5282,6 +6315,10 @@ class StageDeclaration {
           ?.whereNotNull()
           .map((e) => BlockerDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
+      onFailure: json['onFailure'] != null
+          ? FailureConditions.fromJson(
+              json['onFailure'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -5289,10 +6326,12 @@ class StageDeclaration {
     final actions = this.actions;
     final name = this.name;
     final blockers = this.blockers;
+    final onFailure = this.onFailure;
     return {
       'actions': actions,
       'name': name,
       if (blockers != null) 'blockers': blockers,
+      if (onFailure != null) 'onFailure': onFailure,
     };
   }
 }
@@ -5310,15 +6349,21 @@ class StageExecution {
   /// </note>
   final StageExecutionStatus status;
 
+  /// The type of pipeline execution for the stage, such as a rollback pipeline
+  /// execution.
+  final ExecutionType? type;
+
   StageExecution({
     required this.pipelineExecutionId,
     required this.status,
+    this.type,
   });
 
   factory StageExecution.fromJson(Map<String, dynamic> json) {
     return StageExecution(
       pipelineExecutionId: json['pipelineExecutionId'] as String,
       status: (json['status'] as String).toStageExecutionStatus(),
+      type: (json['type'] as String?)?.toExecutionType(),
     );
   }
 }
@@ -5373,6 +6418,7 @@ extension StageExecutionStatusFromString on String {
 
 enum StageRetryMode {
   failedActions,
+  allActions,
 }
 
 extension StageRetryModeValueExtension on StageRetryMode {
@@ -5380,6 +6426,8 @@ extension StageRetryModeValueExtension on StageRetryMode {
     switch (this) {
       case StageRetryMode.failedActions:
         return 'FAILED_ACTIONS';
+      case StageRetryMode.allActions:
+        return 'ALL_ACTIONS';
     }
   }
 }
@@ -5389,6 +6437,8 @@ extension StageRetryModeFromString on String {
     switch (this) {
       case 'FAILED_ACTIONS':
         return StageRetryMode.failedActions;
+      case 'ALL_ACTIONS':
+        return StageRetryMode.allActions;
     }
     throw Exception('$this is not known in enum StageRetryMode');
   }
@@ -5399,6 +6449,9 @@ class StageState {
   /// The state of the stage.
   final List<ActionState>? actionStates;
   final StageExecution? inboundExecution;
+
+  /// The inbound executions for a stage.
+  final List<StageExecution>? inboundExecutions;
 
   /// The state of the inbound transition, which is either enabled or disabled.
   final TransitionState? inboundTransitionState;
@@ -5413,6 +6466,7 @@ class StageState {
   StageState({
     this.actionStates,
     this.inboundExecution,
+    this.inboundExecutions,
     this.inboundTransitionState,
     this.latestExecution,
     this.stageName,
@@ -5428,6 +6482,10 @@ class StageState {
           ? StageExecution.fromJson(
               json['inboundExecution'] as Map<String, dynamic>)
           : null,
+      inboundExecutions: (json['inboundExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => StageExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
       inboundTransitionState: json['inboundTransitionState'] != null
           ? TransitionState.fromJson(
               json['inboundTransitionState'] as Map<String, dynamic>)
@@ -5485,6 +6543,34 @@ class StartPipelineExecutionOutput {
   }
 }
 
+enum StartTimeRange {
+  latest,
+  all,
+}
+
+extension StartTimeRangeValueExtension on StartTimeRange {
+  String toValue() {
+    switch (this) {
+      case StartTimeRange.latest:
+        return 'Latest';
+      case StartTimeRange.all:
+        return 'All';
+    }
+  }
+}
+
+extension StartTimeRangeFromString on String {
+  StartTimeRange toStartTimeRange() {
+    switch (this) {
+      case 'Latest':
+        return StartTimeRange.latest;
+      case 'All':
+        return StartTimeRange.all;
+    }
+    throw Exception('$this is not known in enum StartTimeRange');
+  }
+}
+
 /// The interaction that stopped a pipeline execution.
 class StopExecutionTrigger {
   /// The user-specified reason the pipeline was stopped.
@@ -5513,6 +6599,25 @@ class StopPipelineExecutionOutput {
     return StopPipelineExecutionOutput(
       pipelineExecutionId: json['pipelineExecutionId'] as String?,
     );
+  }
+}
+
+/// Filter for pipeline executions that have successfully completed the stage in
+/// the current pipeline version.
+class SucceededInStageFilter {
+  /// The name of the stage for filtering for pipeline executions where the stage
+  /// was successful in the current pipeline version.
+  final String? stageName;
+
+  SucceededInStageFilter({
+    this.stageName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final stageName = this.stageName;
+    return {
+      if (stageName != null) 'stageName': stageName,
+    };
   }
 }
 
@@ -5554,7 +6659,7 @@ class TagResourceOutput {
   }
 }
 
-/// A response to a <code>PollForThirdPartyJobs</code> request returned by AWS
+/// A response to a <code>PollForThirdPartyJobs</code> request returned by
 /// CodePipeline when there is a job to be worked on by a partner action.
 class ThirdPartyJob {
   /// The <code>clientToken</code> portion of the <code>clientId</code> and
@@ -5562,7 +6667,7 @@ class ThirdPartyJob {
   /// allowed access to the job and its details.
   final String? clientId;
 
-  /// The identifier used to identify the job in AWS CodePipeline.
+  /// The identifier used to identify the job in CodePipeline.
   final String? jobId;
 
   ThirdPartyJob({
@@ -5586,19 +6691,20 @@ class ThirdPartyJobData {
   /// Represents information about an action type.
   final ActionTypeId? actionTypeId;
 
-  /// Represents an AWS session credentials object. These credentials are
-  /// temporary credentials that are issued by AWS Secure Token Service (STS).
-  /// They can be used to access input and output artifacts in the S3 bucket used
-  /// to store artifact for the pipeline in AWS CodePipeline.
+  /// Represents an Amazon Web Services session credentials object. These
+  /// credentials are temporary credentials that are issued by Amazon Web Services
+  /// Secure Token Service (STS). They can be used to access input and output
+  /// artifacts in the S3 bucket used to store artifact for the pipeline in
+  /// CodePipeline.
   final AWSSessionCredentials? artifactCredentials;
 
-  /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job
+  /// A system-generated token, such as a CodeDeploy deployment ID, that a job
   /// requires to continue the job asynchronously.
   final String? continuationToken;
 
   /// The encryption key used to encrypt and decrypt data in the artifact store
-  /// for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This
-  /// is optional and might not be present.
+  /// for the pipeline, such as an Amazon Web Services Key Management Service
+  /// (Amazon Web Services KMS) key. This is optional and might not be present.
   final EncryptionKey? encryptionKey;
 
   /// The name of the artifact that is worked on by the action, if any. This name
@@ -5671,11 +6777,11 @@ class ThirdPartyJobDetails {
   /// The data to be returned by the third party job worker.
   final ThirdPartyJobData? data;
 
-  /// The identifier used to identify the job details in AWS CodePipeline.
+  /// The identifier used to identify the job details in CodePipeline.
   final String? id;
 
-  /// A system-generated random number that AWS CodePipeline uses to ensure that
-  /// the job is being worked on by only one job worker. Use this number in an
+  /// A system-generated random number that CodePipeline uses to ensure that the
+  /// job is being worked on by only one job worker. Use this number in an
   /// <a>AcknowledgeThirdPartyJob</a> request.
   final String? nonce;
 
@@ -5736,6 +6842,9 @@ enum TriggerType {
   webhook,
   cloudWatchEvent,
   putActionRevision,
+  webhookV2,
+  manualRollback,
+  automatedRollback,
 }
 
 extension TriggerTypeValueExtension on TriggerType {
@@ -5753,6 +6862,12 @@ extension TriggerTypeValueExtension on TriggerType {
         return 'CloudWatchEvent';
       case TriggerType.putActionRevision:
         return 'PutActionRevision';
+      case TriggerType.webhookV2:
+        return 'WebhookV2';
+      case TriggerType.manualRollback:
+        return 'ManualRollback';
+      case TriggerType.automatedRollback:
+        return 'AutomatedRollback';
     }
   }
 }
@@ -5772,6 +6887,12 @@ extension TriggerTypeFromString on String {
         return TriggerType.cloudWatchEvent;
       case 'PutActionRevision':
         return TriggerType.putActionRevision;
+      case 'WebhookV2':
+        return TriggerType.webhookV2;
+      case 'ManualRollback':
+        return TriggerType.manualRollback;
+      case 'AutomatedRollback':
+        return TriggerType.automatedRollback;
     }
     throw Exception('$this is not known in enum TriggerType');
   }
@@ -5972,9 +7093,9 @@ class WebhookFilterRule {
   /// placeholders in this value by surrounding the action configuration key with
   /// curly brackets. For example, if the value supplied here is
   /// "refs/heads/{Branch}" and the target action has an action configuration
-  /// property called "Branch" with a value of "master", the
-  /// <code>MatchEquals</code> value is evaluated as "refs/heads/master". For a
-  /// list of action configuration properties for built-in action types, see <a
+  /// property called "Branch" with a value of "main", the
+  /// <code>MatchEquals</code> value is evaluated as "refs/heads/main". For a list
+  /// of action configuration properties for built-in action types, see <a
   /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements">Pipeline
   /// Structure Reference Action Requirements</a>.
   final String? matchEquals;
@@ -6025,6 +7146,16 @@ class ConcurrentModificationException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'ConcurrentModificationException',
+            message: message);
+}
+
+class ConcurrentPipelineExecutionsLimitExceededException
+    extends _s.GenericAwsException {
+  ConcurrentPipelineExecutionsLimitExceededException(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'ConcurrentPipelineExecutionsLimitExceededException',
             message: message);
 }
 
@@ -6174,6 +7305,14 @@ class PipelineExecutionNotStoppableException extends _s.GenericAwsException {
             message: message);
 }
 
+class PipelineExecutionOutdatedException extends _s.GenericAwsException {
+  PipelineExecutionOutdatedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PipelineExecutionOutdatedException',
+            message: message);
+}
+
 class PipelineNameInUseException extends _s.GenericAwsException {
   PipelineNameInUseException({String? type, String? message})
       : super(type: type, code: 'PipelineNameInUseException', message: message);
@@ -6217,6 +7356,14 @@ class TooManyTagsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+class UnableToRollbackStageException extends _s.GenericAwsException {
+  UnableToRollbackStageException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'UnableToRollbackStageException',
+            message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -6236,6 +7383,9 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ApprovalAlreadyCompletedException(type: type, message: message),
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'ConcurrentPipelineExecutionsLimitExceededException': (type, message) =>
+      ConcurrentPipelineExecutionsLimitExceededException(
+          type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
   'DuplicatedStopRequestException': (type, message) =>
@@ -6281,6 +7431,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       PipelineExecutionNotFoundException(type: type, message: message),
   'PipelineExecutionNotStoppableException': (type, message) =>
       PipelineExecutionNotStoppableException(type: type, message: message),
+  'PipelineExecutionOutdatedException': (type, message) =>
+      PipelineExecutionOutdatedException(type: type, message: message),
   'PipelineNameInUseException': (type, message) =>
       PipelineNameInUseException(type: type, message: message),
   'PipelineNotFoundException': (type, message) =>
@@ -6297,6 +7449,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       StageNotRetryableException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
+  'UnableToRollbackStageException': (type, message) =>
+      UnableToRollbackStageException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
   'WebhookNotFoundException': (type, message) =>

@@ -146,6 +146,10 @@ class SFN {
   /// see <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
   /// States Language</a> in the Step Functions User Guide.
+  ///
+  /// If you set the <code>publish</code> parameter of this API action to
+  /// <code>true</code>, it publishes version <code>1</code> as the first
+  /// revision of the state machine.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
@@ -154,12 +158,13 @@ class SFN {
   /// won’t create a duplicate resource if it was already created.
   /// <code>CreateStateMachine</code>'s idempotency check is based on the state
   /// machine <code>name</code>, <code>definition</code>, <code>type</code>,
-  /// <code>LoggingConfiguration</code> and <code>TracingConfiguration</code>.
-  /// If a following request has a different <code>roleArn</code> or
-  /// <code>tags</code>, Step Functions will ignore these differences and treat
-  /// it as an idempotent request of the previous. In this case,
-  /// <code>roleArn</code> and <code>tags</code> will not be updated, even if
-  /// they are different.
+  /// <code>LoggingConfiguration</code>, and <code>TracingConfiguration</code>.
+  /// The check is also based on the <code>publish</code> and
+  /// <code>versionDescription</code> parameters. If a following request has a
+  /// different <code>roleArn</code> or <code>tags</code>, Step Functions will
+  /// ignore these differences and treat it as an idempotent request of the
+  /// previous. In this case, <code>roleArn</code> and <code>tags</code> will
+  /// not be updated, even if they are different.
   /// </note>
   ///
   /// May throw [InvalidArn].
@@ -172,6 +177,8 @@ class SFN {
   /// May throw [StateMachineLimitExceeded].
   /// May throw [StateMachineTypeNotSupported].
   /// May throw [TooManyTags].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [definition] :
   /// The Amazon States Language definition of the state machine. See <a
@@ -217,6 +224,10 @@ class SFN {
   /// Levels</a> in the Step Functions User Guide.
   /// </note>
   ///
+  /// Parameter [publish] :
+  /// Set to <code>true</code> to publish the first version of the state machine
+  /// during creation. The default is <code>false</code>.
+  ///
   /// Parameter [tags] :
   /// Tags to be added when creating a state machine.
   ///
@@ -237,14 +248,23 @@ class SFN {
   /// Determines whether a Standard or Express state machine is created. The
   /// default is <code>STANDARD</code>. You cannot update the <code>type</code>
   /// of a state machine once it has been created.
+  ///
+  /// Parameter [versionDescription] :
+  /// Sets description about the state machine version. You can only set the
+  /// description if the <code>publish</code> parameter is set to
+  /// <code>true</code>. Otherwise, if you set <code>versionDescription</code>,
+  /// but <code>publish</code> to <code>false</code>, this API action throws
+  /// <code>ValidationException</code>.
   Future<CreateStateMachineOutput> createStateMachine({
     required String definition,
     required String name,
     required String roleArn,
     LoggingConfiguration? loggingConfiguration,
+    bool? publish,
     List<Tag>? tags,
     TracingConfiguration? tracingConfiguration,
     StateMachineType? type,
+    String? versionDescription,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -262,14 +282,113 @@ class SFN {
         'roleArn': roleArn,
         if (loggingConfiguration != null)
           'loggingConfiguration': loggingConfiguration,
+        if (publish != null) 'publish': publish,
         if (tags != null) 'tags': tags,
         if (tracingConfiguration != null)
           'tracingConfiguration': tracingConfiguration,
         if (type != null) 'type': type.toValue(),
+        if (versionDescription != null)
+          'versionDescription': versionDescription,
       },
     );
 
     return CreateStateMachineOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>
+  /// for a state machine that points to one or two <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">versions</a>
+  /// of the same state machine. You can set your application to call
+  /// <a>StartExecution</a> with an alias and update the version the alias uses
+  /// without changing the client's code.
+  ///
+  /// You can also map an alias to split <a>StartExecution</a> requests between
+  /// two versions of a state machine. To do this, add a second
+  /// <code>RoutingConfig</code> object in the <code>routingConfiguration</code>
+  /// parameter. You must also specify the percentage of execution run requests
+  /// each version should receive in both <code>RoutingConfig</code> objects.
+  /// Step Functions randomly chooses which version runs a given execution based
+  /// on the percentage you specify.
+  ///
+  /// To create an alias that points to a single version, specify a single
+  /// <code>RoutingConfig</code> object with a <code>weight</code> set to 100.
+  ///
+  /// You can create up to 100 aliases for each state machine. You must delete
+  /// unused aliases using the <a>DeleteStateMachineAlias</a> API action.
+  ///
+  /// <code>CreateStateMachineAlias</code> is an idempotent API. Step Functions
+  /// bases the idempotency check on the <code>stateMachineArn</code>,
+  /// <code>description</code>, <code>name</code>, and
+  /// <code>routingConfiguration</code> parameters. Requests that contain the
+  /// same values for these parameters return a successful idempotent response
+  /// without creating a duplicate resource.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DescribeStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>ListStateMachineAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteStateMachineAlias</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidArn].
+  /// May throw [InvalidName].
+  /// May throw [ValidationException].
+  /// May throw [StateMachineDeleting].
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// The name of the state machine alias.
+  ///
+  /// To avoid conflict with version ARNs, don't use an integer in the name of
+  /// the alias.
+  ///
+  /// Parameter [routingConfiguration] :
+  /// The routing configuration of a state machine alias. The routing
+  /// configuration shifts execution traffic between two state machine versions.
+  /// <code>routingConfiguration</code> contains an array of
+  /// <code>RoutingConfig</code> objects that specify up to two state machine
+  /// versions. Step Functions then randomly choses which version to run an
+  /// execution with based on the weight assigned to each
+  /// <code>RoutingConfig</code>.
+  ///
+  /// Parameter [description] :
+  /// A description for the state machine alias.
+  Future<CreateStateMachineAliasOutput> createStateMachineAlias({
+    required String name,
+    required List<RoutingConfigurationListItem> routingConfiguration,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.CreateStateMachineAlias'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'routingConfiguration': routingConfiguration,
+        if (description != null) 'description': description,
+      },
+    );
+
+    return CreateStateMachineAliasOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes an activity.
@@ -297,24 +416,46 @@ class SFN {
     );
   }
 
-  /// Deletes a state machine. This is an asynchronous operation: It sets the
+  /// Deletes a state machine. This is an asynchronous operation. It sets the
   /// state machine's status to <code>DELETING</code> and begins the deletion
-  /// process.
+  /// process. A state machine is deleted only when all its executions are
+  /// completed. On the next state transition, the state machine's executions
+  /// are terminated.
   ///
-  /// If the given state machine Amazon Resource Name (ARN) is a qualified state
-  /// machine ARN, it will fail with ValidationException.
+  /// A qualified state machine ARN can either refer to a <i>Distributed Map
+  /// state</i> defined within a state machine, a version ARN, or an alias ARN.
   ///
-  /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
-  /// defined within a state machine. For example, the qualified state machine
-  /// ARN
-  /// <code>arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel</code>
-  /// refers to a <i>Distributed Map state</i> with a label
-  /// <code>mapStateLabel</code> in the state machine named
-  /// <code>stateMachineName</code>.
+  /// The following are some examples of qualified and unqualified state machine
+  /// ARNs:
+  ///
+  /// <ul>
+  /// <li>
+  /// The following qualified state machine ARN refers to a <i>Distributed Map
+  /// state</i> with a label <code>mapStateLabel</code> in a state machine named
+  /// <code>myStateMachine</code>.
+  ///
+  /// <code>arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel</code>
   /// <note>
-  /// For <code>EXPRESS</code> state machines, the deletion will happen
-  /// eventually (usually less than a minute). Running executions may emit logs
-  /// after <code>DeleteStateMachine</code> API is called.
+  /// If you provide a qualified state machine ARN that refers to a
+  /// <i>Distributed Map state</i>, the request fails with
+  /// <code>ValidationException</code>.
+  /// </note> </li>
+  /// <li>
+  /// The following unqualified state machine ARN refers to a state machine
+  /// named <code>myStateMachine</code>.
+  ///
+  /// <code>arn:partition:states:region:account-id:stateMachine:myStateMachine</code>
+  /// </li>
+  /// </ul>
+  /// This API action also deletes all <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">versions</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">aliases</a>
+  /// associated with a state machine.
+  /// <note>
+  /// For <code>EXPRESS</code> state machines, the deletion happens eventually
+  /// (usually in less than a minute). Running executions may emit logs after
+  /// <code>DeleteStateMachine</code> API is called.
   /// </note>
   ///
   /// May throw [InvalidArn].
@@ -337,6 +478,105 @@ class SFN {
       headers: headers,
       payload: {
         'stateMachineArn': stateMachineArn,
+      },
+    );
+  }
+
+  /// Deletes a state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>.
+  ///
+  /// After you delete a state machine alias, you can't use it to start
+  /// executions. When you delete a state machine alias, Step Functions doesn't
+  /// delete the state machine versions that alias references.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>ListStateMachineAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateStateMachineAlias</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InvalidArn].
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [stateMachineAliasArn] :
+  /// The Amazon Resource Name (ARN) of the state machine alias to delete.
+  Future<void> deleteStateMachineAlias({
+    required String stateMachineAliasArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.DeleteStateMachineAlias'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineAliasArn': stateMachineAliasArn,
+      },
+    );
+  }
+
+  /// Deletes a state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">version</a>.
+  /// After you delete a version, you can't call <a>StartExecution</a> using
+  /// that version's ARN or use the version with a state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>.
+  /// <note>
+  /// Deleting a state machine version won't terminate its in-progress
+  /// executions.
+  /// </note> <note>
+  /// You can't delete a state machine version currently referenced by one or
+  /// more aliases. Before you delete a version, you must either delete the
+  /// aliases or update them to point to another state machine version.
+  /// </note>
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>PublishStateMachineVersion</a>
+  /// </li>
+  /// <li>
+  /// <a>ListStateMachineVersions</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InvalidArn].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [stateMachineVersionArn] :
+  /// The Amazon Resource Name (ARN) of the state machine version to delete.
+  Future<void> deleteStateMachineVersion({
+    required String stateMachineVersionArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.DeleteStateMachineVersion'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineVersionArn': stateMachineVersionArn,
       },
     );
   }
@@ -373,16 +613,24 @@ class SFN {
     return DescribeActivityOutput.fromJson(jsonResponse.body);
   }
 
-  /// Provides all information about a state machine execution, such as the
-  /// state machine associated with the execution, the execution input and
-  /// output, and relevant execution metadata. Use this API action to return the
-  /// Map Run ARN if the execution was dispatched by a Map Run.
+  /// Provides information about a state machine execution, such as the state
+  /// machine associated with the execution, the execution input and output, and
+  /// relevant execution metadata. If you've <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html">redriven</a>
+  /// an execution, you can use this API action to return information about the
+  /// redrives of that execution. In addition, you can use this API action to
+  /// return the Map Run Amazon Resource Name (ARN) if the execution was
+  /// dispatched by a Map Run.
+  ///
+  /// If you specify a version or alias ARN when you call the
+  /// <a>StartExecution</a> API action, <code>DescribeExecution</code> returns
+  /// that ARN.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
   /// </note>
-  /// This API action is not supported by <code>EXPRESS</code> state machine
-  /// executions unless they were dispatched by a Map Run.
+  /// Executions of an <code>EXPRESS</code> state machine aren't supported by
+  /// <code>DescribeExecution</code> unless a Map Run dispatched them.
   ///
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
@@ -411,7 +659,10 @@ class SFN {
   }
 
   /// Provides information about a Map Run's configuration, progress, and
-  /// results. For more information, see <a
+  /// results. If you've <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html">redriven</a>
+  /// a Map Run, this API action also returns information about the redrives of
+  /// that Map Run. For more information, see <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html">Examining
   /// Map Run</a> in the <i>Step Functions Developer Guide</i>.
   ///
@@ -442,17 +693,44 @@ class SFN {
   }
 
   /// Provides information about a state machine's definition, its IAM role
-  /// Amazon Resource Name (ARN), and configuration. If the state machine ARN is
-  /// a qualified state machine ARN, the response returned includes the
-  /// <code>Map</code> state's label.
+  /// Amazon Resource Name (ARN), and configuration.
   ///
-  /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
-  /// defined within a state machine. For example, the qualified state machine
-  /// ARN
-  /// <code>arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel</code>
-  /// refers to a <i>Distributed Map state</i> with a label
-  /// <code>mapStateLabel</code> in the state machine named
-  /// <code>stateMachineName</code>.
+  /// A qualified state machine ARN can either refer to a <i>Distributed Map
+  /// state</i> defined within a state machine, a version ARN, or an alias ARN.
+  ///
+  /// The following are some examples of qualified and unqualified state machine
+  /// ARNs:
+  ///
+  /// <ul>
+  /// <li>
+  /// The following qualified state machine ARN refers to a <i>Distributed Map
+  /// state</i> with a label <code>mapStateLabel</code> in a state machine named
+  /// <code>myStateMachine</code>.
+  ///
+  /// <code>arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel</code>
+  /// <note>
+  /// If you provide a qualified state machine ARN that refers to a
+  /// <i>Distributed Map state</i>, the request fails with
+  /// <code>ValidationException</code>.
+  /// </note> </li>
+  /// <li>
+  /// The following qualified state machine ARN refers to an alias named
+  /// <code>PROD</code>.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  /// <note>
+  /// If you provide a qualified state machine ARN that refers to a version ARN
+  /// or an alias ARN, the request starts execution for that version or alias.
+  /// </note> </li>
+  /// <li>
+  /// The following unqualified state machine ARN refers to a state machine
+  /// named <code>myStateMachine</code>.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  /// </li>
+  /// </ul>
+  /// This API action returns the details for a state machine version if the
+  /// <code>stateMachineArn</code> you specify is a state machine version ARN.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
@@ -462,7 +740,13 @@ class SFN {
   /// May throw [StateMachineDoesNotExist].
   ///
   /// Parameter [stateMachineArn] :
-  /// The Amazon Resource Name (ARN) of the state machine to describe.
+  /// The Amazon Resource Name (ARN) of the state machine for which you want the
+  /// information.
+  ///
+  /// If you specify a state machine version ARN, this API returns details about
+  /// that version. The version ARN is a combination of state machine ARN and
+  /// the version number separated by a colon (:). For example,
+  /// <code>stateMachineARN:1</code>.
   Future<DescribeStateMachineOutput> describeStateMachine({
     required String stateMachineArn,
   }) async {
@@ -484,10 +768,57 @@ class SFN {
     return DescribeStateMachineOutput.fromJson(jsonResponse.body);
   }
 
+  /// Returns details about a state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>ListStateMachineAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteStateMachineAlias</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InvalidArn].
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [stateMachineAliasArn] :
+  /// The Amazon Resource Name (ARN) of the state machine alias.
+  Future<DescribeStateMachineAliasOutput> describeStateMachineAlias({
+    required String stateMachineAliasArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.DescribeStateMachineAlias'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineAliasArn': stateMachineAliasArn,
+      },
+    );
+
+    return DescribeStateMachineAliasOutput.fromJson(jsonResponse.body);
+  }
+
   /// Provides information about a state machine's definition, its execution
-  /// role ARN, and configuration. If an execution was dispatched by a Map Run,
-  /// the Map Run is returned in the response. Additionally, the state machine
-  /// returned will be the state machine associated with the Map Run.
+  /// role ARN, and configuration. If a Map Run dispatched the execution, this
+  /// action returns the Map Run Amazon Resource Name (ARN) in the response. The
+  /// state machine returned is the state machine associated with the Map Run.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
@@ -721,7 +1052,15 @@ class SFN {
   /// Lists all executions of a state machine or a Map Run. You can list all
   /// executions related to a state machine by specifying a state machine Amazon
   /// Resource Name (ARN), or those related to a Map Run by specifying a Map Run
-  /// ARN.
+  /// ARN. Using this API action, you can also list all <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html">redriven</a>
+  /// executions.
+  ///
+  /// You can also provide a state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>
+  /// ARN or <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">version</a>
+  /// ARN to list the executions associated with a specific alias or version.
   ///
   /// Results are sorted by time, with the most recent execution first.
   ///
@@ -772,12 +1111,32 @@ class SFN {
   /// after 24 hours. Using an expired pagination token will return an <i>HTTP
   /// 400 InvalidToken</i> error.
   ///
+  /// Parameter [redriveFilter] :
+  /// Sets a filter to list executions based on whether or not they have been
+  /// redriven.
+  ///
+  /// For a Distributed Map, <code>redriveFilter</code> sets a filter to list
+  /// child workflow executions based on whether or not they have been redriven.
+  ///
+  /// If you do not provide a <code>redriveFilter</code>, Step Functions returns
+  /// a list of both redriven and non-redriven executions.
+  ///
+  /// If you provide a state machine ARN in <code>redriveFilter</code>, the API
+  /// returns a validation exception.
+  ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine whose executions is
   /// listed.
   ///
   /// You can specify either a <code>mapRunArn</code> or a
   /// <code>stateMachineArn</code>, but not both.
+  ///
+  /// You can also return a list of executions associated with a specific <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">version</a>,
+  /// by specifying an alias ARN or a version ARN in the
+  /// <code>stateMachineArn</code> parameter.
   ///
   /// Parameter [statusFilter] :
   /// If specified, only list the executions whose current execution status
@@ -786,6 +1145,7 @@ class SFN {
     String? mapRunArn,
     int? maxResults,
     String? nextToken,
+    ExecutionRedriveFilter? redriveFilter,
     String? stateMachineArn,
     ExecutionStatus? statusFilter,
   }) async {
@@ -809,6 +1169,7 @@ class SFN {
         if (mapRunArn != null) 'mapRunArn': mapRunArn,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (redriveFilter != null) 'redriveFilter': redriveFilter.toValue(),
         if (stateMachineArn != null) 'stateMachineArn': stateMachineArn,
         if (statusFilter != null) 'statusFilter': statusFilter.toValue(),
       },
@@ -874,6 +1235,178 @@ class SFN {
     );
 
     return ListMapRunsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">aliases</a>
+  /// for a specified state machine ARN. Results are sorted by time, with the
+  /// most recently created aliases listed first.
+  ///
+  /// To list aliases that reference a state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">version</a>,
+  /// you can specify the version ARN in the <code>stateMachineArn</code>
+  /// parameter.
+  ///
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
+  /// 400 InvalidToken</i> error.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteStateMachineAlias</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidArn].
+  /// May throw [InvalidToken].
+  /// May throw [ResourceNotFound].
+  /// May throw [StateMachineDoesNotExist].
+  /// May throw [StateMachineDeleting].
+  ///
+  /// Parameter [stateMachineArn] :
+  /// The Amazon Resource Name (ARN) of the state machine for which you want to
+  /// list aliases.
+  ///
+  /// If you specify a state machine version ARN, this API returns a list of
+  /// aliases for that version.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned per call. You can use
+  /// <code>nextToken</code> to obtain further pages of results. The default is
+  /// 100 and the maximum allowed page size is 1000. A value of 0 uses the
+  /// default.
+  ///
+  /// This is only an upper limit. The actual number of results returned per
+  /// call might be fewer than the specified maximum.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
+  /// 400 InvalidToken</i> error.
+  Future<ListStateMachineAliasesOutput> listStateMachineAliases({
+    required String stateMachineArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.ListStateMachineAliases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineArn': stateMachineArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListStateMachineAliasesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">versions</a>
+  /// for the specified state machine Amazon Resource Name (ARN).
+  ///
+  /// The results are sorted in descending order of the version creation time.
+  ///
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
+  /// 400 InvalidToken</i> error.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>PublishStateMachineVersion</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteStateMachineVersion</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InvalidArn].
+  /// May throw [InvalidToken].
+  ///
+  /// Parameter [stateMachineArn] :
+  /// The Amazon Resource Name (ARN) of the state machine.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned per call. You can use
+  /// <code>nextToken</code> to obtain further pages of results. The default is
+  /// 100 and the maximum allowed page size is 1000. A value of 0 uses the
+  /// default.
+  ///
+  /// This is only an upper limit. The actual number of results returned per
+  /// call might be fewer than the specified maximum.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
+  /// 400 InvalidToken</i> error.
+  Future<ListStateMachineVersionsOutput> listStateMachineVersions({
+    required String stateMachineArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.ListStateMachineVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineArn': stateMachineArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListStateMachineVersionsOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists the existing state machines.
@@ -968,10 +1501,198 @@ class SFN {
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
   }
 
-  /// Used by activity workers and task states using the <a
+  /// Creates a <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">version</a>
+  /// from the current revision of a state machine. Use versions to create
+  /// immutable snapshots of your state machine. You can start executions from
+  /// versions either directly or with an alias. To create an alias, use
+  /// <a>CreateStateMachineAlias</a>.
+  ///
+  /// You can publish up to 1000 versions for each state machine. You must
+  /// manually delete unused versions using the <a>DeleteStateMachineVersion</a>
+  /// API action.
+  ///
+  /// <code>PublishStateMachineVersion</code> is an idempotent API. It doesn't
+  /// create a duplicate state machine version if it already exists for the
+  /// current revision. Step Functions bases
+  /// <code>PublishStateMachineVersion</code>'s idempotency check on the
+  /// <code>stateMachineArn</code>, <code>name</code>, and
+  /// <code>revisionId</code> parameters. Requests with the same parameters
+  /// return a successful idempotent response. If you don't specify a
+  /// <code>revisionId</code>, Step Functions checks for a previously published
+  /// version of the state machine's current revision.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DeleteStateMachineVersion</a>
+  /// </li>
+  /// <li>
+  /// <a>ListStateMachineVersions</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [StateMachineDeleting].
+  /// May throw [StateMachineDoesNotExist].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [InvalidArn].
+  ///
+  /// Parameter [stateMachineArn] :
+  /// The Amazon Resource Name (ARN) of the state machine.
+  ///
+  /// Parameter [description] :
+  /// An optional description of the state machine version.
+  ///
+  /// Parameter [revisionId] :
+  /// Only publish the state machine version if the current state machine's
+  /// revision ID matches the specified ID.
+  ///
+  /// Use this option to avoid publishing a version if the state machine changed
+  /// since you last updated it. If the specified revision ID doesn't match the
+  /// state machine's current revision ID, the API returns
+  /// <code>ConflictException</code>.
+  /// <note>
+  /// To specify an initial revision ID for a state machine with no revision ID
+  /// assigned, specify the string <code>INITIAL</code> for the
+  /// <code>revisionId</code> parameter. For example, you can specify a
+  /// <code>revisionID</code> of <code>INITIAL</code> when you create a state
+  /// machine using the <a>CreateStateMachine</a> API action.
+  /// </note>
+  Future<PublishStateMachineVersionOutput> publishStateMachineVersion({
+    required String stateMachineArn,
+    String? description,
+    String? revisionId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.PublishStateMachineVersion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineArn': stateMachineArn,
+        if (description != null) 'description': description,
+        if (revisionId != null) 'revisionId': revisionId,
+      },
+    );
+
+    return PublishStateMachineVersionOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Restarts unsuccessful executions of Standard workflows that didn't
+  /// complete successfully in the last 14 days. These include failed, aborted,
+  /// or timed out executions. When you <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html">redrive</a>
+  /// an execution, it continues the failed execution from the unsuccessful step
+  /// and uses the same input. Step Functions preserves the results and
+  /// execution history of the successful steps, and doesn't rerun these steps
+  /// when you redrive an execution. Redriven executions use the same state
+  /// machine definition and execution ARN as the original execution attempt.
+  ///
+  /// For workflows that include an <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html">Inline
+  /// Map</a> or <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html">Parallel</a>
+  /// state, <code>RedriveExecution</code> API action reschedules and redrives
+  /// only the iterations and branches that failed or aborted.
+  ///
+  /// To redrive a workflow that includes a Distributed Map state whose Map Run
+  /// failed, you must redrive the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/use-dist-map-orchestrate-large-scale-parallel-workloads.html#dist-map-orchestrate-parallel-workloads-key-terms">parent
+  /// workflow</a>. The parent workflow redrives all the unsuccessful states,
+  /// including a failed Map Run. If a Map Run was not started in the original
+  /// execution attempt, the redriven parent workflow starts the Map Run.
+  /// <note>
+  /// This API action is not supported by <code>EXPRESS</code> state machines.
+  ///
+  /// However, you can restart the unsuccessful executions of Express child
+  /// workflows in a Distributed Map by redriving its Map Run. When you redrive
+  /// a Map Run, the Express child workflows are rerun using the
+  /// <a>StartExecution</a> API action. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html">Redriving
+  /// Map Runs</a>.
+  /// </note>
+  /// You can redrive executions if your original execution meets the following
+  /// conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The execution status isn't <code>SUCCEEDED</code>.
+  /// </li>
+  /// <li>
+  /// Your workflow execution has not exceeded the redrivable period of 14 days.
+  /// Redrivable period refers to the time during which you can redrive a given
+  /// execution. This period starts from the day a state machine completes its
+  /// execution.
+  /// </li>
+  /// <li>
+  /// The workflow execution has not exceeded the maximum open time of one year.
+  /// For more information about state machine quotas, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/limits-overview.html#service-limits-state-machine-executions">Quotas
+  /// related to state machine executions</a>.
+  /// </li>
+  /// <li>
+  /// The execution event history count is less than 24,999. Redriven executions
+  /// append their event history to the existing event history. Make sure your
+  /// workflow execution contains less than 24,999 events to accommodate the
+  /// <code>ExecutionRedriven</code> history event and at least one other
+  /// history event.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ExecutionDoesNotExist].
+  /// May throw [ExecutionNotRedrivable].
+  /// May throw [ExecutionLimitExceeded].
+  /// May throw [InvalidArn].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [executionArn] :
+  /// The Amazon Resource Name (ARN) of the execution to be redriven.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If you don’t specify a client token, the
+  /// Amazon Web Services SDK automatically generates a client token and uses it
+  /// for the request to ensure idempotency. The API will return idempotent
+  /// responses for the last 10 client tokens used to successfully redrive the
+  /// execution. These client tokens are valid for up to 15 minutes after they
+  /// are first used.
+  Future<RedriveExecutionOutput> redriveExecution({
+    required String executionArn,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.RedriveExecution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'executionArn': executionArn,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return RedriveExecutionOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Used by activity workers, Task states using the <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
-  /// pattern to report that the task identified by the <code>taskToken</code>
-  /// failed.
+  /// pattern, and optionally Task states using the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync">job
+  /// run</a> pattern to report that the task identified by the
+  /// <code>taskToken</code> failed.
   ///
   /// May throw [TaskDoesNotExist].
   /// May throw [InvalidToken].
@@ -1012,17 +1733,18 @@ class SFN {
     );
   }
 
-  /// Used by activity workers and task states using the <a
+  /// Used by activity workers and Task states using the <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
-  /// pattern to report to Step Functions that the task represented by the
-  /// specified <code>taskToken</code> is still making progress. This action
+  /// pattern, and optionally Task states using the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync">job
+  /// run</a> pattern to report to Step Functions that the task represented by
+  /// the specified <code>taskToken</code> is still making progress. This action
   /// resets the <code>Heartbeat</code> clock. The <code>Heartbeat</code>
   /// threshold is specified in the state machine's Amazon States Language
   /// definition (<code>HeartbeatSeconds</code>). This action does not in itself
   /// create an event in the execution history. However, if the task times out,
   /// the execution history contains an <code>ActivityTimedOut</code> entry for
-  /// activities, or a <code>TaskTimedOut</code> entry for for tasks using the
-  /// <a
+  /// activities, or a <code>TaskTimedOut</code> entry for tasks using the <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync">job
   /// run</a> or <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
@@ -1064,10 +1786,12 @@ class SFN {
     );
   }
 
-  /// Used by activity workers and task states using the <a
+  /// Used by activity workers, Task states using the <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
-  /// pattern to report that the task identified by the <code>taskToken</code>
-  /// completed successfully.
+  /// pattern, and optionally Task states using the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync">job
+  /// run</a> pattern to report that the task identified by the
+  /// <code>taskToken</code> completed successfully.
   ///
   /// May throw [TaskDoesNotExist].
   /// May throw [InvalidOutput].
@@ -1105,27 +1829,61 @@ class SFN {
     );
   }
 
-  /// Starts a state machine execution. If the given state machine Amazon
-  /// Resource Name (ARN) is a qualified state machine ARN, it will fail with
-  /// ValidationException.
+  /// Starts a state machine execution.
   ///
-  /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
-  /// defined within a state machine. For example, the qualified state machine
-  /// ARN
-  /// <code>arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel</code>
-  /// refers to a <i>Distributed Map state</i> with a label
-  /// <code>mapStateLabel</code> in the state machine named
-  /// <code>stateMachineName</code>.
+  /// A qualified state machine ARN can either refer to a <i>Distributed Map
+  /// state</i> defined within a state machine, a version ARN, or an alias ARN.
+  ///
+  /// The following are some examples of qualified and unqualified state machine
+  /// ARNs:
+  ///
+  /// <ul>
+  /// <li>
+  /// The following qualified state machine ARN refers to a <i>Distributed Map
+  /// state</i> with a label <code>mapStateLabel</code> in a state machine named
+  /// <code>myStateMachine</code>.
+  ///
+  /// <code>arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel</code>
+  /// <note>
+  /// If you provide a qualified state machine ARN that refers to a
+  /// <i>Distributed Map state</i>, the request fails with
+  /// <code>ValidationException</code>.
+  /// </note> </li>
+  /// <li>
+  /// The following qualified state machine ARN refers to an alias named
+  /// <code>PROD</code>.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  /// <note>
+  /// If you provide a qualified state machine ARN that refers to a version ARN
+  /// or an alias ARN, the request starts execution for that version or alias.
+  /// </note> </li>
+  /// <li>
+  /// The following unqualified state machine ARN refers to a state machine
+  /// named <code>myStateMachine</code>.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  /// </li>
+  /// </ul>
+  /// If you start an execution with an unqualified state machine ARN, Step
+  /// Functions uses the latest revision of the state machine for the execution.
+  ///
+  /// To start executions of a state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">version</a>,
+  /// call <code>StartExecution</code> and provide the version ARN or the ARN of
+  /// an <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>
+  /// that points to the version.
   /// <note>
   /// <code>StartExecution</code> is idempotent for <code>STANDARD</code>
-  /// workflows. For a <code>STANDARD</code> workflow, if
-  /// <code>StartExecution</code> is called with the same name and input as a
-  /// running execution, the call will succeed and return the same response as
-  /// the original request. If the execution is closed or if the input is
-  /// different, it will return a <code>400 ExecutionAlreadyExists</code> error.
-  /// Names can be reused after 90 days.
+  /// workflows. For a <code>STANDARD</code> workflow, if you call
+  /// <code>StartExecution</code> with the same name and input as a running
+  /// execution, the call succeeds and return the same response as the original
+  /// request. If the execution is closed or if the input is different, it
+  /// returns a <code>400 ExecutionAlreadyExists</code> error. You can reuse
+  /// names after 90 days.
   ///
-  /// <code>StartExecution</code> is not idempotent for <code>EXPRESS</code>
+  /// <code>StartExecution</code> isn't idempotent for <code>EXPRESS</code>
   /// workflows.
   /// </note>
   ///
@@ -1141,6 +1899,44 @@ class SFN {
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine to execute.
   ///
+  /// The <code>stateMachineArn</code> parameter accepts one of the following
+  /// inputs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>An unqualified state machine ARN</b> – Refers to a state machine ARN
+  /// that isn't qualified with a version or alias ARN. The following is an
+  /// example of an unqualified state machine ARN.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  ///
+  /// Step Functions doesn't associate state machine executions that you start
+  /// with an unqualified ARN with a version. This is true even if that version
+  /// uses the same revision that the execution used.
+  /// </li>
+  /// <li>
+  /// <b>A state machine version ARN</b> – Refers to a version ARN, which is a
+  /// combination of state machine ARN and the version number separated by a
+  /// colon (:). The following is an example of the ARN for version 10.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;:10</code>
+  ///
+  /// Step Functions doesn't associate executions that you start with a version
+  /// ARN with any aliases that point to that version.
+  /// </li>
+  /// <li>
+  /// <b>A state machine alias ARN</b> – Refers to an alias ARN, which is a
+  /// combination of state machine ARN and the alias name separated by a colon
+  /// (:). The following is an example of the ARN for an alias named
+  /// <code>PROD</code>.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  ///
+  /// Step Functions associates executions that you start with an alias ARN with
+  /// that alias and the state machine version used for that execution.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [input] :
   /// The string that contains the JSON input data for the execution, for
   /// example:
@@ -1154,12 +1950,16 @@ class SFN {
   /// in UTF-8 encoding.
   ///
   /// Parameter [name] :
-  /// The name of the execution. This name must be unique for your Amazon Web
-  /// Services account, region, and state machine for 90 days. For more
+  /// Optional name of the execution. This name must be unique for your Amazon
+  /// Web Services account, Region, and state machine for 90 days. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions">
   /// Limits Related to State Machine Executions</a> in the <i>Step Functions
   /// Developer Guide</i>.
+  ///
+  /// If you don't provide a name for the execution, Step Functions
+  /// automatically generates a universally unique identifier (UUID) as the
+  /// execution name.
   ///
   /// A name must <i>not</i> contain:
   ///
@@ -1369,6 +2169,165 @@ class SFN {
     );
   }
 
+  /// Accepts the definition of a single state and executes it. You can test a
+  /// state without creating a state machine or updating an existing state
+  /// machine. Using this API, you can test the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// A state's <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-input-output-dataflow">input
+  /// and output processing</a> data flow
+  /// </li>
+  /// <li>
+  /// An <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-services.html">Amazon
+  /// Web Services service integration</a> request and response
+  /// </li>
+  /// <li>
+  /// An <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-third-party-apis.html">HTTP
+  /// Task</a> request and response
+  /// </li>
+  /// </ul>
+  /// You can call this API on only one state at a time. The states that you can
+  /// test include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-task-state.html#task-types">All
+  /// Task types</a> except <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-activities.html">Activity</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-pass-state.html">Pass</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-wait-state.html">Wait</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-choice-state.html">Choice</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-succeed-state.html">Succeed</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-fail-state.html">Fail</a>
+  /// </li>
+  /// </ul>
+  /// The <code>TestState</code> API assumes an IAM role which must contain the
+  /// required IAM permissions for the resources your state is accessing. For
+  /// information about the permissions a state might need, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions">IAM
+  /// permissions to test a state</a>.
+  ///
+  /// The <code>TestState</code> API can run for up to five minutes. If the
+  /// execution of a state exceeds this duration, it fails with the
+  /// <code>States.Timeout</code> error.
+  ///
+  /// <code>TestState</code> doesn't support <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-activities.html">Activity
+  /// tasks</a>, <code>.sync</code> or <code>.waitForTaskToken</code> <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html">service
+  /// integration patterns</a>, <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html">Parallel</a>,
+  /// or <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html">Map</a>
+  /// states.
+  ///
+  /// May throw [InvalidArn].
+  /// May throw [InvalidDefinition].
+  /// May throw [InvalidExecutionInput].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [definition] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+  /// States Language</a> (ASL) definition of the state.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the execution role with the required IAM
+  /// permissions for the state.
+  ///
+  /// Parameter [input] :
+  /// A string that contains the JSON input data for the state.
+  ///
+  /// Parameter [inspectionLevel] :
+  /// Determines the values to return when a state is tested. You can specify
+  /// one of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INFO</code>: Shows the final state output. By default, Step
+  /// Functions sets <code>inspectionLevel</code> to <code>INFO</code> if you
+  /// don't specify a level.
+  /// </li>
+  /// <li>
+  /// <code>DEBUG</code>: Shows the final state output along with the input and
+  /// output data processing result.
+  /// </li>
+  /// <li>
+  /// <code>TRACE</code>: Shows the HTTP request and response for an HTTP Task.
+  /// This level also shows the final state output along with the input and
+  /// output data processing result.
+  /// </li>
+  /// </ul>
+  /// Each of these levels also provide information about the status of the
+  /// state execution and the next state to transition to.
+  ///
+  /// Parameter [revealSecrets] :
+  /// Specifies whether or not to include secret information in the test result.
+  /// For HTTP Tasks, a secret includes the data that an EventBridge connection
+  /// adds to modify the HTTP request headers, query parameters, and body. Step
+  /// Functions doesn't omit any information included in the state definition or
+  /// the HTTP response.
+  ///
+  /// If you set <code>revealSecrets</code> to <code>true</code>, you must make
+  /// sure that the IAM user that calls the <code>TestState</code> API has
+  /// permission for the <code>states:RevealSecrets</code> action. For an
+  /// example of IAM policy that sets the <code>states:RevealSecrets</code>
+  /// permission, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions">IAM
+  /// permissions to test a state</a>. Without this permission, Step Functions
+  /// throws an access denied error.
+  ///
+  /// By default, <code>revealSecrets</code> is set to <code>false</code>.
+  Future<TestStateOutput> testState({
+    required String definition,
+    required String roleArn,
+    String? input,
+    InspectionLevel? inspectionLevel,
+    bool? revealSecrets,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.TestState'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'definition': definition,
+        'roleArn': roleArn,
+        if (input != null) 'input': input,
+        if (inspectionLevel != null)
+          'inspectionLevel': inspectionLevel.toValue(),
+        if (revealSecrets != null) 'revealSecrets': revealSecrets,
+      },
+    );
+
+    return TestStateOutput.fromJson(jsonResponse.body);
+  }
+
   /// Remove a tag from a Step Functions resource
   ///
   /// May throw [InvalidArn].
@@ -1472,9 +2431,6 @@ class SFN {
   /// include at least one of <code>definition</code> or <code>roleArn</code> or
   /// you will receive a <code>MissingRequiredParameter</code> error.
   ///
-  /// If the given state machine Amazon Resource Name (ARN) is a qualified state
-  /// machine ARN, it will fail with ValidationException.
-  ///
   /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
   /// defined within a state machine. For example, the qualified state machine
   /// ARN
@@ -1482,12 +2438,53 @@ class SFN {
   /// refers to a <i>Distributed Map state</i> with a label
   /// <code>mapStateLabel</code> in the state machine named
   /// <code>stateMachineName</code>.
+  ///
+  /// A qualified state machine ARN can either refer to a <i>Distributed Map
+  /// state</i> defined within a state machine, a version ARN, or an alias ARN.
+  ///
+  /// The following are some examples of qualified and unqualified state machine
+  /// ARNs:
+  ///
+  /// <ul>
+  /// <li>
+  /// The following qualified state machine ARN refers to a <i>Distributed Map
+  /// state</i> with a label <code>mapStateLabel</code> in a state machine named
+  /// <code>myStateMachine</code>.
+  ///
+  /// <code>arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel</code>
   /// <note>
-  /// All <code>StartExecution</code> calls within a few seconds will use the
-  /// updated <code>definition</code> and <code>roleArn</code>. Executions
-  /// started immediately after calling <code>UpdateStateMachine</code> may use
-  /// the previous state machine <code>definition</code> and
-  /// <code>roleArn</code>.
+  /// If you provide a qualified state machine ARN that refers to a
+  /// <i>Distributed Map state</i>, the request fails with
+  /// <code>ValidationException</code>.
+  /// </note> </li>
+  /// <li>
+  /// The following qualified state machine ARN refers to an alias named
+  /// <code>PROD</code>.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  /// <note>
+  /// If you provide a qualified state machine ARN that refers to a version ARN
+  /// or an alias ARN, the request starts execution for that version or alias.
+  /// </note> </li>
+  /// <li>
+  /// The following unqualified state machine ARN refers to a state machine
+  /// named <code>myStateMachine</code>.
+  ///
+  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  /// </li>
+  /// </ul>
+  /// After you update your state machine, you can set the <code>publish</code>
+  /// parameter to <code>true</code> in the same action to publish a new <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">version</a>.
+  /// This way, you can opt-in to strict versioning of your state machine.
+  /// <note>
+  /// Step Functions assigns monotonically increasing integers for state machine
+  /// versions, starting at version number 1.
+  /// </note> <note>
+  /// All <code>StartExecution</code> calls within a few seconds use the updated
+  /// <code>definition</code> and <code>roleArn</code>. Executions started
+  /// immediately after you call <code>UpdateStateMachine</code> may use the
+  /// previous state machine <code>definition</code> and <code>roleArn</code>.
   /// </note>
   ///
   /// May throw [InvalidArn].
@@ -1497,6 +2494,8 @@ class SFN {
   /// May throw [MissingRequiredParameter].
   /// May throw [StateMachineDeleting].
   /// May throw [StateMachineDoesNotExist].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineArn] :
@@ -1508,20 +2507,33 @@ class SFN {
   /// States Language</a>.
   ///
   /// Parameter [loggingConfiguration] :
-  /// The <code>LoggingConfiguration</code> data type is used to set CloudWatch
-  /// Logs options.
+  /// Use the <code>LoggingConfiguration</code> data type to set CloudWatch Logs
+  /// options.
+  ///
+  /// Parameter [publish] :
+  /// Specifies whether the state machine version is published. The default is
+  /// <code>false</code>. To publish a version after updating the state machine,
+  /// set <code>publish</code> to <code>true</code>.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
   ///
   /// Parameter [tracingConfiguration] :
   /// Selects whether X-Ray tracing is enabled.
+  ///
+  /// Parameter [versionDescription] :
+  /// An optional description of the state machine version to publish.
+  ///
+  /// You can only specify the <code>versionDescription</code> parameter if
+  /// you've set <code>publish</code> to <code>true</code>.
   Future<UpdateStateMachineOutput> updateStateMachine({
     required String stateMachineArn,
     String? definition,
     LoggingConfiguration? loggingConfiguration,
+    bool? publish,
     String? roleArn,
     TracingConfiguration? tracingConfiguration,
+    String? versionDescription,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1538,13 +2550,160 @@ class SFN {
         if (definition != null) 'definition': definition,
         if (loggingConfiguration != null)
           'loggingConfiguration': loggingConfiguration,
+        if (publish != null) 'publish': publish,
         if (roleArn != null) 'roleArn': roleArn,
         if (tracingConfiguration != null)
           'tracingConfiguration': tracingConfiguration,
+        if (versionDescription != null)
+          'versionDescription': versionDescription,
       },
     );
 
     return UpdateStateMachineOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the configuration of an existing state machine <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html">alias</a>
+  /// by modifying its <code>description</code> or
+  /// <code>routingConfiguration</code>.
+  ///
+  /// You must specify at least one of the <code>description</code> or
+  /// <code>routingConfiguration</code> parameters to update a state machine
+  /// alias.
+  /// <note>
+  /// <code>UpdateStateMachineAlias</code> is an idempotent API. Step Functions
+  /// bases the idempotency check on the <code>stateMachineAliasArn</code>,
+  /// <code>description</code>, and <code>routingConfiguration</code>
+  /// parameters. Requests with the same parameters return an idempotent
+  /// response.
+  /// </note> <note>
+  /// This operation is eventually consistent. All <a>StartExecution</a>
+  /// requests made within a few seconds use the latest alias configuration.
+  /// Executions started immediately after calling
+  /// <code>UpdateStateMachineAlias</code> may use the previous routing
+  /// configuration.
+  /// </note>
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeStateMachineAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>ListStateMachineAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteStateMachineAlias</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InvalidArn].
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  /// May throw [StateMachineDeleting].
+  ///
+  /// Parameter [stateMachineAliasArn] :
+  /// The Amazon Resource Name (ARN) of the state machine alias.
+  ///
+  /// Parameter [description] :
+  /// A description of the state machine alias.
+  ///
+  /// Parameter [routingConfiguration] :
+  /// The routing configuration of the state machine alias.
+  ///
+  /// An array of <code>RoutingConfig</code> objects that specifies up to two
+  /// state machine versions that the alias starts executions for.
+  Future<UpdateStateMachineAliasOutput> updateStateMachineAlias({
+    required String stateMachineAliasArn,
+    String? description,
+    List<RoutingConfigurationListItem>? routingConfiguration,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.UpdateStateMachineAlias'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineAliasArn': stateMachineAliasArn,
+        if (description != null) 'description': description,
+        if (routingConfiguration != null)
+          'routingConfiguration': routingConfiguration,
+      },
+    );
+
+    return UpdateStateMachineAliasOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Validates the syntax of a state machine definition.
+  ///
+  /// You can validate that a state machine definition is correct without
+  /// creating a state machine resource. Step Functions will implicitly perform
+  /// the same syntax check when you invoke <code>CreateStateMachine</code> and
+  /// <code>UpdateStateMachine</code>. State machine definitions are specified
+  /// using a JSON-based, structured language. For more information on Amazon
+  /// States Language see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+  /// States Language</a> (ASL).
+  ///
+  /// Suggested uses for <code>ValidateStateMachineDefinition</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// Integrate automated checks into your code review or Continuous Integration
+  /// (CI) process to validate state machine definitions before starting
+  /// deployments.
+  /// </li>
+  /// <li>
+  /// Run the validation from a Git pre-commit hook to check your state machine
+  /// definitions before committing them to your source repository.
+  /// </li>
+  /// </ul> <note>
+  /// Errors found in the state machine definition will be returned in the
+  /// response as a list of <b>diagnostic elements</b>, rather than raise an
+  /// exception.
+  /// </note>
+  ///
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [definition] :
+  /// The Amazon States Language definition of the state machine. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+  /// States Language</a> (ASL).
+  ///
+  /// Parameter [type] :
+  /// The target type of state machine for this definition. The default is
+  /// <code>STANDARD</code>.
+  Future<ValidateStateMachineDefinitionOutput> validateStateMachineDefinition({
+    required String definition,
+    StateMachineType? type,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.ValidateStateMachineDefinition'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'definition': definition,
+        if (type != null) 'type': type.toValue(),
+      },
+    );
+
+    return ValidateStateMachineDefinitionOutput.fromJson(jsonResponse.body);
   }
 }
 
@@ -1831,6 +2990,28 @@ class CreateActivityOutput {
   }
 }
 
+class CreateStateMachineAliasOutput {
+  /// The date the state machine alias was created.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) that identifies the created state machine
+  /// alias.
+  final String stateMachineAliasArn;
+
+  CreateStateMachineAliasOutput({
+    required this.creationDate,
+    required this.stateMachineAliasArn,
+  });
+
+  factory CreateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
+    return CreateStateMachineAliasOutput(
+      creationDate:
+          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      stateMachineAliasArn: json['stateMachineAliasArn'] as String,
+    );
+  }
+}
+
 class CreateStateMachineOutput {
   /// The date the state machine is created.
   final DateTime creationDate;
@@ -1838,9 +3019,15 @@ class CreateStateMachineOutput {
   /// The Amazon Resource Name (ARN) that identifies the created state machine.
   final String stateMachineArn;
 
+  /// The Amazon Resource Name (ARN) that identifies the created state machine
+  /// version. If you do not set the <code>publish</code> parameter to
+  /// <code>true</code>, this field returns null value.
+  final String? stateMachineVersionArn;
+
   CreateStateMachineOutput({
     required this.creationDate,
     required this.stateMachineArn,
+    this.stateMachineVersionArn,
   });
 
   factory CreateStateMachineOutput.fromJson(Map<String, dynamic> json) {
@@ -1848,6 +3035,7 @@ class CreateStateMachineOutput {
       creationDate:
           nonNullableTimeStampFromJson(json['creationDate'] as Object),
       stateMachineArn: json['stateMachineArn'] as String,
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
     );
   }
 }
@@ -1860,11 +3048,27 @@ class DeleteActivityOutput {
   }
 }
 
+class DeleteStateMachineAliasOutput {
+  DeleteStateMachineAliasOutput();
+
+  factory DeleteStateMachineAliasOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteStateMachineAliasOutput();
+  }
+}
+
 class DeleteStateMachineOutput {
   DeleteStateMachineOutput();
 
   factory DeleteStateMachineOutput.fromJson(Map<String, dynamic> _) {
     return DeleteStateMachineOutput();
+  }
+}
+
+class DeleteStateMachineVersionOutput {
+  DeleteStateMachineVersionOutput();
+
+  factory DeleteStateMachineVersionOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteStateMachineVersionOutput();
   }
 }
 
@@ -1979,7 +3183,108 @@ class DescribeExecutionOutput {
   final String? output;
   final CloudWatchEventsExecutionDataDetails? outputDetails;
 
-  /// If the execution has already ended, the date the execution stopped.
+  /// The number of times you've redriven an execution. If you have not yet
+  /// redriven an execution, the <code>redriveCount</code> is 0. This count is
+  /// only updated if you successfully redrive an execution.
+  final int? redriveCount;
+
+  /// The date the execution was last redriven. If you have not yet redriven an
+  /// execution, the <code>redriveDate</code> is null.
+  ///
+  /// The <code>redriveDate</code> is unavailable if you redrive a Map Run that
+  /// starts child workflow executions of type <code>EXPRESS</code>.
+  final DateTime? redriveDate;
+
+  /// Indicates whether or not an execution can be redriven at a given point in
+  /// time.
+  ///
+  /// <ul>
+  /// <li>
+  /// For executions of type <code>STANDARD</code>, <code>redriveStatus</code> is
+  /// <code>NOT_REDRIVABLE</code> if calling the <a>RedriveExecution</a> API
+  /// action would return the <code>ExecutionNotRedrivable</code> error.
+  /// </li>
+  /// <li>
+  /// For a Distributed Map that includes child workflows of type
+  /// <code>STANDARD</code>, <code>redriveStatus</code> indicates whether or not
+  /// the Map Run can redrive child workflow executions.
+  /// </li>
+  /// <li>
+  /// For a Distributed Map that includes child workflows of type
+  /// <code>EXPRESS</code>, <code>redriveStatus</code> indicates whether or not
+  /// the Map Run can redrive child workflow executions.
+  ///
+  /// You can redrive failed or timed out <code>EXPRESS</code> workflows <i>only
+  /// if</i> they're a part of a Map Run. When you <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html">redrive</a>
+  /// the Map Run, these workflows are restarted using the <a>StartExecution</a>
+  /// API action.
+  /// </li>
+  /// </ul>
+  final ExecutionRedriveStatus? redriveStatus;
+
+  /// When <code>redriveStatus</code> is <code>NOT_REDRIVABLE</code>,
+  /// <code>redriveStatusReason</code> specifies the reason why an execution
+  /// cannot be redriven.
+  ///
+  /// <ul>
+  /// <li>
+  /// For executions of type <code>STANDARD</code>, or for a Distributed Map that
+  /// includes child workflows of type <code>STANDARD</code>,
+  /// <code>redriveStatusReason</code> can include one of the following reasons:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>State machine is in DELETING status</code>.
+  /// </li>
+  /// <li>
+  /// <code>Execution is RUNNING and cannot be redriven</code>.
+  /// </li>
+  /// <li>
+  /// <code>Execution is SUCCEEDED and cannot be redriven</code>.
+  /// </li>
+  /// <li>
+  /// <code>Execution was started before the launch of RedriveExecution</code>.
+  /// </li>
+  /// <li>
+  /// <code>Execution history event limit exceeded</code>.
+  /// </li>
+  /// <li>
+  /// <code>Execution has exceeded the max execution time</code>.
+  /// </li>
+  /// <li>
+  /// <code>Execution redrivable period exceeded</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For a Distributed Map that includes child workflows of type
+  /// <code>EXPRESS</code>, <code>redriveStatusReason</code> is only returned if
+  /// the child workflows are not redrivable. This happens when the child workflow
+  /// executions have completed successfully.
+  /// </li>
+  /// </ul>
+  final String? redriveStatusReason;
+
+  /// The Amazon Resource Name (ARN) of the state machine alias associated with
+  /// the execution. The alias ARN is a combination of state machine ARN and the
+  /// alias name separated by a colon (:). For example,
+  /// <code>stateMachineARN:PROD</code>.
+  ///
+  /// If you start an execution from a <code>StartExecution</code> request with a
+  /// state machine version ARN, this field will be null.
+  final String? stateMachineAliasArn;
+
+  /// The Amazon Resource Name (ARN) of the state machine version associated with
+  /// the execution. The version ARN is a combination of state machine ARN and the
+  /// version number separated by a colon (:). For example,
+  /// <code>stateMachineARN:1</code>.
+  ///
+  /// If you start an execution from a <code>StartExecution</code> request without
+  /// specifying a state machine version or alias ARN, Step Functions returns a
+  /// null value.
+  final String? stateMachineVersionArn;
+
+  /// If the execution ended, the date the execution stopped.
   final DateTime? stopDate;
 
   /// The X-Ray trace header that was passed to the execution.
@@ -1998,6 +3303,12 @@ class DescribeExecutionOutput {
     this.name,
     this.output,
     this.outputDetails,
+    this.redriveCount,
+    this.redriveDate,
+    this.redriveStatus,
+    this.redriveStatusReason,
+    this.stateMachineAliasArn,
+    this.stateMachineVersionArn,
     this.stopDate,
     this.traceHeader,
   });
@@ -2022,6 +3333,13 @@ class DescribeExecutionOutput {
           ? CloudWatchEventsExecutionDataDetails.fromJson(
               json['outputDetails'] as Map<String, dynamic>)
           : null,
+      redriveCount: json['redriveCount'] as int?,
+      redriveDate: timeStampFromJson(json['redriveDate']),
+      redriveStatus:
+          (json['redriveStatus'] as String?)?.toExecutionRedriveStatus(),
+      redriveStatusReason: json['redriveStatusReason'] as String?,
+      stateMachineAliasArn: json['stateMachineAliasArn'] as String?,
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
       stopDate: timeStampFromJson(json['stopDate']),
       traceHeader: json['traceHeader'] as String?,
     );
@@ -2065,6 +3383,15 @@ class DescribeMapRunOutput {
   /// Run fails.
   final double toleratedFailurePercentage;
 
+  /// The number of times you've redriven a Map Run. If you have not yet redriven
+  /// a Map Run, the <code>redriveCount</code> is 0. This count is only updated if
+  /// you successfully redrive a Map Run.
+  final int? redriveCount;
+
+  /// The date a Map Run was last redriven. If you have not yet redriven a Map
+  /// Run, the <code>redriveDate</code> is null.
+  final DateTime? redriveDate;
+
   /// The date when the Map Run was stopped.
   final DateTime? stopDate;
 
@@ -2078,6 +3405,8 @@ class DescribeMapRunOutput {
     required this.status,
     required this.toleratedFailureCount,
     required this.toleratedFailurePercentage,
+    this.redriveCount,
+    this.redriveDate,
     this.stopDate,
   });
 
@@ -2094,7 +3423,55 @@ class DescribeMapRunOutput {
       status: (json['status'] as String).toMapRunStatus(),
       toleratedFailureCount: json['toleratedFailureCount'] as int,
       toleratedFailurePercentage: json['toleratedFailurePercentage'] as double,
+      redriveCount: json['redriveCount'] as int?,
+      redriveDate: timeStampFromJson(json['redriveDate']),
       stopDate: timeStampFromJson(json['stopDate']),
+    );
+  }
+}
+
+class DescribeStateMachineAliasOutput {
+  /// The date the state machine alias was created.
+  final DateTime? creationDate;
+
+  /// A description of the alias.
+  final String? description;
+
+  /// The name of the state machine alias.
+  final String? name;
+
+  /// The routing configuration of the alias.
+  final List<RoutingConfigurationListItem>? routingConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the state machine alias.
+  final String? stateMachineAliasArn;
+
+  /// The date the state machine alias was last updated.
+  ///
+  /// For a newly created state machine, this is the same as the creation date.
+  final DateTime? updateDate;
+
+  DescribeStateMachineAliasOutput({
+    this.creationDate,
+    this.description,
+    this.name,
+    this.routingConfiguration,
+    this.stateMachineAliasArn,
+    this.updateDate,
+  });
+
+  factory DescribeStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStateMachineAliasOutput(
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      routingConfiguration: (json['routingConfiguration'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RoutingConfigurationListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stateMachineAliasArn: json['stateMachineAliasArn'] as String?,
+      updateDate: timeStampFromJson(json['updateDate']),
     );
   }
 }
@@ -2133,6 +3510,15 @@ class DescribeStateMachineForExecutionOutput {
   /// a Distributed Map state.
   final String? mapRunArn;
 
+  /// The revision identifier for the state machine. The first revision ID when
+  /// you create the state machine is null.
+  ///
+  /// Use the state machine <code>revisionId</code> parameter to compare the
+  /// revision of a state machine with the configuration of the state machine used
+  /// for executions without performing a diff of the properties, such as
+  /// <code>definition</code> and <code>roleArn</code>.
+  final String? revisionId;
+
   /// Selects whether X-Ray tracing is enabled.
   final TracingConfiguration? tracingConfiguration;
 
@@ -2145,6 +3531,7 @@ class DescribeStateMachineForExecutionOutput {
     this.label,
     this.loggingConfiguration,
     this.mapRunArn,
+    this.revisionId,
     this.tracingConfiguration,
   });
 
@@ -2162,6 +3549,7 @@ class DescribeStateMachineForExecutionOutput {
               json['loggingConfiguration'] as Map<String, dynamic>)
           : null,
       mapRunArn: json['mapRunArn'] as String?,
+      revisionId: json['revisionId'] as String?,
       tracingConfiguration: json['tracingConfiguration'] != null
           ? TracingConfiguration.fromJson(
               json['tracingConfiguration'] as Map<String, dynamic>)
@@ -2172,6 +3560,9 @@ class DescribeStateMachineForExecutionOutput {
 
 class DescribeStateMachineOutput {
   /// The date the state machine is created.
+  ///
+  /// For a state machine version, <code>creationDate</code> is the date the
+  /// version was created.
   final DateTime creationDate;
 
   /// The Amazon States Language definition of the state machine. See <a
@@ -2210,11 +3601,19 @@ class DescribeStateMachineOutput {
   final String roleArn;
 
   /// The Amazon Resource Name (ARN) that identifies the state machine.
+  ///
+  /// If you specified a state machine version ARN in your request, the API
+  /// returns the version ARN. The version ARN is a combination of state machine
+  /// ARN and the version number separated by a colon (:). For example,
+  /// <code>stateMachineARN:1</code>.
   final String stateMachineArn;
 
   /// The <code>type</code> of the state machine (<code>STANDARD</code> or
   /// <code>EXPRESS</code>).
   final StateMachineType type;
+
+  /// The description of the state machine version.
+  final String? description;
 
   /// A user-defined or an auto-generated string that identifies a
   /// <code>Map</code> state. This parameter is present only if the
@@ -2222,6 +3621,13 @@ class DescribeStateMachineOutput {
   /// ARN.
   final String? label;
   final LoggingConfiguration? loggingConfiguration;
+
+  /// The revision identifier for the state machine.
+  ///
+  /// Use the <code>revisionId</code> parameter to compare between versions of a
+  /// state machine configuration used for executions without performing a diff of
+  /// the properties, such as <code>definition</code> and <code>roleArn</code>.
+  final String? revisionId;
 
   /// The current status of the state machine.
   final StateMachineStatus? status;
@@ -2236,8 +3642,10 @@ class DescribeStateMachineOutput {
     required this.roleArn,
     required this.stateMachineArn,
     required this.type,
+    this.description,
     this.label,
     this.loggingConfiguration,
+    this.revisionId,
     this.status,
     this.tracingConfiguration,
   });
@@ -2251,11 +3659,13 @@ class DescribeStateMachineOutput {
       roleArn: json['roleArn'] as String,
       stateMachineArn: json['stateMachineArn'] as String,
       type: (json['type'] as String).toStateMachineType(),
+      description: json['description'] as String?,
       label: json['label'] as String?,
       loggingConfiguration: json['loggingConfiguration'] != null
           ? LoggingConfiguration.fromJson(
               json['loggingConfiguration'] as Map<String, dynamic>)
           : null,
+      revisionId: json['revisionId'] as String?,
       status: (json['status'] as String?)?.toStateMachineStatus(),
       tracingConfiguration: json['tracingConfiguration'] != null
           ? TracingConfiguration.fromJson(
@@ -2340,7 +3750,7 @@ class ExecutionListItem {
   /// The date the execution started.
   final DateTime startDate;
 
-  /// The Amazon Resource Name (ARN) of the executed state machine.
+  /// The Amazon Resource Name (ARN) of the state machine that ran the execution.
   final String stateMachineArn;
 
   /// The current status of the execution.
@@ -2359,6 +3769,33 @@ class ExecutionListItem {
   /// <code>ListExecutions</code>, the <code>mapRunArn</code> isn't returned.
   final String? mapRunArn;
 
+  /// The number of times you've redriven an execution. If you have not yet
+  /// redriven an execution, the <code>redriveCount</code> is 0. This count is
+  /// only updated when you successfully redrive an execution.
+  final int? redriveCount;
+
+  /// The date the execution was last redriven.
+  final DateTime? redriveDate;
+
+  /// The Amazon Resource Name (ARN) of the state machine alias used to start an
+  /// execution.
+  ///
+  /// If the state machine execution was started with an unqualified ARN or a
+  /// version ARN, it returns null.
+  final String? stateMachineAliasArn;
+
+  /// The Amazon Resource Name (ARN) of the state machine version associated with
+  /// the execution.
+  ///
+  /// If the state machine execution was started with an unqualified ARN, it
+  /// returns null.
+  ///
+  /// If the execution was started using a <code>stateMachineAliasArn</code>, both
+  /// the <code>stateMachineAliasArn</code> and
+  /// <code>stateMachineVersionArn</code> parameters contain the respective
+  /// values.
+  final String? stateMachineVersionArn;
+
   /// If the execution already ended, the date the execution stopped.
   final DateTime? stopDate;
 
@@ -2370,6 +3807,10 @@ class ExecutionListItem {
     required this.status,
     this.itemCount,
     this.mapRunArn,
+    this.redriveCount,
+    this.redriveDate,
+    this.stateMachineAliasArn,
+    this.stateMachineVersionArn,
     this.stopDate,
   });
 
@@ -2382,7 +3823,90 @@ class ExecutionListItem {
       status: (json['status'] as String).toExecutionStatus(),
       itemCount: json['itemCount'] as int?,
       mapRunArn: json['mapRunArn'] as String?,
+      redriveCount: json['redriveCount'] as int?,
+      redriveDate: timeStampFromJson(json['redriveDate']),
+      stateMachineAliasArn: json['stateMachineAliasArn'] as String?,
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
       stopDate: timeStampFromJson(json['stopDate']),
+    );
+  }
+}
+
+enum ExecutionRedriveFilter {
+  redriven,
+  notRedriven,
+}
+
+extension ExecutionRedriveFilterValueExtension on ExecutionRedriveFilter {
+  String toValue() {
+    switch (this) {
+      case ExecutionRedriveFilter.redriven:
+        return 'REDRIVEN';
+      case ExecutionRedriveFilter.notRedriven:
+        return 'NOT_REDRIVEN';
+    }
+  }
+}
+
+extension ExecutionRedriveFilterFromString on String {
+  ExecutionRedriveFilter toExecutionRedriveFilter() {
+    switch (this) {
+      case 'REDRIVEN':
+        return ExecutionRedriveFilter.redriven;
+      case 'NOT_REDRIVEN':
+        return ExecutionRedriveFilter.notRedriven;
+    }
+    throw Exception('$this is not known in enum ExecutionRedriveFilter');
+  }
+}
+
+enum ExecutionRedriveStatus {
+  redrivable,
+  notRedrivable,
+  redrivableByMapRun,
+}
+
+extension ExecutionRedriveStatusValueExtension on ExecutionRedriveStatus {
+  String toValue() {
+    switch (this) {
+      case ExecutionRedriveStatus.redrivable:
+        return 'REDRIVABLE';
+      case ExecutionRedriveStatus.notRedrivable:
+        return 'NOT_REDRIVABLE';
+      case ExecutionRedriveStatus.redrivableByMapRun:
+        return 'REDRIVABLE_BY_MAP_RUN';
+    }
+  }
+}
+
+extension ExecutionRedriveStatusFromString on String {
+  ExecutionRedriveStatus toExecutionRedriveStatus() {
+    switch (this) {
+      case 'REDRIVABLE':
+        return ExecutionRedriveStatus.redrivable;
+      case 'NOT_REDRIVABLE':
+        return ExecutionRedriveStatus.notRedrivable;
+      case 'REDRIVABLE_BY_MAP_RUN':
+        return ExecutionRedriveStatus.redrivableByMapRun;
+    }
+    throw Exception('$this is not known in enum ExecutionRedriveStatus');
+  }
+}
+
+/// Contains details about a redriven execution.
+class ExecutionRedrivenEventDetails {
+  /// The number of times you've redriven an execution. If you have not yet
+  /// redriven an execution, the <code>redriveCount</code> is 0. This count is not
+  /// updated for redrives that failed to start or are pending to be redriven.
+  final int? redriveCount;
+
+  ExecutionRedrivenEventDetails({
+    this.redriveCount,
+  });
+
+  factory ExecutionRedrivenEventDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionRedrivenEventDetails(
+      redriveCount: json['redriveCount'] as int?,
     );
   }
 }
@@ -2400,10 +3924,20 @@ class ExecutionStartedEventDetails {
   /// tasks.
   final String? roleArn;
 
+  /// The Amazon Resource Name (ARN) that identifies a state machine alias used
+  /// for starting the state machine execution.
+  final String? stateMachineAliasArn;
+
+  /// The Amazon Resource Name (ARN) that identifies a state machine version used
+  /// for starting the state machine execution.
+  final String? stateMachineVersionArn;
+
   ExecutionStartedEventDetails({
     this.input,
     this.inputDetails,
     this.roleArn,
+    this.stateMachineAliasArn,
+    this.stateMachineVersionArn,
   });
 
   factory ExecutionStartedEventDetails.fromJson(Map<String, dynamic> json) {
@@ -2414,6 +3948,8 @@ class ExecutionStartedEventDetails {
               json['inputDetails'] as Map<String, dynamic>)
           : null,
       roleArn: json['roleArn'] as String?,
+      stateMachineAliasArn: json['stateMachineAliasArn'] as String?,
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
     );
   }
 }
@@ -2424,6 +3960,7 @@ enum ExecutionStatus {
   failed,
   timedOut,
   aborted,
+  pendingRedrive,
 }
 
 extension ExecutionStatusValueExtension on ExecutionStatus {
@@ -2439,6 +3976,8 @@ extension ExecutionStatusValueExtension on ExecutionStatus {
         return 'TIMED_OUT';
       case ExecutionStatus.aborted:
         return 'ABORTED';
+      case ExecutionStatus.pendingRedrive:
+        return 'PENDING_REDRIVE';
     }
   }
 }
@@ -2456,6 +3995,8 @@ extension ExecutionStatusFromString on String {
         return ExecutionStatus.timedOut;
       case 'ABORTED':
         return ExecutionStatus.aborted;
+      case 'PENDING_REDRIVE':
+        return ExecutionStatus.pendingRedrive;
     }
     throw Exception('$this is not known in enum ExecutionStatus');
   }
@@ -2582,6 +4123,9 @@ class HistoryEvent {
   final ActivityTimedOutEventDetails? activityTimedOutEventDetails;
   final ExecutionAbortedEventDetails? executionAbortedEventDetails;
   final ExecutionFailedEventDetails? executionFailedEventDetails;
+
+  /// Contains details about the redrive attempt of an execution.
+  final ExecutionRedrivenEventDetails? executionRedrivenEventDetails;
   final ExecutionStartedEventDetails? executionStartedEventDetails;
   final ExecutionSucceededEventDetails? executionSucceededEventDetails;
   final ExecutionTimedOutEventDetails? executionTimedOutEventDetails;
@@ -2616,6 +4160,9 @@ class HistoryEvent {
 
   /// Contains error and cause details about a Map Run that failed.
   final MapRunFailedEventDetails? mapRunFailedEventDetails;
+
+  /// Contains details about the redrive attempt of a Map Run.
+  final MapRunRedrivenEventDetails? mapRunRedrivenEventDetails;
 
   /// Contains details, such as <code>mapRunArn</code>, and the start date and
   /// time of a Map Run. <code>mapRunArn</code> is the Amazon Resource Name (ARN)
@@ -2666,6 +4213,7 @@ class HistoryEvent {
     this.activityTimedOutEventDetails,
     this.executionAbortedEventDetails,
     this.executionFailedEventDetails,
+    this.executionRedrivenEventDetails,
     this.executionStartedEventDetails,
     this.executionSucceededEventDetails,
     this.executionTimedOutEventDetails,
@@ -2680,6 +4228,7 @@ class HistoryEvent {
     this.mapIterationStartedEventDetails,
     this.mapIterationSucceededEventDetails,
     this.mapRunFailedEventDetails,
+    this.mapRunRedrivenEventDetails,
     this.mapRunStartedEventDetails,
     this.mapStateStartedEventDetails,
     this.previousEventId,
@@ -2736,6 +4285,11 @@ class HistoryEvent {
           ? ExecutionFailedEventDetails.fromJson(
               json['executionFailedEventDetails'] as Map<String, dynamic>)
           : null,
+      executionRedrivenEventDetails:
+          json['executionRedrivenEventDetails'] != null
+              ? ExecutionRedrivenEventDetails.fromJson(
+                  json['executionRedrivenEventDetails'] as Map<String, dynamic>)
+              : null,
       executionStartedEventDetails: json['executionStartedEventDetails'] != null
           ? ExecutionStartedEventDetails.fromJson(
               json['executionStartedEventDetails'] as Map<String, dynamic>)
@@ -2812,6 +4366,10 @@ class HistoryEvent {
       mapRunFailedEventDetails: json['mapRunFailedEventDetails'] != null
           ? MapRunFailedEventDetails.fromJson(
               json['mapRunFailedEventDetails'] as Map<String, dynamic>)
+          : null,
+      mapRunRedrivenEventDetails: json['mapRunRedrivenEventDetails'] != null
+          ? MapRunRedrivenEventDetails.fromJson(
+              json['mapRunRedrivenEventDetails'] as Map<String, dynamic>)
           : null,
       mapRunStartedEventDetails: json['mapRunStartedEventDetails'] != null
           ? MapRunStartedEventDetails.fromJson(
@@ -2943,6 +4501,8 @@ enum HistoryEventType {
   mapRunFailed,
   mapRunStarted,
   mapRunSucceeded,
+  executionRedriven,
+  mapRunRedriven,
 }
 
 extension HistoryEventTypeValueExtension on HistoryEventType {
@@ -3066,6 +4626,10 @@ extension HistoryEventTypeValueExtension on HistoryEventType {
         return 'MapRunStarted';
       case HistoryEventType.mapRunSucceeded:
         return 'MapRunSucceeded';
+      case HistoryEventType.executionRedriven:
+        return 'ExecutionRedriven';
+      case HistoryEventType.mapRunRedriven:
+        return 'MapRunRedriven';
     }
   }
 }
@@ -3191,8 +4755,188 @@ extension HistoryEventTypeFromString on String {
         return HistoryEventType.mapRunStarted;
       case 'MapRunSucceeded':
         return HistoryEventType.mapRunSucceeded;
+      case 'ExecutionRedriven':
+        return HistoryEventType.executionRedriven;
+      case 'MapRunRedriven':
+        return HistoryEventType.mapRunRedriven;
     }
     throw Exception('$this is not known in enum HistoryEventType');
+  }
+}
+
+/// Contains additional details about the state's execution, including its input
+/// and output data processing flow, and HTTP request and response information.
+class InspectionData {
+  /// The input after Step Functions applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath">InputPath</a>
+  /// filter.
+  final String? afterInputPath;
+
+  /// The effective input after Step Functions applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters">Parameters</a>
+  /// filter.
+  final String? afterParameters;
+
+  /// The effective result combined with the raw state input after Step Functions
+  /// applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html">ResultPath</a>
+  /// filter.
+  final String? afterResultPath;
+
+  /// The effective result after Step Functions applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector">ResultSelector</a>
+  /// filter.
+  final String? afterResultSelector;
+
+  /// The raw state input.
+  final String? input;
+
+  /// The raw HTTP request that is sent when you test an HTTP Task.
+  final InspectionDataRequest? request;
+
+  /// The raw HTTP response that is returned when you test an HTTP Task.
+  final InspectionDataResponse? response;
+
+  /// The state's raw result.
+  final String? result;
+
+  InspectionData({
+    this.afterInputPath,
+    this.afterParameters,
+    this.afterResultPath,
+    this.afterResultSelector,
+    this.input,
+    this.request,
+    this.response,
+    this.result,
+  });
+
+  factory InspectionData.fromJson(Map<String, dynamic> json) {
+    return InspectionData(
+      afterInputPath: json['afterInputPath'] as String?,
+      afterParameters: json['afterParameters'] as String?,
+      afterResultPath: json['afterResultPath'] as String?,
+      afterResultSelector: json['afterResultSelector'] as String?,
+      input: json['input'] as String?,
+      request: json['request'] != null
+          ? InspectionDataRequest.fromJson(
+              json['request'] as Map<String, dynamic>)
+          : null,
+      response: json['response'] != null
+          ? InspectionDataResponse.fromJson(
+              json['response'] as Map<String, dynamic>)
+          : null,
+      result: json['result'] as String?,
+    );
+  }
+}
+
+/// Contains additional details about the state's execution, including its input
+/// and output data processing flow, and HTTP request information.
+class InspectionDataRequest {
+  /// The request body for the HTTP request.
+  final String? body;
+
+  /// The request headers associated with the HTTP request.
+  final String? headers;
+
+  /// The HTTP method used for the HTTP request.
+  final String? method;
+
+  /// The protocol used to make the HTTP request.
+  final String? protocol;
+
+  /// The API endpoint used for the HTTP request.
+  final String? url;
+
+  InspectionDataRequest({
+    this.body,
+    this.headers,
+    this.method,
+    this.protocol,
+    this.url,
+  });
+
+  factory InspectionDataRequest.fromJson(Map<String, dynamic> json) {
+    return InspectionDataRequest(
+      body: json['body'] as String?,
+      headers: json['headers'] as String?,
+      method: json['method'] as String?,
+      protocol: json['protocol'] as String?,
+      url: json['url'] as String?,
+    );
+  }
+}
+
+/// Contains additional details about the state's execution, including its input
+/// and output data processing flow, and HTTP response information. The
+/// <code>inspectionLevel</code> request parameter specifies which details are
+/// returned.
+class InspectionDataResponse {
+  /// The HTTP response returned.
+  final String? body;
+
+  /// The response headers associated with the HTTP response.
+  final String? headers;
+
+  /// The protocol used to return the HTTP response.
+  final String? protocol;
+
+  /// The HTTP response status code for the HTTP response.
+  final String? statusCode;
+
+  /// The message associated with the HTTP status code.
+  final String? statusMessage;
+
+  InspectionDataResponse({
+    this.body,
+    this.headers,
+    this.protocol,
+    this.statusCode,
+    this.statusMessage,
+  });
+
+  factory InspectionDataResponse.fromJson(Map<String, dynamic> json) {
+    return InspectionDataResponse(
+      body: json['body'] as String?,
+      headers: json['headers'] as String?,
+      protocol: json['protocol'] as String?,
+      statusCode: json['statusCode'] as String?,
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+}
+
+enum InspectionLevel {
+  info,
+  debug,
+  trace,
+}
+
+extension InspectionLevelValueExtension on InspectionLevel {
+  String toValue() {
+    switch (this) {
+      case InspectionLevel.info:
+        return 'INFO';
+      case InspectionLevel.debug:
+        return 'DEBUG';
+      case InspectionLevel.trace:
+        return 'TRACE';
+    }
+  }
+}
+
+extension InspectionLevelFromString on String {
+  InspectionLevel toInspectionLevel() {
+    switch (this) {
+      case 'INFO':
+        return InspectionLevel.info;
+      case 'DEBUG':
+        return InspectionLevel.debug;
+      case 'TRACE':
+        return InspectionLevel.trace;
+    }
+    throw Exception('$this is not known in enum InspectionLevel');
   }
 }
 
@@ -3443,6 +5187,64 @@ class ListMapRunsOutput {
   }
 }
 
+class ListStateMachineAliasesOutput {
+  /// Aliases for the state machine.
+  final List<StateMachineAliasListItem> stateMachineAliases;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListStateMachineAliasesOutput({
+    required this.stateMachineAliases,
+    this.nextToken,
+  });
+
+  factory ListStateMachineAliasesOutput.fromJson(Map<String, dynamic> json) {
+    return ListStateMachineAliasesOutput(
+      stateMachineAliases: (json['stateMachineAliases'] as List)
+          .whereNotNull()
+          .map((e) =>
+              StateMachineAliasListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class ListStateMachineVersionsOutput {
+  /// Versions for the state machine.
+  final List<StateMachineVersionListItem> stateMachineVersions;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListStateMachineVersionsOutput({
+    required this.stateMachineVersions,
+    this.nextToken,
+  });
+
+  factory ListStateMachineVersionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStateMachineVersionsOutput(
+      stateMachineVersions: (json['stateMachineVersions'] as List)
+          .whereNotNull()
+          .map((e) =>
+              StateMachineVersionListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
 class ListStateMachinesOutput {
   final List<StateMachineListItem> stateMachines;
 
@@ -3659,6 +5461,20 @@ class MapRunExecutionCounts {
   /// Run.
   final int total;
 
+  /// The number of <code>FAILED</code>, <code>ABORTED</code>, or
+  /// <code>TIMED_OUT</code> child workflow executions that cannot be redriven
+  /// because their execution status is terminal. For example, child workflows
+  /// with an execution status of <code>FAILED</code>, <code>ABORTED</code>, or
+  /// <code>TIMED_OUT</code> and a <code>redriveStatus</code> of
+  /// <code>NOT_REDRIVABLE</code>.
+  final int? failuresNotRedrivable;
+
+  /// The number of unsuccessful child workflow executions currently waiting to be
+  /// redriven. The status of these child workflow executions could be
+  /// <code>FAILED</code>, <code>ABORTED</code>, or <code>TIMED_OUT</code> in the
+  /// original execution attempt or a previous redrive attempt.
+  final int? pendingRedrive;
+
   MapRunExecutionCounts({
     required this.aborted,
     required this.failed,
@@ -3668,6 +5484,8 @@ class MapRunExecutionCounts {
     required this.succeeded,
     required this.timedOut,
     required this.total,
+    this.failuresNotRedrivable,
+    this.pendingRedrive,
   });
 
   factory MapRunExecutionCounts.fromJson(Map<String, dynamic> json) {
@@ -3680,6 +5498,8 @@ class MapRunExecutionCounts {
       succeeded: json['succeeded'] as int,
       timedOut: json['timedOut'] as int,
       total: json['total'] as int,
+      failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
+      pendingRedrive: json['pendingRedrive'] as int?,
     );
   }
 }
@@ -3743,6 +5563,18 @@ class MapRunItemCounts {
   /// started by a Map Run.
   final int total;
 
+  /// The number of <code>FAILED</code>, <code>ABORTED</code>, or
+  /// <code>TIMED_OUT</code> items in child workflow executions that cannot be
+  /// redriven because the execution status of those child workflows is terminal.
+  /// For example, child workflows with an execution status of
+  /// <code>FAILED</code>, <code>ABORTED</code>, or <code>TIMED_OUT</code> and a
+  /// <code>redriveStatus</code> of <code>NOT_REDRIVABLE</code>.
+  final int? failuresNotRedrivable;
+
+  /// The number of unsuccessful items in child workflow executions currently
+  /// waiting to be redriven.
+  final int? pendingRedrive;
+
   MapRunItemCounts({
     required this.aborted,
     required this.failed,
@@ -3752,6 +5584,8 @@ class MapRunItemCounts {
     required this.succeeded,
     required this.timedOut,
     required this.total,
+    this.failuresNotRedrivable,
+    this.pendingRedrive,
   });
 
   factory MapRunItemCounts.fromJson(Map<String, dynamic> json) {
@@ -3764,6 +5598,8 @@ class MapRunItemCounts {
       succeeded: json['succeeded'] as int,
       timedOut: json['timedOut'] as int,
       total: json['total'] as int,
+      failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
+      pendingRedrive: json['pendingRedrive'] as int?,
     );
   }
 }
@@ -3801,6 +5637,29 @@ class MapRunListItem {
       startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
       stateMachineArn: json['stateMachineArn'] as String,
       stopDate: timeStampFromJson(json['stopDate']),
+    );
+  }
+}
+
+/// Contains details about a Map Run that was redriven.
+class MapRunRedrivenEventDetails {
+  /// The Amazon Resource Name (ARN) of a Map Run that was redriven.
+  final String? mapRunArn;
+
+  /// The number of times the Map Run has been redriven at this point in the
+  /// execution's history including this event. The redrive count for a redriven
+  /// Map Run is always greater than 0.
+  final int? redriveCount;
+
+  MapRunRedrivenEventDetails({
+    this.mapRunArn,
+    this.redriveCount,
+  });
+
+  factory MapRunRedrivenEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapRunRedrivenEventDetails(
+      mapRunArn: json['mapRunArn'] as String?,
+      redriveCount: json['redriveCount'] as int?,
     );
   }
 }
@@ -3873,6 +5732,81 @@ class MapStateStartedEventDetails {
     return MapStateStartedEventDetails(
       length: json['length'] as int?,
     );
+  }
+}
+
+class PublishStateMachineVersionOutput {
+  /// The date the version was created.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) (ARN) that identifies the state machine
+  /// version.
+  final String stateMachineVersionArn;
+
+  PublishStateMachineVersionOutput({
+    required this.creationDate,
+    required this.stateMachineVersionArn,
+  });
+
+  factory PublishStateMachineVersionOutput.fromJson(Map<String, dynamic> json) {
+    return PublishStateMachineVersionOutput(
+      creationDate:
+          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String,
+    );
+  }
+}
+
+class RedriveExecutionOutput {
+  /// The date the execution was last redriven.
+  final DateTime redriveDate;
+
+  RedriveExecutionOutput({
+    required this.redriveDate,
+  });
+
+  factory RedriveExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return RedriveExecutionOutput(
+      redriveDate: nonNullableTimeStampFromJson(json['redriveDate'] as Object),
+    );
+  }
+}
+
+/// Contains details about the routing configuration of a state machine alias.
+/// In a routing configuration, you define an array of objects that specify up
+/// to two state machine versions. You also specify the percentage of traffic to
+/// be routed to each version.
+class RoutingConfigurationListItem {
+  /// The Amazon Resource Name (ARN) that identifies one or two state machine
+  /// versions defined in the routing configuration.
+  ///
+  /// If you specify the ARN of a second version, it must belong to the same state
+  /// machine as the first version.
+  final String stateMachineVersionArn;
+
+  /// The percentage of traffic you want to route to a state machine version. The
+  /// sum of the weights in the routing configuration must be equal to 100.
+  final int weight;
+
+  RoutingConfigurationListItem({
+    required this.stateMachineVersionArn,
+    required this.weight,
+  });
+
+  factory RoutingConfigurationListItem.fromJson(Map<String, dynamic> json) {
+    return RoutingConfigurationListItem(
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String,
+      weight: json['weight'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stateMachineVersionArn = this.stateMachineVersionArn;
+    final weight = this.weight;
+    return {
+      'stateMachineVersionArn': stateMachineVersionArn,
+      'weight': weight,
+    };
   }
 }
 
@@ -4096,6 +6030,30 @@ class StateExitedEventDetails {
   }
 }
 
+/// Contains details about a specific state machine alias.
+class StateMachineAliasListItem {
+  /// The creation date of a state machine alias.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) that identifies a state machine alias. The
+  /// alias ARN is a combination of state machine ARN and the alias name separated
+  /// by a colon (:). For example, <code>stateMachineARN:PROD</code>.
+  final String stateMachineAliasArn;
+
+  StateMachineAliasListItem({
+    required this.creationDate,
+    required this.stateMachineAliasArn,
+  });
+
+  factory StateMachineAliasListItem.fromJson(Map<String, dynamic> json) {
+    return StateMachineAliasListItem(
+      creationDate:
+          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      stateMachineAliasArn: json['stateMachineAliasArn'] as String,
+    );
+  }
+}
+
 /// Contains details about the state machine.
 class StateMachineListItem {
   /// The date the state machine is created.
@@ -4203,6 +6161,30 @@ extension StateMachineTypeFromString on String {
         return StateMachineType.express;
     }
     throw Exception('$this is not known in enum StateMachineType');
+  }
+}
+
+/// Contains details about a specific state machine version.
+class StateMachineVersionListItem {
+  /// The creation date of a state machine version.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) that identifies a state machine version. The
+  /// version ARN is a combination of state machine ARN and the version number
+  /// separated by a colon (:). For example, <code>stateMachineARN:1</code>.
+  final String stateMachineVersionArn;
+
+  StateMachineVersionListItem({
+    required this.creationDate,
+    required this.stateMachineVersionArn,
+  });
+
+  factory StateMachineVersionListItem.fromJson(Map<String, dynamic> json) {
+    return StateMachineVersionListItem(
+      creationDate:
+          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String,
+    );
   }
 }
 
@@ -4587,6 +6569,94 @@ class TaskTimedOutEventDetails {
   }
 }
 
+enum TestExecutionStatus {
+  succeeded,
+  failed,
+  retriable,
+  caughtError,
+}
+
+extension TestExecutionStatusValueExtension on TestExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case TestExecutionStatus.succeeded:
+        return 'SUCCEEDED';
+      case TestExecutionStatus.failed:
+        return 'FAILED';
+      case TestExecutionStatus.retriable:
+        return 'RETRIABLE';
+      case TestExecutionStatus.caughtError:
+        return 'CAUGHT_ERROR';
+    }
+  }
+}
+
+extension TestExecutionStatusFromString on String {
+  TestExecutionStatus toTestExecutionStatus() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return TestExecutionStatus.succeeded;
+      case 'FAILED':
+        return TestExecutionStatus.failed;
+      case 'RETRIABLE':
+        return TestExecutionStatus.retriable;
+      case 'CAUGHT_ERROR':
+        return TestExecutionStatus.caughtError;
+    }
+    throw Exception('$this is not known in enum TestExecutionStatus');
+  }
+}
+
+class TestStateOutput {
+  /// A detailed explanation of the cause for the error when the execution of a
+  /// state fails.
+  final String? cause;
+
+  /// The error returned when the execution of a state fails.
+  final String? error;
+
+  /// Returns additional details about the state's execution, including its input
+  /// and output data processing flow, and HTTP request and response information.
+  /// The <code>inspectionLevel</code> request parameter specifies which details
+  /// are returned.
+  final InspectionData? inspectionData;
+
+  /// The name of the next state to transition to. If you haven't defined a next
+  /// state in your definition or if the execution of the state fails, this ﬁeld
+  /// doesn't contain a value.
+  final String? nextState;
+
+  /// The JSON output data of the state. Length constraints apply to the payload
+  /// size, and are expressed as bytes in UTF-8 encoding.
+  final String? output;
+
+  /// The execution status of the state.
+  final TestExecutionStatus? status;
+
+  TestStateOutput({
+    this.cause,
+    this.error,
+    this.inspectionData,
+    this.nextState,
+    this.output,
+    this.status,
+  });
+
+  factory TestStateOutput.fromJson(Map<String, dynamic> json) {
+    return TestStateOutput(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+      inspectionData: json['inspectionData'] != null
+          ? InspectionData.fromJson(
+              json['inspectionData'] as Map<String, dynamic>)
+          : null,
+      nextState: json['nextState'] as String?,
+      output: json['output'] as String?,
+      status: (json['status'] as String?)?.toTestExecutionStatus(),
+    );
+  }
+}
+
 /// Selects whether or not the state machine's X-Ray tracing is enabled. Default
 /// is <code>false</code>
 class TracingConfiguration {
@@ -4627,18 +6697,172 @@ class UpdateMapRunOutput {
   }
 }
 
+class UpdateStateMachineAliasOutput {
+  /// The date and time the state machine alias was updated.
+  final DateTime updateDate;
+
+  UpdateStateMachineAliasOutput({
+    required this.updateDate,
+  });
+
+  factory UpdateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateStateMachineAliasOutput(
+      updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
+    );
+  }
+}
+
 class UpdateStateMachineOutput {
   /// The date and time the state machine was updated.
   final DateTime updateDate;
 
+  /// The revision identifier for the updated state machine.
+  final String? revisionId;
+
+  /// The Amazon Resource Name (ARN) of the published state machine version.
+  ///
+  /// If the <code>publish</code> parameter isn't set to <code>true</code>, this
+  /// field returns null.
+  final String? stateMachineVersionArn;
+
   UpdateStateMachineOutput({
     required this.updateDate,
+    this.revisionId,
+    this.stateMachineVersionArn,
   });
 
   factory UpdateStateMachineOutput.fromJson(Map<String, dynamic> json) {
     return UpdateStateMachineOutput(
       updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
+      revisionId: json['revisionId'] as String?,
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
     );
+  }
+}
+
+/// Describes an error found during validation. Validation errors found in the
+/// definition return in the response as <b>diagnostic elements</b>, rather than
+/// raise an exception.
+class ValidateStateMachineDefinitionDiagnostic {
+  /// Identifying code for the diagnostic.
+  final String code;
+
+  /// Message describing the diagnostic condition.
+  final String message;
+
+  /// A value of <code>ERROR</code> means that you cannot create or update a state
+  /// machine with this definition.
+  final ValidateStateMachineDefinitionSeverity severity;
+
+  /// Location of the issue in the state machine, if available.
+  ///
+  /// For errors specific to a field, the location could be in the format:
+  /// <code>/States/&lt;StateName&gt;/&lt;FieldName&gt;</code>, for example:
+  /// <code>/States/FailState/ErrorPath</code>.
+  final String? location;
+
+  ValidateStateMachineDefinitionDiagnostic({
+    required this.code,
+    required this.message,
+    required this.severity,
+    this.location,
+  });
+
+  factory ValidateStateMachineDefinitionDiagnostic.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateStateMachineDefinitionDiagnostic(
+      code: json['code'] as String,
+      message: json['message'] as String,
+      severity: (json['severity'] as String)
+          .toValidateStateMachineDefinitionSeverity(),
+      location: json['location'] as String?,
+    );
+  }
+}
+
+class ValidateStateMachineDefinitionOutput {
+  /// If the result is <code>OK</code>, this field will be empty. When there are
+  /// errors, this field will contain an array of <b>Diagnostic</b> objects to
+  /// help you troubleshoot.
+  final List<ValidateStateMachineDefinitionDiagnostic> diagnostics;
+
+  /// The result value will be <code>OK</code> when no syntax errors are found, or
+  /// <code>FAIL</code> if the workflow definition does not pass verification.
+  final ValidateStateMachineDefinitionResultCode result;
+
+  ValidateStateMachineDefinitionOutput({
+    required this.diagnostics,
+    required this.result,
+  });
+
+  factory ValidateStateMachineDefinitionOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateStateMachineDefinitionOutput(
+      diagnostics: (json['diagnostics'] as List)
+          .whereNotNull()
+          .map((e) => ValidateStateMachineDefinitionDiagnostic.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      result: (json['result'] as String)
+          .toValidateStateMachineDefinitionResultCode(),
+    );
+  }
+}
+
+enum ValidateStateMachineDefinitionResultCode {
+  ok,
+  fail,
+}
+
+extension ValidateStateMachineDefinitionResultCodeValueExtension
+    on ValidateStateMachineDefinitionResultCode {
+  String toValue() {
+    switch (this) {
+      case ValidateStateMachineDefinitionResultCode.ok:
+        return 'OK';
+      case ValidateStateMachineDefinitionResultCode.fail:
+        return 'FAIL';
+    }
+  }
+}
+
+extension ValidateStateMachineDefinitionResultCodeFromString on String {
+  ValidateStateMachineDefinitionResultCode
+      toValidateStateMachineDefinitionResultCode() {
+    switch (this) {
+      case 'OK':
+        return ValidateStateMachineDefinitionResultCode.ok;
+      case 'FAIL':
+        return ValidateStateMachineDefinitionResultCode.fail;
+    }
+    throw Exception(
+        '$this is not known in enum ValidateStateMachineDefinitionResultCode');
+  }
+}
+
+enum ValidateStateMachineDefinitionSeverity {
+  error,
+}
+
+extension ValidateStateMachineDefinitionSeverityValueExtension
+    on ValidateStateMachineDefinitionSeverity {
+  String toValue() {
+    switch (this) {
+      case ValidateStateMachineDefinitionSeverity.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension ValidateStateMachineDefinitionSeverityFromString on String {
+  ValidateStateMachineDefinitionSeverity
+      toValidateStateMachineDefinitionSeverity() {
+    switch (this) {
+      case 'ERROR':
+        return ValidateStateMachineDefinitionSeverity.error;
+    }
+    throw Exception(
+        '$this is not known in enum ValidateStateMachineDefinitionSeverity');
   }
 }
 
@@ -4658,6 +6882,11 @@ class ActivityWorkerLimitExceeded extends _s.GenericAwsException {
             type: type, code: 'ActivityWorkerLimitExceeded', message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class ExecutionAlreadyExists extends _s.GenericAwsException {
   ExecutionAlreadyExists({String? type, String? message})
       : super(type: type, code: 'ExecutionAlreadyExists', message: message);
@@ -4671,6 +6900,11 @@ class ExecutionDoesNotExist extends _s.GenericAwsException {
 class ExecutionLimitExceeded extends _s.GenericAwsException {
   ExecutionLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ExecutionLimitExceeded', message: message);
+}
+
+class ExecutionNotRedrivable extends _s.GenericAwsException {
+  ExecutionNotRedrivable({String? type, String? message})
+      : super(type: type, code: 'ExecutionNotRedrivable', message: message);
 }
 
 class InvalidArn extends _s.GenericAwsException {
@@ -4723,6 +6957,14 @@ class MissingRequiredParameter extends _s.GenericAwsException {
 class ResourceNotFound extends _s.GenericAwsException {
   ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);
+}
+
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
 }
 
 class StateMachineAlreadyExists extends _s.GenericAwsException {
@@ -4778,12 +7020,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ActivityLimitExceeded(type: type, message: message),
   'ActivityWorkerLimitExceeded': (type, message) =>
       ActivityWorkerLimitExceeded(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'ExecutionAlreadyExists': (type, message) =>
       ExecutionAlreadyExists(type: type, message: message),
   'ExecutionDoesNotExist': (type, message) =>
       ExecutionDoesNotExist(type: type, message: message),
   'ExecutionLimitExceeded': (type, message) =>
       ExecutionLimitExceeded(type: type, message: message),
+  'ExecutionNotRedrivable': (type, message) =>
+      ExecutionNotRedrivable(type: type, message: message),
   'InvalidArn': (type, message) => InvalidArn(type: type, message: message),
   'InvalidDefinition': (type, message) =>
       InvalidDefinition(type: type, message: message),
@@ -4801,6 +7047,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       MissingRequiredParameter(type: type, message: message),
   'ResourceNotFound': (type, message) =>
       ResourceNotFound(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'StateMachineAlreadyExists': (type, message) =>
       StateMachineAlreadyExists(type: type, message: message),
   'StateMachineDeleting': (type, message) =>

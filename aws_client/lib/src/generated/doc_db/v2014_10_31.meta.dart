@@ -67,6 +67,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "Boolean": {"type": "boolean", "flattened": false},
   "BooleanOptional": {"type": "boolean", "flattened": false},
+  "CACertificateIdentifiersList": {
+    "type": "list",
+    "member": {"shape": "String"},
+    "flattened": false
+  },
   "Certificate": {
     "type": "structure",
     "members": {
@@ -76,6 +81,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ValidFrom": {"shape": "TStamp", "flattened": false},
       "ValidTill": {"shape": "TStamp", "flattened": false},
       "CertificateArn": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CertificateDetails": {
+    "type": "structure",
+    "members": {
+      "CAIdentifier": {"shape": "String", "flattened": false},
+      "ValidTill": {"shape": "TStamp", "flattened": false}
     },
     "flattened": false
   },
@@ -185,7 +198,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "GlobalClusterIdentifier": {
         "shape": "GlobalClusterIdentifier",
         "flattened": false
-      }
+      },
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -252,7 +266,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
-      "PerformanceInsightsKMSKeyId": {"shape": "String", "flattened": false}
+      "PerformanceInsightsKMSKeyId": {"shape": "String", "flattened": false},
+      "CACertificateIdentifier": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -366,7 +381,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "LogTypeList",
         "flattened": false
       },
-      "DeletionProtection": {"shape": "Boolean", "flattened": false}
+      "DeletionProtection": {"shape": "Boolean", "flattened": false},
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -474,7 +490,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StorageEncrypted": {"shape": "Boolean", "flattened": false},
       "KmsKeyId": {"shape": "String", "flattened": false},
       "DBClusterSnapshotArn": {"shape": "String", "flattened": false},
-      "SourceDBClusterSnapshotArn": {"shape": "String", "flattened": false}
+      "SourceDBClusterSnapshotArn": {"shape": "String", "flattened": false},
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -540,6 +557,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "SupportsLogExportsToCloudwatchLogs": {
         "shape": "Boolean",
         "flattened": false
+      },
+      "SupportedCACertificateIdentifiers": {
+        "shape": "CACertificateIdentifiersList",
+        "flattened": false
+      },
+      "SupportsCertificateRotationWithoutRestart": {
+        "shape": "BooleanOptional",
+        "flattened": false
       }
     },
     "flattened": false
@@ -595,7 +620,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "EnabledCloudwatchLogsExports": {
         "shape": "LogTypeList",
         "flattened": false
-      }
+      },
+      "CertificateDetails": {"shape": "CertificateDetails", "flattened": false},
+      "PerformanceInsightsEnabled": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      },
+      "PerformanceInsightsKMSKeyId": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1180,7 +1211,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "EngineVersion": {"shape": "String", "flattened": false},
-      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false}
+      "AllowMajorVersionUpgrade": {"shape": "Boolean", "flattened": false},
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1238,7 +1271,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
-      "PerformanceInsightsKMSKeyId": {"shape": "String", "flattened": false}
+      "PerformanceInsightsKMSKeyId": {"shape": "String", "flattened": false},
+      "CertificateRotationRestart": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1316,7 +1353,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AvailabilityZoneList",
         "flattened": false
       },
-      "Vpc": {"shape": "Boolean", "flattened": false}
+      "Vpc": {"shape": "Boolean", "flattened": false},
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1537,7 +1575,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
-      "DBClusterParameterGroupName": {"shape": "String", "flattened": false}
+      "DBClusterParameterGroupName": {"shape": "String", "flattened": false},
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1568,7 +1607,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "LogTypeList",
         "flattened": false
       },
-      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false}
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "StorageType": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1634,6 +1674,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "SubnetList": {
     "type": "list",
     "member": {"shape": "Subnet", "locationName": "Subnet"},
+    "flattened": false
+  },
+  "SwitchoverGlobalClusterMessage": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
+      "TargetDbClusterIdentifier": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "SwitchoverGlobalClusterResult": {
+    "type": "structure",
+    "members": {
+      "GlobalCluster": {"shape": "GlobalCluster", "flattened": false}
+    },
     "flattened": false
   },
   "TStamp": {"type": "timestamp", "flattened": false},

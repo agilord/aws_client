@@ -20,8 +20,8 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Inspector is a vulnerability discovery service that automates
-/// continuous scanning for security vulnerabilities within your Amazon EC2 and
-/// Amazon ECR environments.
+/// continuous scanning for security vulnerabilities within your Amazon EC2,
+/// Amazon ECR, and Amazon Web Services Lambda environments.
 class Inspector2 {
   final _s.RestJsonProtocol _protocol;
   Inspector2({
@@ -107,6 +107,56 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetAccountStatusResponse.fromJson(response);
+  }
+
+  /// Retrieves code snippets from findings that Amazon Inspector detected code
+  /// vulnerabilities in.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [findingArns] :
+  /// An array of finding ARNs for the findings you want to retrieve code
+  /// snippets from.
+  Future<BatchGetCodeSnippetResponse> batchGetCodeSnippet({
+    required List<String> findingArns,
+  }) async {
+    final $payload = <String, dynamic>{
+      'findingArns': findingArns,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/codesnippet/batchget',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetCodeSnippetResponse.fromJson(response);
+  }
+
+  /// Gets vulnerability details for findings.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [findingArns] :
+  /// A list of finding ARNs.
+  Future<BatchGetFindingDetailsResponse> batchGetFindingDetails({
+    required List<String> findingArns,
+  }) async {
+    final $payload = <String, dynamic>{
+      'findingArns': findingArns,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/findings/details/batch/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetFindingDetailsResponse.fromJson(response);
   }
 
   /// Gets free trial status for multiple Amazon Web Services accounts.
@@ -215,7 +265,79 @@ class Inspector2 {
     return CancelFindingsReportResponse.fromJson(response);
   }
 
-  /// Creates a filter resource using specified filter criteria.
+  /// Cancels a software bill of materials (SBOM) report.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [reportId] :
+  /// The report ID of the SBOM export to cancel.
+  Future<CancelSbomExportResponse> cancelSbomExport({
+    required String reportId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'reportId': reportId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/sbomexport/cancel',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelSbomExportResponse.fromJson(response);
+  }
+
+  /// Creates a CIS scan configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [scanName] :
+  /// The scan name for the CIS scan configuration.
+  ///
+  /// Parameter [schedule] :
+  /// The schedule for the CIS scan configuration.
+  ///
+  /// Parameter [securityLevel] :
+  /// The security level for the CIS scan configuration. Security level refers
+  /// to the Benchmark levels that CIS assigns to a profile.
+  ///
+  /// Parameter [targets] :
+  /// The targets for the CIS scan configuration.
+  ///
+  /// Parameter [tags] :
+  /// The tags for the CIS scan configuration.
+  Future<CreateCisScanConfigurationResponse> createCisScanConfiguration({
+    required String scanName,
+    required Schedule schedule,
+    required CisSecurityLevel securityLevel,
+    required CreateCisTargets targets,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'scanName': scanName,
+      'schedule': schedule,
+      'securityLevel': securityLevel.toValue(),
+      'targets': targets,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan-configuration/create',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCisScanConfigurationResponse.fromJson(response);
+  }
+
+  /// Creates a filter resource using specified filter criteria. When the filter
+  /// action is set to <code>SUPPRESS</code> this action creates a suppression
+  /// rule.
   ///
   /// May throw [ServiceQuotaExceededException].
   /// May throw [BadRequestException].
@@ -305,6 +427,65 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return CreateFindingsReportResponse.fromJson(response);
+  }
+
+  /// Creates a software bill of materials (SBOM) report.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [reportFormat] :
+  /// The output format for the software bill of materials (SBOM) report.
+  ///
+  /// Parameter [resourceFilterCriteria] :
+  /// The resource filter criteria for the software bill of materials (SBOM)
+  /// report.
+  Future<CreateSbomExportResponse> createSbomExport({
+    required SbomReportFormat reportFormat,
+    required Destination s3Destination,
+    ResourceFilterCriteria? resourceFilterCriteria,
+  }) async {
+    final $payload = <String, dynamic>{
+      'reportFormat': reportFormat.toValue(),
+      's3Destination': s3Destination,
+      if (resourceFilterCriteria != null)
+        'resourceFilterCriteria': resourceFilterCriteria,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/sbomexport/create',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSbomExportResponse.fromJson(response);
+  }
+
+  /// Deletes a CIS scan configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [scanConfigurationArn] :
+  /// The ARN of the CIS scan configuration.
+  Future<DeleteCisScanConfigurationResponse> deleteCisScanConfiguration({
+    required String scanConfigurationArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'scanConfigurationArn': scanConfigurationArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan-configuration/delete',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteCisScanConfigurationResponse.fromJson(response);
   }
 
   /// Deletes a filter resource.
@@ -505,6 +686,110 @@ class Inspector2 {
     return EnableDelegatedAdminAccountResponse.fromJson(response);
   }
 
+  /// Retrieves a CIS scan report.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [scanArn] :
+  /// The scan ARN.
+  ///
+  /// Parameter [reportFormat] :
+  /// The format of the report. Valid values are <code>PDF</code> and
+  /// <code>CSV</code>. If no value is specified, the report format defaults to
+  /// <code>PDF</code>.
+  ///
+  /// Parameter [targetAccounts] :
+  /// The target accounts.
+  Future<GetCisScanReportResponse> getCisScanReport({
+    required String scanArn,
+    CisReportFormat? reportFormat,
+    List<String>? targetAccounts,
+  }) async {
+    final $payload = <String, dynamic>{
+      'scanArn': scanArn,
+      if (reportFormat != null) 'reportFormat': reportFormat.toValue(),
+      if (targetAccounts != null) 'targetAccounts': targetAccounts,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan/report/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCisScanReportResponse.fromJson(response);
+  }
+
+  /// Retrieves CIS scan result details.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [accountId] :
+  /// The account ID.
+  ///
+  /// Parameter [scanArn] :
+  /// The scan ARN.
+  ///
+  /// Parameter [targetResourceId] :
+  /// The target resource ID.
+  ///
+  /// Parameter [filterCriteria] :
+  /// The filter criteria.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of CIS scan result details to be returned in a single
+  /// page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The sort by order.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order.
+  Future<GetCisScanResultDetailsResponse> getCisScanResultDetails({
+    required String accountId,
+    required String scanArn,
+    required String targetResourceId,
+    CisScanResultDetailsFilterCriteria? filterCriteria,
+    int? maxResults,
+    String? nextToken,
+    CisScanResultDetailsSortBy? sortBy,
+    CisSortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      'accountId': accountId,
+      'scanArn': scanArn,
+      'targetResourceId': targetResourceId,
+      if (filterCriteria != null) 'filterCriteria': filterCriteria,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sortBy != null) 'sortBy': sortBy.toValue(),
+      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan-result/details/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCisScanResultDetailsResponse.fromJson(response);
+  }
+
   /// Retrieves setting configurations for Inspector scans.
   ///
   /// May throw [ResourceNotFoundException].
@@ -554,6 +839,37 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return GetEc2DeepInspectionConfigurationResponse.fromJson(response);
+  }
+
+  /// Gets an encryption key.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceType] :
+  /// The resource type the key encrypts.
+  ///
+  /// Parameter [scanType] :
+  /// The scan type the key encrypts.
+  Future<GetEncryptionKeyResponse> getEncryptionKey({
+    required ResourceType resourceType,
+    required ScanType scanType,
+  }) async {
+    final $query = <String, List<String>>{
+      'resourceType': [resourceType.toValue()],
+      'scanType': [scanType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/encryptionkey/get',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEncryptionKeyResponse.fromJson(response);
   }
 
   /// Gets the status of a findings report.
@@ -607,6 +923,31 @@ class Inspector2 {
     return GetMemberResponse.fromJson(response);
   }
 
+  /// Gets details of a software bill of materials (SBOM) report.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [reportId] :
+  /// The report ID of the SBOM export to get details for.
+  Future<GetSbomExportResponse> getSbomExport({
+    required String reportId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'reportId': reportId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/sbomexport/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSbomExportResponse.fromJson(response);
+  }
+
   /// Lists the permissions an account has to configure Amazon Inspector.
   ///
   /// May throw [ValidationException].
@@ -615,14 +956,18 @@ class Inspector2 {
   /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the NextToken value returned from the previous
+  /// request to continue listing results after the first page.
   ///
   /// Parameter [service] :
   /// The service scan type to check permissions for.
@@ -651,6 +996,231 @@ class Inspector2 {
     return ListAccountPermissionsResponse.fromJson(response);
   }
 
+  /// Lists CIS scan configurations.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [filterCriteria] :
+  /// The CIS scan configuration filter criteria.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of CIS scan configurations to be returned in a single
+  /// page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The CIS scan configuration sort by order.
+  ///
+  /// Parameter [sortOrder] :
+  /// The CIS scan configuration sort order order.
+  Future<ListCisScanConfigurationsResponse> listCisScanConfigurations({
+    ListCisScanConfigurationsFilterCriteria? filterCriteria,
+    int? maxResults,
+    String? nextToken,
+    CisScanConfigurationsSortBy? sortBy,
+    CisSortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (filterCriteria != null) 'filterCriteria': filterCriteria,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sortBy != null) 'sortBy': sortBy.toValue(),
+      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan-configuration/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCisScanConfigurationsResponse.fromJson(response);
+  }
+
+  /// Lists scan results aggregated by checks.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [scanArn] :
+  /// The scan ARN.
+  ///
+  /// Parameter [filterCriteria] :
+  /// The filter criteria.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of scan results aggregated by checks to be returned in
+  /// a single page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The sort by order.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order.
+  Future<ListCisScanResultsAggregatedByChecksResponse>
+      listCisScanResultsAggregatedByChecks({
+    required String scanArn,
+    CisScanResultsAggregatedByChecksFilterCriteria? filterCriteria,
+    int? maxResults,
+    String? nextToken,
+    CisScanResultsAggregatedByChecksSortBy? sortBy,
+    CisSortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'scanArn': scanArn,
+      if (filterCriteria != null) 'filterCriteria': filterCriteria,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sortBy != null) 'sortBy': sortBy.toValue(),
+      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan-result/check/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCisScanResultsAggregatedByChecksResponse.fromJson(response);
+  }
+
+  /// Lists scan results aggregated by a target resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [scanArn] :
+  /// The scan ARN.
+  ///
+  /// Parameter [filterCriteria] :
+  /// The filter criteria.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of scan results aggregated by a target resource to be
+  /// returned in a single page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The sort by order.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order.
+  Future<ListCisScanResultsAggregatedByTargetResourceResponse>
+      listCisScanResultsAggregatedByTargetResource({
+    required String scanArn,
+    CisScanResultsAggregatedByTargetResourceFilterCriteria? filterCriteria,
+    int? maxResults,
+    String? nextToken,
+    CisScanResultsAggregatedByTargetResourceSortBy? sortBy,
+    CisSortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'scanArn': scanArn,
+      if (filterCriteria != null) 'filterCriteria': filterCriteria,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sortBy != null) 'sortBy': sortBy.toValue(),
+      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan-result/resource/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCisScanResultsAggregatedByTargetResourceResponse.fromJson(
+        response);
+  }
+
+  /// Returns a CIS scan list.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [detailLevel] :
+  /// The detail applied to the CIS scan.
+  ///
+  /// Parameter [filterCriteria] :
+  /// The CIS scan filter criteria.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The CIS scans sort by order.
+  ///
+  /// Parameter [sortOrder] :
+  /// The CIS scans sort order.
+  Future<ListCisScansResponse> listCisScans({
+    ListCisScansDetailLevel? detailLevel,
+    ListCisScansFilterCriteria? filterCriteria,
+    int? maxResults,
+    String? nextToken,
+    ListCisScansSortBy? sortBy,
+    CisSortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (detailLevel != null) 'detailLevel': detailLevel.toValue(),
+      if (filterCriteria != null) 'filterCriteria': filterCriteria,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sortBy != null) 'sortBy': sortBy.toValue(),
+      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCisScansResponse.fromJson(response);
+  }
+
   /// Lists coverage details for you environment.
   ///
   /// May throw [ValidationException].
@@ -662,14 +1232,18 @@ class Inspector2 {
   /// data for your environment.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the <code>nextToken</code> value returned from the
+  /// previous request to continue listing results after the first page.
   Future<ListCoverageResponse> listCoverage({
     CoverageFilterCriteria? filterCriteria,
     int? maxResults,
@@ -742,14 +1316,18 @@ class Inspector2 {
   /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the <code>nextToken</code> value returned from the
+  /// previous request to continue listing results after the first page.
   Future<ListDelegatedAdminAccountsResponse> listDelegatedAdminAccounts({
     int? maxResults,
     String? nextToken,
@@ -787,14 +1365,18 @@ class Inspector2 {
   /// The Amazon resource number (ARN) of the filter.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the <code>nextToken</code> value returned from the
+  /// previous request to continue listing results after the first page.
   Future<ListFiltersResponse> listFilters({
     FilterAction? action,
     List<String>? arns,
@@ -841,14 +1423,18 @@ class Inspector2 {
   /// results.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the <code>nextToken</code> value returned from the
+  /// previous request to continue listing results after the first page.
   Future<ListFindingAggregationsResponse> listFindingAggregations({
     required AggregationType aggregationType,
     List<StringFilter>? accountIds,
@@ -888,14 +1474,18 @@ class Inspector2 {
   /// Details on the filters to apply to your finding results.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the <code>nextToken</code> value returned from the
+  /// previous request to continue listing results after the first page.
   ///
   /// Parameter [sortCriteria] :
   /// Details on the sort criteria to apply to your finding results.
@@ -935,14 +1525,18 @@ class Inspector2 {
   /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the <code>nextToken</code> value returned from the
+  /// previous request to continue listing results after the first page.
   ///
   /// Parameter [onlyAssociated] :
   /// Specifies whether to list only currently associated members if
@@ -1005,14 +1599,18 @@ class Inspector2 {
   /// The Amazon Web Services account IDs to retrieve usage totals for.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in the response.
+  /// The maximum number of results the response can return. If your request
+  /// would return more than the maximum the response will return a
+  /// <code>nextToken</code> value, use this value when you call the action
+  /// again to get the remaining results.
   ///
   /// Parameter [nextToken] :
   /// A token to use for paginating results that are returned in the response.
   /// Set the value of this parameter to null for the first request to a list
-  /// action. For subsequent calls, use the <code>NextToken</code> value
-  /// returned from the previous request to continue listing results after the
-  /// first page.
+  /// action. If your response returns more than the <code>maxResults</code>
+  /// maximum value it will also return a <code>nextToken</code> value. For
+  /// subsequent calls, use the <code>nextToken</code> value returned from the
+  /// previous request to continue listing results after the first page.
   Future<ListUsageTotalsResponse> listUsageTotals({
     List<String>? accountIds,
     int? maxResults,
@@ -1036,6 +1634,36 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return ListUsageTotalsResponse.fromJson(response);
+  }
+
+  /// Resets an encryption key. After the key is reset your resources will be
+  /// encrypted by an Amazon Web Services owned key.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceType] :
+  /// The resource type the key encrypts.
+  ///
+  /// Parameter [scanType] :
+  /// The scan type the key encrypts.
+  Future<void> resetEncryptionKey({
+    required ResourceType resourceType,
+    required ScanType scanType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'resourceType': resourceType.toValue(),
+      'scanType': scanType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/encryptionkey/reset',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Lists Amazon Inspector coverage details for a specific vulnerability.
@@ -1069,6 +1697,144 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return SearchVulnerabilitiesResponse.fromJson(response);
+  }
+
+  /// Sends a CIS session health. This API is used by the Amazon Inspector SSM
+  /// plugin to communicate with the Amazon Inspector service. The Amazon
+  /// Inspector SSM plugin calls this API to start a CIS scan session for the
+  /// scan ID supplied by the service.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [scanJobId] :
+  /// A unique identifier for the scan job.
+  ///
+  /// Parameter [sessionToken] :
+  /// The unique token that identifies the CIS session.
+  Future<void> sendCisSessionHealth({
+    required String scanJobId,
+    required String sessionToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'scanJobId': scanJobId,
+      'sessionToken': sessionToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/cissession/health/send',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Sends a CIS session telemetry. This API is used by the Amazon Inspector
+  /// SSM plugin to communicate with the Amazon Inspector service. The Amazon
+  /// Inspector SSM plugin calls this API to start a CIS scan session for the
+  /// scan ID supplied by the service.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [messages] :
+  /// The CIS session telemetry messages.
+  ///
+  /// Parameter [scanJobId] :
+  /// A unique identifier for the scan job.
+  ///
+  /// Parameter [sessionToken] :
+  /// The unique token that identifies the CIS session.
+  Future<void> sendCisSessionTelemetry({
+    required List<CisSessionMessage> messages,
+    required String scanJobId,
+    required String sessionToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'messages': messages,
+      'scanJobId': scanJobId,
+      'sessionToken': sessionToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/cissession/telemetry/send',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Starts a CIS session. This API is used by the Amazon Inspector SSM plugin
+  /// to communicate with the Amazon Inspector service. The Amazon Inspector SSM
+  /// plugin calls this API to start a CIS scan session for the scan ID supplied
+  /// by the service.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [message] :
+  /// The start CIS session message.
+  ///
+  /// Parameter [scanJobId] :
+  /// A unique identifier for the scan job.
+  Future<void> startCisSession({
+    required StartCisSessionMessage message,
+    required String scanJobId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'message': message,
+      'scanJobId': scanJobId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/cissession/start',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Stops a CIS session. This API is used by the Amazon Inspector SSM plugin
+  /// to communicate with the Amazon Inspector service. The Amazon Inspector SSM
+  /// plugin calls this API to start a CIS scan session for the scan ID supplied
+  /// by the service.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [message] :
+  /// The stop CIS session message.
+  ///
+  /// Parameter [scanJobId] :
+  /// A unique identifier for the scan job.
+  ///
+  /// Parameter [sessionToken] :
+  /// The unique token that identifies the CIS session.
+  Future<void> stopCisSession({
+    required StopCisSessionMessage message,
+    required String scanJobId,
+    required String sessionToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'message': message,
+      'scanJobId': scanJobId,
+      'sessionToken': sessionToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/cissession/stop',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Adds tags to a resource.
@@ -1127,6 +1893,52 @@ class Inspector2 {
     );
   }
 
+  /// Updates a CIS scan configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [scanConfigurationArn] :
+  /// The CIS scan configuration ARN.
+  ///
+  /// Parameter [scanName] :
+  /// The scan name for the CIS scan configuration.
+  ///
+  /// Parameter [schedule] :
+  /// The schedule for the CIS scan configuration.
+  ///
+  /// Parameter [securityLevel] :
+  /// The security level for the CIS scan configuration. Security level refers
+  /// to the Benchmark levels that CIS assigns to a profile.
+  ///
+  /// Parameter [targets] :
+  /// The targets for the CIS scan configuration.
+  Future<UpdateCisScanConfigurationResponse> updateCisScanConfiguration({
+    required String scanConfigurationArn,
+    String? scanName,
+    Schedule? schedule,
+    CisSecurityLevel? securityLevel,
+    UpdateCisTargets? targets,
+  }) async {
+    final $payload = <String, dynamic>{
+      'scanConfigurationArn': scanConfigurationArn,
+      if (scanName != null) 'scanName': scanName,
+      if (schedule != null) 'schedule': schedule,
+      if (securityLevel != null) 'securityLevel': securityLevel.toValue(),
+      if (targets != null) 'targets': targets,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cis/scan-configuration/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCisScanConfigurationResponse.fromJson(response);
+  }
+
   /// Updates setting configurations for your Amazon Inspector account. When you
   /// use this API as an Amazon Inspector delegated administrator this updates
   /// the setting for all accounts you manage. Member accounts in an
@@ -1137,14 +1949,20 @@ class Inspector2 {
   /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
+  /// Parameter [ec2Configuration] :
+  /// Specifies how the Amazon EC2 automated scan will be updated for your
+  /// environment.
+  ///
   /// Parameter [ecrConfiguration] :
   /// Specifies how the ECR automated re-scan will be updated for your
   /// environment.
   Future<void> updateConfiguration({
-    required EcrConfiguration ecrConfiguration,
+    Ec2Configuration? ec2Configuration,
+    EcrConfiguration? ecrConfiguration,
   }) async {
     final $payload = <String, dynamic>{
-      'ecrConfiguration': ecrConfiguration,
+      if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
+      if (ecrConfiguration != null) 'ecrConfiguration': ecrConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1190,6 +2008,41 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEc2DeepInspectionConfigurationResponse.fromJson(response);
+  }
+
+  /// Updates an encryption key. A <code>ResourceNotFoundException</code> means
+  /// that an Amazon Web Services owned key is being used for encryption.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [kmsKeyId] :
+  /// A KMS key ID for the encryption key.
+  ///
+  /// Parameter [resourceType] :
+  /// The resource type for the encryption key.
+  ///
+  /// Parameter [scanType] :
+  /// The scan type for the encryption key.
+  Future<void> updateEncryptionKey({
+    required String kmsKeyId,
+    required ResourceType resourceType,
+    required ScanType scanType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'kmsKeyId': kmsKeyId,
+      'resourceType': resourceType.toValue(),
+      'scanType': scanType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/encryptionkey/update',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Specifies the action that is to be applied to the findings that match the
@@ -1481,6 +2334,7 @@ class AccountState {
 enum AggregationFindingType {
   networkReachability,
   packageVulnerability,
+  codeVulnerability,
 }
 
 extension AggregationFindingTypeValueExtension on AggregationFindingType {
@@ -1490,6 +2344,8 @@ extension AggregationFindingTypeValueExtension on AggregationFindingType {
         return 'NETWORK_REACHABILITY';
       case AggregationFindingType.packageVulnerability:
         return 'PACKAGE_VULNERABILITY';
+      case AggregationFindingType.codeVulnerability:
+        return 'CODE_VULNERABILITY';
     }
   }
 }
@@ -1501,6 +2357,8 @@ extension AggregationFindingTypeFromString on String {
         return AggregationFindingType.networkReachability;
       case 'PACKAGE_VULNERABILITY':
         return AggregationFindingType.packageVulnerability;
+      case 'CODE_VULNERABILITY':
+        return AggregationFindingType.codeVulnerability;
     }
     throw Exception('$this is not known in enum AggregationFindingType');
   }
@@ -1532,10 +2390,12 @@ class AggregationRequest {
   /// container image layers.
   final ImageLayerAggregation? imageLayerAggregation;
 
-  /// Returns an object with findings aggregated by AWS Lambda function.
+  /// Returns an object with findings aggregated by Amazon Web Services Lambda
+  /// function.
   final LambdaFunctionAggregation? lambdaFunctionAggregation;
 
-  /// Returns an object with findings aggregated by AWS Lambda layer.
+  /// Returns an object with findings aggregated by Amazon Web Services Lambda
+  /// layer.
   final LambdaLayerAggregation? lambdaLayerAggregation;
 
   /// An object that contains details about an aggregation request based on
@@ -1658,10 +2518,10 @@ class AggregationResponse {
   /// container image layers.
   final ImageLayerAggregationResponse? imageLayerAggregation;
 
-  /// An aggregation of findings by AWS Lambda function.
+  /// An aggregation of findings by Amazon Web Services Lambda function.
   final LambdaFunctionAggregationResponse? lambdaFunctionAggregation;
 
-  /// An aggregation of findings by AWS Lambda layer.
+  /// An aggregation of findings by Amazon Web Services Lambda layer.
   final LambdaLayerAggregationResponse? lambdaLayerAggregation;
 
   /// An object that contains details about an aggregation response based on
@@ -2076,14 +2936,20 @@ class AutoEnable {
   /// members of your Amazon Inspector organization.
   final bool ecr;
 
-  /// Represents whether AWS Lambda standard scans are automatically enabled for
-  /// new members of your Amazon Inspector organization.
+  /// Represents whether Amazon Web Services Lambda standard scans are
+  /// automatically enabled for new members of your Amazon Inspector organization.
   final bool? lambda;
+
+  /// Represents whether Lambda code scans are automatically enabled for new
+  /// members of your Amazon Inspector organization. <pre><code> &lt;/p&gt;
+  /// </code></pre>
+  final bool? lambdaCode;
 
   AutoEnable({
     required this.ec2,
     required this.ecr,
     this.lambda,
+    this.lambdaCode,
   });
 
   factory AutoEnable.fromJson(Map<String, dynamic> json) {
@@ -2091,6 +2957,7 @@ class AutoEnable {
       ec2: json['ec2'] as bool,
       ecr: json['ecr'] as bool,
       lambda: json['lambda'] as bool?,
+      lambdaCode: json['lambdaCode'] as bool?,
     );
   }
 
@@ -2098,10 +2965,12 @@ class AutoEnable {
     final ec2 = this.ec2;
     final ecr = this.ecr;
     final lambda = this.lambda;
+    final lambdaCode = this.lambdaCode;
     return {
       'ec2': ec2,
       'ecr': ecr,
       if (lambda != null) 'lambda': lambda,
+      if (lambdaCode != null) 'lambdaCode': lambdaCode,
     };
   }
 }
@@ -2432,26 +3301,27 @@ extension AwsEcrContainerSortByFromString on String {
   }
 }
 
-/// A summary of information about the AWS Lambda function.
+/// A summary of information about the Amazon Web Services Lambda function.
 class AwsLambdaFunctionDetails {
-  /// The SHA256 hash of the AWS Lambda function's deployment package.
+  /// The SHA256 hash of the Amazon Web Services Lambda function's deployment
+  /// package.
   final String codeSha256;
 
-  /// The AWS Lambda function's execution role.
+  /// The Amazon Web Services Lambda function's execution role.
   final String executionRoleArn;
 
-  /// The name of the AWS Lambda function.
+  /// The name of the Amazon Web Services Lambda function.
   final String functionName;
 
-  /// The runtime environment for the AWS Lambda function.
+  /// The runtime environment for the Amazon Web Services Lambda function.
   final Runtime runtime;
 
-  /// The version of the AWS Lambda function.
+  /// The version of the Amazon Web Services Lambda function.
   final String version;
 
-  /// The instruction set architecture that the AWS Lambda function supports.
-  /// Architecture is a string array with one of the valid values. The default
-  /// architecture value is <code>x86_64</code>.
+  /// The instruction set architecture that the Amazon Web Services Lambda
+  /// function supports. Architecture is a string array with one of the valid
+  /// values. The default architecture value is <code>x86_64</code>.
   final List<Architecture>? architectures;
 
   /// The date and time that a user last updated the configuration, in <a
@@ -2459,7 +3329,7 @@ class AwsLambdaFunctionDetails {
   /// format</a>
   final DateTime? lastModifiedAt;
 
-  /// The AWS Lambda function's <a
+  /// The Amazon Web Services Lambda function's <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">
   /// layers</a>. A Lambda function can have up to five layers.
   final List<String>? layers;
@@ -2468,7 +3338,7 @@ class AwsLambdaFunctionDetails {
   /// image and set <code>Zip</code> for .zip file archive.
   final PackageType? packageType;
 
-  /// The AWS Lambda function's networking configuration.
+  /// The Amazon Web Services Lambda function's networking configuration.
   final LambdaVpcConfig? vpcConfig;
 
   AwsLambdaFunctionDetails({
@@ -2568,6 +3438,77 @@ class BatchGetAccountStatusResponse {
     return {
       'accounts': accounts,
       if (failedAccounts != null) 'failedAccounts': failedAccounts,
+    };
+  }
+}
+
+class BatchGetCodeSnippetResponse {
+  /// The retrieved code snippets associated with the provided finding ARNs.
+  final List<CodeSnippetResult>? codeSnippetResults;
+
+  /// Any errors Amazon Inspector encountered while trying to retrieve the
+  /// requested code snippets.
+  final List<CodeSnippetError>? errors;
+
+  BatchGetCodeSnippetResponse({
+    this.codeSnippetResults,
+    this.errors,
+  });
+
+  factory BatchGetCodeSnippetResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetCodeSnippetResponse(
+      codeSnippetResults: (json['codeSnippetResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeSnippetResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeSnippetError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSnippetResults = this.codeSnippetResults;
+    final errors = this.errors;
+    return {
+      if (codeSnippetResults != null) 'codeSnippetResults': codeSnippetResults,
+      if (errors != null) 'errors': errors,
+    };
+  }
+}
+
+class BatchGetFindingDetailsResponse {
+  /// Error information for findings that details could not be returned for.
+  final List<FindingDetailsError>? errors;
+
+  /// A finding's vulnerability details.
+  final List<FindingDetail>? findingDetails;
+
+  BatchGetFindingDetailsResponse({
+    this.errors,
+    this.findingDetails,
+  });
+
+  factory BatchGetFindingDetailsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetFindingDetailsResponse(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => FindingDetailsError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      findingDetails: (json['findingDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => FindingDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final findingDetails = this.findingDetails;
+    return {
+      if (errors != null) 'errors': errors,
+      if (findingDetails != null) 'findingDetails': findingDetails,
     };
   }
 }
@@ -2714,6 +3655,1522 @@ class CancelFindingsReportResponse {
   }
 }
 
+class CancelSbomExportResponse {
+  /// The report ID of the canceled SBOM export.
+  final String? reportId;
+
+  CancelSbomExportResponse({
+    this.reportId,
+  });
+
+  factory CancelSbomExportResponse.fromJson(Map<String, dynamic> json) {
+    return CancelSbomExportResponse(
+      reportId: json['reportId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reportId = this.reportId;
+    return {
+      if (reportId != null) 'reportId': reportId,
+    };
+  }
+}
+
+/// A CIS check.
+class CisCheckAggregation {
+  /// The scan ARN for the CIS check scan ARN.
+  final String scanArn;
+
+  /// The account ID for the CIS check.
+  final String? accountId;
+
+  /// The description for the CIS check.
+  final String? checkDescription;
+
+  /// The check ID for the CIS check.
+  final String? checkId;
+
+  /// The CIS check level.
+  final CisSecurityLevel? level;
+
+  /// The CIS check platform.
+  final String? platform;
+
+  /// The CIS check status counts.
+  final StatusCounts? statusCounts;
+
+  /// The CIS check title.
+  final String? title;
+
+  CisCheckAggregation({
+    required this.scanArn,
+    this.accountId,
+    this.checkDescription,
+    this.checkId,
+    this.level,
+    this.platform,
+    this.statusCounts,
+    this.title,
+  });
+
+  factory CisCheckAggregation.fromJson(Map<String, dynamic> json) {
+    return CisCheckAggregation(
+      scanArn: json['scanArn'] as String,
+      accountId: json['accountId'] as String?,
+      checkDescription: json['checkDescription'] as String?,
+      checkId: json['checkId'] as String?,
+      level: (json['level'] as String?)?.toCisSecurityLevel(),
+      platform: json['platform'] as String?,
+      statusCounts: json['statusCounts'] != null
+          ? StatusCounts.fromJson(json['statusCounts'] as Map<String, dynamic>)
+          : null,
+      title: json['title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanArn = this.scanArn;
+    final accountId = this.accountId;
+    final checkDescription = this.checkDescription;
+    final checkId = this.checkId;
+    final level = this.level;
+    final platform = this.platform;
+    final statusCounts = this.statusCounts;
+    final title = this.title;
+    return {
+      'scanArn': scanArn,
+      if (accountId != null) 'accountId': accountId,
+      if (checkDescription != null) 'checkDescription': checkDescription,
+      if (checkId != null) 'checkId': checkId,
+      if (level != null) 'level': level.toValue(),
+      if (platform != null) 'platform': platform,
+      if (statusCounts != null) 'statusCounts': statusCounts,
+      if (title != null) 'title': title,
+    };
+  }
+}
+
+/// The CIS date filter.
+class CisDateFilter {
+  /// The CIS date filter's earliest scan start time.
+  final DateTime? earliestScanStartTime;
+
+  /// The CIS date filter's latest scan start time.
+  final DateTime? latestScanStartTime;
+
+  CisDateFilter({
+    this.earliestScanStartTime,
+    this.latestScanStartTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final earliestScanStartTime = this.earliestScanStartTime;
+    final latestScanStartTime = this.latestScanStartTime;
+    return {
+      if (earliestScanStartTime != null)
+        'earliestScanStartTime': unixTimestampToJson(earliestScanStartTime),
+      if (latestScanStartTime != null)
+        'latestScanStartTime': unixTimestampToJson(latestScanStartTime),
+    };
+  }
+}
+
+enum CisFindingStatus {
+  passed,
+  failed,
+  skipped,
+}
+
+extension CisFindingStatusValueExtension on CisFindingStatus {
+  String toValue() {
+    switch (this) {
+      case CisFindingStatus.passed:
+        return 'PASSED';
+      case CisFindingStatus.failed:
+        return 'FAILED';
+      case CisFindingStatus.skipped:
+        return 'SKIPPED';
+    }
+  }
+}
+
+extension CisFindingStatusFromString on String {
+  CisFindingStatus toCisFindingStatus() {
+    switch (this) {
+      case 'PASSED':
+        return CisFindingStatus.passed;
+      case 'FAILED':
+        return CisFindingStatus.failed;
+      case 'SKIPPED':
+        return CisFindingStatus.skipped;
+    }
+    throw Exception('$this is not known in enum CisFindingStatus');
+  }
+}
+
+enum CisFindingStatusComparison {
+  equals,
+}
+
+extension CisFindingStatusComparisonValueExtension
+    on CisFindingStatusComparison {
+  String toValue() {
+    switch (this) {
+      case CisFindingStatusComparison.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension CisFindingStatusComparisonFromString on String {
+  CisFindingStatusComparison toCisFindingStatusComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return CisFindingStatusComparison.equals;
+    }
+    throw Exception('$this is not known in enum CisFindingStatusComparison');
+  }
+}
+
+/// The CIS finding status filter.
+class CisFindingStatusFilter {
+  /// The comparison value of the CIS finding status filter.
+  final CisFindingStatusComparison comparison;
+
+  /// The value of the CIS finding status filter.
+  final CisFindingStatus value;
+
+  CisFindingStatusFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value.toValue(),
+    };
+  }
+}
+
+/// The CIS number filter.
+class CisNumberFilter {
+  /// The CIS number filter's lower inclusive.
+  final int? lowerInclusive;
+
+  /// The CIS number filter's upper inclusive.
+  final int? upperInclusive;
+
+  CisNumberFilter({
+    this.lowerInclusive,
+    this.upperInclusive,
+  });
+
+  Map<String, dynamic> toJson() {
+    final lowerInclusive = this.lowerInclusive;
+    final upperInclusive = this.upperInclusive;
+    return {
+      if (lowerInclusive != null) 'lowerInclusive': lowerInclusive,
+      if (upperInclusive != null) 'upperInclusive': upperInclusive,
+    };
+  }
+}
+
+enum CisReportFormat {
+  pdf,
+  csv,
+}
+
+extension CisReportFormatValueExtension on CisReportFormat {
+  String toValue() {
+    switch (this) {
+      case CisReportFormat.pdf:
+        return 'PDF';
+      case CisReportFormat.csv:
+        return 'CSV';
+    }
+  }
+}
+
+extension CisReportFormatFromString on String {
+  CisReportFormat toCisReportFormat() {
+    switch (this) {
+      case 'PDF':
+        return CisReportFormat.pdf;
+      case 'CSV':
+        return CisReportFormat.csv;
+    }
+    throw Exception('$this is not known in enum CisReportFormat');
+  }
+}
+
+enum CisReportStatus {
+  succeeded,
+  failed,
+  inProgress,
+}
+
+extension CisReportStatusValueExtension on CisReportStatus {
+  String toValue() {
+    switch (this) {
+      case CisReportStatus.succeeded:
+        return 'SUCCEEDED';
+      case CisReportStatus.failed:
+        return 'FAILED';
+      case CisReportStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension CisReportStatusFromString on String {
+  CisReportStatus toCisReportStatus() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return CisReportStatus.succeeded;
+      case 'FAILED':
+        return CisReportStatus.failed;
+      case 'IN_PROGRESS':
+        return CisReportStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum CisReportStatus');
+  }
+}
+
+enum CisResultStatus {
+  passed,
+  failed,
+  skipped,
+}
+
+extension CisResultStatusValueExtension on CisResultStatus {
+  String toValue() {
+    switch (this) {
+      case CisResultStatus.passed:
+        return 'PASSED';
+      case CisResultStatus.failed:
+        return 'FAILED';
+      case CisResultStatus.skipped:
+        return 'SKIPPED';
+    }
+  }
+}
+
+extension CisResultStatusFromString on String {
+  CisResultStatus toCisResultStatus() {
+    switch (this) {
+      case 'PASSED':
+        return CisResultStatus.passed;
+      case 'FAILED':
+        return CisResultStatus.failed;
+      case 'SKIPPED':
+        return CisResultStatus.skipped;
+    }
+    throw Exception('$this is not known in enum CisResultStatus');
+  }
+}
+
+enum CisResultStatusComparison {
+  equals,
+}
+
+extension CisResultStatusComparisonValueExtension on CisResultStatusComparison {
+  String toValue() {
+    switch (this) {
+      case CisResultStatusComparison.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension CisResultStatusComparisonFromString on String {
+  CisResultStatusComparison toCisResultStatusComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return CisResultStatusComparison.equals;
+    }
+    throw Exception('$this is not known in enum CisResultStatusComparison');
+  }
+}
+
+/// The CIS result status filter.
+class CisResultStatusFilter {
+  /// The comparison value of the CIS result status filter.
+  final CisResultStatusComparison comparison;
+
+  /// The value of the CIS result status filter.
+  final CisResultStatus value;
+
+  CisResultStatusFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value.toValue(),
+    };
+  }
+}
+
+enum CisRuleStatus {
+  failed,
+  passed,
+  notEvaluated,
+  informational,
+  unknown,
+  notApplicable,
+  error,
+}
+
+extension CisRuleStatusValueExtension on CisRuleStatus {
+  String toValue() {
+    switch (this) {
+      case CisRuleStatus.failed:
+        return 'FAILED';
+      case CisRuleStatus.passed:
+        return 'PASSED';
+      case CisRuleStatus.notEvaluated:
+        return 'NOT_EVALUATED';
+      case CisRuleStatus.informational:
+        return 'INFORMATIONAL';
+      case CisRuleStatus.unknown:
+        return 'UNKNOWN';
+      case CisRuleStatus.notApplicable:
+        return 'NOT_APPLICABLE';
+      case CisRuleStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension CisRuleStatusFromString on String {
+  CisRuleStatus toCisRuleStatus() {
+    switch (this) {
+      case 'FAILED':
+        return CisRuleStatus.failed;
+      case 'PASSED':
+        return CisRuleStatus.passed;
+      case 'NOT_EVALUATED':
+        return CisRuleStatus.notEvaluated;
+      case 'INFORMATIONAL':
+        return CisRuleStatus.informational;
+      case 'UNKNOWN':
+        return CisRuleStatus.unknown;
+      case 'NOT_APPLICABLE':
+        return CisRuleStatus.notApplicable;
+      case 'ERROR':
+        return CisRuleStatus.error;
+    }
+    throw Exception('$this is not known in enum CisRuleStatus');
+  }
+}
+
+/// The CIS scan.
+class CisScan {
+  /// The CIS scan's ARN.
+  final String scanArn;
+
+  /// The CIS scan's configuration ARN.
+  final String scanConfigurationArn;
+
+  /// The CIS scan's failed checks.
+  final int? failedChecks;
+
+  /// The CIS scan's date.
+  final DateTime? scanDate;
+
+  /// The the name of the scan configuration that's associated with this scan.
+  final String? scanName;
+
+  /// The account or organization that schedules the CIS scan.
+  final String? scheduledBy;
+
+  /// The security level for the CIS scan. Security level refers to the Benchmark
+  /// levels that CIS assigns to a profile.
+  final CisSecurityLevel? securityLevel;
+
+  /// The CIS scan's status.
+  final CisScanStatus? status;
+
+  /// The CIS scan's targets.
+  final CisTargets? targets;
+
+  /// The CIS scan's total checks.
+  final int? totalChecks;
+
+  CisScan({
+    required this.scanArn,
+    required this.scanConfigurationArn,
+    this.failedChecks,
+    this.scanDate,
+    this.scanName,
+    this.scheduledBy,
+    this.securityLevel,
+    this.status,
+    this.targets,
+    this.totalChecks,
+  });
+
+  factory CisScan.fromJson(Map<String, dynamic> json) {
+    return CisScan(
+      scanArn: json['scanArn'] as String,
+      scanConfigurationArn: json['scanConfigurationArn'] as String,
+      failedChecks: json['failedChecks'] as int?,
+      scanDate: timeStampFromJson(json['scanDate']),
+      scanName: json['scanName'] as String?,
+      scheduledBy: json['scheduledBy'] as String?,
+      securityLevel: (json['securityLevel'] as String?)?.toCisSecurityLevel(),
+      status: (json['status'] as String?)?.toCisScanStatus(),
+      targets: json['targets'] != null
+          ? CisTargets.fromJson(json['targets'] as Map<String, dynamic>)
+          : null,
+      totalChecks: json['totalChecks'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanArn = this.scanArn;
+    final scanConfigurationArn = this.scanConfigurationArn;
+    final failedChecks = this.failedChecks;
+    final scanDate = this.scanDate;
+    final scanName = this.scanName;
+    final scheduledBy = this.scheduledBy;
+    final securityLevel = this.securityLevel;
+    final status = this.status;
+    final targets = this.targets;
+    final totalChecks = this.totalChecks;
+    return {
+      'scanArn': scanArn,
+      'scanConfigurationArn': scanConfigurationArn,
+      if (failedChecks != null) 'failedChecks': failedChecks,
+      if (scanDate != null) 'scanDate': unixTimestampToJson(scanDate),
+      if (scanName != null) 'scanName': scanName,
+      if (scheduledBy != null) 'scheduledBy': scheduledBy,
+      if (securityLevel != null) 'securityLevel': securityLevel.toValue(),
+      if (status != null) 'status': status.toValue(),
+      if (targets != null) 'targets': targets,
+      if (totalChecks != null) 'totalChecks': totalChecks,
+    };
+  }
+}
+
+/// The CIS scan configuration.
+class CisScanConfiguration {
+  /// The CIS scan configuration's scan configuration ARN.
+  final String scanConfigurationArn;
+
+  /// The CIS scan configuration's owner ID.
+  final String? ownerId;
+
+  /// The name of the CIS scan configuration.
+  final String? scanName;
+
+  /// The CIS scan configuration's schedule.
+  final Schedule? schedule;
+
+  /// The CIS scan configuration's security level.
+  final CisSecurityLevel? securityLevel;
+
+  /// The CIS scan configuration's tags.
+  final Map<String, String>? tags;
+
+  /// The CIS scan configuration's targets.
+  final CisTargets? targets;
+
+  CisScanConfiguration({
+    required this.scanConfigurationArn,
+    this.ownerId,
+    this.scanName,
+    this.schedule,
+    this.securityLevel,
+    this.tags,
+    this.targets,
+  });
+
+  factory CisScanConfiguration.fromJson(Map<String, dynamic> json) {
+    return CisScanConfiguration(
+      scanConfigurationArn: json['scanConfigurationArn'] as String,
+      ownerId: json['ownerId'] as String?,
+      scanName: json['scanName'] as String?,
+      schedule: json['schedule'] != null
+          ? Schedule.fromJson(json['schedule'] as Map<String, dynamic>)
+          : null,
+      securityLevel: (json['securityLevel'] as String?)?.toCisSecurityLevel(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targets: json['targets'] != null
+          ? CisTargets.fromJson(json['targets'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanConfigurationArn = this.scanConfigurationArn;
+    final ownerId = this.ownerId;
+    final scanName = this.scanName;
+    final schedule = this.schedule;
+    final securityLevel = this.securityLevel;
+    final tags = this.tags;
+    final targets = this.targets;
+    return {
+      'scanConfigurationArn': scanConfigurationArn,
+      if (ownerId != null) 'ownerId': ownerId,
+      if (scanName != null) 'scanName': scanName,
+      if (schedule != null) 'schedule': schedule,
+      if (securityLevel != null) 'securityLevel': securityLevel.toValue(),
+      if (tags != null) 'tags': tags,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+enum CisScanConfigurationsSortBy {
+  scanName,
+  scanConfigurationArn,
+}
+
+extension CisScanConfigurationsSortByValueExtension
+    on CisScanConfigurationsSortBy {
+  String toValue() {
+    switch (this) {
+      case CisScanConfigurationsSortBy.scanName:
+        return 'SCAN_NAME';
+      case CisScanConfigurationsSortBy.scanConfigurationArn:
+        return 'SCAN_CONFIGURATION_ARN';
+    }
+  }
+}
+
+extension CisScanConfigurationsSortByFromString on String {
+  CisScanConfigurationsSortBy toCisScanConfigurationsSortBy() {
+    switch (this) {
+      case 'SCAN_NAME':
+        return CisScanConfigurationsSortBy.scanName;
+      case 'SCAN_CONFIGURATION_ARN':
+        return CisScanConfigurationsSortBy.scanConfigurationArn;
+    }
+    throw Exception('$this is not known in enum CisScanConfigurationsSortBy');
+  }
+}
+
+/// The CIS scan result details.
+class CisScanResultDetails {
+  /// The CIS scan result details' scan ARN.
+  final String scanArn;
+
+  /// The CIS scan result details' account ID.
+  final String? accountId;
+
+  /// The account ID that's associated with the CIS scan result details.
+  final String? checkDescription;
+
+  /// The CIS scan result details' check ID.
+  final String? checkId;
+
+  /// The CIS scan result details' finding ARN.
+  final String? findingArn;
+
+  /// The CIS scan result details' level.
+  final CisSecurityLevel? level;
+
+  /// The CIS scan result details' platform.
+  final String? platform;
+
+  /// The CIS scan result details' remediation.
+  final String? remediation;
+
+  /// The CIS scan result details' status.
+  final CisFindingStatus? status;
+
+  /// The CIS scan result details' status reason.
+  final String? statusReason;
+
+  /// The CIS scan result details' target resource ID.
+  final String? targetResourceId;
+
+  /// The CIS scan result details' title.
+  final String? title;
+
+  CisScanResultDetails({
+    required this.scanArn,
+    this.accountId,
+    this.checkDescription,
+    this.checkId,
+    this.findingArn,
+    this.level,
+    this.platform,
+    this.remediation,
+    this.status,
+    this.statusReason,
+    this.targetResourceId,
+    this.title,
+  });
+
+  factory CisScanResultDetails.fromJson(Map<String, dynamic> json) {
+    return CisScanResultDetails(
+      scanArn: json['scanArn'] as String,
+      accountId: json['accountId'] as String?,
+      checkDescription: json['checkDescription'] as String?,
+      checkId: json['checkId'] as String?,
+      findingArn: json['findingArn'] as String?,
+      level: (json['level'] as String?)?.toCisSecurityLevel(),
+      platform: json['platform'] as String?,
+      remediation: json['remediation'] as String?,
+      status: (json['status'] as String?)?.toCisFindingStatus(),
+      statusReason: json['statusReason'] as String?,
+      targetResourceId: json['targetResourceId'] as String?,
+      title: json['title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanArn = this.scanArn;
+    final accountId = this.accountId;
+    final checkDescription = this.checkDescription;
+    final checkId = this.checkId;
+    final findingArn = this.findingArn;
+    final level = this.level;
+    final platform = this.platform;
+    final remediation = this.remediation;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final targetResourceId = this.targetResourceId;
+    final title = this.title;
+    return {
+      'scanArn': scanArn,
+      if (accountId != null) 'accountId': accountId,
+      if (checkDescription != null) 'checkDescription': checkDescription,
+      if (checkId != null) 'checkId': checkId,
+      if (findingArn != null) 'findingArn': findingArn,
+      if (level != null) 'level': level.toValue(),
+      if (platform != null) 'platform': platform,
+      if (remediation != null) 'remediation': remediation,
+      if (status != null) 'status': status.toValue(),
+      if (statusReason != null) 'statusReason': statusReason,
+      if (targetResourceId != null) 'targetResourceId': targetResourceId,
+      if (title != null) 'title': title,
+    };
+  }
+}
+
+/// The CIS scan result details filter criteria.
+class CisScanResultDetailsFilterCriteria {
+  /// The criteria's check ID filters.
+  final List<CisStringFilter>? checkIdFilters;
+
+  /// The criteria's finding ARN filters.
+  final List<CisStringFilter>? findingArnFilters;
+
+  /// The criteria's finding status filters.
+  final List<CisFindingStatusFilter>? findingStatusFilters;
+
+  /// The criteria's security level filters. . Security level refers to the
+  /// Benchmark levels that CIS assigns to a profile.
+  final List<CisSecurityLevelFilter>? securityLevelFilters;
+
+  /// The criteria's title filters.
+  final List<CisStringFilter>? titleFilters;
+
+  CisScanResultDetailsFilterCriteria({
+    this.checkIdFilters,
+    this.findingArnFilters,
+    this.findingStatusFilters,
+    this.securityLevelFilters,
+    this.titleFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final checkIdFilters = this.checkIdFilters;
+    final findingArnFilters = this.findingArnFilters;
+    final findingStatusFilters = this.findingStatusFilters;
+    final securityLevelFilters = this.securityLevelFilters;
+    final titleFilters = this.titleFilters;
+    return {
+      if (checkIdFilters != null) 'checkIdFilters': checkIdFilters,
+      if (findingArnFilters != null) 'findingArnFilters': findingArnFilters,
+      if (findingStatusFilters != null)
+        'findingStatusFilters': findingStatusFilters,
+      if (securityLevelFilters != null)
+        'securityLevelFilters': securityLevelFilters,
+      if (titleFilters != null) 'titleFilters': titleFilters,
+    };
+  }
+}
+
+enum CisScanResultDetailsSortBy {
+  checkId,
+  status,
+}
+
+extension CisScanResultDetailsSortByValueExtension
+    on CisScanResultDetailsSortBy {
+  String toValue() {
+    switch (this) {
+      case CisScanResultDetailsSortBy.checkId:
+        return 'CHECK_ID';
+      case CisScanResultDetailsSortBy.status:
+        return 'STATUS';
+    }
+  }
+}
+
+extension CisScanResultDetailsSortByFromString on String {
+  CisScanResultDetailsSortBy toCisScanResultDetailsSortBy() {
+    switch (this) {
+      case 'CHECK_ID':
+        return CisScanResultDetailsSortBy.checkId;
+      case 'STATUS':
+        return CisScanResultDetailsSortBy.status;
+    }
+    throw Exception('$this is not known in enum CisScanResultDetailsSortBy');
+  }
+}
+
+/// The scan results aggregated by checks filter criteria.
+class CisScanResultsAggregatedByChecksFilterCriteria {
+  /// The criteria's account ID filters.
+  final List<CisStringFilter>? accountIdFilters;
+
+  /// The criteria's check ID filters.
+  final List<CisStringFilter>? checkIdFilters;
+
+  /// The criteria's failed resources filters.
+  final List<CisNumberFilter>? failedResourcesFilters;
+
+  /// The criteria's platform filters.
+  final List<CisStringFilter>? platformFilters;
+
+  /// The criteria's security level filters.
+  final List<CisSecurityLevelFilter>? securityLevelFilters;
+
+  /// The criteria's title filters.
+  final List<CisStringFilter>? titleFilters;
+
+  CisScanResultsAggregatedByChecksFilterCriteria({
+    this.accountIdFilters,
+    this.checkIdFilters,
+    this.failedResourcesFilters,
+    this.platformFilters,
+    this.securityLevelFilters,
+    this.titleFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountIdFilters = this.accountIdFilters;
+    final checkIdFilters = this.checkIdFilters;
+    final failedResourcesFilters = this.failedResourcesFilters;
+    final platformFilters = this.platformFilters;
+    final securityLevelFilters = this.securityLevelFilters;
+    final titleFilters = this.titleFilters;
+    return {
+      if (accountIdFilters != null) 'accountIdFilters': accountIdFilters,
+      if (checkIdFilters != null) 'checkIdFilters': checkIdFilters,
+      if (failedResourcesFilters != null)
+        'failedResourcesFilters': failedResourcesFilters,
+      if (platformFilters != null) 'platformFilters': platformFilters,
+      if (securityLevelFilters != null)
+        'securityLevelFilters': securityLevelFilters,
+      if (titleFilters != null) 'titleFilters': titleFilters,
+    };
+  }
+}
+
+enum CisScanResultsAggregatedByChecksSortBy {
+  checkId,
+  title,
+  platform,
+  failedCounts,
+  securityLevel,
+}
+
+extension CisScanResultsAggregatedByChecksSortByValueExtension
+    on CisScanResultsAggregatedByChecksSortBy {
+  String toValue() {
+    switch (this) {
+      case CisScanResultsAggregatedByChecksSortBy.checkId:
+        return 'CHECK_ID';
+      case CisScanResultsAggregatedByChecksSortBy.title:
+        return 'TITLE';
+      case CisScanResultsAggregatedByChecksSortBy.platform:
+        return 'PLATFORM';
+      case CisScanResultsAggregatedByChecksSortBy.failedCounts:
+        return 'FAILED_COUNTS';
+      case CisScanResultsAggregatedByChecksSortBy.securityLevel:
+        return 'SECURITY_LEVEL';
+    }
+  }
+}
+
+extension CisScanResultsAggregatedByChecksSortByFromString on String {
+  CisScanResultsAggregatedByChecksSortBy
+      toCisScanResultsAggregatedByChecksSortBy() {
+    switch (this) {
+      case 'CHECK_ID':
+        return CisScanResultsAggregatedByChecksSortBy.checkId;
+      case 'TITLE':
+        return CisScanResultsAggregatedByChecksSortBy.title;
+      case 'PLATFORM':
+        return CisScanResultsAggregatedByChecksSortBy.platform;
+      case 'FAILED_COUNTS':
+        return CisScanResultsAggregatedByChecksSortBy.failedCounts;
+      case 'SECURITY_LEVEL':
+        return CisScanResultsAggregatedByChecksSortBy.securityLevel;
+    }
+    throw Exception(
+        '$this is not known in enum CisScanResultsAggregatedByChecksSortBy');
+  }
+}
+
+/// The scan results aggregated by target resource filter criteria.
+class CisScanResultsAggregatedByTargetResourceFilterCriteria {
+  /// The criteria's account ID filters.
+  final List<CisStringFilter>? accountIdFilters;
+
+  /// The criteria's check ID filters.
+  final List<CisStringFilter>? checkIdFilters;
+
+  /// The criteria's failed checks filters.
+  final List<CisNumberFilter>? failedChecksFilters;
+
+  /// The criteria's platform filters.
+  final List<CisStringFilter>? platformFilters;
+
+  /// The criteria's status filter.
+  final List<CisResultStatusFilter>? statusFilters;
+
+  /// The criteria's target resource ID filters.
+  final List<CisStringFilter>? targetResourceIdFilters;
+
+  /// The criteria's target resource tag filters.
+  final List<TagFilter>? targetResourceTagFilters;
+
+  /// The criteria's target status filters.
+  final List<CisTargetStatusFilter>? targetStatusFilters;
+
+  /// The criteria's target status reason filters.
+  final List<CisTargetStatusReasonFilter>? targetStatusReasonFilters;
+
+  CisScanResultsAggregatedByTargetResourceFilterCriteria({
+    this.accountIdFilters,
+    this.checkIdFilters,
+    this.failedChecksFilters,
+    this.platformFilters,
+    this.statusFilters,
+    this.targetResourceIdFilters,
+    this.targetResourceTagFilters,
+    this.targetStatusFilters,
+    this.targetStatusReasonFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountIdFilters = this.accountIdFilters;
+    final checkIdFilters = this.checkIdFilters;
+    final failedChecksFilters = this.failedChecksFilters;
+    final platformFilters = this.platformFilters;
+    final statusFilters = this.statusFilters;
+    final targetResourceIdFilters = this.targetResourceIdFilters;
+    final targetResourceTagFilters = this.targetResourceTagFilters;
+    final targetStatusFilters = this.targetStatusFilters;
+    final targetStatusReasonFilters = this.targetStatusReasonFilters;
+    return {
+      if (accountIdFilters != null) 'accountIdFilters': accountIdFilters,
+      if (checkIdFilters != null) 'checkIdFilters': checkIdFilters,
+      if (failedChecksFilters != null)
+        'failedChecksFilters': failedChecksFilters,
+      if (platformFilters != null) 'platformFilters': platformFilters,
+      if (statusFilters != null) 'statusFilters': statusFilters,
+      if (targetResourceIdFilters != null)
+        'targetResourceIdFilters': targetResourceIdFilters,
+      if (targetResourceTagFilters != null)
+        'targetResourceTagFilters': targetResourceTagFilters,
+      if (targetStatusFilters != null)
+        'targetStatusFilters': targetStatusFilters,
+      if (targetStatusReasonFilters != null)
+        'targetStatusReasonFilters': targetStatusReasonFilters,
+    };
+  }
+}
+
+enum CisScanResultsAggregatedByTargetResourceSortBy {
+  resourceId,
+  failedCounts,
+  accountId,
+  platform,
+  targetStatus,
+  targetStatusReason,
+}
+
+extension CisScanResultsAggregatedByTargetResourceSortByValueExtension
+    on CisScanResultsAggregatedByTargetResourceSortBy {
+  String toValue() {
+    switch (this) {
+      case CisScanResultsAggregatedByTargetResourceSortBy.resourceId:
+        return 'RESOURCE_ID';
+      case CisScanResultsAggregatedByTargetResourceSortBy.failedCounts:
+        return 'FAILED_COUNTS';
+      case CisScanResultsAggregatedByTargetResourceSortBy.accountId:
+        return 'ACCOUNT_ID';
+      case CisScanResultsAggregatedByTargetResourceSortBy.platform:
+        return 'PLATFORM';
+      case CisScanResultsAggregatedByTargetResourceSortBy.targetStatus:
+        return 'TARGET_STATUS';
+      case CisScanResultsAggregatedByTargetResourceSortBy.targetStatusReason:
+        return 'TARGET_STATUS_REASON';
+    }
+  }
+}
+
+extension CisScanResultsAggregatedByTargetResourceSortByFromString on String {
+  CisScanResultsAggregatedByTargetResourceSortBy
+      toCisScanResultsAggregatedByTargetResourceSortBy() {
+    switch (this) {
+      case 'RESOURCE_ID':
+        return CisScanResultsAggregatedByTargetResourceSortBy.resourceId;
+      case 'FAILED_COUNTS':
+        return CisScanResultsAggregatedByTargetResourceSortBy.failedCounts;
+      case 'ACCOUNT_ID':
+        return CisScanResultsAggregatedByTargetResourceSortBy.accountId;
+      case 'PLATFORM':
+        return CisScanResultsAggregatedByTargetResourceSortBy.platform;
+      case 'TARGET_STATUS':
+        return CisScanResultsAggregatedByTargetResourceSortBy.targetStatus;
+      case 'TARGET_STATUS_REASON':
+        return CisScanResultsAggregatedByTargetResourceSortBy
+            .targetStatusReason;
+    }
+    throw Exception(
+        '$this is not known in enum CisScanResultsAggregatedByTargetResourceSortBy');
+  }
+}
+
+enum CisScanStatus {
+  failed,
+  completed,
+  cancelled,
+  inProgress,
+}
+
+extension CisScanStatusValueExtension on CisScanStatus {
+  String toValue() {
+    switch (this) {
+      case CisScanStatus.failed:
+        return 'FAILED';
+      case CisScanStatus.completed:
+        return 'COMPLETED';
+      case CisScanStatus.cancelled:
+        return 'CANCELLED';
+      case CisScanStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension CisScanStatusFromString on String {
+  CisScanStatus toCisScanStatus() {
+    switch (this) {
+      case 'FAILED':
+        return CisScanStatus.failed;
+      case 'COMPLETED':
+        return CisScanStatus.completed;
+      case 'CANCELLED':
+        return CisScanStatus.cancelled;
+      case 'IN_PROGRESS':
+        return CisScanStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum CisScanStatus');
+  }
+}
+
+enum CisScanStatusComparison {
+  equals,
+}
+
+extension CisScanStatusComparisonValueExtension on CisScanStatusComparison {
+  String toValue() {
+    switch (this) {
+      case CisScanStatusComparison.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension CisScanStatusComparisonFromString on String {
+  CisScanStatusComparison toCisScanStatusComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return CisScanStatusComparison.equals;
+    }
+    throw Exception('$this is not known in enum CisScanStatusComparison');
+  }
+}
+
+/// The CIS scan status filter.
+class CisScanStatusFilter {
+  /// The filter comparison value.
+  final CisScanStatusComparison comparison;
+
+  /// The filter value.
+  final CisScanStatus value;
+
+  CisScanStatusFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value.toValue(),
+    };
+  }
+}
+
+enum CisSecurityLevel {
+  level_1,
+  level_2,
+}
+
+extension CisSecurityLevelValueExtension on CisSecurityLevel {
+  String toValue() {
+    switch (this) {
+      case CisSecurityLevel.level_1:
+        return 'LEVEL_1';
+      case CisSecurityLevel.level_2:
+        return 'LEVEL_2';
+    }
+  }
+}
+
+extension CisSecurityLevelFromString on String {
+  CisSecurityLevel toCisSecurityLevel() {
+    switch (this) {
+      case 'LEVEL_1':
+        return CisSecurityLevel.level_1;
+      case 'LEVEL_2':
+        return CisSecurityLevel.level_2;
+    }
+    throw Exception('$this is not known in enum CisSecurityLevel');
+  }
+}
+
+enum CisSecurityLevelComparison {
+  equals,
+}
+
+extension CisSecurityLevelComparisonValueExtension
+    on CisSecurityLevelComparison {
+  String toValue() {
+    switch (this) {
+      case CisSecurityLevelComparison.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension CisSecurityLevelComparisonFromString on String {
+  CisSecurityLevelComparison toCisSecurityLevelComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return CisSecurityLevelComparison.equals;
+    }
+    throw Exception('$this is not known in enum CisSecurityLevelComparison');
+  }
+}
+
+/// The CIS security level filter. Security level refers to the Benchmark levels
+/// that CIS assigns to a profile.
+class CisSecurityLevelFilter {
+  /// The CIS security filter comparison value.
+  final CisSecurityLevelComparison comparison;
+
+  /// The CIS security filter value.
+  final CisSecurityLevel value;
+
+  CisSecurityLevelFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value.toValue(),
+    };
+  }
+}
+
+/// The CIS session message.
+class CisSessionMessage {
+  /// The CIS rule details for the CIS session message.
+  final Uint8List cisRuleDetails;
+
+  /// The rule ID for the CIS session message.
+  final String ruleId;
+
+  /// The status of the CIS session message.
+  final CisRuleStatus status;
+
+  CisSessionMessage({
+    required this.cisRuleDetails,
+    required this.ruleId,
+    required this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cisRuleDetails = this.cisRuleDetails;
+    final ruleId = this.ruleId;
+    final status = this.status;
+    return {
+      'cisRuleDetails': base64Encode(cisRuleDetails),
+      'ruleId': ruleId,
+      'status': status.toValue(),
+    };
+  }
+}
+
+enum CisSortOrder {
+  asc,
+  desc,
+}
+
+extension CisSortOrderValueExtension on CisSortOrder {
+  String toValue() {
+    switch (this) {
+      case CisSortOrder.asc:
+        return 'ASC';
+      case CisSortOrder.desc:
+        return 'DESC';
+    }
+  }
+}
+
+extension CisSortOrderFromString on String {
+  CisSortOrder toCisSortOrder() {
+    switch (this) {
+      case 'ASC':
+        return CisSortOrder.asc;
+      case 'DESC':
+        return CisSortOrder.desc;
+    }
+    throw Exception('$this is not known in enum CisSortOrder');
+  }
+}
+
+enum CisStringComparison {
+  equals,
+  prefix,
+  notEquals,
+}
+
+extension CisStringComparisonValueExtension on CisStringComparison {
+  String toValue() {
+    switch (this) {
+      case CisStringComparison.equals:
+        return 'EQUALS';
+      case CisStringComparison.prefix:
+        return 'PREFIX';
+      case CisStringComparison.notEquals:
+        return 'NOT_EQUALS';
+    }
+  }
+}
+
+extension CisStringComparisonFromString on String {
+  CisStringComparison toCisStringComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return CisStringComparison.equals;
+      case 'PREFIX':
+        return CisStringComparison.prefix;
+      case 'NOT_EQUALS':
+        return CisStringComparison.notEquals;
+    }
+    throw Exception('$this is not known in enum CisStringComparison');
+  }
+}
+
+/// The CIS string filter.
+class CisStringFilter {
+  /// The comparison value of the CIS string filter.
+  final CisStringComparison comparison;
+
+  /// The value of the CIS string filter.
+  final String value;
+
+  CisStringFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value,
+    };
+  }
+}
+
+/// The CIS target resource aggregation.
+class CisTargetResourceAggregation {
+  /// The scan ARN for the CIS target resource.
+  final String scanArn;
+
+  /// The account ID for the CIS target resource.
+  final String? accountId;
+
+  /// The platform for the CIS target resource.
+  final String? platform;
+
+  /// The target resource status counts.
+  final StatusCounts? statusCounts;
+
+  /// The ID of the target resource.
+  final String? targetResourceId;
+
+  /// The tag for the target resource.
+  final Map<String, List<String>>? targetResourceTags;
+
+  /// The status of the target resource.
+  final CisTargetStatus? targetStatus;
+
+  /// The reason for the target resource.
+  final CisTargetStatusReason? targetStatusReason;
+
+  CisTargetResourceAggregation({
+    required this.scanArn,
+    this.accountId,
+    this.platform,
+    this.statusCounts,
+    this.targetResourceId,
+    this.targetResourceTags,
+    this.targetStatus,
+    this.targetStatusReason,
+  });
+
+  factory CisTargetResourceAggregation.fromJson(Map<String, dynamic> json) {
+    return CisTargetResourceAggregation(
+      scanArn: json['scanArn'] as String,
+      accountId: json['accountId'] as String?,
+      platform: json['platform'] as String?,
+      statusCounts: json['statusCounts'] != null
+          ? StatusCounts.fromJson(json['statusCounts'] as Map<String, dynamic>)
+          : null,
+      targetResourceId: json['targetResourceId'] as String?,
+      targetResourceTags: (json['targetResourceTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      targetStatus: (json['targetStatus'] as String?)?.toCisTargetStatus(),
+      targetStatusReason:
+          (json['targetStatusReason'] as String?)?.toCisTargetStatusReason(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanArn = this.scanArn;
+    final accountId = this.accountId;
+    final platform = this.platform;
+    final statusCounts = this.statusCounts;
+    final targetResourceId = this.targetResourceId;
+    final targetResourceTags = this.targetResourceTags;
+    final targetStatus = this.targetStatus;
+    final targetStatusReason = this.targetStatusReason;
+    return {
+      'scanArn': scanArn,
+      if (accountId != null) 'accountId': accountId,
+      if (platform != null) 'platform': platform,
+      if (statusCounts != null) 'statusCounts': statusCounts,
+      if (targetResourceId != null) 'targetResourceId': targetResourceId,
+      if (targetResourceTags != null) 'targetResourceTags': targetResourceTags,
+      if (targetStatus != null) 'targetStatus': targetStatus.toValue(),
+      if (targetStatusReason != null)
+        'targetStatusReason': targetStatusReason.toValue(),
+    };
+  }
+}
+
+enum CisTargetStatus {
+  timedOut,
+  cancelled,
+  completed,
+}
+
+extension CisTargetStatusValueExtension on CisTargetStatus {
+  String toValue() {
+    switch (this) {
+      case CisTargetStatus.timedOut:
+        return 'TIMED_OUT';
+      case CisTargetStatus.cancelled:
+        return 'CANCELLED';
+      case CisTargetStatus.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension CisTargetStatusFromString on String {
+  CisTargetStatus toCisTargetStatus() {
+    switch (this) {
+      case 'TIMED_OUT':
+        return CisTargetStatus.timedOut;
+      case 'CANCELLED':
+        return CisTargetStatus.cancelled;
+      case 'COMPLETED':
+        return CisTargetStatus.completed;
+    }
+    throw Exception('$this is not known in enum CisTargetStatus');
+  }
+}
+
+enum CisTargetStatusComparison {
+  equals,
+}
+
+extension CisTargetStatusComparisonValueExtension on CisTargetStatusComparison {
+  String toValue() {
+    switch (this) {
+      case CisTargetStatusComparison.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension CisTargetStatusComparisonFromString on String {
+  CisTargetStatusComparison toCisTargetStatusComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return CisTargetStatusComparison.equals;
+    }
+    throw Exception('$this is not known in enum CisTargetStatusComparison');
+  }
+}
+
+/// The CIS target status filter.
+class CisTargetStatusFilter {
+  /// The comparison value of the CIS target status filter.
+  final CisTargetStatusComparison comparison;
+
+  /// The value of the CIS target status filter.
+  final CisTargetStatus value;
+
+  CisTargetStatusFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value.toValue(),
+    };
+  }
+}
+
+enum CisTargetStatusReason {
+  scanInProgress,
+  unsupportedOs,
+  ssmUnmanaged,
+}
+
+extension CisTargetStatusReasonValueExtension on CisTargetStatusReason {
+  String toValue() {
+    switch (this) {
+      case CisTargetStatusReason.scanInProgress:
+        return 'SCAN_IN_PROGRESS';
+      case CisTargetStatusReason.unsupportedOs:
+        return 'UNSUPPORTED_OS';
+      case CisTargetStatusReason.ssmUnmanaged:
+        return 'SSM_UNMANAGED';
+    }
+  }
+}
+
+extension CisTargetStatusReasonFromString on String {
+  CisTargetStatusReason toCisTargetStatusReason() {
+    switch (this) {
+      case 'SCAN_IN_PROGRESS':
+        return CisTargetStatusReason.scanInProgress;
+      case 'UNSUPPORTED_OS':
+        return CisTargetStatusReason.unsupportedOs;
+      case 'SSM_UNMANAGED':
+        return CisTargetStatusReason.ssmUnmanaged;
+    }
+    throw Exception('$this is not known in enum CisTargetStatusReason');
+  }
+}
+
+/// The CIS target status reason filter.
+class CisTargetStatusReasonFilter {
+  /// The comparison value of the CIS target status reason filter.
+  final CisTargetStatusComparison comparison;
+
+  /// The value of the CIS target status reason filter.
+  final CisTargetStatusReason value;
+
+  CisTargetStatusReasonFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value.toValue(),
+    };
+  }
+}
+
+/// The CIS targets.
+class CisTargets {
+  /// The CIS target account ids.
+  final List<String>? accountIds;
+
+  /// The CIS target resource tags.
+  final Map<String, List<String>>? targetResourceTags;
+
+  CisTargets({
+    this.accountIds,
+    this.targetResourceTags,
+  });
+
+  factory CisTargets.fromJson(Map<String, dynamic> json) {
+    return CisTargets(
+      accountIds: (json['accountIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      targetResourceTags: (json['targetResourceTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountIds = this.accountIds;
+    final targetResourceTags = this.targetResourceTags;
+    return {
+      if (accountIds != null) 'accountIds': accountIds,
+      if (targetResourceTags != null) 'targetResourceTags': targetResourceTags,
+    };
+  }
+}
+
 /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a
 /// specific vulnerability.
 class CisaData {
@@ -2752,6 +5209,345 @@ class CisaData {
   }
 }
 
+/// Contains information on where a code vulnerability is located in your Lambda
+/// function.
+class CodeFilePath {
+  /// The line number of the last line of code that a vulnerability was found in.
+  final int endLine;
+
+  /// The name of the file the code vulnerability was found in.
+  final String fileName;
+
+  /// The file path to the code that a vulnerability was found in.
+  final String filePath;
+
+  /// The line number of the first line of code that a vulnerability was found in.
+  final int startLine;
+
+  CodeFilePath({
+    required this.endLine,
+    required this.fileName,
+    required this.filePath,
+    required this.startLine,
+  });
+
+  factory CodeFilePath.fromJson(Map<String, dynamic> json) {
+    return CodeFilePath(
+      endLine: json['endLine'] as int,
+      fileName: json['fileName'] as String,
+      filePath: json['filePath'] as String,
+      startLine: json['startLine'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endLine = this.endLine;
+    final fileName = this.fileName;
+    final filePath = this.filePath;
+    final startLine = this.startLine;
+    return {
+      'endLine': endLine,
+      'fileName': fileName,
+      'filePath': filePath,
+      'startLine': startLine,
+    };
+  }
+}
+
+/// Contains information on the lines of code associated with a code snippet.
+class CodeLine {
+  /// The content of a line of code
+  final String content;
+
+  /// The line number that a section of code is located at.
+  final int lineNumber;
+
+  CodeLine({
+    required this.content,
+    required this.lineNumber,
+  });
+
+  factory CodeLine.fromJson(Map<String, dynamic> json) {
+    return CodeLine(
+      content: json['content'] as String,
+      lineNumber: json['lineNumber'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final lineNumber = this.lineNumber;
+    return {
+      'content': content,
+      'lineNumber': lineNumber,
+    };
+  }
+}
+
+/// Contains information about any errors encountered while trying to retrieve a
+/// code snippet.
+class CodeSnippetError {
+  /// The error code for the error that prevented a code snippet from being
+  /// retrieved.
+  final CodeSnippetErrorCode errorCode;
+
+  /// The error message received when Amazon Inspector failed to retrieve a code
+  /// snippet.
+  final String errorMessage;
+
+  /// The ARN of the finding that a code snippet couldn't be retrieved for.
+  final String findingArn;
+
+  CodeSnippetError({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.findingArn,
+  });
+
+  factory CodeSnippetError.fromJson(Map<String, dynamic> json) {
+    return CodeSnippetError(
+      errorCode: (json['errorCode'] as String).toCodeSnippetErrorCode(),
+      errorMessage: json['errorMessage'] as String,
+      findingArn: json['findingArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final findingArn = this.findingArn;
+    return {
+      'errorCode': errorCode.toValue(),
+      'errorMessage': errorMessage,
+      'findingArn': findingArn,
+    };
+  }
+}
+
+enum CodeSnippetErrorCode {
+  internalError,
+  accessDenied,
+  codeSnippetNotFound,
+  invalidInput,
+}
+
+extension CodeSnippetErrorCodeValueExtension on CodeSnippetErrorCode {
+  String toValue() {
+    switch (this) {
+      case CodeSnippetErrorCode.internalError:
+        return 'INTERNAL_ERROR';
+      case CodeSnippetErrorCode.accessDenied:
+        return 'ACCESS_DENIED';
+      case CodeSnippetErrorCode.codeSnippetNotFound:
+        return 'CODE_SNIPPET_NOT_FOUND';
+      case CodeSnippetErrorCode.invalidInput:
+        return 'INVALID_INPUT';
+    }
+  }
+}
+
+extension CodeSnippetErrorCodeFromString on String {
+  CodeSnippetErrorCode toCodeSnippetErrorCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return CodeSnippetErrorCode.internalError;
+      case 'ACCESS_DENIED':
+        return CodeSnippetErrorCode.accessDenied;
+      case 'CODE_SNIPPET_NOT_FOUND':
+        return CodeSnippetErrorCode.codeSnippetNotFound;
+      case 'INVALID_INPUT':
+        return CodeSnippetErrorCode.invalidInput;
+    }
+    throw Exception('$this is not known in enum CodeSnippetErrorCode');
+  }
+}
+
+/// Contains information on a code snippet retrieved by Amazon Inspector from a
+/// code vulnerability finding.
+class CodeSnippetResult {
+  /// Contains information on the retrieved code snippet.
+  final List<CodeLine>? codeSnippet;
+
+  /// The line number of the last line of a code snippet.
+  final int? endLine;
+
+  /// The ARN of a finding that the code snippet is associated with.
+  final String? findingArn;
+
+  /// The line number of the first line of a code snippet.
+  final int? startLine;
+
+  /// Details of a suggested code fix.
+  final List<SuggestedFix>? suggestedFixes;
+
+  CodeSnippetResult({
+    this.codeSnippet,
+    this.endLine,
+    this.findingArn,
+    this.startLine,
+    this.suggestedFixes,
+  });
+
+  factory CodeSnippetResult.fromJson(Map<String, dynamic> json) {
+    return CodeSnippetResult(
+      codeSnippet: (json['codeSnippet'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeLine.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endLine: json['endLine'] as int?,
+      findingArn: json['findingArn'] as String?,
+      startLine: json['startLine'] as int?,
+      suggestedFixes: (json['suggestedFixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SuggestedFix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSnippet = this.codeSnippet;
+    final endLine = this.endLine;
+    final findingArn = this.findingArn;
+    final startLine = this.startLine;
+    final suggestedFixes = this.suggestedFixes;
+    return {
+      if (codeSnippet != null) 'codeSnippet': codeSnippet,
+      if (endLine != null) 'endLine': endLine,
+      if (findingArn != null) 'findingArn': findingArn,
+      if (startLine != null) 'startLine': startLine,
+      if (suggestedFixes != null) 'suggestedFixes': suggestedFixes,
+    };
+  }
+}
+
+/// Contains information on the code vulnerability identified in your Lambda
+/// function.
+class CodeVulnerabilityDetails {
+  /// The Common Weakness Enumeration (CWE) item associated with the detected
+  /// vulnerability.
+  final List<String> cwes;
+
+  /// The ID for the Amazon CodeGuru detector associated with the finding. For
+  /// more information on detectors see <a
+  /// href="https://docs.aws.amazon.com/codeguru/detector-library">Amazon CodeGuru
+  /// Detector Library</a>.
+  final String detectorId;
+
+  /// The name of the detector used to identify the code vulnerability. For more
+  /// information on detectors see <a
+  /// href="https://docs.aws.amazon.com/codeguru/detector-library">CodeGuru
+  /// Detector Library</a>.
+  final String detectorName;
+
+  /// Contains information on where the code vulnerability is located in your
+  /// code.
+  final CodeFilePath filePath;
+
+  /// The detector tag associated with the vulnerability. Detector tags group
+  /// related vulnerabilities by common themes or tactics. For a list of available
+  /// tags by programming language, see <a
+  /// href="https://docs.aws.amazon.com/codeguru/detector-library/java/tags/">Java
+  /// tags</a>, or <a
+  /// href="https://docs.aws.amazon.com/codeguru/detector-library/python/tags/">Python
+  /// tags</a>.
+  final List<String>? detectorTags;
+
+  /// A URL containing supporting documentation about the code vulnerability
+  /// detected.
+  final List<String>? referenceUrls;
+
+  /// The identifier for a rule that was used to detect the code vulnerability.
+  final String? ruleId;
+
+  /// The Amazon Resource Name (ARN) of the Lambda layer that the code
+  /// vulnerability was detected in.
+  final String? sourceLambdaLayerArn;
+
+  CodeVulnerabilityDetails({
+    required this.cwes,
+    required this.detectorId,
+    required this.detectorName,
+    required this.filePath,
+    this.detectorTags,
+    this.referenceUrls,
+    this.ruleId,
+    this.sourceLambdaLayerArn,
+  });
+
+  factory CodeVulnerabilityDetails.fromJson(Map<String, dynamic> json) {
+    return CodeVulnerabilityDetails(
+      cwes: (json['cwes'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      detectorId: json['detectorId'] as String,
+      detectorName: json['detectorName'] as String,
+      filePath: CodeFilePath.fromJson(json['filePath'] as Map<String, dynamic>),
+      detectorTags: (json['detectorTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      referenceUrls: (json['referenceUrls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ruleId: json['ruleId'] as String?,
+      sourceLambdaLayerArn: json['sourceLambdaLayerArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cwes = this.cwes;
+    final detectorId = this.detectorId;
+    final detectorName = this.detectorName;
+    final filePath = this.filePath;
+    final detectorTags = this.detectorTags;
+    final referenceUrls = this.referenceUrls;
+    final ruleId = this.ruleId;
+    final sourceLambdaLayerArn = this.sourceLambdaLayerArn;
+    return {
+      'cwes': cwes,
+      'detectorId': detectorId,
+      'detectorName': detectorName,
+      'filePath': filePath,
+      if (detectorTags != null) 'detectorTags': detectorTags,
+      if (referenceUrls != null) 'referenceUrls': referenceUrls,
+      if (ruleId != null) 'ruleId': ruleId,
+      if (sourceLambdaLayerArn != null)
+        'sourceLambdaLayerArn': sourceLambdaLayerArn,
+    };
+  }
+}
+
+/// A compute platform.
+class ComputePlatform {
+  /// The compute platform product.
+  final String? product;
+
+  /// The compute platform vendor.
+  final String? vendor;
+
+  /// The compute platform version.
+  final String? version;
+
+  ComputePlatform({
+    this.product,
+    this.vendor,
+    this.version,
+  });
+
+  Map<String, dynamic> toJson() {
+    final product = this.product;
+    final vendor = this.vendor;
+    final version = this.version;
+    return {
+      if (product != null) 'product': product,
+      if (vendor != null) 'vendor': vendor,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
 /// a structure that contains information on the count of resources within a
 /// group.
 class Counts {
@@ -2783,6 +5579,31 @@ class Counts {
   }
 }
 
+/// Contains details of a coverage date filter.
+class CoverageDateFilter {
+  /// A timestamp representing the end of the time period to filter results by.
+  final DateTime? endInclusive;
+
+  /// A timestamp representing the start of the time period to filter results by.
+  final DateTime? startInclusive;
+
+  CoverageDateFilter({
+    this.endInclusive,
+    this.startInclusive,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endInclusive = this.endInclusive;
+    final startInclusive = this.startInclusive;
+    return {
+      if (endInclusive != null)
+        'endInclusive': unixTimestampToJson(endInclusive),
+      if (startInclusive != null)
+        'startInclusive': unixTimestampToJson(startInclusive),
+    };
+  }
+}
+
 /// A structure that identifies filter criteria for
 /// <code>GetCoverageStatistics</code>.
 class CoverageFilterCriteria {
@@ -2799,26 +5620,43 @@ class CoverageFilterCriteria {
   /// The Amazon ECR repository name to filter on.
   final List<CoverageStringFilter>? ecrRepositoryName;
 
-  /// Returns coverage statistics for AWS Lambda functions filtered by function
-  /// names.
+  /// The date an image was last pulled at.
+  final List<CoverageDateFilter>? imagePulledAt;
+
+  /// Returns coverage statistics for Amazon Web Services Lambda functions
+  /// filtered by function names.
   final List<CoverageStringFilter>? lambdaFunctionName;
 
-  /// Returns coverage statistics for AWS Lambda functions filtered by runtime.
+  /// Returns coverage statistics for Amazon Web Services Lambda functions
+  /// filtered by runtime.
   final List<CoverageStringFilter>? lambdaFunctionRuntime;
 
-  /// Returns coverage statistics for AWS Lambda functions filtered by tag.
+  /// Returns coverage statistics for Amazon Web Services Lambda functions
+  /// filtered by tag.
   final List<CoverageMapFilter>? lambdaFunctionTags;
+
+  /// Filters Amazon Web Services resources based on whether Amazon Inspector has
+  /// checked them for vulnerabilities within the specified time range.
+  final List<CoverageDateFilter>? lastScannedAt;
 
   /// An array of Amazon Web Services resource IDs to return coverage statistics
   /// for.
   final List<CoverageStringFilter>? resourceId;
 
   /// An array of Amazon Web Services resource types to return coverage statistics
-  /// for. The values can be <code>AWS_EC2_INSTANCE</code> or
-  /// <code>AWS_ECR_REPOSITORY</code>.
+  /// for. The values can be <code>AWS_EC2_INSTANCE</code>,
+  /// <code>AWS_LAMBDA_FUNCTION</code>, <code>AWS_ECR_CONTAINER_IMAGE</code>,
+  /// <code>AWS_ECR_REPOSITORY</code> or <code>AWS_ACCOUNT</code>.
   final List<CoverageStringFilter>? resourceType;
 
-  /// The scan status code to filter on.
+  /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid
+  /// values are <code>EC2_SSM_AGENT_BASED</code> and <code>EC2_HYBRID</code>.
+  final List<CoverageStringFilter>? scanMode;
+
+  /// The scan status code to filter on. Valid values are:
+  /// <code>ValidationException</code>, <code>InternalServerException</code>,
+  /// <code>ResourceNotFoundException</code>, <code>BadRequestException</code>,
+  /// and <code>ThrottlingException</code>.
   final List<CoverageStringFilter>? scanStatusCode;
 
   /// The scan status reason to filter on.
@@ -2832,11 +5670,14 @@ class CoverageFilterCriteria {
     this.ec2InstanceTags,
     this.ecrImageTags,
     this.ecrRepositoryName,
+    this.imagePulledAt,
     this.lambdaFunctionName,
     this.lambdaFunctionRuntime,
     this.lambdaFunctionTags,
+    this.lastScannedAt,
     this.resourceId,
     this.resourceType,
+    this.scanMode,
     this.scanStatusCode,
     this.scanStatusReason,
     this.scanType,
@@ -2847,11 +5688,14 @@ class CoverageFilterCriteria {
     final ec2InstanceTags = this.ec2InstanceTags;
     final ecrImageTags = this.ecrImageTags;
     final ecrRepositoryName = this.ecrRepositoryName;
+    final imagePulledAt = this.imagePulledAt;
     final lambdaFunctionName = this.lambdaFunctionName;
     final lambdaFunctionRuntime = this.lambdaFunctionRuntime;
     final lambdaFunctionTags = this.lambdaFunctionTags;
+    final lastScannedAt = this.lastScannedAt;
     final resourceId = this.resourceId;
     final resourceType = this.resourceType;
+    final scanMode = this.scanMode;
     final scanStatusCode = this.scanStatusCode;
     final scanStatusReason = this.scanStatusReason;
     final scanType = this.scanType;
@@ -2860,12 +5704,15 @@ class CoverageFilterCriteria {
       if (ec2InstanceTags != null) 'ec2InstanceTags': ec2InstanceTags,
       if (ecrImageTags != null) 'ecrImageTags': ecrImageTags,
       if (ecrRepositoryName != null) 'ecrRepositoryName': ecrRepositoryName,
+      if (imagePulledAt != null) 'imagePulledAt': imagePulledAt,
       if (lambdaFunctionName != null) 'lambdaFunctionName': lambdaFunctionName,
       if (lambdaFunctionRuntime != null)
         'lambdaFunctionRuntime': lambdaFunctionRuntime,
       if (lambdaFunctionTags != null) 'lambdaFunctionTags': lambdaFunctionTags,
+      if (lastScannedAt != null) 'lastScannedAt': lastScannedAt,
       if (resourceId != null) 'resourceId': resourceId,
       if (resourceType != null) 'resourceType': resourceType,
+      if (scanMode != null) 'scanMode': scanMode,
       if (scanStatusCode != null) 'scanStatusCode': scanStatusCode,
       if (scanStatusReason != null) 'scanStatusReason': scanStatusReason,
       if (scanType != null) 'scanType': scanType,
@@ -3029,8 +5876,14 @@ class CoveredResource {
   /// The Amazon Inspector scan type covering the resource.
   final ScanType scanType;
 
+  /// The date and time the resource was last checked for vulnerabilities.
+  final DateTime? lastScannedAt;
+
   /// An object that contains details about the metadata.
   final ResourceScanMetadata? resourceMetadata;
+
+  /// The scan method that is applied to the instance.
+  final ScanMode? scanMode;
 
   /// The status of the scan covering the resource.
   final ScanStatus? scanStatus;
@@ -3040,7 +5893,9 @@ class CoveredResource {
     required this.resourceId,
     required this.resourceType,
     required this.scanType,
+    this.lastScannedAt,
     this.resourceMetadata,
+    this.scanMode,
     this.scanStatus,
   });
 
@@ -3050,10 +5905,12 @@ class CoveredResource {
       resourceId: json['resourceId'] as String,
       resourceType: (json['resourceType'] as String).toCoverageResourceType(),
       scanType: (json['scanType'] as String).toScanType(),
+      lastScannedAt: timeStampFromJson(json['lastScannedAt']),
       resourceMetadata: json['resourceMetadata'] != null
           ? ResourceScanMetadata.fromJson(
               json['resourceMetadata'] as Map<String, dynamic>)
           : null,
+      scanMode: (json['scanMode'] as String?)?.toScanMode(),
       scanStatus: json['scanStatus'] != null
           ? ScanStatus.fromJson(json['scanStatus'] as Map<String, dynamic>)
           : null,
@@ -3065,15 +5922,67 @@ class CoveredResource {
     final resourceId = this.resourceId;
     final resourceType = this.resourceType;
     final scanType = this.scanType;
+    final lastScannedAt = this.lastScannedAt;
     final resourceMetadata = this.resourceMetadata;
+    final scanMode = this.scanMode;
     final scanStatus = this.scanStatus;
     return {
       'accountId': accountId,
       'resourceId': resourceId,
       'resourceType': resourceType.toValue(),
       'scanType': scanType.toValue(),
+      if (lastScannedAt != null)
+        'lastScannedAt': unixTimestampToJson(lastScannedAt),
       if (resourceMetadata != null) 'resourceMetadata': resourceMetadata,
+      if (scanMode != null) 'scanMode': scanMode.toValue(),
       if (scanStatus != null) 'scanStatus': scanStatus,
+    };
+  }
+}
+
+class CreateCisScanConfigurationResponse {
+  /// The scan configuration ARN for the CIS scan configuration.
+  final String? scanConfigurationArn;
+
+  CreateCisScanConfigurationResponse({
+    this.scanConfigurationArn,
+  });
+
+  factory CreateCisScanConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCisScanConfigurationResponse(
+      scanConfigurationArn: json['scanConfigurationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanConfigurationArn = this.scanConfigurationArn;
+    return {
+      if (scanConfigurationArn != null)
+        'scanConfigurationArn': scanConfigurationArn,
+    };
+  }
+}
+
+/// Creates CIS targets.
+class CreateCisTargets {
+  /// The CIS target account ids.
+  final List<String> accountIds;
+
+  /// The CIS target resource tags.
+  final Map<String, List<String>> targetResourceTags;
+
+  CreateCisTargets({
+    required this.accountIds,
+    required this.targetResourceTags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountIds = this.accountIds;
+    final targetResourceTags = this.targetResourceTags;
+    return {
+      'accountIds': accountIds,
+      'targetResourceTags': targetResourceTags,
     };
   }
 }
@@ -3110,6 +6019,28 @@ class CreateFindingsReportResponse {
 
   factory CreateFindingsReportResponse.fromJson(Map<String, dynamic> json) {
     return CreateFindingsReportResponse(
+      reportId: json['reportId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reportId = this.reportId;
+    return {
+      if (reportId != null) 'reportId': reportId,
+    };
+  }
+}
+
+class CreateSbomExportResponse {
+  /// The report ID for the software bill of materials (SBOM) report.
+  final String? reportId;
+
+  CreateSbomExportResponse({
+    this.reportId,
+  });
+
+  factory CreateSbomExportResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSbomExportResponse(
       reportId: json['reportId'] as String?,
     );
   }
@@ -3344,6 +6275,29 @@ class CvssScoreDetails {
   }
 }
 
+/// A daily schedule.
+class DailySchedule {
+  /// The schedule start time.
+  final Time startTime;
+
+  DailySchedule({
+    required this.startTime,
+  });
+
+  factory DailySchedule.fromJson(Map<String, dynamic> json) {
+    return DailySchedule(
+      startTime: Time.fromJson(json['startTime'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startTime = this.startTime;
+    return {
+      'startTime': startTime,
+    };
+  }
+}
+
 /// Contains details on the time range used to filter findings.
 class DateFilter {
   /// A timestamp representing the end of the time period filtered on.
@@ -3373,6 +6327,59 @@ class DateFilter {
       if (startInclusive != null)
         'startInclusive': unixTimestampToJson(startInclusive),
     };
+  }
+}
+
+enum Day {
+  sun,
+  mon,
+  tue,
+  wed,
+  thu,
+  fri,
+  sat,
+}
+
+extension DayValueExtension on Day {
+  String toValue() {
+    switch (this) {
+      case Day.sun:
+        return 'SUN';
+      case Day.mon:
+        return 'MON';
+      case Day.tue:
+        return 'TUE';
+      case Day.wed:
+        return 'WED';
+      case Day.thu:
+        return 'THU';
+      case Day.fri:
+        return 'FRI';
+      case Day.sat:
+        return 'SAT';
+    }
+  }
+}
+
+extension DayFromString on String {
+  Day toDay() {
+    switch (this) {
+      case 'SUN':
+        return Day.sun;
+      case 'MON':
+        return Day.mon;
+      case 'TUE':
+        return Day.tue;
+      case 'WED':
+        return Day.wed;
+      case 'THU':
+        return Day.thu;
+      case 'FRI':
+        return Day.fri;
+      case 'SAT':
+        return Day.sat;
+    }
+    throw Exception('$this is not known in enum Day');
   }
 }
 
@@ -3470,6 +6477,29 @@ extension DelegatedAdminStatusFromString on String {
   }
 }
 
+class DeleteCisScanConfigurationResponse {
+  /// The ARN of the CIS scan configuration.
+  final String scanConfigurationArn;
+
+  DeleteCisScanConfigurationResponse({
+    required this.scanConfigurationArn,
+  });
+
+  factory DeleteCisScanConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteCisScanConfigurationResponse(
+      scanConfigurationArn: json['scanConfigurationArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanConfigurationArn = this.scanConfigurationArn;
+    return {
+      'scanConfigurationArn': scanConfigurationArn,
+    };
+  }
+}
+
 class DeleteFilterResponse {
   /// The Amazon Resource Number (ARN) of the filter that has been deleted.
   final String arn;
@@ -3536,7 +6566,7 @@ class Destination {
   /// The ARN of the KMS key used to encrypt data when exporting findings.
   final String kmsKeyArn;
 
-  /// The prefix of the Amazon S3 bucket used to export findings.
+  /// The prefix that the findings will be written under.
   final String? keyPrefix;
 
   Destination({
@@ -3644,6 +6674,50 @@ class DisassociateMemberResponse {
     final accountId = this.accountId;
     return {
       'accountId': accountId,
+    };
+  }
+}
+
+/// Enables agent-based scanning, which scans instances that are not managed by
+/// SSM.
+class Ec2Configuration {
+  /// The scan method that is applied to the instance.
+  final Ec2ScanMode scanMode;
+
+  Ec2Configuration({
+    required this.scanMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final scanMode = this.scanMode;
+    return {
+      'scanMode': scanMode.toValue(),
+    };
+  }
+}
+
+/// Details about the state of the EC2 scan configuration for your environment.
+class Ec2ConfigurationState {
+  /// An object that contains details about the state of the Amazon EC2 scan mode.
+  final Ec2ScanModeState? scanModeState;
+
+  Ec2ConfigurationState({
+    this.scanModeState,
+  });
+
+  factory Ec2ConfigurationState.fromJson(Map<String, dynamic> json) {
+    return Ec2ConfigurationState(
+      scanModeState: json['scanModeState'] != null
+          ? Ec2ScanModeState.fromJson(
+              json['scanModeState'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanModeState = this.scanModeState;
+    return {
+      if (scanModeState != null) 'scanModeState': scanModeState,
     };
   }
 }
@@ -3886,6 +6960,7 @@ enum Ec2Platform {
   windows,
   linux,
   unknown,
+  macos,
 }
 
 extension Ec2PlatformValueExtension on Ec2Platform {
@@ -3897,6 +6972,8 @@ extension Ec2PlatformValueExtension on Ec2Platform {
         return 'LINUX';
       case Ec2Platform.unknown:
         return 'UNKNOWN';
+      case Ec2Platform.macos:
+        return 'MACOS';
     }
   }
 }
@@ -3910,37 +6987,128 @@ extension Ec2PlatformFromString on String {
         return Ec2Platform.linux;
       case 'UNKNOWN':
         return Ec2Platform.unknown;
+      case 'MACOS':
+        return Ec2Platform.macos;
     }
     throw Exception('$this is not known in enum Ec2Platform');
+  }
+}
+
+enum Ec2ScanMode {
+  ec2SsmAgentBased,
+  ec2Hybrid,
+}
+
+extension Ec2ScanModeValueExtension on Ec2ScanMode {
+  String toValue() {
+    switch (this) {
+      case Ec2ScanMode.ec2SsmAgentBased:
+        return 'EC2_SSM_AGENT_BASED';
+      case Ec2ScanMode.ec2Hybrid:
+        return 'EC2_HYBRID';
+    }
+  }
+}
+
+extension Ec2ScanModeFromString on String {
+  Ec2ScanMode toEc2ScanMode() {
+    switch (this) {
+      case 'EC2_SSM_AGENT_BASED':
+        return Ec2ScanMode.ec2SsmAgentBased;
+      case 'EC2_HYBRID':
+        return Ec2ScanMode.ec2Hybrid;
+    }
+    throw Exception('$this is not known in enum Ec2ScanMode');
+  }
+}
+
+/// The state of your Amazon EC2 scan mode configuration.
+class Ec2ScanModeState {
+  /// The scan method that is applied to the instance.
+  final Ec2ScanMode? scanMode;
+
+  /// The status of the Amazon EC2 scan mode setting.
+  final Ec2ScanModeStatus? scanModeStatus;
+
+  Ec2ScanModeState({
+    this.scanMode,
+    this.scanModeStatus,
+  });
+
+  factory Ec2ScanModeState.fromJson(Map<String, dynamic> json) {
+    return Ec2ScanModeState(
+      scanMode: (json['scanMode'] as String?)?.toEc2ScanMode(),
+      scanModeStatus:
+          (json['scanModeStatus'] as String?)?.toEc2ScanModeStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanMode = this.scanMode;
+    final scanModeStatus = this.scanModeStatus;
+    return {
+      if (scanMode != null) 'scanMode': scanMode.toValue(),
+      if (scanModeStatus != null) 'scanModeStatus': scanModeStatus.toValue(),
+    };
+  }
+}
+
+enum Ec2ScanModeStatus {
+  success,
+  pending,
+}
+
+extension Ec2ScanModeStatusValueExtension on Ec2ScanModeStatus {
+  String toValue() {
+    switch (this) {
+      case Ec2ScanModeStatus.success:
+        return 'SUCCESS';
+      case Ec2ScanModeStatus.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension Ec2ScanModeStatusFromString on String {
+  Ec2ScanModeStatus toEc2ScanModeStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return Ec2ScanModeStatus.success;
+      case 'PENDING':
+        return Ec2ScanModeStatus.pending;
+    }
+    throw Exception('$this is not known in enum Ec2ScanModeStatus');
   }
 }
 
 /// Details about the ECR automated re-scan duration setting for your
 /// environment.
 class EcrConfiguration {
-  /// The ECR automated re-scan duration defines how long an ECR image will be
-  /// actively scanned by Amazon Inspector. When the number of days since an image
-  /// was last pushed exceeds the automated re-scan duration the monitoring state
-  /// of that image becomes <code>inactive</code> and all associated findings are
-  /// scheduled for closure.
+  /// The rescan duration configured for image push date.
   final EcrRescanDuration rescanDuration;
+
+  /// The rescan duration configured for image pull date.
+  final EcrPullDateRescanDuration? pullDateRescanDuration;
 
   EcrConfiguration({
     required this.rescanDuration,
+    this.pullDateRescanDuration,
   });
 
   Map<String, dynamic> toJson() {
     final rescanDuration = this.rescanDuration;
+    final pullDateRescanDuration = this.pullDateRescanDuration;
     return {
       'rescanDuration': rescanDuration.toValue(),
+      if (pullDateRescanDuration != null)
+        'pullDateRescanDuration': pullDateRescanDuration.toValue(),
     };
   }
 }
 
 /// Details about the state of the ECR scans for your environment.
 class EcrConfigurationState {
-  /// An object that contains details about the state of the ECR automated re-scan
-  /// setting.
+  /// An object that contains details about the state of the ECR re-scan settings.
   final EcrRescanDurationState? rescanDurationState;
 
   EcrConfigurationState({
@@ -3967,15 +7135,20 @@ class EcrConfigurationState {
 
 /// Information on the Amazon ECR image metadata associated with a finding.
 class EcrContainerImageMetadata {
+  /// The date an image was last pulled at.
+  final DateTime? imagePulledAt;
+
   /// Tags associated with the Amazon ECR image metadata.
   final List<String>? tags;
 
   EcrContainerImageMetadata({
+    this.imagePulledAt,
     this.tags,
   });
 
   factory EcrContainerImageMetadata.fromJson(Map<String, dynamic> json) {
     return EcrContainerImageMetadata(
+      imagePulledAt: timeStampFromJson(json['imagePulledAt']),
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3984,10 +7157,56 @@ class EcrContainerImageMetadata {
   }
 
   Map<String, dynamic> toJson() {
+    final imagePulledAt = this.imagePulledAt;
     final tags = this.tags;
     return {
+      if (imagePulledAt != null)
+        'imagePulledAt': unixTimestampToJson(imagePulledAt),
       if (tags != null) 'tags': tags,
     };
+  }
+}
+
+enum EcrPullDateRescanDuration {
+  days_14,
+  days_30,
+  days_60,
+  days_90,
+  days_180,
+}
+
+extension EcrPullDateRescanDurationValueExtension on EcrPullDateRescanDuration {
+  String toValue() {
+    switch (this) {
+      case EcrPullDateRescanDuration.days_14:
+        return 'DAYS_14';
+      case EcrPullDateRescanDuration.days_30:
+        return 'DAYS_30';
+      case EcrPullDateRescanDuration.days_60:
+        return 'DAYS_60';
+      case EcrPullDateRescanDuration.days_90:
+        return 'DAYS_90';
+      case EcrPullDateRescanDuration.days_180:
+        return 'DAYS_180';
+    }
+  }
+}
+
+extension EcrPullDateRescanDurationFromString on String {
+  EcrPullDateRescanDuration toEcrPullDateRescanDuration() {
+    switch (this) {
+      case 'DAYS_14':
+        return EcrPullDateRescanDuration.days_14;
+      case 'DAYS_30':
+        return EcrPullDateRescanDuration.days_30;
+      case 'DAYS_60':
+        return EcrPullDateRescanDuration.days_60;
+      case 'DAYS_90':
+        return EcrPullDateRescanDuration.days_90;
+      case 'DAYS_180':
+        return EcrPullDateRescanDuration.days_180;
+    }
+    throw Exception('$this is not known in enum EcrPullDateRescanDuration');
   }
 }
 
@@ -4025,6 +7244,9 @@ enum EcrRescanDuration {
   lifetime,
   days_30,
   days_180,
+  days_14,
+  days_60,
+  days_90,
 }
 
 extension EcrRescanDurationValueExtension on EcrRescanDuration {
@@ -4036,6 +7258,12 @@ extension EcrRescanDurationValueExtension on EcrRescanDuration {
         return 'DAYS_30';
       case EcrRescanDuration.days_180:
         return 'DAYS_180';
+      case EcrRescanDuration.days_14:
+        return 'DAYS_14';
+      case EcrRescanDuration.days_60:
+        return 'DAYS_60';
+      case EcrRescanDuration.days_90:
+        return 'DAYS_90';
     }
   }
 }
@@ -4049,19 +7277,29 @@ extension EcrRescanDurationFromString on String {
         return EcrRescanDuration.days_30;
       case 'DAYS_180':
         return EcrRescanDuration.days_180;
+      case 'DAYS_14':
+        return EcrRescanDuration.days_14;
+      case 'DAYS_60':
+        return EcrRescanDuration.days_60;
+      case 'DAYS_90':
+        return EcrRescanDuration.days_90;
     }
     throw Exception('$this is not known in enum EcrRescanDuration');
   }
 }
 
-/// Details about the state of any changes to the ECR automated re-scan duration
-/// setting.
+/// Details about the state of your ECR re-scan duration settings. The ECR
+/// re-scan duration defines how long an ECR image will be actively scanned by
+/// Amazon Inspector. When the number of days since an image was last pushed
+/// exceeds the duration configured for image pull date, and the duration
+/// configured for image pull date, the monitoring state of that image becomes
+/// <code>inactive</code> and all associated findings are scheduled for closure.
 class EcrRescanDurationState {
-  /// The ECR automated re-scan duration defines how long an ECR image will be
-  /// actively scanned by Amazon Inspector. When the number of days since an image
-  /// was last pushed exceeds the automated re-scan duration the monitoring state
-  /// of that image becomes <code>inactive</code> and all associated findings are
-  /// scheduled for closure.
+  /// The rescan duration configured for image pull date.
+  final EcrPullDateRescanDuration? pullDateRescanDuration;
+
+  /// The rescan duration configured for image push date. <pre><code> &lt;/p&gt;
+  /// </code></pre>
   final EcrRescanDuration? rescanDuration;
 
   /// The status of changes to the ECR automated re-scan duration.
@@ -4072,6 +7310,7 @@ class EcrRescanDurationState {
   final DateTime? updatedAt;
 
   EcrRescanDurationState({
+    this.pullDateRescanDuration,
     this.rescanDuration,
     this.status,
     this.updatedAt,
@@ -4079,6 +7318,8 @@ class EcrRescanDurationState {
 
   factory EcrRescanDurationState.fromJson(Map<String, dynamic> json) {
     return EcrRescanDurationState(
+      pullDateRescanDuration: (json['pullDateRescanDuration'] as String?)
+          ?.toEcrPullDateRescanDuration(),
       rescanDuration:
           (json['rescanDuration'] as String?)?.toEcrRescanDuration(),
       status: (json['status'] as String?)?.toEcrRescanDurationStatus(),
@@ -4087,10 +7328,13 @@ class EcrRescanDurationState {
   }
 
   Map<String, dynamic> toJson() {
+    final pullDateRescanDuration = this.pullDateRescanDuration;
     final rescanDuration = this.rescanDuration;
     final status = this.status;
     final updatedAt = this.updatedAt;
     return {
+      if (pullDateRescanDuration != null)
+        'pullDateRescanDuration': pullDateRescanDuration.toValue(),
       if (rescanDuration != null) 'rescanDuration': rescanDuration.toValue(),
       if (status != null) 'status': status.toValue(),
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
@@ -4248,6 +7492,30 @@ class Epss {
   }
 }
 
+/// Details about the Exploit Prediction Scoring System (EPSS) score for a
+/// finding.
+class EpssDetails {
+  /// The EPSS score.
+  final double? score;
+
+  EpssDetails({
+    this.score,
+  });
+
+  factory EpssDetails.fromJson(Map<String, dynamic> json) {
+    return EpssDetails(
+      score: json['score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final score = this.score;
+    return {
+      if (score != null) 'score': score,
+    };
+  }
+}
+
 enum ErrorCode {
   alreadyEnabled,
   enableInProgress,
@@ -4333,6 +7601,43 @@ extension ErrorCodeFromString on String {
         return ErrorCode.accountIsIsolated;
     }
     throw Exception('$this is not known in enum ErrorCode');
+  }
+}
+
+/// Details of the evidence for a vulnerability identified in a finding.
+class Evidence {
+  /// The evidence details.
+  final String? evidenceDetail;
+
+  /// The evidence rule.
+  final String? evidenceRule;
+
+  /// The evidence severity.
+  final String? severity;
+
+  Evidence({
+    this.evidenceDetail,
+    this.evidenceRule,
+    this.severity,
+  });
+
+  factory Evidence.fromJson(Map<String, dynamic> json) {
+    return Evidence(
+      evidenceDetail: json['evidenceDetail'] as String?,
+      evidenceRule: json['evidenceRule'] as String?,
+      severity: json['severity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evidenceDetail = this.evidenceDetail;
+    final evidenceRule = this.evidenceRule;
+    final severity = this.severity;
+    return {
+      if (evidenceDetail != null) 'evidenceDetail': evidenceDetail,
+      if (evidenceRule != null) 'evidenceRule': evidenceRule,
+      if (severity != null) 'severity': severity,
+    };
   }
 }
 
@@ -4678,6 +7983,23 @@ class FilterCriteria {
   /// Details of the Amazon Web Services account IDs used to filter findings.
   final List<StringFilter>? awsAccountId;
 
+  /// The name of the detector used to identify a code vulnerability in a Lambda
+  /// function used to filter findings.
+  final List<StringFilter>? codeVulnerabilityDetectorName;
+
+  /// The detector type tag associated with the vulnerability used to filter
+  /// findings. Detector tags group related vulnerabilities by common themes or
+  /// tactics. For a list of available tags by programming language, see <a
+  /// href="https://docs.aws.amazon.com/codeguru/detector-library/java/tags/">Java
+  /// tags</a>, or <a
+  /// href="https://docs.aws.amazon.com/codeguru/detector-library/python/tags/">Python
+  /// tags</a>.
+  final List<StringFilter>? codeVulnerabilityDetectorTags;
+
+  /// The file path to the file in a Lambda function that contains a code
+  /// vulnerability used to filter findings.
+  final List<StringFilter>? codeVulnerabilityFilePath;
+
   /// Details of the component IDs used to filter findings.
   final List<StringFilter>? componentId;
 
@@ -4711,7 +8033,11 @@ class FilterCriteria {
   /// The tags attached to the Amazon ECR container image.
   final List<StringFilter>? ecrImageTags;
 
-  /// Filters the list of AWS Lambda findings by the availability of exploits.
+  /// The EPSS score used to filter findings.
+  final List<NumberFilter>? epssScore;
+
+  /// Filters the list of Amazon Web Services Lambda findings by the availability
+  /// of exploits.
   final List<StringFilter>? exploitAvailable;
 
   /// Details on the finding ARNs used to filter findings.
@@ -4736,32 +8062,34 @@ class FilterCriteria {
   /// The Amazon Inspector score to filter on.
   final List<NumberFilter>? inspectorScore;
 
-  /// Filters the list of AWS Lambda functions by execution role.
+  /// Filters the list of Amazon Web Services Lambda functions by execution role.
   final List<StringFilter>? lambdaFunctionExecutionRoleArn;
 
-  /// Filters the list of AWS Lambda functions by the date and time that a user
-  /// last updated the configuration, in <a
+  /// Filters the list of Amazon Web Services Lambda functions by the date and
+  /// time that a user last updated the configuration, in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601
   /// format</a>
   final List<DateFilter>? lambdaFunctionLastModifiedAt;
 
-  /// Filters the list of AWS Lambda functions by the function's <a
+  /// Filters the list of Amazon Web Services Lambda functions by the function's
+  /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">
   /// layers</a>. A Lambda function can have up to five layers.
   final List<StringFilter>? lambdaFunctionLayers;
 
-  /// Filters the list of AWS Lambda functions by the name of the function.
+  /// Filters the list of Amazon Web Services Lambda functions by the name of the
+  /// function.
   final List<StringFilter>? lambdaFunctionName;
 
-  /// Filters the list of AWS Lambda functions by the runtime environment for the
-  /// Lambda function.
+  /// Filters the list of Amazon Web Services Lambda functions by the runtime
+  /// environment for the Lambda function.
   final List<StringFilter>? lambdaFunctionRuntime;
 
   /// Details on the date and time a finding was last seen used to filter
   /// findings.
   final List<DateFilter>? lastObservedAt;
 
-  /// Details on the ingress source addresses used to filter findings.
+  /// Details on network protocol used to filter findings.
   final List<StringFilter>? networkProtocol;
 
   /// Details on the port ranges used to filter findings.
@@ -4803,6 +8131,9 @@ class FilterCriteria {
 
   FilterCriteria({
     this.awsAccountId,
+    this.codeVulnerabilityDetectorName,
+    this.codeVulnerabilityDetectorTags,
+    this.codeVulnerabilityFilePath,
     this.componentId,
     this.componentType,
     this.ec2InstanceImageId,
@@ -4814,6 +8145,7 @@ class FilterCriteria {
     this.ecrImageRegistry,
     this.ecrImageRepositoryName,
     this.ecrImageTags,
+    this.epssScore,
     this.exploitAvailable,
     this.findingArn,
     this.findingStatus,
@@ -4845,6 +8177,20 @@ class FilterCriteria {
   factory FilterCriteria.fromJson(Map<String, dynamic> json) {
     return FilterCriteria(
       awsAccountId: (json['awsAccountId'] as List?)
+          ?.whereNotNull()
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      codeVulnerabilityDetectorName:
+          (json['codeVulnerabilityDetectorName'] as List?)
+              ?.whereNotNull()
+              .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      codeVulnerabilityDetectorTags:
+          (json['codeVulnerabilityDetectorTags'] as List?)
+              ?.whereNotNull()
+              .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      codeVulnerabilityFilePath: (json['codeVulnerabilityFilePath'] as List?)
           ?.whereNotNull()
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4891,6 +8237,10 @@ class FilterCriteria {
       ecrImageTags: (json['ecrImageTags'] as List?)
           ?.whereNotNull()
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      epssScore: (json['epssScore'] as List?)
+          ?.whereNotNull()
+          .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       exploitAvailable: (json['exploitAvailable'] as List?)
           ?.whereNotNull()
@@ -5003,6 +8353,9 @@ class FilterCriteria {
 
   Map<String, dynamic> toJson() {
     final awsAccountId = this.awsAccountId;
+    final codeVulnerabilityDetectorName = this.codeVulnerabilityDetectorName;
+    final codeVulnerabilityDetectorTags = this.codeVulnerabilityDetectorTags;
+    final codeVulnerabilityFilePath = this.codeVulnerabilityFilePath;
     final componentId = this.componentId;
     final componentType = this.componentType;
     final ec2InstanceImageId = this.ec2InstanceImageId;
@@ -5014,6 +8367,7 @@ class FilterCriteria {
     final ecrImageRegistry = this.ecrImageRegistry;
     final ecrImageRepositoryName = this.ecrImageRepositoryName;
     final ecrImageTags = this.ecrImageTags;
+    final epssScore = this.epssScore;
     final exploitAvailable = this.exploitAvailable;
     final findingArn = this.findingArn;
     final findingStatus = this.findingStatus;
@@ -5042,6 +8396,12 @@ class FilterCriteria {
     final vulnerablePackages = this.vulnerablePackages;
     return {
       if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (codeVulnerabilityDetectorName != null)
+        'codeVulnerabilityDetectorName': codeVulnerabilityDetectorName,
+      if (codeVulnerabilityDetectorTags != null)
+        'codeVulnerabilityDetectorTags': codeVulnerabilityDetectorTags,
+      if (codeVulnerabilityFilePath != null)
+        'codeVulnerabilityFilePath': codeVulnerabilityFilePath,
       if (componentId != null) 'componentId': componentId,
       if (componentType != null) 'componentType': componentType,
       if (ec2InstanceImageId != null) 'ec2InstanceImageId': ec2InstanceImageId,
@@ -5056,6 +8416,7 @@ class FilterCriteria {
       if (ecrImageRepositoryName != null)
         'ecrImageRepositoryName': ecrImageRepositoryName,
       if (ecrImageTags != null) 'ecrImageTags': ecrImageTags,
+      if (epssScore != null) 'epssScore': epssScore,
       if (exploitAvailable != null) 'exploitAvailable': exploitAvailable,
       if (findingArn != null) 'findingArn': findingArn,
       if (findingStatus != null) 'findingStatus': findingStatus,
@@ -5106,23 +8467,43 @@ class Finding {
   /// The date and time that the finding was first observed.
   final DateTime firstObservedAt;
 
-  /// The date and time that the finding was last observed.
+  /// The date and time the finding was last observed. This timestamp for this
+  /// field remains unchanged until a finding is updated.
   final DateTime lastObservedAt;
 
   /// An object that contains the details about how to remediate a finding.
   final Remediation remediation;
 
-  /// Contains information on the resources involved in a finding.
+  /// Contains information on the resources involved in a finding. The
+  /// <code>resource</code> value determines the valid values for
+  /// <code>type</code> in your request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/inspector/latest/user/findings-types.html">Finding
+  /// types</a> in the Amazon Inspector user guide.
   final List<Resource> resources;
 
-  /// The severity of the finding.
+  /// The severity of the finding. <code>UNTRIAGED</code> applies to
+  /// <code>PACKAGE_VULNERABILITY</code> type findings that the vendor has not
+  /// assigned a severity yet. For more information, see <a
+  /// href="https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html">Severity
+  /// levels for findings</a> in the Amazon Inspector user guide.
   final Severity severity;
 
   /// The status of the finding.
   final FindingStatus status;
 
-  /// The type of the finding.
+  /// The type of the finding. The <code>type</code> value determines the valid
+  /// values for <code>resource</code> in your request. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/inspector/latest/user/findings-types.html">Finding
+  /// types</a> in the Amazon Inspector user guide.
   final FindingType type;
+
+  /// Details about the code vulnerability identified in a Lambda function used to
+  /// filter findings.
+  final CodeVulnerabilityDetails? codeVulnerabilityDetails;
+
+  /// The finding's EPSS score.
+  final EpssDetails? epss;
 
   /// If a finding discovered in your environment has an exploit available.
   final ExploitAvailable? exploitAvailable;
@@ -5166,6 +8547,8 @@ class Finding {
     required this.severity,
     required this.status,
     required this.type,
+    this.codeVulnerabilityDetails,
+    this.epss,
     this.exploitAvailable,
     this.exploitabilityDetails,
     this.fixAvailable,
@@ -5195,6 +8578,13 @@ class Finding {
       severity: (json['severity'] as String).toSeverity(),
       status: (json['status'] as String).toFindingStatus(),
       type: (json['type'] as String).toFindingType(),
+      codeVulnerabilityDetails: json['codeVulnerabilityDetails'] != null
+          ? CodeVulnerabilityDetails.fromJson(
+              json['codeVulnerabilityDetails'] as Map<String, dynamic>)
+          : null,
+      epss: json['epss'] != null
+          ? EpssDetails.fromJson(json['epss'] as Map<String, dynamic>)
+          : null,
       exploitAvailable:
           (json['exploitAvailable'] as String?)?.toExploitAvailable(),
       exploitabilityDetails: json['exploitabilityDetails'] != null
@@ -5231,6 +8621,8 @@ class Finding {
     final severity = this.severity;
     final status = this.status;
     final type = this.type;
+    final codeVulnerabilityDetails = this.codeVulnerabilityDetails;
+    final epss = this.epss;
     final exploitAvailable = this.exploitAvailable;
     final exploitabilityDetails = this.exploitabilityDetails;
     final fixAvailable = this.fixAvailable;
@@ -5251,6 +8643,9 @@ class Finding {
       'severity': severity.toValue(),
       'status': status.toValue(),
       'type': type.toValue(),
+      if (codeVulnerabilityDetails != null)
+        'codeVulnerabilityDetails': codeVulnerabilityDetails,
+      if (epss != null) 'epss': epss,
       if (exploitAvailable != null)
         'exploitAvailable': exploitAvailable.toValue(),
       if (exploitabilityDetails != null)
@@ -5266,6 +8661,186 @@ class Finding {
       if (title != null) 'title': title,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
+  }
+}
+
+/// Details of the vulnerability identified in a finding.
+class FindingDetail {
+  final CisaData? cisaData;
+
+  /// The Common Weakness Enumerations (CWEs) associated with the vulnerability.
+  final List<String>? cwes;
+
+  /// The Exploit Prediction Scoring System (EPSS) score of the vulnerability.
+  final double? epssScore;
+
+  /// Information on the evidence of the vulnerability.
+  final List<Evidence>? evidences;
+  final ExploitObserved? exploitObserved;
+
+  /// The finding ARN that the vulnerability details are associated with.
+  final String? findingArn;
+
+  /// The reference URLs for the vulnerability data.
+  final List<String>? referenceUrls;
+
+  /// The risk score of the vulnerability.
+  final int? riskScore;
+
+  /// The known malware tools or kits that can exploit the vulnerability.
+  final List<String>? tools;
+
+  /// The MITRE adversary tactics, techniques, or procedures (TTPs) associated
+  /// with the vulnerability.
+  final List<String>? ttps;
+
+  FindingDetail({
+    this.cisaData,
+    this.cwes,
+    this.epssScore,
+    this.evidences,
+    this.exploitObserved,
+    this.findingArn,
+    this.referenceUrls,
+    this.riskScore,
+    this.tools,
+    this.ttps,
+  });
+
+  factory FindingDetail.fromJson(Map<String, dynamic> json) {
+    return FindingDetail(
+      cisaData: json['cisaData'] != null
+          ? CisaData.fromJson(json['cisaData'] as Map<String, dynamic>)
+          : null,
+      cwes: (json['cwes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      epssScore: json['epssScore'] as double?,
+      evidences: (json['evidences'] as List?)
+          ?.whereNotNull()
+          .map((e) => Evidence.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      exploitObserved: json['exploitObserved'] != null
+          ? ExploitObserved.fromJson(
+              json['exploitObserved'] as Map<String, dynamic>)
+          : null,
+      findingArn: json['findingArn'] as String?,
+      referenceUrls: (json['referenceUrls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      riskScore: json['riskScore'] as int?,
+      tools: (json['tools'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ttps: (json['ttps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cisaData = this.cisaData;
+    final cwes = this.cwes;
+    final epssScore = this.epssScore;
+    final evidences = this.evidences;
+    final exploitObserved = this.exploitObserved;
+    final findingArn = this.findingArn;
+    final referenceUrls = this.referenceUrls;
+    final riskScore = this.riskScore;
+    final tools = this.tools;
+    final ttps = this.ttps;
+    return {
+      if (cisaData != null) 'cisaData': cisaData,
+      if (cwes != null) 'cwes': cwes,
+      if (epssScore != null) 'epssScore': epssScore,
+      if (evidences != null) 'evidences': evidences,
+      if (exploitObserved != null) 'exploitObserved': exploitObserved,
+      if (findingArn != null) 'findingArn': findingArn,
+      if (referenceUrls != null) 'referenceUrls': referenceUrls,
+      if (riskScore != null) 'riskScore': riskScore,
+      if (tools != null) 'tools': tools,
+      if (ttps != null) 'ttps': ttps,
+    };
+  }
+}
+
+/// Details about an error encountered when trying to return vulnerability data
+/// for a finding.
+class FindingDetailsError {
+  /// The error code.
+  final FindingDetailsErrorCode errorCode;
+
+  /// The error message.
+  final String errorMessage;
+
+  /// The finding ARN that returned an error.
+  final String findingArn;
+
+  FindingDetailsError({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.findingArn,
+  });
+
+  factory FindingDetailsError.fromJson(Map<String, dynamic> json) {
+    return FindingDetailsError(
+      errorCode: (json['errorCode'] as String).toFindingDetailsErrorCode(),
+      errorMessage: json['errorMessage'] as String,
+      findingArn: json['findingArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final findingArn = this.findingArn;
+    return {
+      'errorCode': errorCode.toValue(),
+      'errorMessage': errorMessage,
+      'findingArn': findingArn,
+    };
+  }
+}
+
+enum FindingDetailsErrorCode {
+  internalError,
+  accessDenied,
+  findingDetailsNotFound,
+  invalidInput,
+}
+
+extension FindingDetailsErrorCodeValueExtension on FindingDetailsErrorCode {
+  String toValue() {
+    switch (this) {
+      case FindingDetailsErrorCode.internalError:
+        return 'INTERNAL_ERROR';
+      case FindingDetailsErrorCode.accessDenied:
+        return 'ACCESS_DENIED';
+      case FindingDetailsErrorCode.findingDetailsNotFound:
+        return 'FINDING_DETAILS_NOT_FOUND';
+      case FindingDetailsErrorCode.invalidInput:
+        return 'INVALID_INPUT';
+    }
+  }
+}
+
+extension FindingDetailsErrorCodeFromString on String {
+  FindingDetailsErrorCode toFindingDetailsErrorCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return FindingDetailsErrorCode.internalError;
+      case 'ACCESS_DENIED':
+        return FindingDetailsErrorCode.accessDenied;
+      case 'FINDING_DETAILS_NOT_FOUND':
+        return FindingDetailsErrorCode.findingDetailsNotFound;
+      case 'INVALID_INPUT':
+        return FindingDetailsErrorCode.invalidInput;
+    }
+    throw Exception('$this is not known in enum FindingDetailsErrorCode');
   }
 }
 
@@ -5305,6 +8880,7 @@ extension FindingStatusFromString on String {
 enum FindingType {
   networkReachability,
   packageVulnerability,
+  codeVulnerability,
 }
 
 extension FindingTypeValueExtension on FindingType {
@@ -5314,6 +8890,8 @@ extension FindingTypeValueExtension on FindingType {
         return 'NETWORK_REACHABILITY';
       case FindingType.packageVulnerability:
         return 'PACKAGE_VULNERABILITY';
+      case FindingType.codeVulnerability:
+        return 'CODE_VULNERABILITY';
     }
   }
 }
@@ -5325,6 +8903,8 @@ extension FindingTypeFromString on String {
         return FindingType.networkReachability;
       case 'PACKAGE_VULNERABILITY':
         return FindingType.packageVulnerability;
+      case 'CODE_VULNERABILITY':
+        return FindingType.codeVulnerability;
     }
     throw Exception('$this is not known in enum FindingType');
   }
@@ -5642,6 +9222,7 @@ enum FreeTrialType {
   ec2,
   ecr,
   lambda,
+  lambdaCode,
 }
 
 extension FreeTrialTypeValueExtension on FreeTrialType {
@@ -5653,6 +9234,8 @@ extension FreeTrialTypeValueExtension on FreeTrialType {
         return 'ECR';
       case FreeTrialType.lambda:
         return 'LAMBDA';
+      case FreeTrialType.lambdaCode:
+        return 'LAMBDA_CODE';
     }
   }
 }
@@ -5666,22 +9249,95 @@ extension FreeTrialTypeFromString on String {
         return FreeTrialType.ecr;
       case 'LAMBDA':
         return FreeTrialType.lambda;
+      case 'LAMBDA_CODE':
+        return FreeTrialType.lambdaCode;
     }
     throw Exception('$this is not known in enum FreeTrialType');
   }
 }
 
+class GetCisScanReportResponse {
+  /// The status.
+  final CisReportStatus? status;
+
+  /// The URL where a PDF or CSV of the CIS scan report can be downloaded.
+  final String? url;
+
+  GetCisScanReportResponse({
+    this.status,
+    this.url,
+  });
+
+  factory GetCisScanReportResponse.fromJson(Map<String, dynamic> json) {
+    return GetCisScanReportResponse(
+      status: (json['status'] as String?)?.toCisReportStatus(),
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final url = this.url;
+    return {
+      if (status != null) 'status': status.toValue(),
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+class GetCisScanResultDetailsResponse {
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  final String? nextToken;
+
+  /// The scan result details.
+  final List<CisScanResultDetails>? scanResultDetails;
+
+  GetCisScanResultDetailsResponse({
+    this.nextToken,
+    this.scanResultDetails,
+  });
+
+  factory GetCisScanResultDetailsResponse.fromJson(Map<String, dynamic> json) {
+    return GetCisScanResultDetailsResponse(
+      nextToken: json['nextToken'] as String?,
+      scanResultDetails: (json['scanResultDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => CisScanResultDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scanResultDetails = this.scanResultDetails;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (scanResultDetails != null) 'scanResultDetails': scanResultDetails,
+    };
+  }
+}
+
 class GetConfigurationResponse {
+  /// Specifies how the Amazon EC2 automated scan mode is currently configured for
+  /// your environment.
+  final Ec2ConfigurationState? ec2Configuration;
+
   /// Specifies how the ECR automated re-scan duration is currently configured for
   /// your environment.
   final EcrConfigurationState? ecrConfiguration;
 
   GetConfigurationResponse({
+    this.ec2Configuration,
     this.ecrConfiguration,
   });
 
   factory GetConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return GetConfigurationResponse(
+      ec2Configuration: json['ec2Configuration'] != null
+          ? Ec2ConfigurationState.fromJson(
+              json['ec2Configuration'] as Map<String, dynamic>)
+          : null,
       ecrConfiguration: json['ecrConfiguration'] != null
           ? EcrConfigurationState.fromJson(
               json['ecrConfiguration'] as Map<String, dynamic>)
@@ -5690,8 +9346,10 @@ class GetConfigurationResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final ec2Configuration = this.ec2Configuration;
     final ecrConfiguration = this.ecrConfiguration;
     return {
+      if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
       if (ecrConfiguration != null) 'ecrConfiguration': ecrConfiguration,
     };
   }
@@ -5770,6 +9428,28 @@ class GetEc2DeepInspectionConfigurationResponse {
       if (orgPackagePaths != null) 'orgPackagePaths': orgPackagePaths,
       if (packagePaths != null) 'packagePaths': packagePaths,
       if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+class GetEncryptionKeyResponse {
+  /// A kms key ID.
+  final String kmsKeyId;
+
+  GetEncryptionKeyResponse({
+    required this.kmsKeyId,
+  });
+
+  factory GetEncryptionKeyResponse.fromJson(Map<String, dynamic> json) {
+    return GetEncryptionKeyResponse(
+      kmsKeyId: json['kmsKeyId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'kmsKeyId': kmsKeyId,
     };
   }
 }
@@ -5856,6 +9536,74 @@ class GetMemberResponse {
     final member = this.member;
     return {
       if (member != null) 'member': member,
+    };
+  }
+}
+
+class GetSbomExportResponse {
+  /// An error code.
+  final ReportingErrorCode? errorCode;
+
+  /// An error message.
+  final String? errorMessage;
+
+  /// Contains details about the resource filter criteria used for the software
+  /// bill of materials (SBOM) report.
+  final ResourceFilterCriteria? filterCriteria;
+
+  /// The format of the software bill of materials (SBOM) report.
+  final SbomReportFormat? format;
+
+  /// The report ID of the software bill of materials (SBOM) report.
+  final String? reportId;
+  final Destination? s3Destination;
+
+  /// The status of the software bill of materials (SBOM) report.
+  final ExternalReportStatus? status;
+
+  GetSbomExportResponse({
+    this.errorCode,
+    this.errorMessage,
+    this.filterCriteria,
+    this.format,
+    this.reportId,
+    this.s3Destination,
+    this.status,
+  });
+
+  factory GetSbomExportResponse.fromJson(Map<String, dynamic> json) {
+    return GetSbomExportResponse(
+      errorCode: (json['errorCode'] as String?)?.toReportingErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
+      filterCriteria: json['filterCriteria'] != null
+          ? ResourceFilterCriteria.fromJson(
+              json['filterCriteria'] as Map<String, dynamic>)
+          : null,
+      format: (json['format'] as String?)?.toSbomReportFormat(),
+      reportId: json['reportId'] as String?,
+      s3Destination: json['s3Destination'] != null
+          ? Destination.fromJson(json['s3Destination'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toExternalReportStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final filterCriteria = this.filterCriteria;
+    final format = this.format;
+    final reportId = this.reportId;
+    final s3Destination = this.s3Destination;
+    final status = this.status;
+    return {
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (filterCriteria != null) 'filterCriteria': filterCriteria,
+      if (format != null) 'format': format.toValue(),
+      if (reportId != null) 'reportId': reportId,
+      if (s3Destination != null) 's3Destination': s3Destination,
+      if (status != null) 'status': status.toValue(),
     };
   }
 }
@@ -6059,10 +9807,11 @@ class InspectorScoreDetails {
   }
 }
 
-/// The details that define a findings aggregation based on AWS Lambda
-/// functions.
+/// The details that define a findings aggregation based on Amazon Web Services
+/// Lambda functions.
 class LambdaFunctionAggregation {
-  /// The AWS Lambda function names to include in the aggregation results.
+  /// The Amazon Web Services Lambda function names to include in the aggregation
+  /// results.
   final List<StringFilter>? functionNames;
 
   /// The tags to include in the aggregation results.
@@ -6071,7 +9820,8 @@ class LambdaFunctionAggregation {
   /// The resource IDs to include in the aggregation results.
   final List<StringFilter>? resourceIds;
 
-  /// Returns findings aggregated by AWS Lambda function runtime environments.
+  /// Returns findings aggregated by Amazon Web Services Lambda function runtime
+  /// environments.
   final List<StringFilter>? runtimes;
 
   /// The finding severity to use for sorting the results.
@@ -6107,23 +9857,25 @@ class LambdaFunctionAggregation {
   }
 }
 
-/// A response that contains the results of an AWS Lambda function finding
-/// aggregation.
+/// A response that contains the results of an Amazon Web Services Lambda
+/// function finding aggregation.
 class LambdaFunctionAggregationResponse {
   /// The resource IDs included in the aggregation results.
   final String resourceId;
 
-  /// The ID of the AWS account that owns the AWS Lambda function.
+  /// The ID of the Amazon Web Services account that owns the Amazon Web Services
+  /// Lambda function.
   final String? accountId;
 
-  /// The AWS Lambda function names included in the aggregation results.
+  /// The Amazon Web Services Lambda function names included in the aggregation
+  /// results.
   final String? functionName;
 
   /// The tags included in the aggregation results.
   final Map<String, String>? lambdaTags;
 
-  /// The date that the AWS Lambda function included in the aggregation results
-  /// was last changed.
+  /// The date that the Amazon Web Services Lambda function included in the
+  /// aggregation results was last changed.
   final DateTime? lastModifiedAt;
 
   /// The runtimes included in the aggregation results.
@@ -6178,19 +9930,19 @@ class LambdaFunctionAggregationResponse {
   }
 }
 
-/// The AWS Lambda function metadata.
+/// The Amazon Web Services Lambda function metadata.
 class LambdaFunctionMetadata {
   /// The name of a function.
   final String? functionName;
 
-  /// The resource tags on an AWS Lambda function.
+  /// The resource tags on an Amazon Web Services Lambda function.
   final Map<String, String>? functionTags;
 
-  /// The layers for an AWS Lambda function. A Lambda function can have up to five
-  /// layers.
+  /// The layers for an Amazon Web Services Lambda function. A Lambda function can
+  /// have up to five layers.
   final List<String>? layers;
 
-  /// An AWS Lambda function's runtime.
+  /// An Amazon Web Services Lambda function's runtime.
   final Runtime? runtime;
 
   LambdaFunctionMetadata({
@@ -6260,16 +10012,18 @@ extension LambdaFunctionSortByFromString on String {
   }
 }
 
-/// The details that define a findings aggregation based on an AWS Lambda
-/// function's layers.
+/// The details that define a findings aggregation based on an Amazon Web
+/// Services Lambda function's layers.
 class LambdaLayerAggregation {
-  /// The names of the AWS Lambda functions associated with the layers.
+  /// The names of the Amazon Web Services Lambda functions associated with the
+  /// layers.
   final List<StringFilter>? functionNames;
 
-  /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function
+  /// layer.
   final List<StringFilter>? layerArns;
 
-  /// The resource IDs for the AWS Lambda function layers.
+  /// The resource IDs for the Amazon Web Services Lambda function layers.
   final List<StringFilter>? resourceIds;
 
   /// The finding severity to use for sorting the results.
@@ -6302,19 +10056,21 @@ class LambdaLayerAggregation {
   }
 }
 
-/// A response that contains the results of an AWS Lambda function layer finding
-/// aggregation.
+/// A response that contains the results of an Amazon Web Services Lambda
+/// function layer finding aggregation.
 class LambdaLayerAggregationResponse {
-  /// The account ID of the AWS Lambda function layer.
+  /// The account ID of the Amazon Web Services Lambda function layer.
   final String accountId;
 
-  /// The names of the AWS Lambda functions associated with the layers.
+  /// The names of the Amazon Web Services Lambda functions associated with the
+  /// layers.
   final String functionName;
 
-  /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function
+  /// layer.
   final String layerArn;
 
-  /// The Resource ID of the AWS Lambda function layer.
+  /// The Resource ID of the Amazon Web Services Lambda function layer.
   final String resourceId;
   final SeverityCounts? severityCounts;
 
@@ -6388,13 +10144,13 @@ extension LambdaLayerSortByFromString on String {
   }
 }
 
-/// The VPC security groups and subnets that are attached to an AWS Lambda
-/// function. For more information, see <a
+/// The VPC security groups and subnets that are attached to an Amazon Web
+/// Services Lambda function. For more information, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
 /// Settings</a>.
 class LambdaVpcConfig {
-  /// The VPC security groups and subnets that are attached to an AWS Lambda
-  /// function. For more information, see <a
+  /// The VPC security groups and subnets that are attached to an Amazon Web
+  /// Services Lambda function. For more information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
   /// Settings</a>.
   final List<String>? securityGroupIds;
@@ -6470,6 +10226,316 @@ class ListAccountPermissionsResponse {
       'permissions': permissions,
       if (nextToken != null) 'nextToken': nextToken,
     };
+  }
+}
+
+/// A list of CIS scan configurations filter criteria.
+class ListCisScanConfigurationsFilterCriteria {
+  /// The list of scan configuration ARN filters.
+  final List<CisStringFilter>? scanConfigurationArnFilters;
+
+  /// The list of scan name filters.
+  final List<CisStringFilter>? scanNameFilters;
+
+  /// The list of target resource tag filters.
+  final List<TagFilter>? targetResourceTagFilters;
+
+  ListCisScanConfigurationsFilterCriteria({
+    this.scanConfigurationArnFilters,
+    this.scanNameFilters,
+    this.targetResourceTagFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final scanConfigurationArnFilters = this.scanConfigurationArnFilters;
+    final scanNameFilters = this.scanNameFilters;
+    final targetResourceTagFilters = this.targetResourceTagFilters;
+    return {
+      if (scanConfigurationArnFilters != null)
+        'scanConfigurationArnFilters': scanConfigurationArnFilters,
+      if (scanNameFilters != null) 'scanNameFilters': scanNameFilters,
+      if (targetResourceTagFilters != null)
+        'targetResourceTagFilters': targetResourceTagFilters,
+    };
+  }
+}
+
+class ListCisScanConfigurationsResponse {
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  final String? nextToken;
+
+  /// The CIS scan configuration scan configurations.
+  final List<CisScanConfiguration>? scanConfigurations;
+
+  ListCisScanConfigurationsResponse({
+    this.nextToken,
+    this.scanConfigurations,
+  });
+
+  factory ListCisScanConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCisScanConfigurationsResponse(
+      nextToken: json['nextToken'] as String?,
+      scanConfigurations: (json['scanConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => CisScanConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scanConfigurations = this.scanConfigurations;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (scanConfigurations != null) 'scanConfigurations': scanConfigurations,
+    };
+  }
+}
+
+class ListCisScanResultsAggregatedByChecksResponse {
+  /// The check aggregations.
+  final List<CisCheckAggregation>? checkAggregations;
+
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  final String? nextToken;
+
+  ListCisScanResultsAggregatedByChecksResponse({
+    this.checkAggregations,
+    this.nextToken,
+  });
+
+  factory ListCisScanResultsAggregatedByChecksResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCisScanResultsAggregatedByChecksResponse(
+      checkAggregations: (json['checkAggregations'] as List?)
+          ?.whereNotNull()
+          .map((e) => CisCheckAggregation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkAggregations = this.checkAggregations;
+    final nextToken = this.nextToken;
+    return {
+      if (checkAggregations != null) 'checkAggregations': checkAggregations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListCisScanResultsAggregatedByTargetResourceResponse {
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  final String? nextToken;
+
+  /// The resource aggregations.
+  final List<CisTargetResourceAggregation>? targetResourceAggregations;
+
+  ListCisScanResultsAggregatedByTargetResourceResponse({
+    this.nextToken,
+    this.targetResourceAggregations,
+  });
+
+  factory ListCisScanResultsAggregatedByTargetResourceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCisScanResultsAggregatedByTargetResourceResponse(
+      nextToken: json['nextToken'] as String?,
+      targetResourceAggregations: (json['targetResourceAggregations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CisTargetResourceAggregation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final targetResourceAggregations = this.targetResourceAggregations;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (targetResourceAggregations != null)
+        'targetResourceAggregations': targetResourceAggregations,
+    };
+  }
+}
+
+enum ListCisScansDetailLevel {
+  organization,
+  member,
+}
+
+extension ListCisScansDetailLevelValueExtension on ListCisScansDetailLevel {
+  String toValue() {
+    switch (this) {
+      case ListCisScansDetailLevel.organization:
+        return 'ORGANIZATION';
+      case ListCisScansDetailLevel.member:
+        return 'MEMBER';
+    }
+  }
+}
+
+extension ListCisScansDetailLevelFromString on String {
+  ListCisScansDetailLevel toListCisScansDetailLevel() {
+    switch (this) {
+      case 'ORGANIZATION':
+        return ListCisScansDetailLevel.organization;
+      case 'MEMBER':
+        return ListCisScansDetailLevel.member;
+    }
+    throw Exception('$this is not known in enum ListCisScansDetailLevel');
+  }
+}
+
+/// A list of CIS scans filter criteria.
+class ListCisScansFilterCriteria {
+  /// The list of failed checks filters.
+  final List<CisNumberFilter>? failedChecksFilters;
+
+  /// The list of scan ARN filters.
+  final List<CisStringFilter>? scanArnFilters;
+
+  /// The list of scan at filters.
+  final List<CisDateFilter>? scanAtFilters;
+
+  /// The list of scan configuration ARN filters.
+  final List<CisStringFilter>? scanConfigurationArnFilters;
+
+  /// The list of scan name filters.
+  final List<CisStringFilter>? scanNameFilters;
+
+  /// The list of scan status filters.
+  final List<CisScanStatusFilter>? scanStatusFilters;
+
+  /// The list of scheduled by filters.
+  final List<CisStringFilter>? scheduledByFilters;
+
+  /// The list of target account ID filters.
+  final List<CisStringFilter>? targetAccountIdFilters;
+
+  /// The list of target resource ID filters.
+  final List<CisStringFilter>? targetResourceIdFilters;
+
+  /// The list of target resource tag filters.
+  final List<TagFilter>? targetResourceTagFilters;
+
+  ListCisScansFilterCriteria({
+    this.failedChecksFilters,
+    this.scanArnFilters,
+    this.scanAtFilters,
+    this.scanConfigurationArnFilters,
+    this.scanNameFilters,
+    this.scanStatusFilters,
+    this.scheduledByFilters,
+    this.targetAccountIdFilters,
+    this.targetResourceIdFilters,
+    this.targetResourceTagFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final failedChecksFilters = this.failedChecksFilters;
+    final scanArnFilters = this.scanArnFilters;
+    final scanAtFilters = this.scanAtFilters;
+    final scanConfigurationArnFilters = this.scanConfigurationArnFilters;
+    final scanNameFilters = this.scanNameFilters;
+    final scanStatusFilters = this.scanStatusFilters;
+    final scheduledByFilters = this.scheduledByFilters;
+    final targetAccountIdFilters = this.targetAccountIdFilters;
+    final targetResourceIdFilters = this.targetResourceIdFilters;
+    final targetResourceTagFilters = this.targetResourceTagFilters;
+    return {
+      if (failedChecksFilters != null)
+        'failedChecksFilters': failedChecksFilters,
+      if (scanArnFilters != null) 'scanArnFilters': scanArnFilters,
+      if (scanAtFilters != null) 'scanAtFilters': scanAtFilters,
+      if (scanConfigurationArnFilters != null)
+        'scanConfigurationArnFilters': scanConfigurationArnFilters,
+      if (scanNameFilters != null) 'scanNameFilters': scanNameFilters,
+      if (scanStatusFilters != null) 'scanStatusFilters': scanStatusFilters,
+      if (scheduledByFilters != null) 'scheduledByFilters': scheduledByFilters,
+      if (targetAccountIdFilters != null)
+        'targetAccountIdFilters': targetAccountIdFilters,
+      if (targetResourceIdFilters != null)
+        'targetResourceIdFilters': targetResourceIdFilters,
+      if (targetResourceTagFilters != null)
+        'targetResourceTagFilters': targetResourceTagFilters,
+    };
+  }
+}
+
+class ListCisScansResponse {
+  /// The pagination token from a previous request that's used to retrieve the
+  /// next page of results.
+  final String? nextToken;
+
+  /// The CIS scans.
+  final List<CisScan>? scans;
+
+  ListCisScansResponse({
+    this.nextToken,
+    this.scans,
+  });
+
+  factory ListCisScansResponse.fromJson(Map<String, dynamic> json) {
+    return ListCisScansResponse(
+      nextToken: json['nextToken'] as String?,
+      scans: (json['scans'] as List?)
+          ?.whereNotNull()
+          .map((e) => CisScan.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scans = this.scans;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (scans != null) 'scans': scans,
+    };
+  }
+}
+
+enum ListCisScansSortBy {
+  status,
+  scheduledBy,
+  scanStartDate,
+  failedChecks,
+}
+
+extension ListCisScansSortByValueExtension on ListCisScansSortBy {
+  String toValue() {
+    switch (this) {
+      case ListCisScansSortBy.status:
+        return 'STATUS';
+      case ListCisScansSortBy.scheduledBy:
+        return 'SCHEDULED_BY';
+      case ListCisScansSortBy.scanStartDate:
+        return 'SCAN_START_DATE';
+      case ListCisScansSortBy.failedChecks:
+        return 'FAILED_CHECKS';
+    }
+  }
+}
+
+extension ListCisScansSortByFromString on String {
+  ListCisScansSortBy toListCisScansSortBy() {
+    switch (this) {
+      case 'STATUS':
+        return ListCisScansSortBy.status;
+      case 'SCHEDULED_BY':
+        return ListCisScansSortBy.scheduledBy;
+      case 'SCAN_START_DATE':
+        return ListCisScansSortBy.scanStartDate;
+      case 'FAILED_CHECKS':
+        return ListCisScansSortBy.failedChecks;
+    }
+    throw Exception('$this is not known in enum ListCisScansSortBy');
   }
 }
 
@@ -6966,6 +11032,36 @@ class MemberAccountEc2DeepInspectionStatusState {
   }
 }
 
+/// A monthly schedule.
+class MonthlySchedule {
+  /// The monthly schedule's day.
+  final Day day;
+
+  /// The monthly schedule's start time.
+  final Time startTime;
+
+  MonthlySchedule({
+    required this.day,
+    required this.startTime,
+  });
+
+  factory MonthlySchedule.fromJson(Map<String, dynamic> json) {
+    return MonthlySchedule(
+      day: (json['day'] as String).toDay(),
+      startTime: Time.fromJson(json['startTime'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final day = this.day;
+    final startTime = this.startTime;
+    return {
+      'day': day.toValue(),
+      'startTime': startTime,
+    };
+  }
+}
+
 /// Information on the network path associated with a finding.
 class NetworkPath {
   /// The details on the steps in the network path.
@@ -7088,6 +11184,19 @@ class NumberFilter {
       if (lowerInclusive != null) 'lowerInclusive': lowerInclusive,
       if (upperInclusive != null) 'upperInclusive': upperInclusive,
     };
+  }
+}
+
+/// A one time schedule.
+class OneTimeSchedule {
+  OneTimeSchedule();
+
+  factory OneTimeSchedule.fromJson(Map<String, dynamic> _) {
+    return OneTimeSchedule();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -7966,6 +12075,18 @@ extension RepositorySortByFromString on String {
   }
 }
 
+class ResetEncryptionKeyResponse {
+  ResetEncryptionKeyResponse();
+
+  factory ResetEncryptionKeyResponse.fromJson(Map<String, dynamic> _) {
+    return ResetEncryptionKeyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Details about the resource involved in a finding.
 class Resource {
   /// The ID of the resource.
@@ -8037,8 +12158,8 @@ class ResourceDetails {
   /// involved in the finding.
   final AwsEcrContainerImageDetails? awsEcrContainerImage;
 
-  /// A summary of the information about an AWS Lambda function affected by a
-  /// finding.
+  /// A summary of the information about an Amazon Web Services Lambda function
+  /// affected by a finding.
   final AwsLambdaFunctionDetails? awsLambdaFunction;
 
   ResourceDetails({
@@ -8077,6 +12198,164 @@ class ResourceDetails {
   }
 }
 
+/// The resource filter criteria for a Software bill of materials (SBOM) report.
+class ResourceFilterCriteria {
+  /// The account IDs used as resource filter criteria.
+  final List<ResourceStringFilter>? accountId;
+
+  /// The EC2 instance tags used as resource filter criteria.
+  final List<ResourceMapFilter>? ec2InstanceTags;
+
+  /// The ECR image tags used as resource filter criteria.
+  final List<ResourceStringFilter>? ecrImageTags;
+
+  /// The ECR repository names used as resource filter criteria.
+  final List<ResourceStringFilter>? ecrRepositoryName;
+
+  /// The Amazon Web Services Lambda function name used as resource filter
+  /// criteria.
+  final List<ResourceStringFilter>? lambdaFunctionName;
+
+  /// The Amazon Web Services Lambda function tags used as resource filter
+  /// criteria.
+  final List<ResourceMapFilter>? lambdaFunctionTags;
+
+  /// The resource IDs used as resource filter criteria.
+  final List<ResourceStringFilter>? resourceId;
+
+  /// The resource types used as resource filter criteria.
+  final List<ResourceStringFilter>? resourceType;
+
+  ResourceFilterCriteria({
+    this.accountId,
+    this.ec2InstanceTags,
+    this.ecrImageTags,
+    this.ecrRepositoryName,
+    this.lambdaFunctionName,
+    this.lambdaFunctionTags,
+    this.resourceId,
+    this.resourceType,
+  });
+
+  factory ResourceFilterCriteria.fromJson(Map<String, dynamic> json) {
+    return ResourceFilterCriteria(
+      accountId: (json['accountId'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ec2InstanceTags: (json['ec2InstanceTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceMapFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ecrImageTags: (json['ecrImageTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ecrRepositoryName: (json['ecrRepositoryName'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lambdaFunctionName: (json['lambdaFunctionName'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lambdaFunctionTags: (json['lambdaFunctionTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceMapFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceId: (json['resourceId'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceType: (json['resourceType'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final ec2InstanceTags = this.ec2InstanceTags;
+    final ecrImageTags = this.ecrImageTags;
+    final ecrRepositoryName = this.ecrRepositoryName;
+    final lambdaFunctionName = this.lambdaFunctionName;
+    final lambdaFunctionTags = this.lambdaFunctionTags;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (ec2InstanceTags != null) 'ec2InstanceTags': ec2InstanceTags,
+      if (ecrImageTags != null) 'ecrImageTags': ecrImageTags,
+      if (ecrRepositoryName != null) 'ecrRepositoryName': ecrRepositoryName,
+      if (lambdaFunctionName != null) 'lambdaFunctionName': lambdaFunctionName,
+      if (lambdaFunctionTags != null) 'lambdaFunctionTags': lambdaFunctionTags,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceType != null) 'resourceType': resourceType,
+    };
+  }
+}
+
+enum ResourceMapComparison {
+  equals,
+}
+
+extension ResourceMapComparisonValueExtension on ResourceMapComparison {
+  String toValue() {
+    switch (this) {
+      case ResourceMapComparison.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension ResourceMapComparisonFromString on String {
+  ResourceMapComparison toResourceMapComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return ResourceMapComparison.equals;
+    }
+    throw Exception('$this is not known in enum ResourceMapComparison');
+  }
+}
+
+/// A resource map filter for a software bill of material report.
+class ResourceMapFilter {
+  /// The filter's comparison.
+  final ResourceMapComparison comparison;
+
+  /// The filter's key.
+  final String key;
+
+  /// The filter's value.
+  final String? value;
+
+  ResourceMapFilter({
+    required this.comparison,
+    required this.key,
+    this.value,
+  });
+
+  factory ResourceMapFilter.fromJson(Map<String, dynamic> json) {
+    return ResourceMapFilter(
+      comparison: (json['comparison'] as String).toResourceMapComparison(),
+      key: json['key'] as String,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final key = this.key;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
 /// An object that contains details about the metadata for an Amazon ECR
 /// resource.
 class ResourceScanMetadata {
@@ -8091,7 +12370,8 @@ class ResourceScanMetadata {
   /// resides in.
   final EcrRepositoryMetadata? ecrRepository;
 
-  /// An object that contains metadata details for an AWS Lambda function.
+  /// An object that contains metadata details for an Amazon Web Services Lambda
+  /// function.
   final LambdaFunctionMetadata? lambdaFunction;
 
   ResourceScanMetadata({
@@ -8139,6 +12419,7 @@ enum ResourceScanType {
   ec2,
   ecr,
   lambda,
+  lambdaCode,
 }
 
 extension ResourceScanTypeValueExtension on ResourceScanType {
@@ -8150,6 +12431,8 @@ extension ResourceScanTypeValueExtension on ResourceScanType {
         return 'ECR';
       case ResourceScanType.lambda:
         return 'LAMBDA';
+      case ResourceScanType.lambdaCode:
+        return 'LAMBDA_CODE';
     }
   }
 }
@@ -8163,6 +12446,8 @@ extension ResourceScanTypeFromString on String {
         return ResourceScanType.ecr;
       case 'LAMBDA':
         return ResourceScanType.lambda;
+      case 'LAMBDA_CODE':
+        return ResourceScanType.lambdaCode;
     }
     throw Exception('$this is not known in enum ResourceScanType');
   }
@@ -8179,11 +12464,13 @@ class ResourceState {
   /// resources.
   final State ecr;
   final State? lambda;
+  final State? lambdaCode;
 
   ResourceState({
     required this.ec2,
     required this.ecr,
     this.lambda,
+    this.lambdaCode,
   });
 
   factory ResourceState.fromJson(Map<String, dynamic> json) {
@@ -8193,6 +12480,9 @@ class ResourceState {
       lambda: json['lambda'] != null
           ? State.fromJson(json['lambda'] as Map<String, dynamic>)
           : null,
+      lambdaCode: json['lambdaCode'] != null
+          ? State.fromJson(json['lambdaCode'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -8200,10 +12490,12 @@ class ResourceState {
     final ec2 = this.ec2;
     final ecr = this.ecr;
     final lambda = this.lambda;
+    final lambdaCode = this.lambdaCode;
     return {
       'ec2': ec2,
       'ecr': ecr,
       if (lambda != null) 'lambda': lambda,
+      if (lambdaCode != null) 'lambdaCode': lambdaCode,
     };
   }
 }
@@ -8217,13 +12509,19 @@ class ResourceStatus {
   /// The status of Amazon Inspector scanning for Amazon ECR resources.
   final Status ecr;
 
-  /// The status of Amazon Inspector scanning for AWS Lambda function.
+  /// The status of Amazon Inspector scanning for Amazon Web Services Lambda
+  /// function.
   final Status? lambda;
+
+  /// The status of Amazon Inspector scanning for custom application code for
+  /// Amazon Web Services Lambda functions.
+  final Status? lambdaCode;
 
   ResourceStatus({
     required this.ec2,
     required this.ecr,
     this.lambda,
+    this.lambdaCode,
   });
 
   factory ResourceStatus.fromJson(Map<String, dynamic> json) {
@@ -8231,6 +12529,7 @@ class ResourceStatus {
       ec2: (json['ec2'] as String).toStatus(),
       ecr: (json['ecr'] as String).toStatus(),
       lambda: (json['lambda'] as String?)?.toStatus(),
+      lambdaCode: (json['lambdaCode'] as String?)?.toStatus(),
     );
   }
 
@@ -8238,10 +12537,70 @@ class ResourceStatus {
     final ec2 = this.ec2;
     final ecr = this.ecr;
     final lambda = this.lambda;
+    final lambdaCode = this.lambdaCode;
     return {
       'ec2': ec2.toValue(),
       'ecr': ecr.toValue(),
       if (lambda != null) 'lambda': lambda.toValue(),
+      if (lambdaCode != null) 'lambdaCode': lambdaCode.toValue(),
+    };
+  }
+}
+
+enum ResourceStringComparison {
+  equals,
+  notEquals,
+}
+
+extension ResourceStringComparisonValueExtension on ResourceStringComparison {
+  String toValue() {
+    switch (this) {
+      case ResourceStringComparison.equals:
+        return 'EQUALS';
+      case ResourceStringComparison.notEquals:
+        return 'NOT_EQUALS';
+    }
+  }
+}
+
+extension ResourceStringComparisonFromString on String {
+  ResourceStringComparison toResourceStringComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return ResourceStringComparison.equals;
+      case 'NOT_EQUALS':
+        return ResourceStringComparison.notEquals;
+    }
+    throw Exception('$this is not known in enum ResourceStringComparison');
+  }
+}
+
+/// A resource string filter for a software bill of materials report.
+class ResourceStringFilter {
+  /// The filter's comparison.
+  final ResourceStringComparison comparison;
+
+  /// The filter's value.
+  final String value;
+
+  ResourceStringFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  factory ResourceStringFilter.fromJson(Map<String, dynamic> json) {
+    return ResourceStringFilter(
+      comparison: (json['comparison'] as String).toResourceStringComparison(),
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'value': value,
     };
   }
 }
@@ -8298,6 +12657,8 @@ enum Runtime {
   unsupported,
   nodejs_18X,
   go_1X,
+  java_17,
+  python_3_10,
 }
 
 extension RuntimeValueExtension on Runtime {
@@ -8329,6 +12690,10 @@ extension RuntimeValueExtension on Runtime {
         return 'NODEJS_18_X';
       case Runtime.go_1X:
         return 'GO_1_X';
+      case Runtime.java_17:
+        return 'JAVA_17';
+      case Runtime.python_3_10:
+        return 'PYTHON_3_10';
     }
   }
 }
@@ -8362,14 +12727,172 @@ extension RuntimeFromString on String {
         return Runtime.nodejs_18X;
       case 'GO_1_X':
         return Runtime.go_1X;
+      case 'JAVA_17':
+        return Runtime.java_17;
+      case 'PYTHON_3_10':
+        return Runtime.python_3_10;
     }
     throw Exception('$this is not known in enum Runtime');
   }
 }
 
+enum SbomReportFormat {
+  cyclonedx_1_4,
+  spdx_2_3,
+}
+
+extension SbomReportFormatValueExtension on SbomReportFormat {
+  String toValue() {
+    switch (this) {
+      case SbomReportFormat.cyclonedx_1_4:
+        return 'CYCLONEDX_1_4';
+      case SbomReportFormat.spdx_2_3:
+        return 'SPDX_2_3';
+    }
+  }
+}
+
+extension SbomReportFormatFromString on String {
+  SbomReportFormat toSbomReportFormat() {
+    switch (this) {
+      case 'CYCLONEDX_1_4':
+        return SbomReportFormat.cyclonedx_1_4;
+      case 'SPDX_2_3':
+        return SbomReportFormat.spdx_2_3;
+    }
+    throw Exception('$this is not known in enum SbomReportFormat');
+  }
+}
+
+enum ScanMode {
+  ec2SsmAgentBased,
+  ec2Agentless,
+}
+
+extension ScanModeValueExtension on ScanMode {
+  String toValue() {
+    switch (this) {
+      case ScanMode.ec2SsmAgentBased:
+        return 'EC2_SSM_AGENT_BASED';
+      case ScanMode.ec2Agentless:
+        return 'EC2_AGENTLESS';
+    }
+  }
+}
+
+extension ScanModeFromString on String {
+  ScanMode toScanMode() {
+    switch (this) {
+      case 'EC2_SSM_AGENT_BASED':
+        return ScanMode.ec2SsmAgentBased;
+      case 'EC2_AGENTLESS':
+        return ScanMode.ec2Agentless;
+    }
+    throw Exception('$this is not known in enum ScanMode');
+  }
+}
+
 /// The status of the scan.
 class ScanStatus {
-  /// The reason for the scan.
+  /// The scan status. Possible return values and descriptions are:
+  ///
+  /// <code>PENDING_INITIAL_SCAN</code> - This resource has been identified for
+  /// scanning, results will be available soon.
+  ///
+  /// <code>ACCESS_DENIED</code> - Resource access policy restricting Amazon
+  /// Inspector access. Please update the IAM policy.
+  ///
+  /// <code>INTERNAL_ERROR</code> - Amazon Inspector has encountered an internal
+  /// error for this resource. Amazon Inspector service will automatically resolve
+  /// the issue and resume the scanning. No action required from the user.
+  ///
+  /// <code>UNMANAGED_EC2_INSTANCE</code> - The EC2 instance is not managed by
+  /// SSM, please use the following SSM automation to remediate the issue: <a
+  /// href="https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html">https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html</a>.
+  /// Once the instance becomes managed by SSM, Inspector will automatically begin
+  /// scanning this instance.
+  ///
+  /// <code>UNSUPPORTED_OS</code> - Amazon Inspector does not support this OS,
+  /// architecture, or image manifest type at this time. To see a complete list of
+  /// supported operating systems see: <a href="
+  /// https://docs.aws.amazon.com/inspector/latest/user/supported.html">https://docs.aws.amazon.com/inspector/latest/user/supported.html</a>.
+  ///
+  /// <code>SCAN_ELIGIBILITY_EXPIRED</code> - The configured scan duration has
+  /// lapsed for this image.
+  ///
+  /// <code>RESOURCE_TERMINATED</code> - This resource has been terminated. The
+  /// findings and coverage associated with this resource are in the process of
+  /// being cleaned up.
+  ///
+  /// <code>SUCCESSFUL</code> - The scan was successful.
+  ///
+  /// <code>NO_RESOURCES_FOUND</code> - Reserved for future use.
+  ///
+  /// <code>IMAGE_SIZE_EXCEEDED</code> - Reserved for future use.
+  ///
+  /// <code>SCAN_FREQUENCY_MANUAL</code> - This image will not be covered by
+  /// Amazon Inspector due to the repository scan frequency configuration.
+  ///
+  /// <code>SCAN_FREQUENCY_SCAN_ON_PUSH </code>- This image will be scanned one
+  /// time and will not new findings because of the scan frequency configuration.
+  ///
+  /// <code>EC2_INSTANCE_STOPPED</code> - This EC2 instance is in a stopped state,
+  /// therefore, Amazon Inspector will pause scanning. The existing findings will
+  /// continue to exist until the instance is terminated. Once the instance is
+  /// re-started, Inspector will automatically start scanning the instance again.
+  /// Please note that you will not be charged for this instance while it’s in a
+  /// stopped state.
+  ///
+  /// <code>PENDING_DISABLE</code> - This resource is pending cleanup during
+  /// disablement. The customer will not be billed while a resource is in the
+  /// pending disable status.
+  ///
+  /// <code>NO INVENTORY</code> - Amazon Inspector couldn’t find software
+  /// application inventory to scan for vulnerabilities. This might be caused due
+  /// to required Amazon Inspector associations being deleted or failing to run on
+  /// your resource. Please verify the status of
+  /// <code>InspectorInventoryCollection-do-not-delete</code> association in the
+  /// SSM console for the resource. Additionally, you can verify the instance’s
+  /// inventory in the SSM Fleet Manager console.
+  ///
+  /// <code>STALE_INVENTORY</code> - Amazon Inspector wasn’t able to collect an
+  /// updated software application inventory in the last 7 days. Please confirm
+  /// the required Amazon Inspector associations still exist and you can still see
+  /// an updated inventory in the SSM console.
+  ///
+  /// <code>EXCLUDED_BY_TAG</code> - This resource was not scanned because it has
+  /// been excluded by a tag.
+  ///
+  /// <code>UNSUPPORTED_RUNTIME</code> - The function was not scanned because it
+  /// has an unsupported runtime. To see a complete list of supported runtimes
+  /// see: <a href="
+  /// https://docs.aws.amazon.com/inspector/latest/user/supported.html">https://docs.aws.amazon.com/inspector/latest/user/supported.html</a>.
+  ///
+  /// <code>UNSUPPORTED_MEDIA_TYPE </code>- The ECR image has an unsupported media
+  /// type.
+  ///
+  /// <code>UNSUPPORTED_CONFIG_FILE</code> - Reserved for future use.
+  ///
+  /// <code>DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED</code> - The
+  /// instance has exceeded the 5000 package limit for Amazon Inspector Deep
+  /// inspection. To resume Deep inspection for this instance you can try to
+  /// adjust the custom paths associated with the account.
+  ///
+  /// <code>DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED</code> - The SSM
+  /// agent couldn't send inventory to Amazon Inspector because the SSM quota for
+  /// Inventory data collected per instance per day has already been reached for
+  /// this instance.
+  ///
+  /// <code>DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED</code> - Amazon
+  /// Inspector failed to extract the package inventory because the package
+  /// collection time exceeding the maximum threshold of 15 minutes.
+  ///
+  /// <code>DEEP_INSPECTION_NO_INVENTORY</code> The Amazon Inspector plugin hasn't
+  /// yet been able to collect an inventory of packages for this instance. This is
+  /// usually the result of a pending scan, however, if this status persists after
+  /// 6 hours, use SSM to ensure that the required Amazon Inspector associations
+  /// exist and are running for the instance.
+  /// <p/>
   final ScanStatusReason reason;
 
   /// The status code of the scan.
@@ -8566,6 +13089,7 @@ extension ScanStatusReasonFromString on String {
 enum ScanType {
   network,
   package,
+  code,
 }
 
 extension ScanTypeValueExtension on ScanType {
@@ -8575,6 +13099,8 @@ extension ScanTypeValueExtension on ScanType {
         return 'NETWORK';
       case ScanType.package:
         return 'PACKAGE';
+      case ScanType.code:
+        return 'CODE';
     }
   }
 }
@@ -8586,8 +13112,62 @@ extension ScanTypeFromString on String {
         return ScanType.network;
       case 'PACKAGE':
         return ScanType.package;
+      case 'CODE':
+        return ScanType.code;
     }
     throw Exception('$this is not known in enum ScanType');
+  }
+}
+
+/// A schedule.
+class Schedule {
+  /// The schedule's daily.
+  final DailySchedule? daily;
+
+  /// The schedule's monthly.
+  final MonthlySchedule? monthly;
+
+  /// The schedule's one time.
+  final OneTimeSchedule? oneTime;
+
+  /// The schedule's weekly.
+  final WeeklySchedule? weekly;
+
+  Schedule({
+    this.daily,
+    this.monthly,
+    this.oneTime,
+    this.weekly,
+  });
+
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      daily: json['daily'] != null
+          ? DailySchedule.fromJson(json['daily'] as Map<String, dynamic>)
+          : null,
+      monthly: json['monthly'] != null
+          ? MonthlySchedule.fromJson(json['monthly'] as Map<String, dynamic>)
+          : null,
+      oneTime: json['oneTime'] != null
+          ? OneTimeSchedule.fromJson(json['oneTime'] as Map<String, dynamic>)
+          : null,
+      weekly: json['weekly'] != null
+          ? WeeklySchedule.fromJson(json['weekly'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final daily = this.daily;
+    final monthly = this.monthly;
+    final oneTime = this.oneTime;
+    final weekly = this.weekly;
+    return {
+      if (daily != null) 'daily': daily,
+      if (monthly != null) 'monthly': monthly,
+      if (oneTime != null) 'oneTime': oneTime,
+      if (weekly != null) 'weekly': weekly,
+    };
   }
 }
 
@@ -8639,6 +13219,30 @@ class SearchVulnerabilitiesResponse {
       'vulnerabilities': vulnerabilities,
       if (nextToken != null) 'nextToken': nextToken,
     };
+  }
+}
+
+class SendCisSessionHealthResponse {
+  SendCisSessionHealthResponse();
+
+  factory SendCisSessionHealthResponse.fromJson(Map<String, dynamic> _) {
+    return SendCisSessionHealthResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class SendCisSessionTelemetryResponse {
+  SendCisSessionTelemetryResponse();
+
+  factory SendCisSessionTelemetryResponse.fromJson(Map<String, dynamic> _) {
+    return SendCisSessionTelemetryResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -8807,6 +13411,7 @@ enum SortField {
   vulnerabilitySource,
   inspectorScore,
   vendorSeverity,
+  epssScore,
 }
 
 extension SortFieldValueExtension on SortField {
@@ -8844,6 +13449,8 @@ extension SortFieldValueExtension on SortField {
         return 'INSPECTOR_SCORE';
       case SortField.vendorSeverity:
         return 'VENDOR_SEVERITY';
+      case SortField.epssScore:
+        return 'EPSS_SCORE';
     }
   }
 }
@@ -8883,6 +13490,8 @@ extension SortFieldFromString on String {
         return SortField.inspectorScore;
       case 'VENDOR_SEVERITY':
         return SortField.vendorSeverity;
+      case 'EPSS_SCORE':
+        return SortField.epssScore;
     }
     throw Exception('$this is not known in enum SortField');
   }
@@ -8913,6 +13522,35 @@ extension SortOrderFromString on String {
         return SortOrder.desc;
     }
     throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
+/// The start CIS session message.
+class StartCisSessionMessage {
+  /// The unique token that identifies the CIS session.
+  final String sessionToken;
+
+  StartCisSessionMessage({
+    required this.sessionToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sessionToken = this.sessionToken;
+    return {
+      'sessionToken': sessionToken,
+    };
+  }
+}
+
+class StartCisSessionResponse {
+  StartCisSessionResponse();
+
+  factory StartCisSessionResponse.fromJson(Map<String, dynamic> _) {
+    return StartCisSessionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -9002,6 +13640,43 @@ extension StatusFromString on String {
   }
 }
 
+/// The status counts.
+class StatusCounts {
+  /// The number of checks that failed.
+  final int? failed;
+
+  /// The number of checks that passed.
+  final int? passed;
+
+  /// The number of checks that were skipped.
+  final int? skipped;
+
+  StatusCounts({
+    this.failed,
+    this.passed,
+    this.skipped,
+  });
+
+  factory StatusCounts.fromJson(Map<String, dynamic> json) {
+    return StatusCounts(
+      failed: json['failed'] as int?,
+      passed: json['passed'] as int?,
+      skipped: json['skipped'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failed = this.failed;
+    final passed = this.passed;
+    final skipped = this.skipped;
+    return {
+      if (failed != null) 'failed': failed,
+      if (passed != null) 'passed': passed,
+      if (skipped != null) 'skipped': skipped,
+    };
+  }
+}
+
 /// Details about the step associated with a finding.
 class Step {
   /// The component ID.
@@ -9029,6 +13704,164 @@ class Step {
       'componentId': componentId,
       'componentType': componentType,
     };
+  }
+}
+
+/// The stop CIS message progress.
+class StopCisMessageProgress {
+  /// The progress' error checks.
+  final int? errorChecks;
+
+  /// The progress' failed checks.
+  final int? failedChecks;
+
+  /// The progress' informational checks.
+  final int? informationalChecks;
+
+  /// The progress' not applicable checks.
+  final int? notApplicableChecks;
+
+  /// The progress' not evaluated checks.
+  final int? notEvaluatedChecks;
+
+  /// The progress' successful checks.
+  final int? successfulChecks;
+
+  /// The progress' total checks.
+  final int? totalChecks;
+
+  /// The progress' unknown checks.
+  final int? unknownChecks;
+
+  StopCisMessageProgress({
+    this.errorChecks,
+    this.failedChecks,
+    this.informationalChecks,
+    this.notApplicableChecks,
+    this.notEvaluatedChecks,
+    this.successfulChecks,
+    this.totalChecks,
+    this.unknownChecks,
+  });
+
+  Map<String, dynamic> toJson() {
+    final errorChecks = this.errorChecks;
+    final failedChecks = this.failedChecks;
+    final informationalChecks = this.informationalChecks;
+    final notApplicableChecks = this.notApplicableChecks;
+    final notEvaluatedChecks = this.notEvaluatedChecks;
+    final successfulChecks = this.successfulChecks;
+    final totalChecks = this.totalChecks;
+    final unknownChecks = this.unknownChecks;
+    return {
+      if (errorChecks != null) 'errorChecks': errorChecks,
+      if (failedChecks != null) 'failedChecks': failedChecks,
+      if (informationalChecks != null)
+        'informationalChecks': informationalChecks,
+      if (notApplicableChecks != null)
+        'notApplicableChecks': notApplicableChecks,
+      if (notEvaluatedChecks != null) 'notEvaluatedChecks': notEvaluatedChecks,
+      if (successfulChecks != null) 'successfulChecks': successfulChecks,
+      if (totalChecks != null) 'totalChecks': totalChecks,
+      if (unknownChecks != null) 'unknownChecks': unknownChecks,
+    };
+  }
+}
+
+/// The stop CIS session message.
+class StopCisSessionMessage {
+  /// The progress of the message.
+  final StopCisMessageProgress progress;
+
+  /// The status of the message.
+  final StopCisSessionStatus status;
+
+  /// The message benchmark profile.
+  final String? benchmarkProfile;
+
+  /// The message benchmark version.
+  final String? benchmarkVersion;
+
+  /// The message compute platform.
+  final ComputePlatform? computePlatform;
+
+  /// The reason for the message.
+  final String? reason;
+
+  StopCisSessionMessage({
+    required this.progress,
+    required this.status,
+    this.benchmarkProfile,
+    this.benchmarkVersion,
+    this.computePlatform,
+    this.reason,
+  });
+
+  Map<String, dynamic> toJson() {
+    final progress = this.progress;
+    final status = this.status;
+    final benchmarkProfile = this.benchmarkProfile;
+    final benchmarkVersion = this.benchmarkVersion;
+    final computePlatform = this.computePlatform;
+    final reason = this.reason;
+    return {
+      'progress': progress,
+      'status': status.toValue(),
+      if (benchmarkProfile != null) 'benchmarkProfile': benchmarkProfile,
+      if (benchmarkVersion != null) 'benchmarkVersion': benchmarkVersion,
+      if (computePlatform != null) 'computePlatform': computePlatform,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+class StopCisSessionResponse {
+  StopCisSessionResponse();
+
+  factory StopCisSessionResponse.fromJson(Map<String, dynamic> _) {
+    return StopCisSessionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+enum StopCisSessionStatus {
+  success,
+  failed,
+  interrupted,
+  unsupportedOs,
+}
+
+extension StopCisSessionStatusValueExtension on StopCisSessionStatus {
+  String toValue() {
+    switch (this) {
+      case StopCisSessionStatus.success:
+        return 'SUCCESS';
+      case StopCisSessionStatus.failed:
+        return 'FAILED';
+      case StopCisSessionStatus.interrupted:
+        return 'INTERRUPTED';
+      case StopCisSessionStatus.unsupportedOs:
+        return 'UNSUPPORTED_OS';
+    }
+  }
+}
+
+extension StopCisSessionStatusFromString on String {
+  StopCisSessionStatus toStopCisSessionStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return StopCisSessionStatus.success;
+      case 'FAILED':
+        return StopCisSessionStatus.failed;
+      case 'INTERRUPTED':
+        return StopCisSessionStatus.interrupted;
+      case 'UNSUPPORTED_OS':
+        return StopCisSessionStatus.unsupportedOs;
+    }
+    throw Exception('$this is not known in enum StopCisSessionStatus');
   }
 }
 
@@ -9095,6 +13928,88 @@ class StringFilter {
   }
 }
 
+/// A suggested fix for a vulnerability in your Lambda function code.
+class SuggestedFix {
+  /// The fix's code.
+  final String? code;
+
+  /// The fix's description.
+  final String? description;
+
+  SuggestedFix({
+    this.code,
+    this.description,
+  });
+
+  factory SuggestedFix.fromJson(Map<String, dynamic> json) {
+    return SuggestedFix(
+      code: json['code'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final description = this.description;
+    return {
+      if (code != null) 'code': code,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+enum TagComparison {
+  equals,
+}
+
+extension TagComparisonValueExtension on TagComparison {
+  String toValue() {
+    switch (this) {
+      case TagComparison.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension TagComparisonFromString on String {
+  TagComparison toTagComparison() {
+    switch (this) {
+      case 'EQUALS':
+        return TagComparison.equals;
+    }
+    throw Exception('$this is not known in enum TagComparison');
+  }
+}
+
+/// The tag filter.
+class TagFilter {
+  /// The tag filter comparison value.
+  final TagComparison comparison;
+
+  /// The tag filter key.
+  final String key;
+
+  /// The tag filter value.
+  final String value;
+
+  TagFilter({
+    required this.comparison,
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final key = this.key;
+    final value = this.value;
+    return {
+      'comparison': comparison.toValue(),
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9107,8 +14022,41 @@ class TagResourceResponse {
   }
 }
 
+/// The time.
+class Time {
+  /// The time of day in 24-hour format (00:00).
+  final String timeOfDay;
+
+  /// The timezone.
+  final String timezone;
+
+  Time({
+    required this.timeOfDay,
+    required this.timezone,
+  });
+
+  factory Time.fromJson(Map<String, dynamic> json) {
+    return Time(
+      timeOfDay: json['timeOfDay'] as String,
+      timezone: json['timezone'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeOfDay = this.timeOfDay;
+    final timezone = this.timezone;
+    return {
+      'timeOfDay': timeOfDay,
+      'timezone': timezone,
+    };
+  }
+}
+
 /// The details that define an aggregation based on finding title.
 class TitleAggregation {
+  /// The type of finding to aggregate on.
+  final AggregationFindingType? findingType;
+
   /// The resource type to aggregate on.
   final AggregationResourceType? resourceType;
 
@@ -9125,6 +14073,7 @@ class TitleAggregation {
   final List<StringFilter>? vulnerabilityIds;
 
   TitleAggregation({
+    this.findingType,
     this.resourceType,
     this.sortBy,
     this.sortOrder,
@@ -9133,12 +14082,14 @@ class TitleAggregation {
   });
 
   Map<String, dynamic> toJson() {
+    final findingType = this.findingType;
     final resourceType = this.resourceType;
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     final titles = this.titles;
     final vulnerabilityIds = this.vulnerabilityIds;
     return {
+      if (findingType != null) 'findingType': findingType.toValue(),
       if (resourceType != null) 'resourceType': resourceType.toValue(),
       if (sortBy != null) 'sortBy': sortBy.toValue(),
       if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
@@ -9241,6 +14192,52 @@ class UntagResourceResponse {
   }
 }
 
+class UpdateCisScanConfigurationResponse {
+  /// The CIS scan configuration ARN.
+  final String scanConfigurationArn;
+
+  UpdateCisScanConfigurationResponse({
+    required this.scanConfigurationArn,
+  });
+
+  factory UpdateCisScanConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCisScanConfigurationResponse(
+      scanConfigurationArn: json['scanConfigurationArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanConfigurationArn = this.scanConfigurationArn;
+    return {
+      'scanConfigurationArn': scanConfigurationArn,
+    };
+  }
+}
+
+/// Updates CIS targets.
+class UpdateCisTargets {
+  /// The target account ids.
+  final List<String>? accountIds;
+
+  /// The target resource tags.
+  final Map<String, List<String>>? targetResourceTags;
+
+  UpdateCisTargets({
+    this.accountIds,
+    this.targetResourceTags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountIds = this.accountIds;
+    final targetResourceTags = this.targetResourceTags;
+    return {
+      if (accountIds != null) 'accountIds': accountIds,
+      if (targetResourceTags != null) 'targetResourceTags': targetResourceTags,
+    };
+  }
+}
+
 class UpdateConfigurationResponse {
   UpdateConfigurationResponse();
 
@@ -9302,6 +14299,18 @@ class UpdateEc2DeepInspectionConfigurationResponse {
       if (packagePaths != null) 'packagePaths': packagePaths,
       if (status != null) 'status': status.toValue(),
     };
+  }
+}
+
+class UpdateEncryptionKeyResponse {
+  UpdateEncryptionKeyResponse();
+
+  factory UpdateEncryptionKeyResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateEncryptionKeyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -9448,6 +14457,7 @@ enum UsageType {
   ecrInitialScan,
   ecrRescan,
   lambdaFunctionHours,
+  lambdaFunctionCodeHours,
 }
 
 extension UsageTypeValueExtension on UsageType {
@@ -9461,6 +14471,8 @@ extension UsageTypeValueExtension on UsageType {
         return 'ECR_RESCAN';
       case UsageType.lambdaFunctionHours:
         return 'LAMBDA_FUNCTION_HOURS';
+      case UsageType.lambdaFunctionCodeHours:
+        return 'LAMBDA_FUNCTION_CODE_HOURS';
     }
   }
 }
@@ -9476,6 +14488,8 @@ extension UsageTypeFromString on String {
         return UsageType.ecrRescan;
       case 'LAMBDA_FUNCTION_HOURS':
         return UsageType.lambdaFunctionHours;
+      case 'LAMBDA_FUNCTION_CODE_HOURS':
+        return UsageType.lambdaFunctionCodeHours;
     }
     throw Exception('$this is not known in enum UsageType');
   }
@@ -9511,7 +14525,8 @@ class Vulnerability {
   /// Platforms that the vulnerability can be detected on.
   final List<String>? detectionPlatforms;
 
-  /// An object that contains the Exploit Prediction Scoring System (EPSS) score.
+  /// An object that contains the Exploit Prediction Scoring System (EPSS) score
+  /// for a vulnerability.
   final Epss? epss;
 
   /// An object that contains details on when the exploit was observed.
@@ -9523,7 +14538,9 @@ class Vulnerability {
   /// A list of related vulnerabilities.
   final List<String>? relatedVulnerabilities;
 
-  /// The source of the vulnerability information.
+  /// The source of the vulnerability information. Possible results are
+  /// <code>RHEL</code>, <code>AMAZON_CVE</code>, <code>DEBIAN</code> or
+  /// <code>NVD</code>.
   final VulnerabilitySource? source;
 
   /// A link to the official source material for this vulnerability.
@@ -9700,8 +14717,8 @@ class VulnerablePackage {
   /// The code to run in your environment to update packages with a fix available.
   final String? remediation;
 
-  /// The Amazon Resource Number (ARN) of the AWS Lambda function affected by a
-  /// finding.
+  /// The Amazon Resource Number (ARN) of the Amazon Web Services Lambda function
+  /// affected by a finding.
   final String? sourceLambdaLayerArn;
 
   /// The source layer hash of the vulnerable package.
@@ -9762,6 +14779,39 @@ class VulnerablePackage {
       if (sourceLambdaLayerArn != null)
         'sourceLambdaLayerArn': sourceLambdaLayerArn,
       if (sourceLayerHash != null) 'sourceLayerHash': sourceLayerHash,
+    };
+  }
+}
+
+/// A weekly schedule.
+class WeeklySchedule {
+  /// The weekly schedule's days.
+  final List<Day> days;
+
+  /// The weekly schedule's start time.
+  final Time startTime;
+
+  WeeklySchedule({
+    required this.days,
+    required this.startTime,
+  });
+
+  factory WeeklySchedule.fromJson(Map<String, dynamic> json) {
+    return WeeklySchedule(
+      days: (json['days'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toDay())
+          .toList(),
+      startTime: Time.fromJson(json['startTime'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final days = this.days;
+    final startTime = this.startTime;
+    return {
+      'days': days.map((e) => e.toValue()).toList(),
+      'startTime': startTime,
     };
   }
 }

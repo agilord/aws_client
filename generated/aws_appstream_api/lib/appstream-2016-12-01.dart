@@ -63,6 +63,43 @@ class AppStream {
     _protocol.close();
   }
 
+  /// Associates the specified app block builder with the specified app block.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appBlockArn] :
+  /// The ARN of the app block.
+  ///
+  /// Parameter [appBlockBuilderName] :
+  /// The name of the app block builder.
+  Future<AssociateAppBlockBuilderAppBlockResult>
+      associateAppBlockBuilderAppBlock({
+    required String appBlockArn,
+    required String appBlockBuilderName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.AssociateAppBlockBuilderAppBlock'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AppBlockArn': appBlockArn,
+        'AppBlockBuilderName': appBlockBuilderName,
+      },
+    );
+
+    return AssociateAppBlockBuilderAppBlockResult.fromJson(jsonResponse.body);
+  }
+
   /// Associates the specified application with the specified fleet. This is
   /// only supported for Elastic fleets.
   ///
@@ -303,9 +340,6 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the app block.
   ///
-  /// Parameter [setupScriptDetails] :
-  /// The setup script details of the app block.
-  ///
   /// Parameter [sourceS3Location] :
   /// The source S3 location of the app block.
   ///
@@ -315,14 +349,27 @@ class AppStream {
   /// Parameter [displayName] :
   /// The display name of the app block. This is not displayed to the user.
   ///
+  /// Parameter [packagingType] :
+  /// The packaging type of the app block.
+  ///
+  /// Parameter [postSetupScriptDetails] :
+  /// The post setup script details of the app block. This can only be provided
+  /// for the <code>APPSTREAM2</code> PackagingType.
+  ///
+  /// Parameter [setupScriptDetails] :
+  /// The setup script details of the app block. This must be provided for the
+  /// <code>CUSTOM</code> PackagingType.
+  ///
   /// Parameter [tags] :
   /// The tags assigned to the app block.
   Future<CreateAppBlockResult> createAppBlock({
     required String name,
-    required ScriptDetails setupScriptDetails,
     required S3Location sourceS3Location,
     String? description,
     String? displayName,
+    PackagingType? packagingType,
+    ScriptDetails? postSetupScriptDetails,
+    ScriptDetails? setupScriptDetails,
     Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
@@ -337,15 +384,188 @@ class AppStream {
       headers: headers,
       payload: {
         'Name': name,
-        'SetupScriptDetails': setupScriptDetails,
         'SourceS3Location': sourceS3Location,
         if (description != null) 'Description': description,
         if (displayName != null) 'DisplayName': displayName,
+        if (packagingType != null) 'PackagingType': packagingType.toValue(),
+        if (postSetupScriptDetails != null)
+          'PostSetupScriptDetails': postSetupScriptDetails,
+        if (setupScriptDetails != null)
+          'SetupScriptDetails': setupScriptDetails,
         if (tags != null) 'Tags': tags,
       },
     );
 
     return CreateAppBlockResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an app block builder.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [RequestLimitExceededException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidRoleException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [instanceType] :
+  /// The instance type to use when launching the app block builder. The
+  /// following instance types are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.standard.xlarge
+  /// </li>
+  /// <li>
+  /// stream.standard.2xlarge
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [name] :
+  /// The unique name for the app block builder.
+  ///
+  /// Parameter [platform] :
+  /// The platform of the app block builder.
+  ///
+  /// <code>WINDOWS_SERVER_2019</code> is the only valid value.
+  ///
+  /// Parameter [vpcConfig] :
+  /// The VPC configuration for the app block builder.
+  ///
+  /// App block builders require that you specify at least two subnets in
+  /// different availability zones.
+  ///
+  /// Parameter [accessEndpoints] :
+  /// The list of interface VPC endpoint (interface endpoint) objects.
+  /// Administrators can connect to the app block builder only through the
+  /// specified endpoints.
+  ///
+  /// Parameter [description] :
+  /// The description of the app block builder.
+  ///
+  /// Parameter [displayName] :
+  /// The display name of the app block builder.
+  ///
+  /// Parameter [enableDefaultInternetAccess] :
+  /// Enables or disables default internet access for the app block builder.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block
+  /// builder. To assume a role, the app block builder calls the AWS Security
+  /// Token Service (STS) <code>AssumeRole</code> API operation and passes the
+  /// ARN of the role to use. The operation creates a new session with temporary
+  /// credentials. AppStream 2.0 retrieves the temporary credentials and creates
+  /// the <b>appstream_machine_role</b> credential profile on the instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
+  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
+  /// Administration Guide</i>.
+  ///
+  /// Parameter [tags] :
+  /// The tags to associate with the app block builder. A tag is a key-value
+  /// pair, and the value is optional. For example, Environment=Test. If you do
+  /// not specify a value, Environment=.
+  ///
+  /// If you do not specify a value, the value is set to an empty string.
+  ///
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following special characters:
+  ///
+  /// _ . : / = + \ - @
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Guide</i>.
+  Future<CreateAppBlockBuilderResult> createAppBlockBuilder({
+    required String instanceType,
+    required String name,
+    required AppBlockBuilderPlatformType platform,
+    required VpcConfig vpcConfig,
+    List<AccessEndpoint>? accessEndpoints,
+    String? description,
+    String? displayName,
+    bool? enableDefaultInternetAccess,
+    String? iamRoleArn,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateAppBlockBuilder'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceType': instanceType,
+        'Name': name,
+        'Platform': platform.toValue(),
+        'VpcConfig': vpcConfig,
+        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (enableDefaultInternetAccess != null)
+          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateAppBlockBuilderResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a URL to start a create app block builder streaming session.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appBlockBuilderName] :
+  /// The name of the app block builder.
+  ///
+  /// Parameter [validity] :
+  /// The time that the streaming URL will be valid, in seconds. Specify a value
+  /// between 1 and 604800 seconds. The default is 3600 seconds.
+  Future<CreateAppBlockBuilderStreamingURLResult>
+      createAppBlockBuilderStreamingURL({
+    required String appBlockBuilderName,
+    int? validity,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.CreateAppBlockBuilderStreamingURL'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AppBlockBuilderName': appBlockBuilderName,
+        if (validity != null) 'Validity': validity,
+      },
+    );
+
+    return CreateAppBlockBuilderStreamingURLResult.fromJson(jsonResponse.body);
   }
 
   /// Creates an application.
@@ -800,6 +1020,10 @@ class AppStream {
   /// The maximum concurrent sessions of the Elastic fleet. This is required for
   /// Elastic fleets, and not allowed for other fleet types.
   ///
+  /// Parameter [maxSessionsPerInstance] :
+  /// The maximum number of user sessions on an instance. This only applies to
+  /// multi-session fleets.
+  ///
   /// Parameter [maxUserDurationInSeconds] :
   /// The maximum amount of time that a streaming session can remain active, in
   /// seconds. If users are still connected to a streaming instance five minutes
@@ -807,7 +1031,7 @@ class AppStream {
   /// before being disconnected. After this time elapses, the instance is
   /// terminated and replaced by a new instance.
   ///
-  /// Specify a value between 600 and 360000.
+  /// Specify a value between 600 and 432000.
   ///
   /// Parameter [platform] :
   /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported
@@ -867,6 +1091,7 @@ class AppStream {
     String? imageArn,
     String? imageName,
     int? maxConcurrentSessions,
+    int? maxSessionsPerInstance,
     int? maxUserDurationInSeconds,
     PlatformType? platform,
     S3Location? sessionScriptS3Location,
@@ -904,6 +1129,8 @@ class AppStream {
         if (imageName != null) 'ImageName': imageName,
         if (maxConcurrentSessions != null)
           'MaxConcurrentSessions': maxConcurrentSessions,
+        if (maxSessionsPerInstance != null)
+          'MaxSessionsPerInstance': maxSessionsPerInstance,
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (platform != null) 'Platform': platform.toValue(),
@@ -1200,6 +1427,7 @@ class AppStream {
   /// May throw [InvalidRoleException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [name] :
   /// The name of the stack.
@@ -1568,6 +1796,37 @@ class AppStream {
     );
   }
 
+  /// Deletes an app block builder.
+  ///
+  /// An app block builder can only be deleted when it has no association with
+  /// an app block.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the app block builder.
+  Future<void> deleteAppBlockBuilder({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DeleteAppBlockBuilder'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+  }
+
   /// Deletes an application.
   ///
   /// May throw [OperationNotPermittedException].
@@ -1860,6 +2119,94 @@ class AppStream {
         'UserName': userName,
       },
     );
+  }
+
+  /// Retrieves a list that describes one or more app block builder
+  /// associations.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appBlockArn] :
+  /// The ARN of the app block.
+  ///
+  /// Parameter [appBlockBuilderName] :
+  /// The name of the app block builder.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  Future<DescribeAppBlockBuilderAppBlockAssociationsResult>
+      describeAppBlockBuilderAppBlockAssociations({
+    String? appBlockArn,
+    String? appBlockBuilderName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.DescribeAppBlockBuilderAppBlockAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (appBlockArn != null) 'AppBlockArn': appBlockArn,
+        if (appBlockBuilderName != null)
+          'AppBlockBuilderName': appBlockBuilderName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeAppBlockBuilderAppBlockAssociationsResult.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves a list that describes one or more app block builders.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results. The maximum value is 25.
+  ///
+  /// Parameter [names] :
+  /// The names of the app block builders.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  Future<DescribeAppBlockBuildersResult> describeAppBlockBuilders({
+    int? maxResults,
+    List<String>? names,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeAppBlockBuilders'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (names != null) 'Names': names,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeAppBlockBuildersResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list that describes one or more app blocks.
@@ -2282,6 +2629,9 @@ class AppStream {
   /// federated user. The default is to authenticate users using a streaming
   /// URL.
   ///
+  /// Parameter [instanceId] :
+  /// The identifier for the instance hosting the session.
+  ///
   /// Parameter [limit] :
   /// The size of each page of results. The default value is 20 and the maximum
   /// value is 50.
@@ -2297,6 +2647,7 @@ class AppStream {
     required String fleetName,
     required String stackName,
     AuthenticationType? authenticationType,
+    String? instanceId,
     int? limit,
     String? nextToken,
     String? userId,
@@ -2316,6 +2667,7 @@ class AppStream {
         'StackName': stackName,
         if (authenticationType != null)
           'AuthenticationType': authenticationType.toValue(),
+        if (instanceId != null) 'InstanceId': instanceId,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (userId != null) 'UserId': userId,
@@ -2538,6 +2890,40 @@ class AppStream {
       payload: {
         'AuthenticationType': authenticationType.toValue(),
         'UserName': userName,
+      },
+    );
+  }
+
+  /// Disassociates a specified app block builder from a specified app block.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appBlockArn] :
+  /// The ARN of the app block.
+  ///
+  /// Parameter [appBlockBuilderName] :
+  /// The name of the app block builder.
+  Future<void> disassociateAppBlockBuilderAppBlock({
+    required String appBlockArn,
+    required String appBlockBuilderName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.DisassociateAppBlockBuilderAppBlock'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AppBlockArn': appBlockArn,
+        'AppBlockBuilderName': appBlockBuilderName,
       },
     );
   }
@@ -2850,6 +3236,46 @@ class AppStream {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts an app block builder.
+  ///
+  /// An app block builder can only be started when it's associated with an app
+  /// block.
+  ///
+  /// Starting an app block builder starts a new instance, which is equivalent
+  /// to an elastic fleet instance with application builder assistance
+  /// functionality.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [RequestLimitExceededException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the app block builder.
+  Future<StartAppBlockBuilderResult> startAppBlockBuilder({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.StartAppBlockBuilder'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return StartAppBlockBuilderResult.fromJson(jsonResponse.body);
+  }
+
   /// Starts the specified fleet.
   ///
   /// May throw [ResourceNotFoundException].
@@ -2918,6 +3344,38 @@ class AppStream {
     );
 
     return StartImageBuilderResult.fromJson(jsonResponse.body);
+  }
+
+  /// Stops an app block builder.
+  ///
+  /// Stopping an app block builder terminates the instance, and the instance
+  /// state is not persisted.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the app block builder.
+  Future<StopAppBlockBuilderResult> stopAppBlockBuilder({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.StopAppBlockBuilder'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return StopAppBlockBuilderResult.fromJson(jsonResponse.body);
   }
 
   /// Stops the specified fleet.
@@ -3067,6 +3525,133 @@ class AppStream {
         'TagKeys': tagKeys,
       },
     );
+  }
+
+  /// Updates an app block builder.
+  ///
+  /// If the app block builder is in the <code>STARTING</code> or
+  /// <code>STOPPING</code> state, you can't update it. If the app block builder
+  /// is in the <code>RUNNING</code> state, you can only update the DisplayName
+  /// and Description. If the app block builder is in the <code>STOPPED</code>
+  /// state, you can update any attribute except the Name.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [RequestLimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The unique name for the app block builder.
+  ///
+  /// Parameter [accessEndpoints] :
+  /// The list of interface VPC endpoint (interface endpoint) objects.
+  /// Administrators can connect to the app block builder only through the
+  /// specified endpoints.
+  ///
+  /// Parameter [attributesToDelete] :
+  /// The attributes to delete from the app block builder.
+  ///
+  /// Parameter [description] :
+  /// The description of the app block builder.
+  ///
+  /// Parameter [displayName] :
+  /// The display name of the app block builder.
+  ///
+  /// Parameter [enableDefaultInternetAccess] :
+  /// Enables or disables default internet access for the app block builder.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block
+  /// builder. To assume a role, the app block builder calls the AWS Security
+  /// Token Service (STS) <code>AssumeRole</code> API operation and passes the
+  /// ARN of the role to use. The operation creates a new session with temporary
+  /// credentials. AppStream 2.0 retrieves the temporary credentials and creates
+  /// the <b>appstream_machine_role</b> credential profile on the instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
+  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
+  /// Administration Guide</i>.
+  ///
+  /// Parameter [instanceType] :
+  /// The instance type to use when launching the app block builder. The
+  /// following instance types are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.standard.xlarge
+  /// </li>
+  /// <li>
+  /// stream.standard.2xlarge
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [platform] :
+  /// The platform of the app block builder.
+  ///
+  /// <code>WINDOWS_SERVER_2019</code> is the only valid value.
+  ///
+  /// Parameter [vpcConfig] :
+  /// The VPC configuration for the app block builder.
+  ///
+  /// App block builders require that you specify at least two subnets in
+  /// different availability zones.
+  Future<UpdateAppBlockBuilderResult> updateAppBlockBuilder({
+    required String name,
+    List<AccessEndpoint>? accessEndpoints,
+    List<AppBlockBuilderAttribute>? attributesToDelete,
+    String? description,
+    String? displayName,
+    bool? enableDefaultInternetAccess,
+    String? iamRoleArn,
+    String? instanceType,
+    PlatformType? platform,
+    VpcConfig? vpcConfig,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.UpdateAppBlockBuilder'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+        if (attributesToDelete != null)
+          'AttributesToDelete':
+              attributesToDelete.map((e) => e.toValue()).toList(),
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (enableDefaultInternetAccess != null)
+          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+        if (instanceType != null) 'InstanceType': instanceType,
+        if (platform != null) 'Platform': platform.toValue(),
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
+      },
+    );
+
+    return UpdateAppBlockBuilderResult.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified application.
@@ -3510,6 +4095,10 @@ class AppStream {
   /// Parameter [maxConcurrentSessions] :
   /// The maximum number of concurrent sessions for a fleet.
   ///
+  /// Parameter [maxSessionsPerInstance] :
+  /// The maximum number of user sessions on an instance. This only applies to
+  /// multi-session fleets.
+  ///
   /// Parameter [maxUserDurationInSeconds] :
   /// The maximum amount of time that a streaming session can remain active, in
   /// seconds. If users are still connected to a streaming instance five minutes
@@ -3517,7 +4106,7 @@ class AppStream {
   /// before being disconnected. After this time elapses, the instance is
   /// terminated and replaced by a new instance.
   ///
-  /// Specify a value between 600 and 360000.
+  /// Specify a value between 600 and 432000.
   ///
   /// Parameter [name] :
   /// A unique name for the fleet.
@@ -3563,6 +4152,7 @@ class AppStream {
     String? imageName,
     String? instanceType,
     int? maxConcurrentSessions,
+    int? maxSessionsPerInstance,
     int? maxUserDurationInSeconds,
     String? name,
     PlatformType? platform,
@@ -3602,6 +4192,8 @@ class AppStream {
         if (instanceType != null) 'InstanceType': instanceType,
         if (maxConcurrentSessions != null)
           'MaxConcurrentSessions': maxConcurrentSessions,
+        if (maxSessionsPerInstance != null)
+          'MaxSessionsPerInstance': maxSessionsPerInstance,
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (name != null) 'Name': name,
@@ -3894,8 +4486,8 @@ class AppBlock {
   /// The name of the app block.
   final String name;
 
-  /// The setup script details of the app block.
-  final ScriptDetails setupScriptDetails;
+  /// The errors of the app block.
+  final List<ErrorDetails>? appBlockErrors;
 
   /// The created time of the app block.
   final DateTime? createdTime;
@@ -3906,33 +4498,360 @@ class AppBlock {
   /// The display name of the app block.
   final String? displayName;
 
+  /// The packaging type of the app block.
+  final PackagingType? packagingType;
+
+  /// The post setup script details of the app block.
+  ///
+  /// This only applies to app blocks with PackagingType <code>APPSTREAM2</code>.
+  final ScriptDetails? postSetupScriptDetails;
+
+  /// The setup script details of the app block.
+  ///
+  /// This only applies to app blocks with PackagingType <code>CUSTOM</code>.
+  final ScriptDetails? setupScriptDetails;
+
   /// The source S3 location of the app block.
   final S3Location? sourceS3Location;
+
+  /// The state of the app block.
+  ///
+  /// An app block with AppStream 2.0 packaging will be in the
+  /// <code>INACTIVE</code> state if no application package (VHD) is assigned to
+  /// it. After an application package (VHD) is created by an app block builder
+  /// for an app block, it becomes <code>ACTIVE</code>.
+  ///
+  /// Custom app blocks are always in the <code>ACTIVE</code> state and no action
+  /// is required to use them.
+  final AppBlockState? state;
 
   AppBlock({
     required this.arn,
     required this.name,
-    required this.setupScriptDetails,
+    this.appBlockErrors,
     this.createdTime,
     this.description,
     this.displayName,
+    this.packagingType,
+    this.postSetupScriptDetails,
+    this.setupScriptDetails,
     this.sourceS3Location,
+    this.state,
   });
 
   factory AppBlock.fromJson(Map<String, dynamic> json) {
     return AppBlock(
       arn: json['Arn'] as String,
       name: json['Name'] as String,
-      setupScriptDetails: ScriptDetails.fromJson(
-          json['SetupScriptDetails'] as Map<String, dynamic>),
+      appBlockErrors: (json['AppBlockErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
+      packagingType: (json['PackagingType'] as String?)?.toPackagingType(),
+      postSetupScriptDetails: json['PostSetupScriptDetails'] != null
+          ? ScriptDetails.fromJson(
+              json['PostSetupScriptDetails'] as Map<String, dynamic>)
+          : null,
+      setupScriptDetails: json['SetupScriptDetails'] != null
+          ? ScriptDetails.fromJson(
+              json['SetupScriptDetails'] as Map<String, dynamic>)
+          : null,
       sourceS3Location: json['SourceS3Location'] != null
           ? S3Location.fromJson(
               json['SourceS3Location'] as Map<String, dynamic>)
           : null,
+      state: (json['State'] as String?)?.toAppBlockState(),
     );
+  }
+}
+
+/// Describes an app block builder.
+class AppBlockBuilder {
+  /// The ARN of the app block builder.
+  final String arn;
+
+  /// The instance type of the app block builder.
+  final String instanceType;
+
+  /// The name of the app block builder.
+  final String name;
+
+  /// The platform of the app block builder.
+  ///
+  /// <code>WINDOWS_SERVER_2019</code> is the only valid value.
+  final AppBlockBuilderPlatformType platform;
+
+  /// The state of the app block builder.
+  final AppBlockBuilderState state;
+
+  /// The VPC configuration for the app block builder.
+  final VpcConfig vpcConfig;
+
+  /// The list of interface VPC endpoint (interface endpoint) objects.
+  /// Administrators can connect to the app block builder only through the
+  /// specified endpoints.
+  final List<AccessEndpoint>? accessEndpoints;
+
+  /// The app block builder errors.
+  final List<ResourceError>? appBlockBuilderErrors;
+
+  /// The creation time of the app block builder.
+  final DateTime? createdTime;
+
+  /// The description of the app block builder.
+  final String? description;
+
+  /// The display name of the app block builder.
+  final String? displayName;
+
+  /// Indicates whether default internet access is enabled for the app block
+  /// builder.
+  final bool? enableDefaultInternetAccess;
+
+  /// The ARN of the IAM role that is applied to the app block builder.
+  final String? iamRoleArn;
+
+  /// The state change reason.
+  final AppBlockBuilderStateChangeReason? stateChangeReason;
+
+  AppBlockBuilder({
+    required this.arn,
+    required this.instanceType,
+    required this.name,
+    required this.platform,
+    required this.state,
+    required this.vpcConfig,
+    this.accessEndpoints,
+    this.appBlockBuilderErrors,
+    this.createdTime,
+    this.description,
+    this.displayName,
+    this.enableDefaultInternetAccess,
+    this.iamRoleArn,
+    this.stateChangeReason,
+  });
+
+  factory AppBlockBuilder.fromJson(Map<String, dynamic> json) {
+    return AppBlockBuilder(
+      arn: json['Arn'] as String,
+      instanceType: json['InstanceType'] as String,
+      name: json['Name'] as String,
+      platform: (json['Platform'] as String).toAppBlockBuilderPlatformType(),
+      state: (json['State'] as String).toAppBlockBuilderState(),
+      vpcConfig: VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
+      accessEndpoints: (json['AccessEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appBlockBuilderErrors: (json['AppBlockBuilderErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      stateChangeReason: json['StateChangeReason'] != null
+          ? AppBlockBuilderStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Describes an association between an app block builder and app block.
+class AppBlockBuilderAppBlockAssociation {
+  /// The ARN of the app block.
+  final String appBlockArn;
+
+  /// The name of the app block builder.
+  final String appBlockBuilderName;
+
+  AppBlockBuilderAppBlockAssociation({
+    required this.appBlockArn,
+    required this.appBlockBuilderName,
+  });
+
+  factory AppBlockBuilderAppBlockAssociation.fromJson(
+      Map<String, dynamic> json) {
+    return AppBlockBuilderAppBlockAssociation(
+      appBlockArn: json['AppBlockArn'] as String,
+      appBlockBuilderName: json['AppBlockBuilderName'] as String,
+    );
+  }
+}
+
+enum AppBlockBuilderAttribute {
+  iamRoleArn,
+  accessEndpoints,
+  vpcConfigurationSecurityGroupIds,
+}
+
+extension AppBlockBuilderAttributeValueExtension on AppBlockBuilderAttribute {
+  String toValue() {
+    switch (this) {
+      case AppBlockBuilderAttribute.iamRoleArn:
+        return 'IAM_ROLE_ARN';
+      case AppBlockBuilderAttribute.accessEndpoints:
+        return 'ACCESS_ENDPOINTS';
+      case AppBlockBuilderAttribute.vpcConfigurationSecurityGroupIds:
+        return 'VPC_CONFIGURATION_SECURITY_GROUP_IDS';
+    }
+  }
+}
+
+extension AppBlockBuilderAttributeFromString on String {
+  AppBlockBuilderAttribute toAppBlockBuilderAttribute() {
+    switch (this) {
+      case 'IAM_ROLE_ARN':
+        return AppBlockBuilderAttribute.iamRoleArn;
+      case 'ACCESS_ENDPOINTS':
+        return AppBlockBuilderAttribute.accessEndpoints;
+      case 'VPC_CONFIGURATION_SECURITY_GROUP_IDS':
+        return AppBlockBuilderAttribute.vpcConfigurationSecurityGroupIds;
+    }
+    throw Exception('$this is not known in enum AppBlockBuilderAttribute');
+  }
+}
+
+enum AppBlockBuilderPlatformType {
+  windowsServer_2019,
+}
+
+extension AppBlockBuilderPlatformTypeValueExtension
+    on AppBlockBuilderPlatformType {
+  String toValue() {
+    switch (this) {
+      case AppBlockBuilderPlatformType.windowsServer_2019:
+        return 'WINDOWS_SERVER_2019';
+    }
+  }
+}
+
+extension AppBlockBuilderPlatformTypeFromString on String {
+  AppBlockBuilderPlatformType toAppBlockBuilderPlatformType() {
+    switch (this) {
+      case 'WINDOWS_SERVER_2019':
+        return AppBlockBuilderPlatformType.windowsServer_2019;
+    }
+    throw Exception('$this is not known in enum AppBlockBuilderPlatformType');
+  }
+}
+
+enum AppBlockBuilderState {
+  starting,
+  running,
+  stopping,
+  stopped,
+}
+
+extension AppBlockBuilderStateValueExtension on AppBlockBuilderState {
+  String toValue() {
+    switch (this) {
+      case AppBlockBuilderState.starting:
+        return 'STARTING';
+      case AppBlockBuilderState.running:
+        return 'RUNNING';
+      case AppBlockBuilderState.stopping:
+        return 'STOPPING';
+      case AppBlockBuilderState.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension AppBlockBuilderStateFromString on String {
+  AppBlockBuilderState toAppBlockBuilderState() {
+    switch (this) {
+      case 'STARTING':
+        return AppBlockBuilderState.starting;
+      case 'RUNNING':
+        return AppBlockBuilderState.running;
+      case 'STOPPING':
+        return AppBlockBuilderState.stopping;
+      case 'STOPPED':
+        return AppBlockBuilderState.stopped;
+    }
+    throw Exception('$this is not known in enum AppBlockBuilderState');
+  }
+}
+
+/// Describes the reason why the last app block builder state change occurred.
+class AppBlockBuilderStateChangeReason {
+  /// The state change reason code.
+  final AppBlockBuilderStateChangeReasonCode? code;
+
+  /// The state change reason message.
+  final String? message;
+
+  AppBlockBuilderStateChangeReason({
+    this.code,
+    this.message,
+  });
+
+  factory AppBlockBuilderStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return AppBlockBuilderStateChangeReason(
+      code: (json['Code'] as String?)?.toAppBlockBuilderStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
+}
+
+enum AppBlockBuilderStateChangeReasonCode {
+  internalError,
+}
+
+extension AppBlockBuilderStateChangeReasonCodeValueExtension
+    on AppBlockBuilderStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case AppBlockBuilderStateChangeReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension AppBlockBuilderStateChangeReasonCodeFromString on String {
+  AppBlockBuilderStateChangeReasonCode
+      toAppBlockBuilderStateChangeReasonCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return AppBlockBuilderStateChangeReasonCode.internalError;
+    }
+    throw Exception(
+        '$this is not known in enum AppBlockBuilderStateChangeReasonCode');
+  }
+}
+
+enum AppBlockState {
+  inactive,
+  active,
+}
+
+extension AppBlockStateValueExtension on AppBlockState {
+  String toValue() {
+    switch (this) {
+      case AppBlockState.inactive:
+        return 'INACTIVE';
+      case AppBlockState.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension AppBlockStateFromString on String {
+  AppBlockState toAppBlockState() {
+    switch (this) {
+      case 'INACTIVE':
+        return AppBlockState.inactive;
+      case 'ACTIVE':
+        return AppBlockState.active;
+    }
+    throw Exception('$this is not known in enum AppBlockState');
   }
 }
 
@@ -4166,6 +5085,27 @@ class ApplicationSettingsResponse {
   }
 }
 
+class AssociateAppBlockBuilderAppBlockResult {
+  /// The list of app block builders associated with app blocks.
+  final AppBlockBuilderAppBlockAssociation? appBlockBuilderAppBlockAssociation;
+
+  AssociateAppBlockBuilderAppBlockResult({
+    this.appBlockBuilderAppBlockAssociation,
+  });
+
+  factory AssociateAppBlockBuilderAppBlockResult.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateAppBlockBuilderAppBlockResult(
+      appBlockBuilderAppBlockAssociation:
+          json['AppBlockBuilderAppBlockAssociation'] != null
+              ? AppBlockBuilderAppBlockAssociation.fromJson(
+                  json['AppBlockBuilderAppBlockAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+}
+
 class AssociateApplicationFleetResult {
   /// If fleet name is specified, this returns the list of applications that are
   /// associated to it. If application ARN is specified, this returns the list of
@@ -4355,16 +5295,27 @@ extension CertificateBasedAuthStatusFromString on String {
 /// Describes the capacity for a fleet.
 class ComputeCapacity {
   /// The desired number of streaming instances.
-  final int desiredInstances;
+  final int? desiredInstances;
+
+  /// The desired number of user sessions for a multi-session fleet. This is not
+  /// allowed for single-session fleets.
+  ///
+  /// When you create a fleet, you must set either the DesiredSessions or
+  /// DesiredInstances attribute, based on the type of fleet you create. You can’t
+  /// define both attributes or leave both attributes blank.
+  final int? desiredSessions;
 
   ComputeCapacity({
-    required this.desiredInstances,
+    this.desiredInstances,
+    this.desiredSessions,
   });
 
   Map<String, dynamic> toJson() {
     final desiredInstances = this.desiredInstances;
+    final desiredSessions = this.desiredSessions;
     return {
-      'DesiredInstances': desiredInstances,
+      if (desiredInstances != null) 'DesiredInstances': desiredInstances,
+      if (desiredSessions != null) 'DesiredSessions': desiredSessions,
     };
   }
 }
@@ -4374,9 +5325,40 @@ class ComputeCapacityStatus {
   /// The desired number of streaming instances.
   final int desired;
 
+  /// The number of user sessions currently being used for streaming sessions.
+  /// This only applies to multi-session fleets.
+  final int? activeUserSessions;
+
+  /// The total number of session slots that are available for streaming or are
+  /// currently streaming.
+  ///
+  /// ActualUserSessionCapacity = AvailableUserSessionCapacity +
+  /// ActiveUserSessions
+  ///
+  /// This only applies to multi-session fleets.
+  final int? actualUserSessions;
+
   /// The number of currently available instances that can be used to stream
   /// sessions.
   final int? available;
+
+  /// The number of idle session slots currently available for user sessions.
+  ///
+  /// AvailableUserSessionCapacity = ActualUserSessionCapacity -
+  /// ActiveUserSessions
+  ///
+  /// This only applies to multi-session fleets.
+  final int? availableUserSessions;
+
+  /// The total number of sessions slots that are either running or pending. This
+  /// represents the total number of concurrent streaming sessions your fleet can
+  /// support in a steady state.
+  ///
+  /// DesiredUserSessionCapacity = ActualUserSessionCapacity +
+  /// PendingUserSessionCapacity
+  ///
+  /// This only applies to multi-session fleets.
+  final int? desiredUserSessions;
 
   /// The number of instances in use for streaming.
   final int? inUse;
@@ -4386,7 +5368,11 @@ class ComputeCapacityStatus {
 
   ComputeCapacityStatus({
     required this.desired,
+    this.activeUserSessions,
+    this.actualUserSessions,
     this.available,
+    this.availableUserSessions,
+    this.desiredUserSessions,
     this.inUse,
     this.running,
   });
@@ -4394,7 +5380,11 @@ class ComputeCapacityStatus {
   factory ComputeCapacityStatus.fromJson(Map<String, dynamic> json) {
     return ComputeCapacityStatus(
       desired: json['Desired'] as int,
+      activeUserSessions: json['ActiveUserSessions'] as int?,
+      actualUserSessions: json['ActualUserSessions'] as int?,
       available: json['Available'] as int?,
+      availableUserSessions: json['AvailableUserSessions'] as int?,
+      desiredUserSessions: json['DesiredUserSessions'] as int?,
       inUse: json['InUse'] as int?,
       running: json['Running'] as int?,
     );
@@ -4412,6 +5402,44 @@ class CopyImageResponse {
   factory CopyImageResponse.fromJson(Map<String, dynamic> json) {
     return CopyImageResponse(
       destinationImageName: json['DestinationImageName'] as String?,
+    );
+  }
+}
+
+class CreateAppBlockBuilderResult {
+  final AppBlockBuilder? appBlockBuilder;
+
+  CreateAppBlockBuilderResult({
+    this.appBlockBuilder,
+  });
+
+  factory CreateAppBlockBuilderResult.fromJson(Map<String, dynamic> json) {
+    return CreateAppBlockBuilderResult(
+      appBlockBuilder: json['AppBlockBuilder'] != null
+          ? AppBlockBuilder.fromJson(
+              json['AppBlockBuilder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class CreateAppBlockBuilderStreamingURLResult {
+  /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
+  final DateTime? expires;
+
+  /// The URL to start the streaming session.
+  final String? streamingURL;
+
+  CreateAppBlockBuilderStreamingURLResult({
+    this.expires,
+    this.streamingURL,
+  });
+
+  factory CreateAppBlockBuilderStreamingURLResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAppBlockBuilderStreamingURLResult(
+      expires: timeStampFromJson(json['Expires']),
+      streamingURL: json['StreamingURL'] as String?,
     );
   }
 }
@@ -4633,6 +5661,14 @@ class CreateUserResult {
   }
 }
 
+class DeleteAppBlockBuilderResult {
+  DeleteAppBlockBuilderResult();
+
+  factory DeleteAppBlockBuilderResult.fromJson(Map<String, dynamic> _) {
+    return DeleteAppBlockBuilderResult();
+  }
+}
+
 class DeleteAppBlockResult {
   DeleteAppBlockResult();
 
@@ -4736,6 +5772,58 @@ class DeleteUserResult {
 
   factory DeleteUserResult.fromJson(Map<String, dynamic> _) {
     return DeleteUserResult();
+  }
+}
+
+class DescribeAppBlockBuilderAppBlockAssociationsResult {
+  /// This list of app block builders associated with app blocks.
+  final List<AppBlockBuilderAppBlockAssociation>?
+      appBlockBuilderAppBlockAssociations;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  DescribeAppBlockBuilderAppBlockAssociationsResult({
+    this.appBlockBuilderAppBlockAssociations,
+    this.nextToken,
+  });
+
+  factory DescribeAppBlockBuilderAppBlockAssociationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAppBlockBuilderAppBlockAssociationsResult(
+      appBlockBuilderAppBlockAssociations:
+          (json['AppBlockBuilderAppBlockAssociations'] as List?)
+              ?.whereNotNull()
+              .map((e) => AppBlockBuilderAppBlockAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class DescribeAppBlockBuildersResult {
+  /// The list that describes one or more app block builders.
+  final List<AppBlockBuilder>? appBlockBuilders;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  DescribeAppBlockBuildersResult({
+    this.appBlockBuilders,
+    this.nextToken,
+  });
+
+  factory DescribeAppBlockBuildersResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAppBlockBuildersResult(
+      appBlockBuilders: (json['AppBlockBuilders'] as List?)
+          ?.whereNotNull()
+          .map((e) => AppBlockBuilder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
   }
 }
 
@@ -5154,6 +6242,15 @@ class DisableUserResult {
   }
 }
 
+class DisassociateAppBlockBuilderAppBlockResult {
+  DisassociateAppBlockBuilderAppBlockResult();
+
+  factory DisassociateAppBlockBuilderAppBlockResult.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateAppBlockBuilderAppBlockResult();
+  }
+}
+
 class DisassociateApplicationFleetResult {
   DisassociateApplicationFleetResult();
 
@@ -5353,6 +6450,27 @@ class EntitlementAttribute {
       'Name': name,
       'Value': value,
     };
+  }
+}
+
+/// The error details.
+class ErrorDetails {
+  /// The error code.
+  final String? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  ErrorDetails({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
   }
 }
 
@@ -5572,6 +6690,10 @@ class Fleet {
   /// The maximum number of concurrent sessions for the fleet.
   final int? maxConcurrentSessions;
 
+  /// The maximum number of user sessions on an instance. This only applies to
+  /// multi-session fleets.
+  final int? maxSessionsPerInstance;
+
   /// The maximum amount of time that a streaming session can remain active, in
   /// seconds. If users are still connected to a streaming instance five minutes
   /// before this limit is reached, they are prompted to save any open documents
@@ -5622,6 +6744,7 @@ class Fleet {
     this.imageArn,
     this.imageName,
     this.maxConcurrentSessions,
+    this.maxSessionsPerInstance,
     this.maxUserDurationInSeconds,
     this.platform,
     this.sessionScriptS3Location,
@@ -5658,6 +6781,7 @@ class Fleet {
       imageArn: json['ImageArn'] as String?,
       imageName: json['ImageName'] as String?,
       maxConcurrentSessions: json['MaxConcurrentSessions'] as int?,
+      maxSessionsPerInstance: json['MaxSessionsPerInstance'] as int?,
       maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
       platform: (json['Platform'] as String?)?.toPlatformType(),
       sessionScriptS3Location: json['SessionScriptS3Location'] != null
@@ -5684,6 +6808,7 @@ enum FleetAttribute {
   iamRoleArn,
   usbDeviceFilterStrings,
   sessionScriptS3Location,
+  maxSessionsPerInstance,
 }
 
 extension FleetAttributeValueExtension on FleetAttribute {
@@ -5701,6 +6826,8 @@ extension FleetAttributeValueExtension on FleetAttribute {
         return 'USB_DEVICE_FILTER_STRINGS';
       case FleetAttribute.sessionScriptS3Location:
         return 'SESSION_SCRIPT_S3_LOCATION';
+      case FleetAttribute.maxSessionsPerInstance:
+        return 'MAX_SESSIONS_PER_INSTANCE';
     }
   }
 }
@@ -5720,6 +6847,8 @@ extension FleetAttributeFromString on String {
         return FleetAttribute.usbDeviceFilterStrings;
       case 'SESSION_SCRIPT_S3_LOCATION':
         return FleetAttribute.sessionScriptS3Location;
+      case 'MAX_SESSIONS_PER_INSTANCE':
+        return FleetAttribute.maxSessionsPerInstance;
     }
     throw Exception('$this is not known in enum FleetAttribute');
   }
@@ -6761,6 +7890,34 @@ class NetworkAccessConfiguration {
   }
 }
 
+enum PackagingType {
+  custom,
+  appstream2,
+}
+
+extension PackagingTypeValueExtension on PackagingType {
+  String toValue() {
+    switch (this) {
+      case PackagingType.custom:
+        return 'CUSTOM';
+      case PackagingType.appstream2:
+        return 'APPSTREAM2';
+    }
+  }
+}
+
+extension PackagingTypeFromString on String {
+  PackagingType toPackagingType() {
+    switch (this) {
+      case 'CUSTOM':
+        return PackagingType.custom;
+      case 'APPSTREAM2':
+        return PackagingType.appstream2;
+    }
+    throw Exception('$this is not known in enum PackagingType');
+  }
+}
+
 enum Permission {
   enabled,
   disabled,
@@ -6793,6 +7950,7 @@ enum PlatformType {
   windows,
   windowsServer_2016,
   windowsServer_2019,
+  windowsServer_2022,
   amazonLinux2,
 }
 
@@ -6805,6 +7963,8 @@ extension PlatformTypeValueExtension on PlatformType {
         return 'WINDOWS_SERVER_2016';
       case PlatformType.windowsServer_2019:
         return 'WINDOWS_SERVER_2019';
+      case PlatformType.windowsServer_2022:
+        return 'WINDOWS_SERVER_2022';
       case PlatformType.amazonLinux2:
         return 'AMAZON_LINUX2';
     }
@@ -6820,6 +7980,8 @@ extension PlatformTypeFromString on String {
         return PlatformType.windowsServer_2016;
       case 'WINDOWS_SERVER_2019':
         return PlatformType.windowsServer_2019;
+      case 'WINDOWS_SERVER_2022':
+        return PlatformType.windowsServer_2022;
       case 'AMAZON_LINUX2':
         return PlatformType.amazonLinux2;
     }
@@ -6887,17 +8049,42 @@ class S3Location {
   final String s3Bucket;
 
   /// The S3 key of the S3 object.
-  final String s3Key;
+  ///
+  /// This is required when used for the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// IconS3Location (Actions: CreateApplication and UpdateApplication)
+  /// </li>
+  /// <li>
+  /// SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)
+  /// </li>
+  /// <li>
+  /// ScriptDetails (Actions: CreateAppBlock)
+  /// </li>
+  /// <li>
+  /// SourceS3Location when creating an app block with <code>CUSTOM</code>
+  /// PackagingType (Actions: CreateAppBlock)
+  /// </li>
+  /// <li>
+  /// SourceS3Location when creating an app block with <code>APPSTREAM2</code>
+  /// PackagingType, and using an existing application package (VHD file). In this
+  /// case, <code>S3Key</code> refers to the VHD file. If a new application
+  /// package is required, then <code>S3Key</code> is not required. (Actions:
+  /// CreateAppBlock)
+  /// </li>
+  /// </ul>
+  final String? s3Key;
 
   S3Location({
     required this.s3Bucket,
-    required this.s3Key,
+    this.s3Key,
   });
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
       s3Bucket: json['S3Bucket'] as String,
-      s3Key: json['S3Key'] as String,
+      s3Key: json['S3Key'] as String?,
     );
   }
 
@@ -6906,7 +8093,7 @@ class S3Location {
     final s3Key = this.s3Key;
     return {
       'S3Bucket': s3Bucket,
-      'S3Key': s3Key,
+      if (s3Key != null) 'S3Key': s3Key,
     };
   }
 }
@@ -7015,6 +8202,9 @@ class Session {
   /// Specifies whether a user is connected to the streaming session.
   final SessionConnectionState? connectionState;
 
+  /// The identifier for the instance hosting the session.
+  final String? instanceId;
+
   /// The time when the streaming session is set to expire. This time is based on
   /// the <code>MaxUserDurationinSeconds</code> value, which determines the
   /// maximum length of time that a streaming session can run. A streaming session
@@ -7040,6 +8230,7 @@ class Session {
     required this.userId,
     this.authenticationType,
     this.connectionState,
+    this.instanceId,
     this.maxExpirationTime,
     this.networkAccessConfiguration,
     this.startTime,
@@ -7056,6 +8247,7 @@ class Session {
           (json['AuthenticationType'] as String?)?.toAuthenticationType(),
       connectionState:
           (json['ConnectionState'] as String?)?.toSessionConnectionState(),
+      instanceId: json['InstanceId'] as String?,
       maxExpirationTime: timeStampFromJson(json['MaxExpirationTime']),
       networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
           ? NetworkAccessConfiguration.fromJson(
@@ -7386,6 +8578,23 @@ extension StackErrorCodeFromString on String {
   }
 }
 
+class StartAppBlockBuilderResult {
+  final AppBlockBuilder? appBlockBuilder;
+
+  StartAppBlockBuilderResult({
+    this.appBlockBuilder,
+  });
+
+  factory StartAppBlockBuilderResult.fromJson(Map<String, dynamic> json) {
+    return StartAppBlockBuilderResult(
+      appBlockBuilder: json['AppBlockBuilder'] != null
+          ? AppBlockBuilder.fromJson(
+              json['AppBlockBuilder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class StartFleetResult {
   StartFleetResult();
 
@@ -7406,6 +8615,23 @@ class StartImageBuilderResult {
     return StartImageBuilderResult(
       imageBuilder: json['ImageBuilder'] != null
           ? ImageBuilder.fromJson(json['ImageBuilder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class StopAppBlockBuilderResult {
+  final AppBlockBuilder? appBlockBuilder;
+
+  StopAppBlockBuilderResult({
+    this.appBlockBuilder,
+  });
+
+  factory StopAppBlockBuilderResult.fromJson(Map<String, dynamic> json) {
+    return StopAppBlockBuilderResult(
+      appBlockBuilder: json['AppBlockBuilder'] != null
+          ? AppBlockBuilder.fromJson(
+              json['AppBlockBuilder'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -7578,6 +8804,23 @@ class UntagResourceResponse {
 
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
+  }
+}
+
+class UpdateAppBlockBuilderResult {
+  final AppBlockBuilder? appBlockBuilder;
+
+  UpdateAppBlockBuilderResult({
+    this.appBlockBuilder,
+  });
+
+  factory UpdateAppBlockBuilderResult.fromJson(Map<String, dynamic> json) {
+    return UpdateAppBlockBuilderResult(
+      appBlockBuilder: json['AppBlockBuilder'] != null
+          ? AppBlockBuilder.fromJson(
+              json['AppBlockBuilder'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -7858,24 +9101,46 @@ class UserSetting {
   /// Indicates whether the action is enabled or disabled.
   final Permission permission;
 
+  /// Specifies the number of characters that can be copied by end users from the
+  /// local device to the remote session, and to the local device from the remote
+  /// session.
+  ///
+  /// This can be specified only for the
+  /// <code>CLIPBOARD_COPY_FROM_LOCAL_DEVICE</code> and
+  /// <code>CLIPBOARD_COPY_TO_LOCAL_DEVICE</code> actions.
+  ///
+  /// This defaults to 20,971,520 (20 MB) when unspecified and the permission is
+  /// <code>ENABLED</code>. This can't be specified when the permission is
+  /// <code>DISABLED</code>.
+  ///
+  /// This can only be specified for AlwaysOn and OnDemand fleets. The attribute
+  /// is not supported on Elastic fleets.
+  ///
+  /// The value can be between 1 and 20,971,520 (20 MB).
+  final int? maximumLength;
+
   UserSetting({
     required this.action,
     required this.permission,
+    this.maximumLength,
   });
 
   factory UserSetting.fromJson(Map<String, dynamic> json) {
     return UserSetting(
       action: (json['Action'] as String).toAction(),
       permission: (json['Permission'] as String).toPermission(),
+      maximumLength: json['MaximumLength'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final action = this.action;
     final permission = this.permission;
+    final maximumLength = this.maximumLength;
     return {
       'Action': action.toValue(),
       'Permission': permission.toValue(),
+      if (maximumLength != null) 'MaximumLength': maximumLength,
     };
   }
 }

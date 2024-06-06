@@ -854,7 +854,7 @@ class Route53Domains {
   /// The sort type for returned values.
   ///
   /// Parameter [sortOrder] :
-  /// The sort order ofr returned values, either ascending or descending.
+  /// The sort order for returned values, either ascending or descending.
   ///
   /// Parameter [status] :
   /// The status of the operations.
@@ -962,7 +962,7 @@ class Route53Domains {
       'maxItems',
       maxItems,
       0,
-      100,
+      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1058,10 +1058,8 @@ class Route53Domains {
     );
   }
 
-  /// This operation registers a domain. Domains are registered either by Amazon
-  /// Registrar (for .com, .net, and .org domains) or by our registrar
-  /// associate, Gandi (for all other domains). For some top-level domains
-  /// (TLDs), this operation requires extra parameters.
+  /// This operation registers a domain. For some top-level domains (TLDs), this
+  /// operation requires extra parameters.
   ///
   /// When you register a domain, Amazon Route 53 does the following:
   ///
@@ -1077,14 +1075,14 @@ class Route53Domains {
   /// choose whether to renew the registration.
   /// </li>
   /// <li>
-  /// Optionally enables privacy protection, so WHOIS queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you don't
-  /// enable privacy protection, WHOIS queries return the information that you
-  /// entered for the administrative, registrant, and technical contacts.
-  /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// Optionally enables privacy protection, so WHOIS queries return contact for
+  /// the registrar or the phrase "REDACTED FOR PRIVACY", or "On behalf of
+  /// &lt;domain name&gt; owner." If you don't enable privacy protection, WHOIS
+  /// queries return the information that you entered for the administrative,
   /// registrant, and technical contacts.
+  /// <note>
+  /// While some domains may allow different privacy settings per contact, we
+  /// recommend specifying the same privacy setting for all contacts.
   /// </note> </li>
   /// <li>
   /// If registration is successful, returns an operation ID that you can use to
@@ -1171,31 +1169,46 @@ class Route53Domains {
   ///
   /// Default: <code>true</code>
   ///
+  /// Parameter [billingContact] :
+  /// Provides detailed contact information. For information about the values
+  /// that you specify for each element, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html">ContactDetail</a>.
+  ///
   /// Parameter [idnLangCode] :
   /// Reserved for future use.
   ///
   /// Parameter [privacyProtectAdminContact] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the admin contact.
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the admin contact.
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   /// Default: <code>true</code>
   ///
+  /// Parameter [privacyProtectBillingContact] :
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the billing contact.
+  /// <note>
+  /// You must specify the same privacy setting for the administrative, billing,
+  /// registrant, and technical contacts.
+  /// </note>
+  ///
   /// Parameter [privacyProtectRegistrantContact] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the registrant contact (the domain owner).
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the registrant contact (the domain
+  /// owner).
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   /// Default: <code>true</code>
@@ -1203,12 +1216,11 @@ class Route53Domains {
   /// Parameter [privacyProtectTechContact] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the technical contact.
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the technical contact.
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   /// Default: <code>true</code>
@@ -1219,8 +1231,10 @@ class Route53Domains {
     required ContactDetail registrantContact,
     required ContactDetail techContact,
     bool? autoRenew,
+    ContactDetail? billingContact,
     String? idnLangCode,
     bool? privacyProtectAdminContact,
+    bool? privacyProtectBillingContact,
     bool? privacyProtectRegistrantContact,
     bool? privacyProtectTechContact,
   }) async {
@@ -1248,9 +1262,12 @@ class Route53Domains {
         'RegistrantContact': registrantContact,
         'TechContact': techContact,
         if (autoRenew != null) 'AutoRenew': autoRenew,
+        if (billingContact != null) 'BillingContact': billingContact,
         if (idnLangCode != null) 'IdnLangCode': idnLangCode,
         if (privacyProtectAdminContact != null)
           'PrivacyProtectAdminContact': privacyProtectAdminContact,
+        if (privacyProtectBillingContact != null)
+          'PrivacyProtectBillingContact': privacyProtectBillingContact,
         if (privacyProtectRegistrantContact != null)
           'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
         if (privacyProtectTechContact != null)
@@ -1461,10 +1478,7 @@ class Route53Domains {
     return RetrieveDomainAuthCodeResponse.fromJson(jsonResponse.body);
   }
 
-  /// Transfers a domain from another registrar to Amazon Route 53. When the
-  /// transfer is complete, the domain is registered either with Amazon
-  /// Registrar (for .com, .net, and .org domains) or with our registrar
-  /// associate, Gandi (for all other TLDs).
+  /// Transfers a domain from another registrar to Amazon Route 53.
   ///
   /// For more information about transferring domains, see the following topics:
   ///
@@ -1489,7 +1503,13 @@ class Route53Domains {
   /// a Domain from Amazon Route 53 to Another Registrar</a> in the <i>Amazon
   /// Route 53 Developer Guide</i>.
   /// </li>
-  /// </ul>
+  /// </ul> <important>
+  /// During the transfer of any country code top-level domains (ccTLDs) to
+  /// Route 53, except for .cc and .tv, updates to the owner contact are ignored
+  /// and the owner contact data from the registry is used. You can update the
+  /// owner contact after the transfer is complete. For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainContact.html">UpdateDomainContact</a>.
+  /// </important>
   /// If the registrar for your domain is also the DNS service provider for the
   /// domain, we highly recommend that you transfer your DNS service to Route 53
   /// or to another DNS service provider before you transfer your registration.
@@ -1567,6 +1587,9 @@ class Route53Domains {
   ///
   /// Default: true
   ///
+  /// Parameter [billingContact] :
+  /// Provides detailed contact information.
+  ///
   /// Parameter [idnLangCode] :
   /// Reserved for future use.
   ///
@@ -1576,25 +1599,33 @@ class Route53Domains {
   /// Parameter [privacyProtectAdminContact] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the admin contact.
+  /// information for the registrar, the phrase "REDACTED FOR PRIVACY", or "On
+  /// behalf of &lt;domain name&gt; owner.".
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
-  /// registrant, and technical contacts.
+  /// While some domains may allow different privacy settings per contact, we
+  /// recommend specifying the same privacy setting for all contacts.
   /// </note>
   /// Default: <code>true</code>
+  ///
+  /// Parameter [privacyProtectBillingContact] :
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the billing contact.
+  /// <note>
+  /// You must specify the same privacy setting for the administrative, billing,
+  /// registrant, and technical contacts.
+  /// </note>
   ///
   /// Parameter [privacyProtectRegistrantContact] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the registrant contact (domain owner).
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the registrant contact (domain owner).
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   /// Default: <code>true</code>
@@ -1602,12 +1633,11 @@ class Route53Domains {
   /// Parameter [privacyProtectTechContact] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the technical contact.
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the technical contact.
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   /// Default: <code>true</code>
@@ -1619,9 +1649,11 @@ class Route53Domains {
     required ContactDetail techContact,
     String? authCode,
     bool? autoRenew,
+    ContactDetail? billingContact,
     String? idnLangCode,
     List<Nameserver>? nameservers,
     bool? privacyProtectAdminContact,
+    bool? privacyProtectBillingContact,
     bool? privacyProtectRegistrantContact,
     bool? privacyProtectTechContact,
   }) async {
@@ -1650,10 +1682,13 @@ class Route53Domains {
         'TechContact': techContact,
         if (authCode != null) 'AuthCode': authCode,
         if (autoRenew != null) 'AutoRenew': autoRenew,
+        if (billingContact != null) 'BillingContact': billingContact,
         if (idnLangCode != null) 'IdnLangCode': idnLangCode,
         if (nameservers != null) 'Nameservers': nameservers,
         if (privacyProtectAdminContact != null)
           'PrivacyProtectAdminContact': privacyProtectAdminContact,
+        if (privacyProtectBillingContact != null)
+          'PrivacyProtectBillingContact': privacyProtectBillingContact,
         if (privacyProtectRegistrantContact != null)
           'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
         if (privacyProtectTechContact != null)
@@ -1761,8 +1796,12 @@ class Route53Domains {
   /// Parameter [adminContact] :
   /// Provides detailed contact information.
   ///
+  /// Parameter [billingContact] :
+  /// Provides detailed contact information.
+  ///
   /// Parameter [consent] :
-  /// Customer's consent for the owner change request.
+  /// Customer's consent for the owner change request. Required if the domain is
+  /// not free (consent price is more than $0.00).
   ///
   /// Parameter [registrantContact] :
   /// Provides detailed contact information.
@@ -1772,6 +1811,7 @@ class Route53Domains {
   Future<UpdateDomainContactResponse> updateDomainContact({
     required String domainName,
     ContactDetail? adminContact,
+    ContactDetail? billingContact,
     Consent? consent,
     ContactDetail? registrantContact,
     ContactDetail? techContact,
@@ -1789,6 +1829,7 @@ class Route53Domains {
       payload: {
         'DomainName': domainName,
         if (adminContact != null) 'AdminContact': adminContact,
+        if (billingContact != null) 'BillingContact': billingContact,
         if (consent != null) 'Consent': consent,
         if (registrantContact != null) 'RegistrantContact': registrantContact,
         if (techContact != null) 'TechContact': techContact,
@@ -1799,13 +1840,12 @@ class Route53Domains {
   }
 
   /// This operation updates the specified domain contact's privacy setting.
-  /// When privacy protection is enabled, contact information such as email
-  /// address is replaced either with contact information for Amazon Registrar
-  /// (for .com, .net, and .org domains) or with contact information for our
-  /// registrar associate, Gandi.
+  /// When privacy protection is enabled, your contact information is replaced
+  /// with contact information for the registrar or with the phrase "REDACTED
+  /// FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner."
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
-  /// registrant, and technical contacts.
+  /// While some domains may allow different privacy settings per contact, we
+  /// recommend specifying the same privacy setting for all contacts.
   /// </note>
   /// This operation affects only the contact information for the specified
   /// contact type (administrative, registrant, or technical). If the request
@@ -1838,41 +1878,50 @@ class Route53Domains {
   /// Parameter [adminPrivacy] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the admin contact.
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the admin contact.
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
+  /// registrant, and technical contacts.
+  /// </note>
+  ///
+  /// Parameter [billingPrivacy] :
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the billing contact.
+  /// <note>
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   ///
   /// Parameter [registrantPrivacy] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the registrant contact (domain owner).
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the registrant contact (domain owner).
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   ///
   /// Parameter [techPrivacy] :
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the technical contact.
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If you specify <code>false</code>, WHOIS queries return the
+  /// information that you entered for the technical contact.
   /// <note>
-  /// You must specify the same privacy setting for the administrative,
+  /// You must specify the same privacy setting for the administrative, billing,
   /// registrant, and technical contacts.
   /// </note>
   Future<UpdateDomainContactPrivacyResponse> updateDomainContactPrivacy({
     required String domainName,
     bool? adminPrivacy,
+    bool? billingPrivacy,
     bool? registrantPrivacy,
     bool? techPrivacy,
   }) async {
@@ -1889,6 +1938,7 @@ class Route53Domains {
       payload: {
         'DomainName': domainName,
         if (adminPrivacy != null) 'AdminPrivacy': adminPrivacy,
+        if (billingPrivacy != null) 'BillingPrivacy': billingPrivacy,
         if (registrantPrivacy != null) 'RegistrantPrivacy': registrantPrivacy,
         if (techPrivacy != null) 'TechPrivacy': techPrivacy,
       },
@@ -2168,6 +2218,9 @@ class CheckDomainAvailabilityResponse {
   /// domain name is available. Route 53 can return this response for a variety of
   /// reasons, for example, the registry is performing maintenance. Try again
   /// later.
+  /// </dd> <dt>INVALID_NAME_FOR_TLD</dt> <dd>
+  /// The TLD isn't valid. For example, it can contain characters that aren't
+  /// allowed.
   /// </dd> <dt>PENDING</dt> <dd>
   /// The TLD registry didn't return a response in the expected amount of time.
   /// When the response is delayed, it usually takes just a few extra seconds. You
@@ -2196,17 +2249,22 @@ class CheckDomainAvailabilityResponse {
 
 /// The CheckDomainTransferability response includes the following elements.
 class CheckDomainTransferabilityResponse {
+  /// Provides an explanation for when a domain can't be transferred.
+  final String? message;
+
   /// A complex type that contains information about whether the specified domain
   /// can be transferred to Route 53.
   final DomainTransferability? transferability;
 
   CheckDomainTransferabilityResponse({
+    this.message,
     this.transferability,
   });
 
   factory CheckDomainTransferabilityResponse.fromJson(
       Map<String, dynamic> json) {
     return CheckDomainTransferabilityResponse(
+      message: json['Message'] as String?,
       transferability: json['Transferability'] != null
           ? DomainTransferability.fromJson(
               json['Transferability'] as Map<String, dynamic>)
@@ -3893,6 +3951,8 @@ enum DomainAvailability {
   unavailableRestricted,
   reserved,
   dontKnow,
+  invalidNameForTld,
+  pending,
 }
 
 extension DomainAvailabilityValueExtension on DomainAvailability {
@@ -3914,6 +3974,10 @@ extension DomainAvailabilityValueExtension on DomainAvailability {
         return 'RESERVED';
       case DomainAvailability.dontKnow:
         return 'DONT_KNOW';
+      case DomainAvailability.invalidNameForTld:
+        return 'INVALID_NAME_FOR_TLD';
+      case DomainAvailability.pending:
+        return 'PENDING';
     }
   }
 }
@@ -3937,6 +4001,10 @@ extension DomainAvailabilityFromString on String {
         return DomainAvailability.reserved;
       case 'DONT_KNOW':
         return DomainAvailability.dontKnow;
+      case 'INVALID_NAME_FOR_TLD':
+        return DomainAvailability.invalidNameForTld;
+      case 'PENDING':
+        return DomainAvailability.pending;
     }
     throw Exception('$this is not known in enum DomainAvailability');
   }
@@ -4562,29 +4630,6 @@ class ExtraParam {
   /// <code>TOWNSHIP</code>
   /// </li>
   /// </ul> </li>
-  /// </ul> </dd> <dt>.fr</dt> <dd>
-  /// <ul>
-  /// <li>
-  /// <code>BIRTH_CITY</code>
-  /// </li>
-  /// <li>
-  /// <code>BIRTH_COUNTRY</code>
-  /// </li>
-  /// <li>
-  /// <code>BIRTH_DATE_IN_YYYY_MM_DD</code>
-  /// </li>
-  /// <li>
-  /// <code>BIRTH_DEPARTMENT</code>: Specify the INSEE code that corresponds with
-  /// the department where the contact was born. If the contact was born somewhere
-  /// other than France or its overseas departments, specify <code>99</code>. For
-  /// more information, including a list of departments and the corresponding
-  /// INSEE numbers, see the Wikipedia entry <a
-  /// href="https://en.wikipedia.org/wiki/Departments_of_France">Departments of
-  /// France</a>.
-  /// </li>
-  /// <li>
-  /// <code>BRAND_NUMBER</code>
-  /// </li>
   /// </ul> </dd> <dt>.it</dt> <dd>
   /// <ul>
   /// <li>
@@ -4989,14 +5034,23 @@ class GetDomainDetailResponse {
 
   /// Specifies whether contact information is concealed from WHOIS queries. If
   /// the value is <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If the value is
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the admin contact.
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the admin contact.
   final bool? adminPrivacy;
 
   /// Specifies whether the domain registration is set to renew automatically.
   final bool? autoRenew;
+
+  /// Provides details about the domain billing contact.
+  final ContactDetail? billingContact;
+
+  /// Specifies whether contact information is concealed from WHOIS queries. If
+  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the billing contact.
+  final bool? billingPrivacy;
 
   /// The date when the domain was created as found in the response to a WHOIS
   /// query. The date and time is in Unix time format and Coordinated Universal
@@ -5024,16 +5078,12 @@ class GetDomainDetailResponse {
 
   /// Specifies whether contact information is concealed from WHOIS queries. If
   /// the value is <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If the value is
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the registrant contact (domain owner).
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the registrant contact (domain owner).
   final bool? registrantPrivacy;
 
-  /// Name of the registrar of the domain as identified in the registry. Domains
-  /// with a .com, .net, or .org TLD are registered by Amazon Registrar. All other
-  /// domains are registered by our registrar associate, Gandi. The value for
-  /// domains that are registered by Gandi is <code>"GANDI SAS"</code>.
+  /// Name of the registrar of the domain as identified in the registry.
   final String? registrarName;
 
   /// Web address of the registrar.
@@ -5068,10 +5118,9 @@ class GetDomainDetailResponse {
 
   /// Specifies whether contact information is concealed from WHOIS queries. If
   /// the value is <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar (for .com, .net, and .org domains)
-  /// or for our registrar associate, Gandi (for all other TLDs). If the value is
-  /// <code>false</code>, WHOIS queries return the information that you entered
-  /// for the technical contact.
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the technical contact.
   final bool? techPrivacy;
 
   /// The last updated date of the domain as found in the response to a WHOIS
@@ -5089,6 +5138,8 @@ class GetDomainDetailResponse {
     this.adminContact,
     this.adminPrivacy,
     this.autoRenew,
+    this.billingContact,
+    this.billingPrivacy,
     this.creationDate,
     this.dnsSec,
     this.dnssecKeys,
@@ -5117,6 +5168,11 @@ class GetDomainDetailResponse {
           : null,
       adminPrivacy: json['AdminPrivacy'] as bool?,
       autoRenew: json['AutoRenew'] as bool?,
+      billingContact: json['BillingContact'] != null
+          ? ContactDetail.fromJson(
+              json['BillingContact'] as Map<String, dynamic>)
+          : null,
+      billingPrivacy: json['BillingPrivacy'] as bool?,
       creationDate: timeStampFromJson(json['CreationDate']),
       dnsSec: json['DnsSec'] as String?,
       dnssecKeys: (json['DnssecKeys'] as List?)
@@ -5582,6 +5638,8 @@ enum OperationType {
   pushDomain,
   internalTransferOutDomain,
   internalTransferInDomain,
+  releaseToGandi,
+  transferOnRenew,
 }
 
 extension OperationTypeValueExtension on OperationType {
@@ -5623,6 +5681,10 @@ extension OperationTypeValueExtension on OperationType {
         return 'INTERNAL_TRANSFER_OUT_DOMAIN';
       case OperationType.internalTransferInDomain:
         return 'INTERNAL_TRANSFER_IN_DOMAIN';
+      case OperationType.releaseToGandi:
+        return 'RELEASE_TO_GANDI';
+      case OperationType.transferOnRenew:
+        return 'TRANSFER_ON_RENEW';
     }
   }
 }
@@ -5666,6 +5728,10 @@ extension OperationTypeFromString on String {
         return OperationType.internalTransferOutDomain;
       case 'INTERNAL_TRANSFER_IN_DOMAIN':
         return OperationType.internalTransferInDomain;
+      case 'RELEASE_TO_GANDI':
+        return OperationType.releaseToGandi;
+      case 'TRANSFER_ON_RENEW':
+        return OperationType.transferOnRenew;
     }
     throw Exception('$this is not known in enum OperationType');
   }
@@ -6060,7 +6126,7 @@ class TransferDomainToAnotherAwsAccountResponse {
 /// </dd> <dt>DOMAIN_IN_OWN_ACCOUNT</dt> <dd>
 /// The domain already exists in the current Amazon Web Services account.
 /// </dd> <dt>DOMAIN_IN_ANOTHER_ACCOUNT</dt> <dd>
-/// the domain exists in another Amazon Web Services account.
+/// The domain exists in another Amazon Web Services account.
 /// </dd> <dt>PREMIUM_DOMAIN</dt> <dd>
 /// Premium domain transfer is not supported.
 /// </dd> </dl>

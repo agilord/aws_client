@@ -59,9 +59,9 @@ class TimestreamWrite {
   /// from a CSV source in an S3 location and writes to a Timestream table. A
   /// mapping from source to target is defined in a batch load task. Errors and
   /// events are written to a report at an S3 location. For the report, if the
-  /// KMS key is not specified, the batch load task will be encrypted with a
-  /// Timestream managed KMS key located in your account. For more information,
-  /// see <a
+  /// KMS key is not specified, the report will be encrypted with an S3 managed
+  /// key when <code>SSE_S3</code> is the option. Otherwise an error is thrown.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">Amazon
   /// Web Services managed keys</a>. <a
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Service
@@ -217,6 +217,9 @@ class TimestreamWrite {
   /// The duration for which your time-series data must be stored in the memory
   /// store and the magnetic store.
   ///
+  /// Parameter [schema] :
+  /// The schema of the table.
+  ///
   /// Parameter [tags] :
   /// A list of key-value pairs to label the table.
   Future<CreateTableResponse> createTable({
@@ -224,6 +227,7 @@ class TimestreamWrite {
     required String tableName,
     MagneticStoreWriteProperties? magneticStoreWriteProperties,
     RetentionProperties? retentionProperties,
+    Schema? schema,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -243,6 +247,7 @@ class TimestreamWrite {
           'MagneticStoreWriteProperties': magneticStoreWriteProperties,
         if (retentionProperties != null)
           'RetentionProperties': retentionProperties,
+        if (schema != null) 'Schema': schema,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -893,11 +898,15 @@ class TimestreamWrite {
   ///
   /// Parameter [retentionProperties] :
   /// The retention duration of the memory store and the magnetic store.
+  ///
+  /// Parameter [schema] :
+  /// The schema of the table.
   Future<UpdateTableResponse> updateTable({
     required String databaseName,
     required String tableName,
     MagneticStoreWriteProperties? magneticStoreWriteProperties,
     RetentionProperties? retentionProperties,
+    Schema? schema,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -916,6 +925,7 @@ class TimestreamWrite {
           'MagneticStoreWriteProperties': magneticStoreWriteProperties,
         if (retentionProperties != null)
           'RetentionProperties': retentionProperties,
+        if (schema != null) 'Schema': schema,
       },
     );
 
@@ -2175,7 +2185,9 @@ class MeasureValue {
   /// Contains the data type of the MeasureValue for the time-series data point.
   final MeasureValueType type;
 
-  /// The value for the MeasureValue.
+  /// The value for the MeasureValue. For information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/writes.html#writes.data-types">Data
+  /// types</a>.
   final String value;
 
   MeasureValue({
@@ -2380,6 +2392,108 @@ class MultiMeasureMappings {
   }
 }
 
+/// An attribute used in partitioning data in a table. A dimension key
+/// partitions data using the values of the dimension specified by the
+/// dimension-name as partition key, while a measure key partitions data using
+/// measure names (values of the 'measure_name' column).
+class PartitionKey {
+  /// The type of the partition key. Options are DIMENSION (dimension key) and
+  /// MEASURE (measure key).
+  final PartitionKeyType type;
+
+  /// The level of enforcement for the specification of a dimension key in
+  /// ingested records. Options are REQUIRED (dimension key must be specified) and
+  /// OPTIONAL (dimension key does not have to be specified).
+  final PartitionKeyEnforcementLevel? enforcementInRecord;
+
+  /// The name of the attribute used for a dimension key.
+  final String? name;
+
+  PartitionKey({
+    required this.type,
+    this.enforcementInRecord,
+    this.name,
+  });
+
+  factory PartitionKey.fromJson(Map<String, dynamic> json) {
+    return PartitionKey(
+      type: (json['Type'] as String).toPartitionKeyType(),
+      enforcementInRecord: (json['EnforcementInRecord'] as String?)
+          ?.toPartitionKeyEnforcementLevel(),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final enforcementInRecord = this.enforcementInRecord;
+    final name = this.name;
+    return {
+      'Type': type.toValue(),
+      if (enforcementInRecord != null)
+        'EnforcementInRecord': enforcementInRecord.toValue(),
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+enum PartitionKeyEnforcementLevel {
+  required,
+  optional,
+}
+
+extension PartitionKeyEnforcementLevelValueExtension
+    on PartitionKeyEnforcementLevel {
+  String toValue() {
+    switch (this) {
+      case PartitionKeyEnforcementLevel.required:
+        return 'REQUIRED';
+      case PartitionKeyEnforcementLevel.optional:
+        return 'OPTIONAL';
+    }
+  }
+}
+
+extension PartitionKeyEnforcementLevelFromString on String {
+  PartitionKeyEnforcementLevel toPartitionKeyEnforcementLevel() {
+    switch (this) {
+      case 'REQUIRED':
+        return PartitionKeyEnforcementLevel.required;
+      case 'OPTIONAL':
+        return PartitionKeyEnforcementLevel.optional;
+    }
+    throw Exception('$this is not known in enum PartitionKeyEnforcementLevel');
+  }
+}
+
+enum PartitionKeyType {
+  dimension,
+  measure,
+}
+
+extension PartitionKeyTypeValueExtension on PartitionKeyType {
+  String toValue() {
+    switch (this) {
+      case PartitionKeyType.dimension:
+        return 'DIMENSION';
+      case PartitionKeyType.measure:
+        return 'MEASURE';
+    }
+  }
+}
+
+extension PartitionKeyTypeFromString on String {
+  PartitionKeyType toPartitionKeyType() {
+    switch (this) {
+      case 'DIMENSION':
+        return PartitionKeyType.dimension;
+      case 'MEASURE':
+        return PartitionKeyType.measure;
+    }
+    throw Exception('$this is not known in enum PartitionKeyType');
+  }
+}
+
 /// Represents a time-series data point being written into Timestream. Each
 /// record contains an array of dimensions. Dimensions represent the metadata
 /// attributes of a time-series data point, such as the instance name or
@@ -2410,7 +2524,9 @@ class Record {
   final String? measureValue;
 
   /// Contains the data type of the measure value for the time-series data point.
-  /// Default type is <code>DOUBLE</code>.
+  /// Default type is <code>DOUBLE</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/writes.html#writes.data-types">Data
+  /// types</a>.
   final MeasureValueType? measureValueType;
 
   /// Contains the list of MeasureValue for time-series data points.
@@ -2753,6 +2869,37 @@ extension ScalarMeasureValueTypeFromString on String {
   }
 }
 
+/// A Schema specifies the expected data model of the table.
+class Schema {
+  /// A non-empty list of partition keys defining the attributes used to partition
+  /// the table data. The order of the list determines the partition hierarchy.
+  /// The name and type of each partition key as well as the partition key order
+  /// cannot be changed after the table is created. However, the enforcement level
+  /// of each partition key can be changed.
+  final List<PartitionKey>? compositePartitionKey;
+
+  Schema({
+    this.compositePartitionKey,
+  });
+
+  factory Schema.fromJson(Map<String, dynamic> json) {
+    return Schema(
+      compositePartitionKey: (json['CompositePartitionKey'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compositePartitionKey = this.compositePartitionKey;
+    return {
+      if (compositePartitionKey != null)
+        'CompositePartitionKey': compositePartitionKey,
+    };
+  }
+}
+
 /// Represents a database table in Timestream. Tables contain one or more
 /// related time series. You can modify the retention duration of the memory
 /// store and the magnetic store for a table.
@@ -2774,6 +2921,9 @@ class Table {
 
   /// The retention duration for the memory store and magnetic store.
   final RetentionProperties? retentionProperties;
+
+  /// The schema of the table.
+  final Schema? schema;
 
   /// The name of the Timestream table.
   final String? tableName;
@@ -2797,6 +2947,7 @@ class Table {
     this.lastUpdatedTime,
     this.magneticStoreWriteProperties,
     this.retentionProperties,
+    this.schema,
     this.tableName,
     this.tableStatus,
   });
@@ -2815,6 +2966,9 @@ class Table {
           ? RetentionProperties.fromJson(
               json['RetentionProperties'] as Map<String, dynamic>)
           : null,
+      schema: json['Schema'] != null
+          ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
+          : null,
       tableName: json['TableName'] as String?,
       tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
     );
@@ -2827,6 +2981,7 @@ class Table {
     final lastUpdatedTime = this.lastUpdatedTime;
     final magneticStoreWriteProperties = this.magneticStoreWriteProperties;
     final retentionProperties = this.retentionProperties;
+    final schema = this.schema;
     final tableName = this.tableName;
     final tableStatus = this.tableStatus;
     return {
@@ -2840,6 +2995,7 @@ class Table {
         'MagneticStoreWriteProperties': magneticStoreWriteProperties,
       if (retentionProperties != null)
         'RetentionProperties': retentionProperties,
+      if (schema != null) 'Schema': schema,
       if (tableName != null) 'TableName': tableName,
       if (tableStatus != null) 'TableStatus': tableStatus.toValue(),
     };

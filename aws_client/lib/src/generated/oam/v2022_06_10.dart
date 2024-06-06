@@ -24,18 +24,19 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// cross-account observability</i>. With CloudWatch cross-account
 /// observability, you can monitor and troubleshoot applications that span
 /// multiple accounts within a Region. Seamlessly search, visualize, and analyze
-/// your metrics, logs, and traces in any of the linked accounts without account
-/// boundaries.
-/// <pre><code> &lt;p&gt;Set up one or more Amazon Web Services accounts as
-/// &lt;i&gt;monitoring accounts&lt;/i&gt; and link them with multiple
-/// &lt;i&gt;source accounts&lt;/i&gt;. A monitoring account is a central Amazon
-/// Web Services account that can view and interact with observability data
-/// generated from source accounts. A source account is an individual Amazon Web
-/// Services account that generates observability data for the resources that
-/// reside in it. Source accounts share their observability data with the
-/// monitoring account. The shared observability data can include metrics in
-/// Amazon CloudWatch, logs in Amazon CloudWatch Logs, and traces in
-/// X-Ray.&lt;/p&gt; </code></pre>
+/// your metrics, logs, traces, and Application Insights applications in any of
+/// the linked accounts without account boundaries.
+///
+/// Set up one or more Amazon Web Services accounts as <i>monitoring
+/// accounts</i> and link them with multiple <i>source accounts</i>. A
+/// monitoring account is a central Amazon Web Services account that can view
+/// and interact with observability data generated from source accounts. A
+/// source account is an individual Amazon Web Services account that generates
+/// observability data for the resources that reside in it. Source accounts
+/// share their observability data with the monitoring account. The shared
+/// observability data can include metrics in Amazon CloudWatch, logs in Amazon
+/// CloudWatch Logs, traces in X-Ray, and applications in Amazon CloudWatch
+/// Application Insights.
 class CloudWatchObservabilityAccessManager {
   final _s.RestJsonProtocol _protocol;
   CloudWatchObservabilityAccessManager({
@@ -66,7 +67,10 @@ class CloudWatchObservabilityAccessManager {
   }
 
   /// Creates a link between a source account and a sink that you have created
-  /// in a monitoring account.
+  /// in a monitoring account. After the link is created, data is sent from the
+  /// source account to the monitoring account. When you create a link, you can
+  /// optionally specify filters that specify which metric namespaces and which
+  /// log groups are shared from the source account to the monitoring account.
   ///
   /// Before you create a link, you must create a sink in the monitoring account
   /// and create a sink policy in that account. The sink policy must permit the
@@ -122,6 +126,11 @@ class CloudWatchObservabilityAccessManager {
   /// For more information about sinks, see <a
   /// href="https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html">CreateSink</a>.
   ///
+  /// Parameter [linkConfiguration] :
+  /// Use this structure to optionally create filters that specify that only
+  /// some metric namespaces or log groups are to be shared from the source
+  /// account to the monitoring account.
+  ///
   /// Parameter [tags] :
   /// Assigns one or more tags (key-value pairs) to the link.
   ///
@@ -136,12 +145,14 @@ class CloudWatchObservabilityAccessManager {
     required String labelTemplate,
     required List<ResourceType> resourceTypes,
     required String sinkIdentifier,
+    LinkConfiguration? linkConfiguration,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'LabelTemplate': labelTemplate,
       'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
       'SinkIdentifier': sinkIdentifier,
+      if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -162,8 +173,8 @@ class CloudWatchObservabilityAccessManager {
   /// accounts to attach to it. For more information, see <a
   /// href="https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html">PutSinkPolicy</a>.
   ///
-  /// Each account can contain one sink. If you delete a sink, you can then
-  /// create a new one in that account.
+  /// Each account can contain one sink per Region. If you delete a sink, you
+  /// can then create a new one in that Region.
   ///
   /// May throw [InternalServiceFault].
   /// May throw [ConflictException].
@@ -513,6 +524,10 @@ class CloudWatchObservabilityAccessManager {
   /// <li>
   /// <b>Traces</b> - Specify with <code>AWS::XRay::Trace</code>
   /// </li>
+  /// <li>
+  /// <b>Application Insights - Applications</b> - Specify with
+  /// <code>AWS::ApplicationInsights::Application</code>
+  /// </li>
   /// </ul>
   /// See the examples in this section to see how to specify permitted source
   /// accounts and data types.
@@ -659,6 +674,10 @@ class CloudWatchObservabilityAccessManager {
   /// account to its linked monitoring account sink. You can't change the sink
   /// or change the monitoring account with this operation.
   ///
+  /// When you update a link, you can optionally specify filters that specify
+  /// which metric namespaces and which log groups are shared from the source
+  /// account to the monitoring account.
+  ///
   /// To update the list of tags associated with the sink, use <a
   /// href="https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html">TagResource</a>.
   ///
@@ -675,13 +694,19 @@ class CloudWatchObservabilityAccessManager {
   /// account will send to the monitoring account.
   ///
   /// Your input here replaces the current set of data types that are shared.
+  ///
+  /// Parameter [linkConfiguration] :
+  /// Use this structure to filter which metric namespaces and which log groups
+  /// are to be shared from the source account to the monitoring account.
   Future<UpdateLinkOutput> updateLink({
     required String identifier,
     required List<ResourceType> resourceTypes,
+    LinkConfiguration? linkConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'Identifier': identifier,
       'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+      if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -710,6 +735,11 @@ class CreateLinkOutput {
   /// resolved.
   final String? labelTemplate;
 
+  /// This structure includes filters that specify which metric namespaces and
+  /// which log groups are shared from the source account to the monitoring
+  /// account.
+  final LinkConfiguration? linkConfiguration;
+
   /// The resource types supported by this link.
   final List<String>? resourceTypes;
 
@@ -724,6 +754,7 @@ class CreateLinkOutput {
     this.id,
     this.label,
     this.labelTemplate,
+    this.linkConfiguration,
     this.resourceTypes,
     this.sinkArn,
     this.tags,
@@ -735,6 +766,10 @@ class CreateLinkOutput {
       id: json['Id'] as String?,
       label: json['Label'] as String?,
       labelTemplate: json['LabelTemplate'] as String?,
+      linkConfiguration: json['LinkConfiguration'] != null
+          ? LinkConfiguration.fromJson(
+              json['LinkConfiguration'] as Map<String, dynamic>)
+          : null,
       resourceTypes: (json['ResourceTypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -750,6 +785,7 @@ class CreateLinkOutput {
     final id = this.id;
     final label = this.label;
     final labelTemplate = this.labelTemplate;
+    final linkConfiguration = this.linkConfiguration;
     final resourceTypes = this.resourceTypes;
     final sinkArn = this.sinkArn;
     final tags = this.tags;
@@ -758,6 +794,7 @@ class CreateLinkOutput {
       if (id != null) 'Id': id,
       if (label != null) 'Label': label,
       if (labelTemplate != null) 'LabelTemplate': labelTemplate,
+      if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
       if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       if (sinkArn != null) 'SinkArn': sinkArn,
       if (tags != null) 'Tags': tags,
@@ -850,6 +887,11 @@ class GetLinkOutput {
   /// the template variables not resolved.
   final String? labelTemplate;
 
+  /// This structure includes filters that specify which metric namespaces and
+  /// which log groups are shared from the source account to the monitoring
+  /// account.
+  final LinkConfiguration? linkConfiguration;
+
   /// The resource types supported by this link.
   final List<String>? resourceTypes;
 
@@ -864,6 +906,7 @@ class GetLinkOutput {
     this.id,
     this.label,
     this.labelTemplate,
+    this.linkConfiguration,
     this.resourceTypes,
     this.sinkArn,
     this.tags,
@@ -875,6 +918,10 @@ class GetLinkOutput {
       id: json['Id'] as String?,
       label: json['Label'] as String?,
       labelTemplate: json['LabelTemplate'] as String?,
+      linkConfiguration: json['LinkConfiguration'] != null
+          ? LinkConfiguration.fromJson(
+              json['LinkConfiguration'] as Map<String, dynamic>)
+          : null,
       resourceTypes: (json['ResourceTypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -890,6 +937,7 @@ class GetLinkOutput {
     final id = this.id;
     final label = this.label;
     final labelTemplate = this.labelTemplate;
+    final linkConfiguration = this.linkConfiguration;
     final resourceTypes = this.resourceTypes;
     final sinkArn = this.sinkArn;
     final tags = this.tags;
@@ -898,6 +946,7 @@ class GetLinkOutput {
       if (id != null) 'Id': id,
       if (label != null) 'Label': label,
       if (labelTemplate != null) 'LabelTemplate': labelTemplate,
+      if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
       if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       if (sinkArn != null) 'SinkArn': sinkArn,
       if (tags != null) 'Tags': tags,
@@ -983,6 +1032,48 @@ class GetSinkPolicyOutput {
       if (policy != null) 'Policy': policy,
       if (sinkArn != null) 'SinkArn': sinkArn,
       if (sinkId != null) 'SinkId': sinkId,
+    };
+  }
+}
+
+/// Use this structure to optionally create filters that specify that only some
+/// metric namespaces or log groups are to be shared from the source account to
+/// the monitoring account.
+class LinkConfiguration {
+  /// Use this structure to filter which log groups are to send log events from
+  /// the source account to the monitoring account.
+  final LogGroupConfiguration? logGroupConfiguration;
+
+  /// Use this structure to filter which metric namespaces are to be shared from
+  /// the source account to the monitoring account.
+  final MetricConfiguration? metricConfiguration;
+
+  LinkConfiguration({
+    this.logGroupConfiguration,
+    this.metricConfiguration,
+  });
+
+  factory LinkConfiguration.fromJson(Map<String, dynamic> json) {
+    return LinkConfiguration(
+      logGroupConfiguration: json['LogGroupConfiguration'] != null
+          ? LogGroupConfiguration.fromJson(
+              json['LogGroupConfiguration'] as Map<String, dynamic>)
+          : null,
+      metricConfiguration: json['MetricConfiguration'] != null
+          ? MetricConfiguration.fromJson(
+              json['MetricConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupConfiguration = this.logGroupConfiguration;
+    final metricConfiguration = this.metricConfiguration;
+    return {
+      if (logGroupConfiguration != null)
+        'LogGroupConfiguration': logGroupConfiguration,
+      if (metricConfiguration != null)
+        'MetricConfiguration': metricConfiguration,
     };
   }
 }
@@ -1247,6 +1338,150 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// This structure contains the <code>Filter</code> parameter which you can use
+/// to specify which log groups are to share log events from this source account
+/// to the monitoring account.
+class LogGroupConfiguration {
+  /// Use this field to specify which log groups are to share their log events
+  /// with the monitoring account. Use the term <code>LogGroupName</code> and one
+  /// or more of the following operands. Use single quotation marks (') around log
+  /// group names. The matching of log group names is case sensitive. Each filter
+  /// has a limit of five conditional operands. Conditional operands are
+  /// <code>AND</code> and <code>OR</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>=</code> and <code>!=</code>
+  /// </li>
+  /// <li>
+  /// <code>AND</code>
+  /// </li>
+  /// <li>
+  /// <code>OR</code>
+  /// </li>
+  /// <li>
+  /// <code>LIKE</code> and <code>NOT LIKE</code>. These can be used only as
+  /// prefix searches. Include a <code>%</code> at the end of the string that you
+  /// want to search for and include.
+  /// </li>
+  /// <li>
+  /// <code>IN</code> and <code>NOT IN</code>, using parentheses <code>( )</code>
+  /// </li>
+  /// </ul>
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LogGroupName IN ('This-Log-Group', 'Other-Log-Group')</code> includes
+  /// only the log groups with names <code>This-Log-Group</code> and
+  /// <code>Other-Log-Group</code>.
+  /// </li>
+  /// <li>
+  /// <code>LogGroupName NOT IN ('Private-Log-Group',
+  /// 'Private-Log-Group-2')</code> includes all log groups except the log groups
+  /// with names <code>Private-Log-Group</code> and
+  /// <code>Private-Log-Group-2</code>.
+  /// </li>
+  /// <li>
+  /// <code>LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE
+  /// 'AWSLogs%'</code> includes all log groups that have names that start with
+  /// <code>aws/lambda/</code> or <code>AWSLogs</code>.
+  /// </li>
+  /// </ul> <note>
+  /// If you are updating a link that uses filters, you can specify <code>*</code>
+  /// as the only value for the <code>filter</code> parameter to delete the filter
+  /// and share all log groups with the monitoring account.
+  /// </note>
+  final String filter;
+
+  LogGroupConfiguration({
+    required this.filter,
+  });
+
+  factory LogGroupConfiguration.fromJson(Map<String, dynamic> json) {
+    return LogGroupConfiguration(
+      filter: json['Filter'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    return {
+      'Filter': filter,
+    };
+  }
+}
+
+/// This structure contains the <code>Filter</code> parameter which you can use
+/// to specify which metric namespaces are to be shared from this source account
+/// to the monitoring account.
+class MetricConfiguration {
+  /// Use this field to specify which metrics are to be shared with the monitoring
+  /// account. Use the term <code>Namespace</code> and one or more of the
+  /// following operands. Use single quotation marks (') around namespace names.
+  /// The matching of namespace names is case sensitive. Each filter has a limit
+  /// of five conditional operands. Conditional operands are <code>AND</code> and
+  /// <code>OR</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>=</code> and <code>!=</code>
+  /// </li>
+  /// <li>
+  /// <code>AND</code>
+  /// </li>
+  /// <li>
+  /// <code>OR</code>
+  /// </li>
+  /// <li>
+  /// <code>LIKE</code> and <code>NOT LIKE</code>. These can be used only as
+  /// prefix searches. Include a <code>%</code> at the end of the string that you
+  /// want to search for and include.
+  /// </li>
+  /// <li>
+  /// <code>IN</code> and <code>NOT IN</code>, using parentheses <code>( )</code>
+  /// </li>
+  /// </ul>
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Namespace NOT LIKE 'AWS/%'</code> includes only namespaces that don't
+  /// start with <code>AWS/</code>, such as custom namespaces.
+  /// </li>
+  /// <li>
+  /// <code>Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3')</code> includes only the
+  /// metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces.
+  /// </li>
+  /// <li>
+  /// <code>Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%'</code> includes
+  /// only the EC2 namespace and your custom namespaces.
+  /// </li>
+  /// </ul> <note>
+  /// If you are updating a link that uses filters, you can specify <code>*</code>
+  /// as the only value for the <code>filter</code> parameter to delete the filter
+  /// and share all metric namespaces with the monitoring account.
+  /// </note>
+  final String filter;
+
+  MetricConfiguration({
+    required this.filter,
+  });
+
+  factory MetricConfiguration.fromJson(Map<String, dynamic> json) {
+    return MetricConfiguration(
+      filter: json['Filter'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    return {
+      'Filter': filter,
+    };
+  }
+}
+
 class PutSinkPolicyOutput {
   /// The policy that you specified.
   final String? policy;
@@ -1288,6 +1523,8 @@ enum ResourceType {
   awsCloudWatchMetric,
   awsLogsLogGroup,
   awsXRayTrace,
+  awsApplicationInsightsApplication,
+  awsInternetMonitorMonitor,
 }
 
 extension ResourceTypeValueExtension on ResourceType {
@@ -1299,6 +1536,10 @@ extension ResourceTypeValueExtension on ResourceType {
         return 'AWS::Logs::LogGroup';
       case ResourceType.awsXRayTrace:
         return 'AWS::XRay::Trace';
+      case ResourceType.awsApplicationInsightsApplication:
+        return 'AWS::ApplicationInsights::Application';
+      case ResourceType.awsInternetMonitorMonitor:
+        return 'AWS::InternetMonitor::Monitor';
     }
   }
 }
@@ -1312,6 +1553,10 @@ extension ResourceTypeFromString on String {
         return ResourceType.awsLogsLogGroup;
       case 'AWS::XRay::Trace':
         return ResourceType.awsXRayTrace;
+      case 'AWS::ApplicationInsights::Application':
+        return ResourceType.awsApplicationInsightsApplication;
+      case 'AWS::InternetMonitor::Monitor':
+        return ResourceType.awsInternetMonitorMonitor;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -1357,6 +1602,11 @@ class UpdateLinkOutput {
   /// the template variables not resolved.
   final String? labelTemplate;
 
+  /// This structure includes filters that specify which metric namespaces and
+  /// which log groups are shared from the source account to the monitoring
+  /// account.
+  final LinkConfiguration? linkConfiguration;
+
   /// The resource types now supported by this link.
   final List<String>? resourceTypes;
 
@@ -1371,6 +1621,7 @@ class UpdateLinkOutput {
     this.id,
     this.label,
     this.labelTemplate,
+    this.linkConfiguration,
     this.resourceTypes,
     this.sinkArn,
     this.tags,
@@ -1382,6 +1633,10 @@ class UpdateLinkOutput {
       id: json['Id'] as String?,
       label: json['Label'] as String?,
       labelTemplate: json['LabelTemplate'] as String?,
+      linkConfiguration: json['LinkConfiguration'] != null
+          ? LinkConfiguration.fromJson(
+              json['LinkConfiguration'] as Map<String, dynamic>)
+          : null,
       resourceTypes: (json['ResourceTypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1397,6 +1652,7 @@ class UpdateLinkOutput {
     final id = this.id;
     final label = this.label;
     final labelTemplate = this.labelTemplate;
+    final linkConfiguration = this.linkConfiguration;
     final resourceTypes = this.resourceTypes;
     final sinkArn = this.sinkArn;
     final tags = this.tags;
@@ -1405,6 +1661,7 @@ class UpdateLinkOutput {
       if (id != null) 'Id': id,
       if (label != null) 'Label': label,
       if (labelTemplate != null) 'LabelTemplate': labelTemplate,
+      if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
       if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       if (sinkArn != null) 'SinkArn': sinkArn,
       if (tags != null) 'Tags': tags,

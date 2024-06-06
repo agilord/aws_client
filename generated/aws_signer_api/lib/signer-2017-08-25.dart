@@ -19,31 +19,42 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Signer is a fully managed code signing service to help you ensure the
+/// AWS Signer is a fully managed code-signing service to help you ensure the
 /// trust and integrity of your code.
 ///
-/// AWS Signer supports the following applications:
+/// Signer supports the following applications:
 ///
-/// With <i>code signing for AWS Lambda</i>, you can sign AWS Lambda deployment
-/// packages. Integrated support is provided for Amazon S3, Amazon CloudWatch,
-/// and AWS CloudTrail. In order to sign code, you create a signing profile and
-/// then use Signer to sign Lambda zip files in S3.
+/// With code signing for AWS Lambda, you can sign <a
+/// href="http://docs.aws.amazon.com/lambda/latest/dg/">AWS Lambda</a>
+/// deployment packages. Integrated support is provided for <a
+/// href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/">Amazon S3</a>, <a
+/// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/">Amazon
+/// CloudWatch</a>, and <a
+/// href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/">AWS
+/// CloudTrail</a>. In order to sign code, you create a signing profile and then
+/// use Signer to sign Lambda zip files in S3.
 ///
-/// With <i>code signing for IoT</i>, you can sign code for any IoT device that
-/// is supported by AWS. IoT code signing is available for <a
+/// With code signing for IoT, you can sign code for any IoT device that is
+/// supported by AWS. IoT code signing is available for <a
 /// href="http://docs.aws.amazon.com/freertos/latest/userguide/">Amazon
 /// FreeRTOS</a> and <a
 /// href="http://docs.aws.amazon.com/iot/latest/developerguide/">AWS IoT Device
 /// Management</a>, and is integrated with <a
 /// href="http://docs.aws.amazon.com/acm/latest/userguide/">AWS Certificate
-/// Manager (ACM)</a>. In order to sign code, you import a third-party code
-/// signing certificate using ACM, and use that to sign updates in Amazon
+/// Manager (ACM)</a>. In order to sign code, you import a third-party
+/// code-signing certificate using ACM, and use that to sign updates in Amazon
 /// FreeRTOS and AWS IoT Device Management.
 ///
-/// For more information about AWS Signer, see the <a
-/// href="http://docs.aws.amazon.com/signer/latest/developerguide/Welcome.html">AWS
+/// With Signer and the Notation CLI from the <a
+/// href="https://notaryproject.dev/">Notary&#x2028; Project</a>, you can sign
+/// container images stored in a container registry such as Amazon Elastic
+/// Container Registry (ECR). The signatures are stored in the registry
+/// alongside the images, where they are available for verifying image
+/// authenticity and integrity.
+///
+/// For more information about Signer, see the <a
+/// href="https://docs.aws.amazon.com/signer/latest/developerguide/Welcome.html">AWS
 /// Signer Developer Guide</a>.
-/// <p/>
 class Signer {
   final _s.RestJsonProtocol _protocol;
   Signer({
@@ -84,7 +95,34 @@ class Signer {
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [action] :
-  /// The AWS Signer action permitted as part of cross-account permissions.
+  /// For cross-account signing. Grant a designated account permission to
+  /// perform one or more of the following actions. Each action is associated
+  /// with a specific API's operations. For more information about cross-account
+  /// signing, see <a
+  /// href="https://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html">Using
+  /// cross-account signing with signing profiles</a> in the <i>AWS Signer
+  /// Developer Guide</i>.
+  ///
+  /// You can designate the following actions to an account.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>signer:StartSigningJob</code>. This action isn't supported for
+  /// container image workflows. For details, see <a>StartSigningJob</a>.
+  /// </li>
+  /// <li>
+  /// <code>signer:SignPayload</code>. This action isn't supported for AWS
+  /// Lambda workflows. For details, see <a>SignPayload</a>
+  /// </li>
+  /// <li>
+  /// <code>signer:GetSigningProfile</code>. For details, see
+  /// <a>GetSigningProfile</a>.
+  /// </li>
+  /// <li>
+  /// <code>signer:RevokeSignature</code>. For details, see
+  /// <a>RevokeSignature</a>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [principal] :
   /// The AWS principal receiving cross-account permissions. This may be an IAM
@@ -172,6 +210,74 @@ class Signer {
     return DescribeSigningJobResponse.fromJson(response);
   }
 
+  /// Retrieves the revocation status of one or more of the signing profile,
+  /// signing job, and signing certificate.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [certificateHashes] :
+  /// A list of composite signed hashes that identify certificates.
+  ///
+  /// A certificate identifier consists of a subject certificate TBS hash
+  /// (signed by the parent CA) combined with a parent CA TBS hash (signed by
+  /// the parent CA’s CA). Root certificates are defined as their own CA.
+  ///
+  /// The following example shows how to calculate a hash for this parameter
+  /// using OpenSSL commands:
+  ///
+  /// <code>openssl asn1parse -in childCert.pem -strparse 4 -out
+  /// childCert.tbs</code>
+  ///
+  /// <code>openssl sha384 &lt; childCert.tbs -binary &gt;
+  /// childCertTbsHash</code>
+  ///
+  /// <code>openssl asn1parse -in parentCert.pem -strparse 4 -out
+  /// parentCert.tbs</code>
+  ///
+  /// <code>openssl sha384 &lt; parentCert.tbs -binary &gt; parentCertTbsHash
+  /// xxd -p childCertTbsHash &gt; certificateHash.hex xxd -p parentCertTbsHash
+  /// &gt;&gt; certificateHash.hex</code>
+  ///
+  /// <code>cat certificateHash.hex | tr -d '\n'</code>
+  ///
+  /// Parameter [jobArn] :
+  /// The ARN of a signing job.
+  ///
+  /// Parameter [platformId] :
+  /// The ID of a signing platform.
+  ///
+  /// Parameter [profileVersionArn] :
+  /// The version of a signing profile.
+  ///
+  /// Parameter [signatureTimestamp] :
+  /// The timestamp of the signature that validates the profile or job.
+  Future<GetRevocationStatusResponse> getRevocationStatus({
+    required List<String> certificateHashes,
+    required String jobArn,
+    required String platformId,
+    required String profileVersionArn,
+    required DateTime signatureTimestamp,
+  }) async {
+    final $query = <String, List<String>>{
+      'certificateHashes': certificateHashes,
+      'jobArn': [jobArn],
+      'platformId': [platformId],
+      'profileVersionArn': [profileVersionArn],
+      'signatureTimestamp': [_s.iso8601ToJson(signatureTimestamp).toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/revocations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRevocationStatusResponse.fromJson(response);
+  }
+
   /// Returns information on a specific signing platform.
   ///
   /// May throw [ResourceNotFoundException].
@@ -255,13 +361,13 @@ class Signer {
 
   /// Lists all your signing jobs. You can use the <code>maxResults</code>
   /// parameter to limit the number of signing jobs that are returned in the
-  /// response. If additional jobs remain to be listed, code signing returns a
+  /// response. If additional jobs remain to be listed, AWS Signer returns a
   /// <code>nextToken</code> value. Use this value in subsequent calls to
   /// <code>ListSigningJobs</code> to fetch the remaining values. You can
   /// continue calling <code>ListSigningJobs</code> with your
-  /// <code>maxResults</code> parameter and with new values that code signing
-  /// returns in the <code>nextToken</code> parameter until all of your signing
-  /// jobs have been returned.
+  /// <code>maxResults</code> parameter and with new values that Signer returns
+  /// in the <code>nextToken</code> parameter until all of your signing jobs
+  /// have been returned.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -349,14 +455,14 @@ class Signer {
     return ListSigningJobsResponse.fromJson(response);
   }
 
-  /// Lists all signing platforms available in code signing that match the
-  /// request parameters. If additional jobs remain to be listed, code signing
-  /// returns a <code>nextToken</code> value. Use this value in subsequent calls
-  /// to <code>ListSigningJobs</code> to fetch the remaining values. You can
+  /// Lists all signing platforms available in AWS Signer that match the request
+  /// parameters. If additional jobs remain to be listed, Signer returns a
+  /// <code>nextToken</code> value. Use this value in subsequent calls to
+  /// <code>ListSigningJobs</code> to fetch the remaining values. You can
   /// continue calling <code>ListSigningJobs</code> with your
-  /// <code>maxResults</code> parameter and with new values that code signing
-  /// returns in the <code>nextToken</code> parameter until all of your signing
-  /// jobs have been returned.
+  /// <code>maxResults</code> parameter and with new values that Signer returns
+  /// in the <code>nextToken</code> parameter until all of your signing jobs
+  /// have been returned.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -413,13 +519,13 @@ class Signer {
   /// Lists all available signing profiles in your AWS account. Returns only
   /// profiles with an <code>ACTIVE</code> status unless the
   /// <code>includeCanceled</code> request field is set to <code>true</code>. If
-  /// additional jobs remain to be listed, code signing returns a
+  /// additional jobs remain to be listed, AWS Signer returns a
   /// <code>nextToken</code> value. Use this value in subsequent calls to
   /// <code>ListSigningJobs</code> to fetch the remaining values. You can
   /// continue calling <code>ListSigningJobs</code> with your
-  /// <code>maxResults</code> parameter and with new values that code signing
-  /// returns in the <code>nextToken</code> parameter until all of your signing
-  /// jobs have been returned.
+  /// <code>maxResults</code> parameter and with new values that Signer returns
+  /// in the <code>nextToken</code> parameter until all of your signing jobs
+  /// have been returned.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [TooManyRequestsException].
@@ -498,10 +604,8 @@ class Signer {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Creates a signing profile. A signing profile is a code signing template
-  /// that can be used to carry out a pre-defined signing job. For more
-  /// information, see <a
-  /// href="http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html">http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html</a>
+  /// Creates a signing profile. A signing profile is a code-signing template
+  /// that can be used to carry out a pre-defined signing job.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -676,6 +780,47 @@ class Signer {
     );
   }
 
+  /// Signs a binary payload and returns a signature envelope.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [payload] :
+  /// Specifies the object digest (hash) to sign.
+  ///
+  /// Parameter [payloadFormat] :
+  /// Payload content type. The single valid type is
+  /// <code>application/vnd.cncf.notary.payload.v1+json</code>.
+  ///
+  /// Parameter [profileName] :
+  /// The name of the signing profile.
+  ///
+  /// Parameter [profileOwner] :
+  /// The AWS account ID of the profile owner.
+  Future<SignPayloadResponse> signPayload({
+    required Uint8List payload,
+    required String payloadFormat,
+    required String profileName,
+    String? profileOwner,
+  }) async {
+    final $payload = <String, dynamic>{
+      'payload': base64Encode(payload),
+      'payloadFormat': payloadFormat,
+      'profileName': profileName,
+      if (profileOwner != null) 'profileOwner': profileOwner,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/signing-jobs/with-payload',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SignPayloadResponse.fromJson(response);
+  }
+
   /// Initiates a signing job to be performed on the code provided. Signing jobs
   /// are viewable by the <code>ListSigningJobs</code> operation for two years
   /// after they are performed. Note the following requirements:
@@ -683,14 +828,14 @@ class Signer {
   /// <ul>
   /// <li>
   /// You must create an Amazon S3 source bucket. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html">Create
+  /// href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html">Creating
   /// a Bucket</a> in the <i>Amazon S3 Getting Started Guide</i>.
   /// </li>
   /// <li>
   /// Your S3 source bucket must be version enabled.
   /// </li>
   /// <li>
-  /// You must create an S3 destination bucket. Code signing uses your S3
+  /// You must create an S3 destination bucket. AWS Signer uses your S3
   /// destination bucket to write your signed code.
   /// </li>
   /// <li>
@@ -698,15 +843,19 @@ class Signer {
   /// the <code>StartSigningJob</code> operation.
   /// </li>
   /// <li>
-  /// You must also specify a request token that identifies your request to code
-  /// signing.
+  /// You must ensure the S3 buckets are from the same Region as the signing
+  /// profile. Cross-Region signing isn't supported.
+  /// </li>
+  /// <li>
+  /// You must also specify a request token that identifies your request to
+  /// Signer.
   /// </li>
   /// </ul>
   /// You can call the <a>DescribeSigningJob</a> and the <a>ListSigningJobs</a>
   /// actions after you call <code>StartSigningJob</code>.
   ///
   /// For a Java example that shows how to use this action, see <a
-  /// href="http://docs.aws.amazon.com/acm/latest/userguide/">http://docs.aws.amazon.com/acm/latest/userguide/</a>
+  /// href="https://docs.aws.amazon.com/signer/latest/developerguide/api-startsigningjob.html">StartSigningJob</a>.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -897,7 +1046,7 @@ class DescribeSigningJobResponse {
   /// Thr expiration timestamp for the signature generated by the signing job.
   final DateTime? signatureExpiresAt;
 
-  /// Name of the S3 bucket where the signed code image is saved by code signing.
+  /// Name of the S3 bucket where the signed code image is saved by AWS Signer.
   final SignedObject? signedObject;
 
   /// The Amazon Resource Name (ARN) of your code signing certificate.
@@ -1023,13 +1172,13 @@ extension EncryptionAlgorithmFromString on String {
   }
 }
 
-/// The encryption algorithm options that are available to a code signing job.
+/// The encryption algorithm options that are available to a code-signing job.
 class EncryptionAlgorithmOptions {
-  /// The set of accepted encryption algorithms that are allowed in a code signing
+  /// The set of accepted encryption algorithms that are allowed in a code-signing
   /// job.
   final List<EncryptionAlgorithm> allowedValues;
 
-  /// The default encryption algorithm that is used by a code signing job.
+  /// The default encryption algorithm that is used by a code-signing job.
   final EncryptionAlgorithm defaultValue;
 
   EncryptionAlgorithmOptions({
@@ -1044,6 +1193,25 @@ class EncryptionAlgorithmOptions {
           .map((e) => (e as String).toEncryptionAlgorithm())
           .toList(),
       defaultValue: (json['defaultValue'] as String).toEncryptionAlgorithm(),
+    );
+  }
+}
+
+class GetRevocationStatusResponse {
+  /// A list of revoked entities (including zero or more of the signing profile
+  /// ARN, signing job ARN, and certificate hashes) supplied as input to the API.
+  final List<String>? revokedEntities;
+
+  GetRevocationStatusResponse({
+    this.revokedEntities,
+  });
+
+  factory GetRevocationStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetRevocationStatusResponse(
+      revokedEntities: (json['revokedEntities'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 }
@@ -1233,12 +1401,12 @@ extension HashAlgorithmFromString on String {
   }
 }
 
-/// The hash algorithms that are available to a code signing job.
+/// The hash algorithms that are available to a code-signing job.
 class HashAlgorithmOptions {
-  /// The set of accepted hash algorithms allowed in a code signing job.
+  /// The set of accepted hash algorithms allowed in a code-signing job.
   final List<HashAlgorithm> allowedValues;
 
-  /// The default hash algorithm that is used in a code signing job.
+  /// The default hash algorithm that is used in a code-signing job.
   final HashAlgorithm defaultValue;
 
   HashAlgorithmOptions({
@@ -1481,14 +1649,14 @@ class RemoveProfilePermissionResponse {
   }
 }
 
-/// The name and prefix of the S3 bucket where code signing saves your signed
-/// objects.
+/// The name and prefix of the Amazon S3 bucket where AWS Signer saves your
+/// signed objects.
 class S3Destination {
   /// Name of the S3 bucket.
   final String? bucketName;
 
-  /// An Amazon S3 prefix that you can use to limit responses to those that begin
-  /// with the specified prefix.
+  /// An S3 prefix that you can use to limit responses to those that begin with
+  /// the specified prefix.
   final String? prefix;
 
   S3Destination({
@@ -1506,7 +1674,7 @@ class S3Destination {
   }
 }
 
-/// The S3 bucket name and key where code signing saved your signed code image.
+/// The Amazon S3 bucket name and key where Signer saved your signed code image.
 class S3SignedObject {
   /// Name of the S3 bucket.
   final String? bucketName;
@@ -1527,7 +1695,7 @@ class S3SignedObject {
   }
 }
 
-/// Information about the S3 bucket where you saved your unsigned code.
+/// Information about the Amazon S3 bucket where you saved your unsigned code.
 class S3Source {
   /// Name of the S3 bucket.
   final String bucketName;
@@ -1561,6 +1729,37 @@ class S3Source {
       'key': key,
       'version': version,
     };
+  }
+}
+
+class SignPayloadResponse {
+  /// Unique identifier of the signing job.
+  final String? jobId;
+
+  /// The AWS account ID of the job owner.
+  final String? jobOwner;
+
+  /// Information including the signing profile ARN and the signing job ID.
+  final Map<String, String>? metadata;
+
+  /// A cryptographic signature.
+  final Uint8List? signature;
+
+  SignPayloadResponse({
+    this.jobId,
+    this.jobOwner,
+    this.metadata,
+    this.signature,
+  });
+
+  factory SignPayloadResponse.fromJson(Map<String, dynamic> json) {
+    return SignPayloadResponse(
+      jobId: json['jobId'] as String?,
+      jobOwner: json['jobOwner'] as String?,
+      metadata: (json['metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      signature: _s.decodeNullableUint8List(json['signature'] as String?),
+    );
   }
 }
 
@@ -1613,12 +1812,12 @@ class SignedObject {
   }
 }
 
-/// The configuration of a code signing operation.
+/// The configuration of a signing operation.
 class SigningConfiguration {
-  /// The encryption algorithm options that are available for a code signing job.
+  /// The encryption algorithm options that are available for a code-signing job.
   final EncryptionAlgorithmOptions encryptionAlgorithmOptions;
 
-  /// The hash algorithm options that are available for a code signing job.
+  /// The hash algorithm options that are available for a code-signing job.
   final HashAlgorithmOptions hashAlgorithmOptions;
 
   SigningConfiguration({
@@ -1640,11 +1839,11 @@ class SigningConfiguration {
 /// algorithm of a signing job.
 class SigningConfigurationOverrides {
   /// A specified override of the default encryption algorithm that is used in a
-  /// code signing job.
+  /// code-signing job.
   final EncryptionAlgorithm? encryptionAlgorithm;
 
-  /// A specified override of the default hash algorithm that is used in a code
-  /// signing job.
+  /// A specified override of the default hash algorithm that is used in a
+  /// code-signing job.
   final HashAlgorithm? hashAlgorithm;
 
   SigningConfigurationOverrides({
@@ -1671,12 +1870,12 @@ class SigningConfigurationOverrides {
   }
 }
 
-/// The image format of a code signing platform or profile.
+/// The image format of a AWS Signer platform or profile.
 class SigningImageFormat {
-  /// The default format of a code signing image.
+  /// The default format of a signing image.
   final ImageFormat defaultFormat;
 
-  /// The supported formats of a code signing image.
+  /// The supported formats of a signing image.
   final List<ImageFormat> supportedFormats;
 
   SigningImageFormat({
@@ -1837,33 +2036,32 @@ class SigningMaterial {
 }
 
 /// Contains information about the signing configurations and parameters that
-/// are used to perform a code signing job.
+/// are used to perform a code-signing job.
 class SigningPlatform {
-  /// The category of a code signing platform.
+  /// The category of a signing platform.
   final Category? category;
 
-  /// The display name of a code signing platform.
+  /// The display name of a signing platform.
   final String? displayName;
 
-  /// The maximum size (in MB) of code that can be signed by a code signing
-  /// platform.
+  /// The maximum size (in MB) of code that can be signed by a signing platform.
   final int? maxSizeInMB;
 
-  /// Any partner entities linked to a code signing platform.
+  /// Any partner entities linked to a signing platform.
   final String? partner;
 
-  /// The ID of a code signing; platform.
+  /// The ID of a signing platform.
   final String? platformId;
 
   /// Indicates whether revocation is supported for the platform.
   final bool? revocationSupported;
 
-  /// The configuration of a code signing platform. This includes the designated
-  /// hash algorithm and encryption algorithm of a signing platform.
+  /// The configuration of a signing platform. This includes the designated hash
+  /// algorithm and encryption algorithm of a signing platform.
   final SigningConfiguration? signingConfiguration;
   final SigningImageFormat? signingImageFormat;
 
-  /// The types of targets that can be signed by a code signing platform.
+  /// The types of targets that can be signed by a signing platform.
   final String? target;
 
   SigningPlatform({
@@ -1899,8 +2097,8 @@ class SigningPlatform {
   }
 }
 
-/// Any overrides that are applied to the signing configuration of a code
-/// signing platform.
+/// Any overrides that are applied to the signing configuration of a signing
+/// platform.
 class SigningPlatformOverrides {
   /// A signing configuration that overrides the default encryption or hash
   /// algorithm of a signing job.
@@ -1943,8 +2141,8 @@ class SigningPlatformOverrides {
   }
 }
 
-/// Contains information about the ACM certificates and code signing
-/// configuration parameters that can be used by a given code signing user.
+/// Contains information about the ACM certificates and signing configuration
+/// parameters that can be used by a given code signing user.
 class SigningProfile {
   /// The Amazon Resource Name (ARN) for the signing profile.
   final String? arn;
@@ -1970,10 +2168,10 @@ class SigningProfile {
   /// The ACM certificate that is available for use by a signing profile.
   final SigningMaterial? signingMaterial;
 
-  /// The parameters that are available for use by a code signing user.
+  /// The parameters that are available for use by a Signer user.
   final Map<String, String>? signingParameters;
 
-  /// The status of a code signing profile.
+  /// The status of a signing profile.
   final SigningProfileStatus? status;
 
   /// A list of tags associated with the signing profile.

@@ -19,8 +19,8 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Welcome to the <i>AWS OpsWorks Stacks API Reference</i>. This guide provides
-/// descriptions, syntax, and usage examples for AWS OpsWorks Stacks actions and
+/// Welcome to the <i>OpsWorks Stacks API Reference</i>. This guide provides
+/// descriptions, syntax, and usage examples for OpsWorks Stacks actions and
 /// data types, including common parameters and error codes.
 class OpsWorks {
   final _s.JsonProtocol _protocol;
@@ -60,13 +60,13 @@ class OpsWorks {
   /// You can assign registered Amazon EC2 instances only to custom layers.
   /// </li>
   /// <li>
-  /// You cannot use this action with instances that were created with AWS
-  /// OpsWorks Stacks.
+  /// You cannot use this action with instances that were created with OpsWorks
+  /// Stacks.
   /// </li>
   /// </ul>
-  /// <b>Required Permissions</b>: To use this action, an AWS Identity and
-  /// Access Management (IAM) user must have a Manage permissions level for the
-  /// stack or an attached policy that explicitly grants permissions. For more
+  /// <b>Required Permissions</b>: To use this action, an Identity and Access
+  /// Management (IAM) user must have a Manage permissions level for the stack
+  /// or an attached policy that explicitly grants permissions. For more
   /// information on user permissions, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
   /// User Permissions</a>.
@@ -187,18 +187,18 @@ class OpsWorks {
     );
   }
 
-  /// Attaches an Elastic Load Balancing load balancer to a specified layer. AWS
+  /// Attaches an Elastic Load Balancing load balancer to a specified layer.
   /// OpsWorks Stacks does not support Application Load Balancer. You can only
-  /// use Classic Load Balancer with AWS OpsWorks Stacks. For more information,
-  /// see <a
+  /// use Classic Load Balancer with OpsWorks Stacks. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/layers-elb.html">Elastic
   /// Load Balancing</a>.
   /// <note>
   /// You must create the Elastic Load Balancing instance separately, by using
   /// the Elastic Load Balancing console, API, or CLI. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/Welcome.html">
-  /// Elastic Load Balancing Developer Guide</a>.
+  /// the <a
+  /// href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/Welcome.html">Elastic
+  /// Load Balancing Developer Guide</a>.
   /// </note>
   /// <b>Required Permissions</b>: To use this action, an IAM user must have a
   /// Manage permissions level for the stack, or an attached policy that
@@ -252,11 +252,11 @@ class OpsWorks {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceRoleArn] :
-  /// The stack AWS Identity and Access Management (IAM) role, which allows AWS
-  /// OpsWorks Stacks to work with AWS resources on your behalf. You must set
-  /// this parameter to the Amazon Resource Name (ARN) for an existing IAM role.
-  /// If you create a stack by using the AWS OpsWorks Stacks console, it creates
-  /// the role for you. You can obtain an existing stack's IAM ARN
+  /// The stack Identity and Access Management (IAM) role, which allows OpsWorks
+  /// Stacks to work with Amazon Web Services resources on your behalf. You must
+  /// set this parameter to the Amazon Resource Name (ARN) for an existing IAM
+  /// role. If you create a stack by using the OpsWorkss Stacks console, it
+  /// creates the role for you. You can obtain an existing stack's IAM ARN
   /// programmatically by calling <a>DescribePermissions</a>. For more
   /// information about IAM ARNs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
@@ -271,20 +271,19 @@ class OpsWorks {
   /// The source stack ID.
   ///
   /// Parameter [agentVersion] :
-  /// The default AWS OpsWorks Stacks agent version. You have the following
-  /// options:
+  /// The default OpsWorks Stacks agent version. You have the following options:
   ///
   /// <ul>
   /// <li>
-  /// Auto-update - Set this parameter to <code>LATEST</code>. AWS OpsWorks
-  /// Stacks automatically installs new agent versions on the stack's instances
-  /// as soon as they are available.
+  /// Auto-update - Set this parameter to <code>LATEST</code>. OpsWorks Stacks
+  /// automatically installs new agent versions on the stack's instances as soon
+  /// as they are available.
   /// </li>
   /// <li>
   /// Fixed version - Set this parameter to your preferred agent version. To
   /// update the agent version, you must edit the stack configuration and
-  /// specify a new version. AWS OpsWorks Stacks then automatically installs
-  /// that version on the stack's instances.
+  /// specify a new version. OpsWorks Stacks automatically installs that version
+  /// on the stack's instances.
   /// </li>
   /// </ul>
   /// The default setting is <code>LATEST</code>. To specify an agent version,
@@ -359,15 +358,15 @@ class OpsWorks {
   /// <ul>
   /// <li>
   /// A supported Linux operating system: An Amazon Linux version, such as
-  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
-  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
-  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
-  /// <code>Amazon Linux 2015.03</code>.
+  /// <code>Amazon Linux 2</code>, <code>Amazon Linux 2018.03</code>,
+  /// <code>Amazon Linux 2017.09</code>, <code>Amazon Linux 2017.03</code>,
+  /// <code>Amazon Linux 2016.09</code>, <code>Amazon Linux 2016.03</code>,
+  /// <code>Amazon Linux 2015.09</code>, or <code>Amazon Linux 2015.03</code>.
   /// </li>
   /// <li>
-  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04
-  /// LTS</code>, <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04
-  /// LTS</code>.
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 18.04
+  /// LTS</code>, <code>Ubuntu 16.04 LTS</code>, <code>Ubuntu 14.04 LTS</code>,
+  /// or <code>Ubuntu 12.04 LTS</code>.
   /// </li>
   /// <li>
   /// <code>CentOS Linux 7</code>
@@ -389,10 +388,11 @@ class OpsWorks {
   /// Custom AMIs</a>.
   /// </li>
   /// </ul>
-  /// The default option is the parent stack's operating system. For more
+  /// The default option is the parent stack's operating system. Not all
+  /// operating systems are supported with all versions of Chef. For more
   /// information about supported operating systems, see <a
-  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
-  /// OpsWorks Stacks Operating Systems</a>.
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">OpsWorks
+  /// Stacks Operating Systems</a>.
   /// <note>
   /// You can specify a different Linux operating system for the cloned stack,
   /// but you cannot change from Linux to Windows or Windows to Linux.
@@ -407,9 +407,9 @@ class OpsWorks {
   ///
   /// Parameter [defaultSshKeyName] :
   /// A default Amazon EC2 key pair name. The default value is none. If you
-  /// specify a key pair name, AWS OpsWorks installs the public key on the
-  /// instance and you can use the private key with an SSH client to log in to
-  /// the instance. For more information, see <a
+  /// specify a key pair name, OpsWorks installs the public key on the instance
+  /// and you can use the private key with an SSH client to log in to the
+  /// instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html">
   /// Using SSH to Communicate with an Instance</a> and <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html">
@@ -473,11 +473,12 @@ class OpsWorks {
   /// which returns a host name based on the current theme.
   ///
   /// Parameter [name] :
-  /// The cloned stack name.
+  /// The cloned stack name. Stack names can be a maximum of 64 characters.
   ///
   /// Parameter [region] :
-  /// The cloned stack AWS region, such as "ap-northeast-2". For more
-  /// information about AWS regions, see <a
+  /// The cloned stack Amazon Web Services Region, such as
+  /// <code>ap-northeast-2</code>. For more information about Amazon Web
+  /// Services Regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
   /// and Endpoints</a>.
   ///
@@ -485,29 +486,29 @@ class OpsWorks {
   /// Whether to use custom cookbooks.
   ///
   /// Parameter [useOpsworksSecurityGroups] :
-  /// Whether to associate the AWS OpsWorks Stacks built-in security groups with
-  /// the stack's layers.
+  /// Whether to associate the OpsWorks Stacks built-in security groups with the
+  /// stack's layers.
   ///
-  /// AWS OpsWorks Stacks provides a standard set of built-in security groups,
-  /// one for each layer, which are associated with layers by default. With
+  /// OpsWorks Stacks provides a standard set of security groups, one for each
+  /// layer, which are associated with layers by default. With
   /// <code>UseOpsworksSecurityGroups</code> you can instead provide your own
   /// custom security groups. <code>UseOpsworksSecurityGroups</code> has the
   /// following settings:
   ///
   /// <ul>
   /// <li>
-  /// True - AWS OpsWorks Stacks automatically associates the appropriate
-  /// built-in security group with each layer (default setting). You can
-  /// associate additional security groups with a layer after you create it but
-  /// you cannot delete the built-in security group.
+  /// True - OpsWorks Stacks automatically associates the appropriate built-in
+  /// security group with each layer (default setting). You can associate
+  /// additional security groups with a layer after you create it but you cannot
+  /// delete the built-in security group.
   /// </li>
   /// <li>
-  /// False - AWS OpsWorks Stacks does not associate built-in security groups
-  /// with layers. You must create appropriate Amazon Elastic Compute Cloud
-  /// (Amazon EC2) security groups and associate a security group with each
-  /// layer that you create. However, you can still manually associate a
-  /// built-in security group with a layer on creation; custom security groups
-  /// are required only for those layers that need custom settings.
+  /// False - OpsWorks Stacks does not associate built-in security groups with
+  /// layers. You must create appropriate Amazon EC2 security groups and
+  /// associate a security group with each layer that you create. However, you
+  /// can still manually associate a built-in security group with a layer on
+  /// creation; custom security groups are required only for those layers that
+  /// need custom settings.
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -530,10 +531,10 @@ class OpsWorks {
   /// </ul>
   /// If the VPC ID corresponds to a default VPC and you have specified either
   /// the <code>DefaultAvailabilityZone</code> or the
-  /// <code>DefaultSubnetId</code> parameter only, AWS OpsWorks Stacks infers
-  /// the value of the other parameter. If you specify neither parameter, AWS
-  /// OpsWorks Stacks sets these parameters to the first valid Availability Zone
-  /// for the specified region and the corresponding default VPC subnet ID,
+  /// <code>DefaultSubnetId</code> parameter only, OpsWorks Stacks infers the
+  /// value of the other parameter. If you specify neither parameter, OpsWorks
+  /// Stacks sets these parameters to the first valid Availability Zone for the
+  /// specified region and the corresponding default VPC subnet ID,
   /// respectively.
   ///
   /// If you specify a nondefault VPC ID, note the following:
@@ -546,8 +547,7 @@ class OpsWorks {
   /// You must specify a value for <code>DefaultSubnetId</code>.
   /// </li>
   /// </ul>
-  /// For more information about how to use AWS OpsWorks Stacks with a VPC, see
-  /// <a
+  /// For more information about how to use OpsWorks Stacks with a VPC, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-vpc.html">Running
   /// a Stack in a VPC</a>. For more information about default VPC and EC2
   /// Classic, see <a
@@ -646,11 +646,10 @@ class OpsWorks {
   ///
   /// Parameter [type] :
   /// The app type. Each supported type is associated with a particular layer.
-  /// For example, PHP applications are associated with a PHP layer. AWS
-  /// OpsWorks Stacks deploys an application to those instances that are members
-  /// of the corresponding layer. If your app isn't one of the standard types,
-  /// or you prefer to implement your own Deploy recipes, specify
-  /// <code>other</code>.
+  /// For example, PHP applications are associated with a PHP layer. OpsWorks
+  /// Stacks deploys an application to those instances that are members of the
+  /// corresponding layer. If your app isn't one of the standard types, or you
+  /// prefer to implement your own Deploy recipes, specify <code>other</code>.
   ///
   /// Parameter [appSource] :
   /// A <code>Source</code> object that specifies the app repository.
@@ -852,8 +851,7 @@ class OpsWorks {
   /// The stack ID.
   ///
   /// Parameter [agentVersion] :
-  /// The default AWS OpsWorks Stacks agent version. You have the following
-  /// options:
+  /// The default OpsWorks Stacks agent version. You have the following options:
   ///
   /// <ul>
   /// <li>
@@ -862,8 +860,8 @@ class OpsWorks {
   /// <li>
   /// <i>version_number</i> - Use the specified agent version. This value
   /// overrides the stack's default setting. To update the agent version, edit
-  /// the instance configuration and specify a new version. AWS OpsWorks Stacks
-  /// then automatically installs that version on the instance.
+  /// the instance configuration and specify a new version. OpsWorks Stacks
+  /// installs that version on the instance.
   /// </li>
   /// </ul>
   /// The default setting is <code>INHERIT</code>. To specify an agent version,
@@ -909,7 +907,17 @@ class OpsWorks {
   /// Whether to create an Amazon EBS-optimized instance.
   ///
   /// Parameter [hostname] :
-  /// The instance host name.
+  /// The instance host name. The following are character limits for instance
+  /// host names.
+  ///
+  /// <ul>
+  /// <li>
+  /// Linux-based instances: 63 characters
+  /// </li>
+  /// <li>
+  /// Windows-based instances: 15 characters
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [installUpdatesOnBoot] :
   /// Whether to install operating system and package updates when the instance
@@ -931,15 +939,15 @@ class OpsWorks {
   /// <ul>
   /// <li>
   /// A supported Linux operating system: An Amazon Linux version, such as
-  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
-  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
-  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
-  /// <code>Amazon Linux 2015.03</code>.
+  /// <code>Amazon Linux 2</code>, <code>Amazon Linux 2018.03</code>,
+  /// <code>Amazon Linux 2017.09</code>, <code>Amazon Linux 2017.03</code>,
+  /// <code>Amazon Linux 2016.09</code>, <code>Amazon Linux 2016.03</code>,
+  /// <code>Amazon Linux 2015.09</code>, or <code>Amazon Linux 2015.03</code>.
   /// </li>
   /// <li>
-  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04
-  /// LTS</code>, <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04
-  /// LTS</code>.
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 18.04
+  /// LTS</code>, <code>Ubuntu 16.04 LTS</code>, <code>Ubuntu 14.04 LTS</code>,
+  /// or <code>Ubuntu 12.04 LTS</code>.
   /// </li>
   /// <li>
   /// <code>CentOS Linux 7</code>
@@ -958,19 +966,17 @@ class OpsWorks {
   /// A custom AMI: <code>Custom</code>.
   /// </li>
   /// </ul>
-  /// For more information about the supported operating systems, see <a
-  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
-  /// OpsWorks Stacks Operating Systems</a>.
+  /// Not all operating systems are supported with all versions of Chef. For
+  /// more information about the supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">OpsWorks
+  /// Stacks Operating Systems</a>.
   ///
   /// The default option is the current Amazon Linux version. If you set this
   /// parameter to <code>Custom</code>, you must use the <a>CreateInstance</a>
   /// action's AmiId parameter to specify the custom AMI that you want to use.
   /// Block device mappings are not supported if the value is
-  /// <code>Custom</code>. For more information about supported operating
-  /// systems, see <a
-  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">Operating
-  /// Systems</a>For more information about how to use custom AMIs with AWS
-  /// OpsWorks Stacks, see <a
+  /// <code>Custom</code>. For more information about how to use custom AMIs
+  /// with OpsWorks Stacks, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Using
   /// Custom AMIs</a>.
   ///
@@ -985,7 +991,7 @@ class OpsWorks {
   /// Parameter [subnetId] :
   /// The ID of the instance's subnet. If the stack is running in a VPC, you can
   /// use this parameter to override the stack's default subnet ID value and
-  /// direct AWS OpsWorks Stacks to launch the instance in a different subnet.
+  /// direct OpsWorks Stacks to launch the instance in a different subnet.
   ///
   /// Parameter [tenancy] :
   /// The instance's tenancy option. The default option is no tenancy, or if the
@@ -1088,17 +1094,18 @@ class OpsWorks {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
-  /// The layer name, which is used by the console.
+  /// The layer name, which is used by the console. Layer names can be a maximum
+  /// of 32 characters.
   ///
   /// Parameter [shortname] :
   /// For custom layers only, use this parameter to specify the layer's short
-  /// name, which is used internally by AWS OpsWorks Stacks and by Chef recipes.
-  /// The short name is also used as the name for the directory where your app
-  /// files are installed. It can have a maximum of 200 characters, which are
-  /// limited to the alphanumeric characters, '-', '_', and '.'.
+  /// name, which is used internally by OpsWorks Stacks and by Chef recipes. The
+  /// short name is also used as the name for the directory where your app files
+  /// are installed. It can have a maximum of 32 characters, which are limited
+  /// to the alphanumeric characters, '-', '_', and '.'.
   ///
-  /// The built-in layers' short names are defined by AWS OpsWorks Stacks. For
-  /// more information, see the <a
+  /// Built-in layer short names are defined by OpsWorks Stacks. For more
+  /// information, see the <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/layers.html">Layer
   /// Reference</a>.
   ///
@@ -1146,7 +1153,7 @@ class OpsWorks {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html">
   /// Using Custom JSON</a>. This feature is supported as of version 1.7.42 of
-  /// the AWS CLI.
+  /// the CLI.
   ///
   /// Parameter [customRecipes] :
   /// A <code>LayerCustomRecipes</code> object that specifies the layer custom
@@ -1271,57 +1278,56 @@ class OpsWorks {
   /// Identifiers</a>.
   ///
   /// Parameter [name] :
-  /// The stack name.
+  /// The stack name. Stack names can be a maximum of 64 characters.
   ///
   /// Parameter [region] :
-  /// The stack's AWS region, such as <code>ap-south-1</code>. For more
-  /// information about Amazon regions, see <a
+  /// The stack's Amazon Web Services Region, such as <code>ap-south-1</code>.
+  /// For more information about Amazon Web Services Regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
   /// and Endpoints</a>.
   /// <note>
-  /// In the AWS CLI, this API maps to the <code>--stack-region</code>
-  /// parameter. If the <code>--stack-region</code> parameter and the AWS CLI
-  /// common parameter <code>--region</code> are set to the same value, the
-  /// stack uses a <i>regional</i> endpoint. If the <code>--stack-region</code>
-  /// parameter is not set, but the AWS CLI <code>--region</code> parameter is,
-  /// this also results in a stack with a <i>regional</i> endpoint. However, if
-  /// the <code>--region</code> parameter is set to <code>us-east-1</code>, and
-  /// the <code>--stack-region</code> parameter is set to one of the following,
-  /// then the stack uses a legacy or <i>classic</i> region: <code>us-west-1,
+  /// In the CLI, this API maps to the <code>--stack-region</code> parameter. If
+  /// the <code>--stack-region</code> parameter and the CLI common parameter
+  /// <code>--region</code> are set to the same value, the stack uses a
+  /// <i>regional</i> endpoint. If the <code>--stack-region</code> parameter is
+  /// not set, but the CLI <code>--region</code> parameter is, this also results
+  /// in a stack with a <i>regional</i> endpoint. However, if the
+  /// <code>--region</code> parameter is set to <code>us-east-1</code>, and the
+  /// <code>--stack-region</code> parameter is set to one of the following, then
+  /// the stack uses a legacy or <i>classic</i> region: <code>us-west-1,
   /// us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1,
   /// ap-southeast-1, ap-southeast-2</code>. In this case, the actual API
   /// endpoint of the stack is in <code>us-east-1</code>. Only the preceding
   /// regions are supported as classic regions in the <code>us-east-1</code> API
   /// endpoint. Because it is a best practice to choose the regional endpoint
-  /// that is closest to where you manage AWS, we recommend that you use
-  /// regional endpoints for new stacks. The AWS CLI common
+  /// that is closest to where you manage Amazon Web Services, we recommend that
+  /// you use regional endpoints for new stacks. The CLI common
   /// <code>--region</code> parameter always specifies a regional API endpoint;
-  /// it cannot be used to specify a classic AWS OpsWorks Stacks region.
+  /// it cannot be used to specify a classic OpsWorks Stacks region.
   /// </note>
   ///
   /// Parameter [serviceRoleArn] :
-  /// The stack's AWS Identity and Access Management (IAM) role, which allows
-  /// AWS OpsWorks Stacks to work with AWS resources on your behalf. You must
-  /// set this parameter to the Amazon Resource Name (ARN) for an existing IAM
-  /// role. For more information about IAM ARNs, see <a
+  /// The stack's IAM role, which allows OpsWorks Stacks to work with Amazon Web
+  /// Services resources on your behalf. You must set this parameter to the
+  /// Amazon Resource Name (ARN) for an existing IAM role. For more information
+  /// about IAM ARNs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
   /// Identifiers</a>.
   ///
   /// Parameter [agentVersion] :
-  /// The default AWS OpsWorks Stacks agent version. You have the following
-  /// options:
+  /// The default OpsWorks Stacks agent version. You have the following options:
   ///
   /// <ul>
   /// <li>
-  /// Auto-update - Set this parameter to <code>LATEST</code>. AWS OpsWorks
-  /// Stacks automatically installs new agent versions on the stack's instances
-  /// as soon as they are available.
+  /// Auto-update - Set this parameter to <code>LATEST</code>. OpsWorks Stacks
+  /// automatically installs new agent versions on the stack's instances as soon
+  /// as they are available.
   /// </li>
   /// <li>
   /// Fixed version - Set this parameter to your preferred agent version. To
   /// update the agent version, you must edit the stack configuration and
-  /// specify a new version. AWS OpsWorks Stacks then automatically installs
-  /// that version on the stack's instances.
+  /// specify a new version. OpsWorks Stacks installs that version on the
+  /// stack's instances.
   /// </li>
   /// </ul>
   /// The default setting is the most recent release of the agent. To specify an
@@ -1386,15 +1392,15 @@ class OpsWorks {
   /// <ul>
   /// <li>
   /// A supported Linux operating system: An Amazon Linux version, such as
-  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
-  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
-  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
-  /// <code>Amazon Linux 2015.03</code>.
+  /// <code>Amazon Linux 2</code>, <code>Amazon Linux 2018.03</code>,
+  /// <code>Amazon Linux 2017.09</code>, <code>Amazon Linux 2017.03</code>,
+  /// <code>Amazon Linux 2016.09</code>, <code>Amazon Linux 2016.03</code>,
+  /// <code>Amazon Linux 2015.09</code>, or <code>Amazon Linux 2015.03</code>.
   /// </li>
   /// <li>
-  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04
-  /// LTS</code>, <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04
-  /// LTS</code>.
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 18.04
+  /// LTS</code>, <code>Ubuntu 16.04 LTS</code>, <code>Ubuntu 14.04 LTS</code>,
+  /// or <code>Ubuntu 12.04 LTS</code>.
   /// </li>
   /// <li>
   /// <code>CentOS Linux 7</code>
@@ -1416,10 +1422,11 @@ class OpsWorks {
   /// Using Custom AMIs</a>.
   /// </li>
   /// </ul>
-  /// The default option is the current Amazon Linux version. For more
-  /// information about supported operating systems, see <a
-  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
-  /// OpsWorks Stacks Operating Systems</a>.
+  /// The default option is the current Amazon Linux version. Not all operating
+  /// systems are supported with all versions of Chef. For more information
+  /// about supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">OpsWorks
+  /// Stacks Operating Systems</a>.
   ///
   /// Parameter [defaultRootDeviceType] :
   /// The default root device type. This value is the default for all instances
@@ -1431,9 +1438,9 @@ class OpsWorks {
   ///
   /// Parameter [defaultSshKeyName] :
   /// A default Amazon EC2 key pair name. The default value is none. If you
-  /// specify a key pair name, AWS OpsWorks installs the public key on the
-  /// instance and you can use the private key with an SSH client to log in to
-  /// the instance. For more information, see <a
+  /// specify a key pair name, OpsWorks installs the public key on the instance
+  /// and you can use the private key with an SSH client to log in to the
+  /// instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html">
   /// Using SSH to Communicate with an Instance</a> and <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html">
@@ -1500,26 +1507,26 @@ class OpsWorks {
   /// Whether the stack uses custom cookbooks.
   ///
   /// Parameter [useOpsworksSecurityGroups] :
-  /// Whether to associate the AWS OpsWorks Stacks built-in security groups with
-  /// the stack's layers.
+  /// Whether to associate the OpsWorks Stacks built-in security groups with the
+  /// stack's layers.
   ///
-  /// AWS OpsWorks Stacks provides a standard set of built-in security groups,
-  /// one for each layer, which are associated with layers by default. With
+  /// OpsWorks Stacks provides a standard set of built-in security groups, one
+  /// for each layer, which are associated with layers by default. With
   /// <code>UseOpsworksSecurityGroups</code> you can instead provide your own
   /// custom security groups. <code>UseOpsworksSecurityGroups</code> has the
   /// following settings:
   ///
   /// <ul>
   /// <li>
-  /// True - AWS OpsWorks Stacks automatically associates the appropriate
-  /// built-in security group with each layer (default setting). You can
-  /// associate additional security groups with a layer after you create it, but
-  /// you cannot delete the built-in security group.
+  /// True - OpsWorks Stacks automatically associates the appropriate built-in
+  /// security group with each layer (default setting). You can associate
+  /// additional security groups with a layer after you create it, but you
+  /// cannot delete the built-in security group.
   /// </li>
   /// <li>
-  /// False - AWS OpsWorks Stacks does not associate built-in security groups
-  /// with layers. You must create appropriate EC2 security groups and associate
-  /// a security group with each layer that you create. However, you can still
+  /// False - OpsWorks Stacks does not associate built-in security groups with
+  /// layers. You must create appropriate EC2 security groups and associate a
+  /// security group with each layer that you create. However, you can still
   /// manually associate a built-in security group with a layer on creation;
   /// custom security groups are required only for those layers that need custom
   /// settings.
@@ -1546,10 +1553,10 @@ class OpsWorks {
   /// </ul>
   /// If the VPC ID corresponds to a default VPC and you have specified either
   /// the <code>DefaultAvailabilityZone</code> or the
-  /// <code>DefaultSubnetId</code> parameter only, AWS OpsWorks Stacks infers
-  /// the value of the other parameter. If you specify neither parameter, AWS
-  /// OpsWorks Stacks sets these parameters to the first valid Availability Zone
-  /// for the specified region and the corresponding default VPC subnet ID,
+  /// <code>DefaultSubnetId</code> parameter only, OpsWorks Stacks infers the
+  /// value of the other parameter. If you specify neither parameter, OpsWorks
+  /// Stacks sets these parameters to the first valid Availability Zone for the
+  /// specified region and the corresponding default VPC subnet ID,
   /// respectively.
   ///
   /// If you specify a nondefault VPC ID, note the following:
@@ -1562,8 +1569,7 @@ class OpsWorks {
   /// You must specify a value for <code>DefaultSubnetId</code>.
   /// </li>
   /// </ul>
-  /// For more information about how to use AWS OpsWorks Stacks with a VPC, see
-  /// <a
+  /// For more information about how to use OpsWorks Stacks with a VPC, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-vpc.html">Running
   /// a Stack in a VPC</a>. For more information about default VPC and
   /// EC2-Classic, see <a
@@ -1658,9 +1664,9 @@ class OpsWorks {
   /// Parameter [sshUsername] :
   /// The user's SSH user name. The allowable characters are [a-z], [A-Z],
   /// [0-9], '-', and '_'. If the specified name includes other punctuation
-  /// marks, AWS OpsWorks Stacks removes them. For example, <code>my.name</code>
-  /// will be changed to <code>myname</code>. If you do not specify an SSH user
-  /// name, AWS OpsWorks Stacks generates one from the IAM user name.
+  /// marks, OpsWorks Stacks removes them. For example, <code>my.name</code> is
+  /// changed to <code>myname</code>. If you do not specify an SSH user name,
+  /// OpsWorks Stacks generates one from the IAM user name.
   Future<CreateUserProfileResult> createUserProfile({
     required String iamUserArn,
     bool? allowSelfManagement,
@@ -1910,8 +1916,8 @@ class OpsWorks {
     );
   }
 
-  /// Deregisters a specified Elastic IP address. The address can then be
-  /// registered by another stack. For more information, see <a
+  /// Deregisters a specified Elastic IP address. The address can be registered
+  /// by another stack after it is deregistered. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html">Resource
   /// Management</a>.
   ///
@@ -1946,10 +1952,10 @@ class OpsWorks {
     );
   }
 
-  /// Deregister a registered Amazon EC2 or on-premises instance. This action
-  /// removes the instance from the stack and returns it to your control. This
-  /// action cannot be used with instances that were created with AWS OpsWorks
-  /// Stacks.
+  /// Deregister an instance from OpsWorks Stacks. The instance can be a
+  /// registered instance (Amazon EC2 or on-premises) or an instance created
+  /// with OpsWorks. This action removes the instance from the stack and returns
+  /// it to your control.
   ///
   /// <b>Required Permissions</b>: To use this action, an IAM user must have a
   /// Manage permissions level for the stack or an attached policy that
@@ -2031,9 +2037,9 @@ class OpsWorks {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [volumeId] :
-  /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks
-  /// Stacks assigned to the instance when you registered the volume with the
-  /// stack, not the Amazon EC2 volume ID.
+  /// The OpsWorks Stacks volume ID, which is the GUID that OpsWorks Stacks
+  /// assigned to the instance when you registered the volume with the stack,
+  /// not the Amazon EC2 volume ID.
   Future<void> deregisterVolume({
     required String volumeId,
   }) async {
@@ -2053,10 +2059,10 @@ class OpsWorks {
     );
   }
 
-  /// Describes the available AWS OpsWorks Stacks agent versions. You must
-  /// specify a stack ID or a configuration manager.
-  /// <code>DescribeAgentVersions</code> returns a list of available agent
-  /// versions for the specified stack or configuration manager.
+  /// Describes the available OpsWorks Stacks agent versions. You must specify a
+  /// stack ID or a configuration manager. <code>DescribeAgentVersions</code>
+  /// returns a list of available agent versions for the specified stack or
+  /// configuration manager.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -2241,7 +2247,7 @@ class OpsWorks {
 
   /// Describes Amazon ECS clusters that are registered with a stack. If you
   /// specify only a stack ID, you can use the <code>MaxResults</code> and
-  /// <code>NextToken</code> parameters to paginate the response. However, AWS
+  /// <code>NextToken</code> parameters to paginate the response. However,
   /// OpsWorks Stacks currently supports only one cluster per layer, so the
   /// result set has a maximum of one element.
   ///
@@ -2561,7 +2567,7 @@ class OpsWorks {
     return DescribeMyUserProfileResult.fromJson(jsonResponse.body);
   }
 
-  /// Describes the operating systems that are supported by AWS OpsWorks Stacks.
+  /// Describes the operating systems that are supported by OpsWorks Stacks.
   Future<DescribeOperatingSystemsResponse> describeOperatingSystems() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2715,7 +2721,7 @@ class OpsWorks {
     return DescribeRdsDbInstancesResult.fromJson(jsonResponse.body);
   }
 
-  /// Describes AWS OpsWorks Stacks service errors.
+  /// Describes OpsWorks Stacks service errors.
   ///
   /// <b>Required Permissions</b>: To use this action, an IAM user must have a
   /// Show, Deploy, or Manage permissions level for the stack, or an attached
@@ -2856,8 +2862,13 @@ class OpsWorks {
   ///
   /// Parameter [stackIds] :
   /// An array of stack IDs that specify the stacks to be described. If you omit
-  /// this parameter, <code>DescribeStacks</code> returns a description of every
-  /// stack.
+  /// this parameter, and have permissions to get information about all stacks,
+  /// <code>DescribeStacks</code> returns a description of every stack. If the
+  /// IAM policy that is attached to an IAM user limits the
+  /// <code>DescribeStacks</code> action to specific stack ARNs, this parameter
+  /// is required, and the user must specify a stack ARN that is allowed by the
+  /// policy. Otherwise, <code>DescribeStacks</code> returns an
+  /// <code>AccessDenied</code> error.
   Future<DescribeStacksResult> describeStacks({
     List<String>? stackIds,
   }) async {
@@ -3129,13 +3140,13 @@ class OpsWorks {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [instanceId] :
-  /// The instance's AWS OpsWorks Stacks ID.
+  /// The instance's OpsWorks Stacks ID.
   ///
   /// Parameter [validForInMinutes] :
   /// The length of time (in minutes) that the grant is valid. When the grant
   /// expires at the end of this period, the user will no longer be able to use
-  /// the credentials to log in. If the user is logged in at the time, he or she
-  /// automatically will be logged out.
+  /// the credentials to log in. If the user is logged in at the time, they are
+  /// logged out.
   Future<GrantAccessResult> grantAccess({
     required String instanceId,
     int? validForInMinutes,
@@ -3329,17 +3340,17 @@ class OpsWorks {
     return RegisterElasticIpResult.fromJson(jsonResponse.body);
   }
 
-  /// Registers instances that were created outside of AWS OpsWorks Stacks with
-  /// a specified stack.
+  /// Registers instances that were created outside of OpsWorks Stacks with a
+  /// specified stack.
   /// <note>
   /// We do not recommend using this action to register instances. The complete
-  /// registration operation includes two tasks: installing the AWS OpsWorks
-  /// Stacks agent on the instance, and registering the instance with the stack.
+  /// registration operation includes two tasks: installing the OpsWorks Stacks
+  /// agent on the instance, and registering the instance with the stack.
   /// <code>RegisterInstance</code> handles only the second step. You should
-  /// instead use the AWS CLI <code>register</code> command, which performs the
+  /// instead use the CLI <code>register</code> command, which performs the
   /// entire registration operation. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/registered-instances-register.html">
-  /// Registering an Instance with an AWS OpsWorks Stacks Stack</a>.
+  /// Registering an Instance with an OpsWorks Stacks Stack</a>.
   /// </note>
   /// Registered instances have the same requirements as instances that are
   /// created by using the <a>CreateInstance</a> API. For example, registered
@@ -3363,7 +3374,17 @@ class OpsWorks {
   /// The ID of the stack that the instance is to be registered with.
   ///
   /// Parameter [hostname] :
-  /// The instance's hostname.
+  /// The instance's host name. The following are character limits for instance
+  /// host names.
+  ///
+  /// <ul>
+  /// <li>
+  /// Linux-based instances: 63 characters
+  /// </li>
+  /// <li>
+  /// Windows-based instances: 15 characters
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [instanceIdentity] :
   /// An InstanceIdentity object that contains the instance's identity.
@@ -3533,7 +3554,7 @@ class OpsWorks {
   /// Parameter [downScaling] :
   /// An <code>AutoScalingThresholds</code> object with the downscaling
   /// threshold configuration. If the load falls below these thresholds for a
-  /// specified amount of time, AWS OpsWorks Stacks stops a specified number of
+  /// specified amount of time, OpsWorks Stacks stops a specified number of
   /// instances.
   ///
   /// Parameter [enable] :
@@ -3542,7 +3563,7 @@ class OpsWorks {
   /// Parameter [upScaling] :
   /// An <code>AutoScalingThresholds</code> object with the upscaling threshold
   /// configuration. If the load exceeds these thresholds for a specified amount
-  /// of time, AWS OpsWorks Stacks starts a specified number of instances.
+  /// of time, OpsWorks Stacks starts a specified number of instances.
   Future<void> setLoadBasedAutoScaling({
     required String layerId,
     AutoScalingThresholds? downScaling,
@@ -3780,10 +3801,10 @@ class OpsWorks {
   /// Specifies whether to force an instance to stop. If the instance's root
   /// device type is <code>ebs</code>, or EBS-backed, adding the
   /// <code>Force</code> parameter to the <code>StopInstances</code> API call
-  /// disassociates the AWS OpsWorks Stacks instance from EC2, and forces
-  /// deletion of <i>only</i> the OpsWorks Stacks instance. You must also delete
-  /// the formerly-associated instance in EC2 after troubleshooting and
-  /// replacing the AWS OpsWorks Stacks instance with a new one.
+  /// disassociates the OpsWorks Stacks instance from EC2, and forces deletion
+  /// of <i>only</i> the OpsWorks Stacks instance. You must also delete the
+  /// formerly-associated instance in EC2 after troubleshooting and replacing
+  /// the OpsWorks Stacks instance with a new one.
   Future<void> stopInstance({
     required String instanceId,
     bool? force,
@@ -3838,10 +3859,10 @@ class OpsWorks {
     );
   }
 
-  /// Apply cost-allocation tags to a specified stack or layer in AWS OpsWorks
+  /// Apply cost-allocation tags to a specified stack or layer in OpsWorks
   /// Stacks. For more information about how tagging works, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/tagging.html">Tags</a>
-  /// in the AWS OpsWorks User Guide.
+  /// in the OpsWorks User Guide.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -3898,7 +3919,7 @@ class OpsWorks {
   /// Unassigns a registered instance from all layers that are using the
   /// instance. The instance remains in the stack as an unassigned instance, and
   /// can be assigned to another layer as needed. You cannot use this action
-  /// with instances that were created with AWS OpsWorks Stacks.
+  /// with instances that were created with OpsWorks Stacks.
   ///
   /// <b>Required Permissions</b>: To use this action, an IAM user must have a
   /// Manage permissions level for the stack or an attached policy that
@@ -4119,7 +4140,7 @@ class OpsWorks {
   /// The IP address for which you want to update the name.
   ///
   /// Parameter [name] :
-  /// The new name.
+  /// The new name, which can be a maximum of 32 characters.
   Future<void> updateElasticIp({
     required String elasticIp,
     String? name,
@@ -4157,8 +4178,7 @@ class OpsWorks {
   /// The instance ID.
   ///
   /// Parameter [agentVersion] :
-  /// The default AWS OpsWorks Stacks agent version. You have the following
-  /// options:
+  /// The default OpsWorks Stacks agent version. You have the following options:
   ///
   /// <ul>
   /// <li>
@@ -4167,8 +4187,8 @@ class OpsWorks {
   /// <li>
   /// <i>version_number</i> - Use the specified agent version. This value
   /// overrides the stack's default setting. To update the agent version, you
-  /// must edit the instance configuration and specify a new version. AWS
-  /// OpsWorks Stacks then automatically installs that version on the instance.
+  /// must edit the instance configuration and specify a new version. OpsWorks
+  /// Stacks installs that version on the instance.
   /// </li>
   /// </ul>
   /// The default setting is <code>INHERIT</code>. To specify an agent version,
@@ -4199,7 +4219,17 @@ class OpsWorks {
   /// This property cannot be updated.
   ///
   /// Parameter [hostname] :
-  /// The instance host name.
+  /// The instance host name. The following are character limits for instance
+  /// host names.
+  ///
+  /// <ul>
+  /// <li>
+  /// Linux-based instances: 63 characters
+  /// </li>
+  /// <li>
+  /// Windows-based instances: 15 characters
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [installUpdatesOnBoot] :
   /// Whether to install operating system and package updates when the instance
@@ -4234,15 +4264,15 @@ class OpsWorks {
   /// <ul>
   /// <li>
   /// A supported Linux operating system: An Amazon Linux version, such as
-  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
-  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
-  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
-  /// <code>Amazon Linux 2015.03</code>.
+  /// <code>Amazon Linux 2</code>, <code>Amazon Linux 2018.03</code>,
+  /// <code>Amazon Linux 2017.09</code>, <code>Amazon Linux 2017.03</code>,
+  /// <code>Amazon Linux 2016.09</code>, <code>Amazon Linux 2016.03</code>,
+  /// <code>Amazon Linux 2015.09</code>, or <code>Amazon Linux 2015.03</code>.
   /// </li>
   /// <li>
-  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04
-  /// LTS</code>, <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04
-  /// LTS</code>.
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 18.04
+  /// LTS</code>, <code>Ubuntu 16.04 LTS</code>, <code>Ubuntu 14.04 LTS</code>,
+  /// or <code>Ubuntu 12.04 LTS</code>.
   /// </li>
   /// <li>
   /// <code>CentOS Linux 7</code>
@@ -4258,17 +4288,15 @@ class OpsWorks {
   /// Server Web</code>.
   /// </li>
   /// </ul>
-  /// For more information about supported operating systems, see <a
-  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
-  /// OpsWorks Stacks Operating Systems</a>.
+  /// Not all operating systems are supported with all versions of Chef. For
+  /// more information about supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">OpsWorks
+  /// Stacks Operating Systems</a>.
   ///
   /// The default option is the current Amazon Linux version. If you set this
   /// parameter to <code>Custom</code>, you must use the AmiId parameter to
   /// specify the custom AMI that you want to use. For more information about
-  /// supported operating systems, see <a
-  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">Operating
-  /// Systems</a>. For more information about how to use custom AMIs with
-  /// OpsWorks, see <a
+  /// how to use custom AMIs with OpsWorks, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Using
   /// Custom AMIs</a>.
   /// <note>
@@ -4397,7 +4425,8 @@ class OpsWorks {
   /// <p/>
   ///
   /// Parameter [name] :
-  /// The layer name, which is used by the console.
+  /// The layer name, which is used by the console. Layer names can be a maximum
+  /// of 32 characters.
   ///
   /// Parameter [packages] :
   /// An array of <code>Package</code> objects that describe the layer's
@@ -4405,15 +4434,15 @@ class OpsWorks {
   ///
   /// Parameter [shortname] :
   /// For custom layers only, use this parameter to specify the layer's short
-  /// name, which is used internally by AWS OpsWorks Stacks and by Chef. The
-  /// short name is also used as the name for the directory where your app files
-  /// are installed. It can have a maximum of 200 characters and must be in the
+  /// name, which is used internally by OpsWorks Stacks and by Chef. The short
+  /// name is also used as the name for the directory where your app files are
+  /// installed. It can have a maximum of 32 characters and must be in the
   /// following format: /\A[a-z0-9\-\_\.]+\Z/.
   ///
-  /// The built-in layers' short names are defined by AWS OpsWorks Stacks. For
-  /// more information, see the <a
+  /// Built-in layer short names are defined by OpsWorks Stacks. For more
+  /// information, see the <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/layers.html">Layer
-  /// Reference</a>
+  /// reference</a> in the OpsWorks User Guide.
   ///
   /// Parameter [useEbsOptimizedInstances] :
   /// Whether to use Amazon EBS-optimized instances.
@@ -4572,20 +4601,19 @@ class OpsWorks {
   /// The stack ID.
   ///
   /// Parameter [agentVersion] :
-  /// The default AWS OpsWorks Stacks agent version. You have the following
-  /// options:
+  /// The default OpsWorks Stacks agent version. You have the following options:
   ///
   /// <ul>
   /// <li>
-  /// Auto-update - Set this parameter to <code>LATEST</code>. AWS OpsWorks
-  /// Stacks automatically installs new agent versions on the stack's instances
-  /// as soon as they are available.
+  /// Auto-update - Set this parameter to <code>LATEST</code>. OpsWorks Stacks
+  /// automatically installs new agent versions on the stack's instances as soon
+  /// as they are available.
   /// </li>
   /// <li>
   /// Fixed version - Set this parameter to your preferred agent version. To
   /// update the agent version, you must edit the stack configuration and
-  /// specify a new version. AWS OpsWorks Stacks then automatically installs
-  /// that version on the stack's instances.
+  /// specify a new version. OpsWorks Stacks installs that version on the
+  /// stack's instances.
   /// </li>
   /// </ul>
   /// The default setting is <code>LATEST</code>. To specify an agent version,
@@ -4653,15 +4681,15 @@ class OpsWorks {
   /// <ul>
   /// <li>
   /// A supported Linux operating system: An Amazon Linux version, such as
-  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
-  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
-  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
-  /// <code>Amazon Linux 2015.03</code>.
+  /// <code>Amazon Linux 2</code>, <code>Amazon Linux 2018.03</code>,
+  /// <code>Amazon Linux 2017.09</code>, <code>Amazon Linux 2017.03</code>,
+  /// <code>Amazon Linux 2016.09</code>, <code>Amazon Linux 2016.03</code>,
+  /// <code>Amazon Linux 2015.09</code>, or <code>Amazon Linux 2015.03</code>.
   /// </li>
   /// <li>
-  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04
-  /// LTS</code>, <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04
-  /// LTS</code>.
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 18.04
+  /// LTS</code>, <code>Ubuntu 16.04 LTS</code>, <code>Ubuntu 14.04 LTS</code>,
+  /// or <code>Ubuntu 12.04 LTS</code>.
   /// </li>
   /// <li>
   /// <code>CentOS Linux 7</code>
@@ -4684,10 +4712,11 @@ class OpsWorks {
   /// Custom AMIs</a>.
   /// </li>
   /// </ul>
-  /// The default option is the stack's current operating system. For more
+  /// The default option is the stack's current operating system. Not all
+  /// operating systems are supported with all versions of Chef. For more
   /// information about supported operating systems, see <a
-  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
-  /// OpsWorks Stacks Operating Systems</a>.
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">OpsWorks
+  /// Stacks Operating Systems</a>.
   ///
   /// Parameter [defaultRootDeviceType] :
   /// The default root device type. This value is used by default for all
@@ -4698,7 +4727,7 @@ class OpsWorks {
   ///
   /// Parameter [defaultSshKeyName] :
   /// A default Amazon EC2 key-pair name. The default value is
-  /// <code>none</code>. If you specify a key-pair name, AWS OpsWorks Stacks
+  /// <code>none</code>. If you specify a key-pair name, OpsWorks Stacks
   /// installs the public key on the instance and you can use the private key
   /// with an SSH client to log in to the instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html">
@@ -4764,7 +4793,7 @@ class OpsWorks {
   /// which returns a host name based on the current theme.
   ///
   /// Parameter [name] :
-  /// The stack's new name.
+  /// The stack's new name. Stack names can be a maximum of 64 characters.
   ///
   /// Parameter [serviceRoleArn] :
   /// Do not use this parameter. You cannot update a stack's service role.
@@ -4773,26 +4802,26 @@ class OpsWorks {
   /// Whether the stack uses custom cookbooks.
   ///
   /// Parameter [useOpsworksSecurityGroups] :
-  /// Whether to associate the AWS OpsWorks Stacks built-in security groups with
-  /// the stack's layers.
+  /// Whether to associate the OpsWorks Stacks built-in security groups with the
+  /// stack's layers.
   ///
-  /// AWS OpsWorks Stacks provides a standard set of built-in security groups,
-  /// one for each layer, which are associated with layers by default.
+  /// OpsWorks Stacks provides a standard set of built-in security groups, one
+  /// for each layer, which are associated with layers by default.
   /// <code>UseOpsworksSecurityGroups</code> allows you to provide your own
   /// custom security groups instead of using the built-in groups.
   /// <code>UseOpsworksSecurityGroups</code> has the following settings:
   ///
   /// <ul>
   /// <li>
-  /// True - AWS OpsWorks Stacks automatically associates the appropriate
-  /// built-in security group with each layer (default setting). You can
-  /// associate additional security groups with a layer after you create it, but
-  /// you cannot delete the built-in security group.
+  /// True - OpsWorks Stacks automatically associates the appropriate built-in
+  /// security group with each layer (default setting). You can associate
+  /// additional security groups with a layer after you create it, but you
+  /// cannot delete the built-in security group.
   /// </li>
   /// <li>
-  /// False - AWS OpsWorks Stacks does not associate built-in security groups
-  /// with layers. You must create appropriate EC2 security groups and associate
-  /// a security group with each layer that you create. However, you can still
+  /// False - OpsWorks Stacks does not associate built-in security groups with
+  /// layers. You must create appropriate EC2 security groups and associate a
+  /// security group with each layer that you create. However, you can still
   /// manually associate a built-in security group with a layer on. Custom
   /// security groups are required only for those layers that need custom
   /// settings.
@@ -4888,9 +4917,9 @@ class OpsWorks {
   /// Parameter [sshUsername] :
   /// The user's SSH user name. The allowable characters are [a-z], [A-Z],
   /// [0-9], '-', and '_'. If the specified name includes other punctuation
-  /// marks, AWS OpsWorks Stacks removes them. For example, <code>my.name</code>
+  /// marks, OpsWorks Stacks removes them. For example, <code>my.name</code>
   /// will be changed to <code>myname</code>. If you do not specify an SSH user
-  /// name, AWS OpsWorks Stacks generates one from the IAM user name.
+  /// name, OpsWorks Stacks generates one from the IAM user name.
   Future<void> updateUserProfile({
     required String iamUserArn,
     bool? allowSelfManagement,
@@ -4939,7 +4968,7 @@ class OpsWorks {
   /// The new mount point.
   ///
   /// Parameter [name] :
-  /// The new name.
+  /// The new name. Volume names can be a maximum of 128 characters.
   Future<void> updateVolume({
     required String volumeId,
     String? mountPoint,
@@ -5218,19 +5247,19 @@ extension ArchitectureFromString on String {
 }
 
 /// Describes a load-based auto scaling upscaling or downscaling threshold
-/// configuration, which specifies when AWS OpsWorks Stacks starts or stops
+/// configuration, which specifies when OpsWorks Stacks starts or stops
 /// load-based instances.
 class AutoScalingThresholds {
-  /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This
+  /// Custom CloudWatch auto scaling alarms, to be used as thresholds. This
   /// parameter takes a list of up to five alarm names, which are case sensitive
   /// and must be in the same region as the stack.
   /// <note>
   /// To use custom alarms, you must update your service role to allow
-  /// <code>cloudwatch:DescribeAlarms</code>. You can either have AWS OpsWorks
-  /// Stacks update the role for you when you first use this feature or you can
-  /// edit the role manually. For more information, see <a
+  /// <code>cloudwatch:DescribeAlarms</code>. You can either have OpsWorks Stacks
+  /// update the role for you when you first use this feature or you can edit the
+  /// role manually. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-servicerole.html">Allowing
-  /// AWS OpsWorks Stacks to Act on Your Behalf</a>.
+  /// OpsWorks Stacks to Act on Your Behalf</a>.
   /// </note>
   final List<String>? alarms;
 
@@ -5238,13 +5267,13 @@ class AutoScalingThresholds {
   /// -1 disables the threshold.
   final double? cpuThreshold;
 
-  /// The amount of time (in minutes) after a scaling event occurs that AWS
-  /// OpsWorks Stacks should ignore metrics and suppress additional scaling
-  /// events. For example, AWS OpsWorks Stacks adds new instances following an
-  /// upscaling event but the instances won't start reducing the load until they
-  /// have been booted and configured. There is no point in raising additional
-  /// scaling events during that operation, which typically takes several minutes.
-  /// <code>IgnoreMetricsTime</code> allows you to direct AWS OpsWorks Stacks to
+  /// The amount of time (in minutes) after a scaling event occurs that OpsWorks
+  /// Stacks should ignore metrics and suppress additional scaling events. For
+  /// example, OpsWorks Stacks adds new instances following an upscaling event but
+  /// the instances won't start reducing the load until they have been booted and
+  /// configured. There is no point in raising additional scaling events during
+  /// that operation, which typically takes several minutes.
+  /// <code>IgnoreMetricsTime</code> allows you to direct OpsWorks Stacks to
   /// suppress scaling events long enough to get the new instances online.
   final int? ignoreMetricsTime;
 
@@ -5345,8 +5374,8 @@ extension AutoScalingTypeFromString on String {
 class BlockDeviceMapping {
   /// The device name that is exposed to the instance, such as
   /// <code>/dev/sdh</code>. For the root device, you can use the explicit device
-  /// name or you can set this parameter to <code>ROOT_DEVICE</code> and AWS
-  /// OpsWorks Stacks will provide the correct device name.
+  /// name or you can set this parameter to <code>ROOT_DEVICE</code> and OpsWorks
+  /// Stacks will provide the correct device name.
   final String? deviceName;
 
   /// An <code>EBSBlockDevice</code> that defines how to configure an Amazon EBS
@@ -5438,7 +5467,7 @@ class CloneStackResult {
   }
 }
 
-/// Describes the Amazon CloudWatch logs configuration for a layer.
+/// Describes the Amazon CloudWatch Logs configuration for a layer.
 class CloudWatchLogsConfiguration {
   /// Whether CloudWatch Logs is enabled for a layer.
   final bool? enabled;
@@ -5985,7 +6014,7 @@ extension CloudWatchLogsInitialPositionFromString on String {
   }
 }
 
-/// Describes the Amazon CloudWatch logs configuration for a layer. For detailed
+/// Describes the CloudWatch Logs configuration for a layer. For detailed
 /// information about members of this data type, see the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AgentReference.html">CloudWatch
 /// Logs Agent Reference</a>.
@@ -6533,9 +6562,9 @@ class DeploymentCommand {
   /// </li>
   /// <li>
   /// <code>rollback</code> Roll the app back to the previous version. When you
-  /// update an app, AWS OpsWorks Stacks stores the previous version, up to a
-  /// maximum of five versions. You can use this command to roll an app back as
-  /// many as four versions.
+  /// update an app, OpsWorks Stacks stores the previous version, up to a maximum
+  /// of five versions. You can use this command to roll an app back as many as
+  /// four versions.
   /// </li>
   /// <li>
   /// <code>start</code>: Start the app's web or application server.
@@ -6562,22 +6591,21 @@ class DeploymentCommand {
   ///
   /// <ul>
   /// <li>
-  /// <code>upgrade_os_to</code> - Specifies the desired Amazon Linux version for
-  /// instances whose OS you want to upgrade, such as <code>Amazon Linux
-  /// 2016.09</code>. You must also set the <code>allow_reboot</code> argument to
-  /// true.
+  /// <code>upgrade_os_to</code> - Specifies the Amazon Linux version that you
+  /// want instances to run, such as <code>Amazon Linux 2</code>. You must also
+  /// set the <code>allow_reboot</code> argument to true.
   /// </li>
   /// <li>
-  /// <code>allow_reboot</code> - Specifies whether to allow AWS OpsWorks Stacks
-  /// to reboot the instances if necessary, after installing the updates. This
+  /// <code>allow_reboot</code> - Specifies whether to allow OpsWorks Stacks to
+  /// reboot the instances if necessary, after installing the updates. This
   /// argument can be set to either <code>true</code> or <code>false</code>. The
   /// default value is <code>false</code>.
   /// </li>
   /// </ul>
-  /// For example, to upgrade an instance to Amazon Linux 2016.09, set
+  /// For example, to upgrade an instance to Amazon Linux 2018.03, set
   /// <code>Args</code> to the following.
   ///
-  /// <code> { "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"] }
+  /// <code> { "upgrade_os_to":["Amazon Linux 2018.03"], "allow_reboot":["true"] }
   /// </code>
   final Map<String, List<String>>? args;
 
@@ -7034,7 +7062,7 @@ class DescribeServiceErrorsResult {
 /// Contains the response to a <code>DescribeStackProvisioningParameters</code>
 /// request.
 class DescribeStackProvisioningParametersResult {
-  /// The AWS OpsWorks Stacks agent installer's URL.
+  /// The OpsWorks Stacks agent installer's URL.
   final String? agentInstallerUrl;
 
   /// An embedded object that contains the provisioning parameters.
@@ -7182,9 +7210,9 @@ class EbsBlockDevice {
   ///
   /// If you specify the <code>io1</code> volume type, you must also specify a
   /// value for the <code>Iops</code> attribute. The maximum ratio of provisioned
-  /// IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume
-  /// size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume
-  /// size).
+  /// IOPS to requested volume size (in GiB) is 50:1. Amazon Web Services uses the
+  /// default volume size (in GiB) specified in the AMI attributes to set IOPS to
+  /// 50 x (volume size).
   final VolumeType? volumeType;
 
   EbsBlockDevice({
@@ -7264,10 +7292,10 @@ class ElasticIp {
   /// The IP address.
   final String? ip;
 
-  /// The name.
+  /// The name, which can be a maximum of 32 characters.
   final String? name;
 
-  /// The AWS region. For more information, see <a
+  /// The Amazon Web Services Region. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
   final String? region;
@@ -7299,20 +7327,20 @@ class ElasticLoadBalancer {
   /// The instance's public DNS name.
   final String? dnsName;
 
-  /// A list of the EC2 instances that the Elastic Load Balancing instance is
-  /// managing traffic for.
+  /// A list of the EC2 instances for which the Elastic Load Balancing instance is
+  /// managing traffic.
   final List<String>? ec2InstanceIds;
 
-  /// The Elastic Load Balancing instance's name.
+  /// The Elastic Load Balancing instance name.
   final String? elasticLoadBalancerName;
 
-  /// The ID of the layer that the instance is attached to.
+  /// The ID of the layer to which the instance is attached.
   final String? layerId;
 
-  /// The instance's AWS region.
+  /// The instance's Amazon Web Services Region.
   final String? region;
 
-  /// The ID of the stack that the instance is associated with.
+  /// The ID of the stack with which the instance is associated.
   final String? stackId;
 
   /// A list of subnet IDs, if the stack is running in a VPC.
@@ -7370,11 +7398,11 @@ class EnvironmentVariable {
   /// printable.
   final String value;
 
-  /// (Optional) Whether the variable's value will be returned by the
-  /// <a>DescribeApps</a> action. To conceal an environment variable's value, set
-  /// <code>Secure</code> to <code>true</code>. <code>DescribeApps</code> then
-  /// returns <code>*****FILTERED*****</code> instead of the actual value. The
-  /// default value for <code>Secure</code> is <code>false</code>.
+  /// (Optional) Whether the variable's value is returned by the
+  /// <a>DescribeApps</a> action. To hide an environment variable's value, set
+  /// <code>Secure</code> to <code>true</code>. <code>DescribeApps</code> returns
+  /// <code>*****FILTERED*****</code> instead of the actual value. The default
+  /// value for <code>Secure</code> is <code>false</code>.
   final bool? secure;
 
   EnvironmentVariable({
@@ -7492,10 +7520,20 @@ class Instance {
 
   /// The instance <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
-  /// IP address </a>.
+  /// IP address</a>.
   final String? elasticIp;
 
-  /// The instance host name.
+  /// The instance host name. The following are character limits for instance host
+  /// names.
+  ///
+  /// <ul>
+  /// <li>
+  /// Linux-based instances: 63 characters
+  /// </li>
+  /// <li>
+  /// Windows-based instances: 15 characters
+  /// </li>
+  /// </ul>
   final String? hostname;
 
   /// For registered instances, the infrastructure class: <code>ec2</code> or
@@ -7504,13 +7542,13 @@ class Instance {
 
   /// Whether to install operating system and package updates when the instance
   /// boots. The default value is <code>true</code>. If this value is set to
-  /// <code>false</code>, you must then update your instances manually by using
+  /// <code>false</code>, you must update instances manually by using
   /// <a>CreateDeployment</a> to run the <code>update_dependencies</code> stack
   /// command or by manually running <code>yum</code> (Amazon Linux) or
   /// <code>apt-get</code> (Ubuntu) on the instances.
   /// <note>
-  /// We strongly recommend using the default value of <code>true</code>, to
-  /// ensure that your instances have the latest security updates.
+  /// We strongly recommend using the default value of <code>true</code> to ensure
+  /// that your instances have the latest security updates.
   /// </note>
   final bool? installUpdatesOnBoot;
 
@@ -7554,7 +7592,7 @@ class Instance {
   /// For registered instances, who performed the registration.
   final String? registeredBy;
 
-  /// The instance's reported AWS OpsWorks Stacks agent version.
+  /// The instance's reported OpsWorks Stacks agent version.
   final String? reportedAgentVersion;
 
   /// For registered instances, the reported operating system.
@@ -7895,10 +7933,10 @@ class Layer {
   /// The layer attributes.
   ///
   /// For the <code>HaproxyStatsPassword</code>, <code>MysqlRootPassword</code>,
-  /// and <code>GangliaPassword</code> attributes, AWS OpsWorks Stacks returns
+  /// and <code>GangliaPassword</code> attributes, OpsWorks Stacks returns
   /// <code>*****FILTERED*****</code> instead of the actual value
   ///
-  /// For an ECS Cluster layer, AWS OpsWorks Stacks the <code>EcsClusterArn</code>
+  /// For an ECS Cluster layer, OpsWorks Stacks the <code>EcsClusterArn</code>
   /// attribute is set to the cluster's ARN.
   final Map<LayerAttributesKeys, String>? attributes;
 
@@ -7938,11 +7976,11 @@ class Layer {
   /// An array containing the layer's custom security group IDs.
   final List<String>? customSecurityGroupIds;
 
-  /// AWS OpsWorks Stacks supports five lifecycle events: <b>setup</b>,
+  /// OpsWorks Stacks supports five lifecycle events: <b>setup</b>,
   /// <b>configuration</b>, <b>deploy</b>, <b>undeploy</b>, and <b>shutdown</b>.
-  /// For each layer, AWS OpsWorks Stacks runs a set of standard recipes for each
+  /// For each layer, OpsWorks Stacks runs a set of standard recipes for each
   /// event. You can also provide custom recipes for any or all layers and events.
-  /// AWS OpsWorks Stacks runs custom event recipes after the standard recipes.
+  /// OpsWorks Stacks runs custom event recipes after the standard recipes.
   /// <code>LayerCustomRecipes</code> specifies the custom recipes for a
   /// particular layer to be run in response to each of the five events.
   ///
@@ -7978,7 +8016,7 @@ class Layer {
   /// Shutdown event configuration.
   final LifecycleEventConfiguration? lifecycleEventConfiguration;
 
-  /// The layer name.
+  /// The layer name. Layer names can be a maximum of 32 characters.
   final String? name;
 
   /// An array of <code>Package</code> objects that describe the layer's packages.
@@ -8356,8 +8394,8 @@ class ListTagsResult {
 /// Describes a layer's load-based auto scaling configuration.
 class LoadBasedAutoScalingConfiguration {
   /// An <code>AutoScalingThresholds</code> object that describes the downscaling
-  /// configuration, which defines how and when AWS OpsWorks Stacks reduces the
-  /// number of instances.
+  /// configuration, which defines how and when OpsWorks Stacks reduces the number
+  /// of instances.
   final AutoScalingThresholds? downScaling;
 
   /// Whether load-based auto scaling is enabled for the layer.
@@ -8367,7 +8405,7 @@ class LoadBasedAutoScalingConfiguration {
   final String? layerId;
 
   /// An <code>AutoScalingThresholds</code> object that describes the upscaling
-  /// configuration, which defines how and when AWS OpsWorks Stacks increases the
+  /// configuration, which defines how and when OpsWorks Stacks increases the
   /// number of instances.
   final AutoScalingThresholds? upScaling;
 
@@ -8395,17 +8433,16 @@ class LoadBasedAutoScalingConfiguration {
   }
 }
 
-/// Describes supported operating systems in AWS OpsWorks Stacks.
+/// Describes supported operating systems in OpsWorks Stacks.
 class OperatingSystem {
-  /// Supported configuration manager name and versions for an AWS OpsWorks Stacks
+  /// Supported configuration manager name and versions for an OpsWorks Stacks
   /// operating system.
   final List<OperatingSystemConfigurationManager>? configurationManagers;
 
-  /// The ID of a supported operating system, such as <code>Amazon Linux
-  /// 2018.03</code>.
+  /// The ID of a supported operating system, such as <code>Amazon Linux 2</code>.
   final String? id;
 
-  /// The name of the operating system, such as <code>Amazon Linux 2018.03</code>.
+  /// The name of the operating system, such as <code>Amazon Linux 2</code>.
   final String? name;
 
   /// A short name for the operating system manufacturer.
@@ -8482,8 +8519,8 @@ class Permission {
   /// Whether the user can use <b>sudo</b>.
   final bool? allowSudo;
 
-  /// The Amazon Resource Name (ARN) for an AWS Identity and Access Management
-  /// (IAM) role. For more information about IAM ARNs, see <a
+  /// The Amazon Resource Name (ARN) for an Identity and Access Management (IAM)
+  /// role. For more information about IAM ARNs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
   /// Identifiers</a>.
   final String? iamUserArn;
@@ -8618,10 +8655,10 @@ class RdsDbInstance {
   /// The instance's address.
   final String? address;
 
-  /// The DB instance identifier.
+  /// The database instance identifier.
   final String? dbInstanceIdentifier;
 
-  /// AWS OpsWorks Stacks returns <code>*****FILTERED*****</code> instead of the
+  /// OpsWorks Stacks returns <code>*****FILTERED*****</code> instead of the
   /// actual value.
   final String? dbPassword;
 
@@ -8631,16 +8668,16 @@ class RdsDbInstance {
   /// The instance's database engine.
   final String? engine;
 
-  /// Set to <code>true</code> if AWS OpsWorks Stacks is unable to discover the
-  /// Amazon RDS instance. AWS OpsWorks Stacks attempts to discover the instance
-  /// only once. If this value is set to <code>true</code>, you must deregister
-  /// the instance, and then register it again.
+  /// Set to <code>true</code> if OpsWorks Stacks is unable to discover the Amazon
+  /// RDS instance. OpsWorks Stacks attempts to discover the instance only once.
+  /// If this value is set to <code>true</code>, you must deregister the instance,
+  /// and then register it again.
   final bool? missingOnRds;
 
   /// The instance's ARN.
   final String? rdsDbInstanceArn;
 
-  /// The instance's AWS region.
+  /// The instance's Amazon Web Services Region.
   final String? region;
 
   /// The ID of the stack with which the instance is registered.
@@ -8673,11 +8710,11 @@ class RdsDbInstance {
   }
 }
 
-/// AWS OpsWorks Stacks supports five lifecycle events: <b>setup</b>,
+/// OpsWorks Stacks supports five lifecycle events: <b>setup</b>,
 /// <b>configuration</b>, <b>deploy</b>, <b>undeploy</b>, and <b>shutdown</b>.
-/// For each layer, AWS OpsWorks Stacks runs a set of standard recipes for each
+/// For each layer, OpsWorks Stacks runs a set of standard recipes for each
 /// event. In addition, you can provide custom recipes for any or all layers and
-/// events. AWS OpsWorks Stacks runs custom event recipes after the standard
+/// events. OpsWorks Stacks runs custom event recipes after the standard
 /// recipes. <code>LayerCustomRecipes</code> specifies the custom recipes for a
 /// particular layer to be run in response to each of the five events.
 ///
@@ -8789,7 +8826,7 @@ class RegisterElasticIpResult {
 
 /// Contains the response to a <code>RegisterInstanceResult</code> request.
 class RegisterInstanceResult {
-  /// The registered instance's AWS OpsWorks Stacks ID.
+  /// The registered instance's OpsWorks Stacks ID.
   final String? instanceId;
 
   RegisterInstanceResult({
@@ -8904,7 +8941,7 @@ class SelfUserProfile {
   }
 }
 
-/// Describes an AWS OpsWorks Stacks service error.
+/// Describes an OpsWorks Stacks service error.
 class ServiceError {
   /// When the error occurred.
   final String? createdAt;
@@ -8953,8 +8990,8 @@ class ShutdownEventConfiguration {
   /// Draining</a>
   final bool? delayUntilElbConnectionsDrained;
 
-  /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a
-  /// Shutdown event before shutting down an instance.
+  /// The time, in seconds, that OpsWorks Stacks waits after triggering a Shutdown
+  /// event before shutting down an instance.
   final int? executionTimeout;
 
   ShutdownEventConfiguration({
@@ -9004,19 +9041,19 @@ class Source {
   /// For more information on how to safely handle IAM credentials, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html">https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html</a>.
   ///
-  /// In responses, AWS OpsWorks Stacks returns <code>*****FILTERED*****</code>
+  /// In responses, OpsWorks Stacks returns <code>*****FILTERED*****</code>
   /// instead of the actual value.
   final String? password;
 
-  /// The application's version. AWS OpsWorks Stacks enables you to easily deploy
-  /// new versions of an application. One of the simplest approaches is to have
+  /// The application's version. OpsWorks Stacks enables you to easily deploy new
+  /// versions of an application. One of the simplest approaches is to have
   /// branches or revisions in your repository that represent different versions
   /// that can potentially be deployed.
   final String? revision;
 
   /// In requests, the repository's SSH key.
   ///
-  /// In responses, AWS OpsWorks Stacks returns <code>*****FILTERED*****</code>
+  /// In responses, OpsWorks Stacks returns <code>*****FILTERED*****</code>
   /// instead of the actual value.
   final String? sshKey;
 
@@ -9230,16 +9267,16 @@ class Stack {
   /// The stack host name theme, with spaces replaced by underscores.
   final String? hostnameTheme;
 
-  /// The stack name.
+  /// The stack name. Stack names can be a maximum of 64 characters.
   final String? name;
 
-  /// The stack AWS region, such as "ap-northeast-2". For more information about
-  /// AWS regions, see <a
+  /// The stack Amazon Web Services Region, such as <code>ap-northeast-2</code>.
+  /// For more information about Amazon Web Services Regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
   final String? region;
 
-  /// The stack AWS Identity and Access Management (IAM) role.
+  /// The stack Identity and Access Management (IAM) role.
   final String? serviceRoleArn;
 
   /// The stack ID.
@@ -9248,7 +9285,7 @@ class Stack {
   /// Whether the stack uses custom cookbooks.
   final bool? useCustomCookbooks;
 
-  /// Whether the stack automatically associates the AWS OpsWorks Stacks built-in
+  /// Whether the stack automatically associates the OpsWorks Stacks built-in
   /// security groups with the stack's layers.
   final bool? useOpsworksSecurityGroups;
 
@@ -9344,12 +9381,12 @@ extension StackAttributesKeysFromString on String {
 
 /// Describes the configuration manager.
 class StackConfigurationManager {
-  /// The name. This parameter must be set to "Chef".
+  /// The name. This parameter must be set to <code>Chef</code>.
   final String? name;
 
   /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux
   /// stacks, and to 12.2 for Windows stacks. The default value for Linux stacks
-  /// is 11.4.
+  /// is 12.
   final String? version;
 
   StackConfigurationManager({
@@ -9422,7 +9459,7 @@ class StackSummary {
 /// Contains the data needed by RDP clients such as the Microsoft Remote Desktop
 /// Connection to log in to the instance.
 class TemporaryCredential {
-  /// The instance's AWS OpsWorks Stacks ID.
+  /// The instance's OpsWorks Stacks ID.
   final String? instanceId;
 
   /// The password.
@@ -9433,7 +9470,7 @@ class TemporaryCredential {
 
   /// The length of time (in minutes) that the grant is valid. When the grant
   /// expires, at the end of this period, the user will no longer be able to use
-  /// the credentials to log in. If they are logged in at the time, they will be
+  /// the credentials to log in. If they are logged in at the time, they are
   /// automatically logged out.
   final int? validForInMinutes;
 
@@ -9574,13 +9611,14 @@ class Volume {
   /// The volume mount point. For example, "/mnt/disk1".
   final String? mountPoint;
 
-  /// The volume name.
+  /// The volume name. Volume names are a maximum of 128 characters.
   final String? name;
 
   /// The RAID array ID.
   final String? raidArrayId;
 
-  /// The AWS region. For more information about AWS regions, see <a
+  /// The Amazon Web Services Region. For more information about Amazon Web
+  /// Services Regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
   final String? region;
@@ -9614,12 +9652,12 @@ class Volume {
   /// </li>
   /// <li>
   /// <code>st1</code> - Throughput Optimized hard disk drive (HDD). Throughput
-  /// optimized HDD volumes must have a minimum size of 500 GiB and a maximum size
+  /// optimized HDD volumes must have a minimum size of 125 GiB and a maximum size
   /// of 16384 GiB.
   /// </li>
   /// <li>
   /// <code>sc1</code> - Cold HDD. Cold HDD volumes must have a minimum size of
-  /// 500 GiB and a maximum size of 16384 GiB.
+  /// 125 GiB and a maximum size of 16384 GiB.
   /// </li>
   /// </ul>
   final String? volumeType;
@@ -9704,12 +9742,12 @@ class VolumeConfiguration {
   /// </li>
   /// <li>
   /// <code>st1</code> - Throughput Optimized hard disk drive (HDD). Throughput
-  /// optimized HDD volumes must have a minimum size of 500 GiB and a maximum size
+  /// optimized HDD volumes must have a minimum size of 125 GiB and a maximum size
   /// of 16384 GiB.
   /// </li>
   /// <li>
   /// <code>sc1</code> - Cold HDD. Cold HDD volumes must have a minimum size of
-  /// 500 GiB and a maximum size of 16384 GiB.
+  /// 125 GiB and a maximum size of 16384 GiB.
   /// </li>
   /// </ul>
   final String? volumeType;

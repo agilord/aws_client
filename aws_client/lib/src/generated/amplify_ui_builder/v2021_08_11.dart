@@ -271,7 +271,10 @@ class AmplifyUIBuilder {
     );
   }
 
-  /// Exchanges an access code for a token.
+  /// <note>
+  /// This is for internal use.
+  /// </note>
+  /// Amplify uses this action to exchange an access code for a token.
   ///
   /// May throw [InvalidParameterException].
   ///
@@ -391,6 +394,40 @@ class AmplifyUIBuilder {
       exceptionFnMap: _exceptionFns,
     );
     return ExportThemesResponse.fromJson(response);
+  }
+
+  /// Returns an existing code generation job.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app associated with the code generation job.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app
+  /// associated with the code generation job.
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the code generation job.
+  Future<GetCodegenJobResponse> getCodegenJob({
+    required String appId,
+    required String environmentName,
+    required String id,
+  }) async {
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/codegen-jobs/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return GetCodegenJobResponse(
+      job: CodegenJob.fromJson($json),
+    );
   }
 
   /// Returns an existing component for an Amplify app.
@@ -513,6 +550,51 @@ class AmplifyUIBuilder {
     );
   }
 
+  /// Retrieves a list of code generation jobs for a specified Amplify app and
+  /// backend environment.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID for the Amplify app.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of jobs to retrieve.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ListCodegenJobsResponse> listCodegenJobs({
+    required String appId,
+    required String environmentName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/codegen-jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCodegenJobsResponse.fromJson(response);
+  }
+
   /// Retrieves a list of components for a specified Amplify app and backend
   /// environment.
   ///
@@ -601,6 +683,28 @@ class AmplifyUIBuilder {
     return ListFormsResponse.fromJson(response);
   }
 
+  /// Returns a list of tags for a specified Amazon Resource Name (ARN).
+  ///
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) to use to list tags.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
   /// Retrieves a list of themes for a specified Amplify app and backend
   /// environment.
   ///
@@ -676,7 +780,11 @@ class AmplifyUIBuilder {
     );
   }
 
-  /// Refreshes a previously issued access token that might have expired.
+  /// <note>
+  /// This is for internal use.
+  /// </note>
+  /// Amplify uses this action to refresh a previously issued access token that
+  /// might have expired.
   ///
   /// May throw [InvalidParameterException].
   ///
@@ -697,6 +805,105 @@ class AmplifyUIBuilder {
       exceptionFnMap: _exceptionFns,
     );
     return RefreshTokenResponse.fromJson(response);
+  }
+
+  /// Starts a code generation job for a specified Amplify app and backend
+  /// environment.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID for the Amplify app.
+  ///
+  /// Parameter [codegenJobToCreate] :
+  /// The code generation job resource configuration.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token used to ensure that the code generation job request
+  /// completes only once.
+  Future<StartCodegenJobResponse> startCodegenJob({
+    required String appId,
+    required StartCodegenJobData codegenJobToCreate,
+    required String environmentName,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.sendRaw(
+      payload: codegenJobToCreate,
+      method: 'POST',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/codegen-jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return StartCodegenJobResponse(
+      entity: CodegenJob.fromJson($json),
+    );
+  }
+
+  /// Tags the resource with a tag key and value.
+  ///
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) to use to tag a resource.
+  ///
+  /// Parameter [tags] :
+  /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Untags a resource with a specified Amazon Resource Name (ARN).
+  ///
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) to use to untag a resource.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys to use to untag a resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Updates an existing component.
@@ -935,6 +1142,813 @@ class ActionParameters {
       if (target != null) 'target': target,
       if (type != null) 'type': type,
       if (url != null) 'url': url,
+    };
+  }
+}
+
+/// Describes the API configuration for a code generation job.
+class ApiConfiguration {
+  /// The configuration for an application using DataStore APIs.
+  final DataStoreRenderConfig? dataStoreConfig;
+
+  /// The configuration for an application using GraphQL APIs.
+  final GraphQLRenderConfig? graphQLConfig;
+
+  /// The configuration for an application with no API being used.
+  final NoApiRenderConfig? noApiConfig;
+
+  ApiConfiguration({
+    this.dataStoreConfig,
+    this.graphQLConfig,
+    this.noApiConfig,
+  });
+
+  factory ApiConfiguration.fromJson(Map<String, dynamic> json) {
+    return ApiConfiguration(
+      dataStoreConfig: json['dataStoreConfig'] != null
+          ? DataStoreRenderConfig.fromJson(
+              json['dataStoreConfig'] as Map<String, dynamic>)
+          : null,
+      graphQLConfig: json['graphQLConfig'] != null
+          ? GraphQLRenderConfig.fromJson(
+              json['graphQLConfig'] as Map<String, dynamic>)
+          : null,
+      noApiConfig: json['noApiConfig'] != null
+          ? NoApiRenderConfig.fromJson(
+              json['noApiConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataStoreConfig = this.dataStoreConfig;
+    final graphQLConfig = this.graphQLConfig;
+    final noApiConfig = this.noApiConfig;
+    return {
+      if (dataStoreConfig != null) 'dataStoreConfig': dataStoreConfig,
+      if (graphQLConfig != null) 'graphQLConfig': graphQLConfig,
+      if (noApiConfig != null) 'noApiConfig': noApiConfig,
+    };
+  }
+}
+
+/// Dependency package that may be required for the project code to run.
+class CodegenDependency {
+  /// Determines if the dependency package is using Semantic versioning. If set to
+  /// true, it indicates that the dependency package uses Semantic versioning.
+  final bool? isSemVer;
+
+  /// Name of the dependency package.
+  final String? name;
+
+  /// Indicates the reason to include the dependency package in your project code.
+  final String? reason;
+
+  /// Indicates the version of the supported dependency package.
+  final String? supportedVersion;
+
+  CodegenDependency({
+    this.isSemVer,
+    this.name,
+    this.reason,
+    this.supportedVersion,
+  });
+
+  factory CodegenDependency.fromJson(Map<String, dynamic> json) {
+    return CodegenDependency(
+      isSemVer: json['isSemVer'] as bool?,
+      name: json['name'] as String?,
+      reason: json['reason'] as String?,
+      supportedVersion: json['supportedVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isSemVer = this.isSemVer;
+    final name = this.name;
+    final reason = this.reason;
+    final supportedVersion = this.supportedVersion;
+    return {
+      if (isSemVer != null) 'isSemVer': isSemVer,
+      if (name != null) 'name': name,
+      if (reason != null) 'reason': reason,
+      if (supportedVersion != null) 'supportedVersion': supportedVersion,
+    };
+  }
+}
+
+/// Describes the feature flags that you can specify for a code generation job.
+class CodegenFeatureFlags {
+  /// Specifies whether a code generation job supports non models.
+  final bool? isNonModelSupported;
+
+  /// Specifes whether a code generation job supports data relationships.
+  final bool? isRelationshipSupported;
+
+  CodegenFeatureFlags({
+    this.isNonModelSupported,
+    this.isRelationshipSupported,
+  });
+
+  factory CodegenFeatureFlags.fromJson(Map<String, dynamic> json) {
+    return CodegenFeatureFlags(
+      isNonModelSupported: json['isNonModelSupported'] as bool?,
+      isRelationshipSupported: json['isRelationshipSupported'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isNonModelSupported = this.isNonModelSupported;
+    final isRelationshipSupported = this.isRelationshipSupported;
+    return {
+      if (isNonModelSupported != null)
+        'isNonModelSupported': isNonModelSupported,
+      if (isRelationshipSupported != null)
+        'isRelationshipSupported': isRelationshipSupported,
+    };
+  }
+}
+
+/// Describes the enums in a generic data schema.
+class CodegenGenericDataEnum {
+  /// The list of enum values in the generic data schema.
+  final List<String> values;
+
+  CodegenGenericDataEnum({
+    required this.values,
+  });
+
+  factory CodegenGenericDataEnum.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataEnum(
+      values: (json['values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      'values': values,
+    };
+  }
+}
+
+/// Describes a field in a generic data schema.
+class CodegenGenericDataField {
+  /// The data type for the generic data field.
+  final CodegenGenericDataFieldDataType dataType;
+
+  /// The value of the data type for the generic data field.
+  final String dataTypeValue;
+
+  /// Specifies whether the generic data field is an array.
+  final bool isArray;
+
+  /// Specifies whether the generic data field is read-only.
+  final bool readOnly;
+
+  /// Specifies whether the generic data field is required.
+  final bool required;
+
+  /// The relationship of the generic data schema.
+  final CodegenGenericDataRelationshipType? relationship;
+
+  CodegenGenericDataField({
+    required this.dataType,
+    required this.dataTypeValue,
+    required this.isArray,
+    required this.readOnly,
+    required this.required,
+    this.relationship,
+  });
+
+  factory CodegenGenericDataField.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataField(
+      dataType:
+          (json['dataType'] as String).toCodegenGenericDataFieldDataType(),
+      dataTypeValue: json['dataTypeValue'] as String,
+      isArray: json['isArray'] as bool,
+      readOnly: json['readOnly'] as bool,
+      required: json['required'] as bool,
+      relationship: json['relationship'] != null
+          ? CodegenGenericDataRelationshipType.fromJson(
+              json['relationship'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final dataTypeValue = this.dataTypeValue;
+    final isArray = this.isArray;
+    final readOnly = this.readOnly;
+    final required = this.required;
+    final relationship = this.relationship;
+    return {
+      'dataType': dataType.toValue(),
+      'dataTypeValue': dataTypeValue,
+      'isArray': isArray,
+      'readOnly': readOnly,
+      'required': required,
+      if (relationship != null) 'relationship': relationship,
+    };
+  }
+}
+
+enum CodegenGenericDataFieldDataType {
+  id,
+  string,
+  int,
+  float,
+  awsDate,
+  awsTime,
+  awsDateTime,
+  awsTimestamp,
+  awsEmail,
+  awsurl,
+  awsIPAddress,
+  boolean,
+  awsjson,
+  awsPhone,
+  $enum,
+  model,
+  nonModel,
+}
+
+extension CodegenGenericDataFieldDataTypeValueExtension
+    on CodegenGenericDataFieldDataType {
+  String toValue() {
+    switch (this) {
+      case CodegenGenericDataFieldDataType.id:
+        return 'ID';
+      case CodegenGenericDataFieldDataType.string:
+        return 'String';
+      case CodegenGenericDataFieldDataType.int:
+        return 'Int';
+      case CodegenGenericDataFieldDataType.float:
+        return 'Float';
+      case CodegenGenericDataFieldDataType.awsDate:
+        return 'AWSDate';
+      case CodegenGenericDataFieldDataType.awsTime:
+        return 'AWSTime';
+      case CodegenGenericDataFieldDataType.awsDateTime:
+        return 'AWSDateTime';
+      case CodegenGenericDataFieldDataType.awsTimestamp:
+        return 'AWSTimestamp';
+      case CodegenGenericDataFieldDataType.awsEmail:
+        return 'AWSEmail';
+      case CodegenGenericDataFieldDataType.awsurl:
+        return 'AWSURL';
+      case CodegenGenericDataFieldDataType.awsIPAddress:
+        return 'AWSIPAddress';
+      case CodegenGenericDataFieldDataType.boolean:
+        return 'Boolean';
+      case CodegenGenericDataFieldDataType.awsjson:
+        return 'AWSJSON';
+      case CodegenGenericDataFieldDataType.awsPhone:
+        return 'AWSPhone';
+      case CodegenGenericDataFieldDataType.$enum:
+        return 'Enum';
+      case CodegenGenericDataFieldDataType.model:
+        return 'Model';
+      case CodegenGenericDataFieldDataType.nonModel:
+        return 'NonModel';
+    }
+  }
+}
+
+extension CodegenGenericDataFieldDataTypeFromString on String {
+  CodegenGenericDataFieldDataType toCodegenGenericDataFieldDataType() {
+    switch (this) {
+      case 'ID':
+        return CodegenGenericDataFieldDataType.id;
+      case 'String':
+        return CodegenGenericDataFieldDataType.string;
+      case 'Int':
+        return CodegenGenericDataFieldDataType.int;
+      case 'Float':
+        return CodegenGenericDataFieldDataType.float;
+      case 'AWSDate':
+        return CodegenGenericDataFieldDataType.awsDate;
+      case 'AWSTime':
+        return CodegenGenericDataFieldDataType.awsTime;
+      case 'AWSDateTime':
+        return CodegenGenericDataFieldDataType.awsDateTime;
+      case 'AWSTimestamp':
+        return CodegenGenericDataFieldDataType.awsTimestamp;
+      case 'AWSEmail':
+        return CodegenGenericDataFieldDataType.awsEmail;
+      case 'AWSURL':
+        return CodegenGenericDataFieldDataType.awsurl;
+      case 'AWSIPAddress':
+        return CodegenGenericDataFieldDataType.awsIPAddress;
+      case 'Boolean':
+        return CodegenGenericDataFieldDataType.boolean;
+      case 'AWSJSON':
+        return CodegenGenericDataFieldDataType.awsjson;
+      case 'AWSPhone':
+        return CodegenGenericDataFieldDataType.awsPhone;
+      case 'Enum':
+        return CodegenGenericDataFieldDataType.$enum;
+      case 'Model':
+        return CodegenGenericDataFieldDataType.model;
+      case 'NonModel':
+        return CodegenGenericDataFieldDataType.nonModel;
+    }
+    throw Exception(
+        '$this is not known in enum CodegenGenericDataFieldDataType');
+  }
+}
+
+/// Describes a model in a generic data schema.
+class CodegenGenericDataModel {
+  /// The fields in the generic data model.
+  final Map<String, CodegenGenericDataField> fields;
+
+  /// The primary keys of the generic data model.
+  final List<String> primaryKeys;
+
+  /// Specifies whether the generic data model is a join table.
+  final bool? isJoinTable;
+
+  CodegenGenericDataModel({
+    required this.fields,
+    required this.primaryKeys,
+    this.isJoinTable,
+  });
+
+  factory CodegenGenericDataModel.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataModel(
+      fields: (json['fields'] as Map<String, dynamic>).map((k, e) => MapEntry(
+          k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
+      primaryKeys: (json['primaryKeys'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isJoinTable: json['isJoinTable'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final primaryKeys = this.primaryKeys;
+    final isJoinTable = this.isJoinTable;
+    return {
+      'fields': fields,
+      'primaryKeys': primaryKeys,
+      if (isJoinTable != null) 'isJoinTable': isJoinTable,
+    };
+  }
+}
+
+/// Describes a non-model in a generic data schema.
+class CodegenGenericDataNonModel {
+  /// The fields in a generic data schema non model.
+  final Map<String, CodegenGenericDataField> fields;
+
+  CodegenGenericDataNonModel({
+    required this.fields,
+  });
+
+  factory CodegenGenericDataNonModel.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataNonModel(
+      fields: (json['fields'] as Map<String, dynamic>).map((k, e) => MapEntry(
+          k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    return {
+      'fields': fields,
+    };
+  }
+}
+
+/// Describes the relationship between generic data models.
+class CodegenGenericDataRelationshipType {
+  /// The name of the related model in the data relationship.
+  final String relatedModelName;
+
+  /// The data relationship type.
+  final GenericDataRelationshipType type;
+
+  /// The associated fields of the data relationship.
+  final List<String>? associatedFields;
+
+  /// The value of the <code>belongsTo</code> field on the related data model.
+  final String? belongsToFieldOnRelatedModel;
+
+  /// Specifies whether the relationship can unlink the associated model.
+  final bool? canUnlinkAssociatedModel;
+
+  /// Specifies whether the <code>@index</code> directive is supported for a
+  /// <code>hasMany</code> data relationship.
+  final bool? isHasManyIndex;
+
+  /// The name of the related join field in the data relationship.
+  final String? relatedJoinFieldName;
+
+  /// The name of the related join table in the data relationship.
+  final String? relatedJoinTableName;
+
+  /// The related model fields in the data relationship.
+  final List<String>? relatedModelFields;
+
+  CodegenGenericDataRelationshipType({
+    required this.relatedModelName,
+    required this.type,
+    this.associatedFields,
+    this.belongsToFieldOnRelatedModel,
+    this.canUnlinkAssociatedModel,
+    this.isHasManyIndex,
+    this.relatedJoinFieldName,
+    this.relatedJoinTableName,
+    this.relatedModelFields,
+  });
+
+  factory CodegenGenericDataRelationshipType.fromJson(
+      Map<String, dynamic> json) {
+    return CodegenGenericDataRelationshipType(
+      relatedModelName: json['relatedModelName'] as String,
+      type: (json['type'] as String).toGenericDataRelationshipType(),
+      associatedFields: (json['associatedFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      belongsToFieldOnRelatedModel:
+          json['belongsToFieldOnRelatedModel'] as String?,
+      canUnlinkAssociatedModel: json['canUnlinkAssociatedModel'] as bool?,
+      isHasManyIndex: json['isHasManyIndex'] as bool?,
+      relatedJoinFieldName: json['relatedJoinFieldName'] as String?,
+      relatedJoinTableName: json['relatedJoinTableName'] as String?,
+      relatedModelFields: (json['relatedModelFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relatedModelName = this.relatedModelName;
+    final type = this.type;
+    final associatedFields = this.associatedFields;
+    final belongsToFieldOnRelatedModel = this.belongsToFieldOnRelatedModel;
+    final canUnlinkAssociatedModel = this.canUnlinkAssociatedModel;
+    final isHasManyIndex = this.isHasManyIndex;
+    final relatedJoinFieldName = this.relatedJoinFieldName;
+    final relatedJoinTableName = this.relatedJoinTableName;
+    final relatedModelFields = this.relatedModelFields;
+    return {
+      'relatedModelName': relatedModelName,
+      'type': type.toValue(),
+      if (associatedFields != null) 'associatedFields': associatedFields,
+      if (belongsToFieldOnRelatedModel != null)
+        'belongsToFieldOnRelatedModel': belongsToFieldOnRelatedModel,
+      if (canUnlinkAssociatedModel != null)
+        'canUnlinkAssociatedModel': canUnlinkAssociatedModel,
+      if (isHasManyIndex != null) 'isHasManyIndex': isHasManyIndex,
+      if (relatedJoinFieldName != null)
+        'relatedJoinFieldName': relatedJoinFieldName,
+      if (relatedJoinTableName != null)
+        'relatedJoinTableName': relatedJoinTableName,
+      if (relatedModelFields != null) 'relatedModelFields': relatedModelFields,
+    };
+  }
+}
+
+/// Describes the configuration for a code generation job that is associated
+/// with an Amplify app.
+class CodegenJob {
+  /// The ID of the Amplify app associated with the code generation job.
+  final String appId;
+
+  /// The name of the backend environment associated with the code generation job.
+  final String environmentName;
+
+  /// The unique ID for the code generation job.
+  final String id;
+
+  /// The <code>CodegenJobAsset</code> to use for the code generation job.
+  final CodegenJobAsset? asset;
+
+  /// Specifies whether to autogenerate forms in the code generation job.
+  final bool? autoGenerateForms;
+
+  /// The time that the code generation job was created.
+  final DateTime? createdAt;
+
+  /// Lists the dependency packages that may be required for the project code to
+  /// run.
+  final List<CodegenDependency>? dependencies;
+  final CodegenFeatureFlags? features;
+  final CodegenJobGenericDataSchema? genericDataSchema;
+
+  /// The time that the code generation job was modified.
+  final DateTime? modifiedAt;
+  final CodegenJobRenderConfig? renderConfig;
+
+  /// The status of the code generation job.
+  final CodegenJobStatus? status;
+
+  /// The customized status message for the code generation job.
+  final String? statusMessage;
+
+  /// One or more key-value pairs to use when tagging the code generation job.
+  final Map<String, String>? tags;
+
+  CodegenJob({
+    required this.appId,
+    required this.environmentName,
+    required this.id,
+    this.asset,
+    this.autoGenerateForms,
+    this.createdAt,
+    this.dependencies,
+    this.features,
+    this.genericDataSchema,
+    this.modifiedAt,
+    this.renderConfig,
+    this.status,
+    this.statusMessage,
+    this.tags,
+  });
+
+  factory CodegenJob.fromJson(Map<String, dynamic> json) {
+    return CodegenJob(
+      appId: json['appId'] as String,
+      environmentName: json['environmentName'] as String,
+      id: json['id'] as String,
+      asset: json['asset'] != null
+          ? CodegenJobAsset.fromJson(json['asset'] as Map<String, dynamic>)
+          : null,
+      autoGenerateForms: json['autoGenerateForms'] as bool?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      dependencies: (json['dependencies'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodegenDependency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      features: json['features'] != null
+          ? CodegenFeatureFlags.fromJson(
+              json['features'] as Map<String, dynamic>)
+          : null,
+      genericDataSchema: json['genericDataSchema'] != null
+          ? CodegenJobGenericDataSchema.fromJson(
+              json['genericDataSchema'] as Map<String, dynamic>)
+          : null,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      renderConfig: json['renderConfig'] != null
+          ? CodegenJobRenderConfig.fromJson(
+              json['renderConfig'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toCodegenJobStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final asset = this.asset;
+    final autoGenerateForms = this.autoGenerateForms;
+    final createdAt = this.createdAt;
+    final dependencies = this.dependencies;
+    final features = this.features;
+    final genericDataSchema = this.genericDataSchema;
+    final modifiedAt = this.modifiedAt;
+    final renderConfig = this.renderConfig;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    return {
+      'appId': appId,
+      'environmentName': environmentName,
+      'id': id,
+      if (asset != null) 'asset': asset,
+      if (autoGenerateForms != null) 'autoGenerateForms': autoGenerateForms,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (dependencies != null) 'dependencies': dependencies,
+      if (features != null) 'features': features,
+      if (genericDataSchema != null) 'genericDataSchema': genericDataSchema,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (renderConfig != null) 'renderConfig': renderConfig,
+      if (status != null) 'status': status.toValue(),
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Describes an asset for a code generation job.
+class CodegenJobAsset {
+  /// The URL to use to access the asset.
+  final String? downloadUrl;
+
+  CodegenJobAsset({
+    this.downloadUrl,
+  });
+
+  factory CodegenJobAsset.fromJson(Map<String, dynamic> json) {
+    return CodegenJobAsset(
+      downloadUrl: json['downloadUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final downloadUrl = this.downloadUrl;
+    return {
+      if (downloadUrl != null) 'downloadUrl': downloadUrl,
+    };
+  }
+}
+
+/// Describes the data schema for a code generation job.
+class CodegenJobGenericDataSchema {
+  /// The type of the data source for the schema. Currently, the only valid value
+  /// is an Amplify <code>DataStore</code>.
+  final CodegenJobGenericDataSourceType dataSourceType;
+
+  /// The name of a <code>CodegenGenericDataEnum</code>.
+  final Map<String, CodegenGenericDataEnum> enums;
+
+  /// The name of a <code>CodegenGenericDataModel</code>.
+  final Map<String, CodegenGenericDataModel> models;
+
+  /// The name of a <code>CodegenGenericDataNonModel</code>.
+  final Map<String, CodegenGenericDataNonModel> nonModels;
+
+  CodegenJobGenericDataSchema({
+    required this.dataSourceType,
+    required this.enums,
+    required this.models,
+    required this.nonModels,
+  });
+
+  factory CodegenJobGenericDataSchema.fromJson(Map<String, dynamic> json) {
+    return CodegenJobGenericDataSchema(
+      dataSourceType: (json['dataSourceType'] as String)
+          .toCodegenJobGenericDataSourceType(),
+      enums: (json['enums'] as Map<String, dynamic>).map((k, e) => MapEntry(
+          k, CodegenGenericDataEnum.fromJson(e as Map<String, dynamic>))),
+      models: (json['models'] as Map<String, dynamic>).map((k, e) => MapEntry(
+          k, CodegenGenericDataModel.fromJson(e as Map<String, dynamic>))),
+      nonModels: (json['nonModels'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k,
+              CodegenGenericDataNonModel.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceType = this.dataSourceType;
+    final enums = this.enums;
+    final models = this.models;
+    final nonModels = this.nonModels;
+    return {
+      'dataSourceType': dataSourceType.toValue(),
+      'enums': enums,
+      'models': models,
+      'nonModels': nonModels,
+    };
+  }
+}
+
+enum CodegenJobGenericDataSourceType {
+  dataStore,
+}
+
+extension CodegenJobGenericDataSourceTypeValueExtension
+    on CodegenJobGenericDataSourceType {
+  String toValue() {
+    switch (this) {
+      case CodegenJobGenericDataSourceType.dataStore:
+        return 'DataStore';
+    }
+  }
+}
+
+extension CodegenJobGenericDataSourceTypeFromString on String {
+  CodegenJobGenericDataSourceType toCodegenJobGenericDataSourceType() {
+    switch (this) {
+      case 'DataStore':
+        return CodegenJobGenericDataSourceType.dataStore;
+    }
+    throw Exception(
+        '$this is not known in enum CodegenJobGenericDataSourceType');
+  }
+}
+
+/// Describes the configuration information for rendering the UI component
+/// associated with the code generation job.
+class CodegenJobRenderConfig {
+  /// The name of the <code>ReactStartCodegenJobData</code> object.
+  final ReactStartCodegenJobData? react;
+
+  CodegenJobRenderConfig({
+    this.react,
+  });
+
+  factory CodegenJobRenderConfig.fromJson(Map<String, dynamic> json) {
+    return CodegenJobRenderConfig(
+      react: json['react'] != null
+          ? ReactStartCodegenJobData.fromJson(
+              json['react'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final react = this.react;
+    return {
+      if (react != null) 'react': react,
+    };
+  }
+}
+
+enum CodegenJobStatus {
+  inProgress,
+  failed,
+  succeeded,
+}
+
+extension CodegenJobStatusValueExtension on CodegenJobStatus {
+  String toValue() {
+    switch (this) {
+      case CodegenJobStatus.inProgress:
+        return 'in_progress';
+      case CodegenJobStatus.failed:
+        return 'failed';
+      case CodegenJobStatus.succeeded:
+        return 'succeeded';
+    }
+  }
+}
+
+extension CodegenJobStatusFromString on String {
+  CodegenJobStatus toCodegenJobStatus() {
+    switch (this) {
+      case 'in_progress':
+        return CodegenJobStatus.inProgress;
+      case 'failed':
+        return CodegenJobStatus.failed;
+      case 'succeeded':
+        return CodegenJobStatus.succeeded;
+    }
+    throw Exception('$this is not known in enum CodegenJobStatus');
+  }
+}
+
+/// A summary of the basic information about the code generation job.
+class CodegenJobSummary {
+  /// The unique ID of the Amplify app associated with the code generation job.
+  final String appId;
+
+  /// The name of the backend environment associated with the code generation job.
+  final String environmentName;
+
+  /// The unique ID for the code generation job summary.
+  final String id;
+
+  /// The time that the code generation job summary was created.
+  final DateTime? createdAt;
+
+  /// The time that the code generation job summary was modified.
+  final DateTime? modifiedAt;
+
+  CodegenJobSummary({
+    required this.appId,
+    required this.environmentName,
+    required this.id,
+    this.createdAt,
+    this.modifiedAt,
+  });
+
+  factory CodegenJobSummary.fromJson(Map<String, dynamic> json) {
+    return CodegenJobSummary(
+      appId: json['appId'] as String,
+      environmentName: json['environmentName'] as String,
+      id: json['id'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final createdAt = this.createdAt;
+    final modifiedAt = this.modifiedAt;
+    return {
+      'appId': appId,
+      'environmentName': environmentName,
+      'id': id,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
     };
   }
 }
@@ -1977,6 +2991,19 @@ class CreateThemeResponse {
     return {
       if (entity != null) 'entity': entity,
     };
+  }
+}
+
+/// Describes the DataStore configuration for an API for a code generation job.
+class DataStoreRenderConfig {
+  DataStoreRenderConfig();
+
+  factory DataStoreRenderConfig.fromJson(Map<String, dynamic> _) {
+    return DataStoreRenderConfig();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -3166,6 +4193,56 @@ class FormSummary {
   }
 }
 
+enum GenericDataRelationshipType {
+  hasMany,
+  hasOne,
+  belongsTo,
+}
+
+extension GenericDataRelationshipTypeValueExtension
+    on GenericDataRelationshipType {
+  String toValue() {
+    switch (this) {
+      case GenericDataRelationshipType.hasMany:
+        return 'HAS_MANY';
+      case GenericDataRelationshipType.hasOne:
+        return 'HAS_ONE';
+      case GenericDataRelationshipType.belongsTo:
+        return 'BELONGS_TO';
+    }
+  }
+}
+
+extension GenericDataRelationshipTypeFromString on String {
+  GenericDataRelationshipType toGenericDataRelationshipType() {
+    switch (this) {
+      case 'HAS_MANY':
+        return GenericDataRelationshipType.hasMany;
+      case 'HAS_ONE':
+        return GenericDataRelationshipType.hasOne;
+      case 'BELONGS_TO':
+        return GenericDataRelationshipType.belongsTo;
+    }
+    throw Exception('$this is not known in enum GenericDataRelationshipType');
+  }
+}
+
+class GetCodegenJobResponse {
+  /// The configuration settings for the code generation job.
+  final CodegenJob? job;
+
+  GetCodegenJobResponse({
+    this.job,
+  });
+
+  Map<String, dynamic> toJson() {
+    final job = this.job;
+    return {
+      if (job != null) 'job': job,
+    };
+  }
+}
+
 class GetComponentResponse {
   /// Represents the configuration settings for the component.
   final Component? component;
@@ -3237,6 +4314,151 @@ class GetThemeResponse {
   }
 }
 
+/// Describes the GraphQL configuration for an API for a code generation job.
+class GraphQLRenderConfig {
+  /// The path to the GraphQL fragments file, relative to the component output
+  /// directory.
+  final String fragmentsFilePath;
+
+  /// The path to the GraphQL mutations file, relative to the component output
+  /// directory.
+  final String mutationsFilePath;
+
+  /// The path to the GraphQL queries file, relative to the component output
+  /// directory.
+  final String queriesFilePath;
+
+  /// The path to the GraphQL subscriptions file, relative to the component output
+  /// directory.
+  final String subscriptionsFilePath;
+
+  /// The path to the GraphQL types file, relative to the component output
+  /// directory.
+  final String typesFilePath;
+
+  GraphQLRenderConfig({
+    required this.fragmentsFilePath,
+    required this.mutationsFilePath,
+    required this.queriesFilePath,
+    required this.subscriptionsFilePath,
+    required this.typesFilePath,
+  });
+
+  factory GraphQLRenderConfig.fromJson(Map<String, dynamic> json) {
+    return GraphQLRenderConfig(
+      fragmentsFilePath: json['fragmentsFilePath'] as String,
+      mutationsFilePath: json['mutationsFilePath'] as String,
+      queriesFilePath: json['queriesFilePath'] as String,
+      subscriptionsFilePath: json['subscriptionsFilePath'] as String,
+      typesFilePath: json['typesFilePath'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentsFilePath = this.fragmentsFilePath;
+    final mutationsFilePath = this.mutationsFilePath;
+    final queriesFilePath = this.queriesFilePath;
+    final subscriptionsFilePath = this.subscriptionsFilePath;
+    final typesFilePath = this.typesFilePath;
+    return {
+      'fragmentsFilePath': fragmentsFilePath,
+      'mutationsFilePath': mutationsFilePath,
+      'queriesFilePath': queriesFilePath,
+      'subscriptionsFilePath': subscriptionsFilePath,
+      'typesFilePath': typesFilePath,
+    };
+  }
+}
+
+enum JSModule {
+  es2020,
+  esnext,
+}
+
+extension JSModuleValueExtension on JSModule {
+  String toValue() {
+    switch (this) {
+      case JSModule.es2020:
+        return 'es2020';
+      case JSModule.esnext:
+        return 'esnext';
+    }
+  }
+}
+
+extension JSModuleFromString on String {
+  JSModule toJSModule() {
+    switch (this) {
+      case 'es2020':
+        return JSModule.es2020;
+      case 'esnext':
+        return JSModule.esnext;
+    }
+    throw Exception('$this is not known in enum JSModule');
+  }
+}
+
+enum JSScript {
+  jsx,
+  tsx,
+  js,
+}
+
+extension JSScriptValueExtension on JSScript {
+  String toValue() {
+    switch (this) {
+      case JSScript.jsx:
+        return 'jsx';
+      case JSScript.tsx:
+        return 'tsx';
+      case JSScript.js:
+        return 'js';
+    }
+  }
+}
+
+extension JSScriptFromString on String {
+  JSScript toJSScript() {
+    switch (this) {
+      case 'jsx':
+        return JSScript.jsx;
+      case 'tsx':
+        return JSScript.tsx;
+      case 'js':
+        return JSScript.js;
+    }
+    throw Exception('$this is not known in enum JSScript');
+  }
+}
+
+enum JSTarget {
+  es2015,
+  es2020,
+}
+
+extension JSTargetValueExtension on JSTarget {
+  String toValue() {
+    switch (this) {
+      case JSTarget.es2015:
+        return 'es2015';
+      case JSTarget.es2020:
+        return 'es2020';
+    }
+  }
+}
+
+extension JSTargetFromString on String {
+  JSTarget toJSTarget() {
+    switch (this) {
+      case 'es2015':
+        return JSTarget.es2015;
+      case 'es2020':
+        return JSTarget.es2020;
+    }
+    throw Exception('$this is not known in enum JSTarget');
+  }
+}
+
 enum LabelDecorator {
   required,
   optional,
@@ -3267,6 +4489,38 @@ extension LabelDecoratorFromString on String {
         return LabelDecorator.none;
     }
     throw Exception('$this is not known in enum LabelDecorator');
+  }
+}
+
+class ListCodegenJobsResponse {
+  /// The list of code generation jobs for the Amplify app.
+  final List<CodegenJobSummary> entities;
+
+  /// The pagination token that's included if more results are available.
+  final String? nextToken;
+
+  ListCodegenJobsResponse({
+    required this.entities,
+    this.nextToken,
+  });
+
+  factory ListCodegenJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCodegenJobsResponse(
+      entities: (json['entities'] as List)
+          .whereNotNull()
+          .map((e) => CodegenJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      'entities': entities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
   }
 }
 
@@ -3330,6 +4584,29 @@ class ListFormsResponse {
     return {
       'entities': entities,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
+  final Map<String, String> tags;
+
+  ListTagsForResourceResponse({
+    required this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      'tags': tags,
     };
   }
 }
@@ -3401,6 +4678,19 @@ class MutationActionSetStateParameter {
       'property': property,
       'set': set,
     };
+  }
+}
+
+/// Describes the configuration for an application with no API being used.
+class NoApiRenderConfig {
+  NoApiRenderConfig();
+
+  factory NoApiRenderConfig.fromJson(Map<String, dynamic> _) {
+    return NoApiRenderConfig();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -3482,6 +4772,78 @@ class PutMetadataFlagBody {
     final newValue = this.newValue;
     return {
       'newValue': newValue,
+    };
+  }
+}
+
+/// Describes the code generation job configuration for a React project.
+class ReactStartCodegenJobData {
+  /// The API configuration for the code generation job.
+  final ApiConfiguration? apiConfiguration;
+
+  /// Lists the dependency packages that may be required for the project code to
+  /// run.
+  final Map<String, String>? dependencies;
+
+  /// Specifies whether the code generation job should render inline source maps.
+  final bool? inlineSourceMap;
+
+  /// The JavaScript module type.
+  final JSModule? module;
+
+  /// Specifies whether the code generation job should render type declaration
+  /// files.
+  final bool? renderTypeDeclarations;
+
+  /// The file type to use for a JavaScript project.
+  final JSScript? script;
+
+  /// The ECMAScript specification to use.
+  final JSTarget? target;
+
+  ReactStartCodegenJobData({
+    this.apiConfiguration,
+    this.dependencies,
+    this.inlineSourceMap,
+    this.module,
+    this.renderTypeDeclarations,
+    this.script,
+    this.target,
+  });
+
+  factory ReactStartCodegenJobData.fromJson(Map<String, dynamic> json) {
+    return ReactStartCodegenJobData(
+      apiConfiguration: json['apiConfiguration'] != null
+          ? ApiConfiguration.fromJson(
+              json['apiConfiguration'] as Map<String, dynamic>)
+          : null,
+      dependencies: (json['dependencies'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      inlineSourceMap: json['inlineSourceMap'] as bool?,
+      module: (json['module'] as String?)?.toJSModule(),
+      renderTypeDeclarations: json['renderTypeDeclarations'] as bool?,
+      script: (json['script'] as String?)?.toJSScript(),
+      target: (json['target'] as String?)?.toJSTarget(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiConfiguration = this.apiConfiguration;
+    final dependencies = this.dependencies;
+    final inlineSourceMap = this.inlineSourceMap;
+    final module = this.module;
+    final renderTypeDeclarations = this.renderTypeDeclarations;
+    final script = this.script;
+    final target = this.target;
+    return {
+      if (apiConfiguration != null) 'apiConfiguration': apiConfiguration,
+      if (dependencies != null) 'dependencies': dependencies,
+      if (inlineSourceMap != null) 'inlineSourceMap': inlineSourceMap,
+      if (module != null) 'module': module.toValue(),
+      if (renderTypeDeclarations != null)
+        'renderTypeDeclarations': renderTypeDeclarations,
+      if (script != null) 'script': script.toValue(),
+      if (target != null) 'target': target.toValue(),
     };
   }
 }
@@ -3664,6 +5026,65 @@ class SortProperty {
   }
 }
 
+/// The code generation job resource configuration.
+class StartCodegenJobData {
+  /// The code generation configuration for the codegen job.
+  final CodegenJobRenderConfig renderConfig;
+
+  /// Specifies whether to autogenerate forms in the code generation job.
+  final bool? autoGenerateForms;
+
+  /// The feature flags for a code generation job.
+  final CodegenFeatureFlags? features;
+
+  /// The data schema to use for a code generation job.
+  final CodegenJobGenericDataSchema? genericDataSchema;
+
+  /// One or more key-value pairs to use when tagging the code generation job
+  /// data.
+  final Map<String, String>? tags;
+
+  StartCodegenJobData({
+    required this.renderConfig,
+    this.autoGenerateForms,
+    this.features,
+    this.genericDataSchema,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final renderConfig = this.renderConfig;
+    final autoGenerateForms = this.autoGenerateForms;
+    final features = this.features;
+    final genericDataSchema = this.genericDataSchema;
+    final tags = this.tags;
+    return {
+      'renderConfig': renderConfig,
+      if (autoGenerateForms != null) 'autoGenerateForms': autoGenerateForms,
+      if (features != null) 'features': features,
+      if (genericDataSchema != null) 'genericDataSchema': genericDataSchema,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class StartCodegenJobResponse {
+  /// The code generation job for a UI component that is associated with an
+  /// Amplify app.
+  final CodegenJob? entity;
+
+  StartCodegenJobResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
 enum StorageAccessLevel {
   public,
   protected,
@@ -3694,6 +5115,18 @@ extension StorageAccessLevelFromString on String {
         return StorageAccessLevel.private;
     }
     throw Exception('$this is not known in enum StorageAccessLevel');
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -3913,6 +5346,18 @@ extension TokenProvidersFromString on String {
         return TokenProviders.figma;
     }
     throw Exception('$this is not known in enum TokenProviders');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -4255,6 +5700,11 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
+}
+
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
@@ -4271,6 +5721,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
   'UnauthorizedException': (type, message) =>
       UnauthorizedException(type: type, message: message),
 };

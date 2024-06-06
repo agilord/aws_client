@@ -119,6 +119,40 @@ class MigrationHubConfig {
     return CreateHomeRegionControlResult.fromJson(jsonResponse.body);
   }
 
+  /// This operation deletes the home region configuration for the calling
+  /// account. The operation does not delete discovery or migration tracking
+  /// data in the home region.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [controlId] :
+  /// A unique identifier that's generated for each home region control. It's
+  /// always a string that begins with "hrc-" followed by 12 lowercase letters
+  /// and numbers.
+  Future<void> deleteHomeRegionControl({
+    required String controlId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSMigrationHubMultiAccountService.DeleteHomeRegionControl'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ControlId': controlId,
+      },
+    );
+  }
+
   /// This API permits filtering on the <code>ControlId</code> and
   /// <code>HomeRegion</code> fields.
   ///
@@ -235,6 +269,18 @@ class CreateHomeRegionControlResult {
     return {
       if (homeRegionControl != null) 'HomeRegionControl': homeRegionControl,
     };
+  }
+}
+
+class DeleteHomeRegionControlResult {
+  DeleteHomeRegionControlResult();
+
+  factory DeleteHomeRegionControlResult.fromJson(Map<String, dynamic> _) {
+    return DeleteHomeRegionControlResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 

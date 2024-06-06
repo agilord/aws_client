@@ -441,6 +441,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "CacheSubnetGroup", "locationName": "CacheSubnetGroup"},
     "flattened": false
   },
+  "CacheUsageLimits": {
+    "type": "structure",
+    "members": {
+      "DataStorage": {"shape": "DataStorage", "flattened": false},
+      "ECPUPerSecond": {"shape": "ECPUPerSecond", "flattened": false}
+    },
+    "flattened": false
+  },
   "ChangeType": {"type": "string", "flattened": false},
   "CloudWatchLogsDestinationDetails": {
     "type": "structure",
@@ -481,6 +489,32 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "PreferredOutpostArns": {
         "shape": "PreferredOutpostArnList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "CopyServerlessCacheSnapshotRequest": {
+    "type": "structure",
+    "members": {
+      "SourceServerlessCacheSnapshotName": {
+        "shape": "String",
+        "flattened": false
+      },
+      "TargetServerlessCacheSnapshotName": {
+        "shape": "String",
+        "flattened": false
+      },
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CopyServerlessCacheSnapshotResponse": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshot": {
+        "shape": "ServerlessCacheSnapshot",
         "flattened": false
       }
     },
@@ -713,7 +747,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "TransitEncryptionMode",
         "flattened": false
       },
-      "ClusterMode": {"shape": "ClusterMode", "flattened": false}
+      "ClusterMode": {"shape": "ClusterMode", "flattened": false},
+      "ServerlessCacheSnapshotName": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -721,6 +756,58 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "ReplicationGroup": {"shape": "ReplicationGroup", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateServerlessCacheRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "Description": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "String", "flattened": false},
+      "MajorEngineVersion": {"shape": "String", "flattened": false},
+      "CacheUsageLimits": {"shape": "CacheUsageLimits", "flattened": false},
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "SecurityGroupIds": {"shape": "SecurityGroupIdsList", "flattened": false},
+      "SnapshotArnsToRestore": {
+        "shape": "SnapshotArnsList",
+        "flattened": false
+      },
+      "Tags": {"shape": "TagList", "flattened": false},
+      "UserGroupId": {"shape": "String", "flattened": false},
+      "SubnetIds": {"shape": "SubnetIdsList", "flattened": false},
+      "SnapshotRetentionLimit": {
+        "shape": "IntegerOptional",
+        "flattened": false
+      },
+      "DailySnapshotTime": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateServerlessCacheResponse": {
+    "type": "structure",
+    "members": {
+      "ServerlessCache": {"shape": "ServerlessCache", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateServerlessCacheSnapshotRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshotName": {"shape": "String", "flattened": false},
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateServerlessCacheSnapshotResponse": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshot": {
+        "shape": "ServerlessCacheSnapshot",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -779,6 +866,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "CustomerNodeEndpoint"},
     "flattened": false
   },
+  "DataStorage": {
+    "type": "structure",
+    "members": {
+      "Maximum": {"shape": "IntegerOptional", "flattened": false},
+      "Minimum": {"shape": "IntegerOptional", "flattened": false},
+      "Unit": {"shape": "DataStorageUnit", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DataStorageUnit": {"type": "string", "flattened": false},
   "DataTieringStatus": {"type": "string", "flattened": false},
   "DecreaseNodeGroupsInGlobalReplicationGroupMessage": {
     "type": "structure",
@@ -895,6 +992,38 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "ReplicationGroup": {"shape": "ReplicationGroup", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteServerlessCacheRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "FinalSnapshotName": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteServerlessCacheResponse": {
+    "type": "structure",
+    "members": {
+      "ServerlessCache": {"shape": "ServerlessCache", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteServerlessCacheSnapshotRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshotName": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteServerlessCacheSnapshotResponse": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshot": {
+        "shape": "ServerlessCacheSnapshot",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1075,6 +1204,45 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeServerlessCacheSnapshotsRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "ServerlessCacheSnapshotName": {"shape": "String", "flattened": false},
+      "SnapshotType": {"shape": "String", "flattened": false},
+      "NextToken": {"shape": "String", "flattened": false},
+      "MaxResults": {"shape": "IntegerOptional", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeServerlessCacheSnapshotsResponse": {
+    "type": "structure",
+    "members": {
+      "NextToken": {"shape": "String", "flattened": false},
+      "ServerlessCacheSnapshots": {
+        "shape": "ServerlessCacheSnapshotList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribeServerlessCachesRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "MaxResults": {"shape": "IntegerOptional", "flattened": false},
+      "NextToken": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeServerlessCachesResponse": {
+    "type": "structure",
+    "members": {
+      "NextToken": {"shape": "String", "flattened": false},
+      "ServerlessCaches": {"shape": "ServerlessCacheList", "flattened": false}
+    },
+    "flattened": false
+  },
   "DescribeServiceUpdatesMessage": {
     "type": "structure",
     "members": {
@@ -1225,6 +1393,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "EC2SecurityGroup", "locationName": "EC2SecurityGroup"},
     "flattened": false
   },
+  "ECPUPerSecond": {
+    "type": "structure",
+    "members": {
+      "Maximum": {"shape": "IntegerOptional", "flattened": false},
+      "Minimum": {"shape": "IntegerOptional", "flattened": false}
+    },
+    "flattened": false
+  },
   "Endpoint": {
     "type": "structure",
     "members": {
@@ -1267,6 +1443,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Marker": {"shape": "String", "flattened": false},
       "Events": {"shape": "EventList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ExportServerlessCacheSnapshotRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshotName": {"shape": "String", "flattened": false},
+      "S3BucketName": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ExportServerlessCacheSnapshotResponse": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshot": {
+        "shape": "ServerlessCacheSnapshot",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1714,6 +1908,30 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "ReplicationGroup": {"shape": "ReplicationGroup", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ModifyServerlessCacheRequest": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "Description": {"shape": "String", "flattened": false},
+      "CacheUsageLimits": {"shape": "CacheUsageLimits", "flattened": false},
+      "RemoveUserGroup": {"shape": "BooleanOptional", "flattened": false},
+      "UserGroupId": {"shape": "String", "flattened": false},
+      "SecurityGroupIds": {"shape": "SecurityGroupIdsList", "flattened": false},
+      "SnapshotRetentionLimit": {
+        "shape": "IntegerOptional",
+        "flattened": false
+      },
+      "DailySnapshotTime": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ModifyServerlessCacheResponse": {
+    "type": "structure",
+    "members": {
+      "ServerlessCache": {"shape": "ServerlessCache", "flattened": false}
     },
     "flattened": false
   },
@@ -2373,6 +2591,72 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "SecurityGroupMembership"},
     "flattened": false
   },
+  "ServerlessCache": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "Description": {"shape": "String", "flattened": false},
+      "CreateTime": {"shape": "TStamp", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "String", "flattened": false},
+      "MajorEngineVersion": {"shape": "String", "flattened": false},
+      "FullEngineVersion": {"shape": "String", "flattened": false},
+      "CacheUsageLimits": {"shape": "CacheUsageLimits", "flattened": false},
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "SecurityGroupIds": {"shape": "SecurityGroupIdsList", "flattened": false},
+      "Endpoint": {"shape": "Endpoint", "flattened": false},
+      "ReaderEndpoint": {"shape": "Endpoint", "flattened": false},
+      "ARN": {"shape": "String", "flattened": false},
+      "UserGroupId": {"shape": "String", "flattened": false},
+      "SubnetIds": {"shape": "SubnetIdsList", "flattened": false},
+      "SnapshotRetentionLimit": {
+        "shape": "IntegerOptional",
+        "flattened": false
+      },
+      "DailySnapshotTime": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ServerlessCacheConfiguration": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheName": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "String", "flattened": false},
+      "MajorEngineVersion": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ServerlessCacheList": {
+    "type": "list",
+    "member": {"shape": "ServerlessCache"},
+    "flattened": false
+  },
+  "ServerlessCacheSnapshot": {
+    "type": "structure",
+    "members": {
+      "ServerlessCacheSnapshotName": {"shape": "String", "flattened": false},
+      "ARN": {"shape": "String", "flattened": false},
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "SnapshotType": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "CreateTime": {"shape": "TStamp", "flattened": false},
+      "ExpiryTime": {"shape": "TStamp", "flattened": false},
+      "BytesUsedForCache": {"shape": "String", "flattened": false},
+      "ServerlessCacheConfiguration": {
+        "shape": "ServerlessCacheConfiguration",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ServerlessCacheSnapshotList": {
+    "type": "list",
+    "member": {
+      "shape": "ServerlessCacheSnapshot",
+      "locationName": "ServerlessCacheSnapshot"
+    },
+    "flattened": false
+  },
   "ServiceUpdate": {
     "type": "structure",
     "members": {
@@ -2520,6 +2804,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "String", "locationName": "SubnetIdentifier"},
     "flattened": false
   },
+  "SubnetIdsList": {
+    "type": "list",
+    "member": {"shape": "String", "locationName": "SubnetId"},
+    "flattened": false
+  },
   "SubnetList": {
     "type": "list",
     "member": {"shape": "Subnet", "locationName": "Subnet"},
@@ -2568,6 +2857,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "TestMigrationMessage": {
+    "type": "structure",
+    "members": {
+      "ReplicationGroupId": {"shape": "String", "flattened": false},
+      "CustomerNodeEndpointList": {
+        "shape": "CustomerNodeEndpointList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "TestMigrationResponse": {
+    "type": "structure",
+    "members": {
+      "ReplicationGroup": {"shape": "ReplicationGroup", "flattened": false}
+    },
+    "flattened": false
+  },
   "TimeRangeFilter": {
     "type": "structure",
     "members": {
@@ -2578,6 +2885,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "TransitEncryptionMode": {"type": "string", "flattened": false},
   "UGReplicationGroupIdList": {
+    "type": "list",
+    "member": {"shape": "String"},
+    "flattened": false
+  },
+  "UGServerlessCacheIdList": {
     "type": "list",
     "member": {"shape": "String"},
     "flattened": false
@@ -2701,6 +3013,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "ReplicationGroups": {
         "shape": "UGReplicationGroupIdList",
+        "flattened": false
+      },
+      "ServerlessCaches": {
+        "shape": "UGServerlessCacheIdList",
         "flattened": false
       },
       "ARN": {"shape": "String", "flattened": false}

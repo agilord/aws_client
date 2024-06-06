@@ -124,15 +124,43 @@ class Private5G {
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
   /// to ensure idempotency</a>.
+  ///
+  /// Parameter [commitmentConfiguration] :
+  /// Determines the duration and renewal status of the commitment period for
+  /// all pending radio units.
+  ///
+  /// If you include <code>commitmentConfiguration</code> in the
+  /// <code>ActivateNetworkSiteRequest</code> action, you must specify the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The commitment period for the radio unit. You can choose a 60-day, 1-year,
+  /// or 3-year period.
+  /// </li>
+  /// <li>
+  /// Whether you want your commitment period to automatically renew for one
+  /// more year after your current commitment period expires.
+  /// </li>
+  /// </ul>
+  /// For pricing, see <a href="http://aws.amazon.com/private5g/pricing">Amazon
+  /// Web Services Private 5G Pricing</a>.
+  ///
+  /// If you do not include <code>commitmentConfiguration</code> in the
+  /// <code>ActivateNetworkSiteRequest</code> action, the commitment period is
+  /// set to 60-days.
   Future<ActivateNetworkSiteResponse> activateNetworkSite({
     required String networkSiteArn,
     required Address shippingAddress,
     String? clientToken,
+    CommitmentConfiguration? commitmentConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'networkSiteArn': networkSiteArn,
       'shippingAddress': shippingAddress,
       if (clientToken != null) 'clientToken': clientToken,
+      if (commitmentConfiguration != null)
+        'commitmentConfiguration': commitmentConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -853,13 +881,26 @@ class Private5G {
     return PingResponse.fromJson(response);
   }
 
-  /// Starts an update of the specified network resource.
+  /// Use this action to do the following tasks:
   ///
+  /// <ul>
+  /// <li>
+  /// Update the duration and renewal status of the commitment period for a
+  /// radio unit. The update goes into effect immediately.
+  /// </li>
+  /// <li>
+  /// Request a replacement for a network resource.
+  /// </li>
+  /// <li>
+  /// Request that you return a network resource.
+  /// </li>
+  /// </ul>
   /// After you submit a request to replace or return a network resource, the
-  /// status of the network resource is <code>CREATING_SHIPPING_LABEL</code>.
-  /// The shipping label is available when the status of the network resource is
-  /// <code>PENDING_RETURN</code>. After the network resource is successfully
-  /// returned, its status is <code>DELETED</code>. For more information, see <a
+  /// status of the network resource changes to
+  /// <code>CREATING_SHIPPING_LABEL</code>. The shipping label is available when
+  /// the status of the network resource is <code>PENDING_RETURN</code>. After
+  /// the network resource is successfully returned, its status changes to
+  /// <code>DELETED</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html#return-radio-unit">Return
   /// a radio unit</a>.
   ///
@@ -880,11 +921,51 @@ class Private5G {
   /// and we ship a replacement radio unit to you.
   /// </li>
   /// <li>
-  /// <code>RETURN</code> - Submits a request to replace a radio unit that you
-  /// no longer need. We provide a shipping label that you can use for the
-  /// return process.
+  /// <code>RETURN</code> - Submits a request to return a radio unit that you no
+  /// longer need. We provide a shipping label that you can use for the return
+  /// process.
+  /// </li>
+  /// <li>
+  /// <code>COMMITMENT</code> - Submits a request to change or renew the
+  /// commitment period. If you choose this value, then you must set <a
+  /// href="https://docs.aws.amazon.com/private-networks/latest/APIReference/API_StartNetworkResourceUpdate.html#privatenetworks-StartNetworkResourceUpdate-request-commitmentConfiguration">
+  /// <code>commitmentConfiguration</code> </a>.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [commitmentConfiguration] :
+  /// Use this action to extend and automatically renew the commitment period
+  /// for the radio unit. You can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Change a 60-day commitment to a 1-year or 3-year commitment. The change is
+  /// immediate and the hourly rate decreases to the rate for the new commitment
+  /// period.
+  /// </li>
+  /// <li>
+  /// Change a 1-year commitment to a 3-year commitment. The change is immediate
+  /// and the hourly rate decreases to the rate for the 3-year commitment
+  /// period.
+  /// </li>
+  /// <li>
+  /// Set a 1-year commitment to automatically renew for an additional 1 year.
+  /// The hourly rate for the additional year will continue to be the same as
+  /// your existing 1-year rate.
+  /// </li>
+  /// <li>
+  /// Set a 3-year commitment to automatically renew for an additional 1 year.
+  /// The hourly rate for the additional year will continue to be the same as
+  /// your existing 3-year rate.
+  /// </li>
+  /// <li>
+  /// Turn off a previously-enabled automatic renewal on a 1-year or 3-year
+  /// commitment. You cannot use the automatic-renewal option for a 60-day
+  /// commitment.
+  /// </li>
+  /// </ul>
+  /// For pricing, see <a href="http://aws.amazon.com/private5g/pricing">Amazon
+  /// Web Services Private 5G Pricing</a>.
   ///
   /// Parameter [returnReason] :
   /// The reason for the return. Providing a reason for a return is optional.
@@ -896,12 +977,15 @@ class Private5G {
   Future<StartNetworkResourceUpdateResponse> startNetworkResourceUpdate({
     required String networkResourceArn,
     required UpdateType updateType,
+    CommitmentConfiguration? commitmentConfiguration,
     String? returnReason,
     Address? shippingAddress,
   }) async {
     final $payload = <String, dynamic>{
       'networkResourceArn': networkResourceArn,
       'updateType': updateType.toValue(),
+      if (commitmentConfiguration != null)
+        'commitmentConfiguration': commitmentConfiguration,
       if (returnReason != null) 'returnReason': returnReason,
       if (shippingAddress != null) 'shippingAddress': shippingAddress,
     };
@@ -1177,7 +1261,10 @@ class Address {
   /// The company name for this address.
   final String? company;
 
-  /// The phone number for this address.
+  /// The recipient's email address.
+  final String? emailAddress;
+
+  /// The recipient's phone number.
   final String? phoneNumber;
 
   /// The second line of the street address.
@@ -1194,6 +1281,7 @@ class Address {
     required this.stateOrProvince,
     required this.street1,
     this.company,
+    this.emailAddress,
     this.phoneNumber,
     this.street2,
     this.street3,
@@ -1208,6 +1296,7 @@ class Address {
       stateOrProvince: json['stateOrProvince'] as String,
       street1: json['street1'] as String,
       company: json['company'] as String?,
+      emailAddress: json['emailAddress'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       street2: json['street2'] as String?,
       street3: json['street3'] as String?,
@@ -1222,6 +1311,7 @@ class Address {
     final stateOrProvince = this.stateOrProvince;
     final street1 = this.street1;
     final company = this.company;
+    final emailAddress = this.emailAddress;
     final phoneNumber = this.phoneNumber;
     final street2 = this.street2;
     final street3 = this.street3;
@@ -1233,10 +1323,147 @@ class Address {
       'stateOrProvince': stateOrProvince,
       'street1': street1,
       if (company != null) 'company': company,
+      if (emailAddress != null) 'emailAddress': emailAddress,
       if (phoneNumber != null) 'phoneNumber': phoneNumber,
       if (street2 != null) 'street2': street2,
       if (street3 != null) 'street3': street3,
     };
+  }
+}
+
+/// Determines the duration and renewal status of the commitment period for a
+/// radio unit.
+///
+/// For pricing, see <a href="http://aws.amazon.com/private5g/pricing">Amazon
+/// Web Services Private 5G Pricing</a>.
+class CommitmentConfiguration {
+  /// Determines whether the commitment period for a radio unit is set to
+  /// automatically renew for an additional 1 year after your current commitment
+  /// period expires.
+  ///
+  /// Set to <code>True</code>, if you want your commitment period to
+  /// automatically renew. Set to <code>False</code> if you do not want your
+  /// commitment to automatically renew.
+  ///
+  /// You can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Set a 1-year commitment to automatically renew for an additional 1 year. The
+  /// hourly rate for the additional year will continue to be the same as your
+  /// existing 1-year rate.
+  /// </li>
+  /// <li>
+  /// Set a 3-year commitment to automatically renew for an additional 1 year. The
+  /// hourly rate for the additional year will continue to be the same as your
+  /// existing 3-year rate.
+  /// </li>
+  /// <li>
+  /// Turn off a previously-enabled automatic renewal on a 1-year or 3-year
+  /// commitment.
+  /// </li>
+  /// </ul>
+  /// You cannot use the automatic-renewal option for a 60-day commitment.
+  final bool automaticRenewal;
+
+  /// The duration of the commitment period for the radio unit. You can choose a
+  /// 60-day, 1-year, or 3-year period.
+  final CommitmentLength commitmentLength;
+
+  CommitmentConfiguration({
+    required this.automaticRenewal,
+    required this.commitmentLength,
+  });
+
+  factory CommitmentConfiguration.fromJson(Map<String, dynamic> json) {
+    return CommitmentConfiguration(
+      automaticRenewal: json['automaticRenewal'] as bool,
+      commitmentLength:
+          (json['commitmentLength'] as String).toCommitmentLength(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automaticRenewal = this.automaticRenewal;
+    final commitmentLength = this.commitmentLength;
+    return {
+      'automaticRenewal': automaticRenewal,
+      'commitmentLength': commitmentLength.toValue(),
+    };
+  }
+}
+
+/// Shows the duration, the date and time that the contract started and ends,
+/// and the renewal status of the commitment period for the radio unit.
+class CommitmentInformation {
+  /// The duration and renewal status of the commitment period for the radio unit.
+  final CommitmentConfiguration commitmentConfiguration;
+
+  /// The date and time that the commitment period ends. If you do not cancel or
+  /// renew the commitment before the expiration date, you will be billed at the
+  /// 60-day-commitment rate.
+  final DateTime? expiresOn;
+
+  /// The date and time that the commitment period started.
+  final DateTime? startAt;
+
+  CommitmentInformation({
+    required this.commitmentConfiguration,
+    this.expiresOn,
+    this.startAt,
+  });
+
+  factory CommitmentInformation.fromJson(Map<String, dynamic> json) {
+    return CommitmentInformation(
+      commitmentConfiguration: CommitmentConfiguration.fromJson(
+          json['commitmentConfiguration'] as Map<String, dynamic>),
+      expiresOn: timeStampFromJson(json['expiresOn']),
+      startAt: timeStampFromJson(json['startAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitmentConfiguration = this.commitmentConfiguration;
+    final expiresOn = this.expiresOn;
+    final startAt = this.startAt;
+    return {
+      'commitmentConfiguration': commitmentConfiguration,
+      if (expiresOn != null) 'expiresOn': iso8601ToJson(expiresOn),
+      if (startAt != null) 'startAt': iso8601ToJson(startAt),
+    };
+  }
+}
+
+enum CommitmentLength {
+  sixtyDays,
+  oneYear,
+  threeYears,
+}
+
+extension CommitmentLengthValueExtension on CommitmentLength {
+  String toValue() {
+    switch (this) {
+      case CommitmentLength.sixtyDays:
+        return 'SIXTY_DAYS';
+      case CommitmentLength.oneYear:
+        return 'ONE_YEAR';
+      case CommitmentLength.threeYears:
+        return 'THREE_YEARS';
+    }
+  }
+}
+
+extension CommitmentLengthFromString on String {
+  CommitmentLength toCommitmentLength() {
+    switch (this) {
+      case 'SIXTY_DAYS':
+        return CommitmentLength.sixtyDays;
+      case 'ONE_YEAR':
+        return CommitmentLength.oneYear;
+      case 'THREE_YEARS':
+        return CommitmentLength.threeYears;
+    }
+    throw Exception('$this is not known in enum CommitmentLength');
   }
 }
 
@@ -2079,6 +2306,11 @@ class NetworkResource {
   /// The attributes of the network resource.
   final List<NameValuePair>? attributes;
 
+  /// Information about the commitment period for the radio unit. Shows the
+  /// duration, the date and time that the contract started and ends, and the
+  /// renewal status of the commitment period.
+  final CommitmentInformation? commitmentInformation;
+
   /// The creation time of the network resource.
   final DateTime? createdAt;
 
@@ -2129,6 +2361,7 @@ class NetworkResource {
 
   NetworkResource({
     this.attributes,
+    this.commitmentInformation,
     this.createdAt,
     this.description,
     this.health,
@@ -2152,6 +2385,10 @@ class NetworkResource {
           ?.whereNotNull()
           .map((e) => NameValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
+      commitmentInformation: json['commitmentInformation'] != null
+          ? CommitmentInformation.fromJson(
+              json['commitmentInformation'] as Map<String, dynamic>)
+          : null,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       health: (json['health'] as String?)?.toHealthStatus(),
@@ -2177,6 +2414,7 @@ class NetworkResource {
 
   Map<String, dynamic> toJson() {
     final attributes = this.attributes;
+    final commitmentInformation = this.commitmentInformation;
     final createdAt = this.createdAt;
     final description = this.description;
     final health = this.health;
@@ -2194,6 +2432,8 @@ class NetworkResource {
     final vendor = this.vendor;
     return {
       if (attributes != null) 'attributes': attributes,
+      if (commitmentInformation != null)
+        'commitmentInformation': commitmentInformation,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
       if (health != null) 'health': health.toValue(),
@@ -2621,6 +2861,9 @@ class Order {
   /// The Amazon Resource Name (ARN) of the order.
   final String? orderArn;
 
+  /// A list of the network resources placed in the order.
+  final List<OrderedResourceDefinition>? orderedResources;
+
   /// The shipping address of the order.
   final Address? shippingAddress;
 
@@ -2633,6 +2876,7 @@ class Order {
     this.networkArn,
     this.networkSiteArn,
     this.orderArn,
+    this.orderedResources,
     this.shippingAddress,
     this.trackingInformation,
   });
@@ -2645,6 +2889,11 @@ class Order {
       networkArn: json['networkArn'] as String?,
       networkSiteArn: json['networkSiteArn'] as String?,
       orderArn: json['orderArn'] as String?,
+      orderedResources: (json['orderedResources'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              OrderedResourceDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
       shippingAddress: json['shippingAddress'] != null
           ? Address.fromJson(json['shippingAddress'] as Map<String, dynamic>)
           : null,
@@ -2661,6 +2910,7 @@ class Order {
     final networkArn = this.networkArn;
     final networkSiteArn = this.networkSiteArn;
     final orderArn = this.orderArn;
+    final orderedResources = this.orderedResources;
     final shippingAddress = this.shippingAddress;
     final trackingInformation = this.trackingInformation;
     return {
@@ -2670,6 +2920,7 @@ class Order {
       if (networkArn != null) 'networkArn': networkArn,
       if (networkSiteArn != null) 'networkSiteArn': networkSiteArn,
       if (orderArn != null) 'orderArn': orderArn,
+      if (orderedResources != null) 'orderedResources': orderedResources,
       if (shippingAddress != null) 'shippingAddress': shippingAddress,
       if (trackingInformation != null)
         'trackingInformation': trackingInformation,
@@ -2702,6 +2953,49 @@ extension OrderFilterKeysFromString on String {
         return OrderFilterKeys.networkSite;
     }
     throw Exception('$this is not known in enum OrderFilterKeys');
+  }
+}
+
+/// Details of the network resources in the order.
+class OrderedResourceDefinition {
+  /// The number of network resources in the order.
+  final int count;
+
+  /// The type of network resource in the order.
+  final NetworkResourceDefinitionType type;
+
+  /// The duration and renewal status of the commitment period for each radio unit
+  /// in the order. Does not show details if the resource type is
+  /// DEVICE_IDENTIFIER.
+  final CommitmentConfiguration? commitmentConfiguration;
+
+  OrderedResourceDefinition({
+    required this.count,
+    required this.type,
+    this.commitmentConfiguration,
+  });
+
+  factory OrderedResourceDefinition.fromJson(Map<String, dynamic> json) {
+    return OrderedResourceDefinition(
+      count: json['count'] as int,
+      type: (json['type'] as String).toNetworkResourceDefinitionType(),
+      commitmentConfiguration: json['commitmentConfiguration'] != null
+          ? CommitmentConfiguration.fromJson(
+              json['commitmentConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final type = this.type;
+    final commitmentConfiguration = this.commitmentConfiguration;
+    return {
+      'count': count,
+      'type': type.toValue(),
+      if (commitmentConfiguration != null)
+        'commitmentConfiguration': commitmentConfiguration,
+    };
   }
 }
 
@@ -2978,6 +3272,7 @@ class UpdateNetworkSiteResponse {
 enum UpdateType {
   replace,
   $return,
+  commitment,
 }
 
 extension UpdateTypeValueExtension on UpdateType {
@@ -2987,6 +3282,8 @@ extension UpdateTypeValueExtension on UpdateType {
         return 'REPLACE';
       case UpdateType.$return:
         return 'RETURN';
+      case UpdateType.commitment:
+        return 'COMMITMENT';
     }
   }
 }
@@ -2998,6 +3295,8 @@ extension UpdateTypeFromString on String {
         return UpdateType.replace;
       case 'RETURN':
         return UpdateType.$return;
+      case 'COMMITMENT':
+        return UpdateType.commitment;
     }
     throw Exception('$this is not known in enum UpdateType');
   }

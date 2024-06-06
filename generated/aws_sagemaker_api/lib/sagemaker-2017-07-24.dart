@@ -151,14 +151,13 @@ class SageMaker {
   /// the <code>Tags</code> parameter of <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateHyperParameterTuningJob.html">CreateHyperParameterTuningJob</a>
   /// </note> <note>
-  /// Tags that you add to a SageMaker Studio Domain or User Profile by calling
-  /// this API are also added to any Apps that the Domain or User Profile
-  /// launches after you call this API, but not to Apps that the Domain or User
-  /// Profile launched before you called this API. To make sure that the tags
-  /// associated with a Domain or User Profile are also added to all Apps that
-  /// the Domain or User Profile launches, add the tags when you first create
-  /// the Domain or User Profile by specifying them in the <code>Tags</code>
-  /// parameter of <a
+  /// Tags that you add to a SageMaker Domain or User Profile by calling this
+  /// API are also added to any Apps that the Domain or User Profile launches
+  /// after you call this API, but not to Apps that the Domain or User Profile
+  /// launched before you called this API. To make sure that the tags associated
+  /// with a Domain or User Profile are also added to all Apps that the Domain
+  /// or User Profile launches, add the tags when you first create the Domain or
+  /// User Profile by specifying them in the <code>Tags</code> parameter of <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateDomain.html">CreateDomain</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateUserProfile.html">CreateUserProfile</a>.
@@ -438,9 +437,9 @@ class SageMaker {
   }
 
   /// Creates a running app for the specified UserProfile. This operation is
-  /// automatically invoked by Amazon SageMaker Studio upon access to the
-  /// associated Domain, and when new kernel configurations are selected by the
-  /// user. A user may have multiple Apps active simultaneously.
+  /// automatically invoked by Amazon SageMaker upon access to the associated
+  /// Domain, and when new kernel configurations are selected by the user. A
+  /// user may have multiple Apps active simultaneously.
   ///
   /// May throw [ResourceLimitExceeded].
   /// May throw [ResourceInUse].
@@ -512,13 +511,25 @@ class SageMaker {
   }
 
   /// Creates a configuration for running a SageMaker image as a KernelGateway
-  /// app. The configuration specifies the Amazon Elastic File System (EFS)
-  /// storage volume on the image, and a list of the kernels in the image.
+  /// app. The configuration specifies the Amazon Elastic File System storage
+  /// volume on the image, and a list of the kernels in the image.
   ///
   /// May throw [ResourceInUse].
   ///
   /// Parameter [appImageConfigName] :
   /// The name of the AppImageConfig. Must be unique to your account.
+  ///
+  /// Parameter [codeEditorAppImageConfig] :
+  /// The <code>CodeEditorAppImageConfig</code>. You can only specify one image
+  /// kernel in the AppImageConfig API. This kernel is shown to users before the
+  /// image starts. After the image runs, all kernels are visible in Code
+  /// Editor.
+  ///
+  /// Parameter [jupyterLabAppImageConfig] :
+  /// The <code>JupyterLabAppImageConfig</code>. You can only specify one image
+  /// kernel in the <code>AppImageConfig</code> API. This kernel is shown to
+  /// users before the image starts. After the image runs, all kernels are
+  /// visible in JupyterLab.
   ///
   /// Parameter [kernelGatewayImageConfig] :
   /// The KernelGatewayImageConfig. You can only specify one image kernel in the
@@ -529,6 +540,8 @@ class SageMaker {
   /// A list of tags to apply to the AppImageConfig.
   Future<CreateAppImageConfigResponse> createAppImageConfig({
     required String appImageConfigName,
+    CodeEditorAppImageConfig? codeEditorAppImageConfig,
+    JupyterLabAppImageConfig? jupyterLabAppImageConfig,
     KernelGatewayImageConfig? kernelGatewayImageConfig,
     List<Tag>? tags,
   }) async {
@@ -544,6 +557,10 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppImageConfigName': appImageConfigName,
+        if (codeEditorAppImageConfig != null)
+          'CodeEditorAppImageConfig': codeEditorAppImageConfig,
+        if (jupyterLabAppImageConfig != null)
+          'JupyterLabAppImageConfig': jupyterLabAppImageConfig,
         if (kernelGatewayImageConfig != null)
           'KernelGatewayImageConfig': kernelGatewayImageConfig,
         if (tags != null) 'Tags': tags,
@@ -609,15 +626,30 @@ class SageMaker {
     return CreateArtifactResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an Autopilot job.
+  /// Creates an Autopilot job also referred to as Autopilot experiment or
+  /// AutoML job.
+  /// <note>
+  /// We recommend using the new versions <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html">DescribeAutoMLJobV2</a>,
+  /// which offer backward compatibility.
   ///
-  /// Find the best-performing model after you run an Autopilot job by calling
-  /// <a
+  /// <code>CreateAutoMLJobV2</code> can manage tabular problem types identical
+  /// to those of its previous version <code>CreateAutoMLJob</code>, as well as
+  /// time-series forecasting, non-tabular problem types such as image or text
+  /// classification, and text generation (LLMs fine-tuning).
+  ///
+  /// Find guidelines about how to migrate a <code>CreateAutoMLJob</code> to
+  /// <code>CreateAutoMLJobV2</code> in <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2">Migrate
+  /// a CreateAutoMLJob to CreateAutoMLJobV2</a>.
+  /// </note>
+  /// You can find the best-performing model after you run an AutoML job by
+  /// calling <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html">DescribeAutoMLJobV2</a>
+  /// (recommended) or <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html">DescribeAutoMLJob</a>.
-  ///
-  /// For information about how to use Autopilot, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html">Automate
-  /// Model Development with Amazon SageMaker Autopilot</a>.
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceLimitExceeded].
@@ -646,12 +678,11 @@ class SageMaker {
   /// A collection of settings used to configure an AutoML job.
   ///
   /// Parameter [autoMLJobObjective] :
-  /// Defines the objective metric used to measure the predictive quality of an
-  /// AutoML job. You provide an <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html">AutoMLJobObjective$MetricName</a>
-  /// and Autopilot infers whether to minimize or maximize it. For <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>,
-  /// only <code>Accuracy</code> is supported.
+  /// Specifies a metric to minimize or maximize as the objective of a job. If
+  /// not specified, the default objective metric depends on the problem type.
+  /// See <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html">AutoMLJobObjective</a>
+  /// for the default values.
   ///
   /// Parameter [generateCandidateDefinitionsOnly] :
   /// Generates possible candidates without training the models. A candidate is
@@ -666,7 +697,7 @@ class SageMaker {
   /// Defines the type of supervised learning problem available for the
   /// candidates. For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-datasets-problem-types.html#autopilot-problem-types">
-  /// Amazon SageMaker Autopilot problem types</a>.
+  /// SageMaker Autopilot problem types</a>.
   ///
   /// Parameter [tags] :
   /// An array of key-value pairs. You can use tags to categorize your Amazon
@@ -715,37 +746,64 @@ class SageMaker {
     return CreateAutoMLJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an Amazon SageMaker AutoML job that uses non-tabular data such as
-  /// images or text for Computer Vision or Natural Language Processing
-  /// problems.
-  ///
-  /// Find the resulting model after you run an AutoML job V2 by calling <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html">DescribeAutoMLJobV2</a>.
-  ///
-  /// To create an <code>AutoMLJob</code> using tabular data, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html">CreateAutoMLJob</a>.
+  /// Creates an Autopilot job also referred to as Autopilot experiment or
+  /// AutoML job V2.
   /// <note>
-  /// This API action is callable through SageMaker Canvas only. Calling it
-  /// directly from the CLI or an SDK results in an error.
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html">DescribeAutoMLJobV2</a>
+  /// are new versions of <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html">CreateAutoMLJob</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html">DescribeAutoMLJob</a>
+  /// which offer backward compatibility.
+  ///
+  /// <code>CreateAutoMLJobV2</code> can manage tabular problem types identical
+  /// to those of its previous version <code>CreateAutoMLJob</code>, as well as
+  /// time-series forecasting, non-tabular problem types such as image or text
+  /// classification, and text generation (LLMs fine-tuning).
+  ///
+  /// Find guidelines about how to migrate a <code>CreateAutoMLJob</code> to
+  /// <code>CreateAutoMLJobV2</code> in <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2">Migrate
+  /// a CreateAutoMLJob to CreateAutoMLJobV2</a>.
   /// </note>
+  /// For the list of available problem types supported by
+  /// <code>CreateAutoMLJobV2</code>, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html">AutoMLProblemTypeConfig</a>.
+  ///
+  /// You can find the best-performing model after you run an AutoML job V2 by
+  /// calling <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html">DescribeAutoMLJobV2</a>.
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceLimitExceeded].
   ///
   /// Parameter [autoMLJobInputDataConfig] :
   /// An array of channel objects describing the input data and their location.
-  /// Each channel is a named input source. Similar to <a
+  /// Each channel is a named input source. Similar to the <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html#sagemaker-CreateAutoMLJob-request-InputDataConfig">InputDataConfig</a>
-  /// supported by <code>CreateAutoMLJob</code>. The supported formats depend on
-  /// the problem type:
+  /// attribute in the <code>CreateAutoMLJob</code> input parameters. The
+  /// supported formats depend on the problem type:
   ///
   /// <ul>
   /// <li>
-  /// ImageClassification: S3Prefix, <code>ManifestFile</code>,
-  /// <code>AugmentedManifestFile</code>
+  /// For tabular problem types: <code>S3Prefix</code>,
+  /// <code>ManifestFile</code>.
   /// </li>
   /// <li>
-  /// TextClassification: S3Prefix
+  /// For image classification: <code>S3Prefix</code>,
+  /// <code>ManifestFile</code>, <code>AugmentedManifestFile</code>.
+  /// </li>
+  /// <li>
+  /// For text classification: <code>S3Prefix</code>.
+  /// </li>
+  /// <li>
+  /// For time-series forecasting: <code>S3Prefix</code>.
+  /// </li>
+  /// <li>
+  /// For text generation (LLMs fine-tuning): <code>S3Prefix</code>.
   /// </li>
   /// </ul>
   ///
@@ -764,21 +822,44 @@ class SageMaker {
   /// The ARN of the role that is used to access the data.
   ///
   /// Parameter [autoMLJobObjective] :
-  /// Specifies a metric to minimize or maximize as the objective of a job. For
-  /// <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>,
-  /// only <code>Accuracy</code> is supported.
+  /// Specifies a metric to minimize or maximize as the objective of a job. If
+  /// not specified, the default objective metric depends on the problem type.
+  /// For the list of default values per problem type, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html">AutoMLJobObjective</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// For tabular problem types: You must either provide both the
+  /// <code>AutoMLJobObjective</code> and indicate the type of supervised
+  /// learning problem in <code>AutoMLProblemTypeConfig</code>
+  /// (<code>TabularJobConfig.ProblemType</code>), or none at all.
+  /// </li>
+  /// <li>
+  /// For text generation problem types (LLMs fine-tuning): Fine-tuning language
+  /// models in Autopilot does not require setting the
+  /// <code>AutoMLJobObjective</code> field. Autopilot fine-tunes LLMs without
+  /// requiring multiple candidates to be trained and evaluated. Instead, using
+  /// your dataset, Autopilot directly fine-tunes your target model to enhance a
+  /// default objective metric, the cross-entropy loss. After fine-tuning a
+  /// language model, you can evaluate the quality of its generated text using
+  /// different metrics. For a list of the available metrics, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-llms-finetuning-metrics.html">Metrics
+  /// for fine-tuning LLMs in Autopilot</a>.
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [dataSplitConfig] :
   /// This structure specifies how to split the data into train and validation
   /// datasets.
   ///
-  /// If you are using the V1 API (for example <code>CreateAutoMLJob</code>) or
-  /// the V2 API for Natural Language Processing problems (for example
-  /// <code>CreateAutoMLJobV2</code> with a
-  /// <code>TextClassificationJobConfig</code> problem type), the validation and
-  /// training datasets must contain the same headers. Also, for V1 API jobs,
-  /// the validation dataset must be less than 2 GB in size.
+  /// The validation and training datasets must contain the same headers. For
+  /// jobs created by calling <code>CreateAutoMLJob</code>, the validation
+  /// dataset must be less than 2 GB in size.
+  /// <note>
+  /// This attribute must not be set for the time-series forecasting problem
+  /// type, as Autopilot automatically splits the input dataset into training
+  /// and validation sets.
+  /// </note>
   ///
   /// Parameter [modelDeployConfig] :
   /// Specifies how to generate the endpoint name for an automatic one-click
@@ -831,6 +912,56 @@ class SageMaker {
     );
 
     return CreateAutoMLJobV2Response.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability
+  /// of SageMaker for creating and managing persistent clusters for developing
+  /// large machine learning models, such as large language models (LLMs) and
+  /// diffusion models. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html">Amazon
+  /// SageMaker HyperPod</a> in the <i>Amazon SageMaker Developer Guide</i>.
+  ///
+  /// May throw [ResourceLimitExceeded].
+  /// May throw [ResourceInUse].
+  ///
+  /// Parameter [clusterName] :
+  /// The name for the new SageMaker HyperPod cluster.
+  ///
+  /// Parameter [instanceGroups] :
+  /// The instance groups to be created in the SageMaker HyperPod cluster.
+  ///
+  /// Parameter [tags] :
+  /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web
+  /// Services resource. You can add tags to your cluster in the same way you
+  /// add them in other Amazon Web Services services that support tagging. To
+  /// learn more about tagging Amazon Web Services resources in general, see <a
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html">Tagging
+  /// Amazon Web Services Resources User Guide</a>.
+  Future<CreateClusterResponse> createCluster({
+    required String clusterName,
+    required List<ClusterInstanceGroupSpecification> instanceGroups,
+    List<Tag>? tags,
+    VpcConfig? vpcConfig,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreateCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterName': clusterName,
+        'InstanceGroups': instanceGroups,
+        if (tags != null) 'Tags': tags,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
+      },
+    );
+
+    return CreateClusterResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a Git repository as a resource in your SageMaker account. You can
@@ -1115,9 +1246,9 @@ class SageMaker {
   ///
   /// Parameter [tags] :
   /// (Optional) An array of key-value pairs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">Using
-  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
-  /// Management User Guide</i>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">
+  /// Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and
+  /// Cost Management User Guide</i>.
   Future<CreateDataQualityJobDefinitionResponse>
       createDataQualityJobDefinition({
     required DataQualityAppSpecification dataQualityAppSpecification,
@@ -1217,11 +1348,11 @@ class SageMaker {
     );
   }
 
-  /// Creates a <code>Domain</code> used by Amazon SageMaker Studio. A domain
-  /// consists of an associated Amazon Elastic File System (EFS) volume, a list
-  /// of authorized users, and a variety of security, application, policy, and
-  /// Amazon Virtual Private Cloud (VPC) configurations. Users within a domain
-  /// can share notebook files and other artifacts with each other.
+  /// Creates a <code>Domain</code>. A domain consists of an associated Amazon
+  /// Elastic File System volume, a list of authorized users, and a variety of
+  /// security, application, policy, and Amazon Virtual Private Cloud (VPC)
+  /// configurations. Users within a domain can share notebook files and other
+  /// artifacts with each other.
   ///
   /// <b>EFS storage</b>
   ///
@@ -1238,11 +1369,11 @@ class SageMaker {
   ///
   /// <b>VPC configuration</b>
   ///
-  /// All SageMaker Studio traffic between the domain and the EFS volume is
-  /// through the specified VPC and subnets. For other Studio traffic, you can
-  /// specify the <code>AppNetworkAccessType</code> parameter.
+  /// All traffic between the domain and the Amazon EFS volume is through the
+  /// specified VPC and subnets. For other traffic, you can specify the
+  /// <code>AppNetworkAccessType</code> parameter.
   /// <code>AppNetworkAccessType</code> corresponds to the network access type
-  /// that you choose when you onboard to Studio. The following options are
+  /// that you choose when you onboard to the domain. The following options are
   /// available:
   ///
   /// <ul>
@@ -1252,22 +1383,23 @@ class SageMaker {
   /// default value.
   /// </li>
   /// <li>
-  /// <code>VpcOnly</code> - All Studio traffic is through the specified VPC and
+  /// <code>VpcOnly</code> - All traffic is through the specified VPC and
   /// subnets. Internet access is disabled by default. To allow internet access,
   /// you must specify a NAT gateway.
   ///
-  /// When internet access is disabled, you won't be able to run a Studio
-  /// notebook or to train or host models unless your VPC has an interface
-  /// endpoint to the SageMaker API and runtime or a NAT gateway and your
-  /// security groups allow outbound connections.
+  /// When internet access is disabled, you won't be able to run a Amazon
+  /// SageMaker Studio notebook or to train or host models unless your VPC has
+  /// an interface endpoint to the SageMaker API and runtime or a NAT gateway
+  /// and your security groups allow outbound connections.
   /// </li>
   /// </ul> <important>
   /// NFS traffic over TCP on port 2049 needs to be allowed in both inbound and
-  /// outbound rules in order to launch a SageMaker Studio app successfully.
+  /// outbound rules in order to launch a Amazon SageMaker Studio app
+  /// successfully.
   /// </important>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html">Connect
-  /// SageMaker Studio Notebooks to Resources in a VPC</a>.
+  /// Amazon SageMaker Studio Notebooks to Resources in a VPC</a>.
   ///
   /// May throw [ResourceLimitExceeded].
   /// May throw [ResourceInUse].
@@ -1289,10 +1421,10 @@ class SageMaker {
   /// A name for the domain.
   ///
   /// Parameter [subnetIds] :
-  /// The VPC subnets that Studio uses for communication.
+  /// The VPC subnets that the domain uses for communication.
   ///
   /// Parameter [vpcId] :
-  /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for
+  /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for
   /// communication.
   ///
   /// Parameter [appNetworkAccessType] :
@@ -1305,7 +1437,7 @@ class SageMaker {
   /// by Amazon SageMaker, which allows direct internet access
   /// </li>
   /// <li>
-  /// <code>VpcOnly</code> - All Studio traffic is through the specified VPC and
+  /// <code>VpcOnly</code> - All traffic is through the specified VPC and
   /// subnets
   /// </li>
   /// </ul>
@@ -1328,9 +1460,9 @@ class SageMaker {
   /// Use <code>KmsKeyId</code>.
   ///
   /// Parameter [kmsKeyId] :
-  /// SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached
-  /// to the domain with an Amazon Web Services managed key by default. For more
-  /// control, specify a customer managed key.
+  /// SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes
+  /// attached to the domain with an Amazon Web Services managed key by default.
+  /// For more control, specify a customer managed key.
   ///
   /// Parameter [tags] :
   /// Tags to associated with the Domain. Each tag consists of a key and an
@@ -1538,11 +1670,6 @@ class SageMaker {
   /// API.
   ///
   /// Use this API to deploy models using SageMaker hosting services.
-  ///
-  /// For an example that calls this method when deploying a model to SageMaker
-  /// hosting services, see the <a
-  /// href="https://github.com/aws/amazon-sagemaker-examples/blob/master/sagemaker-fundamentals/create-endpoint/create_endpoint.ipynb">Create
-  /// Endpoint example notebook.</a>
   /// <note>
   /// You must not delete an <code>EndpointConfig</code> that is in use by an
   /// endpoint that is live or while the <code>UpdateEndpoint</code> or
@@ -1731,6 +1858,21 @@ class SageMaker {
   /// invoked using <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html">InvokeEndpointAsync</a>.
   ///
+  /// Parameter [enableNetworkIsolation] :
+  /// Sets whether all model containers deployed to the endpoint are isolated.
+  /// If they are, no inbound or outbound network calls can be made to or from
+  /// the model containers.
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
+  /// assume to perform actions on your behalf. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html">SageMaker
+  /// Roles</a>.
+  /// <note>
+  /// To be able to pass this role to Amazon SageMaker, the caller of this
+  /// action must have the <code>iam:PassRole</code> permission.
+  /// </note>
+  ///
   /// Parameter [explainerConfig] :
   /// A member of <code>CreateEndpointConfig</code> that enables explainers.
   ///
@@ -1802,10 +1944,13 @@ class SageMaker {
     required List<ProductionVariant> productionVariants,
     AsyncInferenceConfig? asyncInferenceConfig,
     DataCaptureConfig? dataCaptureConfig,
+    bool? enableNetworkIsolation,
+    String? executionRoleArn,
     ExplainerConfig? explainerConfig,
     String? kmsKeyId,
     List<ProductionVariant>? shadowProductionVariants,
     List<Tag>? tags,
+    VpcConfig? vpcConfig,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1823,11 +1968,15 @@ class SageMaker {
         if (asyncInferenceConfig != null)
           'AsyncInferenceConfig': asyncInferenceConfig,
         if (dataCaptureConfig != null) 'DataCaptureConfig': dataCaptureConfig,
+        if (enableNetworkIsolation != null)
+          'EnableNetworkIsolation': enableNetworkIsolation,
+        if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
         if (explainerConfig != null) 'ExplainerConfig': explainerConfig,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (shadowProductionVariants != null)
           'ShadowProductionVariants': shadowProductionVariants,
         if (tags != null) 'Tags': tags,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
 
@@ -1924,13 +2073,18 @@ class SageMaker {
   /// describe a <code>Record</code>.
   ///
   /// The <code>FeatureGroup</code> defines the schema and features contained in
-  /// the FeatureGroup. A <code>FeatureGroup</code> definition is composed of a
-  /// list of <code>Features</code>, a <code>RecordIdentifierFeatureName</code>,
-  /// an <code>EventTimeFeatureName</code> and configurations for its
+  /// the <code>FeatureGroup</code>. A <code>FeatureGroup</code> definition is
+  /// composed of a list of <code>Features</code>, a
+  /// <code>RecordIdentifierFeatureName</code>, an
+  /// <code>EventTimeFeatureName</code> and configurations for its
   /// <code>OnlineStore</code> and <code>OfflineStore</code>. Check <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">Amazon
   /// Web Services service quotas</a> to see the <code>FeatureGroup</code>s
   /// quota for your Amazon Web Services account.
+  ///
+  /// Note that it can take approximately 10-15 minutes to provision an
+  /// <code>OnlineStore</code> <code>FeatureGroup</code> with the
+  /// <code>InMemory</code> <code>StorageType</code>.
   /// <important>
   /// You must include at least one of <code>OnlineStoreConfig</code> and
   /// <code>OfflineStoreConfig</code> to create a <code>FeatureGroup</code>.
@@ -1986,15 +2140,17 @@ class SageMaker {
   ///
   /// Parameter [featureGroupName] :
   /// The name of the <code>FeatureGroup</code>. The name must be unique within
-  /// an Amazon Web Services Region in an Amazon Web Services account. The name:
+  /// an Amazon Web Services Region in an Amazon Web Services account.
+  ///
+  /// The name:
   ///
   /// <ul>
   /// <li>
-  /// Must start and end with an alphanumeric character.
+  /// Must start with an alphanumeric character.
   /// </li>
   /// <li>
-  /// Can only contain alphanumeric character and hyphens. Spaces are not
-  /// allowed.
+  /// Can only include alphanumeric characters, underscores, and hyphens. Spaces
+  /// are not allowed.
   /// </li>
   /// </ul>
   ///
@@ -2012,7 +2168,7 @@ class SageMaker {
   ///
   /// <ul>
   /// <li>
-  /// Must start and end with an alphanumeric character.
+  /// Must start with an alphanumeric character.
   /// </li>
   /// <li>
   /// Can only contains alphanumeric characters, hyphens, underscores. Spaces
@@ -2082,6 +2238,7 @@ class SageMaker {
     OnlineStoreConfig? onlineStoreConfig,
     String? roleArn,
     List<Tag>? tags,
+    ThroughputConfig? throughputConfig,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2104,6 +2261,7 @@ class SageMaker {
         if (onlineStoreConfig != null) 'OnlineStoreConfig': onlineStoreConfig,
         if (roleArn != null) 'RoleArn': roleArn,
         if (tags != null) 'Tags': tags,
+        if (throughputConfig != null) 'ThroughputConfig': throughputConfig,
       },
     );
 
@@ -2118,10 +2276,6 @@ class SageMaker {
   /// Parameter [flowDefinitionName] :
   /// The name of your flow definition.
   ///
-  /// Parameter [humanLoopConfig] :
-  /// An object containing information about the tasks the human reviewers will
-  /// perform.
-  ///
   /// Parameter [outputConfig] :
   /// An object containing information about where the human review results will
   /// be uploaded.
@@ -2135,6 +2289,10 @@ class SageMaker {
   /// An object containing information about the events that trigger a human
   /// workflow.
   ///
+  /// Parameter [humanLoopConfig] :
+  /// An object containing information about the tasks the human reviewers will
+  /// perform.
+  ///
   /// Parameter [humanLoopRequestSource] :
   /// Container for configuring the source of human task requests. Use to
   /// specify if Amazon Rekognition or Amazon Textract is used as an integration
@@ -2146,10 +2304,10 @@ class SageMaker {
   /// both of which you define.
   Future<CreateFlowDefinitionResponse> createFlowDefinition({
     required String flowDefinitionName,
-    required HumanLoopConfig humanLoopConfig,
     required FlowDefinitionOutputConfig outputConfig,
     required String roleArn,
     HumanLoopActivationConfig? humanLoopActivationConfig,
+    HumanLoopConfig? humanLoopConfig,
     HumanLoopRequestSource? humanLoopRequestSource,
     List<Tag>? tags,
   }) async {
@@ -2165,11 +2323,11 @@ class SageMaker {
       headers: headers,
       payload: {
         'FlowDefinitionName': flowDefinitionName,
-        'HumanLoopConfig': humanLoopConfig,
         'OutputConfig': outputConfig,
         'RoleArn': roleArn,
         if (humanLoopActivationConfig != null)
           'HumanLoopActivationConfig': humanLoopActivationConfig,
+        if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
         if (humanLoopRequestSource != null)
           'HumanLoopRequestSource': humanLoopRequestSource,
         if (tags != null) 'Tags': tags,
@@ -2314,6 +2472,50 @@ class SageMaker {
   /// Region. The name must have 1 to 32 characters. Valid characters are a-z,
   /// A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
   ///
+  /// Parameter [autotune] :
+  /// Configures SageMaker Automatic model tuning (AMT) to automatically find
+  /// optimal parameters for the following fields:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html#sagemaker-Type-HyperParameterTuningJobConfig-ParameterRanges">ParameterRanges</a>:
+  /// The names and ranges of parameters that a hyperparameter tuning job can
+  /// optimize.
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceLimits.html">ResourceLimits</a>:
+  /// The maximum resources that can be used for a training job. These resources
+  /// include the maximum number of training jobs, the maximum runtime of a
+  /// tuning job, and the maximum number of training jobs to run at the same
+  /// time.
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html#sagemaker-Type-HyperParameterTuningJobConfig-TrainingJobEarlyStoppingType">TrainingJobEarlyStoppingType</a>:
+  /// A flag that specifies whether or not to use early stopping for training
+  /// jobs launched by a hyperparameter tuning job.
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html#sagemaker-Type-HyperParameterTrainingJobDefinition-RetryStrategy">RetryStrategy</a>:
+  /// The number of times to retry a training job.
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html">Strategy</a>:
+  /// Specifies how hyperparameter tuning chooses the combinations of
+  /// hyperparameter values to use for the training jobs that it launches.
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ConvergenceDetected.html">ConvergenceDetected</a>:
+  /// A flag to indicate that Automatic model tuning (AMT) has detected model
+  /// convergence.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tags] :
   /// An array of key-value pairs. You can use tags to categorize your Amazon
   /// Web Services resources in different ways, for example, by purpose, owner,
@@ -2358,6 +2560,7 @@ class SageMaker {
   Future<CreateHyperParameterTuningJobResponse> createHyperParameterTuningJob({
     required HyperParameterTuningJobConfig hyperParameterTuningJobConfig,
     required String hyperParameterTuningJobName,
+    Autotune? autotune,
     List<Tag>? tags,
     HyperParameterTrainingJobDefinition? trainingJobDefinition,
     List<HyperParameterTrainingJobDefinition>? trainingJobDefinitions,
@@ -2376,6 +2579,7 @@ class SageMaker {
       payload: {
         'HyperParameterTuningJobConfig': hyperParameterTuningJobConfig,
         'HyperParameterTuningJobName': hyperParameterTuningJobName,
+        if (autotune != null) 'Autotune': autotune,
         if (tags != null) 'Tags': tags,
         if (trainingJobDefinition != null)
           'TrainingJobDefinition': trainingJobDefinition,
@@ -2390,7 +2594,7 @@ class SageMaker {
 
   /// Creates a custom SageMaker image. A SageMaker image is a set of image
   /// versions. Each image version represents a container image stored in Amazon
-  /// Elastic Container Registry (ECR). For more information, see <a
+  /// ECR. For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html">Bring
   /// your own SageMaker image</a>.
   ///
@@ -2443,9 +2647,8 @@ class SageMaker {
   }
 
   /// Creates a version of the SageMaker image specified by
-  /// <code>ImageName</code>. The version represents the Amazon Elastic
-  /// Container Registry (ECR) container image specified by
-  /// <code>BaseImage</code>.
+  /// <code>ImageName</code>. The version represents the Amazon ECR container
+  /// image specified by <code>BaseImage</code>.
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceLimitExceeded].
@@ -2453,8 +2656,7 @@ class SageMaker {
   ///
   /// Parameter [baseImage] :
   /// The registry path of the container image to use as the starting point for
-  /// this version. The path is an Amazon Elastic Container Registry (ECR) URI
-  /// in the following format:
+  /// this version. The path is an Amazon ECR URI in the following format:
   ///
   /// <code>&lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag]
   /// or [@digest]&gt;</code>
@@ -2573,6 +2775,73 @@ class SageMaker {
     );
 
     return CreateImageVersionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an inference component, which is a SageMaker hosting object that
+  /// you can use to deploy a model to an endpoint. In the inference component
+  /// settings, you specify the model, the endpoint, and how the model utilizes
+  /// the resources that the endpoint hosts. You can optimize resource
+  /// utilization by tailoring how the required CPU cores, accelerators, and
+  /// memory are allocated. You can deploy multiple inference components to an
+  /// endpoint, where each inference component contains one model and the
+  /// resource utilization needs for that individual model. After you deploy an
+  /// inference component, you can directly invoke the associated model when you
+  /// use the InvokeEndpoint API action.
+  ///
+  /// May throw [ResourceLimitExceeded].
+  ///
+  /// Parameter [endpointName] :
+  /// The name of an existing endpoint where you host the inference component.
+  ///
+  /// Parameter [inferenceComponentName] :
+  /// A unique name to assign to the inference component.
+  ///
+  /// Parameter [runtimeConfig] :
+  /// Runtime settings for a model that is deployed with an inference component.
+  ///
+  /// Parameter [specification] :
+  /// Details about the resources to deploy with this inference component,
+  /// including the model, container, and compute resources.
+  ///
+  /// Parameter [variantName] :
+  /// The name of an existing production variant where you host the inference
+  /// component.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs associated with the model. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  Future<CreateInferenceComponentOutput> createInferenceComponent({
+    required String endpointName,
+    required String inferenceComponentName,
+    required InferenceComponentRuntimeConfig runtimeConfig,
+    required InferenceComponentSpecification specification,
+    required String variantName,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreateInferenceComponent'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndpointName': endpointName,
+        'InferenceComponentName': inferenceComponentName,
+        'RuntimeConfig': runtimeConfig,
+        'Specification': specification,
+        'VariantName': variantName,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateInferenceComponentOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates an inference experiment using the configurations specified in the
@@ -3126,11 +3395,6 @@ class SageMaker {
   /// the <code>CreateEndpoint</code> API. SageMaker then deploys all of the
   /// containers that you defined for the model in the hosting environment.
   ///
-  /// For an example that calls this method when deploying a model to SageMaker
-  /// hosting services, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints-deployment.html#realtime-endpoints-deployment-create-model">Create
-  /// a Model (Amazon Web Services SDK for Python (Boto 3)).</a>
-  ///
   /// To run a batch transform using your model, you start a job with the
   /// <code>CreateTransformJob</code> API. SageMaker uses your model and your
   /// dataset to get inferences which are then saved to a specified S3 location.
@@ -3144,6 +3408,16 @@ class SageMaker {
   ///
   /// May throw [ResourceLimitExceeded].
   ///
+  /// Parameter [modelName] :
+  /// The name of the new model.
+  ///
+  /// Parameter [containers] :
+  /// Specifies the containers in the inference pipeline.
+  ///
+  /// Parameter [enableNetworkIsolation] :
+  /// Isolates the model container. No inbound or outbound network calls can be
+  /// made to or from the model container.
+  ///
   /// Parameter [executionRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume
   /// to access model artifacts and docker image for deployment on ML compute
@@ -3155,16 +3429,6 @@ class SageMaker {
   /// To be able to pass this role to SageMaker, the caller of this API must
   /// have the <code>iam:PassRole</code> permission.
   /// </note>
-  ///
-  /// Parameter [modelName] :
-  /// The name of the new model.
-  ///
-  /// Parameter [containers] :
-  /// Specifies the containers in the inference pipeline.
-  ///
-  /// Parameter [enableNetworkIsolation] :
-  /// Isolates the model container. No inbound or outbound network calls can be
-  /// made to or from the model container.
   ///
   /// Parameter [inferenceExecutionConfig] :
   /// Specifies details of how containers in a multi-container endpoint are
@@ -3194,10 +3458,10 @@ class SageMaker {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/batch-vpc.html">Protect
   /// Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud</a>.
   Future<CreateModelOutput> createModel({
-    required String executionRoleArn,
     required String modelName,
     List<ContainerDefinition>? containers,
     bool? enableNetworkIsolation,
+    String? executionRoleArn,
     InferenceExecutionConfig? inferenceExecutionConfig,
     ContainerDefinition? primaryContainer,
     List<Tag>? tags,
@@ -3214,11 +3478,11 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExecutionRoleArn': executionRoleArn,
         'ModelName': modelName,
         if (containers != null) 'Containers': containers,
         if (enableNetworkIsolation != null)
           'EnableNetworkIsolation': enableNetworkIsolation,
+        if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
         if (inferenceExecutionConfig != null)
           'InferenceExecutionConfig': inferenceExecutionConfig,
         if (primaryContainer != null) 'PrimaryContainer': primaryContainer,
@@ -3257,9 +3521,9 @@ class SageMaker {
   ///
   /// Parameter [tags] :
   /// (Optional) An array of key-value pairs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">Using
-  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
-  /// Management User Guide</i>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">
+  /// Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and
+  /// Cost Management User Guide</i>.
   Future<CreateModelBiasJobDefinitionResponse> createModelBiasJobDefinition({
     required String jobDefinitionName,
     required MonitoringResources jobResources,
@@ -3383,7 +3647,7 @@ class SageMaker {
   /// The name of the model card export job.
   ///
   /// Parameter [modelCardName] :
-  /// The name of the model card to export.
+  /// The name or Amazon Resource Name (ARN) of the model card to export.
   ///
   /// Parameter [outputConfig] :
   /// The model card output configuration that specifies the Amazon S3 path for
@@ -3448,9 +3712,9 @@ class SageMaker {
   ///
   /// Parameter [tags] :
   /// (Optional) An array of key-value pairs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">Using
-  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
-  /// Management User Guide</i>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">
+  /// Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and
+  /// Cost Management User Guide</i>.
   Future<CreateModelExplainabilityJobDefinitionResponse>
       createModelExplainabilityJobDefinition({
     required String jobDefinitionName,
@@ -3556,8 +3820,8 @@ class SageMaker {
   /// <i>Amazon SageMaker Developer Guide</i>.
   ///
   /// Parameter [inferenceSpecification] :
-  /// Specifies details about inference jobs that can be run with models based
-  /// on this model package, including the following:
+  /// Specifies details about inference jobs that you can run with models based
+  /// on this model package, including the following information:
   ///
   /// <ul>
   /// <li>
@@ -3582,6 +3846,19 @@ class SageMaker {
   ///
   /// For versioned models, the value of this parameter must be set to
   /// <code>Approved</code> to deploy the model.
+  ///
+  /// Parameter [modelCard] :
+  /// The model card associated with the model package. Since
+  /// <code>ModelPackageModelCard</code> is tied to a model package, it is a
+  /// specific usage of a model card and its schema is simplified compared to
+  /// the schema of <code>ModelCard</code>. The
+  /// <code>ModelPackageModelCard</code> schema does not include
+  /// <code>model_package_details</code>, and <code>model_overview</code> is
+  /// composed of the <code>model_creator</code> and <code>model_artifact</code>
+  /// properties. For more information about the model card associated with the
+  /// model package, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
+  /// the Details of a Model Version</a>.
   ///
   /// Parameter [modelMetrics] :
   /// A structure that contains model metrics reports.
@@ -3612,8 +3889,20 @@ class SageMaker {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html#API_runtime_InvokeEndpoint_RequestSyntax">InvokeEndpoint</a>
   /// call.
   ///
+  /// Parameter [securityConfig] :
+  /// The KMS Key ID (<code>KMSKeyId</code>) used for encryption of model
+  /// package information.
+  ///
+  /// Parameter [skipModelValidation] :
+  /// Indicates if you want to skip model validation.
+  ///
   /// Parameter [sourceAlgorithmSpecification] :
   /// Details about the algorithm that was used to create the model package.
+  ///
+  /// Parameter [sourceUri] :
+  /// The URI of the source for the model package. If you want to clone a model
+  /// package, set it to the model package Amazon Resource Name (ARN). If you
+  /// want to register a model, set it to the model ARN.
   ///
   /// Parameter [tags] :
   /// A list of key value pairs associated with the model. For more information,
@@ -3621,6 +3910,11 @@ class SageMaker {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
   /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
   /// Reference Guide</i>.
+  ///
+  /// If you supply <code>ModelPackageGroupName</code>, your model package
+  /// belongs to the model group you specify and uses the tags associated with
+  /// the model group. In this case, you cannot supply a <code>tag</code>
+  /// argument.
   ///
   /// Parameter [task] :
   /// The machine learning task your model package accomplishes. Common machine
@@ -3647,12 +3941,16 @@ class SageMaker {
     InferenceSpecification? inferenceSpecification,
     MetadataProperties? metadataProperties,
     ModelApprovalStatus? modelApprovalStatus,
+    ModelPackageModelCard? modelCard,
     ModelMetrics? modelMetrics,
     String? modelPackageDescription,
     String? modelPackageGroupName,
     String? modelPackageName,
     String? samplePayloadUrl,
+    ModelPackageSecurityConfig? securityConfig,
+    SkipModelValidation? skipModelValidation,
     SourceAlgorithmSpecification? sourceAlgorithmSpecification,
+    String? sourceUri,
     List<Tag>? tags,
     String? task,
     ModelPackageValidationSpecification? validationSpecification,
@@ -3685,6 +3983,7 @@ class SageMaker {
           'MetadataProperties': metadataProperties,
         if (modelApprovalStatus != null)
           'ModelApprovalStatus': modelApprovalStatus.toValue(),
+        if (modelCard != null) 'ModelCard': modelCard,
         if (modelMetrics != null) 'ModelMetrics': modelMetrics,
         if (modelPackageDescription != null)
           'ModelPackageDescription': modelPackageDescription,
@@ -3692,8 +3991,12 @@ class SageMaker {
           'ModelPackageGroupName': modelPackageGroupName,
         if (modelPackageName != null) 'ModelPackageName': modelPackageName,
         if (samplePayloadUrl != null) 'SamplePayloadUrl': samplePayloadUrl,
+        if (securityConfig != null) 'SecurityConfig': securityConfig,
+        if (skipModelValidation != null)
+          'SkipModelValidation': skipModelValidation.toValue(),
         if (sourceAlgorithmSpecification != null)
           'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
+        if (sourceUri != null) 'SourceUri': sourceUri,
         if (tags != null) 'Tags': tags,
         if (task != null) 'Task': task,
         if (validationSpecification != null)
@@ -3776,9 +4079,9 @@ class SageMaker {
   ///
   /// Parameter [tags] :
   /// (Optional) An array of key-value pairs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">Using
-  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
-  /// Management User Guide</i>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">
+  /// Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and
+  /// Cost Management User Guide</i>.
   Future<CreateModelQualityJobDefinitionResponse>
       createModelQualityJobDefinition({
     required String jobDefinitionName,
@@ -4097,8 +4400,8 @@ class SageMaker {
   /// The value of the <code>$PATH</code> environment variable that is available
   /// to both scripts is <code>/sbin:bin:/usr/sbin:/usr/bin</code>.
   ///
-  /// View CloudWatch Logs for notebook instance lifecycle configurations in log
-  /// group <code>/aws/sagemaker/NotebookInstances</code> in log stream
+  /// View Amazon CloudWatch Logs for notebook instance lifecycle configurations
+  /// in log group <code>/aws/sagemaker/NotebookInstances</code> in log stream
   /// <code>[notebook-instance-name]/[LifecycleConfigHook]</code>.
   ///
   /// Lifecycle configuration scripts cannot run for longer than 5 minutes. If a
@@ -4154,6 +4457,7 @@ class SageMaker {
   ///
   /// May throw [ResourceNotFound].
   /// May throw [ResourceLimitExceeded].
+  /// May throw [ConflictException].
   ///
   /// Parameter [pipelineName] :
   /// The name of the pipeline.
@@ -4172,7 +4476,9 @@ class SageMaker {
   /// If specified, it applies to all runs of this pipeline by default.
   ///
   /// Parameter [pipelineDefinition] :
-  /// The JSON pipeline definition of the pipeline.
+  /// The <a
+  /// href="https://aws-sagemaker-mlops.github.io/sagemaker-model-building-pipeline-definition-JSON-schema/">JSON
+  /// pipeline definition</a> of the pipeline.
   ///
   /// Parameter [pipelineDefinitionS3Location] :
   /// The location of the pipeline definition stored in Amazon S3. If specified,
@@ -4230,10 +4536,10 @@ class SageMaker {
   }
 
   /// Creates a URL for a specified UserProfile in a Domain. When accessed in a
-  /// web browser, the user will be automatically signed in to Amazon SageMaker
-  /// Studio, and granted access to all of the Apps and files associated with
-  /// the Domain's Amazon Elastic File System (EFS) volume. This operation can
-  /// only be called when the authentication mode equals IAM.
+  /// web browser, the user will be automatically signed in to the domain, and
+  /// granted access to all of the Apps and files associated with the Domain's
+  /// Amazon Elastic File System volume. This operation can only be called when
+  /// the authentication mode equals IAM.
   ///
   /// The IAM role or user passed to this API defines the permissions to access
   /// the app. Once the presigned URL is created, no additional permission is
@@ -4245,7 +4551,7 @@ class SageMaker {
   /// list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you
   /// specify. For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/studio-interface-endpoint.html">Connect
-  /// to SageMaker Studio Through an Interface VPC Endpoint</a> .
+  /// to Amazon SageMaker Studio Through an Interface VPC Endpoint</a> .
   /// <note>
   /// The URL that you get from a call to <code>CreatePresignedDomainUrl</code>
   /// has a default timeout of 5 minutes. You can configure this value using
@@ -4266,6 +4572,39 @@ class SageMaker {
   /// The number of seconds until the pre-signed URL expires. This value
   /// defaults to 300.
   ///
+  /// Parameter [landingUri] :
+  /// The landing page that the user is directed to when accessing the presigned
+  /// URL. Using this value, users can access Studio or Studio Classic, even if
+  /// it is not the default experience for the domain. The supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>studio::relative/path</code>: Directs users to the relative path in
+  /// Studio.
+  /// </li>
+  /// <li>
+  /// <code>app:JupyterServer:relative/path</code>: Directs users to the
+  /// relative path in the Studio Classic application.
+  /// </li>
+  /// <li>
+  /// <code>app:JupyterLab:relative/path</code>: Directs users to the relative
+  /// path in the JupyterLab application.
+  /// </li>
+  /// <li>
+  /// <code>app:RStudioServerPro:relative/path</code>: Directs users to the
+  /// relative path in the RStudio application.
+  /// </li>
+  /// <li>
+  /// <code>app:CodeEditor:relative/path</code>: Directs users to the relative
+  /// path in the Code Editor, based on Code-OSS, Visual Studio Code - Open
+  /// Source application.
+  /// </li>
+  /// <li>
+  /// <code>app:Canvas:relative/path</code>: Directs users to the relative path
+  /// in the Canvas application.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [sessionExpirationDurationInSeconds] :
   /// The session expiration duration in seconds. This value defaults to 43200.
   ///
@@ -4275,6 +4614,7 @@ class SageMaker {
     required String domainId,
     required String userProfileName,
     int? expiresInSeconds,
+    String? landingUri,
     int? sessionExpirationDurationInSeconds,
     String? spaceName,
   }) async {
@@ -4304,6 +4644,7 @@ class SageMaker {
         'DomainId': domainId,
         'UserProfileName': userProfileName,
         if (expiresInSeconds != null) 'ExpiresInSeconds': expiresInSeconds,
+        if (landingUri != null) 'LandingUri': landingUri,
         if (sessionExpirationDurationInSeconds != null)
           'SessionExpirationDurationInSeconds':
               sessionExpirationDurationInSeconds,
@@ -4521,19 +4862,29 @@ class SageMaker {
     return CreateProjectOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates a space used for real time collaboration in a Domain.
+  /// Creates a private space or a space used for real time collaboration in a
+  /// domain.
   ///
   /// May throw [ResourceLimitExceeded].
   /// May throw [ResourceInUse].
   ///
   /// Parameter [domainId] :
-  /// The ID of the associated Domain.
+  /// The ID of the associated domain.
   ///
   /// Parameter [spaceName] :
   /// The name of the space.
   ///
+  /// Parameter [ownershipSettings] :
+  /// A collection of ownership settings.
+  ///
+  /// Parameter [spaceDisplayName] :
+  /// The name of the space that appears in the SageMaker Studio UI.
+  ///
   /// Parameter [spaceSettings] :
   /// A collection of space settings.
+  ///
+  /// Parameter [spaceSharingSettings] :
+  /// A collection of space sharing settings.
   ///
   /// Parameter [tags] :
   /// Tags to associated with the space. Each tag consists of a key and an
@@ -4542,7 +4893,10 @@ class SageMaker {
   Future<CreateSpaceResponse> createSpace({
     required String domainId,
     required String spaceName,
+    OwnershipSettings? ownershipSettings,
+    String? spaceDisplayName,
     SpaceSettings? spaceSettings,
+    SpaceSharingSettings? spaceSharingSettings,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -4558,7 +4912,11 @@ class SageMaker {
       payload: {
         'DomainId': domainId,
         'SpaceName': spaceName,
+        if (ownershipSettings != null) 'OwnershipSettings': ownershipSettings,
+        if (spaceDisplayName != null) 'SpaceDisplayName': spaceDisplayName,
         if (spaceSettings != null) 'SpaceSettings': spaceSettings,
+        if (spaceSharingSettings != null)
+          'SpaceSharingSettings': spaceSharingSettings,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -4566,7 +4924,7 @@ class SageMaker {
     return CreateSpaceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new Studio Lifecycle Configuration.
+  /// Creates a new Amazon SageMaker Studio Lifecycle Configuration.
   ///
   /// May throw [ResourceInUse].
   ///
@@ -4574,11 +4932,11 @@ class SageMaker {
   /// The App type that the Lifecycle Configuration is attached to.
   ///
   /// Parameter [studioLifecycleConfigContent] :
-  /// The content of your Studio Lifecycle Configuration script. This content
-  /// must be base64 encoded.
+  /// The content of your Amazon SageMaker Studio Lifecycle Configuration
+  /// script. This content must be base64 encoded.
   ///
   /// Parameter [studioLifecycleConfigName] :
-  /// The name of the Studio Lifecycle Configuration to create.
+  /// The name of the Amazon SageMaker Studio Lifecycle Configuration to create.
   ///
   /// Parameter [tags] :
   /// Tags to be associated with the Lifecycle Configuration. Each tag consists
@@ -4802,6 +5160,10 @@ class SageMaker {
   /// training job request and return an exception error.
   /// </important>
   ///
+  /// Parameter [infraCheckConfig] :
+  /// Contains information about the infrastructure health check configuration
+  /// for the training job.
+  ///
   /// Parameter [inputDataConfig] :
   /// An array of <code>Channel</code> objects. Each channel is a named input
   /// source. <code>InputDataConfig</code> describes the input data and its
@@ -4828,9 +5190,20 @@ class SageMaker {
   /// Configuration information for Amazon SageMaker Debugger rules for
   /// profiling system and framework metrics.
   ///
+  /// Parameter [remoteDebugConfig] :
+  /// Configuration for remote debugging. To learn more about the remote
+  /// debugging functionality of SageMaker, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html">Access
+  /// a training container through Amazon Web Services Systems Manager (SSM) for
+  /// remote debugging</a>.
+  ///
   /// Parameter [retryStrategy] :
   /// The number of times to retry the job when the job fails due to an
   /// <code>InternalServerError</code>.
+  ///
+  /// Parameter [sessionChainingConfig] :
+  /// Contains information about attribute-based access control (ABAC) for the
+  /// training job.
   ///
   /// Parameter [tags] :
   /// An array of key-value pairs. You can use tags to categorize your Amazon
@@ -4863,10 +5236,13 @@ class SageMaker {
     Map<String, String>? environment,
     ExperimentConfig? experimentConfig,
     Map<String, String>? hyperParameters,
+    InfraCheckConfig? infraCheckConfig,
     List<Channel>? inputDataConfig,
     ProfilerConfig? profilerConfig,
     List<ProfilerRuleConfiguration>? profilerRuleConfigurations,
+    RemoteDebugConfig? remoteDebugConfig,
     RetryStrategy? retryStrategy,
+    SessionChainingConfig? sessionChainingConfig,
     List<Tag>? tags,
     TensorBoardOutputConfig? tensorBoardOutputConfig,
     VpcConfig? vpcConfig,
@@ -4902,11 +5278,15 @@ class SageMaker {
         if (environment != null) 'Environment': environment,
         if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
         if (hyperParameters != null) 'HyperParameters': hyperParameters,
+        if (infraCheckConfig != null) 'InfraCheckConfig': infraCheckConfig,
         if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
         if (profilerConfig != null) 'ProfilerConfig': profilerConfig,
         if (profilerRuleConfigurations != null)
           'ProfilerRuleConfigurations': profilerRuleConfigurations,
+        if (remoteDebugConfig != null) 'RemoteDebugConfig': remoteDebugConfig,
         if (retryStrategy != null) 'RetryStrategy': retryStrategy,
+        if (sessionChainingConfig != null)
+          'SessionChainingConfig': sessionChainingConfig,
         if (tags != null) 'Tags': tags,
         if (tensorBoardOutputConfig != null)
           'TensorBoardOutputConfig': tensorBoardOutputConfig,
@@ -5291,11 +5671,11 @@ class SageMaker {
   /// Creates a user profile. A user profile represents a single user within a
   /// domain, and is the main way to reference a "person" for the purposes of
   /// sharing, reporting, and other user-oriented features. This entity is
-  /// created when a user onboards to Amazon SageMaker Studio. If an
-  /// administrator invites a person by email or imports them from IAM Identity
-  /// Center, a user profile is automatically created. A user profile is the
-  /// primary holder of settings for an individual user and has a reference to
-  /// the user's private Amazon Elastic File System (EFS) home directory.
+  /// created when a user onboards to a domain. If an administrator invites a
+  /// person by email or imports them from IAM Identity Center, a user profile
+  /// is automatically created. A user profile is the primary holder of settings
+  /// for an individual user and has a reference to the user's private Amazon
+  /// Elastic File System home directory.
   ///
   /// May throw [ResourceLimitExceeded].
   /// May throw [ResourceInUse].
@@ -5498,6 +5878,12 @@ class SageMaker {
   /// Cost Allocation Tags</a> in the <i> Amazon Web Services Billing and Cost
   /// Management User Guide</i>.
   ///
+  /// Parameter [workerAccessConfiguration] :
+  /// Use this optional parameter to constrain access to an Amazon S3 resource
+  /// based on the IP address using supported IAM global condition keys. The
+  /// Amazon S3 resource is accessed in the worker portal using a Amazon S3
+  /// presigned URL.
+  ///
   /// Parameter [workforceName] :
   /// The name of the workforce.
   Future<CreateWorkteamResponse> createWorkteam({
@@ -5506,6 +5892,7 @@ class SageMaker {
     required String workteamName,
     NotificationConfiguration? notificationConfiguration,
     List<Tag>? tags,
+    WorkerAccessConfiguration? workerAccessConfiguration,
     String? workforceName,
   }) async {
     final headers = <String, String>{
@@ -5525,6 +5912,8 @@ class SageMaker {
         if (notificationConfiguration != null)
           'NotificationConfiguration': notificationConfiguration,
         if (tags != null) 'Tags': tags,
+        if (workerAccessConfiguration != null)
+          'WorkerAccessConfiguration': workerAccessConfiguration,
         if (workforceName != null) 'WorkforceName': workforceName,
       },
     );
@@ -5560,6 +5949,8 @@ class SageMaker {
   }
 
   /// Removes the specified algorithm from your account.
+  ///
+  /// May throw [ConflictException].
   ///
   /// Parameter [algorithmName] :
   /// The name of the algorithm to delete.
@@ -5720,6 +6111,35 @@ class SageMaker {
     return DeleteAssociationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Delete a SageMaker HyperPod cluster.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [clusterName] :
+  /// The string name or the Amazon Resource Name (ARN) of the SageMaker
+  /// HyperPod cluster to delete.
+  Future<DeleteClusterResponse> deleteCluster({
+    required String clusterName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterName': clusterName,
+      },
+    );
+
+    return DeleteClusterResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified Git repository from your account.
   ///
   /// Parameter [codeRepositoryName] :
@@ -5739,6 +6159,40 @@ class SageMaker {
       headers: headers,
       payload: {
         'CodeRepositoryName': codeRepositoryName,
+      },
+    );
+  }
+
+  /// Deletes the specified compilation job. This action deletes only the
+  /// compilation job resource in Amazon SageMaker. It doesn't delete other
+  /// resources that are related to that job, such as the model artifacts that
+  /// the job creates, the compilation logs in CloudWatch, the compiled model,
+  /// or the IAM role.
+  ///
+  /// You can delete a compilation job only if its current status is
+  /// <code>COMPLETED</code>, <code>FAILED</code>, or <code>STOPPED</code>. If
+  /// the job status is <code>STARTING</code> or <code>INPROGRESS</code>, stop
+  /// the job, and then delete it after its status becomes <code>STOPPED</code>.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [compilationJobName] :
+  /// The name of the compilation job to delete.
+  Future<void> deleteCompilationJob({
+    required String compilationJobName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteCompilationJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CompilationJobName': compilationJobName,
       },
     );
   }
@@ -6021,6 +6475,10 @@ class SageMaker {
   /// Amazon Web Services Glue database and tables that are automatically
   /// created for your <code>OfflineStore</code> are not deleted.
   ///
+  /// Note that it can take approximately 10-15 minutes to delete an
+  /// <code>OnlineStore</code> <code>FeatureGroup</code> with the
+  /// <code>InMemory</code> <code>StorageType</code>.
+  ///
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [featureGroupName] :
@@ -6178,6 +6636,34 @@ class SageMaker {
     );
   }
 
+  /// Deletes a hyperparameter tuning job. The
+  /// <code>DeleteHyperParameterTuningJob</code> API deletes only the tuning job
+  /// entry that was created in SageMaker when you called the
+  /// <code>CreateHyperParameterTuningJob</code> API. It does not delete
+  /// training jobs, artifacts, or the IAM role that you specified when creating
+  /// the model.
+  ///
+  /// Parameter [hyperParameterTuningJobName] :
+  /// The name of the hyperparameter tuning job that you want to delete.
+  Future<void> deleteHyperParameterTuningJob({
+    required String hyperParameterTuningJobName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteHyperParameterTuningJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HyperParameterTuningJobName': hyperParameterTuningJobName,
+      },
+    );
+  }
+
   /// Deletes a SageMaker image and all versions of the image. The container
   /// images aren't deleted.
   ///
@@ -6244,6 +6730,29 @@ class SageMaker {
         'ImageName': imageName,
         if (alias != null) 'Alias': alias,
         if (version != null) 'Version': version,
+      },
+    );
+  }
+
+  /// Deletes an inference component.
+  ///
+  /// Parameter [inferenceComponentName] :
+  /// The name of the inference component to delete.
+  Future<void> deleteInferenceComponent({
+    required String inferenceComponentName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteInferenceComponent'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InferenceComponentName': inferenceComponentName,
       },
     );
   }
@@ -6574,6 +7083,7 @@ class SageMaker {
   /// pipeline, all instances of the pipeline are deleted.
   ///
   /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
   ///
   /// Parameter [pipelineName] :
   /// The name of the pipeline to delete.
@@ -6637,7 +7147,7 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [domainId] :
-  /// The ID of the associated Domain.
+  /// The ID of the associated domain.
   ///
   /// Parameter [spaceName] :
   /// The name of the space.
@@ -6662,16 +7172,16 @@ class SageMaker {
     );
   }
 
-  /// Deletes the Studio Lifecycle Configuration. In order to delete the
-  /// Lifecycle Configuration, there must be no running apps using the Lifecycle
-  /// Configuration. You must also remove the Lifecycle Configuration from
-  /// UserSettings in all Domains and UserProfiles.
+  /// Deletes the Amazon SageMaker Studio Lifecycle Configuration. In order to
+  /// delete the Lifecycle Configuration, there must be no running apps using
+  /// the Lifecycle Configuration. You must also remove the Lifecycle
+  /// Configuration from UserSettings in all Domains and UserProfiles.
   ///
   /// May throw [ResourceNotFound].
   /// May throw [ResourceInUse].
   ///
   /// Parameter [studioLifecycleConfigName] :
-  /// The name of the Studio Lifecycle Configuration to delete.
+  /// The name of the Amazon SageMaker Studio Lifecycle Configuration to delete.
   Future<void> deleteStudioLifecycleConfig({
     required String studioLifecycleConfigName,
   }) async {
@@ -6699,10 +7209,9 @@ class SageMaker {
   /// the deleted tags are not removed from training jobs that the
   /// hyperparameter tuning job launched before you called this API.
   /// </note> <note>
-  /// When you call this API to delete tags from a SageMaker Studio Domain or
-  /// User Profile, the deleted tags are not removed from Apps that the
-  /// SageMaker Studio Domain or User Profile launched before you called this
-  /// API.
+  /// When you call this API to delete tags from a SageMaker Domain or User
+  /// Profile, the deleted tags are not removed from Apps that the SageMaker
+  /// Domain or User Profile launched before you called this API.
   /// </note>
   ///
   /// Parameter [resourceArn] :
@@ -7073,7 +7582,13 @@ class SageMaker {
     return DescribeArtifactResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about an Amazon SageMaker AutoML job.
+  /// Returns information about an AutoML job created by calling <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html">CreateAutoMLJob</a>.
+  /// <note>
+  /// AutoML jobs created by calling <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>
+  /// cannot be described by <code>DescribeAutoMLJob</code>.
+  /// </note>
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -7100,16 +7615,15 @@ class SageMaker {
     return DescribeAutoMLJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about an Amazon SageMaker AutoML V2 job.
-  /// <note>
-  /// This API action is callable through SageMaker Canvas only. Calling it
-  /// directly from the CLI or an SDK results in an error.
-  /// </note>
+  /// Returns information about an AutoML job created by calling <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html">CreateAutoMLJob</a>.
   ///
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [autoMLJobName] :
-  /// Requests information about an AutoML V2 job using its unique name.
+  /// Requests information about an AutoML job V2 using its unique name.
   Future<DescribeAutoMLJobV2Response> describeAutoMLJobV2({
     required String autoMLJobName,
   }) async {
@@ -7129,6 +7643,68 @@ class SageMaker {
     );
 
     return DescribeAutoMLJobV2Response.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information of a SageMaker HyperPod cluster.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [clusterName] :
+  /// The string name or the Amazon Resource Name (ARN) of the SageMaker
+  /// HyperPod cluster.
+  Future<DescribeClusterResponse> describeCluster({
+    required String clusterName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterName': clusterName,
+      },
+    );
+
+    return DescribeClusterResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information of a node (also called a <i>instance</i>
+  /// interchangeably) of a SageMaker HyperPod cluster.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [clusterName] :
+  /// The string name or the Amazon Resource Name (ARN) of the SageMaker
+  /// HyperPod cluster in which the node is.
+  ///
+  /// Parameter [nodeId] :
+  /// The ID of the SageMaker HyperPod cluster node.
+  Future<DescribeClusterNodeResponse> describeClusterNode({
+    required String clusterName,
+    required String nodeId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeClusterNode'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterName': clusterName,
+        'NodeId': nodeId,
+      },
+    );
+
+    return DescribeClusterNodeResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets details about the specified Git repository.
@@ -7490,7 +8066,8 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [featureGroupName] :
-  /// The name of the <code>FeatureGroup</code> you want described.
+  /// The name or Amazon Resource Name (ARN) of the <code>FeatureGroup</code>
+  /// you want described.
   ///
   /// Parameter [nextToken] :
   /// A token to resume pagination of the list of <code>Features</code>
@@ -7524,7 +8101,8 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [featureGroupName] :
-  /// The name of the feature group containing the feature.
+  /// The name or Amazon Resource Name (ARN) of the feature group containing the
+  /// feature.
   ///
   /// Parameter [featureName] :
   /// The name of the feature.
@@ -7682,7 +8260,9 @@ class SageMaker {
     return DescribeHumanTaskUiResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets a description of a hyperparameter tuning job.
+  /// Returns a description of a hyperparameter tuning job, depending on the
+  /// fields selected. These fields can include the name, Amazon Resource Name
+  /// (ARN), job status of your tuning job and more.
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -7779,6 +8359,31 @@ class SageMaker {
     );
 
     return DescribeImageVersionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about an inference component.
+  ///
+  /// Parameter [inferenceComponentName] :
+  /// The name of the inference component.
+  Future<DescribeInferenceComponentOutput> describeInferenceComponent({
+    required String inferenceComponentName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeInferenceComponent'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InferenceComponentName': inferenceComponentName,
+      },
+    );
+
+    return DescribeInferenceComponentOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns details about an inference experiment.
@@ -7957,7 +8562,7 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [modelCardName] :
-  /// The name of the model card to describe.
+  /// The name or Amazon Resource Name (ARN) of the model card to describe.
   ///
   /// Parameter [modelCardVersion] :
   /// The version of the model card to describe. If a version is not provided,
@@ -8045,7 +8650,12 @@ class SageMaker {
 
   /// Returns a description of the specified model package, which is used to
   /// create SageMaker models or list them on Amazon Web Services Marketplace.
-  ///
+  /// <important>
+  /// If you provided a KMS Key ID when you created your model package, you will
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html">KMS
+  /// Decrypt</a> API call in your CloudTrail logs when you use this API.
+  /// </important>
   /// To create models in SageMaker, buyers can subscribe to model packages
   /// listed on Amazon Web Services Marketplace.
   ///
@@ -8078,7 +8688,7 @@ class SageMaker {
   /// Gets a description for the specified model group.
   ///
   /// Parameter [modelPackageGroupName] :
-  /// The name of gthe model group to describe.
+  /// The name of the model group to describe.
   Future<DescribeModelPackageGroupOutput> describeModelPackageGroup({
     required String modelPackageGroupName,
   }) async {
@@ -8219,7 +8829,7 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [pipelineName] :
-  /// The name of the pipeline to describe.
+  /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
   Future<DescribePipelineResponse> describePipeline({
     required String pipelineName,
   }) async {
@@ -8355,7 +8965,7 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [domainId] :
-  /// The ID of the associated Domain.
+  /// The ID of the associated domain.
   ///
   /// Parameter [spaceName] :
   /// The name of the space.
@@ -8382,12 +8992,13 @@ class SageMaker {
     return DescribeSpaceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describes the Studio Lifecycle Configuration.
+  /// Describes the Amazon SageMaker Studio Lifecycle Configuration.
   ///
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [studioLifecycleConfigName] :
-  /// The name of the Studio Lifecycle Configuration to describe.
+  /// The name of the Amazon SageMaker Studio Lifecycle Configuration to
+  /// describe.
   Future<DescribeStudioLifecycleConfigResponse> describeStudioLifecycleConfig({
     required String studioLifecycleConfigName,
   }) async {
@@ -8555,6 +9166,7 @@ class SageMaker {
   /// <code>CreateUserProfile</code>.
   ///
   /// May throw [ResourceNotFound].
+  /// May throw [ResourceLimitExceeded].
   ///
   /// Parameter [domainId] :
   /// The domain ID.
@@ -8818,6 +9430,76 @@ class SageMaker {
     );
 
     return GetSagemakerServicecatalogPortfolioStatusOutput.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Starts an Amazon SageMaker Inference Recommender autoscaling
+  /// recommendation job. Returns recommendations for autoscaling policies that
+  /// you can apply to your SageMaker endpoint.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [inferenceRecommendationsJobName] :
+  /// The name of a previously completed Inference Recommender job.
+  ///
+  /// Parameter [endpointName] :
+  /// The name of an endpoint benchmarked during a previously completed
+  /// inference recommendation job. This name should come from one of the
+  /// recommendations returned by the job specified in the
+  /// <code>InferenceRecommendationsJobName</code> field.
+  ///
+  /// Specify either this field or the <code>RecommendationId</code> field.
+  ///
+  /// Parameter [recommendationId] :
+  /// The recommendation ID of a previously completed inference recommendation.
+  /// This ID should come from one of the recommendations returned by the job
+  /// specified in the <code>InferenceRecommendationsJobName</code> field.
+  ///
+  /// Specify either this field or the <code>EndpointName</code> field.
+  ///
+  /// Parameter [scalingPolicyObjective] :
+  /// An object where you specify the anticipated traffic pattern for an
+  /// endpoint.
+  ///
+  /// Parameter [targetCpuUtilizationPerCore] :
+  /// The percentage of how much utilization you want an instance to use before
+  /// autoscaling. The default value is 50%.
+  Future<GetScalingConfigurationRecommendationResponse>
+      getScalingConfigurationRecommendation({
+    required String inferenceRecommendationsJobName,
+    String? endpointName,
+    String? recommendationId,
+    ScalingPolicyObjective? scalingPolicyObjective,
+    int? targetCpuUtilizationPerCore,
+  }) async {
+    _s.validateNumRange(
+      'targetCpuUtilizationPerCore',
+      targetCpuUtilizationPerCore,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.GetScalingConfigurationRecommendation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InferenceRecommendationsJobName': inferenceRecommendationsJobName,
+        if (endpointName != null) 'EndpointName': endpointName,
+        if (recommendationId != null) 'RecommendationId': recommendationId,
+        if (scalingPolicyObjective != null)
+          'ScalingPolicyObjective': scalingPolicyObjective,
+        if (targetCpuUtilizationPerCore != null)
+          'TargetCpuUtilizationPerCore': targetCpuUtilizationPerCore,
+      },
+    );
+
+    return GetScalingConfigurationRecommendationResponse.fromJson(
         jsonResponse.body);
   }
 
@@ -9161,8 +9843,11 @@ class SageMaker {
   /// specified time.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of AppImageConfigs to return in the response. The
-  /// default value is 10.
+  /// The total number of items to return in the response. If the total number
+  /// of items available is more than the value specified, a
+  /// <code>NextToken</code> is provided in the response. To resume pagination,
+  /// provide the <code>NextToken</code> value in the as part of a subsequent
+  /// call. The default value is 10.
   ///
   /// Parameter [modifiedTimeAfter] :
   /// A filter that returns only AppImageConfigs modified on or after the
@@ -9240,7 +9925,13 @@ class SageMaker {
   /// A parameter to search for the domain ID.
   ///
   /// Parameter [maxResults] :
-  /// Returns a list up to a specified limit.
+  /// This parameter defines the maximum number of results that can be return in
+  /// a single response. The <code>MaxResults</code> parameter is an upper
+  /// bound, not a target. If there are more results available than the value
+  /// specified, a <code>NextToken</code> is provided in the response. The
+  /// <code>NextToken</code> indicates that the user should get the next set of
+  /// results by providing this token as a part of a subsequent call. The
+  /// default value for <code>MaxResults</code> is 10.
   ///
   /// Parameter [nextToken] :
   /// If the previous response was truncated, you will receive this token. Use
@@ -9590,7 +10281,7 @@ class SageMaker {
       'maxResults',
       maxResults,
       1,
-      100,
+      300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9615,6 +10306,210 @@ class SageMaker {
     );
 
     return ListCandidatesForAutoMLJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the list of instances (also called <i>nodes</i> interchangeably)
+  /// in a SageMaker HyperPod cluster.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [clusterName] :
+  /// The string name or the Amazon Resource Name (ARN) of the SageMaker
+  /// HyperPod cluster in which you want to retrieve the list of nodes.
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// A filter that returns nodes in a SageMaker HyperPod cluster created after
+  /// the specified time. Timestamps are formatted according to the ISO 8601
+  /// standard.
+  ///
+  /// Acceptable formats include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>YYYY-MM-DDThh:mm:ss.sssTZD</code> (UTC), for example,
+  /// <code>2014-10-01T20:30:00.000Z</code>
+  /// </li>
+  /// <li>
+  /// <code>YYYY-MM-DDThh:mm:ss.sssTZD</code> (with offset), for example,
+  /// <code>2014-10-01T12:30:00.000-08:00</code>
+  /// </li>
+  /// <li>
+  /// <code>YYYY-MM-DD</code>, for example, <code>2014-10-01</code>
+  /// </li>
+  /// <li>
+  /// Unix time in seconds, for example, <code>1412195400</code>. This is also
+  /// referred to as Unix Epoch time and represents the number of seconds since
+  /// midnight, January 1, 1970 UTC.
+  /// </li>
+  /// </ul>
+  /// For more information about the timestamp format, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">Timestamp</a>
+  /// in the <i>Amazon Web Services Command Line Interface User Guide</i>.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// A filter that returns nodes in a SageMaker HyperPod cluster created before
+  /// the specified time. The acceptable formats are the same as the timestamp
+  /// formats for <code>CreationTimeAfter</code>. For more information about the
+  /// timestamp format, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">Timestamp</a>
+  /// in the <i>Amazon Web Services Command Line Interface User Guide</i>.
+  ///
+  /// Parameter [instanceGroupNameContains] :
+  /// A filter that returns the instance groups whose name contain a specified
+  /// string.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of nodes to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If the result of the previous <code>ListClusterNodes</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of cluster nodes, use the token in the next request.
+  ///
+  /// Parameter [sortBy] :
+  /// The field by which to sort results. The default value is
+  /// <code>CREATION_TIME</code>.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order for results. The default value is <code>Ascending</code>.
+  Future<ListClusterNodesResponse> listClusterNodes({
+    required String clusterName,
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    String? instanceGroupNameContains,
+    int? maxResults,
+    String? nextToken,
+    ClusterSortBy? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListClusterNodes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterName': clusterName,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (instanceGroupNameContains != null)
+          'InstanceGroupNameContains': instanceGroupNameContains,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListClusterNodesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the list of SageMaker HyperPod clusters.
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// Set a start time for the time range during which you want to list
+  /// SageMaker HyperPod clusters. Timestamps are formatted according to the ISO
+  /// 8601 standard.
+  ///
+  /// Acceptable formats include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>YYYY-MM-DDThh:mm:ss.sssTZD</code> (UTC), for example,
+  /// <code>2014-10-01T20:30:00.000Z</code>
+  /// </li>
+  /// <li>
+  /// <code>YYYY-MM-DDThh:mm:ss.sssTZD</code> (with offset), for example,
+  /// <code>2014-10-01T12:30:00.000-08:00</code>
+  /// </li>
+  /// <li>
+  /// <code>YYYY-MM-DD</code>, for example, <code>2014-10-01</code>
+  /// </li>
+  /// <li>
+  /// Unix time in seconds, for example, <code>1412195400</code>. This is also
+  /// referred to as Unix Epoch time and represents the number of seconds since
+  /// midnight, January 1, 1970 UTC.
+  /// </li>
+  /// </ul>
+  /// For more information about the timestamp format, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">Timestamp</a>
+  /// in the <i>Amazon Web Services Command Line Interface User Guide</i>.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// Set an end time for the time range during which you want to list SageMaker
+  /// HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod
+  /// cluster created before the specified time. The acceptable formats are the
+  /// same as the timestamp formats for <code>CreationTimeAfter</code>. For more
+  /// information about the timestamp format, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">Timestamp</a>
+  /// in the <i>Amazon Web Services Command Line Interface User Guide</i>.
+  ///
+  /// Parameter [maxResults] :
+  /// Set the maximum number of SageMaker HyperPod clusters to list.
+  ///
+  /// Parameter [nameContains] :
+  /// Set the maximum number of instances to print in the list.
+  ///
+  /// Parameter [nextToken] :
+  /// Set the next token to retrieve the list of SageMaker HyperPod clusters.
+  ///
+  /// Parameter [sortBy] :
+  /// The field by which to sort results. The default value is
+  /// <code>CREATION_TIME</code>.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order for results. The default value is <code>Ascending</code>.
+  Future<ListClustersResponse> listClusters({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    ClusterSortBy? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListClusters'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListClustersResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of the Git repositories in your account.
@@ -9903,7 +10798,8 @@ class SageMaker {
   /// The field to sort results by. The default is <code>CreationTime</code>.
   ///
   /// Parameter [sortOrder] :
-  /// The sort order for results. The default is <code>Descending</code>.
+  /// Whether to sort the results in <code>Ascending</code> or
+  /// <code>Descending</code> order. The default is <code>Descending</code>.
   Future<ListDataQualityJobDefinitionsResponse> listDataQualityJobDefinitions({
     DateTime? creationTimeAfter,
     DateTime? creationTimeBefore,
@@ -10081,7 +10977,13 @@ class SageMaker {
   /// Lists the domains.
   ///
   /// Parameter [maxResults] :
-  /// Returns a list up to a specified limit.
+  /// This parameter defines the maximum number of results that can be return in
+  /// a single response. The <code>MaxResults</code> parameter is an upper
+  /// bound, not a target. If there are more results available than the value
+  /// specified, a <code>NextToken</code> is provided in the response. The
+  /// <code>NextToken</code> indicates that the user should get the next set of
+  /// results by providing this token as a part of a subsequent call. The
+  /// default value for <code>MaxResults</code> is 10.
   ///
   /// Parameter [nextToken] :
   /// If the previous response was truncated, you will receive this token. Use
@@ -11218,6 +12120,111 @@ class SageMaker {
     return ListImagesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the inference components in your account and their properties.
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// Filters the results to only those inference components that were created
+  /// after the specified time.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// Filters the results to only those inference components that were created
+  /// before the specified time.
+  ///
+  /// Parameter [endpointNameEquals] :
+  /// An endpoint name to filter the listed inference components. The response
+  /// includes only those inference components that are hosted at the specified
+  /// endpoint.
+  ///
+  /// Parameter [lastModifiedTimeAfter] :
+  /// Filters the results to only those inference components that were updated
+  /// after the specified time.
+  ///
+  /// Parameter [lastModifiedTimeBefore] :
+  /// Filters the results to only those inference components that were updated
+  /// before the specified time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of inference components to return in the response. This
+  /// value defaults to 10.
+  ///
+  /// Parameter [nameContains] :
+  /// Filters the results to only those inference components with a name that
+  /// contains the specified string.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that you use to get the next set of results following a truncated
+  /// response. If the response to the previous request was truncated, that
+  /// response provides the value for this token.
+  ///
+  /// Parameter [sortBy] :
+  /// The field by which to sort the inference components in the response. The
+  /// default is <code>CreationTime</code>.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order for results. The default is <code>Descending</code>.
+  ///
+  /// Parameter [statusEquals] :
+  /// Filters the results to only those inference components with the specified
+  /// status.
+  ///
+  /// Parameter [variantNameEquals] :
+  /// A production variant name to filter the listed inference components. The
+  /// response includes only those inference components that are hosted at the
+  /// specified variant.
+  Future<ListInferenceComponentsOutput> listInferenceComponents({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    String? endpointNameEquals,
+    DateTime? lastModifiedTimeAfter,
+    DateTime? lastModifiedTimeBefore,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    InferenceComponentSortKey? sortBy,
+    OrderKey? sortOrder,
+    InferenceComponentStatus? statusEquals,
+    String? variantNameEquals,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListInferenceComponents'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (endpointNameEquals != null)
+          'EndpointNameEquals': endpointNameEquals,
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (variantNameEquals != null) 'VariantNameEquals': variantNameEquals,
+      },
+    );
+
+    return ListInferenceComponentsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Returns the list of all inference experiments.
   ///
   /// Parameter [creationTimeAfter] :
@@ -11871,7 +12878,8 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [modelCardName] :
-  /// List model card versions for the model card with the specified name.
+  /// List model card versions for the model card with the specified name or
+  /// Amazon Resource Name (ARN).
   ///
   /// Parameter [creationTimeAfter] :
   /// Only list model card versions that were created after the time specified.
@@ -12337,7 +13345,8 @@ class SageMaker {
   /// The field to sort results by. The default is <code>CreationTime</code>.
   ///
   /// Parameter [sortOrder] :
-  /// The sort order for results. The default is <code>Descending</code>.
+  /// Whether to sort the results in <code>Ascending</code> or
+  /// <code>Descending</code> order. The default is <code>Descending</code>.
   Future<ListModelQualityJobDefinitionsResponse>
       listModelQualityJobDefinitions({
     DateTime? creationTimeAfter,
@@ -12619,9 +13628,9 @@ class SageMaker {
   /// Filter for jobs scheduled before a specified time.
   ///
   /// Parameter [sortBy] :
-  /// Whether to sort results by <code>Status</code>, <code>CreationTime</code>,
-  /// <code>ScheduledTime</code> field. The default is
-  /// <code>CreationTime</code>.
+  /// Whether to sort the results by the <code>Status</code>,
+  /// <code>CreationTime</code>, or <code>ScheduledTime</code> field. The
+  /// default is <code>CreationTime</code>.
   ///
   /// Parameter [sortOrder] :
   /// Whether to sort the results in <code>Ascending</code> or
@@ -12734,9 +13743,9 @@ class SageMaker {
   /// of job executions, use it in the next request.
   ///
   /// Parameter [sortBy] :
-  /// Whether to sort results by <code>Status</code>, <code>CreationTime</code>,
-  /// <code>ScheduledTime</code> field. The default is
-  /// <code>CreationTime</code>.
+  /// Whether to sort the results by the <code>Status</code>,
+  /// <code>CreationTime</code>, or <code>ScheduledTime</code> field. The
+  /// default is <code>CreationTime</code>.
   ///
   /// Parameter [sortOrder] :
   /// Whether to sort the results in <code>Ascending</code> or
@@ -13066,7 +14075,7 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [pipelineName] :
-  /// The name of the pipeline.
+  /// The name or Amazon Resource Name (ARN) of the pipeline.
   ///
   /// Parameter [createdAfter] :
   /// A filter that returns the pipeline executions that were created after a
@@ -13403,13 +14412,87 @@ class SageMaker {
     return ListProjectsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Lists Amazon SageMaker Catalogs based on given filters and orders. The
+  /// maximum number of <code>ResourceCatalog</code>s viewable is 1000.
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// Use this parameter to search for <code>ResourceCatalog</code>s created
+  /// after a specific date and time.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// Use this parameter to search for <code>ResourceCatalog</code>s created
+  /// before a specific date and time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned by
+  /// <code>ListResourceCatalogs</code>.
+  ///
+  /// Parameter [nameContains] :
+  /// A string that partially matches one or more <code>ResourceCatalog</code>s
+  /// names. Filters <code>ResourceCatalog</code> by name.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to resume pagination of <code>ListResourceCatalogs</code> results.
+  ///
+  /// Parameter [sortBy] :
+  /// The value on which the resource catalog list is sorted.
+  ///
+  /// Parameter [sortOrder] :
+  /// The order in which the resource catalogs are listed.
+  Future<ListResourceCatalogsResponse> listResourceCatalogs({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    ResourceCatalogSortBy? sortBy,
+    ResourceCatalogSortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListResourceCatalogs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListResourceCatalogsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists spaces.
   ///
   /// Parameter [domainIdEquals] :
-  /// A parameter to search for the Domain ID.
+  /// A parameter to search for the domain ID.
   ///
   /// Parameter [maxResults] :
-  /// Returns a list up to a specified limit.
+  /// This parameter defines the maximum number of results that can be return in
+  /// a single response. The <code>MaxResults</code> parameter is an upper
+  /// bound, not a target. If there are more results available than the value
+  /// specified, a <code>NextToken</code> is provided in the response. The
+  /// <code>NextToken</code> indicates that the user should get the next set of
+  /// results by providing this token as a part of a subsequent call. The
+  /// default value for <code>MaxResults</code> is 10.
   ///
   /// Parameter [nextToken] :
   /// If the previous response was truncated, you will receive this token. Use
@@ -13516,8 +14599,8 @@ class SageMaker {
     return ListStageDevicesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the Studio Lifecycle Configurations in your Amazon Web Services
-  /// Account.
+  /// Lists the Amazon SageMaker Studio Lifecycle Configurations in your Amazon
+  /// Web Services Account.
   ///
   /// May throw [ResourceInUse].
   ///
@@ -13534,8 +14617,11 @@ class SageMaker {
   /// the specified time.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of Studio Lifecycle Configurations to return in the
-  /// response. The default value is 10.
+  /// The total number of items to return in the response. If the total number
+  /// of items available is more than the value specified, a
+  /// <code>NextToken</code> is provided in the response. To resume pagination,
+  /// provide the <code>NextToken</code> value in the as part of a subsequent
+  /// call. The default value is 10.
   ///
   /// Parameter [modifiedTimeAfter] :
   /// A filter that returns only Lifecycle Configurations modified after the
@@ -14159,7 +15245,13 @@ class SageMaker {
   /// A parameter by which to filter the results.
   ///
   /// Parameter [maxResults] :
-  /// Returns a list up to a specified limit.
+  /// This parameter defines the maximum number of results that can be return in
+  /// a single response. The <code>MaxResults</code> parameter is an upper
+  /// bound, not a target. If there are more results available than the value
+  /// specified, a <code>NextToken</code> is provided in the response. The
+  /// <code>NextToken</code> indicates that the user should get the next set of
+  /// results by providing this token as a part of a subsequent call. The
+  /// default value for <code>MaxResults</code> is 10.
   ///
   /// Parameter [nextToken] :
   /// If the previous response was truncated, you will receive this token. Use
@@ -14326,6 +15418,8 @@ class SageMaker {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">Identity-based
   /// policies and resource-based policies</a> in the <i>Amazon Web Services
   /// Identity and Access Management User Guide.</i>.
+  ///
+  /// May throw [ConflictException].
   ///
   /// Parameter [modelPackageGroupName] :
   /// The name of the model group to add a resource policy to.
@@ -14608,6 +15702,18 @@ class SageMaker {
   /// Parameter [resource] :
   /// The name of the SageMaker resource to search for.
   ///
+  /// Parameter [crossAccountFilterOption] :
+  /// A cross account filter option. When the value is
+  /// <code>"CrossAccount"</code> the search results will only include resources
+  /// made discoverable to you from other accounts. When the value is
+  /// <code>"SameAccount"</code> or <code>null</code> the search results will
+  /// only include resources from your account. Default is <code>null</code>.
+  /// For more information on searching for resources made discoverable to your
+  /// account, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html">
+  /// Search discoverable resources</a> in the SageMaker Developer Guide. The
+  /// maximum number of <code>ResourceCatalog</code>s viewable is 1000.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
   ///
@@ -14633,13 +15739,19 @@ class SageMaker {
   /// How <code>SearchResults</code> are ordered. Valid values are
   /// <code>Ascending</code> or <code>Descending</code>. The default is
   /// <code>Descending</code>.
+  ///
+  /// Parameter [visibilityConditions] :
+  /// Limits the results of your search request to the resources that you can
+  /// access.
   Future<SearchResponse> search({
     required ResourceType resource,
+    CrossAccountFilterOption? crossAccountFilterOption,
     int? maxResults,
     String? nextToken,
     SearchExpression? searchExpression,
     String? sortBy,
     SearchSortOrder? sortOrder,
+    List<VisibilityConditions>? visibilityConditions,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -14659,11 +15771,15 @@ class SageMaker {
       headers: headers,
       payload: {
         'Resource': resource.toValue(),
+        if (crossAccountFilterOption != null)
+          'CrossAccountFilterOption': crossAccountFilterOption.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (searchExpression != null) 'SearchExpression': searchExpression,
         if (sortBy != null) 'SortBy': sortBy,
         if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (visibilityConditions != null)
+          'VisibilityConditions': visibilityConditions,
       },
     );
 
@@ -14677,6 +15793,7 @@ class SageMaker {
   ///
   /// May throw [ResourceNotFound].
   /// May throw [ResourceLimitExceeded].
+  /// May throw [ConflictException].
   ///
   /// Parameter [callbackToken] :
   /// The pipeline generated token from the Amazon SQS queue.
@@ -14722,6 +15839,7 @@ class SageMaker {
   ///
   /// May throw [ResourceNotFound].
   /// May throw [ResourceLimitExceeded].
+  /// May throw [ConflictException].
   ///
   /// Parameter [callbackToken] :
   /// The pipeline generated token from the Amazon SQS queue.
@@ -14878,9 +15996,10 @@ class SageMaker {
   ///
   /// May throw [ResourceNotFound].
   /// May throw [ResourceLimitExceeded].
+  /// May throw [ConflictException].
   ///
   /// Parameter [pipelineName] :
-  /// The name of the pipeline.
+  /// The name or Amazon Resource Name (ARN) of the pipeline.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -14899,6 +16018,9 @@ class SageMaker {
   ///
   /// Parameter [pipelineParameters] :
   /// Contains a list of pipeline parameters. This list can be empty.
+  ///
+  /// Parameter [selectiveExecutionConfig] :
+  /// The selective execution configuration applied to the pipeline run.
   Future<StartPipelineExecutionResponse> startPipelineExecution({
     required String pipelineName,
     String? clientRequestToken,
@@ -14906,6 +16028,7 @@ class SageMaker {
     String? pipelineExecutionDescription,
     String? pipelineExecutionDisplayName,
     List<Parameter>? pipelineParameters,
+    SelectiveExecutionConfig? selectiveExecutionConfig,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14929,6 +16052,8 @@ class SageMaker {
           'PipelineExecutionDisplayName': pipelineExecutionDisplayName,
         if (pipelineParameters != null)
           'PipelineParameters': pipelineParameters,
+        if (selectiveExecutionConfig != null)
+          'SelectiveExecutionConfig': selectiveExecutionConfig,
       },
     );
 
@@ -15291,6 +16416,7 @@ class SageMaker {
   /// timeout is hit the pipeline execution status is <code>Failed</code>.
   ///
   /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
   ///
   /// Parameter [pipelineExecutionArn] :
   /// The Amazon Resource Name (ARN) of the pipeline execution.
@@ -15467,10 +16593,18 @@ class SageMaker {
   /// Parameter [appImageConfigName] :
   /// The name of the AppImageConfig to update.
   ///
+  /// Parameter [codeEditorAppImageConfig] :
+  /// The Code Editor app running on the image.
+  ///
+  /// Parameter [jupyterLabAppImageConfig] :
+  /// The JupyterLab app running on the image.
+  ///
   /// Parameter [kernelGatewayImageConfig] :
   /// The new KernelGateway app to run on the image.
   Future<UpdateAppImageConfigResponse> updateAppImageConfig({
     required String appImageConfigName,
+    CodeEditorAppImageConfig? codeEditorAppImageConfig,
+    JupyterLabAppImageConfig? jupyterLabAppImageConfig,
     KernelGatewayImageConfig? kernelGatewayImageConfig,
   }) async {
     final headers = <String, String>{
@@ -15485,6 +16619,10 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppImageConfigName': appImageConfigName,
+        if (codeEditorAppImageConfig != null)
+          'CodeEditorAppImageConfig': codeEditorAppImageConfig,
+        if (jupyterLabAppImageConfig != null)
+          'JupyterLabAppImageConfig': jupyterLabAppImageConfig,
         if (kernelGatewayImageConfig != null)
           'KernelGatewayImageConfig': kernelGatewayImageConfig,
       },
@@ -15537,7 +16675,75 @@ class SageMaker {
     return UpdateArtifactResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates a SageMaker HyperPod cluster.
+  ///
+  /// May throw [ResourceLimitExceeded].
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [clusterName] :
+  /// Specify the name of the SageMaker HyperPod cluster you want to update.
+  ///
+  /// Parameter [instanceGroups] :
+  /// Specify the instance groups to update.
+  Future<UpdateClusterResponse> updateCluster({
+    required String clusterName,
+    required List<ClusterInstanceGroupSpecification> instanceGroups,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.UpdateCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterName': clusterName,
+        'InstanceGroups': instanceGroups,
+      },
+    );
+
+    return UpdateClusterResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the platform software of a SageMaker HyperPod cluster for security
+  /// patching. To learn how to use this API, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software">Update
+  /// the SageMaker HyperPod platform software of a cluster</a>.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [clusterName] :
+  /// Specify the name or the Amazon Resource Name (ARN) of the SageMaker
+  /// HyperPod cluster you want to update for security patching.
+  Future<UpdateClusterSoftwareResponse> updateClusterSoftware({
+    required String clusterName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.UpdateClusterSoftware'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterName': clusterName,
+      },
+    );
+
+    return UpdateClusterSoftwareResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates the specified Git repository with the specified values.
+  ///
+  /// May throw [ConflictException].
   ///
   /// Parameter [codeRepositoryName] :
   /// The name of the Git repository to update.
@@ -15705,6 +16911,27 @@ class SageMaker {
   /// Parameter [domainId] :
   /// The ID of the domain to be updated.
   ///
+  /// Parameter [appNetworkAccessType] :
+  /// Specifies the VPC used for non-EFS traffic.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PublicInternetOnly</code> - Non-EFS traffic is through a VPC managed
+  /// by Amazon SageMaker, which allows direct internet access.
+  /// </li>
+  /// <li>
+  /// <code>VpcOnly</code> - All Studio traffic is through the specified VPC and
+  /// subnets.
+  /// </li>
+  /// </ul>
+  /// This configuration can only be modified if there are no apps in the
+  /// <code>InService</code>, <code>Pending</code>, or <code>Deleting</code>
+  /// state. The configuration cannot be updated if
+  /// <code>DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn</code>
+  /// is already set or
+  /// <code>DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn</code>
+  /// is provided as part of the same request.
+  ///
   /// Parameter [appSecurityGroupManagement] :
   /// The entity that creates and manages the required security groups for
   /// inter-app communication in <code>VPCOnly</code> mode. Required when
@@ -15714,7 +16941,7 @@ class SageMaker {
   /// must be set to <code>Service</code>.
   ///
   /// Parameter [defaultSpaceSettings] :
-  /// The default settings used to create a space within the Domain.
+  /// The default settings used to create a space within the domain.
   ///
   /// Parameter [defaultUserSettings] :
   /// A collection of settings.
@@ -15722,12 +16949,21 @@ class SageMaker {
   /// Parameter [domainSettingsForUpdate] :
   /// A collection of <code>DomainSettings</code> configuration values to
   /// update.
+  ///
+  /// Parameter [subnetIds] :
+  /// The VPC subnets that Studio uses for communication.
+  ///
+  /// If removing subnets, ensure there are no apps in the
+  /// <code>InService</code>, <code>Pending</code>, or <code>Deleting</code>
+  /// state.
   Future<UpdateDomainResponse> updateDomain({
     required String domainId,
+    AppNetworkAccessType? appNetworkAccessType,
     AppSecurityGroupManagement? appSecurityGroupManagement,
     DefaultSpaceSettings? defaultSpaceSettings,
     UserSettings? defaultUserSettings,
     DomainSettingsForUpdate? domainSettingsForUpdate,
+    List<String>? subnetIds,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -15741,6 +16977,8 @@ class SageMaker {
       headers: headers,
       payload: {
         'DomainId': domainId,
+        if (appNetworkAccessType != null)
+          'AppNetworkAccessType': appNetworkAccessType.toValue(),
         if (appSecurityGroupManagement != null)
           'AppSecurityGroupManagement': appSecurityGroupManagement.toValue(),
         if (defaultSpaceSettings != null)
@@ -15749,16 +16987,21 @@ class SageMaker {
           'DefaultUserSettings': defaultUserSettings,
         if (domainSettingsForUpdate != null)
           'DomainSettingsForUpdate': domainSettingsForUpdate,
+        if (subnetIds != null) 'SubnetIds': subnetIds,
       },
     );
 
     return UpdateDomainResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deploys the new <code>EndpointConfig</code> specified in the request,
-  /// switches to using newly created endpoint, and then deletes resources
-  /// provisioned for the endpoint using the previous
-  /// <code>EndpointConfig</code> (there is no availability loss).
+  /// Deploys the <code>EndpointConfig</code> specified in the request to a new
+  /// fleet of instances. SageMaker shifts endpoint traffic to the new instances
+  /// with the updated endpoint configuration and then deletes the old instances
+  /// using the previous <code>EndpointConfig</code> (there is no availability
+  /// loss). For more information about how to control the update and traffic
+  /// shifting process, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/deployment-guardrails.html">
+  /// Update models in production</a>.
   ///
   /// When SageMaker receives the request, it sets the endpoint status to
   /// <code>Updating</code>. After updating the endpoint, it sets the status to
@@ -15928,21 +17171,46 @@ class SageMaker {
     return UpdateExperimentResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates the feature group.
+  /// Updates the feature group by either adding features or updating the online
+  /// store configuration. Use one of the following request parameters at a time
+  /// while using the <code>UpdateFeatureGroup</code> API.
+  ///
+  /// You can add features for your feature group using the
+  /// <code>FeatureAdditions</code> request parameter. Features cannot be
+  /// removed from a feature group.
+  ///
+  /// You can update the online store configuration by using the
+  /// <code>OnlineStoreConfig</code> request parameter. If a
+  /// <code>TtlDuration</code> is specified, the default
+  /// <code>TtlDuration</code> applies for all records added to the feature
+  /// group <i>after the feature group is updated</i>. If a record level
+  /// <code>TtlDuration</code> exists from using the <code>PutRecord</code> API,
+  /// the record level <code>TtlDuration</code> applies to that record instead
+  /// of the default <code>TtlDuration</code>. To remove the default
+  /// <code>TtlDuration</code> from an existing feature group, use the
+  /// <code>UpdateFeatureGroup</code> API and set the <code>TtlDuration</code>
+  /// <code>Unit</code> and <code>Value</code> to <code>null</code>.
   ///
   /// May throw [ResourceNotFound].
+  /// May throw [ResourceLimitExceeded].
   ///
   /// Parameter [featureGroupName] :
-  /// The name of the feature group that you're updating.
+  /// The name or Amazon Resource Name (ARN) of the feature group that you're
+  /// updating.
   ///
   /// Parameter [featureAdditions] :
   /// Updates the feature group. Updating a feature group is an asynchronous
   /// operation. When you get an HTTP 200 response, you've made a valid request.
   /// It takes some time after you've made a valid request for Feature Store to
   /// update the feature group.
+  ///
+  /// Parameter [onlineStoreConfig] :
+  /// Updates the feature group online store configuration.
   Future<UpdateFeatureGroupResponse> updateFeatureGroup({
     required String featureGroupName,
     List<FeatureDefinition>? featureAdditions,
+    OnlineStoreConfigUpdate? onlineStoreConfig,
+    ThroughputConfigUpdate? throughputConfig,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -15957,6 +17225,8 @@ class SageMaker {
       payload: {
         'FeatureGroupName': featureGroupName,
         if (featureAdditions != null) 'FeatureAdditions': featureAdditions,
+        if (onlineStoreConfig != null) 'OnlineStoreConfig': onlineStoreConfig,
+        if (throughputConfig != null) 'ThroughputConfig': throughputConfig,
       },
     );
 
@@ -15968,7 +17238,8 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [featureGroupName] :
-  /// The name of the feature group containing the feature that you're updating.
+  /// The name or Amazon Resource Name (ARN) of the feature group containing the
+  /// feature that you're updating.
   ///
   /// Parameter [featureName] :
   /// The name of the feature that you're updating.
@@ -16242,6 +17513,78 @@ class SageMaker {
     return UpdateImageVersionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates an inference component.
+  ///
+  /// May throw [ResourceLimitExceeded].
+  ///
+  /// Parameter [inferenceComponentName] :
+  /// The name of the inference component.
+  ///
+  /// Parameter [runtimeConfig] :
+  /// Runtime settings for a model that is deployed with an inference component.
+  ///
+  /// Parameter [specification] :
+  /// Details about the resources to deploy with this inference component,
+  /// including the model, container, and compute resources.
+  Future<UpdateInferenceComponentOutput> updateInferenceComponent({
+    required String inferenceComponentName,
+    InferenceComponentRuntimeConfig? runtimeConfig,
+    InferenceComponentSpecification? specification,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.UpdateInferenceComponent'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InferenceComponentName': inferenceComponentName,
+        if (runtimeConfig != null) 'RuntimeConfig': runtimeConfig,
+        if (specification != null) 'Specification': specification,
+      },
+    );
+
+    return UpdateInferenceComponentOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Runtime settings for a model that is deployed with an inference component.
+  ///
+  /// May throw [ResourceLimitExceeded].
+  ///
+  /// Parameter [desiredRuntimeConfig] :
+  /// Runtime settings for a model that is deployed with an inference component.
+  ///
+  /// Parameter [inferenceComponentName] :
+  /// The name of the inference component to update.
+  Future<UpdateInferenceComponentRuntimeConfigOutput>
+      updateInferenceComponentRuntimeConfig({
+    required InferenceComponentRuntimeConfig desiredRuntimeConfig,
+    required String inferenceComponentName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.UpdateInferenceComponentRuntimeConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DesiredRuntimeConfig': desiredRuntimeConfig,
+        'InferenceComponentName': inferenceComponentName,
+      },
+    );
+
+    return UpdateInferenceComponentRuntimeConfigOutput.fromJson(
+        jsonResponse.body);
+  }
+
   /// Updates an inference experiment that you created. The status of the
   /// inference experiment has to be either <code>Created</code>,
   /// <code>Running</code>. For more information on the status of an inference
@@ -16319,7 +17662,7 @@ class SageMaker {
   /// May throw [ConflictException].
   ///
   /// Parameter [modelCardName] :
-  /// The name of the model card to update.
+  /// The name or Amazon Resource Name (ARN) of the model card to update.
   ///
   /// Parameter [content] :
   /// The updated model card content. Content must be in <a
@@ -16377,6 +17720,8 @@ class SageMaker {
 
   /// Updates a versioned model.
   ///
+  /// May throw [ConflictException].
+  ///
   /// Parameter [modelPackageArn] :
   /// The Amazon Resource Name (ARN) of the model package.
   ///
@@ -16398,8 +17743,43 @@ class SageMaker {
   /// The metadata properties associated with the model package versions to
   /// remove.
   ///
+  /// Parameter [inferenceSpecification] :
+  /// Specifies details about inference jobs that you can run with models based
+  /// on this model package, including the following information:
+  ///
+  /// <ul>
+  /// <li>
+  /// The Amazon ECR paths of containers that contain the inference code and
+  /// model artifacts.
+  /// </li>
+  /// <li>
+  /// The instance types that the model package supports for transform jobs and
+  /// real-time endpoints used for inference.
+  /// </li>
+  /// <li>
+  /// The input and output content formats that the model package supports for
+  /// inference.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [modelApprovalStatus] :
   /// The approval status of the model.
+  ///
+  /// Parameter [modelCard] :
+  /// The model card associated with the model package. Since
+  /// <code>ModelPackageModelCard</code> is tied to a model package, it is a
+  /// specific usage of a model card and its schema is simplified compared to
+  /// the schema of <code>ModelCard</code>. The
+  /// <code>ModelPackageModelCard</code> schema does not include
+  /// <code>model_package_details</code>, and <code>model_overview</code> is
+  /// composed of the <code>model_creator</code> and <code>model_artifact</code>
+  /// properties. For more information about the model card associated with the
+  /// model package, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
+  /// the Details of a Model Version</a>.
+  ///
+  /// Parameter [sourceUri] :
+  /// The URI of the source for the model package.
   Future<UpdateModelPackageOutput> updateModelPackage({
     required String modelPackageArn,
     List<AdditionalInferenceSpecificationDefinition>?
@@ -16407,7 +17787,10 @@ class SageMaker {
     String? approvalDescription,
     Map<String, String>? customerMetadataProperties,
     List<String>? customerMetadataPropertiesToRemove,
+    InferenceSpecification? inferenceSpecification,
     ModelApprovalStatus? modelApprovalStatus,
+    ModelPackageModelCard? modelCard,
+    String? sourceUri,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16431,8 +17814,12 @@ class SageMaker {
         if (customerMetadataPropertiesToRemove != null)
           'CustomerMetadataPropertiesToRemove':
               customerMetadataPropertiesToRemove,
+        if (inferenceSpecification != null)
+          'InferenceSpecification': inferenceSpecification,
         if (modelApprovalStatus != null)
           'ModelApprovalStatus': modelApprovalStatus.toValue(),
+        if (modelCard != null) 'ModelCard': modelCard,
+        if (sourceUri != null) 'SourceUri': sourceUri,
       },
     );
 
@@ -16742,6 +18129,7 @@ class SageMaker {
   /// Updates a pipeline.
   ///
   /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
   ///
   /// Parameter [pipelineName] :
   /// The name of the pipeline to update.
@@ -16805,6 +18193,7 @@ class SageMaker {
   /// Updates a pipeline execution.
   ///
   /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
   ///
   /// Parameter [pipelineExecutionArn] :
   /// The Amazon Resource Name (ARN) of the pipeline execution.
@@ -16856,6 +18245,8 @@ class SageMaker {
   /// active or being created, or updated, you may lose resources already
   /// created by the project.
   /// </note>
+  ///
+  /// May throw [ConflictException].
   ///
   /// Parameter [projectName] :
   /// The name of the project.
@@ -16919,16 +18310,20 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [domainId] :
-  /// The ID of the associated Domain.
+  /// The ID of the associated domain.
   ///
   /// Parameter [spaceName] :
   /// The name of the space.
+  ///
+  /// Parameter [spaceDisplayName] :
+  /// The name of the space that appears in the Amazon SageMaker Studio UI.
   ///
   /// Parameter [spaceSettings] :
   /// A collection of space settings.
   Future<UpdateSpaceResponse> updateSpace({
     required String domainId,
     required String spaceName,
+    String? spaceDisplayName,
     SpaceSettings? spaceSettings,
   }) async {
     final headers = <String, String>{
@@ -16944,6 +18339,7 @@ class SageMaker {
       payload: {
         'DomainId': domainId,
         'SpaceName': spaceName,
+        if (spaceDisplayName != null) 'SpaceDisplayName': spaceDisplayName,
         if (spaceSettings != null) 'SpaceSettings': spaceSettings,
       },
     );
@@ -16955,6 +18351,7 @@ class SageMaker {
   /// configuration or to change warm pool retention length.
   ///
   /// May throw [ResourceNotFound].
+  /// May throw [ResourceLimitExceeded].
   ///
   /// Parameter [trainingJobName] :
   /// The name of a training job to update the Debugger profiling configuration.
@@ -16967,6 +18364,16 @@ class SageMaker {
   /// Configuration information for Amazon SageMaker Debugger rules for
   /// profiling system and framework metrics.
   ///
+  /// Parameter [remoteDebugConfig] :
+  /// Configuration for remote debugging while the training job is running. You
+  /// can update the remote debugging configuration when the
+  /// <code>SecondaryStatus</code> of the job is <code>Downloading</code> or
+  /// <code>Training</code>.To learn more about the remote debugging
+  /// functionality of SageMaker, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html">Access
+  /// a training container through Amazon Web Services Systems Manager (SSM) for
+  /// remote debugging</a>.
+  ///
   /// Parameter [resourceConfig] :
   /// The training job <code>ResourceConfig</code> to update warm pool retention
   /// length.
@@ -16974,6 +18381,7 @@ class SageMaker {
     required String trainingJobName,
     ProfilerConfigForUpdate? profilerConfig,
     List<ProfilerRuleConfiguration>? profilerRuleConfigurations,
+    RemoteDebugConfigForUpdate? remoteDebugConfig,
     ResourceConfigForUpdate? resourceConfig,
   }) async {
     final headers = <String, String>{
@@ -16991,6 +18399,7 @@ class SageMaker {
         if (profilerConfig != null) 'ProfilerConfig': profilerConfig,
         if (profilerRuleConfigurations != null)
           'ProfilerRuleConfigurations': profilerRuleConfigurations,
+        if (remoteDebugConfig != null) 'RemoteDebugConfig': remoteDebugConfig,
         if (resourceConfig != null) 'ResourceConfig': resourceConfig,
       },
     );
@@ -17294,11 +18703,18 @@ class SageMaker {
   ///
   /// Parameter [notificationConfiguration] :
   /// Configures SNS topic notifications for available or expiring work items
+  ///
+  /// Parameter [workerAccessConfiguration] :
+  /// Use this optional parameter to constrain access to an Amazon S3 resource
+  /// based on the IP address using supported IAM global condition keys. The
+  /// Amazon S3 resource is accessed in the worker portal using a Amazon S3
+  /// presigned URL.
   Future<UpdateWorkteamResponse> updateWorkteam({
     required String workteamName,
     String? description,
     List<MemberDefinition>? memberDefinitions,
     NotificationConfiguration? notificationConfiguration,
+    WorkerAccessConfiguration? workerAccessConfiguration,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -17316,6 +18732,8 @@ class SageMaker {
         if (memberDefinitions != null) 'MemberDefinitions': memberDefinitions,
         if (notificationConfiguration != null)
           'NotificationConfiguration': notificationConfiguration,
+        if (workerAccessConfiguration != null)
+          'WorkerAccessConfiguration': workerAccessConfiguration,
       },
     );
 
@@ -17599,6 +19017,80 @@ class AdditionalInferenceSpecificationDefinition {
   }
 }
 
+/// A data source used for training or inference that is in addition to the
+/// input dataset or model data.
+class AdditionalS3DataSource {
+  /// The data type of the additional data source that you specify for use in
+  /// inference or training.
+  final AdditionalS3DataSourceDataType s3DataType;
+
+  /// The uniform resource identifier (URI) used to identify an additional data
+  /// source used in inference or training.
+  final String s3Uri;
+
+  /// The type of compression used for an additional data source used in inference
+  /// or training. Specify <code>None</code> if your additional data source is not
+  /// compressed.
+  final CompressionType? compressionType;
+
+  AdditionalS3DataSource({
+    required this.s3DataType,
+    required this.s3Uri,
+    this.compressionType,
+  });
+
+  factory AdditionalS3DataSource.fromJson(Map<String, dynamic> json) {
+    return AdditionalS3DataSource(
+      s3DataType:
+          (json['S3DataType'] as String).toAdditionalS3DataSourceDataType(),
+      s3Uri: json['S3Uri'] as String,
+      compressionType:
+          (json['CompressionType'] as String?)?.toCompressionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataType = this.s3DataType;
+    final s3Uri = this.s3Uri;
+    final compressionType = this.compressionType;
+    return {
+      'S3DataType': s3DataType.toValue(),
+      'S3Uri': s3Uri,
+      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+    };
+  }
+}
+
+enum AdditionalS3DataSourceDataType {
+  s3Object,
+  s3Prefix,
+}
+
+extension AdditionalS3DataSourceDataTypeValueExtension
+    on AdditionalS3DataSourceDataType {
+  String toValue() {
+    switch (this) {
+      case AdditionalS3DataSourceDataType.s3Object:
+        return 'S3Object';
+      case AdditionalS3DataSourceDataType.s3Prefix:
+        return 'S3Prefix';
+    }
+  }
+}
+
+extension AdditionalS3DataSourceDataTypeFromString on String {
+  AdditionalS3DataSourceDataType toAdditionalS3DataSourceDataType() {
+    switch (this) {
+      case 'S3Object':
+        return AdditionalS3DataSourceDataType.s3Object;
+      case 'S3Prefix':
+        return AdditionalS3DataSourceDataType.s3Prefix;
+    }
+    throw Exception(
+        '$this is not known in enum AdditionalS3DataSourceDataType');
+  }
+}
+
 /// Edge Manager agent version.
 class AgentVersion {
   /// The number of Edge Manager agents.
@@ -17617,6 +19109,51 @@ class AgentVersion {
       agentCount: json['AgentCount'] as int,
       version: json['Version'] as String,
     );
+  }
+}
+
+enum AggregationTransformationValue {
+  sum,
+  avg,
+  first,
+  min,
+  max,
+}
+
+extension AggregationTransformationValueValueExtension
+    on AggregationTransformationValue {
+  String toValue() {
+    switch (this) {
+      case AggregationTransformationValue.sum:
+        return 'sum';
+      case AggregationTransformationValue.avg:
+        return 'avg';
+      case AggregationTransformationValue.first:
+        return 'first';
+      case AggregationTransformationValue.min:
+        return 'min';
+      case AggregationTransformationValue.max:
+        return 'max';
+    }
+  }
+}
+
+extension AggregationTransformationValueFromString on String {
+  AggregationTransformationValue toAggregationTransformationValue() {
+    switch (this) {
+      case 'sum':
+        return AggregationTransformationValue.sum;
+      case 'avg':
+        return AggregationTransformationValue.avg;
+      case 'first':
+        return AggregationTransformationValue.first;
+      case 'min':
+        return AggregationTransformationValue.min;
+      case 'max':
+        return AggregationTransformationValue.max;
+    }
+    throw Exception(
+        '$this is not known in enum AggregationTransformationValue');
   }
 }
 
@@ -19047,6 +20584,7 @@ class AppDetails {
 
   /// The domain ID.
   final String? domainId;
+  final ResourceSpec? resourceSpec;
 
   /// The name of the space.
   final String? spaceName;
@@ -19062,6 +20600,7 @@ class AppDetails {
     this.appType,
     this.creationTime,
     this.domainId,
+    this.resourceSpec,
     this.spaceName,
     this.status,
     this.userProfileName,
@@ -19073,6 +20612,9 @@ class AppDetails {
       appType: (json['AppType'] as String?)?.toAppType(),
       creationTime: timeStampFromJson(json['CreationTime']),
       domainId: json['DomainId'] as String?,
+      resourceSpec: json['ResourceSpec'] != null
+          ? ResourceSpec.fromJson(json['ResourceSpec'] as Map<String, dynamic>)
+          : null,
       spaceName: json['SpaceName'] as String?,
       status: (json['Status'] as String?)?.toAppStatus(),
       userProfileName: json['UserProfileName'] as String?,
@@ -19082,14 +20624,22 @@ class AppDetails {
 
 /// The configuration for running a SageMaker image as a KernelGateway app.
 class AppImageConfigDetails {
-  /// The Amazon Resource Name (ARN) of the AppImageConfig.
+  /// The ARN of the AppImageConfig.
   final String? appImageConfigArn;
 
   /// The name of the AppImageConfig. Must be unique to your account.
   final String? appImageConfigName;
 
+  /// The configuration for the file system and the runtime, such as the
+  /// environment variables and entry point.
+  final CodeEditorAppImageConfig? codeEditorAppImageConfig;
+
   /// When the AppImageConfig was created.
   final DateTime? creationTime;
+
+  /// The configuration for the file system and the runtime, such as the
+  /// environment variables and entry point.
+  final JupyterLabAppImageConfig? jupyterLabAppImageConfig;
 
   /// The configuration for the file system and kernels in the SageMaker image.
   final KernelGatewayImageConfig? kernelGatewayImageConfig;
@@ -19100,7 +20650,9 @@ class AppImageConfigDetails {
   AppImageConfigDetails({
     this.appImageConfigArn,
     this.appImageConfigName,
+    this.codeEditorAppImageConfig,
     this.creationTime,
+    this.jupyterLabAppImageConfig,
     this.kernelGatewayImageConfig,
     this.lastModifiedTime,
   });
@@ -19109,7 +20661,15 @@ class AppImageConfigDetails {
     return AppImageConfigDetails(
       appImageConfigArn: json['AppImageConfigArn'] as String?,
       appImageConfigName: json['AppImageConfigName'] as String?,
+      codeEditorAppImageConfig: json['CodeEditorAppImageConfig'] != null
+          ? CodeEditorAppImageConfig.fromJson(
+              json['CodeEditorAppImageConfig'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      jupyterLabAppImageConfig: json['JupyterLabAppImageConfig'] != null
+          ? JupyterLabAppImageConfig.fromJson(
+              json['JupyterLabAppImageConfig'] as Map<String, dynamic>)
+          : null,
       kernelGatewayImageConfig: json['KernelGatewayImageConfig'] != null
           ? KernelGatewayImageConfig.fromJson(
               json['KernelGatewayImageConfig'] as Map<String, dynamic>)
@@ -19210,9 +20770,102 @@ enum AppInstanceType {
   mlG5_12xlarge,
   mlG5_24xlarge,
   mlG5_48xlarge,
+  mlG6Xlarge,
+  mlG6_2xlarge,
+  mlG6_4xlarge,
+  mlG6_8xlarge,
+  mlG6_12xlarge,
+  mlG6_16xlarge,
+  mlG6_24xlarge,
+  mlG6_48xlarge,
   mlGeospatialInteractive,
   mlP4d_24xlarge,
   mlP4de_24xlarge,
+  mlTrn1_2xlarge,
+  mlTrn1_32xlarge,
+  mlTrn1n_32xlarge,
+  mlP5_48xlarge,
+  mlM6iLarge,
+  mlM6iXlarge,
+  mlM6i_2xlarge,
+  mlM6i_4xlarge,
+  mlM6i_8xlarge,
+  mlM6i_12xlarge,
+  mlM6i_16xlarge,
+  mlM6i_24xlarge,
+  mlM6i_32xlarge,
+  mlM7iLarge,
+  mlM7iXlarge,
+  mlM7i_2xlarge,
+  mlM7i_4xlarge,
+  mlM7i_8xlarge,
+  mlM7i_12xlarge,
+  mlM7i_16xlarge,
+  mlM7i_24xlarge,
+  mlM7i_48xlarge,
+  mlC6iLarge,
+  mlC6iXlarge,
+  mlC6i_2xlarge,
+  mlC6i_4xlarge,
+  mlC6i_8xlarge,
+  mlC6i_12xlarge,
+  mlC6i_16xlarge,
+  mlC6i_24xlarge,
+  mlC6i_32xlarge,
+  mlC7iLarge,
+  mlC7iXlarge,
+  mlC7i_2xlarge,
+  mlC7i_4xlarge,
+  mlC7i_8xlarge,
+  mlC7i_12xlarge,
+  mlC7i_16xlarge,
+  mlC7i_24xlarge,
+  mlC7i_48xlarge,
+  mlR6iLarge,
+  mlR6iXlarge,
+  mlR6i_2xlarge,
+  mlR6i_4xlarge,
+  mlR6i_8xlarge,
+  mlR6i_12xlarge,
+  mlR6i_16xlarge,
+  mlR6i_24xlarge,
+  mlR6i_32xlarge,
+  mlR7iLarge,
+  mlR7iXlarge,
+  mlR7i_2xlarge,
+  mlR7i_4xlarge,
+  mlR7i_8xlarge,
+  mlR7i_12xlarge,
+  mlR7i_16xlarge,
+  mlR7i_24xlarge,
+  mlR7i_48xlarge,
+  mlM6idLarge,
+  mlM6idXlarge,
+  mlM6id_2xlarge,
+  mlM6id_4xlarge,
+  mlM6id_8xlarge,
+  mlM6id_12xlarge,
+  mlM6id_16xlarge,
+  mlM6id_24xlarge,
+  mlM6id_32xlarge,
+  mlC6idLarge,
+  mlC6idXlarge,
+  mlC6id_2xlarge,
+  mlC6id_4xlarge,
+  mlC6id_8xlarge,
+  mlC6id_12xlarge,
+  mlC6id_16xlarge,
+  mlC6id_24xlarge,
+  mlC6id_32xlarge,
+  mlR6idLarge,
+  mlR6idXlarge,
+  mlR6id_2xlarge,
+  mlR6id_4xlarge,
+  mlR6id_8xlarge,
+  mlR6id_12xlarge,
+  mlR6id_16xlarge,
+  mlR6id_24xlarge,
+  mlR6id_32xlarge,
 }
 
 extension AppInstanceTypeValueExtension on AppInstanceType {
@@ -19332,12 +20985,198 @@ extension AppInstanceTypeValueExtension on AppInstanceType {
         return 'ml.g5.24xlarge';
       case AppInstanceType.mlG5_48xlarge:
         return 'ml.g5.48xlarge';
+      case AppInstanceType.mlG6Xlarge:
+        return 'ml.g6.xlarge';
+      case AppInstanceType.mlG6_2xlarge:
+        return 'ml.g6.2xlarge';
+      case AppInstanceType.mlG6_4xlarge:
+        return 'ml.g6.4xlarge';
+      case AppInstanceType.mlG6_8xlarge:
+        return 'ml.g6.8xlarge';
+      case AppInstanceType.mlG6_12xlarge:
+        return 'ml.g6.12xlarge';
+      case AppInstanceType.mlG6_16xlarge:
+        return 'ml.g6.16xlarge';
+      case AppInstanceType.mlG6_24xlarge:
+        return 'ml.g6.24xlarge';
+      case AppInstanceType.mlG6_48xlarge:
+        return 'ml.g6.48xlarge';
       case AppInstanceType.mlGeospatialInteractive:
         return 'ml.geospatial.interactive';
       case AppInstanceType.mlP4d_24xlarge:
         return 'ml.p4d.24xlarge';
       case AppInstanceType.mlP4de_24xlarge:
         return 'ml.p4de.24xlarge';
+      case AppInstanceType.mlTrn1_2xlarge:
+        return 'ml.trn1.2xlarge';
+      case AppInstanceType.mlTrn1_32xlarge:
+        return 'ml.trn1.32xlarge';
+      case AppInstanceType.mlTrn1n_32xlarge:
+        return 'ml.trn1n.32xlarge';
+      case AppInstanceType.mlP5_48xlarge:
+        return 'ml.p5.48xlarge';
+      case AppInstanceType.mlM6iLarge:
+        return 'ml.m6i.large';
+      case AppInstanceType.mlM6iXlarge:
+        return 'ml.m6i.xlarge';
+      case AppInstanceType.mlM6i_2xlarge:
+        return 'ml.m6i.2xlarge';
+      case AppInstanceType.mlM6i_4xlarge:
+        return 'ml.m6i.4xlarge';
+      case AppInstanceType.mlM6i_8xlarge:
+        return 'ml.m6i.8xlarge';
+      case AppInstanceType.mlM6i_12xlarge:
+        return 'ml.m6i.12xlarge';
+      case AppInstanceType.mlM6i_16xlarge:
+        return 'ml.m6i.16xlarge';
+      case AppInstanceType.mlM6i_24xlarge:
+        return 'ml.m6i.24xlarge';
+      case AppInstanceType.mlM6i_32xlarge:
+        return 'ml.m6i.32xlarge';
+      case AppInstanceType.mlM7iLarge:
+        return 'ml.m7i.large';
+      case AppInstanceType.mlM7iXlarge:
+        return 'ml.m7i.xlarge';
+      case AppInstanceType.mlM7i_2xlarge:
+        return 'ml.m7i.2xlarge';
+      case AppInstanceType.mlM7i_4xlarge:
+        return 'ml.m7i.4xlarge';
+      case AppInstanceType.mlM7i_8xlarge:
+        return 'ml.m7i.8xlarge';
+      case AppInstanceType.mlM7i_12xlarge:
+        return 'ml.m7i.12xlarge';
+      case AppInstanceType.mlM7i_16xlarge:
+        return 'ml.m7i.16xlarge';
+      case AppInstanceType.mlM7i_24xlarge:
+        return 'ml.m7i.24xlarge';
+      case AppInstanceType.mlM7i_48xlarge:
+        return 'ml.m7i.48xlarge';
+      case AppInstanceType.mlC6iLarge:
+        return 'ml.c6i.large';
+      case AppInstanceType.mlC6iXlarge:
+        return 'ml.c6i.xlarge';
+      case AppInstanceType.mlC6i_2xlarge:
+        return 'ml.c6i.2xlarge';
+      case AppInstanceType.mlC6i_4xlarge:
+        return 'ml.c6i.4xlarge';
+      case AppInstanceType.mlC6i_8xlarge:
+        return 'ml.c6i.8xlarge';
+      case AppInstanceType.mlC6i_12xlarge:
+        return 'ml.c6i.12xlarge';
+      case AppInstanceType.mlC6i_16xlarge:
+        return 'ml.c6i.16xlarge';
+      case AppInstanceType.mlC6i_24xlarge:
+        return 'ml.c6i.24xlarge';
+      case AppInstanceType.mlC6i_32xlarge:
+        return 'ml.c6i.32xlarge';
+      case AppInstanceType.mlC7iLarge:
+        return 'ml.c7i.large';
+      case AppInstanceType.mlC7iXlarge:
+        return 'ml.c7i.xlarge';
+      case AppInstanceType.mlC7i_2xlarge:
+        return 'ml.c7i.2xlarge';
+      case AppInstanceType.mlC7i_4xlarge:
+        return 'ml.c7i.4xlarge';
+      case AppInstanceType.mlC7i_8xlarge:
+        return 'ml.c7i.8xlarge';
+      case AppInstanceType.mlC7i_12xlarge:
+        return 'ml.c7i.12xlarge';
+      case AppInstanceType.mlC7i_16xlarge:
+        return 'ml.c7i.16xlarge';
+      case AppInstanceType.mlC7i_24xlarge:
+        return 'ml.c7i.24xlarge';
+      case AppInstanceType.mlC7i_48xlarge:
+        return 'ml.c7i.48xlarge';
+      case AppInstanceType.mlR6iLarge:
+        return 'ml.r6i.large';
+      case AppInstanceType.mlR6iXlarge:
+        return 'ml.r6i.xlarge';
+      case AppInstanceType.mlR6i_2xlarge:
+        return 'ml.r6i.2xlarge';
+      case AppInstanceType.mlR6i_4xlarge:
+        return 'ml.r6i.4xlarge';
+      case AppInstanceType.mlR6i_8xlarge:
+        return 'ml.r6i.8xlarge';
+      case AppInstanceType.mlR6i_12xlarge:
+        return 'ml.r6i.12xlarge';
+      case AppInstanceType.mlR6i_16xlarge:
+        return 'ml.r6i.16xlarge';
+      case AppInstanceType.mlR6i_24xlarge:
+        return 'ml.r6i.24xlarge';
+      case AppInstanceType.mlR6i_32xlarge:
+        return 'ml.r6i.32xlarge';
+      case AppInstanceType.mlR7iLarge:
+        return 'ml.r7i.large';
+      case AppInstanceType.mlR7iXlarge:
+        return 'ml.r7i.xlarge';
+      case AppInstanceType.mlR7i_2xlarge:
+        return 'ml.r7i.2xlarge';
+      case AppInstanceType.mlR7i_4xlarge:
+        return 'ml.r7i.4xlarge';
+      case AppInstanceType.mlR7i_8xlarge:
+        return 'ml.r7i.8xlarge';
+      case AppInstanceType.mlR7i_12xlarge:
+        return 'ml.r7i.12xlarge';
+      case AppInstanceType.mlR7i_16xlarge:
+        return 'ml.r7i.16xlarge';
+      case AppInstanceType.mlR7i_24xlarge:
+        return 'ml.r7i.24xlarge';
+      case AppInstanceType.mlR7i_48xlarge:
+        return 'ml.r7i.48xlarge';
+      case AppInstanceType.mlM6idLarge:
+        return 'ml.m6id.large';
+      case AppInstanceType.mlM6idXlarge:
+        return 'ml.m6id.xlarge';
+      case AppInstanceType.mlM6id_2xlarge:
+        return 'ml.m6id.2xlarge';
+      case AppInstanceType.mlM6id_4xlarge:
+        return 'ml.m6id.4xlarge';
+      case AppInstanceType.mlM6id_8xlarge:
+        return 'ml.m6id.8xlarge';
+      case AppInstanceType.mlM6id_12xlarge:
+        return 'ml.m6id.12xlarge';
+      case AppInstanceType.mlM6id_16xlarge:
+        return 'ml.m6id.16xlarge';
+      case AppInstanceType.mlM6id_24xlarge:
+        return 'ml.m6id.24xlarge';
+      case AppInstanceType.mlM6id_32xlarge:
+        return 'ml.m6id.32xlarge';
+      case AppInstanceType.mlC6idLarge:
+        return 'ml.c6id.large';
+      case AppInstanceType.mlC6idXlarge:
+        return 'ml.c6id.xlarge';
+      case AppInstanceType.mlC6id_2xlarge:
+        return 'ml.c6id.2xlarge';
+      case AppInstanceType.mlC6id_4xlarge:
+        return 'ml.c6id.4xlarge';
+      case AppInstanceType.mlC6id_8xlarge:
+        return 'ml.c6id.8xlarge';
+      case AppInstanceType.mlC6id_12xlarge:
+        return 'ml.c6id.12xlarge';
+      case AppInstanceType.mlC6id_16xlarge:
+        return 'ml.c6id.16xlarge';
+      case AppInstanceType.mlC6id_24xlarge:
+        return 'ml.c6id.24xlarge';
+      case AppInstanceType.mlC6id_32xlarge:
+        return 'ml.c6id.32xlarge';
+      case AppInstanceType.mlR6idLarge:
+        return 'ml.r6id.large';
+      case AppInstanceType.mlR6idXlarge:
+        return 'ml.r6id.xlarge';
+      case AppInstanceType.mlR6id_2xlarge:
+        return 'ml.r6id.2xlarge';
+      case AppInstanceType.mlR6id_4xlarge:
+        return 'ml.r6id.4xlarge';
+      case AppInstanceType.mlR6id_8xlarge:
+        return 'ml.r6id.8xlarge';
+      case AppInstanceType.mlR6id_12xlarge:
+        return 'ml.r6id.12xlarge';
+      case AppInstanceType.mlR6id_16xlarge:
+        return 'ml.r6id.16xlarge';
+      case AppInstanceType.mlR6id_24xlarge:
+        return 'ml.r6id.24xlarge';
+      case AppInstanceType.mlR6id_32xlarge:
+        return 'ml.r6id.32xlarge';
     }
   }
 }
@@ -19459,12 +21298,198 @@ extension AppInstanceTypeFromString on String {
         return AppInstanceType.mlG5_24xlarge;
       case 'ml.g5.48xlarge':
         return AppInstanceType.mlG5_48xlarge;
+      case 'ml.g6.xlarge':
+        return AppInstanceType.mlG6Xlarge;
+      case 'ml.g6.2xlarge':
+        return AppInstanceType.mlG6_2xlarge;
+      case 'ml.g6.4xlarge':
+        return AppInstanceType.mlG6_4xlarge;
+      case 'ml.g6.8xlarge':
+        return AppInstanceType.mlG6_8xlarge;
+      case 'ml.g6.12xlarge':
+        return AppInstanceType.mlG6_12xlarge;
+      case 'ml.g6.16xlarge':
+        return AppInstanceType.mlG6_16xlarge;
+      case 'ml.g6.24xlarge':
+        return AppInstanceType.mlG6_24xlarge;
+      case 'ml.g6.48xlarge':
+        return AppInstanceType.mlG6_48xlarge;
       case 'ml.geospatial.interactive':
         return AppInstanceType.mlGeospatialInteractive;
       case 'ml.p4d.24xlarge':
         return AppInstanceType.mlP4d_24xlarge;
       case 'ml.p4de.24xlarge':
         return AppInstanceType.mlP4de_24xlarge;
+      case 'ml.trn1.2xlarge':
+        return AppInstanceType.mlTrn1_2xlarge;
+      case 'ml.trn1.32xlarge':
+        return AppInstanceType.mlTrn1_32xlarge;
+      case 'ml.trn1n.32xlarge':
+        return AppInstanceType.mlTrn1n_32xlarge;
+      case 'ml.p5.48xlarge':
+        return AppInstanceType.mlP5_48xlarge;
+      case 'ml.m6i.large':
+        return AppInstanceType.mlM6iLarge;
+      case 'ml.m6i.xlarge':
+        return AppInstanceType.mlM6iXlarge;
+      case 'ml.m6i.2xlarge':
+        return AppInstanceType.mlM6i_2xlarge;
+      case 'ml.m6i.4xlarge':
+        return AppInstanceType.mlM6i_4xlarge;
+      case 'ml.m6i.8xlarge':
+        return AppInstanceType.mlM6i_8xlarge;
+      case 'ml.m6i.12xlarge':
+        return AppInstanceType.mlM6i_12xlarge;
+      case 'ml.m6i.16xlarge':
+        return AppInstanceType.mlM6i_16xlarge;
+      case 'ml.m6i.24xlarge':
+        return AppInstanceType.mlM6i_24xlarge;
+      case 'ml.m6i.32xlarge':
+        return AppInstanceType.mlM6i_32xlarge;
+      case 'ml.m7i.large':
+        return AppInstanceType.mlM7iLarge;
+      case 'ml.m7i.xlarge':
+        return AppInstanceType.mlM7iXlarge;
+      case 'ml.m7i.2xlarge':
+        return AppInstanceType.mlM7i_2xlarge;
+      case 'ml.m7i.4xlarge':
+        return AppInstanceType.mlM7i_4xlarge;
+      case 'ml.m7i.8xlarge':
+        return AppInstanceType.mlM7i_8xlarge;
+      case 'ml.m7i.12xlarge':
+        return AppInstanceType.mlM7i_12xlarge;
+      case 'ml.m7i.16xlarge':
+        return AppInstanceType.mlM7i_16xlarge;
+      case 'ml.m7i.24xlarge':
+        return AppInstanceType.mlM7i_24xlarge;
+      case 'ml.m7i.48xlarge':
+        return AppInstanceType.mlM7i_48xlarge;
+      case 'ml.c6i.large':
+        return AppInstanceType.mlC6iLarge;
+      case 'ml.c6i.xlarge':
+        return AppInstanceType.mlC6iXlarge;
+      case 'ml.c6i.2xlarge':
+        return AppInstanceType.mlC6i_2xlarge;
+      case 'ml.c6i.4xlarge':
+        return AppInstanceType.mlC6i_4xlarge;
+      case 'ml.c6i.8xlarge':
+        return AppInstanceType.mlC6i_8xlarge;
+      case 'ml.c6i.12xlarge':
+        return AppInstanceType.mlC6i_12xlarge;
+      case 'ml.c6i.16xlarge':
+        return AppInstanceType.mlC6i_16xlarge;
+      case 'ml.c6i.24xlarge':
+        return AppInstanceType.mlC6i_24xlarge;
+      case 'ml.c6i.32xlarge':
+        return AppInstanceType.mlC6i_32xlarge;
+      case 'ml.c7i.large':
+        return AppInstanceType.mlC7iLarge;
+      case 'ml.c7i.xlarge':
+        return AppInstanceType.mlC7iXlarge;
+      case 'ml.c7i.2xlarge':
+        return AppInstanceType.mlC7i_2xlarge;
+      case 'ml.c7i.4xlarge':
+        return AppInstanceType.mlC7i_4xlarge;
+      case 'ml.c7i.8xlarge':
+        return AppInstanceType.mlC7i_8xlarge;
+      case 'ml.c7i.12xlarge':
+        return AppInstanceType.mlC7i_12xlarge;
+      case 'ml.c7i.16xlarge':
+        return AppInstanceType.mlC7i_16xlarge;
+      case 'ml.c7i.24xlarge':
+        return AppInstanceType.mlC7i_24xlarge;
+      case 'ml.c7i.48xlarge':
+        return AppInstanceType.mlC7i_48xlarge;
+      case 'ml.r6i.large':
+        return AppInstanceType.mlR6iLarge;
+      case 'ml.r6i.xlarge':
+        return AppInstanceType.mlR6iXlarge;
+      case 'ml.r6i.2xlarge':
+        return AppInstanceType.mlR6i_2xlarge;
+      case 'ml.r6i.4xlarge':
+        return AppInstanceType.mlR6i_4xlarge;
+      case 'ml.r6i.8xlarge':
+        return AppInstanceType.mlR6i_8xlarge;
+      case 'ml.r6i.12xlarge':
+        return AppInstanceType.mlR6i_12xlarge;
+      case 'ml.r6i.16xlarge':
+        return AppInstanceType.mlR6i_16xlarge;
+      case 'ml.r6i.24xlarge':
+        return AppInstanceType.mlR6i_24xlarge;
+      case 'ml.r6i.32xlarge':
+        return AppInstanceType.mlR6i_32xlarge;
+      case 'ml.r7i.large':
+        return AppInstanceType.mlR7iLarge;
+      case 'ml.r7i.xlarge':
+        return AppInstanceType.mlR7iXlarge;
+      case 'ml.r7i.2xlarge':
+        return AppInstanceType.mlR7i_2xlarge;
+      case 'ml.r7i.4xlarge':
+        return AppInstanceType.mlR7i_4xlarge;
+      case 'ml.r7i.8xlarge':
+        return AppInstanceType.mlR7i_8xlarge;
+      case 'ml.r7i.12xlarge':
+        return AppInstanceType.mlR7i_12xlarge;
+      case 'ml.r7i.16xlarge':
+        return AppInstanceType.mlR7i_16xlarge;
+      case 'ml.r7i.24xlarge':
+        return AppInstanceType.mlR7i_24xlarge;
+      case 'ml.r7i.48xlarge':
+        return AppInstanceType.mlR7i_48xlarge;
+      case 'ml.m6id.large':
+        return AppInstanceType.mlM6idLarge;
+      case 'ml.m6id.xlarge':
+        return AppInstanceType.mlM6idXlarge;
+      case 'ml.m6id.2xlarge':
+        return AppInstanceType.mlM6id_2xlarge;
+      case 'ml.m6id.4xlarge':
+        return AppInstanceType.mlM6id_4xlarge;
+      case 'ml.m6id.8xlarge':
+        return AppInstanceType.mlM6id_8xlarge;
+      case 'ml.m6id.12xlarge':
+        return AppInstanceType.mlM6id_12xlarge;
+      case 'ml.m6id.16xlarge':
+        return AppInstanceType.mlM6id_16xlarge;
+      case 'ml.m6id.24xlarge':
+        return AppInstanceType.mlM6id_24xlarge;
+      case 'ml.m6id.32xlarge':
+        return AppInstanceType.mlM6id_32xlarge;
+      case 'ml.c6id.large':
+        return AppInstanceType.mlC6idLarge;
+      case 'ml.c6id.xlarge':
+        return AppInstanceType.mlC6idXlarge;
+      case 'ml.c6id.2xlarge':
+        return AppInstanceType.mlC6id_2xlarge;
+      case 'ml.c6id.4xlarge':
+        return AppInstanceType.mlC6id_4xlarge;
+      case 'ml.c6id.8xlarge':
+        return AppInstanceType.mlC6id_8xlarge;
+      case 'ml.c6id.12xlarge':
+        return AppInstanceType.mlC6id_12xlarge;
+      case 'ml.c6id.16xlarge':
+        return AppInstanceType.mlC6id_16xlarge;
+      case 'ml.c6id.24xlarge':
+        return AppInstanceType.mlC6id_24xlarge;
+      case 'ml.c6id.32xlarge':
+        return AppInstanceType.mlC6id_32xlarge;
+      case 'ml.r6id.large':
+        return AppInstanceType.mlR6idLarge;
+      case 'ml.r6id.xlarge':
+        return AppInstanceType.mlR6idXlarge;
+      case 'ml.r6id.2xlarge':
+        return AppInstanceType.mlR6id_2xlarge;
+      case 'ml.r6id.4xlarge':
+        return AppInstanceType.mlR6id_4xlarge;
+      case 'ml.r6id.8xlarge':
+        return AppInstanceType.mlR6id_8xlarge;
+      case 'ml.r6id.12xlarge':
+        return AppInstanceType.mlR6id_12xlarge;
+      case 'ml.r6id.16xlarge':
+        return AppInstanceType.mlR6id_16xlarge;
+      case 'ml.r6id.24xlarge':
+        return AppInstanceType.mlR6id_24xlarge;
+      case 'ml.r6id.32xlarge':
+        return AppInstanceType.mlR6id_32xlarge;
     }
     throw Exception('$this is not known in enum AppInstanceType');
   }
@@ -19640,9 +21665,13 @@ extension AppStatusFromString on String {
 enum AppType {
   jupyterServer,
   kernelGateway,
+  detailedProfiler,
   tensorBoard,
+  codeEditor,
+  jupyterLab,
   rStudioServerPro,
   rSessionGateway,
+  canvas,
 }
 
 extension AppTypeValueExtension on AppType {
@@ -19652,12 +21681,20 @@ extension AppTypeValueExtension on AppType {
         return 'JupyterServer';
       case AppType.kernelGateway:
         return 'KernelGateway';
+      case AppType.detailedProfiler:
+        return 'DetailedProfiler';
       case AppType.tensorBoard:
         return 'TensorBoard';
+      case AppType.codeEditor:
+        return 'CodeEditor';
+      case AppType.jupyterLab:
+        return 'JupyterLab';
       case AppType.rStudioServerPro:
         return 'RStudioServerPro';
       case AppType.rSessionGateway:
         return 'RSessionGateway';
+      case AppType.canvas:
+        return 'Canvas';
     }
   }
 }
@@ -19669,12 +21706,20 @@ extension AppTypeFromString on String {
         return AppType.jupyterServer;
       case 'KernelGateway':
         return AppType.kernelGateway;
+      case 'DetailedProfiler':
+        return AppType.detailedProfiler;
       case 'TensorBoard':
         return AppType.tensorBoard;
+      case 'CodeEditor':
+        return AppType.codeEditor;
+      case 'JupyterLab':
+        return AppType.jupyterLab;
       case 'RStudioServerPro':
         return AppType.rStudioServerPro;
       case 'RSessionGateway':
         return AppType.rSessionGateway;
+      case 'Canvas':
+        return AppType.canvas;
     }
     throw Exception('$this is not known in enum AppType');
   }
@@ -19878,6 +21923,7 @@ enum AssociationEdgeType {
   associatedWith,
   derivedFrom,
   produced,
+  sameAs,
 }
 
 extension AssociationEdgeTypeValueExtension on AssociationEdgeType {
@@ -19891,6 +21937,8 @@ extension AssociationEdgeTypeValueExtension on AssociationEdgeType {
         return 'DerivedFrom';
       case AssociationEdgeType.produced:
         return 'Produced';
+      case AssociationEdgeType.sameAs:
+        return 'SameAs';
     }
   }
 }
@@ -19906,6 +21954,8 @@ extension AssociationEdgeTypeFromString on String {
         return AssociationEdgeType.derivedFrom;
       case 'Produced':
         return AssociationEdgeType.produced;
+      case 'SameAs':
+        return AssociationEdgeType.sameAs;
     }
     throw Exception('$this is not known in enum AssociationEdgeType');
   }
@@ -20346,6 +22396,12 @@ enum AutoMLAlgorithm {
   extraTrees,
   nnTorch,
   fastai,
+  cnnQr,
+  deepar,
+  prophet,
+  npts,
+  arima,
+  ets,
 }
 
 extension AutoMLAlgorithmValueExtension on AutoMLAlgorithm {
@@ -20369,6 +22425,18 @@ extension AutoMLAlgorithmValueExtension on AutoMLAlgorithm {
         return 'nn-torch';
       case AutoMLAlgorithm.fastai:
         return 'fastai';
+      case AutoMLAlgorithm.cnnQr:
+        return 'cnn-qr';
+      case AutoMLAlgorithm.deepar:
+        return 'deepar';
+      case AutoMLAlgorithm.prophet:
+        return 'prophet';
+      case AutoMLAlgorithm.npts:
+        return 'npts';
+      case AutoMLAlgorithm.arima:
+        return 'arima';
+      case AutoMLAlgorithm.ets:
+        return 'ets';
     }
   }
 }
@@ -20394,16 +22462,32 @@ extension AutoMLAlgorithmFromString on String {
         return AutoMLAlgorithm.nnTorch;
       case 'fastai':
         return AutoMLAlgorithm.fastai;
+      case 'cnn-qr':
+        return AutoMLAlgorithm.cnnQr;
+      case 'deepar':
+        return AutoMLAlgorithm.deepar;
+      case 'prophet':
+        return AutoMLAlgorithm.prophet;
+      case 'npts':
+        return AutoMLAlgorithm.npts;
+      case 'arima':
+        return AutoMLAlgorithm.arima;
+      case 'ets':
+        return AutoMLAlgorithm.ets;
     }
     throw Exception('$this is not known in enum AutoMLAlgorithm');
   }
 }
 
-/// The collection of algorithms run on a dataset for training the model
-/// candidates of an Autopilot job.
+/// The selection of algorithms trained on your dataset to generate the model
+/// candidates for an Autopilot job.
 class AutoMLAlgorithmConfig {
-  /// The selection of algorithms run on a dataset to train the model candidates
-  /// of an Autopilot job.
+  /// The selection of algorithms trained on your dataset to generate the model
+  /// candidates for an Autopilot job.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>For the tabular problem type <code>TabularJobConfig</code>:</b>
   /// <note>
   /// Selected algorithms must belong to the list corresponding to the training
   /// mode set in <a
@@ -20454,6 +22538,36 @@ class AutoMLAlgorithmConfig {
   /// <li>
   /// "xgboost"
   /// </li>
+  /// </ul> </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>For the time-series forecasting problem type
+  /// <code>TimeSeriesForecastingJobConfig</code>:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Choose your algorithms from this list.
+  ///
+  /// <ul>
+  /// <li>
+  /// "cnn-qr"
+  /// </li>
+  /// <li>
+  /// "deepar"
+  /// </li>
+  /// <li>
+  /// "prophet"
+  /// </li>
+  /// <li>
+  /// "arima"
+  /// </li>
+  /// <li>
+  /// "npts"
+  /// </li>
+  /// <li>
+  /// "ets"
+  /// </li>
+  /// </ul> </li>
   /// </ul> </li>
   /// </ul>
   final List<AutoMLAlgorithm> autoMLAlgorithms;
@@ -20511,9 +22625,10 @@ class AutoMLCandidate {
   final FinalAutoMLJobObjectiveMetric? finalAutoMLJobObjectiveMetric;
 
   /// The mapping of all supported processing unit (CPU, GPU, etc...) to inference
-  /// container definitions for the candidate. This field is populated for the V2
-  /// API only (for example, for jobs created by calling
-  /// <code>CreateAutoMLJobV2</code>).
+  /// container definitions for the candidate. This field is populated for the
+  /// AutoML jobs V2 (for example, for jobs created by calling
+  /// <code>CreateAutoMLJobV2</code>) related to image or text classification
+  /// problem types only.
   final Map<AutoMLProcessingUnit, List<AutoMLContainerDefinition>>?
       inferenceContainerDefinitions;
 
@@ -20580,18 +22695,18 @@ class AutoMLCandidate {
 /// Stores the configuration information for how a candidate is generated
 /// (optional).
 class AutoMLCandidateGenerationConfig {
-  /// Stores the configuration information for the selection of algorithms used to
-  /// train the model candidates.
+  /// Stores the configuration information for the selection of algorithms trained
+  /// on tabular data.
   ///
   /// The list of available algorithms to choose from depends on the training mode
   /// set in <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html">
-  /// <code>AutoMLJobConfig.Mode</code> </a>.
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TabularJobConfig.html">
+  /// <code>TabularJobConfig.Mode</code> </a>.
   ///
   /// <ul>
   /// <li>
-  /// <code>AlgorithmsConfig</code> should not be set in <code>AUTO</code>
-  /// training mode.
+  /// <code>AlgorithmsConfig</code> should not be set if the training mode is set
+  /// on <code>AUTO</code>.
   /// </li>
   /// <li>
   /// When <code>AlgorithmsConfig</code> is provided, one
@@ -20599,16 +22714,16 @@ class AutoMLCandidateGenerationConfig {
   ///
   /// If the list of algorithms provided as values for
   /// <code>AutoMLAlgorithms</code> is empty,
-  /// <code>AutoMLCandidateGenerationConfig</code> uses the full set of algorithms
-  /// for the given training mode.
+  /// <code>CandidateGenerationConfig</code> uses the full set of algorithms for
+  /// the given training mode.
   /// </li>
   /// <li>
   /// When <code>AlgorithmsConfig</code> is not provided,
-  /// <code>AutoMLCandidateGenerationConfig</code> uses the full set of algorithms
-  /// for the given training mode.
+  /// <code>CandidateGenerationConfig</code> uses the full set of algorithms for
+  /// the given training mode.
   /// </li>
   /// </ul>
-  /// For the list of all algorithms per training mode, see <a
+  /// For the list of all algorithms per problem type and training mode, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html">
   /// AutoMLAlgorithmConfig</a>.
   ///
@@ -20714,9 +22829,6 @@ class AutoMLCandidateStep {
 /// A validation dataset must contain the same headers as the training dataset.
 /// </note> <p/>
 class AutoMLChannel {
-  /// The data source for an AutoML channel.
-  final AutoMLDataSource dataSource;
-
   /// The name of the target variable in supervised learning, usually represented
   /// by 'y'.
   final String targetAttributeName;
@@ -20740,6 +22852,9 @@ class AutoMLChannel {
   /// <code>text/csv;header=present</code>.
   final String? contentType;
 
+  /// The data source for an AutoML channel.
+  final AutoMLDataSource? dataSource;
+
   /// If specified, this column name indicates which column of the dataset should
   /// be treated as sample weights for use by the objective metric during the
   /// training, evaluation, and the selection of the best model. This column is
@@ -20758,40 +22873,42 @@ class AutoMLChannel {
   final String? sampleWeightAttributeName;
 
   AutoMLChannel({
-    required this.dataSource,
     required this.targetAttributeName,
     this.channelType,
     this.compressionType,
     this.contentType,
+    this.dataSource,
     this.sampleWeightAttributeName,
   });
 
   factory AutoMLChannel.fromJson(Map<String, dynamic> json) {
     return AutoMLChannel(
-      dataSource:
-          AutoMLDataSource.fromJson(json['DataSource'] as Map<String, dynamic>),
       targetAttributeName: json['TargetAttributeName'] as String,
       channelType: (json['ChannelType'] as String?)?.toAutoMLChannelType(),
       compressionType:
           (json['CompressionType'] as String?)?.toCompressionType(),
       contentType: json['ContentType'] as String?,
+      dataSource: json['DataSource'] != null
+          ? AutoMLDataSource.fromJson(
+              json['DataSource'] as Map<String, dynamic>)
+          : null,
       sampleWeightAttributeName: json['SampleWeightAttributeName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataSource = this.dataSource;
     final targetAttributeName = this.targetAttributeName;
     final channelType = this.channelType;
     final compressionType = this.compressionType;
     final contentType = this.contentType;
+    final dataSource = this.dataSource;
     final sampleWeightAttributeName = this.sampleWeightAttributeName;
     return {
-      'DataSource': dataSource,
       'TargetAttributeName': targetAttributeName,
       if (channelType != null) 'ChannelType': channelType.toValue(),
       if (compressionType != null) 'CompressionType': compressionType.toValue(),
       if (contentType != null) 'ContentType': contentType,
+      if (dataSource != null) 'DataSource': dataSource,
       if (sampleWeightAttributeName != null)
         'SampleWeightAttributeName': sampleWeightAttributeName,
     };
@@ -20891,12 +23008,9 @@ class AutoMLDataSource {
 /// This structure specifies how to split the data into train and validation
 /// datasets.
 ///
-/// If you are using the V1 API (for example <code>CreateAutoMLJob</code>) or
-/// the V2 API for Natural Language Processing problems (for example
-/// <code>CreateAutoMLJobV2</code> with a
-/// <code>TextClassificationJobConfig</code> problem type), the validation and
-/// training datasets must contain the same headers. Also, for V1 API jobs, the
-/// validation dataset must be less than 2 GB in size.
+/// The validation and training datasets must contain the same headers. For jobs
+/// created by calling <code>CreateAutoMLJob</code>, the validation dataset must
+/// be less than 2 GB in size.
 class AutoMLDataSplitConfig {
   /// The validation fraction (optional) is a float that specifies the portion of
   /// the training dataset to be used for validation. The default value is 0.2,
@@ -20946,23 +23060,24 @@ class AutoMLJobArtifacts {
 }
 
 /// A channel is a named input source that training algorithms can consume. This
-/// channel is used for the non tabular training data of an AutoML job using the
-/// V2 API. For tabular training data, see <a
-/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLChannel.html">
-/// AutoMLChannel</a>. For more information, see <a
-/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Channel.html">
-/// Channel</a>.
+/// channel is used for AutoML jobs V2 (jobs created by calling <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>).
 class AutoMLJobChannel {
   /// The type of channel. Defines whether the data are used for training or
   /// validation. The default value is <code>training</code>. Channels for
   /// <code>training</code> and <code>validation</code> must share the same
   /// <code>ContentType</code>
+  /// <note>
+  /// The type of channel defaults to <code>training</code> for the time-series
+  /// forecasting problem type.
+  /// </note>
   final AutoMLChannelType? channelType;
 
-  /// The allowed compression types depend on the input format. We allow the
-  /// compression type <code>Gzip</code> for <code>S3Prefix</code> inputs only.
-  /// For all other inputs, the compression type should be <code>None</code>. If
-  /// no compression type is provided, we default to <code>None</code>.
+  /// The allowed compression types depend on the input format and problem type.
+  /// We allow the compression type <code>Gzip</code> for <code>S3Prefix</code>
+  /// inputs on tabular data only. For all other inputs, the compression type
+  /// should be <code>None</code>. If no compression type is provided, we default
+  /// to <code>None</code>.
   final CompressionType? compressionType;
 
   /// The content type of the data from the input source. The following are the
@@ -20970,16 +23085,33 @@ class AutoMLJobChannel {
   ///
   /// <ul>
   /// <li>
-  /// ImageClassification: <code>image/png</code>, <code>image/jpeg</code>,
-  /// <code>image/*</code>
+  /// For tabular problem types: <code>text/csv;header=present</code> or
+  /// <code>x-application/vnd.amazon+parquet</code>. The default value is
+  /// <code>text/csv;header=present</code>.
   /// </li>
   /// <li>
-  /// TextClassification: <code>text/csv;header=present</code>
+  /// For image classification: <code>image/png</code>, <code>image/jpeg</code>,
+  /// or <code>image/*</code>. The default value is <code>image/*</code>.
+  /// </li>
+  /// <li>
+  /// For text classification: <code>text/csv;header=present</code> or
+  /// <code>x-application/vnd.amazon+parquet</code>. The default value is
+  /// <code>text/csv;header=present</code>.
+  /// </li>
+  /// <li>
+  /// For time-series forecasting: <code>text/csv;header=present</code> or
+  /// <code>x-application/vnd.amazon+parquet</code>. The default value is
+  /// <code>text/csv;header=present</code>.
+  /// </li>
+  /// <li>
+  /// For text generation (LLMs fine-tuning): <code>text/csv;header=present</code>
+  /// or <code>x-application/vnd.amazon+parquet</code>. The default value is
+  /// <code>text/csv;header=present</code>.
   /// </li>
   /// </ul>
   final String? contentType;
 
-  /// The data source for an AutoML channel.
+  /// The data source for an AutoML channel (Required).
   final AutoMLDataSource? dataSource;
 
   AutoMLJobChannel({
@@ -21030,8 +23162,9 @@ class AutoMLJobCompletionCriteria {
 
   /// The maximum number of times a training job is allowed to run.
   ///
-  /// For V2 jobs (jobs created by calling <code>CreateAutoMLJobV2</code>), the
-  /// supported value is 1.
+  /// For text and image classification, time-series forecasting, as well as text
+  /// generation (LLMs fine-tuning) problem types, the supported value is 1. For
+  /// tabular problem types, the maximum value is 750.
   final int? maxCandidates;
 
   /// The maximum time, in seconds, that each training job executed inside
@@ -21042,8 +23175,12 @@ class AutoMLJobCompletionCriteria {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateHyperParameterTuningJob.html">CreateHyperParameterTuningJob</a>
   /// action.
   ///
-  /// For V2 jobs (jobs created by calling <code>CreateAutoMLJobV2</code>), this
+  /// For job V2s (jobs created by calling <code>CreateAutoMLJobV2</code>), this
   /// field controls the runtime of the job candidate.
+  ///
+  /// For <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TextClassificationJobConfig.html">TextGenerationJobConfig</a>
+  /// problem types, the maximum time defaults to 72 hours (259200 seconds).
   final int? maxRuntimePerTrainingJobInSeconds;
 
   AutoMLJobCompletionCriteria({
@@ -21104,7 +23241,7 @@ class AutoMLJobConfig {
   /// predictions from contributing members. A multi-stack ensemble model can
   /// provide better performance over a single model by combining the predictive
   /// capabilities of multiple models. See <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-suppprt">Autopilot
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support">Autopilot
   /// algorithm support</a> for a list of algorithms supported by
   /// <code>ENSEMBLING</code> mode.
   ///
@@ -21112,7 +23249,7 @@ class AutoMLJobConfig {
   /// hyperparameters to train the best version of a model. HPO automatically
   /// selects an algorithm for the type of problem you want to solve. Then HPO
   /// finds the best hyperparameters according to your objective metric. See <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-suppprt">Autopilot
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support">Autopilot
   /// algorithm support</a> for a list of algorithms supported by
   /// <code>HYPERPARAMETER_TUNING</code> mode.
   final AutoMLMode? mode;
@@ -21167,31 +23304,104 @@ class AutoMLJobConfig {
   }
 }
 
-/// Specifies a metric to minimize or maximize as the objective of a job. V2 API
-/// jobs (for example jobs created by calling <code>CreateAutoMLJobV2</code>),
-/// support <code>Accuracy</code> only.
+/// Specifies a metric to minimize or maximize as the objective of an AutoML
+/// job.
 class AutoMLJobObjective {
   /// The name of the objective metric used to measure the predictive quality of a
   /// machine learning system. During training, the model's parameters are updated
   /// iteratively to optimize its performance based on the feedback provided by
   /// the objective metric when evaluating the model on the validation dataset.
   ///
-  /// For the list of all available metrics supported by Autopilot, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html#autopilot-metrics">Autopilot
-  /// metrics</a>.
-  ///
-  /// If you do not specify a metric explicitly, the default behavior is to
-  /// automatically use:
+  /// The list of available metrics supported by Autopilot and the default metric
+  /// applied when you do not specify a metric name explicitly depend on the
+  /// problem type.
   ///
   /// <ul>
   /// <li>
-  /// <code>MSE</code>: for regression.
+  /// For tabular problem types:
+  ///
+  /// <ul>
+  /// <li>
+  /// List of available metrics:
+  ///
+  /// <ul>
+  /// <li>
+  /// Regression: <code>MAE</code>, <code>MSE</code>, <code>R2</code>,
+  /// <code>RMSE</code>
   /// </li>
   /// <li>
-  /// <code>F1</code>: for binary classification
+  /// Binary classification: <code>Accuracy</code>, <code>AUC</code>,
+  /// <code>BalancedAccuracy</code>, <code>F1</code>, <code>Precision</code>,
+  /// <code>Recall</code>
   /// </li>
   /// <li>
-  /// <code>Accuracy</code>: for multiclass classification.
+  /// Multiclass classification: <code>Accuracy</code>,
+  /// <code>BalancedAccuracy</code>, <code>F1macro</code>,
+  /// <code>PrecisionMacro</code>, <code>RecallMacro</code>
+  /// </li>
+  /// </ul>
+  /// For a description of each metric, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html#autopilot-metrics">Autopilot
+  /// metrics for classification and regression</a>.
+  /// </li>
+  /// <li>
+  /// Default objective metrics:
+  ///
+  /// <ul>
+  /// <li>
+  /// Regression: <code>MSE</code>.
+  /// </li>
+  /// <li>
+  /// Binary classification: <code>F1</code>.
+  /// </li>
+  /// <li>
+  /// Multiclass classification: <code>Accuracy</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </li>
+  /// <li>
+  /// For image or text classification problem types:
+  ///
+  /// <ul>
+  /// <li>
+  /// List of available metrics: <code>Accuracy</code>
+  ///
+  /// For a description of each metric, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/text-classification-data-format-and-metric.html">Autopilot
+  /// metrics for text and image classification</a>.
+  /// </li>
+  /// <li>
+  /// Default objective metrics: <code>Accuracy</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For time-series forecasting problem types:
+  ///
+  /// <ul>
+  /// <li>
+  /// List of available metrics: <code>RMSE</code>, <code>wQL</code>,
+  /// <code>Average wQL</code>, <code>MASE</code>, <code>MAPE</code>,
+  /// <code>WAPE</code>
+  ///
+  /// For a description of each metric, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/timeseries-objective-metric.html">Autopilot
+  /// metrics for time-series forecasting</a>.
+  /// </li>
+  /// <li>
+  /// Default objective metrics: <code>AverageWeightedQuantileLoss</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For text generation problem types (LLMs fine-tuning): Fine-tuning language
+  /// models in Autopilot does not require setting the
+  /// <code>AutoMLJobObjective</code> field. Autopilot fine-tunes LLMs without
+  /// requiring multiple candidates to be trained and evaluated. Instead, using
+  /// your dataset, Autopilot directly fine-tunes your target model to enhance a
+  /// default objective metric, the cross-entropy loss. After fine-tuning a
+  /// language model, you can evaluate the quality of its generated text using
+  /// different metrics. For a list of the available metrics, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-llms-finetuning-metrics.html">Metrics
+  /// for fine-tuning LLMs in Autopilot</a>.
   /// </li>
   /// </ul>
   final AutoMLMetricEnum metricName;
@@ -21244,23 +23454,24 @@ extension AutoMLJobObjectiveTypeFromString on String {
 
 enum AutoMLJobSecondaryStatus {
   starting,
-  analyzingData,
-  featureEngineering,
-  modelTuning,
   maxCandidatesReached,
   failed,
   stopped,
   maxAutoMLJobRuntimeReached,
   stopping,
   candidateDefinitionsGenerated,
-  generatingExplainabilityReport,
   completed,
   explainabilityError,
   deployingModel,
   modelDeploymentError,
   generatingModelInsightsReport,
   modelInsightsError,
+  analyzingData,
+  featureEngineering,
+  modelTuning,
+  generatingExplainabilityReport,
   trainingModels,
+  preTraining,
 }
 
 extension AutoMLJobSecondaryStatusValueExtension on AutoMLJobSecondaryStatus {
@@ -21268,12 +23479,6 @@ extension AutoMLJobSecondaryStatusValueExtension on AutoMLJobSecondaryStatus {
     switch (this) {
       case AutoMLJobSecondaryStatus.starting:
         return 'Starting';
-      case AutoMLJobSecondaryStatus.analyzingData:
-        return 'AnalyzingData';
-      case AutoMLJobSecondaryStatus.featureEngineering:
-        return 'FeatureEngineering';
-      case AutoMLJobSecondaryStatus.modelTuning:
-        return 'ModelTuning';
       case AutoMLJobSecondaryStatus.maxCandidatesReached:
         return 'MaxCandidatesReached';
       case AutoMLJobSecondaryStatus.failed:
@@ -21286,8 +23491,6 @@ extension AutoMLJobSecondaryStatusValueExtension on AutoMLJobSecondaryStatus {
         return 'Stopping';
       case AutoMLJobSecondaryStatus.candidateDefinitionsGenerated:
         return 'CandidateDefinitionsGenerated';
-      case AutoMLJobSecondaryStatus.generatingExplainabilityReport:
-        return 'GeneratingExplainabilityReport';
       case AutoMLJobSecondaryStatus.completed:
         return 'Completed';
       case AutoMLJobSecondaryStatus.explainabilityError:
@@ -21300,8 +23503,18 @@ extension AutoMLJobSecondaryStatusValueExtension on AutoMLJobSecondaryStatus {
         return 'GeneratingModelInsightsReport';
       case AutoMLJobSecondaryStatus.modelInsightsError:
         return 'ModelInsightsError';
+      case AutoMLJobSecondaryStatus.analyzingData:
+        return 'AnalyzingData';
+      case AutoMLJobSecondaryStatus.featureEngineering:
+        return 'FeatureEngineering';
+      case AutoMLJobSecondaryStatus.modelTuning:
+        return 'ModelTuning';
+      case AutoMLJobSecondaryStatus.generatingExplainabilityReport:
+        return 'GeneratingExplainabilityReport';
       case AutoMLJobSecondaryStatus.trainingModels:
         return 'TrainingModels';
+      case AutoMLJobSecondaryStatus.preTraining:
+        return 'PreTraining';
     }
   }
 }
@@ -21311,12 +23524,6 @@ extension AutoMLJobSecondaryStatusFromString on String {
     switch (this) {
       case 'Starting':
         return AutoMLJobSecondaryStatus.starting;
-      case 'AnalyzingData':
-        return AutoMLJobSecondaryStatus.analyzingData;
-      case 'FeatureEngineering':
-        return AutoMLJobSecondaryStatus.featureEngineering;
-      case 'ModelTuning':
-        return AutoMLJobSecondaryStatus.modelTuning;
       case 'MaxCandidatesReached':
         return AutoMLJobSecondaryStatus.maxCandidatesReached;
       case 'Failed':
@@ -21329,8 +23536,6 @@ extension AutoMLJobSecondaryStatusFromString on String {
         return AutoMLJobSecondaryStatus.stopping;
       case 'CandidateDefinitionsGenerated':
         return AutoMLJobSecondaryStatus.candidateDefinitionsGenerated;
-      case 'GeneratingExplainabilityReport':
-        return AutoMLJobSecondaryStatus.generatingExplainabilityReport;
       case 'Completed':
         return AutoMLJobSecondaryStatus.completed;
       case 'ExplainabilityError':
@@ -21343,8 +23548,18 @@ extension AutoMLJobSecondaryStatusFromString on String {
         return AutoMLJobSecondaryStatus.generatingModelInsightsReport;
       case 'ModelInsightsError':
         return AutoMLJobSecondaryStatus.modelInsightsError;
+      case 'AnalyzingData':
+        return AutoMLJobSecondaryStatus.analyzingData;
+      case 'FeatureEngineering':
+        return AutoMLJobSecondaryStatus.featureEngineering;
+      case 'ModelTuning':
+        return AutoMLJobSecondaryStatus.modelTuning;
+      case 'GeneratingExplainabilityReport':
+        return AutoMLJobSecondaryStatus.generatingExplainabilityReport;
       case 'TrainingModels':
         return AutoMLJobSecondaryStatus.trainingModels;
+      case 'PreTraining':
+        return AutoMLJobSecondaryStatus.preTraining;
     }
     throw Exception('$this is not known in enum AutoMLJobSecondaryStatus');
   }
@@ -21479,13 +23694,17 @@ enum AutoMLMetricEnum {
   f1macro,
   auc,
   rmse,
-  mae,
-  r2,
   balancedAccuracy,
-  precision,
-  precisionMacro,
+  r2,
   recall,
   recallMacro,
+  precision,
+  precisionMacro,
+  mae,
+  mape,
+  mase,
+  wape,
+  averageWeightedQuantileLoss,
 }
 
 extension AutoMLMetricEnumValueExtension on AutoMLMetricEnum {
@@ -21503,20 +23722,28 @@ extension AutoMLMetricEnumValueExtension on AutoMLMetricEnum {
         return 'AUC';
       case AutoMLMetricEnum.rmse:
         return 'RMSE';
-      case AutoMLMetricEnum.mae:
-        return 'MAE';
-      case AutoMLMetricEnum.r2:
-        return 'R2';
       case AutoMLMetricEnum.balancedAccuracy:
         return 'BalancedAccuracy';
-      case AutoMLMetricEnum.precision:
-        return 'Precision';
-      case AutoMLMetricEnum.precisionMacro:
-        return 'PrecisionMacro';
+      case AutoMLMetricEnum.r2:
+        return 'R2';
       case AutoMLMetricEnum.recall:
         return 'Recall';
       case AutoMLMetricEnum.recallMacro:
         return 'RecallMacro';
+      case AutoMLMetricEnum.precision:
+        return 'Precision';
+      case AutoMLMetricEnum.precisionMacro:
+        return 'PrecisionMacro';
+      case AutoMLMetricEnum.mae:
+        return 'MAE';
+      case AutoMLMetricEnum.mape:
+        return 'MAPE';
+      case AutoMLMetricEnum.mase:
+        return 'MASE';
+      case AutoMLMetricEnum.wape:
+        return 'WAPE';
+      case AutoMLMetricEnum.averageWeightedQuantileLoss:
+        return 'AverageWeightedQuantileLoss';
     }
   }
 }
@@ -21536,20 +23763,28 @@ extension AutoMLMetricEnumFromString on String {
         return AutoMLMetricEnum.auc;
       case 'RMSE':
         return AutoMLMetricEnum.rmse;
-      case 'MAE':
-        return AutoMLMetricEnum.mae;
-      case 'R2':
-        return AutoMLMetricEnum.r2;
       case 'BalancedAccuracy':
         return AutoMLMetricEnum.balancedAccuracy;
-      case 'Precision':
-        return AutoMLMetricEnum.precision;
-      case 'PrecisionMacro':
-        return AutoMLMetricEnum.precisionMacro;
+      case 'R2':
+        return AutoMLMetricEnum.r2;
       case 'Recall':
         return AutoMLMetricEnum.recall;
       case 'RecallMacro':
         return AutoMLMetricEnum.recallMacro;
+      case 'Precision':
+        return AutoMLMetricEnum.precision;
+      case 'PrecisionMacro':
+        return AutoMLMetricEnum.precisionMacro;
+      case 'MAE':
+        return AutoMLMetricEnum.mae;
+      case 'MAPE':
+        return AutoMLMetricEnum.mape;
+      case 'MASE':
+        return AutoMLMetricEnum.mase;
+      case 'WAPE':
+        return AutoMLMetricEnum.wape;
+      case 'AverageWeightedQuantileLoss':
+        return AutoMLMetricEnum.averageWeightedQuantileLoss;
     }
     throw Exception('$this is not known in enum AutoMLMetricEnum');
   }
@@ -21571,6 +23806,17 @@ enum AutoMLMetricExtendedEnum {
   recallMacro,
   logLoss,
   inferenceLatency,
+  mape,
+  mase,
+  wape,
+  averageWeightedQuantileLoss,
+  rouge1,
+  rouge2,
+  rougeL,
+  rougeLSum,
+  perplexity,
+  validationLoss,
+  trainingLoss,
 }
 
 extension AutoMLMetricExtendedEnumValueExtension on AutoMLMetricExtendedEnum {
@@ -21606,6 +23852,28 @@ extension AutoMLMetricExtendedEnumValueExtension on AutoMLMetricExtendedEnum {
         return 'LogLoss';
       case AutoMLMetricExtendedEnum.inferenceLatency:
         return 'InferenceLatency';
+      case AutoMLMetricExtendedEnum.mape:
+        return 'MAPE';
+      case AutoMLMetricExtendedEnum.mase:
+        return 'MASE';
+      case AutoMLMetricExtendedEnum.wape:
+        return 'WAPE';
+      case AutoMLMetricExtendedEnum.averageWeightedQuantileLoss:
+        return 'AverageWeightedQuantileLoss';
+      case AutoMLMetricExtendedEnum.rouge1:
+        return 'Rouge1';
+      case AutoMLMetricExtendedEnum.rouge2:
+        return 'Rouge2';
+      case AutoMLMetricExtendedEnum.rougeL:
+        return 'RougeL';
+      case AutoMLMetricExtendedEnum.rougeLSum:
+        return 'RougeLSum';
+      case AutoMLMetricExtendedEnum.perplexity:
+        return 'Perplexity';
+      case AutoMLMetricExtendedEnum.validationLoss:
+        return 'ValidationLoss';
+      case AutoMLMetricExtendedEnum.trainingLoss:
+        return 'TrainingLoss';
     }
   }
 }
@@ -21643,6 +23911,28 @@ extension AutoMLMetricExtendedEnumFromString on String {
         return AutoMLMetricExtendedEnum.logLoss;
       case 'InferenceLatency':
         return AutoMLMetricExtendedEnum.inferenceLatency;
+      case 'MAPE':
+        return AutoMLMetricExtendedEnum.mape;
+      case 'MASE':
+        return AutoMLMetricExtendedEnum.mase;
+      case 'WAPE':
+        return AutoMLMetricExtendedEnum.wape;
+      case 'AverageWeightedQuantileLoss':
+        return AutoMLMetricExtendedEnum.averageWeightedQuantileLoss;
+      case 'Rouge1':
+        return AutoMLMetricExtendedEnum.rouge1;
+      case 'Rouge2':
+        return AutoMLMetricExtendedEnum.rouge2;
+      case 'RougeL':
+        return AutoMLMetricExtendedEnum.rougeL;
+      case 'RougeLSum':
+        return AutoMLMetricExtendedEnum.rougeLSum;
+      case 'Perplexity':
+        return AutoMLMetricExtendedEnum.perplexity;
+      case 'ValidationLoss':
+        return AutoMLMetricExtendedEnum.validationLoss;
+      case 'TrainingLoss':
+        return AutoMLMetricExtendedEnum.trainingLoss;
     }
     throw Exception('$this is not known in enum AutoMLMetricExtendedEnum');
   }
@@ -21686,7 +23976,7 @@ class AutoMLOutputDataConfig {
   /// The Amazon S3 output path. Must be 128 characters or less.
   final String s3OutputPath;
 
-  /// The Key Management Service (KMS) encryption key ID.
+  /// The Key Management Service encryption key ID.
   final String? kmsKeyId;
 
   AutoMLOutputDataConfig({
@@ -21728,20 +24018,41 @@ class AutoMLPartialFailureReason {
 }
 
 /// A collection of settings specific to the problem type used to configure an
-/// AutoML job using the V2 API. There must be one and only one config of the
-/// following type.
+/// AutoML job V2. There must be one and only one config of the following type.
 class AutoMLProblemTypeConfig {
-  /// Settings used to configure an AutoML job using the V2 API for the image
-  /// classification problem type.
+  /// Settings used to configure an AutoML job V2 for the image classification
+  /// problem type.
   final ImageClassificationJobConfig? imageClassificationJobConfig;
 
-  /// Settings used to configure an AutoML job using the V2 API for the text
-  /// classification problem type.
+  /// Settings used to configure an AutoML job V2 for the tabular problem type
+  /// (regression, classification).
+  final TabularJobConfig? tabularJobConfig;
+
+  /// Settings used to configure an AutoML job V2 for the text classification
+  /// problem type.
   final TextClassificationJobConfig? textClassificationJobConfig;
+
+  /// Settings used to configure an AutoML job V2 for the text generation (LLMs
+  /// fine-tuning) problem type.
+  /// <note>
+  /// The text generation models that support fine-tuning in Autopilot are
+  /// currently accessible exclusively in regions supported by Canvas. Refer to
+  /// the documentation of Canvas for the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/canvas.html">full list
+  /// of its supported Regions</a>.
+  /// </note>
+  final TextGenerationJobConfig? textGenerationJobConfig;
+
+  /// Settings used to configure an AutoML job V2 for the time-series forecasting
+  /// problem type.
+  final TimeSeriesForecastingJobConfig? timeSeriesForecastingJobConfig;
 
   AutoMLProblemTypeConfig({
     this.imageClassificationJobConfig,
+    this.tabularJobConfig,
     this.textClassificationJobConfig,
+    this.textGenerationJobConfig,
+    this.timeSeriesForecastingJobConfig,
   });
 
   factory AutoMLProblemTypeConfig.fromJson(Map<String, dynamic> json) {
@@ -21750,22 +24061,117 @@ class AutoMLProblemTypeConfig {
           ? ImageClassificationJobConfig.fromJson(
               json['ImageClassificationJobConfig'] as Map<String, dynamic>)
           : null,
+      tabularJobConfig: json['TabularJobConfig'] != null
+          ? TabularJobConfig.fromJson(
+              json['TabularJobConfig'] as Map<String, dynamic>)
+          : null,
       textClassificationJobConfig: json['TextClassificationJobConfig'] != null
           ? TextClassificationJobConfig.fromJson(
               json['TextClassificationJobConfig'] as Map<String, dynamic>)
+          : null,
+      textGenerationJobConfig: json['TextGenerationJobConfig'] != null
+          ? TextGenerationJobConfig.fromJson(
+              json['TextGenerationJobConfig'] as Map<String, dynamic>)
+          : null,
+      timeSeriesForecastingJobConfig: json['TimeSeriesForecastingJobConfig'] !=
+              null
+          ? TimeSeriesForecastingJobConfig.fromJson(
+              json['TimeSeriesForecastingJobConfig'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final imageClassificationJobConfig = this.imageClassificationJobConfig;
+    final tabularJobConfig = this.tabularJobConfig;
     final textClassificationJobConfig = this.textClassificationJobConfig;
+    final textGenerationJobConfig = this.textGenerationJobConfig;
+    final timeSeriesForecastingJobConfig = this.timeSeriesForecastingJobConfig;
     return {
       if (imageClassificationJobConfig != null)
         'ImageClassificationJobConfig': imageClassificationJobConfig,
+      if (tabularJobConfig != null) 'TabularJobConfig': tabularJobConfig,
       if (textClassificationJobConfig != null)
         'TextClassificationJobConfig': textClassificationJobConfig,
+      if (textGenerationJobConfig != null)
+        'TextGenerationJobConfig': textGenerationJobConfig,
+      if (timeSeriesForecastingJobConfig != null)
+        'TimeSeriesForecastingJobConfig': timeSeriesForecastingJobConfig,
     };
+  }
+}
+
+enum AutoMLProblemTypeConfigName {
+  imageClassification,
+  textClassification,
+  timeSeriesForecasting,
+  tabular,
+  textGeneration,
+}
+
+extension AutoMLProblemTypeConfigNameValueExtension
+    on AutoMLProblemTypeConfigName {
+  String toValue() {
+    switch (this) {
+      case AutoMLProblemTypeConfigName.imageClassification:
+        return 'ImageClassification';
+      case AutoMLProblemTypeConfigName.textClassification:
+        return 'TextClassification';
+      case AutoMLProblemTypeConfigName.timeSeriesForecasting:
+        return 'TimeSeriesForecasting';
+      case AutoMLProblemTypeConfigName.tabular:
+        return 'Tabular';
+      case AutoMLProblemTypeConfigName.textGeneration:
+        return 'TextGeneration';
+    }
+  }
+}
+
+extension AutoMLProblemTypeConfigNameFromString on String {
+  AutoMLProblemTypeConfigName toAutoMLProblemTypeConfigName() {
+    switch (this) {
+      case 'ImageClassification':
+        return AutoMLProblemTypeConfigName.imageClassification;
+      case 'TextClassification':
+        return AutoMLProblemTypeConfigName.textClassification;
+      case 'TimeSeriesForecasting':
+        return AutoMLProblemTypeConfigName.timeSeriesForecasting;
+      case 'Tabular':
+        return AutoMLProblemTypeConfigName.tabular;
+      case 'TextGeneration':
+        return AutoMLProblemTypeConfigName.textGeneration;
+    }
+    throw Exception('$this is not known in enum AutoMLProblemTypeConfigName');
+  }
+}
+
+/// Stores resolved attributes specific to the problem type of an AutoML job V2.
+class AutoMLProblemTypeResolvedAttributes {
+  /// The resolved attributes for the tabular problem type.
+  final TabularResolvedAttributes? tabularResolvedAttributes;
+
+  /// The resolved attributes for the text generation problem type.
+  final TextGenerationResolvedAttributes? textGenerationResolvedAttributes;
+
+  AutoMLProblemTypeResolvedAttributes({
+    this.tabularResolvedAttributes,
+    this.textGenerationResolvedAttributes,
+  });
+
+  factory AutoMLProblemTypeResolvedAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return AutoMLProblemTypeResolvedAttributes(
+      tabularResolvedAttributes: json['TabularResolvedAttributes'] != null
+          ? TabularResolvedAttributes.fromJson(
+              json['TabularResolvedAttributes'] as Map<String, dynamic>)
+          : null,
+      textGenerationResolvedAttributes:
+          json['TextGenerationResolvedAttributes'] != null
+              ? TextGenerationResolvedAttributes.fromJson(
+                  json['TextGenerationResolvedAttributes']
+                      as Map<String, dynamic>)
+              : null,
+    );
   }
 }
 
@@ -21794,6 +24200,41 @@ extension AutoMLProcessingUnitFromString on String {
         return AutoMLProcessingUnit.gpu;
     }
     throw Exception('$this is not known in enum AutoMLProcessingUnit');
+  }
+}
+
+/// The resolved attributes used to configure an AutoML job V2.
+class AutoMLResolvedAttributes {
+  final AutoMLJobObjective? autoMLJobObjective;
+
+  /// Defines the resolved attributes specific to a problem type.
+  final AutoMLProblemTypeResolvedAttributes?
+      autoMLProblemTypeResolvedAttributes;
+  final AutoMLJobCompletionCriteria? completionCriteria;
+
+  AutoMLResolvedAttributes({
+    this.autoMLJobObjective,
+    this.autoMLProblemTypeResolvedAttributes,
+    this.completionCriteria,
+  });
+
+  factory AutoMLResolvedAttributes.fromJson(Map<String, dynamic> json) {
+    return AutoMLResolvedAttributes(
+      autoMLJobObjective: json['AutoMLJobObjective'] != null
+          ? AutoMLJobObjective.fromJson(
+              json['AutoMLJobObjective'] as Map<String, dynamic>)
+          : null,
+      autoMLProblemTypeResolvedAttributes:
+          json['AutoMLProblemTypeResolvedAttributes'] != null
+              ? AutoMLProblemTypeResolvedAttributes.fromJson(
+                  json['AutoMLProblemTypeResolvedAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      completionCriteria: json['CompletionCriteria'] != null
+          ? AutoMLJobCompletionCriteria.fromJson(
+              json['CompletionCriteria'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -22012,6 +24453,39 @@ extension AutoMLSortOrderFromString on String {
   }
 }
 
+/// The name and an example value of the hyperparameter that you want to use in
+/// Autotune. If Automatic model tuning (AMT) determines that your
+/// hyperparameter is eligible for Autotune, an optimal hyperparameter range is
+/// selected for you.
+class AutoParameter {
+  /// The name of the hyperparameter to optimize using Autotune.
+  final String name;
+
+  /// An example value of the hyperparameter to optimize using Autotune.
+  final String valueHint;
+
+  AutoParameter({
+    required this.name,
+    required this.valueHint,
+  });
+
+  factory AutoParameter.fromJson(Map<String, dynamic> json) {
+    return AutoParameter(
+      name: json['Name'] as String,
+      valueHint: json['ValueHint'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final valueHint = this.valueHint;
+    return {
+      'Name': name,
+      'ValueHint': valueHint,
+    };
+  }
+}
+
 /// Automatic rollback configuration for handling endpoint deployment failures
 /// and recovery.
 class AutoRollbackConfig {
@@ -22038,6 +24512,92 @@ class AutoRollbackConfig {
     return {
       if (alarms != null) 'Alarms': alarms,
     };
+  }
+}
+
+/// A flag to indicate if you want to use Autotune to automatically find optimal
+/// values for the following fields:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html#sagemaker-Type-HyperParameterTuningJobConfig-ParameterRanges">ParameterRanges</a>:
+/// The names and ranges of parameters that a hyperparameter tuning job can
+/// optimize.
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceLimits.html">ResourceLimits</a>:
+/// The maximum resources that can be used for a training job. These resources
+/// include the maximum number of training jobs, the maximum runtime of a tuning
+/// job, and the maximum number of training jobs to run at the same time.
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html#sagemaker-Type-HyperParameterTuningJobConfig-TrainingJobEarlyStoppingType">TrainingJobEarlyStoppingType</a>:
+/// A flag that specifies whether or not to use early stopping for training jobs
+/// launched by a hyperparameter tuning job.
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html#sagemaker-Type-HyperParameterTrainingJobDefinition-RetryStrategy">RetryStrategy</a>:
+/// The number of times to retry a training job.
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html">Strategy</a>:
+/// Specifies how hyperparameter tuning chooses the combinations of
+/// hyperparameter values to use for the training jobs that it launches.
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ConvergenceDetected.html">ConvergenceDetected</a>:
+/// A flag to indicate that Automatic model tuning (AMT) has detected model
+/// convergence.
+/// </li>
+/// </ul>
+class Autotune {
+  /// Set <code>Mode</code> to <code>Enabled</code> if you want to use Autotune.
+  final AutotuneMode mode;
+
+  Autotune({
+    required this.mode,
+  });
+
+  factory Autotune.fromJson(Map<String, dynamic> json) {
+    return Autotune(
+      mode: (json['Mode'] as String).toAutotuneMode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    return {
+      'Mode': mode.toValue(),
+    };
+  }
+}
+
+enum AutotuneMode {
+  enabled,
+}
+
+extension AutotuneModeValueExtension on AutotuneMode {
+  String toValue() {
+    switch (this) {
+      case AutotuneMode.enabled:
+        return 'Enabled';
+    }
+  }
+}
+
+extension AutotuneModeFromString on String {
+  AutotuneMode toAutotuneMode() {
+    switch (this) {
+      case 'Enabled':
+        return AutotuneMode.enabled;
+    }
+    throw Exception('$this is not known in enum AutotuneMode');
   }
 }
 
@@ -22280,11 +24840,14 @@ class BatchTransformInput {
   /// container.
   final String localPath;
 
-  /// If specified, monitoring jobs substract this time from the end time. For
+  /// If specified, monitoring jobs subtract this time from the end time. For
   /// information about using offsets for scheduling monitoring jobs, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-model-quality-schedule.html">Schedule
   /// Model Quality Monitoring Jobs</a>.
   final String? endTimeOffset;
+
+  /// The attributes of the input data to exclude from the analysis.
+  final String? excludeFeaturesAttribute;
 
   /// The attributes of the input data that are the input features.
   final String? featuresAttribute;
@@ -22321,6 +24884,7 @@ class BatchTransformInput {
     required this.datasetFormat,
     required this.localPath,
     this.endTimeOffset,
+    this.excludeFeaturesAttribute,
     this.featuresAttribute,
     this.inferenceAttribute,
     this.probabilityAttribute,
@@ -22338,6 +24902,7 @@ class BatchTransformInput {
           json['DatasetFormat'] as Map<String, dynamic>),
       localPath: json['LocalPath'] as String,
       endTimeOffset: json['EndTimeOffset'] as String?,
+      excludeFeaturesAttribute: json['ExcludeFeaturesAttribute'] as String?,
       featuresAttribute: json['FeaturesAttribute'] as String?,
       inferenceAttribute: json['InferenceAttribute'] as String?,
       probabilityAttribute: json['ProbabilityAttribute'] as String?,
@@ -22355,6 +24920,7 @@ class BatchTransformInput {
     final datasetFormat = this.datasetFormat;
     final localPath = this.localPath;
     final endTimeOffset = this.endTimeOffset;
+    final excludeFeaturesAttribute = this.excludeFeaturesAttribute;
     final featuresAttribute = this.featuresAttribute;
     final inferenceAttribute = this.inferenceAttribute;
     final probabilityAttribute = this.probabilityAttribute;
@@ -22367,6 +24933,8 @@ class BatchTransformInput {
       'DatasetFormat': datasetFormat,
       'LocalPath': localPath,
       if (endTimeOffset != null) 'EndTimeOffset': endTimeOffset,
+      if (excludeFeaturesAttribute != null)
+        'ExcludeFeaturesAttribute': excludeFeaturesAttribute,
       if (featuresAttribute != null) 'FeaturesAttribute': featuresAttribute,
       if (inferenceAttribute != null) 'InferenceAttribute': inferenceAttribute,
       if (probabilityAttribute != null)
@@ -22590,20 +25158,125 @@ class CandidateArtifactLocations {
   /// AutoML candidate.
   final String explainability;
 
+  /// The Amazon S3 prefix to the accuracy metrics and the inference results
+  /// observed over the testing window. Available only for the time-series
+  /// forecasting problem type.
+  final String? backtestResults;
+
   /// The Amazon S3 prefix to the model insight artifacts generated for the AutoML
   /// candidate.
   final String? modelInsights;
 
   CandidateArtifactLocations({
     required this.explainability,
+    this.backtestResults,
     this.modelInsights,
   });
 
   factory CandidateArtifactLocations.fromJson(Map<String, dynamic> json) {
     return CandidateArtifactLocations(
       explainability: json['Explainability'] as String,
+      backtestResults: json['BacktestResults'] as String?,
       modelInsights: json['ModelInsights'] as String?,
     );
+  }
+}
+
+/// Stores the configuration information for how model candidates are generated
+/// using an AutoML job V2.
+class CandidateGenerationConfig {
+  /// Your Autopilot job trains a default set of algorithms on your dataset. For
+  /// tabular and time-series data, you can customize the algorithm list by
+  /// selecting a subset of algorithms for your problem type.
+  ///
+  /// <code>AlgorithmsConfig</code> stores the customized selection of algorithms
+  /// to train on your data.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>For the tabular problem type <code>TabularJobConfig</code>,</b> the list
+  /// of available algorithms to choose from depends on the training mode set in
+  /// <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html">
+  /// <code>AutoMLJobConfig.Mode</code> </a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AlgorithmsConfig</code> should not be set when the training mode
+  /// <code>AutoMLJobConfig.Mode</code> is set to <code>AUTO</code>.
+  /// </li>
+  /// <li>
+  /// When <code>AlgorithmsConfig</code> is provided, one
+  /// <code>AutoMLAlgorithms</code> attribute must be set and one only.
+  ///
+  /// If the list of algorithms provided as values for
+  /// <code>AutoMLAlgorithms</code> is empty,
+  /// <code>CandidateGenerationConfig</code> uses the full set of algorithms for
+  /// the given training mode.
+  /// </li>
+  /// <li>
+  /// When <code>AlgorithmsConfig</code> is not provided,
+  /// <code>CandidateGenerationConfig</code> uses the full set of algorithms for
+  /// the given training mode.
+  /// </li>
+  /// </ul>
+  /// For the list of all algorithms per training mode, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html">
+  /// AlgorithmConfig</a>.
+  ///
+  /// For more information on each algorithm, see the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support">Algorithm
+  /// support</a> section in the Autopilot developer guide.
+  /// </li>
+  /// <li>
+  /// <b>For the time-series forecasting problem type
+  /// <code>TimeSeriesForecastingJobConfig</code>,</b> choose your algorithms from
+  /// the list provided in <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html">
+  /// AlgorithmConfig</a>.
+  ///
+  /// For more information on each algorithm, see the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/timeseries-forecasting-algorithms.html">Algorithms
+  /// support for time-series forecasting</a> section in the Autopilot developer
+  /// guide.
+  ///
+  /// <ul>
+  /// <li>
+  /// When <code>AlgorithmsConfig</code> is provided, one
+  /// <code>AutoMLAlgorithms</code> attribute must be set and one only.
+  ///
+  /// If the list of algorithms provided as values for
+  /// <code>AutoMLAlgorithms</code> is empty,
+  /// <code>CandidateGenerationConfig</code> uses the full set of algorithms for
+  /// time-series forecasting.
+  /// </li>
+  /// <li>
+  /// When <code>AlgorithmsConfig</code> is not provided,
+  /// <code>CandidateGenerationConfig</code> uses the full set of algorithms for
+  /// time-series forecasting.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final List<AutoMLAlgorithmConfig>? algorithmsConfig;
+
+  CandidateGenerationConfig({
+    this.algorithmsConfig,
+  });
+
+  factory CandidateGenerationConfig.fromJson(Map<String, dynamic> json) {
+    return CandidateGenerationConfig(
+      algorithmsConfig: (json['AlgorithmsConfig'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoMLAlgorithmConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmsConfig = this.algorithmsConfig;
+    return {
+      if (algorithmsConfig != null) 'AlgorithmsConfig': algorithmsConfig,
+    };
   }
 }
 
@@ -22745,19 +25418,57 @@ extension CandidateStepTypeFromString on String {
 
 /// The SageMaker Canvas application settings.
 class CanvasAppSettings {
+  /// The model deployment settings for the SageMaker Canvas application.
+  final DirectDeploySettings? directDeploySettings;
+
+  /// The generative AI settings for the SageMaker Canvas application.
+  final GenerativeAiSettings? generativeAiSettings;
+
+  /// The settings for connecting to an external data source with OAuth.
+  final List<IdentityProviderOAuthSetting>? identityProviderOAuthSettings;
+
+  /// The settings for document querying.
+  final KendraSettings? kendraSettings;
+
   /// The model registry settings for the SageMaker Canvas application.
   final ModelRegisterSettings? modelRegisterSettings;
 
-  /// Time series forecast settings for the Canvas application.
+  /// Time series forecast settings for the SageMaker Canvas application.
   final TimeSeriesForecastingSettings? timeSeriesForecastingSettings;
 
+  /// The workspace settings for the SageMaker Canvas application.
+  final WorkspaceSettings? workspaceSettings;
+
   CanvasAppSettings({
+    this.directDeploySettings,
+    this.generativeAiSettings,
+    this.identityProviderOAuthSettings,
+    this.kendraSettings,
     this.modelRegisterSettings,
     this.timeSeriesForecastingSettings,
+    this.workspaceSettings,
   });
 
   factory CanvasAppSettings.fromJson(Map<String, dynamic> json) {
     return CanvasAppSettings(
+      directDeploySettings: json['DirectDeploySettings'] != null
+          ? DirectDeploySettings.fromJson(
+              json['DirectDeploySettings'] as Map<String, dynamic>)
+          : null,
+      generativeAiSettings: json['GenerativeAiSettings'] != null
+          ? GenerativeAiSettings.fromJson(
+              json['GenerativeAiSettings'] as Map<String, dynamic>)
+          : null,
+      identityProviderOAuthSettings: (json['IdentityProviderOAuthSettings']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              IdentityProviderOAuthSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kendraSettings: json['KendraSettings'] != null
+          ? KendraSettings.fromJson(
+              json['KendraSettings'] as Map<String, dynamic>)
+          : null,
       modelRegisterSettings: json['ModelRegisterSettings'] != null
           ? ModelRegisterSettings.fromJson(
               json['ModelRegisterSettings'] as Map<String, dynamic>)
@@ -22767,22 +25478,46 @@ class CanvasAppSettings {
               ? TimeSeriesForecastingSettings.fromJson(
                   json['TimeSeriesForecastingSettings'] as Map<String, dynamic>)
               : null,
+      workspaceSettings: json['WorkspaceSettings'] != null
+          ? WorkspaceSettings.fromJson(
+              json['WorkspaceSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final directDeploySettings = this.directDeploySettings;
+    final generativeAiSettings = this.generativeAiSettings;
+    final identityProviderOAuthSettings = this.identityProviderOAuthSettings;
+    final kendraSettings = this.kendraSettings;
     final modelRegisterSettings = this.modelRegisterSettings;
     final timeSeriesForecastingSettings = this.timeSeriesForecastingSettings;
+    final workspaceSettings = this.workspaceSettings;
     return {
+      if (directDeploySettings != null)
+        'DirectDeploySettings': directDeploySettings,
+      if (generativeAiSettings != null)
+        'GenerativeAiSettings': generativeAiSettings,
+      if (identityProviderOAuthSettings != null)
+        'IdentityProviderOAuthSettings': identityProviderOAuthSettings,
+      if (kendraSettings != null) 'KendraSettings': kendraSettings,
       if (modelRegisterSettings != null)
         'ModelRegisterSettings': modelRegisterSettings,
       if (timeSeriesForecastingSettings != null)
         'TimeSeriesForecastingSettings': timeSeriesForecastingSettings,
+      if (workspaceSettings != null) 'WorkspaceSettings': workspaceSettings,
     };
   }
 }
 
-/// Specifies the endpoint capacity to activate for production.
+/// Specifies the type and size of the endpoint capacity to activate for a
+/// blue/green deployment, a rolling deployment, or a rollback strategy. You can
+/// specify your batches as either instance count or the overall percentage or
+/// your fleet.
+///
+/// For a rollback strategy, if you don't specify the fields in this object, or
+/// if you set the <code>Value</code> to 100%, then SageMaker uses a blue/green
+/// rollback strategy and rolls all traffic back to the blue fleet.
 class CapacitySize {
   /// Specifies the endpoint capacity type.
   ///
@@ -22853,10 +25588,11 @@ extension CapacitySizeTypeFromString on String {
 }
 
 /// Configuration specifying how to treat different headers. If no headers are
-/// specified SageMaker will by default base64 encode when capturing the data.
+/// specified Amazon SageMaker will by default base64 encode when capturing the
+/// data.
 class CaptureContentTypeHeader {
-  /// The list of all content type headers that SageMaker will treat as CSV and
-  /// capture accordingly.
+  /// The list of all content type headers that Amazon SageMaker will treat as CSV
+  /// and capture accordingly.
   final List<String>? csvContentTypes;
 
   /// The list of all content type headers that SageMaker will treat as JSON and
@@ -22894,6 +25630,7 @@ class CaptureContentTypeHeader {
 enum CaptureMode {
   input,
   output,
+  inputAndOutput,
 }
 
 extension CaptureModeValueExtension on CaptureMode {
@@ -22903,6 +25640,8 @@ extension CaptureModeValueExtension on CaptureMode {
         return 'Input';
       case CaptureMode.output:
         return 'Output';
+      case CaptureMode.inputAndOutput:
+        return 'InputAndOutput';
     }
   }
 }
@@ -22914,6 +25653,8 @@ extension CaptureModeFromString on String {
         return CaptureMode.input;
       case 'Output':
         return CaptureMode.output;
+      case 'InputAndOutput':
+        return CaptureMode.inputAndOutput;
     }
     throw Exception('$this is not known in enum CaptureMode');
   }
@@ -24138,6 +26879,768 @@ extension ClarifyTextLanguageFromString on String {
   }
 }
 
+/// Details of an instance group in a SageMaker HyperPod cluster.
+class ClusterInstanceGroupDetails {
+  /// The number of instances that are currently in the instance group of a
+  /// SageMaker HyperPod cluster.
+  final int? currentCount;
+
+  /// The execution role for the instance group to assume.
+  final String? executionRole;
+
+  /// The name of the instance group of a SageMaker HyperPod cluster.
+  final String? instanceGroupName;
+
+  /// The instance type of the instance group of a SageMaker HyperPod cluster.
+  final ClusterInstanceType? instanceType;
+
+  /// Details of LifeCycle configuration for the instance group.
+  final ClusterLifeCycleConfig? lifeCycleConfig;
+
+  /// The number of instances you specified to add to the instance group of a
+  /// SageMaker HyperPod cluster.
+  final int? targetCount;
+
+  /// The number you specified to <code>TreadsPerCore</code> in
+  /// <code>CreateCluster</code> for enabling or disabling multithreading. For
+  /// instance types that support multithreading, you can specify 1 for disabling
+  /// multithreading and 2 for enabling multithreading. For more information, see
+  /// the reference table of <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html">CPU
+  /// cores and threads per CPU core per instance type</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  final int? threadsPerCore;
+
+  ClusterInstanceGroupDetails({
+    this.currentCount,
+    this.executionRole,
+    this.instanceGroupName,
+    this.instanceType,
+    this.lifeCycleConfig,
+    this.targetCount,
+    this.threadsPerCore,
+  });
+
+  factory ClusterInstanceGroupDetails.fromJson(Map<String, dynamic> json) {
+    return ClusterInstanceGroupDetails(
+      currentCount: json['CurrentCount'] as int?,
+      executionRole: json['ExecutionRole'] as String?,
+      instanceGroupName: json['InstanceGroupName'] as String?,
+      instanceType: (json['InstanceType'] as String?)?.toClusterInstanceType(),
+      lifeCycleConfig: json['LifeCycleConfig'] != null
+          ? ClusterLifeCycleConfig.fromJson(
+              json['LifeCycleConfig'] as Map<String, dynamic>)
+          : null,
+      targetCount: json['TargetCount'] as int?,
+      threadsPerCore: json['ThreadsPerCore'] as int?,
+    );
+  }
+}
+
+/// The specifications of an instance group that you need to define.
+class ClusterInstanceGroupSpecification {
+  /// Specifies an IAM execution role to be assumed by the instance group.
+  final String executionRole;
+
+  /// Specifies the number of instances to add to the instance group of a
+  /// SageMaker HyperPod cluster.
+  final int instanceCount;
+
+  /// Specifies the name of the instance group.
+  final String instanceGroupName;
+
+  /// Specifies the instance type of the instance group.
+  final ClusterInstanceType instanceType;
+
+  /// Specifies the LifeCycle configuration for the instance group.
+  final ClusterLifeCycleConfig lifeCycleConfig;
+
+  /// Specifies the value for <b>Threads per core</b>. For instance types that
+  /// support multithreading, you can specify <code>1</code> for disabling
+  /// multithreading and <code>2</code> for enabling multithreading. For instance
+  /// types that doesn't support multithreading, specify <code>1</code>. For more
+  /// information, see the reference table of <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html">CPU
+  /// cores and threads per CPU core per instance type</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  final int? threadsPerCore;
+
+  ClusterInstanceGroupSpecification({
+    required this.executionRole,
+    required this.instanceCount,
+    required this.instanceGroupName,
+    required this.instanceType,
+    required this.lifeCycleConfig,
+    this.threadsPerCore,
+  });
+
+  Map<String, dynamic> toJson() {
+    final executionRole = this.executionRole;
+    final instanceCount = this.instanceCount;
+    final instanceGroupName = this.instanceGroupName;
+    final instanceType = this.instanceType;
+    final lifeCycleConfig = this.lifeCycleConfig;
+    final threadsPerCore = this.threadsPerCore;
+    return {
+      'ExecutionRole': executionRole,
+      'InstanceCount': instanceCount,
+      'InstanceGroupName': instanceGroupName,
+      'InstanceType': instanceType.toValue(),
+      'LifeCycleConfig': lifeCycleConfig,
+      if (threadsPerCore != null) 'ThreadsPerCore': threadsPerCore,
+    };
+  }
+}
+
+/// Specifies the placement details for the node in the SageMaker HyperPod
+/// cluster, including the Availability Zone and the unique identifier (ID) of
+/// the Availability Zone.
+class ClusterInstancePlacement {
+  /// The Availability Zone where the node in the SageMaker HyperPod cluster is
+  /// launched.
+  final String? availabilityZone;
+
+  /// The unique identifier (ID) of the Availability Zone where the node in the
+  /// SageMaker HyperPod cluster is launched.
+  final String? availabilityZoneId;
+
+  ClusterInstancePlacement({
+    this.availabilityZone,
+    this.availabilityZoneId,
+  });
+
+  factory ClusterInstancePlacement.fromJson(Map<String, dynamic> json) {
+    return ClusterInstancePlacement(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
+    );
+  }
+}
+
+enum ClusterInstanceStatus {
+  running,
+  failure,
+  pending,
+  shuttingDown,
+  systemUpdating,
+}
+
+extension ClusterInstanceStatusValueExtension on ClusterInstanceStatus {
+  String toValue() {
+    switch (this) {
+      case ClusterInstanceStatus.running:
+        return 'Running';
+      case ClusterInstanceStatus.failure:
+        return 'Failure';
+      case ClusterInstanceStatus.pending:
+        return 'Pending';
+      case ClusterInstanceStatus.shuttingDown:
+        return 'ShuttingDown';
+      case ClusterInstanceStatus.systemUpdating:
+        return 'SystemUpdating';
+    }
+  }
+}
+
+extension ClusterInstanceStatusFromString on String {
+  ClusterInstanceStatus toClusterInstanceStatus() {
+    switch (this) {
+      case 'Running':
+        return ClusterInstanceStatus.running;
+      case 'Failure':
+        return ClusterInstanceStatus.failure;
+      case 'Pending':
+        return ClusterInstanceStatus.pending;
+      case 'ShuttingDown':
+        return ClusterInstanceStatus.shuttingDown;
+      case 'SystemUpdating':
+        return ClusterInstanceStatus.systemUpdating;
+    }
+    throw Exception('$this is not known in enum ClusterInstanceStatus');
+  }
+}
+
+/// Details of an instance in a SageMaker HyperPod cluster.
+class ClusterInstanceStatusDetails {
+  /// The status of an instance in a SageMaker HyperPod cluster.
+  final ClusterInstanceStatus status;
+
+  /// The message from an instance in a SageMaker HyperPod cluster.
+  final String? message;
+
+  ClusterInstanceStatusDetails({
+    required this.status,
+    this.message,
+  });
+
+  factory ClusterInstanceStatusDetails.fromJson(Map<String, dynamic> json) {
+    return ClusterInstanceStatusDetails(
+      status: (json['Status'] as String).toClusterInstanceStatus(),
+      message: json['Message'] as String?,
+    );
+  }
+}
+
+enum ClusterInstanceType {
+  mlP4d_24xlarge,
+  mlP4de_24xlarge,
+  mlP5_48xlarge,
+  mlTrn1_32xlarge,
+  mlTrn1n_32xlarge,
+  mlG5Xlarge,
+  mlG5_2xlarge,
+  mlG5_4xlarge,
+  mlG5_8xlarge,
+  mlG5_12xlarge,
+  mlG5_16xlarge,
+  mlG5_24xlarge,
+  mlG5_48xlarge,
+  mlC5Large,
+  mlC5Xlarge,
+  mlC5_2xlarge,
+  mlC5_4xlarge,
+  mlC5_9xlarge,
+  mlC5_12xlarge,
+  mlC5_18xlarge,
+  mlC5_24xlarge,
+  mlC5nLarge,
+  mlC5n_2xlarge,
+  mlC5n_4xlarge,
+  mlC5n_9xlarge,
+  mlC5n_18xlarge,
+  mlM5Large,
+  mlM5Xlarge,
+  mlM5_2xlarge,
+  mlM5_4xlarge,
+  mlM5_8xlarge,
+  mlM5_12xlarge,
+  mlM5_16xlarge,
+  mlM5_24xlarge,
+  mlT3Medium,
+  mlT3Large,
+  mlT3Xlarge,
+  mlT3_2xlarge,
+}
+
+extension ClusterInstanceTypeValueExtension on ClusterInstanceType {
+  String toValue() {
+    switch (this) {
+      case ClusterInstanceType.mlP4d_24xlarge:
+        return 'ml.p4d.24xlarge';
+      case ClusterInstanceType.mlP4de_24xlarge:
+        return 'ml.p4de.24xlarge';
+      case ClusterInstanceType.mlP5_48xlarge:
+        return 'ml.p5.48xlarge';
+      case ClusterInstanceType.mlTrn1_32xlarge:
+        return 'ml.trn1.32xlarge';
+      case ClusterInstanceType.mlTrn1n_32xlarge:
+        return 'ml.trn1n.32xlarge';
+      case ClusterInstanceType.mlG5Xlarge:
+        return 'ml.g5.xlarge';
+      case ClusterInstanceType.mlG5_2xlarge:
+        return 'ml.g5.2xlarge';
+      case ClusterInstanceType.mlG5_4xlarge:
+        return 'ml.g5.4xlarge';
+      case ClusterInstanceType.mlG5_8xlarge:
+        return 'ml.g5.8xlarge';
+      case ClusterInstanceType.mlG5_12xlarge:
+        return 'ml.g5.12xlarge';
+      case ClusterInstanceType.mlG5_16xlarge:
+        return 'ml.g5.16xlarge';
+      case ClusterInstanceType.mlG5_24xlarge:
+        return 'ml.g5.24xlarge';
+      case ClusterInstanceType.mlG5_48xlarge:
+        return 'ml.g5.48xlarge';
+      case ClusterInstanceType.mlC5Large:
+        return 'ml.c5.large';
+      case ClusterInstanceType.mlC5Xlarge:
+        return 'ml.c5.xlarge';
+      case ClusterInstanceType.mlC5_2xlarge:
+        return 'ml.c5.2xlarge';
+      case ClusterInstanceType.mlC5_4xlarge:
+        return 'ml.c5.4xlarge';
+      case ClusterInstanceType.mlC5_9xlarge:
+        return 'ml.c5.9xlarge';
+      case ClusterInstanceType.mlC5_12xlarge:
+        return 'ml.c5.12xlarge';
+      case ClusterInstanceType.mlC5_18xlarge:
+        return 'ml.c5.18xlarge';
+      case ClusterInstanceType.mlC5_24xlarge:
+        return 'ml.c5.24xlarge';
+      case ClusterInstanceType.mlC5nLarge:
+        return 'ml.c5n.large';
+      case ClusterInstanceType.mlC5n_2xlarge:
+        return 'ml.c5n.2xlarge';
+      case ClusterInstanceType.mlC5n_4xlarge:
+        return 'ml.c5n.4xlarge';
+      case ClusterInstanceType.mlC5n_9xlarge:
+        return 'ml.c5n.9xlarge';
+      case ClusterInstanceType.mlC5n_18xlarge:
+        return 'ml.c5n.18xlarge';
+      case ClusterInstanceType.mlM5Large:
+        return 'ml.m5.large';
+      case ClusterInstanceType.mlM5Xlarge:
+        return 'ml.m5.xlarge';
+      case ClusterInstanceType.mlM5_2xlarge:
+        return 'ml.m5.2xlarge';
+      case ClusterInstanceType.mlM5_4xlarge:
+        return 'ml.m5.4xlarge';
+      case ClusterInstanceType.mlM5_8xlarge:
+        return 'ml.m5.8xlarge';
+      case ClusterInstanceType.mlM5_12xlarge:
+        return 'ml.m5.12xlarge';
+      case ClusterInstanceType.mlM5_16xlarge:
+        return 'ml.m5.16xlarge';
+      case ClusterInstanceType.mlM5_24xlarge:
+        return 'ml.m5.24xlarge';
+      case ClusterInstanceType.mlT3Medium:
+        return 'ml.t3.medium';
+      case ClusterInstanceType.mlT3Large:
+        return 'ml.t3.large';
+      case ClusterInstanceType.mlT3Xlarge:
+        return 'ml.t3.xlarge';
+      case ClusterInstanceType.mlT3_2xlarge:
+        return 'ml.t3.2xlarge';
+    }
+  }
+}
+
+extension ClusterInstanceTypeFromString on String {
+  ClusterInstanceType toClusterInstanceType() {
+    switch (this) {
+      case 'ml.p4d.24xlarge':
+        return ClusterInstanceType.mlP4d_24xlarge;
+      case 'ml.p4de.24xlarge':
+        return ClusterInstanceType.mlP4de_24xlarge;
+      case 'ml.p5.48xlarge':
+        return ClusterInstanceType.mlP5_48xlarge;
+      case 'ml.trn1.32xlarge':
+        return ClusterInstanceType.mlTrn1_32xlarge;
+      case 'ml.trn1n.32xlarge':
+        return ClusterInstanceType.mlTrn1n_32xlarge;
+      case 'ml.g5.xlarge':
+        return ClusterInstanceType.mlG5Xlarge;
+      case 'ml.g5.2xlarge':
+        return ClusterInstanceType.mlG5_2xlarge;
+      case 'ml.g5.4xlarge':
+        return ClusterInstanceType.mlG5_4xlarge;
+      case 'ml.g5.8xlarge':
+        return ClusterInstanceType.mlG5_8xlarge;
+      case 'ml.g5.12xlarge':
+        return ClusterInstanceType.mlG5_12xlarge;
+      case 'ml.g5.16xlarge':
+        return ClusterInstanceType.mlG5_16xlarge;
+      case 'ml.g5.24xlarge':
+        return ClusterInstanceType.mlG5_24xlarge;
+      case 'ml.g5.48xlarge':
+        return ClusterInstanceType.mlG5_48xlarge;
+      case 'ml.c5.large':
+        return ClusterInstanceType.mlC5Large;
+      case 'ml.c5.xlarge':
+        return ClusterInstanceType.mlC5Xlarge;
+      case 'ml.c5.2xlarge':
+        return ClusterInstanceType.mlC5_2xlarge;
+      case 'ml.c5.4xlarge':
+        return ClusterInstanceType.mlC5_4xlarge;
+      case 'ml.c5.9xlarge':
+        return ClusterInstanceType.mlC5_9xlarge;
+      case 'ml.c5.12xlarge':
+        return ClusterInstanceType.mlC5_12xlarge;
+      case 'ml.c5.18xlarge':
+        return ClusterInstanceType.mlC5_18xlarge;
+      case 'ml.c5.24xlarge':
+        return ClusterInstanceType.mlC5_24xlarge;
+      case 'ml.c5n.large':
+        return ClusterInstanceType.mlC5nLarge;
+      case 'ml.c5n.2xlarge':
+        return ClusterInstanceType.mlC5n_2xlarge;
+      case 'ml.c5n.4xlarge':
+        return ClusterInstanceType.mlC5n_4xlarge;
+      case 'ml.c5n.9xlarge':
+        return ClusterInstanceType.mlC5n_9xlarge;
+      case 'ml.c5n.18xlarge':
+        return ClusterInstanceType.mlC5n_18xlarge;
+      case 'ml.m5.large':
+        return ClusterInstanceType.mlM5Large;
+      case 'ml.m5.xlarge':
+        return ClusterInstanceType.mlM5Xlarge;
+      case 'ml.m5.2xlarge':
+        return ClusterInstanceType.mlM5_2xlarge;
+      case 'ml.m5.4xlarge':
+        return ClusterInstanceType.mlM5_4xlarge;
+      case 'ml.m5.8xlarge':
+        return ClusterInstanceType.mlM5_8xlarge;
+      case 'ml.m5.12xlarge':
+        return ClusterInstanceType.mlM5_12xlarge;
+      case 'ml.m5.16xlarge':
+        return ClusterInstanceType.mlM5_16xlarge;
+      case 'ml.m5.24xlarge':
+        return ClusterInstanceType.mlM5_24xlarge;
+      case 'ml.t3.medium':
+        return ClusterInstanceType.mlT3Medium;
+      case 'ml.t3.large':
+        return ClusterInstanceType.mlT3Large;
+      case 'ml.t3.xlarge':
+        return ClusterInstanceType.mlT3Xlarge;
+      case 'ml.t3.2xlarge':
+        return ClusterInstanceType.mlT3_2xlarge;
+    }
+    throw Exception('$this is not known in enum ClusterInstanceType');
+  }
+}
+
+/// The lifecycle configuration for a SageMaker HyperPod cluster.
+class ClusterLifeCycleConfig {
+  /// The file name of the entrypoint script of lifecycle scripts under
+  /// <code>SourceS3Uri</code>. This entrypoint script runs during cluster
+  /// creation.
+  final String onCreate;
+
+  /// An Amazon S3 bucket path where your lifecycle scripts are stored.
+  /// <important>
+  /// Make sure that the S3 bucket path starts with <code>s3://sagemaker-</code>.
+  /// The <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-iam-role-for-hyperpod">IAM
+  /// role for SageMaker HyperPod</a> has the managed <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/security-iam-awsmanpol-cluster.html">
+  /// <code>AmazonSageMakerClusterInstanceRolePolicy</code> </a> attached, which
+  /// allows access to S3 buckets with the specific prefix
+  /// <code>sagemaker-</code>.
+  /// </important>
+  final String sourceS3Uri;
+
+  ClusterLifeCycleConfig({
+    required this.onCreate,
+    required this.sourceS3Uri,
+  });
+
+  factory ClusterLifeCycleConfig.fromJson(Map<String, dynamic> json) {
+    return ClusterLifeCycleConfig(
+      onCreate: json['OnCreate'] as String,
+      sourceS3Uri: json['SourceS3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onCreate = this.onCreate;
+    final sourceS3Uri = this.sourceS3Uri;
+    return {
+      'OnCreate': onCreate,
+      'SourceS3Uri': sourceS3Uri,
+    };
+  }
+}
+
+/// Details of an instance (also called a <i>node</i> interchangeably) in a
+/// SageMaker HyperPod cluster.
+class ClusterNodeDetails {
+  /// The instance group name in which the instance is.
+  final String? instanceGroupName;
+
+  /// The ID of the instance.
+  final String? instanceId;
+
+  /// The status of the instance.
+  final ClusterInstanceStatusDetails? instanceStatus;
+
+  /// The type of the instance.
+  final ClusterInstanceType? instanceType;
+
+  /// The time when the instance is launched.
+  final DateTime? launchTime;
+
+  /// The LifeCycle configuration applied to the instance.
+  final ClusterLifeCycleConfig? lifeCycleConfig;
+
+  /// The placement details of the SageMaker HyperPod cluster node.
+  final ClusterInstancePlacement? placement;
+
+  /// The private DNS hostname of the SageMaker HyperPod cluster node.
+  final String? privateDnsHostname;
+
+  /// The private primary IP address of the SageMaker HyperPod cluster node.
+  final String? privatePrimaryIp;
+
+  /// The number of threads per CPU core you specified under
+  /// <code>CreateCluster</code>.
+  final int? threadsPerCore;
+
+  ClusterNodeDetails({
+    this.instanceGroupName,
+    this.instanceId,
+    this.instanceStatus,
+    this.instanceType,
+    this.launchTime,
+    this.lifeCycleConfig,
+    this.placement,
+    this.privateDnsHostname,
+    this.privatePrimaryIp,
+    this.threadsPerCore,
+  });
+
+  factory ClusterNodeDetails.fromJson(Map<String, dynamic> json) {
+    return ClusterNodeDetails(
+      instanceGroupName: json['InstanceGroupName'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      instanceStatus: json['InstanceStatus'] != null
+          ? ClusterInstanceStatusDetails.fromJson(
+              json['InstanceStatus'] as Map<String, dynamic>)
+          : null,
+      instanceType: (json['InstanceType'] as String?)?.toClusterInstanceType(),
+      launchTime: timeStampFromJson(json['LaunchTime']),
+      lifeCycleConfig: json['LifeCycleConfig'] != null
+          ? ClusterLifeCycleConfig.fromJson(
+              json['LifeCycleConfig'] as Map<String, dynamic>)
+          : null,
+      placement: json['Placement'] != null
+          ? ClusterInstancePlacement.fromJson(
+              json['Placement'] as Map<String, dynamic>)
+          : null,
+      privateDnsHostname: json['PrivateDnsHostname'] as String?,
+      privatePrimaryIp: json['PrivatePrimaryIp'] as String?,
+      threadsPerCore: json['ThreadsPerCore'] as int?,
+    );
+  }
+}
+
+/// Lists a summary of the properties of an instance (also called a <i>node</i>
+/// interchangeably) of a SageMaker HyperPod cluster.
+class ClusterNodeSummary {
+  /// The name of the instance group in which the instance is.
+  final String instanceGroupName;
+
+  /// The ID of the instance.
+  final String instanceId;
+
+  /// The status of the instance.
+  final ClusterInstanceStatusDetails instanceStatus;
+
+  /// The type of the instance.
+  final ClusterInstanceType instanceType;
+
+  /// The time when the instance is launched.
+  final DateTime launchTime;
+
+  ClusterNodeSummary({
+    required this.instanceGroupName,
+    required this.instanceId,
+    required this.instanceStatus,
+    required this.instanceType,
+    required this.launchTime,
+  });
+
+  factory ClusterNodeSummary.fromJson(Map<String, dynamic> json) {
+    return ClusterNodeSummary(
+      instanceGroupName: json['InstanceGroupName'] as String,
+      instanceId: json['InstanceId'] as String,
+      instanceStatus: ClusterInstanceStatusDetails.fromJson(
+          json['InstanceStatus'] as Map<String, dynamic>),
+      instanceType: (json['InstanceType'] as String).toClusterInstanceType(),
+      launchTime: nonNullableTimeStampFromJson(json['LaunchTime'] as Object),
+    );
+  }
+}
+
+enum ClusterSortBy {
+  creationTime,
+  name,
+}
+
+extension ClusterSortByValueExtension on ClusterSortBy {
+  String toValue() {
+    switch (this) {
+      case ClusterSortBy.creationTime:
+        return 'CREATION_TIME';
+      case ClusterSortBy.name:
+        return 'NAME';
+    }
+  }
+}
+
+extension ClusterSortByFromString on String {
+  ClusterSortBy toClusterSortBy() {
+    switch (this) {
+      case 'CREATION_TIME':
+        return ClusterSortBy.creationTime;
+      case 'NAME':
+        return ClusterSortBy.name;
+    }
+    throw Exception('$this is not known in enum ClusterSortBy');
+  }
+}
+
+enum ClusterStatus {
+  creating,
+  deleting,
+  failed,
+  inService,
+  rollingBack,
+  systemUpdating,
+  updating,
+}
+
+extension ClusterStatusValueExtension on ClusterStatus {
+  String toValue() {
+    switch (this) {
+      case ClusterStatus.creating:
+        return 'Creating';
+      case ClusterStatus.deleting:
+        return 'Deleting';
+      case ClusterStatus.failed:
+        return 'Failed';
+      case ClusterStatus.inService:
+        return 'InService';
+      case ClusterStatus.rollingBack:
+        return 'RollingBack';
+      case ClusterStatus.systemUpdating:
+        return 'SystemUpdating';
+      case ClusterStatus.updating:
+        return 'Updating';
+    }
+  }
+}
+
+extension ClusterStatusFromString on String {
+  ClusterStatus toClusterStatus() {
+    switch (this) {
+      case 'Creating':
+        return ClusterStatus.creating;
+      case 'Deleting':
+        return ClusterStatus.deleting;
+      case 'Failed':
+        return ClusterStatus.failed;
+      case 'InService':
+        return ClusterStatus.inService;
+      case 'RollingBack':
+        return ClusterStatus.rollingBack;
+      case 'SystemUpdating':
+        return ClusterStatus.systemUpdating;
+      case 'Updating':
+        return ClusterStatus.updating;
+    }
+    throw Exception('$this is not known in enum ClusterStatus');
+  }
+}
+
+/// Lists a summary of the properties of a SageMaker HyperPod cluster.
+class ClusterSummary {
+  /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
+  final String clusterArn;
+
+  /// The name of the SageMaker HyperPod cluster.
+  final String clusterName;
+
+  /// The status of the SageMaker HyperPod cluster.
+  final ClusterStatus clusterStatus;
+
+  /// The time when the SageMaker HyperPod cluster is created.
+  final DateTime creationTime;
+
+  ClusterSummary({
+    required this.clusterArn,
+    required this.clusterName,
+    required this.clusterStatus,
+    required this.creationTime,
+  });
+
+  factory ClusterSummary.fromJson(Map<String, dynamic> json) {
+    return ClusterSummary(
+      clusterArn: json['ClusterArn'] as String,
+      clusterName: json['ClusterName'] as String,
+      clusterStatus: (json['ClusterStatus'] as String).toClusterStatus(),
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+    );
+  }
+}
+
+/// The configuration for the file system and kernels in a SageMaker image
+/// running as a Code Editor app. The <code>FileSystemConfig</code> object is
+/// not supported.
+class CodeEditorAppImageConfig {
+  final ContainerConfig? containerConfig;
+  final FileSystemConfig? fileSystemConfig;
+
+  CodeEditorAppImageConfig({
+    this.containerConfig,
+    this.fileSystemConfig,
+  });
+
+  factory CodeEditorAppImageConfig.fromJson(Map<String, dynamic> json) {
+    return CodeEditorAppImageConfig(
+      containerConfig: json['ContainerConfig'] != null
+          ? ContainerConfig.fromJson(
+              json['ContainerConfig'] as Map<String, dynamic>)
+          : null,
+      fileSystemConfig: json['FileSystemConfig'] != null
+          ? FileSystemConfig.fromJson(
+              json['FileSystemConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerConfig = this.containerConfig;
+    final fileSystemConfig = this.fileSystemConfig;
+    return {
+      if (containerConfig != null) 'ContainerConfig': containerConfig,
+      if (fileSystemConfig != null) 'FileSystemConfig': fileSystemConfig,
+    };
+  }
+}
+
+/// The Code Editor application settings.
+///
+/// For more information about Code Editor, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/code-editor.html">Get
+/// started with Code Editor in Amazon SageMaker</a>.
+class CodeEditorAppSettings {
+  /// A list of custom SageMaker images that are configured to run as a Code
+  /// Editor app.
+  final List<CustomImage>? customImages;
+  final ResourceSpec? defaultResourceSpec;
+
+  /// The Amazon Resource Name (ARN) of the Code Editor application lifecycle
+  /// configuration.
+  final List<String>? lifecycleConfigArns;
+
+  CodeEditorAppSettings({
+    this.customImages,
+    this.defaultResourceSpec,
+    this.lifecycleConfigArns,
+  });
+
+  factory CodeEditorAppSettings.fromJson(Map<String, dynamic> json) {
+    return CodeEditorAppSettings(
+      customImages: (json['CustomImages'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      defaultResourceSpec: json['DefaultResourceSpec'] != null
+          ? ResourceSpec.fromJson(
+              json['DefaultResourceSpec'] as Map<String, dynamic>)
+          : null,
+      lifecycleConfigArns: (json['LifecycleConfigArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customImages = this.customImages;
+    final defaultResourceSpec = this.defaultResourceSpec;
+    final lifecycleConfigArns = this.lifecycleConfigArns;
+    return {
+      if (customImages != null) 'CustomImages': customImages,
+      if (defaultResourceSpec != null)
+        'DefaultResourceSpec': defaultResourceSpec,
+      if (lifecycleConfigArns != null)
+        'LifecycleConfigArns': lifecycleConfigArns,
+    };
+  }
+}
+
 /// A Git repository that SageMaker automatically displays to users for cloning
 /// in the JupyterServer application.
 class CodeRepository {
@@ -24343,6 +27846,37 @@ class CognitoMemberDefinition {
   }
 }
 
+/// Configuration for your collection.
+class CollectionConfig {
+  /// Configuration for your vector collection type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Dimension</code>: The number of elements in your vector.
+  /// </li>
+  /// </ul>
+  final VectorConfig? vectorConfig;
+
+  CollectionConfig({
+    this.vectorConfig,
+  });
+
+  factory CollectionConfig.fromJson(Map<String, dynamic> json) {
+    return CollectionConfig(
+      vectorConfig: json['VectorConfig'] != null
+          ? VectorConfig.fromJson(json['VectorConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vectorConfig = this.vectorConfig;
+    return {
+      if (vectorConfig != null) 'VectorConfig': vectorConfig,
+    };
+  }
+}
+
 /// Configuration information for the Amazon SageMaker Debugger output tensor
 /// collections.
 class CollectionConfiguration {
@@ -24378,6 +27912,39 @@ class CollectionConfiguration {
       if (collectionParameters != null)
         'CollectionParameters': collectionParameters,
     };
+  }
+}
+
+enum CollectionType {
+  list,
+  set,
+  vector,
+}
+
+extension CollectionTypeValueExtension on CollectionType {
+  String toValue() {
+    switch (this) {
+      case CollectionType.list:
+        return 'List';
+      case CollectionType.set:
+        return 'Set';
+      case CollectionType.vector:
+        return 'Vector';
+    }
+  }
+}
+
+extension CollectionTypeFromString on String {
+  CollectionType toCollectionType() {
+    switch (this) {
+      case 'List':
+        return CollectionType.list;
+      case 'Set':
+        return CollectionType.set;
+      case 'Vector':
+        return CollectionType.vector;
+    }
+    throw Exception('$this is not known in enum CollectionType');
   }
 }
 
@@ -24608,6 +28175,53 @@ class ConditionStepMetadata {
   }
 }
 
+/// The configuration used to run the application image container.
+class ContainerConfig {
+  /// The arguments for the container when you're running the application.
+  final List<String>? containerArguments;
+
+  /// The entrypoint used to run the application in the container.
+  final List<String>? containerEntrypoint;
+
+  /// The environment variables to set in the container
+  final Map<String, String>? containerEnvironmentVariables;
+
+  ContainerConfig({
+    this.containerArguments,
+    this.containerEntrypoint,
+    this.containerEnvironmentVariables,
+  });
+
+  factory ContainerConfig.fromJson(Map<String, dynamic> json) {
+    return ContainerConfig(
+      containerArguments: (json['ContainerArguments'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      containerEntrypoint: (json['ContainerEntrypoint'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      containerEnvironmentVariables:
+          (json['ContainerEnvironmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerArguments = this.containerArguments;
+    final containerEntrypoint = this.containerEntrypoint;
+    final containerEnvironmentVariables = this.containerEnvironmentVariables;
+    return {
+      if (containerArguments != null) 'ContainerArguments': containerArguments,
+      if (containerEntrypoint != null)
+        'ContainerEntrypoint': containerEntrypoint,
+      if (containerEnvironmentVariables != null)
+        'ContainerEnvironmentVariables': containerEnvironmentVariables,
+    };
+  }
+}
+
 /// Describes the container, as part of model definition.
 class ContainerDefinition {
   /// This parameter is ignored for models that contain only a
@@ -24627,9 +28241,13 @@ class ContainerDefinition {
   /// every <code>ContainerDefinition</code> in that pipeline.
   final String? containerHostname;
 
-  /// The environment variables to set in the Docker container. Each key and value
-  /// in the <code>Environment</code> string to string map can have length of up
-  /// to 1024. We support up to 16 entries in the map.
+  /// The environment variables to set in the Docker container.
+  ///
+  /// The maximum length of each key and value in the <code>Environment</code> map
+  /// is 1024 bytes. The maximum length of all keys and values in the map,
+  /// combined, is 32 KB. If you pass multiple containers to a
+  /// <code>CreateModel</code> request, then the maximum length of all of their
+  /// maps, combined, is also 32 KB.
   final Map<String, String>? environment;
 
   /// The path where inference code is stored. This can be either in Amazon EC2
@@ -24666,6 +28284,14 @@ class ContainerDefinition {
 
   /// Whether the container hosts a single model or multiple models.
   final ContainerMode? mode;
+
+  /// Specifies the location of ML model data to deploy.
+  /// <note>
+  /// Currently you cannot use <code>ModelDataSource</code> in conjunction with
+  /// SageMaker batch transform, SageMaker serverless endpoints, SageMaker
+  /// multi-model endpoints, and SageMaker Marketplace.
+  /// </note>
+  final ModelDataSource? modelDataSource;
 
   /// The S3 path where the model artifacts, which result from model training, are
   /// stored. This path must point to a single gzip compressed tar archive
@@ -24708,6 +28334,7 @@ class ContainerDefinition {
     this.imageConfig,
     this.inferenceSpecificationName,
     this.mode,
+    this.modelDataSource,
     this.modelDataUrl,
     this.modelPackageName,
     this.multiModelConfig,
@@ -24724,6 +28351,10 @@ class ContainerDefinition {
           : null,
       inferenceSpecificationName: json['InferenceSpecificationName'] as String?,
       mode: (json['Mode'] as String?)?.toContainerMode(),
+      modelDataSource: json['ModelDataSource'] != null
+          ? ModelDataSource.fromJson(
+              json['ModelDataSource'] as Map<String, dynamic>)
+          : null,
       modelDataUrl: json['ModelDataUrl'] as String?,
       modelPackageName: json['ModelPackageName'] as String?,
       multiModelConfig: json['MultiModelConfig'] != null
@@ -24740,6 +28371,7 @@ class ContainerDefinition {
     final imageConfig = this.imageConfig;
     final inferenceSpecificationName = this.inferenceSpecificationName;
     final mode = this.mode;
+    final modelDataSource = this.modelDataSource;
     final modelDataUrl = this.modelDataUrl;
     final modelPackageName = this.modelPackageName;
     final multiModelConfig = this.multiModelConfig;
@@ -24751,6 +28383,7 @@ class ContainerDefinition {
       if (inferenceSpecificationName != null)
         'InferenceSpecificationName': inferenceSpecificationName,
       if (mode != null) 'Mode': mode.toValue(),
+      if (modelDataSource != null) 'ModelDataSource': modelDataSource,
       if (modelDataUrl != null) 'ModelDataUrl': modelDataUrl,
       if (modelPackageName != null) 'ModelPackageName': modelPackageName,
       if (multiModelConfig != null) 'MultiModelConfig': multiModelConfig,
@@ -25054,7 +28687,7 @@ class CreateAlgorithmOutput {
 }
 
 class CreateAppImageConfigResponse {
-  /// The Amazon Resource Name (ARN) of the AppImageConfig.
+  /// The ARN of the AppImageConfig.
   final String? appImageConfigArn;
 
   CreateAppImageConfigResponse({
@@ -25124,6 +28757,21 @@ class CreateAutoMLJobV2Response {
   factory CreateAutoMLJobV2Response.fromJson(Map<String, dynamic> json) {
     return CreateAutoMLJobV2Response(
       autoMLJobArn: json['AutoMLJobArn'] as String,
+    );
+  }
+}
+
+class CreateClusterResponse {
+  /// The Amazon Resource Name (ARN) of the cluster.
+  final String clusterArn;
+
+  CreateClusterResponse({
+    required this.clusterArn,
+  });
+
+  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateClusterResponse(
+      clusterArn: json['ClusterArn'] as String,
     );
   }
 }
@@ -25382,6 +29030,21 @@ class CreateImageVersionResponse {
   factory CreateImageVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateImageVersionResponse(
       imageVersionArn: json['ImageVersionArn'] as String?,
+    );
+  }
+}
+
+class CreateInferenceComponentOutput {
+  /// The Amazon Resource Name (ARN) of the inference component.
+  final String inferenceComponentArn;
+
+  CreateInferenceComponentOutput({
+    required this.inferenceComponentArn,
+  });
+
+  factory CreateInferenceComponentOutput.fromJson(Map<String, dynamic> json) {
+    return CreateInferenceComponentOutput(
+      inferenceComponentArn: json['InferenceComponentArn'] as String,
     );
   }
 }
@@ -25822,6 +29485,91 @@ class CreateWorkteamResponse {
   }
 }
 
+enum CrossAccountFilterOption {
+  sameAccount,
+  crossAccount,
+}
+
+extension CrossAccountFilterOptionValueExtension on CrossAccountFilterOption {
+  String toValue() {
+    switch (this) {
+      case CrossAccountFilterOption.sameAccount:
+        return 'SameAccount';
+      case CrossAccountFilterOption.crossAccount:
+        return 'CrossAccount';
+    }
+  }
+}
+
+extension CrossAccountFilterOptionFromString on String {
+  CrossAccountFilterOption toCrossAccountFilterOption() {
+    switch (this) {
+      case 'SameAccount':
+        return CrossAccountFilterOption.sameAccount;
+      case 'CrossAccount':
+        return CrossAccountFilterOption.crossAccount;
+    }
+    throw Exception('$this is not known in enum CrossAccountFilterOption');
+  }
+}
+
+/// A file system, created by you, that you assign to a user profile or space
+/// for an Amazon SageMaker Domain. Permitted users can access this file system
+/// in Amazon SageMaker Studio.
+class CustomFileSystem {
+  /// A custom file system in Amazon EFS.
+  final EFSFileSystem? eFSFileSystem;
+
+  CustomFileSystem({
+    this.eFSFileSystem,
+  });
+
+  factory CustomFileSystem.fromJson(Map<String, dynamic> json) {
+    return CustomFileSystem(
+      eFSFileSystem: json['EFSFileSystem'] != null
+          ? EFSFileSystem.fromJson(
+              json['EFSFileSystem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eFSFileSystem = this.eFSFileSystem;
+    return {
+      if (eFSFileSystem != null) 'EFSFileSystem': eFSFileSystem,
+    };
+  }
+}
+
+/// The settings for assigning a custom file system to a user profile or space
+/// for an Amazon SageMaker Domain. Permitted users can access this file system
+/// in Amazon SageMaker Studio.
+class CustomFileSystemConfig {
+  /// The settings for a custom Amazon EFS file system.
+  final EFSFileSystemConfig? eFSFileSystemConfig;
+
+  CustomFileSystemConfig({
+    this.eFSFileSystemConfig,
+  });
+
+  factory CustomFileSystemConfig.fromJson(Map<String, dynamic> json) {
+    return CustomFileSystemConfig(
+      eFSFileSystemConfig: json['EFSFileSystemConfig'] != null
+          ? EFSFileSystemConfig.fromJson(
+              json['EFSFileSystemConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eFSFileSystemConfig = this.eFSFileSystemConfig;
+    return {
+      if (eFSFileSystemConfig != null)
+        'EFSFileSystemConfig': eFSFileSystemConfig,
+    };
+  }
+}
+
 /// A custom SageMaker image. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html">Bring
 /// your own SageMaker image</a>.
@@ -25861,6 +29609,62 @@ class CustomImage {
   }
 }
 
+/// Details about the POSIX identity that is used for file system operations.
+class CustomPosixUserConfig {
+  /// The POSIX group ID.
+  final int gid;
+
+  /// The POSIX user ID.
+  final int uid;
+
+  CustomPosixUserConfig({
+    required this.gid,
+    required this.uid,
+  });
+
+  factory CustomPosixUserConfig.fromJson(Map<String, dynamic> json) {
+    return CustomPosixUserConfig(
+      gid: json['Gid'] as int,
+      uid: json['Uid'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gid = this.gid;
+    final uid = this.uid;
+    return {
+      'Gid': gid,
+      'Uid': uid,
+    };
+  }
+}
+
+/// A customized metric.
+class CustomizedMetricSpecification {
+  /// The name of the customized metric.
+  final String? metricName;
+
+  /// The namespace of the customized metric.
+  final String? namespace;
+
+  /// The statistic of the customized metric.
+  final Statistic? statistic;
+
+  CustomizedMetricSpecification({
+    this.metricName,
+    this.namespace,
+    this.statistic,
+  });
+
+  factory CustomizedMetricSpecification.fromJson(Map<String, dynamic> json) {
+    return CustomizedMetricSpecification(
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+      statistic: (json['Statistic'] as String?)?.toStatistic(),
+    );
+  }
+}
+
 /// Configuration to control how SageMaker captures inference data.
 class DataCaptureConfig {
   /// Specifies data Model Monitor will capture. You can configure whether to
@@ -25881,9 +29685,9 @@ class DataCaptureConfig {
   /// Whether data capture should be enabled or disabled (defaults to enabled).
   final bool? enableCapture;
 
-  /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
-  /// Service key that SageMaker uses to encrypt the captured data at rest using
-  /// Amazon S3 server-side encryption.
+  /// The Amazon Resource Name (ARN) of an Key Management Service key that
+  /// SageMaker uses to encrypt the captured data at rest using Amazon S3
+  /// server-side encryption.
   ///
   /// The KmsKeyId can be any of the following formats:
   ///
@@ -26158,8 +29962,8 @@ class DataQualityAppSpecification {
   final String? postAnalyticsProcessorSourceUri;
 
   /// An Amazon S3 URI to a script that is called per row prior to running
-  /// analysis. It can base64 decode the payload and convert it into a flatted
-  /// json so that the built-in container can use the converted data. Applicable
+  /// analysis. It can base64 decode the payload and convert it into a flattened
+  /// JSON so that the built-in container can use the converted data. Applicable
   /// only for the built-in (first party) containers.
   final String? recordPreprocessorSourceUri;
 
@@ -26326,6 +30130,34 @@ class DataSource {
         'FileSystemDataSource': fileSystemDataSource,
       if (s3DataSource != null) 'S3DataSource': s3DataSource,
     };
+  }
+}
+
+enum DataSourceName {
+  salesforceGenie,
+  snowflake,
+}
+
+extension DataSourceNameValueExtension on DataSourceName {
+  String toValue() {
+    switch (this) {
+      case DataSourceName.salesforceGenie:
+        return 'SalesforceGenie';
+      case DataSourceName.snowflake:
+        return 'Snowflake';
+    }
+  }
+}
+
+extension DataSourceNameFromString on String {
+  DataSourceName toDataSourceName() {
+    switch (this) {
+      case 'SalesforceGenie':
+        return DataSourceName.salesforceGenie;
+      case 'Snowflake':
+        return DataSourceName.snowflake;
+    }
+    throw Exception('$this is not known in enum DataSourceName');
   }
 }
 
@@ -26571,27 +30403,82 @@ class DebugRuleEvaluationStatus {
   }
 }
 
-/// A collection of settings that apply to spaces created in the Domain.
+/// A collection of default EBS storage settings that apply to spaces created
+/// within a domain or user profile.
+class DefaultEbsStorageSettings {
+  /// The default size of the EBS storage volume for a space.
+  final int defaultEbsVolumeSizeInGb;
+
+  /// The maximum size of the EBS storage volume for a space.
+  final int maximumEbsVolumeSizeInGb;
+
+  DefaultEbsStorageSettings({
+    required this.defaultEbsVolumeSizeInGb,
+    required this.maximumEbsVolumeSizeInGb,
+  });
+
+  factory DefaultEbsStorageSettings.fromJson(Map<String, dynamic> json) {
+    return DefaultEbsStorageSettings(
+      defaultEbsVolumeSizeInGb: json['DefaultEbsVolumeSizeInGb'] as int,
+      maximumEbsVolumeSizeInGb: json['MaximumEbsVolumeSizeInGb'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultEbsVolumeSizeInGb = this.defaultEbsVolumeSizeInGb;
+    final maximumEbsVolumeSizeInGb = this.maximumEbsVolumeSizeInGb;
+    return {
+      'DefaultEbsVolumeSizeInGb': defaultEbsVolumeSizeInGb,
+      'MaximumEbsVolumeSizeInGb': maximumEbsVolumeSizeInGb,
+    };
+  }
+}
+
+/// A collection of settings that apply to spaces created in the domain.
 class DefaultSpaceSettings {
+  /// The settings for assigning a custom file system to a domain. Permitted users
+  /// can access this file system in Amazon SageMaker Studio.
+  final List<CustomFileSystemConfig>? customFileSystemConfigs;
+  final CustomPosixUserConfig? customPosixUserConfig;
+
   /// The ARN of the execution role for the space.
   final String? executionRole;
+  final JupyterLabAppSettings? jupyterLabAppSettings;
   final JupyterServerAppSettings? jupyterServerAppSettings;
   final KernelGatewayAppSettings? kernelGatewayAppSettings;
 
-  /// The security group IDs for the Amazon Virtual Private Cloud that the space
-  /// uses for communication.
+  /// The security group IDs for the Amazon VPC that the space uses for
+  /// communication.
   final List<String>? securityGroups;
+  final DefaultSpaceStorageSettings? spaceStorageSettings;
 
   DefaultSpaceSettings({
+    this.customFileSystemConfigs,
+    this.customPosixUserConfig,
     this.executionRole,
+    this.jupyterLabAppSettings,
     this.jupyterServerAppSettings,
     this.kernelGatewayAppSettings,
     this.securityGroups,
+    this.spaceStorageSettings,
   });
 
   factory DefaultSpaceSettings.fromJson(Map<String, dynamic> json) {
     return DefaultSpaceSettings(
+      customFileSystemConfigs: (json['CustomFileSystemConfigs'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => CustomFileSystemConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customPosixUserConfig: json['CustomPosixUserConfig'] != null
+          ? CustomPosixUserConfig.fromJson(
+              json['CustomPosixUserConfig'] as Map<String, dynamic>)
+          : null,
       executionRole: json['ExecutionRole'] as String?,
+      jupyterLabAppSettings: json['JupyterLabAppSettings'] != null
+          ? JupyterLabAppSettings.fromJson(
+              json['JupyterLabAppSettings'] as Map<String, dynamic>)
+          : null,
       jupyterServerAppSettings: json['JupyterServerAppSettings'] != null
           ? JupyterServerAppSettings.fromJson(
               json['JupyterServerAppSettings'] as Map<String, dynamic>)
@@ -26604,21 +30491,64 @@ class DefaultSpaceSettings {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      spaceStorageSettings: json['SpaceStorageSettings'] != null
+          ? DefaultSpaceStorageSettings.fromJson(
+              json['SpaceStorageSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final customFileSystemConfigs = this.customFileSystemConfigs;
+    final customPosixUserConfig = this.customPosixUserConfig;
     final executionRole = this.executionRole;
+    final jupyterLabAppSettings = this.jupyterLabAppSettings;
     final jupyterServerAppSettings = this.jupyterServerAppSettings;
     final kernelGatewayAppSettings = this.kernelGatewayAppSettings;
     final securityGroups = this.securityGroups;
+    final spaceStorageSettings = this.spaceStorageSettings;
     return {
+      if (customFileSystemConfigs != null)
+        'CustomFileSystemConfigs': customFileSystemConfigs,
+      if (customPosixUserConfig != null)
+        'CustomPosixUserConfig': customPosixUserConfig,
       if (executionRole != null) 'ExecutionRole': executionRole,
+      if (jupyterLabAppSettings != null)
+        'JupyterLabAppSettings': jupyterLabAppSettings,
       if (jupyterServerAppSettings != null)
         'JupyterServerAppSettings': jupyterServerAppSettings,
       if (kernelGatewayAppSettings != null)
         'KernelGatewayAppSettings': kernelGatewayAppSettings,
       if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (spaceStorageSettings != null)
+        'SpaceStorageSettings': spaceStorageSettings,
+    };
+  }
+}
+
+/// The default storage settings for a space.
+class DefaultSpaceStorageSettings {
+  /// The default EBS storage settings for a space.
+  final DefaultEbsStorageSettings? defaultEbsStorageSettings;
+
+  DefaultSpaceStorageSettings({
+    this.defaultEbsStorageSettings,
+  });
+
+  factory DefaultSpaceStorageSettings.fromJson(Map<String, dynamic> json) {
+    return DefaultSpaceStorageSettings(
+      defaultEbsStorageSettings: json['DefaultEbsStorageSettings'] != null
+          ? DefaultEbsStorageSettings.fromJson(
+              json['DefaultEbsStorageSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultEbsStorageSettings = this.defaultEbsStorageSettings;
+    return {
+      if (defaultEbsStorageSettings != null)
+        'DefaultEbsStorageSettings': defaultEbsStorageSettings,
     };
   }
 }
@@ -26669,6 +30599,21 @@ class DeleteAssociationResponse {
     return DeleteAssociationResponse(
       destinationArn: json['DestinationArn'] as String?,
       sourceArn: json['SourceArn'] as String?,
+    );
+  }
+}
+
+class DeleteClusterResponse {
+  /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete.
+  final String clusterArn;
+
+  DeleteClusterResponse({
+    required this.clusterArn,
+  });
+
+  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteClusterResponse(
+      clusterArn: json['ClusterArn'] as String,
     );
   }
 }
@@ -26870,6 +30815,10 @@ class DeployedImage {
 /// The deployment configuration for an endpoint, which contains the desired
 /// deployment strategy and rollback configurations.
 class DeploymentConfig {
+  /// Automatic rollback configuration for handling endpoint deployment failures
+  /// and recovery.
+  final AutoRollbackConfig? autoRollbackConfiguration;
+
   /// Update policy for a blue/green deployment. If this update policy is
   /// specified, SageMaker creates a new fleet during the deployment while
   /// maintaining the old fleet. SageMaker flips traffic to the new fleet
@@ -26877,44 +30826,59 @@ class DeploymentConfig {
   /// policy should be used in the deployment configuration. If no update policy
   /// is specified, SageMaker uses a blue/green deployment strategy with all at
   /// once traffic shifting by default.
-  final BlueGreenUpdatePolicy blueGreenUpdatePolicy;
+  final BlueGreenUpdatePolicy? blueGreenUpdatePolicy;
 
-  /// Automatic rollback configuration for handling endpoint deployment failures
-  /// and recovery.
-  final AutoRollbackConfig? autoRollbackConfiguration;
+  /// Specifies a rolling deployment strategy for updating a SageMaker endpoint.
+  final RollingUpdatePolicy? rollingUpdatePolicy;
 
   DeploymentConfig({
-    required this.blueGreenUpdatePolicy,
     this.autoRollbackConfiguration,
+    this.blueGreenUpdatePolicy,
+    this.rollingUpdatePolicy,
   });
 
   factory DeploymentConfig.fromJson(Map<String, dynamic> json) {
     return DeploymentConfig(
-      blueGreenUpdatePolicy: BlueGreenUpdatePolicy.fromJson(
-          json['BlueGreenUpdatePolicy'] as Map<String, dynamic>),
       autoRollbackConfiguration: json['AutoRollbackConfiguration'] != null
           ? AutoRollbackConfig.fromJson(
               json['AutoRollbackConfiguration'] as Map<String, dynamic>)
+          : null,
+      blueGreenUpdatePolicy: json['BlueGreenUpdatePolicy'] != null
+          ? BlueGreenUpdatePolicy.fromJson(
+              json['BlueGreenUpdatePolicy'] as Map<String, dynamic>)
+          : null,
+      rollingUpdatePolicy: json['RollingUpdatePolicy'] != null
+          ? RollingUpdatePolicy.fromJson(
+              json['RollingUpdatePolicy'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final blueGreenUpdatePolicy = this.blueGreenUpdatePolicy;
     final autoRollbackConfiguration = this.autoRollbackConfiguration;
+    final blueGreenUpdatePolicy = this.blueGreenUpdatePolicy;
+    final rollingUpdatePolicy = this.rollingUpdatePolicy;
     return {
-      'BlueGreenUpdatePolicy': blueGreenUpdatePolicy,
       if (autoRollbackConfiguration != null)
         'AutoRollbackConfiguration': autoRollbackConfiguration,
+      if (blueGreenUpdatePolicy != null)
+        'BlueGreenUpdatePolicy': blueGreenUpdatePolicy,
+      if (rollingUpdatePolicy != null)
+        'RollingUpdatePolicy': rollingUpdatePolicy,
     };
   }
 }
 
-/// A set of recommended deployment configurations for the model.
+/// A set of recommended deployment configurations for the model. To get more
+/// advanced recommendations, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateInferenceRecommendationsJob.html">CreateInferenceRecommendationsJob</a>
+/// to create an inference recommendation job.
 class DeploymentRecommendation {
-  /// Status of the deployment recommendation. <code>NOT_APPLICABLE</code> means
-  /// that SageMaker is unable to provide a default recommendation for the model
-  /// using the information provided.
+  /// Status of the deployment recommendation. The status
+  /// <code>NOT_APPLICABLE</code> means that SageMaker is unable to provide a
+  /// default recommendation for the model using the information provided. If the
+  /// deployment status is <code>IN_PROGRESS</code>, retry your API call after a
+  /// few seconds to get a <code>COMPLETED</code> deployment recommendation.
   final RecommendationStatus recommendationStatus;
 
   /// A list of <a
@@ -27000,6 +30964,24 @@ class DeploymentStageStatusSummary {
       deviceSelectionConfig: DeviceSelectionConfig.fromJson(
           json['DeviceSelectionConfig'] as Map<String, dynamic>),
       stageName: json['StageName'] as String,
+    );
+  }
+}
+
+/// Information that SageMaker Neo automatically derived about the model.
+class DerivedInformation {
+  /// The data input configuration that SageMaker Neo automatically derived for
+  /// the model. When SageMaker Neo derives this information, you don't need to
+  /// specify the data input configuration when you create a compilation job.
+  final String? derivedDataInputConfig;
+
+  DerivedInformation({
+    this.derivedDataInputConfig,
+  });
+
+  factory DerivedInformation.fromJson(Map<String, dynamic> json) {
+    return DerivedInformation(
+      derivedDataInputConfig: json['DerivedDataInputConfig'] as String?,
     );
   }
 }
@@ -27160,14 +31142,20 @@ class DescribeAlgorithmOutput {
 }
 
 class DescribeAppImageConfigResponse {
-  /// The Amazon Resource Name (ARN) of the AppImageConfig.
+  /// The ARN of the AppImageConfig.
   final String? appImageConfigArn;
 
   /// The name of the AppImageConfig.
   final String? appImageConfigName;
 
+  /// The configuration of the Code Editor app.
+  final CodeEditorAppImageConfig? codeEditorAppImageConfig;
+
   /// When the AppImageConfig was created.
   final DateTime? creationTime;
+
+  /// The configuration of the JupyterLab app.
+  final JupyterLabAppImageConfig? jupyterLabAppImageConfig;
 
   /// The configuration of a KernelGateway app.
   final KernelGatewayImageConfig? kernelGatewayImageConfig;
@@ -27178,7 +31166,9 @@ class DescribeAppImageConfigResponse {
   DescribeAppImageConfigResponse({
     this.appImageConfigArn,
     this.appImageConfigName,
+    this.codeEditorAppImageConfig,
     this.creationTime,
+    this.jupyterLabAppImageConfig,
     this.kernelGatewayImageConfig,
     this.lastModifiedTime,
   });
@@ -27187,7 +31177,15 @@ class DescribeAppImageConfigResponse {
     return DescribeAppImageConfigResponse(
       appImageConfigArn: json['AppImageConfigArn'] as String?,
       appImageConfigName: json['AppImageConfigName'] as String?,
+      codeEditorAppImageConfig: json['CodeEditorAppImageConfig'] != null
+          ? CodeEditorAppImageConfig.fromJson(
+              json['CodeEditorAppImageConfig'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      jupyterLabAppImageConfig: json['JupyterLabAppImageConfig'] != null
+          ? JupyterLabAppImageConfig.fromJson(
+              json['JupyterLabAppImageConfig'] as Map<String, dynamic>)
+          : null,
       kernelGatewayImageConfig: json['KernelGatewayImageConfig'] != null
           ? KernelGatewayImageConfig.fromJson(
               json['KernelGatewayImageConfig'] as Map<String, dynamic>)
@@ -27207,7 +31205,15 @@ class DescribeAppResponse {
   /// The type of app.
   final AppType? appType;
 
-  /// The creation time.
+  /// The creation time of the application.
+  /// <note>
+  /// After an application has been shut down for 24 hours, SageMaker deletes all
+  /// metadata for the application. To be considered an update and retain
+  /// application metadata, applications must be restarted within 24 hours after
+  /// the previous application has been shut down. After this time window,
+  /// creation of an application is considered a new application rather than an
+  /// update of the previous application.
+  /// </note>
   final DateTime? creationTime;
 
   /// The domain ID.
@@ -27370,9 +31376,8 @@ class DescribeAutoMLJobResponse {
   /// Returns the job's output data config.
   final AutoMLOutputDataConfig outputDataConfig;
 
-  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  /// role that has read permission to the input data location and write
-  /// permission to the output data location in Amazon S3.
+  /// The ARN of the IAM role that has read permission to the input data location
+  /// and write permission to the output data location in Amazon S3.
   final String roleArn;
 
   /// Returns information on the job's artifacts found in
@@ -27416,8 +31421,7 @@ class DescribeAutoMLJobResponse {
 
   /// Contains <code>ProblemType</code>, <code>AutoMLJobObjective</code>, and
   /// <code>CompletionCriteria</code>. If you do not provide these values, they
-  /// are auto-inferred. If you do provide them, the values used are the ones you
-  /// provide.
+  /// are inferred.
   final ResolvedAttributes? resolvedAttributes;
 
   DescribeAutoMLJobResponse({
@@ -27505,23 +31509,23 @@ class DescribeAutoMLJobResponse {
 }
 
 class DescribeAutoMLJobV2Response {
-  /// Returns the Amazon Resource Name (ARN) of the AutoML V2 job.
+  /// Returns the Amazon Resource Name (ARN) of the AutoML job V2.
   final String autoMLJobArn;
 
   /// Returns an array of channel objects describing the input data and their
   /// location.
   final List<AutoMLJobChannel> autoMLJobInputDataConfig;
 
-  /// Returns the name of the AutoML V2 job.
+  /// Returns the name of the AutoML job V2.
   final String autoMLJobName;
 
-  /// Returns the secondary status of the AutoML V2 job.
+  /// Returns the secondary status of the AutoML job V2.
   final AutoMLJobSecondaryStatus autoMLJobSecondaryStatus;
 
-  /// Returns the status of the AutoML V2 job.
+  /// Returns the status of the AutoML job V2.
   final AutoMLJobStatus autoMLJobStatus;
 
-  /// Returns the creation time of the AutoML V2 job.
+  /// Returns the creation time of the AutoML job V2.
   final DateTime creationTime;
 
   /// Returns the job's last modified time.
@@ -27530,17 +31534,21 @@ class DescribeAutoMLJobV2Response {
   /// Returns the job's output data config.
   final AutoMLOutputDataConfig outputDataConfig;
 
-  /// The ARN of the Identity and Access Management role that has read permission
-  /// to the input data location and write permission to the output data location
-  /// in Amazon S3.
+  /// The ARN of the IAM role that has read permission to the input data location
+  /// and write permission to the output data location in Amazon S3.
   final String roleArn;
+  final AutoMLJobArtifacts? autoMLJobArtifacts;
 
   /// Returns the job's objective.
   final AutoMLJobObjective? autoMLJobObjective;
 
-  /// Returns the configuration settings of the problem type set for the AutoML V2
-  /// job.
+  /// Returns the configuration settings of the problem type set for the AutoML
+  /// job V2.
   final AutoMLProblemTypeConfig? autoMLProblemTypeConfig;
+
+  /// Returns the name of the problem type configuration set for the AutoML job
+  /// V2.
+  final AutoMLProblemTypeConfigName? autoMLProblemTypeConfigName;
 
   /// Information about the candidate produced by an AutoML training job V2,
   /// including its status, steps, and other properties.
@@ -27550,10 +31558,10 @@ class DescribeAutoMLJobV2Response {
   /// validation datasets.
   final AutoMLDataSplitConfig? dataSplitConfig;
 
-  /// Returns the end time of the AutoML V2 job.
+  /// Returns the end time of the AutoML job V2.
   final DateTime? endTime;
 
-  /// Returns the reason for the failure of the AutoML V2 job, when applicable.
+  /// Returns the reason for the failure of the AutoML job V2, when applicable.
   final String? failureReason;
 
   /// Indicates whether the model was deployed automatically to an endpoint and
@@ -27563,8 +31571,11 @@ class DescribeAutoMLJobV2Response {
   /// Provides information about endpoint for the model deployment.
   final ModelDeployResult? modelDeployResult;
 
-  /// Returns a list of reasons for partial failures within an AutoML V2 job.
+  /// Returns a list of reasons for partial failures within an AutoML job V2.
   final List<AutoMLPartialFailureReason>? partialFailureReasons;
+
+  /// Returns the resolved attributes used by the AutoML job V2.
+  final AutoMLResolvedAttributes? resolvedAttributes;
 
   /// Returns the security configuration for traffic encryption or Amazon VPC
   /// settings.
@@ -27580,8 +31591,10 @@ class DescribeAutoMLJobV2Response {
     required this.lastModifiedTime,
     required this.outputDataConfig,
     required this.roleArn,
+    this.autoMLJobArtifacts,
     this.autoMLJobObjective,
     this.autoMLProblemTypeConfig,
+    this.autoMLProblemTypeConfigName,
     this.bestCandidate,
     this.dataSplitConfig,
     this.endTime,
@@ -27589,6 +31602,7 @@ class DescribeAutoMLJobV2Response {
     this.modelDeployConfig,
     this.modelDeployResult,
     this.partialFailureReasons,
+    this.resolvedAttributes,
     this.securityConfig,
   });
 
@@ -27610,6 +31624,10 @@ class DescribeAutoMLJobV2Response {
       outputDataConfig: AutoMLOutputDataConfig.fromJson(
           json['OutputDataConfig'] as Map<String, dynamic>),
       roleArn: json['RoleArn'] as String,
+      autoMLJobArtifacts: json['AutoMLJobArtifacts'] != null
+          ? AutoMLJobArtifacts.fromJson(
+              json['AutoMLJobArtifacts'] as Map<String, dynamic>)
+          : null,
       autoMLJobObjective: json['AutoMLJobObjective'] != null
           ? AutoMLJobObjective.fromJson(
               json['AutoMLJobObjective'] as Map<String, dynamic>)
@@ -27618,6 +31636,9 @@ class DescribeAutoMLJobV2Response {
           ? AutoMLProblemTypeConfig.fromJson(
               json['AutoMLProblemTypeConfig'] as Map<String, dynamic>)
           : null,
+      autoMLProblemTypeConfigName:
+          (json['AutoMLProblemTypeConfigName'] as String?)
+              ?.toAutoMLProblemTypeConfigName(),
       bestCandidate: json['BestCandidate'] != null
           ? AutoMLCandidate.fromJson(
               json['BestCandidate'] as Map<String, dynamic>)
@@ -27641,9 +31662,78 @@ class DescribeAutoMLJobV2Response {
           .map((e) =>
               AutoMLPartialFailureReason.fromJson(e as Map<String, dynamic>))
           .toList(),
+      resolvedAttributes: json['ResolvedAttributes'] != null
+          ? AutoMLResolvedAttributes.fromJson(
+              json['ResolvedAttributes'] as Map<String, dynamic>)
+          : null,
       securityConfig: json['SecurityConfig'] != null
           ? AutoMLSecurityConfig.fromJson(
               json['SecurityConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class DescribeClusterNodeResponse {
+  /// The details of the SageMaker HyperPod cluster node.
+  final ClusterNodeDetails nodeDetails;
+
+  DescribeClusterNodeResponse({
+    required this.nodeDetails,
+  });
+
+  factory DescribeClusterNodeResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterNodeResponse(
+      nodeDetails: ClusterNodeDetails.fromJson(
+          json['NodeDetails'] as Map<String, dynamic>),
+    );
+  }
+}
+
+class DescribeClusterResponse {
+  /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
+  final String clusterArn;
+
+  /// The status of the SageMaker HyperPod cluster.
+  final ClusterStatus clusterStatus;
+
+  /// The instance groups of the SageMaker HyperPod cluster.
+  final List<ClusterInstanceGroupDetails> instanceGroups;
+
+  /// The name of the SageMaker HyperPod cluster.
+  final String? clusterName;
+
+  /// The time when the SageMaker Cluster is created.
+  final DateTime? creationTime;
+
+  /// The failure message of the SageMaker HyperPod cluster.
+  final String? failureMessage;
+  final VpcConfig? vpcConfig;
+
+  DescribeClusterResponse({
+    required this.clusterArn,
+    required this.clusterStatus,
+    required this.instanceGroups,
+    this.clusterName,
+    this.creationTime,
+    this.failureMessage,
+    this.vpcConfig,
+  });
+
+  factory DescribeClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterResponse(
+      clusterArn: json['ClusterArn'] as String,
+      clusterStatus: (json['ClusterStatus'] as String).toClusterStatus(),
+      instanceGroups: (json['InstanceGroups'] as List)
+          .whereNotNull()
+          .map((e) =>
+              ClusterInstanceGroupDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clusterName: json['ClusterName'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureMessage: json['FailureMessage'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -27748,6 +31838,9 @@ class DescribeCompilationJobResponse {
   /// container.
   final DateTime? compilationStartTime;
 
+  /// Information that SageMaker Neo automatically derived about the model.
+  final DerivedInformation? derivedInformation;
+
   /// The inference image to use when compiling a model. Specify an image only if
   /// the target device is a cloud instance.
   final String? inferenceImage;
@@ -27783,6 +31876,7 @@ class DescribeCompilationJobResponse {
     required this.stoppingCondition,
     this.compilationEndTime,
     this.compilationStartTime,
+    this.derivedInformation,
     this.inferenceImage,
     this.modelDigests,
     this.modelPackageVersionArn,
@@ -27811,6 +31905,10 @@ class DescribeCompilationJobResponse {
           json['StoppingCondition'] as Map<String, dynamic>),
       compilationEndTime: timeStampFromJson(json['CompilationEndTime']),
       compilationStartTime: timeStampFromJson(json['CompilationStartTime']),
+      derivedInformation: json['DerivedInformation'] != null
+          ? DerivedInformation.fromJson(
+              json['DerivedInformation'] as Map<String, dynamic>)
+          : null,
       inferenceImage: json['InferenceImage'] as String?,
       modelDigests: json['ModelDigests'] != null
           ? ModelDigests.fromJson(json['ModelDigests'] as Map<String, dynamic>)
@@ -28105,8 +32203,7 @@ class DescribeDomainResponse {
   /// by Amazon SageMaker, which allows direct internet access
   /// </li>
   /// <li>
-  /// <code>VpcOnly</code> - All Studio traffic is through the specified VPC and
-  /// subnets
+  /// <code>VpcOnly</code> - All traffic is through the specified VPC and subnets
   /// </li>
   /// </ul>
   final AppNetworkAccessType? appNetworkAccessType;
@@ -28146,7 +32243,7 @@ class DescribeDomainResponse {
   /// The failure reason.
   final String? failureReason;
 
-  /// The ID of the Amazon Elastic File System (EFS) managed by this Domain.
+  /// The ID of the Amazon Elastic File System managed by this Domain.
   final String? homeEfsFileSystemId;
 
   /// Use <code>KmsKeyId</code>.
@@ -28163,19 +32260,23 @@ class DescribeDomainResponse {
   /// <code>RSessionGateway</code> apps and the <code>RStudioServerPro</code> app.
   final String? securityGroupIdForDomainBoundary;
 
+  /// The ARN of the application managed by SageMaker in IAM Identity Center. This
+  /// value is only returned for domains created after October 1, 2023.
+  final String? singleSignOnApplicationArn;
+
   /// The IAM Identity Center managed application instance ID.
   final String? singleSignOnManagedApplicationInstanceId;
 
   /// The status.
   final DomainStatus? status;
 
-  /// The VPC subnets that Studio uses for communication.
+  /// The VPC subnets that the domain uses for communication.
   final List<String>? subnetIds;
 
   /// The domain's URL.
   final String? url;
 
-  /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for
+  /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for
   /// communication.
   final String? vpcId;
 
@@ -28196,6 +32297,7 @@ class DescribeDomainResponse {
     this.kmsKeyId,
     this.lastModifiedTime,
     this.securityGroupIdForDomainBoundary,
+    this.singleSignOnApplicationArn,
     this.singleSignOnManagedApplicationInstanceId,
     this.status,
     this.subnetIds,
@@ -28234,6 +32336,7 @@ class DescribeDomainResponse {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       securityGroupIdForDomainBoundary:
           json['SecurityGroupIdForDomainBoundary'] as String?,
+      singleSignOnApplicationArn: json['SingleSignOnApplicationArn'] as String?,
       singleSignOnManagedApplicationInstanceId:
           json['SingleSignOnManagedApplicationInstanceId'] as String?,
       status: (json['Status'] as String?)?.toDomainStatus(),
@@ -28438,6 +32541,15 @@ class DescribeEndpointConfigOutput {
   final AsyncInferenceConfig? asyncInferenceConfig;
   final DataCaptureConfig? dataCaptureConfig;
 
+  /// Indicates whether all model containers deployed to the endpoint are
+  /// isolated. If they are, no inbound or outbound network calls can be made to
+  /// or from the model containers.
+  final bool? enableNetworkIsolation;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that you assigned to the
+  /// endpoint configuration.
+  final String? executionRoleArn;
+
   /// The configuration parameters for an explainer.
   final ExplainerConfig? explainerConfig;
 
@@ -28449,6 +32561,7 @@ class DescribeEndpointConfigOutput {
   /// you want to host at this endpoint in shadow mode with production traffic
   /// replicated from the model specified on <code>ProductionVariants</code>.
   final List<ProductionVariant>? shadowProductionVariants;
+  final VpcConfig? vpcConfig;
 
   DescribeEndpointConfigOutput({
     required this.creationTime,
@@ -28457,9 +32570,12 @@ class DescribeEndpointConfigOutput {
     required this.productionVariants,
     this.asyncInferenceConfig,
     this.dataCaptureConfig,
+    this.enableNetworkIsolation,
+    this.executionRoleArn,
     this.explainerConfig,
     this.kmsKeyId,
     this.shadowProductionVariants,
+    this.vpcConfig,
   });
 
   factory DescribeEndpointConfigOutput.fromJson(Map<String, dynamic> json) {
@@ -28480,6 +32596,8 @@ class DescribeEndpointConfigOutput {
           ? DataCaptureConfig.fromJson(
               json['DataCaptureConfig'] as Map<String, dynamic>)
           : null,
+      enableNetworkIsolation: json['EnableNetworkIsolation'] as bool?,
+      executionRoleArn: json['ExecutionRoleArn'] as String?,
       explainerConfig: json['ExplainerConfig'] != null
           ? ExplainerConfig.fromJson(
               json['ExplainerConfig'] as Map<String, dynamic>)
@@ -28489,6 +32607,9 @@ class DescribeEndpointConfigOutput {
           ?.whereNotNull()
           .map((e) => ProductionVariant.fromJson(e as Map<String, dynamic>))
           .toList(),
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -28499,9 +32620,6 @@ class DescribeEndpointOutput {
 
   /// The Amazon Resource Name (ARN) of the endpoint.
   final String endpointArn;
-
-  /// The name of the endpoint configuration associated with this endpoint.
-  final String endpointConfigName;
 
   /// Name of the endpoint.
   final String endpointName;
@@ -28559,6 +32677,14 @@ class DescribeEndpointOutput {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteEndpoint.html">DeleteEndpoint</a>
   /// is the only operation that can be performed on a failed endpoint.
   /// </li>
+  /// <li>
+  /// <code>UpdateRollbackFailed</code>: Both the rolling deployment and
+  /// auto-rollback failed. Your endpoint is in service with a mix of the old and
+  /// new endpoint configurations. For information about how to remedy this issue
+  /// and restore the endpoint's status to <code>InService</code>, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/deployment-guardrails-rolling.html">Rolling
+  /// Deployments</a>.
+  /// </li>
   /// </ul>
   final EndpointStatus endpointStatus;
 
@@ -28570,6 +32696,9 @@ class DescribeEndpointOutput {
   /// <code>CreateEndpointConfig</code> </a> API.
   final AsyncInferenceConfig? asyncInferenceConfig;
   final DataCaptureConfigSummary? dataCaptureConfig;
+
+  /// The name of the endpoint configuration associated with this endpoint.
+  final String? endpointConfigName;
 
   /// The configuration parameters for an explainer.
   final ExplainerConfig? explainerConfig;
@@ -28601,12 +32730,12 @@ class DescribeEndpointOutput {
   DescribeEndpointOutput({
     required this.creationTime,
     required this.endpointArn,
-    required this.endpointConfigName,
     required this.endpointName,
     required this.endpointStatus,
     required this.lastModifiedTime,
     this.asyncInferenceConfig,
     this.dataCaptureConfig,
+    this.endpointConfigName,
     this.explainerConfig,
     this.failureReason,
     this.lastDeploymentConfig,
@@ -28620,7 +32749,6 @@ class DescribeEndpointOutput {
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       endpointArn: json['EndpointArn'] as String,
-      endpointConfigName: json['EndpointConfigName'] as String,
       endpointName: json['EndpointName'] as String,
       endpointStatus: (json['EndpointStatus'] as String).toEndpointStatus(),
       lastModifiedTime:
@@ -28633,6 +32761,7 @@ class DescribeEndpointOutput {
           ? DataCaptureConfigSummary.fromJson(
               json['DataCaptureConfig'] as Map<String, dynamic>)
           : null,
+      endpointConfigName: json['EndpointConfigName'] as String?,
       explainerConfig: json['ExplainerConfig'] != null
           ? ExplainerConfig.fromJson(
               json['ExplainerConfig'] as Map<String, dynamic>)
@@ -28819,6 +32948,7 @@ class DescribeFeatureGroupResponse {
   /// The Amazon Resource Name (ARN) of the IAM execution role used to persist
   /// data into the OfflineStore if an OfflineStoreConfig is provided.
   final String? roleArn;
+  final ThroughputConfigDescription? throughputConfig;
 
   DescribeFeatureGroupResponse({
     required this.creationTime,
@@ -28838,6 +32968,7 @@ class DescribeFeatureGroupResponse {
     this.onlineStoreConfig,
     this.onlineStoreTotalSizeBytes,
     this.roleArn,
+    this.throughputConfig,
   });
 
   factory DescribeFeatureGroupResponse.fromJson(Map<String, dynamic> json) {
@@ -28877,6 +33008,10 @@ class DescribeFeatureGroupResponse {
           : null,
       onlineStoreTotalSizeBytes: json['OnlineStoreTotalSizeBytes'] as int?,
       roleArn: json['RoleArn'] as String?,
+      throughputConfig: json['ThroughputConfig'] != null
+          ? ThroughputConfigDescription.fromJson(
+              json['ThroughputConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -28952,10 +33087,6 @@ class DescribeFlowDefinitionResponse {
   /// The status of the flow definition. Valid values are listed below.
   final FlowDefinitionStatus flowDefinitionStatus;
 
-  /// An object containing information about who works on the task, the workforce
-  /// task price, and other task details.
-  final HumanLoopConfig humanLoopConfig;
-
   /// An object containing information about the output file.
   final FlowDefinitionOutputConfig outputConfig;
 
@@ -28970,6 +33101,10 @@ class DescribeFlowDefinitionResponse {
   /// workflow.
   final HumanLoopActivationConfig? humanLoopActivationConfig;
 
+  /// An object containing information about who works on the task, the workforce
+  /// task price, and other task details.
+  final HumanLoopConfig? humanLoopConfig;
+
   /// Container for configuring the source of human task requests. Used to specify
   /// if Amazon Rekognition or Amazon Textract is used as an integration source.
   final HumanLoopRequestSource? humanLoopRequestSource;
@@ -28979,11 +33114,11 @@ class DescribeFlowDefinitionResponse {
     required this.flowDefinitionArn,
     required this.flowDefinitionName,
     required this.flowDefinitionStatus,
-    required this.humanLoopConfig,
     required this.outputConfig,
     required this.roleArn,
     this.failureReason,
     this.humanLoopActivationConfig,
+    this.humanLoopConfig,
     this.humanLoopRequestSource,
   });
 
@@ -28995,8 +33130,6 @@ class DescribeFlowDefinitionResponse {
       flowDefinitionName: json['FlowDefinitionName'] as String,
       flowDefinitionStatus:
           (json['FlowDefinitionStatus'] as String).toFlowDefinitionStatus(),
-      humanLoopConfig: HumanLoopConfig.fromJson(
-          json['HumanLoopConfig'] as Map<String, dynamic>),
       outputConfig: FlowDefinitionOutputConfig.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
       roleArn: json['RoleArn'] as String,
@@ -29004,6 +33137,10 @@ class DescribeFlowDefinitionResponse {
       humanLoopActivationConfig: json['HumanLoopActivationConfig'] != null
           ? HumanLoopActivationConfig.fromJson(
               json['HumanLoopActivationConfig'] as Map<String, dynamic>)
+          : null,
+      humanLoopConfig: json['HumanLoopConfig'] != null
+          ? HumanLoopConfig.fromJson(
+              json['HumanLoopConfig'] as Map<String, dynamic>)
           : null,
       humanLoopRequestSource: json['HumanLoopRequestSource'] != null
           ? HumanLoopRequestSource.fromJson(
@@ -29232,11 +33369,10 @@ class DescribeHyperParameterTuningJobResponse {
   /// object that specifies the configuration of the tuning job.
   final HyperParameterTuningJobConfig hyperParameterTuningJobConfig;
 
-  /// The name of the tuning job.
+  /// The name of the hyperparameter tuning job.
   final String hyperParameterTuningJobName;
 
-  /// The status of the tuning job: InProgress, Completed, Failed, Stopping, or
-  /// Stopped.
+  /// The status of the tuning job.
   final HyperParameterTuningJobStatus hyperParameterTuningJobStatus;
 
   /// The <a
@@ -29250,6 +33386,9 @@ class DescribeHyperParameterTuningJobResponse {
   /// object that specifies the number of training jobs, categorized by status,
   /// that this tuning job launched.
   final TrainingJobStatusCounters trainingJobStatusCounters;
+
+  /// A flag to indicate if autotune is enabled for the hyperparameter tuning job.
+  final Autotune? autotune;
 
   /// A <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingJobSummary.html">TrainingJobSummary</a>
@@ -29308,6 +33447,7 @@ class DescribeHyperParameterTuningJobResponse {
     required this.hyperParameterTuningJobStatus,
     required this.objectiveStatusCounters,
     required this.trainingJobStatusCounters,
+    this.autotune,
     this.bestTrainingJob,
     this.consumedResources,
     this.failureReason,
@@ -29337,6 +33477,9 @@ class DescribeHyperParameterTuningJobResponse {
           json['ObjectiveStatusCounters'] as Map<String, dynamic>),
       trainingJobStatusCounters: TrainingJobStatusCounters.fromJson(
           json['TrainingJobStatusCounters'] as Map<String, dynamic>),
+      autotune: json['Autotune'] != null
+          ? Autotune.fromJson(json['Autotune'] as Map<String, dynamic>)
+          : null,
       bestTrainingJob: json['BestTrainingJob'] != null
           ? HyperParameterTrainingJobSummary.fromJson(
               json['BestTrainingJob'] as Map<String, dynamic>)
@@ -29562,6 +33705,83 @@ class DescribeImageVersionResponse {
       releaseNotes: json['ReleaseNotes'] as String?,
       vendorGuidance: (json['VendorGuidance'] as String?)?.toVendorGuidance(),
       version: json['Version'] as int?,
+    );
+  }
+}
+
+class DescribeInferenceComponentOutput {
+  /// The time when the inference component was created.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the endpoint that hosts the inference
+  /// component.
+  final String endpointArn;
+
+  /// The name of the endpoint that hosts the inference component.
+  final String endpointName;
+
+  /// The Amazon Resource Name (ARN) of the inference component.
+  final String inferenceComponentArn;
+
+  /// The name of the inference component.
+  final String inferenceComponentName;
+
+  /// The time when the inference component was last updated.
+  final DateTime lastModifiedTime;
+
+  /// If the inference component status is <code>Failed</code>, the reason for the
+  /// failure.
+  final String? failureReason;
+
+  /// The status of the inference component.
+  final InferenceComponentStatus? inferenceComponentStatus;
+
+  /// Details about the runtime settings for the model that is deployed with the
+  /// inference component.
+  final InferenceComponentRuntimeConfigSummary? runtimeConfig;
+
+  /// Details about the resources that are deployed with this inference component.
+  final InferenceComponentSpecificationSummary? specification;
+
+  /// The name of the production variant that hosts the inference component.
+  final String? variantName;
+
+  DescribeInferenceComponentOutput({
+    required this.creationTime,
+    required this.endpointArn,
+    required this.endpointName,
+    required this.inferenceComponentArn,
+    required this.inferenceComponentName,
+    required this.lastModifiedTime,
+    this.failureReason,
+    this.inferenceComponentStatus,
+    this.runtimeConfig,
+    this.specification,
+    this.variantName,
+  });
+
+  factory DescribeInferenceComponentOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeInferenceComponentOutput(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      endpointArn: json['EndpointArn'] as String,
+      endpointName: json['EndpointName'] as String,
+      inferenceComponentArn: json['InferenceComponentArn'] as String,
+      inferenceComponentName: json['InferenceComponentName'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      failureReason: json['FailureReason'] as String?,
+      inferenceComponentStatus: (json['InferenceComponentStatus'] as String?)
+          ?.toInferenceComponentStatus(),
+      runtimeConfig: json['RuntimeConfig'] != null
+          ? InferenceComponentRuntimeConfigSummary.fromJson(
+              json['RuntimeConfig'] as Map<String, dynamic>)
+          : null,
+      specification: json['Specification'] != null
+          ? InferenceComponentSpecificationSummary.fromJson(
+              json['Specification'] as Map<String, dynamic>)
+          : null,
+      variantName: json['VariantName'] as String?,
     );
   }
 }
@@ -30063,9 +34283,9 @@ class DescribeModelBiasJobDefinitionResponse {
   final ModelBiasJobInput modelBiasJobInput;
   final MonitoringOutputConfig modelBiasJobOutputConfig;
 
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
-  /// Access Management (IAM) role that has read permission to the input data
-  /// location and write permission to the output data location in Amazon S3.
+  /// The Amazon Resource Name (ARN) of the IAM role that has read permission to
+  /// the input data location and write permission to the output data location in
+  /// Amazon S3.
   final String roleArn;
 
   /// The baseline configuration for a model bias job.
@@ -30134,7 +34354,8 @@ class DescribeModelCardExportJobResponse {
   /// The name of the model card export job to describe.
   final String modelCardExportJobName;
 
-  /// The name of the model card that the model export job exports.
+  /// The name or Amazon Resource Name (ARN) of the model card that the model
+  /// export job exports.
   final String modelCardName;
 
   /// The version of the model card that the model export job exports.
@@ -30332,9 +34553,9 @@ class DescribeModelExplainabilityJobDefinitionResponse {
   final ModelExplainabilityJobInput modelExplainabilityJobInput;
   final MonitoringOutputConfig modelExplainabilityJobOutputConfig;
 
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
-  /// Access Management (IAM) role that has read permission to the input data
-  /// location and write permission to the output data location in Amazon S3.
+  /// The Amazon Resource Name (ARN) of the IAM role that has read permission to
+  /// the input data location and write permission to the output data location in
+  /// Amazon S3.
   final String roleArn;
 
   /// The baseline configuration for a model explainability job.
@@ -30398,10 +34619,6 @@ class DescribeModelOutput {
   /// A timestamp that shows when the model was created.
   final DateTime creationTime;
 
-  /// The Amazon Resource Name (ARN) of the IAM role that you specified for the
-  /// model.
-  final String executionRoleArn;
-
   /// The Amazon Resource Name (ARN) of the model.
   final String modelArn;
 
@@ -30417,6 +34634,10 @@ class DescribeModelOutput {
   /// If <code>True</code>, no inbound or outbound network calls can be made to or
   /// from the model container.
   final bool? enableNetworkIsolation;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that you specified for the
+  /// model.
+  final String? executionRoleArn;
 
   /// Specifies details of how containers in a multi-container endpoint are
   /// called.
@@ -30437,12 +34658,12 @@ class DescribeModelOutput {
 
   DescribeModelOutput({
     required this.creationTime,
-    required this.executionRoleArn,
     required this.modelArn,
     required this.modelName,
     this.containers,
     this.deploymentRecommendation,
     this.enableNetworkIsolation,
+    this.executionRoleArn,
     this.inferenceExecutionConfig,
     this.primaryContainer,
     this.vpcConfig,
@@ -30452,7 +34673,6 @@ class DescribeModelOutput {
     return DescribeModelOutput(
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      executionRoleArn: json['ExecutionRoleArn'] as String,
       modelArn: json['ModelArn'] as String,
       modelName: json['ModelName'] as String,
       containers: (json['Containers'] as List?)
@@ -30464,6 +34684,7 @@ class DescribeModelOutput {
               json['DeploymentRecommendation'] as Map<String, dynamic>)
           : null,
       enableNetworkIsolation: json['EnableNetworkIsolation'] as bool?,
+      executionRoleArn: json['ExecutionRoleArn'] as String?,
       inferenceExecutionConfig: json['InferenceExecutionConfig'] != null
           ? InferenceExecutionConfig.fromJson(
               json['InferenceExecutionConfig'] as Map<String, dynamic>)
@@ -30568,8 +34789,8 @@ class DescribeModelPackageOutput {
   /// <i>Amazon SageMaker Developer Guide</i>.
   final DriftCheckBaselines? driftCheckBaselines;
 
-  /// Details about inference jobs that can be run with models based on this model
-  /// package.
+  /// Details about inference jobs that you can run with models based on this
+  /// model package.
   final InferenceSpecification? inferenceSpecification;
   final UserContext? lastModifiedBy;
 
@@ -30579,6 +34800,18 @@ class DescribeModelPackageOutput {
 
   /// The approval status of the model package.
   final ModelApprovalStatus? modelApprovalStatus;
+
+  /// The model card associated with the model package. Since
+  /// <code>ModelPackageModelCard</code> is tied to a model package, it is a
+  /// specific usage of a model card and its schema is simplified compared to the
+  /// schema of <code>ModelCard</code>. The <code>ModelPackageModelCard</code>
+  /// schema does not include <code>model_package_details</code>, and
+  /// <code>model_overview</code> is composed of the <code>model_creator</code>
+  /// and <code>model_artifact</code> properties. For more information about the
+  /// model card associated with the model package, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
+  /// the Details of a Model Version</a>.
+  final ModelPackageModelCard? modelCard;
 
   /// Metrics for the model.
   final ModelMetrics? modelMetrics;
@@ -30598,8 +34831,18 @@ class DescribeModelPackageOutput {
   /// (.tar.gz suffix).
   final String? samplePayloadUrl;
 
+  /// The KMS Key ID (<code>KMSKeyId</code>) used for encryption of model package
+  /// information.
+  final ModelPackageSecurityConfig? securityConfig;
+
+  /// Indicates if you want to skip model validation.
+  final SkipModelValidation? skipModelValidation;
+
   /// Details about the algorithm that was used to create the model package.
   final SourceAlgorithmSpecification? sourceAlgorithmSpecification;
+
+  /// The URI of the source for the model package.
+  final String? sourceUri;
 
   /// The machine learning task you specified that your model package
   /// accomplishes. Common machine learning tasks include object detection and
@@ -30628,12 +34871,16 @@ class DescribeModelPackageOutput {
     this.lastModifiedTime,
     this.metadataProperties,
     this.modelApprovalStatus,
+    this.modelCard,
     this.modelMetrics,
     this.modelPackageDescription,
     this.modelPackageGroupName,
     this.modelPackageVersion,
     this.samplePayloadUrl,
+    this.securityConfig,
+    this.skipModelValidation,
     this.sourceAlgorithmSpecification,
+    this.sourceUri,
     this.task,
     this.validationSpecification,
   });
@@ -30681,6 +34928,10 @@ class DescribeModelPackageOutput {
           : null,
       modelApprovalStatus:
           (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
+      modelCard: json['ModelCard'] != null
+          ? ModelPackageModelCard.fromJson(
+              json['ModelCard'] as Map<String, dynamic>)
+          : null,
       modelMetrics: json['ModelMetrics'] != null
           ? ModelMetrics.fromJson(json['ModelMetrics'] as Map<String, dynamic>)
           : null,
@@ -30688,10 +34939,17 @@ class DescribeModelPackageOutput {
       modelPackageGroupName: json['ModelPackageGroupName'] as String?,
       modelPackageVersion: json['ModelPackageVersion'] as int?,
       samplePayloadUrl: json['SamplePayloadUrl'] as String?,
+      securityConfig: json['SecurityConfig'] != null
+          ? ModelPackageSecurityConfig.fromJson(
+              json['SecurityConfig'] as Map<String, dynamic>)
+          : null,
+      skipModelValidation:
+          (json['SkipModelValidation'] as String?)?.toSkipModelValidation(),
       sourceAlgorithmSpecification: json['SourceAlgorithmSpecification'] != null
           ? SourceAlgorithmSpecification.fromJson(
               json['SourceAlgorithmSpecification'] as Map<String, dynamic>)
           : null,
+      sourceUri: json['SourceUri'] as String?,
       task: json['Task'] as String?,
       validationSpecification: json['ValidationSpecification'] != null
           ? ModelPackageValidationSpecification.fromJson(
@@ -31153,6 +35411,9 @@ class DescribePipelineExecutionResponse {
   final PipelineExecutionStatus? pipelineExecutionStatus;
   final PipelineExperimentConfig? pipelineExperimentConfig;
 
+  /// The selective execution configuration applied to the pipeline run.
+  final SelectiveExecutionConfig? selectiveExecutionConfig;
+
   DescribePipelineExecutionResponse({
     this.createdBy,
     this.creationTime,
@@ -31166,6 +35427,7 @@ class DescribePipelineExecutionResponse {
     this.pipelineExecutionDisplayName,
     this.pipelineExecutionStatus,
     this.pipelineExperimentConfig,
+    this.selectiveExecutionConfig,
   });
 
   factory DescribePipelineExecutionResponse.fromJson(
@@ -31195,6 +35457,10 @@ class DescribePipelineExecutionResponse {
       pipelineExperimentConfig: json['PipelineExperimentConfig'] != null
           ? PipelineExperimentConfig.fromJson(
               json['PipelineExperimentConfig'] as Map<String, dynamic>)
+          : null,
+      selectiveExecutionConfig: json['SelectiveExecutionConfig'] != null
+          ? SelectiveExecutionConfig.fromJson(
+              json['SelectiveExecutionConfig'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -31503,20 +35769,26 @@ class DescribeSpaceResponse {
   /// The creation time.
   final DateTime? creationTime;
 
-  /// The ID of the associated Domain.
+  /// The ID of the associated domain.
   final String? domainId;
 
   /// The failure reason.
   final String? failureReason;
 
-  /// The ID of the space's profile in the Amazon Elastic File System volume.
+  /// The ID of the space's profile in the Amazon EFS volume.
   final String? homeEfsFileSystemUid;
 
   /// The last modified time.
   final DateTime? lastModifiedTime;
 
+  /// The collection of ownership settings for a space.
+  final OwnershipSettings? ownershipSettings;
+
   /// The space's Amazon Resource Name (ARN).
   final String? spaceArn;
+
+  /// The name of the space that appears in the Amazon SageMaker Studio UI.
+  final String? spaceDisplayName;
 
   /// The name of the space.
   final String? spaceName;
@@ -31524,8 +35796,33 @@ class DescribeSpaceResponse {
   /// A collection of space settings.
   final SpaceSettings? spaceSettings;
 
+  /// The collection of space sharing settings for a space.
+  final SpaceSharingSettings? spaceSharingSettings;
+
   /// The status.
   final SpaceStatus? status;
+
+  /// Returns the URL of the space. If the space is created with Amazon Web
+  /// Services IAM Identity Center (Successor to Amazon Web Services Single
+  /// Sign-On) authentication, users can navigate to the URL after appending the
+  /// respective redirect parameter for the application type to be federated
+  /// through Amazon Web Services IAM Identity Center.
+  ///
+  /// The following application types are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// Studio Classic: <code>&amp;redirect=JupyterServer</code>
+  /// </li>
+  /// <li>
+  /// JupyterLab: <code>&amp;redirect=JupyterLab</code>
+  /// </li>
+  /// <li>
+  /// Code Editor, based on Code-OSS, Visual Studio Code - Open Source:
+  /// <code>&amp;redirect=CodeEditor</code>
+  /// </li>
+  /// </ul>
+  final String? url;
 
   DescribeSpaceResponse({
     this.creationTime,
@@ -31533,10 +35830,14 @@ class DescribeSpaceResponse {
     this.failureReason,
     this.homeEfsFileSystemUid,
     this.lastModifiedTime,
+    this.ownershipSettings,
     this.spaceArn,
+    this.spaceDisplayName,
     this.spaceName,
     this.spaceSettings,
+    this.spaceSharingSettings,
     this.status,
+    this.url,
   });
 
   factory DescribeSpaceResponse.fromJson(Map<String, dynamic> json) {
@@ -31546,23 +35847,33 @@ class DescribeSpaceResponse {
       failureReason: json['FailureReason'] as String?,
       homeEfsFileSystemUid: json['HomeEfsFileSystemUid'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      ownershipSettings: json['OwnershipSettings'] != null
+          ? OwnershipSettings.fromJson(
+              json['OwnershipSettings'] as Map<String, dynamic>)
+          : null,
       spaceArn: json['SpaceArn'] as String?,
+      spaceDisplayName: json['SpaceDisplayName'] as String?,
       spaceName: json['SpaceName'] as String?,
       spaceSettings: json['SpaceSettings'] != null
           ? SpaceSettings.fromJson(
               json['SpaceSettings'] as Map<String, dynamic>)
           : null,
+      spaceSharingSettings: json['SpaceSharingSettings'] != null
+          ? SpaceSharingSettings.fromJson(
+              json['SpaceSharingSettings'] as Map<String, dynamic>)
+          : null,
       status: (json['Status'] as String?)?.toSpaceStatus(),
+      url: json['Url'] as String?,
     );
   }
 }
 
 class DescribeStudioLifecycleConfigResponse {
-  /// The creation time of the Studio Lifecycle Configuration.
+  /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
   final DateTime? creationTime;
 
-  /// This value is equivalent to CreationTime because Studio Lifecycle
-  /// Configurations are immutable.
+  /// This value is equivalent to CreationTime because Amazon SageMaker Studio
+  /// Lifecycle Configurations are immutable.
   final DateTime? lastModifiedTime;
 
   /// The App type that the Lifecycle Configuration is attached to.
@@ -31571,10 +35882,11 @@ class DescribeStudioLifecycleConfigResponse {
   /// The ARN of the Lifecycle Configuration to describe.
   final String? studioLifecycleConfigArn;
 
-  /// The content of your Studio Lifecycle Configuration script.
+  /// The content of your Amazon SageMaker Studio Lifecycle Configuration script.
   final String? studioLifecycleConfigContent;
 
-  /// The name of the Studio Lifecycle Configuration that is described.
+  /// The name of the Amazon SageMaker Studio Lifecycle Configuration that is
+  /// described.
   final String? studioLifecycleConfigName;
 
   DescribeStudioLifecycleConfigResponse({
@@ -31815,6 +36127,10 @@ class DescribeTrainingJobResponse {
   /// Algorithm-specific parameters.
   final Map<String, String>? hyperParameters;
 
+  /// Contains information about the infrastructure health check configuration for
+  /// the training job.
+  final InfraCheckConfig? infraCheckConfig;
+
   /// An array of <code>Channel</code> objects that describes each data input
   /// channel.
   final List<Channel>? inputDataConfig;
@@ -31842,6 +36158,13 @@ class DescribeTrainingJobResponse {
 
   /// Profiling status of a training job.
   final ProfilingStatus? profilingStatus;
+
+  /// Configuration for remote debugging. To learn more about the remote debugging
+  /// functionality of SageMaker, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html">Access
+  /// a training container through Amazon Web Services Systems Manager (SSM) for
+  /// remote debugging</a>.
+  final RemoteDebugConfig? remoteDebugConfig;
 
   /// The number of times to retry the job when the job fails due to an
   /// <code>InternalServerError</code>.
@@ -31912,6 +36235,7 @@ class DescribeTrainingJobResponse {
     this.failureReason,
     this.finalMetricDataList,
     this.hyperParameters,
+    this.infraCheckConfig,
     this.inputDataConfig,
     this.labelingJobArn,
     this.lastModifiedTime,
@@ -31920,6 +36244,7 @@ class DescribeTrainingJobResponse {
     this.profilerRuleConfigurations,
     this.profilerRuleEvaluationStatuses,
     this.profilingStatus,
+    this.remoteDebugConfig,
     this.retryStrategy,
     this.roleArn,
     this.secondaryStatusTransitions,
@@ -31987,6 +36312,10 @@ class DescribeTrainingJobResponse {
           .toList(),
       hyperParameters: (json['HyperParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      infraCheckConfig: json['InfraCheckConfig'] != null
+          ? InfraCheckConfig.fromJson(
+              json['InfraCheckConfig'] as Map<String, dynamic>)
+          : null,
       inputDataConfig: (json['InputDataConfig'] as List?)
           ?.whereNotNull()
           .map((e) => Channel.fromJson(e as Map<String, dynamic>))
@@ -32014,6 +36343,10 @@ class DescribeTrainingJobResponse {
           .toList(),
       profilingStatus:
           (json['ProfilingStatus'] as String?)?.toProfilingStatus(),
+      remoteDebugConfig: json['RemoteDebugConfig'] != null
+          ? RemoteDebugConfig.fromJson(
+              json['RemoteDebugConfig'] as Map<String, dynamic>)
+          : null,
       retryStrategy: json['RetryStrategy'] != null
           ? RetryStrategy.fromJson(
               json['RetryStrategy'] as Map<String, dynamic>)
@@ -32414,7 +36747,7 @@ class DescribeUserProfileResponse {
   /// The failure reason.
   final String? failureReason;
 
-  /// The ID of the user's profile in the Amazon Elastic File System (EFS) volume.
+  /// The ID of the user's profile in the Amazon Elastic File System volume.
   final String? homeEfsFileSystemUid;
 
   /// The last modified time.
@@ -32961,6 +37294,37 @@ class DeviceSummary {
   }
 }
 
+/// The model deployment settings for the SageMaker Canvas application.
+/// <note>
+/// In order to enable model deployment for Canvas, the SageMaker Domain's or
+/// user profile's Amazon Web Services IAM execution role must have the
+/// <code>AmazonSageMakerCanvasDirectDeployAccess</code> policy attached. You
+/// can also turn on model deployment permissions through the SageMaker Domain's
+/// or user profile's settings in the SageMaker console.
+/// </note>
+class DirectDeploySettings {
+  /// Describes whether model deployment permissions are enabled or disabled in
+  /// the Canvas application.
+  final FeatureStatus? status;
+
+  DirectDeploySettings({
+    this.status,
+  });
+
+  factory DirectDeploySettings.fromJson(Map<String, dynamic> json) {
+    return DirectDeploySettings(
+      status: (json['Status'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
 enum DirectInternetAccess {
   enabled,
   disabled,
@@ -33052,6 +37416,43 @@ class DisassociateTrialComponentResponse {
   }
 }
 
+/// A collection of settings that configure the domain's Docker interaction.
+class DockerSettings {
+  /// Indicates whether the domain can access Docker.
+  final FeatureStatus? enableDockerAccess;
+
+  /// The list of Amazon Web Services accounts that are trusted when the domain is
+  /// created in VPC-only mode.
+  final List<String>? vpcOnlyTrustedAccounts;
+
+  DockerSettings({
+    this.enableDockerAccess,
+    this.vpcOnlyTrustedAccounts,
+  });
+
+  factory DockerSettings.fromJson(Map<String, dynamic> json) {
+    return DockerSettings(
+      enableDockerAccess:
+          (json['EnableDockerAccess'] as String?)?.toFeatureStatus(),
+      vpcOnlyTrustedAccounts: (json['VpcOnlyTrustedAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableDockerAccess = this.enableDockerAccess;
+    final vpcOnlyTrustedAccounts = this.vpcOnlyTrustedAccounts;
+    return {
+      if (enableDockerAccess != null)
+        'EnableDockerAccess': enableDockerAccess.toValue(),
+      if (vpcOnlyTrustedAccounts != null)
+        'VpcOnlyTrustedAccounts': vpcOnlyTrustedAccounts,
+    };
+  }
+}
+
 /// The domain's details.
 class DomainDetails {
   /// The creation time.
@@ -33101,6 +37502,9 @@ class DomainDetails {
 /// A collection of settings that apply to the <code>SageMaker Domain</code>.
 /// These settings are specified through the <code>CreateDomain</code> API call.
 class DomainSettings {
+  /// A collection of settings that configure the domain's Docker interaction.
+  final DockerSettings? dockerSettings;
+
   /// The configuration for attaching a SageMaker user profile name to the
   /// execution role as a <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html">sts:SourceIdentity
@@ -33117,6 +37521,7 @@ class DomainSettings {
   final List<String>? securityGroupIds;
 
   DomainSettings({
+    this.dockerSettings,
     this.executionRoleIdentityConfig,
     this.rStudioServerProDomainSettings,
     this.securityGroupIds,
@@ -33124,6 +37529,10 @@ class DomainSettings {
 
   factory DomainSettings.fromJson(Map<String, dynamic> json) {
     return DomainSettings(
+      dockerSettings: json['DockerSettings'] != null
+          ? DockerSettings.fromJson(
+              json['DockerSettings'] as Map<String, dynamic>)
+          : null,
       executionRoleIdentityConfig:
           (json['ExecutionRoleIdentityConfig'] as String?)
               ?.toExecutionRoleIdentityConfig(),
@@ -33140,10 +37549,12 @@ class DomainSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final dockerSettings = this.dockerSettings;
     final executionRoleIdentityConfig = this.executionRoleIdentityConfig;
     final rStudioServerProDomainSettings = this.rStudioServerProDomainSettings;
     final securityGroupIds = this.securityGroupIds;
     return {
+      if (dockerSettings != null) 'DockerSettings': dockerSettings,
       if (executionRoleIdentityConfig != null)
         'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.toValue(),
       if (rStudioServerProDomainSettings != null)
@@ -33155,6 +37566,9 @@ class DomainSettings {
 
 /// A collection of <code>Domain</code> configuration settings to update.
 class DomainSettingsForUpdate {
+  /// A collection of settings that configure the domain's Docker interaction.
+  final DockerSettings? dockerSettings;
+
   /// The configuration for attaching a SageMaker user profile name to the
   /// execution role as a <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html">sts:SourceIdentity
@@ -33174,17 +37588,20 @@ class DomainSettingsForUpdate {
   final List<String>? securityGroupIds;
 
   DomainSettingsForUpdate({
+    this.dockerSettings,
     this.executionRoleIdentityConfig,
     this.rStudioServerProDomainSettingsForUpdate,
     this.securityGroupIds,
   });
 
   Map<String, dynamic> toJson() {
+    final dockerSettings = this.dockerSettings;
     final executionRoleIdentityConfig = this.executionRoleIdentityConfig;
     final rStudioServerProDomainSettingsForUpdate =
         this.rStudioServerProDomainSettingsForUpdate;
     final securityGroupIds = this.securityGroupIds;
     return {
+      if (dockerSettings != null) 'DockerSettings': dockerSettings,
       if (executionRoleIdentityConfig != null)
         'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.toValue(),
       if (rStudioServerProDomainSettingsForUpdate != null)
@@ -33461,6 +37878,103 @@ class DriftCheckModelQuality {
   }
 }
 
+/// An object with the recommended values for you to specify when creating an
+/// autoscaling policy.
+class DynamicScalingConfiguration {
+  /// The recommended maximum capacity to specify for your autoscaling policy.
+  final int? maxCapacity;
+
+  /// The recommended minimum capacity to specify for your autoscaling policy.
+  final int? minCapacity;
+
+  /// The recommended scale in cooldown time for your autoscaling policy.
+  final int? scaleInCooldown;
+
+  /// The recommended scale out cooldown time for your autoscaling policy.
+  final int? scaleOutCooldown;
+
+  /// An object of the scaling policies for each metric.
+  final List<ScalingPolicy>? scalingPolicies;
+
+  DynamicScalingConfiguration({
+    this.maxCapacity,
+    this.minCapacity,
+    this.scaleInCooldown,
+    this.scaleOutCooldown,
+    this.scalingPolicies,
+  });
+
+  factory DynamicScalingConfiguration.fromJson(Map<String, dynamic> json) {
+    return DynamicScalingConfiguration(
+      maxCapacity: json['MaxCapacity'] as int?,
+      minCapacity: json['MinCapacity'] as int?,
+      scaleInCooldown: json['ScaleInCooldown'] as int?,
+      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
+      scalingPolicies: (json['ScalingPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// A file system, created by you in Amazon EFS, that you assign to a user
+/// profile or space for an Amazon SageMaker Domain. Permitted users can access
+/// this file system in Amazon SageMaker Studio.
+class EFSFileSystem {
+  /// The ID of your Amazon EFS file system.
+  final String fileSystemId;
+
+  EFSFileSystem({
+    required this.fileSystemId,
+  });
+
+  factory EFSFileSystem.fromJson(Map<String, dynamic> json) {
+    return EFSFileSystem(
+      fileSystemId: json['FileSystemId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystemId = this.fileSystemId;
+    return {
+      'FileSystemId': fileSystemId,
+    };
+  }
+}
+
+/// The settings for assigning a custom Amazon EFS file system to a user profile
+/// or space for an Amazon SageMaker Domain.
+class EFSFileSystemConfig {
+  /// The ID of your Amazon EFS file system.
+  final String fileSystemId;
+
+  /// The path to the file system directory that is accessible in Amazon SageMaker
+  /// Studio. Permitted users can access only this directory and below.
+  final String? fileSystemPath;
+
+  EFSFileSystemConfig({
+    required this.fileSystemId,
+    this.fileSystemPath,
+  });
+
+  factory EFSFileSystemConfig.fromJson(Map<String, dynamic> json) {
+    return EFSFileSystemConfig(
+      fileSystemId: json['FileSystemId'] as String,
+      fileSystemPath: json['FileSystemPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystemId = this.fileSystemId;
+    final fileSystemPath = this.fileSystemPath;
+    return {
+      'FileSystemId': fileSystemId,
+      if (fileSystemPath != null) 'FileSystemPath': fileSystemPath,
+    };
+  }
+}
+
 /// The configurations and outcomes of an Amazon EMR step execution.
 class EMRStepMetadata {
   /// The identifier of the EMR cluster.
@@ -33490,6 +38004,30 @@ class EMRStepMetadata {
       stepId: json['StepId'] as String?,
       stepName: json['StepName'] as String?,
     );
+  }
+}
+
+/// A collection of EBS storage settings that apply to both private and shared
+/// spaces.
+class EbsStorageSettings {
+  /// The size of an EBS storage volume for a space.
+  final int ebsVolumeSizeInGb;
+
+  EbsStorageSettings({
+    required this.ebsVolumeSizeInGb,
+  });
+
+  factory EbsStorageSettings.fromJson(Map<String, dynamic> json) {
+    return EbsStorageSettings(
+      ebsVolumeSizeInGb: json['EbsVolumeSizeInGb'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsVolumeSizeInGb = this.ebsVolumeSizeInGb;
+    return {
+      'EbsVolumeSizeInGb': ebsVolumeSizeInGb,
+    };
   }
 }
 
@@ -34050,6 +38588,34 @@ class EnableSagemakerServicecatalogPortfolioOutput {
   }
 }
 
+enum EnabledOrDisabled {
+  enabled,
+  disabled,
+}
+
+extension EnabledOrDisabledValueExtension on EnabledOrDisabled {
+  String toValue() {
+    switch (this) {
+      case EnabledOrDisabled.enabled:
+        return 'Enabled';
+      case EnabledOrDisabled.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension EnabledOrDisabledFromString on String {
+  EnabledOrDisabled toEnabledOrDisabled() {
+    switch (this) {
+      case 'Enabled':
+        return EnabledOrDisabled.enabled;
+      case 'Disabled':
+        return EnabledOrDisabled.disabled;
+    }
+    throw Exception('$this is not known in enum EnabledOrDisabled');
+  }
+}
+
 /// A hosted endpoint for real-time inference.
 class Endpoint {
   /// The time that the endpoint was created.
@@ -34207,22 +38773,22 @@ class EndpointConfigSummary {
 /// Recommender job.
 class EndpointInfo {
   /// The name of a customer's endpoint.
-  final String endpointName;
+  final String? endpointName;
 
   EndpointInfo({
-    required this.endpointName,
+    this.endpointName,
   });
 
   factory EndpointInfo.fromJson(Map<String, dynamic> json) {
     return EndpointInfo(
-      endpointName: json['EndpointName'] as String,
+      endpointName: json['EndpointName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final endpointName = this.endpointName;
     return {
-      'EndpointName': endpointName,
+      if (endpointName != null) 'EndpointName': endpointName,
     };
   }
 }
@@ -34243,6 +38809,9 @@ class EndpointInput {
   /// Model Quality Monitoring Jobs</a>.
   final String? endTimeOffset;
 
+  /// The attributes of the input data to exclude from the analysis.
+  final String? excludeFeaturesAttribute;
+
   /// The attributes of the input data that are the input features.
   final String? featuresAttribute;
 
@@ -34258,7 +38827,7 @@ class EndpointInput {
   final double? probabilityThresholdAttribute;
 
   /// Whether input data distributed in Amazon S3 is fully replicated or sharded
-  /// by an S3 key. Defaults to <code>FullyReplicated</code>
+  /// by an Amazon S3 key. Defaults to <code>FullyReplicated</code>
   final ProcessingS3DataDistributionType? s3DataDistributionType;
 
   /// Whether the <code>Pipe</code> or <code>File</code> is used as the input mode
@@ -34277,6 +38846,7 @@ class EndpointInput {
     required this.endpointName,
     required this.localPath,
     this.endTimeOffset,
+    this.excludeFeaturesAttribute,
     this.featuresAttribute,
     this.inferenceAttribute,
     this.probabilityAttribute,
@@ -34291,6 +38861,7 @@ class EndpointInput {
       endpointName: json['EndpointName'] as String,
       localPath: json['LocalPath'] as String,
       endTimeOffset: json['EndTimeOffset'] as String?,
+      excludeFeaturesAttribute: json['ExcludeFeaturesAttribute'] as String?,
       featuresAttribute: json['FeaturesAttribute'] as String?,
       inferenceAttribute: json['InferenceAttribute'] as String?,
       probabilityAttribute: json['ProbabilityAttribute'] as String?,
@@ -34307,6 +38878,7 @@ class EndpointInput {
     final endpointName = this.endpointName;
     final localPath = this.localPath;
     final endTimeOffset = this.endTimeOffset;
+    final excludeFeaturesAttribute = this.excludeFeaturesAttribute;
     final featuresAttribute = this.featuresAttribute;
     final inferenceAttribute = this.inferenceAttribute;
     final probabilityAttribute = this.probabilityAttribute;
@@ -34318,6 +38890,8 @@ class EndpointInput {
       'EndpointName': endpointName,
       'LocalPath': localPath,
       if (endTimeOffset != null) 'EndTimeOffset': endTimeOffset,
+      if (excludeFeaturesAttribute != null)
+        'ExcludeFeaturesAttribute': excludeFeaturesAttribute,
       if (featuresAttribute != null) 'FeaturesAttribute': featuresAttribute,
       if (inferenceAttribute != null) 'InferenceAttribute': inferenceAttribute,
       if (probabilityAttribute != null)
@@ -34334,43 +38908,51 @@ class EndpointInput {
 
 /// The endpoint configuration for the load test.
 class EndpointInputConfiguration {
-  /// The instance types to use for the load test.
-  final ProductionVariantInstanceType instanceType;
-
   /// The parameter you want to benchmark against.
   final EnvironmentParameterRanges? environmentParameterRanges;
 
   /// The inference specification name in the model package version.
   final String? inferenceSpecificationName;
 
+  /// The instance types to use for the load test.
+  final ProductionVariantInstanceType? instanceType;
+  final ProductionVariantServerlessConfig? serverlessConfig;
+
   EndpointInputConfiguration({
-    required this.instanceType,
     this.environmentParameterRanges,
     this.inferenceSpecificationName,
+    this.instanceType,
+    this.serverlessConfig,
   });
 
   factory EndpointInputConfiguration.fromJson(Map<String, dynamic> json) {
     return EndpointInputConfiguration(
-      instanceType:
-          (json['InstanceType'] as String).toProductionVariantInstanceType(),
       environmentParameterRanges: json['EnvironmentParameterRanges'] != null
           ? EnvironmentParameterRanges.fromJson(
               json['EnvironmentParameterRanges'] as Map<String, dynamic>)
           : null,
       inferenceSpecificationName: json['InferenceSpecificationName'] as String?,
+      instanceType:
+          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      serverlessConfig: json['ServerlessConfig'] != null
+          ? ProductionVariantServerlessConfig.fromJson(
+              json['ServerlessConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final instanceType = this.instanceType;
     final environmentParameterRanges = this.environmentParameterRanges;
     final inferenceSpecificationName = this.inferenceSpecificationName;
+    final instanceType = this.instanceType;
+    final serverlessConfig = this.serverlessConfig;
     return {
-      'InstanceType': instanceType.toValue(),
       if (environmentParameterRanges != null)
         'EnvironmentParameterRanges': environmentParameterRanges,
       if (inferenceSpecificationName != null)
         'InferenceSpecificationName': inferenceSpecificationName,
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (serverlessConfig != null) 'ServerlessConfig': serverlessConfig,
     };
   }
 }
@@ -34416,30 +38998,36 @@ class EndpointOutputConfiguration {
   /// The name of the endpoint made during a recommendation job.
   final String endpointName;
 
-  /// The number of instances recommended to launch initially.
-  final int initialInstanceCount;
-
-  /// The instance type recommended by Amazon SageMaker Inference Recommender.
-  final ProductionVariantInstanceType instanceType;
-
   /// The name of the production variant (deployed model) made during a
   /// recommendation job.
   final String variantName;
 
+  /// The number of instances recommended to launch initially.
+  final int? initialInstanceCount;
+
+  /// The instance type recommended by Amazon SageMaker Inference Recommender.
+  final ProductionVariantInstanceType? instanceType;
+  final ProductionVariantServerlessConfig? serverlessConfig;
+
   EndpointOutputConfiguration({
     required this.endpointName,
-    required this.initialInstanceCount,
-    required this.instanceType,
     required this.variantName,
+    this.initialInstanceCount,
+    this.instanceType,
+    this.serverlessConfig,
   });
 
   factory EndpointOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return EndpointOutputConfiguration(
       endpointName: json['EndpointName'] as String,
-      initialInstanceCount: json['InitialInstanceCount'] as int,
-      instanceType:
-          (json['InstanceType'] as String).toProductionVariantInstanceType(),
       variantName: json['VariantName'] as String,
+      initialInstanceCount: json['InitialInstanceCount'] as int?,
+      instanceType:
+          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      serverlessConfig: json['ServerlessConfig'] != null
+          ? ProductionVariantServerlessConfig.fromJson(
+              json['ServerlessConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -34509,6 +39097,7 @@ enum EndpointStatus {
   inService,
   deleting,
   failed,
+  updateRollbackFailed,
 }
 
 extension EndpointStatusValueExtension on EndpointStatus {
@@ -34530,6 +39119,8 @@ extension EndpointStatusValueExtension on EndpointStatus {
         return 'Deleting';
       case EndpointStatus.failed:
         return 'Failed';
+      case EndpointStatus.updateRollbackFailed:
+        return 'UpdateRollbackFailed';
     }
   }
 }
@@ -34553,6 +39144,8 @@ extension EndpointStatusFromString on String {
         return EndpointStatus.deleting;
       case 'Failed':
         return EndpointStatus.failed;
+      case 'UpdateRollbackFailed':
+        return EndpointStatus.updateRollbackFailed;
     }
     throw Exception('$this is not known in enum EndpointStatus');
   }
@@ -35093,30 +39686,75 @@ class FeatureDefinition {
   /// The name of a feature. The type must be a string. <code>FeatureName</code>
   /// cannot be any of the following: <code>is_deleted</code>,
   /// <code>write_time</code>, <code>api_invocation_time</code>.
-  final String? featureName;
+  ///
+  /// The name:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must start with an alphanumeric character.
+  /// </li>
+  /// <li>
+  /// Can only include alphanumeric characters, underscores, and hyphens. Spaces
+  /// are not allowed.
+  /// </li>
+  /// </ul>
+  final String featureName;
 
   /// The value type of a feature. Valid values are Integral, Fractional, or
   /// String.
-  final FeatureType? featureType;
+  final FeatureType featureType;
+
+  /// Configuration for your collection.
+  final CollectionConfig? collectionConfig;
+
+  /// A grouping of elements where each element within the collection must have
+  /// the same feature type (<code>String</code>, <code>Integral</code>, or
+  /// <code>Fractional</code>).
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>List</code>: An ordered collection of elements.
+  /// </li>
+  /// <li>
+  /// <code>Set</code>: An unordered collection of unique elements.
+  /// </li>
+  /// <li>
+  /// <code>Vector</code>: A specialized list that represents a fixed-size array
+  /// of elements. The vector dimension is determined by you. Must have elements
+  /// with fractional feature types.
+  /// </li>
+  /// </ul>
+  final CollectionType? collectionType;
 
   FeatureDefinition({
-    this.featureName,
-    this.featureType,
+    required this.featureName,
+    required this.featureType,
+    this.collectionConfig,
+    this.collectionType,
   });
 
   factory FeatureDefinition.fromJson(Map<String, dynamic> json) {
     return FeatureDefinition(
-      featureName: json['FeatureName'] as String?,
-      featureType: (json['FeatureType'] as String?)?.toFeatureType(),
+      featureName: json['FeatureName'] as String,
+      featureType: (json['FeatureType'] as String).toFeatureType(),
+      collectionConfig: json['CollectionConfig'] != null
+          ? CollectionConfig.fromJson(
+              json['CollectionConfig'] as Map<String, dynamic>)
+          : null,
+      collectionType: (json['CollectionType'] as String?)?.toCollectionType(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final featureName = this.featureName;
     final featureType = this.featureType;
+    final collectionConfig = this.collectionConfig;
+    final collectionType = this.collectionType;
     return {
-      if (featureName != null) 'FeatureName': featureName,
-      if (featureType != null) 'FeatureType': featureType.toValue(),
+      'FeatureName': featureName,
+      'FeatureType': featureType.toValue(),
+      if (collectionConfig != null) 'CollectionConfig': collectionConfig,
+      if (collectionType != null) 'CollectionType': collectionType.toValue(),
     };
   }
 }
@@ -35362,7 +40000,7 @@ extension FeatureGroupStatusFromString on String {
   }
 }
 
-/// The name, Arn, <code>CreationTime</code>, <code>FeatureGroup</code> values,
+/// The name, ARN, <code>CreationTime</code>, <code>FeatureGroup</code> values,
 /// <code>LastUpdatedTime</code> and <code>EnableOnlineStorage</code> status of
 /// a <code>FeatureGroup</code>.
 class FeatureGroupSummary {
@@ -35620,8 +40258,7 @@ extension FileSystemAccessModeFromString on String {
   }
 }
 
-/// The Amazon Elastic File System (EFS) storage configuration for a SageMaker
-/// image.
+/// The Amazon Elastic File System storage configuration for a SageMaker image.
 class FileSystemConfig {
   /// The default POSIX group ID (GID). If not specified, defaults to
   /// <code>100</code>.
@@ -35734,6 +40371,64 @@ extension FileSystemTypeFromString on String {
         return FileSystemType.fSxLustre;
     }
     throw Exception('$this is not known in enum FileSystemType');
+  }
+}
+
+enum FillingType {
+  frontfill,
+  middlefill,
+  backfill,
+  futurefill,
+  frontfillValue,
+  middlefillValue,
+  backfillValue,
+  futurefillValue,
+}
+
+extension FillingTypeValueExtension on FillingType {
+  String toValue() {
+    switch (this) {
+      case FillingType.frontfill:
+        return 'frontfill';
+      case FillingType.middlefill:
+        return 'middlefill';
+      case FillingType.backfill:
+        return 'backfill';
+      case FillingType.futurefill:
+        return 'futurefill';
+      case FillingType.frontfillValue:
+        return 'frontfill_value';
+      case FillingType.middlefillValue:
+        return 'middlefill_value';
+      case FillingType.backfillValue:
+        return 'backfill_value';
+      case FillingType.futurefillValue:
+        return 'futurefill_value';
+    }
+  }
+}
+
+extension FillingTypeFromString on String {
+  FillingType toFillingType() {
+    switch (this) {
+      case 'frontfill':
+        return FillingType.frontfill;
+      case 'middlefill':
+        return FillingType.middlefill;
+      case 'backfill':
+        return FillingType.backfill;
+      case 'futurefill':
+        return FillingType.futurefill;
+      case 'frontfill_value':
+        return FillingType.frontfillValue;
+      case 'middlefill_value':
+        return FillingType.middlefillValue;
+      case 'backfill_value':
+        return FillingType.backfillValue;
+      case 'futurefill_value':
+        return FillingType.futurefillValue;
+    }
+    throw Exception('$this is not known in enum FillingType');
   }
 }
 
@@ -35967,6 +40662,34 @@ class FinalHyperParameterTuningJobObjectiveMetric {
   }
 }
 
+enum FlatInvocations {
+  $continue,
+  stop,
+}
+
+extension FlatInvocationsValueExtension on FlatInvocations {
+  String toValue() {
+    switch (this) {
+      case FlatInvocations.$continue:
+        return 'Continue';
+      case FlatInvocations.stop:
+        return 'Stop';
+    }
+  }
+}
+
+extension FlatInvocationsFromString on String {
+  FlatInvocations toFlatInvocations() {
+    switch (this) {
+      case 'Continue':
+        return FlatInvocations.$continue;
+      case 'Stop':
+        return FlatInvocations.stop;
+    }
+    throw Exception('$this is not known in enum FlatInvocations');
+  }
+}
+
 /// Contains information about where human output will be stored.
 class FlowDefinitionOutputConfig {
   /// The Amazon S3 path where the object containing human output will be made
@@ -36142,6 +40865,38 @@ extension FrameworkFromString on String {
   }
 }
 
+/// The generative AI settings for the SageMaker Canvas application.
+///
+/// Configure these settings for Canvas users starting chats with generative AI
+/// foundation models. For more information, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/canvas-fm-chat.html">
+/// Use generative AI with foundation models</a>.
+class GenerativeAiSettings {
+  /// The ARN of an Amazon Web Services IAM role that allows fine-tuning of large
+  /// language models (LLMs) in Amazon Bedrock. The IAM role should have Amazon S3
+  /// read and write permissions, as well as a trust relationship that establishes
+  /// <code>bedrock.amazonaws.com</code> as a service principal.
+  final String? amazonBedrockRoleArn;
+
+  GenerativeAiSettings({
+    this.amazonBedrockRoleArn,
+  });
+
+  factory GenerativeAiSettings.fromJson(Map<String, dynamic> json) {
+    return GenerativeAiSettings(
+      amazonBedrockRoleArn: json['AmazonBedrockRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonBedrockRoleArn = this.amazonBedrockRoleArn;
+    return {
+      if (amazonBedrockRoleArn != null)
+        'AmazonBedrockRoleArn': amazonBedrockRoleArn,
+    };
+  }
+}
+
 class GetDeviceFleetReportResponse {
   /// The Amazon Resource Name (ARN) of the device.
   final String deviceFleetArn;
@@ -36255,6 +41010,66 @@ class GetSagemakerServicecatalogPortfolioStatusOutput {
   }
 }
 
+class GetScalingConfigurationRecommendationResponse {
+  /// An object with the recommended values for you to specify when creating an
+  /// autoscaling policy.
+  final DynamicScalingConfiguration? dynamicScalingConfiguration;
+
+  /// The name of an endpoint benchmarked during a previously completed Inference
+  /// Recommender job.
+  final String? endpointName;
+
+  /// The name of a previously completed Inference Recommender job.
+  final String? inferenceRecommendationsJobName;
+
+  /// An object with a list of metrics that were benchmarked during the previously
+  /// completed Inference Recommender job.
+  final ScalingPolicyMetric? metric;
+
+  /// The recommendation ID of a previously completed inference recommendation.
+  final String? recommendationId;
+
+  /// An object representing the anticipated traffic pattern for an endpoint that
+  /// you specified in the request.
+  final ScalingPolicyObjective? scalingPolicyObjective;
+
+  /// The percentage of how much utilization you want an instance to use before
+  /// autoscaling, which you specified in the request. The default value is 50%.
+  final int? targetCpuUtilizationPerCore;
+
+  GetScalingConfigurationRecommendationResponse({
+    this.dynamicScalingConfiguration,
+    this.endpointName,
+    this.inferenceRecommendationsJobName,
+    this.metric,
+    this.recommendationId,
+    this.scalingPolicyObjective,
+    this.targetCpuUtilizationPerCore,
+  });
+
+  factory GetScalingConfigurationRecommendationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetScalingConfigurationRecommendationResponse(
+      dynamicScalingConfiguration: json['DynamicScalingConfiguration'] != null
+          ? DynamicScalingConfiguration.fromJson(
+              json['DynamicScalingConfiguration'] as Map<String, dynamic>)
+          : null,
+      endpointName: json['EndpointName'] as String?,
+      inferenceRecommendationsJobName:
+          json['InferenceRecommendationsJobName'] as String?,
+      metric: json['Metric'] != null
+          ? ScalingPolicyMetric.fromJson(json['Metric'] as Map<String, dynamic>)
+          : null,
+      recommendationId: json['RecommendationId'] as String?,
+      scalingPolicyObjective: json['ScalingPolicyObjective'] != null
+          ? ScalingPolicyObjective.fromJson(
+              json['ScalingPolicyObjective'] as Map<String, dynamic>)
+          : null,
+      targetCpuUtilizationPerCore: json['TargetCpuUtilizationPerCore'] as int?,
+    );
+  }
+}
+
 class GetSearchSuggestionsResponse {
   /// A list of property names for a <code>Resource</code> that match a
   /// <code>SuggestionQuery</code>.
@@ -36337,6 +41152,35 @@ class GitConfigForUpdate {
     final secretArn = this.secretArn;
     return {
       if (secretArn != null) 'SecretArn': secretArn,
+    };
+  }
+}
+
+/// Stores the holiday featurization attributes applicable to each item of
+/// time-series datasets during the training of a forecasting model. This allows
+/// the model to identify patterns associated with specific holidays.
+class HolidayConfigAttributes {
+  /// The country code for the holiday calendar.
+  ///
+  /// For the list of public holiday calendars supported by AutoML job V2, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-timeseries-forecasting-holiday-calendars.html#holiday-country-codes">Country
+  /// Codes</a>. Use the country code corresponding to the country of your choice.
+  final String? countryCode;
+
+  HolidayConfigAttributes({
+    this.countryCode,
+  });
+
+  factory HolidayConfigAttributes.fromJson(Map<String, dynamic> json) {
+    return HolidayConfigAttributes(
+      countryCode: json['CountryCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countryCode = this.countryCode;
+    return {
+      if (countryCode != null) 'CountryCode': countryCode,
     };
   }
 }
@@ -38630,8 +43474,9 @@ class HyperParameterTuningInstanceConfig {
   /// The number of instances of the type specified by <code>InstanceType</code>.
   /// Choose an instance count larger than 1 for distributed training algorithms.
   /// See <a
-  /// href="https://docs.aws.amazon.com/data-parallel-use-api.html">SageMaker
-  /// distributed training jobs</a> for more information.
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/data-parallel-use-api.html">Step
+  /// 2: Launch a SageMaker Distributed Training Job Using the SageMaker Python
+  /// SDK</a> for more information.
   final int instanceCount;
 
   /// The instance type used for processing of hyperparameter optimization jobs.
@@ -38852,7 +43697,10 @@ class HyperParameterTuningJobConsumedResources {
 /// tuning uses the value of this metric to evaluate the training jobs it
 /// launches, and returns the training job that results in either the highest or
 /// lowest value for this metric, depending on the value you specify for the
-/// <code>Type</code> parameter.
+/// <code>Type</code> parameter. If you want to define a custom objective
+/// metric, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-metrics-variables.html">Define
+/// metrics and environment variables</a>.
 class HyperParameterTuningJobObjective {
   /// The name of the metric to use for the objective metric.
   final String metricName;
@@ -39088,6 +43936,8 @@ enum HyperParameterTuningJobStatus {
   failed,
   stopped,
   stopping,
+  deleting,
+  deleteFailed,
 }
 
 extension HyperParameterTuningJobStatusValueExtension
@@ -39104,6 +43954,10 @@ extension HyperParameterTuningJobStatusValueExtension
         return 'Stopped';
       case HyperParameterTuningJobStatus.stopping:
         return 'Stopping';
+      case HyperParameterTuningJobStatus.deleting:
+        return 'Deleting';
+      case HyperParameterTuningJobStatus.deleteFailed:
+        return 'DeleteFailed';
     }
   }
 }
@@ -39121,6 +43975,10 @@ extension HyperParameterTuningJobStatusFromString on String {
         return HyperParameterTuningJobStatus.stopped;
       case 'Stopping':
         return HyperParameterTuningJobStatus.stopping;
+      case 'Deleting':
+        return HyperParameterTuningJobStatus.deleting;
+      case 'DeleteFailed':
+        return HyperParameterTuningJobStatus.deleteFailed;
     }
     throw Exception('$this is not known in enum HyperParameterTuningJobStatus');
   }
@@ -39442,7 +44300,7 @@ class HyperParameterTuningResourceConfig {
 
   /// The instance type used to run hyperparameter optimization tuning jobs. See
   /// <a
-  /// href="https://docs.aws.amazon.com/notebooks-available-instance-types.html">
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/notebooks-available-instance-types.html">
   /// descriptions of instance types</a> for more information.
   final TrainingInstanceType? instanceType;
 
@@ -39547,7 +44405,7 @@ class HyperbandStrategyConfig {
   /// <code>MaxResource</code> value, it is stopped. If a value for
   /// <code>MaxResource</code> is not provided, and <code>Hyperband</code> is
   /// selected as the hyperparameter tuning strategy,
-  /// <code>HyperbandTrainingJ</code> attempts to infer <code>MaxResource</code>
+  /// <code>HyperbandTraining</code> attempts to infer <code>MaxResource</code>
   /// from the following keys (if present) in <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html#sagemaker-Type-HyperParameterTrainingJobDefinition-StaticHyperParameters">StaticsHyperParameters</a>:
   ///
@@ -39574,7 +44432,7 @@ class HyperbandStrategyConfig {
   /// used to derive <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-early-stopping.html">early
   /// stopping decisions</a>. For <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/distributed-training.html">distributive</a>
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/distributed-training.html">distributed</a>
   /// training jobs, ensure that duplicate metrics are not printed in the logs
   /// across the individual nodes in a training job. If multiple nodes are
   /// publishing duplicate or incorrect metrics, training jobs may make an
@@ -39637,6 +44495,91 @@ class IamIdentity {
   }
 }
 
+/// Use this parameter to specify a supported global condition key that is added
+/// to the IAM policy.
+class IamPolicyConstraints {
+  /// When <code>SourceIp</code> is <code>Enabled</code> the worker's IP address
+  /// when a task is rendered in the worker portal is added to the IAM policy as a
+  /// <code>Condition</code> used to generate the Amazon S3 presigned URL. This IP
+  /// address is checked by Amazon S3 and must match in order for the Amazon S3
+  /// resource to be rendered in the worker portal.
+  final EnabledOrDisabled? sourceIp;
+
+  /// When <code>VpcSourceIp</code> is <code>Enabled</code> the worker's IP
+  /// address when a task is rendered in private worker portal inside the VPC is
+  /// added to the IAM policy as a <code>Condition</code> used to generate the
+  /// Amazon S3 presigned URL. To render the task successfully Amazon S3 checks
+  /// that the presigned URL is being accessed over an Amazon S3 VPC Endpoint, and
+  /// that the worker's IP address matches the IP address in the IAM policy. To
+  /// learn more about configuring private worker portal, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/samurai-vpc-worker-portal.html">Use
+  /// Amazon VPC mode from a private worker portal</a>.
+  final EnabledOrDisabled? vpcSourceIp;
+
+  IamPolicyConstraints({
+    this.sourceIp,
+    this.vpcSourceIp,
+  });
+
+  factory IamPolicyConstraints.fromJson(Map<String, dynamic> json) {
+    return IamPolicyConstraints(
+      sourceIp: (json['SourceIp'] as String?)?.toEnabledOrDisabled(),
+      vpcSourceIp: (json['VpcSourceIp'] as String?)?.toEnabledOrDisabled(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceIp = this.sourceIp;
+    final vpcSourceIp = this.vpcSourceIp;
+    return {
+      if (sourceIp != null) 'SourceIp': sourceIp.toValue(),
+      if (vpcSourceIp != null) 'VpcSourceIp': vpcSourceIp.toValue(),
+    };
+  }
+}
+
+/// The Amazon SageMaker Canvas application setting where you configure OAuth
+/// for connecting to an external data source, such as Snowflake.
+class IdentityProviderOAuthSetting {
+  /// The name of the data source that you're connecting to. Canvas currently
+  /// supports OAuth for Snowflake and Salesforce Data Cloud.
+  final DataSourceName? dataSourceName;
+
+  /// The ARN of an Amazon Web Services Secrets Manager secret that stores the
+  /// credentials from your identity provider, such as the client ID and secret,
+  /// authorization URL, and token URL.
+  final String? secretArn;
+
+  /// Describes whether OAuth for a data source is enabled or disabled in the
+  /// Canvas application.
+  final FeatureStatus? status;
+
+  IdentityProviderOAuthSetting({
+    this.dataSourceName,
+    this.secretArn,
+    this.status,
+  });
+
+  factory IdentityProviderOAuthSetting.fromJson(Map<String, dynamic> json) {
+    return IdentityProviderOAuthSetting(
+      dataSourceName: (json['DataSourceName'] as String?)?.toDataSourceName(),
+      secretArn: json['SecretArn'] as String?,
+      status: (json['Status'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceName = this.dataSourceName;
+    final secretArn = this.secretArn;
+    final status = this.status;
+    return {
+      if (dataSourceName != null) 'DataSourceName': dataSourceName.toValue(),
+      if (secretArn != null) 'SecretArn': secretArn,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
 /// A SageMaker image. A SageMaker image represents a set of container images
 /// that are derived from a common base container image. Each of these container
 /// images is represented by a SageMaker <code>ImageVersion</code>.
@@ -39693,8 +44636,8 @@ class Image {
   }
 }
 
-/// Stores the configuration information for the image classification problem of
-/// an AutoML job using the V2 API.
+/// The collection of settings used by an AutoML job V2 for the image
+/// classification problem type.
 class ImageClassificationJobConfig {
   /// How long a job is allowed to run, or how many candidates a job is allowed to
   /// generate.
@@ -40055,6 +44998,430 @@ class ImportHubContentResponse {
     return ImportHubContentResponse(
       hubArn: json['HubArn'] as String,
       hubContentArn: json['HubContentArn'] as String,
+    );
+  }
+}
+
+/// Defines the compute resources to allocate to run a model that you assign to
+/// an inference component. These resources include CPU cores, accelerators, and
+/// memory.
+class InferenceComponentComputeResourceRequirements {
+  /// The minimum MB of memory to allocate to run a model that you assign to an
+  /// inference component.
+  final int minMemoryRequiredInMb;
+
+  /// The maximum MB of memory to allocate to run a model that you assign to an
+  /// inference component.
+  final int? maxMemoryRequiredInMb;
+
+  /// The number of accelerators to allocate to run a model that you assign to an
+  /// inference component. Accelerators include GPUs and Amazon Web Services
+  /// Inferentia.
+  final double? numberOfAcceleratorDevicesRequired;
+
+  /// The number of CPU cores to allocate to run a model that you assign to an
+  /// inference component.
+  final double? numberOfCpuCoresRequired;
+
+  InferenceComponentComputeResourceRequirements({
+    required this.minMemoryRequiredInMb,
+    this.maxMemoryRequiredInMb,
+    this.numberOfAcceleratorDevicesRequired,
+    this.numberOfCpuCoresRequired,
+  });
+
+  factory InferenceComponentComputeResourceRequirements.fromJson(
+      Map<String, dynamic> json) {
+    return InferenceComponentComputeResourceRequirements(
+      minMemoryRequiredInMb: json['MinMemoryRequiredInMb'] as int,
+      maxMemoryRequiredInMb: json['MaxMemoryRequiredInMb'] as int?,
+      numberOfAcceleratorDevicesRequired:
+          json['NumberOfAcceleratorDevicesRequired'] as double?,
+      numberOfCpuCoresRequired: json['NumberOfCpuCoresRequired'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final minMemoryRequiredInMb = this.minMemoryRequiredInMb;
+    final maxMemoryRequiredInMb = this.maxMemoryRequiredInMb;
+    final numberOfAcceleratorDevicesRequired =
+        this.numberOfAcceleratorDevicesRequired;
+    final numberOfCpuCoresRequired = this.numberOfCpuCoresRequired;
+    return {
+      'MinMemoryRequiredInMb': minMemoryRequiredInMb,
+      if (maxMemoryRequiredInMb != null)
+        'MaxMemoryRequiredInMb': maxMemoryRequiredInMb,
+      if (numberOfAcceleratorDevicesRequired != null)
+        'NumberOfAcceleratorDevicesRequired':
+            numberOfAcceleratorDevicesRequired,
+      if (numberOfCpuCoresRequired != null)
+        'NumberOfCpuCoresRequired': numberOfCpuCoresRequired,
+    };
+  }
+}
+
+/// Defines a container that provides the runtime environment for a model that
+/// you deploy with an inference component.
+class InferenceComponentContainerSpecification {
+  /// The Amazon S3 path where the model artifacts, which result from model
+  /// training, are stored. This path must point to a single gzip compressed tar
+  /// archive (.tar.gz suffix).
+  final String? artifactUrl;
+
+  /// The environment variables to set in the Docker container. Each key and value
+  /// in the Environment string-to-string map can have length of up to 1024. We
+  /// support up to 16 entries in the map.
+  final Map<String, String>? environment;
+
+  /// The Amazon Elastic Container Registry (Amazon ECR) path where the Docker
+  /// image for the model is stored.
+  final String? image;
+
+  InferenceComponentContainerSpecification({
+    this.artifactUrl,
+    this.environment,
+    this.image,
+  });
+
+  Map<String, dynamic> toJson() {
+    final artifactUrl = this.artifactUrl;
+    final environment = this.environment;
+    final image = this.image;
+    return {
+      if (artifactUrl != null) 'ArtifactUrl': artifactUrl,
+      if (environment != null) 'Environment': environment,
+      if (image != null) 'Image': image,
+    };
+  }
+}
+
+/// Details about the resources that are deployed with this inference component.
+class InferenceComponentContainerSpecificationSummary {
+  /// The Amazon S3 path where the model artifacts are stored.
+  final String? artifactUrl;
+  final DeployedImage? deployedImage;
+
+  /// The environment variables to set in the Docker container.
+  final Map<String, String>? environment;
+
+  InferenceComponentContainerSpecificationSummary({
+    this.artifactUrl,
+    this.deployedImage,
+    this.environment,
+  });
+
+  factory InferenceComponentContainerSpecificationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return InferenceComponentContainerSpecificationSummary(
+      artifactUrl: json['ArtifactUrl'] as String?,
+      deployedImage: json['DeployedImage'] != null
+          ? DeployedImage.fromJson(
+              json['DeployedImage'] as Map<String, dynamic>)
+          : null,
+      environment: (json['Environment'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// Runtime settings for a model that is deployed with an inference component.
+class InferenceComponentRuntimeConfig {
+  /// The number of runtime copies of the model container to deploy with the
+  /// inference component. Each copy can serve inference requests.
+  final int copyCount;
+
+  InferenceComponentRuntimeConfig({
+    required this.copyCount,
+  });
+
+  Map<String, dynamic> toJson() {
+    final copyCount = this.copyCount;
+    return {
+      'CopyCount': copyCount,
+    };
+  }
+}
+
+/// Details about the runtime settings for the model that is deployed with the
+/// inference component.
+class InferenceComponentRuntimeConfigSummary {
+  /// The number of runtime copies of the model container that are currently
+  /// deployed.
+  final int? currentCopyCount;
+
+  /// The number of runtime copies of the model container that you requested to
+  /// deploy with the inference component.
+  final int? desiredCopyCount;
+
+  InferenceComponentRuntimeConfigSummary({
+    this.currentCopyCount,
+    this.desiredCopyCount,
+  });
+
+  factory InferenceComponentRuntimeConfigSummary.fromJson(
+      Map<String, dynamic> json) {
+    return InferenceComponentRuntimeConfigSummary(
+      currentCopyCount: json['CurrentCopyCount'] as int?,
+      desiredCopyCount: json['DesiredCopyCount'] as int?,
+    );
+  }
+}
+
+enum InferenceComponentSortKey {
+  name,
+  creationTime,
+  status,
+}
+
+extension InferenceComponentSortKeyValueExtension on InferenceComponentSortKey {
+  String toValue() {
+    switch (this) {
+      case InferenceComponentSortKey.name:
+        return 'Name';
+      case InferenceComponentSortKey.creationTime:
+        return 'CreationTime';
+      case InferenceComponentSortKey.status:
+        return 'Status';
+    }
+  }
+}
+
+extension InferenceComponentSortKeyFromString on String {
+  InferenceComponentSortKey toInferenceComponentSortKey() {
+    switch (this) {
+      case 'Name':
+        return InferenceComponentSortKey.name;
+      case 'CreationTime':
+        return InferenceComponentSortKey.creationTime;
+      case 'Status':
+        return InferenceComponentSortKey.status;
+    }
+    throw Exception('$this is not known in enum InferenceComponentSortKey');
+  }
+}
+
+/// Details about the resources to deploy with this inference component,
+/// including the model, container, and compute resources.
+class InferenceComponentSpecification {
+  /// The compute resources allocated to run the model assigned to the inference
+  /// component.
+  final InferenceComponentComputeResourceRequirements
+      computeResourceRequirements;
+
+  /// Defines a container that provides the runtime environment for a model that
+  /// you deploy with an inference component.
+  final InferenceComponentContainerSpecification? container;
+
+  /// The name of an existing SageMaker model object in your account that you want
+  /// to deploy with the inference component.
+  final String? modelName;
+
+  /// Settings that take effect while the model container starts up.
+  final InferenceComponentStartupParameters? startupParameters;
+
+  InferenceComponentSpecification({
+    required this.computeResourceRequirements,
+    this.container,
+    this.modelName,
+    this.startupParameters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final computeResourceRequirements = this.computeResourceRequirements;
+    final container = this.container;
+    final modelName = this.modelName;
+    final startupParameters = this.startupParameters;
+    return {
+      'ComputeResourceRequirements': computeResourceRequirements,
+      if (container != null) 'Container': container,
+      if (modelName != null) 'ModelName': modelName,
+      if (startupParameters != null) 'StartupParameters': startupParameters,
+    };
+  }
+}
+
+/// Details about the resources that are deployed with this inference component.
+class InferenceComponentSpecificationSummary {
+  /// The compute resources allocated to run the model assigned to the inference
+  /// component.
+  final InferenceComponentComputeResourceRequirements?
+      computeResourceRequirements;
+
+  /// Details about the container that provides the runtime environment for the
+  /// model that is deployed with the inference component.
+  final InferenceComponentContainerSpecificationSummary? container;
+
+  /// The name of the SageMaker model object that is deployed with the inference
+  /// component.
+  final String? modelName;
+
+  /// Settings that take effect while the model container starts up.
+  final InferenceComponentStartupParameters? startupParameters;
+
+  InferenceComponentSpecificationSummary({
+    this.computeResourceRequirements,
+    this.container,
+    this.modelName,
+    this.startupParameters,
+  });
+
+  factory InferenceComponentSpecificationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return InferenceComponentSpecificationSummary(
+      computeResourceRequirements: json['ComputeResourceRequirements'] != null
+          ? InferenceComponentComputeResourceRequirements.fromJson(
+              json['ComputeResourceRequirements'] as Map<String, dynamic>)
+          : null,
+      container: json['Container'] != null
+          ? InferenceComponentContainerSpecificationSummary.fromJson(
+              json['Container'] as Map<String, dynamic>)
+          : null,
+      modelName: json['ModelName'] as String?,
+      startupParameters: json['StartupParameters'] != null
+          ? InferenceComponentStartupParameters.fromJson(
+              json['StartupParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Settings that take effect while the model container starts up.
+class InferenceComponentStartupParameters {
+  /// The timeout value, in seconds, for your inference container to pass health
+  /// check by Amazon S3 Hosting. For more information about health check, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-algo-ping-requests">How
+  /// Your Container Should Respond to Health Check (Ping) Requests</a>.
+  final int? containerStartupHealthCheckTimeoutInSeconds;
+
+  /// The timeout value, in seconds, to download and extract the model that you
+  /// want to host from Amazon S3 to the individual inference instance associated
+  /// with this inference component.
+  final int? modelDataDownloadTimeoutInSeconds;
+
+  InferenceComponentStartupParameters({
+    this.containerStartupHealthCheckTimeoutInSeconds,
+    this.modelDataDownloadTimeoutInSeconds,
+  });
+
+  factory InferenceComponentStartupParameters.fromJson(
+      Map<String, dynamic> json) {
+    return InferenceComponentStartupParameters(
+      containerStartupHealthCheckTimeoutInSeconds:
+          json['ContainerStartupHealthCheckTimeoutInSeconds'] as int?,
+      modelDataDownloadTimeoutInSeconds:
+          json['ModelDataDownloadTimeoutInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerStartupHealthCheckTimeoutInSeconds =
+        this.containerStartupHealthCheckTimeoutInSeconds;
+    final modelDataDownloadTimeoutInSeconds =
+        this.modelDataDownloadTimeoutInSeconds;
+    return {
+      if (containerStartupHealthCheckTimeoutInSeconds != null)
+        'ContainerStartupHealthCheckTimeoutInSeconds':
+            containerStartupHealthCheckTimeoutInSeconds,
+      if (modelDataDownloadTimeoutInSeconds != null)
+        'ModelDataDownloadTimeoutInSeconds': modelDataDownloadTimeoutInSeconds,
+    };
+  }
+}
+
+enum InferenceComponentStatus {
+  inService,
+  creating,
+  updating,
+  failed,
+  deleting,
+}
+
+extension InferenceComponentStatusValueExtension on InferenceComponentStatus {
+  String toValue() {
+    switch (this) {
+      case InferenceComponentStatus.inService:
+        return 'InService';
+      case InferenceComponentStatus.creating:
+        return 'Creating';
+      case InferenceComponentStatus.updating:
+        return 'Updating';
+      case InferenceComponentStatus.failed:
+        return 'Failed';
+      case InferenceComponentStatus.deleting:
+        return 'Deleting';
+    }
+  }
+}
+
+extension InferenceComponentStatusFromString on String {
+  InferenceComponentStatus toInferenceComponentStatus() {
+    switch (this) {
+      case 'InService':
+        return InferenceComponentStatus.inService;
+      case 'Creating':
+        return InferenceComponentStatus.creating;
+      case 'Updating':
+        return InferenceComponentStatus.updating;
+      case 'Failed':
+        return InferenceComponentStatus.failed;
+      case 'Deleting':
+        return InferenceComponentStatus.deleting;
+    }
+    throw Exception('$this is not known in enum InferenceComponentStatus');
+  }
+}
+
+/// A summary of the properties of an inference component.
+class InferenceComponentSummary {
+  /// The time when the inference component was created.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the endpoint that hosts the inference
+  /// component.
+  final String endpointArn;
+
+  /// The name of the endpoint that hosts the inference component.
+  final String endpointName;
+
+  /// The Amazon Resource Name (ARN) of the inference component.
+  final String inferenceComponentArn;
+
+  /// The name of the inference component.
+  final String inferenceComponentName;
+
+  /// The time when the inference component was last updated.
+  final DateTime lastModifiedTime;
+
+  /// The name of the production variant that hosts the inference component.
+  final String variantName;
+
+  /// The status of the inference component.
+  final InferenceComponentStatus? inferenceComponentStatus;
+
+  InferenceComponentSummary({
+    required this.creationTime,
+    required this.endpointArn,
+    required this.endpointName,
+    required this.inferenceComponentArn,
+    required this.inferenceComponentName,
+    required this.lastModifiedTime,
+    required this.variantName,
+    this.inferenceComponentStatus,
+  });
+
+  factory InferenceComponentSummary.fromJson(Map<String, dynamic> json) {
+    return InferenceComponentSummary(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      endpointArn: json['EndpointArn'] as String,
+      endpointName: json['EndpointName'] as String,
+      inferenceComponentArn: json['InferenceComponentArn'] as String,
+      inferenceComponentName: json['InferenceComponentName'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      variantName: json['VariantName'] as String,
+      inferenceComponentStatus: (json['InferenceComponentStatus'] as String?)
+          ?.toInferenceComponentStatus(),
     );
   }
 }
@@ -40572,10 +45939,7 @@ class InferenceSpecification {
   final List<ModelPackageContainerDefinition> containers;
 
   /// The supported MIME types for the input data.
-  final List<String> supportedContentTypes;
-
-  /// The supported MIME types for the output data.
-  final List<String> supportedResponseMIMETypes;
+  final List<String>? supportedContentTypes;
 
   /// A list of the instance types that are used to generate inferences in
   /// real-time.
@@ -40584,6 +45948,9 @@ class InferenceSpecification {
   /// versioned models.
   final List<ProductionVariantInstanceType>?
       supportedRealtimeInferenceInstanceTypes;
+
+  /// The supported MIME types for the output data.
+  final List<String>? supportedResponseMIMETypes;
 
   /// A list of the instance types on which a transformation job can be run or on
   /// which an endpoint can be deployed.
@@ -40594,9 +45961,9 @@ class InferenceSpecification {
 
   InferenceSpecification({
     required this.containers,
-    required this.supportedContentTypes,
-    required this.supportedResponseMIMETypes,
+    this.supportedContentTypes,
     this.supportedRealtimeInferenceInstanceTypes,
+    this.supportedResponseMIMETypes,
     this.supportedTransformInstanceTypes,
   });
 
@@ -40607,12 +45974,8 @@ class InferenceSpecification {
           .map((e) => ModelPackageContainerDefinition.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      supportedContentTypes: (json['SupportedContentTypes'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      supportedResponseMIMETypes: (json['SupportedResponseMIMETypes'] as List)
-          .whereNotNull()
+      supportedContentTypes: (json['SupportedContentTypes'] as List?)
+          ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       supportedRealtimeInferenceInstanceTypes:
@@ -40620,6 +45983,10 @@ class InferenceSpecification {
               ?.whereNotNull()
               .map((e) => (e as String).toProductionVariantInstanceType())
               .toList(),
+      supportedResponseMIMETypes: (json['SupportedResponseMIMETypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       supportedTransformInstanceTypes:
           (json['SupportedTransformInstanceTypes'] as List?)
               ?.whereNotNull()
@@ -40631,23 +45998,50 @@ class InferenceSpecification {
   Map<String, dynamic> toJson() {
     final containers = this.containers;
     final supportedContentTypes = this.supportedContentTypes;
-    final supportedResponseMIMETypes = this.supportedResponseMIMETypes;
     final supportedRealtimeInferenceInstanceTypes =
         this.supportedRealtimeInferenceInstanceTypes;
+    final supportedResponseMIMETypes = this.supportedResponseMIMETypes;
     final supportedTransformInstanceTypes =
         this.supportedTransformInstanceTypes;
     return {
       'Containers': containers,
-      'SupportedContentTypes': supportedContentTypes,
-      'SupportedResponseMIMETypes': supportedResponseMIMETypes,
+      if (supportedContentTypes != null)
+        'SupportedContentTypes': supportedContentTypes,
       if (supportedRealtimeInferenceInstanceTypes != null)
         'SupportedRealtimeInferenceInstanceTypes':
             supportedRealtimeInferenceInstanceTypes
                 .map((e) => e.toValue())
                 .toList(),
+      if (supportedResponseMIMETypes != null)
+        'SupportedResponseMIMETypes': supportedResponseMIMETypes,
       if (supportedTransformInstanceTypes != null)
         'SupportedTransformInstanceTypes':
             supportedTransformInstanceTypes.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// Configuration information for the infrastructure health check of a training
+/// job. A SageMaker-provided health check tests the health of instance hardware
+/// and cluster network connectivity.
+class InfraCheckConfig {
+  /// Enables an infrastructure health check.
+  final bool? enableInfraCheck;
+
+  InfraCheckConfig({
+    this.enableInfraCheck,
+  });
+
+  factory InfraCheckConfig.fromJson(Map<String, dynamic> json) {
+    return InfraCheckConfig(
+      enableInfraCheck: json['EnableInfraCheck'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableInfraCheck = this.enableInfraCheck;
+    return {
+      if (enableInfraCheck != null) 'EnableInfraCheck': enableInfraCheck,
     };
   }
 }
@@ -40656,6 +46050,15 @@ class InferenceSpecification {
 /// and shape of the expected data inputs, and the framework in which the model
 /// was trained.
 class InputConfig {
+  /// Identifies the framework in which the model was trained. For example:
+  /// TENSORFLOW.
+  final Framework framework;
+
+  /// The S3 path where the model artifacts, which result from model training, are
+  /// stored. This path must point to a single gzip compressed tar archive
+  /// (.tar.gz suffix).
+  final String s3Uri;
+
   /// Specifies the name and shape of the expected data inputs for your trained
   /// model with a JSON dictionary form. The data inputs are
   /// <code>Framework</code> specific.
@@ -40935,16 +46338,7 @@ class InputConfig {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  final String dataInputConfig;
-
-  /// Identifies the framework in which the model was trained. For example:
-  /// TENSORFLOW.
-  final Framework framework;
-
-  /// The S3 path where the model artifacts, which result from model training, are
-  /// stored. This path must point to a single gzip compressed tar archive
-  /// (.tar.gz suffix).
-  final String s3Uri;
+  final String? dataInputConfig;
 
   /// Specifies the framework version to use. This API field is only supported for
   /// the MXNet, PyTorch, TensorFlow and TensorFlow Lite frameworks.
@@ -40958,30 +46352,30 @@ class InputConfig {
   final String? frameworkVersion;
 
   InputConfig({
-    required this.dataInputConfig,
     required this.framework,
     required this.s3Uri,
+    this.dataInputConfig,
     this.frameworkVersion,
   });
 
   factory InputConfig.fromJson(Map<String, dynamic> json) {
     return InputConfig(
-      dataInputConfig: json['DataInputConfig'] as String,
       framework: (json['Framework'] as String).toFramework(),
       s3Uri: json['S3Uri'] as String,
+      dataInputConfig: json['DataInputConfig'] as String?,
       frameworkVersion: json['FrameworkVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataInputConfig = this.dataInputConfig;
     final framework = this.framework;
     final s3Uri = this.s3Uri;
+    final dataInputConfig = this.dataInputConfig;
     final frameworkVersion = this.frameworkVersion;
     return {
-      'DataInputConfig': dataInputConfig,
       'Framework': framework.toValue(),
       'S3Uri': s3Uri,
+      if (dataInputConfig != null) 'DataInputConfig': dataInputConfig,
       if (frameworkVersion != null) 'FrameworkVersion': frameworkVersion,
     };
   }
@@ -41156,6 +46550,102 @@ enum InstanceType {
   mlG5_12xlarge,
   mlG5_24xlarge,
   mlG5_48xlarge,
+  mlInf1Xlarge,
+  mlInf1_2xlarge,
+  mlInf1_6xlarge,
+  mlInf1_24xlarge,
+  mlP4d_24xlarge,
+  mlP4de_24xlarge,
+  mlP5_48xlarge,
+  mlM6iLarge,
+  mlM6iXlarge,
+  mlM6i_2xlarge,
+  mlM6i_4xlarge,
+  mlM6i_8xlarge,
+  mlM6i_12xlarge,
+  mlM6i_16xlarge,
+  mlM6i_24xlarge,
+  mlM6i_32xlarge,
+  mlM7iLarge,
+  mlM7iXlarge,
+  mlM7i_2xlarge,
+  mlM7i_4xlarge,
+  mlM7i_8xlarge,
+  mlM7i_12xlarge,
+  mlM7i_16xlarge,
+  mlM7i_24xlarge,
+  mlM7i_48xlarge,
+  mlC6iLarge,
+  mlC6iXlarge,
+  mlC6i_2xlarge,
+  mlC6i_4xlarge,
+  mlC6i_8xlarge,
+  mlC6i_12xlarge,
+  mlC6i_16xlarge,
+  mlC6i_24xlarge,
+  mlC6i_32xlarge,
+  mlC7iLarge,
+  mlC7iXlarge,
+  mlC7i_2xlarge,
+  mlC7i_4xlarge,
+  mlC7i_8xlarge,
+  mlC7i_12xlarge,
+  mlC7i_16xlarge,
+  mlC7i_24xlarge,
+  mlC7i_48xlarge,
+  mlR6iLarge,
+  mlR6iXlarge,
+  mlR6i_2xlarge,
+  mlR6i_4xlarge,
+  mlR6i_8xlarge,
+  mlR6i_12xlarge,
+  mlR6i_16xlarge,
+  mlR6i_24xlarge,
+  mlR6i_32xlarge,
+  mlR7iLarge,
+  mlR7iXlarge,
+  mlR7i_2xlarge,
+  mlR7i_4xlarge,
+  mlR7i_8xlarge,
+  mlR7i_12xlarge,
+  mlR7i_16xlarge,
+  mlR7i_24xlarge,
+  mlR7i_48xlarge,
+  mlM6idLarge,
+  mlM6idXlarge,
+  mlM6id_2xlarge,
+  mlM6id_4xlarge,
+  mlM6id_8xlarge,
+  mlM6id_12xlarge,
+  mlM6id_16xlarge,
+  mlM6id_24xlarge,
+  mlM6id_32xlarge,
+  mlC6idLarge,
+  mlC6idXlarge,
+  mlC6id_2xlarge,
+  mlC6id_4xlarge,
+  mlC6id_8xlarge,
+  mlC6id_12xlarge,
+  mlC6id_16xlarge,
+  mlC6id_24xlarge,
+  mlC6id_32xlarge,
+  mlR6idLarge,
+  mlR6idXlarge,
+  mlR6id_2xlarge,
+  mlR6id_4xlarge,
+  mlR6id_8xlarge,
+  mlR6id_12xlarge,
+  mlR6id_16xlarge,
+  mlR6id_24xlarge,
+  mlR6id_32xlarge,
+  mlG6Xlarge,
+  mlG6_2xlarge,
+  mlG6_4xlarge,
+  mlG6_8xlarge,
+  mlG6_12xlarge,
+  mlG6_16xlarge,
+  mlG6_24xlarge,
+  mlG6_48xlarge,
 }
 
 extension InstanceTypeValueExtension on InstanceType {
@@ -41299,6 +46789,198 @@ extension InstanceTypeValueExtension on InstanceType {
         return 'ml.g5.24xlarge';
       case InstanceType.mlG5_48xlarge:
         return 'ml.g5.48xlarge';
+      case InstanceType.mlInf1Xlarge:
+        return 'ml.inf1.xlarge';
+      case InstanceType.mlInf1_2xlarge:
+        return 'ml.inf1.2xlarge';
+      case InstanceType.mlInf1_6xlarge:
+        return 'ml.inf1.6xlarge';
+      case InstanceType.mlInf1_24xlarge:
+        return 'ml.inf1.24xlarge';
+      case InstanceType.mlP4d_24xlarge:
+        return 'ml.p4d.24xlarge';
+      case InstanceType.mlP4de_24xlarge:
+        return 'ml.p4de.24xlarge';
+      case InstanceType.mlP5_48xlarge:
+        return 'ml.p5.48xlarge';
+      case InstanceType.mlM6iLarge:
+        return 'ml.m6i.large';
+      case InstanceType.mlM6iXlarge:
+        return 'ml.m6i.xlarge';
+      case InstanceType.mlM6i_2xlarge:
+        return 'ml.m6i.2xlarge';
+      case InstanceType.mlM6i_4xlarge:
+        return 'ml.m6i.4xlarge';
+      case InstanceType.mlM6i_8xlarge:
+        return 'ml.m6i.8xlarge';
+      case InstanceType.mlM6i_12xlarge:
+        return 'ml.m6i.12xlarge';
+      case InstanceType.mlM6i_16xlarge:
+        return 'ml.m6i.16xlarge';
+      case InstanceType.mlM6i_24xlarge:
+        return 'ml.m6i.24xlarge';
+      case InstanceType.mlM6i_32xlarge:
+        return 'ml.m6i.32xlarge';
+      case InstanceType.mlM7iLarge:
+        return 'ml.m7i.large';
+      case InstanceType.mlM7iXlarge:
+        return 'ml.m7i.xlarge';
+      case InstanceType.mlM7i_2xlarge:
+        return 'ml.m7i.2xlarge';
+      case InstanceType.mlM7i_4xlarge:
+        return 'ml.m7i.4xlarge';
+      case InstanceType.mlM7i_8xlarge:
+        return 'ml.m7i.8xlarge';
+      case InstanceType.mlM7i_12xlarge:
+        return 'ml.m7i.12xlarge';
+      case InstanceType.mlM7i_16xlarge:
+        return 'ml.m7i.16xlarge';
+      case InstanceType.mlM7i_24xlarge:
+        return 'ml.m7i.24xlarge';
+      case InstanceType.mlM7i_48xlarge:
+        return 'ml.m7i.48xlarge';
+      case InstanceType.mlC6iLarge:
+        return 'ml.c6i.large';
+      case InstanceType.mlC6iXlarge:
+        return 'ml.c6i.xlarge';
+      case InstanceType.mlC6i_2xlarge:
+        return 'ml.c6i.2xlarge';
+      case InstanceType.mlC6i_4xlarge:
+        return 'ml.c6i.4xlarge';
+      case InstanceType.mlC6i_8xlarge:
+        return 'ml.c6i.8xlarge';
+      case InstanceType.mlC6i_12xlarge:
+        return 'ml.c6i.12xlarge';
+      case InstanceType.mlC6i_16xlarge:
+        return 'ml.c6i.16xlarge';
+      case InstanceType.mlC6i_24xlarge:
+        return 'ml.c6i.24xlarge';
+      case InstanceType.mlC6i_32xlarge:
+        return 'ml.c6i.32xlarge';
+      case InstanceType.mlC7iLarge:
+        return 'ml.c7i.large';
+      case InstanceType.mlC7iXlarge:
+        return 'ml.c7i.xlarge';
+      case InstanceType.mlC7i_2xlarge:
+        return 'ml.c7i.2xlarge';
+      case InstanceType.mlC7i_4xlarge:
+        return 'ml.c7i.4xlarge';
+      case InstanceType.mlC7i_8xlarge:
+        return 'ml.c7i.8xlarge';
+      case InstanceType.mlC7i_12xlarge:
+        return 'ml.c7i.12xlarge';
+      case InstanceType.mlC7i_16xlarge:
+        return 'ml.c7i.16xlarge';
+      case InstanceType.mlC7i_24xlarge:
+        return 'ml.c7i.24xlarge';
+      case InstanceType.mlC7i_48xlarge:
+        return 'ml.c7i.48xlarge';
+      case InstanceType.mlR6iLarge:
+        return 'ml.r6i.large';
+      case InstanceType.mlR6iXlarge:
+        return 'ml.r6i.xlarge';
+      case InstanceType.mlR6i_2xlarge:
+        return 'ml.r6i.2xlarge';
+      case InstanceType.mlR6i_4xlarge:
+        return 'ml.r6i.4xlarge';
+      case InstanceType.mlR6i_8xlarge:
+        return 'ml.r6i.8xlarge';
+      case InstanceType.mlR6i_12xlarge:
+        return 'ml.r6i.12xlarge';
+      case InstanceType.mlR6i_16xlarge:
+        return 'ml.r6i.16xlarge';
+      case InstanceType.mlR6i_24xlarge:
+        return 'ml.r6i.24xlarge';
+      case InstanceType.mlR6i_32xlarge:
+        return 'ml.r6i.32xlarge';
+      case InstanceType.mlR7iLarge:
+        return 'ml.r7i.large';
+      case InstanceType.mlR7iXlarge:
+        return 'ml.r7i.xlarge';
+      case InstanceType.mlR7i_2xlarge:
+        return 'ml.r7i.2xlarge';
+      case InstanceType.mlR7i_4xlarge:
+        return 'ml.r7i.4xlarge';
+      case InstanceType.mlR7i_8xlarge:
+        return 'ml.r7i.8xlarge';
+      case InstanceType.mlR7i_12xlarge:
+        return 'ml.r7i.12xlarge';
+      case InstanceType.mlR7i_16xlarge:
+        return 'ml.r7i.16xlarge';
+      case InstanceType.mlR7i_24xlarge:
+        return 'ml.r7i.24xlarge';
+      case InstanceType.mlR7i_48xlarge:
+        return 'ml.r7i.48xlarge';
+      case InstanceType.mlM6idLarge:
+        return 'ml.m6id.large';
+      case InstanceType.mlM6idXlarge:
+        return 'ml.m6id.xlarge';
+      case InstanceType.mlM6id_2xlarge:
+        return 'ml.m6id.2xlarge';
+      case InstanceType.mlM6id_4xlarge:
+        return 'ml.m6id.4xlarge';
+      case InstanceType.mlM6id_8xlarge:
+        return 'ml.m6id.8xlarge';
+      case InstanceType.mlM6id_12xlarge:
+        return 'ml.m6id.12xlarge';
+      case InstanceType.mlM6id_16xlarge:
+        return 'ml.m6id.16xlarge';
+      case InstanceType.mlM6id_24xlarge:
+        return 'ml.m6id.24xlarge';
+      case InstanceType.mlM6id_32xlarge:
+        return 'ml.m6id.32xlarge';
+      case InstanceType.mlC6idLarge:
+        return 'ml.c6id.large';
+      case InstanceType.mlC6idXlarge:
+        return 'ml.c6id.xlarge';
+      case InstanceType.mlC6id_2xlarge:
+        return 'ml.c6id.2xlarge';
+      case InstanceType.mlC6id_4xlarge:
+        return 'ml.c6id.4xlarge';
+      case InstanceType.mlC6id_8xlarge:
+        return 'ml.c6id.8xlarge';
+      case InstanceType.mlC6id_12xlarge:
+        return 'ml.c6id.12xlarge';
+      case InstanceType.mlC6id_16xlarge:
+        return 'ml.c6id.16xlarge';
+      case InstanceType.mlC6id_24xlarge:
+        return 'ml.c6id.24xlarge';
+      case InstanceType.mlC6id_32xlarge:
+        return 'ml.c6id.32xlarge';
+      case InstanceType.mlR6idLarge:
+        return 'ml.r6id.large';
+      case InstanceType.mlR6idXlarge:
+        return 'ml.r6id.xlarge';
+      case InstanceType.mlR6id_2xlarge:
+        return 'ml.r6id.2xlarge';
+      case InstanceType.mlR6id_4xlarge:
+        return 'ml.r6id.4xlarge';
+      case InstanceType.mlR6id_8xlarge:
+        return 'ml.r6id.8xlarge';
+      case InstanceType.mlR6id_12xlarge:
+        return 'ml.r6id.12xlarge';
+      case InstanceType.mlR6id_16xlarge:
+        return 'ml.r6id.16xlarge';
+      case InstanceType.mlR6id_24xlarge:
+        return 'ml.r6id.24xlarge';
+      case InstanceType.mlR6id_32xlarge:
+        return 'ml.r6id.32xlarge';
+      case InstanceType.mlG6Xlarge:
+        return 'ml.g6.xlarge';
+      case InstanceType.mlG6_2xlarge:
+        return 'ml.g6.2xlarge';
+      case InstanceType.mlG6_4xlarge:
+        return 'ml.g6.4xlarge';
+      case InstanceType.mlG6_8xlarge:
+        return 'ml.g6.8xlarge';
+      case InstanceType.mlG6_12xlarge:
+        return 'ml.g6.12xlarge';
+      case InstanceType.mlG6_16xlarge:
+        return 'ml.g6.16xlarge';
+      case InstanceType.mlG6_24xlarge:
+        return 'ml.g6.24xlarge';
+      case InstanceType.mlG6_48xlarge:
+        return 'ml.g6.48xlarge';
     }
   }
 }
@@ -41444,6 +47126,198 @@ extension InstanceTypeFromString on String {
         return InstanceType.mlG5_24xlarge;
       case 'ml.g5.48xlarge':
         return InstanceType.mlG5_48xlarge;
+      case 'ml.inf1.xlarge':
+        return InstanceType.mlInf1Xlarge;
+      case 'ml.inf1.2xlarge':
+        return InstanceType.mlInf1_2xlarge;
+      case 'ml.inf1.6xlarge':
+        return InstanceType.mlInf1_6xlarge;
+      case 'ml.inf1.24xlarge':
+        return InstanceType.mlInf1_24xlarge;
+      case 'ml.p4d.24xlarge':
+        return InstanceType.mlP4d_24xlarge;
+      case 'ml.p4de.24xlarge':
+        return InstanceType.mlP4de_24xlarge;
+      case 'ml.p5.48xlarge':
+        return InstanceType.mlP5_48xlarge;
+      case 'ml.m6i.large':
+        return InstanceType.mlM6iLarge;
+      case 'ml.m6i.xlarge':
+        return InstanceType.mlM6iXlarge;
+      case 'ml.m6i.2xlarge':
+        return InstanceType.mlM6i_2xlarge;
+      case 'ml.m6i.4xlarge':
+        return InstanceType.mlM6i_4xlarge;
+      case 'ml.m6i.8xlarge':
+        return InstanceType.mlM6i_8xlarge;
+      case 'ml.m6i.12xlarge':
+        return InstanceType.mlM6i_12xlarge;
+      case 'ml.m6i.16xlarge':
+        return InstanceType.mlM6i_16xlarge;
+      case 'ml.m6i.24xlarge':
+        return InstanceType.mlM6i_24xlarge;
+      case 'ml.m6i.32xlarge':
+        return InstanceType.mlM6i_32xlarge;
+      case 'ml.m7i.large':
+        return InstanceType.mlM7iLarge;
+      case 'ml.m7i.xlarge':
+        return InstanceType.mlM7iXlarge;
+      case 'ml.m7i.2xlarge':
+        return InstanceType.mlM7i_2xlarge;
+      case 'ml.m7i.4xlarge':
+        return InstanceType.mlM7i_4xlarge;
+      case 'ml.m7i.8xlarge':
+        return InstanceType.mlM7i_8xlarge;
+      case 'ml.m7i.12xlarge':
+        return InstanceType.mlM7i_12xlarge;
+      case 'ml.m7i.16xlarge':
+        return InstanceType.mlM7i_16xlarge;
+      case 'ml.m7i.24xlarge':
+        return InstanceType.mlM7i_24xlarge;
+      case 'ml.m7i.48xlarge':
+        return InstanceType.mlM7i_48xlarge;
+      case 'ml.c6i.large':
+        return InstanceType.mlC6iLarge;
+      case 'ml.c6i.xlarge':
+        return InstanceType.mlC6iXlarge;
+      case 'ml.c6i.2xlarge':
+        return InstanceType.mlC6i_2xlarge;
+      case 'ml.c6i.4xlarge':
+        return InstanceType.mlC6i_4xlarge;
+      case 'ml.c6i.8xlarge':
+        return InstanceType.mlC6i_8xlarge;
+      case 'ml.c6i.12xlarge':
+        return InstanceType.mlC6i_12xlarge;
+      case 'ml.c6i.16xlarge':
+        return InstanceType.mlC6i_16xlarge;
+      case 'ml.c6i.24xlarge':
+        return InstanceType.mlC6i_24xlarge;
+      case 'ml.c6i.32xlarge':
+        return InstanceType.mlC6i_32xlarge;
+      case 'ml.c7i.large':
+        return InstanceType.mlC7iLarge;
+      case 'ml.c7i.xlarge':
+        return InstanceType.mlC7iXlarge;
+      case 'ml.c7i.2xlarge':
+        return InstanceType.mlC7i_2xlarge;
+      case 'ml.c7i.4xlarge':
+        return InstanceType.mlC7i_4xlarge;
+      case 'ml.c7i.8xlarge':
+        return InstanceType.mlC7i_8xlarge;
+      case 'ml.c7i.12xlarge':
+        return InstanceType.mlC7i_12xlarge;
+      case 'ml.c7i.16xlarge':
+        return InstanceType.mlC7i_16xlarge;
+      case 'ml.c7i.24xlarge':
+        return InstanceType.mlC7i_24xlarge;
+      case 'ml.c7i.48xlarge':
+        return InstanceType.mlC7i_48xlarge;
+      case 'ml.r6i.large':
+        return InstanceType.mlR6iLarge;
+      case 'ml.r6i.xlarge':
+        return InstanceType.mlR6iXlarge;
+      case 'ml.r6i.2xlarge':
+        return InstanceType.mlR6i_2xlarge;
+      case 'ml.r6i.4xlarge':
+        return InstanceType.mlR6i_4xlarge;
+      case 'ml.r6i.8xlarge':
+        return InstanceType.mlR6i_8xlarge;
+      case 'ml.r6i.12xlarge':
+        return InstanceType.mlR6i_12xlarge;
+      case 'ml.r6i.16xlarge':
+        return InstanceType.mlR6i_16xlarge;
+      case 'ml.r6i.24xlarge':
+        return InstanceType.mlR6i_24xlarge;
+      case 'ml.r6i.32xlarge':
+        return InstanceType.mlR6i_32xlarge;
+      case 'ml.r7i.large':
+        return InstanceType.mlR7iLarge;
+      case 'ml.r7i.xlarge':
+        return InstanceType.mlR7iXlarge;
+      case 'ml.r7i.2xlarge':
+        return InstanceType.mlR7i_2xlarge;
+      case 'ml.r7i.4xlarge':
+        return InstanceType.mlR7i_4xlarge;
+      case 'ml.r7i.8xlarge':
+        return InstanceType.mlR7i_8xlarge;
+      case 'ml.r7i.12xlarge':
+        return InstanceType.mlR7i_12xlarge;
+      case 'ml.r7i.16xlarge':
+        return InstanceType.mlR7i_16xlarge;
+      case 'ml.r7i.24xlarge':
+        return InstanceType.mlR7i_24xlarge;
+      case 'ml.r7i.48xlarge':
+        return InstanceType.mlR7i_48xlarge;
+      case 'ml.m6id.large':
+        return InstanceType.mlM6idLarge;
+      case 'ml.m6id.xlarge':
+        return InstanceType.mlM6idXlarge;
+      case 'ml.m6id.2xlarge':
+        return InstanceType.mlM6id_2xlarge;
+      case 'ml.m6id.4xlarge':
+        return InstanceType.mlM6id_4xlarge;
+      case 'ml.m6id.8xlarge':
+        return InstanceType.mlM6id_8xlarge;
+      case 'ml.m6id.12xlarge':
+        return InstanceType.mlM6id_12xlarge;
+      case 'ml.m6id.16xlarge':
+        return InstanceType.mlM6id_16xlarge;
+      case 'ml.m6id.24xlarge':
+        return InstanceType.mlM6id_24xlarge;
+      case 'ml.m6id.32xlarge':
+        return InstanceType.mlM6id_32xlarge;
+      case 'ml.c6id.large':
+        return InstanceType.mlC6idLarge;
+      case 'ml.c6id.xlarge':
+        return InstanceType.mlC6idXlarge;
+      case 'ml.c6id.2xlarge':
+        return InstanceType.mlC6id_2xlarge;
+      case 'ml.c6id.4xlarge':
+        return InstanceType.mlC6id_4xlarge;
+      case 'ml.c6id.8xlarge':
+        return InstanceType.mlC6id_8xlarge;
+      case 'ml.c6id.12xlarge':
+        return InstanceType.mlC6id_12xlarge;
+      case 'ml.c6id.16xlarge':
+        return InstanceType.mlC6id_16xlarge;
+      case 'ml.c6id.24xlarge':
+        return InstanceType.mlC6id_24xlarge;
+      case 'ml.c6id.32xlarge':
+        return InstanceType.mlC6id_32xlarge;
+      case 'ml.r6id.large':
+        return InstanceType.mlR6idLarge;
+      case 'ml.r6id.xlarge':
+        return InstanceType.mlR6idXlarge;
+      case 'ml.r6id.2xlarge':
+        return InstanceType.mlR6id_2xlarge;
+      case 'ml.r6id.4xlarge':
+        return InstanceType.mlR6id_4xlarge;
+      case 'ml.r6id.8xlarge':
+        return InstanceType.mlR6id_8xlarge;
+      case 'ml.r6id.12xlarge':
+        return InstanceType.mlR6id_12xlarge;
+      case 'ml.r6id.16xlarge':
+        return InstanceType.mlR6id_16xlarge;
+      case 'ml.r6id.24xlarge':
+        return InstanceType.mlR6id_24xlarge;
+      case 'ml.r6id.32xlarge':
+        return InstanceType.mlR6id_32xlarge;
+      case 'ml.g6.xlarge':
+        return InstanceType.mlG6Xlarge;
+      case 'ml.g6.2xlarge':
+        return InstanceType.mlG6_2xlarge;
+      case 'ml.g6.4xlarge':
+        return InstanceType.mlG6_4xlarge;
+      case 'ml.g6.8xlarge':
+        return InstanceType.mlG6_8xlarge;
+      case 'ml.g6.12xlarge':
+        return InstanceType.mlG6_12xlarge;
+      case 'ml.g6.16xlarge':
+        return InstanceType.mlG6_16xlarge;
+      case 'ml.g6.24xlarge':
+        return InstanceType.mlG6_24xlarge;
+      case 'ml.g6.48xlarge':
+        return InstanceType.mlG6_48xlarge;
     }
     throw Exception('$this is not known in enum InstanceType');
   }
@@ -41603,6 +47477,101 @@ extension JoinSourceFromString on String {
   }
 }
 
+/// The configuration for the file system and kernels in a SageMaker image
+/// running as a JupyterLab app. The <code>FileSystemConfig</code> object is not
+/// supported.
+class JupyterLabAppImageConfig {
+  final ContainerConfig? containerConfig;
+  final FileSystemConfig? fileSystemConfig;
+
+  JupyterLabAppImageConfig({
+    this.containerConfig,
+    this.fileSystemConfig,
+  });
+
+  factory JupyterLabAppImageConfig.fromJson(Map<String, dynamic> json) {
+    return JupyterLabAppImageConfig(
+      containerConfig: json['ContainerConfig'] != null
+          ? ContainerConfig.fromJson(
+              json['ContainerConfig'] as Map<String, dynamic>)
+          : null,
+      fileSystemConfig: json['FileSystemConfig'] != null
+          ? FileSystemConfig.fromJson(
+              json['FileSystemConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerConfig = this.containerConfig;
+    final fileSystemConfig = this.fileSystemConfig;
+    return {
+      if (containerConfig != null) 'ContainerConfig': containerConfig,
+      if (fileSystemConfig != null) 'FileSystemConfig': fileSystemConfig,
+    };
+  }
+}
+
+/// The settings for the JupyterLab application.
+class JupyterLabAppSettings {
+  /// A list of Git repositories that SageMaker automatically displays to users
+  /// for cloning in the JupyterLab application.
+  final List<CodeRepository>? codeRepositories;
+
+  /// A list of custom SageMaker images that are configured to run as a JupyterLab
+  /// app.
+  final List<CustomImage>? customImages;
+  final ResourceSpec? defaultResourceSpec;
+
+  /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to
+  /// the user profile or domain. To remove a lifecycle config, you must set
+  /// <code>LifecycleConfigArns</code> to an empty list.
+  final List<String>? lifecycleConfigArns;
+
+  JupyterLabAppSettings({
+    this.codeRepositories,
+    this.customImages,
+    this.defaultResourceSpec,
+    this.lifecycleConfigArns,
+  });
+
+  factory JupyterLabAppSettings.fromJson(Map<String, dynamic> json) {
+    return JupyterLabAppSettings(
+      codeRepositories: (json['CodeRepositories'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeRepository.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customImages: (json['CustomImages'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      defaultResourceSpec: json['DefaultResourceSpec'] != null
+          ? ResourceSpec.fromJson(
+              json['DefaultResourceSpec'] as Map<String, dynamic>)
+          : null,
+      lifecycleConfigArns: (json['LifecycleConfigArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeRepositories = this.codeRepositories;
+    final customImages = this.customImages;
+    final defaultResourceSpec = this.defaultResourceSpec;
+    final lifecycleConfigArns = this.lifecycleConfigArns;
+    return {
+      if (codeRepositories != null) 'CodeRepositories': codeRepositories,
+      if (customImages != null) 'CustomImages': customImages,
+      if (defaultResourceSpec != null)
+        'DefaultResourceSpec': defaultResourceSpec,
+      if (lifecycleConfigArns != null)
+        'LifecycleConfigArns': lifecycleConfigArns,
+    };
+  }
+}
+
 /// The JupyterServer app settings.
 class JupyterServerAppSettings {
   /// A list of Git repositories that SageMaker automatically displays to users
@@ -41661,6 +47630,31 @@ class JupyterServerAppSettings {
   }
 }
 
+/// The Amazon SageMaker Canvas application setting where you configure document
+/// querying.
+class KendraSettings {
+  /// Describes whether the document querying feature is enabled or disabled in
+  /// the Canvas application.
+  final FeatureStatus? status;
+
+  KendraSettings({
+    this.status,
+  });
+
+  factory KendraSettings.fromJson(Map<String, dynamic> json) {
+    return KendraSettings(
+      status: (json['Status'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
 /// The KernelGateway app settings.
 class KernelGatewayAppSettings {
   /// A list of custom SageMaker images that are configured to run as a
@@ -41672,8 +47666,8 @@ class KernelGatewayAppSettings {
   /// <note>
   /// The Amazon SageMaker Studio UI does not use the default instance type value
   /// set here. The default instance type set here is used when Apps are created
-  /// using the Amazon Web Services Command Line Interface or Amazon Web Services
-  /// CloudFormation and the instance type parameter value is not passed.
+  /// using the CLI or CloudFormation and the instance type parameter value is not
+  /// passed.
   /// </note>
   final ResourceSpec? defaultResourceSpec;
 
@@ -41728,8 +47722,7 @@ class KernelGatewayImageConfig {
   /// The specification of the Jupyter kernels in the image.
   final List<KernelSpec> kernelSpecs;
 
-  /// The Amazon Elastic File System (EFS) storage configuration for a SageMaker
-  /// image.
+  /// The Amazon Elastic File System storage configuration for a SageMaker image.
   final FileSystemConfig? fileSystemConfig;
 
   KernelGatewayImageConfig({
@@ -42852,6 +48845,55 @@ class ListCandidatesForAutoMLJobResponse {
   }
 }
 
+class ListClusterNodesResponse {
+  /// The summaries of listed instances in a SageMaker HyperPod cluster
+  final List<ClusterNodeSummary> clusterNodeSummaries;
+
+  /// The next token specified for listing instances in a SageMaker HyperPod
+  /// cluster.
+  final String nextToken;
+
+  ListClusterNodesResponse({
+    required this.clusterNodeSummaries,
+    required this.nextToken,
+  });
+
+  factory ListClusterNodesResponse.fromJson(Map<String, dynamic> json) {
+    return ListClusterNodesResponse(
+      clusterNodeSummaries: (json['ClusterNodeSummaries'] as List)
+          .whereNotNull()
+          .map((e) => ClusterNodeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String,
+    );
+  }
+}
+
+class ListClustersResponse {
+  /// The summaries of listed SageMaker HyperPod clusters.
+  final List<ClusterSummary> clusterSummaries;
+
+  /// If the result of the previous <code>ListClusters</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of clusters, use the token in the next request.
+  final String nextToken;
+
+  ListClustersResponse({
+    required this.clusterSummaries,
+    required this.nextToken,
+  });
+
+  factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
+    return ListClustersResponse(
+      clusterSummaries: (json['ClusterSummaries'] as List)
+          .whereNotNull()
+          .map((e) => ClusterSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String,
+    );
+  }
+}
+
 class ListCodeRepositoriesOutput {
   /// Gets a list of summaries of the Git repositories. Each summary specifies the
   /// following values for the repository:
@@ -43321,11 +49363,11 @@ class ListFeatureGroupsResponse {
   final List<FeatureGroupSummary> featureGroupSummaries;
 
   /// A token to resume pagination of <code>ListFeatureGroups</code> results.
-  final String nextToken;
+  final String? nextToken;
 
   ListFeatureGroupsResponse({
     required this.featureGroupSummaries,
-    required this.nextToken,
+    this.nextToken,
   });
 
   factory ListFeatureGroupsResponse.fromJson(Map<String, dynamic> json) {
@@ -43334,7 +49376,7 @@ class ListFeatureGroupsResponse {
           .whereNotNull()
           .map((e) => FeatureGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['NextToken'] as String,
+      nextToken: json['NextToken'] as String?,
     );
   }
 }
@@ -43528,6 +49570,32 @@ class ListImagesResponse {
       images: (json['Images'] as List?)
           ?.whereNotNull()
           .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListInferenceComponentsOutput {
+  /// A list of inference components and their properties that matches any of the
+  /// filters you specified in the request.
+  final List<InferenceComponentSummary> inferenceComponents;
+
+  /// The token to use in a subsequent request to get the next set of results
+  /// following a truncated response.
+  final String? nextToken;
+
+  ListInferenceComponentsOutput({
+    required this.inferenceComponents,
+    this.nextToken,
+  });
+
+  factory ListInferenceComponentsOutput.fromJson(Map<String, dynamic> json) {
+    return ListInferenceComponentsOutput(
+      inferenceComponents: (json['InferenceComponents'] as List)
+          .whereNotNull()
+          .map((e) =>
+              InferenceComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -43753,8 +49821,8 @@ class ListModelBiasJobDefinitionsResponse {
   /// A JSON array in which each element is a summary for a model bias jobs.
   final List<MonitoringJobDefinitionSummary> jobDefinitionSummaries;
 
-  /// If the response is truncated, Amazon SageMaker returns this token. To
-  /// retrieve the next set of jobs, use it in the subsequent request.
+  /// The token returned if the response is truncated. To retrieve the next set of
+  /// job executions, use it in the next request.
   final String? nextToken;
 
   ListModelBiasJobDefinitionsResponse({
@@ -43854,8 +49922,8 @@ class ListModelExplainabilityJobDefinitionsResponse {
   /// jobs.
   final List<MonitoringJobDefinitionSummary> jobDefinitionSummaries;
 
-  /// If the response is truncated, Amazon SageMaker returns this token. To
-  /// retrieve the next set of jobs, use it in the subsequent request.
+  /// The token returned if the response is truncated. To retrieve the next set of
+  /// job executions, use it in the next request.
   final String? nextToken;
 
   ListModelExplainabilityJobDefinitionsResponse({
@@ -44056,8 +50124,8 @@ class ListMonitoringExecutionsResponse {
   /// A JSON array in which each element is a summary for a monitoring execution.
   final List<MonitoringExecutionSummary> monitoringExecutionSummaries;
 
-  /// If the response is truncated, Amazon SageMaker returns this token. To
-  /// retrieve the next set of jobs, use it in the subsequent reques
+  /// The token returned if the response is truncated. To retrieve the next set of
+  /// job executions, use it in the next request.
   final String? nextToken;
 
   ListMonitoringExecutionsResponse({
@@ -44082,8 +50150,8 @@ class ListMonitoringSchedulesResponse {
   /// A JSON array in which each element is a summary for a monitoring schedule.
   final List<MonitoringScheduleSummary> monitoringScheduleSummaries;
 
-  /// If the response is truncated, Amazon SageMaker returns this token. To
-  /// retrieve the next set of jobs, use it in the subsequent request.
+  /// The token returned if the response is truncated. To retrieve the next set of
+  /// job executions, use it in the next request.
   final String? nextToken;
 
   ListMonitoringSchedulesResponse({
@@ -44324,6 +50392,29 @@ class ListProjectsOutput {
   }
 }
 
+class ListResourceCatalogsResponse {
+  /// A token to resume pagination of <code>ListResourceCatalogs</code> results.
+  final String? nextToken;
+
+  /// A list of the requested <code>ResourceCatalog</code>s.
+  final List<ResourceCatalog>? resourceCatalogs;
+
+  ListResourceCatalogsResponse({
+    this.nextToken,
+    this.resourceCatalogs,
+  });
+
+  factory ListResourceCatalogsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceCatalogsResponse(
+      nextToken: json['NextToken'] as String?,
+      resourceCatalogs: (json['ResourceCatalogs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceCatalog.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListSpacesResponse {
   /// If the previous response was truncated, you will receive this token. Use it
   /// in your next request to receive the next set of results.
@@ -44373,7 +50464,8 @@ class ListStageDevicesResponse {
 }
 
 class ListStudioLifecycleConfigsResponse {
-  /// A token for getting the next set of actions, if there are any.
+  /// If the previous response was truncated, you will receive this token. Use it
+  /// in your next request to receive the next set of results.
   final String? nextToken;
 
   /// A list of Lifecycle Configurations and their properties.
@@ -44700,6 +50792,35 @@ extension ListWorkteamsSortByOptionsFromString on String {
   }
 }
 
+enum ManagedInstanceScalingStatus {
+  enabled,
+  disabled,
+}
+
+extension ManagedInstanceScalingStatusValueExtension
+    on ManagedInstanceScalingStatus {
+  String toValue() {
+    switch (this) {
+      case ManagedInstanceScalingStatus.enabled:
+        return 'ENABLED';
+      case ManagedInstanceScalingStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension ManagedInstanceScalingStatusFromString on String {
+  ManagedInstanceScalingStatus toManagedInstanceScalingStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return ManagedInstanceScalingStatus.enabled;
+      case 'DISABLED':
+        return ManagedInstanceScalingStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ManagedInstanceScalingStatus');
+  }
+}
+
 /// Defines an Amazon Cognito or your own OIDC IdP user group that is part of a
 /// work team.
 class MemberDefinition {
@@ -44925,6 +51046,33 @@ extension MetricSetSourceFromString on String {
   }
 }
 
+/// An object containing information about a metric.
+class MetricSpecification {
+  /// Information about a customized metric.
+  final CustomizedMetricSpecification? customized;
+
+  /// Information about a predefined metric.
+  final PredefinedMetricSpecification? predefined;
+
+  MetricSpecification({
+    this.customized,
+    this.predefined,
+  });
+
+  factory MetricSpecification.fromJson(Map<String, dynamic> json) {
+    return MetricSpecification(
+      customized: json['Customized'] != null
+          ? CustomizedMetricSpecification.fromJson(
+              json['Customized'] as Map<String, dynamic>)
+          : null,
+      predefined: json['Predefined'] != null
+          ? PredefinedMetricSpecification.fromJson(
+              json['Predefined'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 /// Details about the metrics source.
 class MetricsSource {
   /// The metric source content type.
@@ -45047,6 +51195,52 @@ class Model {
   }
 }
 
+/// The access configuration file to control access to the ML model. You can
+/// explicitly accept the model end-user license agreement (EULA) within the
+/// <code>ModelAccessConfig</code>.
+///
+/// <ul>
+/// <li>
+/// If you are a Jumpstart user, see the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-foundation-models-choose.html#jumpstart-foundation-models-choose-eula">End-user
+/// license agreements</a> section for more details on accepting the EULA.
+/// </li>
+/// <li>
+/// If you are an AutoML user, see the <i>Optional Parameters</i> section of
+/// <i>Create an AutoML job to fine-tune text generation models using the
+/// API</i> for details on <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-create-experiment-finetune-llms.html#autopilot-llms-finetuning-api-optional-params">How
+/// to set the EULA acceptance when fine-tuning a model using the AutoML
+/// API</a>.
+/// </li>
+/// </ul>
+class ModelAccessConfig {
+  /// Specifies agreement to the model end-user license agreement (EULA). The
+  /// <code>AcceptEula</code> value must be explicitly defined as
+  /// <code>True</code> in order to accept the EULA that this model requires. You
+  /// are responsible for reviewing and complying with any applicable license
+  /// terms and making sure they are acceptable for your use case before
+  /// downloading or using a model.
+  final bool acceptEula;
+
+  ModelAccessConfig({
+    required this.acceptEula,
+  });
+
+  factory ModelAccessConfig.fromJson(Map<String, dynamic> json) {
+    return ModelAccessConfig(
+      acceptEula: json['AcceptEula'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptEula = this.acceptEula;
+    return {
+      'AcceptEula': acceptEula,
+    };
+  }
+}
+
 enum ModelApprovalStatus {
   approved,
   rejected,
@@ -45083,9 +51277,12 @@ extension ModelApprovalStatusFromString on String {
 /// Provides information about the location that is configured for storing model
 /// artifacts.
 ///
-/// Model artifacts are the output that results from training a model, and
+/// Model artifacts are outputs that result from training a model. They
 /// typically consist of trained parameters, a model definition that describes
-/// how to compute inferences, and other metadata.
+/// how to compute inferences, and other metadata. A SageMaker container stores
+/// your trained model artifacts in the <code>/opt/ml/model</code> directory.
+/// After training has completed, by default, these artifacts are uploaded to
+/// your Amazon S3 bucket as compressed files.
 class ModelArtifacts {
   /// The path of the S3 object that contains the model artifacts. For example,
   /// <code>s3://bucket-name/keynameprefix/model.tar.gz</code>.
@@ -45294,6 +51491,11 @@ class ModelCard {
   /// The unique name (ID) of the model.
   final String? modelId;
 
+  /// The model package group that contains the model package. Only relevant for
+  /// model cards created for model packages in the Amazon SageMaker Model
+  /// Registry.
+  final String? modelPackageGroupName;
+
   /// The risk rating of the model. Different organizations might have different
   /// criteria for model card risk ratings. For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards-risk-rating.html">Risk
@@ -45317,6 +51519,7 @@ class ModelCard {
     this.modelCardStatus,
     this.modelCardVersion,
     this.modelId,
+    this.modelPackageGroupName,
     this.riskRating,
     this.securityConfig,
     this.tags,
@@ -45339,6 +51542,7 @@ class ModelCard {
           (json['ModelCardStatus'] as String?)?.toModelCardStatus(),
       modelCardVersion: json['ModelCardVersion'] as int?,
       modelId: json['ModelId'] as String?,
+      modelPackageGroupName: json['ModelPackageGroupName'] as String?,
       riskRating: json['RiskRating'] as String?,
       securityConfig: json['SecurityConfig'] != null
           ? ModelCardSecurityConfig.fromJson(
@@ -45874,6 +52078,34 @@ class ModelClientConfig {
   }
 }
 
+enum ModelCompressionType {
+  none,
+  gzip,
+}
+
+extension ModelCompressionTypeValueExtension on ModelCompressionType {
+  String toValue() {
+    switch (this) {
+      case ModelCompressionType.none:
+        return 'None';
+      case ModelCompressionType.gzip:
+        return 'Gzip';
+    }
+  }
+}
+
+extension ModelCompressionTypeFromString on String {
+  ModelCompressionType toModelCompressionType() {
+    switch (this) {
+      case 'None':
+        return ModelCompressionType.none;
+      case 'Gzip':
+        return ModelCompressionType.gzip;
+    }
+    throw Exception('$this is not known in enum ModelCompressionType');
+  }
+}
+
 /// Defines the model configuration. Includes the specification name and
 /// environment parameters.
 class ModelConfiguration {
@@ -46097,6 +52329,8 @@ class ModelDashboardModelCard {
 /// A monitoring schedule for a model displayed in the Amazon SageMaker Model
 /// Dashboard.
 class ModelDashboardMonitoringSchedule {
+  final BatchTransformInput? batchTransformInput;
+
   /// A timestamp that indicates when the monitoring schedule was created.
   final DateTime? creationTime;
 
@@ -46127,6 +52361,7 @@ class ModelDashboardMonitoringSchedule {
   final MonitoringType? monitoringType;
 
   ModelDashboardMonitoringSchedule({
+    this.batchTransformInput,
     this.creationTime,
     this.endpointName,
     this.failureReason,
@@ -46142,6 +52377,10 @@ class ModelDashboardMonitoringSchedule {
 
   factory ModelDashboardMonitoringSchedule.fromJson(Map<String, dynamic> json) {
     return ModelDashboardMonitoringSchedule(
+      batchTransformInput: json['BatchTransformInput'] != null
+          ? BatchTransformInput.fromJson(
+              json['BatchTransformInput'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
       endpointName: json['EndpointName'] as String?,
       failureReason: json['FailureReason'] as String?,
@@ -46199,6 +52438,33 @@ class ModelDataQuality {
     return {
       if (constraints != null) 'Constraints': constraints,
       if (statistics != null) 'Statistics': statistics,
+    };
+  }
+}
+
+/// Specifies the location of ML model data to deploy. If specified, you must
+/// specify one and only one of the available data sources.
+class ModelDataSource {
+  /// Specifies the S3 location of ML model data to deploy.
+  final S3ModelDataSource? s3DataSource;
+
+  ModelDataSource({
+    this.s3DataSource,
+  });
+
+  factory ModelDataSource.fromJson(Map<String, dynamic> json) {
+    return ModelDataSource(
+      s3DataSource: json['S3DataSource'] != null
+          ? S3ModelDataSource.fromJson(
+              json['S3DataSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataSource = this.s3DataSource;
+    return {
+      if (s3DataSource != null) 'S3DataSource': s3DataSource,
     };
   }
 }
@@ -46285,8 +52551,8 @@ class ModelDigests {
 /// Docker container image configuration object for the model explainability
 /// job.
 class ModelExplainabilityAppSpecification {
-  /// JSON formatted S3 file that defines explainability parameters. For more
-  /// information on this JSON configuration file, see <a
+  /// JSON formatted Amazon S3 file that defines explainability parameters. For
+  /// more information on this JSON configuration file, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-config-json-monitor-model-explainability-parameters.html">Configure
   /// model explainability parameters</a>.
   final String configUri;
@@ -46481,7 +52747,9 @@ class ModelInput {
 
 /// The model latency threshold.
 class ModelLatencyThreshold {
-  /// The model latency percentile threshold.
+  /// The model latency percentile threshold. Acceptable values are
+  /// <code>P95</code> and <code>P99</code>. For custom load tests, specify the
+  /// value as <code>P95</code>.
   final String? percentile;
 
   /// The model latency percentile value in milliseconds.
@@ -46629,7 +52897,7 @@ class ModelMetadataSummary {
 
 /// Contains metrics captured from a model.
 class ModelMetrics {
-  /// Metrics that measure bais in a model.
+  /// Metrics that measure bias in a model.
   final Bias? bias;
 
   /// Metrics that help explain a model.
@@ -46744,6 +53012,7 @@ class ModelPackage {
   /// </li>
   /// </ul>
   final ModelApprovalStatus? modelApprovalStatus;
+  final ModelPackageModelCard? modelCard;
 
   /// Metrics for the model.
   final ModelMetrics? modelMetrics;
@@ -46793,9 +53062,16 @@ class ModelPackage {
   /// This path must point to a single gzip compressed tar archive (.tar.gz
   /// suffix).
   final String? samplePayloadUrl;
+  final ModelPackageSecurityConfig? securityConfig;
+
+  /// Indicates if you want to skip model validation.
+  final SkipModelValidation? skipModelValidation;
 
   /// A list of algorithms that were used to create a model package.
   final SourceAlgorithmSpecification? sourceAlgorithmSpecification;
+
+  /// The URI of the source for the model package.
+  final String? sourceUri;
 
   /// A list of the tags associated with the model package. For more information,
   /// see <a
@@ -46826,6 +53102,7 @@ class ModelPackage {
     this.lastModifiedTime,
     this.metadataProperties,
     this.modelApprovalStatus,
+    this.modelCard,
     this.modelMetrics,
     this.modelPackageArn,
     this.modelPackageDescription,
@@ -46835,7 +53112,10 @@ class ModelPackage {
     this.modelPackageStatusDetails,
     this.modelPackageVersion,
     this.samplePayloadUrl,
+    this.securityConfig,
+    this.skipModelValidation,
     this.sourceAlgorithmSpecification,
+    this.sourceUri,
     this.tags,
     this.task,
     this.validationSpecification,
@@ -46877,6 +53157,10 @@ class ModelPackage {
           : null,
       modelApprovalStatus:
           (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
+      modelCard: json['ModelCard'] != null
+          ? ModelPackageModelCard.fromJson(
+              json['ModelCard'] as Map<String, dynamic>)
+          : null,
       modelMetrics: json['ModelMetrics'] != null
           ? ModelMetrics.fromJson(json['ModelMetrics'] as Map<String, dynamic>)
           : null,
@@ -46892,10 +53176,17 @@ class ModelPackage {
           : null,
       modelPackageVersion: json['ModelPackageVersion'] as int?,
       samplePayloadUrl: json['SamplePayloadUrl'] as String?,
+      securityConfig: json['SecurityConfig'] != null
+          ? ModelPackageSecurityConfig.fromJson(
+              json['SecurityConfig'] as Map<String, dynamic>)
+          : null,
+      skipModelValidation:
+          (json['SkipModelValidation'] as String?)?.toSkipModelValidation(),
       sourceAlgorithmSpecification: json['SourceAlgorithmSpecification'] != null
           ? SourceAlgorithmSpecification.fromJson(
               json['SourceAlgorithmSpecification'] as Map<String, dynamic>)
           : null,
+      sourceUri: json['SourceUri'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -46923,6 +53214,10 @@ class ModelPackageContainerDefinition {
   /// Your Own Algorithms with Amazon SageMaker</a>.
   final String image;
 
+  /// The additional data source that is used during inference in the Docker
+  /// container for your model package.
+  final AdditionalS3DataSource? additionalS3DataSource;
+
   /// The DNS host name for the Docker container.
   final String? containerHostname;
 
@@ -46940,6 +53235,9 @@ class ModelPackageContainerDefinition {
   /// An MD5 hash of the training algorithm that identifies the Docker image used
   /// for training.
   final String? imageDigest;
+
+  /// Specifies the location of ML model data to deploy during endpoint creation.
+  final ModelDataSource? modelDataSource;
 
   /// The Amazon S3 path where the model artifacts, which result from model
   /// training, are stored. This path must point to a single <code>gzip</code>
@@ -46963,11 +53261,13 @@ class ModelPackageContainerDefinition {
 
   ModelPackageContainerDefinition({
     required this.image,
+    this.additionalS3DataSource,
     this.containerHostname,
     this.environment,
     this.framework,
     this.frameworkVersion,
     this.imageDigest,
+    this.modelDataSource,
     this.modelDataUrl,
     this.modelInput,
     this.nearestModelName,
@@ -46977,12 +53277,20 @@ class ModelPackageContainerDefinition {
   factory ModelPackageContainerDefinition.fromJson(Map<String, dynamic> json) {
     return ModelPackageContainerDefinition(
       image: json['Image'] as String,
+      additionalS3DataSource: json['AdditionalS3DataSource'] != null
+          ? AdditionalS3DataSource.fromJson(
+              json['AdditionalS3DataSource'] as Map<String, dynamic>)
+          : null,
       containerHostname: json['ContainerHostname'] as String?,
       environment: (json['Environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       framework: json['Framework'] as String?,
       frameworkVersion: json['FrameworkVersion'] as String?,
       imageDigest: json['ImageDigest'] as String?,
+      modelDataSource: json['ModelDataSource'] != null
+          ? ModelDataSource.fromJson(
+              json['ModelDataSource'] as Map<String, dynamic>)
+          : null,
       modelDataUrl: json['ModelDataUrl'] as String?,
       modelInput: json['ModelInput'] != null
           ? ModelInput.fromJson(json['ModelInput'] as Map<String, dynamic>)
@@ -46994,22 +53302,27 @@ class ModelPackageContainerDefinition {
 
   Map<String, dynamic> toJson() {
     final image = this.image;
+    final additionalS3DataSource = this.additionalS3DataSource;
     final containerHostname = this.containerHostname;
     final environment = this.environment;
     final framework = this.framework;
     final frameworkVersion = this.frameworkVersion;
     final imageDigest = this.imageDigest;
+    final modelDataSource = this.modelDataSource;
     final modelDataUrl = this.modelDataUrl;
     final modelInput = this.modelInput;
     final nearestModelName = this.nearestModelName;
     final productId = this.productId;
     return {
       'Image': image,
+      if (additionalS3DataSource != null)
+        'AdditionalS3DataSource': additionalS3DataSource,
       if (containerHostname != null) 'ContainerHostname': containerHostname,
       if (environment != null) 'Environment': environment,
       if (framework != null) 'Framework': framework,
       if (frameworkVersion != null) 'FrameworkVersion': frameworkVersion,
       if (imageDigest != null) 'ImageDigest': imageDigest,
+      if (modelDataSource != null) 'ModelDataSource': modelDataSource,
       if (modelDataUrl != null) 'ModelDataUrl': modelDataUrl,
       if (modelInput != null) 'ModelInput': modelInput,
       if (nearestModelName != null) 'NearestModelName': nearestModelName,
@@ -47211,6 +53524,91 @@ class ModelPackageGroupSummary {
   }
 }
 
+/// The model card associated with the model package. Since
+/// <code>ModelPackageModelCard</code> is tied to a model package, it is a
+/// specific usage of a model card and its schema is simplified compared to the
+/// schema of <code>ModelCard</code>. The <code>ModelPackageModelCard</code>
+/// schema does not include <code>model_package_details</code>, and
+/// <code>model_overview</code> is composed of the <code>model_creator</code>
+/// and <code>model_artifact</code> properties. For more information about the
+/// model card associated with the model package, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
+/// the Details of a Model Version</a>.
+class ModelPackageModelCard {
+  /// The content of the model card.
+  final String? modelCardContent;
+
+  /// The approval status of the model card within your organization. Different
+  /// organizations might have different criteria for model card review and
+  /// approval.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Draft</code>: The model card is a work in progress.
+  /// </li>
+  /// <li>
+  /// <code>PendingReview</code>: The model card is pending review.
+  /// </li>
+  /// <li>
+  /// <code>Approved</code>: The model card is approved.
+  /// </li>
+  /// <li>
+  /// <code>Archived</code>: The model card is archived. No more updates can be
+  /// made to the model card content. If you try to update the model card content,
+  /// you will receive the message <code>Model Card is in Archived state</code>.
+  /// </li>
+  /// </ul>
+  final ModelCardStatus? modelCardStatus;
+
+  ModelPackageModelCard({
+    this.modelCardContent,
+    this.modelCardStatus,
+  });
+
+  factory ModelPackageModelCard.fromJson(Map<String, dynamic> json) {
+    return ModelPackageModelCard(
+      modelCardContent: json['ModelCardContent'] as String?,
+      modelCardStatus:
+          (json['ModelCardStatus'] as String?)?.toModelCardStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelCardContent = this.modelCardContent;
+    final modelCardStatus = this.modelCardStatus;
+    return {
+      if (modelCardContent != null) 'ModelCardContent': modelCardContent,
+      if (modelCardStatus != null) 'ModelCardStatus': modelCardStatus.toValue(),
+    };
+  }
+}
+
+/// An optional Key Management Service key to encrypt, decrypt, and re-encrypt
+/// model package information for regulated workloads with highly sensitive
+/// data.
+class ModelPackageSecurityConfig {
+  /// The KMS Key ID (<code>KMSKeyId</code>) used for encryption of model package
+  /// information.
+  final String kmsKeyId;
+
+  ModelPackageSecurityConfig({
+    required this.kmsKeyId,
+  });
+
+  factory ModelPackageSecurityConfig.fromJson(Map<String, dynamic> json) {
+    return ModelPackageSecurityConfig(
+      kmsKeyId: json['KmsKeyId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'KmsKeyId': kmsKeyId,
+    };
+  }
+}
+
 enum ModelPackageSortBy {
   name,
   creationTime,
@@ -47346,9 +53744,6 @@ class ModelPackageSummary {
   /// The Amazon Resource Name (ARN) of the model package.
   final String modelPackageArn;
 
-  /// The name of the model package.
-  final String modelPackageName;
-
   /// The overall status of the model package.
   final ModelPackageStatus modelPackageStatus;
 
@@ -47375,17 +53770,20 @@ class ModelPackageSummary {
   /// versioned model belongs to.
   final String? modelPackageGroupName;
 
+  /// The name of the model package.
+  final String? modelPackageName;
+
   /// If the model package is a versioned model, the version of the model.
   final int? modelPackageVersion;
 
   ModelPackageSummary({
     required this.creationTime,
     required this.modelPackageArn,
-    required this.modelPackageName,
     required this.modelPackageStatus,
     this.modelApprovalStatus,
     this.modelPackageDescription,
     this.modelPackageGroupName,
+    this.modelPackageName,
     this.modelPackageVersion,
   });
 
@@ -47394,13 +53792,13 @@ class ModelPackageSummary {
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       modelPackageArn: json['ModelPackageArn'] as String,
-      modelPackageName: json['ModelPackageName'] as String,
       modelPackageStatus:
           (json['ModelPackageStatus'] as String).toModelPackageStatus(),
       modelApprovalStatus:
           (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
       modelPackageDescription: json['ModelPackageDescription'] as String?,
       modelPackageGroupName: json['ModelPackageGroupName'] as String?,
+      modelPackageName: json['ModelPackageName'] as String?,
       modelPackageVersion: json['ModelPackageVersion'] as int?,
     );
   }
@@ -47571,8 +53969,8 @@ class ModelQualityAppSpecification {
   final MonitoringProblemType? problemType;
 
   /// An Amazon S3 URI to a script that is called per row prior to running
-  /// analysis. It can base64 decode the payload and convert it into a flatted
-  /// json so that the built-in container can use the converted data. Applicable
+  /// analysis. It can base64 decode the payload and convert it into a flattened
+  /// JSON so that the built-in container can use the converted data. Applicable
   /// only for the built-in (first party) containers.
   final String? recordPreprocessorSourceUri;
 
@@ -47665,7 +54063,7 @@ class ModelQualityBaselineConfig {
   }
 }
 
-/// The input for the model quality monitoring job. Currently endponts are
+/// The input for the model quality monitoring job. Currently endpoints are
 /// supported for input for model quality monitoring jobs.
 class ModelQualityJobInput {
   /// The ground truth label provided for the model.
@@ -48158,8 +54556,8 @@ class MonitoringAppSpecification {
   final String? postAnalyticsProcessorSourceUri;
 
   /// An Amazon S3 URI to a script that is called per row prior to running
-  /// analysis. It can base64 decode the payload and convert it into a flatted
-  /// json so that the built-in container can use the converted data. Applicable
+  /// analysis. It can base64 decode the payload and convert it into a flattened
+  /// JSON so that the built-in container can use the converted data. Applicable
   /// only for the built-in (first party) containers.
   final String? recordPreprocessorSourceUri;
 
@@ -48271,9 +54669,9 @@ class MonitoringClusterConfig {
   /// You must specify sufficient ML storage for your scenario.
   final int volumeSizeInGB;
 
-  /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key
-  /// that Amazon SageMaker uses to encrypt data on the storage volume attached to
-  /// the ML compute instance(s) that run the model monitoring job.
+  /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt
+  /// data on the storage volume attached to the ML compute instance(s) that run
+  /// the model monitoring job.
   final String? volumeKmsKeyId;
 
   MonitoringClusterConfig({
@@ -48567,8 +54965,7 @@ class MonitoringJobDefinition {
   /// an Amazon SageMaker Endpoint.
   final List<MonitoringInput> monitoringInputs;
 
-  /// The array of outputs from the monitoring job to be uploaded to Amazon Simple
-  /// Storage Service (Amazon S3).
+  /// The array of outputs from the monitoring job to be uploaded to Amazon S3.
   final MonitoringOutputConfig monitoringOutputConfig;
 
   /// Identifies the resources, ML compute instances, and ML storage volumes to
@@ -48724,7 +55121,7 @@ class MonitoringJobDefinitionSummary {
 
 /// Represents the JSON dataset format used when running a monitoring job.
 class MonitoringJsonDatasetFormat {
-  /// Indicates if the file should be read as a json object per line.
+  /// Indicates if the file should be read as a JSON object per line.
   final bool? line;
 
   MonitoringJsonDatasetFormat({
@@ -48822,9 +55219,8 @@ class MonitoringOutputConfig {
   /// periodic monitoring jobs is uploaded.
   final List<MonitoringOutput> monitoringOutputs;
 
-  /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key
-  /// that Amazon SageMaker uses to encrypt the model artifacts at rest using
-  /// Amazon S3 server-side encryption.
+  /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt
+  /// the model artifacts at rest using Amazon S3 server-side encryption.
   final String? kmsKeyId;
 
   MonitoringOutputConfig({
@@ -49625,8 +56021,8 @@ class NotebookInstanceLifecycleConfigSummary {
 /// The value of the <code>$PATH</code> environment variable that is available
 /// to both scripts is <code>/sbin:bin:/usr/sbin:/usr/bin</code>.
 ///
-/// View CloudWatch Logs for notebook instance lifecycle configurations in log
-/// group <code>/aws/sagemaker/NotebookInstances</code> in log stream
+/// View Amazon CloudWatch Logs for notebook instance lifecycle configurations
+/// in log group <code>/aws/sagemaker/NotebookInstances</code> in log stream
 /// <code>[notebook-instance-name]/[LifecycleConfigHook]</code>.
 ///
 /// Lifecycle configuration scripts cannot run for longer than 5 minutes. If a
@@ -50219,16 +56615,16 @@ class OidcConfigForResponse {
 class OidcMemberDefinition {
   /// A list of comma seperated strings that identifies user groups in your OIDC
   /// IdP. Each user group is made up of a group of private workers.
-  final List<String> groups;
+  final List<String>? groups;
 
   OidcMemberDefinition({
-    required this.groups,
+    this.groups,
   });
 
   factory OidcMemberDefinition.fromJson(Map<String, dynamic> json) {
     return OidcMemberDefinition(
-      groups: (json['Groups'] as List)
-          .whereNotNull()
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
     );
@@ -50237,7 +56633,7 @@ class OidcMemberDefinition {
   Map<String, dynamic> toJson() {
     final groups = this.groups;
     return {
-      'Groups': groups,
+      if (groups != null) 'Groups': groups,
     };
   }
 }
@@ -50260,9 +56656,32 @@ class OnlineStoreConfig {
   /// your <code>OnlineStore</code>.
   final OnlineStoreSecurityConfig? securityConfig;
 
+  /// Option for different tiers of low latency storage for real-time data
+  /// retrieval.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Standard</code>: A managed low latency data store for feature groups.
+  /// </li>
+  /// <li>
+  /// <code>InMemory</code>: A managed data store for feature groups that supports
+  /// very low latency retrieval.
+  /// </li>
+  /// </ul>
+  final StorageType? storageType;
+
+  /// Time to live duration, where the record is hard deleted after the expiration
+  /// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
+  /// <code>TtlDuration</code>. For information on HardDelete, see the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
+  /// API in the Amazon SageMaker API Reference guide.
+  final TtlDuration? ttlDuration;
+
   OnlineStoreConfig({
     this.enableOnlineStore,
     this.securityConfig,
+    this.storageType,
+    this.ttlDuration,
   });
 
   factory OnlineStoreConfig.fromJson(Map<String, dynamic> json) {
@@ -50272,15 +56691,44 @@ class OnlineStoreConfig {
           ? OnlineStoreSecurityConfig.fromJson(
               json['SecurityConfig'] as Map<String, dynamic>)
           : null,
+      storageType: (json['StorageType'] as String?)?.toStorageType(),
+      ttlDuration: json['TtlDuration'] != null
+          ? TtlDuration.fromJson(json['TtlDuration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final enableOnlineStore = this.enableOnlineStore;
     final securityConfig = this.securityConfig;
+    final storageType = this.storageType;
+    final ttlDuration = this.ttlDuration;
     return {
       if (enableOnlineStore != null) 'EnableOnlineStore': enableOnlineStore,
       if (securityConfig != null) 'SecurityConfig': securityConfig,
+      if (storageType != null) 'StorageType': storageType.toValue(),
+      if (ttlDuration != null) 'TtlDuration': ttlDuration,
+    };
+  }
+}
+
+/// Updates the feature group online store configuration.
+class OnlineStoreConfigUpdate {
+  /// Time to live duration, where the record is hard deleted after the expiration
+  /// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
+  /// <code>TtlDuration</code>. For information on HardDelete, see the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
+  /// API in the Amazon SageMaker API Reference guide.
+  final TtlDuration? ttlDuration;
+
+  OnlineStoreConfigUpdate({
+    this.ttlDuration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final ttlDuration = this.ttlDuration;
+    return {
+      if (ttlDuration != null) 'TtlDuration': ttlDuration,
     };
   }
 }
@@ -50455,6 +56903,34 @@ extension OrderKeyFromString on String {
   }
 }
 
+enum OutputCompressionType {
+  gzip,
+  none,
+}
+
+extension OutputCompressionTypeValueExtension on OutputCompressionType {
+  String toValue() {
+    switch (this) {
+      case OutputCompressionType.gzip:
+        return 'GZIP';
+      case OutputCompressionType.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension OutputCompressionTypeFromString on String {
+  OutputCompressionType toOutputCompressionType() {
+    switch (this) {
+      case 'GZIP':
+        return OutputCompressionType.gzip;
+      case 'NONE':
+        return OutputCompressionType.none;
+    }
+    throw Exception('$this is not known in enum OutputCompressionType');
+  }
+}
+
 /// Contains information about the output location for the compiled model and
 /// the target device that the model runs on. <code>TargetDevice</code> and
 /// <code>TargetPlatform</code> are mutually exclusive, so you need to choose
@@ -50556,8 +57032,8 @@ class OutputConfig {
   /// "\"--verbose 1 --num-neuroncores 2 -O2\""</code>.
   ///
   /// For information about supported compiler options, see <a
-  /// href="https://github.com/aws/aws-neuron-sdk/blob/master/docs/neuron-cc/command-line-reference.md">
-  /// Neuron Compiler CLI</a>.
+  /// href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/compiler/neuronx-cc/api-reference-guide/neuron-compiler-cli-reference-guide.html">
+  /// Neuron Compiler CLI Reference Guide</a>.
   /// </li>
   /// <li>
   /// <code>CoreML</code>: Compilation for the CoreML <a
@@ -50632,6 +57108,10 @@ class OutputConfig {
   /// can specify OS, architecture, and accelerator using <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TargetPlatform.html">TargetPlatform</a>
   /// fields. It can be used instead of <code>TargetPlatform</code>.
+  /// <note>
+  /// Currently <code>ml_trn1</code> is available only in US East (N. Virginia)
+  /// Region, and <code>ml_inf2</code> is available only in US East (Ohio) Region.
+  /// </note>
   final TargetDevice? targetDevice;
 
   /// Contains information about a target platform that you want your model to run
@@ -50734,6 +57214,10 @@ class OutputDataConfig {
   /// artifacts. For example, <code>s3://bucket-name/key-name-prefix</code>.
   final String s3OutputPath;
 
+  /// The model output compression type. Select <code>None</code> to output an
+  /// uncompressed model, recommended for large model outputs. Defaults to gzip.
+  final OutputCompressionType? compressionType;
+
   /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key
   /// that SageMaker uses to encrypt the model artifacts at rest using Amazon S3
   /// server-side encryption. The <code>KmsKeyId</code> can be any of the
@@ -50764,15 +57248,12 @@ class OutputDataConfig {
   /// If you use a KMS key ID or an alias of your KMS key, the SageMaker execution
   /// role must include permissions to call <code>kms:Encrypt</code>. If you don't
   /// provide a KMS key ID, SageMaker uses the default KMS key for Amazon S3 for
-  /// your role's account. SageMaker uses server-side encryption with KMS-managed
-  /// keys for <code>OutputDataConfig</code>. If you use a bucket policy with an
-  /// <code>s3:PutObject</code> permission that only allows objects with
-  /// server-side encryption, set the condition key of
-  /// <code>s3:x-amz-server-side-encryption</code> to <code>"aws:kms"</code>. For
-  /// more information, see <a
+  /// your role's account. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html">KMS-Managed
   /// Encryption Keys</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide.</i>
+  /// Guide</i>. If the output data is stored in Amazon S3 Express One Zone, it is
+  /// encrypted with server-side encryption with Amazon S3 managed keys (SSE-S3).
+  /// KMS key is not supported for Amazon S3 Express One Zone
   ///
   /// The KMS key policy must grant permission to the IAM role that you specify in
   /// your <code>CreateTrainingJob</code>, <code>CreateTransformJob</code>, or
@@ -50785,21 +57266,26 @@ class OutputDataConfig {
 
   OutputDataConfig({
     required this.s3OutputPath,
+    this.compressionType,
     this.kmsKeyId,
   });
 
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
       s3OutputPath: json['S3OutputPath'] as String,
+      compressionType:
+          (json['CompressionType'] as String?)?.toOutputCompressionType(),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final s3OutputPath = this.s3OutputPath;
+    final compressionType = this.compressionType;
     final kmsKeyId = this.kmsKeyId;
     return {
       'S3OutputPath': s3OutputPath,
+      if (compressionType != null) 'CompressionType': compressionType.toValue(),
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
     };
   }
@@ -50832,6 +57318,45 @@ class OutputParameter {
       'Name': name,
       'Value': value,
     };
+  }
+}
+
+/// The collection of ownership settings for a space.
+class OwnershipSettings {
+  /// The user profile who is the owner of the space.
+  final String ownerUserProfileName;
+
+  OwnershipSettings({
+    required this.ownerUserProfileName,
+  });
+
+  factory OwnershipSettings.fromJson(Map<String, dynamic> json) {
+    return OwnershipSettings(
+      ownerUserProfileName: json['OwnerUserProfileName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ownerUserProfileName = this.ownerUserProfileName;
+    return {
+      'OwnerUserProfileName': ownerUserProfileName,
+    };
+  }
+}
+
+/// Specifies summary information about the ownership settings.
+class OwnershipSettingsSummary {
+  /// The user profile who is the owner of the space.
+  final String? ownerUserProfileName;
+
+  OwnershipSettingsSummary({
+    this.ownerUserProfileName,
+  });
+
+  factory OwnershipSettingsSummary.fromJson(Map<String, dynamic> json) {
+    return OwnershipSettingsSummary(
+      ownerUserProfileName: json['OwnerUserProfileName'] as String?,
+    );
   }
 }
 
@@ -50972,6 +57497,10 @@ class ParameterRange {
 /// specified.
 /// </note>
 class ParameterRanges {
+  /// A list containing hyperparameter names and example values to be used by
+  /// Autotune to determine optimal ranges for your tuning job.
+  final List<AutoParameter>? autoParameters;
+
   /// The array of <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CategoricalParameterRange.html">CategoricalParameterRange</a>
   /// objects that specify ranges of categorical hyperparameters that a
@@ -50991,6 +57520,7 @@ class ParameterRanges {
   final List<IntegerParameterRange>? integerParameterRanges;
 
   ParameterRanges({
+    this.autoParameters,
     this.categoricalParameterRanges,
     this.continuousParameterRanges,
     this.integerParameterRanges,
@@ -50998,6 +57528,10 @@ class ParameterRanges {
 
   factory ParameterRanges.fromJson(Map<String, dynamic> json) {
     return ParameterRanges(
+      autoParameters: (json['AutoParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       categoricalParameterRanges: (json['CategoricalParameterRanges'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -51016,10 +57550,12 @@ class ParameterRanges {
   }
 
   Map<String, dynamic> toJson() {
+    final autoParameters = this.autoParameters;
     final categoricalParameterRanges = this.categoricalParameterRanges;
     final continuousParameterRanges = this.continuousParameterRanges;
     final integerParameterRanges = this.integerParameterRanges;
     return {
+      if (autoParameters != null) 'AutoParameters': autoParameters,
       if (categoricalParameterRanges != null)
         'CategoricalParameterRanges': categoricalParameterRanges,
       if (continuousParameterRanges != null)
@@ -51218,6 +57754,14 @@ class PendingProductionVariantSummary {
   /// The type of instances associated with the variant.
   final ProductionVariantInstanceType? instanceType;
 
+  /// Settings that control the range in the number of instances that the endpoint
+  /// provisions as it scales up or down to accommodate traffic.
+  final ProductionVariantManagedInstanceScaling? managedInstanceScaling;
+
+  /// Settings that control how the endpoint routes incoming traffic to the
+  /// instances that the endpoint hosts.
+  final ProductionVariantRoutingConfig? routingConfig;
+
   /// The endpoint variant status which describes the current deployment stage
   /// status or operational status.
   final List<ProductionVariantStatus>? variantStatus;
@@ -51233,6 +57777,8 @@ class PendingProductionVariantSummary {
     this.desiredServerlessConfig,
     this.desiredWeight,
     this.instanceType,
+    this.managedInstanceScaling,
+    this.routingConfig,
     this.variantStatus,
   });
 
@@ -51259,6 +57805,14 @@ class PendingProductionVariantSummary {
       desiredWeight: json['DesiredWeight'] as double?,
       instanceType:
           (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      managedInstanceScaling: json['ManagedInstanceScaling'] != null
+          ? ProductionVariantManagedInstanceScaling.fromJson(
+              json['ManagedInstanceScaling'] as Map<String, dynamic>)
+          : null,
+      routingConfig: json['RoutingConfig'] != null
+          ? ProductionVariantRoutingConfig.fromJson(
+              json['RoutingConfig'] as Map<String, dynamic>)
+          : null,
       variantStatus: (json['VariantStatus'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -51270,10 +57824,13 @@ class PendingProductionVariantSummary {
 
 /// Defines the traffic pattern.
 class Phase {
-  /// Specifies how long traffic phase should be.
+  /// Specifies how long a traffic phase should be. For custom load tests, the
+  /// value should be between 120 and 3600. This value should not exceed
+  /// <code>JobDurationInSeconds</code>.
   final int? durationInSeconds;
 
-  /// Specifies how many concurrent users to start with.
+  /// Specifies how many concurrent users to start with. The value should be
+  /// between 1 and 3.
   final int? initialNumberOfUsers;
 
   /// Specified how many new users to spawn in a minute.
@@ -51455,6 +58012,9 @@ class PipelineExecution {
   /// Contains a list of pipeline parameters. This list can be empty.
   final List<Parameter>? pipelineParameters;
 
+  /// The selective execution configuration applied to the pipeline run.
+  final SelectiveExecutionConfig? selectiveExecutionConfig;
+
   PipelineExecution({
     this.createdBy,
     this.creationTime,
@@ -51469,6 +58029,7 @@ class PipelineExecution {
     this.pipelineExecutionStatus,
     this.pipelineExperimentConfig,
     this.pipelineParameters,
+    this.selectiveExecutionConfig,
   });
 
   factory PipelineExecution.fromJson(Map<String, dynamic> json) {
@@ -51502,6 +58063,10 @@ class PipelineExecution {
           ?.whereNotNull()
           .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
           .toList(),
+      selectiveExecutionConfig: json['SelectiveExecutionConfig'] != null
+          ? SelectiveExecutionConfig.fromJson(
+              json['SelectiveExecutionConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -51569,6 +58134,10 @@ class PipelineExecutionStep {
   /// Metadata to run the pipeline step.
   final PipelineExecutionStepMetadata? metadata;
 
+  /// The ARN from an execution of the current pipeline from which results are
+  /// reused for this step.
+  final SelectiveExecutionResult? selectiveExecutionResult;
+
   /// The time that the step started executing.
   final DateTime? startTime;
 
@@ -51590,6 +58159,7 @@ class PipelineExecutionStep {
     this.endTime,
     this.failureReason,
     this.metadata,
+    this.selectiveExecutionResult,
     this.startTime,
     this.stepDescription,
     this.stepDisplayName,
@@ -51609,6 +58179,10 @@ class PipelineExecutionStep {
       metadata: json['Metadata'] != null
           ? PipelineExecutionStepMetadata.fromJson(
               json['Metadata'] as Map<String, dynamic>)
+          : null,
+      selectiveExecutionResult: json['SelectiveExecutionResult'] != null
+          ? SelectiveExecutionResult.fromJson(
+              json['SelectiveExecutionResult'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
       stepDescription: json['StepDescription'] as String?,
@@ -51876,6 +58450,7 @@ class PipelineExperimentConfig {
 
 enum PipelineStatus {
   active,
+  deleting,
 }
 
 extension PipelineStatusValueExtension on PipelineStatus {
@@ -51883,6 +58458,8 @@ extension PipelineStatusValueExtension on PipelineStatus {
     switch (this) {
       case PipelineStatus.active:
         return 'Active';
+      case PipelineStatus.deleting:
+        return 'Deleting';
     }
   }
 }
@@ -51892,6 +58469,8 @@ extension PipelineStatusFromString on String {
     switch (this) {
       case 'Active':
         return PipelineStatus.active;
+      case 'Deleting':
+        return PipelineStatus.deleting;
     }
     throw Exception('$this is not known in enum PipelineStatus');
   }
@@ -51944,6 +58523,23 @@ class PipelineSummary {
       pipelineDisplayName: json['PipelineDisplayName'] as String?,
       pipelineName: json['PipelineName'] as String?,
       roleArn: json['RoleArn'] as String?,
+    );
+  }
+}
+
+/// A specification for a predefined metric.
+class PredefinedMetricSpecification {
+  /// The metric type. You can only apply SageMaker metric types to SageMaker
+  /// endpoints.
+  final String? predefinedMetricType;
+
+  PredefinedMetricSpecification({
+    this.predefinedMetricType,
+  });
+
+  factory PredefinedMetricSpecification.fromJson(Map<String, dynamic> json) {
+    return PredefinedMetricSpecification(
+      predefinedMetricType: json['PredefinedMetricType'] as String?,
     );
   }
 }
@@ -53085,10 +59681,6 @@ extension ProcessorFromString on String {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html">
 /// Production variants</a>.
 class ProductionVariant {
-  /// The name of the model that you want to host. This is the name that you
-  /// specified when creating the model.
-  final String modelName;
-
   /// The name of the production variant.
   final String variantName;
 
@@ -53130,10 +59722,22 @@ class ProductionVariant {
   /// The ML compute instance type.
   final ProductionVariantInstanceType? instanceType;
 
+  /// Settings that control the range in the number of instances that the endpoint
+  /// provisions as it scales up or down to accommodate traffic.
+  final ProductionVariantManagedInstanceScaling? managedInstanceScaling;
+
   /// The timeout value, in seconds, to download and extract the model that you
   /// want to host from Amazon S3 to the individual inference instance associated
   /// with this production variant.
   final int? modelDataDownloadTimeoutInSeconds;
+
+  /// The name of the model that you want to host. This is the name that you
+  /// specified when creating the model.
+  final String? modelName;
+
+  /// Settings that control how the endpoint routes incoming traffic to the
+  /// instances that the endpoint hosts.
+  final ProductionVariantRoutingConfig? routingConfig;
 
   /// The serverless configuration for an endpoint. Specifies a serverless
   /// endpoint configuration instead of an instance-based endpoint configuration.
@@ -53145,7 +59749,6 @@ class ProductionVariant {
   final int? volumeSizeInGB;
 
   ProductionVariant({
-    required this.modelName,
     required this.variantName,
     this.acceleratorType,
     this.containerStartupHealthCheckTimeoutInSeconds,
@@ -53154,14 +59757,16 @@ class ProductionVariant {
     this.initialInstanceCount,
     this.initialVariantWeight,
     this.instanceType,
+    this.managedInstanceScaling,
     this.modelDataDownloadTimeoutInSeconds,
+    this.modelName,
+    this.routingConfig,
     this.serverlessConfig,
     this.volumeSizeInGB,
   });
 
   factory ProductionVariant.fromJson(Map<String, dynamic> json) {
     return ProductionVariant(
-      modelName: json['ModelName'] as String,
       variantName: json['VariantName'] as String,
       acceleratorType: (json['AcceleratorType'] as String?)
           ?.toProductionVariantAcceleratorType(),
@@ -53176,8 +59781,17 @@ class ProductionVariant {
       initialVariantWeight: json['InitialVariantWeight'] as double?,
       instanceType:
           (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      managedInstanceScaling: json['ManagedInstanceScaling'] != null
+          ? ProductionVariantManagedInstanceScaling.fromJson(
+              json['ManagedInstanceScaling'] as Map<String, dynamic>)
+          : null,
       modelDataDownloadTimeoutInSeconds:
           json['ModelDataDownloadTimeoutInSeconds'] as int?,
+      modelName: json['ModelName'] as String?,
+      routingConfig: json['RoutingConfig'] != null
+          ? ProductionVariantRoutingConfig.fromJson(
+              json['RoutingConfig'] as Map<String, dynamic>)
+          : null,
       serverlessConfig: json['ServerlessConfig'] != null
           ? ProductionVariantServerlessConfig.fromJson(
               json['ServerlessConfig'] as Map<String, dynamic>)
@@ -53187,7 +59801,6 @@ class ProductionVariant {
   }
 
   Map<String, dynamic> toJson() {
-    final modelName = this.modelName;
     final variantName = this.variantName;
     final acceleratorType = this.acceleratorType;
     final containerStartupHealthCheckTimeoutInSeconds =
@@ -53197,12 +59810,14 @@ class ProductionVariant {
     final initialInstanceCount = this.initialInstanceCount;
     final initialVariantWeight = this.initialVariantWeight;
     final instanceType = this.instanceType;
+    final managedInstanceScaling = this.managedInstanceScaling;
     final modelDataDownloadTimeoutInSeconds =
         this.modelDataDownloadTimeoutInSeconds;
+    final modelName = this.modelName;
+    final routingConfig = this.routingConfig;
     final serverlessConfig = this.serverlessConfig;
     final volumeSizeInGB = this.volumeSizeInGB;
     return {
-      'ModelName': modelName,
       'VariantName': variantName,
       if (acceleratorType != null) 'AcceleratorType': acceleratorType.toValue(),
       if (containerStartupHealthCheckTimeoutInSeconds != null)
@@ -53215,8 +59830,12 @@ class ProductionVariant {
       if (initialVariantWeight != null)
         'InitialVariantWeight': initialVariantWeight,
       if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (managedInstanceScaling != null)
+        'ManagedInstanceScaling': managedInstanceScaling,
       if (modelDataDownloadTimeoutInSeconds != null)
         'ModelDataDownloadTimeoutInSeconds': modelDataDownloadTimeoutInSeconds,
+      if (modelName != null) 'ModelName': modelName,
+      if (routingConfig != null) 'RoutingConfig': routingConfig,
       if (serverlessConfig != null) 'ServerlessConfig': serverlessConfig,
       if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
     };
@@ -53416,6 +60035,7 @@ enum ProductionVariantInstanceType {
   mlInf1_2xlarge,
   mlInf1_6xlarge,
   mlInf1_24xlarge,
+  mlDl1_24xlarge,
   mlC6iLarge,
   mlC6iXlarge,
   mlC6i_2xlarge,
@@ -53433,6 +60053,14 @@ enum ProductionVariantInstanceType {
   mlG5_16xlarge,
   mlG5_24xlarge,
   mlG5_48xlarge,
+  mlG6Xlarge,
+  mlG6_2xlarge,
+  mlG6_4xlarge,
+  mlG6_8xlarge,
+  mlG6_12xlarge,
+  mlG6_16xlarge,
+  mlG6_24xlarge,
+  mlG6_48xlarge,
   mlP4d_24xlarge,
   mlC7gLarge,
   mlC7gXlarge,
@@ -53493,10 +60121,39 @@ enum ProductionVariantInstanceType {
   mlP4de_24xlarge,
   mlTrn1_2xlarge,
   mlTrn1_32xlarge,
+  mlTrn1n_32xlarge,
   mlInf2Xlarge,
   mlInf2_8xlarge,
   mlInf2_24xlarge,
   mlInf2_48xlarge,
+  mlP5_48xlarge,
+  mlM7iLarge,
+  mlM7iXlarge,
+  mlM7i_2xlarge,
+  mlM7i_4xlarge,
+  mlM7i_8xlarge,
+  mlM7i_12xlarge,
+  mlM7i_16xlarge,
+  mlM7i_24xlarge,
+  mlM7i_48xlarge,
+  mlC7iLarge,
+  mlC7iXlarge,
+  mlC7i_2xlarge,
+  mlC7i_4xlarge,
+  mlC7i_8xlarge,
+  mlC7i_12xlarge,
+  mlC7i_16xlarge,
+  mlC7i_24xlarge,
+  mlC7i_48xlarge,
+  mlR7iLarge,
+  mlR7iXlarge,
+  mlR7i_2xlarge,
+  mlR7i_4xlarge,
+  mlR7i_8xlarge,
+  mlR7i_12xlarge,
+  mlR7i_16xlarge,
+  mlR7i_24xlarge,
+  mlR7i_48xlarge,
 }
 
 extension ProductionVariantInstanceTypeValueExtension
@@ -53635,6 +60292,8 @@ extension ProductionVariantInstanceTypeValueExtension
         return 'ml.inf1.6xlarge';
       case ProductionVariantInstanceType.mlInf1_24xlarge:
         return 'ml.inf1.24xlarge';
+      case ProductionVariantInstanceType.mlDl1_24xlarge:
+        return 'ml.dl1.24xlarge';
       case ProductionVariantInstanceType.mlC6iLarge:
         return 'ml.c6i.large';
       case ProductionVariantInstanceType.mlC6iXlarge:
@@ -53669,6 +60328,22 @@ extension ProductionVariantInstanceTypeValueExtension
         return 'ml.g5.24xlarge';
       case ProductionVariantInstanceType.mlG5_48xlarge:
         return 'ml.g5.48xlarge';
+      case ProductionVariantInstanceType.mlG6Xlarge:
+        return 'ml.g6.xlarge';
+      case ProductionVariantInstanceType.mlG6_2xlarge:
+        return 'ml.g6.2xlarge';
+      case ProductionVariantInstanceType.mlG6_4xlarge:
+        return 'ml.g6.4xlarge';
+      case ProductionVariantInstanceType.mlG6_8xlarge:
+        return 'ml.g6.8xlarge';
+      case ProductionVariantInstanceType.mlG6_12xlarge:
+        return 'ml.g6.12xlarge';
+      case ProductionVariantInstanceType.mlG6_16xlarge:
+        return 'ml.g6.16xlarge';
+      case ProductionVariantInstanceType.mlG6_24xlarge:
+        return 'ml.g6.24xlarge';
+      case ProductionVariantInstanceType.mlG6_48xlarge:
+        return 'ml.g6.48xlarge';
       case ProductionVariantInstanceType.mlP4d_24xlarge:
         return 'ml.p4d.24xlarge';
       case ProductionVariantInstanceType.mlC7gLarge:
@@ -53789,6 +60464,8 @@ extension ProductionVariantInstanceTypeValueExtension
         return 'ml.trn1.2xlarge';
       case ProductionVariantInstanceType.mlTrn1_32xlarge:
         return 'ml.trn1.32xlarge';
+      case ProductionVariantInstanceType.mlTrn1n_32xlarge:
+        return 'ml.trn1n.32xlarge';
       case ProductionVariantInstanceType.mlInf2Xlarge:
         return 'ml.inf2.xlarge';
       case ProductionVariantInstanceType.mlInf2_8xlarge:
@@ -53797,6 +60474,62 @@ extension ProductionVariantInstanceTypeValueExtension
         return 'ml.inf2.24xlarge';
       case ProductionVariantInstanceType.mlInf2_48xlarge:
         return 'ml.inf2.48xlarge';
+      case ProductionVariantInstanceType.mlP5_48xlarge:
+        return 'ml.p5.48xlarge';
+      case ProductionVariantInstanceType.mlM7iLarge:
+        return 'ml.m7i.large';
+      case ProductionVariantInstanceType.mlM7iXlarge:
+        return 'ml.m7i.xlarge';
+      case ProductionVariantInstanceType.mlM7i_2xlarge:
+        return 'ml.m7i.2xlarge';
+      case ProductionVariantInstanceType.mlM7i_4xlarge:
+        return 'ml.m7i.4xlarge';
+      case ProductionVariantInstanceType.mlM7i_8xlarge:
+        return 'ml.m7i.8xlarge';
+      case ProductionVariantInstanceType.mlM7i_12xlarge:
+        return 'ml.m7i.12xlarge';
+      case ProductionVariantInstanceType.mlM7i_16xlarge:
+        return 'ml.m7i.16xlarge';
+      case ProductionVariantInstanceType.mlM7i_24xlarge:
+        return 'ml.m7i.24xlarge';
+      case ProductionVariantInstanceType.mlM7i_48xlarge:
+        return 'ml.m7i.48xlarge';
+      case ProductionVariantInstanceType.mlC7iLarge:
+        return 'ml.c7i.large';
+      case ProductionVariantInstanceType.mlC7iXlarge:
+        return 'ml.c7i.xlarge';
+      case ProductionVariantInstanceType.mlC7i_2xlarge:
+        return 'ml.c7i.2xlarge';
+      case ProductionVariantInstanceType.mlC7i_4xlarge:
+        return 'ml.c7i.4xlarge';
+      case ProductionVariantInstanceType.mlC7i_8xlarge:
+        return 'ml.c7i.8xlarge';
+      case ProductionVariantInstanceType.mlC7i_12xlarge:
+        return 'ml.c7i.12xlarge';
+      case ProductionVariantInstanceType.mlC7i_16xlarge:
+        return 'ml.c7i.16xlarge';
+      case ProductionVariantInstanceType.mlC7i_24xlarge:
+        return 'ml.c7i.24xlarge';
+      case ProductionVariantInstanceType.mlC7i_48xlarge:
+        return 'ml.c7i.48xlarge';
+      case ProductionVariantInstanceType.mlR7iLarge:
+        return 'ml.r7i.large';
+      case ProductionVariantInstanceType.mlR7iXlarge:
+        return 'ml.r7i.xlarge';
+      case ProductionVariantInstanceType.mlR7i_2xlarge:
+        return 'ml.r7i.2xlarge';
+      case ProductionVariantInstanceType.mlR7i_4xlarge:
+        return 'ml.r7i.4xlarge';
+      case ProductionVariantInstanceType.mlR7i_8xlarge:
+        return 'ml.r7i.8xlarge';
+      case ProductionVariantInstanceType.mlR7i_12xlarge:
+        return 'ml.r7i.12xlarge';
+      case ProductionVariantInstanceType.mlR7i_16xlarge:
+        return 'ml.r7i.16xlarge';
+      case ProductionVariantInstanceType.mlR7i_24xlarge:
+        return 'ml.r7i.24xlarge';
+      case ProductionVariantInstanceType.mlR7i_48xlarge:
+        return 'ml.r7i.48xlarge';
     }
   }
 }
@@ -53936,6 +60669,8 @@ extension ProductionVariantInstanceTypeFromString on String {
         return ProductionVariantInstanceType.mlInf1_6xlarge;
       case 'ml.inf1.24xlarge':
         return ProductionVariantInstanceType.mlInf1_24xlarge;
+      case 'ml.dl1.24xlarge':
+        return ProductionVariantInstanceType.mlDl1_24xlarge;
       case 'ml.c6i.large':
         return ProductionVariantInstanceType.mlC6iLarge;
       case 'ml.c6i.xlarge':
@@ -53970,6 +60705,22 @@ extension ProductionVariantInstanceTypeFromString on String {
         return ProductionVariantInstanceType.mlG5_24xlarge;
       case 'ml.g5.48xlarge':
         return ProductionVariantInstanceType.mlG5_48xlarge;
+      case 'ml.g6.xlarge':
+        return ProductionVariantInstanceType.mlG6Xlarge;
+      case 'ml.g6.2xlarge':
+        return ProductionVariantInstanceType.mlG6_2xlarge;
+      case 'ml.g6.4xlarge':
+        return ProductionVariantInstanceType.mlG6_4xlarge;
+      case 'ml.g6.8xlarge':
+        return ProductionVariantInstanceType.mlG6_8xlarge;
+      case 'ml.g6.12xlarge':
+        return ProductionVariantInstanceType.mlG6_12xlarge;
+      case 'ml.g6.16xlarge':
+        return ProductionVariantInstanceType.mlG6_16xlarge;
+      case 'ml.g6.24xlarge':
+        return ProductionVariantInstanceType.mlG6_24xlarge;
+      case 'ml.g6.48xlarge':
+        return ProductionVariantInstanceType.mlG6_48xlarge;
       case 'ml.p4d.24xlarge':
         return ProductionVariantInstanceType.mlP4d_24xlarge;
       case 'ml.c7g.large':
@@ -54090,6 +60841,8 @@ extension ProductionVariantInstanceTypeFromString on String {
         return ProductionVariantInstanceType.mlTrn1_2xlarge;
       case 'ml.trn1.32xlarge':
         return ProductionVariantInstanceType.mlTrn1_32xlarge;
+      case 'ml.trn1n.32xlarge':
+        return ProductionVariantInstanceType.mlTrn1n_32xlarge;
       case 'ml.inf2.xlarge':
         return ProductionVariantInstanceType.mlInf2Xlarge;
       case 'ml.inf2.8xlarge':
@@ -54098,8 +60851,140 @@ extension ProductionVariantInstanceTypeFromString on String {
         return ProductionVariantInstanceType.mlInf2_24xlarge;
       case 'ml.inf2.48xlarge':
         return ProductionVariantInstanceType.mlInf2_48xlarge;
+      case 'ml.p5.48xlarge':
+        return ProductionVariantInstanceType.mlP5_48xlarge;
+      case 'ml.m7i.large':
+        return ProductionVariantInstanceType.mlM7iLarge;
+      case 'ml.m7i.xlarge':
+        return ProductionVariantInstanceType.mlM7iXlarge;
+      case 'ml.m7i.2xlarge':
+        return ProductionVariantInstanceType.mlM7i_2xlarge;
+      case 'ml.m7i.4xlarge':
+        return ProductionVariantInstanceType.mlM7i_4xlarge;
+      case 'ml.m7i.8xlarge':
+        return ProductionVariantInstanceType.mlM7i_8xlarge;
+      case 'ml.m7i.12xlarge':
+        return ProductionVariantInstanceType.mlM7i_12xlarge;
+      case 'ml.m7i.16xlarge':
+        return ProductionVariantInstanceType.mlM7i_16xlarge;
+      case 'ml.m7i.24xlarge':
+        return ProductionVariantInstanceType.mlM7i_24xlarge;
+      case 'ml.m7i.48xlarge':
+        return ProductionVariantInstanceType.mlM7i_48xlarge;
+      case 'ml.c7i.large':
+        return ProductionVariantInstanceType.mlC7iLarge;
+      case 'ml.c7i.xlarge':
+        return ProductionVariantInstanceType.mlC7iXlarge;
+      case 'ml.c7i.2xlarge':
+        return ProductionVariantInstanceType.mlC7i_2xlarge;
+      case 'ml.c7i.4xlarge':
+        return ProductionVariantInstanceType.mlC7i_4xlarge;
+      case 'ml.c7i.8xlarge':
+        return ProductionVariantInstanceType.mlC7i_8xlarge;
+      case 'ml.c7i.12xlarge':
+        return ProductionVariantInstanceType.mlC7i_12xlarge;
+      case 'ml.c7i.16xlarge':
+        return ProductionVariantInstanceType.mlC7i_16xlarge;
+      case 'ml.c7i.24xlarge':
+        return ProductionVariantInstanceType.mlC7i_24xlarge;
+      case 'ml.c7i.48xlarge':
+        return ProductionVariantInstanceType.mlC7i_48xlarge;
+      case 'ml.r7i.large':
+        return ProductionVariantInstanceType.mlR7iLarge;
+      case 'ml.r7i.xlarge':
+        return ProductionVariantInstanceType.mlR7iXlarge;
+      case 'ml.r7i.2xlarge':
+        return ProductionVariantInstanceType.mlR7i_2xlarge;
+      case 'ml.r7i.4xlarge':
+        return ProductionVariantInstanceType.mlR7i_4xlarge;
+      case 'ml.r7i.8xlarge':
+        return ProductionVariantInstanceType.mlR7i_8xlarge;
+      case 'ml.r7i.12xlarge':
+        return ProductionVariantInstanceType.mlR7i_12xlarge;
+      case 'ml.r7i.16xlarge':
+        return ProductionVariantInstanceType.mlR7i_16xlarge;
+      case 'ml.r7i.24xlarge':
+        return ProductionVariantInstanceType.mlR7i_24xlarge;
+      case 'ml.r7i.48xlarge':
+        return ProductionVariantInstanceType.mlR7i_48xlarge;
     }
     throw Exception('$this is not known in enum ProductionVariantInstanceType');
+  }
+}
+
+/// Settings that control the range in the number of instances that the endpoint
+/// provisions as it scales up or down to accommodate traffic.
+class ProductionVariantManagedInstanceScaling {
+  /// The maximum number of instances that the endpoint can provision when it
+  /// scales up to accommodate an increase in traffic.
+  final int? maxInstanceCount;
+
+  /// The minimum number of instances that the endpoint must retain when it scales
+  /// down to accommodate a decrease in traffic.
+  final int? minInstanceCount;
+
+  /// Indicates whether managed instance scaling is enabled.
+  final ManagedInstanceScalingStatus? status;
+
+  ProductionVariantManagedInstanceScaling({
+    this.maxInstanceCount,
+    this.minInstanceCount,
+    this.status,
+  });
+
+  factory ProductionVariantManagedInstanceScaling.fromJson(
+      Map<String, dynamic> json) {
+    return ProductionVariantManagedInstanceScaling(
+      maxInstanceCount: json['MaxInstanceCount'] as int?,
+      minInstanceCount: json['MinInstanceCount'] as int?,
+      status: (json['Status'] as String?)?.toManagedInstanceScalingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxInstanceCount = this.maxInstanceCount;
+    final minInstanceCount = this.minInstanceCount;
+    final status = this.status;
+    return {
+      if (maxInstanceCount != null) 'MaxInstanceCount': maxInstanceCount,
+      if (minInstanceCount != null) 'MinInstanceCount': minInstanceCount,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// Settings that control how the endpoint routes incoming traffic to the
+/// instances that the endpoint hosts.
+class ProductionVariantRoutingConfig {
+  /// Sets how the endpoint routes incoming traffic:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LEAST_OUTSTANDING_REQUESTS</code>: The endpoint routes requests to the
+  /// specific instances that have more capacity to process them.
+  /// </li>
+  /// <li>
+  /// <code>RANDOM</code>: The endpoint routes each request to a randomly chosen
+  /// instance.
+  /// </li>
+  /// </ul>
+  final RoutingStrategy routingStrategy;
+
+  ProductionVariantRoutingConfig({
+    required this.routingStrategy,
+  });
+
+  factory ProductionVariantRoutingConfig.fromJson(Map<String, dynamic> json) {
+    return ProductionVariantRoutingConfig(
+      routingStrategy: (json['RoutingStrategy'] as String).toRoutingStrategy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final routingStrategy = this.routingStrategy;
+    return {
+      'RoutingStrategy': routingStrategy.toValue(),
+    };
   }
 }
 
@@ -54115,6 +61000,12 @@ class ProductionVariantServerlessConfig {
 
   /// The amount of provisioned concurrency to allocate for the serverless
   /// endpoint. Should be less than or equal to <code>MaxConcurrency</code>.
+  /// <note>
+  /// This field is not supported for serverless endpoint recommendations for
+  /// Inference Recommender jobs. For more information about creating an Inference
+  /// Recommender job, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateInferenceRecommendationsJob.html">CreateInferenceRecommendationsJobs</a>.
+  /// </note>
   final int? provisionedConcurrency;
 
   ProductionVariantServerlessConfig({
@@ -54254,6 +61145,14 @@ class ProductionVariantSummary {
   /// <code>UpdateEndpointWeightsAndCapacities</code> request.
   final double? desiredWeight;
 
+  /// Settings that control the range in the number of instances that the endpoint
+  /// provisions as it scales up or down to accommodate traffic.
+  final ProductionVariantManagedInstanceScaling? managedInstanceScaling;
+
+  /// Settings that control how the endpoint routes incoming traffic to the
+  /// instances that the endpoint hosts.
+  final ProductionVariantRoutingConfig? routingConfig;
+
   /// The endpoint variant status which describes the current deployment stage
   /// status or operational status.
   final List<ProductionVariantStatus>? variantStatus;
@@ -54267,6 +61166,8 @@ class ProductionVariantSummary {
     this.desiredInstanceCount,
     this.desiredServerlessConfig,
     this.desiredWeight,
+    this.managedInstanceScaling,
+    this.routingConfig,
     this.variantStatus,
   });
 
@@ -54289,6 +61190,14 @@ class ProductionVariantSummary {
               json['DesiredServerlessConfig'] as Map<String, dynamic>)
           : null,
       desiredWeight: json['DesiredWeight'] as double?,
+      managedInstanceScaling: json['ManagedInstanceScaling'] != null
+          ? ProductionVariantManagedInstanceScaling.fromJson(
+              json['ManagedInstanceScaling'] as Map<String, dynamic>)
+          : null,
+      routingConfig: json['RoutingConfig'] != null
+          ? ProductionVariantRoutingConfig.fromJson(
+              json['RoutingConfig'] as Map<String, dynamic>)
+          : null,
       variantStatus: (json['VariantStatus'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -55464,9 +62373,7 @@ extension RStudioServerProAccessStatusFromString on String {
 }
 
 /// A collection of settings that configure user interaction with the
-/// <code>RStudioServerPro</code> app. <code>RStudioServerProAppSettings</code>
-/// cannot be updated. The <code>RStudioServerPro</code> app must be deleted and
-/// a new one created to make any changes.
+/// <code>RStudioServerPro</code> app.
 class RStudioServerProAppSettings {
   /// Indicates whether the current user has access to the
   /// <code>RStudioServerPro</code> app.
@@ -55734,9 +62641,19 @@ class RecommendationJobContainerConfig {
   /// payload-related fields.
   final RecommendationJobPayloadConfig? payloadConfig;
 
+  /// The endpoint type to receive recommendations for. By default this is null,
+  /// and the results of the inference recommendation job return a combined list
+  /// of both real-time and serverless benchmarks. By specifying a value for this
+  /// field, you can receive a longer list of benchmarks for the desired endpoint
+  /// type.
+  final RecommendationJobSupportedEndpointType? supportedEndpointType;
+
   /// A list of the instance types that are used to generate inferences in
   /// real-time.
   final List<String>? supportedInstanceTypes;
+
+  /// The supported MIME types for the output data.
+  final List<String>? supportedResponseMIMETypes;
 
   /// The machine learning task that the model accomplishes.
   ///
@@ -55752,7 +62669,9 @@ class RecommendationJobContainerConfig {
     this.frameworkVersion,
     this.nearestModelName,
     this.payloadConfig,
+    this.supportedEndpointType,
     this.supportedInstanceTypes,
+    this.supportedResponseMIMETypes,
     this.task,
   });
 
@@ -55767,7 +62686,13 @@ class RecommendationJobContainerConfig {
           ? RecommendationJobPayloadConfig.fromJson(
               json['PayloadConfig'] as Map<String, dynamic>)
           : null,
+      supportedEndpointType: (json['SupportedEndpointType'] as String?)
+          ?.toRecommendationJobSupportedEndpointType(),
       supportedInstanceTypes: (json['SupportedInstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedResponseMIMETypes: (json['SupportedResponseMIMETypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
@@ -55782,7 +62707,9 @@ class RecommendationJobContainerConfig {
     final frameworkVersion = this.frameworkVersion;
     final nearestModelName = this.nearestModelName;
     final payloadConfig = this.payloadConfig;
+    final supportedEndpointType = this.supportedEndpointType;
     final supportedInstanceTypes = this.supportedInstanceTypes;
+    final supportedResponseMIMETypes = this.supportedResponseMIMETypes;
     final task = this.task;
     return {
       if (dataInputConfig != null) 'DataInputConfig': dataInputConfig,
@@ -55791,8 +62718,12 @@ class RecommendationJobContainerConfig {
       if (frameworkVersion != null) 'FrameworkVersion': frameworkVersion,
       if (nearestModelName != null) 'NearestModelName': nearestModelName,
       if (payloadConfig != null) 'PayloadConfig': payloadConfig,
+      if (supportedEndpointType != null)
+        'SupportedEndpointType': supportedEndpointType.toValue(),
       if (supportedInstanceTypes != null)
         'SupportedInstanceTypes': supportedInstanceTypes,
+      if (supportedResponseMIMETypes != null)
+        'SupportedResponseMIMETypes': supportedResponseMIMETypes,
       if (task != null) 'Task': task,
     };
   }
@@ -55861,7 +62792,8 @@ class RecommendationJobInputConfig {
   /// Existing customer endpoints on which to run an Inference Recommender job.
   final List<EndpointInfo>? endpoints;
 
-  /// Specifies the maximum duration of the job, in seconds.&gt;
+  /// Specifies the maximum duration of the job, in seconds. The maximum value is
+  /// 18,000 seconds.
   final int? jobDurationInSeconds;
 
   /// The name of the created model.
@@ -56128,6 +63060,8 @@ enum RecommendationJobStatus {
   failed,
   stopping,
   stopped,
+  deleting,
+  deleted,
 }
 
 extension RecommendationJobStatusValueExtension on RecommendationJobStatus {
@@ -56145,6 +63079,10 @@ extension RecommendationJobStatusValueExtension on RecommendationJobStatus {
         return 'STOPPING';
       case RecommendationJobStatus.stopped:
         return 'STOPPED';
+      case RecommendationJobStatus.deleting:
+        return 'DELETING';
+      case RecommendationJobStatus.deleted:
+        return 'DELETED';
     }
   }
 }
@@ -56164,6 +63102,10 @@ extension RecommendationJobStatusFromString on String {
         return RecommendationJobStatus.stopping;
       case 'STOPPED':
         return RecommendationJobStatus.stopped;
+      case 'DELETING':
+        return RecommendationJobStatus.deleting;
+      case 'DELETED':
+        return RecommendationJobStatus.deleted;
     }
     throw Exception('$this is not known in enum RecommendationJobStatus');
   }
@@ -56172,6 +63114,12 @@ extension RecommendationJobStatusFromString on String {
 /// Specifies conditions for stopping a job. When a job reaches a stopping
 /// condition limit, SageMaker ends the job.
 class RecommendationJobStoppingConditions {
+  /// Stops a load test when the number of invocations (TPS) peaks and flattens,
+  /// which means that the instance has reached capacity. The default value is
+  /// <code>Stop</code>. If you want the load test to continue after invocations
+  /// have flattened, set the value to <code>Continue</code>.
+  final FlatInvocations? flatInvocations;
+
   /// The maximum number of requests per minute expected for the endpoint.
   final int? maxInvocations;
 
@@ -56182,6 +63130,7 @@ class RecommendationJobStoppingConditions {
   final List<ModelLatencyThreshold>? modelLatencyThresholds;
 
   RecommendationJobStoppingConditions({
+    this.flatInvocations,
     this.maxInvocations,
     this.modelLatencyThresholds,
   });
@@ -56189,6 +63138,8 @@ class RecommendationJobStoppingConditions {
   factory RecommendationJobStoppingConditions.fromJson(
       Map<String, dynamic> json) {
     return RecommendationJobStoppingConditions(
+      flatInvocations:
+          (json['FlatInvocations'] as String?)?.toFlatInvocations(),
       maxInvocations: json['MaxInvocations'] as int?,
       modelLatencyThresholds: (json['ModelLatencyThresholds'] as List?)
           ?.whereNotNull()
@@ -56198,13 +63149,46 @@ class RecommendationJobStoppingConditions {
   }
 
   Map<String, dynamic> toJson() {
+    final flatInvocations = this.flatInvocations;
     final maxInvocations = this.maxInvocations;
     final modelLatencyThresholds = this.modelLatencyThresholds;
     return {
+      if (flatInvocations != null) 'FlatInvocations': flatInvocations.toValue(),
       if (maxInvocations != null) 'MaxInvocations': maxInvocations,
       if (modelLatencyThresholds != null)
         'ModelLatencyThresholds': modelLatencyThresholds,
     };
+  }
+}
+
+enum RecommendationJobSupportedEndpointType {
+  realTime,
+  serverless,
+}
+
+extension RecommendationJobSupportedEndpointTypeValueExtension
+    on RecommendationJobSupportedEndpointType {
+  String toValue() {
+    switch (this) {
+      case RecommendationJobSupportedEndpointType.realTime:
+        return 'RealTime';
+      case RecommendationJobSupportedEndpointType.serverless:
+        return 'Serverless';
+    }
+  }
+}
+
+extension RecommendationJobSupportedEndpointTypeFromString on String {
+  RecommendationJobSupportedEndpointType
+      toRecommendationJobSupportedEndpointType() {
+    switch (this) {
+      case 'RealTime':
+        return RecommendationJobSupportedEndpointType.realTime;
+      case 'Serverless':
+        return RecommendationJobSupportedEndpointType.serverless;
+    }
+    throw Exception(
+        '$this is not known in enum RecommendationJobSupportedEndpointType');
   }
 }
 
@@ -56302,6 +63286,13 @@ class RecommendationMetrics {
   /// <code>NaN</code> indicates that the value is not available.
   final double? memoryUtilization;
 
+  /// The time it takes to launch new compute resources for a serverless endpoint.
+  /// The time can vary depending on the model size, how long it takes to download
+  /// the model, and the start-up time of the container.
+  ///
+  /// <code>NaN</code> indicates that the value is not available.
+  final int? modelSetupTime;
+
   RecommendationMetrics({
     required this.costPerHour,
     required this.costPerInference,
@@ -56309,6 +63300,7 @@ class RecommendationMetrics {
     required this.modelLatency,
     this.cpuUtilization,
     this.memoryUtilization,
+    this.modelSetupTime,
   });
 
   factory RecommendationMetrics.fromJson(Map<String, dynamic> json) {
@@ -56319,6 +63311,7 @@ class RecommendationMetrics {
       modelLatency: json['ModelLatency'] as int,
       cpuUtilization: json['CpuUtilization'] as double?,
       memoryUtilization: json['MemoryUtilization'] as double?,
+      modelSetupTime: json['ModelSetupTime'] as int?,
     );
   }
 }
@@ -56574,6 +63567,58 @@ class RegisterModelStepMetadata {
   }
 }
 
+/// Configuration for remote debugging for the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html">CreateTrainingJob</a>
+/// API. To learn more about the remote debugging functionality of SageMaker,
+/// see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html">Access
+/// a training container through Amazon Web Services Systems Manager (SSM) for
+/// remote debugging</a>.
+class RemoteDebugConfig {
+  /// If set to True, enables remote debugging.
+  final bool? enableRemoteDebug;
+
+  RemoteDebugConfig({
+    this.enableRemoteDebug,
+  });
+
+  factory RemoteDebugConfig.fromJson(Map<String, dynamic> json) {
+    return RemoteDebugConfig(
+      enableRemoteDebug: json['EnableRemoteDebug'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableRemoteDebug = this.enableRemoteDebug;
+    return {
+      if (enableRemoteDebug != null) 'EnableRemoteDebug': enableRemoteDebug,
+    };
+  }
+}
+
+/// Configuration for remote debugging for the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateTrainingJob.html">UpdateTrainingJob</a>
+/// API. To learn more about the remote debugging functionality of SageMaker,
+/// see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html">Access
+/// a training container through Amazon Web Services Systems Manager (SSM) for
+/// remote debugging</a>.
+class RemoteDebugConfigForUpdate {
+  /// If set to True, enables remote debugging.
+  final bool? enableRemoteDebug;
+
+  RemoteDebugConfigForUpdate({
+    this.enableRemoteDebug,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enableRemoteDebug = this.enableRemoteDebug;
+    return {
+      if (enableRemoteDebug != null) 'EnableRemoteDebug': enableRemoteDebug,
+    };
+  }
+}
+
 class RenderUiTemplateResponse {
   /// A list of one or more <code>RenderingError</code> objects if any were
   /// encountered while rendering the template. If there were no errors, the list
@@ -56731,6 +63776,94 @@ class ResolvedAttributes {
           : null,
       problemType: (json['ProblemType'] as String?)?.toProblemType(),
     );
+  }
+}
+
+/// A resource catalog containing all of the resources of a specific resource
+/// type within a resource owner account. For an example on sharing the Amazon
+/// SageMaker Feature Store <code>DefaultFeatureGroupCatalog</code>, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/feature-store-cross-account-discoverability-share-sagemaker-catalog.html">Share
+/// Amazon SageMaker Catalog resource type</a> in the Amazon SageMaker Developer
+/// Guide.
+class ResourceCatalog {
+  /// The time the <code>ResourceCatalog</code> was created.
+  final DateTime creationTime;
+
+  /// A free form description of the <code>ResourceCatalog</code>.
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the <code>ResourceCatalog</code>.
+  final String resourceCatalogArn;
+
+  /// The name of the <code>ResourceCatalog</code>.
+  final String resourceCatalogName;
+
+  ResourceCatalog({
+    required this.creationTime,
+    required this.description,
+    required this.resourceCatalogArn,
+    required this.resourceCatalogName,
+  });
+
+  factory ResourceCatalog.fromJson(Map<String, dynamic> json) {
+    return ResourceCatalog(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      description: json['Description'] as String,
+      resourceCatalogArn: json['ResourceCatalogArn'] as String,
+      resourceCatalogName: json['ResourceCatalogName'] as String,
+    );
+  }
+}
+
+enum ResourceCatalogSortBy {
+  creationTime,
+}
+
+extension ResourceCatalogSortByValueExtension on ResourceCatalogSortBy {
+  String toValue() {
+    switch (this) {
+      case ResourceCatalogSortBy.creationTime:
+        return 'CreationTime';
+    }
+  }
+}
+
+extension ResourceCatalogSortByFromString on String {
+  ResourceCatalogSortBy toResourceCatalogSortBy() {
+    switch (this) {
+      case 'CreationTime':
+        return ResourceCatalogSortBy.creationTime;
+    }
+    throw Exception('$this is not known in enum ResourceCatalogSortBy');
+  }
+}
+
+enum ResourceCatalogSortOrder {
+  ascending,
+  descending,
+}
+
+extension ResourceCatalogSortOrderValueExtension on ResourceCatalogSortOrder {
+  String toValue() {
+    switch (this) {
+      case ResourceCatalogSortOrder.ascending:
+        return 'Ascending';
+      case ResourceCatalogSortOrder.descending:
+        return 'Descending';
+    }
+  }
+}
+
+extension ResourceCatalogSortOrderFromString on String {
+  ResourceCatalogSortOrder toResourceCatalogSortOrder() {
+    switch (this) {
+      case 'Ascending':
+        return ResourceCatalogSortOrder.ascending;
+      case 'Descending':
+        return ResourceCatalogSortOrder.descending;
+    }
+    throw Exception('$this is not known in enum ResourceCatalogSortOrder');
   }
 }
 
@@ -56967,6 +64100,10 @@ class ResourceSpec {
   /// The ARN of the SageMaker image that the image version belongs to.
   final String? sageMakerImageArn;
 
+  /// The SageMakerImageVersionAlias of the image to launch with. This value is in
+  /// SemVer 2.0.0 versioning format.
+  final String? sageMakerImageVersionAlias;
+
   /// The ARN of the image version created on the instance.
   final String? sageMakerImageVersionArn;
 
@@ -56974,6 +64111,7 @@ class ResourceSpec {
     this.instanceType,
     this.lifecycleConfigArn,
     this.sageMakerImageArn,
+    this.sageMakerImageVersionAlias,
     this.sageMakerImageVersionArn,
   });
 
@@ -56982,6 +64120,7 @@ class ResourceSpec {
       instanceType: (json['InstanceType'] as String?)?.toAppInstanceType(),
       lifecycleConfigArn: json['LifecycleConfigArn'] as String?,
       sageMakerImageArn: json['SageMakerImageArn'] as String?,
+      sageMakerImageVersionAlias: json['SageMakerImageVersionAlias'] as String?,
       sageMakerImageVersionArn: json['SageMakerImageVersionArn'] as String?,
     );
   }
@@ -56990,11 +64129,14 @@ class ResourceSpec {
     final instanceType = this.instanceType;
     final lifecycleConfigArn = this.lifecycleConfigArn;
     final sageMakerImageArn = this.sageMakerImageArn;
+    final sageMakerImageVersionAlias = this.sageMakerImageVersionAlias;
     final sageMakerImageVersionArn = this.sageMakerImageVersionArn;
     return {
       if (instanceType != null) 'InstanceType': instanceType.toValue(),
       if (lifecycleConfigArn != null) 'LifecycleConfigArn': lifecycleConfigArn,
       if (sageMakerImageArn != null) 'SageMakerImageArn': sageMakerImageArn,
+      if (sageMakerImageVersionAlias != null)
+        'SageMakerImageVersionAlias': sageMakerImageVersionAlias,
       if (sageMakerImageVersionArn != null)
         'SageMakerImageVersionArn': sageMakerImageVersionArn,
     };
@@ -57007,16 +64149,18 @@ enum ResourceType {
   experimentTrial,
   experimentTrialComponent,
   endpoint,
+  model,
   modelPackage,
   modelPackageGroup,
   pipeline,
   pipelineExecution,
   featureGroup,
-  project,
   featureMetadata,
+  image,
+  imageVersion,
+  project,
   hyperParameterTuningJob,
   modelCard,
-  model,
 }
 
 extension ResourceTypeValueExtension on ResourceType {
@@ -57032,6 +64176,8 @@ extension ResourceTypeValueExtension on ResourceType {
         return 'ExperimentTrialComponent';
       case ResourceType.endpoint:
         return 'Endpoint';
+      case ResourceType.model:
+        return 'Model';
       case ResourceType.modelPackage:
         return 'ModelPackage';
       case ResourceType.modelPackageGroup:
@@ -57042,16 +64188,18 @@ extension ResourceTypeValueExtension on ResourceType {
         return 'PipelineExecution';
       case ResourceType.featureGroup:
         return 'FeatureGroup';
-      case ResourceType.project:
-        return 'Project';
       case ResourceType.featureMetadata:
         return 'FeatureMetadata';
+      case ResourceType.image:
+        return 'Image';
+      case ResourceType.imageVersion:
+        return 'ImageVersion';
+      case ResourceType.project:
+        return 'Project';
       case ResourceType.hyperParameterTuningJob:
         return 'HyperParameterTuningJob';
       case ResourceType.modelCard:
         return 'ModelCard';
-      case ResourceType.model:
-        return 'Model';
     }
   }
 }
@@ -57069,6 +64217,8 @@ extension ResourceTypeFromString on String {
         return ResourceType.experimentTrialComponent;
       case 'Endpoint':
         return ResourceType.endpoint;
+      case 'Model':
+        return ResourceType.model;
       case 'ModelPackage':
         return ResourceType.modelPackage;
       case 'ModelPackageGroup':
@@ -57079,28 +64229,31 @@ extension ResourceTypeFromString on String {
         return ResourceType.pipelineExecution;
       case 'FeatureGroup':
         return ResourceType.featureGroup;
-      case 'Project':
-        return ResourceType.project;
       case 'FeatureMetadata':
         return ResourceType.featureMetadata;
+      case 'Image':
+        return ResourceType.image;
+      case 'ImageVersion':
+        return ResourceType.imageVersion;
+      case 'Project':
+        return ResourceType.project;
       case 'HyperParameterTuningJob':
         return ResourceType.hyperParameterTuningJob;
       case 'ModelCard':
         return ResourceType.modelCard;
-      case 'Model':
-        return ResourceType.model;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
 }
 
-/// The retention policy for data stored on an Amazon Elastic File System (EFS)
+/// The retention policy for data stored on an Amazon Elastic File System
 /// volume.
 class RetentionPolicy {
   /// The default is <code>Retain</code>, which specifies to keep the data stored
-  /// on the EFS volume.
+  /// on the Amazon EFS volume.
   ///
-  /// Specify <code>Delete</code> to delete the data stored on the EFS volume.
+  /// Specify <code>Delete</code> to delete the data stored on the Amazon EFS
+  /// volume.
   final RetentionType? homeEfsFileSystem;
 
   RetentionPolicy({
@@ -57188,6 +64341,66 @@ class RetryStrategy {
   }
 }
 
+/// Specifies a rolling deployment strategy for updating a SageMaker endpoint.
+class RollingUpdatePolicy {
+  /// Batch size for each rolling step to provision capacity and turn on traffic
+  /// on the new endpoint fleet, and terminate capacity on the old endpoint fleet.
+  /// Value must be between 5% to 50% of the variant's total instance count.
+  final CapacitySize maximumBatchSize;
+
+  /// The length of the baking period, during which SageMaker monitors alarms for
+  /// each batch on the new fleet.
+  final int waitIntervalInSeconds;
+
+  /// The time limit for the total deployment. Exceeding this limit causes a
+  /// timeout.
+  final int? maximumExecutionTimeoutInSeconds;
+
+  /// Batch size for rollback to the old endpoint fleet. Each rolling step to
+  /// provision capacity and turn on traffic on the old endpoint fleet, and
+  /// terminate capacity on the new endpoint fleet. If this field is absent, the
+  /// default value will be set to 100% of total capacity which means to bring up
+  /// the whole capacity of the old fleet at once during rollback.
+  final CapacitySize? rollbackMaximumBatchSize;
+
+  RollingUpdatePolicy({
+    required this.maximumBatchSize,
+    required this.waitIntervalInSeconds,
+    this.maximumExecutionTimeoutInSeconds,
+    this.rollbackMaximumBatchSize,
+  });
+
+  factory RollingUpdatePolicy.fromJson(Map<String, dynamic> json) {
+    return RollingUpdatePolicy(
+      maximumBatchSize: CapacitySize.fromJson(
+          json['MaximumBatchSize'] as Map<String, dynamic>),
+      waitIntervalInSeconds: json['WaitIntervalInSeconds'] as int,
+      maximumExecutionTimeoutInSeconds:
+          json['MaximumExecutionTimeoutInSeconds'] as int?,
+      rollbackMaximumBatchSize: json['RollbackMaximumBatchSize'] != null
+          ? CapacitySize.fromJson(
+              json['RollbackMaximumBatchSize'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumBatchSize = this.maximumBatchSize;
+    final waitIntervalInSeconds = this.waitIntervalInSeconds;
+    final maximumExecutionTimeoutInSeconds =
+        this.maximumExecutionTimeoutInSeconds;
+    final rollbackMaximumBatchSize = this.rollbackMaximumBatchSize;
+    return {
+      'MaximumBatchSize': maximumBatchSize,
+      'WaitIntervalInSeconds': waitIntervalInSeconds,
+      if (maximumExecutionTimeoutInSeconds != null)
+        'MaximumExecutionTimeoutInSeconds': maximumExecutionTimeoutInSeconds,
+      if (rollbackMaximumBatchSize != null)
+        'RollbackMaximumBatchSize': rollbackMaximumBatchSize,
+    };
+  }
+}
+
 enum RootAccess {
   enabled,
   disabled,
@@ -57213,6 +64426,34 @@ extension RootAccessFromString on String {
         return RootAccess.disabled;
     }
     throw Exception('$this is not known in enum RootAccess');
+  }
+}
+
+enum RoutingStrategy {
+  leastOutstandingRequests,
+  random,
+}
+
+extension RoutingStrategyValueExtension on RoutingStrategy {
+  String toValue() {
+    switch (this) {
+      case RoutingStrategy.leastOutstandingRequests:
+        return 'LEAST_OUTSTANDING_REQUESTS';
+      case RoutingStrategy.random:
+        return 'RANDOM';
+    }
+  }
+}
+
+extension RoutingStrategyFromString on String {
+  RoutingStrategy toRoutingStrategy() {
+    switch (this) {
+      case 'LEAST_OUTSTANDING_REQUESTS':
+        return RoutingStrategy.leastOutstandingRequests;
+      case 'RANDOM':
+        return RoutingStrategy.random;
+    }
+    throw Exception('$this is not known in enum RoutingStrategy');
   }
 }
 
@@ -57318,7 +64559,7 @@ class S3DataSource {
   /// <ul>
   /// <li>
   /// A key name prefix might look like this:
-  /// <code>s3://bucketname/exampleprefix</code>
+  /// <code>s3://bucketname/exampleprefix/</code>
   /// </li>
   /// <li>
   /// A manifest might look like this:
@@ -57470,8 +64711,204 @@ extension S3DataTypeFromString on String {
   }
 }
 
-/// The Amazon Simple Storage (Amazon S3) location and and security
-/// configuration for <code>OfflineStore</code>.
+/// Specifies the S3 location of ML model data to deploy.
+class S3ModelDataSource {
+  /// Specifies how the ML model data is prepared.
+  ///
+  /// If you choose <code>Gzip</code> and choose <code>S3Object</code> as the
+  /// value of <code>S3DataType</code>, <code>S3Uri</code> identifies an object
+  /// that is a gzip-compressed TAR archive. SageMaker will attempt to decompress
+  /// and untar the object during model deployment.
+  ///
+  /// If you choose <code>None</code> and chooose <code>S3Object</code> as the
+  /// value of <code>S3DataType</code>, <code>S3Uri</code> identifies an object
+  /// that represents an uncompressed ML model to deploy.
+  ///
+  /// If you choose None and choose <code>S3Prefix</code> as the value of
+  /// <code>S3DataType</code>, <code>S3Uri</code> identifies a key name prefix,
+  /// under which all objects represents the uncompressed ML model to deploy.
+  ///
+  /// If you choose None, then SageMaker will follow rules below when creating
+  /// model data files under /opt/ml/model directory for use by your inference
+  /// code:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you choose <code>S3Object</code> as the value of <code>S3DataType</code>,
+  /// then SageMaker will split the key of the S3 object referenced by
+  /// <code>S3Uri</code> by slash (/), and use the last part as the filename of
+  /// the file holding the content of the S3 object.
+  /// </li>
+  /// <li>
+  /// If you choose <code>S3Prefix</code> as the value of <code>S3DataType</code>,
+  /// then for each S3 object under the key name pefix referenced by
+  /// <code>S3Uri</code>, SageMaker will trim its key by the prefix, and use the
+  /// remainder as the path (relative to <code>/opt/ml/model</code>) of the file
+  /// holding the content of the S3 object. SageMaker will split the remainder by
+  /// slash (/), using intermediate parts as directory names and the last part as
+  /// filename of the file holding the content of the S3 object.
+  /// </li>
+  /// <li>
+  /// Do not use any of the following as file names or directory names:
+  ///
+  /// <ul>
+  /// <li>
+  /// An empty or blank string
+  /// </li>
+  /// <li>
+  /// A string which contains null bytes
+  /// </li>
+  /// <li>
+  /// A string longer than 255 bytes
+  /// </li>
+  /// <li>
+  /// A single dot (<code>.</code>)
+  /// </li>
+  /// <li>
+  /// A double dot (<code>..</code>)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Ambiguous file names will result in model deployment failure. For example,
+  /// if your uncompressed ML model consists of two S3 objects
+  /// <code>s3://mybucket/model/weights</code> and
+  /// <code>s3://mybucket/model/weights/part1</code> and you specify
+  /// <code>s3://mybucket/model/</code> as the value of <code>S3Uri</code> and
+  /// <code>S3Prefix</code> as the value of <code>S3DataType</code>, then it will
+  /// result in name clash between <code>/opt/ml/model/weights</code> (a regular
+  /// file) and <code>/opt/ml/model/weights/</code> (a directory).
+  /// </li>
+  /// <li>
+  /// Do not organize the model artifacts in <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html">S3
+  /// console using folders</a>. When you create a folder in S3 console, S3
+  /// creates a 0-byte object with a key set to the folder name you provide. They
+  /// key of the 0-byte object ends with a slash (/) which violates SageMaker
+  /// restrictions on model artifact file names, leading to model deployment
+  /// failure.
+  /// </li>
+  /// </ul>
+  final ModelCompressionType compressionType;
+
+  /// Specifies the type of ML model data to deploy.
+  ///
+  /// If you choose <code>S3Prefix</code>, <code>S3Uri</code> identifies a key
+  /// name prefix. SageMaker uses all objects that match the specified key name
+  /// prefix as part of the ML model data to deploy. A valid key name prefix
+  /// identified by <code>S3Uri</code> always ends with a forward slash (/).
+  ///
+  /// If you choose <code>S3Object</code>, <code>S3Uri</code> identifies an object
+  /// that is the ML model data to deploy.
+  final S3ModelDataType s3DataType;
+
+  /// Specifies the S3 path of ML model data to deploy.
+  final String s3Uri;
+
+  /// Specifies the access configuration file for the ML model. You can explicitly
+  /// accept the model end-user license agreement (EULA) within the
+  /// <code>ModelAccessConfig</code>. You are responsible for reviewing and
+  /// complying with any applicable license terms and making sure they are
+  /// acceptable for your use case before downloading or using a model.
+  final ModelAccessConfig? modelAccessConfig;
+
+  S3ModelDataSource({
+    required this.compressionType,
+    required this.s3DataType,
+    required this.s3Uri,
+    this.modelAccessConfig,
+  });
+
+  factory S3ModelDataSource.fromJson(Map<String, dynamic> json) {
+    return S3ModelDataSource(
+      compressionType:
+          (json['CompressionType'] as String).toModelCompressionType(),
+      s3DataType: (json['S3DataType'] as String).toS3ModelDataType(),
+      s3Uri: json['S3Uri'] as String,
+      modelAccessConfig: json['ModelAccessConfig'] != null
+          ? ModelAccessConfig.fromJson(
+              json['ModelAccessConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compressionType = this.compressionType;
+    final s3DataType = this.s3DataType;
+    final s3Uri = this.s3Uri;
+    final modelAccessConfig = this.modelAccessConfig;
+    return {
+      'CompressionType': compressionType.toValue(),
+      'S3DataType': s3DataType.toValue(),
+      'S3Uri': s3Uri,
+      if (modelAccessConfig != null) 'ModelAccessConfig': modelAccessConfig,
+    };
+  }
+}
+
+enum S3ModelDataType {
+  s3Prefix,
+  s3Object,
+}
+
+extension S3ModelDataTypeValueExtension on S3ModelDataType {
+  String toValue() {
+    switch (this) {
+      case S3ModelDataType.s3Prefix:
+        return 'S3Prefix';
+      case S3ModelDataType.s3Object:
+        return 'S3Object';
+    }
+  }
+}
+
+extension S3ModelDataTypeFromString on String {
+  S3ModelDataType toS3ModelDataType() {
+    switch (this) {
+      case 'S3Prefix':
+        return S3ModelDataType.s3Prefix;
+      case 'S3Object':
+        return S3ModelDataType.s3Object;
+    }
+    throw Exception('$this is not known in enum S3ModelDataType');
+  }
+}
+
+/// This object defines the access restrictions to Amazon S3 resources that are
+/// included in custom worker task templates using the Liquid filter,
+/// <code>grant_read_access</code>.
+///
+/// To learn more about how custom templates are created, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-custom-templates.html">Create
+/// custom worker task templates</a>.
+class S3Presign {
+  /// Use this parameter to specify the allowed request source. Possible sources
+  /// are either <code>SourceIp</code> or <code>VpcSourceIp</code>.
+  final IamPolicyConstraints? iamPolicyConstraints;
+
+  S3Presign({
+    this.iamPolicyConstraints,
+  });
+
+  factory S3Presign.fromJson(Map<String, dynamic> json) {
+    return S3Presign(
+      iamPolicyConstraints: json['IamPolicyConstraints'] != null
+          ? IamPolicyConstraints.fromJson(
+              json['IamPolicyConstraints'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iamPolicyConstraints = this.iamPolicyConstraints;
+    return {
+      if (iamPolicyConstraints != null)
+        'IamPolicyConstraints': iamPolicyConstraints,
+    };
+  }
+}
+
+/// The Amazon Simple Storage (Amazon S3) location and security configuration
+/// for <code>OfflineStore</code>.
 class S3StorageConfig {
   /// The S3 URI, or location in Amazon S3, of <code>OfflineStore</code>.
   ///
@@ -57553,15 +64990,95 @@ extension SagemakerServicecatalogStatusFromString on String {
   }
 }
 
+/// An object containing a recommended scaling policy.
+class ScalingPolicy {
+  /// A target tracking scaling policy. Includes support for predefined or
+  /// customized metrics.
+  final TargetTrackingScalingPolicyConfiguration? targetTracking;
+
+  ScalingPolicy({
+    this.targetTracking,
+  });
+
+  factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
+    return ScalingPolicy(
+      targetTracking: json['TargetTracking'] != null
+          ? TargetTrackingScalingPolicyConfiguration.fromJson(
+              json['TargetTracking'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// The metric for a scaling policy.
+class ScalingPolicyMetric {
+  /// The number of invocations sent to a model, normalized by
+  /// <code>InstanceCount</code> in each ProductionVariant.
+  /// <code>1/numberOfInstances</code> is sent as the value on each request, where
+  /// <code>numberOfInstances</code> is the number of active instances for the
+  /// ProductionVariant behind the endpoint at the time of the request.
+  final int? invocationsPerInstance;
+
+  /// The interval of time taken by a model to respond as viewed from SageMaker.
+  /// This interval includes the local communication times taken to send the
+  /// request and to fetch the response from the container of a model and the time
+  /// taken to complete the inference in the container.
+  final int? modelLatency;
+
+  ScalingPolicyMetric({
+    this.invocationsPerInstance,
+    this.modelLatency,
+  });
+
+  factory ScalingPolicyMetric.fromJson(Map<String, dynamic> json) {
+    return ScalingPolicyMetric(
+      invocationsPerInstance: json['InvocationsPerInstance'] as int?,
+      modelLatency: json['ModelLatency'] as int?,
+    );
+  }
+}
+
+/// An object where you specify the anticipated traffic pattern for an endpoint.
+class ScalingPolicyObjective {
+  /// The maximum number of expected requests to your endpoint per minute.
+  final int? maxInvocationsPerMinute;
+
+  /// The minimum number of expected requests to your endpoint per minute.
+  final int? minInvocationsPerMinute;
+
+  ScalingPolicyObjective({
+    this.maxInvocationsPerMinute,
+    this.minInvocationsPerMinute,
+  });
+
+  factory ScalingPolicyObjective.fromJson(Map<String, dynamic> json) {
+    return ScalingPolicyObjective(
+      maxInvocationsPerMinute: json['MaxInvocationsPerMinute'] as int?,
+      minInvocationsPerMinute: json['MinInvocationsPerMinute'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxInvocationsPerMinute = this.maxInvocationsPerMinute;
+    final minInvocationsPerMinute = this.minInvocationsPerMinute;
+    return {
+      if (maxInvocationsPerMinute != null)
+        'MaxInvocationsPerMinute': maxInvocationsPerMinute,
+      if (minInvocationsPerMinute != null)
+        'MinInvocationsPerMinute': minInvocationsPerMinute,
+    };
+  }
+}
+
 /// Configuration details about the monitoring schedule.
 class ScheduleConfig {
   /// A cron expression that describes details about the monitoring schedule.
   ///
-  /// Currently the only supported cron expressions are:
+  /// The supported cron expressions are:
   ///
   /// <ul>
   /// <li>
-  /// If you want to set the job to start every hour, please use the following:
+  /// If you want to set the job to start every hour, use the following:
   ///
   /// <code>Hourly: cron(0 * ? * * *)</code>
   /// </li>
@@ -57569,6 +65086,11 @@ class ScheduleConfig {
   /// If you want to start the job daily:
   ///
   /// <code>cron(0 [00-23] ? * * *)</code>
+  /// </li>
+  /// <li>
+  /// If you want to run the job one time, immediately, use the following keyword:
+  ///
+  /// <code>NOW</code>
   /// </li>
   /// </ul>
   /// For example, the following are valid cron expressions:
@@ -57606,22 +65128,64 @@ class ScheduleConfig {
   /// this parameter. Amazon SageMaker will pick a time for running every day.
   /// </li>
   /// </ul> </note>
+  /// You can also specify the keyword <code>NOW</code> to run the monitoring job
+  /// immediately, one time, without recurring.
   final String scheduleExpression;
+
+  /// Sets the end time for a monitoring job window. Express this time as an
+  /// offset to the times that you schedule your monitoring jobs to run. You
+  /// schedule monitoring jobs with the <code>ScheduleExpression</code> parameter.
+  /// Specify this offset in ISO 8601 duration format. For example, if you want to
+  /// end the window one hour before the start of each monitoring job, you would
+  /// specify: <code>"-PT1H"</code>.
+  ///
+  /// The end time that you specify must not follow the start time that you
+  /// specify by more than 24 hours. You specify the start time with the
+  /// <code>DataAnalysisStartTime</code> parameter.
+  ///
+  /// If you set <code>ScheduleExpression</code> to <code>NOW</code>, this
+  /// parameter is required.
+  final String? dataAnalysisEndTime;
+
+  /// Sets the start time for a monitoring job window. Express this time as an
+  /// offset to the times that you schedule your monitoring jobs to run. You
+  /// schedule monitoring jobs with the <code>ScheduleExpression</code> parameter.
+  /// Specify this offset in ISO 8601 duration format. For example, if you want to
+  /// monitor the five hours of data in your dataset that precede the start of
+  /// each monitoring job, you would specify: <code>"-PT5H"</code>.
+  ///
+  /// The start time that you specify must not precede the end time that you
+  /// specify by more than 24 hours. You specify the end time with the
+  /// <code>DataAnalysisEndTime</code> parameter.
+  ///
+  /// If you set <code>ScheduleExpression</code> to <code>NOW</code>, this
+  /// parameter is required.
+  final String? dataAnalysisStartTime;
 
   ScheduleConfig({
     required this.scheduleExpression,
+    this.dataAnalysisEndTime,
+    this.dataAnalysisStartTime,
   });
 
   factory ScheduleConfig.fromJson(Map<String, dynamic> json) {
     return ScheduleConfig(
       scheduleExpression: json['ScheduleExpression'] as String,
+      dataAnalysisEndTime: json['DataAnalysisEndTime'] as String?,
+      dataAnalysisStartTime: json['DataAnalysisStartTime'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final scheduleExpression = this.scheduleExpression;
+    final dataAnalysisEndTime = this.dataAnalysisEndTime;
+    final dataAnalysisStartTime = this.dataAnalysisStartTime;
     return {
       'ScheduleExpression': scheduleExpression,
+      if (dataAnalysisEndTime != null)
+        'DataAnalysisEndTime': dataAnalysisEndTime,
+      if (dataAnalysisStartTime != null)
+        'DataAnalysisStartTime': dataAnalysisStartTime,
     };
   }
 }
@@ -57911,6 +65475,7 @@ enum SecondaryStatus {
   maxWaitTimeExceeded,
   updating,
   restarting,
+  pending,
 }
 
 extension SecondaryStatusValueExtension on SecondaryStatus {
@@ -57948,6 +65513,8 @@ extension SecondaryStatusValueExtension on SecondaryStatus {
         return 'Updating';
       case SecondaryStatus.restarting:
         return 'Restarting';
+      case SecondaryStatus.pending:
+        return 'Pending';
     }
   }
 }
@@ -57987,6 +65554,8 @@ extension SecondaryStatusFromString on String {
         return SecondaryStatus.updating;
       case 'Restarting':
         return SecondaryStatus.restarting;
+      case 'Pending':
+        return SecondaryStatus.pending;
     }
     throw Exception('$this is not known in enum SecondaryStatus');
   }
@@ -58098,9 +65667,6 @@ class SecondaryStatusTransition {
   /// </ul> </dd> <dt>Training</dt> <dd>
   /// <ul>
   /// <li>
-  /// Downloading the training image.
-  /// </li>
-  /// <li>
   /// Training image download completed. Training in progress.
   /// </li>
   /// </ul> </dd> </dl> <important>
@@ -58140,6 +65706,88 @@ class SecondaryStatusTransition {
       status: (json['Status'] as String).toSecondaryStatus(),
       endTime: timeStampFromJson(json['EndTime']),
       statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+}
+
+/// A step selected to run in selective execution mode.
+class SelectedStep {
+  /// The name of the pipeline step.
+  final String stepName;
+
+  SelectedStep({
+    required this.stepName,
+  });
+
+  factory SelectedStep.fromJson(Map<String, dynamic> json) {
+    return SelectedStep(
+      stepName: json['StepName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepName = this.stepName;
+    return {
+      'StepName': stepName,
+    };
+  }
+}
+
+/// The selective execution configuration applied to the pipeline run.
+class SelectiveExecutionConfig {
+  /// A list of pipeline steps to run. All step(s) in all path(s) between two
+  /// selected steps should be included.
+  final List<SelectedStep> selectedSteps;
+
+  /// The ARN from a reference execution of the current pipeline. Used to copy
+  /// input collaterals needed for the selected steps to run. The execution status
+  /// of the pipeline can be either <code>Failed</code> or <code>Success</code>.
+  ///
+  /// This field is required if the steps you specify for
+  /// <code>SelectedSteps</code> depend on output collaterals from any
+  /// non-specified pipeline steps. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines-selective-ex.html">Selective
+  /// Execution for Pipeline Steps</a>.
+  final String? sourcePipelineExecutionArn;
+
+  SelectiveExecutionConfig({
+    required this.selectedSteps,
+    this.sourcePipelineExecutionArn,
+  });
+
+  factory SelectiveExecutionConfig.fromJson(Map<String, dynamic> json) {
+    return SelectiveExecutionConfig(
+      selectedSteps: (json['SelectedSteps'] as List)
+          .whereNotNull()
+          .map((e) => SelectedStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourcePipelineExecutionArn: json['SourcePipelineExecutionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selectedSteps = this.selectedSteps;
+    final sourcePipelineExecutionArn = this.sourcePipelineExecutionArn;
+    return {
+      'SelectedSteps': selectedSteps,
+      if (sourcePipelineExecutionArn != null)
+        'SourcePipelineExecutionArn': sourcePipelineExecutionArn,
+    };
+  }
+}
+
+/// The ARN from an execution of the current pipeline.
+class SelectiveExecutionResult {
+  /// The ARN from an execution of the current pipeline.
+  final String? sourcePipelineExecutionArn;
+
+  SelectiveExecutionResult({
+    this.sourcePipelineExecutionArn,
+  });
+
+  factory SelectiveExecutionResult.fromJson(Map<String, dynamic> json) {
+    return SelectiveExecutionResult(
+      sourcePipelineExecutionArn: json['SourcePipelineExecutionArn'] as String?,
     );
   }
 }
@@ -58313,6 +65961,31 @@ class ServiceCatalogProvisioningUpdateDetails {
   }
 }
 
+/// Contains information about attribute-based access control (ABAC) for a
+/// training job. The session chaining configuration uses Amazon Security Token
+/// Service (STS) for your training job to request temporary, limited-privilege
+/// credentials to tenants. For more information, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-access-training-data.html#model-access-training-data-abac">Attribute-based
+/// access control (ABAC) for multi-tenancy training</a>.
+class SessionChainingConfig {
+  /// Set to <code>True</code> to allow SageMaker to extract session tags from a
+  /// training job creation role and reuse these tags when assuming the training
+  /// job execution role.
+  final bool? enableSessionTagChaining;
+
+  SessionChainingConfig({
+    this.enableSessionTagChaining,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enableSessionTagChaining = this.enableSessionTagChaining;
+    return {
+      if (enableSessionTagChaining != null)
+        'EnableSessionTagChaining': enableSessionTagChaining,
+    };
+  }
+}
+
 /// The configuration of <code>ShadowMode</code> inference experiment type,
 /// which specifies a production variant to take all the inference requests, and
 /// a shadow variant to which Amazon SageMaker replicates a percentage of the
@@ -58382,8 +66055,8 @@ class ShadowModelVariantConfig {
   }
 }
 
-/// Specifies options for sharing SageMaker Studio notebooks. These settings are
-/// specified as part of <code>DefaultUserSettings</code> when the
+/// Specifies options for sharing Amazon SageMaker Studio notebooks. These
+/// settings are specified as part of <code>DefaultUserSettings</code> when the
 /// <code>CreateDomain</code> API is called, and as part of
 /// <code>UserSettings</code> when the <code>CreateUserProfile</code> API is
 /// called. When <code>SharingSettings</code> is not specified, notebook sharing
@@ -58430,6 +66103,34 @@ class SharingSettings {
   }
 }
 
+enum SharingType {
+  private,
+  shared,
+}
+
+extension SharingTypeValueExtension on SharingType {
+  String toValue() {
+    switch (this) {
+      case SharingType.private:
+        return 'Private';
+      case SharingType.shared:
+        return 'Shared';
+    }
+  }
+}
+
+extension SharingTypeFromString on String {
+  SharingType toSharingType() {
+    switch (this) {
+      case 'Private':
+        return SharingType.private;
+      case 'Shared':
+        return SharingType.shared;
+    }
+    throw Exception('$this is not known in enum SharingType');
+  }
+}
+
 /// A configuration for a shuffle option for input data in a channel. If you use
 /// <code>S3Prefix</code> for <code>S3DataType</code>, the results of the S3 key
 /// prefix matches are shuffled. If you use <code>ManifestFile</code>, the order
@@ -58465,6 +66166,34 @@ class ShuffleConfig {
     return {
       'Seed': seed,
     };
+  }
+}
+
+enum SkipModelValidation {
+  all,
+  none,
+}
+
+extension SkipModelValidationValueExtension on SkipModelValidation {
+  String toValue() {
+    switch (this) {
+      case SkipModelValidation.all:
+        return 'All';
+      case SkipModelValidation.none:
+        return 'None';
+    }
+  }
+}
+
+extension SkipModelValidationFromString on String {
+  SkipModelValidation toSkipModelValidation() {
+    switch (this) {
+      case 'All':
+        return SkipModelValidation.all;
+      case 'None':
+        return SkipModelValidation.none;
+    }
+    throw Exception('$this is not known in enum SkipModelValidation');
   }
 }
 
@@ -58862,6 +66591,9 @@ class SourceAlgorithm {
   /// an algorithm in Amazon Web Services Marketplace that you are subscribed to.
   final String algorithmName;
 
+  /// Specifies the location of ML model data to deploy during endpoint creation.
+  final ModelDataSource? modelDataSource;
+
   /// The Amazon S3 path where the model artifacts, which result from model
   /// training, are stored. This path must point to a single <code>gzip</code>
   /// compressed tar archive (<code>.tar.gz</code> suffix).
@@ -58873,21 +66605,28 @@ class SourceAlgorithm {
 
   SourceAlgorithm({
     required this.algorithmName,
+    this.modelDataSource,
     this.modelDataUrl,
   });
 
   factory SourceAlgorithm.fromJson(Map<String, dynamic> json) {
     return SourceAlgorithm(
       algorithmName: json['AlgorithmName'] as String,
+      modelDataSource: json['ModelDataSource'] != null
+          ? ModelDataSource.fromJson(
+              json['ModelDataSource'] as Map<String, dynamic>)
+          : null,
       modelDataUrl: json['ModelDataUrl'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final algorithmName = this.algorithmName;
+    final modelDataSource = this.modelDataSource;
     final modelDataUrl = this.modelDataUrl;
     return {
       'AlgorithmName': algorithmName,
+      if (modelDataSource != null) 'ModelDataSource': modelDataSource,
       if (modelDataUrl != null) 'ModelDataUrl': modelDataUrl,
     };
   }
@@ -58958,19 +66697,57 @@ class SourceIpConfig {
   }
 }
 
+/// The application settings for a Code Editor space.
+class SpaceCodeEditorAppSettings {
+  final ResourceSpec? defaultResourceSpec;
+
+  SpaceCodeEditorAppSettings({
+    this.defaultResourceSpec,
+  });
+
+  factory SpaceCodeEditorAppSettings.fromJson(Map<String, dynamic> json) {
+    return SpaceCodeEditorAppSettings(
+      defaultResourceSpec: json['DefaultResourceSpec'] != null
+          ? ResourceSpec.fromJson(
+              json['DefaultResourceSpec'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultResourceSpec = this.defaultResourceSpec;
+    return {
+      if (defaultResourceSpec != null)
+        'DefaultResourceSpec': defaultResourceSpec,
+    };
+  }
+}
+
 /// The space's details.
 class SpaceDetails {
   /// The creation time.
   final DateTime? creationTime;
 
-  /// The ID of the associated Domain.
+  /// The ID of the associated domain.
   final String? domainId;
 
   /// The last modified time.
   final DateTime? lastModifiedTime;
 
+  /// Specifies summary information about the ownership settings.
+  final OwnershipSettingsSummary? ownershipSettingsSummary;
+
+  /// The name of the space that appears in the Studio UI.
+  final String? spaceDisplayName;
+
   /// The name of the space.
   final String? spaceName;
+
+  /// Specifies summary information about the space settings.
+  final SpaceSettingsSummary? spaceSettingsSummary;
+
+  /// Specifies summary information about the space sharing settings.
+  final SpaceSharingSettingsSummary? spaceSharingSettingsSummary;
 
   /// The status.
   final SpaceStatus? status;
@@ -58979,7 +66756,11 @@ class SpaceDetails {
     this.creationTime,
     this.domainId,
     this.lastModifiedTime,
+    this.ownershipSettingsSummary,
+    this.spaceDisplayName,
     this.spaceName,
+    this.spaceSettingsSummary,
+    this.spaceSharingSettingsSummary,
     this.status,
   });
 
@@ -58988,24 +66769,107 @@ class SpaceDetails {
       creationTime: timeStampFromJson(json['CreationTime']),
       domainId: json['DomainId'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      ownershipSettingsSummary: json['OwnershipSettingsSummary'] != null
+          ? OwnershipSettingsSummary.fromJson(
+              json['OwnershipSettingsSummary'] as Map<String, dynamic>)
+          : null,
+      spaceDisplayName: json['SpaceDisplayName'] as String?,
       spaceName: json['SpaceName'] as String?,
+      spaceSettingsSummary: json['SpaceSettingsSummary'] != null
+          ? SpaceSettingsSummary.fromJson(
+              json['SpaceSettingsSummary'] as Map<String, dynamic>)
+          : null,
+      spaceSharingSettingsSummary: json['SpaceSharingSettingsSummary'] != null
+          ? SpaceSharingSettingsSummary.fromJson(
+              json['SpaceSharingSettingsSummary'] as Map<String, dynamic>)
+          : null,
       status: (json['Status'] as String?)?.toSpaceStatus(),
     );
   }
 }
 
+/// The settings for the JupyterLab application within a space.
+class SpaceJupyterLabAppSettings {
+  /// A list of Git repositories that SageMaker automatically displays to users
+  /// for cloning in the JupyterLab application.
+  final List<CodeRepository>? codeRepositories;
+  final ResourceSpec? defaultResourceSpec;
+
+  SpaceJupyterLabAppSettings({
+    this.codeRepositories,
+    this.defaultResourceSpec,
+  });
+
+  factory SpaceJupyterLabAppSettings.fromJson(Map<String, dynamic> json) {
+    return SpaceJupyterLabAppSettings(
+      codeRepositories: (json['CodeRepositories'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeRepository.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      defaultResourceSpec: json['DefaultResourceSpec'] != null
+          ? ResourceSpec.fromJson(
+              json['DefaultResourceSpec'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeRepositories = this.codeRepositories;
+    final defaultResourceSpec = this.defaultResourceSpec;
+    return {
+      if (codeRepositories != null) 'CodeRepositories': codeRepositories,
+      if (defaultResourceSpec != null)
+        'DefaultResourceSpec': defaultResourceSpec,
+    };
+  }
+}
+
 /// A collection of space settings.
 class SpaceSettings {
+  /// The type of app created within the space.
+  final AppType? appType;
+
+  /// The Code Editor application settings.
+  final SpaceCodeEditorAppSettings? codeEditorAppSettings;
+
+  /// A file system, created by you, that you assign to a space for an Amazon
+  /// SageMaker Domain. Permitted users can access this file system in Amazon
+  /// SageMaker Studio.
+  final List<CustomFileSystem>? customFileSystems;
+
+  /// The settings for the JupyterLab application.
+  final SpaceJupyterLabAppSettings? jupyterLabAppSettings;
   final JupyterServerAppSettings? jupyterServerAppSettings;
   final KernelGatewayAppSettings? kernelGatewayAppSettings;
 
+  /// The storage settings for a space.
+  final SpaceStorageSettings? spaceStorageSettings;
+
   SpaceSettings({
+    this.appType,
+    this.codeEditorAppSettings,
+    this.customFileSystems,
+    this.jupyterLabAppSettings,
     this.jupyterServerAppSettings,
     this.kernelGatewayAppSettings,
+    this.spaceStorageSettings,
   });
 
   factory SpaceSettings.fromJson(Map<String, dynamic> json) {
     return SpaceSettings(
+      appType: (json['AppType'] as String?)?.toAppType(),
+      codeEditorAppSettings: json['CodeEditorAppSettings'] != null
+          ? SpaceCodeEditorAppSettings.fromJson(
+              json['CodeEditorAppSettings'] as Map<String, dynamic>)
+          : null,
+      customFileSystems: (json['CustomFileSystems'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomFileSystem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jupyterLabAppSettings: json['JupyterLabAppSettings'] != null
+          ? SpaceJupyterLabAppSettings.fromJson(
+              json['JupyterLabAppSettings'] as Map<String, dynamic>)
+          : null,
       jupyterServerAppSettings: json['JupyterServerAppSettings'] != null
           ? JupyterServerAppSettings.fromJson(
               json['JupyterServerAppSettings'] as Map<String, dynamic>)
@@ -59014,18 +66878,98 @@ class SpaceSettings {
           ? KernelGatewayAppSettings.fromJson(
               json['KernelGatewayAppSettings'] as Map<String, dynamic>)
           : null,
+      spaceStorageSettings: json['SpaceStorageSettings'] != null
+          ? SpaceStorageSettings.fromJson(
+              json['SpaceStorageSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final appType = this.appType;
+    final codeEditorAppSettings = this.codeEditorAppSettings;
+    final customFileSystems = this.customFileSystems;
+    final jupyterLabAppSettings = this.jupyterLabAppSettings;
     final jupyterServerAppSettings = this.jupyterServerAppSettings;
     final kernelGatewayAppSettings = this.kernelGatewayAppSettings;
+    final spaceStorageSettings = this.spaceStorageSettings;
     return {
+      if (appType != null) 'AppType': appType.toValue(),
+      if (codeEditorAppSettings != null)
+        'CodeEditorAppSettings': codeEditorAppSettings,
+      if (customFileSystems != null) 'CustomFileSystems': customFileSystems,
+      if (jupyterLabAppSettings != null)
+        'JupyterLabAppSettings': jupyterLabAppSettings,
       if (jupyterServerAppSettings != null)
         'JupyterServerAppSettings': jupyterServerAppSettings,
       if (kernelGatewayAppSettings != null)
         'KernelGatewayAppSettings': kernelGatewayAppSettings,
+      if (spaceStorageSettings != null)
+        'SpaceStorageSettings': spaceStorageSettings,
     };
+  }
+}
+
+/// Specifies summary information about the space settings.
+class SpaceSettingsSummary {
+  /// The type of app created within the space.
+  final AppType? appType;
+
+  /// The storage settings for a space.
+  final SpaceStorageSettings? spaceStorageSettings;
+
+  SpaceSettingsSummary({
+    this.appType,
+    this.spaceStorageSettings,
+  });
+
+  factory SpaceSettingsSummary.fromJson(Map<String, dynamic> json) {
+    return SpaceSettingsSummary(
+      appType: (json['AppType'] as String?)?.toAppType(),
+      spaceStorageSettings: json['SpaceStorageSettings'] != null
+          ? SpaceStorageSettings.fromJson(
+              json['SpaceStorageSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// A collection of space sharing settings.
+class SpaceSharingSettings {
+  /// Specifies the sharing type of the space.
+  final SharingType sharingType;
+
+  SpaceSharingSettings({
+    required this.sharingType,
+  });
+
+  factory SpaceSharingSettings.fromJson(Map<String, dynamic> json) {
+    return SpaceSharingSettings(
+      sharingType: (json['SharingType'] as String).toSharingType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sharingType = this.sharingType;
+    return {
+      'SharingType': sharingType.toValue(),
+    };
+  }
+}
+
+/// Specifies summary information about the space sharing settings.
+class SpaceSharingSettingsSummary {
+  /// Specifies the sharing type of the space.
+  final SharingType? sharingType;
+
+  SpaceSharingSettingsSummary({
+    this.sharingType,
+  });
+
+  factory SpaceSharingSettingsSummary.fromJson(Map<String, dynamic> json) {
+    return SpaceSharingSettingsSummary(
+      sharingType: (json['SharingType'] as String?)?.toSharingType(),
+    );
   }
 }
 
@@ -59107,6 +67051,32 @@ extension SpaceStatusFromString on String {
         return SpaceStatus.deleteFailed;
     }
     throw Exception('$this is not known in enum SpaceStatus');
+  }
+}
+
+/// The storage settings for a space.
+class SpaceStorageSettings {
+  /// A collection of EBS storage settings for a space.
+  final EbsStorageSettings? ebsStorageSettings;
+
+  SpaceStorageSettings({
+    this.ebsStorageSettings,
+  });
+
+  factory SpaceStorageSettings.fromJson(Map<String, dynamic> json) {
+    return SpaceStorageSettings(
+      ebsStorageSettings: json['EbsStorageSettings'] != null
+          ? EbsStorageSettings.fromJson(
+              json['EbsStorageSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsStorageSettings = this.ebsStorageSettings;
+    return {
+      if (ebsStorageSettings != null) 'EbsStorageSettings': ebsStorageSettings,
+    };
   }
 }
 
@@ -59206,6 +67176,47 @@ extension StageStatusFromString on String {
   }
 }
 
+/// Defines the stairs traffic pattern for an Inference Recommender load test.
+/// This pattern type consists of multiple steps where the number of users
+/// increases at each step.
+///
+/// Specify either the stairs or phases traffic pattern.
+class Stairs {
+  /// Defines how long each traffic step should be.
+  final int? durationInSeconds;
+
+  /// Specifies how many steps to perform during traffic.
+  final int? numberOfSteps;
+
+  /// Specifies how many new users to spawn in each step.
+  final int? usersPerStep;
+
+  Stairs({
+    this.durationInSeconds,
+    this.numberOfSteps,
+    this.usersPerStep,
+  });
+
+  factory Stairs.fromJson(Map<String, dynamic> json) {
+    return Stairs(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+      numberOfSteps: json['NumberOfSteps'] as int?,
+      usersPerStep: json['UsersPerStep'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    final numberOfSteps = this.numberOfSteps;
+    final usersPerStep = this.usersPerStep;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      if (numberOfSteps != null) 'NumberOfSteps': numberOfSteps,
+      if (usersPerStep != null) 'UsersPerStep': usersPerStep,
+    };
+  }
+}
+
 class StartInferenceExperimentResponse {
   /// The ARN of the started inference experiment to start.
   final String inferenceExperimentArn;
@@ -59233,6 +67244,49 @@ class StartPipelineExecutionResponse {
     return StartPipelineExecutionResponse(
       pipelineExecutionArn: json['PipelineExecutionArn'] as String?,
     );
+  }
+}
+
+enum Statistic {
+  average,
+  minimum,
+  maximum,
+  sampleCount,
+  sum,
+}
+
+extension StatisticValueExtension on Statistic {
+  String toValue() {
+    switch (this) {
+      case Statistic.average:
+        return 'Average';
+      case Statistic.minimum:
+        return 'Minimum';
+      case Statistic.maximum:
+        return 'Maximum';
+      case Statistic.sampleCount:
+        return 'SampleCount';
+      case Statistic.sum:
+        return 'Sum';
+    }
+  }
+}
+
+extension StatisticFromString on String {
+  Statistic toStatistic() {
+    switch (this) {
+      case 'Average':
+        return Statistic.average;
+      case 'Minimum':
+        return Statistic.minimum;
+      case 'Maximum':
+        return Statistic.maximum;
+      case 'SampleCount':
+        return Statistic.sampleCount;
+      case 'Sum':
+        return Statistic.sum;
+    }
+    throw Exception('$this is not known in enum Statistic');
   }
 }
 
@@ -59338,6 +67392,10 @@ class StopPipelineExecutionResponse {
 /// </note>
 class StoppingCondition {
   /// The maximum length of time, in seconds, that a training or compilation job
+  /// can be pending before it is stopped.
+  final int? maxPendingTimeInSeconds;
+
+  /// The maximum length of time, in seconds, that a training or compilation job
   /// can run before it is stopped.
   ///
   /// For compilation jobs, if the job does not complete during this time, a
@@ -59367,21 +67425,26 @@ class StoppingCondition {
   final int? maxWaitTimeInSeconds;
 
   StoppingCondition({
+    this.maxPendingTimeInSeconds,
     this.maxRuntimeInSeconds,
     this.maxWaitTimeInSeconds,
   });
 
   factory StoppingCondition.fromJson(Map<String, dynamic> json) {
     return StoppingCondition(
+      maxPendingTimeInSeconds: json['MaxPendingTimeInSeconds'] as int?,
       maxRuntimeInSeconds: json['MaxRuntimeInSeconds'] as int?,
       maxWaitTimeInSeconds: json['MaxWaitTimeInSeconds'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final maxPendingTimeInSeconds = this.maxPendingTimeInSeconds;
     final maxRuntimeInSeconds = this.maxRuntimeInSeconds;
     final maxWaitTimeInSeconds = this.maxWaitTimeInSeconds;
     return {
+      if (maxPendingTimeInSeconds != null)
+        'MaxPendingTimeInSeconds': maxPendingTimeInSeconds,
       if (maxRuntimeInSeconds != null)
         'MaxRuntimeInSeconds': maxRuntimeInSeconds,
       if (maxWaitTimeInSeconds != null)
@@ -59390,9 +67453,39 @@ class StoppingCondition {
   }
 }
 
+enum StorageType {
+  standard,
+  inMemory,
+}
+
+extension StorageTypeValueExtension on StorageType {
+  String toValue() {
+    switch (this) {
+      case StorageType.standard:
+        return 'Standard';
+      case StorageType.inMemory:
+        return 'InMemory';
+    }
+  }
+}
+
+extension StorageTypeFromString on String {
+  StorageType toStorageType() {
+    switch (this) {
+      case 'Standard':
+        return StorageType.standard;
+      case 'InMemory':
+        return StorageType.inMemory;
+    }
+    throw Exception('$this is not known in enum StorageType');
+  }
+}
+
 enum StudioLifecycleConfigAppType {
   jupyterServer,
   kernelGateway,
+  codeEditor,
+  jupyterLab,
 }
 
 extension StudioLifecycleConfigAppTypeValueExtension
@@ -59403,6 +67496,10 @@ extension StudioLifecycleConfigAppTypeValueExtension
         return 'JupyterServer';
       case StudioLifecycleConfigAppType.kernelGateway:
         return 'KernelGateway';
+      case StudioLifecycleConfigAppType.codeEditor:
+        return 'CodeEditor';
+      case StudioLifecycleConfigAppType.jupyterLab:
+        return 'JupyterLab';
     }
   }
 }
@@ -59414,18 +67511,22 @@ extension StudioLifecycleConfigAppTypeFromString on String {
         return StudioLifecycleConfigAppType.jupyterServer;
       case 'KernelGateway':
         return StudioLifecycleConfigAppType.kernelGateway;
+      case 'CodeEditor':
+        return StudioLifecycleConfigAppType.codeEditor;
+      case 'JupyterLab':
+        return StudioLifecycleConfigAppType.jupyterLab;
     }
     throw Exception('$this is not known in enum StudioLifecycleConfigAppType');
   }
 }
 
-/// Details of the Studio Lifecycle Configuration.
+/// Details of the Amazon SageMaker Studio Lifecycle Configuration.
 class StudioLifecycleConfigDetails {
-  /// The creation time of the Studio Lifecycle Configuration.
+  /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
   final DateTime? creationTime;
 
-  /// This value is equivalent to CreationTime because Studio Lifecycle
-  /// Configurations are immutable.
+  /// This value is equivalent to CreationTime because Amazon SageMaker Studio
+  /// Lifecycle Configurations are immutable.
   final DateTime? lastModifiedTime;
 
   /// The App type to which the Lifecycle Configuration is attached.
@@ -59434,7 +67535,7 @@ class StudioLifecycleConfigDetails {
   /// The Amazon Resource Name (ARN) of the Lifecycle Configuration.
   final String? studioLifecycleConfigArn;
 
-  /// The name of the Studio Lifecycle Configuration.
+  /// The name of the Amazon SageMaker Studio Lifecycle Configuration.
   final String? studioLifecycleConfigName;
 
   StudioLifecycleConfigDetails({
@@ -59489,6 +67590,34 @@ extension StudioLifecycleConfigSortKeyFromString on String {
         return StudioLifecycleConfigSortKey.name;
     }
     throw Exception('$this is not known in enum StudioLifecycleConfigSortKey');
+  }
+}
+
+enum StudioWebPortal {
+  enabled,
+  disabled,
+}
+
+extension StudioWebPortalValueExtension on StudioWebPortal {
+  String toValue() {
+    switch (this) {
+      case StudioWebPortal.enabled:
+        return 'ENABLED';
+      case StudioWebPortal.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension StudioWebPortalFromString on String {
+  StudioWebPortal toStudioWebPortal() {
+    switch (this) {
+      case 'ENABLED':
+        return StudioWebPortal.enabled;
+      case 'DISABLED':
+        return StudioWebPortal.disabled;
+    }
+    throw Exception('$this is not known in enum StudioWebPortal');
   }
 }
 
@@ -59549,6 +67678,7 @@ class SuggestionQuery {
 }
 
 enum TableFormat {
+  $default,
   glue,
   iceberg,
 }
@@ -59556,6 +67686,8 @@ enum TableFormat {
 extension TableFormatValueExtension on TableFormat {
   String toValue() {
     switch (this) {
+      case TableFormat.$default:
+        return 'Default';
       case TableFormat.glue:
         return 'Glue';
       case TableFormat.iceberg:
@@ -59567,12 +67699,198 @@ extension TableFormatValueExtension on TableFormat {
 extension TableFormatFromString on String {
   TableFormat toTableFormat() {
     switch (this) {
+      case 'Default':
+        return TableFormat.$default;
       case 'Glue':
         return TableFormat.glue;
       case 'Iceberg':
         return TableFormat.iceberg;
     }
     throw Exception('$this is not known in enum TableFormat');
+  }
+}
+
+/// The collection of settings used by an AutoML job V2 for the tabular problem
+/// type.
+class TabularJobConfig {
+  /// The name of the target variable in supervised learning, usually represented
+  /// by 'y'.
+  final String targetAttributeName;
+
+  /// The configuration information of how model candidates are generated.
+  final CandidateGenerationConfig? candidateGenerationConfig;
+  final AutoMLJobCompletionCriteria? completionCriteria;
+
+  /// A URL to the Amazon S3 data source containing selected features from the
+  /// input data source to run an Autopilot job V2. You can input
+  /// <code>FeatureAttributeNames</code> (optional) in JSON format as shown below:
+  ///
+  /// <code>{ "FeatureAttributeNames":["col1", "col2", ...] }</code>.
+  ///
+  /// You can also specify the data type of the feature (optional) in the format
+  /// shown below:
+  ///
+  /// <code>{ "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... }
+  /// }</code>
+  /// <note>
+  /// These column keys may not include the target column.
+  /// </note>
+  /// In ensembling mode, Autopilot only supports the following data types:
+  /// <code>numeric</code>, <code>categorical</code>, <code>text</code>, and
+  /// <code>datetime</code>. In HPO mode, Autopilot can support
+  /// <code>numeric</code>, <code>categorical</code>, <code>text</code>,
+  /// <code>datetime</code>, and <code>sequence</code>.
+  ///
+  /// If only <code>FeatureDataTypes</code> is provided, the column keys
+  /// (<code>col1</code>, <code>col2</code>,..) should be a subset of the column
+  /// names in the input data.
+  ///
+  /// If both <code>FeatureDataTypes</code> and <code>FeatureAttributeNames</code>
+  /// are provided, then the column keys should be a subset of the column names
+  /// provided in <code>FeatureAttributeNames</code>.
+  ///
+  /// The key name <code>FeatureAttributeNames</code> is fixed. The values listed
+  /// in <code>["col1", "col2", ...]</code> are case sensitive and should be a
+  /// list of strings containing unique values that are a subset of the column
+  /// names in the input data. The list of columns provided must not include the
+  /// target column.
+  final String? featureSpecificationS3Uri;
+
+  /// Generates possible candidates without training the models. A model candidate
+  /// is a combination of data preprocessors, algorithms, and algorithm parameter
+  /// settings.
+  final bool? generateCandidateDefinitionsOnly;
+
+  /// The method that Autopilot uses to train the data. You can either specify the
+  /// mode manually or let Autopilot choose for you based on the dataset size by
+  /// selecting <code>AUTO</code>. In <code>AUTO</code> mode, Autopilot chooses
+  /// <code>ENSEMBLING</code> for datasets smaller than 100 MB, and
+  /// <code>HYPERPARAMETER_TUNING</code> for larger ones.
+  ///
+  /// The <code>ENSEMBLING</code> mode uses a multi-stack ensemble model to
+  /// predict classification and regression tasks directly from your dataset. This
+  /// machine learning mode combines several base models to produce an optimal
+  /// predictive model. It then uses a stacking ensemble method to combine
+  /// predictions from contributing members. A multi-stack ensemble model can
+  /// provide better performance over a single model by combining the predictive
+  /// capabilities of multiple models. See <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support">Autopilot
+  /// algorithm support</a> for a list of algorithms supported by
+  /// <code>ENSEMBLING</code> mode.
+  ///
+  /// The <code>HYPERPARAMETER_TUNING</code> (HPO) mode uses the best
+  /// hyperparameters to train the best version of a model. HPO automatically
+  /// selects an algorithm for the type of problem you want to solve. Then HPO
+  /// finds the best hyperparameters according to your objective metric. See <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support">Autopilot
+  /// algorithm support</a> for a list of algorithms supported by
+  /// <code>HYPERPARAMETER_TUNING</code> mode.
+  final AutoMLMode? mode;
+
+  /// The type of supervised learning problem available for the model candidates
+  /// of the AutoML job V2. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-datasets-problem-types.html#autopilot-problem-types">
+  /// SageMaker Autopilot problem types</a>.
+  /// <note>
+  /// You must either specify the type of supervised learning problem in
+  /// <code>ProblemType</code> and provide the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html#sagemaker-CreateAutoMLJobV2-request-AutoMLJobObjective">AutoMLJobObjective</a>
+  /// metric, or none at all.
+  /// </note>
+  final ProblemType? problemType;
+
+  /// If specified, this column name indicates which column of the dataset should
+  /// be treated as sample weights for use by the objective metric during the
+  /// training, evaluation, and the selection of the best model. This column is
+  /// not considered as a predictive feature. For more information on Autopilot
+  /// metrics, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html">Metrics
+  /// and validation</a>.
+  ///
+  /// Sample weights should be numeric, non-negative, with larger values
+  /// indicating which rows are more important than others. Data points that have
+  /// invalid or no weight value are excluded.
+  ///
+  /// Support for sample weights is available in <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html">Ensembling</a>
+  /// mode only.
+  final String? sampleWeightAttributeName;
+
+  TabularJobConfig({
+    required this.targetAttributeName,
+    this.candidateGenerationConfig,
+    this.completionCriteria,
+    this.featureSpecificationS3Uri,
+    this.generateCandidateDefinitionsOnly,
+    this.mode,
+    this.problemType,
+    this.sampleWeightAttributeName,
+  });
+
+  factory TabularJobConfig.fromJson(Map<String, dynamic> json) {
+    return TabularJobConfig(
+      targetAttributeName: json['TargetAttributeName'] as String,
+      candidateGenerationConfig: json['CandidateGenerationConfig'] != null
+          ? CandidateGenerationConfig.fromJson(
+              json['CandidateGenerationConfig'] as Map<String, dynamic>)
+          : null,
+      completionCriteria: json['CompletionCriteria'] != null
+          ? AutoMLJobCompletionCriteria.fromJson(
+              json['CompletionCriteria'] as Map<String, dynamic>)
+          : null,
+      featureSpecificationS3Uri: json['FeatureSpecificationS3Uri'] as String?,
+      generateCandidateDefinitionsOnly:
+          json['GenerateCandidateDefinitionsOnly'] as bool?,
+      mode: (json['Mode'] as String?)?.toAutoMLMode(),
+      problemType: (json['ProblemType'] as String?)?.toProblemType(),
+      sampleWeightAttributeName: json['SampleWeightAttributeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetAttributeName = this.targetAttributeName;
+    final candidateGenerationConfig = this.candidateGenerationConfig;
+    final completionCriteria = this.completionCriteria;
+    final featureSpecificationS3Uri = this.featureSpecificationS3Uri;
+    final generateCandidateDefinitionsOnly =
+        this.generateCandidateDefinitionsOnly;
+    final mode = this.mode;
+    final problemType = this.problemType;
+    final sampleWeightAttributeName = this.sampleWeightAttributeName;
+    return {
+      'TargetAttributeName': targetAttributeName,
+      if (candidateGenerationConfig != null)
+        'CandidateGenerationConfig': candidateGenerationConfig,
+      if (completionCriteria != null) 'CompletionCriteria': completionCriteria,
+      if (featureSpecificationS3Uri != null)
+        'FeatureSpecificationS3Uri': featureSpecificationS3Uri,
+      if (generateCandidateDefinitionsOnly != null)
+        'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (problemType != null) 'ProblemType': problemType.toValue(),
+      if (sampleWeightAttributeName != null)
+        'SampleWeightAttributeName': sampleWeightAttributeName,
+    };
+  }
+}
+
+/// The resolved attributes specific to the tabular problem type.
+class TabularResolvedAttributes {
+  /// The type of supervised learning problem available for the model candidates
+  /// of the AutoML job V2 (Binary Classification, Multiclass Classification,
+  /// Regression). For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-datasets-problem-types.html#autopilot-problem-types">
+  /// SageMaker Autopilot problem types</a>.
+  final ProblemType? problemType;
+
+  TabularResolvedAttributes({
+    this.problemType,
+  });
+
+  factory TabularResolvedAttributes.fromJson(Map<String, dynamic> json) {
+    return TabularResolvedAttributes(
+      problemType: (json['ProblemType'] as String?)?.toProblemType(),
+    );
   }
 }
 
@@ -59626,18 +67944,23 @@ enum TargetDevice {
   lambda,
   mlM4,
   mlM5,
+  mlM6g,
   mlC4,
   mlC5,
+  mlC6g,
   mlP2,
   mlP3,
   mlG4dn,
   mlInf1,
+  mlInf2,
+  mlTrn1,
   mlEia2,
   jetsonTx1,
   jetsonTx2,
   jetsonNano,
   jetsonXavier,
   rasp3b,
+  rasp4b,
   imx8qm,
   deeplens,
   rk3399,
@@ -59666,10 +67989,14 @@ extension TargetDeviceValueExtension on TargetDevice {
         return 'ml_m4';
       case TargetDevice.mlM5:
         return 'ml_m5';
+      case TargetDevice.mlM6g:
+        return 'ml_m6g';
       case TargetDevice.mlC4:
         return 'ml_c4';
       case TargetDevice.mlC5:
         return 'ml_c5';
+      case TargetDevice.mlC6g:
+        return 'ml_c6g';
       case TargetDevice.mlP2:
         return 'ml_p2';
       case TargetDevice.mlP3:
@@ -59678,6 +68005,10 @@ extension TargetDeviceValueExtension on TargetDevice {
         return 'ml_g4dn';
       case TargetDevice.mlInf1:
         return 'ml_inf1';
+      case TargetDevice.mlInf2:
+        return 'ml_inf2';
+      case TargetDevice.mlTrn1:
+        return 'ml_trn1';
       case TargetDevice.mlEia2:
         return 'ml_eia2';
       case TargetDevice.jetsonTx1:
@@ -59690,6 +68021,8 @@ extension TargetDeviceValueExtension on TargetDevice {
         return 'jetson_xavier';
       case TargetDevice.rasp3b:
         return 'rasp3b';
+      case TargetDevice.rasp4b:
+        return 'rasp4b';
       case TargetDevice.imx8qm:
         return 'imx8qm';
       case TargetDevice.deeplens:
@@ -59737,10 +68070,14 @@ extension TargetDeviceFromString on String {
         return TargetDevice.mlM4;
       case 'ml_m5':
         return TargetDevice.mlM5;
+      case 'ml_m6g':
+        return TargetDevice.mlM6g;
       case 'ml_c4':
         return TargetDevice.mlC4;
       case 'ml_c5':
         return TargetDevice.mlC5;
+      case 'ml_c6g':
+        return TargetDevice.mlC6g;
       case 'ml_p2':
         return TargetDevice.mlP2;
       case 'ml_p3':
@@ -59749,6 +68086,10 @@ extension TargetDeviceFromString on String {
         return TargetDevice.mlG4dn;
       case 'ml_inf1':
         return TargetDevice.mlInf1;
+      case 'ml_inf2':
+        return TargetDevice.mlInf2;
+      case 'ml_trn1':
+        return TargetDevice.mlTrn1;
       case 'ml_eia2':
         return TargetDevice.mlEia2;
       case 'jetson_tx1':
@@ -59761,6 +68102,8 @@ extension TargetDeviceFromString on String {
         return TargetDevice.jetsonXavier;
       case 'rasp3b':
         return TargetDevice.rasp3b;
+      case 'rasp4b':
+        return TargetDevice.rasp4b;
       case 'imx8qm':
         return TargetDevice.imx8qm;
       case 'deeplens':
@@ -59993,6 +68336,38 @@ extension TargetPlatformOsFromString on String {
   }
 }
 
+/// A target tracking scaling policy. Includes support for predefined or
+/// customized metrics.
+///
+/// When using the <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_PutScalingPolicy.html">PutScalingPolicy</a>
+/// API, this parameter is required when you are creating a policy with the
+/// policy type <code>TargetTrackingScaling</code>.
+class TargetTrackingScalingPolicyConfiguration {
+  /// An object containing information about a metric.
+  final MetricSpecification? metricSpecification;
+
+  /// The recommended target value to specify for the metric when creating a
+  /// scaling policy.
+  final double? targetValue;
+
+  TargetTrackingScalingPolicyConfiguration({
+    this.metricSpecification,
+    this.targetValue,
+  });
+
+  factory TargetTrackingScalingPolicyConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return TargetTrackingScalingPolicyConfiguration(
+      metricSpecification: json['MetricSpecification'] != null
+          ? MetricSpecification.fromJson(
+              json['MetricSpecification'] as Map<String, dynamic>)
+          : null,
+      targetValue: json['TargetValue'] as double?,
+    );
+  }
+}
+
 /// The TensorBoard app settings.
 class TensorBoardAppSettings {
   /// The default instance type and the Amazon Resource Name (ARN) of the
@@ -60053,46 +68428,543 @@ class TensorBoardOutputConfig {
   }
 }
 
-/// Stores the configuration information for the text classification problem of
-/// an AutoML job using the V2 API.
+/// The collection of settings used by an AutoML job V2 for the text
+/// classification problem type.
 class TextClassificationJobConfig {
+  /// The name of the column used to provide the sentences to be classified. It
+  /// should not be the same as the target column.
+  final String contentColumn;
+
+  /// The name of the column used to provide the class labels. It should not be
+  /// same as the content column.
+  final String targetLabelColumn;
+
   /// How long a job is allowed to run, or how many candidates a job is allowed to
   /// generate.
   final AutoMLJobCompletionCriteria? completionCriteria;
 
-  /// The name of the column used to provide the sentences to be classified. It
-  /// should not be the same as the target column.
-  final String? contentColumn;
-
-  /// The name of the column used to provide the class labels. It should not be
-  /// same as the content column.
-  final String? targetLabelColumn;
-
   TextClassificationJobConfig({
+    required this.contentColumn,
+    required this.targetLabelColumn,
     this.completionCriteria,
-    this.contentColumn,
-    this.targetLabelColumn,
   });
 
   factory TextClassificationJobConfig.fromJson(Map<String, dynamic> json) {
     return TextClassificationJobConfig(
+      contentColumn: json['ContentColumn'] as String,
+      targetLabelColumn: json['TargetLabelColumn'] as String,
       completionCriteria: json['CompletionCriteria'] != null
           ? AutoMLJobCompletionCriteria.fromJson(
               json['CompletionCriteria'] as Map<String, dynamic>)
           : null,
-      contentColumn: json['ContentColumn'] as String?,
-      targetLabelColumn: json['TargetLabelColumn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final completionCriteria = this.completionCriteria;
     final contentColumn = this.contentColumn;
     final targetLabelColumn = this.targetLabelColumn;
+    final completionCriteria = this.completionCriteria;
     return {
+      'ContentColumn': contentColumn,
+      'TargetLabelColumn': targetLabelColumn,
       if (completionCriteria != null) 'CompletionCriteria': completionCriteria,
-      if (contentColumn != null) 'ContentColumn': contentColumn,
-      if (targetLabelColumn != null) 'TargetLabelColumn': targetLabelColumn,
+    };
+  }
+}
+
+/// The collection of settings used by an AutoML job V2 for the text generation
+/// problem type.
+/// <note>
+/// The text generation models that support fine-tuning in Autopilot are
+/// currently accessible exclusively in regions supported by Canvas. Refer to
+/// the documentation of Canvas for the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/canvas.html">full list
+/// of its supported Regions</a>.
+/// </note>
+class TextGenerationJobConfig {
+  /// The name of the base model to fine-tune. Autopilot supports fine-tuning a
+  /// variety of large language models. For information on the list of supported
+  /// models, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-llms-finetuning-models.html#autopilot-llms-finetuning-supported-llms">Text
+  /// generation models supporting fine-tuning in Autopilot</a>. If no
+  /// <code>BaseModelName</code> is provided, the default model used is
+  /// <b>Falcon7BInstruct</b>.
+  final String? baseModelName;
+
+  /// How long a fine-tuning job is allowed to run. For
+  /// <code>TextGenerationJobConfig</code> problem types, the
+  /// <code>MaxRuntimePerTrainingJobInSeconds</code> attribute of
+  /// <code>AutoMLJobCompletionCriteria</code> defaults to 72h (259200s).
+  final AutoMLJobCompletionCriteria? completionCriteria;
+  final ModelAccessConfig? modelAccessConfig;
+
+  /// The hyperparameters used to configure and optimize the learning process of
+  /// the base model. You can set any combination of the following hyperparameters
+  /// for all base models. For more information on each supported hyperparameter,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-llms-finetuning-set-hyperparameters.html">Optimize
+  /// the learning process of your text generation models with
+  /// hyperparameters</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"epochCount"</code>: The number of times the model goes through the
+  /// entire training dataset. Its value should be a string containing an integer
+  /// value within the range of "1" to "10".
+  /// </li>
+  /// <li>
+  /// <code>"batchSize"</code>: The number of data samples used in each iteration
+  /// of training. Its value should be a string containing an integer value within
+  /// the range of "1" to "64".
+  /// </li>
+  /// <li>
+  /// <code>"learningRate"</code>: The step size at which a model's parameters are
+  /// updated during training. Its value should be a string containing a
+  /// floating-point value within the range of "0" to "1".
+  /// </li>
+  /// <li>
+  /// <code>"learningRateWarmupSteps"</code>: The number of training steps during
+  /// which the learning rate gradually increases before reaching its target or
+  /// maximum value. Its value should be a string containing an integer value
+  /// within the range of "0" to "250".
+  /// </li>
+  /// </ul>
+  /// Here is an example where all four hyperparameters are configured.
+  ///
+  /// <code>{ "epochCount":"5", "learningRate":"0.5", "batchSize": "32",
+  /// "learningRateWarmupSteps": "10" }</code>
+  final Map<String, String>? textGenerationHyperParameters;
+
+  TextGenerationJobConfig({
+    this.baseModelName,
+    this.completionCriteria,
+    this.modelAccessConfig,
+    this.textGenerationHyperParameters,
+  });
+
+  factory TextGenerationJobConfig.fromJson(Map<String, dynamic> json) {
+    return TextGenerationJobConfig(
+      baseModelName: json['BaseModelName'] as String?,
+      completionCriteria: json['CompletionCriteria'] != null
+          ? AutoMLJobCompletionCriteria.fromJson(
+              json['CompletionCriteria'] as Map<String, dynamic>)
+          : null,
+      modelAccessConfig: json['ModelAccessConfig'] != null
+          ? ModelAccessConfig.fromJson(
+              json['ModelAccessConfig'] as Map<String, dynamic>)
+          : null,
+      textGenerationHyperParameters:
+          (json['TextGenerationHyperParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseModelName = this.baseModelName;
+    final completionCriteria = this.completionCriteria;
+    final modelAccessConfig = this.modelAccessConfig;
+    final textGenerationHyperParameters = this.textGenerationHyperParameters;
+    return {
+      if (baseModelName != null) 'BaseModelName': baseModelName,
+      if (completionCriteria != null) 'CompletionCriteria': completionCriteria,
+      if (modelAccessConfig != null) 'ModelAccessConfig': modelAccessConfig,
+      if (textGenerationHyperParameters != null)
+        'TextGenerationHyperParameters': textGenerationHyperParameters,
+    };
+  }
+}
+
+/// The resolved attributes specific to the text generation problem type.
+class TextGenerationResolvedAttributes {
+  /// The name of the base model to fine-tune.
+  final String? baseModelName;
+
+  TextGenerationResolvedAttributes({
+    this.baseModelName,
+  });
+
+  factory TextGenerationResolvedAttributes.fromJson(Map<String, dynamic> json) {
+    return TextGenerationResolvedAttributes(
+      baseModelName: json['BaseModelName'] as String?,
+    );
+  }
+}
+
+/// Used to set feature group throughput configuration. There are two modes:
+/// <code>ON_DEMAND</code> and <code>PROVISIONED</code>. With on-demand mode,
+/// you are charged for data reads and writes that your application performs on
+/// your feature group. You do not need to specify read and write throughput
+/// because Feature Store accommodates your workloads as they ramp up and down.
+/// You can switch a feature group to on-demand only once in a 24 hour period.
+/// With provisioned throughput mode, you specify the read and write capacity
+/// per second that you expect your application to require, and you are billed
+/// based on those limits. Exceeding provisioned throughput will result in your
+/// requests being throttled.
+///
+/// Note: <code>PROVISIONED</code> throughput mode is supported only for feature
+/// groups that are offline-only, or use the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OnlineStoreConfig.html#sagemaker-Type-OnlineStoreConfig-StorageType">
+/// <code>Standard</code> </a> tier online store.
+class ThroughputConfig {
+  /// The mode used for your feature group throughput: <code>ON_DEMAND</code> or
+  /// <code>PROVISIONED</code>.
+  final ThroughputMode throughputMode;
+
+  /// For provisioned feature groups with online store enabled, this indicates the
+  /// read throughput you are billed for and can consume without throttling.
+  ///
+  /// This field is not applicable for on-demand feature groups.
+  final int? provisionedReadCapacityUnits;
+
+  /// For provisioned feature groups, this indicates the write throughput you are
+  /// billed for and can consume without throttling.
+  ///
+  /// This field is not applicable for on-demand feature groups.
+  final int? provisionedWriteCapacityUnits;
+
+  ThroughputConfig({
+    required this.throughputMode,
+    this.provisionedReadCapacityUnits,
+    this.provisionedWriteCapacityUnits,
+  });
+
+  Map<String, dynamic> toJson() {
+    final throughputMode = this.throughputMode;
+    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
+    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
+    return {
+      'ThroughputMode': throughputMode.toValue(),
+      if (provisionedReadCapacityUnits != null)
+        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
+      if (provisionedWriteCapacityUnits != null)
+        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
+    };
+  }
+}
+
+/// Active throughput configuration of the feature group. There are two modes:
+/// <code>ON_DEMAND</code> and <code>PROVISIONED</code>. With on-demand mode,
+/// you are charged for data reads and writes that your application performs on
+/// your feature group. You do not need to specify read and write throughput
+/// because Feature Store accommodates your workloads as they ramp up and down.
+/// You can switch a feature group to on-demand only once in a 24 hour period.
+/// With provisioned throughput mode, you specify the read and write capacity
+/// per second that you expect your application to require, and you are billed
+/// based on those limits. Exceeding provisioned throughput will result in your
+/// requests being throttled.
+///
+/// Note: <code>PROVISIONED</code> throughput mode is supported only for feature
+/// groups that are offline-only, or use the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OnlineStoreConfig.html#sagemaker-Type-OnlineStoreConfig-StorageType">
+/// <code>Standard</code> </a> tier online store.
+class ThroughputConfigDescription {
+  /// The mode used for your feature group throughput: <code>ON_DEMAND</code> or
+  /// <code>PROVISIONED</code>.
+  final ThroughputMode throughputMode;
+
+  /// For provisioned feature groups with online store enabled, this indicates the
+  /// read throughput you are billed for and can consume without throttling.
+  ///
+  /// This field is not applicable for on-demand feature groups.
+  final int? provisionedReadCapacityUnits;
+
+  /// For provisioned feature groups, this indicates the write throughput you are
+  /// billed for and can consume without throttling.
+  ///
+  /// This field is not applicable for on-demand feature groups.
+  final int? provisionedWriteCapacityUnits;
+
+  ThroughputConfigDescription({
+    required this.throughputMode,
+    this.provisionedReadCapacityUnits,
+    this.provisionedWriteCapacityUnits,
+  });
+
+  factory ThroughputConfigDescription.fromJson(Map<String, dynamic> json) {
+    return ThroughputConfigDescription(
+      throughputMode: (json['ThroughputMode'] as String).toThroughputMode(),
+      provisionedReadCapacityUnits:
+          json['ProvisionedReadCapacityUnits'] as int?,
+      provisionedWriteCapacityUnits:
+          json['ProvisionedWriteCapacityUnits'] as int?,
+    );
+  }
+}
+
+/// The new throughput configuration for the feature group. You can switch
+/// between on-demand and provisioned modes or update the read / write capacity
+/// of provisioned feature groups. You can switch a feature group to on-demand
+/// only once in a 24 hour period.
+class ThroughputConfigUpdate {
+  /// For provisioned feature groups with online store enabled, this indicates the
+  /// read throughput you are billed for and can consume without throttling.
+  final int? provisionedReadCapacityUnits;
+
+  /// For provisioned feature groups, this indicates the write throughput you are
+  /// billed for and can consume without throttling.
+  final int? provisionedWriteCapacityUnits;
+
+  /// Target throughput mode of the feature group. Throughput update is an
+  /// asynchronous operation, and the outcome should be monitored by polling
+  /// <code>LastUpdateStatus</code> field in <code>DescribeFeatureGroup</code>
+  /// response. You cannot update a feature group's throughput while another
+  /// update is in progress.
+  final ThroughputMode? throughputMode;
+
+  ThroughputConfigUpdate({
+    this.provisionedReadCapacityUnits,
+    this.provisionedWriteCapacityUnits,
+    this.throughputMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
+    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
+    final throughputMode = this.throughputMode;
+    return {
+      if (provisionedReadCapacityUnits != null)
+        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
+      if (provisionedWriteCapacityUnits != null)
+        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
+      if (throughputMode != null) 'ThroughputMode': throughputMode.toValue(),
+    };
+  }
+}
+
+enum ThroughputMode {
+  onDemand,
+  provisioned,
+}
+
+extension ThroughputModeValueExtension on ThroughputMode {
+  String toValue() {
+    switch (this) {
+      case ThroughputMode.onDemand:
+        return 'OnDemand';
+      case ThroughputMode.provisioned:
+        return 'Provisioned';
+    }
+  }
+}
+
+extension ThroughputModeFromString on String {
+  ThroughputMode toThroughputMode() {
+    switch (this) {
+      case 'OnDemand':
+        return ThroughputMode.onDemand;
+      case 'Provisioned':
+        return ThroughputMode.provisioned;
+    }
+    throw Exception('$this is not known in enum ThroughputMode');
+  }
+}
+
+/// The collection of components that defines the time-series.
+class TimeSeriesConfig {
+  /// The name of the column that represents the set of item identifiers for which
+  /// you want to predict the target value.
+  final String itemIdentifierAttributeName;
+
+  /// The name of the column representing the target variable that you want to
+  /// predict for each item in your dataset. The data type of the target variable
+  /// must be numerical.
+  final String targetAttributeName;
+
+  /// The name of the column indicating a point in time at which the target value
+  /// of a given item is recorded.
+  final String timestampAttributeName;
+
+  /// A set of columns names that can be grouped with the item identifier column
+  /// to create a composite key for which a target value is predicted.
+  final List<String>? groupingAttributeNames;
+
+  TimeSeriesConfig({
+    required this.itemIdentifierAttributeName,
+    required this.targetAttributeName,
+    required this.timestampAttributeName,
+    this.groupingAttributeNames,
+  });
+
+  factory TimeSeriesConfig.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesConfig(
+      itemIdentifierAttributeName:
+          json['ItemIdentifierAttributeName'] as String,
+      targetAttributeName: json['TargetAttributeName'] as String,
+      timestampAttributeName: json['TimestampAttributeName'] as String,
+      groupingAttributeNames: (json['GroupingAttributeNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final itemIdentifierAttributeName = this.itemIdentifierAttributeName;
+    final targetAttributeName = this.targetAttributeName;
+    final timestampAttributeName = this.timestampAttributeName;
+    final groupingAttributeNames = this.groupingAttributeNames;
+    return {
+      'ItemIdentifierAttributeName': itemIdentifierAttributeName,
+      'TargetAttributeName': targetAttributeName,
+      'TimestampAttributeName': timestampAttributeName,
+      if (groupingAttributeNames != null)
+        'GroupingAttributeNames': groupingAttributeNames,
+    };
+  }
+}
+
+/// The collection of settings used by an AutoML job V2 for the time-series
+/// forecasting problem type.
+class TimeSeriesForecastingJobConfig {
+  /// The frequency of predictions in a forecast.
+  ///
+  /// Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D
+  /// (Day), H (Hour), and min (Minute). For example, <code>1D</code> indicates
+  /// every day and <code>15min</code> indicates every 15 minutes. The value of a
+  /// frequency must not overlap with the next larger frequency. For example, you
+  /// must use a frequency of <code>1H</code> instead of <code>60min</code>.
+  ///
+  /// The valid values for each frequency are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Minute - 1-59
+  /// </li>
+  /// <li>
+  /// Hour - 1-23
+  /// </li>
+  /// <li>
+  /// Day - 1-6
+  /// </li>
+  /// <li>
+  /// Week - 1-4
+  /// </li>
+  /// <li>
+  /// Month - 1-11
+  /// </li>
+  /// <li>
+  /// Year - 1
+  /// </li>
+  /// </ul>
+  final String forecastFrequency;
+
+  /// The number of time-steps that the model predicts. The forecast horizon is
+  /// also called the prediction length. The maximum forecast horizon is the
+  /// lesser of 500 time-steps or 1/4 of the time-steps in the dataset.
+  final int forecastHorizon;
+
+  /// The collection of components that defines the time-series.
+  final TimeSeriesConfig timeSeriesConfig;
+  final CandidateGenerationConfig? candidateGenerationConfig;
+  final AutoMLJobCompletionCriteria? completionCriteria;
+
+  /// A URL to the Amazon S3 data source containing additional selected features
+  /// that complement the target, itemID, timestamp, and grouped columns set in
+  /// <code>TimeSeriesConfig</code>. When not provided, the AutoML job V2 includes
+  /// all the columns from the original dataset that are not already declared in
+  /// <code>TimeSeriesConfig</code>. If provided, the AutoML job V2 only considers
+  /// these additional columns as a complement to the ones declared in
+  /// <code>TimeSeriesConfig</code>.
+  ///
+  /// You can input <code>FeatureAttributeNames</code> (optional) in JSON format
+  /// as shown below:
+  ///
+  /// <code>{ "FeatureAttributeNames":["col1", "col2", ...] }</code>.
+  ///
+  /// You can also specify the data type of the feature (optional) in the format
+  /// shown below:
+  ///
+  /// <code>{ "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... }
+  /// }</code>
+  ///
+  /// Autopilot supports the following data types: <code>numeric</code>,
+  /// <code>categorical</code>, <code>text</code>, and <code>datetime</code>.
+  /// <note>
+  /// These column keys must not include any column set in
+  /// <code>TimeSeriesConfig</code>.
+  /// </note>
+  final String? featureSpecificationS3Uri;
+
+  /// The quantiles used to train the model for forecasts at a specified quantile.
+  /// You can specify quantiles from <code>0.01</code> (p1) to <code>0.99</code>
+  /// (p99), by increments of 0.01 or higher. Up to five forecast quantiles can be
+  /// specified. When <code>ForecastQuantiles</code> is not provided, the AutoML
+  /// job uses the quantiles p10, p50, and p90 as default.
+  final List<String>? forecastQuantiles;
+
+  /// The collection of holiday featurization attributes used to incorporate
+  /// national holiday information into your forecasting model.
+  final List<HolidayConfigAttributes>? holidayConfig;
+
+  /// The transformations modifying specific attributes of the time-series, such
+  /// as filling strategies for missing values.
+  final TimeSeriesTransformations? transformations;
+
+  TimeSeriesForecastingJobConfig({
+    required this.forecastFrequency,
+    required this.forecastHorizon,
+    required this.timeSeriesConfig,
+    this.candidateGenerationConfig,
+    this.completionCriteria,
+    this.featureSpecificationS3Uri,
+    this.forecastQuantiles,
+    this.holidayConfig,
+    this.transformations,
+  });
+
+  factory TimeSeriesForecastingJobConfig.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesForecastingJobConfig(
+      forecastFrequency: json['ForecastFrequency'] as String,
+      forecastHorizon: json['ForecastHorizon'] as int,
+      timeSeriesConfig: TimeSeriesConfig.fromJson(
+          json['TimeSeriesConfig'] as Map<String, dynamic>),
+      candidateGenerationConfig: json['CandidateGenerationConfig'] != null
+          ? CandidateGenerationConfig.fromJson(
+              json['CandidateGenerationConfig'] as Map<String, dynamic>)
+          : null,
+      completionCriteria: json['CompletionCriteria'] != null
+          ? AutoMLJobCompletionCriteria.fromJson(
+              json['CompletionCriteria'] as Map<String, dynamic>)
+          : null,
+      featureSpecificationS3Uri: json['FeatureSpecificationS3Uri'] as String?,
+      forecastQuantiles: (json['ForecastQuantiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      holidayConfig: (json['HolidayConfig'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              HolidayConfigAttributes.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transformations: json['Transformations'] != null
+          ? TimeSeriesTransformations.fromJson(
+              json['Transformations'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forecastFrequency = this.forecastFrequency;
+    final forecastHorizon = this.forecastHorizon;
+    final timeSeriesConfig = this.timeSeriesConfig;
+    final candidateGenerationConfig = this.candidateGenerationConfig;
+    final completionCriteria = this.completionCriteria;
+    final featureSpecificationS3Uri = this.featureSpecificationS3Uri;
+    final forecastQuantiles = this.forecastQuantiles;
+    final holidayConfig = this.holidayConfig;
+    final transformations = this.transformations;
+    return {
+      'ForecastFrequency': forecastFrequency,
+      'ForecastHorizon': forecastHorizon,
+      'TimeSeriesConfig': timeSeriesConfig,
+      if (candidateGenerationConfig != null)
+        'CandidateGenerationConfig': candidateGenerationConfig,
+      if (completionCriteria != null) 'CompletionCriteria': completionCriteria,
+      if (featureSpecificationS3Uri != null)
+        'FeatureSpecificationS3Uri': featureSpecificationS3Uri,
+      if (forecastQuantiles != null) 'ForecastQuantiles': forecastQuantiles,
+      if (holidayConfig != null) 'HolidayConfig': holidayConfig,
+      if (transformations != null) 'Transformations': transformations,
     };
   }
 }
@@ -60139,16 +69011,98 @@ class TimeSeriesForecastingSettings {
   }
 }
 
+/// Transformations allowed on the dataset. Supported transformations are
+/// <code>Filling</code> and <code>Aggregation</code>. <code>Filling</code>
+/// specifies how to add values to missing values in the dataset.
+/// <code>Aggregation</code> defines how to aggregate data that does not align
+/// with forecast frequency.
+class TimeSeriesTransformations {
+  /// A key value pair defining the aggregation method for a column, where the key
+  /// is the column name and the value is the aggregation method.
+  ///
+  /// The supported aggregation methods are <code>sum</code> (default),
+  /// <code>avg</code>, <code>first</code>, <code>min</code>, <code>max</code>.
+  /// <note>
+  /// Aggregation is only supported for the target column.
+  /// </note>
+  final Map<String, AggregationTransformationValue>? aggregation;
+
+  /// A key value pair defining the filling method for a column, where the key is
+  /// the column name and the value is an object which defines the filling logic.
+  /// You can specify multiple filling methods for a single column.
+  ///
+  /// The supported filling methods and their corresponding options are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>frontfill</code>: <code>none</code> (Supported only for target column)
+  /// </li>
+  /// <li>
+  /// <code>middlefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>backfill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>futurefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// </ul>
+  /// To set a filling method to a specific value, set the fill parameter to the
+  /// chosen filling method value (for example <code>"backfill" : "value"</code>),
+  /// and define the filling value in an additional parameter prefixed with
+  /// "_value". For example, to set <code>backfill</code> to a value of
+  /// <code>2</code>, you must include two parameters: <code>"backfill":
+  /// "value"</code> and <code>"backfill_value":"2"</code>.
+  final Map<String, Map<FillingType, String>>? filling;
+
+  TimeSeriesTransformations({
+    this.aggregation,
+    this.filling,
+  });
+
+  factory TimeSeriesTransformations.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesTransformations(
+      aggregation: (json['Aggregation'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, (e as String).toAggregationTransformationValue())),
+      filling: (json['Filling'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k.toFillingType(), e as String)))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregation = this.aggregation;
+    final filling = this.filling;
+    return {
+      if (aggregation != null)
+        'Aggregation': aggregation.map((k, e) => MapEntry(k, e.toValue())),
+      if (filling != null)
+        'Filling': filling.map(
+            (k, e) => MapEntry(k, e.map((k, e) => MapEntry(k.toValue(), e)))),
+    };
+  }
+}
+
 /// Defines the traffic pattern of the load test.
 class TrafficPattern {
   /// Defines the phases traffic specification.
   final List<Phase>? phases;
 
-  /// Defines the traffic patterns.
+  /// Defines the stairs traffic pattern.
+  final Stairs? stairs;
+
+  /// Defines the traffic patterns. Choose either <code>PHASES</code> or
+  /// <code>STAIRS</code>.
   final TrafficType? trafficType;
 
   TrafficPattern({
     this.phases,
+    this.stairs,
     this.trafficType,
   });
 
@@ -60158,15 +69112,20 @@ class TrafficPattern {
           ?.whereNotNull()
           .map((e) => Phase.fromJson(e as Map<String, dynamic>))
           .toList(),
+      stairs: json['Stairs'] != null
+          ? Stairs.fromJson(json['Stairs'] as Map<String, dynamic>)
+          : null,
       trafficType: (json['TrafficType'] as String?)?.toTrafficType(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final phases = this.phases;
+    final stairs = this.stairs;
     final trafficType = this.trafficType;
     return {
       if (phases != null) 'Phases': phases,
+      if (stairs != null) 'Stairs': stairs,
       if (trafficType != null) 'TrafficType': trafficType.toValue(),
     };
   }
@@ -60277,6 +69236,7 @@ extension TrafficRoutingConfigTypeFromString on String {
 
 enum TrafficType {
   phases,
+  stairs,
 }
 
 extension TrafficTypeValueExtension on TrafficType {
@@ -60284,6 +69244,8 @@ extension TrafficTypeValueExtension on TrafficType {
     switch (this) {
       case TrafficType.phases:
         return 'PHASES';
+      case TrafficType.stairs:
+        return 'STAIRS';
     }
   }
 }
@@ -60293,6 +69255,8 @@ extension TrafficTypeFromString on String {
     switch (this) {
       case 'PHASES':
         return TrafficType.phases;
+      case 'STAIRS':
+        return TrafficType.stairs;
     }
     throw Exception('$this is not known in enum TrafficType');
   }
@@ -60438,6 +69402,8 @@ enum TrainingInstanceType {
   mlP3_16xlarge,
   mlP3dn_24xlarge,
   mlP4d_24xlarge,
+  mlP4de_24xlarge,
+  mlP5_48xlarge,
   mlC5Xlarge,
   mlC5_2xlarge,
   mlC5_4xlarge,
@@ -60458,6 +69424,24 @@ enum TrainingInstanceType {
   mlG5_48xlarge,
   mlTrn1_2xlarge,
   mlTrn1_32xlarge,
+  mlTrn1n_32xlarge,
+  mlM6iLarge,
+  mlM6iXlarge,
+  mlM6i_2xlarge,
+  mlM6i_4xlarge,
+  mlM6i_8xlarge,
+  mlM6i_12xlarge,
+  mlM6i_16xlarge,
+  mlM6i_24xlarge,
+  mlM6i_32xlarge,
+  mlC6iXlarge,
+  mlC6i_2xlarge,
+  mlC6i_8xlarge,
+  mlC6i_4xlarge,
+  mlC6i_12xlarge,
+  mlC6i_16xlarge,
+  mlC6i_24xlarge,
+  mlC6i_32xlarge,
 }
 
 extension TrainingInstanceTypeValueExtension on TrainingInstanceType {
@@ -60521,6 +69505,10 @@ extension TrainingInstanceTypeValueExtension on TrainingInstanceType {
         return 'ml.p3dn.24xlarge';
       case TrainingInstanceType.mlP4d_24xlarge:
         return 'ml.p4d.24xlarge';
+      case TrainingInstanceType.mlP4de_24xlarge:
+        return 'ml.p4de.24xlarge';
+      case TrainingInstanceType.mlP5_48xlarge:
+        return 'ml.p5.48xlarge';
       case TrainingInstanceType.mlC5Xlarge:
         return 'ml.c5.xlarge';
       case TrainingInstanceType.mlC5_2xlarge:
@@ -60561,6 +69549,42 @@ extension TrainingInstanceTypeValueExtension on TrainingInstanceType {
         return 'ml.trn1.2xlarge';
       case TrainingInstanceType.mlTrn1_32xlarge:
         return 'ml.trn1.32xlarge';
+      case TrainingInstanceType.mlTrn1n_32xlarge:
+        return 'ml.trn1n.32xlarge';
+      case TrainingInstanceType.mlM6iLarge:
+        return 'ml.m6i.large';
+      case TrainingInstanceType.mlM6iXlarge:
+        return 'ml.m6i.xlarge';
+      case TrainingInstanceType.mlM6i_2xlarge:
+        return 'ml.m6i.2xlarge';
+      case TrainingInstanceType.mlM6i_4xlarge:
+        return 'ml.m6i.4xlarge';
+      case TrainingInstanceType.mlM6i_8xlarge:
+        return 'ml.m6i.8xlarge';
+      case TrainingInstanceType.mlM6i_12xlarge:
+        return 'ml.m6i.12xlarge';
+      case TrainingInstanceType.mlM6i_16xlarge:
+        return 'ml.m6i.16xlarge';
+      case TrainingInstanceType.mlM6i_24xlarge:
+        return 'ml.m6i.24xlarge';
+      case TrainingInstanceType.mlM6i_32xlarge:
+        return 'ml.m6i.32xlarge';
+      case TrainingInstanceType.mlC6iXlarge:
+        return 'ml.c6i.xlarge';
+      case TrainingInstanceType.mlC6i_2xlarge:
+        return 'ml.c6i.2xlarge';
+      case TrainingInstanceType.mlC6i_8xlarge:
+        return 'ml.c6i.8xlarge';
+      case TrainingInstanceType.mlC6i_4xlarge:
+        return 'ml.c6i.4xlarge';
+      case TrainingInstanceType.mlC6i_12xlarge:
+        return 'ml.c6i.12xlarge';
+      case TrainingInstanceType.mlC6i_16xlarge:
+        return 'ml.c6i.16xlarge';
+      case TrainingInstanceType.mlC6i_24xlarge:
+        return 'ml.c6i.24xlarge';
+      case TrainingInstanceType.mlC6i_32xlarge:
+        return 'ml.c6i.32xlarge';
     }
   }
 }
@@ -60626,6 +69650,10 @@ extension TrainingInstanceTypeFromString on String {
         return TrainingInstanceType.mlP3dn_24xlarge;
       case 'ml.p4d.24xlarge':
         return TrainingInstanceType.mlP4d_24xlarge;
+      case 'ml.p4de.24xlarge':
+        return TrainingInstanceType.mlP4de_24xlarge;
+      case 'ml.p5.48xlarge':
+        return TrainingInstanceType.mlP5_48xlarge;
       case 'ml.c5.xlarge':
         return TrainingInstanceType.mlC5Xlarge;
       case 'ml.c5.2xlarge':
@@ -60666,6 +69694,42 @@ extension TrainingInstanceTypeFromString on String {
         return TrainingInstanceType.mlTrn1_2xlarge;
       case 'ml.trn1.32xlarge':
         return TrainingInstanceType.mlTrn1_32xlarge;
+      case 'ml.trn1n.32xlarge':
+        return TrainingInstanceType.mlTrn1n_32xlarge;
+      case 'ml.m6i.large':
+        return TrainingInstanceType.mlM6iLarge;
+      case 'ml.m6i.xlarge':
+        return TrainingInstanceType.mlM6iXlarge;
+      case 'ml.m6i.2xlarge':
+        return TrainingInstanceType.mlM6i_2xlarge;
+      case 'ml.m6i.4xlarge':
+        return TrainingInstanceType.mlM6i_4xlarge;
+      case 'ml.m6i.8xlarge':
+        return TrainingInstanceType.mlM6i_8xlarge;
+      case 'ml.m6i.12xlarge':
+        return TrainingInstanceType.mlM6i_12xlarge;
+      case 'ml.m6i.16xlarge':
+        return TrainingInstanceType.mlM6i_16xlarge;
+      case 'ml.m6i.24xlarge':
+        return TrainingInstanceType.mlM6i_24xlarge;
+      case 'ml.m6i.32xlarge':
+        return TrainingInstanceType.mlM6i_32xlarge;
+      case 'ml.c6i.xlarge':
+        return TrainingInstanceType.mlC6iXlarge;
+      case 'ml.c6i.2xlarge':
+        return TrainingInstanceType.mlC6i_2xlarge;
+      case 'ml.c6i.8xlarge':
+        return TrainingInstanceType.mlC6i_8xlarge;
+      case 'ml.c6i.4xlarge':
+        return TrainingInstanceType.mlC6i_4xlarge;
+      case 'ml.c6i.12xlarge':
+        return TrainingInstanceType.mlC6i_12xlarge;
+      case 'ml.c6i.16xlarge':
+        return TrainingInstanceType.mlC6i_16xlarge;
+      case 'ml.c6i.24xlarge':
+        return TrainingInstanceType.mlC6i_24xlarge;
+      case 'ml.c6i.32xlarge':
+        return TrainingInstanceType.mlC6i_32xlarge;
     }
     throw Exception('$this is not known in enum TrainingInstanceType');
   }
@@ -60747,6 +69811,7 @@ class TrainingJob {
   /// The S3 path where model artifacts that you configured when creating the job
   /// are stored. SageMaker creates subfolders for model artifacts.
   final OutputDataConfig? outputDataConfig;
+  final ProfilerConfig? profilerConfig;
 
   /// Resources, including ML compute instances and ML storage volumes, that are
   /// configured for model training.
@@ -60934,6 +69999,7 @@ class TrainingJob {
     this.lastModifiedTime,
     this.modelArtifacts,
     this.outputDataConfig,
+    this.profilerConfig,
     this.resourceConfig,
     this.retryStrategy,
     this.roleArn,
@@ -61010,6 +70076,10 @@ class TrainingJob {
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
               json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      profilerConfig: json['ProfilerConfig'] != null
+          ? ProfilerConfig.fromJson(
+              json['ProfilerConfig'] as Map<String, dynamic>)
           : null,
       resourceConfig: json['ResourceConfig'] != null
           ? ResourceConfig.fromJson(
@@ -61421,6 +70491,9 @@ class TrainingSpecification {
   /// algorithm.
   final String trainingImage;
 
+  /// The additional data source used during the training job.
+  final AdditionalS3DataSource? additionalS3DataSource;
+
   /// A list of <code>MetricDefinition</code> objects, which are used for parsing
   /// metrics generated by the algorithm.
   final List<MetricDefinition>? metricDefinitions;
@@ -61447,6 +70520,7 @@ class TrainingSpecification {
     required this.supportedTrainingInstanceTypes,
     required this.trainingChannels,
     required this.trainingImage,
+    this.additionalS3DataSource,
     this.metricDefinitions,
     this.supportedHyperParameters,
     this.supportedTuningJobObjectiveMetrics,
@@ -61466,6 +70540,10 @@ class TrainingSpecification {
           .map((e) => ChannelSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
       trainingImage: json['TrainingImage'] as String,
+      additionalS3DataSource: json['AdditionalS3DataSource'] != null
+          ? AdditionalS3DataSource.fromJson(
+              json['AdditionalS3DataSource'] as Map<String, dynamic>)
+          : null,
       metricDefinitions: (json['MetricDefinitions'] as List?)
           ?.whereNotNull()
           .map((e) => MetricDefinition.fromJson(e as Map<String, dynamic>))
@@ -61490,6 +70568,7 @@ class TrainingSpecification {
     final supportedTrainingInstanceTypes = this.supportedTrainingInstanceTypes;
     final trainingChannels = this.trainingChannels;
     final trainingImage = this.trainingImage;
+    final additionalS3DataSource = this.additionalS3DataSource;
     final metricDefinitions = this.metricDefinitions;
     final supportedHyperParameters = this.supportedHyperParameters;
     final supportedTuningJobObjectiveMetrics =
@@ -61501,6 +70580,8 @@ class TrainingSpecification {
           supportedTrainingInstanceTypes.map((e) => e.toValue()).toList(),
       'TrainingChannels': trainingChannels,
       'TrainingImage': trainingImage,
+      if (additionalS3DataSource != null)
+        'AdditionalS3DataSource': additionalS3DataSource,
       if (metricDefinitions != null) 'MetricDefinitions': metricDefinitions,
       if (supportedHyperParameters != null)
         'SupportedHyperParameters': supportedHyperParameters,
@@ -61657,12 +70738,74 @@ enum TransformInstanceType {
   mlM5_4xlarge,
   mlM5_12xlarge,
   mlM5_24xlarge,
+  mlM6iLarge,
+  mlM6iXlarge,
+  mlM6i_2xlarge,
+  mlM6i_4xlarge,
+  mlM6i_8xlarge,
+  mlM6i_12xlarge,
+  mlM6i_16xlarge,
+  mlM6i_24xlarge,
+  mlM6i_32xlarge,
+  mlC6iLarge,
+  mlC6iXlarge,
+  mlC6i_2xlarge,
+  mlC6i_4xlarge,
+  mlC6i_8xlarge,
+  mlC6i_12xlarge,
+  mlC6i_16xlarge,
+  mlC6i_24xlarge,
+  mlC6i_32xlarge,
+  mlR6iLarge,
+  mlR6iXlarge,
+  mlR6i_2xlarge,
+  mlR6i_4xlarge,
+  mlR6i_8xlarge,
+  mlR6i_12xlarge,
+  mlR6i_16xlarge,
+  mlR6i_24xlarge,
+  mlR6i_32xlarge,
+  mlM7iLarge,
+  mlM7iXlarge,
+  mlM7i_2xlarge,
+  mlM7i_4xlarge,
+  mlM7i_8xlarge,
+  mlM7i_12xlarge,
+  mlM7i_16xlarge,
+  mlM7i_24xlarge,
+  mlM7i_48xlarge,
+  mlC7iLarge,
+  mlC7iXlarge,
+  mlC7i_2xlarge,
+  mlC7i_4xlarge,
+  mlC7i_8xlarge,
+  mlC7i_12xlarge,
+  mlC7i_16xlarge,
+  mlC7i_24xlarge,
+  mlC7i_48xlarge,
+  mlR7iLarge,
+  mlR7iXlarge,
+  mlR7i_2xlarge,
+  mlR7i_4xlarge,
+  mlR7i_8xlarge,
+  mlR7i_12xlarge,
+  mlR7i_16xlarge,
+  mlR7i_24xlarge,
+  mlR7i_48xlarge,
   mlG4dnXlarge,
   mlG4dn_2xlarge,
   mlG4dn_4xlarge,
   mlG4dn_8xlarge,
   mlG4dn_12xlarge,
   mlG4dn_16xlarge,
+  mlG5Xlarge,
+  mlG5_2xlarge,
+  mlG5_4xlarge,
+  mlG5_8xlarge,
+  mlG5_12xlarge,
+  mlG5_16xlarge,
+  mlG5_24xlarge,
+  mlG5_48xlarge,
 }
 
 extension TransformInstanceTypeValueExtension on TransformInstanceType {
@@ -61720,6 +70863,114 @@ extension TransformInstanceTypeValueExtension on TransformInstanceType {
         return 'ml.m5.12xlarge';
       case TransformInstanceType.mlM5_24xlarge:
         return 'ml.m5.24xlarge';
+      case TransformInstanceType.mlM6iLarge:
+        return 'ml.m6i.large';
+      case TransformInstanceType.mlM6iXlarge:
+        return 'ml.m6i.xlarge';
+      case TransformInstanceType.mlM6i_2xlarge:
+        return 'ml.m6i.2xlarge';
+      case TransformInstanceType.mlM6i_4xlarge:
+        return 'ml.m6i.4xlarge';
+      case TransformInstanceType.mlM6i_8xlarge:
+        return 'ml.m6i.8xlarge';
+      case TransformInstanceType.mlM6i_12xlarge:
+        return 'ml.m6i.12xlarge';
+      case TransformInstanceType.mlM6i_16xlarge:
+        return 'ml.m6i.16xlarge';
+      case TransformInstanceType.mlM6i_24xlarge:
+        return 'ml.m6i.24xlarge';
+      case TransformInstanceType.mlM6i_32xlarge:
+        return 'ml.m6i.32xlarge';
+      case TransformInstanceType.mlC6iLarge:
+        return 'ml.c6i.large';
+      case TransformInstanceType.mlC6iXlarge:
+        return 'ml.c6i.xlarge';
+      case TransformInstanceType.mlC6i_2xlarge:
+        return 'ml.c6i.2xlarge';
+      case TransformInstanceType.mlC6i_4xlarge:
+        return 'ml.c6i.4xlarge';
+      case TransformInstanceType.mlC6i_8xlarge:
+        return 'ml.c6i.8xlarge';
+      case TransformInstanceType.mlC6i_12xlarge:
+        return 'ml.c6i.12xlarge';
+      case TransformInstanceType.mlC6i_16xlarge:
+        return 'ml.c6i.16xlarge';
+      case TransformInstanceType.mlC6i_24xlarge:
+        return 'ml.c6i.24xlarge';
+      case TransformInstanceType.mlC6i_32xlarge:
+        return 'ml.c6i.32xlarge';
+      case TransformInstanceType.mlR6iLarge:
+        return 'ml.r6i.large';
+      case TransformInstanceType.mlR6iXlarge:
+        return 'ml.r6i.xlarge';
+      case TransformInstanceType.mlR6i_2xlarge:
+        return 'ml.r6i.2xlarge';
+      case TransformInstanceType.mlR6i_4xlarge:
+        return 'ml.r6i.4xlarge';
+      case TransformInstanceType.mlR6i_8xlarge:
+        return 'ml.r6i.8xlarge';
+      case TransformInstanceType.mlR6i_12xlarge:
+        return 'ml.r6i.12xlarge';
+      case TransformInstanceType.mlR6i_16xlarge:
+        return 'ml.r6i.16xlarge';
+      case TransformInstanceType.mlR6i_24xlarge:
+        return 'ml.r6i.24xlarge';
+      case TransformInstanceType.mlR6i_32xlarge:
+        return 'ml.r6i.32xlarge';
+      case TransformInstanceType.mlM7iLarge:
+        return 'ml.m7i.large';
+      case TransformInstanceType.mlM7iXlarge:
+        return 'ml.m7i.xlarge';
+      case TransformInstanceType.mlM7i_2xlarge:
+        return 'ml.m7i.2xlarge';
+      case TransformInstanceType.mlM7i_4xlarge:
+        return 'ml.m7i.4xlarge';
+      case TransformInstanceType.mlM7i_8xlarge:
+        return 'ml.m7i.8xlarge';
+      case TransformInstanceType.mlM7i_12xlarge:
+        return 'ml.m7i.12xlarge';
+      case TransformInstanceType.mlM7i_16xlarge:
+        return 'ml.m7i.16xlarge';
+      case TransformInstanceType.mlM7i_24xlarge:
+        return 'ml.m7i.24xlarge';
+      case TransformInstanceType.mlM7i_48xlarge:
+        return 'ml.m7i.48xlarge';
+      case TransformInstanceType.mlC7iLarge:
+        return 'ml.c7i.large';
+      case TransformInstanceType.mlC7iXlarge:
+        return 'ml.c7i.xlarge';
+      case TransformInstanceType.mlC7i_2xlarge:
+        return 'ml.c7i.2xlarge';
+      case TransformInstanceType.mlC7i_4xlarge:
+        return 'ml.c7i.4xlarge';
+      case TransformInstanceType.mlC7i_8xlarge:
+        return 'ml.c7i.8xlarge';
+      case TransformInstanceType.mlC7i_12xlarge:
+        return 'ml.c7i.12xlarge';
+      case TransformInstanceType.mlC7i_16xlarge:
+        return 'ml.c7i.16xlarge';
+      case TransformInstanceType.mlC7i_24xlarge:
+        return 'ml.c7i.24xlarge';
+      case TransformInstanceType.mlC7i_48xlarge:
+        return 'ml.c7i.48xlarge';
+      case TransformInstanceType.mlR7iLarge:
+        return 'ml.r7i.large';
+      case TransformInstanceType.mlR7iXlarge:
+        return 'ml.r7i.xlarge';
+      case TransformInstanceType.mlR7i_2xlarge:
+        return 'ml.r7i.2xlarge';
+      case TransformInstanceType.mlR7i_4xlarge:
+        return 'ml.r7i.4xlarge';
+      case TransformInstanceType.mlR7i_8xlarge:
+        return 'ml.r7i.8xlarge';
+      case TransformInstanceType.mlR7i_12xlarge:
+        return 'ml.r7i.12xlarge';
+      case TransformInstanceType.mlR7i_16xlarge:
+        return 'ml.r7i.16xlarge';
+      case TransformInstanceType.mlR7i_24xlarge:
+        return 'ml.r7i.24xlarge';
+      case TransformInstanceType.mlR7i_48xlarge:
+        return 'ml.r7i.48xlarge';
       case TransformInstanceType.mlG4dnXlarge:
         return 'ml.g4dn.xlarge';
       case TransformInstanceType.mlG4dn_2xlarge:
@@ -61732,6 +70983,22 @@ extension TransformInstanceTypeValueExtension on TransformInstanceType {
         return 'ml.g4dn.12xlarge';
       case TransformInstanceType.mlG4dn_16xlarge:
         return 'ml.g4dn.16xlarge';
+      case TransformInstanceType.mlG5Xlarge:
+        return 'ml.g5.xlarge';
+      case TransformInstanceType.mlG5_2xlarge:
+        return 'ml.g5.2xlarge';
+      case TransformInstanceType.mlG5_4xlarge:
+        return 'ml.g5.4xlarge';
+      case TransformInstanceType.mlG5_8xlarge:
+        return 'ml.g5.8xlarge';
+      case TransformInstanceType.mlG5_12xlarge:
+        return 'ml.g5.12xlarge';
+      case TransformInstanceType.mlG5_16xlarge:
+        return 'ml.g5.16xlarge';
+      case TransformInstanceType.mlG5_24xlarge:
+        return 'ml.g5.24xlarge';
+      case TransformInstanceType.mlG5_48xlarge:
+        return 'ml.g5.48xlarge';
     }
   }
 }
@@ -61791,6 +71058,114 @@ extension TransformInstanceTypeFromString on String {
         return TransformInstanceType.mlM5_12xlarge;
       case 'ml.m5.24xlarge':
         return TransformInstanceType.mlM5_24xlarge;
+      case 'ml.m6i.large':
+        return TransformInstanceType.mlM6iLarge;
+      case 'ml.m6i.xlarge':
+        return TransformInstanceType.mlM6iXlarge;
+      case 'ml.m6i.2xlarge':
+        return TransformInstanceType.mlM6i_2xlarge;
+      case 'ml.m6i.4xlarge':
+        return TransformInstanceType.mlM6i_4xlarge;
+      case 'ml.m6i.8xlarge':
+        return TransformInstanceType.mlM6i_8xlarge;
+      case 'ml.m6i.12xlarge':
+        return TransformInstanceType.mlM6i_12xlarge;
+      case 'ml.m6i.16xlarge':
+        return TransformInstanceType.mlM6i_16xlarge;
+      case 'ml.m6i.24xlarge':
+        return TransformInstanceType.mlM6i_24xlarge;
+      case 'ml.m6i.32xlarge':
+        return TransformInstanceType.mlM6i_32xlarge;
+      case 'ml.c6i.large':
+        return TransformInstanceType.mlC6iLarge;
+      case 'ml.c6i.xlarge':
+        return TransformInstanceType.mlC6iXlarge;
+      case 'ml.c6i.2xlarge':
+        return TransformInstanceType.mlC6i_2xlarge;
+      case 'ml.c6i.4xlarge':
+        return TransformInstanceType.mlC6i_4xlarge;
+      case 'ml.c6i.8xlarge':
+        return TransformInstanceType.mlC6i_8xlarge;
+      case 'ml.c6i.12xlarge':
+        return TransformInstanceType.mlC6i_12xlarge;
+      case 'ml.c6i.16xlarge':
+        return TransformInstanceType.mlC6i_16xlarge;
+      case 'ml.c6i.24xlarge':
+        return TransformInstanceType.mlC6i_24xlarge;
+      case 'ml.c6i.32xlarge':
+        return TransformInstanceType.mlC6i_32xlarge;
+      case 'ml.r6i.large':
+        return TransformInstanceType.mlR6iLarge;
+      case 'ml.r6i.xlarge':
+        return TransformInstanceType.mlR6iXlarge;
+      case 'ml.r6i.2xlarge':
+        return TransformInstanceType.mlR6i_2xlarge;
+      case 'ml.r6i.4xlarge':
+        return TransformInstanceType.mlR6i_4xlarge;
+      case 'ml.r6i.8xlarge':
+        return TransformInstanceType.mlR6i_8xlarge;
+      case 'ml.r6i.12xlarge':
+        return TransformInstanceType.mlR6i_12xlarge;
+      case 'ml.r6i.16xlarge':
+        return TransformInstanceType.mlR6i_16xlarge;
+      case 'ml.r6i.24xlarge':
+        return TransformInstanceType.mlR6i_24xlarge;
+      case 'ml.r6i.32xlarge':
+        return TransformInstanceType.mlR6i_32xlarge;
+      case 'ml.m7i.large':
+        return TransformInstanceType.mlM7iLarge;
+      case 'ml.m7i.xlarge':
+        return TransformInstanceType.mlM7iXlarge;
+      case 'ml.m7i.2xlarge':
+        return TransformInstanceType.mlM7i_2xlarge;
+      case 'ml.m7i.4xlarge':
+        return TransformInstanceType.mlM7i_4xlarge;
+      case 'ml.m7i.8xlarge':
+        return TransformInstanceType.mlM7i_8xlarge;
+      case 'ml.m7i.12xlarge':
+        return TransformInstanceType.mlM7i_12xlarge;
+      case 'ml.m7i.16xlarge':
+        return TransformInstanceType.mlM7i_16xlarge;
+      case 'ml.m7i.24xlarge':
+        return TransformInstanceType.mlM7i_24xlarge;
+      case 'ml.m7i.48xlarge':
+        return TransformInstanceType.mlM7i_48xlarge;
+      case 'ml.c7i.large':
+        return TransformInstanceType.mlC7iLarge;
+      case 'ml.c7i.xlarge':
+        return TransformInstanceType.mlC7iXlarge;
+      case 'ml.c7i.2xlarge':
+        return TransformInstanceType.mlC7i_2xlarge;
+      case 'ml.c7i.4xlarge':
+        return TransformInstanceType.mlC7i_4xlarge;
+      case 'ml.c7i.8xlarge':
+        return TransformInstanceType.mlC7i_8xlarge;
+      case 'ml.c7i.12xlarge':
+        return TransformInstanceType.mlC7i_12xlarge;
+      case 'ml.c7i.16xlarge':
+        return TransformInstanceType.mlC7i_16xlarge;
+      case 'ml.c7i.24xlarge':
+        return TransformInstanceType.mlC7i_24xlarge;
+      case 'ml.c7i.48xlarge':
+        return TransformInstanceType.mlC7i_48xlarge;
+      case 'ml.r7i.large':
+        return TransformInstanceType.mlR7iLarge;
+      case 'ml.r7i.xlarge':
+        return TransformInstanceType.mlR7iXlarge;
+      case 'ml.r7i.2xlarge':
+        return TransformInstanceType.mlR7i_2xlarge;
+      case 'ml.r7i.4xlarge':
+        return TransformInstanceType.mlR7i_4xlarge;
+      case 'ml.r7i.8xlarge':
+        return TransformInstanceType.mlR7i_8xlarge;
+      case 'ml.r7i.12xlarge':
+        return TransformInstanceType.mlR7i_12xlarge;
+      case 'ml.r7i.16xlarge':
+        return TransformInstanceType.mlR7i_16xlarge;
+      case 'ml.r7i.24xlarge':
+        return TransformInstanceType.mlR7i_24xlarge;
+      case 'ml.r7i.48xlarge':
+        return TransformInstanceType.mlR7i_48xlarge;
       case 'ml.g4dn.xlarge':
         return TransformInstanceType.mlG4dnXlarge;
       case 'ml.g4dn.2xlarge':
@@ -61803,6 +71178,22 @@ extension TransformInstanceTypeFromString on String {
         return TransformInstanceType.mlG4dn_12xlarge;
       case 'ml.g4dn.16xlarge':
         return TransformInstanceType.mlG4dn_16xlarge;
+      case 'ml.g5.xlarge':
+        return TransformInstanceType.mlG5Xlarge;
+      case 'ml.g5.2xlarge':
+        return TransformInstanceType.mlG5_2xlarge;
+      case 'ml.g5.4xlarge':
+        return TransformInstanceType.mlG5_4xlarge;
+      case 'ml.g5.8xlarge':
+        return TransformInstanceType.mlG5_8xlarge;
+      case 'ml.g5.12xlarge':
+        return TransformInstanceType.mlG5_12xlarge;
+      case 'ml.g5.16xlarge':
+        return TransformInstanceType.mlG5_16xlarge;
+      case 'ml.g5.24xlarge':
+        return TransformInstanceType.mlG5_24xlarge;
+      case 'ml.g5.48xlarge':
+        return TransformInstanceType.mlG5_48xlarge;
     }
     throw Exception('$this is not known in enum TransformInstanceType');
   }
@@ -61824,6 +71215,7 @@ class TransformJob {
 
   /// A timestamp that shows when the transform Job was created.
   final DateTime? creationTime;
+  final BatchDataCaptureConfig? dataCaptureConfig;
   final DataProcessing? dataProcessing;
 
   /// The environment variables to set in the Docker container. We support up to
@@ -61913,6 +71305,7 @@ class TransformJob {
     this.autoMLJobArn,
     this.batchStrategy,
     this.creationTime,
+    this.dataCaptureConfig,
     this.dataProcessing,
     this.environment,
     this.experimentConfig,
@@ -61938,6 +71331,10 @@ class TransformJob {
       autoMLJobArn: json['AutoMLJobArn'] as String?,
       batchStrategy: (json['BatchStrategy'] as String?)?.toBatchStrategy(),
       creationTime: timeStampFromJson(json['CreationTime']),
+      dataCaptureConfig: json['DataCaptureConfig'] != null
+          ? BatchDataCaptureConfig.fromJson(
+              json['DataCaptureConfig'] as Map<String, dynamic>)
+          : null,
       dataProcessing: json['DataProcessing'] != null
           ? DataProcessing.fromJson(
               json['DataProcessing'] as Map<String, dynamic>)
@@ -62374,7 +71771,7 @@ class TransformS3DataSource {
   /// <ul>
   /// <li>
   /// A key name prefix might look like this:
-  /// <code>s3://bucketname/exampleprefix</code>.
+  /// <code>s3://bucketname/exampleprefix/</code>.
   /// </li>
   /// <li>
   /// A manifest might look like this:
@@ -63138,6 +72535,83 @@ class TrialSummary {
   }
 }
 
+/// Time to live duration, where the record is hard deleted after the expiration
+/// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
+/// <code>TtlDuration</code>. For information on HardDelete, see the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
+/// API in the Amazon SageMaker API Reference guide.
+class TtlDuration {
+  /// <code>TtlDuration</code> time unit.
+  final TtlDurationUnit? unit;
+
+  /// <code>TtlDuration</code> time value.
+  final int? value;
+
+  TtlDuration({
+    this.unit,
+    this.value,
+  });
+
+  factory TtlDuration.fromJson(Map<String, dynamic> json) {
+    return TtlDuration(
+      unit: (json['Unit'] as String?)?.toTtlDurationUnit(),
+      value: json['Value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      if (unit != null) 'Unit': unit.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+enum TtlDurationUnit {
+  seconds,
+  minutes,
+  hours,
+  days,
+  weeks,
+}
+
+extension TtlDurationUnitValueExtension on TtlDurationUnit {
+  String toValue() {
+    switch (this) {
+      case TtlDurationUnit.seconds:
+        return 'Seconds';
+      case TtlDurationUnit.minutes:
+        return 'Minutes';
+      case TtlDurationUnit.hours:
+        return 'Hours';
+      case TtlDurationUnit.days:
+        return 'Days';
+      case TtlDurationUnit.weeks:
+        return 'Weeks';
+    }
+  }
+}
+
+extension TtlDurationUnitFromString on String {
+  TtlDurationUnit toTtlDurationUnit() {
+    switch (this) {
+      case 'Seconds':
+        return TtlDurationUnit.seconds;
+      case 'Minutes':
+        return TtlDurationUnit.minutes;
+      case 'Hours':
+        return TtlDurationUnit.hours;
+      case 'Days':
+        return TtlDurationUnit.days;
+      case 'Weeks':
+        return TtlDurationUnit.weeks;
+    }
+    throw Exception('$this is not known in enum TtlDurationUnit');
+  }
+}
+
 /// The job completion criteria.
 class TuningJobCompletionCriteria {
   /// A flag to stop your hyperparameter tuning job if model performance fails to
@@ -63400,7 +72874,7 @@ class UpdateActionResponse {
 }
 
 class UpdateAppImageConfigResponse {
-  /// The Amazon Resource Name (ARN) for the AppImageConfig.
+  /// The ARN for the AppImageConfig.
   final String? appImageConfigArn;
 
   UpdateAppImageConfigResponse({
@@ -63425,6 +72899,37 @@ class UpdateArtifactResponse {
   factory UpdateArtifactResponse.fromJson(Map<String, dynamic> json) {
     return UpdateArtifactResponse(
       artifactArn: json['ArtifactArn'] as String?,
+    );
+  }
+}
+
+class UpdateClusterResponse {
+  /// The Amazon Resource Name (ARN) of the updated SageMaker HyperPod cluster.
+  final String clusterArn;
+
+  UpdateClusterResponse({
+    required this.clusterArn,
+  });
+
+  factory UpdateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateClusterResponse(
+      clusterArn: json['ClusterArn'] as String,
+    );
+  }
+}
+
+class UpdateClusterSoftwareResponse {
+  /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster being
+  /// updated for security patching.
+  final String clusterArn;
+
+  UpdateClusterSoftwareResponse({
+    required this.clusterArn,
+  });
+
+  factory UpdateClusterSoftwareResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateClusterSoftwareResponse(
+      clusterArn: json['ClusterArn'] as String,
     );
   }
 }
@@ -63576,6 +73081,37 @@ class UpdateImageVersionResponse {
   factory UpdateImageVersionResponse.fromJson(Map<String, dynamic> json) {
     return UpdateImageVersionResponse(
       imageVersionArn: json['ImageVersionArn'] as String?,
+    );
+  }
+}
+
+class UpdateInferenceComponentOutput {
+  /// The Amazon Resource Name (ARN) of the inference component.
+  final String inferenceComponentArn;
+
+  UpdateInferenceComponentOutput({
+    required this.inferenceComponentArn,
+  });
+
+  factory UpdateInferenceComponentOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateInferenceComponentOutput(
+      inferenceComponentArn: json['InferenceComponentArn'] as String,
+    );
+  }
+}
+
+class UpdateInferenceComponentRuntimeConfigOutput {
+  /// The Amazon Resource Name (ARN) of the inference component.
+  final String inferenceComponentArn;
+
+  UpdateInferenceComponentRuntimeConfigOutput({
+    required this.inferenceComponentArn,
+  });
+
+  factory UpdateInferenceComponentRuntimeConfigOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateInferenceComponentRuntimeConfigOutput(
+      inferenceComponentArn: json['InferenceComponentArn'] as String,
     );
   }
 }
@@ -63986,10 +73522,10 @@ extension UserProfileStatusFromString on String {
   }
 }
 
-/// A collection of settings that apply to users of Amazon SageMaker Studio.
-/// These settings are specified when the <code>CreateUserProfile</code> API is
-/// called, and as <code>DefaultUserSettings</code> when the
-/// <code>CreateDomain</code> API is called.
+/// A collection of settings that apply to users in a domain. These settings are
+/// specified when the <code>CreateUserProfile</code> API is called, and as
+/// <code>DefaultUserSettings</code> when the <code>CreateDomain</code> API is
+/// called.
 ///
 /// <code>SecurityGroups</code> is aggregated when specified in both calls. For
 /// all other settings in <code>UserSettings</code>, the values specified in
@@ -63999,8 +73535,37 @@ class UserSettings {
   /// The Canvas app settings.
   final CanvasAppSettings? canvasAppSettings;
 
+  /// The Code Editor application settings.
+  final CodeEditorAppSettings? codeEditorAppSettings;
+
+  /// The settings for assigning a custom file system to a user profile. Permitted
+  /// users can access this file system in Amazon SageMaker Studio.
+  final List<CustomFileSystemConfig>? customFileSystemConfigs;
+
+  /// Details about the POSIX identity that is used for file system operations.
+  final CustomPosixUserConfig? customPosixUserConfig;
+
+  /// The default experience that the user is directed to when accessing the
+  /// domain. The supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>studio::</code>: Indicates that Studio is the default experience. This
+  /// value can only be passed if <code>StudioWebPortal</code> is set to
+  /// <code>ENABLED</code>.
+  /// </li>
+  /// <li>
+  /// <code>app:JupyterServer:</code>: Indicates that Studio Classic is the
+  /// default experience.
+  /// </li>
+  /// </ul>
+  final String? defaultLandingUri;
+
   /// The execution role for the user.
   final String? executionRole;
+
+  /// The settings for the JupyterLab application.
+  final JupyterLabAppSettings? jupyterLabAppSettings;
 
   /// The Jupyter server's app settings.
   final JupyterServerAppSettings? jupyterServerAppSettings;
@@ -64016,8 +73581,8 @@ class UserSettings {
   /// <code>RStudioServerPro</code> app.
   final RStudioServerProAppSettings? rStudioServerProAppSettings;
 
-  /// The security groups for the Amazon Virtual Private Cloud (VPC) that Studio
-  /// uses for communication.
+  /// The security groups for the Amazon Virtual Private Cloud (VPC) that the
+  /// domain uses for communication.
   ///
   /// Optional when the <code>CreateDomain.AppNetworkAccessType</code> parameter
   /// is set to <code>PublicInternetOnly</code>.
@@ -64026,26 +73591,41 @@ class UserSettings {
   /// is set to <code>VpcOnly</code>, unless specified as part of the
   /// <code>DefaultUserSettings</code> for the domain.
   ///
-  /// Amazon SageMaker adds a security group to allow NFS traffic from SageMaker
-  /// Studio. Therefore, the number of security groups that you can specify is one
-  /// less than the maximum number shown.
+  /// Amazon SageMaker adds a security group to allow NFS traffic from Amazon
+  /// SageMaker Studio. Therefore, the number of security groups that you can
+  /// specify is one less than the maximum number shown.
   final List<String>? securityGroups;
 
-  /// Specifies options for sharing SageMaker Studio notebooks.
+  /// Specifies options for sharing Amazon SageMaker Studio notebooks.
   final SharingSettings? sharingSettings;
+
+  /// The storage settings for a space.
+  final DefaultSpaceStorageSettings? spaceStorageSettings;
+
+  /// Whether the user can access Studio. If this value is set to
+  /// <code>DISABLED</code>, the user cannot access Studio, even if that is the
+  /// default experience for the domain.
+  final StudioWebPortal? studioWebPortal;
 
   /// The TensorBoard app settings.
   final TensorBoardAppSettings? tensorBoardAppSettings;
 
   UserSettings({
     this.canvasAppSettings,
+    this.codeEditorAppSettings,
+    this.customFileSystemConfigs,
+    this.customPosixUserConfig,
+    this.defaultLandingUri,
     this.executionRole,
+    this.jupyterLabAppSettings,
     this.jupyterServerAppSettings,
     this.kernelGatewayAppSettings,
     this.rSessionAppSettings,
     this.rStudioServerProAppSettings,
     this.securityGroups,
     this.sharingSettings,
+    this.spaceStorageSettings,
+    this.studioWebPortal,
     this.tensorBoardAppSettings,
   });
 
@@ -64055,7 +73635,25 @@ class UserSettings {
           ? CanvasAppSettings.fromJson(
               json['CanvasAppSettings'] as Map<String, dynamic>)
           : null,
+      codeEditorAppSettings: json['CodeEditorAppSettings'] != null
+          ? CodeEditorAppSettings.fromJson(
+              json['CodeEditorAppSettings'] as Map<String, dynamic>)
+          : null,
+      customFileSystemConfigs: (json['CustomFileSystemConfigs'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => CustomFileSystemConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customPosixUserConfig: json['CustomPosixUserConfig'] != null
+          ? CustomPosixUserConfig.fromJson(
+              json['CustomPosixUserConfig'] as Map<String, dynamic>)
+          : null,
+      defaultLandingUri: json['DefaultLandingUri'] as String?,
       executionRole: json['ExecutionRole'] as String?,
+      jupyterLabAppSettings: json['JupyterLabAppSettings'] != null
+          ? JupyterLabAppSettings.fromJson(
+              json['JupyterLabAppSettings'] as Map<String, dynamic>)
+          : null,
       jupyterServerAppSettings: json['JupyterServerAppSettings'] != null
           ? JupyterServerAppSettings.fromJson(
               json['JupyterServerAppSettings'] as Map<String, dynamic>)
@@ -64080,6 +73678,12 @@ class UserSettings {
           ? SharingSettings.fromJson(
               json['SharingSettings'] as Map<String, dynamic>)
           : null,
+      spaceStorageSettings: json['SpaceStorageSettings'] != null
+          ? DefaultSpaceStorageSettings.fromJson(
+              json['SpaceStorageSettings'] as Map<String, dynamic>)
+          : null,
+      studioWebPortal:
+          (json['StudioWebPortal'] as String?)?.toStudioWebPortal(),
       tensorBoardAppSettings: json['TensorBoardAppSettings'] != null
           ? TensorBoardAppSettings.fromJson(
               json['TensorBoardAppSettings'] as Map<String, dynamic>)
@@ -64089,17 +73693,33 @@ class UserSettings {
 
   Map<String, dynamic> toJson() {
     final canvasAppSettings = this.canvasAppSettings;
+    final codeEditorAppSettings = this.codeEditorAppSettings;
+    final customFileSystemConfigs = this.customFileSystemConfigs;
+    final customPosixUserConfig = this.customPosixUserConfig;
+    final defaultLandingUri = this.defaultLandingUri;
     final executionRole = this.executionRole;
+    final jupyterLabAppSettings = this.jupyterLabAppSettings;
     final jupyterServerAppSettings = this.jupyterServerAppSettings;
     final kernelGatewayAppSettings = this.kernelGatewayAppSettings;
     final rSessionAppSettings = this.rSessionAppSettings;
     final rStudioServerProAppSettings = this.rStudioServerProAppSettings;
     final securityGroups = this.securityGroups;
     final sharingSettings = this.sharingSettings;
+    final spaceStorageSettings = this.spaceStorageSettings;
+    final studioWebPortal = this.studioWebPortal;
     final tensorBoardAppSettings = this.tensorBoardAppSettings;
     return {
       if (canvasAppSettings != null) 'CanvasAppSettings': canvasAppSettings,
+      if (codeEditorAppSettings != null)
+        'CodeEditorAppSettings': codeEditorAppSettings,
+      if (customFileSystemConfigs != null)
+        'CustomFileSystemConfigs': customFileSystemConfigs,
+      if (customPosixUserConfig != null)
+        'CustomPosixUserConfig': customPosixUserConfig,
+      if (defaultLandingUri != null) 'DefaultLandingUri': defaultLandingUri,
       if (executionRole != null) 'ExecutionRole': executionRole,
+      if (jupyterLabAppSettings != null)
+        'JupyterLabAppSettings': jupyterLabAppSettings,
       if (jupyterServerAppSettings != null)
         'JupyterServerAppSettings': jupyterServerAppSettings,
       if (kernelGatewayAppSettings != null)
@@ -64110,6 +73730,9 @@ class UserSettings {
         'RStudioServerProAppSettings': rStudioServerProAppSettings,
       if (securityGroups != null) 'SecurityGroups': securityGroups,
       if (sharingSettings != null) 'SharingSettings': sharingSettings,
+      if (spaceStorageSettings != null)
+        'SpaceStorageSettings': spaceStorageSettings,
+      if (studioWebPortal != null) 'StudioWebPortal': studioWebPortal.toValue(),
       if (tensorBoardAppSettings != null)
         'TensorBoardAppSettings': tensorBoardAppSettings,
     };
@@ -64235,6 +73858,29 @@ extension VariantStatusFromString on String {
   }
 }
 
+/// Configuration for your vector collection type.
+class VectorConfig {
+  /// The number of elements in your vector.
+  final int dimension;
+
+  VectorConfig({
+    required this.dimension,
+  });
+
+  factory VectorConfig.fromJson(Map<String, dynamic> json) {
+    return VectorConfig(
+      dimension: json['Dimension'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimension = this.dimension;
+    return {
+      'Dimension': dimension,
+    };
+  }
+}
+
 enum VendorGuidance {
   notProvided,
   stable,
@@ -64300,16 +73946,45 @@ class Vertex {
   }
 }
 
-/// Specifies a VPC that your training jobs and hosted models have access to.
-/// Control access to and from your training and model containers by configuring
-/// the VPC. For more information, see <a
-/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/host-vpc.html">Protect
-/// Endpoints by Using an Amazon Virtual Private Cloud</a> and <a
-/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html">Protect
-/// Training Jobs by Using an Amazon Virtual Private Cloud</a>.
+/// The list of key-value pairs used to filter your search results. If a search
+/// result contains a key from your list, it is included in the final search
+/// response if the value associated with the key in the result matches the
+/// value you specified. If the value doesn't match, the result is excluded from
+/// the search response. Any resources that don't have a key from the list that
+/// you've provided will also be included in the search response.
+class VisibilityConditions {
+  /// The key that specifies the tag that you're using to filter the search
+  /// results. It must be in the following format: <code>Tags.&lt;key&gt;</code>.
+  final String? key;
+
+  /// The value for the tag that you're using to filter the search results.
+  final String? value;
+
+  VisibilityConditions({
+    this.key,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs,
+/// hosted models, and compute resources have access to. You can control access
+/// to and from your resources by configuring a VPC. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html">Give
+/// SageMaker Access to Resources in your Amazon VPC</a>.
 class VpcConfig {
-  /// The VPC security group IDs, in the form sg-xxxxxxxx. Specify the security
-  /// groups for the VPC that is specified in the <code>Subnets</code> field.
+  /// The VPC security group IDs, in the form <code>sg-xxxxxxxx</code>. Specify
+  /// the security groups for the VPC that is specified in the
+  /// <code>Subnets</code> field.
   final List<String> securityGroupIds;
 
   /// The ID of the subnets in the VPC to which you want to connect your training
@@ -64436,6 +74111,34 @@ class WarmPoolStatus {
           json['ResourceRetainedBillableTimeInSeconds'] as int?,
       reusedByJob: json['ReusedByJob'] as String?,
     );
+  }
+}
+
+/// Use this optional parameter to constrain access to an Amazon S3 resource
+/// based on the IP address using supported IAM global condition keys. The
+/// Amazon S3 resource is accessed in the worker portal using a Amazon S3
+/// presigned URL.
+class WorkerAccessConfiguration {
+  /// Defines any Amazon S3 resource constraints.
+  final S3Presign? s3Presign;
+
+  WorkerAccessConfiguration({
+    this.s3Presign,
+  });
+
+  factory WorkerAccessConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkerAccessConfiguration(
+      s3Presign: json['S3Presign'] != null
+          ? S3Presign.fromJson(json['S3Presign'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Presign = this.s3Presign;
+    return {
+      if (s3Presign != null) 'S3Presign': s3Presign,
+    };
   }
 }
 
@@ -64646,6 +74349,40 @@ class WorkforceVpcConfigResponse {
   }
 }
 
+/// The workspace settings for the SageMaker Canvas application.
+class WorkspaceSettings {
+  /// The Amazon S3 bucket used to store artifacts generated by Canvas. Updating
+  /// the Amazon S3 location impacts existing configuration settings, and Canvas
+  /// users no longer have access to their artifacts. Canvas users must log out
+  /// and log back in to apply the new location.
+  final String? s3ArtifactPath;
+
+  /// The Amazon Web Services Key Management Service (KMS) encryption key ID that
+  /// is used to encrypt artifacts generated by Canvas in the Amazon S3 bucket.
+  final String? s3KmsKeyId;
+
+  WorkspaceSettings({
+    this.s3ArtifactPath,
+    this.s3KmsKeyId,
+  });
+
+  factory WorkspaceSettings.fromJson(Map<String, dynamic> json) {
+    return WorkspaceSettings(
+      s3ArtifactPath: json['S3ArtifactPath'] as String?,
+      s3KmsKeyId: json['S3KmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3ArtifactPath = this.s3ArtifactPath;
+    final s3KmsKeyId = this.s3KmsKeyId;
+    return {
+      if (s3ArtifactPath != null) 'S3ArtifactPath': s3ArtifactPath,
+      if (s3KmsKeyId != null) 'S3KmsKeyId': s3KmsKeyId,
+    };
+  }
+}
+
 /// Provides details about a labeling work team.
 class Workteam {
   /// A description of the work team.
@@ -64683,6 +74420,10 @@ class Workteam {
   /// labeling your data objects.
   final String? subDomain;
 
+  /// Describes any access constraints that have been defined for Amazon S3
+  /// resources.
+  final WorkerAccessConfiguration? workerAccessConfiguration;
+
   /// The Amazon Resource Name (ARN) of the workforce.
   final String? workforceArn;
 
@@ -64696,6 +74437,7 @@ class Workteam {
     this.notificationConfiguration,
     this.productListingIds,
     this.subDomain,
+    this.workerAccessConfiguration,
     this.workforceArn,
   });
 
@@ -64719,6 +74461,10 @@ class Workteam {
           .map((e) => e as String)
           .toList(),
       subDomain: json['SubDomain'] as String?,
+      workerAccessConfiguration: json['WorkerAccessConfiguration'] != null
+          ? WorkerAccessConfiguration.fromJson(
+              json['WorkerAccessConfiguration'] as Map<String, dynamic>)
+          : null,
       workforceArn: json['WorkforceArn'] as String?,
     );
   }

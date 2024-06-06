@@ -56,12 +56,12 @@ class MainframeModernization {
 
   /// Cancels the running of a specific batch job execution.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application.
@@ -84,12 +84,12 @@ class MainframeModernization {
   /// Creates a new application with given parameters. Requires an existing
   /// runtime environment and application definition file.
   ///
-  /// May throw [ValidationException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [definition] :
   /// The application definition for this application. You can specify either
@@ -115,6 +115,11 @@ class MainframeModernization {
   /// Parameter [kmsKeyId] :
   /// The identifier of a customer managed key.
   ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) that identifies a role that the application
+  /// uses to access Amazon Web Services resources that are not part of the
+  /// application or are in a different Amazon Web Services account.
+  ///
   /// Parameter [tags] :
   /// A list of tags to apply to the application.
   Future<CreateApplicationResponse> createApplication({
@@ -124,6 +129,7 @@ class MainframeModernization {
     String? clientToken,
     String? description,
     String? kmsKeyId,
+    String? roleArn,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -133,6 +139,7 @@ class MainframeModernization {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (roleArn != null) 'roleArn': roleArn,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -146,13 +153,13 @@ class MainframeModernization {
 
   /// Starts a data set import task for a specific application.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application for which you want to import data
@@ -190,13 +197,13 @@ class MainframeModernization {
   /// Creates and starts a deployment to deploy an application into a runtime
   /// environment.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The application identifier.
@@ -245,12 +252,12 @@ class MainframeModernization {
 
   /// Creates a runtime environment for a given runtime engine.
   ///
-  /// May throw [ValidationException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [engineType] :
   /// The engine type for the runtime environment.
@@ -283,8 +290,13 @@ class MainframeModernization {
   /// The identifier of a customer managed key.
   ///
   /// Parameter [preferredMaintenanceWindow] :
-  /// Configures the maintenance window you want for the runtime environment. If
-  /// you do not provide a value, a random system-generated value will be
+  /// Configures the maintenance window that you want for the runtime
+  /// environment. The maintenance window must have the format
+  /// <code>ddd:hh24:mi-ddd:hh24:mi</code> and must be less than 24 hours. The
+  /// following two examples are valid maintenance windows:
+  /// <code>sun:23:45-mon:00:15</code> or <code>sat:01:00-sat:03:00</code>.
+  ///
+  /// If you do not provide a value, a random system-generated value will be
   /// assigned.
   ///
   /// Parameter [publiclyAccessible] :
@@ -348,11 +360,11 @@ class MainframeModernization {
 
   /// Deletes a specific application. You cannot delete a running application.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application you want to delete.
@@ -373,12 +385,12 @@ class MainframeModernization {
   /// API removes the association of the application with the runtime
   /// environment so you can delete the environment smoothly.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application you want to delete.
@@ -403,11 +415,11 @@ class MainframeModernization {
   /// deployed applications. If it does, you must delete those applications
   /// before you delete the environment.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [environmentId] :
   /// The unique identifier of the runtime environment you want to delete.
@@ -424,11 +436,11 @@ class MainframeModernization {
 
   /// Describes the details of a specific application.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The identifier of the application.
@@ -446,11 +458,11 @@ class MainframeModernization {
 
   /// Returns details about a specific version of a specific application.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application.
@@ -481,11 +493,11 @@ class MainframeModernization {
   /// Gets the details of a specific batch job execution for a specific
   /// application.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The identifier of the application.
@@ -508,11 +520,14 @@ class MainframeModernization {
 
   /// Gets the details of a specific data set.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ExecutionTimeoutException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application that this data set is associated
@@ -537,11 +552,11 @@ class MainframeModernization {
   /// Gets the status of a data set import task initiated with the
   /// <a>CreateDataSetImportTask</a> operation.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application identifier.
@@ -565,11 +580,11 @@ class MainframeModernization {
 
   /// Gets details of a specific deployment with a given deployment identifier.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application.
@@ -592,11 +607,11 @@ class MainframeModernization {
 
   /// Describes a specific runtime environment.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [environmentId] :
   /// The unique identifier of the runtime environment.
@@ -612,13 +627,28 @@ class MainframeModernization {
     return GetEnvironmentResponse.fromJson(response);
   }
 
+  /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  Future<GetSignedBluinsightsUrlResponse> getSignedBluinsightsUrl() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/signed-bi-url',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSignedBluinsightsUrlResponse.fromJson(response);
+  }
+
   /// Returns a list of the application versions for a specific application.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application.
@@ -639,7 +669,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -661,10 +691,10 @@ class MainframeModernization {
   /// environment in a query parameter to see all applications associated with
   /// that environment.
   ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [environmentId] :
   /// The unique identifier of the runtime environment where the applications
@@ -689,7 +719,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (environmentId != null) 'environmentId': [environmentId],
@@ -711,11 +741,11 @@ class MainframeModernization {
   /// resources uploaded during the application creation. You can use the batch
   /// job definitions in the list to start a batch job.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The identifier of the application.
@@ -741,7 +771,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -762,11 +792,11 @@ class MainframeModernization {
   /// Lists historical, current, and scheduled batch job executions for a
   /// specific application.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application.
@@ -806,7 +836,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (executionIds != null) 'executionIds': executionIds,
@@ -830,13 +860,42 @@ class MainframeModernization {
     return ListBatchJobExecutionsResponse.fromJson(response);
   }
 
-  /// Lists the data set imports for the specified application.
+  /// Lists all the job steps for JCL files to restart a batch job. This is only
+  /// applicable for Micro Focus engine with versions 8.0.6 and above.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [applicationId] :
+  /// The unique identifier of the application.
+  ///
+  /// Parameter [executionId] :
+  /// The unique identifier of each batch job execution.
+  Future<ListBatchJobRestartPointsResponse> listBatchJobRestartPoints({
+    required String applicationId,
+    required String executionId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationId)}/batch-job-executions/${Uri.encodeComponent(executionId)}/steps',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBatchJobRestartPointsResponse.fromJson(response);
+  }
+
+  /// Lists the data set imports for the specified application.
+  ///
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application.
@@ -857,7 +916,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -881,11 +940,14 @@ class MainframeModernization {
   /// import data sets into catalogs using <a
   /// href="https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html">CreateDataSetImportTask</a>.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ExecutionTimeoutException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application for which you want to list the
@@ -893,6 +955,10 @@ class MainframeModernization {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of objects to return.
+  ///
+  /// Parameter [nameFilter] :
+  /// Filter dataset name matching the specified pattern. Can use * and % as
+  /// wild cards.
   ///
   /// Parameter [nextToken] :
   /// A pagination token returned from a previous call to this operation. This
@@ -905,6 +971,7 @@ class MainframeModernization {
   Future<ListDataSetsResponse> listDataSets({
     required String applicationId,
     int? maxResults,
+    String? nameFilter,
     String? nextToken,
     String? prefix,
   }) async {
@@ -912,10 +979,11 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nameFilter != null) 'nameFilter': [nameFilter],
       if (nextToken != null) 'nextToken': [nextToken],
       if (prefix != null) 'prefix': [prefix],
     };
@@ -935,11 +1003,11 @@ class MainframeModernization {
   /// application. Each deployment is mapped to a particular application
   /// version.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application identifier.
@@ -960,7 +1028,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -979,10 +1047,10 @@ class MainframeModernization {
 
   /// Lists the available engine versions.
   ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [engineType] :
   /// The type of target platform.
@@ -1003,7 +1071,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (engineType != null) 'engineType': [engineType.toValue()],
@@ -1022,10 +1090,10 @@ class MainframeModernization {
 
   /// Lists the runtime environments.
   ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [engineType] :
   /// The engine type for the runtime environment.
@@ -1049,7 +1117,7 @@ class MainframeModernization {
       'maxResults',
       maxResults,
       1,
-      100,
+      2000,
     );
     final $query = <String, List<String>>{
       if (engineType != null) 'engineType': [engineType.toValue()],
@@ -1069,11 +1137,11 @@ class MainframeModernization {
 
   /// Lists the tags for the specified resource.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -1091,12 +1159,12 @@ class MainframeModernization {
 
   /// Starts an application that is currently stopped.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application you want to start.
@@ -1115,12 +1183,12 @@ class MainframeModernization {
   /// the batch job. The associated application must be running in order to
   /// start the batch job.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application associated with this batch job.
@@ -1154,12 +1222,12 @@ class MainframeModernization {
 
   /// Stops a running application.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application you want to stop.
@@ -1186,12 +1254,12 @@ class MainframeModernization {
 
   /// Adds one or more tags to the specified resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -1215,11 +1283,11 @@ class MainframeModernization {
 
   /// Removes one or more tags from the specified resource.
   ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -1244,12 +1312,12 @@ class MainframeModernization {
 
   /// Updates an application and creates a new version.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier of the application you want to update.
@@ -1292,13 +1360,13 @@ class MainframeModernization {
 
   /// Updates the configuration details for a specific runtime environment.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [environmentId] :
   /// The unique identifier of the runtime environment that you want to update.
@@ -1313,37 +1381,51 @@ class MainframeModernization {
   /// <code>applyDuringMaintenanceWindow</code> is set to true.
   ///
   /// Parameter [desiredCapacity] :
-  /// The desired capacity for the runtime environment to update.
+  /// The desired capacity for the runtime environment to update. The minimum
+  /// possible value is 0 and the maximum is 100.
   ///
   /// Parameter [engineVersion] :
   /// The version of the runtime engine for the runtime environment.
+  ///
+  /// Parameter [forceUpdate] :
+  /// Forces the updates on the environment. This option is needed if the
+  /// applications in the environment are not stopped or if there are ongoing
+  /// application-related activities in the environment.
+  ///
+  /// If you use this option, be aware that it could lead to data corruption in
+  /// the applications, and that you might need to perform repair and recovery
+  /// procedures for the applications.
+  ///
+  /// This option is not needed if the attribute being updated is
+  /// <code>preferredMaintenanceWindow</code>.
   ///
   /// Parameter [instanceType] :
   /// The instance type for the runtime environment to update.
   ///
   /// Parameter [preferredMaintenanceWindow] :
-  /// Configures the maintenance window you want for the runtime environment. If
-  /// you do not provide a value, a random system-generated value will be
+  /// Configures the maintenance window that you want for the runtime
+  /// environment. The maintenance window must have the format
+  /// <code>ddd:hh24:mi-ddd:hh24:mi</code> and must be less than 24 hours. The
+  /// following two examples are valid maintenance windows:
+  /// <code>sun:23:45-mon:00:15</code> or <code>sat:01:00-sat:03:00</code>.
+  ///
+  /// If you do not provide a value, a random system-generated value will be
   /// assigned.
   Future<UpdateEnvironmentResponse> updateEnvironment({
     required String environmentId,
     bool? applyDuringMaintenanceWindow,
     int? desiredCapacity,
     String? engineVersion,
+    bool? forceUpdate,
     String? instanceType,
     String? preferredMaintenanceWindow,
   }) async {
-    _s.validateNumRange(
-      'desiredCapacity',
-      desiredCapacity,
-      1,
-      100,
-    );
     final $payload = <String, dynamic>{
       if (applyDuringMaintenanceWindow != null)
         'applyDuringMaintenanceWindow': applyDuringMaintenanceWindow,
       if (desiredCapacity != null) 'desiredCapacity': desiredCapacity,
       if (engineVersion != null) 'engineVersion': engineVersion,
+      if (forceUpdate != null) 'forceUpdate': forceUpdate,
       if (instanceType != null) 'instanceType': instanceType,
       if (preferredMaintenanceWindow != null)
         'preferredMaintenanceWindow': preferredMaintenanceWindow,
@@ -1549,6 +1631,9 @@ class ApplicationSummary {
   /// application runs for the first time.
   final DateTime? lastStartTime;
 
+  /// The Amazon Resource Name (ARN) of the role associated with the application.
+  final String? roleArn;
+
   /// Indicates the status of the latest version of the application.
   final ApplicationVersionLifecycle? versionStatus;
 
@@ -1564,6 +1649,7 @@ class ApplicationSummary {
     this.description,
     this.environmentId,
     this.lastStartTime,
+    this.roleArn,
     this.versionStatus,
   });
 
@@ -1582,6 +1668,7 @@ class ApplicationSummary {
       description: json['description'] as String?,
       environmentId: json['environmentId'] as String?,
       lastStartTime: timeStampFromJson(json['lastStartTime']),
+      roleArn: json['roleArn'] as String?,
       versionStatus:
           (json['versionStatus'] as String?)?.toApplicationVersionLifecycle(),
     );
@@ -1599,6 +1686,7 @@ class ApplicationSummary {
     final description = this.description;
     final environmentId = this.environmentId;
     final lastStartTime = this.lastStartTime;
+    final roleArn = this.roleArn;
     final versionStatus = this.versionStatus;
     return {
       'applicationArn': applicationArn,
@@ -1614,6 +1702,7 @@ class ApplicationSummary {
       if (environmentId != null) 'environmentId': environmentId,
       if (lastStartTime != null)
         'lastStartTime': unixTimestampToJson(lastStartTime),
+      if (roleArn != null) 'roleArn': roleArn,
       if (versionStatus != null) 'versionStatus': versionStatus.toValue(),
     };
   }
@@ -1745,6 +1834,7 @@ enum BatchJobExecutionStatus {
   cancelled,
   succeeded,
   failed,
+  purged,
   succeededWithWarning,
 }
 
@@ -1767,6 +1857,8 @@ extension BatchJobExecutionStatusValueExtension on BatchJobExecutionStatus {
         return 'Succeeded';
       case BatchJobExecutionStatus.failed:
         return 'Failed';
+      case BatchJobExecutionStatus.purged:
+        return 'Purged';
       case BatchJobExecutionStatus.succeededWithWarning:
         return 'Succeeded With Warning';
     }
@@ -1792,6 +1884,8 @@ extension BatchJobExecutionStatusFromString on String {
         return BatchJobExecutionStatus.succeeded;
       case 'Failed':
         return BatchJobExecutionStatus.failed;
+      case 'Purged':
+        return BatchJobExecutionStatus.purged;
       case 'Succeeded With Warning':
         return BatchJobExecutionStatus.succeededWithWarning;
     }
@@ -1812,6 +1906,8 @@ class BatchJobExecutionSummary {
 
   /// The status of a particular batch job execution.
   final BatchJobExecutionStatus status;
+
+  /// The unique identifier of this batch job.
   final BatchJobIdentifier? batchJobIdentifier;
 
   /// The timestamp when this batch job execution ended.
@@ -1826,7 +1922,11 @@ class BatchJobExecutionSummary {
   /// The type of a particular batch job execution.
   final BatchJobType? jobType;
 
-  /// <p/>
+  /// The batch job return code from either the Blu Age or Micro Focus runtime
+  /// engines. For more information, see <a
+  /// href="https://www.ibm.com/docs/en/was/8.5.5?topic=model-batch-return-codes">Batch
+  /// return codes</a> in the <i>IBM WebSphere Application Server</i>
+  /// documentation.
   final String? returnCode;
 
   BatchJobExecutionSummary({
@@ -1891,12 +1991,22 @@ class BatchJobIdentifier {
   /// Specifies a file associated with a specific batch job.
   final FileBatchJobIdentifier? fileBatchJobIdentifier;
 
+  /// Specifies the required information for restart, including execution ID and
+  /// jobsteprestartmarker.
+  final RestartBatchJobIdentifier? restartBatchJobIdentifier;
+
+  /// Specifies an Amazon S3 location that identifies the batch jobs that you want
+  /// to run. Use this identifier to run ad hoc batch jobs.
+  final S3BatchJobIdentifier? s3BatchJobIdentifier;
+
   /// A batch job identifier in which the batch job to run is identified by the
   /// script name.
   final ScriptBatchJobIdentifier? scriptBatchJobIdentifier;
 
   BatchJobIdentifier({
     this.fileBatchJobIdentifier,
+    this.restartBatchJobIdentifier,
+    this.s3BatchJobIdentifier,
     this.scriptBatchJobIdentifier,
   });
 
@@ -1905,6 +2015,14 @@ class BatchJobIdentifier {
       fileBatchJobIdentifier: json['fileBatchJobIdentifier'] != null
           ? FileBatchJobIdentifier.fromJson(
               json['fileBatchJobIdentifier'] as Map<String, dynamic>)
+          : null,
+      restartBatchJobIdentifier: json['restartBatchJobIdentifier'] != null
+          ? RestartBatchJobIdentifier.fromJson(
+              json['restartBatchJobIdentifier'] as Map<String, dynamic>)
+          : null,
+      s3BatchJobIdentifier: json['s3BatchJobIdentifier'] != null
+          ? S3BatchJobIdentifier.fromJson(
+              json['s3BatchJobIdentifier'] as Map<String, dynamic>)
           : null,
       scriptBatchJobIdentifier: json['scriptBatchJobIdentifier'] != null
           ? ScriptBatchJobIdentifier.fromJson(
@@ -1915,10 +2033,16 @@ class BatchJobIdentifier {
 
   Map<String, dynamic> toJson() {
     final fileBatchJobIdentifier = this.fileBatchJobIdentifier;
+    final restartBatchJobIdentifier = this.restartBatchJobIdentifier;
+    final s3BatchJobIdentifier = this.s3BatchJobIdentifier;
     final scriptBatchJobIdentifier = this.scriptBatchJobIdentifier;
     return {
       if (fileBatchJobIdentifier != null)
         'fileBatchJobIdentifier': fileBatchJobIdentifier,
+      if (restartBatchJobIdentifier != null)
+        'restartBatchJobIdentifier': restartBatchJobIdentifier,
+      if (s3BatchJobIdentifier != null)
+        's3BatchJobIdentifier': s3BatchJobIdentifier,
       if (scriptBatchJobIdentifier != null)
         'scriptBatchJobIdentifier': scriptBatchJobIdentifier,
     };
@@ -2227,10 +2351,14 @@ class DataSetImportTask {
   /// The identifier of the data set import task.
   final String taskId;
 
+  /// If dataset import failed, the failure reason will show here.
+  final String? statusReason;
+
   DataSetImportTask({
     required this.status,
     required this.summary,
     required this.taskId,
+    this.statusReason,
   });
 
   factory DataSetImportTask.fromJson(Map<String, dynamic> json) {
@@ -2239,6 +2367,7 @@ class DataSetImportTask {
       summary: DataSetImportSummary.fromJson(
           json['summary'] as Map<String, dynamic>),
       taskId: json['taskId'] as String,
+      statusReason: json['statusReason'] as String?,
     );
   }
 
@@ -2246,10 +2375,12 @@ class DataSetImportTask {
     final status = this.status;
     final summary = this.summary;
     final taskId = this.taskId;
+    final statusReason = this.statusReason;
     return {
       'status': status.toValue(),
       'summary': summary,
       'taskId': taskId,
+      if (statusReason != null) 'statusReason': statusReason,
     };
   }
 }
@@ -2319,6 +2450,7 @@ enum DataSetTaskLifecycle {
   creating,
   running,
   completed,
+  failed,
 }
 
 extension DataSetTaskLifecycleValueExtension on DataSetTaskLifecycle {
@@ -2330,6 +2462,8 @@ extension DataSetTaskLifecycleValueExtension on DataSetTaskLifecycle {
         return 'Running';
       case DataSetTaskLifecycle.completed:
         return 'Completed';
+      case DataSetTaskLifecycle.failed:
+        return 'Failed';
     }
   }
 }
@@ -2343,6 +2477,8 @@ extension DataSetTaskLifecycleFromString on String {
         return DataSetTaskLifecycle.running;
       case 'Completed':
         return DataSetTaskLifecycle.completed;
+      case 'Failed':
+        return DataSetTaskLifecycle.failed;
     }
     throw Exception('$this is not known in enum DataSetTaskLifecycle');
   }
@@ -2355,11 +2491,19 @@ class DatasetDetailOrgAttributes {
   /// The generation data group of the data set.
   final GdgDetailAttributes? gdg;
 
+  /// The details of a PO type data set.
+  final PoDetailAttributes? po;
+
+  /// The details of a PS type data set.
+  final PsDetailAttributes? ps;
+
   /// The details of a VSAM data set.
   final VsamDetailAttributes? vsam;
 
   DatasetDetailOrgAttributes({
     this.gdg,
+    this.po,
+    this.ps,
     this.vsam,
   });
 
@@ -2367,6 +2511,12 @@ class DatasetDetailOrgAttributes {
     return DatasetDetailOrgAttributes(
       gdg: json['gdg'] != null
           ? GdgDetailAttributes.fromJson(json['gdg'] as Map<String, dynamic>)
+          : null,
+      po: json['po'] != null
+          ? PoDetailAttributes.fromJson(json['po'] as Map<String, dynamic>)
+          : null,
+      ps: json['ps'] != null
+          ? PsDetailAttributes.fromJson(json['ps'] as Map<String, dynamic>)
           : null,
       vsam: json['vsam'] != null
           ? VsamDetailAttributes.fromJson(json['vsam'] as Map<String, dynamic>)
@@ -2376,9 +2526,13 @@ class DatasetDetailOrgAttributes {
 
   Map<String, dynamic> toJson() {
     final gdg = this.gdg;
+    final po = this.po;
+    final ps = this.ps;
     final vsam = this.vsam;
     return {
       if (gdg != null) 'gdg': gdg,
+      if (po != null) 'po': po,
+      if (ps != null) 'ps': ps,
       if (vsam != null) 'vsam': vsam,
     };
   }
@@ -2391,19 +2545,31 @@ class DatasetOrgAttributes {
   /// The generation data group of the data set.
   final GdgAttributes? gdg;
 
+  /// The details of a PO type data set.
+  final PoAttributes? po;
+
+  /// The details of a PS type data set.
+  final PsAttributes? ps;
+
   /// The details of a VSAM data set.
   final VsamAttributes? vsam;
 
   DatasetOrgAttributes({
     this.gdg,
+    this.po,
+    this.ps,
     this.vsam,
   });
 
   Map<String, dynamic> toJson() {
     final gdg = this.gdg;
+    final po = this.po;
+    final ps = this.ps;
     final vsam = this.vsam;
     return {
       if (gdg != null) 'gdg': gdg,
+      if (po != null) 'po': po,
+      if (ps != null) 'ps': ps,
       if (vsam != null) 'vsam': vsam,
     };
   }
@@ -2512,6 +2678,7 @@ enum DeploymentLifecycle {
   deploying,
   succeeded,
   failed,
+  updatingDeployment,
 }
 
 extension DeploymentLifecycleValueExtension on DeploymentLifecycle {
@@ -2523,6 +2690,8 @@ extension DeploymentLifecycleValueExtension on DeploymentLifecycle {
         return 'Succeeded';
       case DeploymentLifecycle.failed:
         return 'Failed';
+      case DeploymentLifecycle.updatingDeployment:
+        return 'Updating Deployment';
     }
   }
 }
@@ -2536,6 +2705,8 @@ extension DeploymentLifecycleFromString on String {
         return DeploymentLifecycle.succeeded;
       case 'Failed':
         return DeploymentLifecycle.failed;
+      case 'Updating Deployment':
+        return DeploymentLifecycle.updatingDeployment;
     }
     throw Exception('$this is not known in enum DeploymentLifecycle');
   }
@@ -2698,9 +2869,9 @@ class EngineVersionsSummary {
 enum EnvironmentLifecycle {
   creating,
   available,
+  updating,
   deleting,
   failed,
-  updating,
 }
 
 extension EnvironmentLifecycleValueExtension on EnvironmentLifecycle {
@@ -2710,12 +2881,12 @@ extension EnvironmentLifecycleValueExtension on EnvironmentLifecycle {
         return 'Creating';
       case EnvironmentLifecycle.available:
         return 'Available';
+      case EnvironmentLifecycle.updating:
+        return 'Updating';
       case EnvironmentLifecycle.deleting:
         return 'Deleting';
       case EnvironmentLifecycle.failed:
         return 'Failed';
-      case EnvironmentLifecycle.updating:
-        return 'Updating';
     }
   }
 }
@@ -2727,12 +2898,12 @@ extension EnvironmentLifecycleFromString on String {
         return EnvironmentLifecycle.creating;
       case 'Available':
         return EnvironmentLifecycle.available;
+      case 'Updating':
+        return EnvironmentLifecycle.updating;
       case 'Deleting':
         return EnvironmentLifecycle.deleting;
       case 'Failed':
         return EnvironmentLifecycle.failed;
-      case 'Updating':
-        return EnvironmentLifecycle.updating;
     }
     throw Exception('$this is not known in enum EnvironmentLifecycle');
   }
@@ -3044,6 +3215,9 @@ class GetApplicationResponse {
   /// customer's account.
   final List<LogGroupSummary>? logGroups;
 
+  /// The Amazon Resource Name (ARN) of the role associated with the application.
+  final String? roleArn;
+
   /// The reason for the reported status.
   final String? statusReason;
 
@@ -3071,6 +3245,7 @@ class GetApplicationResponse {
     this.listenerPorts,
     this.loadBalancerDnsName,
     this.logGroups,
+    this.roleArn,
     this.statusReason,
     this.tags,
     this.targetGroupArns,
@@ -3108,6 +3283,7 @@ class GetApplicationResponse {
           ?.whereNotNull()
           .map((e) => LogGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      roleArn: json['roleArn'] as String?,
       statusReason: json['statusReason'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3135,6 +3311,7 @@ class GetApplicationResponse {
     final listenerPorts = this.listenerPorts;
     final loadBalancerDnsName = this.loadBalancerDnsName;
     final logGroups = this.logGroups;
+    final roleArn = this.roleArn;
     final statusReason = this.statusReason;
     final tags = this.tags;
     final targetGroupArns = this.targetGroupArns;
@@ -3157,6 +3334,7 @@ class GetApplicationResponse {
       if (loadBalancerDnsName != null)
         'loadBalancerDnsName': loadBalancerDnsName,
       if (logGroups != null) 'logGroups': logGroups,
+      if (roleArn != null) 'roleArn': roleArn,
       if (statusReason != null) 'statusReason': statusReason,
       if (tags != null) 'tags': tags,
       if (targetGroupArns != null) 'targetGroupArns': targetGroupArns,
@@ -3243,6 +3421,8 @@ class GetBatchJobExecutionResponse {
 
   /// The status of the batch job execution.
   final BatchJobExecutionStatus status;
+
+  /// The unique identifier of this batch job.
   final BatchJobIdentifier? batchJobIdentifier;
 
   /// The timestamp when the batch job execution ended.
@@ -3254,13 +3434,20 @@ class GetBatchJobExecutionResponse {
   /// The name of this batch job.
   final String? jobName;
 
+  /// The restart steps information for the most recent restart operation.
+  final JobStepRestartMarker? jobStepRestartMarker;
+
   /// The type of job.
   final BatchJobType? jobType;
 
   /// The user for the job.
   final String? jobUser;
 
-  /// <p/>
+  /// The batch job return code from either the Blu Age or Micro Focus runtime
+  /// engines. For more information, see <a
+  /// href="https://www.ibm.com/docs/en/was/8.5.5?topic=model-batch-return-codes">Batch
+  /// return codes</a> in the <i>IBM WebSphere Application Server</i>
+  /// documentation.
   final String? returnCode;
 
   /// The reason for the reported status.
@@ -3275,6 +3462,7 @@ class GetBatchJobExecutionResponse {
     this.endTime,
     this.jobId,
     this.jobName,
+    this.jobStepRestartMarker,
     this.jobType,
     this.jobUser,
     this.returnCode,
@@ -3294,6 +3482,10 @@ class GetBatchJobExecutionResponse {
       endTime: timeStampFromJson(json['endTime']),
       jobId: json['jobId'] as String?,
       jobName: json['jobName'] as String?,
+      jobStepRestartMarker: json['jobStepRestartMarker'] != null
+          ? JobStepRestartMarker.fromJson(
+              json['jobStepRestartMarker'] as Map<String, dynamic>)
+          : null,
       jobType: (json['jobType'] as String?)?.toBatchJobType(),
       jobUser: json['jobUser'] as String?,
       returnCode: json['returnCode'] as String?,
@@ -3310,6 +3502,7 @@ class GetBatchJobExecutionResponse {
     final endTime = this.endTime;
     final jobId = this.jobId;
     final jobName = this.jobName;
+    final jobStepRestartMarker = this.jobStepRestartMarker;
     final jobType = this.jobType;
     final jobUser = this.jobUser;
     final returnCode = this.returnCode;
@@ -3323,6 +3516,8 @@ class GetBatchJobExecutionResponse {
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (jobId != null) 'jobId': jobId,
       if (jobName != null) 'jobName': jobName,
+      if (jobStepRestartMarker != null)
+        'jobStepRestartMarker': jobStepRestartMarker,
       if (jobType != null) 'jobType': jobType.toValue(),
       if (jobUser != null) 'jobUser': jobUser,
       if (returnCode != null) 'returnCode': returnCode,
@@ -3344,6 +3539,9 @@ class GetDataSetDetailsResponse {
   /// The type of data set. The only supported value is VSAM.
   final DatasetDetailOrgAttributes? dataSetOrg;
 
+  /// File size of the dataset.
+  final int? fileSize;
+
   /// The last time the data set was referenced.
   final DateTime? lastReferencedTime;
 
@@ -3361,6 +3559,7 @@ class GetDataSetDetailsResponse {
     this.blocksize,
     this.creationTime,
     this.dataSetOrg,
+    this.fileSize,
     this.lastReferencedTime,
     this.lastUpdatedTime,
     this.location,
@@ -3376,6 +3575,7 @@ class GetDataSetDetailsResponse {
           ? DatasetDetailOrgAttributes.fromJson(
               json['dataSetOrg'] as Map<String, dynamic>)
           : null,
+      fileSize: json['fileSize'] as int?,
       lastReferencedTime: timeStampFromJson(json['lastReferencedTime']),
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
       location: json['location'] as String?,
@@ -3388,6 +3588,7 @@ class GetDataSetDetailsResponse {
     final blocksize = this.blocksize;
     final creationTime = this.creationTime;
     final dataSetOrg = this.dataSetOrg;
+    final fileSize = this.fileSize;
     final lastReferencedTime = this.lastReferencedTime;
     final lastUpdatedTime = this.lastUpdatedTime;
     final location = this.location;
@@ -3398,6 +3599,7 @@ class GetDataSetDetailsResponse {
       if (creationTime != null)
         'creationTime': unixTimestampToJson(creationTime),
       if (dataSetOrg != null) 'dataSetOrg': dataSetOrg,
+      if (fileSize != null) 'fileSize': fileSize,
       if (lastReferencedTime != null)
         'lastReferencedTime': unixTimestampToJson(lastReferencedTime),
       if (lastUpdatedTime != null)
@@ -3548,7 +3750,7 @@ class GetEnvironmentResponse {
   final String vpcId;
 
   /// The number of instances included in the runtime environment. A standalone
-  /// runtime environment has a maxiumum of one instance. Currently, a high
+  /// runtime environment has a maximum of one instance. Currently, a high
   /// availability runtime environment has a maximum of two instances.
   final int? actualCapacity;
 
@@ -3569,9 +3771,8 @@ class GetEnvironmentResponse {
   /// Indicates the pending maintenance scheduled on this environment.
   final PendingMaintenance? pendingMaintenance;
 
-  /// Configures the maintenance window you want for the runtime environment. If
-  /// you do not provide a value, a random system-generated value will be
-  /// assigned.
+  /// The maintenance window for the runtime environment. If you don't provide a
+  /// value for the maintenance window, the service assigns a random value.
   final String? preferredMaintenanceWindow;
 
   /// Whether applications running in this runtime environment are publicly
@@ -3709,9 +3910,32 @@ class GetEnvironmentResponse {
   }
 }
 
+class GetSignedBluinsightsUrlResponse {
+  /// Single sign-on AWS Blu Insights URL.
+  final String signedBiUrl;
+
+  GetSignedBluinsightsUrlResponse({
+    required this.signedBiUrl,
+  });
+
+  factory GetSignedBluinsightsUrlResponse.fromJson(Map<String, dynamic> json) {
+    return GetSignedBluinsightsUrlResponse(
+      signedBiUrl: json['signedBiUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signedBiUrl = this.signedBiUrl;
+    return {
+      'signedBiUrl': signedBiUrl,
+    };
+  }
+}
+
 /// Defines the details of a high availability configuration.
 class HighAvailabilityConfig {
-  /// The number of instances in a high availability configuration.
+  /// The number of instances in a high availability configuration. The minimum
+  /// possible value is 1 and the maximum is 100.
   final int desiredCapacity;
 
   HighAvailabilityConfig({
@@ -3728,6 +3952,138 @@ class HighAvailabilityConfig {
     final desiredCapacity = this.desiredCapacity;
     return {
       'desiredCapacity': desiredCapacity,
+    };
+  }
+}
+
+/// Identifies a specific batch job.
+class JobIdentifier {
+  /// The name of the file that contains the batch job definition.
+  final String? fileName;
+
+  /// The name of the script that contains the batch job definition.
+  final String? scriptName;
+
+  JobIdentifier({
+    this.fileName,
+    this.scriptName,
+  });
+
+  factory JobIdentifier.fromJson(Map<String, dynamic> json) {
+    return JobIdentifier(
+      fileName: json['fileName'] as String?,
+      scriptName: json['scriptName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileName = this.fileName;
+    final scriptName = this.scriptName;
+    return {
+      if (fileName != null) 'fileName': fileName,
+      if (scriptName != null) 'scriptName': scriptName,
+    };
+  }
+}
+
+/// Provides information related to a job step.
+class JobStep {
+  /// The name of a procedure step.
+  final String? procStepName;
+
+  /// The number of a procedure step.
+  final int? procStepNumber;
+
+  /// The condition code of a step.
+  final String? stepCondCode;
+
+  /// The name of a step.
+  final String? stepName;
+
+  /// The number of a step.
+  final int? stepNumber;
+
+  /// Specifies if a step can be restarted or not.
+  final bool? stepRestartable;
+
+  JobStep({
+    this.procStepName,
+    this.procStepNumber,
+    this.stepCondCode,
+    this.stepName,
+    this.stepNumber,
+    this.stepRestartable,
+  });
+
+  factory JobStep.fromJson(Map<String, dynamic> json) {
+    return JobStep(
+      procStepName: json['procStepName'] as String?,
+      procStepNumber: json['procStepNumber'] as int?,
+      stepCondCode: json['stepCondCode'] as String?,
+      stepName: json['stepName'] as String?,
+      stepNumber: json['stepNumber'] as int?,
+      stepRestartable: json['stepRestartable'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final procStepName = this.procStepName;
+    final procStepNumber = this.procStepNumber;
+    final stepCondCode = this.stepCondCode;
+    final stepName = this.stepName;
+    final stepNumber = this.stepNumber;
+    final stepRestartable = this.stepRestartable;
+    return {
+      if (procStepName != null) 'procStepName': procStepName,
+      if (procStepNumber != null) 'procStepNumber': procStepNumber,
+      if (stepCondCode != null) 'stepCondCode': stepCondCode,
+      if (stepName != null) 'stepName': stepName,
+      if (stepNumber != null) 'stepNumber': stepNumber,
+      if (stepRestartable != null) 'stepRestartable': stepRestartable,
+    };
+  }
+}
+
+/// Provides restart step information for the most recent restart operation.
+class JobStepRestartMarker {
+  /// The step name that a batch job restart was from.
+  final String fromStep;
+
+  /// The procedure step name that a job was restarted from.
+  final String? fromProcStep;
+
+  /// The procedure step name that a batch job was restarted to.
+  final String? toProcStep;
+
+  /// The step name that a job was restarted to.
+  final String? toStep;
+
+  JobStepRestartMarker({
+    required this.fromStep,
+    this.fromProcStep,
+    this.toProcStep,
+    this.toStep,
+  });
+
+  factory JobStepRestartMarker.fromJson(Map<String, dynamic> json) {
+    return JobStepRestartMarker(
+      fromStep: json['fromStep'] as String,
+      fromProcStep: json['fromProcStep'] as String?,
+      toProcStep: json['toProcStep'] as String?,
+      toStep: json['toStep'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromStep = this.fromStep;
+    final fromProcStep = this.fromProcStep;
+    final toProcStep = this.toProcStep;
+    final toStep = this.toStep;
+    return {
+      'fromStep': fromStep,
+      if (fromProcStep != null) 'fromProcStep': fromProcStep,
+      if (toProcStep != null) 'toProcStep': toProcStep,
+      if (toStep != null) 'toStep': toStep,
     };
   }
 }
@@ -3863,6 +4219,33 @@ class ListBatchJobExecutionsResponse {
     return {
       'batchJobExecutions': batchJobExecutions,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListBatchJobRestartPointsResponse {
+  /// Returns all the batch job steps and related information for a batch job that
+  /// previously ran.
+  final List<JobStep>? batchJobSteps;
+
+  ListBatchJobRestartPointsResponse({
+    this.batchJobSteps,
+  });
+
+  factory ListBatchJobRestartPointsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListBatchJobRestartPointsResponse(
+      batchJobSteps: (json['batchJobSteps'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchJobSteps = this.batchJobSteps;
+    return {
+      if (batchJobSteps != null) 'batchJobSteps': batchJobSteps,
     };
   }
 }
@@ -4153,6 +4536,66 @@ class PendingMaintenance {
   }
 }
 
+/// The supported properties for a PO type data set.
+class PoAttributes {
+  /// The format of the data set records.
+  final String format;
+
+  /// An array containing one or more filename extensions, allowing you to specify
+  /// which files to be included as PDS member.
+  final List<String> memberFileExtensions;
+
+  /// The character set encoding of the data set.
+  final String? encoding;
+
+  PoAttributes({
+    required this.format,
+    required this.memberFileExtensions,
+    this.encoding,
+  });
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final memberFileExtensions = this.memberFileExtensions;
+    final encoding = this.encoding;
+    return {
+      'format': format,
+      'memberFileExtensions': memberFileExtensions,
+      if (encoding != null) 'encoding': encoding,
+    };
+  }
+}
+
+/// The supported properties for a PO type data set.
+class PoDetailAttributes {
+  /// The character set encoding of the data set.
+  final String encoding;
+
+  /// The format of the data set records.
+  final String format;
+
+  PoDetailAttributes({
+    required this.encoding,
+    required this.format,
+  });
+
+  factory PoDetailAttributes.fromJson(Map<String, dynamic> json) {
+    return PoDetailAttributes(
+      encoding: json['encoding'] as String,
+      format: json['format'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encoding = this.encoding;
+    final format = this.format;
+    return {
+      'encoding': encoding,
+      'format': format,
+    };
+  }
+}
+
 /// The primary key for a KSDS data set.
 class PrimaryKey {
   /// A strictly positive integer value representing the length of the primary
@@ -4192,6 +4635,59 @@ class PrimaryKey {
   }
 }
 
+/// The supported properties for a PS type data set.
+class PsAttributes {
+  /// The format of the data set records.
+  final String format;
+
+  /// The character set encoding of the data set.
+  final String? encoding;
+
+  PsAttributes({
+    required this.format,
+    this.encoding,
+  });
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final encoding = this.encoding;
+    return {
+      'format': format,
+      if (encoding != null) 'encoding': encoding,
+    };
+  }
+}
+
+/// The supported properties for a PS type data set.
+class PsDetailAttributes {
+  /// The character set encoding of the data set.
+  final String encoding;
+
+  /// The format of the data set records.
+  final String format;
+
+  PsDetailAttributes({
+    required this.encoding,
+    required this.format,
+  });
+
+  factory PsDetailAttributes.fromJson(Map<String, dynamic> json) {
+    return PsDetailAttributes(
+      encoding: json['encoding'] as String,
+      format: json['format'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encoding = this.encoding;
+    final format = this.format;
+    return {
+      'encoding': encoding,
+      'format': format,
+    };
+  }
+}
+
 /// The length of the records in the data set.
 class RecordLength {
   /// The maximum record length. In case of fixed, both minimum and maximum are
@@ -4212,6 +4708,82 @@ class RecordLength {
     return {
       'max': max,
       'min': min,
+    };
+  }
+}
+
+/// An identifier for the StartBatchJob API to show that it is a restart
+/// operation.
+class RestartBatchJobIdentifier {
+  /// The executionId from the StartBatchJob response when the job ran for the
+  /// first time.
+  final String executionId;
+
+  /// The restart step information for the most recent restart operation.
+  final JobStepRestartMarker jobStepRestartMarker;
+
+  RestartBatchJobIdentifier({
+    required this.executionId,
+    required this.jobStepRestartMarker,
+  });
+
+  factory RestartBatchJobIdentifier.fromJson(Map<String, dynamic> json) {
+    return RestartBatchJobIdentifier(
+      executionId: json['executionId'] as String,
+      jobStepRestartMarker: JobStepRestartMarker.fromJson(
+          json['jobStepRestartMarker'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionId = this.executionId;
+    final jobStepRestartMarker = this.jobStepRestartMarker;
+    return {
+      'executionId': executionId,
+      'jobStepRestartMarker': jobStepRestartMarker,
+    };
+  }
+}
+
+/// A batch job identifier in which the batch jobs to run are identified by an
+/// Amazon S3 location.
+class S3BatchJobIdentifier {
+  /// The Amazon S3 bucket that contains the batch job definitions.
+  final String bucket;
+
+  /// Identifies the batch job definition. This identifier can also point to any
+  /// batch job definition that already exists in the application or to one of the
+  /// batch job definitions within the directory that is specified in
+  /// <code>keyPrefix</code>.
+  final JobIdentifier identifier;
+
+  /// The key prefix that specifies the path to the folder in the S3 bucket that
+  /// has the batch job definitions.
+  final String? keyPrefix;
+
+  S3BatchJobIdentifier({
+    required this.bucket,
+    required this.identifier,
+    this.keyPrefix,
+  });
+
+  factory S3BatchJobIdentifier.fromJson(Map<String, dynamic> json) {
+    return S3BatchJobIdentifier(
+      bucket: json['bucket'] as String,
+      identifier:
+          JobIdentifier.fromJson(json['identifier'] as Map<String, dynamic>),
+      keyPrefix: json['keyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final identifier = this.identifier;
+    final keyPrefix = this.keyPrefix;
+    return {
+      'bucket': bucket,
+      'identifier': identifier,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
     };
   }
 }
@@ -4536,6 +5108,11 @@ class ConflictException extends _s.GenericAwsException {
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+class ExecutionTimeoutException extends _s.GenericAwsException {
+  ExecutionTimeoutException({String? type, String? message})
+      : super(type: type, code: 'ExecutionTimeoutException', message: message);
+}
+
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
@@ -4554,6 +5131,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class ServiceUnavailableException extends _s.GenericAwsException {
+  ServiceUnavailableException({String? type, String? message})
+      : super(
+            type: type, code: 'ServiceUnavailableException', message: message);
+}
+
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -4569,12 +5152,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'ExecutionTimeoutException': (type, message) =>
+      ExecutionTimeoutException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'ServiceUnavailableException': (type, message) =>
+      ServiceUnavailableException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>

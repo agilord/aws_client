@@ -19,51 +19,149 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Use AppConfig, a capability of Amazon Web Services Systems Manager, to
-/// create, manage, and quickly deploy application configurations. AppConfig
-/// supports controlled deployments to applications of any size and includes
-/// built-in validation checks and monitoring. You can use AppConfig with
-/// applications hosted on Amazon EC2 instances, Lambda, containers, mobile
-/// applications, or IoT devices.
-///
-/// To prevent errors when deploying application configurations, especially for
-/// production systems where a simple typo could cause an unexpected outage,
-/// AppConfig includes validators. A validator provides a syntactic or semantic
-/// check to ensure that the configuration you want to deploy works as intended.
-/// To validate your application configuration data, you provide a schema or an
-/// Amazon Web Services Lambda function that runs against the configuration. The
-/// configuration deployment or update can only proceed when the configuration
-/// data is valid.
-///
-/// During a configuration deployment, AppConfig monitors the application to
-/// ensure that the deployment is successful. If the system encounters an error,
-/// AppConfig rolls back the change to minimize impact for your application
-/// users. You can configure a deployment strategy for each application or
-/// environment that includes deployment criteria, including velocity, bake
-/// time, and alarms to monitor. Similar to error monitoring, if a deployment
-/// triggers an alarm, AppConfig automatically rolls back to the previous
-/// version.
-///
-/// AppConfig supports multiple use cases. Here are some examples:
+/// AppConfig feature flags and dynamic configurations help software builders
+/// quickly and securely adjust application behavior in production environments
+/// without full code deployments. AppConfig speeds up software release
+/// frequency, improves application resiliency, and helps you address emergent
+/// issues more quickly. With feature flags, you can gradually release new
+/// capabilities to users and measure the impact of those changes before fully
+/// deploying the new capabilities to all users. With operational flags and
+/// dynamic configurations, you can update block lists, allow lists, throttling
+/// limits, logging verbosity, and perform other operational tuning to quickly
+/// respond to issues in production environments.
+/// <note>
+/// AppConfig is a capability of Amazon Web Services Systems Manager.
+/// </note>
+/// Despite the fact that application configuration content can vary greatly
+/// from application to application, AppConfig supports the following use cases,
+/// which cover a broad spectrum of customer needs:
 ///
 /// <ul>
 /// <li>
-/// <b>Feature flags</b>: Use AppConfig to turn on new features that require a
-/// timely deployment, such as a product launch or announcement.
+/// <b>Feature flags and toggles</b> - Safely release new capabilities to your
+/// customers in a controlled environment. Instantly roll back changes if you
+/// experience a problem.
 /// </li>
 /// <li>
-/// <b>Application tuning</b>: Use AppConfig to carefully introduce changes to
-/// your application that can only be tested with production traffic.
+/// <b>Application tuning</b> - Carefully introduce application changes while
+/// testing the impact of those changes with users in production environments.
 /// </li>
 /// <li>
-/// <b>Allow list</b>: Use AppConfig to allow premium subscribers to access paid
-/// content.
+/// <b>Allow list or block list</b> - Control access to premium features or
+/// instantly block specific users without deploying new code.
 /// </li>
 /// <li>
-/// <b>Operational issues</b>: Use AppConfig to reduce stress on your
-/// application when a dependency or other external factor impacts the system.
+/// <b>Centralized configuration storage</b> - Keep your configuration data
+/// organized and consistent across all of your workloads. You can use AppConfig
+/// to deploy configuration data stored in the AppConfig hosted configuration
+/// store, Secrets Manager, Systems Manager, Parameter Store, or Amazon S3.
 /// </li>
 /// </ul>
+/// <b>How AppConfig works</b>
+///
+/// This section provides a high-level description of how AppConfig works and
+/// how you get started.
+/// <dl> <dt>1. Identify configuration values in code you want to manage in the
+/// cloud</dt> <dd>
+/// Before you start creating AppConfig artifacts, we recommend you identify
+/// configuration data in your code that you want to dynamically manage using
+/// AppConfig. Good examples include feature flags or toggles, allow and block
+/// lists, logging verbosity, service limits, and throttling rules, to name a
+/// few.
+///
+/// If your configuration data already exists in the cloud, you can take
+/// advantage of AppConfig validation, deployment, and extension features to
+/// further streamline configuration data management.
+/// </dd> <dt>2. Create an application namespace</dt> <dd>
+/// To create a namespace, you create an AppConfig artifact called an
+/// application. An application is simply an organizational construct like a
+/// folder.
+/// </dd> <dt>3. Create environments</dt> <dd>
+/// For each AppConfig application, you define one or more environments. An
+/// environment is a logical grouping of targets, such as applications in a
+/// <code>Beta</code> or <code>Production</code> environment, Lambda functions,
+/// or containers. You can also define environments for application
+/// subcomponents, such as the <code>Web</code>, <code>Mobile</code>, and
+/// <code>Back-end</code>.
+///
+/// You can configure Amazon CloudWatch alarms for each environment. The system
+/// monitors alarms during a configuration deployment. If an alarm is triggered,
+/// the system rolls back the configuration.
+/// </dd> <dt>4. Create a configuration profile</dt> <dd>
+/// A configuration profile includes, among other things, a URI that enables
+/// AppConfig to locate your configuration data in its stored location and a
+/// profile type. AppConfig supports two configuration profile types: feature
+/// flags and freeform configurations. Feature flag configuration profiles store
+/// their data in the AppConfig hosted configuration store and the URI is simply
+/// <code>hosted</code>. For freeform configuration profiles, you can store your
+/// data in the AppConfig hosted configuration store or any Amazon Web Services
+/// service that integrates with AppConfig, as described in <a
+/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-free-form-configurations-creating.html">Creating
+/// a free form configuration profile</a> in the the <i>AppConfig User
+/// Guide</i>.
+///
+/// A configuration profile can also include optional validators to ensure your
+/// configuration data is syntactically and semantically correct. AppConfig
+/// performs a check using the validators when you start a deployment. If any
+/// errors are detected, the deployment rolls back to the previous configuration
+/// data.
+/// </dd> <dt>5. Deploy configuration data</dt> <dd>
+/// When you create a new deployment, you specify the following:
+///
+/// <ul>
+/// <li>
+/// An application ID
+/// </li>
+/// <li>
+/// A configuration profile ID
+/// </li>
+/// <li>
+/// A configuration version
+/// </li>
+/// <li>
+/// An environment ID where you want to deploy the configuration data
+/// </li>
+/// <li>
+/// A deployment strategy ID that defines how fast you want the changes to take
+/// effect
+/// </li>
+/// </ul>
+/// When you call the <a
+/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_StartDeployment.html">StartDeployment</a>
+/// API action, AppConfig performs the following tasks:
+/// <ol>
+/// <li>
+/// Retrieves the configuration data from the underlying data store by using the
+/// location URI in the configuration profile.
+/// </li>
+/// <li>
+/// Verifies the configuration data is syntactically and semantically correct by
+/// using the validators you specified when you created your configuration
+/// profile.
+/// </li>
+/// <li>
+/// Caches a copy of the data so it is ready to be retrieved by your
+/// application. This cached copy is called the <i>deployed data</i>.
+/// </li> </ol> </dd> <dt>6. Retrieve the configuration</dt> <dd>
+/// You can configure AppConfig Agent as a local host and have the agent poll
+/// AppConfig for configuration updates. The agent calls the <a
+/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html">StartConfigurationSession</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+/// API actions and caches your configuration data locally. To retrieve the
+/// data, your application makes an HTTP call to the localhost server. AppConfig
+/// Agent supports several use cases, as described in <a
+/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-simplified-methods.html">Simplified
+/// retrieval methods</a> in the the <i>AppConfig User Guide</i>.
+///
+/// If AppConfig Agent isn't supported for your use case, you can configure your
+/// application to poll AppConfig for configuration updates by directly calling
+/// the <a
+/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html">StartConfigurationSession</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+/// API actions.
+/// </dd> </dl>
 /// This reference is intended to be used with the <a
 /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html">AppConfig
 /// User Guide</a>.
@@ -103,6 +201,7 @@ class AppConfig {
   /// configuration data for a mobile application installed by your users.
   ///
   /// May throw [BadRequestException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
@@ -185,6 +284,7 @@ class AppConfig {
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -203,8 +303,12 @@ class AppConfig {
   /// <code>ssm-parameter://&lt;parameter name&gt;</code> or the ARN.
   /// </li>
   /// <li>
+  /// For an Amazon Web Services CodePipeline pipeline, specify the URI in the
+  /// following format: <code>codepipeline</code>://&lt;pipeline name&gt;.
+  /// </li>
+  /// <li>
   /// For an Secrets Manager secret, specify the URI in the following format:
-  /// <code>secrets-manager</code>://&lt;secret name&gt;.
+  /// <code>secretsmanager</code>://&lt;secret name&gt;.
   /// </li>
   /// <li>
   /// For an Amazon S3 object, specify the URI in the following format:
@@ -223,6 +327,15 @@ class AppConfig {
   ///
   /// Parameter [description] :
   /// A description of the configuration profile.
+  ///
+  /// Parameter [kmsKeyIdentifier] :
+  /// The identifier for an Key Management Service key to encrypt new
+  /// configuration data versions in the AppConfig hosted configuration store.
+  /// This attribute is only used for <code>hosted</code> configuration types.
+  /// The identifier can be an KMS key ID, alias, or the Amazon Resource Name
+  /// (ARN) of the key ID or alias. To encrypt data managed in other
+  /// configuration stores, see the documentation for how to specify an KMS key
+  /// for that particular service.
   ///
   /// Parameter [retrievalRoleArn] :
   /// The ARN of an IAM role with permission to access the configuration at the
@@ -257,6 +370,7 @@ class AppConfig {
     required String locationUri,
     required String name,
     String? description,
+    String? kmsKeyIdentifier,
     String? retrievalRoleArn,
     Map<String, String>? tags,
     String? type,
@@ -266,6 +380,7 @@ class AppConfig {
       'LocationUri': locationUri,
       'Name': name,
       if (description != null) 'Description': description,
+      if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
       if (retrievalRoleArn != null) 'RetrievalRoleArn': retrievalRoleArn,
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type,
@@ -288,6 +403,7 @@ class AppConfig {
   /// percentage grows, and bake time.
   ///
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [BadRequestException].
   ///
   /// Parameter [deploymentDurationInMinutes] :
@@ -413,6 +529,7 @@ class AppConfig {
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -458,12 +575,30 @@ class AppConfig {
   /// of creating or deploying a configuration.
   ///
   /// You can create your own extensions or use the Amazon Web Services authored
-  /// extensions provided by AppConfig. For most use cases, to create your own
-  /// extension, you must create an Lambda function to perform any computation
-  /// and processing defined in the extension. For more information about
-  /// extensions, see <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  /// extensions provided by AppConfig. For an AppConfig extension that uses
+  /// Lambda, you must create a Lambda function to perform any computation and
+  /// processing defined in the extension. If you plan to create custom versions
+  /// of the Amazon Web Services authored notification extensions, you only need
+  /// to specify an Amazon Resource Name (ARN) in the <code>Uri</code> field for
+  /// the new extension version.
+  ///
+  /// <ul>
+  /// <li>
+  /// For a custom EventBridge notification extension, enter the ARN of the
+  /// EventBridge default events in the <code>Uri</code> field.
+  /// </li>
+  /// <li>
+  /// For a custom Amazon SNS notification extension, enter the ARN of an Amazon
+  /// SNS topic in the <code>Uri</code> field.
+  /// </li>
+  /// <li>
+  /// For a custom Amazon SQS notification extension, enter the ARN of an Amazon
+  /// SQS message queue in the <code>Uri</code> field.
+  /// </li>
+  /// </ul>
+  /// For more information about extensions, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+  /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -536,8 +671,8 @@ class AppConfig {
   /// association is a specified relationship between an extension and an
   /// AppConfig resource, such as an application or a configuration profile. For
   /// more information about extensions and associations, see <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+  /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -657,6 +792,7 @@ class AppConfig {
       contentType:
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       description: _s.extractHeaderStringValue(response.headers, 'Description'),
+      kmsKeyArn: _s.extractHeaderStringValue(response.headers, 'KmsKeyArn'),
       versionLabel:
           _s.extractHeaderStringValue(response.headers, 'VersionLabel'),
       versionNumber:
@@ -1099,8 +1235,8 @@ class AppConfig {
 
   /// Returns information about an AppConfig extension association. For more
   /// information about extensions and associations, see <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+  /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1156,6 +1292,7 @@ class AppConfig {
       contentType:
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       description: _s.extractHeaderStringValue(response.headers, 'Description'),
+      kmsKeyArn: _s.extractHeaderStringValue(response.headers, 'KmsKeyArn'),
       versionLabel:
           _s.extractHeaderStringValue(response.headers, 'VersionLabel'),
       versionNumber:
@@ -1382,8 +1519,8 @@ class AppConfig {
 
   /// Lists all AppConfig extension associations in the account. For more
   /// information about extensions and associations, see <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+  /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [BadRequestException].
@@ -1440,8 +1577,8 @@ class AppConfig {
 
   /// Lists all custom and Amazon Web Services authored AppConfig extensions in
   /// the account. For more information about extensions, see <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+  /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [BadRequestException].
@@ -1573,7 +1710,8 @@ class AppConfig {
   /// Parameter [configurationVersion] :
   /// The configuration version to deploy. If deploying an AppConfig hosted
   /// configuration version, you can specify either the version number or
-  /// version label.
+  /// version label. For all other configurations, you must specify the version
+  /// number.
   ///
   /// Parameter [deploymentStrategyId] :
   /// The deployment strategy ID.
@@ -1583,6 +1721,10 @@ class AppConfig {
   ///
   /// Parameter [description] :
   /// A description of the deployment.
+  ///
+  /// Parameter [dynamicExtensionParameters] :
+  /// A map of dynamic extension parameter names to values to pass to associated
+  /// extensions with <code>PRE_START_DEPLOYMENT</code> actions.
   ///
   /// Parameter [kmsKeyIdentifier] :
   /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses
@@ -1599,6 +1741,7 @@ class AppConfig {
     required String deploymentStrategyId,
     required String environmentId,
     String? description,
+    Map<String, String>? dynamicExtensionParameters,
     String? kmsKeyIdentifier,
     Map<String, String>? tags,
   }) async {
@@ -1607,6 +1750,8 @@ class AppConfig {
       'ConfigurationVersion': configurationVersion,
       'DeploymentStrategyId': deploymentStrategyId,
       if (description != null) 'Description': description,
+      if (dynamicExtensionParameters != null)
+        'DynamicExtensionParameters': dynamicExtensionParameters,
       if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
       if (tags != null) 'Tags': tags,
     };
@@ -1756,6 +1901,15 @@ class AppConfig {
   /// Parameter [description] :
   /// A description of the configuration profile.
   ///
+  /// Parameter [kmsKeyIdentifier] :
+  /// The identifier for a Key Management Service key to encrypt new
+  /// configuration data versions in the AppConfig hosted configuration store.
+  /// This attribute is only used for <code>hosted</code> configuration types.
+  /// The identifier can be an KMS key ID, alias, or the Amazon Resource Name
+  /// (ARN) of the key ID or alias. To encrypt data managed in other
+  /// configuration stores, see the documentation for how to specify an KMS key
+  /// for that particular service.
+  ///
   /// Parameter [name] :
   /// The name of the configuration profile.
   ///
@@ -1769,12 +1923,14 @@ class AppConfig {
     required String applicationId,
     required String configurationProfileId,
     String? description,
+    String? kmsKeyIdentifier,
     String? name,
     String? retrievalRoleArn,
     List<Validator>? validators,
   }) async {
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
+      if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
       if (name != null) 'Name': name,
       if (retrievalRoleArn != null) 'RetrievalRoleArn': retrievalRoleArn,
       if (validators != null) 'Validators': validators,
@@ -1930,8 +2086,8 @@ class AppConfig {
 
   /// Updates an AppConfig extension. For more information about extensions, see
   /// <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+  /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1977,8 +2133,8 @@ class AppConfig {
 
   /// Updates an association. For more information about extensions and
   /// associations, see <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+  /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -2341,6 +2497,17 @@ class ConfigurationProfile {
   /// The configuration profile ID.
   final String? id;
 
+  /// The Amazon Resource Name of the Key Management Service key to encrypt new
+  /// configuration data versions in the AppConfig hosted configuration store.
+  /// This attribute is only used for <code>hosted</code> configuration types. To
+  /// encrypt data managed in other configuration stores, see the documentation
+  /// for how to specify an KMS key for that particular service.
+  final String? kmsKeyArn;
+
+  /// The Key Management Service key identifier (key ID, key alias, or key ARN)
+  /// provided when the resource was created or updated.
+  final String? kmsKeyIdentifier;
+
   /// The URI location of the configuration.
   final String? locationUri;
 
@@ -2370,6 +2537,8 @@ class ConfigurationProfile {
     this.applicationId,
     this.description,
     this.id,
+    this.kmsKeyArn,
+    this.kmsKeyIdentifier,
     this.locationUri,
     this.name,
     this.retrievalRoleArn,
@@ -2382,6 +2551,8 @@ class ConfigurationProfile {
       applicationId: json['ApplicationId'] as String?,
       description: json['Description'] as String?,
       id: json['Id'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      kmsKeyIdentifier: json['KmsKeyIdentifier'] as String?,
       locationUri: json['LocationUri'] as String?,
       name: json['Name'] as String?,
       retrievalRoleArn: json['RetrievalRoleArn'] as String?,
@@ -2534,8 +2705,8 @@ class Deployment {
   /// Parameter Store.
   final String? kmsKeyArn;
 
-  /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this
-  /// ID to encrypt the configuration data using a customer managed key.
+  /// The Key Management Service key identifier (key ID, key alias, or key ARN)
+  /// provided when the resource was created or updated.
   final String? kmsKeyIdentifier;
 
   /// The percentage of targets for which the deployment is available.
@@ -2546,6 +2717,9 @@ class Deployment {
 
   /// The state of the deployment.
   final DeploymentState? state;
+
+  /// A user-defined label for an AppConfig hosted configuration version.
+  final String? versionLabel;
 
   Deployment({
     this.applicationId,
@@ -2569,6 +2743,7 @@ class Deployment {
     this.percentageComplete,
     this.startedAt,
     this.state,
+    this.versionLabel,
   });
 
   factory Deployment.fromJson(Map<String, dynamic> json) {
@@ -2600,6 +2775,7 @@ class Deployment {
       percentageComplete: json['PercentageComplete'] as double?,
       startedAt: timeStampFromJson(json['StartedAt']),
       state: (json['State'] as String?)?.toDeploymentState(),
+      versionLabel: json['VersionLabel'] as String?,
     );
   }
 }
@@ -2610,10 +2786,21 @@ class DeploymentEvent {
   final List<ActionInvocation>? actionInvocations;
 
   /// A description of the deployment event. Descriptions include, but are not
-  /// limited to, the user account or the Amazon CloudWatch alarm ARN that
-  /// initiated a rollback, the percentage of hosts that received the deployment,
-  /// or in the case of an internal error, a recommendation to attempt a new
-  /// deployment.
+  /// limited to, the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The Amazon Web Services account or the Amazon CloudWatch alarm ARN that
+  /// initiated a rollback.
+  /// </li>
+  /// <li>
+  /// The percentage of hosts that received the deployment.
+  /// </li>
+  /// <li>
+  /// A recommendation to attempt a new deployment (in the case of an internal
+  /// error).
+  /// </li>
+  /// </ul>
   final String? description;
 
   /// The type of deployment event. Deployment event types include the start,
@@ -2859,6 +3046,9 @@ class DeploymentSummary {
   /// The state of the deployment.
   final DeploymentState? state;
 
+  /// A user-defined label for an AppConfig hosted configuration version.
+  final String? versionLabel;
+
   DeploymentSummary({
     this.completedAt,
     this.configurationName,
@@ -2871,6 +3061,7 @@ class DeploymentSummary {
     this.percentageComplete,
     this.startedAt,
     this.state,
+    this.versionLabel,
   });
 
   factory DeploymentSummary.fromJson(Map<String, dynamic> json) {
@@ -2886,6 +3077,7 @@ class DeploymentSummary {
       percentageComplete: json['PercentageComplete'] as double?,
       startedAt: timeStampFromJson(json['StartedAt']),
       state: (json['State'] as String?)?.toDeploymentState(),
+      versionLabel: json['VersionLabel'] as String?,
     );
   }
 }
@@ -3285,6 +3477,11 @@ class HostedConfigurationVersion {
   /// A description of the configuration.
   final String? description;
 
+  /// The Amazon Resource Name of the Key Management Service key that was used to
+  /// encrypt this specific version of the configuration data in the AppConfig
+  /// hosted configuration store.
+  final String? kmsKeyArn;
+
   /// A user-defined label for an AppConfig hosted configuration version.
   final String? versionLabel;
 
@@ -3297,6 +3494,7 @@ class HostedConfigurationVersion {
     this.content,
     this.contentType,
     this.description,
+    this.kmsKeyArn,
     this.versionLabel,
     this.versionNumber,
   });
@@ -3318,6 +3516,11 @@ class HostedConfigurationVersionSummary {
   /// A description of the configuration.
   final String? description;
 
+  /// The Amazon Resource Name of the Key Management Service key that was used to
+  /// encrypt this specific version of the configuration data in the AppConfig
+  /// hosted configuration store.
+  final String? kmsKeyArn;
+
   /// A user-defined label for an AppConfig hosted configuration version.
   final String? versionLabel;
 
@@ -3329,6 +3532,7 @@ class HostedConfigurationVersionSummary {
     this.configurationProfileId,
     this.contentType,
     this.description,
+    this.kmsKeyArn,
     this.versionLabel,
     this.versionNumber,
   });
@@ -3340,6 +3544,7 @@ class HostedConfigurationVersionSummary {
       configurationProfileId: json['ConfigurationProfileId'] as String?,
       contentType: json['ContentType'] as String?,
       description: json['Description'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
       versionLabel: json['VersionLabel'] as String?,
       versionNumber: json['VersionNumber'] as int?,
     );
@@ -3406,32 +3611,41 @@ class Monitor {
 /// Notification Service topic entered in an extension when invoked. Parameter
 /// values are specified in an extension association. For more information about
 /// extensions, see <a
-/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
-/// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+/// workflows</a> in the <i>AppConfig User Guide</i>.
 class Parameter {
   /// Information about the parameter.
   final String? description;
+
+  /// Indicates whether this parameter's value can be supplied at the extension's
+  /// action point instead of during extension association. Dynamic parameters
+  /// can't be marked <code>Required</code>.
+  final bool? dynamic;
 
   /// A parameter value must be specified in the extension association.
   final bool? required;
 
   Parameter({
     this.description,
+    this.dynamic,
     this.required,
   });
 
   factory Parameter.fromJson(Map<String, dynamic> json) {
     return Parameter(
       description: json['Description'] as String?,
+      dynamic: json['Dynamic'] as bool?,
       required: json['Required'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final description = this.description;
+    final dynamic = this.dynamic;
     final required = this.required;
     return {
       if (description != null) 'Description': description,
+      if (dynamic != null) 'Dynamic': dynamic,
       if (required != null) 'Required': required,
     };
   }

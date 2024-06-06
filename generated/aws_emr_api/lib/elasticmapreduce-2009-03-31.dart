@@ -365,6 +365,20 @@ class EMR {
   /// Parameter [description] :
   /// A detailed description of the Amazon EMR Studio.
   ///
+  /// Parameter [encryptionKeyArn] :
+  /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace
+  /// and notebook files when backed up to Amazon S3.
+  ///
+  /// Parameter [idcInstanceArn] :
+  /// The ARN of the IAM Identity Center instance to create the Studio
+  /// application.
+  ///
+  /// Parameter [idcUserAssignment] :
+  /// Specifies whether IAM Identity Center user assignment is
+  /// <code>REQUIRED</code> or <code>OPTIONAL</code>. If the value is set to
+  /// <code>REQUIRED</code>, users must be explicitly assigned to the Studio
+  /// application to access the Studio.
+  ///
   /// Parameter [idpAuthUrl] :
   /// The authentication endpoint of your identity provider (IdP). Specify this
   /// value when you use IAM authentication and want to let federated users log
@@ -384,6 +398,10 @@ class EMR {
   /// maximum of 128 characters, and an optional value string with a maximum of
   /// 256 characters.
   ///
+  /// Parameter [trustedIdentityPropagationEnabled] :
+  /// A Boolean indicating whether to enable Trusted identity propagation for
+  /// the Studio. The default value is <code>false</code>.
+  ///
   /// Parameter [userRole] :
   /// The IAM user role that users and groups assume when logged in to an Amazon
   /// EMR Studio. Only specify a <code>UserRole</code> when you use IAM Identity
@@ -400,9 +418,13 @@ class EMR {
     required String vpcId,
     required String workspaceSecurityGroupId,
     String? description,
+    String? encryptionKeyArn,
+    String? idcInstanceArn,
+    IdcUserAssignment? idcUserAssignment,
     String? idpAuthUrl,
     String? idpRelayStateParameterName,
     List<Tag>? tags,
+    bool? trustedIdentityPropagationEnabled,
     String? userRole,
   }) async {
     final headers = <String, String>{
@@ -425,10 +447,17 @@ class EMR {
         'VpcId': vpcId,
         'WorkspaceSecurityGroupId': workspaceSecurityGroupId,
         if (description != null) 'Description': description,
+        if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
+        if (idcInstanceArn != null) 'IdcInstanceArn': idcInstanceArn,
+        if (idcUserAssignment != null)
+          'IdcUserAssignment': idcUserAssignment.toValue(),
         if (idpAuthUrl != null) 'IdpAuthUrl': idpAuthUrl,
         if (idpRelayStateParameterName != null)
           'IdpRelayStateParameterName': idpRelayStateParameterName,
         if (tags != null) 'Tags': tags,
+        if (trustedIdentityPropagationEnabled != null)
+          'TrustedIdentityPropagationEnabled':
+              trustedIdentityPropagationEnabled,
         if (userRole != null) 'UserRole': userRole,
       },
     );
@@ -950,7 +979,7 @@ class EMR {
   /// <code>arn:partition:service:region:account:resource</code>.
   Future<GetClusterSessionCredentialsOutput> getClusterSessionCredentials({
     required String clusterId,
-    required String executionRoleArn,
+    String? executionRoleArn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -964,7 +993,7 @@ class EMR {
       headers: headers,
       payload: {
         'ClusterId': clusterId,
-        'ExecutionRoleArn': executionRoleArn,
+        if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       },
     );
 
@@ -1592,6 +1621,48 @@ class EMR {
     return ListStudiosOutput.fromJson(jsonResponse.body);
   }
 
+  /// A list of the instance types that Amazon EMR supports. You can filter the
+  /// list by Amazon Web Services Region and Amazon EMR release.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [releaseLabel] :
+  /// The Amazon EMR release label determines the <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-app-versions-6.x.html">versions
+  /// of open-source application packages</a> that Amazon EMR has installed on
+  /// the cluster. Release labels are in the format <code>emr-x.x.x</code>,
+  /// where x.x.x is an Amazon EMR release number such as
+  /// <code>emr-6.10.0</code>. For more information about Amazon EMR releases
+  /// and their included application versions and features, see the <i> <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-components.html">Amazon
+  /// EMR Release Guide</a> </i>.
+  ///
+  /// Parameter [marker] :
+  /// The pagination token that marks the next set of results to retrieve.
+  Future<ListSupportedInstanceTypesOutput> listSupportedInstanceTypes({
+    required String releaseLabel,
+    String? marker,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.ListSupportedInstanceTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReleaseLabel': releaseLabel,
+        if (marker != null) 'Marker': marker,
+      },
+    );
+
+    return ListSupportedInstanceTypesOutput.fromJson(jsonResponse.body);
+  }
+
   /// Modifies the number of steps that can be executed concurrently for the
   /// cluster specified using ClusterID.
   ///
@@ -2069,10 +2140,20 @@ class EMR {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html">Finding
   /// a Linux AMI</a>.
   ///
+  /// Parameter [ebsRootVolumeIops] :
+  /// The IOPS, of the Amazon EBS root device volume of the Linux AMI that is
+  /// used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0
+  /// and later.
+  ///
   /// Parameter [ebsRootVolumeSize] :
   /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI
   /// that is used for each Amazon EC2 instance. Available in Amazon EMR
   /// releases 4.x and later.
+  ///
+  /// Parameter [ebsRootVolumeThroughput] :
+  /// The throughput, in MiB/s, of the Amazon EBS root device volume of the
+  /// Linux AMI that is used for each Amazon EC2 instance. Available in Amazon
+  /// EMR releases 6.15.0 and later.
   ///
   /// Parameter [jobFlowRole] :
   /// Also called instance profile and Amazon EC2 role. An IAM role for an
@@ -2254,7 +2335,9 @@ class EMR {
     List<BootstrapActionConfig>? bootstrapActions,
     List<Configuration>? configurations,
     String? customAmiId,
+    int? ebsRootVolumeIops,
     int? ebsRootVolumeSize,
+    int? ebsRootVolumeThroughput,
     String? jobFlowRole,
     KerberosAttributes? kerberosAttributes,
     String? logEncryptionKmsKeyId,
@@ -2296,7 +2379,10 @@ class EMR {
         if (bootstrapActions != null) 'BootstrapActions': bootstrapActions,
         if (configurations != null) 'Configurations': configurations,
         if (customAmiId != null) 'CustomAmiId': customAmiId,
+        if (ebsRootVolumeIops != null) 'EbsRootVolumeIops': ebsRootVolumeIops,
         if (ebsRootVolumeSize != null) 'EbsRootVolumeSize': ebsRootVolumeSize,
+        if (ebsRootVolumeThroughput != null)
+          'EbsRootVolumeThroughput': ebsRootVolumeThroughput,
         if (jobFlowRole != null) 'JobFlowRole': jobFlowRole,
         if (kerberosAttributes != null)
           'KerberosAttributes': kerberosAttributes,
@@ -2330,6 +2416,51 @@ class EMR {
     return RunJobFlowOutput.fromJson(jsonResponse.body);
   }
 
+  /// You can use the <code>SetKeepJobFlowAliveWhenNoSteps</code> to configure a
+  /// cluster (job flow) to terminate after the step execution, i.e., all your
+  /// steps are executed. If you want a transient cluster that shuts down after
+  /// the last of the current executing steps are completed, you can configure
+  /// <code>SetKeepJobFlowAliveWhenNoSteps</code> to false. If you want a long
+  /// running cluster, configure <code>SetKeepJobFlowAliveWhenNoSteps</code> to
+  /// true.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html">Managing
+  /// Cluster Termination</a> in the <i>Amazon EMR Management Guide</i>.
+  ///
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [jobFlowIds] :
+  /// A list of strings that uniquely identify the clusters to protect. This
+  /// identifier is returned by <a
+  /// href="https://docs.aws.amazon.com/emr/latest/APIReference/API_RunJobFlow.html">RunJobFlow</a>
+  /// and can also be obtained from <a
+  /// href="https://docs.aws.amazon.com/emr/latest/APIReference/API_DescribeJobFlows.html">DescribeJobFlows</a>.
+  ///
+  /// Parameter [keepJobFlowAliveWhenNoSteps] :
+  /// A Boolean that indicates whether to terminate the cluster after all steps
+  /// are executed.
+  Future<void> setKeepJobFlowAliveWhenNoSteps({
+    required List<String> jobFlowIds,
+    required bool keepJobFlowAliveWhenNoSteps,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.SetKeepJobFlowAliveWhenNoSteps'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobFlowIds': jobFlowIds,
+        'KeepJobFlowAliveWhenNoSteps': keepJobFlowAliveWhenNoSteps,
+      },
+    );
+  }
+
   /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2
   /// instances in the cluster cannot be terminated by user intervention, an API
   /// call, or in the event of a job-flow error. The cluster still terminates
@@ -2349,7 +2480,7 @@ class EMR {
   /// <code>SetTerminationProtection</code> in which you set the value to
   /// <code>false</code>.
   ///
-  /// For more information, see<a
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html">Managing
   /// Cluster Termination</a> in the <i>Amazon EMR Management Guide</i>.
   ///
@@ -2381,6 +2512,55 @@ class EMR {
       payload: {
         'JobFlowIds': jobFlowIds,
         'TerminationProtected': terminationProtected,
+      },
+    );
+  }
+
+  /// Specify whether to enable unhealthy node replacement, which lets Amazon
+  /// EMR gracefully replace core nodes on a cluster if any nodes become
+  /// unhealthy. For example, a node becomes unhealthy if disk usage is above
+  /// 90%. If unhealthy node replacement is on and
+  /// <code>TerminationProtected</code> are off, Amazon EMR immediately
+  /// terminates the unhealthy core nodes. To use unhealthy node replacement and
+  /// retain unhealthy core nodes, use to turn on termination protection. In
+  /// such cases, Amazon EMR adds the unhealthy nodes to a denylist, reducing
+  /// job interruptions and failures.
+  ///
+  /// If unhealthy node replacement is on, Amazon EMR notifies YARN and other
+  /// applications on the cluster to stop scheduling tasks with these nodes,
+  /// moves the data, and then terminates the nodes.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-node-replacement.html">graceful
+  /// node replacement</a> in the <i>Amazon EMR Management Guide</i>.
+  ///
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [jobFlowIds] :
+  /// The list of strings that uniquely identify the clusters for which to turn
+  /// on unhealthy node replacement. You can get these identifiers by running
+  /// the <a>RunJobFlow</a> or the <a>DescribeJobFlows</a> operations.
+  ///
+  /// Parameter [unhealthyNodeReplacement] :
+  /// Indicates whether to turn on or turn off graceful unhealthy node
+  /// replacement.
+  Future<void> setUnhealthyNodeReplacement({
+    required List<String> jobFlowIds,
+    required bool unhealthyNodeReplacement,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.SetUnhealthyNodeReplacement'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobFlowIds': jobFlowIds,
+        'UnhealthyNodeReplacement': unhealthyNodeReplacement,
       },
     );
   }
@@ -2622,6 +2802,10 @@ class EMR {
   /// Parameter [description] :
   /// A detailed description to assign to the Amazon EMR Studio.
   ///
+  /// Parameter [encryptionKeyArn] :
+  /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace
+  /// and notebook files when backed up to Amazon S3.
+  ///
   /// Parameter [name] :
   /// A descriptive name for the Amazon EMR Studio.
   ///
@@ -2635,6 +2819,7 @@ class EMR {
     required String studioId,
     String? defaultS3Location,
     String? description,
+    String? encryptionKeyArn,
     String? name,
     List<String>? subnetIds,
   }) async {
@@ -2652,6 +2837,7 @@ class EMR {
         'StudioId': studioId,
         if (defaultS3Location != null) 'DefaultS3Location': defaultS3Location,
         if (description != null) 'Description': description,
+        if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
         if (name != null) 'Name': name,
         if (subnetIds != null) 'SubnetIds': subnetIds,
       },
@@ -3525,10 +3711,20 @@ class Cluster {
   /// Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
   final String? customAmiId;
 
+  /// The IOPS, of the Amazon EBS root device volume of the Linux AMI that is used
+  /// for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and
+  /// later.
+  final int? ebsRootVolumeIops;
+
   /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that
   /// is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x
   /// and later.
   final int? ebsRootVolumeSize;
+
+  /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux
+  /// AMI that is used for each Amazon EC2 instance. Available in Amazon EMR
+  /// releases 6.15.0 and later.
+  final int? ebsRootVolumeThroughput;
 
   /// Provides information about the Amazon EC2 instances in a cluster grouped by
   /// category. For example, key name, subnet ID, IAM instance profile, and so on.
@@ -3564,7 +3760,8 @@ class Cluster {
   /// is the private DNS name. On a public subnet, this is the public DNS name.
   final String? masterPublicDnsName;
 
-  /// The name of the cluster.
+  /// The name of the cluster. This parameter can't contain the characters &lt;,
+  /// &gt;, $, |, or ` (backtick).
   final String? name;
 
   /// An approximation of the cost of the cluster, represented in m1.small/hours.
@@ -3644,6 +3841,10 @@ class Cluster {
   /// the event of a cluster error.
   final bool? terminationProtected;
 
+  /// Indicates whether Amazon EMR should gracefully replace Amazon EC2 core
+  /// instances that have degraded within the cluster.
+  final bool? unhealthyNodeReplacement;
+
   /// Indicates whether the cluster is visible to IAM principals in the Amazon Web
   /// Services account associated with the cluster. When <code>true</code>, IAM
   /// principals in the Amazon Web Services account can perform Amazon EMR cluster
@@ -3666,7 +3867,9 @@ class Cluster {
     this.clusterArn,
     this.configurations,
     this.customAmiId,
+    this.ebsRootVolumeIops,
     this.ebsRootVolumeSize,
+    this.ebsRootVolumeThroughput,
     this.ec2InstanceAttributes,
     this.id,
     this.instanceCollectionType,
@@ -3690,6 +3893,7 @@ class Cluster {
     this.stepConcurrencyLevel,
     this.tags,
     this.terminationProtected,
+    this.unhealthyNodeReplacement,
     this.visibleToAllUsers,
   });
 
@@ -3707,7 +3911,9 @@ class Cluster {
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       customAmiId: json['CustomAmiId'] as String?,
+      ebsRootVolumeIops: json['EbsRootVolumeIops'] as int?,
       ebsRootVolumeSize: json['EbsRootVolumeSize'] as int?,
+      ebsRootVolumeThroughput: json['EbsRootVolumeThroughput'] as int?,
       ec2InstanceAttributes: json['Ec2InstanceAttributes'] != null
           ? Ec2InstanceAttributes.fromJson(
               json['Ec2InstanceAttributes'] as Map<String, dynamic>)
@@ -3748,6 +3954,7 @@ class Cluster {
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       terminationProtected: json['TerminationProtected'] as bool?,
+      unhealthyNodeReplacement: json['UnhealthyNodeReplacement'] as bool?,
       visibleToAllUsers: json['VisibleToAllUsers'] as bool?,
     );
   }
@@ -5023,6 +5230,34 @@ class HadoopStepConfig {
       properties: (json['Properties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
+  }
+}
+
+enum IdcUserAssignment {
+  required,
+  optional,
+}
+
+extension IdcUserAssignmentValueExtension on IdcUserAssignment {
+  String toValue() {
+    switch (this) {
+      case IdcUserAssignment.required:
+        return 'REQUIRED';
+      case IdcUserAssignment.optional:
+        return 'OPTIONAL';
+    }
+  }
+}
+
+extension IdcUserAssignmentFromString on String {
+  IdcUserAssignment toIdcUserAssignment() {
+    switch (this) {
+      case 'REQUIRED':
+        return IdcUserAssignment.required;
+      case 'OPTIONAL':
+        return IdcUserAssignment.optional;
+    }
+    throw Exception('$this is not known in enum IdcUserAssignment');
   }
 }
 
@@ -7070,8 +7305,8 @@ class JobFlowInstancesConfig {
   final List<InstanceGroupConfig>? instanceGroups;
 
   /// Specifies whether the cluster should remain available after completing all
-  /// steps. Defaults to <code>true</code>. For more information about configuring
-  /// cluster termination, see <a
+  /// steps. Defaults to <code>false</code>. For more information about
+  /// configuring cluster termination, see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html">Control
   /// Cluster Termination</a> in the <i>EMR Management Guide</i>.
   final bool? keepJobFlowAliveWhenNoSteps;
@@ -7094,6 +7329,10 @@ class JobFlowInstancesConfig {
   /// job-flow error.
   final bool? terminationProtected;
 
+  /// Indicates whether Amazon EMR should gracefully replace core nodes that have
+  /// degraded within the cluster.
+  final bool? unhealthyNodeReplacement;
+
   JobFlowInstancesConfig({
     this.additionalMasterSecurityGroups,
     this.additionalSlaveSecurityGroups,
@@ -7112,6 +7351,7 @@ class JobFlowInstancesConfig {
     this.serviceAccessSecurityGroup,
     this.slaveInstanceType,
     this.terminationProtected,
+    this.unhealthyNodeReplacement,
   });
 
   Map<String, dynamic> toJson() {
@@ -7132,6 +7372,7 @@ class JobFlowInstancesConfig {
     final serviceAccessSecurityGroup = this.serviceAccessSecurityGroup;
     final slaveInstanceType = this.slaveInstanceType;
     final terminationProtected = this.terminationProtected;
+    final unhealthyNodeReplacement = this.unhealthyNodeReplacement;
     return {
       if (additionalMasterSecurityGroups != null)
         'AdditionalMasterSecurityGroups': additionalMasterSecurityGroups,
@@ -7157,6 +7398,8 @@ class JobFlowInstancesConfig {
       if (slaveInstanceType != null) 'SlaveInstanceType': slaveInstanceType,
       if (terminationProtected != null)
         'TerminationProtected': terminationProtected,
+      if (unhealthyNodeReplacement != null)
+        'UnhealthyNodeReplacement': unhealthyNodeReplacement,
     };
   }
 }
@@ -7217,6 +7460,10 @@ class JobFlowInstancesDetail {
   /// error.
   final bool? terminationProtected;
 
+  /// Indicates whether Amazon EMR should gracefully replace core nodes that have
+  /// degraded within the cluster.
+  final bool? unhealthyNodeReplacement;
+
   JobFlowInstancesDetail({
     required this.instanceCount,
     required this.masterInstanceType,
@@ -7231,6 +7478,7 @@ class JobFlowInstancesDetail {
     this.normalizedInstanceHours,
     this.placement,
     this.terminationProtected,
+    this.unhealthyNodeReplacement,
   });
 
   factory JobFlowInstancesDetail.fromJson(Map<String, dynamic> json) {
@@ -7253,6 +7501,7 @@ class JobFlowInstancesDetail {
           ? PlacementType.fromJson(json['Placement'] as Map<String, dynamic>)
           : null,
       terminationProtected: json['TerminationProtected'] as bool?,
+      unhealthyNodeReplacement: json['UnhealthyNodeReplacement'] as bool?,
     );
   }
 }
@@ -7618,6 +7867,31 @@ class ListStudiosOutput {
       studios: (json['Studios'] as List?)
           ?.whereNotNull()
           .map((e) => StudioSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListSupportedInstanceTypesOutput {
+  /// The pagination token that marks the next set of results to retrieve.
+  final String? marker;
+
+  /// The list of instance types that the release specified in
+  /// <code>ListSupportedInstanceTypesInput$ReleaseLabel</code> supports, filtered
+  /// by Amazon Web Services Region.
+  final List<SupportedInstanceType>? supportedInstanceTypes;
+
+  ListSupportedInstanceTypesOutput({
+    this.marker,
+    this.supportedInstanceTypes,
+  });
+
+  factory ListSupportedInstanceTypesOutput.fromJson(Map<String, dynamic> json) {
+    return ListSupportedInstanceTypesOutput(
+      marker: json['Marker'] as String?,
+      supportedInstanceTypes: (json['SupportedInstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SupportedInstanceType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -9238,6 +9512,9 @@ class SimplifiedApplication {
 
 enum SpotProvisioningAllocationStrategy {
   capacityOptimized,
+  priceCapacityOptimized,
+  lowestPrice,
+  diversified,
 }
 
 extension SpotProvisioningAllocationStrategyValueExtension
@@ -9246,6 +9523,12 @@ extension SpotProvisioningAllocationStrategyValueExtension
     switch (this) {
       case SpotProvisioningAllocationStrategy.capacityOptimized:
         return 'capacity-optimized';
+      case SpotProvisioningAllocationStrategy.priceCapacityOptimized:
+        return 'price-capacity-optimized';
+      case SpotProvisioningAllocationStrategy.lowestPrice:
+        return 'lowest-price';
+      case SpotProvisioningAllocationStrategy.diversified:
+        return 'diversified';
     }
   }
 }
@@ -9255,6 +9538,12 @@ extension SpotProvisioningAllocationStrategyFromString on String {
     switch (this) {
       case 'capacity-optimized':
         return SpotProvisioningAllocationStrategy.capacityOptimized;
+      case 'price-capacity-optimized':
+        return SpotProvisioningAllocationStrategy.priceCapacityOptimized;
+      case 'lowest-price':
+        return SpotProvisioningAllocationStrategy.lowestPrice;
+      case 'diversified':
+        return SpotProvisioningAllocationStrategy.diversified;
     }
     throw Exception(
         '$this is not known in enum SpotProvisioningAllocationStrategy');
@@ -9290,10 +9579,18 @@ class SpotProvisioningSpecification {
   /// only during initial provisioning, when the cluster is first created.
   final int timeoutDurationMinutes;
 
-  /// Specifies the strategy to use in launching Spot Instance fleets. Currently,
-  /// the only option is capacity-optimized (the default), which launches
-  /// instances from Spot Instance pools with optimal capacity for the number of
-  /// instances that are launching.
+  /// Specifies one of the following strategies to launch Spot Instance fleets:
+  /// <code>price-capacity-optimized</code>, <code>capacity-optimized</code>,
+  /// <code>lowest-price</code>, or <code>diversified</code>. For more information
+  /// on the provisioning strategies, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html">Allocation
+  /// strategies for Spot Instances</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Instances</i>.
+  /// <note>
+  /// When you launch a Spot Instance fleet with the old console, it automatically
+  /// launches with the <code>capacity-optimized</code> strategy. You can't change
+  /// the allocation strategy from the old console.
+  /// </note>
   final SpotProvisioningAllocationStrategy? allocationStrategy;
 
   /// The defined duration for Spot Instances (also known as Spot blocks) in
@@ -9970,10 +10267,24 @@ class Studio {
   /// The detailed description of the Amazon EMR Studio.
   final String? description;
 
+  /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace and
+  /// notebook files when backed up to Amazon S3.
+  final String? encryptionKeyArn;
+
   /// The ID of the Engine security group associated with the Amazon EMR Studio.
   /// The Engine security group allows inbound network traffic from resources in
   /// the Workspace security group.
   final String? engineSecurityGroupId;
+
+  /// The ARN of the IAM Identity Center instance the Studio application belongs
+  /// to.
+  final String? idcInstanceArn;
+
+  /// Indicates whether the Studio has <code>REQUIRED</code> or
+  /// <code>OPTIONAL</code> IAM Identity Center user assignment. If the value is
+  /// set to <code>REQUIRED</code>, users must be explicitly assigned to the
+  /// Studio application to access the Studio.
+  final IdcUserAssignment? idcUserAssignment;
 
   /// Your identity provider's authentication endpoint. Amazon EMR Studio
   /// redirects federated users to this endpoint for authentication when logging
@@ -10001,6 +10312,10 @@ class Studio {
   /// A list of tags associated with the Amazon EMR Studio.
   final List<Tag>? tags;
 
+  /// Indicates whether the Studio has Trusted identity propagation enabled. The
+  /// default value is <code>false</code>.
+  final bool? trustedIdentityPropagationEnabled;
+
   /// The unique access URL of the Amazon EMR Studio.
   final String? url;
 
@@ -10022,7 +10337,10 @@ class Studio {
     this.creationTime,
     this.defaultS3Location,
     this.description,
+    this.encryptionKeyArn,
     this.engineSecurityGroupId,
+    this.idcInstanceArn,
+    this.idcUserAssignment,
     this.idpAuthUrl,
     this.idpRelayStateParameterName,
     this.name,
@@ -10031,6 +10349,7 @@ class Studio {
     this.studioId,
     this.subnetIds,
     this.tags,
+    this.trustedIdentityPropagationEnabled,
     this.url,
     this.userRole,
     this.vpcId,
@@ -10043,7 +10362,11 @@ class Studio {
       creationTime: timeStampFromJson(json['CreationTime']),
       defaultS3Location: json['DefaultS3Location'] as String?,
       description: json['Description'] as String?,
+      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
       engineSecurityGroupId: json['EngineSecurityGroupId'] as String?,
+      idcInstanceArn: json['IdcInstanceArn'] as String?,
+      idcUserAssignment:
+          (json['IdcUserAssignment'] as String?)?.toIdcUserAssignment(),
       idpAuthUrl: json['IdpAuthUrl'] as String?,
       idpRelayStateParameterName: json['IdpRelayStateParameterName'] as String?,
       name: json['Name'] as String?,
@@ -10058,6 +10381,8 @@ class Studio {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      trustedIdentityPropagationEnabled:
+          json['TrustedIdentityPropagationEnabled'] as bool?,
       url: json['Url'] as String?,
       userRole: json['UserRole'] as String?,
       vpcId: json['VpcId'] as String?,
@@ -10067,8 +10392,8 @@ class Studio {
 }
 
 /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description.
-/// The details do not include subnets, IAM roles, security groups, or tags
-/// associated with the Studio.
+/// To fetch additional details such as subnets, IAM roles, security groups, and
+/// tags for the Studio, use the <a>DescribeStudio</a> API.
 class StudioSummary {
   /// Specifies whether the Studio authenticates users using IAM or IAM Identity
   /// Center.
@@ -10112,6 +10437,86 @@ class StudioSummary {
       studioId: json['StudioId'] as String?,
       url: json['Url'] as String?,
       vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+/// An instance type that the specified Amazon EMR release supports.
+class SupportedInstanceType {
+  /// The CPU architecture, for example <code>X86_64</code> or
+  /// <code>AARCH64</code>.
+  final String? architecture;
+
+  /// Indicates whether the <code>SupportedInstanceType</code> supports Amazon EBS
+  /// optimization.
+  final bool? ebsOptimizedAvailable;
+
+  /// Indicates whether the <code>SupportedInstanceType</code> uses Amazon EBS
+  /// optimization by default.
+  final bool? ebsOptimizedByDefault;
+
+  /// Indicates whether the <code>SupportedInstanceType</code> only supports
+  /// Amazon EBS.
+  final bool? ebsStorageOnly;
+
+  /// The Amazon EC2 family and generation for the
+  /// <code>SupportedInstanceType</code>.
+  final String? instanceFamilyId;
+
+  /// Indicates whether the <code>SupportedInstanceType</code> only supports
+  /// 64-bit architecture.
+  final bool? is64BitsOnly;
+
+  /// The amount of memory that is available to Amazon EMR from the
+  /// <code>SupportedInstanceType</code>. The kernel and hypervisor software
+  /// consume some memory, so this value might be lower than the overall memory
+  /// for the instance type.
+  final double? memoryGB;
+
+  /// Number of disks for the <code>SupportedInstanceType</code>. This value is
+  /// <code>0</code> for Amazon EBS-only instance types.
+  final int? numberOfDisks;
+
+  /// <code>StorageGB</code> represents the storage capacity of the
+  /// <code>SupportedInstanceType</code>. This value is <code>0</code> for Amazon
+  /// EBS-only instance types.
+  final int? storageGB;
+
+  /// The <a href="http://aws.amazon.com/ec2/instance-types/">Amazon EC2 instance
+  /// type</a>, for example <code>m5.xlarge</code>, of the
+  /// <code>SupportedInstanceType</code>.
+  final String? type;
+
+  /// The number of vCPUs available for the <code>SupportedInstanceType</code>.
+  final int? vcpu;
+
+  SupportedInstanceType({
+    this.architecture,
+    this.ebsOptimizedAvailable,
+    this.ebsOptimizedByDefault,
+    this.ebsStorageOnly,
+    this.instanceFamilyId,
+    this.is64BitsOnly,
+    this.memoryGB,
+    this.numberOfDisks,
+    this.storageGB,
+    this.type,
+    this.vcpu,
+  });
+
+  factory SupportedInstanceType.fromJson(Map<String, dynamic> json) {
+    return SupportedInstanceType(
+      architecture: json['Architecture'] as String?,
+      ebsOptimizedAvailable: json['EbsOptimizedAvailable'] as bool?,
+      ebsOptimizedByDefault: json['EbsOptimizedByDefault'] as bool?,
+      ebsStorageOnly: json['EbsStorageOnly'] as bool?,
+      instanceFamilyId: json['InstanceFamilyId'] as String?,
+      is64BitsOnly: json['Is64BitsOnly'] as bool?,
+      memoryGB: json['MemoryGB'] as double?,
+      numberOfDisks: json['NumberOfDisks'] as int?,
+      storageGB: json['StorageGB'] as int?,
+      type: json['Type'] as String?,
+      vcpu: json['VCPU'] as int?,
     );
   }
 }
