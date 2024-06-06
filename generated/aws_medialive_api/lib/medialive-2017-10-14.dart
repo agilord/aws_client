@@ -13075,14 +13075,14 @@ extension H264SpatialAqFromString on String {
 
 /// H264 Sub Gop Length
 enum H264SubGopLength {
-  dynamic,
+  $dynamic,
   fixed,
 }
 
 extension H264SubGopLengthValueExtension on H264SubGopLength {
   String toValue() {
     switch (this) {
-      case H264SubGopLength.dynamic:
+      case H264SubGopLength.$dynamic:
         return 'DYNAMIC';
       case H264SubGopLength.fixed:
         return 'FIXED';
@@ -13094,7 +13094,7 @@ extension H264SubGopLengthFromString on String {
   H264SubGopLength toH264SubGopLength() {
     switch (this) {
       case 'DYNAMIC':
-        return H264SubGopLength.dynamic;
+        return H264SubGopLength.$dynamic;
       case 'FIXED':
         return H264SubGopLength.fixed;
     }
@@ -18086,7 +18086,7 @@ class InputSourceRequest {
 /// input sources are static.
 enum InputSourceType {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension InputSourceTypeValueExtension on InputSourceType {
@@ -18094,7 +18094,7 @@ extension InputSourceTypeValueExtension on InputSourceType {
     switch (this) {
       case InputSourceType.static:
         return 'STATIC';
-      case InputSourceType.dynamic:
+      case InputSourceType.$dynamic:
         return 'DYNAMIC';
     }
   }
@@ -18106,7 +18106,7 @@ extension InputSourceTypeFromString on String {
       case 'STATIC':
         return InputSourceType.static;
       case 'DYNAMIC':
-        return InputSourceType.dynamic;
+        return InputSourceType.$dynamic;
     }
     throw Exception('$this is not known in enum InputSourceType');
   }
@@ -20988,14 +20988,14 @@ class Mpeg2Settings {
 
 /// Mpeg2 Sub Gop Length
 enum Mpeg2SubGopLength {
-  dynamic,
+  $dynamic,
   fixed,
 }
 
 extension Mpeg2SubGopLengthValueExtension on Mpeg2SubGopLength {
   String toValue() {
     switch (this) {
-      case Mpeg2SubGopLength.dynamic:
+      case Mpeg2SubGopLength.$dynamic:
         return 'DYNAMIC';
       case Mpeg2SubGopLength.fixed:
         return 'FIXED';
@@ -21007,7 +21007,7 @@ extension Mpeg2SubGopLengthFromString on String {
   Mpeg2SubGopLength toMpeg2SubGopLength() {
     switch (this) {
       case 'DYNAMIC':
-        return Mpeg2SubGopLength.dynamic;
+        return Mpeg2SubGopLength.$dynamic;
       case 'FIXED':
         return Mpeg2SubGopLength.fixed;
     }

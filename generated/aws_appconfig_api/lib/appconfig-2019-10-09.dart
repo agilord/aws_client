@@ -3620,32 +3620,32 @@ class Parameter {
   /// Indicates whether this parameter's value can be supplied at the extension's
   /// action point instead of during extension association. Dynamic parameters
   /// can't be marked <code>Required</code>.
-  final bool? dynamic;
+  final bool? dynamicValue;
 
   /// A parameter value must be specified in the extension association.
   final bool? required;
 
   Parameter({
     this.description,
-    this.dynamic,
+    this.dynamicValue,
     this.required,
   });
 
   factory Parameter.fromJson(Map<String, dynamic> json) {
     return Parameter(
       description: json['Description'] as String?,
-      dynamic: json['Dynamic'] as bool?,
+      dynamicValue: json['Dynamic'] as bool?,
       required: json['Required'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final description = this.description;
-    final dynamic = this.dynamic;
+    final dynamicValue = this.dynamicValue;
     final required = this.required;
     return {
       if (description != null) 'Description': description,
-      if (dynamic != null) 'Dynamic': dynamic,
+      if (dynamicValue != null) 'Dynamic': dynamicValue,
       if (required != null) 'Required': required,
     };
   }

@@ -7366,7 +7366,7 @@ extension EngineWorkflowStatusFromString on String {
 
 enum EvaluationType {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension EvaluationTypeValueExtension on EvaluationType {
@@ -7374,7 +7374,7 @@ extension EvaluationTypeValueExtension on EvaluationType {
     switch (this) {
       case EvaluationType.static:
         return 'STATIC';
-      case EvaluationType.dynamic:
+      case EvaluationType.$dynamic:
         return 'DYNAMIC';
     }
   }
@@ -7386,7 +7386,7 @@ extension EvaluationTypeFromString on String {
       case 'STATIC':
         return EvaluationType.static;
       case 'DYNAMIC':
-        return EvaluationType.dynamic;
+        return EvaluationType.$dynamic;
     }
     throw Exception('$this is not known in enum EvaluationType');
   }

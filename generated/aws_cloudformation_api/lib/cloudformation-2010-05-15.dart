@@ -7361,7 +7361,7 @@ enum ChangeAction {
   modify,
   remove,
   import,
-  dynamic,
+  $dynamic,
 }
 
 extension ChangeActionValueExtension on ChangeAction {
@@ -7375,7 +7375,7 @@ extension ChangeActionValueExtension on ChangeAction {
         return 'Remove';
       case ChangeAction.import:
         return 'Import';
-      case ChangeAction.dynamic:
+      case ChangeAction.$dynamic:
         return 'Dynamic';
     }
   }
@@ -7393,7 +7393,7 @@ extension ChangeActionFromString on String {
       case 'Import':
         return ChangeAction.import;
       case 'Dynamic':
-        return ChangeAction.dynamic;
+        return ChangeAction.$dynamic;
     }
     throw Exception('$this is not known in enum ChangeAction');
   }
@@ -9395,7 +9395,7 @@ class EstimateTemplateCostOutput {
 
 enum EvaluationType {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension EvaluationTypeValueExtension on EvaluationType {
@@ -9403,7 +9403,7 @@ extension EvaluationTypeValueExtension on EvaluationType {
     switch (this) {
       case EvaluationType.static:
         return 'Static';
-      case EvaluationType.dynamic:
+      case EvaluationType.$dynamic:
         return 'Dynamic';
     }
   }
@@ -9415,7 +9415,7 @@ extension EvaluationTypeFromString on String {
       case 'Static':
         return EvaluationType.static;
       case 'Dynamic':
-        return EvaluationType.dynamic;
+        return EvaluationType.$dynamic;
     }
     throw Exception('$this is not known in enum EvaluationType');
   }

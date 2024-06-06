@@ -13157,7 +13157,7 @@ class Parameter {
 
 enum ParameterApplyType {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension ParameterApplyTypeValueExtension on ParameterApplyType {
@@ -13165,7 +13165,7 @@ extension ParameterApplyTypeValueExtension on ParameterApplyType {
     switch (this) {
       case ParameterApplyType.static:
         return 'static';
-      case ParameterApplyType.dynamic:
+      case ParameterApplyType.$dynamic:
         return 'dynamic';
     }
   }
@@ -13177,7 +13177,7 @@ extension ParameterApplyTypeFromString on String {
       case 'static':
         return ParameterApplyType.static;
       case 'dynamic':
-        return ParameterApplyType.dynamic;
+        return ParameterApplyType.$dynamic;
     }
     throw Exception('$this is not known in enum ParameterApplyType');
   }
