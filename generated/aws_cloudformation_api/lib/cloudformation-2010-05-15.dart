@@ -59,17 +59,38 @@ class CloudFormation {
     _protocol.close();
   }
 
+  /// Activate trusted access with Organizations. With trusted access between
+  /// StackSets and Organizations activated, the management account has
+  /// permissions to create and manage StackSets for your organization.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [OperationNotFoundException].
+  Future<void> activateOrganizationsAccess() async {
+    final $request = <String, dynamic>{};
+    await _protocol.send(
+      $request,
+      action: 'ActivateOrganizationsAccess',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ActivateOrganizationsAccessInput'],
+      shapes: shapes,
+      resultWrapper: 'ActivateOrganizationsAccessResult',
+    );
+  }
+
   /// Activates a public third-party extension, making it available for use in
   /// stack templates. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html">Using
   /// public extensions</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Once you have activated a public third-party extension in your account and
-  /// region, use <a
-  /// href="AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html">SetTypeConfiguration</a>
+  /// Region, use <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html">SetTypeConfiguration</a>
   /// to specify configuration properties for the extension. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration">Configuring
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration">Configuring
   /// extensions at the account level</a> in the <i>CloudFormation User
   /// Guide</i>.
   ///
@@ -77,7 +98,7 @@ class CloudFormation {
   /// May throw [TypeNotFoundException].
   ///
   /// Parameter [autoUpdate] :
-  /// Whether to automatically update the extension in this account and region
+  /// Whether to automatically update the extension in this account and Region
   /// when a new <i>minor</i> version is published by the extension publisher.
   /// Major versions released by the publisher must be manually updated.
   ///
@@ -85,6 +106,9 @@ class CloudFormation {
   ///
   /// Parameter [executionRoleArn] :
   /// The name of the IAM execution role to use to activate the extension.
+  ///
+  /// Parameter [loggingConfig] :
+  /// Contains logging configuration information for an extension.
   ///
   /// Parameter [majorVersion] :
   /// The major version of this extension you want to activate, if multiple
@@ -120,15 +144,15 @@ class CloudFormation {
   /// <code>TypeName</code>, <code>Type</code>, and <code>PublisherId</code>.
   ///
   /// Parameter [typeNameAlias] :
-  /// An alias to assign to the public extension, in this account and region. If
+  /// An alias to assign to the public extension, in this account and Region. If
   /// you specify an alias for the extension, CloudFormation treats the alias as
-  /// the extension type name within this account and region. You must use the
+  /// the extension type name within this account and Region. You must use the
   /// alias to refer to the extension in your templates, API calls, and
   /// CloudFormation console.
   ///
-  /// An extension alias must be unique within a given account and region. You
+  /// An extension alias must be unique within a given account and Region. You
   /// can activate the same public resource multiple times in the same account
-  /// and region, using different type name aliases.
+  /// and Region, using different type name aliases.
   ///
   /// Parameter [versionBump] :
   /// Manually updates a previously-activated type to a new major or minor
@@ -189,10 +213,10 @@ class CloudFormation {
   }
 
   /// Returns configuration data for the specified CloudFormation extensions,
-  /// from the CloudFormation registry for the account and region.
+  /// from the CloudFormation registry for the account and Region.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration">Configuring
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration">Configuring
   /// extensions at the account level</a> in the <i>CloudFormation User
   /// Guide</i>.
   ///
@@ -232,6 +256,18 @@ class CloudFormation {
   /// May throw [TokenAlreadyExistsException].
   ///
   /// Parameter [stackName] :
+  /// <note>
+  /// If you don't pass a parameter to <code>StackName</code>, the API returns a
+  /// response that describes all resources in the account.
+  ///
+  /// The IAM policy below can be added to IAM policies when you want to limit
+  /// resource-level permissions and avoid returning a response when no
+  /// parameter is sent in the request:
+  ///
+  /// <code>{ "Version": "2012-10-17", "Statement": [{ "Effect": "Deny",
+  /// "Action": "cloudformation:DescribeStacks", "NotResource":
+  /// "arn:aws:cloudformation:*:*:stack/*/*" }] }</code>
+  /// </note>
   /// The name or the unique stack ID that's associated with the stack.
   ///
   /// Parameter [clientRequestToken] :
@@ -291,11 +327,10 @@ class CloudFormation {
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for this <code>ContinueUpdateRollback</code> request.
-  /// Specify this token if you plan to retry requests so that
-  /// CloudFormationknows that you're not attempting to continue the rollback to
-  /// a stack with the same name. You might retry
-  /// <code>ContinueUpdateRollback</code> requests to ensure that CloudFormation
-  /// successfully received them.
+  /// Specify this token if you plan to retry requests so that CloudFormation
+  /// knows that you're not attempting to continue the rollback to a stack with
+  /// the same name. You might retry <code>ContinueUpdateRollback</code>
+  /// requests to ensure that CloudFormation successfully received them.
   ///
   /// Parameter [resourcesToSkip] :
   /// A list of the logical IDs of the resources that CloudFormation skips
@@ -492,7 +527,7 @@ class CloudFormation {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM resources in CloudFormation templates</a>.
   /// </li>
   /// <li>
@@ -507,9 +542,9 @@ class CloudFormation {
   /// more macros, and you choose to create a stack directly from the processed
   /// template, without first reviewing the resulting changes in a change set,
   /// you must acknowledge this capability. This includes the <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
   /// and <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
   /// transforms, which are macros hosted by CloudFormation.
   /// <note>
   /// This capacity doesn't apply to creating change sets, and specifying it
@@ -521,10 +556,13 @@ class CloudFormation {
   /// action, and specifying this capability.
   /// </note>
   /// For more information about macros, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
   /// CloudFormation macros to perform custom processing on templates</a>.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// Only one of the <code>Capabilities</code> and <code>ResourceType</code>
+  /// parameters can be specified.
+  /// </note>
   ///
   /// Parameter [changeSetType] :
   /// The type of change set operation. To create a change set for a new stack,
@@ -535,9 +573,8 @@ class CloudFormation {
   /// If you create a change set for a new stack, CloudFormation creates a stack
   /// with a unique stack ID, but no template or resources. The stack will be in
   /// the <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html#d0e11995">
-  /// <code>REVIEW_IN_PROGRESS</code> </a> state until you execute the change
-  /// set.
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html#d0e11995">REVIEW_IN_PROGRESS</a>
+  /// state until you execute the change set.
   ///
   /// By default, CloudFormation specifies <code>UPDATE</code>. You can't use
   /// the <code>UPDATE</code> type to create a change set for a new stack or the
@@ -553,6 +590,20 @@ class CloudFormation {
   /// Parameter [description] :
   /// A description to help you identify this change set.
   ///
+  /// Parameter [importExistingResources] :
+  /// Indicates if the change set imports resources that already exist.
+  /// <note>
+  /// This parameter can only import resources that have custom names in
+  /// templates. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html">name
+  /// type</a> in the <i>CloudFormation User Guide</i>. To import resources that
+  /// do not accept custom names, such as EC2 instances, use the resource import
+  /// feature instead. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html">Bringing
+  /// existing resources into CloudFormation management</a> in the
+  /// <i>CloudFormation User Guide</i>.
+  /// </note>
+  ///
   /// Parameter [includeNestedStacks] :
   /// Creates a change set for the all nested stacks specified in the template.
   /// The default behavior of this action is set to <code>False</code>. To
@@ -562,6 +613,40 @@ class CloudFormation {
   /// The Amazon Resource Names (ARNs) of Amazon Simple Notification Service
   /// (Amazon SNS) topics that CloudFormation associates with the stack. To
   /// remove all associated notification topics, specify an empty list.
+  ///
+  /// Parameter [onStackFailure] :
+  /// Determines what action will be taken if stack creation fails. If this
+  /// parameter is specified, the <code>DisableRollback</code> parameter to the
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html">ExecuteChangeSet</a>
+  /// API operation must not be specified. This must be one of these values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETE</code> - Deletes the change set if the stack creation fails.
+  /// This is only valid when the <code>ChangeSetType</code> parameter is set to
+  /// <code>CREATE</code>. If the deletion of the stack fails, the status of the
+  /// stack is <code>DELETE_FAILED</code>.
+  /// </li>
+  /// <li>
+  /// <code>DO_NOTHING</code> - if the stack creation fails, do nothing. This is
+  /// equivalent to specifying <code>true</code> for the
+  /// <code>DisableRollback</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html">ExecuteChangeSet</a>
+  /// API operation.
+  /// </li>
+  /// <li>
+  /// <code>ROLLBACK</code> - if the stack creation fails, roll back the stack.
+  /// This is equivalent to specifying <code>false</code> for the
+  /// <code>DisableRollback</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html">ExecuteChangeSet</a>
+  /// API operation.
+  /// </li>
+  /// </ul>
+  /// For nested stacks, when the <code>OnStackFailure</code> parameter is set
+  /// to <code>DELETE</code> for the change set for the parent stack, any
+  /// failure in a child stack will cause the parent stack creation to fail and
+  /// all stacks to be deleted.
   ///
   /// Parameter [parameters] :
   /// A list of <code>Parameter</code> structures that specify input parameters
@@ -579,8 +664,12 @@ class CloudFormation {
   /// uses this parameter for condition keys in IAM policies for CloudFormation.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html">Controlling
-  /// access with Identity and Access Management</a> in the CloudFormation User
-  /// Guide.
+  /// access with Identity and Access Management</a> in the <i>CloudFormation
+  /// User Guide</i>.
+  /// <note>
+  /// Only one of the <code>Capabilities</code> and <code>ResourceType</code>
+  /// parameters can be specified.
+  /// </note>
   ///
   /// Parameter [resourcesToImport] :
   /// The resources to import into your stack.
@@ -623,6 +712,8 @@ class CloudFormation {
   /// point to a template (max size: 460,800 bytes) that's located in an Amazon
   /// S3 bucket or a Systems Manager document. CloudFormation generates the
   /// change set by comparing this template with the stack that you specified.
+  /// The location for an Amazon S3 bucket must start with
+  /// <code>https://</code>.
   ///
   /// Conditional: You must specify only <code>TemplateBody</code> or
   /// <code>TemplateURL</code>.
@@ -637,8 +728,10 @@ class CloudFormation {
     ChangeSetType? changeSetType,
     String? clientToken,
     String? description,
+    bool? importExistingResources,
     bool? includeNestedStacks,
     List<String>? notificationARNs,
+    OnStackFailure? onStackFailure,
     List<Parameter>? parameters,
     List<String>? resourceTypes,
     List<ResourceToImport>? resourcesToImport,
@@ -657,8 +750,11 @@ class CloudFormation {
     changeSetType?.also((arg) => $request['ChangeSetType'] = arg.toValue());
     clientToken?.also((arg) => $request['ClientToken'] = arg);
     description?.also((arg) => $request['Description'] = arg);
+    importExistingResources
+        ?.also((arg) => $request['ImportExistingResources'] = arg);
     includeNestedStacks?.also((arg) => $request['IncludeNestedStacks'] = arg);
     notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
+    onStackFailure?.also((arg) => $request['OnStackFailure'] = arg.toValue());
     parameters?.also((arg) => $request['Parameters'] = arg);
     resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
     resourcesToImport?.also((arg) => $request['ResourcesToImport'] = arg);
@@ -683,9 +779,60 @@ class CloudFormation {
     return CreateChangeSetOutput.fromXml($result);
   }
 
+  /// Creates a template from existing resources that are not already managed
+  /// with CloudFormation. You can check the status of the template generation
+  /// using the <code>DescribeGeneratedTemplate</code> API action.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConcurrentResourcesLimitExceededException].
+  ///
+  /// Parameter [generatedTemplateName] :
+  /// The name assigned to the generated template.
+  ///
+  /// Parameter [resources] :
+  /// An optional list of resources to be included in the generated template.
+  ///
+  /// If no resources are specified,the template will be created without any
+  /// resources. Resources can be added to the template using the
+  /// <code>UpdateGeneratedTemplate</code> API action.
+  ///
+  /// Parameter [stackName] :
+  /// An optional name or ARN of a stack to use as the base stack for the
+  /// generated template.
+  ///
+  /// Parameter [templateConfiguration] :
+  /// The configuration details of the generated template, including the
+  /// <code>DeletionPolicy</code> and <code>UpdateReplacePolicy</code>.
+  Future<CreateGeneratedTemplateOutput> createGeneratedTemplate({
+    required String generatedTemplateName,
+    List<ResourceDefinition>? resources,
+    String? stackName,
+    TemplateConfiguration? templateConfiguration,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GeneratedTemplateName'] = generatedTemplateName;
+    resources?.also((arg) => $request['Resources'] = arg);
+    stackName?.also((arg) => $request['StackName'] = arg);
+    templateConfiguration
+        ?.also((arg) => $request['TemplateConfiguration'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateGeneratedTemplate',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateGeneratedTemplateInput'],
+      shapes: shapes,
+      resultWrapper: 'CreateGeneratedTemplateResult',
+    );
+    return CreateGeneratedTemplateOutput.fromXml($result);
+  }
+
   /// Creates a stack as specified in the template. After the call completes
   /// successfully, the stack creation starts. You can check the status of the
-  /// stack through the <a>DescribeStacks</a>operation.
+  /// stack through the <a>DescribeStacks</a> operation.
   ///
   /// May throw [LimitExceededException].
   /// May throw [AlreadyExistsException].
@@ -739,13 +886,11 @@ class CloudFormation {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">
-  /// AWS::IAM::AccessKey</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">AWS::IAM::AccessKey</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">
-  /// AWS::IAM::Group</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>
   /// </li>
   /// <li>
   /// <a
@@ -753,18 +898,15 @@ class CloudFormation {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">
-  /// AWS::IAM::Policy</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">AWS::IAM::Policy</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">
-  /// AWS::IAM::Role</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">
-  /// AWS::IAM::User</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">AWS::IAM::User</a>
   /// </li>
   /// <li>
   /// <a
@@ -772,7 +914,7 @@ class CloudFormation {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in CloudFormation Templates</a>.
   /// </li>
   /// <li>
@@ -787,9 +929,9 @@ class CloudFormation {
   /// more macros, and you choose to create a stack directly from the processed
   /// template, without first reviewing the resulting changes in a change set,
   /// you must acknowledge this capability. This includes the <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
   /// and <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
   /// transforms, which are macros hosted by CloudFormation.
   ///
   /// If you want to create a stack from a stack template that contains macros
@@ -804,10 +946,13 @@ class CloudFormation {
   /// function operation without CloudFormation being notified.
   /// </important>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
   /// CloudFormation macros to perform custom processing on templates</a>.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// Only one of the <code>Capabilities</code> and <code>ResourceType</code>
+  /// parameters can be specified.
+  /// </note>
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for this <code>CreateStack</code> request. Specify
@@ -843,12 +988,12 @@ class CloudFormation {
   /// attempts to delete a stack with termination protection enabled, the
   /// operation fails and the stack remains unchanged. For more information, see
   /// <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
   /// a Stack From Being Deleted</a> in the <i>CloudFormation User Guide</i>.
   /// Termination protection is deactivated on stacks by default.
   ///
   /// For <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
   /// stacks</a>, termination protection is set on the root stack and can't be
   /// changed directly on the nested stack.
   ///
@@ -891,6 +1036,17 @@ class CloudFormation {
   /// policies. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html">Controlling
   /// Access with Identity and Access Management</a>.
+  /// <note>
+  /// Only one of the <code>Capabilities</code> and <code>ResourceType</code>
+  /// parameters can be specified.
+  /// </note>
+  ///
+  /// Parameter [retainExceptOnCreate] :
+  /// When set to <code>true</code>, newly created resources are deleted when
+  /// the operation rolls back. This includes newly created resources marked
+  /// with a deletion policy of <code>Retain</code>.
+  ///
+  /// Default: <code>false</code>
   ///
   /// Parameter [roleARN] :
   /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
@@ -921,8 +1077,10 @@ class CloudFormation {
   /// Parameter [stackPolicyURL] :
   /// Location of a file containing the stack policy. The URL must point to a
   /// policy (maximum size: 16 KB) located in an S3 bucket in the same Region as
-  /// the stack. You can specify either the <code>StackPolicyBody</code> or the
-  /// <code>StackPolicyURL</code> parameter, but not both.
+  /// the stack. The location for an Amazon S3 bucket must start with
+  /// <code>https://</code>. You can specify either the
+  /// <code>StackPolicyBody</code> or the <code>StackPolicyURL</code> parameter,
+  /// but not both.
   ///
   /// Parameter [tags] :
   /// Key-value pairs to associate with this stack. CloudFormation also
@@ -933,7 +1091,7 @@ class CloudFormation {
   /// Structure containing the template body with a minimum length of 1 byte and
   /// a maximum length of 51,200 bytes. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// anatomy</a> in the CloudFormation User Guide.
+  /// anatomy</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Conditional: You must specify either the <code>TemplateBody</code> or the
   /// <code>TemplateURL</code> parameter, but not both.
@@ -943,15 +1101,16 @@ class CloudFormation {
   /// template (max size: 460,800 bytes) that's located in an Amazon S3 bucket
   /// or a Systems Manager document. For more information, go to the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// anatomy</a> in the CloudFormation User Guide.
+  /// anatomy</a> in the <i>CloudFormation User Guide</i>. The location for an
+  /// Amazon S3 bucket must start with <code>https://</code>.
   ///
   /// Conditional: You must specify either the <code>TemplateBody</code> or the
   /// <code>TemplateURL</code> parameter, but not both.
   ///
   /// Parameter [timeoutInMinutes] :
   /// The amount of time that can pass before the stack status becomes
-  /// CREATE_FAILED; if <code>DisableRollback</code> is not set or is set to
-  /// <code>false</code>, the stack will be rolled back.
+  /// <code>CREATE_FAILED</code>; if <code>DisableRollback</code> is not set or
+  /// is set to <code>false</code>, the stack will be rolled back.
   Future<CreateStackOutput> createStack({
     required String stackName,
     List<Capability>? capabilities,
@@ -962,6 +1121,7 @@ class CloudFormation {
     OnFailure? onFailure,
     List<Parameter>? parameters,
     List<String>? resourceTypes,
+    bool? retainExceptOnCreate,
     String? roleARN,
     RollbackConfiguration? rollbackConfiguration,
     String? stackPolicyBody,
@@ -989,6 +1149,7 @@ class CloudFormation {
     onFailure?.also((arg) => $request['OnFailure'] = arg.toValue());
     parameters?.also((arg) => $request['Parameters'] = arg);
     resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
+    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
     roleARN?.also((arg) => $request['RoleARN'] = arg);
     rollbackConfiguration
         ?.also((arg) => $request['RollbackConfiguration'] = arg);
@@ -1178,7 +1339,7 @@ class CloudFormation {
   /// Specify an IAM role only if you are using customized administrator roles
   /// to control which users or groups can manage specific stack sets within the
   /// same administrator account. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Prerequisites:
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Prerequisites:
   /// Granting Permissions for Stack Set Operations</a> in the <i>CloudFormation
   /// User Guide</i>.
   ///
@@ -1253,13 +1414,11 @@ class CloudFormation {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">
-  /// AWS::IAM::AccessKey</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">AWS::IAM::AccessKey</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">
-  /// AWS::IAM::Group</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>
   /// </li>
   /// <li>
   /// <a
@@ -1267,18 +1426,15 @@ class CloudFormation {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">
-  /// AWS::IAM::Policy</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">AWS::IAM::Policy</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">
-  /// AWS::IAM::Role</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">
-  /// AWS::IAM::User</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">AWS::IAM::User</a>
   /// </li>
   /// <li>
   /// <a
@@ -1286,7 +1442,7 @@ class CloudFormation {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in CloudFormation Templates</a>.
   /// </li>
   /// <li>
@@ -1297,14 +1453,14 @@ class CloudFormation {
   /// template, without first reviewing the resulting changes in a change set.
   /// To create the stack set directly, you must acknowledge this capability.
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
   /// CloudFormation Macros to Perform Custom Processing on Templates</a>.
   /// <important>
   /// Stack sets with service-managed permissions don't currently support the
   /// use of macros in templates. (This includes the <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
   /// and <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
   /// transforms, which are macros hosted by CloudFormation.) Even if you
   /// specify this capability for a stack set with service-managed permissions,
   /// if you reference a macro in your template the stack set operation will
@@ -1383,7 +1539,7 @@ class CloudFormation {
   /// The structure that contains the template body, with a minimum length of 1
   /// byte and a maximum length of 51,200 bytes. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Conditional: You must specify either the TemplateBody or the TemplateURL
   /// parameter, but not both.
@@ -1394,7 +1550,7 @@ class CloudFormation {
   /// Amazon S3 bucket or a Systems Manager document. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Conditional: You must specify either the TemplateBody or the TemplateURL
   /// parameter, but not both.
@@ -1448,8 +1604,29 @@ class CloudFormation {
     return CreateStackSetOutput.fromXml($result);
   }
 
+  /// Deactivates trusted access with Organizations. If trusted access is
+  /// deactivated, the management account does not have permissions to create
+  /// and manage service-managed StackSets for your organization.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [OperationNotFoundException].
+  Future<void> deactivateOrganizationsAccess() async {
+    final $request = <String, dynamic>{};
+    await _protocol.send(
+      $request,
+      action: 'DeactivateOrganizationsAccess',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeactivateOrganizationsAccessInput'],
+      shapes: shapes,
+      resultWrapper: 'DeactivateOrganizationsAccessResult',
+    );
+  }
+
   /// Deactivates a public extension that was previously activated in this
-  /// account and region.
+  /// account and Region.
   ///
   /// Once deactivated, an extension can't be used in any CloudFormation
   /// operation. This includes stack update operations where the stack template
@@ -1462,7 +1639,7 @@ class CloudFormation {
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) for the extension, in this account and
-  /// region.
+  /// Region.
   ///
   /// Conditional: You must specify either <code>Arn</code>, or
   /// <code>TypeName</code> and <code>Type</code>.
@@ -1474,7 +1651,7 @@ class CloudFormation {
   /// <code>TypeName</code> and <code>Type</code>.
   ///
   /// Parameter [typeName] :
-  /// The type name of the extension, in this account and region. If you
+  /// The type name of the extension, in this account and Region. If you
   /// specified a type name alias when enabling the extension, use the type name
   /// alias.
   ///
@@ -1543,6 +1720,30 @@ class CloudFormation {
     );
   }
 
+  /// Deleted a generated template.
+  ///
+  /// May throw [GeneratedTemplateNotFoundException].
+  /// May throw [ConcurrentResourcesLimitExceededException].
+  ///
+  /// Parameter [generatedTemplateName] :
+  /// The name or Amazon Resource Name (ARN) of a generated template.
+  Future<void> deleteGeneratedTemplate({
+    required String generatedTemplateName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GeneratedTemplateName'] = generatedTemplateName;
+    await _protocol.send(
+      $request,
+      action: 'DeleteGeneratedTemplate',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteGeneratedTemplateInput'],
+      shapes: shapes,
+    );
+  }
+
   /// Deletes a specified stack. Once the call completes successfully, stack
   /// deletion starts. Deleted stacks don't show up in the <a>DescribeStacks</a>
   /// operation if the deletion has been completed successfully.
@@ -1574,6 +1775,20 @@ class CloudFormation {
   /// following format:
   /// <code>Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002</code>.
   ///
+  /// Parameter [deletionMode] :
+  /// Specifies the deletion mode for the stack. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STANDARD</code> - Use the standard behavior. Specifying this value
+  /// is the same as not specifying this parameter.
+  /// </li>
+  /// <li>
+  /// <code>FORCE_DELETE_STACK</code> - Delete the stack if it's stuck in a
+  /// <code>DELETE_FAILED</code> state due to resource deletion failure.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [retainResources] :
   /// For stacks in the <code>DELETE_FAILED</code> state, a list of resource
   /// logical IDs that are associated with the resources you want to retain.
@@ -1595,12 +1810,14 @@ class CloudFormation {
   Future<void> deleteStack({
     required String stackName,
     String? clientRequestToken,
+    DeletionMode? deletionMode,
     List<String>? retainResources,
     String? roleARN,
   }) async {
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
+    deletionMode?.also((arg) => $request['DeletionMode'] = arg.toValue());
     retainResources?.also((arg) => $request['RetainResources'] = arg);
     roleARN?.also((arg) => $request['RoleARN'] = arg);
     await _protocol.send(
@@ -1879,13 +2096,17 @@ class CloudFormation {
   /// CloudFormation will make if you execute the change set. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html">Updating
-  /// Stacks Using Change Sets</a> in the CloudFormation User Guide.
+  /// Stacks Using Change Sets</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// May throw [ChangeSetNotFoundException].
   ///
   /// Parameter [changeSetName] :
   /// The name or Amazon Resource Name (ARN) of the change set that you want to
   /// describe.
+  ///
+  /// Parameter [includePropertyValues] :
+  /// If <code>true</code>, the returned changes include detailed changes in the
+  /// property values.
   ///
   /// Parameter [nextToken] :
   /// A string (provided by the <a>DescribeChangeSet</a> response output) that
@@ -1896,11 +2117,14 @@ class CloudFormation {
   /// (ARN) of the change set you want to describe.
   Future<DescribeChangeSetOutput> describeChangeSet({
     required String changeSetName,
+    bool? includePropertyValues,
     String? nextToken,
     String? stackName,
   }) async {
     final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
+    includePropertyValues
+        ?.also((arg) => $request['IncludePropertyValues'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     final $result = await _protocol.send(
@@ -1963,6 +2187,84 @@ class CloudFormation {
     return DescribeChangeSetHooksOutput.fromXml($result);
   }
 
+  /// Describes a generated template. The output includes details about the
+  /// progress of the creation of a generated template started by a
+  /// <code>CreateGeneratedTemplate</code> API action or the update of a
+  /// generated template started with an <code>UpdateGeneratedTemplate</code>
+  /// API action.
+  ///
+  /// May throw [GeneratedTemplateNotFoundException].
+  ///
+  /// Parameter [generatedTemplateName] :
+  /// The name or Amazon Resource Name (ARN) of a generated template.
+  Future<DescribeGeneratedTemplateOutput> describeGeneratedTemplate({
+    required String generatedTemplateName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GeneratedTemplateName'] = generatedTemplateName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeGeneratedTemplate',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeGeneratedTemplateInput'],
+      shapes: shapes,
+      resultWrapper: 'DescribeGeneratedTemplateResult',
+    );
+    return DescribeGeneratedTemplateOutput.fromXml($result);
+  }
+
+  /// Retrieves information about the account's <code>OrganizationAccess</code>
+  /// status. This API can be called either by the management account or the
+  /// delegated administrator by using the <code>CallAs</code> parameter. This
+  /// API can also be called without the <code>CallAs</code> parameter by the
+  /// management account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [OperationNotFoundException].
+  ///
+  /// Parameter [callAs] :
+  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// account administrator in the organization's management account or as a
+  /// delegated administrator in a member account.
+  ///
+  /// By default, <code>SELF</code> is specified.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you are signed in to the management account, specify <code>SELF</code>.
+  /// </li>
+  /// <li>
+  /// If you are signed in to a delegated administrator account, specify
+  /// <code>DELEGATED_ADMIN</code>.
+  ///
+  /// Your Amazon Web Services account must be registered as a delegated
+  /// administrator in the management account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html">Register
+  /// a delegated administrator</a> in the <i>CloudFormation User Guide</i>.
+  /// </li>
+  /// </ul>
+  Future<DescribeOrganizationsAccessOutput> describeOrganizationsAccess({
+    CallAs? callAs,
+  }) async {
+    final $request = <String, dynamic>{};
+    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeOrganizationsAccess',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeOrganizationsAccessInput'],
+      shapes: shapes,
+      resultWrapper: 'DescribeOrganizationsAccessResult',
+    );
+    return DescribeOrganizationsAccessOutput.fromXml($result);
+  }
+
   /// Returns information about a CloudFormation extension publisher.
   ///
   /// If you don't supply a <code>PublisherId</code>, and you have registered as
@@ -2011,9 +2313,34 @@ class CloudFormation {
     return DescribePublisherOutput.fromXml($result);
   }
 
+  /// Describes details of a resource scan.
+  ///
+  /// May throw [ResourceScanNotFoundException].
+  ///
+  /// Parameter [resourceScanId] :
+  /// The Amazon Resource Name (ARN) of the resource scan.
+  Future<DescribeResourceScanOutput> describeResourceScan({
+    required String resourceScanId,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ResourceScanId'] = resourceScanId;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeResourceScan',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeResourceScanInput'],
+      shapes: shapes,
+      resultWrapper: 'DescribeResourceScanResult',
+    );
+    return DescribeResourceScanOutput.fromXml($result);
+  }
+
   /// Returns information about a stack drift detection operation. A stack drift
   /// detection operation detects whether a stack's actual configuration
-  /// differs, or has <i>drifted</i>, from it's expected configuration, as
+  /// differs, or has <i>drifted</i>, from its expected configuration, as
   /// defined in the stack template and any values specified as template
   /// parameters. A stack is considered to have drifted if one or more of its
   /// resources have drifted. For more information about stack and resource
@@ -2056,9 +2383,9 @@ class CloudFormation {
 
   /// Returns all stack related events for a specified stack in reverse
   /// chronological order. For more information about a stack's event history,
-  /// go to <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/concept-stack.html">Stacks</a>
-  /// in the CloudFormation User Guide.
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html">CloudFormation
+  /// stack creation events</a> in the <i>CloudFormation User Guide</i>.
   /// <note>
   /// You can list events for stacks that have failed to create or have been
   /// deleted by specifying the unique stack identifier (stack ID).
@@ -2103,11 +2430,11 @@ class CloudFormation {
     return DescribeStackEventsOutput.fromXml($result);
   }
 
-  /// Returns the stack instance that's associated with the specified stack set,
-  /// Amazon Web Services account, and Region.
+  /// Returns the stack instance that's associated with the specified StackSet,
+  /// Amazon Web Services account, and Amazon Web Services Region.
   ///
-  /// For a list of stack instances that are associated with a specific stack
-  /// set, use <a>ListStackInstances</a>.
+  /// For a list of stack instances that are associated with a specific
+  /// StackSet, use <a>ListStackInstances</a>.
   ///
   /// May throw [StackSetNotFoundException].
   /// May throw [StackInstanceNotFoundException].
@@ -2385,7 +2712,7 @@ class CloudFormation {
     return DescribeStackResourcesOutput.fromXml($result);
   }
 
-  /// Returns the description of the specified stack set.
+  /// Returns the description of the specified StackSet.
   ///
   /// May throw [StackSetNotFoundException].
   ///
@@ -2435,7 +2762,7 @@ class CloudFormation {
     return DescribeStackSetOutput.fromXml($result);
   }
 
-  /// Returns the description of the specified stack set operation.
+  /// Returns the description of the specified StackSet operation.
   ///
   /// May throw [StackSetNotFoundException].
   /// May throw [OperationNotFoundException].
@@ -2492,9 +2819,12 @@ class CloudFormation {
   }
 
   /// Returns the description for the specified stack; if no stack name was
-  /// specified, then it returns the description for all the stacks created.
+  /// specified, then it returns the description for all the stacks created. For
+  /// more information about a stack's event history, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html">CloudFormation
+  /// stack creation events</a> in the <i>CloudFormation User Guide</i>.
   /// <note>
-  /// If the stack doesn't exist, an <code>ValidationError</code> is returned.
+  /// If the stack doesn't exist, a <code>ValidationError</code> is returned.
   /// </note>
   ///
   /// Parameter [nextToken] :
@@ -2502,6 +2832,23 @@ class CloudFormation {
   /// retrieve.
   ///
   /// Parameter [stackName] :
+  /// <note>
+  /// If you don't pass a parameter to <code>StackName</code>, the API returns a
+  /// response that describes all resources in the account, which can impact
+  /// performance. This requires <code>ListStacks</code> and
+  /// <code>DescribeStacks</code> permissions.
+  ///
+  /// Consider using the <a>ListStacks</a> API if you're not passing a parameter
+  /// to <code>StackName</code>.
+  ///
+  /// The IAM policy below can be added to IAM policies when you want to limit
+  /// resource-level permissions and avoid returning a response when no
+  /// parameter is sent in the request:
+  ///
+  /// { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action":
+  /// "cloudformation:DescribeStacks", "NotResource":
+  /// "arn:aws:cloudformation:*:*:stack/*/*" }] }
+  /// </note>
   /// The name or the unique stack ID that's associated with the stack, which
   /// aren't always interchangeable:
   ///
@@ -2612,13 +2959,12 @@ class CloudFormation {
   /// Returns information about an extension's registration, including its
   /// current status and type and version identifiers.
   ///
-  /// When you initiate a registration request using <code> <a>RegisterType</a>
-  /// </code>, you can then use <code> <a>DescribeTypeRegistration</a> </code>
-  /// to monitor the progress of that registration request.
+  /// When you initiate a registration request using <a>RegisterType</a>, you
+  /// can then use <a>DescribeTypeRegistration</a> to monitor the progress of
+  /// that registration request.
   ///
-  /// Once the registration request has completed, use <code>
-  /// <a>DescribeType</a> </code> to return detailed information about an
-  /// extension.
+  /// Once the registration request has completed, use <a>DescribeType</a> to
+  /// return detailed information about an extension.
   ///
   /// May throw [CFNRegistryException].
   ///
@@ -2626,7 +2972,7 @@ class CloudFormation {
   /// The identifier for this registration request.
   ///
   /// This registration token is generated by CloudFormation when you initiate a
-  /// registration request using <code> <a>RegisterType</a> </code>.
+  /// registration request using <a>RegisterType</a>.
   Future<DescribeTypeRegistrationOutput> describeTypeRegistration({
     required String registrationToken,
   }) async {
@@ -2647,7 +2993,7 @@ class CloudFormation {
   }
 
   /// Detects whether a stack's actual configuration differs, or has
-  /// <i>drifted</i>, from it's expected configuration, as defined in the stack
+  /// <i>drifted</i>, from its expected configuration, as defined in the stack
   /// template and any values specified as template parameters. For each
   /// resource in the stack that supports drift detection, CloudFormation
   /// compares the actual configuration of the resource with its expected
@@ -2705,7 +3051,7 @@ class CloudFormation {
   }
 
   /// Returns information about whether a resource's actual configuration
-  /// differs, or has <i>drifted</i>, from it's expected configuration, as
+  /// differs, or has <i>drifted</i>, from its expected configuration, as
   /// defined in the stack template and any values specified as template
   /// parameters. This information includes actual and expected property values
   /// for resources in which CloudFormation detects drift. Only resource
@@ -2756,31 +3102,31 @@ class CloudFormation {
   /// CloudFormation performs drift detection on a stack set</a>.
   ///
   /// <code>DetectStackSetDrift</code> returns the <code>OperationId</code> of
-  /// the stack set drift detection operation. Use this operation id with <code>
-  /// <a>DescribeStackSetOperation</a> </code> to monitor the progress of the
-  /// drift detection operation. The drift detection operation may take some
-  /// time, depending on the number of stack instances included in the stack
-  /// set, in addition to the number of resources included in each stack.
+  /// the stack set drift detection operation. Use this operation id with
+  /// <a>DescribeStackSetOperation</a> to monitor the progress of the drift
+  /// detection operation. The drift detection operation may take some time,
+  /// depending on the number of stack instances included in the stack set, in
+  /// addition to the number of resources included in each stack.
   ///
   /// Once the operation has completed, use the following actions to return
   /// drift information:
   ///
   /// <ul>
   /// <li>
-  /// Use <code> <a>DescribeStackSet</a> </code> to return detailed information
-  /// about the stack set, including detailed information about the last
-  /// <i>completed</i> drift operation performed on the stack set. (Information
-  /// about drift operations that are in progress isn't included.)
+  /// Use <a>DescribeStackSet</a> to return detailed information about the stack
+  /// set, including detailed information about the last <i>completed</i> drift
+  /// operation performed on the stack set. (Information about drift operations
+  /// that are in progress isn't included.)
   /// </li>
   /// <li>
-  /// Use <code> <a>ListStackInstances</a> </code> to return a list of stack
-  /// instances belonging to the stack set, including the drift status and last
-  /// drift time checked of each instance.
+  /// Use <a>ListStackInstances</a> to return a list of stack instances
+  /// belonging to the stack set, including the drift status and last drift time
+  /// checked of each instance.
   /// </li>
   /// <li>
-  /// Use <code> <a>DescribeStackInstance</a> </code> to return detailed
-  /// information about a specific stack instance, including its drift status
-  /// and last drift time checked.
+  /// Use <a>DescribeStackInstance</a> to return detailed information about a
+  /// specific stack instance, including its drift status and last drift time
+  /// checked.
   /// </li>
   /// </ul>
   /// For more information about performing a drift detection operation on a
@@ -2791,8 +3137,8 @@ class CloudFormation {
   /// You can only run a single drift detection operation on a given stack set
   /// at one time.
   ///
-  /// To stop a drift detection stack set operation, use <code>
-  /// <a>StopStackSetOperation</a> </code>.
+  /// To stop a drift detection stack set operation, use
+  /// <a>StopStackSetOperation</a>.
   ///
   /// May throw [InvalidOperationException].
   /// May throw [OperationInProgressException].
@@ -2827,6 +3173,15 @@ class CloudFormation {
   ///
   /// Parameter [operationId] :
   /// <i>The ID of the stack set operation.</i>
+  ///
+  /// Parameter [operationPreferences] :
+  /// The user-specified preferences for how CloudFormation performs a stack set
+  /// operation.
+  ///
+  /// For more information about maximum concurrent accounts and failure
+  /// tolerance, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
+  /// set operation options</a>.
   Future<DetectStackSetDriftOutput> detectStackSetDrift({
     required String stackSetName,
     CallAs? callAs,
@@ -2863,7 +3218,7 @@ class CloudFormation {
   /// Structure containing the template body with a minimum length of 1 byte and
   /// a maximum length of 51,200 bytes. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.)
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.)
   ///
   /// Conditional: You must pass <code>TemplateBody</code> or
   /// <code>TemplateURL</code>. If both are passed, only
@@ -2874,7 +3229,8 @@ class CloudFormation {
   /// template that's located in an Amazon S3 bucket or a Systems Manager
   /// document. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>. The location for an
+  /// Amazon S3 bucket must start with <code>https://</code>.
   ///
   /// Conditional: You must pass <code>TemplateURL</code> or
   /// <code>TemplateBody</code>. If both are passed, only
@@ -2936,9 +3292,35 @@ class CloudFormation {
   ///
   /// Parameter [disableRollback] :
   /// Preserves the state of previously provisioned resources when an operation
-  /// fails.
+  /// fails. This parameter can't be specified when the
+  /// <code>OnStackFailure</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html">CreateChangeSet</a>
+  /// API operation was specified.
   ///
+  /// <ul>
+  /// <li>
+  /// <code>True</code> - if the stack creation fails, do nothing. This is
+  /// equivalent to specifying <code>DO_NOTHING</code> for the
+  /// <code>OnStackFailure</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html">CreateChangeSet</a>
+  /// API operation.
+  /// </li>
+  /// <li>
+  /// <code>False</code> - if the stack creation fails, roll back the stack.
+  /// This is equivalent to specifying <code>ROLLBACK</code> for the
+  /// <code>OnStackFailure</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html">CreateChangeSet</a>
+  /// API operation.
+  /// </li>
+  /// </ul>
   /// Default: <code>True</code>
+  ///
+  /// Parameter [retainExceptOnCreate] :
+  /// When set to <code>true</code>, newly created resources are deleted when
+  /// the operation rolls back. This includes newly created resources marked
+  /// with a deletion policy of <code>Retain</code>.
+  ///
+  /// Default: <code>false</code>
   ///
   /// Parameter [stackName] :
   /// If you specified the name of a change set, specify the stack name or
@@ -2948,12 +3330,14 @@ class CloudFormation {
     required String changeSetName,
     String? clientRequestToken,
     bool? disableRollback,
+    bool? retainExceptOnCreate,
     String? stackName,
   }) async {
     final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     disableRollback?.also((arg) => $request['DisableRollback'] = arg);
+    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
     await _protocol.send(
       $request,
@@ -2966,6 +3350,55 @@ class CloudFormation {
       shapes: shapes,
       resultWrapper: 'ExecuteChangeSetResult',
     );
+  }
+
+  /// Retrieves a generated template. If the template is in an
+  /// <code>InProgress</code> or <code>Pending</code> status then the template
+  /// returned will be the template when the template was last in a
+  /// <code>Complete</code> status. If the template has not yet been in a
+  /// <code>Complete</code> status then an empty template will be returned.
+  ///
+  /// May throw [GeneratedTemplateNotFoundException].
+  ///
+  /// Parameter [generatedTemplateName] :
+  /// The name or Amazon Resource Name (ARN) of the generated template. The
+  /// format is
+  /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}</code>.
+  /// For example,
+  /// <code>arn:aws:cloudformation:<i>us-east-1</i>:<i>123456789012</i>:generatedtemplate/<i>2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc</i>
+  /// </code>.
+  ///
+  /// Parameter [format] :
+  /// The language to use to retrieve for the generated template. Supported
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>JSON</code>
+  /// </li>
+  /// <li>
+  /// <code>YAML</code>
+  /// </li>
+  /// </ul>
+  Future<GetGeneratedTemplateOutput> getGeneratedTemplate({
+    required String generatedTemplateName,
+    TemplateFormat? format,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GeneratedTemplateName'] = generatedTemplateName;
+    format?.also((arg) => $request['Format'] = arg.toValue());
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetGeneratedTemplate',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['GetGeneratedTemplateInput'],
+      shapes: shapes,
+      resultWrapper: 'GetGeneratedTemplateResult',
+    );
+    return GetGeneratedTemplateOutput.fromXml($result);
   }
 
   /// Returns the stack policy for a specified stack. If a stack doesn't have a
@@ -3116,11 +3549,14 @@ class CloudFormation {
   /// a maximum length of 51,200 bytes. For more information about templates,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// anatomy</a> in the CloudFormation User Guide.
+  /// anatomy</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Conditional: You must specify only one of the following parameters:
   /// <code>StackName</code>, <code>StackSetName</code>,
   /// <code>TemplateBody</code>, or <code>TemplateURL</code>.
+  ///
+  /// Parameter [templateSummaryConfig] :
+  /// Specifies options for the <code>GetTemplateSummary</code> API action.
   ///
   /// Parameter [templateURL] :
   /// Location of file containing the template body. The URL must point to a
@@ -3128,7 +3564,8 @@ class CloudFormation {
   /// or a Systems Manager document. For more information about templates, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// anatomy</a> in the CloudFormation User Guide.
+  /// anatomy</a> in the <i>CloudFormation User Guide</i>. The location for an
+  /// Amazon S3 bucket must start with <code>https://</code>.
   ///
   /// Conditional: You must specify only one of the following parameters:
   /// <code>StackName</code>, <code>StackSetName</code>,
@@ -3138,6 +3575,7 @@ class CloudFormation {
     String? stackName,
     String? stackSetName,
     String? templateBody,
+    TemplateSummaryConfig? templateSummaryConfig,
     String? templateURL,
   }) async {
     final $request = <String, dynamic>{};
@@ -3145,6 +3583,8 @@ class CloudFormation {
     stackName?.also((arg) => $request['StackName'] = arg);
     stackSetName?.also((arg) => $request['StackSetName'] = arg);
     templateBody?.also((arg) => $request['TemplateBody'] = arg);
+    templateSummaryConfig
+        ?.also((arg) => $request['TemplateSummaryConfig'] = arg);
     templateURL?.also((arg) => $request['TemplateURL'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -3164,10 +3604,6 @@ class CloudFormation {
   /// operation to import up to 10 stacks into a new stack set in the same
   /// account as the source stack or in a different administrator account and
   /// Region, by specifying the stack ID of the stack you intend to import.
-  /// <note>
-  /// <code>ImportStacksToStackSet</code> is only supported by self-managed
-  /// permissions.
-  /// </note>
   ///
   /// May throw [LimitExceededException].
   /// May throw [StackSetNotFoundException].
@@ -3196,6 +3632,15 @@ class CloudFormation {
   ///
   /// Parameter [operationId] :
   /// A unique, user defined, identifier for the stack set operation.
+  ///
+  /// Parameter [operationPreferences] :
+  /// The user-specified preferences for how CloudFormation performs a stack set
+  /// operation.
+  ///
+  /// For more information about maximum concurrent accounts and failure
+  /// tolerance, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
+  /// set operation options</a>.
   ///
   /// Parameter [organizationalUnitIds] :
   /// The list of OU ID's to which the stacks being imported has to be mapped as
@@ -3279,7 +3724,7 @@ class CloudFormation {
   /// call this action. Use this action to see the exported output values that
   /// you can import into other stacks. To import values, use the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
-  /// <code>Fn::ImportValue</code> </a> function.
+  /// Fn::ImportValue</a> function.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html">
@@ -3308,14 +3753,52 @@ class CloudFormation {
     return ListExportsOutput.fromXml($result);
   }
 
+  /// Lists your generated templates in this Region.
+  ///
+  /// Parameter [maxResults] :
+  /// If the number of available results exceeds this maximum, the response
+  /// includes a <code>NextToken</code> value that you can use for the
+  /// <code>NextToken</code> parameter to get the next set of results. By
+  /// default the <code>ListGeneratedTemplates</code> API action will return at
+  /// most 50 results in each response. The maximum value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// A string that identifies the next page of resource scan results.
+  Future<ListGeneratedTemplatesOutput> listGeneratedTemplates({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $request = <String, dynamic>{};
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListGeneratedTemplates',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListGeneratedTemplatesInput'],
+      shapes: shapes,
+      resultWrapper: 'ListGeneratedTemplatesResult',
+    );
+    return ListGeneratedTemplatesOutput.fromXml($result);
+  }
+
   /// Lists all stacks that are importing an exported output value. To modify or
   /// remove an exported output value, first use this action to see which stacks
   /// are using it. To see the exported output values in your account, see
   /// <a>ListExports</a>.
   ///
   /// For more information about importing an exported output value, see the <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
-  /// <code>Fn::ImportValue</code> </a> function.
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">Fn::ImportValue</a>
+  /// function.
   ///
   /// Parameter [exportName] :
   /// The name of the exported output value. CloudFormation returns the stack
@@ -3344,6 +3827,285 @@ class CloudFormation {
       resultWrapper: 'ListImportsResult',
     );
     return ListImportsOutput.fromXml($result);
+  }
+
+  /// Lists the related resources for a list of resources from a resource scan.
+  /// The response indicates whether each returned resource is already managed
+  /// by CloudFormation.
+  ///
+  /// May throw [ResourceScanNotFoundException].
+  /// May throw [ResourceScanInProgressException].
+  ///
+  /// Parameter [resourceScanId] :
+  /// The Amazon Resource Name (ARN) of the resource scan.
+  ///
+  /// Parameter [resources] :
+  /// The list of resources for which you want to get the related resources. Up
+  /// to 100 resources can be provided.
+  ///
+  /// Parameter [maxResults] :
+  /// If the number of available results exceeds this maximum, the response
+  /// includes a <code>NextToken</code> value that you can use for the
+  /// <code>NextToken</code> parameter to get the next set of results. By
+  /// default the <code>ListResourceScanRelatedResources</code> API action will
+  /// return up to 100 results in each response. The maximum value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// A string that identifies the next page of resource scan results.
+  Future<ListResourceScanRelatedResourcesOutput>
+      listResourceScanRelatedResources({
+    required String resourceScanId,
+    required List<ScannedResourceIdentifier> resources,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $request = <String, dynamic>{};
+    $request['ResourceScanId'] = resourceScanId;
+    $request['Resources'] = resources;
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListResourceScanRelatedResources',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListResourceScanRelatedResourcesInput'],
+      shapes: shapes,
+      resultWrapper: 'ListResourceScanRelatedResourcesResult',
+    );
+    return ListResourceScanRelatedResourcesOutput.fromXml($result);
+  }
+
+  /// Lists the resources from a resource scan. The results can be filtered by
+  /// resource identifier, resource type prefix, tag key, and tag value. Only
+  /// resources that match all specified filters are returned. The response
+  /// indicates whether each returned resource is already managed by
+  /// CloudFormation.
+  ///
+  /// May throw [ResourceScanNotFoundException].
+  /// May throw [ResourceScanInProgressException].
+  ///
+  /// Parameter [resourceScanId] :
+  /// The Amazon Resource Name (ARN) of the resource scan.
+  ///
+  /// Parameter [maxResults] :
+  /// If the number of available results exceeds this maximum, the response
+  /// includes a <code>NextToken</code> value that you can use for the
+  /// <code>NextToken</code> parameter to get the next set of results. By
+  /// default the <code>ListResourceScanResources</code> API action will return
+  /// at most 100 results in each response. The maximum value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// A string that identifies the next page of resource scan results.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// If specified, the returned resources will have the specified resource
+  /// identifier (or one of them in the case where the resource has multiple
+  /// identifiers).
+  ///
+  /// Parameter [resourceTypePrefix] :
+  /// If specified, the returned resources will be of any of the resource types
+  /// with the specified prefix.
+  ///
+  /// Parameter [tagKey] :
+  /// If specified, the returned resources will have a matching tag key.
+  ///
+  /// Parameter [tagValue] :
+  /// If specified, the returned resources will have a matching tag value.
+  Future<ListResourceScanResourcesOutput> listResourceScanResources({
+    required String resourceScanId,
+    int? maxResults,
+    String? nextToken,
+    String? resourceIdentifier,
+    String? resourceTypePrefix,
+    String? tagKey,
+    String? tagValue,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['ResourceScanId'] = resourceScanId;
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    resourceIdentifier?.also((arg) => $request['ResourceIdentifier'] = arg);
+    resourceTypePrefix?.also((arg) => $request['ResourceTypePrefix'] = arg);
+    tagKey?.also((arg) => $request['TagKey'] = arg);
+    tagValue?.also((arg) => $request['TagValue'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListResourceScanResources',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListResourceScanResourcesInput'],
+      shapes: shapes,
+      resultWrapper: 'ListResourceScanResourcesResult',
+    );
+    return ListResourceScanResourcesOutput.fromXml($result);
+  }
+
+  /// List the resource scans from newest to oldest. By default it will return
+  /// up to 10 resource scans.
+  ///
+  /// Parameter [maxResults] :
+  /// If the number of available results exceeds this maximum, the response
+  /// includes a <code>NextToken</code> value that you can use for the
+  /// <code>NextToken</code> parameter to get the next set of results. The
+  /// default value is 10. The maximum value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// A string that identifies the next page of resource scan results.
+  Future<ListResourceScansOutput> listResourceScans({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $request = <String, dynamic>{};
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListResourceScans',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListResourceScansInput'],
+      shapes: shapes,
+      resultWrapper: 'ListResourceScansResult',
+    );
+    return ListResourceScansOutput.fromXml($result);
+  }
+
+  /// Returns drift information for resources in a stack instance.
+  /// <note>
+  /// <code>ListStackInstanceResourceDrifts</code> returns drift information for
+  /// the most recent drift detection operation. If an operation is in progress,
+  /// it may only return partial results.
+  /// </note>
+  ///
+  /// May throw [StackSetNotFoundException].
+  /// May throw [StackInstanceNotFoundException].
+  /// May throw [OperationNotFoundException].
+  ///
+  /// Parameter [operationId] :
+  /// The unique ID of the drift operation.
+  ///
+  /// Parameter [stackInstanceAccount] :
+  /// The name of the Amazon Web Services account that you want to list resource
+  /// drifts for.
+  ///
+  /// Parameter [stackInstanceRegion] :
+  /// The name of the Region where you want to list resource drifts.
+  ///
+  /// Parameter [stackSetName] :
+  /// The name or unique ID of the stack set that you want to list drifted
+  /// resources for.
+  ///
+  /// Parameter [callAs] :
+  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// account administrator in the organization's management account or as a
+  /// delegated administrator in a member account.
+  ///
+  /// By default, <code>SELF</code> is specified. Use <code>SELF</code> for
+  /// stack sets with self-managed permissions.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you are signed in to the management account, specify <code>SELF</code>.
+  /// </li>
+  /// <li>
+  /// If you are signed in to a delegated administrator account, specify
+  /// <code>DELEGATED_ADMIN</code>.
+  ///
+  /// Your Amazon Web Services account must be registered as a delegated
+  /// administrator in the management account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html">Register
+  /// a delegated administrator</a> in the <i>CloudFormation User Guide</i>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned with a single call. If the
+  /// number of available results exceeds this maximum, the response includes a
+  /// <code>NextToken</code> value that you can assign to the
+  /// <code>NextToken</code> request parameter to get the next set of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous paginated request didn't return all of the remaining
+  /// results, the response object's <code>NextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call this action
+  /// again and assign that token to the request object's <code>NextToken</code>
+  /// parameter. If there are no remaining results, the previous response
+  /// object's <code>NextToken</code> parameter is set to <code>null</code>.
+  ///
+  /// Parameter [stackInstanceResourceDriftStatuses] :
+  /// The resource drift status of the stack instance.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETED</code>: The resource differs from its expected template
+  /// configuration in that the resource has been deleted.
+  /// </li>
+  /// <li>
+  /// <code>MODIFIED</code>: One or more resource properties differ from their
+  /// expected template values.
+  /// </li>
+  /// <li>
+  /// <code>IN_SYNC</code>: The resource's actual configuration matches its
+  /// expected template configuration.
+  /// </li>
+  /// <li>
+  /// <code>NOT_CHECKED</code>: CloudFormation doesn't currently return this
+  /// value.
+  /// </li>
+  /// </ul>
+  Future<ListStackInstanceResourceDriftsOutput>
+      listStackInstanceResourceDrifts({
+    required String operationId,
+    required String stackInstanceAccount,
+    required String stackInstanceRegion,
+    required String stackSetName,
+    CallAs? callAs,
+    int? maxResults,
+    String? nextToken,
+    List<StackResourceDriftStatus>? stackInstanceResourceDriftStatuses,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $request = <String, dynamic>{};
+    $request['OperationId'] = operationId;
+    $request['StackInstanceAccount'] = stackInstanceAccount;
+    $request['StackInstanceRegion'] = stackInstanceRegion;
+    $request['StackSetName'] = stackSetName;
+    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    stackInstanceResourceDriftStatuses?.also((arg) =>
+        $request['StackInstanceResourceDriftStatuses'] =
+            arg.map((e) => e.toValue()).toList());
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListStackInstanceResourceDrifts',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStackInstanceResourceDriftsInput'],
+      shapes: shapes,
+      resultWrapper: 'ListStackInstanceResourceDriftsResult',
+    );
+    return ListStackInstanceResourceDriftsOutput.fromXml($result);
   }
 
   /// Returns summary information about stack instances that are associated with
@@ -3482,6 +4244,78 @@ class CloudFormation {
       resultWrapper: 'ListStackResourcesResult',
     );
     return ListStackResourcesOutput.fromXml($result);
+  }
+
+  /// Returns summary information about deployment targets for a stack set.
+  ///
+  /// May throw [StackSetNotFoundException].
+  ///
+  /// Parameter [stackSetName] :
+  /// The name or unique ID of the stack set that you want to get automatic
+  /// deployment targets for.
+  ///
+  /// Parameter [callAs] :
+  /// Specifies whether you are acting as an account administrator in the
+  /// organization's management account or as a delegated administrator in a
+  /// member account.
+  ///
+  /// By default, <code>SELF</code> is specified. Use <code>SELF</code> for
+  /// StackSets with self-managed permissions.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you are signed in to the management account, specify <code>SELF</code>.
+  /// </li>
+  /// <li>
+  /// If you are signed in to a delegated administrator account, specify
+  /// <code>DELEGATED_ADMIN</code>.
+  ///
+  /// Your Amazon Web Services account must be registered as a delegated
+  /// administrator in the management account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html">Register
+  /// a delegated administrator</a> in the <i>CloudFormation User Guide</i>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned with a single call. If the
+  /// number of available results exceeds this maximum, the response includes a
+  /// <code>NextToken</code> value that you can assign to the
+  /// <code>NextToken</code> request parameter to get the next set of results.
+  ///
+  /// Parameter [nextToken] :
+  /// A string that identifies the next page of stack set deployment targets
+  /// that you want to retrieve.
+  Future<ListStackSetAutoDeploymentTargetsOutput>
+      listStackSetAutoDeploymentTargets({
+    required String stackSetName,
+    CallAs? callAs,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $request = <String, dynamic>{};
+    $request['StackSetName'] = stackSetName;
+    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    maxResults?.also((arg) => $request['MaxResults'] = arg);
+    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListStackSetAutoDeploymentTargets',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListStackSetAutoDeploymentTargetsInput'],
+      shapes: shapes,
+      resultWrapper: 'ListStackSetAutoDeploymentTargetsResult',
+    );
+    return ListStackSetAutoDeploymentTargetsOutput.fromXml($result);
   }
 
   /// Returns summary information about the results of a stack set operation.
@@ -4035,14 +4869,14 @@ class CloudFormation {
   /// <ul>
   /// <li>
   /// <code>PRIVATE</code>: Extensions that are visible and usable within this
-  /// account and region. This includes:
+  /// account and Region. This includes:
   ///
   /// <ul>
   /// <li>
-  /// Private extensions you have registered in this account and region.
+  /// Private extensions you have registered in this account and Region.
   /// </li>
   /// <li>
-  /// Public extensions that you have activated in this account and region.
+  /// Public extensions that you have activated in this account and Region.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -4093,7 +4927,7 @@ class CloudFormation {
   }
 
   /// Publishes the specified extension to the CloudFormation registry as a
-  /// public extension in this region. Public extensions are available for use
+  /// public extension in this Region. Public extensions are available for use
   /// by all CloudFormation users. For more information about publishing
   /// extensions, see <a
   /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html">Publishing
@@ -4315,21 +5149,20 @@ class CloudFormation {
   /// Resource Providers</a> in the <i>CloudFormation CLI User Guide</i>.
   ///
   /// You can have a maximum of 50 resource extension versions registered at a
-  /// time. This maximum is per account and per region. Use <a
-  /// href="AWSCloudFormation/latest/APIReference/API_DeregisterType.html">DeregisterType</a>
+  /// time. This maximum is per account and per Region. Use <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeregisterType.html">DeregisterType</a>
   /// to deregister specific extension versions if necessary.
   ///
-  /// Once you have initiated a registration request using <code>
-  /// <a>RegisterType</a> </code>, you can use <code>
-  /// <a>DescribeTypeRegistration</a> </code> to monitor the progress of the
+  /// Once you have initiated a registration request using <a>RegisterType</a>,
+  /// you can use <a>DescribeTypeRegistration</a> to monitor the progress of the
   /// registration request.
   ///
-  /// Once you have registered a private extension in your account and region,
+  /// Once you have registered a private extension in your account and Region,
   /// use <a
-  /// href="AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html">SetTypeConfiguration</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html">SetTypeConfiguration</a>
   /// to specify configuration properties for the extension. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration">Configuring
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration">Configuring
   /// extensions at the account level</a> in the <i>CloudFormation User
   /// Guide</i>.
   ///
@@ -4406,10 +5239,10 @@ class CloudFormation {
   /// assume when invoking the extension.
   ///
   /// For CloudFormation to assume the specified execution role, the role must
-  /// contain a trust relationship with the CloudFormation service principle
+  /// contain a trust relationship with the CloudFormation service principal
   /// (<code>resources.cloudformation.amazonaws.com</code>). For more
   /// information about adding trust relationships, see <a
-  /// href="IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-managingrole_edit-trust-policy">Modifying
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-managingrole_edit-trust-policy">Modifying
   /// a role trust policy</a> in the <i>Identity and Access Management User
   /// Guide</i>.
   ///
@@ -4494,17 +5327,26 @@ class CloudFormation {
   /// Parameter [clientRequestToken] :
   /// A unique identifier for this <code>RollbackStack</code> request.
   ///
+  /// Parameter [retainExceptOnCreate] :
+  /// When set to <code>true</code>, newly created resources are deleted when
+  /// the operation rolls back. This includes newly created resources marked
+  /// with a deletion policy of <code>Retain</code>.
+  ///
+  /// Default: <code>false</code>
+  ///
   /// Parameter [roleARN] :
   /// The Amazon Resource Name (ARN) of an Identity and Access Management role
   /// that CloudFormation assumes to rollback the stack.
   Future<RollbackStackOutput> rollbackStack({
     required String stackName,
     String? clientRequestToken,
+    bool? retainExceptOnCreate,
     String? roleARN,
   }) async {
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
+    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
     roleARN?.also((arg) => $request['RoleARN'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -4528,14 +5370,15 @@ class CloudFormation {
   /// Parameter [stackPolicyBody] :
   /// Structure containing the stack policy body. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html">
-  /// Prevent updates to stack resources</a> in the CloudFormation User Guide.
-  /// You can specify either the <code>StackPolicyBody</code> or the
+  /// Prevent updates to stack resources</a> in the <i>CloudFormation User
+  /// Guide</i>. You can specify either the <code>StackPolicyBody</code> or the
   /// <code>StackPolicyURL</code> parameter, but not both.
   ///
   /// Parameter [stackPolicyURL] :
   /// Location of a file containing the stack policy. The URL must point to a
   /// policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same
-  /// Amazon Web Services Region as the stack. You can specify either the
+  /// Amazon Web Services Region as the stack. The location for an Amazon S3
+  /// bucket must start with <code>https://</code>. You can specify either the
   /// <code>StackPolicyBody</code> or the <code>StackPolicyURL</code> parameter,
   /// but not both.
   Future<void> setStackPolicy({
@@ -4560,13 +5403,13 @@ class CloudFormation {
   }
 
   /// Specifies the configuration data for a registered CloudFormation
-  /// extension, in the given account and region.
+  /// extension, in the given account and Region.
   ///
   /// To view the current configuration data for an extension, refer to the
   /// <code>ConfigurationSchema</code> element of <a
-  /// href="AWSCloudFormation/latest/APIReference/API_DescribeType.html">DescribeType</a>.
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html">DescribeType</a>.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration">Configuring
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration">Configuring
   /// extensions at the account level</a> in the <i>CloudFormation User
   /// Guide</i>.
   /// <important>
@@ -4581,12 +5424,12 @@ class CloudFormation {
   /// May throw [TypeNotFoundException].
   ///
   /// Parameter [configuration] :
-  /// The configuration data for the extension, in this account and region.
+  /// The configuration data for the extension, in this account and Region.
   ///
   /// The configuration data must be formatted as JSON, and validate against the
   /// schema returned in the <code>ConfigurationSchema</code> response element
   /// of <a
-  /// href="AWSCloudFormation/latest/APIReference/API_DescribeType.html">API_DescribeType</a>.
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html">DescribeType</a>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-model.html#resource-type-howto-configuration">Defining
   /// account-level configuration data for an extension</a> in the
@@ -4606,14 +5449,14 @@ class CloudFormation {
   ///
   /// Parameter [typeArn] :
   /// The Amazon Resource Name (ARN) for the extension, in this account and
-  /// region.
+  /// Region.
   ///
-  /// For public extensions, this will be the ARN assigned when you <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">activate
-  /// the type</a> in this account and region. For private extensions, this will
-  /// be the ARN assigned when you <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">register
-  /// the type</a> in this account and region.
+  /// For public extensions, this will be the ARN assigned when you call the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">ActivateType</a>
+  /// API operation in this account and Region. For private extensions, this
+  /// will be the ARN assigned when you call the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>
+  /// API operation in this account and Region.
   ///
   /// Do not include the extension versions suffix at the end of the ARN. You
   /// can set the configuration for an extension, but not for a specific
@@ -4753,6 +5596,35 @@ class CloudFormation {
     );
   }
 
+  /// Starts a scan of the resources in this account in this Region. You can the
+  /// status of a scan using the <code>ListResourceScans</code> API action.
+  ///
+  /// May throw [ResourceScanInProgressException].
+  /// May throw [ResourceScanLimitExceededException].
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique identifier for this <code>StartResourceScan</code> request.
+  /// Specify this token if you plan to retry requests so that CloudFormation
+  /// knows that you're not attempting to start a new resource scan.
+  Future<StartResourceScanOutput> startResourceScan({
+    String? clientRequestToken,
+  }) async {
+    final $request = <String, dynamic>{};
+    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'StartResourceScan',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['StartResourceScanInput'],
+      shapes: shapes,
+      resultWrapper: 'StartResourceScanResult',
+    );
+    return StartResourceScanOutput.fromXml($result);
+  }
+
   /// Stops an in-progress operation on a stack set and its associated stack
   /// instances. StackSets will cancel all the unstarted stack instance
   /// deployments and wait for those are in-progress to complete.
@@ -4831,11 +5703,11 @@ class CloudFormation {
   /// User Guide</i>.
   ///
   /// If you don't specify a version, CloudFormation uses the default version of
-  /// the extension in your account and region for testing.
+  /// the extension in your account and Region for testing.
   ///
   /// To perform testing, CloudFormation assumes the execution role specified
   /// when the type was registered. For more information, see <a
-  /// href="AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>.
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>.
   ///
   /// Once you've initiated testing on an extension using <code>TestType</code>,
   /// you can pass the returned <code>TypeVersionArn</code> into <a
@@ -4902,7 +5774,7 @@ class CloudFormation {
   /// <code>TypeName</code> and <code>Type</code>.
   ///
   /// If you don't specify a version, CloudFormation uses the default version of
-  /// the extension in this account and region for testing.
+  /// the extension in this account and Region for testing.
   Future<TestTypeOutput> testType({
     String? arn,
     String? logDeliveryBucket,
@@ -4928,6 +5800,69 @@ class CloudFormation {
       resultWrapper: 'TestTypeResult',
     );
     return TestTypeOutput.fromXml($result);
+  }
+
+  /// Updates a generated template. This can be used to change the name, add and
+  /// remove resources, refresh resources, and change the
+  /// <code>DeletionPolicy</code> and <code>UpdateReplacePolicy</code> settings.
+  /// You can check the status of the update to the generated template using the
+  /// <code>DescribeGeneratedTemplate</code> API action.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [GeneratedTemplateNotFoundException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [generatedTemplateName] :
+  /// The name or Amazon Resource Name (ARN) of a generated template.
+  ///
+  /// Parameter [addResources] :
+  /// An optional list of resources to be added to the generated template.
+  ///
+  /// Parameter [newGeneratedTemplateName] :
+  /// An optional new name to assign to the generated template.
+  ///
+  /// Parameter [refreshAllResources] :
+  /// If <code>true</code>, update the resource properties in the generated
+  /// template with their current live state. This feature is useful when the
+  /// resource properties in your generated a template does not reflect the live
+  /// state of the resource properties. This happens when a user update the
+  /// resource properties after generating a template.
+  ///
+  /// Parameter [removeResources] :
+  /// A list of logical ids for resources to remove from the generated template.
+  ///
+  /// Parameter [templateConfiguration] :
+  /// The configuration details of the generated template, including the
+  /// <code>DeletionPolicy</code> and <code>UpdateReplacePolicy</code>.
+  Future<UpdateGeneratedTemplateOutput> updateGeneratedTemplate({
+    required String generatedTemplateName,
+    List<ResourceDefinition>? addResources,
+    String? newGeneratedTemplateName,
+    bool? refreshAllResources,
+    List<String>? removeResources,
+    TemplateConfiguration? templateConfiguration,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GeneratedTemplateName'] = generatedTemplateName;
+    addResources?.also((arg) => $request['AddResources'] = arg);
+    newGeneratedTemplateName
+        ?.also((arg) => $request['NewGeneratedTemplateName'] = arg);
+    refreshAllResources?.also((arg) => $request['RefreshAllResources'] = arg);
+    removeResources?.also((arg) => $request['RemoveResources'] = arg);
+    templateConfiguration
+        ?.also((arg) => $request['TemplateConfiguration'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'UpdateGeneratedTemplate',
+      version: '2010-05-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['UpdateGeneratedTemplateInput'],
+      shapes: shapes,
+      resultWrapper: 'UpdateGeneratedTemplateResult',
+    );
+    return UpdateGeneratedTemplateOutput.fromXml($result);
   }
 
   /// Updates a stack as specified in the template. After the call completes
@@ -5000,8 +5935,7 @@ class CloudFormation {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">
-  /// AWS::IAM::Policy</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">AWS::IAM::Policy</a>
   /// </li>
   /// <li>
   /// <a
@@ -5019,7 +5953,7 @@ class CloudFormation {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in CloudFormation Templates</a>.
   /// </li>
   /// <li>
@@ -5034,9 +5968,9 @@ class CloudFormation {
   /// more macros, and you choose to update a stack directly from the processed
   /// template, without first reviewing the resulting changes in a change set,
   /// you must acknowledge this capability. This includes the <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
   /// and <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
   /// transforms, which are macros hosted by CloudFormation.
   ///
   /// If you want to update a stack from a stack template that contains macros
@@ -5051,10 +5985,13 @@ class CloudFormation {
   /// function operation without CloudFormation being notified.
   /// </important>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
   /// CloudFormation Macros to Perform Custom Processing on Templates</a>.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// Only one of the <code>Capabilities</code> and <code>ResourceType</code>
+  /// parameters can be specified.
+  /// </note>
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for this <code>UpdateStack</code> request. Specify
@@ -5107,6 +6044,17 @@ class CloudFormation {
   /// policies. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html">Controlling
   /// Access with Identity and Access Management</a>.
+  /// <note>
+  /// Only one of the <code>Capabilities</code> and <code>ResourceType</code>
+  /// parameters can be specified.
+  /// </note>
+  ///
+  /// Parameter [retainExceptOnCreate] :
+  /// When set to <code>true</code>, newly created resources are deleted when
+  /// the operation rolls back. This includes newly created resources marked
+  /// with a deletion policy of <code>Retain</code>.
+  ///
+  /// Default: <code>false</code>
   ///
   /// Parameter [roleARN] :
   /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
@@ -5149,7 +6097,8 @@ class CloudFormation {
   /// Parameter [stackPolicyDuringUpdateURL] :
   /// Location of a file containing the temporary overriding stack policy. The
   /// URL must point to a policy (max size: 16KB) located in an S3 bucket in the
-  /// same Region as the stack. You can specify either the
+  /// same Region as the stack. The location for an Amazon S3 bucket must start
+  /// with <code>https://</code>. You can specify either the
   /// <code>StackPolicyDuringUpdateBody</code> or the
   /// <code>StackPolicyDuringUpdateURL</code> parameter, but not both.
   ///
@@ -5160,8 +6109,10 @@ class CloudFormation {
   /// Parameter [stackPolicyURL] :
   /// Location of a file containing the updated stack policy. The URL must point
   /// to a policy (max size: 16KB) located in an S3 bucket in the same Region as
-  /// the stack. You can specify either the <code>StackPolicyBody</code> or the
-  /// <code>StackPolicyURL</code> parameter, but not both.
+  /// the stack. The location for an Amazon S3 bucket must start with
+  /// <code>https://</code>. You can specify either the
+  /// <code>StackPolicyBody</code> or the <code>StackPolicyURL</code> parameter,
+  /// but not both.
   ///
   /// You might update the stack policy, for example, in order to protect a new
   /// resource that you created during a stack update. If you don't specify a
@@ -5181,7 +6132,7 @@ class CloudFormation {
   /// Structure containing the template body with a minimum length of 1 byte and
   /// a maximum length of 51,200 bytes. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.)
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.)
   ///
   /// Conditional: You must specify only one of the following parameters:
   /// <code>TemplateBody</code>, <code>TemplateURL</code>, or set the
@@ -5192,7 +6143,8 @@ class CloudFormation {
   /// template that's located in an Amazon S3 bucket or a Systems Manager
   /// document. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>. The location for an
+  /// Amazon S3 bucket must start with <code>https://</code>.
   ///
   /// Conditional: You must specify only one of the following parameters:
   /// <code>TemplateBody</code>, <code>TemplateURL</code>, or set the
@@ -5213,6 +6165,7 @@ class CloudFormation {
     List<String>? notificationARNs,
     List<Parameter>? parameters,
     List<String>? resourceTypes,
+    bool? retainExceptOnCreate,
     String? roleARN,
     RollbackConfiguration? rollbackConfiguration,
     String? stackPolicyBody,
@@ -5233,6 +6186,7 @@ class CloudFormation {
     notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
     resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
+    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
     roleARN?.also((arg) => $request['RoleARN'] = arg);
     rollbackConfiguration
         ?.also((arg) => $request['RollbackConfiguration'] = arg);
@@ -5477,7 +6431,7 @@ class CloudFormation {
   /// Specify an IAM role only if you are using customized administrator roles
   /// to control which users or groups can manage specific stack sets within the
   /// same administrator account. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Granting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Granting
   /// Permissions for Stack Set Operations</a> in the <i>CloudFormation User
   /// Guide</i>.
   ///
@@ -5555,42 +6509,35 @@ class CloudFormation {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">
-  /// AWS::IAM::AccessKey</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">AWS::IAM::AccessKey</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">
-  /// AWS::IAM::Group</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">
-  /// AWS::IAM::InstanceProfile</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">AWS::IAM::InstanceProfile</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">
-  /// AWS::IAM::Policy</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">AWS::IAM::Policy</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">
-  /// AWS::IAM::Role</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">
-  /// AWS::IAM::User</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">AWS::IAM::User</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html">
-  /// AWS::IAM::UserToGroupAddition</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html">AWS::IAM::UserToGroupAddition</a>
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in CloudFormation Templates</a>.
   /// </li>
   /// <li>
@@ -5601,14 +6548,14 @@ class CloudFormation {
   /// template, without first reviewing the resulting changes in a change set.
   /// To update the stack set directly, you must acknowledge this capability.
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
   /// CloudFormation Macros to Perform Custom Processing on Templates</a>.
   /// <important>
   /// Stack sets with service-managed permissions do not currently support the
   /// use of macros in templates. (This includes the <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
   /// and <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
   /// transforms, which are macros hosted by CloudFormation.) Even if you
   /// specify this capability for a stack set with service-managed permissions,
   /// if you reference a macro in your template the stack set operation will
@@ -5757,7 +6704,7 @@ class CloudFormation {
   /// The structure that contains the template body, with a minimum length of 1
   /// byte and a maximum length of 51,200 bytes. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Conditional: You must specify only one of the following parameters:
   /// <code>TemplateBody</code> or <code>TemplateURL</code>—or set
@@ -5769,7 +6716,7 @@ class CloudFormation {
   /// Amazon S3 bucket or a Systems Manager document. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Conditional: You must specify only one of the following parameters:
   /// <code>TemplateBody</code> or <code>TemplateURL</code>—or set
@@ -5886,7 +6833,7 @@ class CloudFormation {
   /// Structure containing the template body with a minimum length of 1 byte and
   /// a maximum length of 51,200 bytes. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.
   ///
   /// Conditional: You must pass <code>TemplateURL</code> or
   /// <code>TemplateBody</code>. If both are passed, only
@@ -5897,7 +6844,8 @@ class CloudFormation {
   /// template (max size: 460,800 bytes) that is located in an Amazon S3 bucket
   /// or a Systems Manager document. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>. The location for an
+  /// Amazon S3 bucket must start with <code>https://</code>.
   ///
   /// Conditional: You must pass <code>TemplateURL</code> or
   /// <code>TemplateBody</code>. If both are passed, only
@@ -6109,9 +7057,18 @@ class AccountLimit {
   }
 }
 
+class ActivateOrganizationsAccessOutput {
+  ActivateOrganizationsAccessOutput();
+  factory ActivateOrganizationsAccessOutput.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return ActivateOrganizationsAccessOutput();
+  }
+}
+
 class ActivateTypeOutput {
   /// The Amazon Resource Name (ARN) of the activated extension, in this account
-  /// and region.
+  /// and Region.
   final String? arn;
 
   ActivateTypeOutput({
@@ -6121,6 +7078,39 @@ class ActivateTypeOutput {
     return ActivateTypeOutput(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
     );
+  }
+}
+
+enum AttributeChangeType {
+  add,
+  remove,
+  modify,
+}
+
+extension AttributeChangeTypeValueExtension on AttributeChangeType {
+  String toValue() {
+    switch (this) {
+      case AttributeChangeType.add:
+        return 'Add';
+      case AttributeChangeType.remove:
+        return 'Remove';
+      case AttributeChangeType.modify:
+        return 'Modify';
+    }
+  }
+}
+
+extension AttributeChangeTypeFromString on String {
+  AttributeChangeType toAttributeChangeType() {
+    switch (this) {
+      case 'Add':
+        return AttributeChangeType.add;
+      case 'Remove':
+        return AttributeChangeType.remove;
+      case 'Modify':
+        return AttributeChangeType.modify;
+    }
+    throw Exception('$this is not known in enum AttributeChangeType');
   }
 }
 
@@ -6172,6 +7162,8 @@ class BatchDescribeTypeConfigurationsError {
 
   /// The error message.
   final String? errorMessage;
+
+  /// Identifying information for the configuration of a CloudFormation extension.
   final TypeConfigurationIdentifier? typeConfigurationIdentifier;
 
   BatchDescribeTypeConfigurationsError({
@@ -6339,8 +7331,13 @@ class Change {
   /// action that CloudFormation will perform.
   final ResourceChange? resourceChange;
 
-  /// The type of entity that CloudFormation changes. Currently, the only entity
-  /// type is <code>Resource</code>.
+  /// The type of entity that CloudFormation changes.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Resource</code> This change is for a resource.
+  /// </li>
+  /// </ul>
   final ChangeType? type;
 
   Change({
@@ -6364,7 +7361,7 @@ enum ChangeAction {
   modify,
   remove,
   import,
-  dynamic,
+  $dynamic,
 }
 
 extension ChangeActionValueExtension on ChangeAction {
@@ -6378,7 +7375,7 @@ extension ChangeActionValueExtension on ChangeAction {
         return 'Remove';
       case ChangeAction.import:
         return 'Import';
-      case ChangeAction.dynamic:
+      case ChangeAction.$dynamic:
         return 'Dynamic';
     }
   }
@@ -6396,7 +7393,7 @@ extension ChangeActionFromString on String {
       case 'Import':
         return ChangeAction.import;
       case 'Dynamic':
-        return ChangeAction.dynamic;
+        return ChangeAction.$dynamic;
     }
     throw Exception('$this is not known in enum ChangeAction');
   }
@@ -6649,6 +7646,9 @@ class ChangeSetSummary {
   /// or in an <code>OBSOLETE</code> state because the stack was already updated.
   final ExecutionStatus? executionStatus;
 
+  /// Indicates if the change set imports resources that already exist.
+  final bool? importExistingResources;
+
   /// Specifies the current setting of <code>IncludeNestedStacks</code> for the
   /// change set.
   final bool? includeNestedStacks;
@@ -6679,6 +7679,7 @@ class ChangeSetSummary {
     this.creationTime,
     this.description,
     this.executionStatus,
+    this.importExistingResources,
     this.includeNestedStacks,
     this.parentChangeSetId,
     this.rootChangeSetId,
@@ -6696,6 +7697,8 @@ class ChangeSetSummary {
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
           ?.toExecutionStatus(),
+      importExistingResources:
+          _s.extractXmlBoolValue(elem, 'ImportExistingResources'),
       includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
       parentChangeSetId: _s.extractXmlStringValue(elem, 'ParentChangeSetId'),
       rootChangeSetId: _s.extractXmlStringValue(elem, 'RootChangeSetId'),
@@ -6806,6 +7809,34 @@ extension ChangeTypeFromString on String {
   }
 }
 
+enum ConcurrencyMode {
+  strictFailureTolerance,
+  softFailureTolerance,
+}
+
+extension ConcurrencyModeValueExtension on ConcurrencyMode {
+  String toValue() {
+    switch (this) {
+      case ConcurrencyMode.strictFailureTolerance:
+        return 'STRICT_FAILURE_TOLERANCE';
+      case ConcurrencyMode.softFailureTolerance:
+        return 'SOFT_FAILURE_TOLERANCE';
+    }
+  }
+}
+
+extension ConcurrencyModeFromString on String {
+  ConcurrencyMode toConcurrencyMode() {
+    switch (this) {
+      case 'STRICT_FAILURE_TOLERANCE':
+        return ConcurrencyMode.strictFailureTolerance;
+      case 'SOFT_FAILURE_TOLERANCE':
+        return ConcurrencyMode.softFailureTolerance;
+    }
+    throw Exception('$this is not known in enum ConcurrencyMode');
+  }
+}
+
 /// The output for a <a>ContinueUpdateRollback</a> operation.
 class ContinueUpdateRollbackOutput {
   ContinueUpdateRollbackOutput();
@@ -6832,6 +7863,21 @@ class CreateChangeSetOutput {
     return CreateChangeSetOutput(
       id: _s.extractXmlStringValue(elem, 'Id'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
+    );
+  }
+}
+
+class CreateGeneratedTemplateOutput {
+  /// The ID of the generated template.
+  final String? generatedTemplateId;
+
+  CreateGeneratedTemplateOutput({
+    this.generatedTemplateId,
+  });
+  factory CreateGeneratedTemplateOutput.fromXml(_s.XmlElement elem) {
+    return CreateGeneratedTemplateOutput(
+      generatedTemplateId:
+          _s.extractXmlStringValue(elem, 'GeneratedTemplateId'),
     );
   }
 }
@@ -6879,6 +7925,15 @@ class CreateStackSetOutput {
   }
 }
 
+class DeactivateOrganizationsAccessOutput {
+  DeactivateOrganizationsAccessOutput();
+  factory DeactivateOrganizationsAccessOutput.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return DeactivateOrganizationsAccessOutput();
+  }
+}
+
 class DeactivateTypeOutput {
   DeactivateTypeOutput();
   factory DeactivateTypeOutput.fromXml(
@@ -6918,6 +7973,34 @@ class DeleteStackSetOutput {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteStackSetOutput();
+  }
+}
+
+enum DeletionMode {
+  standard,
+  forceDeleteStack,
+}
+
+extension DeletionModeValueExtension on DeletionMode {
+  String toValue() {
+    switch (this) {
+      case DeletionMode.standard:
+        return 'STANDARD';
+      case DeletionMode.forceDeleteStack:
+        return 'FORCE_DELETE_STACK';
+    }
+  }
+}
+
+extension DeletionModeFromString on String {
+  DeletionMode toDeletionMode() {
+    switch (this) {
+      case 'STANDARD':
+        return DeletionMode.standard;
+      case 'FORCE_DELETE_STACK':
+        return DeletionMode.forceDeleteStack;
+    }
+    throw Exception('$this is not known in enum DeletionMode');
   }
 }
 
@@ -7144,6 +8227,17 @@ class DescribeChangeSetOutput {
   /// or in an <code>OBSOLETE</code> state because the stack was already updated.
   final ExecutionStatus? executionStatus;
 
+  /// Indicates if the change set imports resources that already exist.
+  /// <note>
+  /// This parameter can only import resources that have <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html">custom
+  /// names</a> in templates. To import resources that do not accept custom names,
+  /// such as EC2 instances, use the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html">resource
+  /// import</a> feature instead.
+  /// </note>
+  final bool? importExistingResources;
+
   /// Verifies if <code>IncludeNestedStacks</code> is set to <code>True</code>.
   final bool? includeNestedStacks;
 
@@ -7154,6 +8248,35 @@ class DescribeChangeSetOutput {
   /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that
   /// will be associated with the stack if you execute the change set.
   final List<String>? notificationARNs;
+
+  /// Determines what action will be taken if stack creation fails. When this
+  /// parameter is specified, the <code>DisableRollback</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html">ExecuteChangeSet</a>
+  /// API operation must not be specified. This must be one of these values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETE</code> - Deletes the change set if the stack creation fails.
+  /// This is only valid when the <code>ChangeSetType</code> parameter is set to
+  /// <code>CREATE</code>. If the deletion of the stack fails, the status of the
+  /// stack is <code>DELETE_FAILED</code>.
+  /// </li>
+  /// <li>
+  /// <code>DO_NOTHING</code> - if the stack creation fails, do nothing. This is
+  /// equivalent to specifying <code>true</code> for the
+  /// <code>DisableRollback</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html">ExecuteChangeSet</a>
+  /// API operation.
+  /// </li>
+  /// <li>
+  /// <code>ROLLBACK</code> - if the stack creation fails, roll back the stack.
+  /// This is equivalent to specifying <code>false</code> for the
+  /// <code>DisableRollback</code> parameter to the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html">ExecuteChangeSet</a>
+  /// API operation.
+  /// </li>
+  /// </ul>
+  final OnStackFailure? onStackFailure;
 
   /// A list of <code>Parameter</code> structures that describes the input
   /// parameters and their values used to create the change set. For more
@@ -7202,9 +8325,11 @@ class DescribeChangeSetOutput {
     this.creationTime,
     this.description,
     this.executionStatus,
+    this.importExistingResources,
     this.includeNestedStacks,
     this.nextToken,
     this.notificationARNs,
+    this.onStackFailure,
     this.parameters,
     this.parentChangeSetId,
     this.rollbackConfiguration,
@@ -7230,11 +8355,15 @@ class DescribeChangeSetOutput {
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
           ?.toExecutionStatus(),
+      importExistingResources:
+          _s.extractXmlBoolValue(elem, 'ImportExistingResources'),
       includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       notificationARNs: _s
           .extractXmlChild(elem, 'NotificationARNs')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      onStackFailure:
+          _s.extractXmlStringValue(elem, 'OnStackFailure')?.toOnStackFailure(),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
           elem.findElements('member').map(Parameter.fromXml).toList()),
       parentChangeSetId: _s.extractXmlStringValue(elem, 'ParentChangeSetId'),
@@ -7248,6 +8377,127 @@ class DescribeChangeSetOutput {
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let(
           (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
+    );
+  }
+}
+
+class DescribeGeneratedTemplateOutput {
+  /// The time the generated template was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the generated template. The format is
+  /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}</code>.
+  /// For example,
+  /// <code>arn:aws:cloudformation:<i>us-east-1</i>:<i>123456789012</i>:generatedtemplate/<i>2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc</i>
+  /// </code>.
+  final String? generatedTemplateId;
+
+  /// The name of the generated template.
+  final String? generatedTemplateName;
+
+  /// The time the generated template was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// An object describing the progress of the template generation.
+  final TemplateProgress? progress;
+
+  /// A list of objects describing the details of the resources in the template
+  /// generation.
+  final List<ResourceDetail>? resources;
+
+  /// The stack ARN of the base stack if a base stack was provided when generating
+  /// the template.
+  final String? stackId;
+
+  /// The status of the template generation. Supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CreatePending</code> - the creation of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>CreateInProgress</code> - the creation of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>DeletePending</code> - the deletion of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>DeleteInProgress</code> - the deletion of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>UpdatePending</code> - the update of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>UpdateInProgress</code> - the update of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> - the template operation failed.
+  /// </li>
+  /// <li>
+  /// <code>Complete</code> - the template operation is complete.
+  /// </li>
+  /// </ul>
+  final GeneratedTemplateStatus? status;
+
+  /// The reason for the current template generation status. This will provide
+  /// more details if a failure happened.
+  final String? statusReason;
+
+  /// The configuration details of the generated template, including the
+  /// <code>DeletionPolicy</code> and <code>UpdateReplacePolicy</code>.
+  final TemplateConfiguration? templateConfiguration;
+
+  /// The number of warnings generated for this template. The warnings are found
+  /// in the details of each of the resources in the template.
+  final int? totalWarnings;
+
+  DescribeGeneratedTemplateOutput({
+    this.creationTime,
+    this.generatedTemplateId,
+    this.generatedTemplateName,
+    this.lastUpdatedTime,
+    this.progress,
+    this.resources,
+    this.stackId,
+    this.status,
+    this.statusReason,
+    this.templateConfiguration,
+    this.totalWarnings,
+  });
+  factory DescribeGeneratedTemplateOutput.fromXml(_s.XmlElement elem) {
+    return DescribeGeneratedTemplateOutput(
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      generatedTemplateId:
+          _s.extractXmlStringValue(elem, 'GeneratedTemplateId'),
+      generatedTemplateName:
+          _s.extractXmlStringValue(elem, 'GeneratedTemplateName'),
+      lastUpdatedTime: _s.extractXmlDateTimeValue(elem, 'LastUpdatedTime'),
+      progress:
+          _s.extractXmlChild(elem, 'Progress')?.let(TemplateProgress.fromXml),
+      resources: _s.extractXmlChild(elem, 'Resources')?.let((elem) =>
+          elem.findElements('member').map(ResourceDetail.fromXml).toList()),
+      stackId: _s.extractXmlStringValue(elem, 'StackId'),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.toGeneratedTemplateStatus(),
+      statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
+      templateConfiguration: _s
+          .extractXmlChild(elem, 'TemplateConfiguration')
+          ?.let(TemplateConfiguration.fromXml),
+      totalWarnings: _s.extractXmlIntValue(elem, 'TotalWarnings'),
+    );
+  }
+}
+
+class DescribeOrganizationsAccessOutput {
+  /// Presents the status of the <code>OrganizationAccess</code>.
+  final OrganizationStatus? status;
+
+  DescribeOrganizationsAccessOutput({
+    this.status,
+  });
+  factory DescribeOrganizationsAccessOutput.fromXml(_s.XmlElement elem) {
+    return DescribeOrganizationsAccessOutput(
+      status: _s.extractXmlStringValue(elem, 'Status')?.toOrganizationStatus(),
     );
   }
 }
@@ -7283,6 +8533,87 @@ class DescribePublisherOutput {
       publisherStatus: _s
           .extractXmlStringValue(elem, 'PublisherStatus')
           ?.toPublisherStatus(),
+    );
+  }
+}
+
+class DescribeResourceScanOutput {
+  /// The time that the resource scan was finished.
+  final DateTime? endTime;
+
+  /// The percentage of the resource scan that has been completed.
+  final double? percentageCompleted;
+
+  /// The Amazon Resource Name (ARN) of the resource scan. The format is
+  /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}</code>.
+  /// An example is
+  /// <code>arn:aws:cloudformation:<i>us-east-1</i>:<i>123456789012</i>:resourceScan/<i>f5b490f7-7ed4-428a-aa06-31ff25db0772</i>
+  /// </code>.
+  final String? resourceScanId;
+
+  /// The list of resource types for the specified scan. Resource types are only
+  /// available for scans with a <code>Status</code> set to <code>COMPLETE</code>
+  /// or <code>FAILED </code>.
+  final List<String>? resourceTypes;
+
+  /// The number of resources that were read. This is only available for scans
+  /// with a <code>Status</code> set to <code>COMPLETE</code>,
+  /// <code>EXPIRED</code>, or <code>FAILED </code>.
+  /// <note>
+  /// This field may be 0 if the resource scan failed with a
+  /// <code>ResourceScanLimitExceededException</code>.
+  /// </note>
+  final int? resourcesRead;
+
+  /// The number of resources that were listed. This is only available for scans
+  /// with a <code>Status</code> set to <code>COMPLETE</code>,
+  /// <code>EXPIRED</code>, or <code>FAILED </code>.
+  final int? resourcesScanned;
+
+  /// The time that the resource scan was started.
+  final DateTime? startTime;
+
+  /// Status of the resource scan.
+  /// <dl> <dt>INPROGRESS</dt> <dd>
+  /// The resource scan is still in progress.
+  /// </dd> <dt>COMPLETE</dt> <dd>
+  /// The resource scan is complete.
+  /// </dd> <dt>EXPIRED</dt> <dd>
+  /// The resource scan has expired.
+  /// </dd> <dt>FAILED</dt> <dd>
+  /// The resource scan has failed.
+  /// </dd> </dl>
+  final ResourceScanStatus? status;
+
+  /// The reason for the resource scan status, providing more information if a
+  /// failure happened.
+  final String? statusReason;
+
+  DescribeResourceScanOutput({
+    this.endTime,
+    this.percentageCompleted,
+    this.resourceScanId,
+    this.resourceTypes,
+    this.resourcesRead,
+    this.resourcesScanned,
+    this.startTime,
+    this.status,
+    this.statusReason,
+  });
+  factory DescribeResourceScanOutput.fromXml(_s.XmlElement elem) {
+    return DescribeResourceScanOutput(
+      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
+      percentageCompleted:
+          _s.extractXmlDoubleValue(elem, 'PercentageCompleted'),
+      resourceScanId: _s.extractXmlStringValue(elem, 'ResourceScanId'),
+      resourceTypes: _s
+          .extractXmlChild(elem, 'ResourceTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      resourcesRead: _s.extractXmlIntValue(elem, 'ResourcesRead'),
+      resourcesScanned: _s.extractXmlIntValue(elem, 'ResourcesScanned'),
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
+      status: _s.extractXmlStringValue(elem, 'Status')?.toResourceScanStatus(),
+      statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
 }
@@ -7553,21 +8884,21 @@ class DescribeTypeOutput {
   final String? arn;
 
   /// Whether CloudFormation automatically updates the extension in this account
-  /// and region when a new <i>minor</i> version is published by the extension
+  /// and Region when a new <i>minor</i> version is published by the extension
   /// publisher. Major versions released by the publisher must be manually
   /// updated. For more information, see <a
-  /// href="AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable">Activating
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable">Activating
   /// public extensions for use in your account</a> in the <i>CloudFormation User
   /// Guide</i>.
   final bool? autoUpdate;
 
   /// A JSON string that represent the current configuration data for the
-  /// extension in this account and region.
+  /// extension in this account and Region.
   ///
   /// To set the configuration data for an extension, use <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html">SetTypeConfiguration</a>.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration">Configuring
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration">Configuring
   /// extensions at the account level</a> in the <i>CloudFormation User Guide</i>.
   final String? configurationSchema;
 
@@ -7580,8 +8911,8 @@ class DescribeTypeOutput {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>.
   ///
-  /// To set the default version of an extension, use <code>
-  /// <a>SetTypeDefaultVersion</a> </code>.
+  /// To set the default version of an extension, use
+  /// <a>SetTypeDefaultVersion</a>.
   final String? defaultVersionId;
 
   /// The deprecation status of the extension version.
@@ -7622,7 +8953,7 @@ class DescribeTypeOutput {
   /// extension with the appropriate credentials.
   final String? executionRoleArn;
 
-  /// Whether the extension is activated in the account and region.
+  /// Whether the extension is activated in the account and Region.
   ///
   /// This only applies to public third-party extensions. For all other
   /// extensions, CloudFormation returns <code>null</code>.
@@ -7666,16 +8997,16 @@ class DescribeTypeOutput {
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>.
   final LoggingConfig? loggingConfig;
 
-  /// For public extensions that have been activated for this account and region,
+  /// For public extensions that have been activated for this account and Region,
   /// the Amazon Resource Name (ARN) of the public extension.
   final String? originalTypeArn;
 
-  /// For public extensions that have been activated for this account and region,
+  /// For public extensions that have been activated for this account and Region,
   /// the type name of the public extension.
   ///
   /// If you specified a <code>TypeNameAlias</code> when enabling the extension in
-  /// this account and region, CloudFormation treats that alias as the extension's
-  /// type name within the account and region, not the type name of the public
+  /// this account and Region, CloudFormation treats that alias as the extension's
+  /// type name within the account and Region, not the type name of the public
   /// extension. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias">Specifying
   /// aliases to refer to extensions</a> in the <i>CloudFormation User Guide</i>.
@@ -7932,6 +9263,34 @@ class DescribeTypeRegistrationOutput {
   }
 }
 
+enum DetailedStatus {
+  configurationComplete,
+  validationFailed,
+}
+
+extension DetailedStatusValueExtension on DetailedStatus {
+  String toValue() {
+    switch (this) {
+      case DetailedStatus.configurationComplete:
+        return 'CONFIGURATION_COMPLETE';
+      case DetailedStatus.validationFailed:
+        return 'VALIDATION_FAILED';
+    }
+  }
+}
+
+extension DetailedStatusFromString on String {
+  DetailedStatus toDetailedStatus() {
+    switch (this) {
+      case 'CONFIGURATION_COMPLETE':
+        return DetailedStatus.configurationComplete;
+      case 'VALIDATION_FAILED':
+        return DetailedStatus.validationFailed;
+    }
+    throw Exception('$this is not known in enum DetailedStatus');
+  }
+}
+
 class DetectStackDriftOutput {
   /// The ID of the drift detection results of this operation.
   ///
@@ -7971,8 +9330,8 @@ class DetectStackResourceDriftOutput {
 class DetectStackSetDriftOutput {
   /// The ID of the drift detection stack set operation.
   ///
-  /// You can use this operation ID with <code> <a>DescribeStackSetOperation</a>
-  /// </code> to monitor the progress of the drift detection operation.
+  /// You can use this operation ID with <a>DescribeStackSetOperation</a> to
+  /// monitor the progress of the drift detection operation.
   final String? operationId;
 
   DetectStackSetDriftOutput({
@@ -8036,7 +9395,7 @@ class EstimateTemplateCostOutput {
 
 enum EvaluationType {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension EvaluationTypeValueExtension on EvaluationType {
@@ -8044,7 +9403,7 @@ extension EvaluationTypeValueExtension on EvaluationType {
     switch (this) {
       case EvaluationType.static:
         return 'Static';
-      case EvaluationType.dynamic:
+      case EvaluationType.$dynamic:
         return 'Dynamic';
     }
   }
@@ -8056,7 +9415,7 @@ extension EvaluationTypeFromString on String {
       case 'Static':
         return EvaluationType.static;
       case 'Dynamic':
-        return EvaluationType.dynamic;
+        return EvaluationType.$dynamic;
     }
     throw Exception('$this is not known in enum EvaluationType');
   }
@@ -8151,11 +9510,219 @@ class Export {
   }
 }
 
+enum GeneratedTemplateDeletionPolicy {
+  delete,
+  retain,
+}
+
+extension GeneratedTemplateDeletionPolicyValueExtension
+    on GeneratedTemplateDeletionPolicy {
+  String toValue() {
+    switch (this) {
+      case GeneratedTemplateDeletionPolicy.delete:
+        return 'DELETE';
+      case GeneratedTemplateDeletionPolicy.retain:
+        return 'RETAIN';
+    }
+  }
+}
+
+extension GeneratedTemplateDeletionPolicyFromString on String {
+  GeneratedTemplateDeletionPolicy toGeneratedTemplateDeletionPolicy() {
+    switch (this) {
+      case 'DELETE':
+        return GeneratedTemplateDeletionPolicy.delete;
+      case 'RETAIN':
+        return GeneratedTemplateDeletionPolicy.retain;
+    }
+    throw Exception(
+        '$this is not known in enum GeneratedTemplateDeletionPolicy');
+  }
+}
+
+enum GeneratedTemplateResourceStatus {
+  pending,
+  inProgress,
+  failed,
+  complete,
+}
+
+extension GeneratedTemplateResourceStatusValueExtension
+    on GeneratedTemplateResourceStatus {
+  String toValue() {
+    switch (this) {
+      case GeneratedTemplateResourceStatus.pending:
+        return 'PENDING';
+      case GeneratedTemplateResourceStatus.inProgress:
+        return 'IN_PROGRESS';
+      case GeneratedTemplateResourceStatus.failed:
+        return 'FAILED';
+      case GeneratedTemplateResourceStatus.complete:
+        return 'COMPLETE';
+    }
+  }
+}
+
+extension GeneratedTemplateResourceStatusFromString on String {
+  GeneratedTemplateResourceStatus toGeneratedTemplateResourceStatus() {
+    switch (this) {
+      case 'PENDING':
+        return GeneratedTemplateResourceStatus.pending;
+      case 'IN_PROGRESS':
+        return GeneratedTemplateResourceStatus.inProgress;
+      case 'FAILED':
+        return GeneratedTemplateResourceStatus.failed;
+      case 'COMPLETE':
+        return GeneratedTemplateResourceStatus.complete;
+    }
+    throw Exception(
+        '$this is not known in enum GeneratedTemplateResourceStatus');
+  }
+}
+
+enum GeneratedTemplateStatus {
+  createPending,
+  updatePending,
+  deletePending,
+  createInProgress,
+  updateInProgress,
+  deleteInProgress,
+  failed,
+  complete,
+}
+
+extension GeneratedTemplateStatusValueExtension on GeneratedTemplateStatus {
+  String toValue() {
+    switch (this) {
+      case GeneratedTemplateStatus.createPending:
+        return 'CREATE_PENDING';
+      case GeneratedTemplateStatus.updatePending:
+        return 'UPDATE_PENDING';
+      case GeneratedTemplateStatus.deletePending:
+        return 'DELETE_PENDING';
+      case GeneratedTemplateStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case GeneratedTemplateStatus.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case GeneratedTemplateStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case GeneratedTemplateStatus.failed:
+        return 'FAILED';
+      case GeneratedTemplateStatus.complete:
+        return 'COMPLETE';
+    }
+  }
+}
+
+extension GeneratedTemplateStatusFromString on String {
+  GeneratedTemplateStatus toGeneratedTemplateStatus() {
+    switch (this) {
+      case 'CREATE_PENDING':
+        return GeneratedTemplateStatus.createPending;
+      case 'UPDATE_PENDING':
+        return GeneratedTemplateStatus.updatePending;
+      case 'DELETE_PENDING':
+        return GeneratedTemplateStatus.deletePending;
+      case 'CREATE_IN_PROGRESS':
+        return GeneratedTemplateStatus.createInProgress;
+      case 'UPDATE_IN_PROGRESS':
+        return GeneratedTemplateStatus.updateInProgress;
+      case 'DELETE_IN_PROGRESS':
+        return GeneratedTemplateStatus.deleteInProgress;
+      case 'FAILED':
+        return GeneratedTemplateStatus.failed;
+      case 'COMPLETE':
+        return GeneratedTemplateStatus.complete;
+    }
+    throw Exception('$this is not known in enum GeneratedTemplateStatus');
+  }
+}
+
+enum GeneratedTemplateUpdateReplacePolicy {
+  delete,
+  retain,
+}
+
+extension GeneratedTemplateUpdateReplacePolicyValueExtension
+    on GeneratedTemplateUpdateReplacePolicy {
+  String toValue() {
+    switch (this) {
+      case GeneratedTemplateUpdateReplacePolicy.delete:
+        return 'DELETE';
+      case GeneratedTemplateUpdateReplacePolicy.retain:
+        return 'RETAIN';
+    }
+  }
+}
+
+extension GeneratedTemplateUpdateReplacePolicyFromString on String {
+  GeneratedTemplateUpdateReplacePolicy
+      toGeneratedTemplateUpdateReplacePolicy() {
+    switch (this) {
+      case 'DELETE':
+        return GeneratedTemplateUpdateReplacePolicy.delete;
+      case 'RETAIN':
+        return GeneratedTemplateUpdateReplacePolicy.retain;
+    }
+    throw Exception(
+        '$this is not known in enum GeneratedTemplateUpdateReplacePolicy');
+  }
+}
+
+class GetGeneratedTemplateOutput {
+  /// The status of the template generation. Supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CreatePending</code> - the creation of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>CreateInProgress</code> - the creation of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>DeletePending</code> - the deletion of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>DeleteInProgress</code> - the deletion of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>UpdatePending</code> - the update of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>UpdateInProgress</code> - the update of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> - the template operation failed.
+  /// </li>
+  /// <li>
+  /// <code>Complete</code> - the template operation is complete.
+  /// </li>
+  /// </ul>
+  final GeneratedTemplateStatus? status;
+
+  /// The template body of the generated template, in the language specified by
+  /// the <code>Language</code> parameter.
+  final String? templateBody;
+
+  GetGeneratedTemplateOutput({
+    this.status,
+    this.templateBody,
+  });
+  factory GetGeneratedTemplateOutput.fromXml(_s.XmlElement elem) {
+    return GetGeneratedTemplateOutput(
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.toGeneratedTemplateStatus(),
+      templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
+    );
+  }
+}
+
 /// The output for the <a>GetStackPolicy</a> action.
 class GetStackPolicyOutput {
   /// Structure containing the stack policy body. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html">
-  /// Prevent Updates to Stack Resources</a> in the CloudFormation User Guide.)
+  /// Prevent Updates to Stack Resources</a> in the <i>CloudFormation User
+  /// Guide</i>.)
   final String? stackPolicyBody;
 
   GetStackPolicyOutput({
@@ -8179,7 +9746,7 @@ class GetTemplateOutput {
 
   /// Structure containing the template body. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
-  /// Anatomy</a> in the CloudFormation User Guide.)
+  /// Anatomy</a> in the <i>CloudFormation User Guide</i>.)
   ///
   /// CloudFormation returns the same template that was used when the stack was
   /// created.
@@ -8249,6 +9816,9 @@ class GetTemplateSummaryOutput {
   /// capabilities of the template.
   final String? version;
 
+  /// An object containing any warnings returned.
+  final Warnings? warnings;
+
   GetTemplateSummaryOutput({
     this.capabilities,
     this.capabilitiesReason,
@@ -8259,6 +9829,7 @@ class GetTemplateSummaryOutput {
     this.resourceIdentifierSummaries,
     this.resourceTypes,
     this.version,
+    this.warnings,
   });
   factory GetTemplateSummaryOutput.fromXml(_s.XmlElement elem) {
     return GetTemplateSummaryOutput(
@@ -8286,6 +9857,7 @@ class GetTemplateSummaryOutput {
           .extractXmlChild(elem, 'ResourceTypes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       version: _s.extractXmlStringValue(elem, 'Version'),
+      warnings: _s.extractXmlChild(elem, 'Warnings')?.let(Warnings.fromXml),
     );
   }
 }
@@ -8607,6 +10179,30 @@ class ListExportsOutput {
   }
 }
 
+class ListGeneratedTemplatesOutput {
+  /// If the request doesn't return all the remaining results,
+  /// <code>NextToken</code> is set to a token. To retrieve the next set of
+  /// results, call <code>ListGeneratedTemplates</code> again and use that value
+  /// for the <code>NextToken</code> parameter. If the request returns all
+  /// results, <code>NextToken</code> is set to an empty string.
+  final String? nextToken;
+
+  /// A list of summaries of the generated templates.
+  final List<TemplateSummary>? summaries;
+
+  ListGeneratedTemplatesOutput({
+    this.nextToken,
+    this.summaries,
+  });
+  factory ListGeneratedTemplatesOutput.fromXml(_s.XmlElement elem) {
+    return ListGeneratedTemplatesOutput(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) =>
+          elem.findElements('member').map(TemplateSummary.fromXml).toList()),
+    );
+  }
+}
+
 class ListImportsOutput {
   /// A list of stack names that are importing the specified exported output
   /// value.
@@ -8626,6 +10222,115 @@ class ListImportsOutput {
           .extractXmlChild(elem, 'Imports')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+}
+
+class ListResourceScanRelatedResourcesOutput {
+  /// If the request doesn't return all the remaining results,
+  /// <code>NextToken</code> is set to a token. To retrieve the next set of
+  /// results, call <code>ListResourceScanRelatedResources</code> again and use
+  /// that value for the <code>NextToken</code> parameter. If the request returns
+  /// all results, <code>NextToken</code> is set to an empty string.
+  final String? nextToken;
+
+  /// List of up to <code>MaxResults</code> resources in the specified resource
+  /// scan related to the specified resources.
+  final List<ScannedResource>? relatedResources;
+
+  ListResourceScanRelatedResourcesOutput({
+    this.nextToken,
+    this.relatedResources,
+  });
+  factory ListResourceScanRelatedResourcesOutput.fromXml(_s.XmlElement elem) {
+    return ListResourceScanRelatedResourcesOutput(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      relatedResources: _s.extractXmlChild(elem, 'RelatedResources')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(ScannedResource.fromXml)
+              .toList()),
+    );
+  }
+}
+
+class ListResourceScanResourcesOutput {
+  /// If the request doesn't return all the remaining results,
+  /// <code>NextToken</code> is set to a token. To retrieve the next set of
+  /// results, call <code>ListResourceScanResources</code> again and use that
+  /// value for the <code>NextToken</code> parameter. If the request returns all
+  /// results, <code>NextToken</code> is set to an empty string.
+  final String? nextToken;
+
+  /// List of up to <code>MaxResults</code> resources in the specified resource
+  /// scan that match all of the specified filters.
+  final List<ScannedResource>? resources;
+
+  ListResourceScanResourcesOutput({
+    this.nextToken,
+    this.resources,
+  });
+  factory ListResourceScanResourcesOutput.fromXml(_s.XmlElement elem) {
+    return ListResourceScanResourcesOutput(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      resources: _s.extractXmlChild(elem, 'Resources')?.let((elem) =>
+          elem.findElements('member').map(ScannedResource.fromXml).toList()),
+    );
+  }
+}
+
+class ListResourceScansOutput {
+  /// If the request doesn't return all the remaining results,
+  /// <code>NextToken</code> is set to a token. To retrieve the next set of
+  /// results, call <code>ListResourceScans</code> again and use that value for
+  /// the <code>NextToken</code> parameter. If the request returns all results,
+  /// <code>NextToken</code> is set to an empty string.
+  final String? nextToken;
+
+  /// The list of scans returned.
+  final List<ResourceScanSummary>? resourceScanSummaries;
+
+  ListResourceScansOutput({
+    this.nextToken,
+    this.resourceScanSummaries,
+  });
+  factory ListResourceScansOutput.fromXml(_s.XmlElement elem) {
+    return ListResourceScansOutput(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      resourceScanSummaries: _s
+          .extractXmlChild(elem, 'ResourceScanSummaries')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(ResourceScanSummary.fromXml)
+              .toList()),
+    );
+  }
+}
+
+class ListStackInstanceResourceDriftsOutput {
+  /// If the previous paginated request didn't return all of the remaining
+  /// results, the response object's <code>NextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call this action again and
+  /// assign that token to the request object's <code>NextToken</code> parameter.
+  /// If there are no remaining results, the previous response object's
+  /// <code>NextToken</code> parameter is set to <code>null</code>.
+  final String? nextToken;
+
+  /// A list of <code>StackInstanceResourceDriftsSummary</code> structures that
+  /// contain information about the specified stack instances.
+  final List<StackInstanceResourceDriftsSummary>? summaries;
+
+  ListStackInstanceResourceDriftsOutput({
+    this.nextToken,
+    this.summaries,
+  });
+  factory ListStackInstanceResourceDriftsOutput.fromXml(_s.XmlElement elem) {
+    return ListStackInstanceResourceDriftsOutput(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) => elem
+          .findElements('member')
+          .map(StackInstanceResourceDriftsSummary.fromXml)
+          .toList()),
     );
   }
 }
@@ -8679,6 +10384,34 @@ class ListStackResourcesOutput {
               .findElements('member')
               .map(StackResourceSummary.fromXml)
               .toList()),
+    );
+  }
+}
+
+class ListStackSetAutoDeploymentTargetsOutput {
+  /// If the request doesn't return all the remaining results,
+  /// <code>NextToken</code> is set to a token. To retrieve the next set of
+  /// results, call <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html">ListStackSetAutoDeploymentTargets</a>
+  /// again and use that value for the <code>NextToken</code> parameter. If the
+  /// request returns all results, <code>NextToken</code> is set to an empty
+  /// string.
+  final String? nextToken;
+
+  /// An array of summaries of the deployment targets for the stack set.
+  final List<StackSetAutoDeploymentTargetSummary>? summaries;
+
+  ListStackSetAutoDeploymentTargetsOutput({
+    this.nextToken,
+    this.summaries,
+  });
+  factory ListStackSetAutoDeploymentTargetsOutput.fromXml(_s.XmlElement elem) {
+    return ListStackSetAutoDeploymentTargetsOutput(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      summaries: _s.extractXmlChild(elem, 'Summaries')?.let((elem) => elem
+          .findElements('member')
+          .map(StackSetAutoDeploymentTargetSummary.fromXml)
+          .toList()),
     );
   }
 }
@@ -8796,8 +10529,8 @@ class ListTypeRegistrationsOutput {
 
   /// A list of extension registration tokens.
   ///
-  /// Use <code> <a>DescribeTypeRegistration</a> </code> to return detailed
-  /// information about a type registration request.
+  /// Use <a>DescribeTypeRegistration</a> to return detailed information about a
+  /// type registration request.
   final List<String>? registrationTokenList;
 
   ListTypeRegistrationsOutput({
@@ -8937,9 +10670,9 @@ class ManagedExecution {
 /// if the resource was created from a module included in the stack template.
 ///
 /// For more information about modules, see <a
-/// href="AWSCloudFormation/latest/UserGuide/modules.html">Using modules to
-/// encapsulate and reuse resource configurations</a> in the <i>CloudFormation
-/// User Guide</i>.
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html">Using
+/// modules to encapsulate and reuse resource configurations</a> in the
+/// <i>CloudFormation User Guide</i>.
 class ModuleInfo {
   /// A concatenated list of the logical IDs of the module or modules containing
   /// the resource. Modules are listed starting with the inner-most nested module,
@@ -8952,7 +10685,7 @@ class ModuleInfo {
   /// <code>moduleA/moduleB</code>
   ///
   /// For more information, see <a
-  /// href="AWSCloudFormation/latest/UserGuide/modules.html#module-ref-resources">Referencing
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html#module-ref-resources">Referencing
   /// resources in a module</a> in the <i>CloudFormation User Guide</i>.
   final String? logicalIdHierarchy;
 
@@ -9009,6 +10742,39 @@ extension OnFailureFromString on String {
         return OnFailure.delete;
     }
     throw Exception('$this is not known in enum OnFailure');
+  }
+}
+
+enum OnStackFailure {
+  doNothing,
+  rollback,
+  delete,
+}
+
+extension OnStackFailureValueExtension on OnStackFailure {
+  String toValue() {
+    switch (this) {
+      case OnStackFailure.doNothing:
+        return 'DO_NOTHING';
+      case OnStackFailure.rollback:
+        return 'ROLLBACK';
+      case OnStackFailure.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension OnStackFailureFromString on String {
+  OnStackFailure toOnStackFailure() {
+    switch (this) {
+      case 'DO_NOTHING':
+        return OnStackFailure.doNothing;
+      case 'ROLLBACK':
+        return OnStackFailure.rollback;
+      case 'DELETE':
+        return OnStackFailure.delete;
+    }
+    throw Exception('$this is not known in enum OnStackFailure');
   }
 }
 
@@ -9096,6 +10862,39 @@ extension OperationStatusFromString on String {
   }
 }
 
+enum OrganizationStatus {
+  enabled,
+  disabled,
+  disabledPermanently,
+}
+
+extension OrganizationStatusValueExtension on OrganizationStatus {
+  String toValue() {
+    switch (this) {
+      case OrganizationStatus.enabled:
+        return 'ENABLED';
+      case OrganizationStatus.disabled:
+        return 'DISABLED';
+      case OrganizationStatus.disabledPermanently:
+        return 'DISABLED_PERMANENTLY';
+    }
+  }
+}
+
+extension OrganizationStatusFromString on String {
+  OrganizationStatus toOrganizationStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return OrganizationStatus.enabled;
+      case 'DISABLED':
+        return OrganizationStatus.disabled;
+      case 'DISABLED_PERMANENTLY':
+        return OrganizationStatus.disabledPermanently;
+    }
+    throw Exception('$this is not known in enum OrganizationStatus');
+  }
+}
+
 /// The Output data type.
 class Output {
   /// User defined description associated with the output.
@@ -9139,7 +10938,7 @@ class Parameter {
   /// Read-only. The value that corresponds to a SSM parameter key. This field is
   /// returned only for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types">
-  /// <code>SSM</code> </a> parameter types in the template.
+  /// SSM</a> parameter types in the template.
   final String? resolvedValue;
 
   /// During a stack update, use the existing parameter value that the stack is
@@ -9287,6 +11086,54 @@ class PhysicalResourceIdContextKeyValuePair {
       key: _s.extractXmlStringValue(elem, 'Key')!,
       value: _s.extractXmlStringValue(elem, 'Value')!,
     );
+  }
+}
+
+enum PolicyAction {
+  delete,
+  retain,
+  snapshot,
+  replaceAndDelete,
+  replaceAndRetain,
+  replaceAndSnapshot,
+}
+
+extension PolicyActionValueExtension on PolicyAction {
+  String toValue() {
+    switch (this) {
+      case PolicyAction.delete:
+        return 'Delete';
+      case PolicyAction.retain:
+        return 'Retain';
+      case PolicyAction.snapshot:
+        return 'Snapshot';
+      case PolicyAction.replaceAndDelete:
+        return 'ReplaceAndDelete';
+      case PolicyAction.replaceAndRetain:
+        return 'ReplaceAndRetain';
+      case PolicyAction.replaceAndSnapshot:
+        return 'ReplaceAndSnapshot';
+    }
+  }
+}
+
+extension PolicyActionFromString on String {
+  PolicyAction toPolicyAction() {
+    switch (this) {
+      case 'Delete':
+        return PolicyAction.delete;
+      case 'Retain':
+        return PolicyAction.retain;
+      case 'Snapshot':
+        return PolicyAction.snapshot;
+      case 'ReplaceAndDelete':
+        return PolicyAction.replaceAndDelete;
+      case 'ReplaceAndRetain':
+        return PolicyAction.replaceAndRetain;
+      case 'ReplaceAndSnapshot':
+        return PolicyAction.replaceAndSnapshot;
+    }
+    throw Exception('$this is not known in enum PolicyAction');
   }
 }
 
@@ -9474,9 +11321,9 @@ class RegisterPublisherOutput {
 class RegisterTypeOutput {
   /// The identifier for this registration request.
   ///
-  /// Use this registration token when calling <code>
-  /// <a>DescribeTypeRegistration</a> </code>, which returns information about the
-  /// status and IDs of the extension registration.
+  /// Use this registration token when calling <a>DescribeTypeRegistration</a>,
+  /// which returns information about the status and IDs of the extension
+  /// registration.
   final String? registrationToken;
 
   RegisterTypeOutput({
@@ -9599,8 +11446,8 @@ class RequiredActivatedType {
   /// The type name of the public extension.
   ///
   /// If you specified a <code>TypeNameAlias</code> when enabling the extension in
-  /// this account and region, CloudFormation treats that alias as the extension's
-  /// type name within the account and region, not the type name of the public
+  /// this account and Region, CloudFormation treats that alias as the extension's
+  /// type name within the account and Region, not the type name of the public
   /// extension. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias">Specifying
   /// aliases to refer to extensions</a> in the <i>CloudFormation User Guide</i>.
@@ -9612,9 +11459,9 @@ class RequiredActivatedType {
   /// A list of the major versions of the extension type that the macro supports.
   final List<int>? supportedMajorVersions;
 
-  /// An alias assigned to the public extension, in this account and region. If
+  /// An alias assigned to the public extension, in this account and Region. If
   /// you specify an alias for the extension, CloudFormation treats the alias as
-  /// the extension type name within this account and region. You must use the
+  /// the extension type name within this account and Region. You must use the
   /// alias to refer to the extension in your templates, API calls, and
   /// CloudFormation console.
   final String? typeNameAlias;
@@ -9676,6 +11523,7 @@ enum ResourceAttribute {
   creationPolicy,
   updatePolicy,
   deletionPolicy,
+  updateReplacePolicy,
   tags,
 }
 
@@ -9692,6 +11540,8 @@ extension ResourceAttributeValueExtension on ResourceAttribute {
         return 'UpdatePolicy';
       case ResourceAttribute.deletionPolicy:
         return 'DeletionPolicy';
+      case ResourceAttribute.updateReplacePolicy:
+        return 'UpdateReplacePolicy';
       case ResourceAttribute.tags:
         return 'Tags';
     }
@@ -9711,6 +11561,8 @@ extension ResourceAttributeFromString on String {
         return ResourceAttribute.updatePolicy;
       case 'DeletionPolicy':
         return ResourceAttribute.deletionPolicy;
+      case 'UpdateReplacePolicy':
+        return ResourceAttribute.updateReplacePolicy;
       case 'Tags':
         return ResourceAttribute.tags;
     }
@@ -9728,6 +11580,14 @@ class ResourceChange {
   /// (imports a resource), or <code>Dynamic</code> (exact action for the resource
   /// can't be determined).
   final ChangeAction? action;
+
+  /// An encoded JSON string containing the context of the resource after the
+  /// change is executed.
+  final String? afterContext;
+
+  /// An encoded JSON string containing the context of the resource before the
+  /// change is executed.
+  final String? beforeContext;
 
   /// The change set ID of the nested change set.
   final String? changeSetId;
@@ -9747,6 +11607,34 @@ class ResourceChange {
   /// The resource's physical ID (resource name). Resources that you are adding
   /// don't have physical IDs because they haven't been created.
   final String? physicalResourceId;
+
+  /// The action that will be taken on the physical resource when the change set
+  /// is executed.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Delete</code> The resource will be deleted.
+  /// </li>
+  /// <li>
+  /// <code>Retain</code> The resource will be retained.
+  /// </li>
+  /// <li>
+  /// <code>Snapshot</code> The resource will have a snapshot taken.
+  /// </li>
+  /// <li>
+  /// <code>ReplaceAndDelete</code> The resource will be replaced and then
+  /// deleted.
+  /// </li>
+  /// <li>
+  /// <code>ReplaceAndRetain</code> The resource will be replaced and then
+  /// retained.
+  /// </li>
+  /// <li>
+  /// <code>ReplaceAndSnapshot</code> The resource will be replaced and then have
+  /// a snapshot taken.
+  /// </li>
+  /// </ul>
+  final PolicyAction? policyAction;
 
   /// For the <code>Modify</code> action, indicates whether CloudFormation will
   /// replace the resource by creating a new one and deleting the old one. This
@@ -9776,11 +11664,14 @@ class ResourceChange {
 
   ResourceChange({
     this.action,
+    this.afterContext,
+    this.beforeContext,
     this.changeSetId,
     this.details,
     this.logicalResourceId,
     this.moduleInfo,
     this.physicalResourceId,
+    this.policyAction,
     this.replacement,
     this.resourceType,
     this.scope,
@@ -9788,6 +11679,8 @@ class ResourceChange {
   factory ResourceChange.fromXml(_s.XmlElement elem) {
     return ResourceChange(
       action: _s.extractXmlStringValue(elem, 'Action')?.toChangeAction(),
+      afterContext: _s.extractXmlStringValue(elem, 'AfterContext'),
+      beforeContext: _s.extractXmlStringValue(elem, 'BeforeContext'),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       details: _s.extractXmlChild(elem, 'Details')?.let((elem) => elem
           .findElements('member')
@@ -9797,6 +11690,8 @@ class ResourceChange {
       moduleInfo:
           _s.extractXmlChild(elem, 'ModuleInfo')?.let(ModuleInfo.fromXml),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
+      policyAction:
+          _s.extractXmlStringValue(elem, 'PolicyAction')?.toPolicyAction(),
       replacement:
           _s.extractXmlStringValue(elem, 'Replacement')?.toReplacement(),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
@@ -9900,6 +11795,127 @@ class ResourceChangeDetail {
   }
 }
 
+/// A resource included in a generated template. This data type is used with the
+/// <code>CreateGeneratedTemplate</code> and
+/// <code>UpdateGeneratedTemplate</code> API actions.
+class ResourceDefinition {
+  /// A list of up to 256 key-value pairs that identifies the scanned resource.
+  /// The key is the name of one of the primary identifiers for the resource.
+  /// (Primary identifiers are specified in the <code>primaryIdentifier</code>
+  /// list in the resource schema.) The value is the value of that primary
+  /// identifier. For example, for a <code>AWS::DynamoDB::Table</code> resource,
+  /// the primary identifiers is <code>TableName</code> so the key-value pair
+  /// could be <code>"TableName": "MyDDBTable"</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier">primaryIdentifier</a>
+  /// in the <i>CloudFormation Command Line Interface User guide for extension
+  /// development</i>.
+  final Map<String, String> resourceIdentifier;
+
+  /// The type of the resource, such as <code>AWS::DynamoDB::Table</code>. For the
+  /// list of supported resources, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html">IaC
+  /// generator supported resource types</a> in the <i>CloudFormation User
+  /// Guide</i>
+  final String resourceType;
+
+  /// The logical resource id for this resource in the generated template.
+  final String? logicalResourceId;
+
+  ResourceDefinition({
+    required this.resourceIdentifier,
+    required this.resourceType,
+    this.logicalResourceId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    final logicalResourceId = this.logicalResourceId;
+    return {
+      'ResourceIdentifier': resourceIdentifier,
+      'ResourceType': resourceType,
+      if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
+    };
+  }
+}
+
+/// Details about a resource in a generated template
+class ResourceDetail {
+  /// The logical id for this resource in the final generated template.
+  final String? logicalResourceId;
+
+  /// A list of up to 256 key-value pairs that identifies the resource in the
+  /// generated template. The key is the name of one of the primary identifiers
+  /// for the resource. (Primary identifiers are specified in the
+  /// <code>primaryIdentifier</code> list in the resource schema.) The value is
+  /// the value of that primary identifier. For example, for a
+  /// <code>AWS::DynamoDB::Table</code> resource, the primary identifiers is
+  /// <code>TableName</code> so the key-value pair could be <code>"TableName":
+  /// "MyDDBTable"</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier">primaryIdentifier</a>
+  /// in the <i>CloudFormation Command Line Interface User guide for extension
+  /// development</i>.
+  final Map<String, String>? resourceIdentifier;
+
+  /// Status of the processing of a resource in a generated template.
+  /// <dl> <dt>InProgress</dt> <dd>
+  /// The resource processing is still in progress.
+  /// </dd> <dt>Complete</dt> <dd>
+  /// The resource processing is complete.
+  /// </dd> <dt>Pending</dt> <dd>
+  /// The resource processing is pending.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// The resource processing has failed.
+  /// </dd> </dl>
+  final GeneratedTemplateResourceStatus? resourceStatus;
+
+  /// The reason for the resource detail, providing more information if a failure
+  /// happened.
+  final String? resourceStatusReason;
+
+  /// The type of the resource, such as <code>AWS::DynamoDB::Table</code>. For the
+  /// list of supported resources, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html">IaC
+  /// generator supported resource types</a> In the <i>CloudFormation User
+  /// Guide</i>
+  final String? resourceType;
+
+  /// The warnings generated for this resource.
+  final List<WarningDetail>? warnings;
+
+  ResourceDetail({
+    this.logicalResourceId,
+    this.resourceIdentifier,
+    this.resourceStatus,
+    this.resourceStatusReason,
+    this.resourceType,
+    this.warnings,
+  });
+  factory ResourceDetail.fromXml(_s.XmlElement elem) {
+    return ResourceDetail(
+      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
+      resourceIdentifier: Map.fromEntries(
+        elem.getElement('ResourceIdentifier')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+      resourceStatus: _s
+          .extractXmlStringValue(elem, 'ResourceStatus')
+          ?.toGeneratedTemplateResourceStatus(),
+      resourceStatusReason:
+          _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
+      warnings: _s.extractXmlChild(elem, 'Warnings')?.let((elem) =>
+          elem.findElements('member').map(WarningDetail.fromXml).toList()),
+    );
+  }
+}
+
 /// Describes the target resources of a specific type in your import template
 /// (for example, all <code>AWS::S3::Bucket</code> resources) and the properties
 /// you can provide during the import to identify resources of that type.
@@ -9931,6 +11947,96 @@ class ResourceIdentifierSummary {
           .extractXmlChild(elem, 'ResourceIdentifiers')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
+    );
+  }
+}
+
+enum ResourceScanStatus {
+  inProgress,
+  failed,
+  complete,
+  expired,
+}
+
+extension ResourceScanStatusValueExtension on ResourceScanStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceScanStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ResourceScanStatus.failed:
+        return 'FAILED';
+      case ResourceScanStatus.complete:
+        return 'COMPLETE';
+      case ResourceScanStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension ResourceScanStatusFromString on String {
+  ResourceScanStatus toResourceScanStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ResourceScanStatus.inProgress;
+      case 'FAILED':
+        return ResourceScanStatus.failed;
+      case 'COMPLETE':
+        return ResourceScanStatus.complete;
+      case 'EXPIRED':
+        return ResourceScanStatus.expired;
+    }
+    throw Exception('$this is not known in enum ResourceScanStatus');
+  }
+}
+
+/// A summary of the resource scan. This is returned by the
+/// <code>ListResourceScan</code> API action.
+class ResourceScanSummary {
+  /// The time that the resource scan was finished.
+  final DateTime? endTime;
+
+  /// The percentage of the resource scan that has been completed.
+  final double? percentageCompleted;
+
+  /// The Amazon Resource Name (ARN) of the resource scan.
+  final String? resourceScanId;
+
+  /// The time that the resource scan was started.
+  final DateTime? startTime;
+
+  /// Status of the resource scan.
+  /// <dl> <dt>INPROGRESS</dt> <dd>
+  /// The resource scan is still in progress.
+  /// </dd> <dt>COMPLETE</dt> <dd>
+  /// The resource scan is complete.
+  /// </dd> <dt>EXPIRED</dt> <dd>
+  /// The resource scan has expired.
+  /// </dd> <dt>FAILED</dt> <dd>
+  /// The resource scan has failed.
+  /// </dd> </dl>
+  final ResourceScanStatus? status;
+
+  /// The reason for the resource scan status, providing more information if a
+  /// failure happened.
+  final String? statusReason;
+
+  ResourceScanSummary({
+    this.endTime,
+    this.percentageCompleted,
+    this.resourceScanId,
+    this.startTime,
+    this.status,
+    this.statusReason,
+  });
+  factory ResourceScanSummary.fromXml(_s.XmlElement elem) {
+    return ResourceScanSummary(
+      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
+      percentageCompleted:
+          _s.extractXmlDoubleValue(elem, 'PercentageCompleted'),
+      resourceScanId: _s.extractXmlStringValue(elem, 'ResourceScanId'),
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
+      status: _s.extractXmlStringValue(elem, 'Status')?.toResourceScanStatus(),
+      statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
 }
@@ -10094,14 +12200,40 @@ extension ResourceStatusFromString on String {
 /// The field that CloudFormation will change, such as the name of a resource's
 /// property, and whether the resource will be recreated.
 class ResourceTargetDefinition {
+  /// The value of the property after the change is executed. Large values can be
+  /// truncated.
+  final String? afterValue;
+
   /// Indicates which resource attribute is triggering this update, such as a
   /// change in the resource attribute's <code>Metadata</code>,
   /// <code>Properties</code>, or <code>Tags</code>.
   final ResourceAttribute? attribute;
 
+  /// The type of change to be made to the property if the change is executed.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Add</code> The item will be added.
+  /// </li>
+  /// <li>
+  /// <code>Remove</code> The item will be removed.
+  /// </li>
+  /// <li>
+  /// <code>Modify</code> The item will be modified.
+  /// </li>
+  /// </ul>
+  final AttributeChangeType? attributeChangeType;
+
+  /// The value of the property before the change is executed. Large values can be
+  /// truncated.
+  final String? beforeValue;
+
   /// If the <code>Attribute</code> value is <code>Properties</code>, the name of
   /// the property. For all other attributes, the value is null.
   final String? name;
+
+  /// The property path of the property.
+  final String? path;
 
   /// If the <code>Attribute</code> value is <code>Properties</code>, indicates
   /// whether a change to this property causes the resource to be recreated. The
@@ -10109,19 +12241,29 @@ class ResourceTargetDefinition {
   /// <code>Conditionally</code>. To determine the conditions for a
   /// <code>Conditionally</code> recreation, see the update behavior for that <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">property</a>
-  /// in the CloudFormation User Guide.
+  /// in the <i>CloudFormation User Guide</i>.
   final RequiresRecreation? requiresRecreation;
 
   ResourceTargetDefinition({
+    this.afterValue,
     this.attribute,
+    this.attributeChangeType,
+    this.beforeValue,
     this.name,
+    this.path,
     this.requiresRecreation,
   });
   factory ResourceTargetDefinition.fromXml(_s.XmlElement elem) {
     return ResourceTargetDefinition(
+      afterValue: _s.extractXmlStringValue(elem, 'AfterValue'),
       attribute:
           _s.extractXmlStringValue(elem, 'Attribute')?.toResourceAttribute(),
+      attributeChangeType: _s
+          .extractXmlStringValue(elem, 'AttributeChangeType')
+          ?.toAttributeChangeType(),
+      beforeValue: _s.extractXmlStringValue(elem, 'BeforeValue'),
       name: _s.extractXmlStringValue(elem, 'Name'),
+      path: _s.extractXmlStringValue(elem, 'Path'),
       requiresRecreation: _s
           .extractXmlStringValue(elem, 'RequiresRecreation')
           ?.toRequiresRecreation(),
@@ -10143,7 +12285,7 @@ class ResourceToImport {
   /// The type of resource to import into your stack, such as
   /// <code>AWS::S3::Bucket</code>. For a list of supported resource types, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html">Resources
-  /// that support import operations</a> in the CloudFormation User Guide.
+  /// that support import operations</a> in the <i>CloudFormation User Guide</i>.
   final String resourceType;
 
   ResourceToImport({
@@ -10172,7 +12314,7 @@ class ResourceToImport {
 /// your application during stack creation and updating, and to roll back that
 /// operation if the application breaches the threshold of any of the alarms
 /// you've specified. For more information, see <a
-/// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html">Monitor
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html">Monitor
 /// and Roll Back Stack Operations</a>.
 class RollbackConfiguration {
   /// The amount of time, in minutes, during which CloudFormation should monitor
@@ -10304,9 +12446,94 @@ class RollbackTrigger {
   }
 }
 
+/// A scanned resource returned by <code>ListResourceScanResources</code> or
+/// <code>ListResourceScanRelatedResources</code>.
+class ScannedResource {
+  /// If <code>true</code>, the resource is managed by a CloudFormation stack.
+  final bool? managedByStack;
+
+  /// A list of up to 256 key-value pairs that identifies for the scanned
+  /// resource. The key is the name of one of the primary identifiers for the
+  /// resource. (Primary identifiers are specified in the
+  /// <code>primaryIdentifier</code> list in the resource schema.) The value is
+  /// the value of that primary identifier. For example, for a
+  /// <code>AWS::DynamoDB::Table</code> resource, the primary identifiers is
+  /// <code>TableName</code> so the key-value pair could be <code>"TableName":
+  /// "MyDDBTable"</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier">primaryIdentifier</a>
+  /// in the <i>CloudFormation Command Line Interface User guide for extension
+  /// development</i>.
+  final Map<String, String>? resourceIdentifier;
+
+  /// The type of the resource, such as <code>AWS::DynamoDB::Table</code>. For the
+  /// list of supported resources, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html">Resource
+  /// type support</a> In the <i>CloudFormation User Guide</i>
+  final String? resourceType;
+
+  ScannedResource({
+    this.managedByStack,
+    this.resourceIdentifier,
+    this.resourceType,
+  });
+  factory ScannedResource.fromXml(_s.XmlElement elem) {
+    return ScannedResource(
+      managedByStack: _s.extractXmlBoolValue(elem, 'ManagedByStack'),
+      resourceIdentifier: Map.fromEntries(
+        elem.getElement('ResourceIdentifier')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
+    );
+  }
+}
+
+/// Identifies a scanned resource. This is used with the
+/// <code>ListResourceScanRelatedResources</code> API action.
+class ScannedResourceIdentifier {
+  /// A list of up to 256 key-value pairs that identifies the scanned resource.
+  /// The key is the name of one of the primary identifiers for the resource.
+  /// (Primary identifiers are specified in the <code>primaryIdentifier</code>
+  /// list in the resource schema.) The value is the value of that primary
+  /// identifier. For example, for a <code>AWS::DynamoDB::Table</code> resource,
+  /// the primary identifiers is <code>TableName</code> so the key-value pair
+  /// could be <code>"TableName": "MyDDBTable"</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier">primaryIdentifier</a>
+  /// in the <i>CloudFormation Command Line Interface User guide for extension
+  /// development</i>.
+  final Map<String, String> resourceIdentifier;
+
+  /// The type of the resource, such as <code>AWS::DynamoDB::Table</code>. For the
+  /// list of supported resources, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html">IaC
+  /// generator supported resource types</a> In the <i>CloudFormation User
+  /// Guide</i>.
+  final String resourceType;
+
+  ScannedResourceIdentifier({
+    required this.resourceIdentifier,
+    required this.resourceType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    return {
+      'ResourceIdentifier': resourceIdentifier,
+      'ResourceType': resourceType,
+    };
+  }
+}
+
 class SetTypeConfigurationOutput {
   /// The Amazon Resource Name (ARN) for the configuration data, in this account
-  /// and region.
+  /// and Region.
   ///
   /// Conditional: You must specify <code>ConfigurationArn</code>, or
   /// <code>Type</code> and <code>TypeName</code>.
@@ -10348,11 +12575,35 @@ class Stack {
   /// The unique ID of the change set.
   final String? changeSetId;
 
+  /// Specifies the deletion mode for the stack. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STANDARD</code> - Use the standard behavior. Specifying this value is
+  /// the same as not specifying this parameter.
+  /// </li>
+  /// <li>
+  /// <code>FORCE_DELETE_STACK</code> - Delete the stack if it's stuck in a
+  /// <code>DELETE_FAILED</code> state due to resource deletion failure.
+  /// </li>
+  /// </ul>
+  final DeletionMode? deletionMode;
+
   /// The time the stack was deleted.
   final DateTime? deletionTime;
 
   /// A user-defined description associated with the stack.
   final String? description;
+
+  /// The detailed status of the resource or stack. If
+  /// <code>CONFIGURATION_COMPLETE</code> is present, the resource or resource
+  /// configuration phase has completed and the stabilization of the resources is
+  /// in progress. The stack sets <code>CONFIGURATION_COMPLETE</code> when all of
+  /// the resources in the stack have reached that event. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html">CloudFormation
+  /// stack deployment</a> in the <i>CloudFormation User Guide</i>.
+  final DetailedStatus? detailedStatus;
 
   /// Boolean to enable or disable rollback on stack creation failures:
   ///
@@ -10367,20 +12618,20 @@ class Stack {
   final bool? disableRollback;
 
   /// Information about whether a stack's actual configuration differs, or has
-  /// <i>drifted</i>, from it's expected configuration, as defined in the stack
+  /// <i>drifted</i>, from its expected configuration, as defined in the stack
   /// template and any values specified as template parameters. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
   final StackDriftInformation? driftInformation;
 
   /// Whether termination protection is enabled for the stack.
   ///
   /// For <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
   /// stacks</a>, termination protection is set on the root stack and can't be
   /// changed directly on the nested stack. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
   /// a Stack From Being Deleted</a> in the <i>CloudFormation User Guide</i>.
   final bool? enableTerminationProtection;
 
@@ -10403,9 +12654,16 @@ class Stack {
   /// the root stack is also the parent stack.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>CloudFormation User Guide</i>.
   final String? parentId;
+
+  /// When set to <code>true</code>, newly created resources are deleted when the
+  /// operation rolls back. This includes newly created resources marked with a
+  /// deletion policy of <code>Retain</code>.
+  ///
+  /// Default: <code>false</code>
+  final bool? retainExceptOnCreate;
 
   /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
   /// role that's associated with the stack. During a stack operation,
@@ -10420,7 +12678,7 @@ class Stack {
   /// ID of the top-level stack to which the nested stack ultimately belongs.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>CloudFormation User Guide</i>.
   final String? rootId;
 
@@ -10442,8 +12700,10 @@ class Stack {
     required this.stackStatus,
     this.capabilities,
     this.changeSetId,
+    this.deletionMode,
     this.deletionTime,
     this.description,
+    this.detailedStatus,
     this.disableRollback,
     this.driftInformation,
     this.enableTerminationProtection,
@@ -10452,6 +12712,7 @@ class Stack {
     this.outputs,
     this.parameters,
     this.parentId,
+    this.retainExceptOnCreate,
     this.roleARN,
     this.rollbackConfiguration,
     this.rootId,
@@ -10471,8 +12732,12 @@ class Stack {
           .map((s) => s.toCapability())
           .toList()),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
+      deletionMode:
+          _s.extractXmlStringValue(elem, 'DeletionMode')?.toDeletionMode(),
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       description: _s.extractXmlStringValue(elem, 'Description'),
+      detailedStatus:
+          _s.extractXmlStringValue(elem, 'DetailedStatus')?.toDetailedStatus(),
       disableRollback: _s.extractXmlBoolValue(elem, 'DisableRollback'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -10488,6 +12753,8 @@ class Stack {
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
           elem.findElements('member').map(Parameter.fromXml).toList()),
       parentId: _s.extractXmlStringValue(elem, 'ParentId'),
+      retainExceptOnCreate:
+          _s.extractXmlBoolValue(elem, 'RetainExceptOnCreate'),
       roleARN: _s.extractXmlStringValue(elem, 'RoleARN'),
       rollbackConfiguration: _s
           .extractXmlChild(elem, 'RollbackConfiguration')
@@ -10699,6 +12966,26 @@ class StackEvent {
   /// <code>Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002</code>.
   final String? clientRequestToken;
 
+  /// An optional field containing information about the detailed status of the
+  /// stack event.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONFIGURATION_COMPLETE</code> - all of the resources in the stack have
+  /// reached that event. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html">CloudFormation
+  /// stack deployment</a> in the <i>CloudFormation User Guide</i>.
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
+  /// <code>VALIDATION_FAILED</code> - template validation failed because of
+  /// invalid properties in the template. The <code>ResourceStatusReason</code>
+  /// field shows what properties are defined incorrectly.
+  /// </li>
+  /// </ul>
+  final DetailedStatus? detailedStatus;
+
   /// Specify the hook failure mode for non-compliant resources in the followings
   /// ways.
   ///
@@ -10743,7 +13030,8 @@ class StackEvent {
 
   /// Type of resource. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
-  /// Web Services Resource Types Reference</a> in the CloudFormation User Guide.)
+  /// Web Services Resource Types Reference</a> in the <i>CloudFormation User
+  /// Guide</i>.)
   final String? resourceType;
 
   StackEvent({
@@ -10752,6 +13040,7 @@ class StackEvent {
     required this.stackName,
     required this.timestamp,
     this.clientRequestToken,
+    this.detailedStatus,
     this.hookFailureMode,
     this.hookInvocationPoint,
     this.hookStatus,
@@ -10771,6 +13060,8 @@ class StackEvent {
       stackName: _s.extractXmlStringValue(elem, 'StackName')!,
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       clientRequestToken: _s.extractXmlStringValue(elem, 'ClientRequestToken'),
+      detailedStatus:
+          _s.extractXmlStringValue(elem, 'DetailedStatus')?.toDetailedStatus(),
       hookFailureMode: _s
           .extractXmlStringValue(elem, 'HookFailureMode')
           ?.toHookFailureMode(),
@@ -10869,7 +13160,12 @@ class StackInstance {
   /// excluded from further <code>UpdateStackSet</code> operations. You might need
   /// to perform a <code>DeleteStackInstances</code> operation, with
   /// <code>RetainStacks</code> set to <code>true</code>, to delete the stack
-  /// instance, and then delete the stack manually.
+  /// instance, and then delete the stack manually. <code>INOPERABLE</code> can be
+  /// returned here when the cause is a failed import. If it's due to a failed
+  /// import, the operation can be retried once the failures are fixed. To see if
+  /// this is due to a failed import, look at the <code>DetailedStatus</code>
+  /// member in the <code>StackInstanceSummary</code> member that is a peer to
+  /// this <code>Status</code> member.
   /// </li>
   /// <li>
   /// <code>OUTDATED</code>: The stack isn't currently up to date with the stack
@@ -10951,6 +13247,14 @@ class StackInstanceComprehensiveStatus {
   /// exceeded.
   /// </li>
   /// <li>
+  /// <code>FAILED_IMPORT</code>: The import of the stack instance in the
+  /// specified account and Region failed and left the stack in an unstable state.
+  /// Once the issues causing the failure are fixed, the import operation can be
+  /// retried. If enough stack set operations fail in enough accounts within a
+  /// Region, the failure tolerance for the stack set operation as a whole might
+  /// be exceeded.
+  /// </li>
+  /// <li>
   /// <code>INOPERABLE</code>: A <code>DeleteStackInstances</code> operation has
   /// failed and left the stack in an unstable state. Stacks in this state are
   /// excluded from further <code>UpdateStackSet</code> operations. You might need
@@ -10965,6 +13269,11 @@ class StackInstanceComprehensiveStatus {
   /// <li>
   /// <code>RUNNING</code>: The operation in the specified account and Region is
   /// currently in progress.
+  /// </li>
+  /// <li>
+  /// <code>SKIPPED_SUSPENDED_ACCOUNT</code>: The operation in the specified
+  /// account and Region has been skipped because the account was suspended at the
+  /// time of the operation.
   /// </li>
   /// <li>
   /// <code>SUCCEEDED</code>: The operation in the specified account and Region
@@ -10992,6 +13301,8 @@ enum StackInstanceDetailedStatus {
   failed,
   cancelled,
   inoperable,
+  skippedSuspendedAccount,
+  failedImport,
 }
 
 extension StackInstanceDetailedStatusValueExtension
@@ -11010,6 +13321,10 @@ extension StackInstanceDetailedStatusValueExtension
         return 'CANCELLED';
       case StackInstanceDetailedStatus.inoperable:
         return 'INOPERABLE';
+      case StackInstanceDetailedStatus.skippedSuspendedAccount:
+        return 'SKIPPED_SUSPENDED_ACCOUNT';
+      case StackInstanceDetailedStatus.failedImport:
+        return 'FAILED_IMPORT';
     }
   }
 }
@@ -11029,6 +13344,10 @@ extension StackInstanceDetailedStatusFromString on String {
         return StackInstanceDetailedStatus.cancelled;
       case 'INOPERABLE':
         return StackInstanceDetailedStatus.inoperable;
+      case 'SKIPPED_SUSPENDED_ACCOUNT':
+        return StackInstanceDetailedStatus.skippedSuspendedAccount;
+      case 'FAILED_IMPORT':
+        return StackInstanceDetailedStatus.failedImport;
     }
     throw Exception('$this is not known in enum StackInstanceDetailedStatus');
   }
@@ -11060,6 +13379,7 @@ class StackInstanceFilter {
 enum StackInstanceFilterName {
   detailedStatus,
   lastOperationId,
+  driftStatus,
 }
 
 extension StackInstanceFilterNameValueExtension on StackInstanceFilterName {
@@ -11069,6 +13389,8 @@ extension StackInstanceFilterNameValueExtension on StackInstanceFilterName {
         return 'DETAILED_STATUS';
       case StackInstanceFilterName.lastOperationId:
         return 'LAST_OPERATION_ID';
+      case StackInstanceFilterName.driftStatus:
+        return 'DRIFT_STATUS';
     }
   }
 }
@@ -11080,8 +13402,101 @@ extension StackInstanceFilterNameFromString on String {
         return StackInstanceFilterName.detailedStatus;
       case 'LAST_OPERATION_ID':
         return StackInstanceFilterName.lastOperationId;
+      case 'DRIFT_STATUS':
+        return StackInstanceFilterName.driftStatus;
     }
     throw Exception('$this is not known in enum StackInstanceFilterName');
+  }
+}
+
+/// The structure containing summary information about resource drifts for a
+/// stack instance.
+class StackInstanceResourceDriftsSummary {
+  /// The logical name of the resource specified in the template.
+  final String logicalResourceId;
+
+  /// Type of resource. For more information, go to <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
+  /// Web Services Resource Types Reference</a> in the <i>CloudFormation User
+  /// Guide</i>.
+  final String resourceType;
+
+  /// The ID of the stack instance.
+  final String stackId;
+
+  /// The drift status of the resource in a stack instance.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETED</code>: The resource differs from its expected template
+  /// configuration in that the resource has been deleted.
+  /// </li>
+  /// <li>
+  /// <code>MODIFIED</code>: One or more resource properties differ from their
+  /// expected template values.
+  /// </li>
+  /// <li>
+  /// <code>IN_SYNC</code>: The resource's actual configuration matches its
+  /// expected template configuration.
+  /// </li>
+  /// <li>
+  /// <code>NOT_CHECKED</code>: CloudFormation doesn't currently return this
+  /// value.
+  /// </li>
+  /// </ul>
+  final StackResourceDriftStatus stackResourceDriftStatus;
+
+  /// Time at which the stack instance drift detection operation was initiated.
+  final DateTime timestamp;
+
+  /// The name or unique identifier that corresponds to a physical instance ID of
+  /// a resource supported by CloudFormation.
+  final String? physicalResourceId;
+
+  /// Context information that enables CloudFormation to uniquely identify a
+  /// resource. CloudFormation uses context key-value pairs in cases where a
+  /// resource's logical and physical IDs aren't enough to uniquely identify that
+  /// resource. Each context key-value pair specifies a unique resource that
+  /// contains the targeted resource.
+  final List<PhysicalResourceIdContextKeyValuePair>? physicalResourceIdContext;
+
+  /// Status of the actual configuration of the resource compared to its expected
+  /// configuration. These will be present only for resources whose
+  /// <code>StackInstanceResourceDriftStatus</code> is <code>MODIFIED</code>.
+  final List<PropertyDifference>? propertyDifferences;
+
+  StackInstanceResourceDriftsSummary({
+    required this.logicalResourceId,
+    required this.resourceType,
+    required this.stackId,
+    required this.stackResourceDriftStatus,
+    required this.timestamp,
+    this.physicalResourceId,
+    this.physicalResourceIdContext,
+    this.propertyDifferences,
+  });
+  factory StackInstanceResourceDriftsSummary.fromXml(_s.XmlElement elem) {
+    return StackInstanceResourceDriftsSummary(
+      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
+      stackId: _s.extractXmlStringValue(elem, 'StackId')!,
+      stackResourceDriftStatus: _s
+          .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
+          .toStackResourceDriftStatus(),
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
+      physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
+      physicalResourceIdContext: _s
+          .extractXmlChild(elem, 'PhysicalResourceIdContext')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(PhysicalResourceIdContextKeyValuePair.fromXml)
+              .toList()),
+      propertyDifferences: _s.extractXmlChild(elem, 'PropertyDifferences')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(PropertyDifference.fromXml)
+              .toList()),
+    );
   }
 }
 
@@ -11185,7 +13600,12 @@ class StackInstanceSummary {
   /// excluded from further <code>UpdateStackSet</code> operations. You might need
   /// to perform a <code>DeleteStackInstances</code> operation, with
   /// <code>RetainStacks</code> set to <code>true</code>, to delete the stack
-  /// instance, and then delete the stack manually.
+  /// instance, and then delete the stack manually. <code>INOPERABLE</code> can be
+  /// returned here when the cause is a failed import. If it's due to a failed
+  /// import, the operation can be retried once the failures are fixed. To see if
+  /// this is due to a failed import, call the <a>DescribeStackInstance</a> API
+  /// operation, look at the <code>DetailedStatus</code> member returned in the
+  /// <code>StackInstanceSummary</code> member.
   /// </li>
   /// <li>
   /// <code>OUTDATED</code>: The stack isn't currently up to date with the stack
@@ -11257,7 +13677,8 @@ class StackResource {
 
   /// Type of resource. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
-  /// Web Services Resource Types Reference</a> in the CloudFormation User Guide.
+  /// Web Services Resource Types Reference</a> in the <i>CloudFormation User
+  /// Guide</i>.
   final String resourceType;
 
   /// Time the status was updated.
@@ -11270,7 +13691,7 @@ class StackResource {
   /// has <i>drifted</i>, from its expected configuration, as defined in the stack
   /// template and any values specified as template parameters. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
   final StackResourceDriftInformation? driftInformation;
 
@@ -11339,7 +13760,8 @@ class StackResourceDetail {
 
   /// Type of resource. For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
-  /// Web Services Resource Types Reference</a> in the CloudFormation User Guide.
+  /// Web Services Resource Types Reference</a> in the <i>CloudFormation User
+  /// Guide</i>.
   final String resourceType;
 
   /// User defined description associated with the resource.
@@ -11349,14 +13771,14 @@ class StackResourceDetail {
   /// has <i>drifted</i>, from its expected configuration, as defined in the stack
   /// template and any values specified as template parameters. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
   final StackResourceDriftInformation? driftInformation;
 
   /// The content of the <code>Metadata</code> attribute declared for the
   /// resource. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-metadata.html">Metadata
-  /// Attribute</a> in the CloudFormation User Guide.
+  /// Attribute</a> in the <i>CloudFormation User Guide</i>.
   final String? metadata;
 
   /// Contains information about the module from which the resource was created,
@@ -11424,7 +13846,7 @@ class StackResourceDetail {
 ///
 /// Resources that don't currently support drift detection can't be checked. For
 /// a list of resources that support drift detection, see <a
-/// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html">Resources
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html">Resources
 /// that Support Drift Detection</a>.
 ///
 /// Use <a>DetectStackResourceDrift</a> to detect drift on individual resources,
@@ -11700,14 +14122,15 @@ class StackResourceSummary {
 
   /// Type of resource. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
-  /// Web Services Resource Types Reference</a> in the CloudFormation User Guide.)
+  /// Web Services Resource Types Reference</a> in the <i>CloudFormation User
+  /// Guide</i>.)
   final String resourceType;
 
   /// Information about whether the resource's actual configuration differs, or
   /// has <i>drifted</i>, from its expected configuration, as defined in the stack
   /// template and any values specified as template parameters. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
   final StackResourceDriftInformationSummary? driftInformation;
 
@@ -11764,7 +14187,7 @@ class StackSet {
   /// Use customized administrator roles to control which users or groups can
   /// manage specific stack sets within the same administrator account. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Prerequisites:
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Prerequisites:
   /// Granting Permissions for Stack Set Operations</a> in the <i>CloudFormation
   /// User Guide</i>.
   final String? administrationRoleARN;
@@ -11823,6 +14246,10 @@ class StackSet {
   /// </li>
   /// </ul>
   final PermissionModels? permissionModel;
+
+  /// Returns a list of all Amazon Web Services Regions the given StackSet has
+  /// stack instances deployed in. The Amazon Web Services Regions list output is
+  /// in no particular order.
   final List<String>? regions;
 
   /// The Amazon Resource Name (ARN) of the stack set.
@@ -11908,6 +14335,32 @@ class StackSet {
       tags: _s.extractXmlChild(elem, 'Tags')?.let(
           (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
+    );
+  }
+}
+
+/// One of the targets for the stack set. Returned by the <a
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html">ListStackSetAutoDeploymentTargets</a>
+/// API operation.
+class StackSetAutoDeploymentTargetSummary {
+  /// The organization root ID or organizational unit (OU) IDs where the stack set
+  /// is targeted.
+  final String? organizationalUnitId;
+
+  /// The list of Regions targeted for this organization or OU.
+  final List<String>? regions;
+
+  StackSetAutoDeploymentTargetSummary({
+    this.organizationalUnitId,
+    this.regions,
+  });
+  factory StackSetAutoDeploymentTargetSummary.fromXml(_s.XmlElement elem) {
+    return StackSetAutoDeploymentTargetSummary(
+      organizationalUnitId:
+          _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
+      regions: _s
+          .extractXmlChild(elem, 'Regions')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -12141,7 +14594,7 @@ class StackSetOperation {
   /// Use customized administrator roles to control which users or groups can
   /// manage specific stack sets within the same administrator account. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Define
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Define
   /// Permissions for Multiple Administrators</a> in the <i>CloudFormation User
   /// Guide</i>.
   final String? administrationRoleARN;
@@ -12189,7 +14642,7 @@ class StackSetOperation {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html">Detecting
-  /// Unmanaged Changes in Stack Sets</a> in the CloudFormation User Guide.
+  /// Unmanaged Changes in Stack Sets</a> in the <i>CloudFormation User Guide</i>.
   final StackSetDriftDetectionDetails? stackSetDriftDetectionDetails;
 
   /// The ID of the stack set.
@@ -12212,7 +14665,7 @@ class StackSetOperation {
   /// that require a sequence of operations, the operation is queued to be
   /// performed. For more information, see the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes">stack
-  /// set operation status codes</a> in the CloudFormation User Guide.
+  /// set operation status codes</a> in the <i>CloudFormation User Guide</i>.
   /// </li>
   /// <li>
   /// <code>RUNNING</code>: The operation is currently being performed.
@@ -12330,6 +14783,32 @@ extension StackSetOperationActionFromString on String {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
 /// set operation options</a>.
 class StackSetOperationPreferences {
+  /// Specifies how the concurrency level behaves during the operation execution.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STRICT_FAILURE_TOLERANCE</code>: This option dynamically lowers the
+  /// concurrency level to ensure the number of failed accounts never exceeds the
+  /// value of <code>FailureToleranceCount</code> +1. The initial actual
+  /// concurrency is set to the lower of either the value of the
+  /// <code>MaxConcurrentCount</code>, or the value of
+  /// <code>FailureToleranceCount</code> +1. The actual concurrency is then
+  /// reduced proportionally by the number of failures. This is the default
+  /// behavior.
+  ///
+  /// If failure tolerance or Maximum concurrent accounts are set to percentages,
+  /// the behavior is similar.
+  /// </li>
+  /// <li>
+  /// <code>SOFT_FAILURE_TOLERANCE</code>: This option decouples
+  /// <code>FailureToleranceCount</code> from the actual concurrency. This allows
+  /// stack set operations to run at the concurrency level set by the
+  /// <code>MaxConcurrentCount</code> value, or
+  /// <code>MaxConcurrentPercentage</code>, regardless of the number of failures.
+  /// </li>
+  /// </ul>
+  final ConcurrencyMode? concurrencyMode;
+
   /// The number of accounts, per Region, for which this operation can fail before
   /// CloudFormation stops the operation in that Region. If the operation is
   /// stopped in a Region, CloudFormation doesn't attempt the operation in any
@@ -12356,9 +14835,11 @@ class StackSetOperationPreferences {
   final int? failureTolerancePercentage;
 
   /// The maximum number of accounts in which to perform this operation at one
-  /// time. This is dependent on the value of
-  /// <code>FailureToleranceCount</code>.<code>MaxConcurrentCount</code> is at
-  /// most one more than the <code>FailureToleranceCount</code>.
+  /// time. This can depend on the value of <code>FailureToleranceCount</code>
+  /// depending on your <code>ConcurrencyMode</code>.
+  /// <code>MaxConcurrentCount</code> is at most one more than the
+  /// <code>FailureToleranceCount</code> if you're using
+  /// <code>STRICT_FAILURE_TOLERANCE</code>.
   ///
   /// Note that this setting lets you specify the <i>maximum</i> for operations.
   /// For large deployments, under certain circumstances the actual number of
@@ -12392,10 +14873,15 @@ class StackSetOperationPreferences {
   /// in parallel or one Region at a time.
   final RegionConcurrencyType? regionConcurrencyType;
 
-  /// The order of the Regions in where you want to perform the stack operation.
+  /// The order of the Regions where you want to perform the stack operation.
+  /// <note>
+  /// <code>RegionOrder</code> isn't followed if <code>AutoDeployment</code> is
+  /// enabled.
+  /// </note>
   final List<String>? regionOrder;
 
   StackSetOperationPreferences({
+    this.concurrencyMode,
     this.failureToleranceCount,
     this.failureTolerancePercentage,
     this.maxConcurrentCount,
@@ -12405,6 +14891,9 @@ class StackSetOperationPreferences {
   });
   factory StackSetOperationPreferences.fromXml(_s.XmlElement elem) {
     return StackSetOperationPreferences(
+      concurrencyMode: _s
+          .extractXmlStringValue(elem, 'ConcurrencyMode')
+          ?.toConcurrencyMode(),
       failureToleranceCount:
           _s.extractXmlIntValue(elem, 'FailureToleranceCount'),
       failureTolerancePercentage:
@@ -12422,6 +14911,7 @@ class StackSetOperationPreferences {
   }
 
   Map<String, dynamic> toJson() {
+    final concurrencyMode = this.concurrencyMode;
     final failureToleranceCount = this.failureToleranceCount;
     final failureTolerancePercentage = this.failureTolerancePercentage;
     final maxConcurrentCount = this.maxConcurrentCount;
@@ -12429,6 +14919,7 @@ class StackSetOperationPreferences {
     final regionConcurrencyType = this.regionConcurrencyType;
     final regionOrder = this.regionOrder;
     return {
+      if (concurrencyMode != null) 'ConcurrencyMode': concurrencyMode.toValue(),
       if (failureToleranceCount != null)
         'FailureToleranceCount': failureToleranceCount,
       if (failureTolerancePercentage != null)
@@ -12654,6 +15145,14 @@ class StackSetOperationSummary {
 
   /// The unique ID of the stack set operation.
   final String? operationId;
+
+  /// The user-specified preferences for how CloudFormation performs a stack set
+  /// operation.
+  ///
+  /// For more information about maximum concurrent accounts and failure
+  /// tolerance, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
+  /// set operation options</a>.
   final StackSetOperationPreferences? operationPreferences;
 
   /// The overall status of the operation.
@@ -12673,7 +15172,7 @@ class StackSetOperationSummary {
   /// that require a sequence of operations, the operation is queued to be
   /// performed. For more information, see the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes">stack
-  /// set operation status codes</a> in the CloudFormation User Guide.
+  /// set operation status codes</a> in the <i>CloudFormation User Guide</i>.
   /// </li>
   /// <li>
   /// <code>RUNNING</code>: The operation is currently being performed.
@@ -13014,10 +15513,10 @@ class StackSummary {
   final DateTime? deletionTime;
 
   /// Summarizes information about whether a stack's actual configuration differs,
-  /// or has <i>drifted</i>, from it's expected configuration, as defined in the
+  /// or has <i>drifted</i>, from its expected configuration, as defined in the
   /// stack template and any values specified as template parameters. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
   final StackDriftInformationSummary? driftInformation;
 
@@ -13030,7 +15529,7 @@ class StackSummary {
   /// the root stack is also the parent stack.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>CloudFormation User Guide</i>.
   final String? parentId;
 
@@ -13038,7 +15537,7 @@ class StackSummary {
   /// ID of the top-level stack to which the nested stack ultimately belongs.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>CloudFormation User Guide</i>.
   final String? rootId;
 
@@ -13085,6 +15584,24 @@ class StackSummary {
   }
 }
 
+class StartResourceScanOutput {
+  /// The Amazon Resource Name (ARN) of the resource scan. The format is
+  /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}</code>.
+  /// An example is
+  /// <code>arn:aws:cloudformation:<i>us-east-1</i>:<i>123456789012</i>:resourceScan/<i>f5b490f7-7ed4-428a-aa06-31ff25db0772</i>
+  /// </code>.
+  final String? resourceScanId;
+
+  StartResourceScanOutput({
+    this.resourceScanId,
+  });
+  factory StartResourceScanOutput.fromXml(_s.XmlElement elem) {
+    return StartResourceScanOutput(
+      resourceScanId: _s.extractXmlStringValue(elem, 'ResourceScanId'),
+    );
+  }
+}
+
 class StopStackSetOperationOutput {
   StopStackSetOperationOutput();
   factory StopStackSetOperationOutput.fromXml(
@@ -13127,6 +15644,96 @@ class Tag {
   }
 }
 
+/// The configuration details of a generated template.
+class TemplateConfiguration {
+  /// The <code>DeletionPolicy</code> assigned to resources in the generated
+  /// template. Supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETE</code> - delete all resources when the stack is deleted.
+  /// </li>
+  /// <li>
+  /// <code>RETAIN</code> - retain all resources when the stack is deleted.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html">DeletionPolicy
+  /// attribute</a> in the <i>CloudFormation User Guide</i>.
+  final GeneratedTemplateDeletionPolicy? deletionPolicy;
+
+  /// The <code>UpdateReplacePolicy</code> assigned to resources in the generated
+  /// template. Supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETE</code> - delete all resources when the resource is replaced
+  /// during an update operation.
+  /// </li>
+  /// <li>
+  /// <code>RETAIN</code> - retain all resources when the resource is replaced
+  /// during an update operation.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html">UpdateReplacePolicy
+  /// attribute</a> in the <i>CloudFormation User Guide</i>.
+  final GeneratedTemplateUpdateReplacePolicy? updateReplacePolicy;
+
+  TemplateConfiguration({
+    this.deletionPolicy,
+    this.updateReplacePolicy,
+  });
+  factory TemplateConfiguration.fromXml(_s.XmlElement elem) {
+    return TemplateConfiguration(
+      deletionPolicy: _s
+          .extractXmlStringValue(elem, 'DeletionPolicy')
+          ?.toGeneratedTemplateDeletionPolicy(),
+      updateReplacePolicy: _s
+          .extractXmlStringValue(elem, 'UpdateReplacePolicy')
+          ?.toGeneratedTemplateUpdateReplacePolicy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionPolicy = this.deletionPolicy;
+    final updateReplacePolicy = this.updateReplacePolicy;
+    return {
+      if (deletionPolicy != null) 'DeletionPolicy': deletionPolicy.toValue(),
+      if (updateReplacePolicy != null)
+        'UpdateReplacePolicy': updateReplacePolicy.toValue(),
+    };
+  }
+}
+
+enum TemplateFormat {
+  json,
+  yaml,
+}
+
+extension TemplateFormatValueExtension on TemplateFormat {
+  String toValue() {
+    switch (this) {
+      case TemplateFormat.json:
+        return 'JSON';
+      case TemplateFormat.yaml:
+        return 'YAML';
+    }
+  }
+}
+
+extension TemplateFormatFromString on String {
+  TemplateFormat toTemplateFormat() {
+    switch (this) {
+      case 'JSON':
+        return TemplateFormat.json;
+      case 'YAML':
+        return TemplateFormat.yaml;
+    }
+    throw Exception('$this is not known in enum TemplateFormat');
+  }
+}
+
 /// The TemplateParameter data type.
 class TemplateParameter {
   /// The default value associated with the parameter.
@@ -13158,6 +15765,36 @@ class TemplateParameter {
   }
 }
 
+/// A summary of the progress of the template generation.
+class TemplateProgress {
+  /// The number of resources that failed the template generation.
+  final int? resourcesFailed;
+
+  /// The number of resources that are still pending the template generation.
+  final int? resourcesPending;
+
+  /// The number of resources that are in-process for the template generation.
+  final int? resourcesProcessing;
+
+  /// The number of resources that succeeded the template generation.
+  final int? resourcesSucceeded;
+
+  TemplateProgress({
+    this.resourcesFailed,
+    this.resourcesPending,
+    this.resourcesProcessing,
+    this.resourcesSucceeded,
+  });
+  factory TemplateProgress.fromXml(_s.XmlElement elem) {
+    return TemplateProgress(
+      resourcesFailed: _s.extractXmlIntValue(elem, 'ResourcesFailed'),
+      resourcesPending: _s.extractXmlIntValue(elem, 'ResourcesPending'),
+      resourcesProcessing: _s.extractXmlIntValue(elem, 'ResourcesProcessing'),
+      resourcesSucceeded: _s.extractXmlIntValue(elem, 'ResourcesSucceeded'),
+    );
+  }
+}
+
 enum TemplateStage {
   original,
   processed,
@@ -13183,6 +15820,109 @@ extension TemplateStageFromString on String {
         return TemplateStage.processed;
     }
     throw Exception('$this is not known in enum TemplateStage');
+  }
+}
+
+/// The summary of a generated template.
+class TemplateSummary {
+  /// The time the generated template was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the generated template. The format is
+  /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}</code>.
+  /// For example,
+  /// <code>arn:aws:cloudformation:<i>us-east-1</i>:<i>123456789012</i>:generatedtemplate/<i>2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc</i>
+  /// </code>.
+  final String? generatedTemplateId;
+
+  /// The name of the generated template.
+  final String? generatedTemplateName;
+
+  /// The time the generated template was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The number of resources in the generated template. This is a total of
+  /// resources in pending, in-progress, completed, and failed states.
+  final int? numberOfResources;
+
+  /// The status of the template generation. Supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CreatePending</code> - the creation of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>CreateInProgress</code> - the creation of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>DeletePending</code> - the deletion of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>DeleteInProgress</code> - the deletion of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>UpdatePending</code> - the update of the template is pending.
+  /// </li>
+  /// <li>
+  /// <code>UpdateInProgress</code> - the update of the template is in progress.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> - the template operation failed.
+  /// </li>
+  /// <li>
+  /// <code>Complete</code> - the template operation is complete.
+  /// </li>
+  /// </ul>
+  final GeneratedTemplateStatus? status;
+
+  /// The reason for the current template generation status. This will provide
+  /// more details if a failure happened.
+  final String? statusReason;
+
+  TemplateSummary({
+    this.creationTime,
+    this.generatedTemplateId,
+    this.generatedTemplateName,
+    this.lastUpdatedTime,
+    this.numberOfResources,
+    this.status,
+    this.statusReason,
+  });
+  factory TemplateSummary.fromXml(_s.XmlElement elem) {
+    return TemplateSummary(
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      generatedTemplateId:
+          _s.extractXmlStringValue(elem, 'GeneratedTemplateId'),
+      generatedTemplateName:
+          _s.extractXmlStringValue(elem, 'GeneratedTemplateName'),
+      lastUpdatedTime: _s.extractXmlDateTimeValue(elem, 'LastUpdatedTime'),
+      numberOfResources: _s.extractXmlIntValue(elem, 'NumberOfResources'),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.toGeneratedTemplateStatus(),
+      statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
+    );
+  }
+}
+
+/// Options for the <code>GetTemplateSummary</code> API action.
+class TemplateSummaryConfig {
+  /// If set to <code>True</code>, any unrecognized resource types generate
+  /// warnings and not an error. Any unrecognized resource types are returned in
+  /// the <code>Warnings</code> output parameter.
+  final bool? treatUnrecognizedResourceTypesAsWarnings;
+
+  TemplateSummaryConfig({
+    this.treatUnrecognizedResourceTypesAsWarnings,
+  });
+
+  Map<String, dynamic> toJson() {
+    final treatUnrecognizedResourceTypesAsWarnings =
+        this.treatUnrecognizedResourceTypesAsWarnings;
+    return {
+      if (treatUnrecognizedResourceTypesAsWarnings != null)
+        'TreatUnrecognizedResourceTypesAsWarnings':
+            treatUnrecognizedResourceTypesAsWarnings,
+    };
   }
 }
 
@@ -13234,10 +15974,10 @@ extension ThirdPartyTypeFromString on String {
 }
 
 /// Detailed information concerning the specification of a CloudFormation
-/// extension in a given account and region.
+/// extension in a given account and Region.
 ///
 /// For more information, see <a
-/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration">Configuring
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration">Configuring
 /// extensions at the account level</a> in the <i>CloudFormation User Guide</i>.
 class TypeConfigurationDetails {
   /// The alias specified for this configuration, if one was specified when the
@@ -13245,11 +15985,11 @@ class TypeConfigurationDetails {
   final String? alias;
 
   /// The Amazon Resource Name (ARN) for the configuration data, in this account
-  /// and region.
+  /// and Region.
   final String? arn;
 
   /// A JSON string specifying the configuration data for the extension, in this
-  /// account and region.
+  /// account and Region.
   ///
   /// If a configuration hasn't been set for a specified extension, CloudFormation
   /// returns <code>{}</code>.
@@ -13266,14 +16006,14 @@ class TypeConfigurationDetails {
   final DateTime? lastUpdated;
 
   /// The Amazon Resource Name (ARN) for the extension, in this account and
-  /// region.
+  /// Region.
   ///
-  /// For public extensions, this will be the ARN assigned when you <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">activate
-  /// the type</a> in this account and region. For private extensions, this will
-  /// be the ARN assigned when you <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">register
-  /// the type</a> in this account and region.
+  /// For public extensions, this will be the ARN assigned when you call the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">ActivateType</a>
+  /// API operation in this account and Region. For private extensions, this will
+  /// be the ARN assigned when you call the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>
+  /// API operation in this account and Region.
   final String? typeArn;
 
   /// The name of the extension.
@@ -13308,14 +16048,14 @@ class TypeConfigurationIdentifier {
   final ThirdPartyType? type;
 
   /// The Amazon Resource Name (ARN) for the extension, in this account and
-  /// region.
+  /// Region.
   ///
-  /// For public extensions, this will be the ARN assigned when you <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">activate
-  /// the type</a> in this account and region. For private extensions, this will
-  /// be the ARN assigned when you <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">register
-  /// the type</a> in this account and region.
+  /// For public extensions, this will be the ARN assigned when you call the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">ActivateType</a>
+  /// API operation in this account and Region. For private extensions, this will
+  /// be the ARN assigned when you call the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>
+  /// API operation in this account and Region.
   final String? typeArn;
 
   /// The alias specified for this configuration, if one was specified when the
@@ -13323,7 +16063,7 @@ class TypeConfigurationIdentifier {
   final String? typeConfigurationAlias;
 
   /// The Amazon Resource Name (ARN) for the configuration, in this account and
-  /// region.
+  /// Region.
   final String? typeConfigurationArn;
 
   /// The name of the extension type to which this configuration applies.
@@ -13373,11 +16113,11 @@ class TypeFilters {
   /// <ul>
   /// <li>
   /// <code>REGISTERED</code>: Private extensions that have been registered for
-  /// this account and region.
+  /// this account and Region.
   /// </li>
   /// <li>
   /// <code>ACTIVATED</code>: Public extensions that have been activated for this
-  /// account and region.
+  /// account and Region.
   /// </li>
   /// <li>
   /// <code>THIRD_PARTY</code>: Extensions available for use from publishers other
@@ -13437,14 +16177,14 @@ class TypeSummary {
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html">RegisterType</a>.
   ///
-  /// To set the default version of an extension, use <code>
-  /// <a>SetTypeDefaultVersion</a> </code>.
+  /// To set the default version of an extension, use
+  /// <a>SetTypeDefaultVersion</a>.
   final String? defaultVersionId;
 
   /// The description of the extension.
   final String? description;
 
-  /// Whether the extension is activated for this account and region.
+  /// Whether the extension is activated for this account and Region.
   ///
   /// This applies only to third-party public extensions. Extensions published by
   /// Amazon are activated by default.
@@ -13467,38 +16207,38 @@ class TypeSummary {
   /// For all other extension types, CloudFormation returns <code>null</code>.
   final DateTime? lastUpdated;
 
-  /// For public extensions that have been activated for this account and region,
+  /// For public extensions that have been activated for this account and Region,
   /// the latest version of the public extension <i>that is available</i>. For any
   /// extensions other than activated third-arty extensions, CloudFormation
   /// returns <code>null</code>.
   ///
   /// How you specified <code>AutoUpdate</code> when enabling the extension
   /// affects whether CloudFormation automatically updates the extension in this
-  /// account and region when a new version is released. For more information, see
+  /// account and Region when a new version is released. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto">Setting
   /// CloudFormation to automatically use new versions of extensions</a> in the
   /// <i>CloudFormation User Guide</i>.
   final String? latestPublicVersion;
 
-  /// For public extensions that have been activated for this account and region,
+  /// For public extensions that have been activated for this account and Region,
   /// the type name of the public extension.
   ///
   /// If you specified a <code>TypeNameAlias</code> when enabling the extension in
-  /// this account and region, CloudFormation treats that alias as the extension's
-  /// type name within the account and region, not the type name of the public
+  /// this account and Region, CloudFormation treats that alias as the extension's
+  /// type name within the account and Region, not the type name of the public
   /// extension. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias">Specifying
   /// aliases to refer to extensions</a> in the <i>CloudFormation User Guide</i>.
   final String? originalTypeName;
 
-  /// For public extensions that have been activated for this account and region,
+  /// For public extensions that have been activated for this account and Region,
   /// the version of the public extension to be used for CloudFormation operations
   /// in this account and Region.
   ///
   /// How you specified <code>AutoUpdate</code> when enabling the extension
   /// affects whether CloudFormation automatically updates the extension in this
-  /// account and region when a new version is released. For more information, see
+  /// account and Region when a new version is released. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto">Setting
   /// CloudFormation to automatically use new versions of extensions</a> in the
@@ -13529,9 +16269,9 @@ class TypeSummary {
 
   /// The name of the extension.
   ///
-  /// If you specified a <code>TypeNameAlias</code> when you <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">activate
-  /// this extension</a> in your account and region, CloudFormation considers that
+  /// If you specified a <code>TypeNameAlias</code> when you call the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html">ActivateType</a>
+  /// API operation in your account and Region, CloudFormation considers that
   /// alias as the type name.
   final String? typeName;
 
@@ -13627,14 +16367,14 @@ class TypeVersionSummary {
   /// CloudFormation returns <code>null</code>.
   final bool? isDefaultVersion;
 
-  /// For public extensions that have been activated for this account and region,
+  /// For public extensions that have been activated for this account and Region,
   /// the version of the public extension to be used for CloudFormation operations
-  /// in this account and region. For any extensions other than activated
+  /// in this account and Region. For any extensions other than activated
   /// third-arty extensions, CloudFormation returns <code>null</code>.
   ///
   /// How you specified <code>AutoUpdate</code> when enabling the extension
   /// affects whether CloudFormation automatically updates the extension in this
-  /// account and region when a new version is released. For more information, see
+  /// account and Region when a new version is released. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto">Setting
   /// CloudFormation to automatically use new versions of extensions</a> in the
@@ -13676,6 +16416,25 @@ class TypeVersionSummary {
       type: _s.extractXmlStringValue(elem, 'Type')?.toRegistryType(),
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
+    );
+  }
+}
+
+class UpdateGeneratedTemplateOutput {
+  /// The Amazon Resource Name (ARN) of the generated template. The format is
+  /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}</code>.
+  /// For example,
+  /// <code>arn:aws:cloudformation:<i>us-east-1</i>:<i>123456789012</i>:generatedtemplate/<i>2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc</i>
+  /// </code>.
+  final String? generatedTemplateId;
+
+  UpdateGeneratedTemplateOutput({
+    this.generatedTemplateId,
+  });
+  factory UpdateGeneratedTemplateOutput.fromXml(_s.XmlElement elem) {
+    return UpdateGeneratedTemplateOutput(
+      generatedTemplateId:
+          _s.extractXmlStringValue(elem, 'GeneratedTemplateId'),
     );
   }
 }
@@ -13843,6 +16602,137 @@ extension VisibilityFromString on String {
   }
 }
 
+/// The warnings generated for a specific resource for this generated template.
+class WarningDetail {
+  /// The properties of the resource that are impacted by this warning.
+  final List<WarningProperty>? properties;
+
+  /// The type of this warning. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-write-only-properties.html">IaC
+  /// generator and write-only properties</a> in the <i>CloudFormation User
+  /// Guide</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MUTUALLY_EXCLUSIVE_PROPERTIES</code> - The resource requires
+  /// mutually-exclusive write-only properties. The IaC generator selects one set
+  /// of mutually exclusive properties and converts the included properties into
+  /// parameters. The parameter names have a suffix <code>OneOf</code> and the
+  /// parameter descriptions indicate that the corresponding property can be
+  /// replaced with other exclusive properties.
+  /// </li>
+  /// <li>
+  /// <code>UNSUPPORTED_PROPERTIES</code> - Unsupported properties are present in
+  /// the resource. One example of unsupported properties would be a required
+  /// write-only property that is an array, because a parameter cannot be an
+  /// array. Another example is an optional write-only property.
+  /// </li>
+  /// <li>
+  /// <code>MUTUALLY_EXCLUSIVE_TYPES</code> - One or more required write-only
+  /// properties are found in the resource, and the type of that property can be
+  /// any of several types.
+  /// </li>
+  /// </ul> <note>
+  /// Currently the resource and property reference documentation does not
+  /// indicate if a property uses a type of <code>oneOf</code> or
+  /// <code>anyOf</code>. You need to look at the resource provider schema.
+  /// </note>
+  final WarningType? type;
+
+  WarningDetail({
+    this.properties,
+    this.type,
+  });
+  factory WarningDetail.fromXml(_s.XmlElement elem) {
+    return WarningDetail(
+      properties: _s.extractXmlChild(elem, 'Properties')?.let((elem) =>
+          elem.findElements('member').map(WarningProperty.fromXml).toList()),
+      type: _s.extractXmlStringValue(elem, 'Type')?.toWarningType(),
+    );
+  }
+}
+
+/// A specific property that is impacted by a warning.
+class WarningProperty {
+  /// The description of the property from the resource provider schema.
+  final String? description;
+
+  /// The path of the property. For example, if this is for the
+  /// <code>S3Bucket</code> member of the <code>Code</code> property, the property
+  /// path would be <code>Code/S3Bucket</code>.
+  final String? propertyPath;
+
+  /// If <code>true</code>, the specified property is required.
+  final bool? required;
+
+  WarningProperty({
+    this.description,
+    this.propertyPath,
+    this.required,
+  });
+  factory WarningProperty.fromXml(_s.XmlElement elem) {
+    return WarningProperty(
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      propertyPath: _s.extractXmlStringValue(elem, 'PropertyPath'),
+      required: _s.extractXmlBoolValue(elem, 'Required'),
+    );
+  }
+}
+
+enum WarningType {
+  mutuallyExclusiveProperties,
+  unsupportedProperties,
+  mutuallyExclusiveTypes,
+}
+
+extension WarningTypeValueExtension on WarningType {
+  String toValue() {
+    switch (this) {
+      case WarningType.mutuallyExclusiveProperties:
+        return 'MUTUALLY_EXCLUSIVE_PROPERTIES';
+      case WarningType.unsupportedProperties:
+        return 'UNSUPPORTED_PROPERTIES';
+      case WarningType.mutuallyExclusiveTypes:
+        return 'MUTUALLY_EXCLUSIVE_TYPES';
+    }
+  }
+}
+
+extension WarningTypeFromString on String {
+  WarningType toWarningType() {
+    switch (this) {
+      case 'MUTUALLY_EXCLUSIVE_PROPERTIES':
+        return WarningType.mutuallyExclusiveProperties;
+      case 'UNSUPPORTED_PROPERTIES':
+        return WarningType.unsupportedProperties;
+      case 'MUTUALLY_EXCLUSIVE_TYPES':
+        return WarningType.mutuallyExclusiveTypes;
+    }
+    throw Exception('$this is not known in enum WarningType');
+  }
+}
+
+/// Contains any warnings returned by the <code>GetTemplateSummary</code> API
+/// action.
+class Warnings {
+  /// A list of all of the unrecognized resource types. This is only returned if
+  /// the <code>TemplateSummaryConfig</code> parameter has the
+  /// <code>TreatUnrecognizedResourceTypesAsWarning</code> configuration set to
+  /// <code>True</code>.
+  final List<String>? unrecognizedResourceTypes;
+
+  Warnings({
+    this.unrecognizedResourceTypes,
+  });
+  factory Warnings.fromXml(_s.XmlElement elem) {
+    return Warnings(
+      unrecognizedResourceTypes: _s
+          .extractXmlChild(elem, 'UnrecognizedResourceTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+}
+
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
@@ -13858,10 +16748,26 @@ class ChangeSetNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ChangeSetNotFoundException', message: message);
 }
 
+class ConcurrentResourcesLimitExceededException extends _s.GenericAwsException {
+  ConcurrentResourcesLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ConcurrentResourcesLimitExceededException',
+            message: message);
+}
+
 class CreatedButModifiedException extends _s.GenericAwsException {
   CreatedButModifiedException({String? type, String? message})
       : super(
             type: type, code: 'CreatedButModifiedException', message: message);
+}
+
+class GeneratedTemplateNotFoundException extends _s.GenericAwsException {
+  GeneratedTemplateNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'GeneratedTemplateNotFoundException',
+            message: message);
 }
 
 class InsufficientCapabilitiesException extends _s.GenericAwsException {
@@ -13930,6 +16836,30 @@ class OperationStatusCheckFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+class ResourceScanInProgressException extends _s.GenericAwsException {
+  ResourceScanInProgressException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResourceScanInProgressException',
+            message: message);
+}
+
+class ResourceScanLimitExceededException extends _s.GenericAwsException {
+  ResourceScanLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResourceScanLimitExceededException',
+            message: message);
+}
+
+class ResourceScanNotFoundException extends _s.GenericAwsException {
+  ResourceScanNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResourceScanNotFoundException',
+            message: message);
+}
+
 class StackInstanceNotFoundException extends _s.GenericAwsException {
   StackInstanceNotFoundException({String? type, String? message})
       : super(
@@ -13984,8 +16914,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CFNRegistryException(type: type, message: message),
   'ChangeSetNotFoundException': (type, message) =>
       ChangeSetNotFoundException(type: type, message: message),
+  'ConcurrentResourcesLimitExceededException': (type, message) =>
+      ConcurrentResourcesLimitExceededException(type: type, message: message),
   'CreatedButModifiedException': (type, message) =>
       CreatedButModifiedException(type: type, message: message),
+  'GeneratedTemplateNotFoundException': (type, message) =>
+      GeneratedTemplateNotFoundException(type: type, message: message),
   'InsufficientCapabilitiesException': (type, message) =>
       InsufficientCapabilitiesException(type: type, message: message),
   'InvalidChangeSetStatusException': (type, message) =>
@@ -14006,6 +16940,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       OperationNotFoundException(type: type, message: message),
   'OperationStatusCheckFailedException': (type, message) =>
       OperationStatusCheckFailedException(type: type, message: message),
+  'ResourceScanInProgressException': (type, message) =>
+      ResourceScanInProgressException(type: type, message: message),
+  'ResourceScanLimitExceededException': (type, message) =>
+      ResourceScanLimitExceededException(type: type, message: message),
+  'ResourceScanNotFoundException': (type, message) =>
+      ResourceScanNotFoundException(type: type, message: message),
   'StackInstanceNotFoundException': (type, message) =>
       StackInstanceNotFoundException(type: type, message: message),
   'StackNotFoundException': (type, message) =>

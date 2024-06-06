@@ -91,6 +91,33 @@ class WellArchitected {
     );
   }
 
+  /// Associate a profile with a workload.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArns] :
+  /// The list of profile ARNs to associate with the workload.
+  Future<void> associateProfiles({
+    required List<String> profileArns,
+    required String workloadId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ProfileArns': profileArns,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/workloads/${Uri.encodeComponent(workloadId)}/associateProfiles',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Create a lens share.
   ///
   /// The owner of a lens can share it with other Amazon Web Services accounts,
@@ -213,6 +240,183 @@ class WellArchitected {
     return CreateMilestoneOutput.fromJson(response);
   }
 
+  /// Create a profile.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileDescription] :
+  /// The profile description.
+  ///
+  /// Parameter [profileName] :
+  /// Name of the profile.
+  ///
+  /// Parameter [profileQuestions] :
+  /// The profile questions.
+  ///
+  /// Parameter [tags] :
+  /// The tags assigned to the profile.
+  Future<CreateProfileOutput> createProfile({
+    required String profileDescription,
+    required String profileName,
+    required List<ProfileQuestionUpdate> profileQuestions,
+    String? clientRequestToken,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ProfileDescription': profileDescription,
+      'ProfileName': profileName,
+      'ProfileQuestions': profileQuestions,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/profiles',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateProfileOutput.fromJson(response);
+  }
+
+  /// Create a profile share.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArn] :
+  /// The profile ARN.
+  Future<CreateProfileShareOutput> createProfileShare({
+    required String profileArn,
+    required String sharedWith,
+    String? clientRequestToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'SharedWith': sharedWith,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/profiles/${Uri.encodeComponent(profileArn)}/shares',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateProfileShareOutput.fromJson(response);
+  }
+
+  /// Create a review template.
+  /// <note>
+  /// <b>Disclaimer</b>
+  ///
+  /// Do not include or gather personal identifiable information (PII) of end
+  /// users or other identifiable individuals in or via your review templates.
+  /// If your review template or those shared with you and used in your account
+  /// do include or collect PII you are responsible for: ensuring that the
+  /// included PII is processed in accordance with applicable law, providing
+  /// adequate privacy notices, and obtaining necessary consents for processing
+  /// such data.
+  /// </note>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [description] :
+  /// The review template description.
+  ///
+  /// Parameter [lenses] :
+  /// Lenses applied to the review template.
+  ///
+  /// Parameter [templateName] :
+  /// Name of the review template.
+  ///
+  /// Parameter [tags] :
+  /// The tags assigned to the review template.
+  Future<CreateReviewTemplateOutput> createReviewTemplate({
+    required String description,
+    required List<String> lenses,
+    required String templateName,
+    String? clientRequestToken,
+    String? notes,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Description': description,
+      'Lenses': lenses,
+      'TemplateName': templateName,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (notes != null) 'Notes': notes,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/reviewTemplates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateReviewTemplateOutput.fromJson(response);
+  }
+
+  /// Create a review template share.
+  ///
+  /// The owner of a review template can share it with other Amazon Web Services
+  /// accounts, users, an organization, and organizational units (OUs) in the
+  /// same Amazon Web Services Region.
+  ///
+  /// Shared access to a review template is not removed until the review
+  /// template share invitation is deleted.
+  ///
+  /// If you share a review template with an organization or OU, all accounts in
+  /// the organization or OU are granted access to the review template.
+  /// <note>
+  /// <b>Disclaimer</b>
+  ///
+  /// By sharing your review template with other Amazon Web Services accounts,
+  /// you acknowledge that Amazon Web Services will make your review template
+  /// available to those other accounts.
+  /// </note>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  Future<CreateTemplateShareOutput> createTemplateShare({
+    required String sharedWith,
+    required String templateArn,
+    String? clientRequestToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'SharedWith': sharedWith,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/templates/shares/${Uri.encodeComponent(templateArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTemplateShareOutput.fromJson(response);
+  }
+
   /// Create a new workload.
   ///
   /// The owner of a workload can share the workload with other Amazon Web
@@ -230,6 +434,23 @@ class WellArchitected {
   /// You also must specify <code>ReviewOwner</code>, even though the parameter
   /// is listed as not being required in the following section.
   /// </important>
+  /// When creating a workload using a review template, you must have the
+  /// following IAM permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>wellarchitected:GetReviewTemplate</code>
+  /// </li>
+  /// <li>
+  /// <code>wellarchitected:GetReviewTemplateAnswer</code>
+  /// </li>
+  /// <li>
+  /// <code>wellarchitected:ListReviewTemplateAnswers</code>
+  /// </li>
+  /// <li>
+  /// <code>wellarchitected:GetReviewTemplateLensReview</code>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -246,6 +467,15 @@ class WellArchitected {
   /// Well-Architected discovery configuration settings associated to the
   /// workload.
   ///
+  /// Parameter [jiraConfiguration] :
+  /// Jira configuration settings when creating a workload.
+  ///
+  /// Parameter [profileArns] :
+  /// The list of profile ARNs associated with the workload.
+  ///
+  /// Parameter [reviewTemplateArns] :
+  /// The list of review template ARNs to associate with the workload.
+  ///
   /// Parameter [tags] :
   /// The tags to be associated with the workload.
   Future<CreateWorkloadOutput> createWorkload({
@@ -261,10 +491,13 @@ class WellArchitected {
     WorkloadDiscoveryConfig? discoveryConfig,
     String? industry,
     String? industryType,
+    WorkloadJiraConfigurationInput? jiraConfiguration,
     List<String>? nonAwsRegions,
     String? notes,
     List<String>? pillarPriorities,
+    List<String>? profileArns,
     String? reviewOwner,
+    List<String>? reviewTemplateArns,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -281,10 +514,13 @@ class WellArchitected {
       if (discoveryConfig != null) 'DiscoveryConfig': discoveryConfig,
       if (industry != null) 'Industry': industry,
       if (industryType != null) 'IndustryType': industryType,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (nonAwsRegions != null) 'NonAwsRegions': nonAwsRegions,
       if (notes != null) 'Notes': notes,
       if (pillarPriorities != null) 'PillarPriorities': pillarPriorities,
+      if (profileArns != null) 'ProfileArns': profileArns,
       if (reviewOwner != null) 'ReviewOwner': reviewOwner,
+      if (reviewTemplateArns != null) 'ReviewTemplateArns': reviewTemplateArns,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -422,6 +658,141 @@ class WellArchitected {
     );
   }
 
+  /// Delete a profile.
+  /// <note>
+  /// <b>Disclaimer</b>
+  ///
+  /// By sharing your profile with other Amazon Web Services accounts, you
+  /// acknowledge that Amazon Web Services will make your profile available to
+  /// those other accounts. Those other accounts may continue to access and use
+  /// your shared profile even if you delete the profile from your own Amazon
+  /// Web Services account or terminate your Amazon Web Services account.
+  /// </note>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArn] :
+  /// The profile ARN.
+  Future<void> deleteProfile({
+    required String profileArn,
+    String? clientRequestToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientRequestToken != null)
+        'ClientRequestToken': [clientRequestToken],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/profiles/${Uri.encodeComponent(profileArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Delete a profile share.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArn] :
+  /// The profile ARN.
+  Future<void> deleteProfileShare({
+    required String profileArn,
+    required String shareId,
+    String? clientRequestToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientRequestToken != null)
+        'ClientRequestToken': [clientRequestToken],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/profiles/${Uri.encodeComponent(profileArn)}/shares/${Uri.encodeComponent(shareId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Delete a review template.
+  ///
+  /// Only the owner of a review template can delete it.
+  ///
+  /// After the review template is deleted, Amazon Web Services accounts, users,
+  /// organizations, and organizational units (OUs) that you shared the review
+  /// template with will no longer be able to apply it to new workloads.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  Future<void> deleteReviewTemplate({
+    required String templateArn,
+    String? clientRequestToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientRequestToken != null)
+        'ClientRequestToken': [clientRequestToken],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/reviewTemplates/${Uri.encodeComponent(templateArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Delete a review template share.
+  ///
+  /// After the review template share is deleted, Amazon Web Services accounts,
+  /// users, organizations, and organizational units (OUs) that you shared the
+  /// review template with will no longer be able to apply it to new workloads.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  Future<void> deleteTemplateShare({
+    required String shareId,
+    required String templateArn,
+    String? clientRequestToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientRequestToken != null)
+        'ClientRequestToken': [clientRequestToken],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/templates/shares/${Uri.encodeComponent(templateArn)}/${Uri.encodeComponent(shareId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Delete an existing workload.
   ///
   /// May throw [ValidationException].
@@ -501,6 +872,33 @@ class WellArchitected {
       method: 'PATCH',
       requestUri:
           '/workloads/${Uri.encodeComponent(workloadId)}/disassociateLenses',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociate a profile from a workload.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArns] :
+  /// The list of profile ARNs to disassociate from the workload.
+  Future<void> disassociateProfiles({
+    required List<String> profileArns,
+    required String workloadId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ProfileArns': profileArns,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/workloads/${Uri.encodeComponent(workloadId)}/disassociateProfiles',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -633,6 +1031,22 @@ class WellArchitected {
       exceptionFnMap: _exceptionFns,
     );
     return GetConsolidatedReportOutput.fromJson(response);
+  }
+
+  /// Global settings for all workloads.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  Future<GetGlobalSettingsOutput> getGlobalSettings() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/global-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetGlobalSettingsOutput.fromJson(response);
   }
 
   /// Get an existing lens.
@@ -788,6 +1202,124 @@ class WellArchitected {
     return GetMilestoneOutput.fromJson(response);
   }
 
+  /// Get profile information.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArn] :
+  /// The profile ARN.
+  ///
+  /// Parameter [profileVersion] :
+  /// The profile version.
+  Future<GetProfileOutput> getProfile({
+    required String profileArn,
+    String? profileVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (profileVersion != null) 'ProfileVersion': [profileVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profiles/${Uri.encodeComponent(profileArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetProfileOutput.fromJson(response);
+  }
+
+  /// Get profile template.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  Future<GetProfileTemplateOutput> getProfileTemplate() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profileTemplate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetProfileTemplateOutput.fromJson(response);
+  }
+
+  /// Get review template.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  Future<GetReviewTemplateOutput> getReviewTemplate({
+    required String templateArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/reviewTemplates/${Uri.encodeComponent(templateArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetReviewTemplateOutput.fromJson(response);
+  }
+
+  /// Get review template answer.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  Future<GetReviewTemplateAnswerOutput> getReviewTemplateAnswer({
+    required String lensAlias,
+    required String questionId,
+    required String templateArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/reviewTemplates/${Uri.encodeComponent(templateArn)}/lensReviews/${Uri.encodeComponent(lensAlias)}/answers/${Uri.encodeComponent(questionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetReviewTemplateAnswerOutput.fromJson(response);
+  }
+
+  /// Get a lens review associated with a review template.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  Future<GetReviewTemplateLensReviewOutput> getReviewTemplateLensReview({
+    required String lensAlias,
+    required String templateArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/reviewTemplates/${Uri.encodeComponent(templateArn)}/lensReviews/${Uri.encodeComponent(lensAlias)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetReviewTemplateLensReviewOutput.fromJson(response);
+  }
+
   /// Get an existing workload.
   ///
   /// May throw [ValidationException].
@@ -878,6 +1410,9 @@ class WellArchitected {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
+  ///
+  /// Parameter [questionPriority] :
+  /// The priority of the question.
   Future<ListAnswersOutput> listAnswers({
     required String lensAlias,
     required String workloadId,
@@ -885,6 +1420,7 @@ class WellArchitected {
     int? milestoneNumber,
     String? nextToken,
     String? pillarId,
+    QuestionPriority? questionPriority,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -904,6 +1440,8 @@ class WellArchitected {
         'MilestoneNumber': [milestoneNumber.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (pillarId != null) 'PillarId': [pillarId],
+      if (questionPriority != null)
+        'QuestionPriority': [questionPriority.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1002,7 +1540,7 @@ class WellArchitected {
     return ListCheckSummariesOutput.fromJson(response);
   }
 
-  /// List lens review improvements.
+  /// List the improvements of a particular lens review.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1012,6 +1550,9 @@ class WellArchitected {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
+  ///
+  /// Parameter [questionPriority] :
+  /// The priority of the question.
   Future<ListLensReviewImprovementsOutput> listLensReviewImprovements({
     required String lensAlias,
     required String workloadId,
@@ -1019,6 +1560,7 @@ class WellArchitected {
     int? milestoneNumber,
     String? nextToken,
     String? pillarId,
+    QuestionPriority? questionPriority,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1038,6 +1580,8 @@ class WellArchitected {
         'MilestoneNumber': [milestoneNumber.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (pillarId != null) 'PillarId': [pillarId],
+      if (questionPriority != null)
+        'QuestionPriority': [questionPriority.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1103,8 +1647,8 @@ class WellArchitected {
   /// The maximum number of results to return for this request.
   ///
   /// Parameter [sharedWithPrefix] :
-  /// The Amazon Web Services account ID, IAM role, organization ID, or
-  /// organizational unit (OU) ID with which the lens is shared.
+  /// The Amazon Web Services account ID, organization ID, or organizational
+  /// unit (OU) ID with which the lens is shared.
   Future<ListLensSharesOutput> listLensShares({
     required String lensAlias,
     int? maxResults,
@@ -1217,9 +1761,17 @@ class WellArchitected {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN for the related resource for the notification.
+  /// <note>
+  /// Only one of <code>WorkloadID</code> or <code>ResourceARN</code> should be
+  /// specified.
+  /// </note>
   Future<ListNotificationsOutput> listNotifications({
     int? maxResults,
     String? nextToken,
+    String? resourceArn,
     String? workloadId,
   }) async {
     _s.validateNumRange(
@@ -1231,6 +1783,7 @@ class WellArchitected {
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
       if (workloadId != null) 'WorkloadId': workloadId,
     };
     final response = await _protocol.send(
@@ -1242,7 +1795,204 @@ class WellArchitected {
     return ListNotificationsOutput.fromJson(response);
   }
 
-  /// List the workload invitations.
+  /// List profile notifications.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  Future<ListProfileNotificationsOutput> listProfileNotifications({
+    int? maxResults,
+    String? nextToken,
+    String? workloadId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (workloadId != null) 'WorkloadId': [workloadId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profileNotifications/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProfileNotificationsOutput.fromJson(response);
+  }
+
+  /// List profile shares.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArn] :
+  /// The profile ARN.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for this request.
+  ///
+  /// Parameter [sharedWithPrefix] :
+  /// The Amazon Web Services account ID, organization ID, or organizational
+  /// unit (OU) ID with which the profile is shared.
+  Future<ListProfileSharesOutput> listProfileShares({
+    required String profileArn,
+    int? maxResults,
+    String? nextToken,
+    String? sharedWithPrefix,
+    ShareStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (sharedWithPrefix != null) 'SharedWithPrefix': [sharedWithPrefix],
+      if (status != null) 'Status': [status.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profiles/${Uri.encodeComponent(profileArn)}/shares',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProfileSharesOutput.fromJson(response);
+  }
+
+  /// List profiles.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileNamePrefix] :
+  /// An optional string added to the beginning of each profile name returned in
+  /// the results.
+  ///
+  /// Parameter [profileOwnerType] :
+  /// Profile owner type.
+  Future<ListProfilesOutput> listProfiles({
+    int? maxResults,
+    String? nextToken,
+    String? profileNamePrefix,
+    ProfileOwnerType? profileOwnerType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (profileNamePrefix != null) 'ProfileNamePrefix': [profileNamePrefix],
+      if (profileOwnerType != null)
+        'ProfileOwnerType': [profileOwnerType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profileSummaries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProfilesOutput.fromJson(response);
+  }
+
+  /// List the answers of a review template.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The ARN of the review template.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for this request.
+  Future<ListReviewTemplateAnswersOutput> listReviewTemplateAnswers({
+    required String lensAlias,
+    required String templateArn,
+    int? maxResults,
+    String? nextToken,
+    String? pillarId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pillarId != null) 'PillarId': [pillarId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/reviewTemplates/${Uri.encodeComponent(templateArn)}/lensReviews/${Uri.encodeComponent(lensAlias)}/answers',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListReviewTemplateAnswersOutput.fromJson(response);
+  }
+
+  /// List review templates.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  Future<ListReviewTemplatesOutput> listReviewTemplates({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/reviewTemplates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListReviewTemplatesOutput.fromJson(response);
+  }
+
+  /// List the share invitations.
+  ///
+  /// <code>WorkloadNamePrefix</code>, <code>LensNamePrefix</code>,
+  /// <code>ProfileNamePrefix</code>, and <code>TemplateNamePrefix</code> are
+  /// mutually exclusive. Use the parameter that matches your
+  /// <code>ShareResourceType</code>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1256,13 +2006,23 @@ class WellArchitected {
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
   ///
+  /// Parameter [profileNamePrefix] :
+  /// An optional string added to the beginning of each profile name returned in
+  /// the results.
+  ///
   /// Parameter [shareResourceType] :
   /// The type of share invitations to be returned.
+  ///
+  /// Parameter [templateNamePrefix] :
+  /// An optional string added to the beginning of each review template name
+  /// returned in the results.
   Future<ListShareInvitationsOutput> listShareInvitations({
     String? lensNamePrefix,
     int? maxResults,
     String? nextToken,
+    String? profileNamePrefix,
     ShareResourceType? shareResourceType,
+    String? templateNamePrefix,
     String? workloadNamePrefix,
   }) async {
     _s.validateNumRange(
@@ -1275,8 +2035,11 @@ class WellArchitected {
       if (lensNamePrefix != null) 'LensNamePrefix': [lensNamePrefix],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
+      if (profileNamePrefix != null) 'ProfileNamePrefix': [profileNamePrefix],
       if (shareResourceType != null)
         'ShareResourceType': [shareResourceType.toValue()],
+      if (templateNamePrefix != null)
+        'TemplateNamePrefix': [templateNamePrefix],
       if (workloadNamePrefix != null)
         'WorkloadNamePrefix': [workloadNamePrefix],
     };
@@ -1292,8 +2055,8 @@ class WellArchitected {
 
   /// List the tags for a resource.
   /// <note>
-  /// The WorkloadArn parameter can be either a workload ARN or a custom lens
-  /// ARN.
+  /// The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a
+  /// profile ARN, or review template ARN.
   /// </note>
   ///
   /// May throw [InternalServerException].
@@ -1310,6 +2073,52 @@ class WellArchitected {
     return ListTagsForResourceOutput.fromJson(response);
   }
 
+  /// List review template shares.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for this request.
+  ///
+  /// Parameter [sharedWithPrefix] :
+  /// The Amazon Web Services account ID, organization ID, or organizational
+  /// unit (OU) ID with which the profile is shared.
+  Future<ListTemplateSharesOutput> listTemplateShares({
+    required String templateArn,
+    int? maxResults,
+    String? nextToken,
+    String? sharedWithPrefix,
+    ShareStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (sharedWithPrefix != null) 'SharedWithPrefix': [sharedWithPrefix],
+      if (status != null) 'Status': [status.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/templates/shares/${Uri.encodeComponent(templateArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTemplateSharesOutput.fromJson(response);
+  }
+
   /// List the workload shares associated with the workload.
   ///
   /// May throw [ValidationException].
@@ -1322,8 +2131,8 @@ class WellArchitected {
   /// The maximum number of results to return for this request.
   ///
   /// Parameter [sharedWithPrefix] :
-  /// The Amazon Web Services account ID, IAM role, organization ID, or
-  /// organizational unit (OU) ID with which the workload is shared.
+  /// The Amazon Web Services account ID, organization ID, or organizational
+  /// unit (OU) ID with which the workload is shared.
   Future<ListWorkloadSharesOutput> listWorkloadShares({
     required String workloadId,
     int? maxResults,
@@ -1389,8 +2198,8 @@ class WellArchitected {
 
   /// Adds one or more tags to the specified resource.
   /// <note>
-  /// The WorkloadArn parameter can be either a workload ARN or a custom lens
-  /// ARN.
+  /// The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a
+  /// profile ARN, or review template ARN.
   /// </note>
   ///
   /// May throw [InternalServerException].
@@ -1415,8 +2224,8 @@ class WellArchitected {
 
   /// Deletes specified tags from a resource.
   /// <note>
-  /// The WorkloadArn parameter can be either a workload ARN or a custom lens
-  /// ARN.
+  /// The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a
+  /// profile ARN, or review template ARN.
   /// </note>
   /// To specify multiple tags, use separate <b>tagKeys</b> parameters, for
   /// example:
@@ -1487,7 +2296,7 @@ class WellArchitected {
     return UpdateAnswerOutput.fromJson(response);
   }
 
-  /// Updates whether the Amazon Web Services account is opted into organization
+  /// Update whether the Amazon Web Services account is opted into organization
   /// sharing and discovery integration features.
   ///
   /// May throw [ValidationException].
@@ -1499,15 +2308,20 @@ class WellArchitected {
   /// Parameter [discoveryIntegrationStatus] :
   /// The status of discovery support settings.
   ///
+  /// Parameter [jiraConfiguration] :
+  /// The status of Jira integration settings.
+  ///
   /// Parameter [organizationSharingStatus] :
   /// The status of organization sharing settings.
   Future<void> updateGlobalSettings({
     DiscoveryIntegrationStatus? discoveryIntegrationStatus,
+    AccountJiraConfigurationInput? jiraConfiguration,
     OrganizationSharingStatus? organizationSharingStatus,
   }) async {
     final $payload = <String, dynamic>{
       if (discoveryIntegrationStatus != null)
         'DiscoveryIntegrationStatus': discoveryIntegrationStatus.toValue(),
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (organizationSharingStatus != null)
         'OrganizationSharingStatus': organizationSharingStatus.toValue(),
     };
@@ -1515,6 +2329,35 @@ class WellArchitected {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/global-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Update integration features.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [integratingService] :
+  /// Which integrated service to update.
+  Future<void> updateIntegration({
+    required IntegratingService integratingService,
+    required String workloadId,
+    String? clientRequestToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'IntegratingService': integratingService.toValue(),
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workloads/${Uri.encodeComponent(workloadId)}/updateIntegration',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1527,13 +2370,18 @@ class WellArchitected {
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jiraConfiguration] :
+  /// Configuration of the Jira integration.
   Future<UpdateLensReviewOutput> updateLensReview({
     required String lensAlias,
     required String workloadId,
+    JiraSelectedQuestionConfiguration? jiraConfiguration,
     String? lensNotes,
     Map<String, String>? pillarNotes,
   }) async {
     final $payload = <String, dynamic>{
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (lensNotes != null) 'LensNotes': lensNotes,
       if (pillarNotes != null) 'PillarNotes': pillarNotes,
     };
@@ -1545,6 +2393,165 @@ class WellArchitected {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLensReviewOutput.fromJson(response);
+  }
+
+  /// Update a profile.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [profileArn] :
+  /// The profile ARN.
+  ///
+  /// Parameter [profileDescription] :
+  /// The profile description.
+  ///
+  /// Parameter [profileQuestions] :
+  /// Profile questions.
+  Future<UpdateProfileOutput> updateProfile({
+    required String profileArn,
+    String? profileDescription,
+    List<ProfileQuestionUpdate>? profileQuestions,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (profileDescription != null) 'ProfileDescription': profileDescription,
+      if (profileQuestions != null) 'ProfileQuestions': profileQuestions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/profiles/${Uri.encodeComponent(profileArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateProfileOutput.fromJson(response);
+  }
+
+  /// Update a review template.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  ///
+  /// Parameter [description] :
+  /// The review template description.
+  ///
+  /// Parameter [lensesToAssociate] :
+  /// A list of lens aliases or ARNs to apply to the review template.
+  ///
+  /// Parameter [lensesToDisassociate] :
+  /// A list of lens aliases or ARNs to unapply to the review template. The
+  /// <code>wellarchitected</code> lens cannot be unapplied.
+  ///
+  /// Parameter [templateName] :
+  /// The review template name.
+  Future<UpdateReviewTemplateOutput> updateReviewTemplate({
+    required String templateArn,
+    String? description,
+    List<String>? lensesToAssociate,
+    List<String>? lensesToDisassociate,
+    String? notes,
+    String? templateName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (lensesToAssociate != null) 'LensesToAssociate': lensesToAssociate,
+      if (lensesToDisassociate != null)
+        'LensesToDisassociate': lensesToDisassociate,
+      if (notes != null) 'Notes': notes,
+      if (templateName != null) 'TemplateName': templateName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/reviewTemplates/${Uri.encodeComponent(templateArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateReviewTemplateOutput.fromJson(response);
+  }
+
+  /// Update a review template answer.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  ///
+  /// Parameter [choiceUpdates] :
+  /// A list of choices to be updated.
+  ///
+  /// Parameter [reason] :
+  /// The update reason.
+  Future<UpdateReviewTemplateAnswerOutput> updateReviewTemplateAnswer({
+    required String lensAlias,
+    required String questionId,
+    required String templateArn,
+    Map<String, ChoiceUpdate>? choiceUpdates,
+    bool? isApplicable,
+    String? notes,
+    AnswerReason? reason,
+    List<String>? selectedChoices,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (choiceUpdates != null) 'ChoiceUpdates': choiceUpdates,
+      if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (notes != null) 'Notes': notes,
+      if (reason != null) 'Reason': reason.toValue(),
+      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/reviewTemplates/${Uri.encodeComponent(templateArn)}/lensReviews/${Uri.encodeComponent(lensAlias)}/answers/${Uri.encodeComponent(questionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateReviewTemplateAnswerOutput.fromJson(response);
+  }
+
+  /// Update a lens review associated with a review template.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The review template ARN.
+  Future<UpdateReviewTemplateLensReviewOutput> updateReviewTemplateLensReview({
+    required String lensAlias,
+    required String templateArn,
+    String? lensNotes,
+    Map<String, String>? pillarNotes,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (lensNotes != null) 'LensNotes': lensNotes,
+      if (pillarNotes != null) 'PillarNotes': pillarNotes,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/reviewTemplates/${Uri.encodeComponent(templateArn)}/lensReviews/${Uri.encodeComponent(lensAlias)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateReviewTemplateLensReviewOutput.fromJson(response);
   }
 
   /// Update a workload or custom lens share invitation.
@@ -1601,6 +2608,9 @@ class WellArchitected {
   /// If a <b>Review owner</b> is not added to the workload within 60 days of
   /// acknowledgement, access to the workload is restricted until an owner is
   /// added.
+  ///
+  /// Parameter [jiraConfiguration] :
+  /// Configuration of the Jira integration.
   Future<UpdateWorkloadOutput> updateWorkload({
     required String workloadId,
     List<String>? accountIds,
@@ -1614,6 +2624,7 @@ class WellArchitected {
     String? industry,
     String? industryType,
     bool? isReviewOwnerUpdateAcknowledged,
+    WorkloadJiraConfigurationInput? jiraConfiguration,
     List<String>? nonAwsRegions,
     String? notes,
     List<String>? pillarPriorities,
@@ -1635,6 +2646,7 @@ class WellArchitected {
       if (industryType != null) 'IndustryType': industryType,
       if (isReviewOwnerUpdateAcknowledged != null)
         'IsReviewOwnerUpdateAcknowledged': isReviewOwnerUpdateAcknowledged,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (nonAwsRegions != null) 'NonAwsRegions': nonAwsRegions,
       if (notes != null) 'Notes': notes,
       if (pillarPriorities != null) 'PillarPriorities': pillarPriorities,
@@ -1684,6 +2696,7 @@ class WellArchitected {
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
   Future<void> upgradeLensReview({
     required String lensAlias,
     required String milestoneName,
@@ -1701,6 +2714,197 @@ class WellArchitected {
           '/workloads/${Uri.encodeComponent(workloadId)}/lensReviews/${Uri.encodeComponent(lensAlias)}/upgrade',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Upgrade a profile.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [profileArn] :
+  /// The profile ARN.
+  Future<void> upgradeProfileVersion({
+    required String profileArn,
+    required String workloadId,
+    String? clientRequestToken,
+    String? milestoneName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (milestoneName != null) 'MilestoneName': milestoneName,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/workloads/${Uri.encodeComponent(workloadId)}/profiles/${Uri.encodeComponent(profileArn)}/upgrade',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Upgrade the lens review of a review template.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateArn] :
+  /// The ARN of the review template.
+  Future<void> upgradeReviewTemplateLensReview({
+    required String lensAlias,
+    required String templateArn,
+    String? clientRequestToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/reviewTemplates/${Uri.encodeComponent(templateArn)}/lensReviews/${Uri.encodeComponent(lensAlias)}/upgrade',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+/// Account-level: Input for the Jira configuration.
+class AccountJiraConfigurationInput {
+  /// Account-level: Configuration status of the Jira integration.
+  final IntegrationStatusInput? integrationStatus;
+
+  /// Account-level: Jira issue management status.
+  final AccountJiraIssueManagementStatus? issueManagementStatus;
+
+  /// Account-level: Jira issue management type.
+  final IssueManagementType? issueManagementType;
+
+  /// Account-level: Jira project key to sync workloads to.
+  final String? jiraProjectKey;
+
+  AccountJiraConfigurationInput({
+    this.integrationStatus,
+    this.issueManagementStatus,
+    this.issueManagementType,
+    this.jiraProjectKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final integrationStatus = this.integrationStatus;
+    final issueManagementStatus = this.issueManagementStatus;
+    final issueManagementType = this.issueManagementType;
+    final jiraProjectKey = this.jiraProjectKey;
+    return {
+      if (integrationStatus != null)
+        'IntegrationStatus': integrationStatus.toValue(),
+      if (issueManagementStatus != null)
+        'IssueManagementStatus': issueManagementStatus.toValue(),
+      if (issueManagementType != null)
+        'IssueManagementType': issueManagementType.toValue(),
+      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+    };
+  }
+}
+
+/// Account-level: Output configuration of the Jira integration.
+class AccountJiraConfigurationOutput {
+  /// Account-level: Configuration status of the Jira integration.
+  final IntegrationStatus? integrationStatus;
+
+  /// Account-level: Jira issue management status.
+  final AccountJiraIssueManagementStatus? issueManagementStatus;
+
+  /// Account-level: Jira issue management type.
+  final IssueManagementType? issueManagementType;
+
+  /// Account-level: Jira project key to sync workloads to.
+  final String? jiraProjectKey;
+
+  /// Account-level: Status message on configuration of the Jira integration.
+  final String? statusMessage;
+
+  /// Account-level: Jira subdomain URL.
+  final String? subdomain;
+
+  AccountJiraConfigurationOutput({
+    this.integrationStatus,
+    this.issueManagementStatus,
+    this.issueManagementType,
+    this.jiraProjectKey,
+    this.statusMessage,
+    this.subdomain,
+  });
+
+  factory AccountJiraConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return AccountJiraConfigurationOutput(
+      integrationStatus:
+          (json['IntegrationStatus'] as String?)?.toIntegrationStatus(),
+      issueManagementStatus: (json['IssueManagementStatus'] as String?)
+          ?.toAccountJiraIssueManagementStatus(),
+      issueManagementType:
+          (json['IssueManagementType'] as String?)?.toIssueManagementType(),
+      jiraProjectKey: json['JiraProjectKey'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      subdomain: json['Subdomain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final integrationStatus = this.integrationStatus;
+    final issueManagementStatus = this.issueManagementStatus;
+    final issueManagementType = this.issueManagementType;
+    final jiraProjectKey = this.jiraProjectKey;
+    final statusMessage = this.statusMessage;
+    final subdomain = this.subdomain;
+    return {
+      if (integrationStatus != null)
+        'IntegrationStatus': integrationStatus.toValue(),
+      if (issueManagementStatus != null)
+        'IssueManagementStatus': issueManagementStatus.toValue(),
+      if (issueManagementType != null)
+        'IssueManagementType': issueManagementType.toValue(),
+      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (subdomain != null) 'Subdomain': subdomain,
+    };
+  }
+}
+
+enum AccountJiraIssueManagementStatus {
+  enabled,
+  disabled,
+}
+
+extension AccountJiraIssueManagementStatusValueExtension
+    on AccountJiraIssueManagementStatus {
+  String toValue() {
+    switch (this) {
+      case AccountJiraIssueManagementStatus.enabled:
+        return 'ENABLED';
+      case AccountJiraIssueManagementStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension AccountJiraIssueManagementStatusFromString on String {
+  AccountJiraIssueManagementStatus toAccountJiraIssueManagementStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return AccountJiraIssueManagementStatus.enabled;
+      case 'DISABLED':
+        return AccountJiraIssueManagementStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum AccountJiraIssueManagementStatus');
   }
 }
 
@@ -1781,6 +2985,9 @@ class Answer {
   final String? helpfulResourceUrl;
   final String? improvementPlanUrl;
   final bool? isApplicable;
+
+  /// Configuration of the Jira integration.
+  final JiraConfiguration? jiraConfiguration;
   final String? notes;
   final String? pillarId;
   final String? questionDescription;
@@ -1799,6 +3006,7 @@ class Answer {
     this.helpfulResourceUrl,
     this.improvementPlanUrl,
     this.isApplicable,
+    this.jiraConfiguration,
     this.notes,
     this.pillarId,
     this.questionDescription,
@@ -1823,6 +3031,10 @@ class Answer {
       helpfulResourceUrl: json['HelpfulResourceUrl'] as String?,
       improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
       isApplicable: json['IsApplicable'] as bool?,
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
       notes: json['Notes'] as String?,
       pillarId: json['PillarId'] as String?,
       questionDescription: json['QuestionDescription'] as String?,
@@ -1844,6 +3056,7 @@ class Answer {
     final helpfulResourceUrl = this.helpfulResourceUrl;
     final improvementPlanUrl = this.improvementPlanUrl;
     final isApplicable = this.isApplicable;
+    final jiraConfiguration = this.jiraConfiguration;
     final notes = this.notes;
     final pillarId = this.pillarId;
     final questionDescription = this.questionDescription;
@@ -1860,6 +3073,7 @@ class Answer {
       if (helpfulResourceUrl != null) 'HelpfulResourceUrl': helpfulResourceUrl,
       if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
       if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (notes != null) 'Notes': notes,
       if (pillarId != null) 'PillarId': pillarId,
       if (questionDescription != null)
@@ -1922,9 +3136,15 @@ class AnswerSummary {
   final List<ChoiceAnswerSummary>? choiceAnswerSummaries;
   final List<Choice>? choices;
   final bool? isApplicable;
+
+  /// Configuration of the Jira integration.
+  final JiraConfiguration? jiraConfiguration;
   final String? pillarId;
   final String? questionId;
   final String? questionTitle;
+
+  /// The type of the question.
+  final QuestionType? questionType;
 
   /// The reason why a choice is non-applicable to a question in your workload.
   final AnswerReason? reason;
@@ -1935,9 +3155,11 @@ class AnswerSummary {
     this.choiceAnswerSummaries,
     this.choices,
     this.isApplicable,
+    this.jiraConfiguration,
     this.pillarId,
     this.questionId,
     this.questionTitle,
+    this.questionType,
     this.reason,
     this.risk,
     this.selectedChoices,
@@ -1954,9 +3176,14 @@ class AnswerSummary {
           .map((e) => Choice.fromJson(e as Map<String, dynamic>))
           .toList(),
       isApplicable: json['IsApplicable'] as bool?,
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
       pillarId: json['PillarId'] as String?,
       questionId: json['QuestionId'] as String?,
       questionTitle: json['QuestionTitle'] as String?,
+      questionType: (json['QuestionType'] as String?)?.toQuestionType(),
       reason: (json['Reason'] as String?)?.toAnswerReason(),
       risk: (json['Risk'] as String?)?.toRisk(),
       selectedChoices: (json['SelectedChoices'] as List?)
@@ -1970,9 +3197,11 @@ class AnswerSummary {
     final choiceAnswerSummaries = this.choiceAnswerSummaries;
     final choices = this.choices;
     final isApplicable = this.isApplicable;
+    final jiraConfiguration = this.jiraConfiguration;
     final pillarId = this.pillarId;
     final questionId = this.questionId;
     final questionTitle = this.questionTitle;
+    final questionType = this.questionType;
     final reason = this.reason;
     final risk = this.risk;
     final selectedChoices = this.selectedChoices;
@@ -1981,9 +3210,11 @@ class AnswerSummary {
         'ChoiceAnswerSummaries': choiceAnswerSummaries,
       if (choices != null) 'Choices': choices,
       if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (pillarId != null) 'PillarId': pillarId,
       if (questionId != null) 'QuestionId': questionId,
       if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (questionType != null) 'QuestionType': questionType.toValue(),
       if (reason != null) 'Reason': reason.toValue(),
       if (risk != null) 'Risk': risk.toValue(),
       if (selectedChoices != null) 'SelectedChoices': selectedChoices,
@@ -2775,6 +4006,112 @@ class CreateMilestoneOutput {
   }
 }
 
+class CreateProfileOutput {
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// Version of the profile.
+  final String? profileVersion;
+
+  CreateProfileOutput({
+    this.profileArn,
+    this.profileVersion,
+  });
+
+  factory CreateProfileOutput.fromJson(Map<String, dynamic> json) {
+    return CreateProfileOutput(
+      profileArn: json['ProfileArn'] as String?,
+      profileVersion: json['ProfileVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileArn = this.profileArn;
+    final profileVersion = this.profileVersion;
+    return {
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileVersion != null) 'ProfileVersion': profileVersion,
+    };
+  }
+}
+
+class CreateProfileShareOutput {
+  /// The profile ARN.
+  final String? profileArn;
+  final String? shareId;
+
+  CreateProfileShareOutput({
+    this.profileArn,
+    this.shareId,
+  });
+
+  factory CreateProfileShareOutput.fromJson(Map<String, dynamic> json) {
+    return CreateProfileShareOutput(
+      profileArn: json['ProfileArn'] as String?,
+      shareId: json['ShareId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileArn = this.profileArn;
+    final shareId = this.shareId;
+    return {
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (shareId != null) 'ShareId': shareId,
+    };
+  }
+}
+
+class CreateReviewTemplateOutput {
+  /// The review template ARN.
+  final String? templateArn;
+
+  CreateReviewTemplateOutput({
+    this.templateArn,
+  });
+
+  factory CreateReviewTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return CreateReviewTemplateOutput(
+      templateArn: json['TemplateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateArn = this.templateArn;
+    return {
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
+  }
+}
+
+class CreateTemplateShareOutput {
+  final String? shareId;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  CreateTemplateShareOutput({
+    this.shareId,
+    this.templateArn,
+  });
+
+  factory CreateTemplateShareOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTemplateShareOutput(
+      shareId: json['ShareId'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareId = this.shareId;
+    final templateArn = this.templateArn;
+    return {
+      if (shareId != null) 'ShareId': shareId,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
+  }
+}
+
 /// Output of a create workload call.
 class CreateWorkloadOutput {
   final String? workloadArn;
@@ -3026,6 +4363,50 @@ class GetConsolidatedReportOutput {
   }
 }
 
+class GetGlobalSettingsOutput {
+  /// Discovery integration status.
+  final DiscoveryIntegrationStatus? discoveryIntegrationStatus;
+
+  /// Jira configuration status.
+  final AccountJiraConfigurationOutput? jiraConfiguration;
+
+  /// Amazon Web Services Organizations sharing status.
+  final OrganizationSharingStatus? organizationSharingStatus;
+
+  GetGlobalSettingsOutput({
+    this.discoveryIntegrationStatus,
+    this.jiraConfiguration,
+    this.organizationSharingStatus,
+  });
+
+  factory GetGlobalSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return GetGlobalSettingsOutput(
+      discoveryIntegrationStatus:
+          (json['DiscoveryIntegrationStatus'] as String?)
+              ?.toDiscoveryIntegrationStatus(),
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? AccountJiraConfigurationOutput.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
+      organizationSharingStatus: (json['OrganizationSharingStatus'] as String?)
+          ?.toOrganizationSharingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final discoveryIntegrationStatus = this.discoveryIntegrationStatus;
+    final jiraConfiguration = this.jiraConfiguration;
+    final organizationSharingStatus = this.organizationSharingStatus;
+    return {
+      if (discoveryIntegrationStatus != null)
+        'DiscoveryIntegrationStatus': discoveryIntegrationStatus.toValue(),
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
+      if (organizationSharingStatus != null)
+        'OrganizationSharingStatus': organizationSharingStatus.toValue(),
+    };
+  }
+}
+
 class GetLensOutput {
   /// A lens return object.
   final Lens? lens;
@@ -3204,6 +4585,150 @@ class GetMilestoneOutput {
   }
 }
 
+class GetProfileOutput {
+  /// The profile.
+  final Profile? profile;
+
+  GetProfileOutput({
+    this.profile,
+  });
+
+  factory GetProfileOutput.fromJson(Map<String, dynamic> json) {
+    return GetProfileOutput(
+      profile: json['Profile'] != null
+          ? Profile.fromJson(json['Profile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profile = this.profile;
+    return {
+      if (profile != null) 'Profile': profile,
+    };
+  }
+}
+
+class GetProfileTemplateOutput {
+  /// The profile template.
+  final ProfileTemplate? profileTemplate;
+
+  GetProfileTemplateOutput({
+    this.profileTemplate,
+  });
+
+  factory GetProfileTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return GetProfileTemplateOutput(
+      profileTemplate: json['ProfileTemplate'] != null
+          ? ProfileTemplate.fromJson(
+              json['ProfileTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileTemplate = this.profileTemplate;
+    return {
+      if (profileTemplate != null) 'ProfileTemplate': profileTemplate,
+    };
+  }
+}
+
+class GetReviewTemplateAnswerOutput {
+  /// An answer of the question.
+  final ReviewTemplateAnswer? answer;
+  final String? lensAlias;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  GetReviewTemplateAnswerOutput({
+    this.answer,
+    this.lensAlias,
+    this.templateArn,
+  });
+
+  factory GetReviewTemplateAnswerOutput.fromJson(Map<String, dynamic> json) {
+    return GetReviewTemplateAnswerOutput(
+      answer: json['Answer'] != null
+          ? ReviewTemplateAnswer.fromJson(
+              json['Answer'] as Map<String, dynamic>)
+          : null,
+      lensAlias: json['LensAlias'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answer = this.answer;
+    final lensAlias = this.lensAlias;
+    final templateArn = this.templateArn;
+    return {
+      if (answer != null) 'Answer': answer,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
+  }
+}
+
+class GetReviewTemplateLensReviewOutput {
+  /// A lens review of a question.
+  final ReviewTemplateLensReview? lensReview;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  GetReviewTemplateLensReviewOutput({
+    this.lensReview,
+    this.templateArn,
+  });
+
+  factory GetReviewTemplateLensReviewOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetReviewTemplateLensReviewOutput(
+      lensReview: json['LensReview'] != null
+          ? ReviewTemplateLensReview.fromJson(
+              json['LensReview'] as Map<String, dynamic>)
+          : null,
+      templateArn: json['TemplateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensReview = this.lensReview;
+    final templateArn = this.templateArn;
+    return {
+      if (lensReview != null) 'LensReview': lensReview,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
+  }
+}
+
+class GetReviewTemplateOutput {
+  /// The review template.
+  final ReviewTemplate? reviewTemplate;
+
+  GetReviewTemplateOutput({
+    this.reviewTemplate,
+  });
+
+  factory GetReviewTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return GetReviewTemplateOutput(
+      reviewTemplate: json['ReviewTemplate'] != null
+          ? ReviewTemplate.fromJson(
+              json['ReviewTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reviewTemplate = this.reviewTemplate;
+    return {
+      if (reviewTemplate != null) 'ReviewTemplate': reviewTemplate,
+    };
+  }
+}
+
 /// Output of a get workload call.
 class GetWorkloadOutput {
   final Workload? workload;
@@ -3296,6 +4821,9 @@ class ImprovementSummary {
 
   /// The improvement plan details.
   final List<ChoiceImprovementPlan>? improvementPlans;
+
+  /// Configuration of the Jira integration.
+  final JiraConfiguration? jiraConfiguration;
   final String? pillarId;
   final String? questionId;
   final String? questionTitle;
@@ -3304,6 +4832,7 @@ class ImprovementSummary {
   ImprovementSummary({
     this.improvementPlanUrl,
     this.improvementPlans,
+    this.jiraConfiguration,
     this.pillarId,
     this.questionId,
     this.questionTitle,
@@ -3317,6 +4846,10 @@ class ImprovementSummary {
           ?.whereNotNull()
           .map((e) => ChoiceImprovementPlan.fromJson(e as Map<String, dynamic>))
           .toList(),
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
       pillarId: json['PillarId'] as String?,
       questionId: json['QuestionId'] as String?,
       questionTitle: json['QuestionTitle'] as String?,
@@ -3327,6 +4860,7 @@ class ImprovementSummary {
   Map<String, dynamic> toJson() {
     final improvementPlanUrl = this.improvementPlanUrl;
     final improvementPlans = this.improvementPlans;
+    final jiraConfiguration = this.jiraConfiguration;
     final pillarId = this.pillarId;
     final questionId = this.questionId;
     final questionTitle = this.questionTitle;
@@ -3334,10 +4868,169 @@ class ImprovementSummary {
     return {
       if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
       if (improvementPlans != null) 'ImprovementPlans': improvementPlans,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (pillarId != null) 'PillarId': pillarId,
       if (questionId != null) 'QuestionId': questionId,
       if (questionTitle != null) 'QuestionTitle': questionTitle,
       if (risk != null) 'Risk': risk.toValue(),
+    };
+  }
+}
+
+enum IntegratingService {
+  jira,
+}
+
+extension IntegratingServiceValueExtension on IntegratingService {
+  String toValue() {
+    switch (this) {
+      case IntegratingService.jira:
+        return 'JIRA';
+    }
+  }
+}
+
+extension IntegratingServiceFromString on String {
+  IntegratingService toIntegratingService() {
+    switch (this) {
+      case 'JIRA':
+        return IntegratingService.jira;
+    }
+    throw Exception('$this is not known in enum IntegratingService');
+  }
+}
+
+enum IntegrationStatus {
+  configured,
+  notConfigured,
+}
+
+extension IntegrationStatusValueExtension on IntegrationStatus {
+  String toValue() {
+    switch (this) {
+      case IntegrationStatus.configured:
+        return 'CONFIGURED';
+      case IntegrationStatus.notConfigured:
+        return 'NOT_CONFIGURED';
+    }
+  }
+}
+
+extension IntegrationStatusFromString on String {
+  IntegrationStatus toIntegrationStatus() {
+    switch (this) {
+      case 'CONFIGURED':
+        return IntegrationStatus.configured;
+      case 'NOT_CONFIGURED':
+        return IntegrationStatus.notConfigured;
+    }
+    throw Exception('$this is not known in enum IntegrationStatus');
+  }
+}
+
+enum IntegrationStatusInput {
+  notConfigured,
+}
+
+extension IntegrationStatusInputValueExtension on IntegrationStatusInput {
+  String toValue() {
+    switch (this) {
+      case IntegrationStatusInput.notConfigured:
+        return 'NOT_CONFIGURED';
+    }
+  }
+}
+
+extension IntegrationStatusInputFromString on String {
+  IntegrationStatusInput toIntegrationStatusInput() {
+    switch (this) {
+      case 'NOT_CONFIGURED':
+        return IntegrationStatusInput.notConfigured;
+    }
+    throw Exception('$this is not known in enum IntegrationStatusInput');
+  }
+}
+
+enum IssueManagementType {
+  auto,
+  manual,
+}
+
+extension IssueManagementTypeValueExtension on IssueManagementType {
+  String toValue() {
+    switch (this) {
+      case IssueManagementType.auto:
+        return 'AUTO';
+      case IssueManagementType.manual:
+        return 'MANUAL';
+    }
+  }
+}
+
+extension IssueManagementTypeFromString on String {
+  IssueManagementType toIssueManagementType() {
+    switch (this) {
+      case 'AUTO':
+        return IssueManagementType.auto;
+      case 'MANUAL':
+        return IssueManagementType.manual;
+    }
+    throw Exception('$this is not known in enum IssueManagementType');
+  }
+}
+
+/// Configuration of the Jira integration.
+class JiraConfiguration {
+  /// The URL of the associated Jira issue.
+  final String? jiraIssueUrl;
+  final DateTime? lastSyncedTime;
+
+  JiraConfiguration({
+    this.jiraIssueUrl,
+    this.lastSyncedTime,
+  });
+
+  factory JiraConfiguration.fromJson(Map<String, dynamic> json) {
+    return JiraConfiguration(
+      jiraIssueUrl: json['JiraIssueUrl'] as String?,
+      lastSyncedTime: timeStampFromJson(json['LastSyncedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jiraIssueUrl = this.jiraIssueUrl;
+    final lastSyncedTime = this.lastSyncedTime;
+    return {
+      if (jiraIssueUrl != null) 'JiraIssueUrl': jiraIssueUrl,
+      if (lastSyncedTime != null)
+        'LastSyncedTime': unixTimestampToJson(lastSyncedTime),
+    };
+  }
+}
+
+/// Selected questions in the workload.
+class JiraSelectedQuestionConfiguration {
+  /// Selected pillars in the workload.
+  final List<SelectedPillar>? selectedPillars;
+
+  JiraSelectedQuestionConfiguration({
+    this.selectedPillars,
+  });
+
+  factory JiraSelectedQuestionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return JiraSelectedQuestionConfiguration(
+      selectedPillars: (json['SelectedPillars'] as List?)
+          ?.whereNotNull()
+          .map((e) => SelectedPillar.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selectedPillars = this.selectedPillars;
+    return {
+      if (selectedPillars != null) 'SelectedPillars': selectedPillars,
     };
   }
 }
@@ -3447,6 +5140,8 @@ class LensMetric {
 
 /// A lens review of a question.
 class LensReview {
+  /// Jira configuration status of the Lens review.
+  final JiraSelectedQuestionConfiguration? jiraConfiguration;
   final String? lensAlias;
 
   /// The ARN for the lens.
@@ -3461,10 +5156,15 @@ class LensReview {
   final String? nextToken;
   final String? notes;
   final List<PillarReviewSummary>? pillarReviewSummaries;
+  final Map<Risk, int>? prioritizedRiskCounts;
+
+  /// The profiles associated with the workload.
+  final List<WorkloadProfile>? profiles;
   final Map<Risk, int>? riskCounts;
   final DateTime? updatedAt;
 
   LensReview({
+    this.jiraConfiguration,
     this.lensAlias,
     this.lensArn,
     this.lensName,
@@ -3473,12 +5173,18 @@ class LensReview {
     this.nextToken,
     this.notes,
     this.pillarReviewSummaries,
+    this.prioritizedRiskCounts,
+    this.profiles,
     this.riskCounts,
     this.updatedAt,
   });
 
   factory LensReview.fromJson(Map<String, dynamic> json) {
     return LensReview(
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraSelectedQuestionConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
       lensAlias: json['LensAlias'] as String?,
       lensArn: json['LensArn'] as String?,
       lensName: json['LensName'] as String?,
@@ -3490,6 +5196,13 @@ class LensReview {
           ?.whereNotNull()
           .map((e) => PillarReviewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
+      profiles: (json['Profiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
@@ -3497,6 +5210,7 @@ class LensReview {
   }
 
   Map<String, dynamic> toJson() {
+    final jiraConfiguration = this.jiraConfiguration;
     final lensAlias = this.lensAlias;
     final lensArn = this.lensArn;
     final lensName = this.lensName;
@@ -3505,9 +5219,12 @@ class LensReview {
     final nextToken = this.nextToken;
     final notes = this.notes;
     final pillarReviewSummaries = this.pillarReviewSummaries;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
+    final profiles = this.profiles;
     final riskCounts = this.riskCounts;
     final updatedAt = this.updatedAt;
     return {
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (lensAlias != null) 'LensAlias': lensAlias,
       if (lensArn != null) 'LensArn': lensArn,
       if (lensName != null) 'LensName': lensName,
@@ -3517,6 +5234,10 @@ class LensReview {
       if (notes != null) 'Notes': notes,
       if (pillarReviewSummaries != null)
         'PillarReviewSummaries': pillarReviewSummaries,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (profiles != null) 'Profiles': profiles,
       if (riskCounts != null)
         'RiskCounts': riskCounts.map((k, e) => MapEntry(k.toValue(), e)),
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
@@ -3571,6 +5292,10 @@ class LensReviewSummary {
 
   /// The version of the lens.
   final String? lensVersion;
+  final Map<Risk, int>? prioritizedRiskCounts;
+
+  /// The profiles associated with the workload.
+  final List<WorkloadProfile>? profiles;
   final Map<Risk, int>? riskCounts;
   final DateTime? updatedAt;
 
@@ -3580,6 +5305,8 @@ class LensReviewSummary {
     this.lensName,
     this.lensStatus,
     this.lensVersion,
+    this.prioritizedRiskCounts,
+    this.profiles,
     this.riskCounts,
     this.updatedAt,
   });
@@ -3591,6 +5318,13 @@ class LensReviewSummary {
       lensName: json['LensName'] as String?,
       lensStatus: (json['LensStatus'] as String?)?.toLensStatus(),
       lensVersion: json['LensVersion'] as String?,
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
+      profiles: (json['Profiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
@@ -3603,6 +5337,8 @@ class LensReviewSummary {
     final lensName = this.lensName;
     final lensStatus = this.lensStatus;
     final lensVersion = this.lensVersion;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
+    final profiles = this.profiles;
     final riskCounts = this.riskCounts;
     final updatedAt = this.updatedAt;
     return {
@@ -3611,6 +5347,10 @@ class LensReviewSummary {
       if (lensName != null) 'LensName': lensName,
       if (lensStatus != null) 'LensStatus': lensStatus.toValue(),
       if (lensVersion != null) 'LensVersion': lensVersion,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (profiles != null) 'Profiles': profiles,
       if (riskCounts != null)
         'RiskCounts': riskCounts.map((k, e) => MapEntry(k.toValue(), e)),
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
@@ -3852,6 +5592,10 @@ class LensUpgradeSummary {
 
   /// The ARN for the lens.
   final String? lensArn;
+
+  /// <code>ResourceArn</code> of the lens being upgraded
+  final String? resourceArn;
+  final String? resourceName;
   final String? workloadId;
   final String? workloadName;
 
@@ -3860,6 +5604,8 @@ class LensUpgradeSummary {
     this.latestLensVersion,
     this.lensAlias,
     this.lensArn,
+    this.resourceArn,
+    this.resourceName,
     this.workloadId,
     this.workloadName,
   });
@@ -3870,6 +5616,8 @@ class LensUpgradeSummary {
       latestLensVersion: json['LatestLensVersion'] as String?,
       lensAlias: json['LensAlias'] as String?,
       lensArn: json['LensArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceName: json['ResourceName'] as String?,
       workloadId: json['WorkloadId'] as String?,
       workloadName: json['WorkloadName'] as String?,
     );
@@ -3880,6 +5628,8 @@ class LensUpgradeSummary {
     final latestLensVersion = this.latestLensVersion;
     final lensAlias = this.lensAlias;
     final lensArn = this.lensArn;
+    final resourceArn = this.resourceArn;
+    final resourceName = this.resourceName;
     final workloadId = this.workloadId;
     final workloadName = this.workloadName;
     return {
@@ -3887,6 +5637,8 @@ class LensUpgradeSummary {
       if (latestLensVersion != null) 'LatestLensVersion': latestLensVersion,
       if (lensAlias != null) 'LensAlias': lensAlias,
       if (lensArn != null) 'LensArn': lensArn,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (resourceName != null) 'ResourceName': resourceName,
       if (workloadId != null) 'WorkloadId': workloadId,
       if (workloadName != null) 'WorkloadName': workloadName,
     };
@@ -4228,6 +5980,176 @@ class ListNotificationsOutput {
   }
 }
 
+class ListProfileNotificationsOutput {
+  final String? nextToken;
+
+  /// Notification summaries.
+  final List<ProfileNotificationSummary>? notificationSummaries;
+
+  ListProfileNotificationsOutput({
+    this.nextToken,
+    this.notificationSummaries,
+  });
+
+  factory ListProfileNotificationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListProfileNotificationsOutput(
+      nextToken: json['NextToken'] as String?,
+      notificationSummaries: (json['NotificationSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProfileNotificationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final notificationSummaries = this.notificationSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (notificationSummaries != null)
+        'NotificationSummaries': notificationSummaries,
+    };
+  }
+}
+
+class ListProfileSharesOutput {
+  final String? nextToken;
+
+  /// Profile share summaries.
+  final List<ProfileShareSummary>? profileShareSummaries;
+
+  ListProfileSharesOutput({
+    this.nextToken,
+    this.profileShareSummaries,
+  });
+
+  factory ListProfileSharesOutput.fromJson(Map<String, dynamic> json) {
+    return ListProfileSharesOutput(
+      nextToken: json['NextToken'] as String?,
+      profileShareSummaries: (json['ProfileShareSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProfileShareSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final profileShareSummaries = this.profileShareSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (profileShareSummaries != null)
+        'ProfileShareSummaries': profileShareSummaries,
+    };
+  }
+}
+
+class ListProfilesOutput {
+  final String? nextToken;
+
+  /// Profile summaries.
+  final List<ProfileSummary>? profileSummaries;
+
+  ListProfilesOutput({
+    this.nextToken,
+    this.profileSummaries,
+  });
+
+  factory ListProfilesOutput.fromJson(Map<String, dynamic> json) {
+    return ListProfilesOutput(
+      nextToken: json['NextToken'] as String?,
+      profileSummaries: (json['ProfileSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProfileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final profileSummaries = this.profileSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (profileSummaries != null) 'ProfileSummaries': profileSummaries,
+    };
+  }
+}
+
+class ListReviewTemplateAnswersOutput {
+  /// List of answer summaries of a lens review in a review template.
+  final List<ReviewTemplateAnswerSummary>? answerSummaries;
+  final String? lensAlias;
+  final String? nextToken;
+
+  /// The ARN of the review template.
+  final String? templateArn;
+
+  ListReviewTemplateAnswersOutput({
+    this.answerSummaries,
+    this.lensAlias,
+    this.nextToken,
+    this.templateArn,
+  });
+
+  factory ListReviewTemplateAnswersOutput.fromJson(Map<String, dynamic> json) {
+    return ListReviewTemplateAnswersOutput(
+      answerSummaries: (json['AnswerSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReviewTemplateAnswerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lensAlias: json['LensAlias'] as String?,
+      nextToken: json['NextToken'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerSummaries = this.answerSummaries;
+    final lensAlias = this.lensAlias;
+    final nextToken = this.nextToken;
+    final templateArn = this.templateArn;
+    return {
+      if (answerSummaries != null) 'AnswerSummaries': answerSummaries,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
+  }
+}
+
+class ListReviewTemplatesOutput {
+  final String? nextToken;
+
+  /// List of review templates.
+  final List<ReviewTemplateSummary>? reviewTemplates;
+
+  ListReviewTemplatesOutput({
+    this.nextToken,
+    this.reviewTemplates,
+  });
+
+  factory ListReviewTemplatesOutput.fromJson(Map<String, dynamic> json) {
+    return ListReviewTemplatesOutput(
+      nextToken: json['NextToken'] as String?,
+      reviewTemplates: (json['ReviewTemplates'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReviewTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final reviewTemplates = this.reviewTemplates;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (reviewTemplates != null) 'ReviewTemplates': reviewTemplates,
+    };
+  }
+}
+
 /// Input for List Share Invitations
 class ListShareInvitationsOutput {
   final String? nextToken;
@@ -4281,6 +6203,45 @@ class ListTagsForResourceOutput {
     final tags = this.tags;
     return {
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ListTemplateSharesOutput {
+  final String? nextToken;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  /// A review template share summary return object.
+  final List<TemplateShareSummary>? templateShareSummaries;
+
+  ListTemplateSharesOutput({
+    this.nextToken,
+    this.templateArn,
+    this.templateShareSummaries,
+  });
+
+  factory ListTemplateSharesOutput.fromJson(Map<String, dynamic> json) {
+    return ListTemplateSharesOutput(
+      nextToken: json['NextToken'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+      templateShareSummaries: (json['TemplateShareSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => TemplateShareSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final templateArn = this.templateArn;
+    final templateShareSummaries = this.templateShareSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateShareSummaries != null)
+        'TemplateShareSummaries': templateShareSummaries,
     };
   }
 }
@@ -4542,7 +6503,7 @@ extension OrganizationSharingStatusFromString on String {
   }
 }
 
-/// Permission granted on a workload share.
+/// Permission granted on a share request.
 enum PermissionType {
   readonly,
   contributor,
@@ -4661,12 +6622,14 @@ class PillarReviewSummary {
   final String? notes;
   final String? pillarId;
   final String? pillarName;
+  final Map<Risk, int>? prioritizedRiskCounts;
   final Map<Risk, int>? riskCounts;
 
   PillarReviewSummary({
     this.notes,
     this.pillarId,
     this.pillarName,
+    this.prioritizedRiskCounts,
     this.riskCounts,
   });
 
@@ -4675,6 +6638,9 @@ class PillarReviewSummary {
       notes: json['Notes'] as String?,
       pillarId: json['PillarId'] as String?,
       pillarName: json['PillarName'] as String?,
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
     );
@@ -4684,14 +6650,602 @@ class PillarReviewSummary {
     final notes = this.notes;
     final pillarId = this.pillarId;
     final pillarName = this.pillarName;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
     final riskCounts = this.riskCounts;
     return {
       if (notes != null) 'Notes': notes,
       if (pillarId != null) 'PillarId': pillarId,
       if (pillarName != null) 'PillarName': pillarName,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.toValue(), e)),
       if (riskCounts != null)
         'RiskCounts': riskCounts.map((k, e) => MapEntry(k.toValue(), e)),
     };
+  }
+}
+
+/// A profile.
+class Profile {
+  final DateTime? createdAt;
+  final String? owner;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile description.
+  final String? profileDescription;
+
+  /// The profile name.
+  final String? profileName;
+
+  /// Profile questions.
+  final List<ProfileQuestion>? profileQuestions;
+
+  /// The profile version.
+  final String? profileVersion;
+
+  /// The ID assigned to the share invitation.
+  final String? shareInvitationId;
+
+  /// The tags assigned to the profile.
+  final Map<String, String>? tags;
+  final DateTime? updatedAt;
+
+  Profile({
+    this.createdAt,
+    this.owner,
+    this.profileArn,
+    this.profileDescription,
+    this.profileName,
+    this.profileQuestions,
+    this.profileVersion,
+    this.shareInvitationId,
+    this.tags,
+    this.updatedAt,
+  });
+
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      owner: json['Owner'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileDescription: json['ProfileDescription'] as String?,
+      profileName: json['ProfileName'] as String?,
+      profileQuestions: (json['ProfileQuestions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProfileQuestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      profileVersion: json['ProfileVersion'] as String?,
+      shareInvitationId: json['ShareInvitationId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final owner = this.owner;
+    final profileArn = this.profileArn;
+    final profileDescription = this.profileDescription;
+    final profileName = this.profileName;
+    final profileQuestions = this.profileQuestions;
+    final profileVersion = this.profileVersion;
+    final shareInvitationId = this.shareInvitationId;
+    final tags = this.tags;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (owner != null) 'Owner': owner,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileDescription != null) 'ProfileDescription': profileDescription,
+      if (profileName != null) 'ProfileName': profileName,
+      if (profileQuestions != null) 'ProfileQuestions': profileQuestions,
+      if (profileVersion != null) 'ProfileVersion': profileVersion,
+      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (tags != null) 'Tags': tags,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// The profile choice.
+class ProfileChoice {
+  final String? choiceDescription;
+  final String? choiceId;
+  final String? choiceTitle;
+
+  ProfileChoice({
+    this.choiceDescription,
+    this.choiceId,
+    this.choiceTitle,
+  });
+
+  factory ProfileChoice.fromJson(Map<String, dynamic> json) {
+    return ProfileChoice(
+      choiceDescription: json['ChoiceDescription'] as String?,
+      choiceId: json['ChoiceId'] as String?,
+      choiceTitle: json['ChoiceTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceDescription = this.choiceDescription;
+    final choiceId = this.choiceId;
+    final choiceTitle = this.choiceTitle;
+    return {
+      if (choiceDescription != null) 'ChoiceDescription': choiceDescription,
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
+    };
+  }
+}
+
+/// The profile notification summary.
+class ProfileNotificationSummary {
+  /// The current profile version.
+  final String? currentProfileVersion;
+
+  /// The latest profile version.
+  final String? latestProfileVersion;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile name.
+  final String? profileName;
+
+  /// Type of notification.
+  final ProfileNotificationType? type;
+  final String? workloadId;
+  final String? workloadName;
+
+  ProfileNotificationSummary({
+    this.currentProfileVersion,
+    this.latestProfileVersion,
+    this.profileArn,
+    this.profileName,
+    this.type,
+    this.workloadId,
+    this.workloadName,
+  });
+
+  factory ProfileNotificationSummary.fromJson(Map<String, dynamic> json) {
+    return ProfileNotificationSummary(
+      currentProfileVersion: json['CurrentProfileVersion'] as String?,
+      latestProfileVersion: json['LatestProfileVersion'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileName: json['ProfileName'] as String?,
+      type: (json['Type'] as String?)?.toProfileNotificationType(),
+      workloadId: json['WorkloadId'] as String?,
+      workloadName: json['WorkloadName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentProfileVersion = this.currentProfileVersion;
+    final latestProfileVersion = this.latestProfileVersion;
+    final profileArn = this.profileArn;
+    final profileName = this.profileName;
+    final type = this.type;
+    final workloadId = this.workloadId;
+    final workloadName = this.workloadName;
+    return {
+      if (currentProfileVersion != null)
+        'CurrentProfileVersion': currentProfileVersion,
+      if (latestProfileVersion != null)
+        'LatestProfileVersion': latestProfileVersion,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileName != null) 'ProfileName': profileName,
+      if (type != null) 'Type': type.toValue(),
+      if (workloadId != null) 'WorkloadId': workloadId,
+      if (workloadName != null) 'WorkloadName': workloadName,
+    };
+  }
+}
+
+enum ProfileNotificationType {
+  profileAnswersUpdated,
+  profileDeleted,
+}
+
+extension ProfileNotificationTypeValueExtension on ProfileNotificationType {
+  String toValue() {
+    switch (this) {
+      case ProfileNotificationType.profileAnswersUpdated:
+        return 'PROFILE_ANSWERS_UPDATED';
+      case ProfileNotificationType.profileDeleted:
+        return 'PROFILE_DELETED';
+    }
+  }
+}
+
+extension ProfileNotificationTypeFromString on String {
+  ProfileNotificationType toProfileNotificationType() {
+    switch (this) {
+      case 'PROFILE_ANSWERS_UPDATED':
+        return ProfileNotificationType.profileAnswersUpdated;
+      case 'PROFILE_DELETED':
+        return ProfileNotificationType.profileDeleted;
+    }
+    throw Exception('$this is not known in enum ProfileNotificationType');
+  }
+}
+
+enum ProfileOwnerType {
+  self,
+  shared,
+}
+
+extension ProfileOwnerTypeValueExtension on ProfileOwnerType {
+  String toValue() {
+    switch (this) {
+      case ProfileOwnerType.self:
+        return 'SELF';
+      case ProfileOwnerType.shared:
+        return 'SHARED';
+    }
+  }
+}
+
+extension ProfileOwnerTypeFromString on String {
+  ProfileOwnerType toProfileOwnerType() {
+    switch (this) {
+      case 'SELF':
+        return ProfileOwnerType.self;
+      case 'SHARED':
+        return ProfileOwnerType.shared;
+    }
+    throw Exception('$this is not known in enum ProfileOwnerType');
+  }
+}
+
+/// A profile question.
+class ProfileQuestion {
+  /// The maximum number of selected choices.
+  final int? maxSelectedChoices;
+
+  /// The minimum number of selected choices.
+  final int? minSelectedChoices;
+
+  /// The question choices.
+  final List<ProfileChoice>? questionChoices;
+  final String? questionDescription;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The selected choices.
+  final List<String>? selectedChoiceIds;
+
+  ProfileQuestion({
+    this.maxSelectedChoices,
+    this.minSelectedChoices,
+    this.questionChoices,
+    this.questionDescription,
+    this.questionId,
+    this.questionTitle,
+    this.selectedChoiceIds,
+  });
+
+  factory ProfileQuestion.fromJson(Map<String, dynamic> json) {
+    return ProfileQuestion(
+      maxSelectedChoices: json['MaxSelectedChoices'] as int?,
+      minSelectedChoices: json['MinSelectedChoices'] as int?,
+      questionChoices: (json['QuestionChoices'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProfileChoice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      questionDescription: json['QuestionDescription'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      selectedChoiceIds: (json['SelectedChoiceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxSelectedChoices = this.maxSelectedChoices;
+    final minSelectedChoices = this.minSelectedChoices;
+    final questionChoices = this.questionChoices;
+    final questionDescription = this.questionDescription;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final selectedChoiceIds = this.selectedChoiceIds;
+    return {
+      if (maxSelectedChoices != null) 'MaxSelectedChoices': maxSelectedChoices,
+      if (minSelectedChoices != null) 'MinSelectedChoices': minSelectedChoices,
+      if (questionChoices != null) 'QuestionChoices': questionChoices,
+      if (questionDescription != null)
+        'QuestionDescription': questionDescription,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (selectedChoiceIds != null) 'SelectedChoiceIds': selectedChoiceIds,
+    };
+  }
+}
+
+/// An update to a profile question.
+class ProfileQuestionUpdate {
+  final String? questionId;
+
+  /// The selected choices.
+  final List<String>? selectedChoiceIds;
+
+  ProfileQuestionUpdate({
+    this.questionId,
+    this.selectedChoiceIds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final questionId = this.questionId;
+    final selectedChoiceIds = this.selectedChoiceIds;
+    return {
+      if (questionId != null) 'QuestionId': questionId,
+      if (selectedChoiceIds != null) 'SelectedChoiceIds': selectedChoiceIds,
+    };
+  }
+}
+
+/// Summary of a profile share.
+class ProfileShareSummary {
+  final String? shareId;
+  final String? sharedWith;
+  final ShareStatus? status;
+
+  /// Profile share invitation status message.
+  final String? statusMessage;
+
+  ProfileShareSummary({
+    this.shareId,
+    this.sharedWith,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ProfileShareSummary.fromJson(Map<String, dynamic> json) {
+    return ProfileShareSummary(
+      shareId: json['ShareId'] as String?,
+      sharedWith: json['SharedWith'] as String?,
+      status: (json['Status'] as String?)?.toShareStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareId = this.shareId;
+    final sharedWith = this.sharedWith;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (shareId != null) 'ShareId': shareId,
+      if (sharedWith != null) 'SharedWith': sharedWith,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// Summary of a profile.
+class ProfileSummary {
+  final DateTime? createdAt;
+  final String? owner;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile description.
+  final String? profileDescription;
+
+  /// The profile name.
+  final String? profileName;
+
+  /// The profile version.
+  final String? profileVersion;
+  final DateTime? updatedAt;
+
+  ProfileSummary({
+    this.createdAt,
+    this.owner,
+    this.profileArn,
+    this.profileDescription,
+    this.profileName,
+    this.profileVersion,
+    this.updatedAt,
+  });
+
+  factory ProfileSummary.fromJson(Map<String, dynamic> json) {
+    return ProfileSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      owner: json['Owner'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileDescription: json['ProfileDescription'] as String?,
+      profileName: json['ProfileName'] as String?,
+      profileVersion: json['ProfileVersion'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final owner = this.owner;
+    final profileArn = this.profileArn;
+    final profileDescription = this.profileDescription;
+    final profileName = this.profileName;
+    final profileVersion = this.profileVersion;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (owner != null) 'Owner': owner,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileDescription != null) 'ProfileDescription': profileDescription,
+      if (profileName != null) 'ProfileName': profileName,
+      if (profileVersion != null) 'ProfileVersion': profileVersion,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// The profile template.
+class ProfileTemplate {
+  final DateTime? createdAt;
+
+  /// The name of the profile template.
+  final String? templateName;
+
+  /// Profile template questions.
+  final List<ProfileTemplateQuestion>? templateQuestions;
+  final DateTime? updatedAt;
+
+  ProfileTemplate({
+    this.createdAt,
+    this.templateName,
+    this.templateQuestions,
+    this.updatedAt,
+  });
+
+  factory ProfileTemplate.fromJson(Map<String, dynamic> json) {
+    return ProfileTemplate(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      templateName: json['TemplateName'] as String?,
+      templateQuestions: (json['TemplateQuestions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProfileTemplateQuestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final templateName = this.templateName;
+    final templateQuestions = this.templateQuestions;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (templateName != null) 'TemplateName': templateName,
+      if (templateQuestions != null) 'TemplateQuestions': templateQuestions,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// A profile template choice.
+class ProfileTemplateChoice {
+  final String? choiceDescription;
+  final String? choiceId;
+  final String? choiceTitle;
+
+  ProfileTemplateChoice({
+    this.choiceDescription,
+    this.choiceId,
+    this.choiceTitle,
+  });
+
+  factory ProfileTemplateChoice.fromJson(Map<String, dynamic> json) {
+    return ProfileTemplateChoice(
+      choiceDescription: json['ChoiceDescription'] as String?,
+      choiceId: json['ChoiceId'] as String?,
+      choiceTitle: json['ChoiceTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceDescription = this.choiceDescription;
+    final choiceId = this.choiceId;
+    final choiceTitle = this.choiceTitle;
+    return {
+      if (choiceDescription != null) 'ChoiceDescription': choiceDescription,
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
+    };
+  }
+}
+
+/// A profile template question.
+class ProfileTemplateQuestion {
+  /// The maximum number of choices selected.
+  final int? maxSelectedChoices;
+
+  /// The minimum number of choices selected.
+  final int? minSelectedChoices;
+
+  /// The question choices.
+  final List<ProfileTemplateChoice>? questionChoices;
+  final String? questionDescription;
+  final String? questionId;
+  final String? questionTitle;
+
+  ProfileTemplateQuestion({
+    this.maxSelectedChoices,
+    this.minSelectedChoices,
+    this.questionChoices,
+    this.questionDescription,
+    this.questionId,
+    this.questionTitle,
+  });
+
+  factory ProfileTemplateQuestion.fromJson(Map<String, dynamic> json) {
+    return ProfileTemplateQuestion(
+      maxSelectedChoices: json['MaxSelectedChoices'] as int?,
+      minSelectedChoices: json['MinSelectedChoices'] as int?,
+      questionChoices: (json['QuestionChoices'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProfileTemplateChoice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      questionDescription: json['QuestionDescription'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxSelectedChoices = this.maxSelectedChoices;
+    final minSelectedChoices = this.minSelectedChoices;
+    final questionChoices = this.questionChoices;
+    final questionDescription = this.questionDescription;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    return {
+      if (maxSelectedChoices != null) 'MaxSelectedChoices': maxSelectedChoices,
+      if (minSelectedChoices != null) 'MinSelectedChoices': minSelectedChoices,
+      if (questionChoices != null) 'QuestionChoices': questionChoices,
+      if (questionDescription != null)
+        'QuestionDescription': questionDescription,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+    };
+  }
+}
+
+enum Question {
+  unanswered,
+  answered,
+}
+
+extension QuestionValueExtension on Question {
+  String toValue() {
+    switch (this) {
+      case Question.unanswered:
+        return 'UNANSWERED';
+      case Question.answered:
+        return 'ANSWERED';
+    }
+  }
+}
+
+extension QuestionFromString on String {
+  Question toQuestion() {
+    switch (this) {
+      case 'UNANSWERED':
+        return Question.unanswered;
+      case 'ANSWERED':
+        return Question.answered;
+    }
+    throw Exception('$this is not known in enum Question');
   }
 }
 
@@ -4767,6 +7321,62 @@ class QuestionMetric {
   }
 }
 
+enum QuestionPriority {
+  prioritized,
+  none,
+}
+
+extension QuestionPriorityValueExtension on QuestionPriority {
+  String toValue() {
+    switch (this) {
+      case QuestionPriority.prioritized:
+        return 'PRIORITIZED';
+      case QuestionPriority.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension QuestionPriorityFromString on String {
+  QuestionPriority toQuestionPriority() {
+    switch (this) {
+      case 'PRIORITIZED':
+        return QuestionPriority.prioritized;
+      case 'NONE':
+        return QuestionPriority.none;
+    }
+    throw Exception('$this is not known in enum QuestionPriority');
+  }
+}
+
+enum QuestionType {
+  prioritized,
+  nonPrioritized,
+}
+
+extension QuestionTypeValueExtension on QuestionType {
+  String toValue() {
+    switch (this) {
+      case QuestionType.prioritized:
+        return 'PRIORITIZED';
+      case QuestionType.nonPrioritized:
+        return 'NON_PRIORITIZED';
+    }
+  }
+}
+
+extension QuestionTypeFromString on String {
+  QuestionType toQuestionType() {
+    switch (this) {
+      case 'PRIORITIZED':
+        return QuestionType.prioritized;
+      case 'NON_PRIORITIZED':
+        return QuestionType.nonPrioritized;
+    }
+    throw Exception('$this is not known in enum QuestionType');
+  }
+}
+
 enum ReportFormat {
   pdf,
   json,
@@ -4792,6 +7402,550 @@ extension ReportFormatFromString on String {
         return ReportFormat.json;
     }
     throw Exception('$this is not known in enum ReportFormat');
+  }
+}
+
+/// A review template.
+class ReviewTemplate {
+  /// The review template description.
+  final String? description;
+
+  /// The lenses applied to the review template.
+  final List<String>? lenses;
+  final String? notes;
+  final String? owner;
+
+  /// A count of how many total questions are answered and unanswered in the
+  /// review template.
+  final Map<Question, int>? questionCounts;
+
+  /// The ID assigned to the template share invitation.
+  final String? shareInvitationId;
+
+  /// The tags assigned to the review template.
+  final Map<String, String>? tags;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  /// The name of the review template.
+  final String? templateName;
+
+  /// The latest status of a review template.
+  final ReviewTemplateUpdateStatus? updateStatus;
+  final DateTime? updatedAt;
+
+  ReviewTemplate({
+    this.description,
+    this.lenses,
+    this.notes,
+    this.owner,
+    this.questionCounts,
+    this.shareInvitationId,
+    this.tags,
+    this.templateArn,
+    this.templateName,
+    this.updateStatus,
+    this.updatedAt,
+  });
+
+  factory ReviewTemplate.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplate(
+      description: json['Description'] as String?,
+      lenses: (json['Lenses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notes: json['Notes'] as String?,
+      owner: json['Owner'] as String?,
+      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toQuestion(), e as int)),
+      shareInvitationId: json['ShareInvitationId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateArn: json['TemplateArn'] as String?,
+      templateName: json['TemplateName'] as String?,
+      updateStatus:
+          (json['UpdateStatus'] as String?)?.toReviewTemplateUpdateStatus(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lenses = this.lenses;
+    final notes = this.notes;
+    final owner = this.owner;
+    final questionCounts = this.questionCounts;
+    final shareInvitationId = this.shareInvitationId;
+    final tags = this.tags;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final updateStatus = this.updateStatus;
+    final updatedAt = this.updatedAt;
+    return {
+      if (description != null) 'Description': description,
+      if (lenses != null) 'Lenses': lenses,
+      if (notes != null) 'Notes': notes,
+      if (owner != null) 'Owner': owner,
+      if (questionCounts != null)
+        'QuestionCounts':
+            questionCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (tags != null) 'Tags': tags,
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateName != null) 'TemplateName': templateName,
+      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// An answer of the question.
+class ReviewTemplateAnswer {
+  /// The status of whether or not this question has been answered.
+  final ReviewTemplateAnswerStatus? answerStatus;
+
+  /// A list of selected choices to a question in your review template.
+  final List<ChoiceAnswer>? choiceAnswers;
+  final List<Choice>? choices;
+
+  /// The helpful resource text to be displayed for a custom lens.
+  /// <note>
+  /// This field does not apply to Amazon Web Services official lenses.
+  /// </note>
+  final String? helpfulResourceDisplayText;
+  final String? helpfulResourceUrl;
+  final String? improvementPlanUrl;
+  final bool? isApplicable;
+  final String? notes;
+  final String? pillarId;
+  final String? questionDescription;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The reason why the question is not applicable to your review template.
+  final AnswerReason? reason;
+  final List<String>? selectedChoices;
+
+  ReviewTemplateAnswer({
+    this.answerStatus,
+    this.choiceAnswers,
+    this.choices,
+    this.helpfulResourceDisplayText,
+    this.helpfulResourceUrl,
+    this.improvementPlanUrl,
+    this.isApplicable,
+    this.notes,
+    this.pillarId,
+    this.questionDescription,
+    this.questionId,
+    this.questionTitle,
+    this.reason,
+    this.selectedChoices,
+  });
+
+  factory ReviewTemplateAnswer.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateAnswer(
+      answerStatus:
+          (json['AnswerStatus'] as String?)?.toReviewTemplateAnswerStatus(),
+      choiceAnswers: (json['ChoiceAnswers'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChoiceAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      choices: (json['Choices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      helpfulResourceDisplayText: json['HelpfulResourceDisplayText'] as String?,
+      helpfulResourceUrl: json['HelpfulResourceUrl'] as String?,
+      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
+      isApplicable: json['IsApplicable'] as bool?,
+      notes: json['Notes'] as String?,
+      pillarId: json['PillarId'] as String?,
+      questionDescription: json['QuestionDescription'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      reason: (json['Reason'] as String?)?.toAnswerReason(),
+      selectedChoices: (json['SelectedChoices'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerStatus = this.answerStatus;
+    final choiceAnswers = this.choiceAnswers;
+    final choices = this.choices;
+    final helpfulResourceDisplayText = this.helpfulResourceDisplayText;
+    final helpfulResourceUrl = this.helpfulResourceUrl;
+    final improvementPlanUrl = this.improvementPlanUrl;
+    final isApplicable = this.isApplicable;
+    final notes = this.notes;
+    final pillarId = this.pillarId;
+    final questionDescription = this.questionDescription;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final reason = this.reason;
+    final selectedChoices = this.selectedChoices;
+    return {
+      if (answerStatus != null) 'AnswerStatus': answerStatus.toValue(),
+      if (choiceAnswers != null) 'ChoiceAnswers': choiceAnswers,
+      if (choices != null) 'Choices': choices,
+      if (helpfulResourceDisplayText != null)
+        'HelpfulResourceDisplayText': helpfulResourceDisplayText,
+      if (helpfulResourceUrl != null) 'HelpfulResourceUrl': helpfulResourceUrl,
+      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
+      if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (notes != null) 'Notes': notes,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questionDescription != null)
+        'QuestionDescription': questionDescription,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (reason != null) 'Reason': reason.toValue(),
+      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
+    };
+  }
+}
+
+enum ReviewTemplateAnswerStatus {
+  unanswered,
+  answered,
+}
+
+extension ReviewTemplateAnswerStatusValueExtension
+    on ReviewTemplateAnswerStatus {
+  String toValue() {
+    switch (this) {
+      case ReviewTemplateAnswerStatus.unanswered:
+        return 'UNANSWERED';
+      case ReviewTemplateAnswerStatus.answered:
+        return 'ANSWERED';
+    }
+  }
+}
+
+extension ReviewTemplateAnswerStatusFromString on String {
+  ReviewTemplateAnswerStatus toReviewTemplateAnswerStatus() {
+    switch (this) {
+      case 'UNANSWERED':
+        return ReviewTemplateAnswerStatus.unanswered;
+      case 'ANSWERED':
+        return ReviewTemplateAnswerStatus.answered;
+    }
+    throw Exception('$this is not known in enum ReviewTemplateAnswerStatus');
+  }
+}
+
+/// The summary of review template answers.
+class ReviewTemplateAnswerSummary {
+  /// The status of whether or not this question has been answered.
+  final ReviewTemplateAnswerStatus? answerStatus;
+
+  /// A list of selected choices to a question in the review template.
+  final List<ChoiceAnswerSummary>? choiceAnswerSummaries;
+  final List<Choice>? choices;
+  final bool? isApplicable;
+  final String? pillarId;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The type of question.
+  final QuestionType? questionType;
+
+  /// The reason why a choice is not-applicable to a question in the review
+  /// template.
+  final AnswerReason? reason;
+  final List<String>? selectedChoices;
+
+  ReviewTemplateAnswerSummary({
+    this.answerStatus,
+    this.choiceAnswerSummaries,
+    this.choices,
+    this.isApplicable,
+    this.pillarId,
+    this.questionId,
+    this.questionTitle,
+    this.questionType,
+    this.reason,
+    this.selectedChoices,
+  });
+
+  factory ReviewTemplateAnswerSummary.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateAnswerSummary(
+      answerStatus:
+          (json['AnswerStatus'] as String?)?.toReviewTemplateAnswerStatus(),
+      choiceAnswerSummaries: (json['ChoiceAnswerSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChoiceAnswerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      choices: (json['Choices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isApplicable: json['IsApplicable'] as bool?,
+      pillarId: json['PillarId'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      questionType: (json['QuestionType'] as String?)?.toQuestionType(),
+      reason: (json['Reason'] as String?)?.toAnswerReason(),
+      selectedChoices: (json['SelectedChoices'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerStatus = this.answerStatus;
+    final choiceAnswerSummaries = this.choiceAnswerSummaries;
+    final choices = this.choices;
+    final isApplicable = this.isApplicable;
+    final pillarId = this.pillarId;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final questionType = this.questionType;
+    final reason = this.reason;
+    final selectedChoices = this.selectedChoices;
+    return {
+      if (answerStatus != null) 'AnswerStatus': answerStatus.toValue(),
+      if (choiceAnswerSummaries != null)
+        'ChoiceAnswerSummaries': choiceAnswerSummaries,
+      if (choices != null) 'Choices': choices,
+      if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (questionType != null) 'QuestionType': questionType.toValue(),
+      if (reason != null) 'Reason': reason.toValue(),
+      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
+    };
+  }
+}
+
+/// The lens review of a review template.
+class ReviewTemplateLensReview {
+  final String? lensAlias;
+
+  /// The lens ARN.
+  final String? lensArn;
+  final String? lensName;
+
+  /// The status of the lens.
+  final LensStatus? lensStatus;
+
+  /// The version of the lens.
+  final String? lensVersion;
+  final String? nextToken;
+  final String? notes;
+
+  /// Pillar review summaries of a lens review.
+  final List<ReviewTemplatePillarReviewSummary>? pillarReviewSummaries;
+
+  /// A count of how many questions are answered and unanswered in the lens
+  /// review.
+  final Map<Question, int>? questionCounts;
+  final DateTime? updatedAt;
+
+  ReviewTemplateLensReview({
+    this.lensAlias,
+    this.lensArn,
+    this.lensName,
+    this.lensStatus,
+    this.lensVersion,
+    this.nextToken,
+    this.notes,
+    this.pillarReviewSummaries,
+    this.questionCounts,
+    this.updatedAt,
+  });
+
+  factory ReviewTemplateLensReview.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateLensReview(
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+      lensName: json['LensName'] as String?,
+      lensStatus: (json['LensStatus'] as String?)?.toLensStatus(),
+      lensVersion: json['LensVersion'] as String?,
+      nextToken: json['NextToken'] as String?,
+      notes: json['Notes'] as String?,
+      pillarReviewSummaries: (json['PillarReviewSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReviewTemplatePillarReviewSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toQuestion(), e as int)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    final lensName = this.lensName;
+    final lensStatus = this.lensStatus;
+    final lensVersion = this.lensVersion;
+    final nextToken = this.nextToken;
+    final notes = this.notes;
+    final pillarReviewSummaries = this.pillarReviewSummaries;
+    final questionCounts = this.questionCounts;
+    final updatedAt = this.updatedAt;
+    return {
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (lensName != null) 'LensName': lensName,
+      if (lensStatus != null) 'LensStatus': lensStatus.toValue(),
+      if (lensVersion != null) 'LensVersion': lensVersion,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (notes != null) 'Notes': notes,
+      if (pillarReviewSummaries != null)
+        'PillarReviewSummaries': pillarReviewSummaries,
+      if (questionCounts != null)
+        'QuestionCounts':
+            questionCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Summary of a review template.
+class ReviewTemplatePillarReviewSummary {
+  final String? notes;
+  final String? pillarId;
+  final String? pillarName;
+
+  /// A count of how many questions are answered and unanswered in the requested
+  /// pillar of the lens review.
+  final Map<Question, int>? questionCounts;
+
+  ReviewTemplatePillarReviewSummary({
+    this.notes,
+    this.pillarId,
+    this.pillarName,
+    this.questionCounts,
+  });
+
+  factory ReviewTemplatePillarReviewSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ReviewTemplatePillarReviewSummary(
+      notes: json['Notes'] as String?,
+      pillarId: json['PillarId'] as String?,
+      pillarName: json['PillarName'] as String?,
+      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toQuestion(), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notes = this.notes;
+    final pillarId = this.pillarId;
+    final pillarName = this.pillarName;
+    final questionCounts = this.questionCounts;
+    return {
+      if (notes != null) 'Notes': notes,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (pillarName != null) 'PillarName': pillarName,
+      if (questionCounts != null)
+        'QuestionCounts':
+            questionCounts.map((k, e) => MapEntry(k.toValue(), e)),
+    };
+  }
+}
+
+/// Summary of a review template.
+class ReviewTemplateSummary {
+  /// Description of the review template.
+  final String? description;
+
+  /// Lenses associated with the review template.
+  final List<String>? lenses;
+  final String? owner;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  /// The name of the review template.
+  final String? templateName;
+
+  /// The latest status of a review template.
+  final ReviewTemplateUpdateStatus? updateStatus;
+  final DateTime? updatedAt;
+
+  ReviewTemplateSummary({
+    this.description,
+    this.lenses,
+    this.owner,
+    this.templateArn,
+    this.templateName,
+    this.updateStatus,
+    this.updatedAt,
+  });
+
+  factory ReviewTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateSummary(
+      description: json['Description'] as String?,
+      lenses: (json['Lenses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      owner: json['Owner'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+      templateName: json['TemplateName'] as String?,
+      updateStatus:
+          (json['UpdateStatus'] as String?)?.toReviewTemplateUpdateStatus(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lenses = this.lenses;
+    final owner = this.owner;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final updateStatus = this.updateStatus;
+    final updatedAt = this.updatedAt;
+    return {
+      if (description != null) 'Description': description,
+      if (lenses != null) 'Lenses': lenses,
+      if (owner != null) 'Owner': owner,
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateName != null) 'TemplateName': templateName,
+      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+enum ReviewTemplateUpdateStatus {
+  current,
+  lensNotCurrent,
+}
+
+extension ReviewTemplateUpdateStatusValueExtension
+    on ReviewTemplateUpdateStatus {
+  String toValue() {
+    switch (this) {
+      case ReviewTemplateUpdateStatus.current:
+        return 'CURRENT';
+      case ReviewTemplateUpdateStatus.lensNotCurrent:
+        return 'LENS_NOT_CURRENT';
+    }
+  }
+}
+
+extension ReviewTemplateUpdateStatusFromString on String {
+  ReviewTemplateUpdateStatus toReviewTemplateUpdateStatus() {
+    switch (this) {
+      case 'CURRENT':
+        return ReviewTemplateUpdateStatus.current;
+      case 'LENS_NOT_CURRENT':
+        return ReviewTemplateUpdateStatus.lensNotCurrent;
+    }
+    throw Exception('$this is not known in enum ReviewTemplateUpdateStatus');
   }
 }
 
@@ -4839,6 +7993,39 @@ extension RiskFromString on String {
   }
 }
 
+/// The selected pillar.
+class SelectedPillar {
+  final String? pillarId;
+
+  /// Selected question IDs in the selected pillar.
+  final List<String>? selectedQuestionIds;
+
+  SelectedPillar({
+    this.pillarId,
+    this.selectedQuestionIds,
+  });
+
+  factory SelectedPillar.fromJson(Map<String, dynamic> json) {
+    return SelectedPillar(
+      pillarId: json['PillarId'] as String?,
+      selectedQuestionIds: (json['SelectedQuestionIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pillarId = this.pillarId;
+    final selectedQuestionIds = this.selectedQuestionIds;
+    return {
+      if (pillarId != null) 'PillarId': pillarId,
+      if (selectedQuestionIds != null)
+        'SelectedQuestionIds': selectedQuestionIds,
+    };
+  }
+}
+
 /// The share invitation.
 class ShareInvitation {
   final String? lensAlias;
@@ -4846,18 +8033,26 @@ class ShareInvitation {
   /// The ARN for the lens.
   final String? lensArn;
 
+  /// The profile ARN.
+  final String? profileArn;
+
   /// The ID assigned to the share invitation.
   final String? shareInvitationId;
 
   /// The resource type of the share invitation.
   final ShareResourceType? shareResourceType;
+
+  /// The review template ARN.
+  final String? templateArn;
   final String? workloadId;
 
   ShareInvitation({
     this.lensAlias,
     this.lensArn,
+    this.profileArn,
     this.shareInvitationId,
     this.shareResourceType,
+    this.templateArn,
     this.workloadId,
   });
 
@@ -4865,9 +8060,11 @@ class ShareInvitation {
     return ShareInvitation(
       lensAlias: json['LensAlias'] as String?,
       lensArn: json['LensArn'] as String?,
+      profileArn: json['ProfileArn'] as String?,
       shareInvitationId: json['ShareInvitationId'] as String?,
       shareResourceType:
           (json['ShareResourceType'] as String?)?.toShareResourceType(),
+      templateArn: json['TemplateArn'] as String?,
       workloadId: json['WorkloadId'] as String?,
     );
   }
@@ -4875,15 +8072,19 @@ class ShareInvitation {
   Map<String, dynamic> toJson() {
     final lensAlias = this.lensAlias;
     final lensArn = this.lensArn;
+    final profileArn = this.profileArn;
     final shareInvitationId = this.shareInvitationId;
     final shareResourceType = this.shareResourceType;
+    final templateArn = this.templateArn;
     final workloadId = this.workloadId;
     return {
       if (lensAlias != null) 'LensAlias': lensAlias,
       if (lensArn != null) 'LensArn': lensArn,
+      if (profileArn != null) 'ProfileArn': profileArn,
       if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
       if (shareResourceType != null)
         'ShareResourceType': shareResourceType.toValue(),
+      if (templateArn != null) 'TemplateArn': templateArn,
       if (workloadId != null) 'WorkloadId': workloadId,
     };
   }
@@ -4925,6 +8126,12 @@ class ShareInvitationSummary {
   final String? lensName;
   final PermissionType? permissionType;
 
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile name.
+  final String? profileName;
+
   /// The ID assigned to the share invitation.
   final String? shareInvitationId;
 
@@ -4932,6 +8139,12 @@ class ShareInvitationSummary {
   final ShareResourceType? shareResourceType;
   final String? sharedBy;
   final String? sharedWith;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  /// The name of the review template.
+  final String? templateName;
   final String? workloadId;
   final String? workloadName;
 
@@ -4939,10 +8152,14 @@ class ShareInvitationSummary {
     this.lensArn,
     this.lensName,
     this.permissionType,
+    this.profileArn,
+    this.profileName,
     this.shareInvitationId,
     this.shareResourceType,
     this.sharedBy,
     this.sharedWith,
+    this.templateArn,
+    this.templateName,
     this.workloadId,
     this.workloadName,
   });
@@ -4952,11 +8169,15 @@ class ShareInvitationSummary {
       lensArn: json['LensArn'] as String?,
       lensName: json['LensName'] as String?,
       permissionType: (json['PermissionType'] as String?)?.toPermissionType(),
+      profileArn: json['ProfileArn'] as String?,
+      profileName: json['ProfileName'] as String?,
       shareInvitationId: json['ShareInvitationId'] as String?,
       shareResourceType:
           (json['ShareResourceType'] as String?)?.toShareResourceType(),
       sharedBy: json['SharedBy'] as String?,
       sharedWith: json['SharedWith'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+      templateName: json['TemplateName'] as String?,
       workloadId: json['WorkloadId'] as String?,
       workloadName: json['WorkloadName'] as String?,
     );
@@ -4966,21 +8187,29 @@ class ShareInvitationSummary {
     final lensArn = this.lensArn;
     final lensName = this.lensName;
     final permissionType = this.permissionType;
+    final profileArn = this.profileArn;
+    final profileName = this.profileName;
     final shareInvitationId = this.shareInvitationId;
     final shareResourceType = this.shareResourceType;
     final sharedBy = this.sharedBy;
     final sharedWith = this.sharedWith;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
     final workloadId = this.workloadId;
     final workloadName = this.workloadName;
     return {
       if (lensArn != null) 'LensArn': lensArn,
       if (lensName != null) 'LensName': lensName,
       if (permissionType != null) 'PermissionType': permissionType.toValue(),
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileName != null) 'ProfileName': profileName,
       if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
       if (shareResourceType != null)
         'ShareResourceType': shareResourceType.toValue(),
       if (sharedBy != null) 'SharedBy': sharedBy,
       if (sharedWith != null) 'SharedWith': sharedWith,
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateName != null) 'TemplateName': templateName,
       if (workloadId != null) 'WorkloadId': workloadId,
       if (workloadName != null) 'WorkloadName': workloadName,
     };
@@ -4990,6 +8219,8 @@ class ShareInvitationSummary {
 enum ShareResourceType {
   workload,
   lens,
+  profile,
+  template,
 }
 
 extension ShareResourceTypeValueExtension on ShareResourceType {
@@ -4999,6 +8230,10 @@ extension ShareResourceTypeValueExtension on ShareResourceType {
         return 'WORKLOAD';
       case ShareResourceType.lens:
         return 'LENS';
+      case ShareResourceType.profile:
+        return 'PROFILE';
+      case ShareResourceType.template:
+        return 'TEMPLATE';
     }
   }
 }
@@ -5010,12 +8245,16 @@ extension ShareResourceTypeFromString on String {
         return ShareResourceType.workload;
       case 'LENS':
         return ShareResourceType.lens;
+      case 'PROFILE':
+        return ShareResourceType.profile;
+      case 'TEMPLATE':
+        return ShareResourceType.template;
     }
     throw Exception('$this is not known in enum ShareResourceType');
   }
 }
 
-/// The status of a workload share.
+/// The status of the share request.
 enum ShareStatus {
   accepted,
   rejected,
@@ -5083,6 +8322,45 @@ class TagResourceOutput {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Summary of a review template share.
+class TemplateShareSummary {
+  final String? shareId;
+  final String? sharedWith;
+  final ShareStatus? status;
+
+  /// Review template share invitation status message.
+  final String? statusMessage;
+
+  TemplateShareSummary({
+    this.shareId,
+    this.sharedWith,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory TemplateShareSummary.fromJson(Map<String, dynamic> json) {
+    return TemplateShareSummary(
+      shareId: json['ShareId'] as String?,
+      sharedWith: json['SharedWith'] as String?,
+      status: (json['Status'] as String?)?.toShareStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareId = this.shareId;
+    final sharedWith = this.sharedWith;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (shareId != null) 'ShareId': shareId,
+      if (sharedWith != null) 'SharedWith': sharedWith,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
   }
 }
 
@@ -5194,6 +8472,125 @@ class UpdateLensReviewOutput {
     return {
       if (lensReview != null) 'LensReview': lensReview,
       if (workloadId != null) 'WorkloadId': workloadId,
+    };
+  }
+}
+
+class UpdateProfileOutput {
+  /// The profile.
+  final Profile? profile;
+
+  UpdateProfileOutput({
+    this.profile,
+  });
+
+  factory UpdateProfileOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProfileOutput(
+      profile: json['Profile'] != null
+          ? Profile.fromJson(json['Profile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profile = this.profile;
+    return {
+      if (profile != null) 'Profile': profile,
+    };
+  }
+}
+
+class UpdateReviewTemplateAnswerOutput {
+  /// An answer of the question.
+  final ReviewTemplateAnswer? answer;
+  final String? lensAlias;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  UpdateReviewTemplateAnswerOutput({
+    this.answer,
+    this.lensAlias,
+    this.templateArn,
+  });
+
+  factory UpdateReviewTemplateAnswerOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateReviewTemplateAnswerOutput(
+      answer: json['Answer'] != null
+          ? ReviewTemplateAnswer.fromJson(
+              json['Answer'] as Map<String, dynamic>)
+          : null,
+      lensAlias: json['LensAlias'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answer = this.answer;
+    final lensAlias = this.lensAlias;
+    final templateArn = this.templateArn;
+    return {
+      if (answer != null) 'Answer': answer,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
+  }
+}
+
+class UpdateReviewTemplateLensReviewOutput {
+  /// A lens review of a question.
+  final ReviewTemplateLensReview? lensReview;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  UpdateReviewTemplateLensReviewOutput({
+    this.lensReview,
+    this.templateArn,
+  });
+
+  factory UpdateReviewTemplateLensReviewOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateReviewTemplateLensReviewOutput(
+      lensReview: json['LensReview'] != null
+          ? ReviewTemplateLensReview.fromJson(
+              json['LensReview'] as Map<String, dynamic>)
+          : null,
+      templateArn: json['TemplateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensReview = this.lensReview;
+    final templateArn = this.templateArn;
+    return {
+      if (lensReview != null) 'LensReview': lensReview,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
+  }
+}
+
+class UpdateReviewTemplateOutput {
+  /// A review template.
+  final ReviewTemplate? reviewTemplate;
+
+  UpdateReviewTemplateOutput({
+    this.reviewTemplate,
+  });
+
+  factory UpdateReviewTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateReviewTemplateOutput(
+      reviewTemplate: json['ReviewTemplate'] != null
+          ? ReviewTemplate.fromJson(
+              json['ReviewTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reviewTemplate = this.reviewTemplate;
+    return {
+      if (reviewTemplate != null) 'ReviewTemplate': reviewTemplate,
     };
   }
 }
@@ -5327,11 +8724,18 @@ class Workload {
   /// acknowledgement, access to the workload is restricted until an owner is
   /// added.
   final bool? isReviewOwnerUpdateAcknowledged;
+
+  /// Jira configuration for a specific workload.
+  final WorkloadJiraConfigurationOutput? jiraConfiguration;
   final List<String>? lenses;
   final List<String>? nonAwsRegions;
   final String? notes;
   final String? owner;
   final List<String>? pillarPriorities;
+  final Map<Risk, int>? prioritizedRiskCounts;
+
+  /// Profile associated with a workload.
+  final List<WorkloadProfile>? profiles;
   final String? reviewOwner;
   final DateTime? reviewRestrictionDate;
   final Map<Risk, int>? riskCounts;
@@ -5358,11 +8762,14 @@ class Workload {
     this.industry,
     this.industryType,
     this.isReviewOwnerUpdateAcknowledged,
+    this.jiraConfiguration,
     this.lenses,
     this.nonAwsRegions,
     this.notes,
     this.owner,
     this.pillarPriorities,
+    this.prioritizedRiskCounts,
+    this.profiles,
     this.reviewOwner,
     this.reviewRestrictionDate,
     this.riskCounts,
@@ -5401,6 +8808,10 @@ class Workload {
       industryType: json['IndustryType'] as String?,
       isReviewOwnerUpdateAcknowledged:
           json['IsReviewOwnerUpdateAcknowledged'] as bool?,
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? WorkloadJiraConfigurationOutput.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
       lenses: (json['Lenses'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -5414,6 +8825,13 @@ class Workload {
       pillarPriorities: (json['PillarPriorities'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
+          .toList(),
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
+      profiles: (json['Profiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       reviewOwner: json['ReviewOwner'] as String?,
       reviewRestrictionDate: timeStampFromJson(json['ReviewRestrictionDate']),
@@ -5442,11 +8860,14 @@ class Workload {
     final industryType = this.industryType;
     final isReviewOwnerUpdateAcknowledged =
         this.isReviewOwnerUpdateAcknowledged;
+    final jiraConfiguration = this.jiraConfiguration;
     final lenses = this.lenses;
     final nonAwsRegions = this.nonAwsRegions;
     final notes = this.notes;
     final owner = this.owner;
     final pillarPriorities = this.pillarPriorities;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
+    final profiles = this.profiles;
     final reviewOwner = this.reviewOwner;
     final reviewRestrictionDate = this.reviewRestrictionDate;
     final riskCounts = this.riskCounts;
@@ -5471,11 +8892,16 @@ class Workload {
       if (industryType != null) 'IndustryType': industryType,
       if (isReviewOwnerUpdateAcknowledged != null)
         'IsReviewOwnerUpdateAcknowledged': isReviewOwnerUpdateAcknowledged,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
       if (lenses != null) 'Lenses': lenses,
       if (nonAwsRegions != null) 'NonAwsRegions': nonAwsRegions,
       if (notes != null) 'Notes': notes,
       if (owner != null) 'Owner': owner,
       if (pillarPriorities != null) 'PillarPriorities': pillarPriorities,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (profiles != null) 'Profiles': profiles,
       if (reviewOwner != null) 'ReviewOwner': reviewOwner,
       if (reviewRestrictionDate != null)
         'ReviewRestrictionDate': unixTimestampToJson(reviewRestrictionDate),
@@ -5607,6 +9033,149 @@ extension WorkloadImprovementStatusFromString on String {
   }
 }
 
+enum WorkloadIssueManagementStatus {
+  enabled,
+  disabled,
+  inherit,
+}
+
+extension WorkloadIssueManagementStatusValueExtension
+    on WorkloadIssueManagementStatus {
+  String toValue() {
+    switch (this) {
+      case WorkloadIssueManagementStatus.enabled:
+        return 'ENABLED';
+      case WorkloadIssueManagementStatus.disabled:
+        return 'DISABLED';
+      case WorkloadIssueManagementStatus.inherit:
+        return 'INHERIT';
+    }
+  }
+}
+
+extension WorkloadIssueManagementStatusFromString on String {
+  WorkloadIssueManagementStatus toWorkloadIssueManagementStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return WorkloadIssueManagementStatus.enabled;
+      case 'DISABLED':
+        return WorkloadIssueManagementStatus.disabled;
+      case 'INHERIT':
+        return WorkloadIssueManagementStatus.inherit;
+    }
+    throw Exception('$this is not known in enum WorkloadIssueManagementStatus');
+  }
+}
+
+/// Workload-level: Input for the Jira configuration.
+class WorkloadJiraConfigurationInput {
+  /// Workload-level: Jira issue management status.
+  final WorkloadIssueManagementStatus? issueManagementStatus;
+
+  /// Workload-level: Jira issue management type.
+  final IssueManagementType? issueManagementType;
+
+  /// Workload-level: Jira project key to sync workloads to.
+  final String? jiraProjectKey;
+
+  WorkloadJiraConfigurationInput({
+    this.issueManagementStatus,
+    this.issueManagementType,
+    this.jiraProjectKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final issueManagementStatus = this.issueManagementStatus;
+    final issueManagementType = this.issueManagementType;
+    final jiraProjectKey = this.jiraProjectKey;
+    return {
+      if (issueManagementStatus != null)
+        'IssueManagementStatus': issueManagementStatus.toValue(),
+      if (issueManagementType != null)
+        'IssueManagementType': issueManagementType.toValue(),
+      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+    };
+  }
+}
+
+/// Workload-level: Output configuration of the Jira integration.
+class WorkloadJiraConfigurationOutput {
+  /// Workload-level: Jira issue management status.
+  final WorkloadIssueManagementStatus? issueManagementStatus;
+
+  /// Workload-level: Jira issue management type.
+  final IssueManagementType? issueManagementType;
+
+  /// Workload-level: Jira project key to sync workloads to.
+  final String? jiraProjectKey;
+
+  /// Workload-level: Status message on configuration of the Jira integration.
+  final String? statusMessage;
+
+  WorkloadJiraConfigurationOutput({
+    this.issueManagementStatus,
+    this.issueManagementType,
+    this.jiraProjectKey,
+    this.statusMessage,
+  });
+
+  factory WorkloadJiraConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return WorkloadJiraConfigurationOutput(
+      issueManagementStatus: (json['IssueManagementStatus'] as String?)
+          ?.toWorkloadIssueManagementStatus(),
+      issueManagementType:
+          (json['IssueManagementType'] as String?)?.toIssueManagementType(),
+      jiraProjectKey: json['JiraProjectKey'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issueManagementStatus = this.issueManagementStatus;
+    final issueManagementType = this.issueManagementType;
+    final jiraProjectKey = this.jiraProjectKey;
+    final statusMessage = this.statusMessage;
+    return {
+      if (issueManagementStatus != null)
+        'IssueManagementStatus': issueManagementStatus.toValue(),
+      if (issueManagementType != null)
+        'IssueManagementType': issueManagementType.toValue(),
+      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// The profile associated with a workload.
+class WorkloadProfile {
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile version.
+  final String? profileVersion;
+
+  WorkloadProfile({
+    this.profileArn,
+    this.profileVersion,
+  });
+
+  factory WorkloadProfile.fromJson(Map<String, dynamic> json) {
+    return WorkloadProfile(
+      profileArn: json['ProfileArn'] as String?,
+      profileVersion: json['ProfileVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileArn = this.profileArn;
+    final profileVersion = this.profileVersion;
+    return {
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileVersion != null) 'ProfileVersion': profileVersion,
+    };
+  }
+}
+
 /// A workload share return object.
 class WorkloadShare {
   final PermissionType? permissionType;
@@ -5708,6 +9277,10 @@ class WorkloadSummary {
   final WorkloadImprovementStatus? improvementStatus;
   final List<String>? lenses;
   final String? owner;
+  final Map<Risk, int>? prioritizedRiskCounts;
+
+  /// Profile associated with a workload.
+  final List<WorkloadProfile>? profiles;
   final Map<Risk, int>? riskCounts;
   final DateTime? updatedAt;
   final String? workloadArn;
@@ -5718,6 +9291,8 @@ class WorkloadSummary {
     this.improvementStatus,
     this.lenses,
     this.owner,
+    this.prioritizedRiskCounts,
+    this.profiles,
     this.riskCounts,
     this.updatedAt,
     this.workloadArn,
@@ -5734,6 +9309,13 @@ class WorkloadSummary {
           .map((e) => e as String)
           .toList(),
       owner: json['Owner'] as String?,
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
+      profiles: (json['Profiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k.toRisk(), e as int)),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
@@ -5747,6 +9329,8 @@ class WorkloadSummary {
     final improvementStatus = this.improvementStatus;
     final lenses = this.lenses;
     final owner = this.owner;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
+    final profiles = this.profiles;
     final riskCounts = this.riskCounts;
     final updatedAt = this.updatedAt;
     final workloadArn = this.workloadArn;
@@ -5757,6 +9341,10 @@ class WorkloadSummary {
         'ImprovementStatus': improvementStatus.toValue(),
       if (lenses != null) 'Lenses': lenses,
       if (owner != null) 'Owner': owner,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (profiles != null) 'Profiles': profiles,
       if (riskCounts != null)
         'RiskCounts': riskCounts.map((k, e) => MapEntry(k.toValue(), e)),
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),

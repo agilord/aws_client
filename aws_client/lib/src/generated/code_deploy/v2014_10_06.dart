@@ -262,7 +262,7 @@ class CodeDeploy {
   /// May throw [DeploymentConfigDoesNotExistException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the applicable IAM
+  /// The name of an CodeDeploy application associated with the applicable user
   /// or Amazon Web Services account.
   ///
   /// Parameter [deploymentGroupNames] :
@@ -404,8 +404,8 @@ class CodeDeploy {
   /// </li>
   /// </ul>
   Future<BatchGetDeploymentTargetsOutput> batchGetDeploymentTargets({
-    String? deploymentId,
-    List<String>? targetIds,
+    required String deploymentId,
+    required List<String> targetIds,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -418,8 +418,8 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-        if (targetIds != null) 'targetIds': targetIds,
+        'deploymentId': deploymentId,
+        'targetIds': targetIds,
       },
     );
 
@@ -546,7 +546,7 @@ class CodeDeploy {
   ///
   /// Parameter [applicationName] :
   /// The name of the application. This name must be unique with the applicable
-  /// IAM or Amazon Web Services account.
+  /// user or Amazon Web Services account.
   ///
   /// Parameter [computePlatform] :
   /// The destination platform type for the deployment (<code>Lambda</code>,
@@ -612,16 +612,16 @@ class CodeDeploy {
   /// May throw [InvalidTrafficRoutingConfigurationException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   ///
   /// Parameter [autoRollbackConfiguration] :
   /// Configuration information for an automatic rollback that is added when a
   /// deployment is created.
   ///
   /// Parameter [deploymentConfigName] :
-  /// The name of a deployment configuration associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of a deployment configuration associated with the user or Amazon
+  /// Web Services account.
   ///
   /// If not specified, the value configured in the deployment group is used as
   /// the default. If the deployment group does not have a deployment
@@ -771,6 +771,7 @@ class CodeDeploy {
   /// May throw [DeploymentConfigLimitExceededException].
   /// May throw [InvalidComputePlatformException].
   /// May throw [InvalidTrafficRoutingConfigurationException].
+  /// May throw [InvalidZonalDeploymentConfigurationException].
   ///
   /// Parameter [deploymentConfigName] :
   /// The name of the deployment configuration to create.
@@ -806,11 +807,22 @@ class CodeDeploy {
   ///
   /// Parameter [trafficRoutingConfig] :
   /// The configuration that specifies how the deployment traffic is routed.
+  ///
+  /// Parameter [zonalConfig] :
+  /// Configure the <code>ZonalConfig</code> object if you want CodeDeploy to
+  /// deploy your application to one <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones">Availability
+  /// Zone</a> at a time, within an Amazon Web Services Region.
+  ///
+  /// For more information about the zonal configuration feature, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
   Future<CreateDeploymentConfigOutput> createDeploymentConfig({
     required String deploymentConfigName,
     ComputePlatform? computePlatform,
     MinimumHealthyHosts? minimumHealthyHosts,
     TrafficRoutingConfig? trafficRoutingConfig,
+    ZonalConfig? zonalConfig,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -830,6 +842,7 @@ class CodeDeploy {
           'minimumHealthyHosts': minimumHealthyHosts,
         if (trafficRoutingConfig != null)
           'trafficRoutingConfig': trafficRoutingConfig,
+        if (zonalConfig != null) 'zonalConfig': zonalConfig,
       },
     );
 
@@ -873,8 +886,8 @@ class CodeDeploy {
   /// May throw [InvalidTrafficRoutingConfigurationException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   ///
   /// Parameter [deploymentGroupName] :
   /// The name of a new deployment group for the specified application.
@@ -966,6 +979,27 @@ class CodeDeploy {
   /// organize and categorize them. Each tag consists of a key and an optional
   /// value, both of which you define.
   ///
+  /// Parameter [terminationHookEnabled] :
+  /// This parameter only applies if you are using CodeDeploy with Amazon EC2
+  /// Auto Scaling. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html">Integrating
+  /// CodeDeploy with Amazon EC2 Auto Scaling</a> in the <i>CodeDeploy User
+  /// Guide</i>.
+  ///
+  /// Set <code>terminationHookEnabled</code> to <code>true</code> to have
+  /// CodeDeploy install a termination hook into your Auto Scaling group when
+  /// you create a deployment group. When this hook is installed, CodeDeploy
+  /// will perform termination deployments.
+  ///
+  /// For information about termination deployments, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable">Enabling
+  /// termination deployments during Auto Scaling scale-in events</a> in the
+  /// <i>CodeDeploy User Guide</i>.
+  ///
+  /// For more information about Auto Scaling scale-in events, see the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in">Scale
+  /// in</a> topic in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
   /// Parameter [triggerConfigurations] :
   /// Information about triggers to create when the deployment group is created.
   /// For examples, see <a
@@ -989,6 +1023,7 @@ class CodeDeploy {
     OnPremisesTagSet? onPremisesTagSet,
     OutdatedInstancesStrategy? outdatedInstancesStrategy,
     List<Tag>? tags,
+    bool? terminationHookEnabled,
     List<TriggerConfig>? triggerConfigurations,
   }) async {
     final headers = <String, String>{
@@ -1025,6 +1060,8 @@ class CodeDeploy {
         if (outdatedInstancesStrategy != null)
           'outdatedInstancesStrategy': outdatedInstancesStrategy.toValue(),
         if (tags != null) 'tags': tags,
+        if (terminationHookEnabled != null)
+          'terminationHookEnabled': terminationHookEnabled,
         if (triggerConfigurations != null)
           'triggerConfigurations': triggerConfigurations,
       },
@@ -1040,8 +1077,8 @@ class CodeDeploy {
   /// May throw [InvalidRoleException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   Future<void> deleteApplication({
     required String applicationName,
   }) async {
@@ -1073,8 +1110,8 @@ class CodeDeploy {
   /// May throw [InvalidOperationException].
   ///
   /// Parameter [deploymentConfigName] :
-  /// The name of a deployment configuration associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of a deployment configuration associated with the user or Amazon
+  /// Web Services account.
   Future<void> deleteDeploymentConfig({
     required String deploymentConfigName,
   }) async {
@@ -1103,8 +1140,8 @@ class CodeDeploy {
   /// May throw [InvalidRoleException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   ///
   /// Parameter [deploymentGroupName] :
   /// The name of a deployment group for the specified application.
@@ -1162,7 +1199,14 @@ class CodeDeploy {
     return DeleteGitHubAccountTokenOutput.fromJson(jsonResponse.body);
   }
 
-  /// Deletes resources linked to an external ID.
+  /// Deletes resources linked to an external ID. This action only applies if
+  /// you have configured blue/green deployments through CloudFormation.
+  /// <note>
+  /// It is not necessary to call this action directly. CloudFormation calls it
+  /// on your behalf when it needs to delete stack resources. This action is
+  /// offered publicly in case you need to delete resources to comply with
+  /// General Data Protection Regulation (GDPR) requirements.
+  /// </note>
   ///
   /// Parameter [externalId] :
   /// The unique ID of an external resource (for example, a CloudFormation stack
@@ -1219,8 +1263,8 @@ class CodeDeploy {
   /// May throw [ApplicationDoesNotExistException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   Future<GetApplicationOutput> getApplication({
     required String applicationName,
   }) async {
@@ -1294,7 +1338,7 @@ class CodeDeploy {
   /// May throw [DeploymentDoesNotExistException].
   ///
   /// Parameter [deploymentId] :
-  /// The unique ID of a deployment associated with the IAM user or Amazon Web
+  /// The unique ID of a deployment associated with the user or Amazon Web
   /// Services account.
   Future<GetDeploymentOutput> getDeployment({
     required String deploymentId,
@@ -1325,8 +1369,8 @@ class CodeDeploy {
   /// May throw [InvalidComputePlatformException].
   ///
   /// Parameter [deploymentConfigName] :
-  /// The name of a deployment configuration associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of a deployment configuration associated with the user or Amazon
+  /// Web Services account.
   Future<GetDeploymentConfigOutput> getDeploymentConfig({
     required String deploymentConfigName,
   }) async {
@@ -1359,8 +1403,8 @@ class CodeDeploy {
   /// May throw [DeploymentConfigDoesNotExistException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   ///
   /// Parameter [deploymentGroupName] :
   /// The name of a deployment group for the specified application.
@@ -1443,8 +1487,8 @@ class CodeDeploy {
   /// Parameter [targetId] :
   /// The unique ID of a deployment target.
   Future<GetDeploymentTargetOutput> getDeploymentTarget({
-    String? deploymentId,
-    String? targetId,
+    required String deploymentId,
+    required String targetId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1457,8 +1501,8 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-        if (targetId != null) 'targetId': targetId,
+        'deploymentId': deploymentId,
+        'targetId': targetId,
       },
     );
 
@@ -1508,8 +1552,8 @@ class CodeDeploy {
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   ///
   /// Parameter [deployed] :
   /// Whether to list revisions based on whether the revision is the target
@@ -1610,7 +1654,7 @@ class CodeDeploy {
     return ListApplicationRevisionsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the applications registered with the IAM user or Amazon Web Services
+  /// Lists the applications registered with the user or Amazon Web Services
   /// account.
   ///
   /// May throw [InvalidNextTokenException].
@@ -1639,8 +1683,8 @@ class CodeDeploy {
     return ListApplicationsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the deployment configurations with the IAM user or Amazon Web
-  /// Services account.
+  /// Lists the deployment configurations with the user or Amazon Web Services
+  /// account.
   ///
   /// May throw [InvalidNextTokenException].
   ///
@@ -1669,8 +1713,8 @@ class CodeDeploy {
     return ListDeploymentConfigsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the deployment groups for an application registered with the IAM
-  /// user or Amazon Web Services account.
+  /// Lists the deployment groups for an application registered with the Amazon
+  /// Web Services user or Amazon Web Services account.
   ///
   /// May throw [ApplicationNameRequiredException].
   /// May throw [InvalidApplicationNameException].
@@ -1678,8 +1722,8 @@ class CodeDeploy {
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   ///
   /// Parameter [nextToken] :
   /// An identifier returned from the previous list deployment groups call. It
@@ -1713,8 +1757,8 @@ class CodeDeploy {
   /// <code>ListDeploymentInstances</code> throws an exception if it is used
   /// with a compute platform other than EC2/On-premises or Lambda.
   /// </note>
-  /// Lists the instance for a deployment associated with the IAM user or Amazon
-  /// Web Services account.
+  /// Lists the instance for a deployment associated with the user or Amazon Web
+  /// Services account.
   ///
   /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentDoesNotExistException].
@@ -1808,6 +1852,7 @@ class CodeDeploy {
   /// May throw [InvalidInstanceStatusException].
   /// May throw [InvalidInstanceTypeException].
   /// May throw [InvalidDeploymentInstanceTypeException].
+  /// May throw [InvalidTargetFilterNameException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a deployment.
@@ -1833,7 +1878,7 @@ class CodeDeploy {
   /// </li>
   /// </ul>
   Future<ListDeploymentTargetsOutput> listDeploymentTargets({
-    String? deploymentId,
+    required String deploymentId,
     String? nextToken,
     Map<TargetFilterName, List<String>>? targetFilters,
   }) async {
@@ -1848,7 +1893,7 @@ class CodeDeploy {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
+        'deploymentId': deploymentId,
         if (nextToken != null) 'nextToken': nextToken,
         if (targetFilters != null)
           'targetFilters':
@@ -1860,7 +1905,7 @@ class CodeDeploy {
   }
 
   /// Lists the deployments in a deployment group for an application registered
-  /// with the IAM user or Amazon Web Services account.
+  /// with the user or Amazon Web Services account.
   ///
   /// May throw [ApplicationNameRequiredException].
   /// May throw [InvalidApplicationNameException].
@@ -1875,8 +1920,8 @@ class CodeDeploy {
   /// May throw [InvalidInputException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   /// <note>
   /// If <code>applicationName</code> is specified, then
   /// <code>deploymentGroupName</code> must be specified. If it is not
@@ -2164,8 +2209,8 @@ class CodeDeploy {
   /// May throw [InvalidRevisionException].
   ///
   /// Parameter [applicationName] :
-  /// The name of an CodeDeploy application associated with the IAM user or
-  /// Amazon Web Services account.
+  /// The name of an CodeDeploy application associated with the user or Amazon
+  /// Web Services account.
   ///
   /// Parameter [revision] :
   /// Information about the application revision to register, including type and
@@ -2220,7 +2265,7 @@ class CodeDeploy {
   /// The ARN of the IAM session to associate with the on-premises instance.
   ///
   /// Parameter [iamUserArn] :
-  /// The ARN of the IAM user to associate with the on-premises instance.
+  /// The ARN of the user to associate with the on-premises instance.
   Future<void> registerOnPremisesInstance({
     required String instanceName,
     String? iamSessionArn,
@@ -2533,7 +2578,7 @@ class CodeDeploy {
   /// To remove Auto Scaling groups, specify a non-null empty list of Auto
   /// Scaling group names to detach all CodeDeploy-managed Auto Scaling
   /// lifecycle hooks. For examples, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat">Amazon
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat">Amazon
   /// EC2 instances in an Amazon EC2 Auto Scaling group fail to launch and
   /// receive the error "Heartbeat Timeout"</a> in the <i>CodeDeploy User
   /// Guide</i>.
@@ -2599,6 +2644,27 @@ class CodeDeploy {
   /// Parameter [serviceRoleArn] :
   /// A replacement ARN for the service role, if you want to change it.
   ///
+  /// Parameter [terminationHookEnabled] :
+  /// This parameter only applies if you are using CodeDeploy with Amazon EC2
+  /// Auto Scaling. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html">Integrating
+  /// CodeDeploy with Amazon EC2 Auto Scaling</a> in the <i>CodeDeploy User
+  /// Guide</i>.
+  ///
+  /// Set <code>terminationHookEnabled</code> to <code>true</code> to have
+  /// CodeDeploy install a termination hook into your Auto Scaling group when
+  /// you update a deployment group. When this hook is installed, CodeDeploy
+  /// will perform termination deployments.
+  ///
+  /// For information about termination deployments, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable">Enabling
+  /// termination deployments during Auto Scaling scale-in events</a> in the
+  /// <i>CodeDeploy User Guide</i>.
+  ///
+  /// For more information about Auto Scaling scale-in events, see the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in">Scale
+  /// in</a> topic in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
   /// Parameter [triggerConfigurations] :
   /// Information about triggers to change when the deployment group is updated.
   /// For examples, see <a
@@ -2623,6 +2689,7 @@ class CodeDeploy {
     OnPremisesTagSet? onPremisesTagSet,
     OutdatedInstancesStrategy? outdatedInstancesStrategy,
     String? serviceRoleArn,
+    bool? terminationHookEnabled,
     List<TriggerConfig>? triggerConfigurations,
   }) async {
     final headers = <String, String>{
@@ -2660,6 +2727,8 @@ class CodeDeploy {
         if (outdatedInstancesStrategy != null)
           'outdatedInstancesStrategy': outdatedInstancesStrategy.toValue(),
         if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
+        if (terminationHookEnabled != null)
+          'terminationHookEnabled': terminationHookEnabled,
         if (triggerConfigurations != null)
           'triggerConfigurations': triggerConfigurations,
       },
@@ -2959,30 +3028,49 @@ extension AutoRollbackEventFromString on String {
 
 /// Information about an Auto Scaling group.
 class AutoScalingGroup {
-  /// An Auto Scaling lifecycle event hook name.
+  /// The name of the launch hook that CodeDeploy installed into the Auto Scaling
+  /// group.
+  ///
+  /// For more information about the launch hook, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors">How
+  /// Amazon EC2 Auto Scaling works with CodeDeploy</a> in the <i>CodeDeploy User
+  /// Guide</i>.
   final String? hook;
 
   /// The Auto Scaling group name.
   final String? name;
 
+  /// The name of the termination hook that CodeDeploy installed into the Auto
+  /// Scaling group.
+  ///
+  /// For more information about the termination hook, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable">Enabling
+  /// termination deployments during Auto Scaling scale-in events</a> in the
+  /// <i>CodeDeploy User Guide</i>.
+  final String? terminationHook;
+
   AutoScalingGroup({
     this.hook,
     this.name,
+    this.terminationHook,
   });
 
   factory AutoScalingGroup.fromJson(Map<String, dynamic> json) {
     return AutoScalingGroup(
       hook: json['hook'] as String?,
       name: json['name'] as String?,
+      terminationHook: json['terminationHook'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final hook = this.hook;
     final name = this.name;
+    final terminationHook = this.terminationHook;
     return {
       if (hook != null) 'hook': hook,
       if (name != null) 'name': name,
+      if (terminationHook != null) 'terminationHook': terminationHook,
     };
   }
 }
@@ -3660,12 +3748,15 @@ class DeploymentConfigInfo {
   /// The deployment configuration name.
   final String? deploymentConfigName;
 
-  /// Information about the number or percentage of minimum healthy instance.
+  /// Information about the number or percentage of minimum healthy instances.
   final MinimumHealthyHosts? minimumHealthyHosts;
 
   /// The configuration that specifies how the deployment traffic is routed. Used
   /// for deployments with a Lambda or Amazon ECS compute platform only.
   final TrafficRoutingConfig? trafficRoutingConfig;
+
+  /// Information about a zonal configuration.
+  final ZonalConfig? zonalConfig;
 
   DeploymentConfigInfo({
     this.computePlatform,
@@ -3674,6 +3765,7 @@ class DeploymentConfigInfo {
     this.deploymentConfigName,
     this.minimumHealthyHosts,
     this.trafficRoutingConfig,
+    this.zonalConfig,
   });
 
   factory DeploymentConfigInfo.fromJson(Map<String, dynamic> json) {
@@ -3691,6 +3783,9 @@ class DeploymentConfigInfo {
           ? TrafficRoutingConfig.fromJson(
               json['trafficRoutingConfig'] as Map<String, dynamic>)
           : null,
+      zonalConfig: json['zonalConfig'] != null
+          ? ZonalConfig.fromJson(json['zonalConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3701,6 +3796,7 @@ class DeploymentConfigInfo {
     final deploymentConfigName = this.deploymentConfigName;
     final minimumHealthyHosts = this.minimumHealthyHosts;
     final trafficRoutingConfig = this.trafficRoutingConfig;
+    final zonalConfig = this.zonalConfig;
     return {
       if (computePlatform != null) 'computePlatform': computePlatform.toValue(),
       if (createTime != null) 'createTime': unixTimestampToJson(createTime),
@@ -3711,6 +3807,7 @@ class DeploymentConfigInfo {
         'minimumHealthyHosts': minimumHealthyHosts,
       if (trafficRoutingConfig != null)
         'trafficRoutingConfig': trafficRoutingConfig,
+      if (zonalConfig != null) 'zonalConfig': zonalConfig,
     };
   }
 }
@@ -3723,6 +3820,7 @@ enum DeploymentCreator {
   codeDeployAutoUpdate,
   cloudFormation,
   cloudFormationRollback,
+  autoscalingTermination,
 }
 
 extension DeploymentCreatorValueExtension on DeploymentCreator {
@@ -3742,6 +3840,8 @@ extension DeploymentCreatorValueExtension on DeploymentCreator {
         return 'CloudFormation';
       case DeploymentCreator.cloudFormationRollback:
         return 'CloudFormationRollback';
+      case DeploymentCreator.autoscalingTermination:
+        return 'autoscalingTermination';
     }
   }
 }
@@ -3763,6 +3863,8 @@ extension DeploymentCreatorFromString on String {
         return DeploymentCreator.cloudFormation;
       case 'CloudFormationRollback':
         return DeploymentCreator.cloudFormationRollback;
+      case 'autoscalingTermination':
+        return DeploymentCreator.autoscalingTermination;
     }
     throw Exception('$this is not known in enum DeploymentCreator');
   }
@@ -3861,6 +3963,15 @@ class DeploymentGroupInfo {
   /// location.
   final RevisionLocation? targetRevision;
 
+  /// Indicates whether the deployment group was configured to have CodeDeploy
+  /// install a termination hook into an Auto Scaling group.
+  ///
+  /// For more information about the termination hook, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors">How
+  /// Amazon EC2 Auto Scaling works with CodeDeploy</a> in the <i>CodeDeploy User
+  /// Guide</i>.
+  final bool? terminationHookEnabled;
+
   /// Information about triggers associated with the deployment group.
   final List<TriggerConfig>? triggerConfigurations;
 
@@ -3886,6 +3997,7 @@ class DeploymentGroupInfo {
     this.outdatedInstancesStrategy,
     this.serviceRoleArn,
     this.targetRevision,
+    this.terminationHookEnabled,
     this.triggerConfigurations,
   });
 
@@ -3958,6 +4070,7 @@ class DeploymentGroupInfo {
           ? RevisionLocation.fromJson(
               json['targetRevision'] as Map<String, dynamic>)
           : null,
+      terminationHookEnabled: json['terminationHookEnabled'] as bool?,
       triggerConfigurations: (json['triggerConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) => TriggerConfig.fromJson(e as Map<String, dynamic>))
@@ -3988,6 +4101,7 @@ class DeploymentGroupInfo {
     final outdatedInstancesStrategy = this.outdatedInstancesStrategy;
     final serviceRoleArn = this.serviceRoleArn;
     final targetRevision = this.targetRevision;
+    final terminationHookEnabled = this.terminationHookEnabled;
     final triggerConfigurations = this.triggerConfigurations;
     return {
       if (alarmConfiguration != null) 'alarmConfiguration': alarmConfiguration,
@@ -4019,6 +4133,8 @@ class DeploymentGroupInfo {
         'outdatedInstancesStrategy': outdatedInstancesStrategy.toValue(),
       if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
       if (targetRevision != null) 'targetRevision': targetRevision,
+      if (terminationHookEnabled != null)
+        'terminationHookEnabled': terminationHookEnabled,
       if (triggerConfigurations != null)
         'triggerConfigurations': triggerConfigurations,
     };
@@ -5195,14 +5311,14 @@ class ECSTaskSet {
   }
 }
 
-/// Information about a load balancer in Elastic Load Balancing to use in a
-/// deployment. Instances are registered directly with a load balancer, and
+/// Information about a Classic Load Balancer in Elastic Load Balancing to use
+/// in a deployment. Instances are registered directly with a load balancer, and
 /// traffic is routed to the load balancer.
 class ELBInfo {
-  /// For blue/green deployments, the name of the load balancer that is used to
-  /// route traffic from original instances to replacement instances in a
-  /// blue/green deployment. For in-place deployments, the name of the load
-  /// balancer that instances are deregistered from so they are not serving
+  /// For blue/green deployments, the name of the Classic Load Balancer that is
+  /// used to route traffic from original instances to replacement instances in a
+  /// blue/green deployment. For in-place deployments, the name of the Classic
+  /// Load Balancer that instances are deregistered from so they are not serving
   /// traffic during a deployment, and then re-registered with after the
   /// deployment is complete.
   final String? name;
@@ -5954,7 +6070,7 @@ class InstanceInfo {
   /// The ARN of the IAM session associated with the on-premises instance.
   final String? iamSessionArn;
 
-  /// The IAM user ARN associated with the on-premises instance.
+  /// The user ARN associated with the on-premises instance.
   final String? iamUserArn;
 
   /// The ARN of the on-premises instance.
@@ -7011,20 +7127,33 @@ class ListTagsForResourceOutput {
 
 /// Information about the Elastic Load Balancing load balancer or target group
 /// used in a deployment.
+///
+/// You can use load balancers and target groups in combination. For example, if
+/// you have two Classic Load Balancers, and five target groups tied to an
+/// Application Load Balancer, you can specify the two Classic Load Balancers in
+/// <code>elbInfoList</code>, and the five target groups in
+/// <code>targetGroupInfoList</code>.
 class LoadBalancerInfo {
-  /// An array that contains information about the load balancer to use for load
-  /// balancing in a deployment. In Elastic Load Balancing, load balancers are
-  /// used with Classic Load Balancers.
+  /// An array that contains information about the load balancers to use for load
+  /// balancing in a deployment. If you're using Classic Load Balancers, specify
+  /// those load balancers in this array.
   /// <note>
-  /// Adding more than one load balancer to the array is not supported.
+  /// You can add up to 10 load balancers to the array.
+  /// </note> <note>
+  /// If you're using Application Load Balancers or Network Load Balancers, use
+  /// the <code>targetGroupInfoList</code> array instead of this one.
   /// </note>
   final List<ELBInfo>? elbInfoList;
 
-  /// An array that contains information about the target group to use for load
-  /// balancing in a deployment. In Elastic Load Balancing, target groups are used
-  /// with Application Load Balancers.
+  /// An array that contains information about the target groups to use for load
+  /// balancing in a deployment. If you're using Application Load Balancers and
+  /// Network Load Balancers, specify their associated target groups in this
+  /// array.
   /// <note>
-  /// Adding more than one target group to the array is not supported.
+  /// You can add up to 10 target groups to the array.
+  /// </note> <note>
+  /// If you're using Classic Load Balancers, use the <code>elbInfoList</code>
+  /// array instead of this one.
   /// </note>
   final List<TargetGroupInfo>? targetGroupInfoList;
 
@@ -7069,7 +7198,7 @@ class LoadBalancerInfo {
   }
 }
 
-/// Information about minimum healthy instance.
+/// Information about the minimum number of healthy instances.
 class MinimumHealthyHosts {
   /// The minimum healthy instance type:
   ///
@@ -7128,6 +7257,69 @@ class MinimumHealthyHosts {
       if (type != null) 'type': type.toValue(),
       if (value != null) 'value': value,
     };
+  }
+}
+
+/// Information about the minimum number of healthy instances per Availability
+/// Zone.
+class MinimumHealthyHostsPerZone {
+  /// The <code>type</code> associated with the
+  /// <code>MinimumHealthyHostsPerZone</code> option.
+  final MinimumHealthyHostsPerZoneType? type;
+
+  /// The <code>value</code> associated with the
+  /// <code>MinimumHealthyHostsPerZone</code> option.
+  final int? value;
+
+  MinimumHealthyHostsPerZone({
+    this.type,
+    this.value,
+  });
+
+  factory MinimumHealthyHostsPerZone.fromJson(Map<String, dynamic> json) {
+    return MinimumHealthyHostsPerZone(
+      type: (json['type'] as String?)?.toMinimumHealthyHostsPerZoneType(),
+      value: json['value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'type': type.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+enum MinimumHealthyHostsPerZoneType {
+  hostCount,
+  fleetPercent,
+}
+
+extension MinimumHealthyHostsPerZoneTypeValueExtension
+    on MinimumHealthyHostsPerZoneType {
+  String toValue() {
+    switch (this) {
+      case MinimumHealthyHostsPerZoneType.hostCount:
+        return 'HOST_COUNT';
+      case MinimumHealthyHostsPerZoneType.fleetPercent:
+        return 'FLEET_PERCENT';
+    }
+  }
+}
+
+extension MinimumHealthyHostsPerZoneTypeFromString on String {
+  MinimumHealthyHostsPerZoneType toMinimumHealthyHostsPerZoneType() {
+    switch (this) {
+      case 'HOST_COUNT':
+        return MinimumHealthyHostsPerZoneType.hostCount;
+      case 'FLEET_PERCENT':
+        return MinimumHealthyHostsPerZoneType.fleetPercent;
+    }
+    throw Exception(
+        '$this is not known in enum MinimumHealthyHostsPerZoneType');
   }
 }
 
@@ -7567,6 +7759,12 @@ class S3Location {
   /// </li>
   /// <li>
   /// <code>zip</code>: A zip archive file.
+  /// </li>
+  /// <li>
+  /// <code>YAML</code>: A YAML-formatted file.
+  /// </li>
+  /// <li>
+  /// <code>JSON</code>: A JSON-formatted file.
   /// </li>
   /// </ul>
   final BundleType? bundleType;
@@ -8453,6 +8651,95 @@ class UpdateDeploymentGroupOutput {
   }
 }
 
+/// Configure the <code>ZonalConfig</code> object if you want CodeDeploy to
+/// deploy your application to one <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones">Availability
+/// Zone</a> at a time, within an Amazon Web Services Region. By deploying to
+/// one Availability Zone at a time, you can expose your deployment to a
+/// progressively larger audience as confidence in the deployment's performance
+/// and viability grows. If you don't configure the <code>ZonalConfig</code>
+/// object, CodeDeploy deploys your application to a random selection of hosts
+/// across a Region.
+///
+/// For more information about the zonal configuration feature, see <a
+/// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+/// configuration</a> in the <i>CodeDeploy User Guide</i>.
+class ZonalConfig {
+  /// The period of time, in seconds, that CodeDeploy must wait after completing a
+  /// deployment to the <i>first</i> Availability Zone. CodeDeploy will wait this
+  /// amount of time before starting a deployment to the second Availability Zone.
+  /// You might set this option if you want to allow extra bake time for the first
+  /// Availability Zone. If you don't specify a value for
+  /// <code>firstZoneMonitorDurationInSeconds</code>, then CodeDeploy uses the
+  /// <code>monitorDurationInSeconds</code> value for the first Availability Zone.
+  ///
+  /// For more information about the zonal configuration feature, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
+  final int? firstZoneMonitorDurationInSeconds;
+
+  /// The number or percentage of instances that must remain available per
+  /// Availability Zone during a deployment. This option works in conjunction with
+  /// the <code>MinimumHealthyHosts</code> option. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html#minimum-healthy-hosts-az">About
+  /// the minimum number of healthy hosts per Availability Zone</a> in the
+  /// <i>CodeDeploy User Guide</i>.
+  ///
+  /// If you don't specify the <code>minimumHealthyHostsPerZone</code> option,
+  /// then CodeDeploy uses a default value of <code>0</code> percent.
+  ///
+  /// For more information about the zonal configuration feature, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
+  final MinimumHealthyHostsPerZone? minimumHealthyHostsPerZone;
+
+  /// The period of time, in seconds, that CodeDeploy must wait after completing a
+  /// deployment to an Availability Zone. CodeDeploy will wait this amount of time
+  /// before starting a deployment to the next Availability Zone. Consider adding
+  /// a monitor duration to give the deployment some time to prove itself (or
+  /// 'bake') in one Availability Zone before it is released in the next zone. If
+  /// you don't specify a <code>monitorDurationInSeconds</code>, CodeDeploy starts
+  /// deploying to the next Availability Zone immediately.
+  ///
+  /// For more information about the zonal configuration feature, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
+  final int? monitorDurationInSeconds;
+
+  ZonalConfig({
+    this.firstZoneMonitorDurationInSeconds,
+    this.minimumHealthyHostsPerZone,
+    this.monitorDurationInSeconds,
+  });
+
+  factory ZonalConfig.fromJson(Map<String, dynamic> json) {
+    return ZonalConfig(
+      firstZoneMonitorDurationInSeconds:
+          json['firstZoneMonitorDurationInSeconds'] as int?,
+      minimumHealthyHostsPerZone: json['minimumHealthyHostsPerZone'] != null
+          ? MinimumHealthyHostsPerZone.fromJson(
+              json['minimumHealthyHostsPerZone'] as Map<String, dynamic>)
+          : null,
+      monitorDurationInSeconds: json['monitorDurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firstZoneMonitorDurationInSeconds =
+        this.firstZoneMonitorDurationInSeconds;
+    final minimumHealthyHostsPerZone = this.minimumHealthyHostsPerZone;
+    final monitorDurationInSeconds = this.monitorDurationInSeconds;
+    return {
+      if (firstZoneMonitorDurationInSeconds != null)
+        'firstZoneMonitorDurationInSeconds': firstZoneMonitorDurationInSeconds,
+      if (minimumHealthyHostsPerZone != null)
+        'minimumHealthyHostsPerZone': minimumHealthyHostsPerZone,
+      if (monitorDurationInSeconds != null)
+        'monitorDurationInSeconds': monitorDurationInSeconds,
+    };
+  }
+}
+
 class AlarmsLimitExceededException extends _s.GenericAwsException {
   AlarmsLimitExceededException({String? type, String? message})
       : super(
@@ -9143,6 +9430,15 @@ class InvalidUpdateOutdatedInstancesOnlyValueException
             message: message);
 }
 
+class InvalidZonalDeploymentConfigurationException
+    extends _s.GenericAwsException {
+  InvalidZonalDeploymentConfigurationException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidZonalDeploymentConfigurationException',
+            message: message);
+}
+
 class LifecycleEventAlreadyCompletedException extends _s.GenericAwsException {
   LifecycleEventAlreadyCompletedException({String? type, String? message})
       : super(
@@ -9438,6 +9734,9 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidTriggerConfigException(type: type, message: message),
   'InvalidUpdateOutdatedInstancesOnlyValueException': (type, message) =>
       InvalidUpdateOutdatedInstancesOnlyValueException(
+          type: type, message: message),
+  'InvalidZonalDeploymentConfigurationException': (type, message) =>
+      InvalidZonalDeploymentConfigurationException(
           type: type, message: message),
   'LifecycleEventAlreadyCompletedException': (type, message) =>
       LifecycleEventAlreadyCompletedException(type: type, message: message),

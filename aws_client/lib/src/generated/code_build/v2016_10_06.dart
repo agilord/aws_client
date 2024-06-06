@@ -139,6 +139,33 @@ class CodeBuild {
     return BatchGetBuildsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Gets information about one or more compute fleets.
+  ///
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [names] :
+  /// The names or ARNs of the compute fleets.
+  Future<BatchGetFleetsOutput> batchGetFleets({
+    required List<String> names,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.BatchGetFleets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'names': names,
+      },
+    );
+
+    return BatchGetFleetsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Gets information about one or more build projects.
   ///
   /// May throw [InvalidInputException].
@@ -220,6 +247,206 @@ class CodeBuild {
     );
 
     return BatchGetReportsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a compute fleet.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [AccountLimitExceededException].
+  ///
+  /// Parameter [baseCapacity] :
+  /// The initial number of machines allocated to the ﬂeet, which deﬁnes the
+  /// number of builds that can run in parallel.
+  ///
+  /// Parameter [computeType] :
+  /// Information about the compute resources the compute fleet uses. Available
+  /// values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BUILD_GENERAL1_SMALL</code>: Use up to 3 GB memory and 2 vCPUs for
+  /// builds.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_MEDIUM</code>: Use up to 7 GB memory and 4 vCPUs for
+  /// builds.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_LARGE</code>: Use up to 16 GB memory and 8 vCPUs for
+  /// builds, depending on your environment type.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_XLARGE</code>: Use up to 70 GB memory and 36 vCPUs
+  /// for builds, depending on your environment type.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_2XLARGE</code>: Use up to 145 GB memory, 72 vCPUs,
+  /// and 824 GB of SSD storage for builds. This compute type supports Docker
+  /// images up to 100 GB uncompressed.
+  /// </li>
+  /// </ul>
+  /// If you use <code>BUILD_GENERAL1_SMALL</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For environment type <code>LINUX_CONTAINER</code>, you can use up to 3 GB
+  /// memory and 2 vCPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to
+  /// 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>ARM_CONTAINER</code>, you can use up to 4 GB
+  /// memory and 2 vCPUs on ARM-based processors for builds.
+  /// </li>
+  /// </ul>
+  /// If you use <code>BUILD_GENERAL1_LARGE</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For environment type <code>LINUX_CONTAINER</code>, you can use up to 15 GB
+  /// memory and 8 vCPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to
+  /// 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>ARM_CONTAINER</code>, you can use up to 16 GB
+  /// memory and 8 vCPUs on ARM-based processors for builds.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>CodeBuild User Guide.</i>
+  ///
+  /// Parameter [environmentType] :
+  /// The environment type of the compute fleet.
+  ///
+  /// <ul>
+  /// <li>
+  /// The environment type <code>ARM_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
+  /// (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São
+  /// Paulo).
+  /// </li>
+  /// <li>
+  /// The environment type <code>LINUX_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore),
+  /// Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
+  /// (Mumbai).
+  /// </li>
+  /// <li>
+  /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific
+  /// (Sydney).
+  /// </li>
+  /// <li>
+  /// The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is
+  /// available only in regions US East (N. Virginia), US East (Ohio), US West
+  /// (Oregon), Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific
+  /// (Mumbai) and EU (Ireland).
+  /// </li>
+  /// <li>
+  /// The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is
+  /// available only in regions US East (N. Virginia), US East (Ohio), US West
+  /// (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia
+  /// Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
+  /// Asia Pacific (Mumbai).
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>CodeBuild user guide</i>.
+  ///
+  /// Parameter [name] :
+  /// The name of the compute fleet.
+  ///
+  /// Parameter [fleetServiceRole] :
+  /// The service role associated with the compute fleet. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html">
+  /// Allow a user to add a permission policy for a fleet service role</a> in
+  /// the <i>CodeBuild User Guide</i>.
+  ///
+  /// Parameter [overflowBehavior] :
+  /// The compute fleet overflow behavior.
+  ///
+  /// <ul>
+  /// <li>
+  /// For overflow behavior <code>QUEUE</code>, your overflow builds need to
+  /// wait on the existing fleet instance to become available.
+  /// </li>
+  /// <li>
+  /// For overflow behavior <code>ON_DEMAND</code>, your overflow builds run on
+  /// CodeBuild on-demand.
+  /// <note>
+  /// If you choose to set your overflow behavior to on-demand while creating a
+  /// VPC-connected fleet, make sure that you add the required VPC permissions
+  /// to your project service role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface">Example
+  /// policy statement to allow CodeBuild access to Amazon Web Services services
+  /// required to create a VPC network interface</a>.
+  /// </note> </li>
+  /// </ul>
+  ///
+  /// Parameter [scalingConfiguration] :
+  /// The scaling configuration of the compute fleet.
+  ///
+  /// Parameter [tags] :
+  /// A list of tag key and value pairs associated with this compute fleet.
+  ///
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild build project tags.
+  Future<CreateFleetOutput> createFleet({
+    required int baseCapacity,
+    required ComputeType computeType,
+    required EnvironmentType environmentType,
+    required String name,
+    String? fleetServiceRole,
+    FleetOverflowBehavior? overflowBehavior,
+    ScalingConfigurationInput? scalingConfiguration,
+    List<Tag>? tags,
+    VpcConfig? vpcConfig,
+  }) async {
+    _s.validateNumRange(
+      'baseCapacity',
+      baseCapacity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.CreateFleet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'baseCapacity': baseCapacity,
+        'computeType': computeType.toValue(),
+        'environmentType': environmentType.toValue(),
+        'name': name,
+        if (fleetServiceRole != null) 'fleetServiceRole': fleetServiceRole,
+        if (overflowBehavior != null)
+          'overflowBehavior': overflowBehavior.toValue(),
+        if (scalingConfiguration != null)
+          'scalingConfiguration': scalingConfiguration,
+        if (tags != null) 'tags': tags,
+        if (vpcConfig != null) 'vpcConfig': vpcConfig,
+      },
+    );
+
+    return CreateFleetOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a build project.
@@ -320,6 +547,9 @@ class CodeBuild {
   /// specified, the default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
+  /// For GitLab: the commit ID, branch, or Git tag to use.
+  /// </li>
+  /// <li>
   /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
   /// the version of the source code you want to build. If a branch name is
   /// specified, the branch's HEAD commit ID is used. If not specified, the
@@ -345,12 +575,16 @@ class CodeBuild {
   /// support CodeBuild build project tags.
   ///
   /// Parameter [timeoutInMinutes] :
-  /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait
+  /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait
   /// before it times out any build that has not been marked as completed. The
   /// default is 60 minutes.
   ///
   /// Parameter [vpcConfig] :
   /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
+  /// <note>
+  /// If you're using compute fleets during project creation, do not provide
+  /// vpcConfig.
+  /// </note>
   Future<CreateProjectOutput> createProject({
     required ProjectArtifacts artifacts,
     required ProjectEnvironment environment,
@@ -384,7 +618,7 @@ class CodeBuild {
       'timeoutInMinutes',
       timeoutInMinutes,
       5,
-      480,
+      2160,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -521,11 +755,22 @@ class CodeBuild {
   /// For a build to be triggered, at least one filter group in the
   /// <code>filterGroups</code> array must pass. For a filter group to pass,
   /// each of its filters must pass.
+  ///
+  /// Parameter [manualCreation] :
+  /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub
+  /// and instead returns <code>payloadUrl</code> and <code>secret</code> values
+  /// for the webhook. The <code>payloadUrl</code> and <code>secret</code>
+  /// values in the output can be used to manually create a webhook within
+  /// GitHub.
+  /// <note>
+  /// <code>manualCreation</code> is only available for GitHub webhooks.
+  /// </note>
   Future<CreateWebhookOutput> createWebhook({
     required String projectName,
     String? branchFilter,
     WebhookBuildType? buildType,
     List<List<WebhookFilter>>? filterGroups,
+    bool? manualCreation,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -542,6 +787,7 @@ class CodeBuild {
         if (branchFilter != null) 'branchFilter': branchFilter,
         if (buildType != null) 'buildType': buildType.toValue(),
         if (filterGroups != null) 'filterGroups': filterGroups,
+        if (manualCreation != null) 'manualCreation': manualCreation,
       },
     );
 
@@ -573,6 +819,32 @@ class CodeBuild {
     );
 
     return DeleteBuildBatchOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a compute fleet. When you delete a compute fleet, its builds are
+  /// not deleted.
+  ///
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [arn] :
+  /// The ARN of the compute fleet.
+  Future<void> deleteFleet({
+    required String arn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.DeleteFleet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'arn': arn,
+      },
+    );
   }
 
   /// Deletes a build project. When you delete a project, its builds are not
@@ -998,15 +1270,19 @@ class CodeBuild {
   ///
   /// Parameter [authType] :
   /// The type of authentication used to connect to a GitHub, GitHub Enterprise,
-  /// or Bitbucket repository. An OAUTH connection is not supported by the API
-  /// and must be created using the CodeBuild console.
+  /// GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection
+  /// is not supported by the API and must be created using the CodeBuild
+  /// console. Note that CODECONNECTIONS is only valid for GitLab and GitLab
+  /// Self Managed.
   ///
   /// Parameter [serverType] :
   /// The source provider used for this project.
   ///
   /// Parameter [token] :
   /// For GitHub or GitHub Enterprise, this is the personal access token. For
-  /// Bitbucket, this is the app password.
+  /// Bitbucket, this is either the access token or the app password. For the
+  /// <code>authType</code> CODECONNECTIONS, this is the
+  /// <code>connectionArn</code>.
   ///
   /// Parameter [shouldOverwrite] :
   /// Set to <code>false</code> to prevent overwriting the repository source
@@ -1325,6 +1601,90 @@ class CodeBuild {
     );
 
     return ListCuratedEnvironmentImagesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Gets a list of compute fleet names with each compute fleet name
+  /// representing a single compute fleet.
+  ///
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of paginated compute fleets returned per response. Use
+  /// <code>nextToken</code> to iterate pages in the list of returned compute
+  /// fleets.
+  ///
+  /// Parameter [nextToken] :
+  /// During a previous call, if there are more than 100 items in the list, only
+  /// the first 100 items are returned, along with a unique string called a
+  /// <i>nextToken</i>. To get the next batch of items in the list, call this
+  /// operation again, adding the next token to the call. To get all of the
+  /// items in the list, keep calling this operation with each subsequent next
+  /// token that is returned, until no more next tokens are returned.
+  ///
+  /// Parameter [sortBy] :
+  /// The criterion to be used to list compute fleet names. Valid values
+  /// include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED_TIME</code>: List based on when each compute fleet was
+  /// created.
+  /// </li>
+  /// <li>
+  /// <code>LAST_MODIFIED_TIME</code>: List based on when information about each
+  /// compute fleet was last changed.
+  /// </li>
+  /// <li>
+  /// <code>NAME</code>: List based on each compute fleet's name.
+  /// </li>
+  /// </ul>
+  /// Use <code>sortOrder</code> to specify in what order to list the compute
+  /// fleet names based on the preceding criteria.
+  ///
+  /// Parameter [sortOrder] :
+  /// The order in which to list compute fleets. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List in ascending order.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List in descending order.
+  /// </li>
+  /// </ul>
+  /// Use <code>sortBy</code> to specify the criterion to be used to list
+  /// compute fleet names.
+  Future<ListFleetsOutput> listFleets({
+    int? maxResults,
+    String? nextToken,
+    FleetSortByType? sortBy,
+    SortOrderType? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.ListFleets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListFleetsOutput.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of build project names, with each build project name
@@ -1897,7 +2257,14 @@ class CodeBuild {
     return RetryBuildBatchOutput.fromJson(jsonResponse.body);
   }
 
-  /// Starts running a build.
+  /// Starts running a build with the settings defined in the project. These
+  /// setting include: how to run a build, where to get the source code, which
+  /// build environment to use, which build commands to run, and where to store
+  /// the build output.
+  ///
+  /// You can also start a build run by overriding some of the build settings in
+  /// the project. The overrides only apply for that specific start build
+  /// request. The settings in the project are unaltered.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
@@ -1917,8 +2284,9 @@ class CodeBuild {
   /// <code>BITBUCKET</code>.
   ///
   /// Parameter [buildspecOverride] :
-  /// A buildspec file declaration that overrides, for this build only, the
-  /// latest one already defined in the build project.
+  /// A buildspec file declaration that overrides the latest one defined in the
+  /// build project, for this build only. The buildspec defined on the project
+  /// is not changed.
   ///
   /// If this value is set, it can be either an inline buildspec definition, the
   /// path to an alternate buildspec file relative to the value of the built-in
@@ -1931,6 +2299,13 @@ class CodeBuild {
   /// <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage">Buildspec
   /// File Name and Storage Location</a>.
+  /// <note>
+  /// Since this property allows you to change the build commands that will run
+  /// in the container, you should note that an IAM principal with the ability
+  /// to call this API and set this parameter can override the default settings.
+  /// Moreover, we encourage that you use a trustworthy buildspec location like
+  /// a file in your source repository or a Amazon S3 bucket.
+  /// </note>
   ///
   /// Parameter [cacheOverride] :
   /// A ProjectCache object specified for this build that overrides the one
@@ -1969,6 +2344,10 @@ class CodeBuild {
   /// Parameter [environmentVariablesOverride] :
   /// A set of environment variables that overrides, for this build only, the
   /// latest ones already defined in the build project.
+  ///
+  /// Parameter [fleetOverride] :
+  /// A ProjectFleet object specified for this build that overrides the one
+  /// defined in the build project.
   ///
   /// Parameter [gitCloneDepthOverride] :
   /// The user-defined depth of history, with a minimum value of 0, that
@@ -2057,7 +2436,7 @@ class CodeBuild {
   /// Parameter [sourceAuthOverride] :
   /// An authorization type for this build that overrides the one defined in the
   /// build project. This override applies only if the build project's source is
-  /// BitBucket or GitHub.
+  /// BitBucket, GitHub, GitLab, or GitLab Self Managed.
   ///
   /// Parameter [sourceLocationOverride] :
   /// A location that overrides, for this build, the source location for the one
@@ -2080,6 +2459,8 @@ class CodeBuild {
   /// example <code>pr/25</code>). If a branch name is specified, the branch's
   /// HEAD commit ID is used. If not specified, the default branch's HEAD commit
   /// ID is used.
+  /// </dd> <dt>GitLab</dt> <dd>
+  /// The commit ID, branch, or Git tag to use.
   /// </dd> <dt>Bitbucket</dt> <dd>
   /// The commit ID, branch name, or tag name that corresponds to the version of
   /// the source code you want to build. If a branch name is specified, the
@@ -2097,7 +2478,7 @@ class CodeBuild {
   /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   ///
   /// Parameter [timeoutInMinutesOverride] :
-  /// The number of build timeout minutes, from 5 to 480 (8 hours), that
+  /// The number of build timeout minutes, from 5 to 2160 (36 hours), that
   /// overrides, for this build only, the latest setting already defined in the
   /// build project.
   Future<StartBuildOutput> startBuild({
@@ -2112,6 +2493,7 @@ class CodeBuild {
     String? encryptionKeyOverride,
     EnvironmentType? environmentTypeOverride,
     List<EnvironmentVariable>? environmentVariablesOverride,
+    ProjectFleet? fleetOverride,
     int? gitCloneDepthOverride,
     GitSubmodulesConfig? gitSubmodulesConfigOverride,
     String? idempotencyToken,
@@ -2149,7 +2531,7 @@ class CodeBuild {
       'timeoutInMinutesOverride',
       timeoutInMinutesOverride,
       5,
-      480,
+      2160,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2180,6 +2562,7 @@ class CodeBuild {
           'environmentTypeOverride': environmentTypeOverride.toValue(),
         if (environmentVariablesOverride != null)
           'environmentVariablesOverride': environmentVariablesOverride,
+        if (fleetOverride != null) 'fleetOverride': fleetOverride,
         if (gitCloneDepthOverride != null)
           'gitCloneDepthOverride': gitCloneDepthOverride,
         if (gitSubmodulesConfigOverride != null)
@@ -2456,7 +2839,7 @@ class CodeBuild {
       'buildTimeoutInMinutesOverride',
       buildTimeoutInMinutesOverride,
       5,
-      480,
+      2160,
     );
     _s.validateNumRange(
       'gitCloneDepthOverride',
@@ -2599,6 +2982,206 @@ class CodeBuild {
     return StopBuildBatchOutput.fromJson(jsonResponse.body);
   }
 
+  /// Updates a compute fleet.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccountLimitExceededException].
+  ///
+  /// Parameter [arn] :
+  /// The ARN of the compute fleet.
+  ///
+  /// Parameter [baseCapacity] :
+  /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes
+  /// the number of builds that can run in parallel.
+  ///
+  /// Parameter [computeType] :
+  /// Information about the compute resources the compute fleet uses. Available
+  /// values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BUILD_GENERAL1_SMALL</code>: Use up to 3 GB memory and 2 vCPUs for
+  /// builds.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_MEDIUM</code>: Use up to 7 GB memory and 4 vCPUs for
+  /// builds.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_LARGE</code>: Use up to 16 GB memory and 8 vCPUs for
+  /// builds, depending on your environment type.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_XLARGE</code>: Use up to 70 GB memory and 36 vCPUs
+  /// for builds, depending on your environment type.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_2XLARGE</code>: Use up to 145 GB memory, 72 vCPUs,
+  /// and 824 GB of SSD storage for builds. This compute type supports Docker
+  /// images up to 100 GB uncompressed.
+  /// </li>
+  /// </ul>
+  /// If you use <code>BUILD_GENERAL1_SMALL</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For environment type <code>LINUX_CONTAINER</code>, you can use up to 3 GB
+  /// memory and 2 vCPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to
+  /// 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>ARM_CONTAINER</code>, you can use up to 4 GB
+  /// memory and 2 vCPUs on ARM-based processors for builds.
+  /// </li>
+  /// </ul>
+  /// If you use <code>BUILD_GENERAL1_LARGE</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For environment type <code>LINUX_CONTAINER</code>, you can use up to 15 GB
+  /// memory and 8 vCPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to
+  /// 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>ARM_CONTAINER</code>, you can use up to 16 GB
+  /// memory and 8 vCPUs on ARM-based processors for builds.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>CodeBuild User Guide.</i>
+  ///
+  /// Parameter [environmentType] :
+  /// The environment type of the compute fleet.
+  ///
+  /// <ul>
+  /// <li>
+  /// The environment type <code>ARM_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
+  /// (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São
+  /// Paulo).
+  /// </li>
+  /// <li>
+  /// The environment type <code>LINUX_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore),
+  /// Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
+  /// (Mumbai).
+  /// </li>
+  /// <li>
+  /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific
+  /// (Sydney).
+  /// </li>
+  /// <li>
+  /// The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is
+  /// available only in regions US East (N. Virginia), US East (Ohio), US West
+  /// (Oregon), Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific
+  /// (Mumbai) and EU (Ireland).
+  /// </li>
+  /// <li>
+  /// The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is
+  /// available only in regions US East (N. Virginia), US East (Ohio), US West
+  /// (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia
+  /// Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
+  /// Asia Pacific (Mumbai).
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>CodeBuild user guide</i>.
+  ///
+  /// Parameter [fleetServiceRole] :
+  /// The service role associated with the compute fleet. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html">
+  /// Allow a user to add a permission policy for a fleet service role</a> in
+  /// the <i>CodeBuild User Guide</i>.
+  ///
+  /// Parameter [overflowBehavior] :
+  /// The compute fleet overflow behavior.
+  ///
+  /// <ul>
+  /// <li>
+  /// For overflow behavior <code>QUEUE</code>, your overflow builds need to
+  /// wait on the existing fleet instance to become available.
+  /// </li>
+  /// <li>
+  /// For overflow behavior <code>ON_DEMAND</code>, your overflow builds run on
+  /// CodeBuild on-demand.
+  /// <note>
+  /// If you choose to set your overflow behavior to on-demand while creating a
+  /// VPC-connected fleet, make sure that you add the required VPC permissions
+  /// to your project service role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface">Example
+  /// policy statement to allow CodeBuild access to Amazon Web Services services
+  /// required to create a VPC network interface</a>.
+  /// </note> </li>
+  /// </ul>
+  ///
+  /// Parameter [scalingConfiguration] :
+  /// The scaling configuration of the compute fleet.
+  ///
+  /// Parameter [tags] :
+  /// A list of tag key and value pairs associated with this compute fleet.
+  ///
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild build project tags.
+  Future<UpdateFleetOutput> updateFleet({
+    required String arn,
+    int? baseCapacity,
+    ComputeType? computeType,
+    EnvironmentType? environmentType,
+    String? fleetServiceRole,
+    FleetOverflowBehavior? overflowBehavior,
+    ScalingConfigurationInput? scalingConfiguration,
+    List<Tag>? tags,
+    VpcConfig? vpcConfig,
+  }) async {
+    _s.validateNumRange(
+      'baseCapacity',
+      baseCapacity,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.UpdateFleet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'arn': arn,
+        if (baseCapacity != null) 'baseCapacity': baseCapacity,
+        if (computeType != null) 'computeType': computeType.toValue(),
+        if (environmentType != null)
+          'environmentType': environmentType.toValue(),
+        if (fleetServiceRole != null) 'fleetServiceRole': fleetServiceRole,
+        if (overflowBehavior != null)
+          'overflowBehavior': overflowBehavior.toValue(),
+        if (scalingConfiguration != null)
+          'scalingConfiguration': scalingConfiguration,
+        if (tags != null) 'tags': tags,
+        if (vpcConfig != null) 'vpcConfig': vpcConfig,
+      },
+    );
+
+    return UpdateFleetOutput.fromJson(jsonResponse.body);
+  }
+
   /// Changes the settings of a build project.
   ///
   /// May throw [InvalidInputException].
@@ -2701,6 +3284,9 @@ class CodeBuild {
   /// specified, the default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
+  /// For GitLab: the commit ID, branch, or Git tag to use.
+  /// </li>
+  /// <li>
   /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
   /// the version of the source code you want to build. If a branch name is
   /// specified, the branch's HEAD commit ID is used. If not specified, the
@@ -2727,7 +3313,7 @@ class CodeBuild {
   /// support CodeBuild build project tags.
   ///
   /// Parameter [timeoutInMinutes] :
-  /// The replacement value in minutes, from 5 to 480 (8 hours), for CodeBuild
+  /// The replacement value in minutes, from 5 to 2160 (36 hours), for CodeBuild
   /// to wait before timing out any related build that did not get marked as
   /// completed.
   ///
@@ -2766,7 +3352,7 @@ class CodeBuild {
       'timeoutInMinutes',
       timeoutInMinutes,
       5,
-      480,
+      2160,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2833,8 +3419,7 @@ class CodeBuild {
   ///
   /// <ul>
   /// <li>
-  /// Do not store sensitive values, especially Amazon Web Services access key
-  /// IDs and secret access keys, in environment variables. We recommend that
+  /// Do not store sensitive values in environment variables. We recommend that
   /// you use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager
   /// to store sensitive values.
   /// </li>
@@ -3100,6 +3685,7 @@ enum AuthType {
   oauth,
   basicAuth,
   personalAccessToken,
+  codeconnections,
 }
 
 extension AuthTypeValueExtension on AuthType {
@@ -3111,6 +3697,8 @@ extension AuthTypeValueExtension on AuthType {
         return 'BASIC_AUTH';
       case AuthType.personalAccessToken:
         return 'PERSONAL_ACCESS_TOKEN';
+      case AuthType.codeconnections:
+        return 'CODECONNECTIONS';
     }
   }
 }
@@ -3124,6 +3712,8 @@ extension AuthTypeFromString on String {
         return AuthType.basicAuth;
       case 'PERSONAL_ACCESS_TOKEN':
         return AuthType.personalAccessToken;
+      case 'CODECONNECTIONS':
+        return AuthType.codeconnections;
     }
     throw Exception('$this is not known in enum AuthType');
   }
@@ -3233,6 +3823,41 @@ class BatchGetBuildsOutput {
     return {
       if (builds != null) 'builds': builds,
       if (buildsNotFound != null) 'buildsNotFound': buildsNotFound,
+    };
+  }
+}
+
+class BatchGetFleetsOutput {
+  /// Information about the requested compute fleets.
+  final List<Fleet>? fleets;
+
+  /// The names of compute fleets for which information could not be found.
+  final List<String>? fleetsNotFound;
+
+  BatchGetFleetsOutput({
+    this.fleets,
+    this.fleetsNotFound,
+  });
+
+  factory BatchGetFleetsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetFleetsOutput(
+      fleets: (json['fleets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Fleet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fleetsNotFound: (json['fleetsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleets = this.fleets;
+    final fleetsNotFound = this.fleetsNotFound;
+    return {
+      if (fleets != null) 'fleets': fleets,
+      if (fleetsNotFound != null) 'fleetsNotFound': fleetsNotFound,
     };
   }
 }
@@ -3577,7 +4202,7 @@ class Build {
   /// <code>codepipeline/my-demo-pipeline</code>).
   /// </li>
   /// <li>
-  /// If an IAM user started the build, the user's name (for example,
+  /// If a user started the build, the user's name (for example,
   /// <code>MyUserName</code>).
   /// </li>
   /// <li>
@@ -3673,8 +4298,8 @@ class Build {
   /// When the build process started, expressed in Unix time format.
   final DateTime? startTime;
 
-  /// How long, in minutes, for CodeBuild to wait before timing out this build if
-  /// it does not get marked as completed.
+  /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait
+  /// before timing out this build if it does not get marked as completed.
   final int? timeoutInMinutes;
 
   /// If your CodeBuild project accesses resources in an Amazon VPC, you provide
@@ -4030,7 +4655,7 @@ class BuildBatch {
   /// <code>codepipeline/my-demo-pipeline</code>).
   /// </li>
   /// <li>
-  /// If an IAM user started the build, the user's name.
+  /// If a user started the build, the user's name.
   /// </li>
   /// <li>
   /// If the Jenkins plugin for CodeBuild started the build, the string
@@ -5134,7 +5759,13 @@ enum ComputeType {
   buildGeneral1Small,
   buildGeneral1Medium,
   buildGeneral1Large,
+  buildGeneral1Xlarge,
   buildGeneral1_2xlarge,
+  buildLambda_1gb,
+  buildLambda_2gb,
+  buildLambda_4gb,
+  buildLambda_8gb,
+  buildLambda_10gb,
 }
 
 extension ComputeTypeValueExtension on ComputeType {
@@ -5146,8 +5777,20 @@ extension ComputeTypeValueExtension on ComputeType {
         return 'BUILD_GENERAL1_MEDIUM';
       case ComputeType.buildGeneral1Large:
         return 'BUILD_GENERAL1_LARGE';
+      case ComputeType.buildGeneral1Xlarge:
+        return 'BUILD_GENERAL1_XLARGE';
       case ComputeType.buildGeneral1_2xlarge:
         return 'BUILD_GENERAL1_2XLARGE';
+      case ComputeType.buildLambda_1gb:
+        return 'BUILD_LAMBDA_1GB';
+      case ComputeType.buildLambda_2gb:
+        return 'BUILD_LAMBDA_2GB';
+      case ComputeType.buildLambda_4gb:
+        return 'BUILD_LAMBDA_4GB';
+      case ComputeType.buildLambda_8gb:
+        return 'BUILD_LAMBDA_8GB';
+      case ComputeType.buildLambda_10gb:
+        return 'BUILD_LAMBDA_10GB';
     }
   }
 }
@@ -5161,10 +5804,46 @@ extension ComputeTypeFromString on String {
         return ComputeType.buildGeneral1Medium;
       case 'BUILD_GENERAL1_LARGE':
         return ComputeType.buildGeneral1Large;
+      case 'BUILD_GENERAL1_XLARGE':
+        return ComputeType.buildGeneral1Xlarge;
       case 'BUILD_GENERAL1_2XLARGE':
         return ComputeType.buildGeneral1_2xlarge;
+      case 'BUILD_LAMBDA_1GB':
+        return ComputeType.buildLambda_1gb;
+      case 'BUILD_LAMBDA_2GB':
+        return ComputeType.buildLambda_2gb;
+      case 'BUILD_LAMBDA_4GB':
+        return ComputeType.buildLambda_4gb;
+      case 'BUILD_LAMBDA_8GB':
+        return ComputeType.buildLambda_8gb;
+      case 'BUILD_LAMBDA_10GB':
+        return ComputeType.buildLambda_10gb;
     }
     throw Exception('$this is not known in enum ComputeType');
+  }
+}
+
+class CreateFleetOutput {
+  /// Information about the compute fleet
+  final Fleet? fleet;
+
+  CreateFleetOutput({
+    this.fleet,
+  });
+
+  factory CreateFleetOutput.fromJson(Map<String, dynamic> json) {
+    return CreateFleetOutput(
+      fleet: json['fleet'] != null
+          ? Fleet.fromJson(json['fleet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleet = this.fleet;
+    return {
+      if (fleet != null) 'fleet': fleet,
+    };
   }
 }
 
@@ -5340,6 +6019,18 @@ class DeleteBuildBatchOutput {
       if (buildsNotDeleted != null) 'buildsNotDeleted': buildsNotDeleted,
       if (statusCode != null) 'statusCode': statusCode,
     };
+  }
+}
+
+class DeleteFleetOutput {
+  DeleteFleetOutput();
+
+  factory DeleteFleetOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteFleetOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -5613,6 +6304,8 @@ enum EnvironmentType {
   linuxGpuContainer,
   armContainer,
   windowsServer_2019Container,
+  linuxLambdaContainer,
+  armLambdaContainer,
 }
 
 extension EnvironmentTypeValueExtension on EnvironmentType {
@@ -5628,6 +6321,10 @@ extension EnvironmentTypeValueExtension on EnvironmentType {
         return 'ARM_CONTAINER';
       case EnvironmentType.windowsServer_2019Container:
         return 'WINDOWS_SERVER_2019_CONTAINER';
+      case EnvironmentType.linuxLambdaContainer:
+        return 'LINUX_LAMBDA_CONTAINER';
+      case EnvironmentType.armLambdaContainer:
+        return 'ARM_LAMBDA_CONTAINER';
     }
   }
 }
@@ -5645,6 +6342,10 @@ extension EnvironmentTypeFromString on String {
         return EnvironmentType.armContainer;
       case 'WINDOWS_SERVER_2019_CONTAINER':
         return EnvironmentType.windowsServer_2019Container;
+      case 'LINUX_LAMBDA_CONTAINER':
+        return EnvironmentType.linuxLambdaContainer;
+      case 'ARM_LAMBDA_CONTAINER':
+        return EnvironmentType.armLambdaContainer;
     }
     throw Exception('$this is not known in enum EnvironmentType');
   }
@@ -5659,9 +6360,9 @@ class EnvironmentVariable {
   /// <important>
   /// We strongly discourage the use of <code>PLAINTEXT</code> environment
   /// variables to store sensitive values, especially Amazon Web Services secret
-  /// key IDs and secret access keys. <code>PLAINTEXT</code> environment variables
-  /// can be displayed in plain text using the CodeBuild console and the CLI. For
-  /// sensitive values, we recommend you use an environment variable of type
+  /// key IDs. <code>PLAINTEXT</code> environment variables can be displayed in
+  /// plain text using the CodeBuild console and the CLI. For sensitive values, we
+  /// recommend you use an environment variable of type
   /// <code>PARAMETER_STORE</code> or <code>SECRETS_MANAGER</code>.
   /// </important>
   final String value;
@@ -5671,8 +6372,11 @@ class EnvironmentVariable {
   /// <ul>
   /// <li>
   /// <code>PARAMETER_STORE</code>: An environment variable stored in Systems
-  /// Manager Parameter Store. To learn how to specify a parameter store
-  /// environment variable, see <a
+  /// Manager Parameter Store. For environment variables of this type, specify the
+  /// name of the parameter as the <code>value</code> of the EnvironmentVariable.
+  /// The parameter value will be substituted for the name at runtime. You can
+  /// also define Parameter Store environment variables in the buildspec. To learn
+  /// how to do so, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.parameter-store">env/parameter-store</a>
   /// in the <i>CodeBuild User Guide</i>.
   /// </li>
@@ -5682,8 +6386,11 @@ class EnvironmentVariable {
   /// </li>
   /// <li>
   /// <code>SECRETS_MANAGER</code>: An environment variable stored in Secrets
-  /// Manager. To learn how to specify a secrets manager environment variable, see
-  /// <a
+  /// Manager. For environment variables of this type, specify the name of the
+  /// secret as the <code>value</code> of the EnvironmentVariable. The secret
+  /// value will be substituted for the name at runtime. You can also define
+  /// Secrets Manager environment variables in the buildspec. To learn how to do
+  /// so, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.secrets-manager">env/secrets-manager</a>
   /// in the <i>CodeBuild User Guide</i>.
   /// </li>
@@ -5812,6 +6519,526 @@ extension FileSystemTypeFromString on String {
         return FileSystemType.efs;
     }
     throw Exception('$this is not known in enum FileSystemType');
+  }
+}
+
+/// A set of dedicated instances for your build environment.
+class Fleet {
+  /// The ARN of the compute fleet.
+  final String? arn;
+
+  /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes
+  /// the number of builds that can run in parallel.
+  final int? baseCapacity;
+
+  /// Information about the compute resources the compute fleet uses. Available
+  /// values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BUILD_GENERAL1_SMALL</code>: Use up to 3 GB memory and 2 vCPUs for
+  /// builds.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_MEDIUM</code>: Use up to 7 GB memory and 4 vCPUs for
+  /// builds.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_LARGE</code>: Use up to 16 GB memory and 8 vCPUs for
+  /// builds, depending on your environment type.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_XLARGE</code>: Use up to 70 GB memory and 36 vCPUs for
+  /// builds, depending on your environment type.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_GENERAL1_2XLARGE</code>: Use up to 145 GB memory, 72 vCPUs, and
+  /// 824 GB of SSD storage for builds. This compute type supports Docker images
+  /// up to 100 GB uncompressed.
+  /// </li>
+  /// </ul>
+  /// If you use <code>BUILD_GENERAL1_SMALL</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For environment type <code>LINUX_CONTAINER</code>, you can use up to 3 GB
+  /// memory and 2 vCPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to 16
+  /// GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>ARM_CONTAINER</code>, you can use up to 4 GB
+  /// memory and 2 vCPUs on ARM-based processors for builds.
+  /// </li>
+  /// </ul>
+  /// If you use <code>BUILD_GENERAL1_LARGE</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For environment type <code>LINUX_CONTAINER</code>, you can use up to 15 GB
+  /// memory and 8 vCPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to 255
+  /// GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>ARM_CONTAINER</code>, you can use up to 16 GB
+  /// memory and 8 vCPUs on ARM-based processors for builds.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>CodeBuild User Guide.</i>
+  final ComputeType? computeType;
+
+  /// The time at which the compute fleet was created.
+  final DateTime? created;
+
+  /// The environment type of the compute fleet.
+  ///
+  /// <ul>
+  /// <li>
+  /// The environment type <code>ARM_CONTAINER</code> is available only in regions
+  /// US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia
+  /// Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia
+  /// Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).
+  /// </li>
+  /// <li>
+  /// The environment type <code>LINUX_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore),
+  /// Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).
+  /// </li>
+  /// <li>
+  /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).
+  /// </li>
+  /// <li>
+  /// The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available
+  /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon),
+  /// Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU
+  /// (Ireland).
+  /// </li>
+  /// <li>
+  /// The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is available
+  /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU
+  /// (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific (Singapore),
+  /// Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>CodeBuild user guide</i>.
+  final EnvironmentType? environmentType;
+
+  /// The service role associated with the compute fleet. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html">
+  /// Allow a user to add a permission policy for a fleet service role</a> in the
+  /// <i>CodeBuild User Guide</i>.
+  final String? fleetServiceRole;
+
+  /// The ID of the compute fleet.
+  final String? id;
+
+  /// The time at which the compute fleet was last modified.
+  final DateTime? lastModified;
+
+  /// The name of the compute fleet.
+  final String? name;
+
+  /// The compute fleet overflow behavior.
+  ///
+  /// <ul>
+  /// <li>
+  /// For overflow behavior <code>QUEUE</code>, your overflow builds need to wait
+  /// on the existing fleet instance to become available.
+  /// </li>
+  /// <li>
+  /// For overflow behavior <code>ON_DEMAND</code>, your overflow builds run on
+  /// CodeBuild on-demand.
+  /// <note>
+  /// If you choose to set your overflow behavior to on-demand while creating a
+  /// VPC-connected fleet, make sure that you add the required VPC permissions to
+  /// your project service role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface">Example
+  /// policy statement to allow CodeBuild access to Amazon Web Services services
+  /// required to create a VPC network interface</a>.
+  /// </note> </li>
+  /// </ul>
+  final FleetOverflowBehavior? overflowBehavior;
+
+  /// The scaling configuration of the compute fleet.
+  final ScalingConfigurationOutput? scalingConfiguration;
+
+  /// The status of the compute fleet.
+  final FleetStatus? status;
+
+  /// A list of tag key and value pairs associated with this compute fleet.
+  ///
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild build project tags.
+  final List<Tag>? tags;
+  final VpcConfig? vpcConfig;
+
+  Fleet({
+    this.arn,
+    this.baseCapacity,
+    this.computeType,
+    this.created,
+    this.environmentType,
+    this.fleetServiceRole,
+    this.id,
+    this.lastModified,
+    this.name,
+    this.overflowBehavior,
+    this.scalingConfiguration,
+    this.status,
+    this.tags,
+    this.vpcConfig,
+  });
+
+  factory Fleet.fromJson(Map<String, dynamic> json) {
+    return Fleet(
+      arn: json['arn'] as String?,
+      baseCapacity: json['baseCapacity'] as int?,
+      computeType: (json['computeType'] as String?)?.toComputeType(),
+      created: timeStampFromJson(json['created']),
+      environmentType:
+          (json['environmentType'] as String?)?.toEnvironmentType(),
+      fleetServiceRole: json['fleetServiceRole'] as String?,
+      id: json['id'] as String?,
+      lastModified: timeStampFromJson(json['lastModified']),
+      name: json['name'] as String?,
+      overflowBehavior:
+          (json['overflowBehavior'] as String?)?.toFleetOverflowBehavior(),
+      scalingConfiguration: json['scalingConfiguration'] != null
+          ? ScalingConfigurationOutput.fromJson(
+              json['scalingConfiguration'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] != null
+          ? FleetStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final baseCapacity = this.baseCapacity;
+    final computeType = this.computeType;
+    final created = this.created;
+    final environmentType = this.environmentType;
+    final fleetServiceRole = this.fleetServiceRole;
+    final id = this.id;
+    final lastModified = this.lastModified;
+    final name = this.name;
+    final overflowBehavior = this.overflowBehavior;
+    final scalingConfiguration = this.scalingConfiguration;
+    final status = this.status;
+    final tags = this.tags;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (arn != null) 'arn': arn,
+      if (baseCapacity != null) 'baseCapacity': baseCapacity,
+      if (computeType != null) 'computeType': computeType.toValue(),
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (environmentType != null) 'environmentType': environmentType.toValue(),
+      if (fleetServiceRole != null) 'fleetServiceRole': fleetServiceRole,
+      if (id != null) 'id': id,
+      if (lastModified != null)
+        'lastModified': unixTimestampToJson(lastModified),
+      if (name != null) 'name': name,
+      if (overflowBehavior != null)
+        'overflowBehavior': overflowBehavior.toValue(),
+      if (scalingConfiguration != null)
+        'scalingConfiguration': scalingConfiguration,
+      if (status != null) 'status': status,
+      if (tags != null) 'tags': tags,
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
+    };
+  }
+}
+
+enum FleetContextCode {
+  createFailed,
+  updateFailed,
+  actionRequired,
+}
+
+extension FleetContextCodeValueExtension on FleetContextCode {
+  String toValue() {
+    switch (this) {
+      case FleetContextCode.createFailed:
+        return 'CREATE_FAILED';
+      case FleetContextCode.updateFailed:
+        return 'UPDATE_FAILED';
+      case FleetContextCode.actionRequired:
+        return 'ACTION_REQUIRED';
+    }
+  }
+}
+
+extension FleetContextCodeFromString on String {
+  FleetContextCode toFleetContextCode() {
+    switch (this) {
+      case 'CREATE_FAILED':
+        return FleetContextCode.createFailed;
+      case 'UPDATE_FAILED':
+        return FleetContextCode.updateFailed;
+      case 'ACTION_REQUIRED':
+        return FleetContextCode.actionRequired;
+    }
+    throw Exception('$this is not known in enum FleetContextCode');
+  }
+}
+
+enum FleetOverflowBehavior {
+  queue,
+  onDemand,
+}
+
+extension FleetOverflowBehaviorValueExtension on FleetOverflowBehavior {
+  String toValue() {
+    switch (this) {
+      case FleetOverflowBehavior.queue:
+        return 'QUEUE';
+      case FleetOverflowBehavior.onDemand:
+        return 'ON_DEMAND';
+    }
+  }
+}
+
+extension FleetOverflowBehaviorFromString on String {
+  FleetOverflowBehavior toFleetOverflowBehavior() {
+    switch (this) {
+      case 'QUEUE':
+        return FleetOverflowBehavior.queue;
+      case 'ON_DEMAND':
+        return FleetOverflowBehavior.onDemand;
+    }
+    throw Exception('$this is not known in enum FleetOverflowBehavior');
+  }
+}
+
+enum FleetScalingMetricType {
+  fleetUtilizationRate,
+}
+
+extension FleetScalingMetricTypeValueExtension on FleetScalingMetricType {
+  String toValue() {
+    switch (this) {
+      case FleetScalingMetricType.fleetUtilizationRate:
+        return 'FLEET_UTILIZATION_RATE';
+    }
+  }
+}
+
+extension FleetScalingMetricTypeFromString on String {
+  FleetScalingMetricType toFleetScalingMetricType() {
+    switch (this) {
+      case 'FLEET_UTILIZATION_RATE':
+        return FleetScalingMetricType.fleetUtilizationRate;
+    }
+    throw Exception('$this is not known in enum FleetScalingMetricType');
+  }
+}
+
+enum FleetScalingType {
+  targetTrackingScaling,
+}
+
+extension FleetScalingTypeValueExtension on FleetScalingType {
+  String toValue() {
+    switch (this) {
+      case FleetScalingType.targetTrackingScaling:
+        return 'TARGET_TRACKING_SCALING';
+    }
+  }
+}
+
+extension FleetScalingTypeFromString on String {
+  FleetScalingType toFleetScalingType() {
+    switch (this) {
+      case 'TARGET_TRACKING_SCALING':
+        return FleetScalingType.targetTrackingScaling;
+    }
+    throw Exception('$this is not known in enum FleetScalingType');
+  }
+}
+
+enum FleetSortByType {
+  name,
+  createdTime,
+  lastModifiedTime,
+}
+
+extension FleetSortByTypeValueExtension on FleetSortByType {
+  String toValue() {
+    switch (this) {
+      case FleetSortByType.name:
+        return 'NAME';
+      case FleetSortByType.createdTime:
+        return 'CREATED_TIME';
+      case FleetSortByType.lastModifiedTime:
+        return 'LAST_MODIFIED_TIME';
+    }
+  }
+}
+
+extension FleetSortByTypeFromString on String {
+  FleetSortByType toFleetSortByType() {
+    switch (this) {
+      case 'NAME':
+        return FleetSortByType.name;
+      case 'CREATED_TIME':
+        return FleetSortByType.createdTime;
+      case 'LAST_MODIFIED_TIME':
+        return FleetSortByType.lastModifiedTime;
+    }
+    throw Exception('$this is not known in enum FleetSortByType');
+  }
+}
+
+/// The status of the compute fleet.
+class FleetStatus {
+  /// Additional information about a compute fleet. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_FAILED</code>: The compute fleet has failed to create.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_FAILED</code>: The compute fleet has failed to update.
+  /// </li>
+  /// </ul>
+  final FleetContextCode? context;
+
+  /// A message associated with the status of a compute fleet.
+  final String? message;
+
+  /// The status code of the compute fleet. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code>: The compute fleet is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code>: The compute fleet is being updated.
+  /// </li>
+  /// <li>
+  /// <code>ROTATING</code>: The compute fleet is being rotated.
+  /// </li>
+  /// <li>
+  /// <code>PENDING_DELETION</code>: The compute fleet is pending deletion.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code>: The compute fleet is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code>: The compute fleet has failed to create.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_ROLLBACK_FAILED</code>: The compute fleet has failed to update
+  /// and could not rollback to previous state.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code>: The compute fleet has succeeded and is active.
+  /// </li>
+  /// </ul>
+  final FleetStatusCode? statusCode;
+
+  FleetStatus({
+    this.context,
+    this.message,
+    this.statusCode,
+  });
+
+  factory FleetStatus.fromJson(Map<String, dynamic> json) {
+    return FleetStatus(
+      context: (json['context'] as String?)?.toFleetContextCode(),
+      message: json['message'] as String?,
+      statusCode: (json['statusCode'] as String?)?.toFleetStatusCode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final context = this.context;
+    final message = this.message;
+    final statusCode = this.statusCode;
+    return {
+      if (context != null) 'context': context.toValue(),
+      if (message != null) 'message': message,
+      if (statusCode != null) 'statusCode': statusCode.toValue(),
+    };
+  }
+}
+
+enum FleetStatusCode {
+  creating,
+  updating,
+  rotating,
+  pendingDeletion,
+  deleting,
+  createFailed,
+  updateRollbackFailed,
+  active,
+}
+
+extension FleetStatusCodeValueExtension on FleetStatusCode {
+  String toValue() {
+    switch (this) {
+      case FleetStatusCode.creating:
+        return 'CREATING';
+      case FleetStatusCode.updating:
+        return 'UPDATING';
+      case FleetStatusCode.rotating:
+        return 'ROTATING';
+      case FleetStatusCode.pendingDeletion:
+        return 'PENDING_DELETION';
+      case FleetStatusCode.deleting:
+        return 'DELETING';
+      case FleetStatusCode.createFailed:
+        return 'CREATE_FAILED';
+      case FleetStatusCode.updateRollbackFailed:
+        return 'UPDATE_ROLLBACK_FAILED';
+      case FleetStatusCode.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension FleetStatusCodeFromString on String {
+  FleetStatusCode toFleetStatusCode() {
+    switch (this) {
+      case 'CREATING':
+        return FleetStatusCode.creating;
+      case 'UPDATING':
+        return FleetStatusCode.updating;
+      case 'ROTATING':
+        return FleetStatusCode.rotating;
+      case 'PENDING_DELETION':
+        return FleetStatusCode.pendingDeletion;
+      case 'DELETING':
+        return FleetStatusCode.deleting;
+      case 'CREATE_FAILED':
+        return FleetStatusCode.createFailed;
+      case 'UPDATE_ROLLBACK_FAILED':
+        return FleetStatusCode.updateRollbackFailed;
+      case 'ACTIVE':
+        return FleetStatusCode.active;
+    }
+    throw Exception('$this is not known in enum FleetStatusCode');
   }
 }
 
@@ -6192,6 +7419,41 @@ class ListCuratedEnvironmentImagesOutput {
   }
 }
 
+class ListFleetsOutput {
+  /// The list of compute fleet names.
+  final List<String>? fleets;
+
+  /// If there are more than 100 items in the list, only the first 100 items are
+  /// returned, along with a unique string called a <i>nextToken</i>. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call.
+  final String? nextToken;
+
+  ListFleetsOutput({
+    this.fleets,
+    this.nextToken,
+  });
+
+  factory ListFleetsOutput.fromJson(Map<String, dynamic> json) {
+    return ListFleetsOutput(
+      fleets: (json['fleets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleets = this.fleets;
+    final nextToken = this.nextToken;
+    return {
+      if (fleets != null) 'fleets': fleets,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListProjectsOutput {
   /// If there are more than 100 items in the list, only the first 100 items are
   /// returned, along with a unique string called a <i>nextToken</i>. To get the
@@ -6521,14 +7783,18 @@ class LogsLocation {
   /// Information about CloudWatch Logs for a build project.
   final CloudWatchLogsConfig? cloudWatchLogs;
 
-  /// The ARN of CloudWatch Logs for a build project. Its format is
+  /// The ARN of the CloudWatch Logs stream for a build execution. Its format is
   /// <code>arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}</code>.
-  /// For more information, see <a
+  /// The CloudWatch Logs stream is created during the PROVISIONING phase of a
+  /// build and the ARN will not be valid until it is created. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatchlogs.html#amazoncloudwatchlogs-resources-for-iam-policies">Resources
   /// Defined by CloudWatch Logs</a>.
   final String? cloudWatchLogsArn;
 
-  /// The URL to an individual build log in CloudWatch Logs.
+  /// The URL to an individual build log in CloudWatch Logs. The log stream is
+  /// created during the PROVISIONING phase of a build and the
+  /// <code>deeplink</code> will not be valid until it is created.
   final String? deepLink;
 
   /// The name of the CloudWatch Logs group for the build logs.
@@ -6812,6 +8078,9 @@ class Project {
   /// specified, the default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
+  /// For GitLab: the commit ID, branch, or Git tag to use.
+  /// </li>
+  /// <li>
   /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
   /// the version of the source code you want to build. If a branch name is
   /// specified, the branch's HEAD commit ID is used. If not specified, the
@@ -6837,9 +8106,9 @@ class Project {
   /// support CodeBuild build project tags.
   final List<Tag>? tags;
 
-  /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before
-  /// timing out any related build that did not get marked as completed. The
-  /// default is 60 minutes.
+  /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait
+  /// before timing out any related build that did not get marked as completed.
+  /// The default is 60 minutes.
   final int? timeoutInMinutes;
 
   /// Information about the VPC configuration that CodeBuild accesses.
@@ -7488,9 +8757,54 @@ class ProjectEnvironment {
   /// builds, depending on your environment type.
   /// </li>
   /// <li>
+  /// <code>BUILD_GENERAL1_XLARGE</code>: Use up to 70 GB memory and 36 vCPUs for
+  /// builds, depending on your environment type.
+  /// </li>
+  /// <li>
   /// <code>BUILD_GENERAL1_2XLARGE</code>: Use up to 145 GB memory, 72 vCPUs, and
   /// 824 GB of SSD storage for builds. This compute type supports Docker images
   /// up to 100 GB uncompressed.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_LAMBDA_1GB</code>: Use up to 1 GB memory for builds. Only
+  /// available for environment type <code>LINUX_LAMBDA_CONTAINER</code> and
+  /// <code>ARM_LAMBDA_CONTAINER</code>.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_LAMBDA_2GB</code>: Use up to 2 GB memory for builds. Only
+  /// available for environment type <code>LINUX_LAMBDA_CONTAINER</code> and
+  /// <code>ARM_LAMBDA_CONTAINER</code>.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_LAMBDA_4GB</code>: Use up to 4 GB memory for builds. Only
+  /// available for environment type <code>LINUX_LAMBDA_CONTAINER</code> and
+  /// <code>ARM_LAMBDA_CONTAINER</code>.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_LAMBDA_8GB</code>: Use up to 8 GB memory for builds. Only
+  /// available for environment type <code>LINUX_LAMBDA_CONTAINER</code> and
+  /// <code>ARM_LAMBDA_CONTAINER</code>.
+  /// </li>
+  /// <li>
+  /// <code>BUILD_LAMBDA_10GB</code>: Use up to 10 GB memory for builds. Only
+  /// available for environment type <code>LINUX_LAMBDA_CONTAINER</code> and
+  /// <code>ARM_LAMBDA_CONTAINER</code>.
+  /// </li>
+  /// </ul>
+  /// If you use <code>BUILD_GENERAL1_SMALL</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For environment type <code>LINUX_CONTAINER</code>, you can use up to 3 GB
+  /// memory and 2 vCPUs for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to 16
+  /// GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+  /// </li>
+  /// <li>
+  /// For environment type <code>ARM_CONTAINER</code>, you can use up to 4 GB
+  /// memory and 2 vCPUs on ARM-based processors for builds.
   /// </li>
   /// </ul>
   /// If you use <code>BUILD_GENERAL1_LARGE</code>:
@@ -7508,7 +8822,10 @@ class ProjectEnvironment {
   /// For environment type <code>ARM_CONTAINER</code>, you can use up to 16 GB
   /// memory and 8 vCPUs on ARM-based processors for builds.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// If you're using compute fleets during project creation,
+  /// <code>computeType</code> will be ignored.
+  /// </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
   /// Environment Compute Types</a> in the <i>CodeBuild User Guide.</i>
@@ -7548,12 +8865,11 @@ class ProjectEnvironment {
   /// (Frankfurt).
   /// </li>
   /// <li>
-  /// The environment type <code>LINUX_CONTAINER</code> with compute type
-  /// <code>build.general1.2xlarge</code> is available only in regions US East (N.
-  /// Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland),
-  /// EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul),
-  /// Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China
-  /// (Ningxia).
+  /// The environment type <code>LINUX_CONTAINER</code> is available only in
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada
+  /// (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo),
+  /// Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China
+  /// (Beijing), and China (Ningxia).
   /// </li>
   /// <li>
   /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in
@@ -7565,11 +8881,23 @@ class ProjectEnvironment {
   /// </ul>
   /// <ul>
   /// <li>
+  /// The environment types <code>ARM_LAMBDA_CONTAINER</code> and
+  /// <code>LINUX_LAMBDA_CONTAINER</code> are available only in regions US East
+  /// (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Mumbai), Asia
+  /// Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), EU
+  /// (Frankfurt), EU (Ireland), and South America (São Paulo).
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
   /// The environment types <code>WINDOWS_CONTAINER</code> and
   /// <code>WINDOWS_SERVER_2019_CONTAINER</code> are available only in regions US
   /// East (N. Virginia), US East (Ohio), US West (Oregon), and EU (Ireland).
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// If you're using compute fleets during project creation, <code>type</code>
+  /// will be ignored.
+  /// </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
   /// environment compute types</a> in the <i>CodeBuild user guide</i>.
@@ -7585,6 +8913,9 @@ class ProjectEnvironment {
   /// A set of environment variables to make available to builds for this build
   /// project.
   final List<EnvironmentVariable>? environmentVariables;
+
+  /// A ProjectFleet object to use for this build project.
+  final ProjectFleet? fleet;
 
   /// The type of credentials CodeBuild uses to pull images in your build. There
   /// are two valid values:
@@ -7642,6 +8973,7 @@ class ProjectEnvironment {
     required this.type,
     this.certificate,
     this.environmentVariables,
+    this.fleet,
     this.imagePullCredentialsType,
     this.privilegedMode,
     this.registryCredential,
@@ -7657,6 +8989,9 @@ class ProjectEnvironment {
           ?.whereNotNull()
           .map((e) => EnvironmentVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
+      fleet: json['fleet'] != null
+          ? ProjectFleet.fromJson(json['fleet'] as Map<String, dynamic>)
+          : null,
       imagePullCredentialsType: (json['imagePullCredentialsType'] as String?)
           ?.toImagePullCredentialsType(),
       privilegedMode: json['privilegedMode'] as bool?,
@@ -7673,6 +9008,7 @@ class ProjectEnvironment {
     final type = this.type;
     final certificate = this.certificate;
     final environmentVariables = this.environmentVariables;
+    final fleet = this.fleet;
     final imagePullCredentialsType = this.imagePullCredentialsType;
     final privilegedMode = this.privilegedMode;
     final registryCredential = this.registryCredential;
@@ -7683,6 +9019,7 @@ class ProjectEnvironment {
       if (certificate != null) 'certificate': certificate,
       if (environmentVariables != null)
         'environmentVariables': environmentVariables,
+      if (fleet != null) 'fleet': fleet,
       if (imagePullCredentialsType != null)
         'imagePullCredentialsType': imagePullCredentialsType.toValue(),
       if (privilegedMode != null) 'privilegedMode': privilegedMode,
@@ -7768,6 +9105,32 @@ class ProjectFileSystemLocation {
   }
 }
 
+/// Information about the compute fleet of the build project. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/codebuild/latest/userguide/fleets.html">Working
+/// with reserved capacity in CodeBuild</a>.
+class ProjectFleet {
+  /// Specifies the compute fleet ARN for the build project.
+  final String? fleetArn;
+
+  ProjectFleet({
+    this.fleetArn,
+  });
+
+  factory ProjectFleet.fromJson(Map<String, dynamic> json) {
+    return ProjectFleet(
+      fleetArn: json['fleetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleetArn = this.fleetArn;
+    return {
+      if (fleetArn != null) 'fleetArn': fleetArn,
+    };
+  }
+}
+
 enum ProjectSortByType {
   name,
   createdTime,
@@ -7818,12 +9181,18 @@ class ProjectSource {
   /// source action of a pipeline in CodePipeline.
   /// </li>
   /// <li>
-  /// <code>GITHUB</code>: The source code is in a GitHub or GitHub Enterprise
-  /// Cloud repository.
+  /// <code>GITHUB</code>: The source code is in a GitHub repository.
   /// </li>
   /// <li>
   /// <code>GITHUB_ENTERPRISE</code>: The source code is in a GitHub Enterprise
   /// Server repository.
+  /// </li>
+  /// <li>
+  /// <code>GITLAB</code>: The source code is in a GitLab repository.
+  /// </li>
+  /// <li>
+  /// <code>GITLAB_SELF_MANAGED</code>: The source code is in a self-managed
+  /// GitLab repository.
   /// </li>
   /// <li>
   /// <code>NO_SOURCE</code>: The project does not have input source code.
@@ -7915,6 +9284,21 @@ class ProjectSource {
   /// <code>auth</code> object's <code>type</code> value to <code>OAUTH</code>.
   /// </li>
   /// <li>
+  /// For source code in an GitLab or self-managed GitLab repository, the HTTPS
+  /// clone URL to the repository that contains the source and the buildspec file.
+  /// You must connect your Amazon Web Services account to your GitLab account.
+  /// Use the CodeBuild console to start creating a build project. When you use
+  /// the console to connect (or reconnect) with GitLab, on the Connections
+  /// <b>Authorize application</b> page, choose <b>Authorize</b>. Then on the
+  /// CodeConnections <b>Create GitLab connection</b> page, choose <b>Connect to
+  /// GitLab</b>. (After you have connected to your GitLab account, you do not
+  /// need to finish creating the build project. You can leave the CodeBuild
+  /// console.) To instruct CodeBuild to override the default connection and use
+  /// this connection instead, set the <code>auth</code> object's
+  /// <code>type</code> value to <code>CODECONNECTIONS</code> in the
+  /// <code>source</code> object.
+  /// </li>
+  /// <li>
   /// For source code in a Bitbucket repository, the HTTPS clone URL to the
   /// repository that contains the source and the buildspec file. You must connect
   /// your Amazon Web Services account to your Bitbucket account. Use the
@@ -7935,8 +9319,9 @@ class ProjectSource {
 
   /// Set to true to report the status of a build's start and finish to your
   /// source provider. This option is valid only when your source provider is
-  /// GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a
-  /// different source provider, an <code>invalidInputException</code> is thrown.
+  /// GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket. If
+  /// this is set and you use a different source provider, an
+  /// <code>invalidInputException</code> is thrown.
   ///
   /// To be able to report the build status to the source provider, the user
   /// associated with the source provider must have write access to the repo. If
@@ -8041,6 +9426,9 @@ class ProjectSourceVersion {
   /// <code>pr/pull-request-ID</code> (for example, <code>pr/25</code>). If a
   /// branch name is specified, the branch's HEAD commit ID is used. If not
   /// specified, the default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For GitLab: the commit ID, branch, or Git tag to use.
   /// </li>
   /// <li>
   /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
@@ -9063,10 +10451,92 @@ class S3ReportExportConfig {
   }
 }
 
+/// The scaling configuration input of a compute fleet.
+class ScalingConfigurationInput {
+  /// The maximum number of instances in the ﬂeet when auto-scaling.
+  final int? maxCapacity;
+
+  /// The scaling type for a compute fleet.
+  final FleetScalingType? scalingType;
+
+  /// A list of <code>TargetTrackingScalingConfiguration</code> objects.
+  final List<TargetTrackingScalingConfiguration>? targetTrackingScalingConfigs;
+
+  ScalingConfigurationInput({
+    this.maxCapacity,
+    this.scalingType,
+    this.targetTrackingScalingConfigs,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maxCapacity = this.maxCapacity;
+    final scalingType = this.scalingType;
+    final targetTrackingScalingConfigs = this.targetTrackingScalingConfigs;
+    return {
+      if (maxCapacity != null) 'maxCapacity': maxCapacity,
+      if (scalingType != null) 'scalingType': scalingType.toValue(),
+      if (targetTrackingScalingConfigs != null)
+        'targetTrackingScalingConfigs': targetTrackingScalingConfigs,
+    };
+  }
+}
+
+/// The scaling configuration output of a compute fleet.
+class ScalingConfigurationOutput {
+  /// The desired number of instances in the ﬂeet when auto-scaling.
+  final int? desiredCapacity;
+
+  /// The maximum number of instances in the ﬂeet when auto-scaling.
+  final int? maxCapacity;
+
+  /// The scaling type for a compute fleet.
+  final FleetScalingType? scalingType;
+
+  /// A list of <code>TargetTrackingScalingConfiguration</code> objects.
+  final List<TargetTrackingScalingConfiguration>? targetTrackingScalingConfigs;
+
+  ScalingConfigurationOutput({
+    this.desiredCapacity,
+    this.maxCapacity,
+    this.scalingType,
+    this.targetTrackingScalingConfigs,
+  });
+
+  factory ScalingConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return ScalingConfigurationOutput(
+      desiredCapacity: json['desiredCapacity'] as int?,
+      maxCapacity: json['maxCapacity'] as int?,
+      scalingType: (json['scalingType'] as String?)?.toFleetScalingType(),
+      targetTrackingScalingConfigs:
+          (json['targetTrackingScalingConfigs'] as List?)
+              ?.whereNotNull()
+              .map((e) => TargetTrackingScalingConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final desiredCapacity = this.desiredCapacity;
+    final maxCapacity = this.maxCapacity;
+    final scalingType = this.scalingType;
+    final targetTrackingScalingConfigs = this.targetTrackingScalingConfigs;
+    return {
+      if (desiredCapacity != null) 'desiredCapacity': desiredCapacity,
+      if (maxCapacity != null) 'maxCapacity': maxCapacity,
+      if (scalingType != null) 'scalingType': scalingType.toValue(),
+      if (targetTrackingScalingConfigs != null)
+        'targetTrackingScalingConfigs': targetTrackingScalingConfigs,
+    };
+  }
+}
+
 enum ServerType {
   github,
   bitbucket,
   githubEnterprise,
+  gitlab,
+  gitlabSelfManaged,
 }
 
 extension ServerTypeValueExtension on ServerType {
@@ -9078,6 +10548,10 @@ extension ServerTypeValueExtension on ServerType {
         return 'BITBUCKET';
       case ServerType.githubEnterprise:
         return 'GITHUB_ENTERPRISE';
+      case ServerType.gitlab:
+        return 'GITLAB';
+      case ServerType.gitlabSelfManaged:
+        return 'GITLAB_SELF_MANAGED';
     }
   }
 }
@@ -9091,6 +10565,10 @@ extension ServerTypeFromString on String {
         return ServerType.bitbucket;
       case 'GITHUB_ENTERPRISE':
         return ServerType.githubEnterprise;
+      case 'GITLAB':
+        return ServerType.gitlab;
+      case 'GITLAB_SELF_MANAGED':
+        return ServerType.gitlabSelfManaged;
     }
     throw Exception('$this is not known in enum ServerType');
   }
@@ -9158,11 +10636,7 @@ extension SortOrderTypeFromString on String {
 /// This information is for the CodeBuild console's use only. Your code should
 /// not get or set this information directly.
 class SourceAuth {
-  /// <note>
-  /// This data type is deprecated and is no longer accurate or used.
-  /// </note>
-  /// The authorization type to use. The only valid value is <code>OAUTH</code>,
-  /// which represents the OAuth authorization type.
+  /// The authorization type to use. Valid options are OAUTH or CODECONNECTIONS.
   final SourceAuthType type;
 
   /// The resource value that applies to the specified authorization type.
@@ -9192,6 +10666,7 @@ class SourceAuth {
 
 enum SourceAuthType {
   oauth,
+  codeconnections,
 }
 
 extension SourceAuthTypeValueExtension on SourceAuthType {
@@ -9199,6 +10674,8 @@ extension SourceAuthTypeValueExtension on SourceAuthType {
     switch (this) {
       case SourceAuthType.oauth:
         return 'OAUTH';
+      case SourceAuthType.codeconnections:
+        return 'CODECONNECTIONS';
     }
   }
 }
@@ -9208,28 +10685,35 @@ extension SourceAuthTypeFromString on String {
     switch (this) {
       case 'OAUTH':
         return SourceAuthType.oauth;
+      case 'CODECONNECTIONS':
+        return SourceAuthType.codeconnections;
     }
     throw Exception('$this is not known in enum SourceAuthType');
   }
 }
 
-/// Information about the credentials for a GitHub, GitHub Enterprise, or
-/// Bitbucket repository.
+/// Information about the credentials for a GitHub, GitHub Enterprise, GitLab,
+/// GitLab Self Managed, or Bitbucket repository.
 class SourceCredentialsInfo {
   /// The Amazon Resource Name (ARN) of the token.
   final String? arn;
 
   /// The type of authentication used by the credentials. Valid options are OAUTH,
-  /// BASIC_AUTH, or PERSONAL_ACCESS_TOKEN.
+  /// BASIC_AUTH, PERSONAL_ACCESS_TOKEN, or CODECONNECTIONS.
   final AuthType? authType;
 
+  /// The connection ARN if your serverType type is GITLAB or GITLAB_SELF_MANAGED
+  /// and your authType is CODECONNECTIONS.
+  final String? resource;
+
   /// The type of source provider. The valid options are GITHUB,
-  /// GITHUB_ENTERPRISE, or BITBUCKET.
+  /// GITHUB_ENTERPRISE, GITLAB, GITLAB_SELF_MANAGED, or BITBUCKET.
   final ServerType? serverType;
 
   SourceCredentialsInfo({
     this.arn,
     this.authType,
+    this.resource,
     this.serverType,
   });
 
@@ -9237,6 +10721,7 @@ class SourceCredentialsInfo {
     return SourceCredentialsInfo(
       arn: json['arn'] as String?,
       authType: (json['authType'] as String?)?.toAuthType(),
+      resource: json['resource'] as String?,
       serverType: (json['serverType'] as String?)?.toServerType(),
     );
   }
@@ -9244,10 +10729,12 @@ class SourceCredentialsInfo {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final authType = this.authType;
+    final resource = this.resource;
     final serverType = this.serverType;
     return {
       if (arn != null) 'arn': arn,
       if (authType != null) 'authType': authType.toValue(),
+      if (resource != null) 'resource': resource,
       if (serverType != null) 'serverType': serverType.toValue(),
     };
   }
@@ -9257,6 +10744,8 @@ enum SourceType {
   codecommit,
   codepipeline,
   github,
+  gitlab,
+  gitlabSelfManaged,
   s3,
   bitbucket,
   githubEnterprise,
@@ -9272,6 +10761,10 @@ extension SourceTypeValueExtension on SourceType {
         return 'CODEPIPELINE';
       case SourceType.github:
         return 'GITHUB';
+      case SourceType.gitlab:
+        return 'GITLAB';
+      case SourceType.gitlabSelfManaged:
+        return 'GITLAB_SELF_MANAGED';
       case SourceType.s3:
         return 'S3';
       case SourceType.bitbucket:
@@ -9293,6 +10786,10 @@ extension SourceTypeFromString on String {
         return SourceType.codepipeline;
       case 'GITHUB':
         return SourceType.github;
+      case 'GITLAB':
+        return SourceType.gitlab;
+      case 'GITLAB_SELF_MANAGED':
+        return SourceType.gitlabSelfManaged;
       case 'S3':
         return SourceType.s3;
       case 'BITBUCKET':
@@ -9483,6 +10980,37 @@ class Tag {
   }
 }
 
+/// Defines when a new instance is auto-scaled into the compute fleet.
+class TargetTrackingScalingConfiguration {
+  /// The metric type to determine auto-scaling.
+  final FleetScalingMetricType? metricType;
+
+  /// The value of <code>metricType</code> when to start scaling.
+  final double? targetValue;
+
+  TargetTrackingScalingConfiguration({
+    this.metricType,
+    this.targetValue,
+  });
+
+  factory TargetTrackingScalingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return TargetTrackingScalingConfiguration(
+      metricType: (json['metricType'] as String?)?.toFleetScalingMetricType(),
+      targetValue: json['targetValue'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricType = this.metricType;
+    final targetValue = this.targetValue;
+    return {
+      if (metricType != null) 'metricType': metricType.toValue(),
+      if (targetValue != null) 'targetValue': targetValue,
+    };
+  }
+}
+
 /// Information about a test case created using a framework such as NUnit or
 /// Cucumber. A test case might be a unit test or a configuration test.
 class TestCase {
@@ -9646,6 +11174,30 @@ class TestReportSummary {
       'durationInNanoSeconds': durationInNanoSeconds,
       'statusCounts': statusCounts,
       'total': total,
+    };
+  }
+}
+
+class UpdateFleetOutput {
+  /// A <code>Fleet</code> object.
+  final Fleet? fleet;
+
+  UpdateFleetOutput({
+    this.fleet,
+  });
+
+  factory UpdateFleetOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateFleetOutput(
+      fleet: json['fleet'] != null
+          ? Fleet.fromJson(json['fleet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleet = this.fleet;
+    return {
+      if (fleet != null) 'fleet': fleet,
     };
   }
 }
@@ -9831,6 +11383,15 @@ class Webhook {
   /// modified.
   final DateTime? lastModifiedSecret;
 
+  /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and
+  /// instead returns <code>payloadUrl</code> and <code>secret</code> values for
+  /// the webhook. The <code>payloadUrl</code> and <code>secret</code> values in
+  /// the output can be used to manually create a webhook within GitHub.
+  /// <note>
+  /// manualCreation is only available for GitHub webhooks.
+  /// </note>
+  final bool? manualCreation;
+
   /// The CodeBuild endpoint where webhook events are sent.
   final String? payloadUrl;
 
@@ -9848,6 +11409,7 @@ class Webhook {
     this.buildType,
     this.filterGroups,
     this.lastModifiedSecret,
+    this.manualCreation,
     this.payloadUrl,
     this.secret,
     this.url,
@@ -9865,6 +11427,7 @@ class Webhook {
               .toList())
           .toList(),
       lastModifiedSecret: timeStampFromJson(json['lastModifiedSecret']),
+      manualCreation: json['manualCreation'] as bool?,
       payloadUrl: json['payloadUrl'] as String?,
       secret: json['secret'] as String?,
       url: json['url'] as String?,
@@ -9876,6 +11439,7 @@ class Webhook {
     final buildType = this.buildType;
     final filterGroups = this.filterGroups;
     final lastModifiedSecret = this.lastModifiedSecret;
+    final manualCreation = this.manualCreation;
     final payloadUrl = this.payloadUrl;
     final secret = this.secret;
     final url = this.url;
@@ -9885,6 +11449,7 @@ class Webhook {
       if (filterGroups != null) 'filterGroups': filterGroups,
       if (lastModifiedSecret != null)
         'lastModifiedSecret': unixTimestampToJson(lastModifiedSecret),
+      if (manualCreation != null) 'manualCreation': manualCreation,
       if (payloadUrl != null) 'payloadUrl': payloadUrl,
       if (secret != null) 'secret': secret,
       if (url != null) 'url': url,
@@ -9935,52 +11500,128 @@ class WebhookFilter {
   /// branch with a reference name <code>refs/heads/branch-name</code>.
   final String pattern;
 
-  /// The type of webhook filter. There are six webhook filter types:
+  /// The type of webhook filter. There are nine webhook filter types:
   /// <code>EVENT</code>, <code>ACTOR_ACCOUNT_ID</code>, <code>HEAD_REF</code>,
-  /// <code>BASE_REF</code>, <code>FILE_PATH</code>, and
-  /// <code>COMMIT_MESSAGE</code>.
-  /// <dl> <dt> EVENT </dt> <dd>
+  /// <code>BASE_REF</code>, <code>FILE_PATH</code>, <code>COMMIT_MESSAGE</code>,
+  /// <code>TAG_NAME</code>, <code>RELEASE_NAME</code>, and
+  /// <code>WORKFLOW_NAME</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// EVENT
+  ///
+  /// <ul>
+  /// <li>
   /// A webhook event triggers a build when the provided <code>pattern</code>
-  /// matches one of five event types: <code>PUSH</code>,
+  /// matches one of nine event types: <code>PUSH</code>,
   /// <code>PULL_REQUEST_CREATED</code>, <code>PULL_REQUEST_UPDATED</code>,
-  /// <code>PULL_REQUEST_REOPENED</code>, and <code>PULL_REQUEST_MERGED</code>.
-  /// The <code>EVENT</code> patterns are specified as a comma-separated string.
-  /// For example, <code>PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code>
+  /// <code>PULL_REQUEST_CLOSED</code>, <code>PULL_REQUEST_REOPENED</code>,
+  /// <code>PULL_REQUEST_MERGED</code>, <code>RELEASED</code>,
+  /// <code>PRERELEASED</code>, and <code>WORKFLOW_JOB_QUEUED</code>. The
+  /// <code>EVENT</code> patterns are specified as a comma-separated string. For
+  /// example, <code>PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code>
   /// filters all push, pull request created, and pull request updated events.
   /// <note>
-  /// The <code>PULL_REQUEST_REOPENED</code> works with GitHub and GitHub
-  /// Enterprise only.
-  /// </note> </dd> <dt> ACTOR_ACCOUNT_ID </dt> <dd>
+  /// Types <code>PULL_REQUEST_REOPENED</code> and
+  /// <code>WORKFLOW_JOB_QUEUED</code> work with GitHub and GitHub Enterprise
+  /// only. Types <code>RELEASED</code> and <code>PRERELEASED</code> work with
+  /// GitHub only.
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// ACTOR_ACCOUNT_ID
+  ///
+  /// <ul>
+  /// <li>
   /// A webhook event triggers a build when a GitHub, GitHub Enterprise, or
   /// Bitbucket account ID matches the regular expression <code>pattern</code>.
-  /// </dd> <dt> HEAD_REF </dt> <dd>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// HEAD_REF
+  ///
+  /// <ul>
+  /// <li>
   /// A webhook event triggers a build when the head reference matches the regular
   /// expression <code>pattern</code>. For example,
   /// <code>refs/heads/branch-name</code> and <code>refs/tags/tag-name</code>.
-  ///
+  /// <note>
   /// Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise
   /// pull request, Bitbucket push, and Bitbucket pull request events.
-  /// </dd> <dt> BASE_REF </dt> <dd>
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// BASE_REF
+  ///
+  /// <ul>
+  /// <li>
   /// A webhook event triggers a build when the base reference matches the regular
   /// expression <code>pattern</code>. For example,
   /// <code>refs/heads/branch-name</code>.
   /// <note>
   /// Works with pull request events only.
-  /// </note> </dd> <dt> FILE_PATH </dt> <dd>
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// FILE_PATH
+  ///
+  /// <ul>
+  /// <li>
   /// A webhook triggers a build when the path of a changed file matches the
   /// regular expression <code>pattern</code>.
   /// <note>
   /// Works with GitHub and Bitbucket events push and pull requests events. Also
   /// works with GitHub Enterprise push events, but does not work with GitHub
   /// Enterprise pull request events.
-  /// </note> </dd> <dt>COMMIT_MESSAGE</dt> <dd>
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// COMMIT_MESSAGE
+  ///
+  /// <ul>
+  /// <li>
   /// A webhook triggers a build when the head commit message matches the regular
   /// expression <code>pattern</code>.
   /// <note>
   /// Works with GitHub and Bitbucket events push and pull requests events. Also
   /// works with GitHub Enterprise push events, but does not work with GitHub
   /// Enterprise pull request events.
-  /// </note> </dd> </dl>
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// TAG_NAME
+  ///
+  /// <ul>
+  /// <li>
+  /// A webhook triggers a build when the tag name of the release matches the
+  /// regular expression <code>pattern</code>.
+  /// <note>
+  /// Works with <code>RELEASED</code> and <code>PRERELEASED</code> events only.
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// RELEASE_NAME
+  ///
+  /// <ul>
+  /// <li>
+  /// A webhook triggers a build when the release name matches the regular
+  /// expression <code>pattern</code>.
+  /// <note>
+  /// Works with <code>RELEASED</code> and <code>PRERELEASED</code> events only.
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// WORKFLOW_NAME
+  ///
+  /// <ul>
+  /// <li>
+  /// A webhook triggers a build when the workflow name matches the regular
+  /// expression <code>pattern</code>.
+  /// <note>
+  /// Works with <code>WORKFLOW_JOB_QUEUED</code> events only.
+  /// </note> </li>
+  /// </ul> </li>
+  /// </ul>
   final WebhookFilterType type;
 
   /// Used to indicate that the <code>pattern</code> determines which webhook
@@ -10023,6 +11664,9 @@ enum WebhookFilterType {
   actorAccountId,
   filePath,
   commitMessage,
+  workflowName,
+  tagName,
+  releaseName,
 }
 
 extension WebhookFilterTypeValueExtension on WebhookFilterType {
@@ -10040,6 +11684,12 @@ extension WebhookFilterTypeValueExtension on WebhookFilterType {
         return 'FILE_PATH';
       case WebhookFilterType.commitMessage:
         return 'COMMIT_MESSAGE';
+      case WebhookFilterType.workflowName:
+        return 'WORKFLOW_NAME';
+      case WebhookFilterType.tagName:
+        return 'TAG_NAME';
+      case WebhookFilterType.releaseName:
+        return 'RELEASE_NAME';
     }
   }
 }
@@ -10059,6 +11709,12 @@ extension WebhookFilterTypeFromString on String {
         return WebhookFilterType.filePath;
       case 'COMMIT_MESSAGE':
         return WebhookFilterType.commitMessage;
+      case 'WORKFLOW_NAME':
+        return WebhookFilterType.workflowName;
+      case 'TAG_NAME':
+        return WebhookFilterType.tagName;
+      case 'RELEASE_NAME':
+        return WebhookFilterType.releaseName;
     }
     throw Exception('$this is not known in enum WebhookFilterType');
   }

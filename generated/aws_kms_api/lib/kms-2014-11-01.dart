@@ -80,6 +80,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>ScheduleKeyDeletion</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [DependencyTimeoutException].
@@ -236,6 +241,10 @@ class KMS {
   /// <a>UpdateCustomKeyStore</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [CloudHsmClusterNotActiveException].
   /// May throw [CustomKeyStoreInvalidStateException].
@@ -336,6 +345,10 @@ class KMS {
   /// <a>UpdateAlias</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [AlreadyExistsException].
@@ -523,6 +536,10 @@ class KMS {
   /// <a>UpdateCustomKeyStore</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [CloudHsmClusterInUseException].
   /// May throw [CustomKeyStoreNameInUseException].
@@ -680,7 +697,7 @@ class KMS {
   /// <li>
   /// An external key store with <code>PUBLIC_ENDPOINT</code> connectivity
   /// cannot use the same <code>XksProxyUriEndpoint</code> value as an external
-  /// key store with <code>VPC_ENDPOINT_SERVICE</code> connectivity in the same
+  /// key store with <code>VPC_ENDPOINT_SERVICE</code> connectivity in this
   /// Amazon Web Services Region.
   /// </li>
   /// <li>
@@ -854,6 +871,10 @@ class KMS {
   /// <a>RevokeGrant</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -863,6 +884,7 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [LimitExceededException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [granteePrincipal] :
   /// The identity that gets the permissions specified in the grant.
@@ -944,6 +966,15 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
   /// context</a> in the <i> <i>Key Management Service Developer Guide</i> </i>.
   ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [grantTokens] :
   /// A list of grant tokens.
   ///
@@ -999,6 +1030,7 @@ class KMS {
     required String keyId,
     required List<GrantOperation> operations,
     GrantConstraints? constraints,
+    bool? dryRun,
     List<String>? grantTokens,
     String? name,
     String? retiringPrincipal,
@@ -1018,6 +1050,7 @@ class KMS {
         'KeyId': keyId,
         'Operations': operations.map((e) => e.toValue()).toList(),
         if (constraints != null) 'Constraints': constraints,
+        if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (name != null) 'Name': name,
         if (retiringPrincipal != null) 'RetiringPrincipal': retiringPrincipal,
@@ -1102,14 +1135,6 @@ class KMS {
   /// use HMAC keys to generate (<a>GenerateMac</a>) and verify
   /// (<a>VerifyMac</a>) HMAC codes for messages up to 4096 bytes.
   ///
-  /// HMAC KMS keys are not supported in all Amazon Web Services Regions. If you
-  /// try to create an HMAC KMS key in an Amazon Web Services Region in which
-  /// HMAC keys are not supported, the <code>CreateKey</code> operation returns
-  /// an <code>UnsupportedOperationException</code>. For a list of Regions in
-  /// which HMAC KMS keys are supported, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html">HMAC
-  /// keys in KMS</a> in the <i>Key Management Service Developer Guide</i>.
-  ///
   ///
   /// </dd> <dt>Multi-Region primary keys</dt> <dt>Imported key material</dt>
   /// <dd>
@@ -1139,20 +1164,22 @@ class KMS {
   ///
   ///
   /// </dd> <dd>
-  /// To import your own key material into a KMS key, begin by creating a
-  /// symmetric encryption KMS key with no key material. To do this, use the
-  /// <code>Origin</code> parameter of <code>CreateKey</code> with a value of
-  /// <code>EXTERNAL</code>. Next, use <a>GetParametersForImport</a> operation
-  /// to get a public key and import token, and use the public key to encrypt
-  /// your key material. Then, use <a>ImportKeyMaterial</a> with your import
-  /// token to import the key material. For step-by-step instructions, see <a
+  /// To import your own key material into a KMS key, begin by creating a KMS
+  /// key with no key material. To do this, use the <code>Origin</code>
+  /// parameter of <code>CreateKey</code> with a value of <code>EXTERNAL</code>.
+  /// Next, use <a>GetParametersForImport</a> operation to get a public key and
+  /// import token. Use the wrapping public key to encrypt your key material.
+  /// Then, use <a>ImportKeyMaterial</a> with your import token to import the
+  /// key material. For step-by-step instructions, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
   /// Key Material</a> in the <i> <i>Key Management Service Developer Guide</i>
   /// </i>.
   ///
-  /// This feature supports only symmetric encryption KMS keys, including
-  /// multi-Region symmetric encryption KMS keys. You cannot import key material
-  /// into any other type of KMS key.
+  /// You can import key material into KMS keys of all supported KMS key types:
+  /// symmetric encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS
+  /// keys, and asymmetric signing KMS keys. You can also create multi-Region
+  /// keys with imported key material. However, you can't import key material
+  /// into a KMS key in a custom key store.
   ///
   /// To create a multi-Region primary key with imported key material, use the
   /// <code>Origin</code> parameter of <code>CreateKey</code> with a value of
@@ -1245,6 +1272,10 @@ class KMS {
   /// <a>ScheduleKeyDeletion</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [DependencyTimeoutException].
@@ -1272,8 +1303,9 @@ class KMS {
   /// key policy</a> in the <i>Key Management Service Developer Guide</i>.
   /// </important>
   /// Use this parameter only when you intend to prevent the principal that is
-  /// making the request from making a subsequent <a>PutKeyPolicy</a> request on
-  /// the KMS key.
+  /// making the request from making a subsequent <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html">PutKeyPolicy</a>
+  /// request on the KMS key.
   ///
   /// Parameter [customKeyStoreId] :
   /// Creates the KMS key in the specified <a
@@ -1721,11 +1753,11 @@ class KMS {
   /// the <code>Recipient</code> parameter to provide the attestation document
   /// for the enclave. Instead of the plaintext data, the response includes the
   /// plaintext data encrypted with the public key from the attestation document
-  /// (<code>CiphertextForRecipient</code>).For information about the
+  /// (<code>CiphertextForRecipient</code>). For information about the
   /// interaction between KMS and Amazon Web Services Nitro Enclaves, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html">How
   /// Amazon Web Services Nitro Enclaves uses KMS</a> in the <i>Key Management
-  /// Service Developer Guide</i>..
+  /// Service Developer Guide</i>.
   ///
   /// The KMS key that you use for this operation must be in a compatible key
   /// state. For details, see <a
@@ -1757,6 +1789,10 @@ class KMS {
   /// <a>ReEncrypt</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -1768,9 +1804,19 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [ciphertextBlob] :
   /// Ciphertext to be decrypted. The blob includes metadata.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [encryptionAlgorithm] :
   /// Specifies the encryption algorithm that will be used to decrypt the
@@ -1856,7 +1902,7 @@ class KMS {
   ///
   /// Parameter [recipient] :
   /// A signed <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc">attestation
+  /// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-concepts.html#term-attestdoc">attestation
   /// document</a> from an Amazon Web Services Nitro enclave and the encryption
   /// algorithm to use with the enclave's public key. The only valid encryption
   /// algorithm is <code>RSAES_OAEP_SHA_256</code>.
@@ -1880,6 +1926,7 @@ class KMS {
   /// Service Developer Guide</i>.
   Future<DecryptResponse> decrypt({
     required Uint8List ciphertextBlob,
+    bool? dryRun,
     EncryptionAlgorithmSpec? encryptionAlgorithm,
     Map<String, String>? encryptionContext,
     List<String>? grantTokens,
@@ -1898,6 +1945,7 @@ class KMS {
       headers: headers,
       payload: {
         'CiphertextBlob': base64Encode(ciphertextBlob),
+        if (dryRun != null) 'DryRun': dryRun,
         if (encryptionAlgorithm != null)
           'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
@@ -1962,6 +2010,10 @@ class KMS {
   /// <a>UpdateAlias</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [NotFoundException].
@@ -2060,6 +2112,10 @@ class KMS {
   /// <a>UpdateCustomKeyStore</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [CustomKeyStoreHasCMKsException].
   /// May throw [CustomKeyStoreInvalidStateException].
@@ -2088,18 +2144,16 @@ class KMS {
     );
   }
 
-  /// Deletes key material that you previously imported. This operation makes
-  /// the specified KMS key unusable. For more information about importing key
-  /// material into KMS, see <a
+  /// Deletes key material that was previously imported. This operation makes
+  /// the specified KMS key temporarily unusable. To restore the usability of
+  /// the KMS key, reimport the same key material. For more information about
+  /// importing key material into KMS, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
   /// Key Material</a> in the <i>Key Management Service Developer Guide</i>.
   ///
   /// When the specified KMS key is in the <code>PendingDeletion</code> state,
   /// this operation does not change the KMS key's state. Otherwise, it changes
   /// the KMS key's state to <code>PendingImport</code>.
-  ///
-  /// After you delete key material, you can use <a>ImportKeyMaterial</a> to
-  /// reimport the same key material into the KMS key.
   ///
   /// The KMS key that you use for this operation must be in a compatible key
   /// state. For details, see <a
@@ -2124,6 +2178,10 @@ class KMS {
   /// <a>ImportKeyMaterial</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [InvalidArnException].
   /// May throw [UnsupportedOperationException].
@@ -2238,6 +2296,10 @@ class KMS {
   /// <a>UpdateCustomKeyStore</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [CustomKeyStoreNotFoundException].
   /// May throw [InvalidMarkerException].
@@ -2319,15 +2381,15 @@ class KMS {
   /// and verifying MACs) and the algorithms that the KMS key supports.
   ///
   /// For <a
-  /// href="kms/latest/developerguide/multi-region-keys-overview.html">multi-Region
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html">multi-Region
   /// keys</a>, <code>DescribeKey</code> displays the primary key and all
   /// related replica keys. For KMS keys in <a
-  /// href="kms/latest/developerguide/keystore-cloudhsm.html">CloudHSM key
-  /// stores</a>, it includes information about the key store, such as the key
-  /// store ID and the CloudHSM cluster ID. For KMS keys in <a
-  /// href="kms/latest/developerguide/keystore-external.html">external key
-  /// stores</a>, it includes the custom key store ID and the ID of the external
-  /// key.
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/keystore-cloudhsm.html">CloudHSM
+  /// key stores</a>, it includes information about the key store, such as the
+  /// key store ID and the CloudHSM cluster ID. For KMS keys in <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html">external
+  /// key stores</a>, it includes the custom key store ID and the ID of the
+  /// external key.
   ///
   /// <code>DescribeKey</code> does not return the following information:
   ///
@@ -2392,6 +2454,10 @@ class KMS {
   /// <a>ListRetirableGrants</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -2493,6 +2559,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>EnableKey</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [DependencyTimeoutException].
@@ -2591,7 +2662,17 @@ class KMS {
   /// <li>
   /// <a>GetKeyRotationStatus</a>
   /// </li>
+  /// <li>
+  /// <a>ListKeyRotations</a>
+  /// </li>
+  /// <li>
+  /// <a>RotateKeyOnDemand</a>
+  /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -2704,6 +2785,10 @@ class KMS {
   /// <a>UpdateCustomKeyStore</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [CustomKeyStoreInvalidStateException].
   /// May throw [CustomKeyStoreNotFoundException].
@@ -2752,6 +2837,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>DisableKey</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [DependencyTimeoutException].
@@ -2797,18 +2887,26 @@ class KMS {
   }
 
   /// Enables <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html">automatic
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-enable-disable">automatic
   /// rotation of the key material</a> of the specified symmetric encryption KMS
   /// key.
   ///
-  /// When you enable automatic rotation of a<a
+  /// By default, when you enable automatic rotation of a <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
   /// managed KMS key</a>, KMS rotates the key material of the KMS key one year
   /// (approximately 365 days) from the enable date and every year thereafter.
+  /// You can use the optional <code>RotationPeriodInDays</code> parameter to
+  /// specify a custom rotation period when you enable key rotation, or you can
+  /// use <code>RotationPeriodInDays</code> to modify the rotation period of a
+  /// key that you previously enabled automatic key rotation on.
+  ///
   /// You can monitor rotation of the key material for your KMS keys in
   /// CloudTrail and Amazon CloudWatch. To disable rotation of the key material
   /// in a customer managed KMS key, use the <a>DisableKeyRotation</a>
-  /// operation.
+  /// operation. You can use the <a>GetKeyRotationStatus</a> operation to
+  /// identify any in progress rotations. You can use the
+  /// <a>ListKeyRotations</a> operation to view the details of completed
+  /// rotations.
   ///
   /// Automatic key rotation is supported only on <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks">symmetric
@@ -2825,12 +2923,13 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-manage.html#multi-region-rotate">multi-Region
   /// keys</a>, set the property on the primary key.
   ///
-  /// You cannot enable or disable automatic rotation <a
+  /// You cannot enable or disable automatic rotation of <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">Amazon
   /// Web Services managed KMS keys</a>. KMS always rotates the key material of
   /// Amazon Web Services managed keys every year. Rotation of <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk">Amazon
-  /// Web Services owned KMS keys</a> varies.
+  /// Web Services owned KMS keys</a> is managed by the Amazon Web Services
+  /// service that owns the key.
   /// <note>
   /// In May 2022, KMS changed the rotation schedule for Amazon Web Services
   /// managed keys from every three years (approximately 1,095 days) to every
@@ -2864,7 +2963,21 @@ class KMS {
   /// <li>
   /// <a>GetKeyRotationStatus</a>
   /// </li>
+  /// <li>
+  /// <a>ListKeyRotations</a>
+  /// </li>
+  /// <li>
+  /// <a>RotateKeyOnDemand</a>
+  /// <note>
+  /// You can perform on-demand (<a>RotateKeyOnDemand</a>) rotation of the key
+  /// material in customer managed KMS keys, regardless of whether or not
+  /// automatic key rotation is enabled.
+  /// </note> </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -2904,9 +3017,32 @@ class KMS {
   /// </ul>
   /// To get the key ID and key ARN for a KMS key, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
+  ///
+  /// Parameter [rotationPeriodInDays] :
+  /// Use this parameter to specify a custom period of time between each
+  /// rotation date. If no value is specified, the default value is 365 days.
+  ///
+  /// The rotation period defines the number of days after you enable automatic
+  /// key rotation that KMS will rotate your key material, and the number of
+  /// days between each automatic rotation thereafter.
+  ///
+  /// You can use the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-rotation-period-in-days">
+  /// <code>kms:RotationPeriodInDays</code> </a> condition key to further
+  /// constrain the values that principals can specify in the
+  /// <code>RotationPeriodInDays</code> parameter.
+  ///
+  ///
   Future<void> enableKeyRotation({
     required String keyId,
+    int? rotationPeriodInDays,
   }) async {
+    _s.validateNumRange(
+      'rotationPeriodInDays',
+      rotationPeriodInDays,
+      90,
+      2560,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.EnableKeyRotation'
@@ -2919,6 +3055,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
+        if (rotationPeriodInDays != null)
+          'RotationPeriodInDays': rotationPeriodInDays,
       },
     );
   }
@@ -3034,6 +3172,10 @@ class KMS {
   /// <a>GenerateDataKeyPair</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -3043,6 +3185,7 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// Identifies the KMS key to use in the encryption operation. The KMS key
@@ -3079,6 +3222,15 @@ class KMS {
   ///
   /// Parameter [plaintext] :
   /// Data to be encrypted.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [encryptionAlgorithm] :
   /// Specifies the encryption algorithm that KMS will use to encrypt the
@@ -3128,6 +3280,7 @@ class KMS {
   Future<EncryptResponse> encrypt({
     required String keyId,
     required Uint8List plaintext,
+    bool? dryRun,
     EncryptionAlgorithmSpec? encryptionAlgorithm,
     Map<String, String>? encryptionContext,
     List<String>? grantTokens,
@@ -3145,6 +3298,7 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Plaintext': base64Encode(plaintext),
+        if (dryRun != null) 'DryRun': dryRun,
         if (encryptionAlgorithm != null)
           'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
@@ -3280,6 +3434,10 @@ class KMS {
   /// <a>GenerateDataKeyWithoutPlaintext</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -3289,6 +3447,7 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// Specifies the symmetric encryption KMS key that encrypts the data key. You
@@ -3322,6 +3481,15 @@ class KMS {
   /// To get the key ID and key ARN for a KMS key, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
   /// <a>ListAliases</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [encryptionContext] :
   /// Specifies the encryption context that will be used when encrypting the
@@ -3401,6 +3569,7 @@ class KMS {
   /// Service Developer Guide</i>.
   Future<GenerateDataKeyResponse> generateDataKey({
     required String keyId,
+    bool? dryRun,
     Map<String, String>? encryptionContext,
     List<String>? grantTokens,
     DataKeySpec? keySpec,
@@ -3425,6 +3594,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
+        if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (keySpec != null) 'KeySpec': keySpec.toValue(),
@@ -3441,8 +3611,8 @@ class KMS {
   /// copy of the private key that is encrypted under the symmetric encryption
   /// KMS key you specify. You can use the data key pair to perform asymmetric
   /// cryptography and implement digital signatures outside of KMS. The bytes in
-  /// the keys are random; they not related to the caller or to the KMS key that
-  /// is used to encrypt the private key.
+  /// the keys are random; they are not related to the caller or to the KMS key
+  /// that is used to encrypt the private key.
   ///
   /// You can use the public key that <code>GenerateDataKeyPair</code> returns
   /// to encrypt data or verify a signature outside of KMS. Then, store the
@@ -3541,6 +3711,10 @@ class KMS {
   /// <a>GenerateDataKeyWithoutPlaintext</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -3551,6 +3725,7 @@ class KMS {
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
   /// May throw [UnsupportedOperationException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// Specifies the symmetric encryption KMS key that encrypts the private key
@@ -3593,6 +3768,15 @@ class KMS {
   /// that permits you to use ECC KMS keys only to sign and verify, are not
   /// effective on data key pairs, which are used outside of KMS. The SM2 key
   /// spec is only available in China Regions.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [encryptionContext] :
   /// Specifies the encryption context that will be used when encrypting the
@@ -3654,6 +3838,7 @@ class KMS {
   Future<GenerateDataKeyPairResponse> generateDataKeyPair({
     required String keyId,
     required DataKeyPairSpec keyPairSpec,
+    bool? dryRun,
     Map<String, String>? encryptionContext,
     List<String>? grantTokens,
     RecipientInfo? recipient,
@@ -3671,6 +3856,7 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'KeyPairSpec': keyPairSpec.toValue(),
+        if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (recipient != null) 'Recipient': recipient,
@@ -3755,6 +3941,10 @@ class KMS {
   /// <a>GenerateDataKeyWithoutPlaintext</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -3765,6 +3955,7 @@ class KMS {
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
   /// May throw [UnsupportedOperationException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// Specifies the symmetric encryption KMS key that encrypts the private key
@@ -3808,6 +3999,15 @@ class KMS {
   /// effective on data key pairs, which are used outside of KMS. The SM2 key
   /// spec is only available in China Regions.
   ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [encryptionContext] :
   /// Specifies the encryption context that will be used when encrypting the
   /// private key in the data key pair.
@@ -3841,6 +4041,7 @@ class KMS {
       generateDataKeyPairWithoutPlaintext({
     required String keyId,
     required DataKeyPairSpec keyPairSpec,
+    bool? dryRun,
     Map<String, String>? encryptionContext,
     List<String>? grantTokens,
   }) async {
@@ -3857,6 +4058,7 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'KeyPairSpec': keyPairSpec.toValue(),
+        if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
@@ -3952,6 +4154,10 @@ class KMS {
   /// <a>GenerateDataKeyPairWithoutPlaintext</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -3961,6 +4167,7 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// Specifies the symmetric encryption KMS key that encrypts the data key. You
@@ -3994,6 +4201,15 @@ class KMS {
   /// To get the key ID and key ARN for a KMS key, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
   /// <a>ListAliases</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [encryptionContext] :
   /// Specifies the encryption context that will be used when encrypting the
@@ -4038,6 +4254,7 @@ class KMS {
   Future<GenerateDataKeyWithoutPlaintextResponse>
       generateDataKeyWithoutPlaintext({
     required String keyId,
+    bool? dryRun,
     Map<String, String>? encryptionContext,
     List<String>? grantTokens,
     DataKeySpec? keySpec,
@@ -4061,6 +4278,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
+        if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (keySpec != null) 'KeySpec': keySpec.toValue(),
@@ -4111,6 +4329,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>VerifyMac</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -4118,6 +4341,7 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// The HMAC KMS key to use in the operation. The MAC algorithm computes the
@@ -4142,6 +4366,15 @@ class KMS {
   /// handling for message digests. If you generate an HMAC for a hash digest of
   /// a message, you must verify the HMAC of the same hash digest.
   ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [grantTokens] :
   /// A list of grant tokens.
   ///
@@ -4156,6 +4389,7 @@ class KMS {
     required String keyId,
     required MacAlgorithmSpec macAlgorithm,
     required Uint8List message,
+    bool? dryRun,
     List<String>? grantTokens,
   }) async {
     final headers = <String, String>{
@@ -4172,6 +4406,7 @@ class KMS {
         'KeyId': keyId,
         'MacAlgorithm': macAlgorithm.toValue(),
         'Message': base64Encode(message),
+        if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
     );
@@ -4215,6 +4450,11 @@ class KMS {
   /// <b>Required permissions</b>: <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GenerateRandom</a>
   /// (IAM policy)
+  ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [KMSInternalException].
@@ -4298,7 +4538,13 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GetKeyPolicy</a>
   /// (key policy)
   ///
-  /// <b>Related operations</b>: <a>PutKeyPolicy</a>
+  /// <b>Related operations</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html">PutKeyPolicy</a>
+  ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -4326,12 +4572,13 @@ class KMS {
   /// <a>DescribeKey</a>.
   ///
   /// Parameter [policyName] :
-  /// Specifies the name of the key policy. The only valid name is
+  /// Specifies the name of the key policy. If no policy name is specified, the
+  /// default value is <code>default</code>. The only valid name is
   /// <code>default</code>. To get the names of key policies, use
   /// <a>ListKeyPolicies</a>.
   Future<GetKeyPolicyResponse> getKeyPolicy({
     required String keyId,
-    required String policyName,
+    String? policyName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4345,23 +4592,20 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'PolicyName': policyName,
+        if (policyName != null) 'PolicyName': policyName,
       },
     );
 
     return GetKeyPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets a Boolean value that indicates whether <a
+  /// Provides detailed information about the rotation status for a KMS key,
+  /// including whether <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html">automatic
-  /// rotation of the key material</a> is enabled for the specified KMS key.
-  ///
-  /// When you enable automatic rotation for <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
-  /// managed KMS keys</a>, KMS rotates the key material of the KMS key one year
-  /// (approximately 365 days) from the enable date and every year thereafter.
-  /// You can monitor rotation of the key material for your KMS keys in
-  /// CloudTrail and Amazon CloudWatch.
+  /// rotation of the key material</a> is enabled for the specified KMS key, the
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotation-period">rotation
+  /// period</a>, and the next scheduled rotation date.
   ///
   /// Automatic key rotation is supported only on <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks">symmetric
@@ -4386,6 +4630,13 @@ class KMS {
   /// the key material in Amazon Web Services managed KMS keys every year. The
   /// key rotation status for Amazon Web Services managed KMS keys is always
   /// <code>true</code>.
+  ///
+  /// You can perform on-demand (<a>RotateKeyOnDemand</a>) rotation of the key
+  /// material in customer managed KMS keys, regardless of whether or not
+  /// automatic key rotation is enabled. You can use GetKeyRotationStatus to
+  /// identify the date and time that an in progress on-demand rotation was
+  /// initiated. You can use <a>ListKeyRotations</a> to view the details of
+  /// completed rotations.
   /// <note>
   /// In May 2022, KMS changed the rotation schedule for Amazon Web Services
   /// managed keys from every three years to every year. For details, see
@@ -4431,7 +4682,17 @@ class KMS {
   /// <li>
   /// <a>EnableKeyRotation</a>
   /// </li>
+  /// <li>
+  /// <a>ListKeyRotations</a>
+  /// </li>
+  /// <li>
+  /// <a>RotateKeyOnDemand</a>
+  /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -4480,30 +4741,75 @@ class KMS {
     return GetKeyRotationStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the items you need to import key material into a symmetric
-  /// encryption KMS key. For more information about importing key material into
-  /// KMS, see <a
+  /// Returns the public key and an import token you need to import or reimport
+  /// key material for a KMS key.
+  ///
+  /// By default, KMS keys are created with key material that KMS generates.
+  /// This operation supports <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
+  /// key material</a>, an advanced feature that lets you generate and import
+  /// the cryptographic key material for a KMS key. For more information about
+  /// importing key material into KMS, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
   /// key material</a> in the <i>Key Management Service Developer Guide</i>.
   ///
-  /// This operation returns a public key and an import token. Use the public
-  /// key to encrypt the symmetric key material. Store the import token to send
-  /// with a subsequent <a>ImportKeyMaterial</a> request.
+  /// Before calling <code>GetParametersForImport</code>, use the
+  /// <a>CreateKey</a> operation with an <code>Origin</code> value of
+  /// <code>EXTERNAL</code> to create a KMS key with no key material. You can
+  /// import key material for a symmetric encryption KMS key, HMAC KMS key,
+  /// asymmetric encryption KMS key, or asymmetric signing KMS key. You can also
+  /// import key material into a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html">multi-Region
+  /// key</a> of any supported type. However, you can't import key material into
+  /// a KMS key in a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a>. You can also use <code>GetParametersForImport</code> to get
+  /// a public key and import token to <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html#reimport-key-material">reimport
+  /// the original key material</a> into a KMS key whose key material expired or
+  /// was deleted.
   ///
-  /// You must specify the key ID of the symmetric encryption KMS key into which
-  /// you will import key material. The KMS key <code>Origin</code> must be
-  /// <code>EXTERNAL</code>. You must also specify the wrapping algorithm and
-  /// type of wrapping key (public key) that you will use to encrypt the key
-  /// material. You cannot perform this operation on an asymmetric KMS key, an
-  /// HMAC KMS key, or on any KMS key in a different Amazon Web Services
-  /// account.
+  /// <code>GetParametersForImport</code> returns the items that you need to
+  /// import your key material.
   ///
-  /// To import key material, you must use the public key and import token from
-  /// the same response. These items are valid for 24 hours. The expiration date
-  /// and time appear in the <code>GetParametersForImport</code> response. You
-  /// cannot use an expired token in an <a>ImportKeyMaterial</a> request. If
-  /// your key and token expire, send another
+  /// <ul>
+  /// <li>
+  /// The public key (or "wrapping key") of an asymmetric key pair that KMS
+  /// generates.
+  ///
+  /// You will use this public key to encrypt ("wrap") your key material while
+  /// it's in transit to KMS.
+  /// </li>
+  /// <li>
+  /// A import token that ensures that KMS can decrypt your key material and
+  /// associate it with the correct KMS key.
+  /// </li>
+  /// </ul>
+  /// The public key and its import token are permanently linked and must be
+  /// used together. Each public key and import token set is valid for 24 hours.
+  /// The expiration date and time appear in the <code>ParametersValidTo</code>
+  /// field in the <code>GetParametersForImport</code> response. You cannot use
+  /// an expired public key or import token in an <a>ImportKeyMaterial</a>
+  /// request. If your key and token expire, send another
   /// <code>GetParametersForImport</code> request.
+  ///
+  /// <code>GetParametersForImport</code> requires the following information:
+  ///
+  /// <ul>
+  /// <li>
+  /// The key ID of the KMS key for which you are importing the key material.
+  /// </li>
+  /// <li>
+  /// The key spec of the public key ("wrapping key") that you will use to
+  /// encrypt your key material during import.
+  /// </li>
+  /// <li>
+  /// The wrapping algorithm that you will use with the public key to encrypt
+  /// your key material.
+  /// </li>
+  /// </ul>
+  /// You can use the same or a different public key spec and wrapping algorithm
+  /// each time you import or reimport the same key material.
   ///
   /// The KMS key that you use for this operation must be in a compatible key
   /// state. For details, see <a
@@ -4528,6 +4834,10 @@ class KMS {
   /// <a>DeleteImportedKeyMaterial</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [InvalidArnException].
   /// May throw [UnsupportedOperationException].
@@ -4537,9 +4847,12 @@ class KMS {
   /// May throw [KMSInvalidStateException].
   ///
   /// Parameter [keyId] :
-  /// The identifier of the symmetric encryption KMS key into which you will
-  /// import key material. The <code>Origin</code> of the KMS key must be
+  /// The identifier of the KMS key that will be associated with the imported
+  /// key material. The <code>Origin</code> of the KMS key must be
   /// <code>EXTERNAL</code>.
+  ///
+  /// All KMS key types are supported, including multi-Region keys. However, you
+  /// cannot import key material into a KMS key in a custom key store.
   ///
   /// Specify the key ID or key ARN of the KMS key.
   ///
@@ -4558,24 +4871,74 @@ class KMS {
   /// <a>DescribeKey</a>.
   ///
   /// Parameter [wrappingAlgorithm] :
-  /// The algorithm you will use to encrypt the key material before using the
-  /// <a>ImportKeyMaterial</a> operation to import it. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-encrypt-key-material.html">Encrypt
-  /// the key material</a> in the <i>Key Management Service Developer Guide</i>.
-  /// <important>
-  /// The <code>RSAES_PKCS1_V1_5</code> wrapping algorithm is deprecated. We
-  /// recommend that you begin using a different wrapping algorithm immediately.
-  /// KMS will end support for <code>RSAES_PKCS1_V1_5</code> by October 1, 2023
-  /// pursuant to <a
-  /// href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf">cryptographic
-  /// key management guidance</a> from the National Institute of Standards and
-  /// Technology (NIST).
-  /// </important>
+  /// The algorithm you will use with the asymmetric public key
+  /// (<code>PublicKey</code>) in the response to protect your key material
+  /// during import. For more information, see <a
+  /// href="kms/latest/developerguide/importing-keys-get-public-key-and-token.html#select-wrapping-algorithm">Select
+  /// a wrapping algorithm</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// For RSA_AES wrapping algorithms, you encrypt your key material with an AES
+  /// key that you generate, then encrypt your AES key with the RSA public key
+  /// from KMS. For RSAES wrapping algorithms, you encrypt your key material
+  /// directly with the RSA public key from KMS. For SM2PKE wrapping algorithms,
+  /// you encrypt your key material directly with the SM2 public key from KMS.
+  ///
+  /// The wrapping algorithms that you can use depend on the type of key
+  /// material that you are importing. To import an RSA private key, you must
+  /// use an RSA_AES wrapping algorithm, except in China Regions, where you must
+  /// use the SM2PKE wrapping algorithm to import an RSA private key.
+  ///
+  /// The SM2PKE wrapping algorithm is available only in China Regions. The
+  /// <code>RSA_AES_KEY_WRAP_SHA_256</code> and
+  /// <code>RSA_AES_KEY_WRAP_SHA_1</code> wrapping algorithms are not supported
+  /// in China Regions.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>RSA_AES_KEY_WRAP_SHA_256</b> — Supported for wrapping RSA and ECC key
+  /// material.
+  /// </li>
+  /// <li>
+  /// <b>RSA_AES_KEY_WRAP_SHA_1</b> — Supported for wrapping RSA and ECC key
+  /// material.
+  /// </li>
+  /// <li>
+  /// <b>RSAES_OAEP_SHA_256</b> — Supported for all types of key material,
+  /// except RSA key material (private key).
+  ///
+  /// You cannot use the RSAES_OAEP_SHA_256 wrapping algorithm with the RSA_2048
+  /// wrapping key spec to wrap ECC_NIST_P521 key material.
+  /// </li>
+  /// <li>
+  /// <b>RSAES_OAEP_SHA_1</b> — Supported for all types of key material, except
+  /// RSA key material (private key).
+  ///
+  /// You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048
+  /// wrapping key spec to wrap ECC_NIST_P521 key material.
+  /// </li>
+  /// <li>
+  /// <b>RSAES_PKCS1_V1_5</b> (Deprecated) — As of October 10, 2023, KMS does
+  /// not support the RSAES_PKCS1_V1_5 wrapping algorithm.
+  /// </li>
+  /// <li>
+  /// <b>SM2PKE</b> (China Regions only) — supported for wrapping RSA, ECC, and
+  /// SM2 key material.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [wrappingKeySpec] :
-  /// The type of wrapping key (public key) to return in the response. Only
-  /// 2048-bit RSA public keys are supported.
+  /// The type of public key to return in the response. You will use this
+  /// wrapping key with the specified wrapping algorithm to protect your key
+  /// material during import.
+  ///
+  /// Use the longest wrapping key that is practical.
+  ///
+  /// You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521
+  /// private key. Instead, use an RSA_AES wrapping algorithm or choose a longer
+  /// RSA public key.
+  ///
+  /// The SM2 wrapping key spec is available only in China Regions.
   Future<GetParametersForImportResponse> getParametersForImport({
     required String keyId,
     required AlgorithmSpec wrappingAlgorithm,
@@ -4673,6 +5036,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>CreateKey</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -4747,39 +5115,89 @@ class KMS {
     return GetPublicKeyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Imports key material into an existing symmetric encryption KMS key that
-  /// was created without key material. After you successfully import key
-  /// material into a KMS key, you can <a
+  /// Imports or reimports key material into an existing KMS key that was
+  /// created without key material. <code>ImportKeyMaterial</code> also sets the
+  /// expiration model and expiration date of the imported key material.
+  ///
+  /// By default, KMS keys are created with key material that KMS generates.
+  /// This operation supports <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
+  /// key material</a>, an advanced feature that lets you generate and import
+  /// the cryptographic key material for a KMS key. For more information about
+  /// importing key material into KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
+  /// key material</a> in the <i>Key Management Service Developer Guide</i>.
+  ///
+  /// After you successfully import key material into a KMS key, you can <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html#reimport-key-material">reimport
   /// the same key material</a> into that KMS key, but you cannot import
-  /// different key material.
+  /// different key material. You might reimport key material to replace key
+  /// material that expired or key material that you deleted. You might also
+  /// reimport key material to change the expiration model or expiration date of
+  /// the key material.
   ///
-  /// You cannot perform this operation on an asymmetric KMS key, an HMAC KMS
-  /// key, or on any KMS key in a different Amazon Web Services account. For
-  /// more information about creating KMS keys with no key material and then
-  /// importing key material, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
-  /// Key Material</a> in the <i>Key Management Service Developer Guide</i>.
+  /// Each time you import key material into KMS, you can determine whether
+  /// (<code>ExpirationModel</code>) and when (<code>ValidTo</code>) the key
+  /// material expires. To change the expiration of your key material, you must
+  /// import it again, either by calling <code>ImportKeyMaterial</code> or using
+  /// the <a
+  /// href="kms/latest/developerguide/importing-keys-import-key-material.html#importing-keys-import-key-material-console">import
+  /// features</a> of the KMS console.
   ///
-  /// Before using this operation, call <a>GetParametersForImport</a>. Its
-  /// response includes a public key and an import token. Use the public key to
-  /// encrypt the key material. Then, submit the import token from the same
-  /// <code>GetParametersForImport</code> response.
-  ///
-  /// When calling this operation, you must specify the following values:
+  /// Before calling <code>ImportKeyMaterial</code>:
   ///
   /// <ul>
   /// <li>
-  /// The key ID or key ARN of a KMS key with no key material. Its
-  /// <code>Origin</code> must be <code>EXTERNAL</code>.
+  /// Create or identify a KMS key with no key material. The KMS key must have
+  /// an <code>Origin</code> value of <code>EXTERNAL</code>, which indicates
+  /// that the KMS key is designed for imported key material.
   ///
-  /// To create a KMS key with no key material, call <a>CreateKey</a> and set
-  /// the value of its <code>Origin</code> parameter to <code>EXTERNAL</code>.
-  /// To get the <code>Origin</code> of a KMS key, call <a>DescribeKey</a>.)
+  /// To create an new KMS key for imported key material, call the
+  /// <a>CreateKey</a> operation with an <code>Origin</code> value of
+  /// <code>EXTERNAL</code>. You can create a symmetric encryption KMS key, HMAC
+  /// KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key. You
+  /// can also import key material into a <a
+  /// href="kms/latest/developerguide/multi-region-keys-overview.html">multi-Region
+  /// key</a> of any supported type. However, you can't import key material into
+  /// a KMS key in a <a
+  /// href="kms/latest/developerguide/custom-key-store-overview.html">custom key
+  /// store</a>.
   /// </li>
   /// <li>
-  /// The encrypted key material. To get the public key to encrypt the key
-  /// material, call <a>GetParametersForImport</a>.
+  /// Use the <a>DescribeKey</a> operation to verify that the
+  /// <code>KeyState</code> of the KMS key is <code>PendingImport</code>, which
+  /// indicates that the KMS key has no key material.
+  ///
+  /// If you are reimporting the same key material into an existing KMS key, you
+  /// might need to call the <a>DeleteImportedKeyMaterial</a> to delete its
+  /// existing key material.
+  /// </li>
+  /// <li>
+  /// Call the <a>GetParametersForImport</a> operation to get a public key and
+  /// import token set for importing key material.
+  /// </li>
+  /// <li>
+  /// Use the public key in the <a>GetParametersForImport</a> response to
+  /// encrypt your key material.
+  /// </li>
+  /// </ul>
+  /// Then, in an <code>ImportKeyMaterial</code> request, you submit your
+  /// encrypted key material and import token. When calling this operation, you
+  /// must specify the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// The key ID or key ARN of the KMS key to associate with the imported key
+  /// material. Its <code>Origin</code> must be <code>EXTERNAL</code> and its
+  /// <code>KeyState</code> must be <code>PendingImport</code>. You cannot
+  /// perform this operation on a KMS key in a <a
+  /// href="kms/latest/developerguide/custom-key-store-overview.html">custom key
+  /// store</a>, or on a KMS key in a different Amazon Web Services account. To
+  /// get the <code>Origin</code> and <code>KeyState</code> of a KMS key, call
+  /// <a>DescribeKey</a>.
+  /// </li>
+  /// <li>
+  /// The encrypted key material.
   /// </li>
   /// <li>
   /// The import token that <a>GetParametersForImport</a> returned. You must use
@@ -4788,17 +5206,22 @@ class KMS {
   /// </li>
   /// <li>
   /// Whether the key material expires (<code>ExpirationModel</code>) and, if
-  /// so, when (<code>ValidTo</code>). If you set an expiration date, on the
-  /// specified date, KMS deletes the key material from the KMS key, making the
-  /// KMS key unusable. To use the KMS key in cryptographic operations again,
-  /// you must reimport the same key material. The only way to change the
-  /// expiration model or expiration date is by reimporting the same key
-  /// material and specifying a new expiration date.
+  /// so, when (<code>ValidTo</code>). For help with this choice, see <a
+  /// href="https://docs.aws.amazon.com/en_us/kms/latest/developerguide/importing-keys.html#importing-keys-expiration">Setting
+  /// an expiration time</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// If you set an expiration date, KMS deletes the key material from the KMS
+  /// key on the specified date, making the KMS key unusable. To use the KMS key
+  /// in cryptographic operations again, you must reimport the same key
+  /// material. However, you can delete and reimport the key material at any
+  /// time, including before the key material expires. Each time you reimport,
+  /// you can eliminate or reset the expiration time.
   /// </li>
   /// </ul>
   /// When this operation is successful, the key state of the KMS key changes
   /// from <code>PendingImport</code> to <code>Enabled</code>, and you can use
-  /// the KMS key.
+  /// the KMS key in cryptographic operations.
   ///
   /// If this operation fails, use the exception to help determine the problem.
   /// If the error is related to the key material, the import token, or wrapping
@@ -4831,6 +5254,10 @@ class KMS {
   /// <a>GetParametersForImport</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [InvalidArnException].
   /// May throw [UnsupportedOperationException].
@@ -4845,7 +5272,7 @@ class KMS {
   ///
   /// Parameter [encryptedKeyMaterial] :
   /// The encrypted key material to import. The key material must be encrypted
-  /// with the public wrapping key that <a>GetParametersForImport</a> returned,
+  /// under the public wrapping key that <a>GetParametersForImport</a> returned,
   /// using the wrapping algorithm that you specified in the same
   /// <code>GetParametersForImport</code> request.
   ///
@@ -4855,13 +5282,20 @@ class KMS {
   /// that contained the public key that you used to encrypt the key material.
   ///
   /// Parameter [keyId] :
-  /// The identifier of the symmetric encryption KMS key that receives the
-  /// imported key material. This must be the same KMS key specified in the
+  /// The identifier of the KMS key that will be associated with the imported
+  /// key material. This must be the same KMS key specified in the
   /// <code>KeyID</code> parameter of the corresponding
   /// <a>GetParametersForImport</a> request. The <code>Origin</code> of the KMS
-  /// key must be <code>EXTERNAL</code>. You cannot perform this operation on an
-  /// asymmetric KMS key, an HMAC KMS key, a KMS key in a custom key store, or
-  /// on a KMS key in a different Amazon Web Services account
+  /// key must be <code>EXTERNAL</code> and its <code>KeyState</code> must be
+  /// <code>PendingImport</code>.
+  ///
+  /// The KMS key can be a symmetric encryption KMS key, HMAC KMS key,
+  /// asymmetric encryption KMS key, or asymmetric signing KMS key, including a
+  /// <a
+  /// href="kms/latest/developerguide/multi-region-keys-overview.html">multi-Region
+  /// key</a> of any supported type. You cannot perform this operation on a KMS
+  /// key in a custom key store, or on a KMS key in a different Amazon Web
+  /// Services account.
   ///
   /// Specify the key ID or key ARN of the KMS key.
   ///
@@ -4881,7 +5315,10 @@ class KMS {
   ///
   /// Parameter [expirationModel] :
   /// Specifies whether the key material expires. The default is
-  /// <code>KEY_MATERIAL_EXPIRES</code>.
+  /// <code>KEY_MATERIAL_EXPIRES</code>. For help with this choice, see <a
+  /// href="https://docs.aws.amazon.com/en_us/kms/latest/developerguide/importing-keys.html#importing-keys-expiration">Setting
+  /// an expiration time</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// When the value of <code>ExpirationModel</code> is
   /// <code>KEY_MATERIAL_EXPIRES</code>, you must specify a value for the
@@ -4891,8 +5328,7 @@ class KMS {
   ///
   /// You cannot change the <code>ExpirationModel</code> or <code>ValidTo</code>
   /// values for the current import after the request completes. To change
-  /// either value, you must delete (<a>DeleteImportedKeyMaterial</a>) and
-  /// reimport the key material.
+  /// either value, you must reimport the key material.
   ///
   /// Parameter [validTo] :
   /// The date and time when the imported key material expires. This parameter
@@ -4985,6 +5421,10 @@ class KMS {
   /// <a>UpdateAlias</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [InvalidMarkerException].
@@ -5103,6 +5543,10 @@ class KMS {
   /// <a>RevokeGrant</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DependencyTimeoutException].
@@ -5206,9 +5650,14 @@ class KMS {
   /// <a>GetKeyPolicy</a>
   /// </li>
   /// <li>
-  /// <a>PutKeyPolicy</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html">PutKeyPolicy</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -5280,6 +5729,114 @@ class KMS {
     return ListKeyPoliciesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns information about all completed key material rotations for the
+  /// specified KMS key.
+  ///
+  /// You must specify the KMS key in all requests. You can refine the key
+  /// rotations list by limiting the number of rotations returned.
+  ///
+  /// For detailed information about automatic and on-demand key rotations, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html">Rotating
+  /// KMS keys</a> in the <i>Key Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a KMS
+  /// key in a different Amazon Web Services account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListKeyRotations</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>EnableKeyRotation</a>
+  /// </li>
+  /// <li>
+  /// <a>DisableKeyRotation</a>
+  /// </li>
+  /// <li>
+  /// <a>GetKeyRotationStatus</a>
+  /// </li>
+  /// <li>
+  /// <a>RotateKeyOnDemand</a>
+  /// </li>
+  /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidMarkerException].
+  /// May throw [KMSInternalException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [UnsupportedOperationException].
+  ///
+  /// Parameter [keyId] :
+  /// Gets the key rotations for the specified KMS key.
+  ///
+  /// Specify the key ID or key ARN of the KMS key.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a KMS key, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  ///
+  /// Parameter [limit] :
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, KMS does not return more than the specified number
+  /// of items, but it might return fewer.
+  ///
+  /// This value is optional. If you include a value, it must be between 1 and
+  /// 1000, inclusive. If you do not include a value, it defaults to 100.
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter in a subsequent request after you receive a response
+  /// with truncated results. Set it to the value of <code>NextMarker</code>
+  /// from the truncated response you just received.
+  Future<ListKeyRotationsResponse> listKeyRotations({
+    required String keyId,
+    int? limit,
+    String? marker,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TrentService.ListKeyRotations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'KeyId': keyId,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
+      },
+    );
+
+    return ListKeyRotationsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets a list of all KMS keys in the caller's Amazon Web Services account
   /// and Region.
   ///
@@ -5306,6 +5863,10 @@ class KMS {
   /// <a>ListResourceTags</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [KMSInternalException].
@@ -5385,6 +5946,10 @@ class KMS {
   /// <a>UntagResource</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [KMSInternalException].
   /// May throw [NotFoundException].
@@ -5474,15 +6039,25 @@ class KMS {
   /// grants</a>.
   ///
   /// <b>Cross-account use</b>: You must specify a principal in your Amazon Web
-  /// Services account. However, this operation can return grants in any Amazon
-  /// Web Services account. You do not need <code>kms:ListRetirableGrants</code>
-  /// permission (or any other additional permission) in any Amazon Web Services
-  /// account other than your own.
+  /// Services account. This operation returns a list of grants where the
+  /// retiring principal specified in the <code>ListRetirableGrants</code>
+  /// request is the same retiring principal on the grant. This can include
+  /// grants on KMS keys owned by other Amazon Web Services accounts, but you do
+  /// not need <code>kms:ListRetirableGrants</code> permission (or any other
+  /// additional permission) in any Amazon Web Services account other than your
+  /// own.
   ///
   /// <b>Required permissions</b>: <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListRetirableGrants</a>
   /// (IAM policy) in your Amazon Web Services account.
-  ///
+  /// <note>
+  /// KMS authorizes <code>ListRetirableGrants</code> requests by evaluating the
+  /// caller account's kms:ListRetirableGrants permissions. The authorized
+  /// resource in <code>ListRetirableGrants</code> calls is the retiring
+  /// principal specified in the request. KMS does not evaluate the caller's
+  /// permissions to verify their access to any KMS keys or grants that might be
+  /// returned by the <code>ListRetirableGrants</code> call.
+  /// </note>
   /// <b>Related operations:</b>
   ///
   /// <ul>
@@ -5499,6 +6074,10 @@ class KMS {
   /// <a>RevokeGrant</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [InvalidMarkerException].
@@ -5584,6 +6163,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>GetKeyPolicy</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [MalformedPolicyDocumentException].
@@ -5664,9 +6248,6 @@ class KMS {
   /// JSON Policy Reference</a> in the <i> <i>Identity and Access Management
   /// User Guide</i> </i>.
   ///
-  /// Parameter [policyName] :
-  /// The name of the key policy. The only valid value is <code>default</code>.
-  ///
   /// Parameter [bypassPolicyLockoutSafetyCheck] :
   /// Skips ("bypasses") the key policy lockout safety check. The default value
   /// is false.
@@ -5679,13 +6260,19 @@ class KMS {
   /// key policy</a> in the <i>Key Management Service Developer Guide</i>.
   /// </important>
   /// Use this parameter only when you intend to prevent the principal that is
-  /// making the request from making a subsequent <a>PutKeyPolicy</a> request on
-  /// the KMS key.
+  /// making the request from making a subsequent <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html">PutKeyPolicy</a>
+  /// request on the KMS key.
+  ///
+  /// Parameter [policyName] :
+  /// The name of the key policy. If no policy name is specified, the default
+  /// value is <code>default</code>. The only valid value is
+  /// <code>default</code>.
   Future<void> putKeyPolicy({
     required String keyId,
     required String policy,
-    required String policyName,
     bool? bypassPolicyLockoutSafetyCheck,
+    String? policyName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5700,9 +6287,9 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Policy': policy,
-        'PolicyName': policyName,
         if (bypassPolicyLockoutSafetyCheck != null)
           'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
+        if (policyName != null) 'PolicyName': policyName,
       },
     );
   }
@@ -5823,6 +6410,10 @@ class KMS {
   /// <a>GenerateDataKeyPair</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -5834,6 +6425,7 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [ciphertextBlob] :
   /// Ciphertext of the data to reencrypt.
@@ -5902,6 +6494,15 @@ class KMS {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
   /// context</a> in the <i>Key Management Service Developer Guide</i>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [grantTokens] :
   /// A list of grant tokens.
@@ -5987,6 +6588,7 @@ class KMS {
     required String destinationKeyId,
     EncryptionAlgorithmSpec? destinationEncryptionAlgorithm,
     Map<String, String>? destinationEncryptionContext,
+    bool? dryRun,
     List<String>? grantTokens,
     EncryptionAlgorithmSpec? sourceEncryptionAlgorithm,
     Map<String, String>? sourceEncryptionContext,
@@ -6010,6 +6612,7 @@ class KMS {
               destinationEncryptionAlgorithm.toValue(),
         if (destinationEncryptionContext != null)
           'DestinationEncryptionContext': destinationEncryptionContext,
+        if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (sourceEncryptionAlgorithm != null)
           'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm.toValue(),
@@ -6096,7 +6699,7 @@ class KMS {
   /// If you replicate a multi-Region primary key with imported key material,
   /// the replica key is created with no key material. You must import the same
   /// key material that you imported into the primary key. For details, see <a
-  /// href="kms/latest/developerguide/multi-region-keys-import.html">Importing
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-import.html">Importing
   /// key material into multi-Region keys</a> in the <i>Key Management Service
   /// Developer Guide</i>.
   ///
@@ -6135,6 +6738,10 @@ class KMS {
   /// <a>UpdatePrimaryRegion</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [AlreadyExistsException].
   /// May throw [DisabledException].
@@ -6213,8 +6820,9 @@ class KMS {
   /// key policy</a> in the <i>Key Management Service Developer Guide</i>.
   /// </important>
   /// Use this parameter only when you intend to prevent the principal that is
-  /// making the request from making a subsequent <a>PutKeyPolicy</a> request on
-  /// the KMS key.
+  /// making the request from making a subsequent <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html">PutKeyPolicy</a>
+  /// request on the KMS key.
   ///
   /// Parameter [description] :
   /// A description of the KMS key. The default value is an empty string (no
@@ -6376,7 +6984,7 @@ class KMS {
   /// <b>Cross-account use</b>: Yes. You can retire a grant on a KMS key in a
   /// different Amazon Web Services account.
   ///
-  /// <b>Required permissions:</b>:Permission to retire a grant is determined
+  /// <b>Required permissions</b>: Permission to retire a grant is determined
   /// primarily by the grant. For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#grant-delete">Retiring
   /// and revoking grants</a> in the <i>Key Management Service Developer
@@ -6398,6 +7006,10 @@ class KMS {
   /// <a>RevokeGrant</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [InvalidArnException].
   /// May throw [InvalidGrantTokenException].
@@ -6406,6 +7018,16 @@ class KMS {
   /// May throw [DependencyTimeoutException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [grantId] :
   /// Identifies the grant to retire. To get the grant ID, use
@@ -6436,6 +7058,7 @@ class KMS {
   /// For example:
   /// <code>arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
   Future<void> retireGrant({
+    bool? dryRun,
     String? grantId,
     String? grantToken,
     String? keyId,
@@ -6451,6 +7074,7 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (dryRun != null) 'DryRun': dryRun,
         if (grantId != null) 'GrantId': grantId,
         if (grantToken != null) 'GrantToken': grantToken,
         if (keyId != null) 'KeyId': keyId,
@@ -6460,7 +7084,7 @@ class KMS {
 
   /// Deletes the specified grant. You revoke a grant to terminate the
   /// permissions that the grant allows. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/managing-grants.html#grant-delete">Retiring
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#grant-delete">Retiring
   /// and revoking grants</a> in the <i> <i>Key Management Service Developer
   /// Guide</i> </i>.
   ///
@@ -6504,6 +7128,10 @@ class KMS {
   /// <a>RetireGrant</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [DependencyTimeoutException].
@@ -6511,6 +7139,7 @@ class KMS {
   /// May throw [InvalidGrantIdException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [grantId] :
   /// Identifies the grant to revoke. To get the grant ID, use
@@ -6537,9 +7166,19 @@ class KMS {
   /// </ul>
   /// To get the key ID and key ARN for a KMS key, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   Future<void> revokeGrant({
     required String grantId,
     required String keyId,
+    bool? dryRun,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6554,8 +7193,151 @@ class KMS {
       payload: {
         'GrantId': grantId,
         'KeyId': keyId,
+        if (dryRun != null) 'DryRun': dryRun,
       },
     );
+  }
+
+  /// Immediately initiates rotation of the key material of the specified
+  /// symmetric encryption KMS key.
+  ///
+  /// You can perform <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-on-demand">on-demand
+  /// rotation</a> of the key material in customer managed KMS keys, regardless
+  /// of whether or not <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-enable-disable">automatic
+  /// key rotation</a> is enabled. On-demand rotations do not change existing
+  /// automatic rotation schedules. For example, consider a KMS key that has
+  /// automatic key rotation enabled with a rotation period of 730 days. If the
+  /// key is scheduled to automatically rotate on April 14, 2024, and you
+  /// perform an on-demand rotation on April 10, 2024, the key will
+  /// automatically rotate, as scheduled, on April 14, 2024 and every 730 days
+  /// thereafter.
+  /// <note>
+  /// You can perform on-demand key rotation a <b>maximum of 10 times</b> per
+  /// KMS key. You can use the KMS console to view the number of remaining
+  /// on-demand rotations available for a KMS key.
+  /// </note>
+  /// You can use <a>GetKeyRotationStatus</a> to identify any in progress
+  /// on-demand rotations. You can use <a>ListKeyRotations</a> to identify the
+  /// date that completed on-demand rotations were performed. You can monitor
+  /// rotation of the key material for your KMS keys in CloudTrail and Amazon
+  /// CloudWatch.
+  ///
+  /// On-demand key rotation is supported only on <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks">symmetric
+  /// encryption KMS keys</a>. You cannot perform on-demand rotation of <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">asymmetric
+  /// KMS keys</a>, <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html">HMAC
+  /// KMS keys</a>, KMS keys with <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">imported
+  /// key material</a>, or KMS keys in a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a>. To perform on-demand rotation of a set of related <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-manage.html#multi-region-rotate">multi-Region
+  /// keys</a>, invoke the on-demand rotation on the primary key.
+  ///
+  /// You cannot initiate on-demand rotation of <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">Amazon
+  /// Web Services managed KMS keys</a>. KMS always rotates the key material of
+  /// Amazon Web Services managed keys every year. Rotation of <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk">Amazon
+  /// Web Services owned KMS keys</a> is managed by the Amazon Web Services
+  /// service that owns the key.
+  ///
+  /// The KMS key that you use for this operation must be in a compatible key
+  /// state. For details, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">Key
+  /// states of KMS keys</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a KMS
+  /// key in a different Amazon Web Services account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:RotateKeyOnDemand</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>EnableKeyRotation</a>
+  /// </li>
+  /// <li>
+  /// <a>DisableKeyRotation</a>
+  /// </li>
+  /// <li>
+  /// <a>GetKeyRotationStatus</a>
+  /// </li>
+  /// <li>
+  /// <a>ListKeyRotations</a>
+  /// </li>
+  /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [DisabledException].
+  /// May throw [InvalidArnException].
+  /// May throw [DependencyTimeoutException].
+  /// May throw [KMSInternalException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [keyId] :
+  /// Identifies a symmetric encryption KMS key. You cannot perform on-demand
+  /// rotation of <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">asymmetric
+  /// KMS keys</a>, <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html">HMAC
+  /// KMS keys</a>, KMS keys with <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">imported
+  /// key material</a>, or KMS keys in a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a>. To perform on-demand rotation of a set of related <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-manage.html#multi-region-rotate">multi-Region
+  /// keys</a>, invoke the on-demand rotation on the primary key.
+  ///
+  /// Specify the key ID or key ARN of the KMS key.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a KMS key, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  Future<RotateKeyOnDemandResponse> rotateKeyOnDemand({
+    required String keyId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TrentService.RotateKeyOnDemand'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'KeyId': keyId,
+      },
+    );
+
+    return RotateKeyOnDemandResponse.fromJson(jsonResponse.body);
   }
 
   /// Schedules the deletion of a KMS key. By default, KMS applies a waiting
@@ -6570,8 +7352,12 @@ class KMS {
   /// <important>
   /// Deleting a KMS key is a destructive and potentially dangerous operation.
   /// When a KMS key is deleted, all data that was encrypted under the KMS key
-  /// is unrecoverable. (The only exception is a multi-Region replica key.) To
-  /// prevent the use of a KMS key without deleting it, use <a>DisableKey</a>.
+  /// is unrecoverable. (The only exception is a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-delete.html">multi-Region
+  /// replica key</a>, or an <a
+  /// href="kms/latest/developerguide/importing-keys-managing.html#import-delete-key">asymmetric
+  /// or HMAC KMS key with imported key material</a>.) To prevent the use of a
+  /// KMS key without deleting it, use <a>DisableKey</a>.
   /// </important>
   /// You can schedule the deletion of a multi-Region primary key and its
   /// replica keys at any time. However, KMS will not delete a multi-Region
@@ -6626,6 +7412,10 @@ class KMS {
   /// <a>DisableKey</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -6661,7 +7451,12 @@ class KMS {
   /// Otherwise, the waiting period begins immediately.
   ///
   /// This value is optional. If you include a value, it must be between 7 and
-  /// 30, inclusive. If you do not include a value, it defaults to 30.
+  /// 30, inclusive. If you do not include a value, it defaults to 30. You can
+  /// use the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-schedule-key-deletion-pending-window-in-days">
+  /// <code>kms:ScheduleKeyDeletionPendingWindowInDays</code> </a> condition key
+  /// to further constrain the values that principals can specify in the
+  /// <code>PendingWindowInDays</code> parameter.
   Future<ScheduleKeyDeletionResponse> scheduleKeyDeletion({
     required String keyId,
     int? pendingWindowInDays,
@@ -6761,6 +7556,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>Verify</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -6769,6 +7569,7 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// Identifies an asymmetric KMS key. KMS uses the private key in the
@@ -6818,6 +7619,15 @@ class KMS {
   /// specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS
   /// algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for
   /// compatibility with existing applications.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [grantTokens] :
   /// A list of grant tokens.
@@ -6878,6 +7688,7 @@ class KMS {
     required String keyId,
     required Uint8List message,
     required SigningAlgorithmSpec signingAlgorithm,
+    bool? dryRun,
     List<String>? grantTokens,
     MessageType? messageType,
   }) async {
@@ -6895,6 +7706,7 @@ class KMS {
         'KeyId': keyId,
         'Message': base64Encode(message),
         'SigningAlgorithm': signingAlgorithm.toValue(),
+        if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (messageType != null) 'MessageType': messageType.toValue(),
       },
@@ -6968,6 +7780,10 @@ class KMS {
   /// <a>UntagResource</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [KMSInternalException].
   /// May throw [NotFoundException].
@@ -7077,6 +7893,10 @@ class KMS {
   /// <a>TagResource</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [KMSInternalException].
   /// May throw [NotFoundException].
@@ -7198,6 +8018,10 @@ class KMS {
   /// <a>ListAliases</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [NotFoundException].
@@ -7374,6 +8198,10 @@ class KMS {
   /// <a>DisconnectCustomKeyStore</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [CustomKeyStoreNotFoundException].
   /// May throw [CustomKeyStoreNameInUseException].
@@ -7590,6 +8418,10 @@ class KMS {
   /// <a>DescribeKey</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -7737,6 +8569,10 @@ class KMS {
   /// <a>ReplicateKey</a>
   /// </li>
   /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
   ///
   /// May throw [DisabledException].
   /// May throw [InvalidArnException].
@@ -7849,6 +8685,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>Sign</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -7858,6 +8699,7 @@ class KMS {
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
   /// May throw [KMSInvalidSignatureException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// Identifies the asymmetric KMS key that will be used to verify the
@@ -7908,6 +8750,15 @@ class KMS {
   /// Parameter [signingAlgorithm] :
   /// The signing algorithm that was used to sign the message. If you submit a
   /// different algorithm, the signature verification fails.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [grantTokens] :
   /// A list of grant tokens.
@@ -7969,6 +8820,7 @@ class KMS {
     required Uint8List message,
     required Uint8List signature,
     required SigningAlgorithmSpec signingAlgorithm,
+    bool? dryRun,
     List<String>? grantTokens,
     MessageType? messageType,
   }) async {
@@ -7987,6 +8839,7 @@ class KMS {
         'Message': base64Encode(message),
         'Signature': base64Encode(signature),
         'SigningAlgorithm': signingAlgorithm.toValue(),
+        if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (messageType != null) 'MessageType': messageType.toValue(),
       },
@@ -8029,6 +8882,11 @@ class KMS {
   ///
   /// <b>Related operations</b>: <a>GenerateMac</a>
   ///
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -8037,6 +8895,7 @@ class KMS {
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidMacException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [keyId] :
   /// The KMS key that will be used in the verification.
@@ -8063,6 +8922,15 @@ class KMS {
   /// handling for message digests. If you generated an HMAC for a hash digest
   /// of a message, you must verify the HMAC for the same hash digest.
   ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [grantTokens] :
   /// A list of grant tokens.
   ///
@@ -8078,6 +8946,7 @@ class KMS {
     required Uint8List mac,
     required MacAlgorithmSpec macAlgorithm,
     required Uint8List message,
+    bool? dryRun,
     List<String>? grantTokens,
   }) async {
     final headers = <String, String>{
@@ -8095,6 +8964,7 @@ class KMS {
         'Mac': base64Encode(mac),
         'MacAlgorithm': macAlgorithm.toValue(),
         'Message': base64Encode(message),
+        if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
     );
@@ -8107,6 +8977,9 @@ enum AlgorithmSpec {
   rsaesPkcs1V1_5,
   rsaesOaepSha_1,
   rsaesOaepSha_256,
+  rsaAesKeyWrapSha_1,
+  rsaAesKeyWrapSha_256,
+  sm2pke,
 }
 
 extension AlgorithmSpecValueExtension on AlgorithmSpec {
@@ -8118,6 +8991,12 @@ extension AlgorithmSpecValueExtension on AlgorithmSpec {
         return 'RSAES_OAEP_SHA_1';
       case AlgorithmSpec.rsaesOaepSha_256:
         return 'RSAES_OAEP_SHA_256';
+      case AlgorithmSpec.rsaAesKeyWrapSha_1:
+        return 'RSA_AES_KEY_WRAP_SHA_1';
+      case AlgorithmSpec.rsaAesKeyWrapSha_256:
+        return 'RSA_AES_KEY_WRAP_SHA_256';
+      case AlgorithmSpec.sm2pke:
+        return 'SM2PKE';
     }
   }
 }
@@ -8131,6 +9010,12 @@ extension AlgorithmSpecFromString on String {
         return AlgorithmSpec.rsaesOaepSha_1;
       case 'RSAES_OAEP_SHA_256':
         return AlgorithmSpec.rsaesOaepSha_256;
+      case 'RSA_AES_KEY_WRAP_SHA_1':
+        return AlgorithmSpec.rsaAesKeyWrapSha_1;
+      case 'RSA_AES_KEY_WRAP_SHA_256':
+        return AlgorithmSpec.rsaAesKeyWrapSha_256;
+      case 'SM2PKE':
+        return AlgorithmSpec.sm2pke;
     }
     throw Exception('$this is not known in enum AlgorithmSpec');
   }
@@ -8980,8 +9865,8 @@ class DescribeCustomKeyStoresResponse {
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
-  /// pass the value of the <code>NextMarker</code> element in thisresponse to the
-  /// <code>Marker</code> parameter in a subsequent request.
+  /// pass the value of the <code>NextMarker</code> element in this response to
+  /// the <code>Marker</code> parameter in a subsequent request.
   final bool? truncated;
 
   DescribeCustomKeyStoresResponse({
@@ -9372,28 +10257,64 @@ class GetKeyPolicyResponse {
   /// A key policy document in JSON format.
   final String? policy;
 
+  /// The name of the key policy. The only valid value is <code>default</code>.
+  final String? policyName;
+
   GetKeyPolicyResponse({
     this.policy,
+    this.policyName,
   });
 
   factory GetKeyPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetKeyPolicyResponse(
       policy: json['Policy'] as String?,
+      policyName: json['PolicyName'] as String?,
     );
   }
 }
 
 class GetKeyRotationStatusResponse {
+  /// Identifies the specified symmetric encryption KMS key.
+  final String? keyId;
+
   /// A Boolean value that specifies whether key rotation is enabled.
   final bool? keyRotationEnabled;
 
+  /// The next date that KMS will automatically rotate the key material.
+  final DateTime? nextRotationDate;
+
+  /// Identifies the date and time that an in progress on-demand rotation was
+  /// initiated.
+  ///
+  /// The KMS API follows an <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">eventual
+  /// consistency</a> model due to the distributed nature of the system. As a
+  /// result, there might be a slight delay between initiating on-demand key
+  /// rotation and the rotation's completion. Once the on-demand rotation is
+  /// complete, use <a>ListKeyRotations</a> to view the details of the on-demand
+  /// rotation.
+  final DateTime? onDemandRotationStartDate;
+
+  /// The number of days between each automatic rotation. The default value is 365
+  /// days.
+  final int? rotationPeriodInDays;
+
   GetKeyRotationStatusResponse({
+    this.keyId,
     this.keyRotationEnabled,
+    this.nextRotationDate,
+    this.onDemandRotationStartDate,
+    this.rotationPeriodInDays,
   });
 
   factory GetKeyRotationStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetKeyRotationStatusResponse(
+      keyId: json['KeyId'] as String?,
       keyRotationEnabled: json['KeyRotationEnabled'] as bool?,
+      nextRotationDate: timeStampFromJson(json['NextRotationDate']),
+      onDemandRotationStartDate:
+          timeStampFromJson(json['OnDemandRotationStartDate']),
+      rotationPeriodInDays: json['RotationPeriodInDays'] as int?,
     );
   }
 }
@@ -10285,8 +11206,8 @@ class ListAliasesResponse {
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
-  /// pass the value of the <code>NextMarker</code> element in thisresponse to the
-  /// <code>Marker</code> parameter in a subsequent request.
+  /// pass the value of the <code>NextMarker</code> element in this response to
+  /// the <code>Marker</code> parameter in a subsequent request.
   final bool? truncated;
 
   ListAliasesResponse({
@@ -10318,8 +11239,8 @@ class ListGrantsResponse {
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
-  /// pass the value of the <code>NextMarker</code> element in thisresponse to the
-  /// <code>Marker</code> parameter in a subsequent request.
+  /// pass the value of the <code>NextMarker</code> element in this response to
+  /// the <code>Marker</code> parameter in a subsequent request.
   final bool? truncated;
 
   ListGrantsResponse({
@@ -10351,8 +11272,8 @@ class ListKeyPoliciesResponse {
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
-  /// pass the value of the <code>NextMarker</code> element in thisresponse to the
-  /// <code>Marker</code> parameter in a subsequent request.
+  /// pass the value of the <code>NextMarker</code> element in this response to
+  /// the <code>Marker</code> parameter in a subsequent request.
   final bool? truncated;
 
   ListKeyPoliciesResponse({
@@ -10373,6 +11294,39 @@ class ListKeyPoliciesResponse {
   }
 }
 
+class ListKeyRotationsResponse {
+  /// When <code>Truncated</code> is true, this element is present and contains
+  /// the value to use for the <code>Marker</code> parameter in a subsequent
+  /// request.
+  final String? nextMarker;
+
+  /// A list of completed key material rotations.
+  final List<RotationsListEntry>? rotations;
+
+  /// A flag that indicates whether there are more items in the list. When this
+  /// value is true, the list in this response is truncated. To get more items,
+  /// pass the value of the <code>NextMarker</code> element in this response to
+  /// the <code>Marker</code> parameter in a subsequent request.
+  final bool? truncated;
+
+  ListKeyRotationsResponse({
+    this.nextMarker,
+    this.rotations,
+    this.truncated,
+  });
+
+  factory ListKeyRotationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListKeyRotationsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      rotations: (json['Rotations'] as List?)
+          ?.whereNotNull()
+          .map((e) => RotationsListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      truncated: json['Truncated'] as bool?,
+    );
+  }
+}
+
 class ListKeysResponse {
   /// A list of KMS keys.
   final List<KeyListEntry>? keys;
@@ -10384,8 +11338,8 @@ class ListKeysResponse {
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
-  /// pass the value of the <code>NextMarker</code> element in thisresponse to the
-  /// <code>Marker</code> parameter in a subsequent request.
+  /// pass the value of the <code>NextMarker</code> element in this response to
+  /// the <code>Marker</code> parameter in a subsequent request.
   final bool? truncated;
 
   ListKeysResponse({
@@ -10425,8 +11379,8 @@ class ListResourceTagsResponse {
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
-  /// pass the value of the <code>NextMarker</code> element in thisresponse to the
-  /// <code>Marker</code> parameter in a subsequent request.
+  /// pass the value of the <code>NextMarker</code> element in this response to
+  /// the <code>Marker</code> parameter in a subsequent request.
   final bool? truncated;
 
   ListResourceTagsResponse({
@@ -10759,6 +11713,81 @@ class ReplicateKeyResponse {
   }
 }
 
+class RotateKeyOnDemandResponse {
+  /// Identifies the symmetric encryption KMS key that you initiated on-demand
+  /// rotation on.
+  final String? keyId;
+
+  RotateKeyOnDemandResponse({
+    this.keyId,
+  });
+
+  factory RotateKeyOnDemandResponse.fromJson(Map<String, dynamic> json) {
+    return RotateKeyOnDemandResponse(
+      keyId: json['KeyId'] as String?,
+    );
+  }
+}
+
+enum RotationType {
+  automatic,
+  onDemand,
+}
+
+extension RotationTypeValueExtension on RotationType {
+  String toValue() {
+    switch (this) {
+      case RotationType.automatic:
+        return 'AUTOMATIC';
+      case RotationType.onDemand:
+        return 'ON_DEMAND';
+    }
+  }
+}
+
+extension RotationTypeFromString on String {
+  RotationType toRotationType() {
+    switch (this) {
+      case 'AUTOMATIC':
+        return RotationType.automatic;
+      case 'ON_DEMAND':
+        return RotationType.onDemand;
+    }
+    throw Exception('$this is not known in enum RotationType');
+  }
+}
+
+/// Contains information about completed key material rotations.
+class RotationsListEntry {
+  /// Unique identifier of the key.
+  final String? keyId;
+
+  /// Date and time that the key material rotation completed. Formatted as Unix
+  /// time.
+  final DateTime? rotationDate;
+
+  /// Identifies whether the key material rotation was a scheduled <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-enable-disable">automatic
+  /// rotation</a> or an <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-on-demand">on-demand
+  /// rotation</a>.
+  final RotationType? rotationType;
+
+  RotationsListEntry({
+    this.keyId,
+    this.rotationDate,
+    this.rotationType,
+  });
+
+  factory RotationsListEntry.fromJson(Map<String, dynamic> json) {
+    return RotationsListEntry(
+      keyId: json['KeyId'] as String?,
+      rotationDate: timeStampFromJson(json['RotationDate']),
+      rotationType: (json['RotationType'] as String?)?.toRotationType(),
+    );
+  }
+}
+
 class ScheduleKeyDeletionResponse {
   /// The date and time after which KMS deletes the KMS key.
   ///
@@ -10821,7 +11850,7 @@ class SignResponse {
   /// <li>
   /// When used with the <code>ECDSA_SHA_256</code>, <code>ECDSA_SHA_384</code>,
   /// or <code>ECDSA_SHA_512</code> signing algorithms, this value is a
-  /// DER-encoded object as defined by ANS X9.62–2005 and <a
+  /// DER-encoded object as defined by ANSI X9.62–2005 and <a
   /// href="https://tools.ietf.org/html/rfc3279#section-2.2.3">RFC 3279 Section
   /// 2.2.3</a>. This is the most commonly used signature format and is
   /// appropriate for most uses.
@@ -11033,6 +12062,9 @@ class VerifyResponse {
 
 enum WrappingKeySpec {
   rsa_2048,
+  rsa_3072,
+  rsa_4096,
+  sm2,
 }
 
 extension WrappingKeySpecValueExtension on WrappingKeySpec {
@@ -11040,6 +12072,12 @@ extension WrappingKeySpecValueExtension on WrappingKeySpec {
     switch (this) {
       case WrappingKeySpec.rsa_2048:
         return 'RSA_2048';
+      case WrappingKeySpec.rsa_3072:
+        return 'RSA_3072';
+      case WrappingKeySpec.rsa_4096:
+        return 'RSA_4096';
+      case WrappingKeySpec.sm2:
+        return 'SM2';
     }
   }
 }
@@ -11049,6 +12087,12 @@ extension WrappingKeySpecFromString on String {
     switch (this) {
       case 'RSA_2048':
         return WrappingKeySpec.rsa_2048;
+      case 'RSA_3072':
+        return WrappingKeySpec.rsa_3072;
+      case 'RSA_4096':
+        return WrappingKeySpec.rsa_4096;
+      case 'SM2':
+        return WrappingKeySpec.sm2;
     }
     throw Exception('$this is not known in enum WrappingKeySpec');
   }
@@ -11240,6 +12284,11 @@ class CloudHsmClusterNotRelatedException extends _s.GenericAwsException {
             message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class CustomKeyStoreHasCMKsException extends _s.GenericAwsException {
   CustomKeyStoreHasCMKsException({String? type, String? message})
       : super(
@@ -11280,6 +12329,11 @@ class DependencyTimeoutException extends _s.GenericAwsException {
 class DisabledException extends _s.GenericAwsException {
   DisabledException({String? type, String? message})
       : super(type: type, code: 'DisabledException', message: message);
+}
+
+class DryRunOperationException extends _s.GenericAwsException {
+  DryRunOperationException({String? type, String? message})
+      : super(type: type, code: 'DryRunOperationException', message: message);
 }
 
 class ExpiredImportTokenException extends _s.GenericAwsException {
@@ -11514,6 +12568,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CloudHsmClusterNotFoundException(type: type, message: message),
   'CloudHsmClusterNotRelatedException': (type, message) =>
       CloudHsmClusterNotRelatedException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'CustomKeyStoreHasCMKsException': (type, message) =>
       CustomKeyStoreHasCMKsException(type: type, message: message),
   'CustomKeyStoreInvalidStateException': (type, message) =>
@@ -11526,6 +12582,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DependencyTimeoutException(type: type, message: message),
   'DisabledException': (type, message) =>
       DisabledException(type: type, message: message),
+  'DryRunOperationException': (type, message) =>
+      DryRunOperationException(type: type, message: message),
   'ExpiredImportTokenException': (type, message) =>
       ExpiredImportTokenException(type: type, message: message),
   'IncorrectKeyException': (type, message) =>

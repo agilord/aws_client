@@ -105,8 +105,9 @@ class Polly {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [engine] :
-  /// Specifies the engine (<code>standard</code> or <code>neural</code>) used
-  /// by Amazon Polly when processing input text for speech synthesis.
+  /// Specifies the engine (<code>standard</code>, <code>neural</code>,
+  /// <code>long-form</code> or <code>generative</code>) used by Amazon Polly
+  /// when processing input text for speech synthesis.
   ///
   /// Parameter [includeAdditionalLanguageCodes] :
   /// Boolean value indicating whether to return any bilingual voices that use
@@ -344,10 +345,10 @@ class Polly {
   /// Voice ID to use for the synthesis.
   ///
   /// Parameter [engine] :
-  /// Specifies the engine (<code>standard</code> or <code>neural</code>) for
-  /// Amazon Polly to use when processing input text for speech synthesis. Using
-  /// a voice that is not supported for the engine selected will result in an
-  /// error.
+  /// Specifies the engine (<code>standard</code>, <code>neural</code>,
+  /// <code>long-form</code> or <code>generative</code>) for Amazon Polly to use
+  /// when processing input text for speech synthesis. Using a voice that is not
+  /// supported for the engine selected will result in an error.
   ///
   /// Parameter [languageCode] :
   /// Optional language code for the Speech Synthesis request. This is only
@@ -375,7 +376,8 @@ class Polly {
   ///
   /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and
   /// "24000". The default value for standard voices is "22050". The default
-  /// value for neural voices is "24000".
+  /// value for neural voices is "24000". The default value for long-form voices
+  /// is "24000". The default value for generative voices is "24000".
   ///
   /// Valid values for pcm are "8000" and "16000" The default value is "16000".
   ///
@@ -463,32 +465,23 @@ class Polly {
   /// operation.
   ///
   /// Parameter [engine] :
-  /// Specifies the engine (<code>standard</code> or <code>neural</code>) for
-  /// Amazon Polly to use when processing input text for speech synthesis. For
-  /// information on Amazon Polly voices and which voices are available in
-  /// standard-only, NTTS-only, and both standard and NTTS formats, see <a
+  /// Specifies the engine (<code>standard</code>, <code>neural</code>,
+  /// <code>long-form</code>, or <code>generative</code>) for Amazon Polly to
+  /// use when processing input text for speech synthesis. Provide an engine
+  /// that is supported by the voice you select. If you don't provide an engine,
+  /// the standard engine is selected by default. If a chosen voice isn't
+  /// supported by the standard engine, this will result in an error. For
+  /// information on Amazon Polly voices and which voices are available for each
+  /// engine, see <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/voicelist.html">Available
   /// Voices</a>.
   ///
-  /// <b>NTTS-only voices</b>
-  ///
-  /// When using NTTS-only voices such as Kevin (en-US), this parameter is
-  /// required and must be set to <code>neural</code>. If the engine is not
-  /// specified, or is set to <code>standard</code>, this will result in an
-  /// error.
-  ///
   /// Type: String
   ///
-  /// Valid Values: <code>standard</code> | <code>neural</code>
+  /// Valid Values: <code>standard</code> | <code>neural</code> |
+  /// <code>long-form</code> | <code>generative</code>
   ///
   /// Required: Yes
-  ///
-  /// <b>Standard voices</b>
-  ///
-  /// For standard voices, this is not required; the engine parameter defaults
-  /// to <code>standard</code>. If the engine is not specified, or is set to
-  /// <code>standard</code> and an NTTS-only voice is selected, this will result
-  /// in an error.
   ///
   /// Parameter [languageCode] :
   /// Optional language code for the Synthesize Speech request. This is only
@@ -515,7 +508,8 @@ class Polly {
   ///
   /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and
   /// "24000". The default value for standard voices is "22050". The default
-  /// value for neural voices is "24000".
+  /// value for neural voices is "24000". The default value for long-form voices
+  /// is "24000". The default value for generative voices is "24000".
   ///
   /// Valid values for pcm are "8000" and "16000" The default value is "16000".
   ///
@@ -602,6 +596,8 @@ class DescribeVoicesOutput {
 enum Engine {
   standard,
   neural,
+  longForm,
+  generative,
 }
 
 extension EngineValueExtension on Engine {
@@ -611,6 +607,10 @@ extension EngineValueExtension on Engine {
         return 'standard';
       case Engine.neural:
         return 'neural';
+      case Engine.longForm:
+        return 'long-form';
+      case Engine.generative:
+        return 'generative';
     }
   }
 }
@@ -622,6 +622,10 @@ extension EngineFromString on String {
         return Engine.standard;
       case 'neural':
         return Engine.neural;
+      case 'long-form':
+        return Engine.longForm;
+      case 'generative':
+        return Engine.generative;
     }
     throw Exception('$this is not known in enum Engine');
   }
@@ -738,6 +742,9 @@ enum LanguageCode {
   yueCn,
   arAe,
   fiFi,
+  enIe,
+  nlBe,
+  frBe,
 }
 
 extension LanguageCodeValueExtension on LanguageCode {
@@ -815,6 +822,12 @@ extension LanguageCodeValueExtension on LanguageCode {
         return 'ar-AE';
       case LanguageCode.fiFi:
         return 'fi-FI';
+      case LanguageCode.enIe:
+        return 'en-IE';
+      case LanguageCode.nlBe:
+        return 'nl-BE';
+      case LanguageCode.frBe:
+        return 'fr-BE';
     }
   }
 }
@@ -894,6 +907,12 @@ extension LanguageCodeFromString on String {
         return LanguageCode.arAe;
       case 'fi-FI':
         return LanguageCode.fiFi;
+      case 'en-IE':
+        return LanguageCode.enIe;
+      case 'nl-BE':
+        return LanguageCode.nlBe;
+      case 'fr-BE':
+        return LanguageCode.frBe;
     }
     throw Exception('$this is not known in enum LanguageCode');
   }
@@ -1155,9 +1174,10 @@ class SynthesisTask {
   /// Timestamp for the time the synthesis task was started.
   final DateTime? creationTime;
 
-  /// Specifies the engine (<code>standard</code> or <code>neural</code>) for
-  /// Amazon Polly to use when processing input text for speech synthesis. Using a
-  /// voice that is not supported for the engine selected will result in an error.
+  /// Specifies the engine (<code>standard</code>, <code>neural</code>,
+  /// <code>long-form</code> or <code>generative</code>) for Amazon Polly to use
+  /// when processing input text for speech synthesis. Using a voice that is not
+  /// supported for the engine selected will result in an error.
   final Engine? engine;
 
   /// Optional language code for a synthesis task. This is only necessary if using
@@ -1191,7 +1211,8 @@ class SynthesisTask {
   ///
   /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and
   /// "24000". The default value for standard voices is "22050". The default value
-  /// for neural voices is "24000".
+  /// for neural voices is "24000". The default value for long-form voices is
+  /// "24000". The default value for generative voices is "24000".
   ///
   /// Valid values for pcm are "8000" and "16000" The default value is "16000".
   final String? sampleRate;
@@ -1398,8 +1419,9 @@ class Voice {
   /// readable voice name that you might display in your application.
   final String? name;
 
-  /// Specifies which engines (<code>standard</code> or <code>neural</code>) that
-  /// are supported by a given voice.
+  /// Specifies which engines (<code>standard</code>, <code>neural</code>,
+  /// <code>long-form</code> or <code>generative</code>) are supported by a given
+  /// voice.
   final List<Engine>? supportedEngines;
 
   Voice({
@@ -1520,6 +1542,14 @@ enum VoiceId {
   stephen,
   kazuha,
   tomoko,
+  niamh,
+  sofie,
+  lisa,
+  isabelle,
+  zayd,
+  danielle,
+  gregory,
+  burcu,
 }
 
 extension VoiceIdValueExtension on VoiceId {
@@ -1701,6 +1731,22 @@ extension VoiceIdValueExtension on VoiceId {
         return 'Kazuha';
       case VoiceId.tomoko:
         return 'Tomoko';
+      case VoiceId.niamh:
+        return 'Niamh';
+      case VoiceId.sofie:
+        return 'Sofie';
+      case VoiceId.lisa:
+        return 'Lisa';
+      case VoiceId.isabelle:
+        return 'Isabelle';
+      case VoiceId.zayd:
+        return 'Zayd';
+      case VoiceId.danielle:
+        return 'Danielle';
+      case VoiceId.gregory:
+        return 'Gregory';
+      case VoiceId.burcu:
+        return 'Burcu';
     }
   }
 }
@@ -1884,6 +1930,22 @@ extension VoiceIdFromString on String {
         return VoiceId.kazuha;
       case 'Tomoko':
         return VoiceId.tomoko;
+      case 'Niamh':
+        return VoiceId.niamh;
+      case 'Sofie':
+        return VoiceId.sofie;
+      case 'Lisa':
+        return VoiceId.lisa;
+      case 'Isabelle':
+        return VoiceId.isabelle;
+      case 'Zayd':
+        return VoiceId.zayd;
+      case 'Danielle':
+        return VoiceId.danielle;
+      case 'Gregory':
+        return VoiceId.gregory;
+      case 'Burcu':
+        return VoiceId.burcu;
     }
     throw Exception('$this is not known in enum VoiceId');
   }

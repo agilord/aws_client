@@ -19,21 +19,37 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Identity and Access Management Access Analyzer helps identify potential
-/// resource-access risks by enabling you to identify any policies that grant
+/// Identity and Access Management Access Analyzer helps you to set, verify, and
+/// refine your IAM policies by providing a suite of capabilities. Its features
+/// include findings for external and unused access, basic and custom policy
+/// checks for validating policies, and policy generation to generate
+/// fine-grained policies. To start using IAM Access Analyzer to identify
+/// external or unused access, you first need to create an analyzer.
+///
+/// <b>External access analyzers</b> help identify potential risks of accessing
+/// resources by enabling you to identify any resource policies that grant
 /// access to an external principal. It does this by using logic-based reasoning
 /// to analyze resource-based policies in your Amazon Web Services environment.
 /// An external principal can be another Amazon Web Services account, a root
 /// user, an IAM user or role, a federated user, an Amazon Web Services service,
-/// or an anonymous user. You can also use IAM Access Analyzer to preview and
-/// validate public and cross-account access to your resources before deploying
-/// permissions changes. This guide describes the Identity and Access Management
-/// Access Analyzer operations that you can call programmatically. For general
-/// information about IAM Access Analyzer, see <a
+/// or an anonymous user. You can also use IAM Access Analyzer to preview public
+/// and cross-account access to your resources before deploying permissions
+/// changes.
+///
+/// <b>Unused access analyzers</b> help identify potential identity access risks
+/// by enabling you to identify unused IAM roles, unused access keys, unused
+/// console passwords, and IAM principals with unused service and action-level
+/// permissions.
+///
+/// Beyond findings, IAM Access Analyzer provides basic and custom policy checks
+/// to validate IAM policies before deploying permissions changes. You can use
+/// policy generation to refine permissions by attaching a policy generated
+/// using access activity logged in CloudTrail logs.
+///
+/// This guide describes the IAM Access Analyzer operations that you can call
+/// programmatically. For general information about IAM Access Analyzer, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html">Identity
 /// and Access Management Access Analyzer</a> in the <b>IAM User Guide</b>.
-///
-/// To start using IAM Access Analyzer, you first need to create an analyzer.
 class AccessAnalyzer {
   final _s.RestJsonProtocol _protocol;
   AccessAnalyzer({
@@ -122,6 +138,103 @@ class AccessAnalyzer {
     );
   }
 
+  /// Checks whether the specified access isn't allowed by a policy.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [access] :
+  /// An access object containing the permissions that shouldn't be granted by
+  /// the specified policy.
+  ///
+  /// Parameter [policyDocument] :
+  /// The JSON policy document to use as the content for the policy.
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy. Identity policies grant permissions to IAM principals.
+  /// Identity policies include managed and inline policies for IAM roles,
+  /// users, and groups.
+  ///
+  /// Resource policies grant permissions on Amazon Web Services resources.
+  /// Resource policies include trust policies for IAM roles and bucket policies
+  /// for Amazon S3 buckets. You can provide a generic input such as identity
+  /// policy or resource policy or a specific input such as managed policy or
+  /// Amazon S3 bucket policy.
+  Future<CheckAccessNotGrantedResponse> checkAccessNotGranted({
+    required List<Access> access,
+    required String policyDocument,
+    required AccessCheckPolicyType policyType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'access': access,
+      'policyDocument': policyDocument,
+      'policyType': policyType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/policy/check-access-not-granted',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CheckAccessNotGrantedResponse.fromJson(response);
+  }
+
+  /// Checks whether new access is allowed for an updated policy when compared
+  /// to the existing policy.
+  ///
+  /// You can find examples for reference policies and learn how to set up and
+  /// run a custom policy check for new access in the <a
+  /// href="https://github.com/aws-samples/iam-access-analyzer-custom-policy-check-samples">IAM
+  /// Access Analyzer custom policy checks samples</a> repository on GitHub. The
+  /// reference policies in this repository are meant to be passed to the
+  /// <code>existingPolicyDocument</code> request parameter.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [existingPolicyDocument] :
+  /// The JSON policy document to use as the content for the existing policy.
+  ///
+  /// Parameter [newPolicyDocument] :
+  /// The JSON policy document to use as the content for the updated policy.
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy to compare. Identity policies grant permissions to IAM
+  /// principals. Identity policies include managed and inline policies for IAM
+  /// roles, users, and groups.
+  ///
+  /// Resource policies grant permissions on Amazon Web Services resources.
+  /// Resource policies include trust policies for IAM roles and bucket policies
+  /// for Amazon S3 buckets. You can provide a generic input such as identity
+  /// policy or resource policy or a specific input such as managed policy or
+  /// Amazon S3 bucket policy.
+  Future<CheckNoNewAccessResponse> checkNoNewAccess({
+    required String existingPolicyDocument,
+    required String newPolicyDocument,
+    required AccessCheckPolicyType policyType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'existingPolicyDocument': existingPolicyDocument,
+      'newPolicyDocument': newPolicyDocument,
+      'policyType': policyType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/policy/check-no-new-access',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CheckNoNewAccessResponse.fromJson(response);
+  }
+
   /// Creates an access preview that allows you to preview IAM Access Analyzer
   /// findings for your resource before deploying resource permissions.
   ///
@@ -180,9 +293,11 @@ class AccessAnalyzer {
   /// The name of the analyzer to create.
   ///
   /// Parameter [type] :
-  /// The type of analyzer to create. Only ACCOUNT and ORGANIZATION analyzers
-  /// are supported. You can create only one analyzer per account per Region.
-  /// You can create up to 5 analyzers per organization per Region.
+  /// The type of analyzer to create. Only <code>ACCOUNT</code>,
+  /// <code>ORGANIZATION</code>, <code>ACCOUNT_UNUSED_ACCESS</code>, and
+  /// <code>ORGANIZATION_UNUSED_ACCESS</code> analyzers are supported. You can
+  /// create only one analyzer per account per Region. You can create up to 5
+  /// analyzers per organization per Region.
   ///
   /// Parameter [archiveRules] :
   /// Specifies the archive rules to add for the analyzer. Archive rules
@@ -192,13 +307,20 @@ class AccessAnalyzer {
   /// Parameter [clientToken] :
   /// A client token.
   ///
+  /// Parameter [configuration] :
+  /// Specifies the configuration of the analyzer. If the analyzer is an unused
+  /// access analyzer, the specified scope of unused access is used for the
+  /// configuration. If the analyzer is an external access analyzer, this field
+  /// is not used.
+  ///
   /// Parameter [tags] :
-  /// The tags to apply to the analyzer.
+  /// An array of key-value pairs to apply to the analyzer.
   Future<CreateAnalyzerResponse> createAnalyzer({
     required String analyzerName,
     required Type type,
     List<InlineArchiveRule>? archiveRules,
     String? clientToken,
+    AnalyzerConfiguration? configuration,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -206,6 +328,7 @@ class AccessAnalyzer {
       'type': type.toValue(),
       if (archiveRules != null) 'archiveRules': archiveRules,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (configuration != null) 'configuration': configuration,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -449,7 +572,10 @@ class AccessAnalyzer {
     return GetArchiveRuleResponse.fromJson(response);
   }
 
-  /// Retrieves information about the specified finding.
+  /// Retrieves information about the specified finding. GetFinding and
+  /// GetFindingV2 both use <code>access-analyzer:GetFinding</code> in the
+  /// <code>Action</code> element of an IAM policy statement. You must have
+  /// permission to perform the <code>access-analyzer:GetFinding</code> action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -479,6 +605,51 @@ class AccessAnalyzer {
       exceptionFnMap: _exceptionFns,
     );
     return GetFindingResponse.fromJson(response);
+  }
+
+  /// Retrieves information about the specified finding. GetFinding and
+  /// GetFindingV2 both use <code>access-analyzer:GetFinding</code> in the
+  /// <code>Action</code> element of an IAM policy statement. You must have
+  /// permission to perform the <code>access-analyzer:GetFinding</code> action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analyzerArn] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources">ARN
+  /// of the analyzer</a> that generated the finding.
+  ///
+  /// Parameter [id] :
+  /// The ID of the finding to retrieve.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A token used for pagination of results returned.
+  Future<GetFindingV2Response> getFindingV2({
+    required String analyzerArn,
+    required String id,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      'analyzerArn': [analyzerArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/findingv2/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFindingV2Response.fromJson(response);
   }
 
   /// Retrieves the policy that was generated using
@@ -620,7 +791,8 @@ class AccessAnalyzer {
   }
 
   /// Retrieves a list of resources of the specified type that have been
-  /// analyzed by the specified analyzer..
+  /// analyzed by the specified external access analyzer. This action is not
+  /// supported for unused access analyzers.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -732,6 +904,10 @@ class AccessAnalyzer {
   }
 
   /// Retrieves a list of findings generated by the specified analyzer.
+  /// ListFindings and ListFindingsV2 both use
+  /// <code>access-analyzer:ListFindings</code> in the <code>Action</code>
+  /// element of an IAM policy statement. You must have permission to perform
+  /// the <code>access-analyzer:ListFindings</code> action.
   ///
   /// To learn about filter keys that you can use to retrieve a list of
   /// findings, see <a
@@ -781,6 +957,59 @@ class AccessAnalyzer {
       exceptionFnMap: _exceptionFns,
     );
     return ListFindingsResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of findings generated by the specified analyzer.
+  /// ListFindings and ListFindingsV2 both use
+  /// <code>access-analyzer:ListFindings</code> in the <code>Action</code>
+  /// element of an IAM policy statement. You must have permission to perform
+  /// the <code>access-analyzer:ListFindings</code> action.
+  ///
+  /// To learn about filter keys that you can use to retrieve a list of
+  /// findings, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html">IAM
+  /// Access Analyzer filter keys</a> in the <b>IAM User Guide</b>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analyzerArn] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources">ARN
+  /// of the analyzer</a> to retrieve findings from.
+  ///
+  /// Parameter [filter] :
+  /// A filter to match for the findings to return.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A token used for pagination of results returned.
+  Future<ListFindingsV2Response> listFindingsV2({
+    required String analyzerArn,
+    Map<String, Criterion>? filter,
+    int? maxResults,
+    String? nextToken,
+    SortCriteria? sort,
+  }) async {
+    final $payload = <String, dynamic>{
+      'analyzerArn': analyzerArn,
+      if (filter != null) 'filter': filter,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sort != null) 'sort': sort,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/findingv2',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFindingsV2Response.fromJson(response);
   }
 
   /// Lists all of the policy generations requested in the last seven days.
@@ -1096,15 +1325,17 @@ class AccessAnalyzer {
   /// Parameter [policyType] :
   /// The type of policy to validate. Identity policies grant permissions to IAM
   /// principals. Identity policies include managed and inline policies for IAM
-  /// roles, users, and groups. They also include service-control policies
-  /// (SCPs) that are attached to an Amazon Web Services organization,
-  /// organizational unit (OU), or an account.
+  /// roles, users, and groups.
   ///
   /// Resource policies grant permissions on Amazon Web Services resources.
   /// Resource policies include trust policies for IAM roles and bucket policies
   /// for Amazon S3 buckets. You can provide a generic input such as identity
   /// policy or resource policy or a specific input such as managed policy or
   /// Amazon S3 bucket policy.
+  ///
+  /// Service control policies (SCPs) are a type of organization policy attached
+  /// to an Amazon Web Services organization, organizational unit (OU), or an
+  /// account.
   ///
   /// Parameter [locale] :
   /// The locale to use for localizing the findings.
@@ -1154,6 +1385,53 @@ class AccessAnalyzer {
       exceptionFnMap: _exceptionFns,
     );
     return ValidatePolicyResponse.fromJson(response);
+  }
+}
+
+/// Contains information about actions that define permissions to check against
+/// a policy.
+class Access {
+  /// A list of actions for the access permissions. Any strings that can be used
+  /// as an action in an IAM policy can be used in the list of actions to check.
+  final List<String> actions;
+
+  Access({
+    required this.actions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    return {
+      'actions': actions,
+    };
+  }
+}
+
+enum AccessCheckPolicyType {
+  identityPolicy,
+  resourcePolicy,
+}
+
+extension AccessCheckPolicyTypeValueExtension on AccessCheckPolicyType {
+  String toValue() {
+    switch (this) {
+      case AccessCheckPolicyType.identityPolicy:
+        return 'IDENTITY_POLICY';
+      case AccessCheckPolicyType.resourcePolicy:
+        return 'RESOURCE_POLICY';
+    }
+  }
+}
+
+extension AccessCheckPolicyTypeFromString on String {
+  AccessCheckPolicyType toAccessCheckPolicyType() {
+    switch (this) {
+      case 'IDENTITY_POLICY':
+        return AccessCheckPolicyType.identityPolicy;
+      case 'RESOURCE_POLICY':
+        return AccessCheckPolicyType.resourcePolicy;
+    }
+    throw Exception('$this is not known in enum AccessCheckPolicyType');
   }
 }
 
@@ -1770,6 +2048,35 @@ class AnalyzedResourceSummary {
   }
 }
 
+/// Contains information about the configuration of an unused access analyzer
+/// for an Amazon Web Services organization or account.
+class AnalyzerConfiguration {
+  /// Specifies the configuration of an unused access analyzer for an Amazon Web
+  /// Services organization or account. External access analyzers do not support
+  /// any configuration.
+  final UnusedAccessConfiguration? unusedAccess;
+
+  AnalyzerConfiguration({
+    this.unusedAccess,
+  });
+
+  factory AnalyzerConfiguration.fromJson(Map<String, dynamic> json) {
+    return AnalyzerConfiguration(
+      unusedAccess: json['unusedAccess'] != null
+          ? UnusedAccessConfiguration.fromJson(
+              json['unusedAccess'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unusedAccess = this.unusedAccess;
+    return {
+      if (unusedAccess != null) 'unusedAccess': unusedAccess,
+    };
+  }
+}
+
 enum AnalyzerStatus {
   active,
   creating,
@@ -1832,6 +2139,10 @@ class AnalyzerSummary {
   /// analyzer.
   final Type type;
 
+  /// Specifies whether the analyzer is an external access or unused access
+  /// analyzer.
+  final AnalyzerConfiguration? configuration;
+
   /// The resource that was most recently analyzed by the analyzer.
   final String? lastResourceAnalyzed;
 
@@ -1855,6 +2166,7 @@ class AnalyzerSummary {
     required this.name,
     required this.status,
     required this.type,
+    this.configuration,
     this.lastResourceAnalyzed,
     this.lastResourceAnalyzedAt,
     this.statusReason,
@@ -1868,6 +2180,10 @@ class AnalyzerSummary {
       name: json['name'] as String,
       status: (json['status'] as String).toAnalyzerStatus(),
       type: (json['type'] as String).toType(),
+      configuration: json['configuration'] != null
+          ? AnalyzerConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
       lastResourceAnalyzed: json['lastResourceAnalyzed'] as String?,
       lastResourceAnalyzedAt: timeStampFromJson(json['lastResourceAnalyzedAt']),
       statusReason: json['statusReason'] != null
@@ -1884,6 +2200,7 @@ class AnalyzerSummary {
     final name = this.name;
     final status = this.status;
     final type = this.type;
+    final configuration = this.configuration;
     final lastResourceAnalyzed = this.lastResourceAnalyzed;
     final lastResourceAnalyzedAt = this.lastResourceAnalyzedAt;
     final statusReason = this.statusReason;
@@ -1894,6 +2211,7 @@ class AnalyzerSummary {
       'name': name,
       'status': status.toValue(),
       'type': type.toValue(),
+      if (configuration != null) 'configuration': configuration,
       if (lastResourceAnalyzed != null)
         'lastResourceAnalyzed': lastResourceAnalyzed,
       if (lastResourceAnalyzedAt != null)
@@ -1958,6 +2276,147 @@ class CancelPolicyGenerationResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class CheckAccessNotGrantedResponse {
+  /// The message indicating whether the specified access is allowed.
+  final String? message;
+
+  /// A description of the reasoning of the result.
+  final List<ReasonSummary>? reasons;
+
+  /// The result of the check for whether the access is allowed. If the result is
+  /// <code>PASS</code>, the specified policy doesn't allow any of the specified
+  /// permissions in the access object. If the result is <code>FAIL</code>, the
+  /// specified policy might allow some or all of the permissions in the access
+  /// object.
+  final CheckAccessNotGrantedResult? result;
+
+  CheckAccessNotGrantedResponse({
+    this.message,
+    this.reasons,
+    this.result,
+  });
+
+  factory CheckAccessNotGrantedResponse.fromJson(Map<String, dynamic> json) {
+    return CheckAccessNotGrantedResponse(
+      message: json['message'] as String?,
+      reasons: (json['reasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReasonSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      result: (json['result'] as String?)?.toCheckAccessNotGrantedResult(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final reasons = this.reasons;
+    final result = this.result;
+    return {
+      if (message != null) 'message': message,
+      if (reasons != null) 'reasons': reasons,
+      if (result != null) 'result': result.toValue(),
+    };
+  }
+}
+
+enum CheckAccessNotGrantedResult {
+  pass,
+  fail,
+}
+
+extension CheckAccessNotGrantedResultValueExtension
+    on CheckAccessNotGrantedResult {
+  String toValue() {
+    switch (this) {
+      case CheckAccessNotGrantedResult.pass:
+        return 'PASS';
+      case CheckAccessNotGrantedResult.fail:
+        return 'FAIL';
+    }
+  }
+}
+
+extension CheckAccessNotGrantedResultFromString on String {
+  CheckAccessNotGrantedResult toCheckAccessNotGrantedResult() {
+    switch (this) {
+      case 'PASS':
+        return CheckAccessNotGrantedResult.pass;
+      case 'FAIL':
+        return CheckAccessNotGrantedResult.fail;
+    }
+    throw Exception('$this is not known in enum CheckAccessNotGrantedResult');
+  }
+}
+
+class CheckNoNewAccessResponse {
+  /// The message indicating whether the updated policy allows new access.
+  final String? message;
+
+  /// A description of the reasoning of the result.
+  final List<ReasonSummary>? reasons;
+
+  /// The result of the check for new access. If the result is <code>PASS</code>,
+  /// no new access is allowed by the updated policy. If the result is
+  /// <code>FAIL</code>, the updated policy might allow new access.
+  final CheckNoNewAccessResult? result;
+
+  CheckNoNewAccessResponse({
+    this.message,
+    this.reasons,
+    this.result,
+  });
+
+  factory CheckNoNewAccessResponse.fromJson(Map<String, dynamic> json) {
+    return CheckNoNewAccessResponse(
+      message: json['message'] as String?,
+      reasons: (json['reasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReasonSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      result: (json['result'] as String?)?.toCheckNoNewAccessResult(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final reasons = this.reasons;
+    final result = this.result;
+    return {
+      if (message != null) 'message': message,
+      if (reasons != null) 'reasons': reasons,
+      if (result != null) 'result': result.toValue(),
+    };
+  }
+}
+
+enum CheckNoNewAccessResult {
+  pass,
+  fail,
+}
+
+extension CheckNoNewAccessResultValueExtension on CheckNoNewAccessResult {
+  String toValue() {
+    switch (this) {
+      case CheckNoNewAccessResult.pass:
+        return 'PASS';
+      case CheckNoNewAccessResult.fail:
+        return 'FAIL';
+    }
+  }
+}
+
+extension CheckNoNewAccessResultFromString on String {
+  CheckNoNewAccessResult toCheckNoNewAccessResult() {
+    switch (this) {
+      case 'PASS':
+        return CheckNoNewAccessResult.pass;
+      case 'FAIL':
+        return CheckNoNewAccessResult.fail;
+    }
+    throw Exception('$this is not known in enum CheckNoNewAccessResult');
   }
 }
 
@@ -2052,6 +2511,12 @@ class CloudTrailProperties {
 /// configuration as a type-value pair. You can specify only one type of access
 /// control configuration.
 class Configuration {
+  /// The access control configuration is for a DynamoDB stream.
+  final DynamodbStreamConfiguration? dynamodbStream;
+
+  /// The access control configuration is for a DynamoDB table or index.
+  final DynamodbTableConfiguration? dynamodbTable;
+
   /// The access control configuration is for an Amazon EBS volume snapshot.
   final EbsSnapshotConfiguration? ebsSnapshot;
 
@@ -2073,8 +2538,11 @@ class Configuration {
   /// The access control configuration is for an Amazon RDS DB snapshot.
   final RdsDbSnapshotConfiguration? rdsDbSnapshot;
 
-  /// The access control configuration is for an Amazon S3 Bucket.
+  /// The access control configuration is for an Amazon S3 bucket.
   final S3BucketConfiguration? s3Bucket;
+
+  /// The access control configuration is for an Amazon S3 directory bucket.
+  final S3ExpressDirectoryBucketConfiguration? s3ExpressDirectoryBucket;
 
   /// The access control configuration is for a Secrets Manager secret.
   final SecretsManagerSecretConfiguration? secretsManagerSecret;
@@ -2086,6 +2554,8 @@ class Configuration {
   final SqsQueueConfiguration? sqsQueue;
 
   Configuration({
+    this.dynamodbStream,
+    this.dynamodbTable,
     this.ebsSnapshot,
     this.ecrRepository,
     this.efsFileSystem,
@@ -2094,6 +2564,7 @@ class Configuration {
     this.rdsDbClusterSnapshot,
     this.rdsDbSnapshot,
     this.s3Bucket,
+    this.s3ExpressDirectoryBucket,
     this.secretsManagerSecret,
     this.snsTopic,
     this.sqsQueue,
@@ -2101,6 +2572,14 @@ class Configuration {
 
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
+      dynamodbStream: json['dynamodbStream'] != null
+          ? DynamodbStreamConfiguration.fromJson(
+              json['dynamodbStream'] as Map<String, dynamic>)
+          : null,
+      dynamodbTable: json['dynamodbTable'] != null
+          ? DynamodbTableConfiguration.fromJson(
+              json['dynamodbTable'] as Map<String, dynamic>)
+          : null,
       ebsSnapshot: json['ebsSnapshot'] != null
           ? EbsSnapshotConfiguration.fromJson(
               json['ebsSnapshot'] as Map<String, dynamic>)
@@ -2132,6 +2611,10 @@ class Configuration {
           ? S3BucketConfiguration.fromJson(
               json['s3Bucket'] as Map<String, dynamic>)
           : null,
+      s3ExpressDirectoryBucket: json['s3ExpressDirectoryBucket'] != null
+          ? S3ExpressDirectoryBucketConfiguration.fromJson(
+              json['s3ExpressDirectoryBucket'] as Map<String, dynamic>)
+          : null,
       secretsManagerSecret: json['secretsManagerSecret'] != null
           ? SecretsManagerSecretConfiguration.fromJson(
               json['secretsManagerSecret'] as Map<String, dynamic>)
@@ -2148,6 +2631,8 @@ class Configuration {
   }
 
   Map<String, dynamic> toJson() {
+    final dynamodbStream = this.dynamodbStream;
+    final dynamodbTable = this.dynamodbTable;
     final ebsSnapshot = this.ebsSnapshot;
     final ecrRepository = this.ecrRepository;
     final efsFileSystem = this.efsFileSystem;
@@ -2156,10 +2641,13 @@ class Configuration {
     final rdsDbClusterSnapshot = this.rdsDbClusterSnapshot;
     final rdsDbSnapshot = this.rdsDbSnapshot;
     final s3Bucket = this.s3Bucket;
+    final s3ExpressDirectoryBucket = this.s3ExpressDirectoryBucket;
     final secretsManagerSecret = this.secretsManagerSecret;
     final snsTopic = this.snsTopic;
     final sqsQueue = this.sqsQueue;
     return {
+      if (dynamodbStream != null) 'dynamodbStream': dynamodbStream,
+      if (dynamodbTable != null) 'dynamodbTable': dynamodbTable,
       if (ebsSnapshot != null) 'ebsSnapshot': ebsSnapshot,
       if (ecrRepository != null) 'ecrRepository': ecrRepository,
       if (efsFileSystem != null) 'efsFileSystem': efsFileSystem,
@@ -2169,6 +2657,8 @@ class Configuration {
         'rdsDbClusterSnapshot': rdsDbClusterSnapshot,
       if (rdsDbSnapshot != null) 'rdsDbSnapshot': rdsDbSnapshot,
       if (s3Bucket != null) 's3Bucket': s3Bucket,
+      if (s3ExpressDirectoryBucket != null)
+        's3ExpressDirectoryBucket': s3ExpressDirectoryBucket,
       if (secretsManagerSecret != null)
         'secretsManagerSecret': secretsManagerSecret,
       if (snsTopic != null) 'snsTopic': snsTopic,
@@ -2274,6 +2764,94 @@ class Criterion {
       if (eq != null) 'eq': eq,
       if (exists != null) 'exists': exists,
       if (neq != null) 'neq': neq,
+    };
+  }
+}
+
+/// The proposed access control configuration for a DynamoDB stream. You can
+/// propose a configuration for a new DynamoDB stream or an existing DynamoDB
+/// stream that you own by specifying the policy for the DynamoDB stream. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutResourcePolicy.html">PutResourcePolicy</a>.
+///
+/// <ul>
+/// <li>
+/// If the configuration is for an existing DynamoDB stream and you do not
+/// specify the DynamoDB policy, then the access preview uses the existing
+/// DynamoDB policy for the stream.
+/// </li>
+/// <li>
+/// If the access preview is for a new resource and you do not specify the
+/// policy, then the access preview assumes a DynamoDB stream without a policy.
+/// </li>
+/// <li>
+/// To propose deletion of an existing DynamoDB stream policy, you can specify
+/// an empty string for the DynamoDB policy.
+/// </li>
+/// </ul>
+class DynamodbStreamConfiguration {
+  /// The proposed resource policy defining who can access or manage the DynamoDB
+  /// stream.
+  final String? streamPolicy;
+
+  DynamodbStreamConfiguration({
+    this.streamPolicy,
+  });
+
+  factory DynamodbStreamConfiguration.fromJson(Map<String, dynamic> json) {
+    return DynamodbStreamConfiguration(
+      streamPolicy: json['streamPolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamPolicy = this.streamPolicy;
+    return {
+      if (streamPolicy != null) 'streamPolicy': streamPolicy,
+    };
+  }
+}
+
+/// The proposed access control configuration for a DynamoDB table or index. You
+/// can propose a configuration for a new DynamoDB table or index or an existing
+/// DynamoDB table or index that you own by specifying the policy for the
+/// DynamoDB table or index. For more information, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutResourcePolicy.html">PutResourcePolicy</a>.
+///
+/// <ul>
+/// <li>
+/// If the configuration is for an existing DynamoDB table or index and you do
+/// not specify the DynamoDB policy, then the access preview uses the existing
+/// DynamoDB policy for the table or index.
+/// </li>
+/// <li>
+/// If the access preview is for a new resource and you do not specify the
+/// policy, then the access preview assumes a DynamoDB table without a policy.
+/// </li>
+/// <li>
+/// To propose deletion of an existing DynamoDB table or index policy, you can
+/// specify an empty string for the DynamoDB policy.
+/// </li>
+/// </ul>
+class DynamodbTableConfiguration {
+  /// The proposed resource policy defining who can access or manage the DynamoDB
+  /// table.
+  final String? tablePolicy;
+
+  DynamodbTableConfiguration({
+    this.tablePolicy,
+  });
+
+  factory DynamodbTableConfiguration.fromJson(Map<String, dynamic> json) {
+    return DynamodbTableConfiguration(
+      tablePolicy: json['tablePolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tablePolicy = this.tablePolicy;
+    return {
+      if (tablePolicy != null) 'tablePolicy': tablePolicy,
     };
   }
 }
@@ -2473,6 +3051,70 @@ class EfsFileSystemConfiguration {
   }
 }
 
+/// Contains information about an external access finding.
+class ExternalAccessDetails {
+  /// The condition in the analyzed policy statement that resulted in an external
+  /// access finding.
+  final Map<String, String> condition;
+
+  /// The action in the analyzed policy statement that an external principal has
+  /// permission to use.
+  final List<String>? action;
+
+  /// Specifies whether the external access finding is public.
+  final bool? isPublic;
+
+  /// The external principal that has access to a resource within the zone of
+  /// trust.
+  final Map<String, String>? principal;
+
+  /// The sources of the external access finding. This indicates how the access
+  /// that generated the finding is granted. It is populated for Amazon S3 bucket
+  /// findings.
+  final List<FindingSource>? sources;
+
+  ExternalAccessDetails({
+    required this.condition,
+    this.action,
+    this.isPublic,
+    this.principal,
+    this.sources,
+  });
+
+  factory ExternalAccessDetails.fromJson(Map<String, dynamic> json) {
+    return ExternalAccessDetails(
+      condition: (json['condition'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      action: (json['action'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isPublic: json['isPublic'] as bool?,
+      principal: (json['principal'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => FindingSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final action = this.action;
+    final isPublic = this.isPublic;
+    final principal = this.principal;
+    final sources = this.sources;
+    return {
+      'condition': condition,
+      if (action != null) 'action': action,
+      if (isPublic != null) 'isPublic': isPublic,
+      if (principal != null) 'principal': principal,
+      if (sources != null) 'sources': sources,
+    };
+  }
+}
+
 /// Contains information about a finding.
 class Finding {
   /// The time at which the resource was analyzed.
@@ -2510,7 +3152,8 @@ class Finding {
   /// to the resource.
   final bool? isPublic;
 
-  /// The external principal that access to a resource within the zone of trust.
+  /// The external principal that has access to a resource within the zone of
+  /// trust.
   final Map<String, String>? principal;
 
   /// The resource that an external principal has access to.
@@ -2628,6 +3271,83 @@ extension FindingChangeTypeFromString on String {
         return FindingChangeType.unchanged;
     }
     throw Exception('$this is not known in enum FindingChangeType');
+  }
+}
+
+/// Contains information about an external access or unused access finding. Only
+/// one parameter can be used in a <code>FindingDetails</code> object.
+class FindingDetails {
+  /// The details for an external access analyzer finding.
+  final ExternalAccessDetails? externalAccessDetails;
+
+  /// The details for an unused access analyzer finding with an unused IAM role
+  /// finding type.
+  final UnusedIamRoleDetails? unusedIamRoleDetails;
+
+  /// The details for an unused access analyzer finding with an unused IAM user
+  /// access key finding type.
+  final UnusedIamUserAccessKeyDetails? unusedIamUserAccessKeyDetails;
+
+  /// The details for an unused access analyzer finding with an unused IAM user
+  /// password finding type.
+  final UnusedIamUserPasswordDetails? unusedIamUserPasswordDetails;
+
+  /// The details for an unused access analyzer finding with an unused permission
+  /// finding type.
+  final UnusedPermissionDetails? unusedPermissionDetails;
+
+  FindingDetails({
+    this.externalAccessDetails,
+    this.unusedIamRoleDetails,
+    this.unusedIamUserAccessKeyDetails,
+    this.unusedIamUserPasswordDetails,
+    this.unusedPermissionDetails,
+  });
+
+  factory FindingDetails.fromJson(Map<String, dynamic> json) {
+    return FindingDetails(
+      externalAccessDetails: json['externalAccessDetails'] != null
+          ? ExternalAccessDetails.fromJson(
+              json['externalAccessDetails'] as Map<String, dynamic>)
+          : null,
+      unusedIamRoleDetails: json['unusedIamRoleDetails'] != null
+          ? UnusedIamRoleDetails.fromJson(
+              json['unusedIamRoleDetails'] as Map<String, dynamic>)
+          : null,
+      unusedIamUserAccessKeyDetails:
+          json['unusedIamUserAccessKeyDetails'] != null
+              ? UnusedIamUserAccessKeyDetails.fromJson(
+                  json['unusedIamUserAccessKeyDetails'] as Map<String, dynamic>)
+              : null,
+      unusedIamUserPasswordDetails: json['unusedIamUserPasswordDetails'] != null
+          ? UnusedIamUserPasswordDetails.fromJson(
+              json['unusedIamUserPasswordDetails'] as Map<String, dynamic>)
+          : null,
+      unusedPermissionDetails: json['unusedPermissionDetails'] != null
+          ? UnusedPermissionDetails.fromJson(
+              json['unusedPermissionDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalAccessDetails = this.externalAccessDetails;
+    final unusedIamRoleDetails = this.unusedIamRoleDetails;
+    final unusedIamUserAccessKeyDetails = this.unusedIamUserAccessKeyDetails;
+    final unusedIamUserPasswordDetails = this.unusedIamUserPasswordDetails;
+    final unusedPermissionDetails = this.unusedPermissionDetails;
+    return {
+      if (externalAccessDetails != null)
+        'externalAccessDetails': externalAccessDetails,
+      if (unusedIamRoleDetails != null)
+        'unusedIamRoleDetails': unusedIamRoleDetails,
+      if (unusedIamUserAccessKeyDetails != null)
+        'unusedIamUserAccessKeyDetails': unusedIamUserAccessKeyDetails,
+      if (unusedIamUserPasswordDetails != null)
+        'unusedIamUserPasswordDetails': unusedIamUserPasswordDetails,
+      if (unusedPermissionDetails != null)
+        'unusedPermissionDetails': unusedPermissionDetails,
+    };
   }
 }
 
@@ -2924,6 +3644,136 @@ class FindingSummary {
   }
 }
 
+/// Contains information about a finding.
+class FindingSummaryV2 {
+  /// The time at which the resource-based policy or IAM entity that generated the
+  /// finding was analyzed.
+  final DateTime analyzedAt;
+
+  /// The time at which the finding was created.
+  final DateTime createdAt;
+
+  /// The ID of the finding.
+  final String id;
+
+  /// The Amazon Web Services account ID that owns the resource.
+  final String resourceOwnerAccount;
+
+  /// The type of the resource that the external principal has access to.
+  final ResourceType resourceType;
+
+  /// The status of the finding.
+  final FindingStatus status;
+
+  /// The time at which the finding was most recently updated.
+  final DateTime updatedAt;
+
+  /// The error that resulted in an Error finding.
+  final String? error;
+
+  /// The type of the external access or unused access finding.
+  final FindingType? findingType;
+
+  /// The resource that the external principal has access to.
+  final String? resource;
+
+  FindingSummaryV2({
+    required this.analyzedAt,
+    required this.createdAt,
+    required this.id,
+    required this.resourceOwnerAccount,
+    required this.resourceType,
+    required this.status,
+    required this.updatedAt,
+    this.error,
+    this.findingType,
+    this.resource,
+  });
+
+  factory FindingSummaryV2.fromJson(Map<String, dynamic> json) {
+    return FindingSummaryV2(
+      analyzedAt: nonNullableTimeStampFromJson(json['analyzedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      resourceOwnerAccount: json['resourceOwnerAccount'] as String,
+      resourceType: (json['resourceType'] as String).toResourceType(),
+      status: (json['status'] as String).toFindingStatus(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      error: json['error'] as String?,
+      findingType: (json['findingType'] as String?)?.toFindingType(),
+      resource: json['resource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzedAt = this.analyzedAt;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final resourceOwnerAccount = this.resourceOwnerAccount;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final error = this.error;
+    final findingType = this.findingType;
+    final resource = this.resource;
+    return {
+      'analyzedAt': iso8601ToJson(analyzedAt),
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'resourceOwnerAccount': resourceOwnerAccount,
+      'resourceType': resourceType.toValue(),
+      'status': status.toValue(),
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (error != null) 'error': error,
+      if (findingType != null) 'findingType': findingType.toValue(),
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+enum FindingType {
+  externalAccess,
+  unusedIAMRole,
+  unusedIAMUserAccessKey,
+  unusedIAMUserPassword,
+  unusedPermission,
+}
+
+extension FindingTypeValueExtension on FindingType {
+  String toValue() {
+    switch (this) {
+      case FindingType.externalAccess:
+        return 'ExternalAccess';
+      case FindingType.unusedIAMRole:
+        return 'UnusedIAMRole';
+      case FindingType.unusedIAMUserAccessKey:
+        return 'UnusedIAMUserAccessKey';
+      case FindingType.unusedIAMUserPassword:
+        return 'UnusedIAMUserPassword';
+      case FindingType.unusedPermission:
+        return 'UnusedPermission';
+    }
+  }
+}
+
+extension FindingTypeFromString on String {
+  FindingType toFindingType() {
+    switch (this) {
+      case 'ExternalAccess':
+        return FindingType.externalAccess;
+      case 'UnusedIAMRole':
+        return FindingType.unusedIAMRole;
+      case 'UnusedIAMUserAccessKey':
+        return FindingType.unusedIAMUserAccessKey;
+      case 'UnusedIAMUserPassword':
+        return FindingType.unusedIAMUserPassword;
+      case 'UnusedPermission':
+        return FindingType.unusedPermission;
+    }
+    throw Exception('$this is not known in enum FindingType');
+  }
+}
+
 /// Contains the text for the generated policy.
 class GeneratedPolicy {
   /// The text to use as the content for the new policy. The policy is created
@@ -3150,6 +4000,113 @@ class GetFindingResponse {
     final finding = this.finding;
     return {
       if (finding != null) 'finding': finding,
+    };
+  }
+}
+
+class GetFindingV2Response {
+  /// The time at which the resource-based policy or IAM entity that generated the
+  /// finding was analyzed.
+  final DateTime analyzedAt;
+
+  /// The time at which the finding was created.
+  final DateTime createdAt;
+
+  /// A localized message that explains the finding and provides guidance on how
+  /// to address it.
+  final List<FindingDetails> findingDetails;
+
+  /// The ID of the finding to retrieve.
+  final String id;
+
+  /// Tye Amazon Web Services account ID that owns the resource.
+  final String resourceOwnerAccount;
+
+  /// The type of the resource identified in the finding.
+  final ResourceType resourceType;
+
+  /// The status of the finding.
+  final FindingStatus status;
+
+  /// The time at which the finding was updated.
+  final DateTime updatedAt;
+
+  /// An error.
+  final String? error;
+
+  /// The type of the finding. For external access analyzers, the type is
+  /// <code>ExternalAccess</code>. For unused access analyzers, the type can be
+  /// <code>UnusedIAMRole</code>, <code>UnusedIAMUserAccessKey</code>,
+  /// <code>UnusedIAMUserPassword</code>, or <code>UnusedPermission</code>.
+  final FindingType? findingType;
+
+  /// A token used for pagination of results returned.
+  final String? nextToken;
+
+  /// The resource that generated the finding.
+  final String? resource;
+
+  GetFindingV2Response({
+    required this.analyzedAt,
+    required this.createdAt,
+    required this.findingDetails,
+    required this.id,
+    required this.resourceOwnerAccount,
+    required this.resourceType,
+    required this.status,
+    required this.updatedAt,
+    this.error,
+    this.findingType,
+    this.nextToken,
+    this.resource,
+  });
+
+  factory GetFindingV2Response.fromJson(Map<String, dynamic> json) {
+    return GetFindingV2Response(
+      analyzedAt: nonNullableTimeStampFromJson(json['analyzedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      findingDetails: (json['findingDetails'] as List)
+          .whereNotNull()
+          .map((e) => FindingDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String,
+      resourceOwnerAccount: json['resourceOwnerAccount'] as String,
+      resourceType: (json['resourceType'] as String).toResourceType(),
+      status: (json['status'] as String).toFindingStatus(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      error: json['error'] as String?,
+      findingType: (json['findingType'] as String?)?.toFindingType(),
+      nextToken: json['nextToken'] as String?,
+      resource: json['resource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzedAt = this.analyzedAt;
+    final createdAt = this.createdAt;
+    final findingDetails = this.findingDetails;
+    final id = this.id;
+    final resourceOwnerAccount = this.resourceOwnerAccount;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final error = this.error;
+    final findingType = this.findingType;
+    final nextToken = this.nextToken;
+    final resource = this.resource;
+    return {
+      'analyzedAt': iso8601ToJson(analyzedAt),
+      'createdAt': iso8601ToJson(createdAt),
+      'findingDetails': findingDetails,
+      'id': id,
+      'resourceOwnerAccount': resourceOwnerAccount,
+      'resourceType': resourceType.toValue(),
+      'status': status.toValue(),
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (error != null) 'error': error,
+      if (findingType != null) 'findingType': findingType.toValue(),
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resource != null) 'resource': resource,
     };
   }
 }
@@ -3881,6 +4838,39 @@ class ListFindingsResponse {
   }
 }
 
+class ListFindingsV2Response {
+  /// A list of findings retrieved from the analyzer that match the filter
+  /// criteria specified, if any.
+  final List<FindingSummaryV2> findings;
+
+  /// A token used for pagination of results returned.
+  final String? nextToken;
+
+  ListFindingsV2Response({
+    required this.findings,
+    this.nextToken,
+  });
+
+  factory ListFindingsV2Response.fromJson(Map<String, dynamic> json) {
+    return ListFindingsV2Response(
+      findings: (json['findings'] as List)
+          .whereNotNull()
+          .map((e) => FindingSummaryV2.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findings = this.findings;
+    final nextToken = this.nextToken;
+    return {
+      'findings': findings,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListPolicyGenerationsResponse {
   /// A <code>PolicyGeneration</code> object that contains details about the
   /// generated policy.
@@ -4556,6 +5546,44 @@ extension ReasonCodeFromString on String {
   }
 }
 
+/// Contains information about the reasoning why a check for access passed or
+/// failed.
+class ReasonSummary {
+  /// A description of the reasoning of a result of checking for access.
+  final String? description;
+
+  /// The identifier for the reason statement.
+  final String? statementId;
+
+  /// The index number of the reason statement.
+  final int? statementIndex;
+
+  ReasonSummary({
+    this.description,
+    this.statementId,
+    this.statementIndex,
+  });
+
+  factory ReasonSummary.fromJson(Map<String, dynamic> json) {
+    return ReasonSummary(
+      description: json['description'] as String?,
+      statementId: json['statementId'] as String?,
+      statementIndex: json['statementIndex'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final statementId = this.statementId;
+    final statementIndex = this.statementIndex;
+    return {
+      if (description != null) 'description': description,
+      if (statementId != null) 'statementId': statementId,
+      if (statementIndex != null) 'statementIndex': statementIndex,
+    };
+  }
+}
+
 enum ResourceType {
   awsS3Bucket,
   awsIamRole,
@@ -4570,6 +5598,9 @@ enum ResourceType {
   awsRdsDBSnapshot,
   awsRdsDBClusterSnapshot,
   awsSnsTopic,
+  awsS3ExpressDirectoryBucket,
+  awsDynamoDBTable,
+  awsDynamoDBStream,
 }
 
 extension ResourceTypeValueExtension on ResourceType {
@@ -4601,6 +5632,12 @@ extension ResourceTypeValueExtension on ResourceType {
         return 'AWS::RDS::DBClusterSnapshot';
       case ResourceType.awsSnsTopic:
         return 'AWS::SNS::Topic';
+      case ResourceType.awsS3ExpressDirectoryBucket:
+        return 'AWS::S3Express::DirectoryBucket';
+      case ResourceType.awsDynamoDBTable:
+        return 'AWS::DynamoDB::Table';
+      case ResourceType.awsDynamoDBStream:
+        return 'AWS::DynamoDB::Stream';
     }
   }
 }
@@ -4634,6 +5671,12 @@ extension ResourceTypeFromString on String {
         return ResourceType.awsRdsDBClusterSnapshot;
       case 'AWS::SNS::Topic':
         return ResourceType.awsSnsTopic;
+      case 'AWS::S3Express::DirectoryBucket':
+        return ResourceType.awsS3ExpressDirectoryBucket;
+      case 'AWS::DynamoDB::Table':
+        return ResourceType.awsDynamoDBTable;
+      case 'AWS::DynamoDB::Stream':
+        return ResourceType.awsDynamoDBStream;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -4800,6 +5843,42 @@ class S3BucketConfiguration {
       if (bucketPolicy != null) 'bucketPolicy': bucketPolicy,
       if (bucketPublicAccessBlock != null)
         'bucketPublicAccessBlock': bucketPublicAccessBlock,
+    };
+  }
+}
+
+/// Proposed access control configuration for an Amazon S3 directory bucket. You
+/// can propose a configuration for a new Amazon S3 directory bucket or an
+/// existing Amazon S3 directory bucket that you own by specifying the Amazon S3
+/// bucket policy. If the configuration is for an existing Amazon S3 directory
+/// bucket and you do not specify the Amazon S3 bucket policy, the access
+/// preview uses the existing policy attached to the directory bucket. If the
+/// access preview is for a new resource and you do not specify the Amazon S3
+/// bucket policy, the access preview assumes an directory bucket without a
+/// policy. To propose deletion of an existing bucket policy, you can specify an
+/// empty string. For more information about Amazon S3 directory bucket
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html">Example
+/// directory bucket policies for S3 Express One Zone</a>.
+class S3ExpressDirectoryBucketConfiguration {
+  /// The proposed bucket policy for the Amazon S3 directory bucket.
+  final String? bucketPolicy;
+
+  S3ExpressDirectoryBucketConfiguration({
+    this.bucketPolicy,
+  });
+
+  factory S3ExpressDirectoryBucketConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return S3ExpressDirectoryBucketConfiguration(
+      bucketPolicy: json['bucketPolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketPolicy = this.bucketPolicy;
+    return {
+      if (bucketPolicy != null) 'bucketPolicy': bucketPolicy,
     };
   }
 }
@@ -5194,6 +6273,8 @@ class TrailProperties {
 enum Type {
   account,
   organization,
+  accountUnusedAccess,
+  organizationUnusedAccess,
 }
 
 extension TypeValueExtension on Type {
@@ -5203,6 +6284,10 @@ extension TypeValueExtension on Type {
         return 'ACCOUNT';
       case Type.organization:
         return 'ORGANIZATION';
+      case Type.accountUnusedAccess:
+        return 'ACCOUNT_UNUSED_ACCESS';
+      case Type.organizationUnusedAccess:
+        return 'ORGANIZATION_UNUSED_ACCESS';
     }
   }
 }
@@ -5214,6 +6299,10 @@ extension TypeFromString on String {
         return Type.account;
       case 'ORGANIZATION':
         return Type.organization;
+      case 'ACCOUNT_UNUSED_ACCESS':
+        return Type.accountUnusedAccess;
+      case 'ORGANIZATION_UNUSED_ACCESS':
+        return Type.organizationUnusedAccess;
     }
     throw Exception('$this is not known in enum Type');
   }
@@ -5229,6 +6318,202 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Contains information about an unused access analyzer.
+class UnusedAccessConfiguration {
+  /// The specified access age in days for which to generate findings for unused
+  /// access. For example, if you specify 90 days, the analyzer will generate
+  /// findings for IAM entities within the accounts of the selected organization
+  /// for any access that hasn't been used in 90 or more days since the analyzer's
+  /// last scan. You can choose a value between 1 and 180 days.
+  final int? unusedAccessAge;
+
+  UnusedAccessConfiguration({
+    this.unusedAccessAge,
+  });
+
+  factory UnusedAccessConfiguration.fromJson(Map<String, dynamic> json) {
+    return UnusedAccessConfiguration(
+      unusedAccessAge: json['unusedAccessAge'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unusedAccessAge = this.unusedAccessAge;
+    return {
+      if (unusedAccessAge != null) 'unusedAccessAge': unusedAccessAge,
+    };
+  }
+}
+
+/// Contains information about an unused access finding for an action. IAM
+/// Access Analyzer charges for unused access analysis based on the number of
+/// IAM roles and users analyzed per month. For more details on pricing, see <a
+/// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
+/// Analyzer pricing</a>.
+class UnusedAction {
+  /// The action for which the unused access finding was generated.
+  final String action;
+
+  /// The time at which the action was last accessed.
+  final DateTime? lastAccessed;
+
+  UnusedAction({
+    required this.action,
+    this.lastAccessed,
+  });
+
+  factory UnusedAction.fromJson(Map<String, dynamic> json) {
+    return UnusedAction(
+      action: json['action'] as String,
+      lastAccessed: timeStampFromJson(json['lastAccessed']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final lastAccessed = this.lastAccessed;
+    return {
+      'action': action,
+      if (lastAccessed != null) 'lastAccessed': iso8601ToJson(lastAccessed),
+    };
+  }
+}
+
+/// Contains information about an unused access finding for an IAM role. IAM
+/// Access Analyzer charges for unused access analysis based on the number of
+/// IAM roles and users analyzed per month. For more details on pricing, see <a
+/// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
+/// Analyzer pricing</a>.
+class UnusedIamRoleDetails {
+  /// The time at which the role was last accessed.
+  final DateTime? lastAccessed;
+
+  UnusedIamRoleDetails({
+    this.lastAccessed,
+  });
+
+  factory UnusedIamRoleDetails.fromJson(Map<String, dynamic> json) {
+    return UnusedIamRoleDetails(
+      lastAccessed: timeStampFromJson(json['lastAccessed']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastAccessed = this.lastAccessed;
+    return {
+      if (lastAccessed != null) 'lastAccessed': iso8601ToJson(lastAccessed),
+    };
+  }
+}
+
+/// Contains information about an unused access finding for an IAM user access
+/// key. IAM Access Analyzer charges for unused access analysis based on the
+/// number of IAM roles and users analyzed per month. For more details on
+/// pricing, see <a
+/// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
+/// Analyzer pricing</a>.
+class UnusedIamUserAccessKeyDetails {
+  /// The ID of the access key for which the unused access finding was generated.
+  final String accessKeyId;
+
+  /// The time at which the access key was last accessed.
+  final DateTime? lastAccessed;
+
+  UnusedIamUserAccessKeyDetails({
+    required this.accessKeyId,
+    this.lastAccessed,
+  });
+
+  factory UnusedIamUserAccessKeyDetails.fromJson(Map<String, dynamic> json) {
+    return UnusedIamUserAccessKeyDetails(
+      accessKeyId: json['accessKeyId'] as String,
+      lastAccessed: timeStampFromJson(json['lastAccessed']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final lastAccessed = this.lastAccessed;
+    return {
+      'accessKeyId': accessKeyId,
+      if (lastAccessed != null) 'lastAccessed': iso8601ToJson(lastAccessed),
+    };
+  }
+}
+
+/// Contains information about an unused access finding for an IAM user
+/// password. IAM Access Analyzer charges for unused access analysis based on
+/// the number of IAM roles and users analyzed per month. For more details on
+/// pricing, see <a
+/// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
+/// Analyzer pricing</a>.
+class UnusedIamUserPasswordDetails {
+  /// The time at which the password was last accessed.
+  final DateTime? lastAccessed;
+
+  UnusedIamUserPasswordDetails({
+    this.lastAccessed,
+  });
+
+  factory UnusedIamUserPasswordDetails.fromJson(Map<String, dynamic> json) {
+    return UnusedIamUserPasswordDetails(
+      lastAccessed: timeStampFromJson(json['lastAccessed']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastAccessed = this.lastAccessed;
+    return {
+      if (lastAccessed != null) 'lastAccessed': iso8601ToJson(lastAccessed),
+    };
+  }
+}
+
+/// Contains information about an unused access finding for a permission. IAM
+/// Access Analyzer charges for unused access analysis based on the number of
+/// IAM roles and users analyzed per month. For more details on pricing, see <a
+/// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
+/// Analyzer pricing</a>.
+class UnusedPermissionDetails {
+  /// The namespace of the Amazon Web Services service that contains the unused
+  /// actions.
+  final String serviceNamespace;
+
+  /// A list of unused actions for which the unused access finding was generated.
+  final List<UnusedAction>? actions;
+
+  /// The time at which the permission last accessed.
+  final DateTime? lastAccessed;
+
+  UnusedPermissionDetails({
+    required this.serviceNamespace,
+    this.actions,
+    this.lastAccessed,
+  });
+
+  factory UnusedPermissionDetails.fromJson(Map<String, dynamic> json) {
+    return UnusedPermissionDetails(
+      serviceNamespace: json['serviceNamespace'] as String,
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnusedAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastAccessed: timeStampFromJson(json['lastAccessed']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceNamespace = this.serviceNamespace;
+    final actions = this.actions;
+    final lastAccessed = this.lastAccessed;
+    return {
+      'serviceNamespace': serviceNamespace,
+      if (actions != null) 'actions': actions,
+      if (lastAccessed != null) 'lastAccessed': iso8601ToJson(lastAccessed),
+    };
   }
 }
 
@@ -5347,6 +6632,7 @@ enum ValidatePolicyResourceType {
   awsS3MultiRegionAccessPoint,
   awsS3ObjectLambdaAccessPoint,
   awsIamAssumeRolePolicyDocument,
+  awsDynamoDBTable,
 }
 
 extension ValidatePolicyResourceTypeValueExtension
@@ -5363,6 +6649,8 @@ extension ValidatePolicyResourceTypeValueExtension
         return 'AWS::S3ObjectLambda::AccessPoint';
       case ValidatePolicyResourceType.awsIamAssumeRolePolicyDocument:
         return 'AWS::IAM::AssumeRolePolicyDocument';
+      case ValidatePolicyResourceType.awsDynamoDBTable:
+        return 'AWS::DynamoDB::Table';
     }
   }
 }
@@ -5380,6 +6668,8 @@ extension ValidatePolicyResourceTypeFromString on String {
         return ValidatePolicyResourceType.awsS3ObjectLambdaAccessPoint;
       case 'AWS::IAM::AssumeRolePolicyDocument':
         return ValidatePolicyResourceType.awsIamAssumeRolePolicyDocument;
+      case 'AWS::DynamoDB::Table':
+        return ValidatePolicyResourceType.awsDynamoDBTable;
     }
     throw Exception('$this is not known in enum ValidatePolicyResourceType');
   }
@@ -5460,6 +6750,11 @@ class InternalServerException extends _s.GenericAwsException {
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+class InvalidParameterException extends _s.GenericAwsException {
+  InvalidParameterException({String? type, String? message})
+      : super(type: type, code: 'InvalidParameterException', message: message);
+}
+
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
@@ -5478,6 +6773,12 @@ class ThrottlingException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+class UnprocessableEntityException extends _s.GenericAwsException {
+  UnprocessableEntityException({String? type, String? message})
+      : super(
+            type: type, code: 'UnprocessableEntityException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -5490,12 +6791,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'InvalidParameterException': (type, message) =>
+      InvalidParameterException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'UnprocessableEntityException': (type, message) =>
+      UnprocessableEntityException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

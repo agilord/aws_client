@@ -19,10 +19,6 @@ support the API. For more information and to download the driver, see <a
 href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">Accessing
 Amazon Athena with JDBC</a>.
 
-For code samples using the Amazon Web Services SDK for Java, see <a
-href="https://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
-and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
-
 ## Links
 
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).

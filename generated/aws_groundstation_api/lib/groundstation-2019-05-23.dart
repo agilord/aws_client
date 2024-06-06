@@ -281,12 +281,12 @@ class GroundStation {
   /// ARN of a tracking <code>Config</code>.
   ///
   /// Parameter [contactPostPassDurationSeconds] :
-  /// Amount of time after a contact ends that you’d like to receive a
-  /// CloudWatch event indicating the pass has finished.
+  /// Amount of time after a contact ends that you’d like to receive a Ground
+  /// Station Contact State Change event indicating the pass has finished.
   ///
   /// Parameter [contactPrePassDurationSeconds] :
-  /// Amount of time prior to contact start you’d like to receive a CloudWatch
-  /// event indicating an upcoming pass.
+  /// Amount of time prior to contact start you’d like to receive a Ground
+  /// Station Contact State Change event indicating an upcoming pass.
   ///
   /// Parameter [streamsKmsKey] :
   /// KMS key to use for encrypting streams.
@@ -546,7 +546,7 @@ class GroundStation {
     return GetDataflowEndpointGroupResponse.fromJson(response);
   }
 
-  /// Returns the number of minutes used by account.
+  /// Returns the number of reserved minutes used by account.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
@@ -1242,12 +1242,12 @@ class GroundStation {
   /// UUID of a mission profile.
   ///
   /// Parameter [contactPostPassDurationSeconds] :
-  /// Amount of time after a contact ends that you’d like to receive a
-  /// CloudWatch event indicating the pass has finished.
+  /// Amount of time after a contact ends that you’d like to receive a Ground
+  /// Station Contact State Change event indicating the pass has finished.
   ///
   /// Parameter [contactPrePassDurationSeconds] :
-  /// Amount of time after a contact ends that you’d like to receive a
-  /// CloudWatch event indicating the pass has finished.
+  /// Amount of time after a contact ends that you’d like to receive a Ground
+  /// Station Contact State Change event indicating the pass has finished.
   ///
   /// Parameter [dataflowEdges] :
   /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
@@ -2175,6 +2175,22 @@ class ContactData {
   /// Tags assigned to a contact.
   final Map<String, String>? tags;
 
+  /// Projected time in UTC your satellite will set below the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts. <i>This field is not present for contacts with a
+  /// <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i>
+  final DateTime? visibilityEndTime;
+
+  /// Projected time in UTC your satellite will rise above the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts. <i>This field is not present for contacts with a
+  /// <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i>
+  final DateTime? visibilityStartTime;
+
   ContactData({
     this.contactId,
     this.contactStatus,
@@ -2189,6 +2205,8 @@ class ContactData {
     this.satelliteArn,
     this.startTime,
     this.tags,
+    this.visibilityEndTime,
+    this.visibilityStartTime,
   });
 
   factory ContactData.fromJson(Map<String, dynamic> json) {
@@ -2209,6 +2227,8 @@ class ContactData {
       startTime: timeStampFromJson(json['startTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      visibilityEndTime: timeStampFromJson(json['visibilityEndTime']),
+      visibilityStartTime: timeStampFromJson(json['visibilityStartTime']),
     );
   }
 }
@@ -2578,6 +2598,20 @@ class DescribeContactResponse {
   /// Tags assigned to a contact.
   final Map<String, String>? tags;
 
+  /// Projected time in UTC your satellite will set below the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts.
+  final DateTime? visibilityEndTime;
+
+  /// Projected time in UTC your satellite will rise above the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts.
+  final DateTime? visibilityStartTime;
+
   DescribeContactResponse({
     this.contactId,
     this.contactStatus,
@@ -2593,6 +2627,8 @@ class DescribeContactResponse {
     this.satelliteArn,
     this.startTime,
     this.tags,
+    this.visibilityEndTime,
+    this.visibilityStartTime,
   });
 
   factory DescribeContactResponse.fromJson(Map<String, dynamic> json) {
@@ -2617,6 +2653,8 @@ class DescribeContactResponse {
       startTime: timeStampFromJson(json['startTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      visibilityEndTime: timeStampFromJson(json['visibilityEndTime']),
+      visibilityStartTime: timeStampFromJson(json['visibilityStartTime']),
     );
   }
 }
@@ -3693,26 +3731,33 @@ class KmsKey {
   /// KMS Alias Arn.
   final String? kmsAliasArn;
 
+  /// KMS Alias Name.
+  final String? kmsAliasName;
+
   /// KMS Key Arn.
   final String? kmsKeyArn;
 
   KmsKey({
     this.kmsAliasArn,
+    this.kmsAliasName,
     this.kmsKeyArn,
   });
 
   factory KmsKey.fromJson(Map<String, dynamic> json) {
     return KmsKey(
       kmsAliasArn: json['kmsAliasArn'] as String?,
+      kmsAliasName: json['kmsAliasName'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final kmsAliasArn = this.kmsAliasArn;
+    final kmsAliasName = this.kmsAliasName;
     final kmsKeyArn = this.kmsKeyArn;
     return {
       if (kmsAliasArn != null) 'kmsAliasArn': kmsAliasArn,
+      if (kmsAliasName != null) 'kmsAliasName': kmsAliasName,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
   }

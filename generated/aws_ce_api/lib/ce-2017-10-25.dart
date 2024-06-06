@@ -567,6 +567,49 @@ class CostExplorer {
     return GetAnomalySubscriptionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves estimated usage records for hourly granularity or resource-level
+  /// data at daily granularity.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [DataUnavailableException].
+  ///
+  /// Parameter [approximationDimension] :
+  /// The service to evaluate for the usage records. You can choose
+  /// resource-level data at daily granularity, or hourly granularity with or
+  /// without resource-level data.
+  ///
+  /// Parameter [granularity] :
+  /// How granular you want the data to be. You can enable data at hourly or
+  /// daily granularity.
+  ///
+  /// Parameter [services] :
+  /// The service metadata for the service or services you want to query. If not
+  /// specified, all elements are returned.
+  Future<GetApproximateUsageRecordsResponse> getApproximateUsageRecords({
+    required ApproximationDimension approximationDimension,
+    required Granularity granularity,
+    List<String>? services,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetApproximateUsageRecords'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApproximationDimension': approximationDimension.toValue(),
+        'Granularity': granularity.toValue(),
+        if (services != null) 'Services': services,
+      },
+    );
+
+    return GetApproximateUsageRecordsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves cost and usage metrics for your account. You can specify which
   /// cost and usage-related metric that you want the request to return. For
   /// example, you can specify <code>BlendedCosts</code> or
@@ -697,8 +740,11 @@ class CostExplorer {
   /// time range. For a complete list of valid dimensions, see the <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html">GetDimensionValues</a>
   /// operation. Management account in an organization in Organizations have
-  /// access to all member accounts. This API is currently available for the
-  /// Amazon Elastic Compute Cloud – Compute service only.
+  /// access to all member accounts.
+  ///
+  /// Hourly granularity is only available for EC2-Instances (Elastic Compute
+  /// Cloud) resource-level data. All other resource-level data is available at
+  /// daily granularity.
   /// <note>
   /// This is an opt-in only feature. You can enable this feature from the Cost
   /// Explorer Settings page. For information about how to access the Settings
@@ -2028,6 +2074,39 @@ class CostExplorer {
     return GetRightsizingRecommendationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the details for a Savings Plan recommendation. These details
+  /// include the hourly data-points that construct the cost, coverage, and
+  /// utilization charts.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [DataUnavailableException].
+  ///
+  /// Parameter [recommendationDetailId] :
+  /// The ID that is associated with the Savings Plan recommendation.
+  Future<GetSavingsPlanPurchaseRecommendationDetailsResponse>
+      getSavingsPlanPurchaseRecommendationDetails({
+    required String recommendationDetailId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSInsightsIndexService.GetSavingsPlanPurchaseRecommendationDetails'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RecommendationDetailId': recommendationDetailId,
+      },
+    );
+
+    return GetSavingsPlanPurchaseRecommendationDetailsResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Retrieves the Savings Plans covered for your account. This enables you to
   /// see how much of your cost is covered by a Savings Plan. An organization’s
   /// management account can see the coverage of the associated member accounts.
@@ -2786,6 +2865,50 @@ class CostExplorer {
     return GetUsageForecastResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves a list of your historical cost allocation tag backfill requests.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that are returned for this request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to retrieve the next set of results. Amazon Web Services
+  /// provides the token when the response from a previous call has more results
+  /// than the maximum page size.
+  Future<ListCostAllocationTagBackfillHistoryResponse>
+      listCostAllocationTagBackfillHistory({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSInsightsIndexService.ListCostAllocationTagBackfillHistory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCostAllocationTagBackfillHistoryResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Get a list of cost allocation tags. All inputs in the API are optional and
   /// serve as filters. By default, all cost allocation tags are returned.
   ///
@@ -2906,6 +3029,7 @@ class CostExplorer {
   ///
   /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [DataUnavailableException].
   ///
   /// Parameter [generationStatus] :
   /// The status of the recommendation generation.
@@ -3020,6 +3144,42 @@ class CostExplorer {
     return ProvideAnomalyFeedbackResponse.fromJson(jsonResponse.body);
   }
 
+  /// Request a cost allocation tag backfill. This will backfill the activation
+  /// status (either <code>active</code> or <code>inactive</code>) for all tag
+  /// keys from <code>para:BackfillFrom</code> up to the when this request is
+  /// made.
+  ///
+  /// You can request a backfill once every 24 hours.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [BackfillLimitExceededException].
+  ///
+  /// Parameter [backfillFrom] :
+  /// The date you want the backfill to start from. The date can only be a first
+  /// day of the month (a billing start date). Dates can't precede the previous
+  /// twelve months, or in the future.
+  Future<StartCostAllocationTagBackfillResponse>
+      startCostAllocationTagBackfill({
+    required String backfillFrom,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.StartCostAllocationTagBackfill'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackfillFrom': backfillFrom,
+      },
+    );
+
+    return StartCostAllocationTagBackfillResponse.fromJson(jsonResponse.body);
+  }
+
   /// Requests a Savings Plans recommendation generation. This enables you to
   /// calculate a fresh set of Savings Plans recommendations that takes your
   /// latest usage data and current Savings Plans inventory into account. You
@@ -3034,6 +3194,7 @@ class CostExplorer {
   /// May throw [LimitExceededException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [GenerationExistsException].
+  /// May throw [DataUnavailableException].
   Future<StartSavingsPlansPurchaseRecommendationGenerationResponse>
       startSavingsPlansPurchaseRecommendationGeneration() async {
     final headers = <String, String>{
@@ -3199,7 +3360,14 @@ class CostExplorer {
     return UpdateAnomalyMonitorResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates an existing cost anomaly monitor subscription.
+  /// Updates an existing cost anomaly subscription. Specify the fields that you
+  /// want to update. Omitted fields are unchanged.
+  /// <note>
+  /// The JSON below describes the generic construct for each type. See <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_UpdateAnomalySubscription.html#API_UpdateAnomalySubscription_RequestParameters">Request
+  /// Parameters</a> for possible values as they apply to
+  /// <code>AnomalySubscription</code>.
+  /// </note>
   ///
   /// May throw [LimitExceededException].
   /// May throw [UnknownMonitorException].
@@ -3229,16 +3397,23 @@ class CostExplorer {
   /// ThresholdExpression. Continued use of Threshold will be treated as
   /// shorthand syntax for a ThresholdExpression.
   ///
+  /// You can specify either Threshold or ThresholdExpression, but not both.
+  ///
   /// Parameter [thresholdExpression] :
   /// The update to the <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
   /// object used to specify the anomalies that you want to generate alerts for.
   /// This supports dimensions and nested expressions. The supported dimensions
   /// are <code>ANOMALY_TOTAL_IMPACT_ABSOLUTE</code> and
-  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code>. The supported nested
-  /// expression types are <code>AND</code> and <code>OR</code>. The match
-  /// option <code>GREATER_THAN_OR_EQUAL</code> is required. Values must be
-  /// numbers between 0 and 10,000,000,000.
+  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code>, corresponding to an
+  /// anomaly’s TotalImpact and TotalImpactPercentage, respectively (see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html">Impact</a>
+  /// for more details). The supported nested expression types are
+  /// <code>AND</code> and <code>OR</code>. The match option
+  /// <code>GREATER_THAN_OR_EQUAL</code> is required. Values must be numbers
+  /// between 0 and 10,000,000,000 in string format.
+  ///
+  /// You can specify either Threshold or ThresholdExpression, but not both.
   ///
   /// The following are examples of valid ThresholdExpressions:
   ///
@@ -3654,12 +3829,30 @@ class AnomalyScore {
   }
 }
 
-/// The association between a monitor, threshold, and list of subscribers used
-/// to deliver notifications about anomalies detected by a monitor that exceeds
-/// a threshold. The content consists of the detailed metadata and the current
-/// status of the <code>AnomalySubscription</code> object.
+/// An <code>AnomalySubscription</code> resource (also referred to as an alert
+/// subscription) sends notifications about specific anomalies that meet an
+/// alerting criteria defined by you.
+///
+/// You can specify the frequency of the alerts and the subscribers to notify.
+///
+/// Anomaly subscriptions can be associated with one or more <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html">
+/// <code>AnomalyMonitor</code> </a> resources, and they only send notifications
+/// about anomalies detected by those associated monitors. You can also
+/// configure a threshold to further control which anomalies are included in the
+/// notifications.
+///
+/// Anomalies that don’t exceed the chosen threshold and therefore don’t trigger
+/// notifications from an anomaly subscription will still be available on the
+/// console and from the <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetAnomalies.html">
+/// <code>GetAnomalies</code> </a> API.
 class AnomalySubscription {
-  /// The frequency that anomaly reports are sent over email.
+  /// The frequency that anomaly notifications are sent. Notifications are sent
+  /// either over email (for DAILY and WEEKLY frequencies) or SNS (for IMMEDIATE
+  /// frequency). For more information, see <a
+  /// href="https://docs.aws.amazon.com/cost-management/latest/userguide/ad-SNS.html">Creating
+  /// an Amazon SNS topic for anomaly notifications</a>.
   final AnomalySubscriptionFrequency frequency;
 
   /// A list of cost anomaly monitors.
@@ -3679,13 +3872,17 @@ class AnomalySubscription {
 
   /// (deprecated)
   ///
-  /// The dollar value that triggers a notification if the threshold is exceeded.
+  /// An absolute dollar value that must be exceeded by the anomaly's total impact
+  /// (see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html">Impact</a>
+  /// for more details) for an anomaly notification to be generated.
   ///
   /// This field has been deprecated. To specify a threshold, use
   /// ThresholdExpression. Continued use of Threshold will be treated as shorthand
   /// syntax for a ThresholdExpression.
   ///
-  /// One of Threshold or ThresholdExpression is required for this resource.
+  /// One of Threshold or ThresholdExpression is required for this resource. You
+  /// cannot specify both.
   final double? threshold;
 
   /// An <a
@@ -3693,12 +3890,16 @@ class AnomalySubscription {
   /// object used to specify the anomalies that you want to generate alerts for.
   /// This supports dimensions and nested expressions. The supported dimensions
   /// are <code>ANOMALY_TOTAL_IMPACT_ABSOLUTE</code> and
-  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code>. The supported nested
-  /// expression types are <code>AND</code> and <code>OR</code>. The match option
+  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code>, corresponding to an anomaly’s
+  /// TotalImpact and TotalImpactPercentage, respectively (see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html">Impact</a>
+  /// for more details). The supported nested expression types are
+  /// <code>AND</code> and <code>OR</code>. The match option
   /// <code>GREATER_THAN_OR_EQUAL</code> is required. Values must be numbers
-  /// between 0 and 10,000,000,000.
+  /// between 0 and 10,000,000,000 in string format.
   ///
-  /// One of Threshold or ThresholdExpression is required for this resource.
+  /// One of Threshold or ThresholdExpression is required for this resource. You
+  /// cannot specify both.
   ///
   /// The following are examples of valid ThresholdExpressions:
   ///
@@ -3820,6 +4021,34 @@ extension AnomalySubscriptionFrequencyFromString on String {
   }
 }
 
+enum ApproximationDimension {
+  service,
+  resource,
+}
+
+extension ApproximationDimensionValueExtension on ApproximationDimension {
+  String toValue() {
+    switch (this) {
+      case ApproximationDimension.service:
+        return 'SERVICE';
+      case ApproximationDimension.resource:
+        return 'RESOURCE';
+    }
+  }
+}
+
+extension ApproximationDimensionFromString on String {
+  ApproximationDimension toApproximationDimension() {
+    switch (this) {
+      case 'SERVICE':
+        return ApproximationDimension.service;
+      case 'RESOURCE':
+        return ApproximationDimension.resource;
+    }
+    throw Exception('$this is not known in enum ApproximationDimension');
+  }
+}
+
 enum Context {
   costAndUsage,
   reservations,
@@ -3869,10 +4098,18 @@ class CostAllocationTag {
   /// type tags are tags that you define, create, and apply to resources.
   final CostAllocationTagType type;
 
+  /// The last date that the tag was either activated or deactivated.
+  final String? lastUpdatedDate;
+
+  /// The last month that the tag was used on an Amazon Web Services resource.
+  final String? lastUsedDate;
+
   CostAllocationTag({
     required this.status,
     required this.tagKey,
     required this.type,
+    this.lastUpdatedDate,
+    this.lastUsedDate,
   });
 
   factory CostAllocationTag.fromJson(Map<String, dynamic> json) {
@@ -3880,7 +4117,82 @@ class CostAllocationTag {
       status: (json['Status'] as String).toCostAllocationTagStatus(),
       tagKey: json['TagKey'] as String,
       type: (json['Type'] as String).toCostAllocationTagType(),
+      lastUpdatedDate: json['LastUpdatedDate'] as String?,
+      lastUsedDate: json['LastUsedDate'] as String?,
     );
+  }
+}
+
+/// The cost allocation tag backfill request structure that contains metadata
+/// and details of a certain backfill.
+class CostAllocationTagBackfillRequest {
+  /// The date the backfill starts from.
+  final String? backfillFrom;
+
+  /// The status of the cost allocation tag backfill request.
+  final CostAllocationTagBackfillStatus? backfillStatus;
+
+  /// The backfill completion time.
+  final String? completedAt;
+
+  /// The time when the backfill status was last updated.
+  final String? lastUpdatedAt;
+
+  /// The time when the backfill was requested.
+  final String? requestedAt;
+
+  CostAllocationTagBackfillRequest({
+    this.backfillFrom,
+    this.backfillStatus,
+    this.completedAt,
+    this.lastUpdatedAt,
+    this.requestedAt,
+  });
+
+  factory CostAllocationTagBackfillRequest.fromJson(Map<String, dynamic> json) {
+    return CostAllocationTagBackfillRequest(
+      backfillFrom: json['BackfillFrom'] as String?,
+      backfillStatus: (json['BackfillStatus'] as String?)
+          ?.toCostAllocationTagBackfillStatus(),
+      completedAt: json['CompletedAt'] as String?,
+      lastUpdatedAt: json['LastUpdatedAt'] as String?,
+      requestedAt: json['RequestedAt'] as String?,
+    );
+  }
+}
+
+enum CostAllocationTagBackfillStatus {
+  succeeded,
+  processing,
+  failed,
+}
+
+extension CostAllocationTagBackfillStatusValueExtension
+    on CostAllocationTagBackfillStatus {
+  String toValue() {
+    switch (this) {
+      case CostAllocationTagBackfillStatus.succeeded:
+        return 'SUCCEEDED';
+      case CostAllocationTagBackfillStatus.processing:
+        return 'PROCESSING';
+      case CostAllocationTagBackfillStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension CostAllocationTagBackfillStatusFromString on String {
+  CostAllocationTagBackfillStatus toCostAllocationTagBackfillStatus() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return CostAllocationTagBackfillStatus.succeeded;
+      case 'PROCESSING':
+        return CostAllocationTagBackfillStatus.processing;
+      case 'FAILED':
+        return CostAllocationTagBackfillStatus.failed;
+    }
+    throw Exception(
+        '$this is not known in enum CostAllocationTagBackfillStatus');
   }
 }
 
@@ -4199,10 +4511,8 @@ class CostCategoryRule {
   /// object used to categorize costs. This supports dimensions, tags, and nested
   /// expressions. Currently the only dimensions supported are
   /// <code>LINKED_ACCOUNT</code>, <code>SERVICE_CODE</code>,
-  /// <code>RECORD_TYPE</code>, and <code>LINKED_ACCOUNT_NAME</code>.
-  ///
-  /// Root level <code>OR</code> isn't supported. We recommend that you create a
-  /// separate rule instead.
+  /// <code>RECORD_TYPE</code>, <code>LINKED_ACCOUNT_NAME</code>,
+  /// <code>REGION</code>, and <code>USAGE_TYPE</code>.
   ///
   /// <code>RECORD_TYPE</code> is a dimension used for Cost Explorer APIs, and is
   /// also supported for Cost Category expressions. This dimension uses different
@@ -5312,8 +5622,8 @@ class EBSResourceUtilization {
   }
 }
 
-/// Details about the Amazon EC2 instances that Amazon Web Services recommends
-/// that you purchase.
+/// Details about the Amazon EC2 reservations that Amazon Web Services
+/// recommends that you purchase.
 class EC2InstanceDetails {
   /// The Availability Zone of the recommended reservation.
   final String? availabilityZone;
@@ -5506,7 +5816,7 @@ class EC2Specification {
   }
 }
 
-/// Details about the Amazon OpenSearch Service instances that Amazon Web
+/// Details about the Amazon OpenSearch Service reservations that Amazon Web
 /// Services recommends that you purchase.
 class ESInstanceDetails {
   /// Determines whether the recommendation is for a current-generation instance.
@@ -5543,7 +5853,7 @@ class ESInstanceDetails {
   }
 }
 
-/// Details about the Amazon ElastiCache instances that Amazon Web Services
+/// Details about the Amazon ElastiCache reservations that Amazon Web Services
 /// recommends that you purchase.
 class ElastiCacheInstanceDetails {
   /// Determines whether the recommendation is for a current generation instance.
@@ -5631,7 +5941,7 @@ class ElastiCacheInstanceDetails {
 /// <li>
 /// The corresponding <code>Expression</code> for this example is as follows:
 /// <code>{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
-/// “us-west-1” ] } }</code>
+/// "us-west-1" ] } }</code>
 /// </li>
 /// <li>
 /// As shown in the previous example, lists of dimension values are combined
@@ -5645,7 +5955,7 @@ class ElastiCacheInstanceDetails {
 ///
 /// <ul>
 /// <li>
-/// For example, you can filter for linked account names that start with “a”.
+/// For example, you can filter for linked account names that start with "a".
 /// </li>
 /// <li>
 /// The corresponding <code>Expression</code> for this example is as follows:
@@ -6047,6 +6357,36 @@ class GetAnomalySubscriptionsResponse {
           .map((e) => AnomalySubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+}
+
+class GetApproximateUsageRecordsResponse {
+  /// The lookback period that's used for the estimation.
+  final DateInterval? lookbackPeriod;
+
+  /// The service metadata for the service or services in the response.
+  final Map<String, int>? services;
+
+  /// The total number of usage records for all services in the services list.
+  final int? totalRecords;
+
+  GetApproximateUsageRecordsResponse({
+    this.lookbackPeriod,
+    this.services,
+    this.totalRecords,
+  });
+
+  factory GetApproximateUsageRecordsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetApproximateUsageRecordsResponse(
+      lookbackPeriod: json['LookbackPeriod'] != null
+          ? DateInterval.fromJson(
+              json['LookbackPeriod'] as Map<String, dynamic>)
+          : null,
+      services: (json['Services'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+      totalRecords: json['TotalRecords'] as int?,
     );
   }
 }
@@ -6540,6 +6880,30 @@ class GetRightsizingRecommendationResponse {
   }
 }
 
+class GetSavingsPlanPurchaseRecommendationDetailsResponse {
+  /// Contains detailed information about a specific Savings Plan recommendation.
+  final RecommendationDetailData? recommendationDetailData;
+
+  /// The ID that is associated with the Savings Plan recommendation.
+  final String? recommendationDetailId;
+
+  GetSavingsPlanPurchaseRecommendationDetailsResponse({
+    this.recommendationDetailData,
+    this.recommendationDetailId,
+  });
+
+  factory GetSavingsPlanPurchaseRecommendationDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetSavingsPlanPurchaseRecommendationDetailsResponse(
+      recommendationDetailData: json['RecommendationDetailData'] != null
+          ? RecommendationDetailData.fromJson(
+              json['RecommendationDetailData'] as Map<String, dynamic>)
+          : null,
+      recommendationDetailId: json['RecommendationDetailId'] as String?,
+    );
+  }
+}
+
 class GetSavingsPlansCoverageResponse {
   /// The amount of spend that your Savings Plans covered.
   final List<SavingsPlansCoverage> savingsPlansCoverages;
@@ -6901,33 +7265,38 @@ class Impact {
   }
 }
 
-/// Details about the instances that Amazon Web Services recommends that you
+/// Details about the reservations that Amazon Web Services recommends that you
 /// purchase.
 class InstanceDetails {
-  /// The Amazon EC2 instances that Amazon Web Services recommends that you
+  /// The Amazon EC2 reservations that Amazon Web Services recommends that you
   /// purchase.
   final EC2InstanceDetails? eC2InstanceDetails;
 
-  /// The Amazon OpenSearch Service instances that Amazon Web Services recommends
-  /// that you purchase.
+  /// The Amazon OpenSearch Service reservations that Amazon Web Services
+  /// recommends that you purchase.
   final ESInstanceDetails? eSInstanceDetails;
 
-  /// The ElastiCache instances that Amazon Web Services recommends that you
+  /// The ElastiCache reservations that Amazon Web Services recommends that you
   /// purchase.
   final ElastiCacheInstanceDetails? elastiCacheInstanceDetails;
 
-  /// The Amazon RDS instances that Amazon Web Services recommends that you
+  /// The MemoryDB reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final MemoryDBInstanceDetails? memoryDBInstanceDetails;
+
+  /// The Amazon RDS reservations that Amazon Web Services recommends that you
   /// purchase.
   final RDSInstanceDetails? rDSInstanceDetails;
 
-  /// The Amazon Redshift instances that Amazon Web Services recommends that you
-  /// purchase.
+  /// The Amazon Redshift reservations that Amazon Web Services recommends that
+  /// you purchase.
   final RedshiftInstanceDetails? redshiftInstanceDetails;
 
   InstanceDetails({
     this.eC2InstanceDetails,
     this.eSInstanceDetails,
     this.elastiCacheInstanceDetails,
+    this.memoryDBInstanceDetails,
     this.rDSInstanceDetails,
     this.redshiftInstanceDetails,
   });
@@ -6946,6 +7315,10 @@ class InstanceDetails {
           ? ElastiCacheInstanceDetails.fromJson(
               json['ElastiCacheInstanceDetails'] as Map<String, dynamic>)
           : null,
+      memoryDBInstanceDetails: json['MemoryDBInstanceDetails'] != null
+          ? MemoryDBInstanceDetails.fromJson(
+              json['MemoryDBInstanceDetails'] as Map<String, dynamic>)
+          : null,
       rDSInstanceDetails: json['RDSInstanceDetails'] != null
           ? RDSInstanceDetails.fromJson(
               json['RDSInstanceDetails'] as Map<String, dynamic>)
@@ -6954,6 +7327,33 @@ class InstanceDetails {
           ? RedshiftInstanceDetails.fromJson(
               json['RedshiftInstanceDetails'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+class ListCostAllocationTagBackfillHistoryResponse {
+  /// The list of historical cost allocation tag backfill requests.
+  final List<CostAllocationTagBackfillRequest>? backfillRequests;
+
+  /// The token to retrieve the next set of results. Amazon Web Services provides
+  /// the token when the response from a previous call has more results than the
+  /// maximum page size.
+  final String? nextToken;
+
+  ListCostAllocationTagBackfillHistoryResponse({
+    this.backfillRequests,
+    this.nextToken,
+  });
+
+  factory ListCostAllocationTagBackfillHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCostAllocationTagBackfillHistoryResponse(
+      backfillRequests: (json['BackfillRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) => CostAllocationTagBackfillRequest.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 }
@@ -7141,6 +7541,43 @@ extension MatchOptionFromString on String {
         return MatchOption.greaterThanOrEqual;
     }
     throw Exception('$this is not known in enum MatchOption');
+  }
+}
+
+/// Details about the MemoryDB reservations that Amazon Web Services recommends
+/// that you purchase.
+class MemoryDBInstanceDetails {
+  /// Determines whether the recommendation is for a current generation instance.
+  final bool? currentGeneration;
+
+  /// The instance family of the recommended reservation.
+  final String? family;
+
+  /// The node type of the recommended reservation.
+  final String? nodeType;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  /// Determines whether the recommended reservation is size flexible.
+  final bool? sizeFlexEligible;
+
+  MemoryDBInstanceDetails({
+    this.currentGeneration,
+    this.family,
+    this.nodeType,
+    this.region,
+    this.sizeFlexEligible,
+  });
+
+  factory MemoryDBInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return MemoryDBInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      nodeType: json['NodeType'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
   }
 }
 
@@ -7505,8 +7942,8 @@ class ProvideAnomalyFeedbackResponse {
   }
 }
 
-/// Details about the Amazon RDS instances that Amazon Web Services recommends
-/// that you purchase.
+/// Details about the Amazon RDS reservations that Amazon Web Services
+/// recommends that you purchase.
 class RDSInstanceDetails {
   /// Determines whether the recommendation is for a current-generation instance.
   final bool? currentGeneration;
@@ -7564,6 +8001,229 @@ class RDSInstanceDetails {
   }
 }
 
+/// The details and metrics for the given recommendation.
+class RecommendationDetailData {
+  /// The AccountID that the recommendation is generated for.
+  final String? accountId;
+
+  /// The account scope that you want your recommendations for. Amazon Web
+  /// Services calculates recommendations including the management account and
+  /// member accounts if the value is set to PAYER. If the value is LINKED,
+  /// recommendations are calculated for individual member accounts only.
+  final AccountScope? accountScope;
+
+  /// The currency code that Amazon Web Services used to generate the
+  /// recommendation and present potential savings.
+  final String? currencyCode;
+
+  /// The average value of hourly coverage over the lookback period.
+  final String? currentAverageCoverage;
+
+  /// The average value of hourly On-Demand spend over the lookback period of the
+  /// applicable usage type.
+  final String? currentAverageHourlyOnDemandSpend;
+
+  /// The highest value of hourly On-Demand spend over the lookback period of the
+  /// applicable usage type.
+  final String? currentMaximumHourlyOnDemandSpend;
+
+  /// The lowest value of hourly On-Demand spend over the lookback period of the
+  /// applicable usage type.
+  final String? currentMinimumHourlyOnDemandSpend;
+
+  /// The estimated coverage of the recommended Savings Plan.
+  final String? estimatedAverageCoverage;
+
+  /// The estimated utilization of the recommended Savings Plan.
+  final String? estimatedAverageUtilization;
+
+  /// The estimated monthly savings amount based on the recommended Savings Plan.
+  final String? estimatedMonthlySavingsAmount;
+
+  /// The remaining On-Demand cost estimated to not be covered by the recommended
+  /// Savings Plan, over the length of the lookback period.
+  final String? estimatedOnDemandCost;
+
+  /// The estimated On-Demand costs you expect with no additional commitment,
+  /// based on your usage of the selected time period and the Savings Plan you
+  /// own.
+  final String? estimatedOnDemandCostWithCurrentCommitment;
+
+  /// The estimated return on investment that's based on the recommended Savings
+  /// Plan that you purchased. This is calculated as
+  /// estimatedSavingsAmount/estimatedSPCost*100.
+  final String? estimatedROI;
+
+  /// The cost of the recommended Savings Plan over the length of the lookback
+  /// period.
+  final String? estimatedSPCost;
+
+  /// The estimated savings amount that's based on the recommended Savings Plan
+  /// over the length of the lookback period.
+  final String? estimatedSavingsAmount;
+
+  /// The estimated savings percentage relative to the total cost of applicable
+  /// On-Demand usage over the lookback period.
+  final String? estimatedSavingsPercentage;
+
+  /// The existing hourly commitment for the Savings Plan type.
+  final String? existingHourlyCommitment;
+  final String? generationTimestamp;
+
+  /// The recommended hourly commitment level for the Savings Plan type and the
+  /// configuration that's based on the usage during the lookback period.
+  final String? hourlyCommitmentToPurchase;
+
+  /// The instance family of the recommended Savings Plan.
+  final String? instanceFamily;
+  final String? latestUsageTimestamp;
+
+  /// How many days of previous usage that Amazon Web Services considers when
+  /// making this recommendation.
+  final LookbackPeriodInDays? lookbackPeriodInDays;
+
+  /// The related hourly cost, coverage, and utilization metrics over the lookback
+  /// period.
+  final List<RecommendationDetailHourlyMetrics>? metricsOverLookbackPeriod;
+
+  /// The unique ID that's used to distinguish Savings Plans from one another.
+  final String? offeringId;
+
+  /// The payment option for the commitment (for example, All Upfront or No
+  /// Upfront).
+  final PaymentOption? paymentOption;
+
+  /// The region the recommendation is generated for.
+  final String? region;
+
+  /// The requested Savings Plan recommendation type.
+  final SupportedSavingsPlansType? savingsPlansType;
+
+  /// The term of the commitment in years.
+  final TermInYears? termInYears;
+
+  /// The upfront cost of the recommended Savings Plan, based on the selected
+  /// payment option.
+  final String? upfrontCost;
+
+  RecommendationDetailData({
+    this.accountId,
+    this.accountScope,
+    this.currencyCode,
+    this.currentAverageCoverage,
+    this.currentAverageHourlyOnDemandSpend,
+    this.currentMaximumHourlyOnDemandSpend,
+    this.currentMinimumHourlyOnDemandSpend,
+    this.estimatedAverageCoverage,
+    this.estimatedAverageUtilization,
+    this.estimatedMonthlySavingsAmount,
+    this.estimatedOnDemandCost,
+    this.estimatedOnDemandCostWithCurrentCommitment,
+    this.estimatedROI,
+    this.estimatedSPCost,
+    this.estimatedSavingsAmount,
+    this.estimatedSavingsPercentage,
+    this.existingHourlyCommitment,
+    this.generationTimestamp,
+    this.hourlyCommitmentToPurchase,
+    this.instanceFamily,
+    this.latestUsageTimestamp,
+    this.lookbackPeriodInDays,
+    this.metricsOverLookbackPeriod,
+    this.offeringId,
+    this.paymentOption,
+    this.region,
+    this.savingsPlansType,
+    this.termInYears,
+    this.upfrontCost,
+  });
+
+  factory RecommendationDetailData.fromJson(Map<String, dynamic> json) {
+    return RecommendationDetailData(
+      accountId: json['AccountId'] as String?,
+      accountScope: (json['AccountScope'] as String?)?.toAccountScope(),
+      currencyCode: json['CurrencyCode'] as String?,
+      currentAverageCoverage: json['CurrentAverageCoverage'] as String?,
+      currentAverageHourlyOnDemandSpend:
+          json['CurrentAverageHourlyOnDemandSpend'] as String?,
+      currentMaximumHourlyOnDemandSpend:
+          json['CurrentMaximumHourlyOnDemandSpend'] as String?,
+      currentMinimumHourlyOnDemandSpend:
+          json['CurrentMinimumHourlyOnDemandSpend'] as String?,
+      estimatedAverageCoverage: json['EstimatedAverageCoverage'] as String?,
+      estimatedAverageUtilization:
+          json['EstimatedAverageUtilization'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String?,
+      estimatedOnDemandCostWithCurrentCommitment:
+          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+      estimatedROI: json['EstimatedROI'] as String?,
+      estimatedSPCost: json['EstimatedSPCost'] as String?,
+      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+      existingHourlyCommitment: json['ExistingHourlyCommitment'] as String?,
+      generationTimestamp: json['GenerationTimestamp'] as String?,
+      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+      instanceFamily: json['InstanceFamily'] as String?,
+      latestUsageTimestamp: json['LatestUsageTimestamp'] as String?,
+      lookbackPeriodInDays:
+          (json['LookbackPeriodInDays'] as String?)?.toLookbackPeriodInDays(),
+      metricsOverLookbackPeriod: (json['MetricsOverLookbackPeriod'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecommendationDetailHourlyMetrics.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      offeringId: json['OfferingId'] as String?,
+      paymentOption: (json['PaymentOption'] as String?)?.toPaymentOption(),
+      region: json['Region'] as String?,
+      savingsPlansType:
+          (json['SavingsPlansType'] as String?)?.toSupportedSavingsPlansType(),
+      termInYears: (json['TermInYears'] as String?)?.toTermInYears(),
+      upfrontCost: json['UpfrontCost'] as String?,
+    );
+  }
+}
+
+/// Contains the hourly metrics for the given recommendation over the lookback
+/// period.
+class RecommendationDetailHourlyMetrics {
+  /// The current amount of Savings Plans eligible usage that the Savings Plan
+  /// covered.
+  final String? currentCoverage;
+
+  /// The estimated coverage amount based on the recommended Savings Plan.
+  final String? estimatedCoverage;
+
+  /// The estimated utilization for the recommended Savings Plan.
+  final String? estimatedNewCommitmentUtilization;
+
+  /// The remaining On-Demand cost estimated to not be covered by the recommended
+  /// Savings Plan, over the length of the lookback period.
+  final String? estimatedOnDemandCost;
+  final String? startTime;
+
+  RecommendationDetailHourlyMetrics({
+    this.currentCoverage,
+    this.estimatedCoverage,
+    this.estimatedNewCommitmentUtilization,
+    this.estimatedOnDemandCost,
+    this.startTime,
+  });
+
+  factory RecommendationDetailHourlyMetrics.fromJson(
+      Map<String, dynamic> json) {
+    return RecommendationDetailHourlyMetrics(
+      currentCoverage: json['CurrentCoverage'] as String?,
+      estimatedCoverage: json['EstimatedCoverage'] as String?,
+      estimatedNewCommitmentUtilization:
+          json['EstimatedNewCommitmentUtilization'] as String?,
+      estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String?,
+      startTime: json['StartTime'] as String?,
+    );
+  }
+}
+
 enum RecommendationTarget {
   sameInstanceFamily,
   crossInstanceFamily,
@@ -7592,7 +8252,7 @@ extension RecommendationTargetFromString on String {
   }
 }
 
-/// Details about the Amazon Redshift instances that Amazon Web Services
+/// Details about the Amazon Redshift reservations that Amazon Web Services
 /// recommends that you purchase.
 class RedshiftInstanceDetails {
   /// Determines whether the recommendation is for a current-generation instance.
@@ -7868,7 +8528,7 @@ class ReservationPurchaseRecommendationDetail {
   /// during the specified historical period if you had a reservation.
   final String? estimatedReservationCostForLookbackPeriod;
 
-  /// Details about the instances that Amazon Web Services recommends that you
+  /// Details about the reservations that Amazon Web Services recommends that you
   /// purchase.
   final InstanceDetails? instanceDetails;
 
@@ -7970,16 +8630,20 @@ class ReservationPurchaseRecommendationDetail {
   }
 }
 
-/// Information about this specific recommendation, such as the timestamp for
-/// when Amazon Web Services made a specific recommendation.
+/// Information about a recommendation, such as the timestamp for when Amazon
+/// Web Services made a specific recommendation.
 class ReservationPurchaseRecommendationMetadata {
-  /// The timestamp for when Amazon Web Services made this recommendation.
+  /// Additional metadata that might be applicable to the recommendation.
+  final String? additionalMetadata;
+
+  /// The timestamp for when Amazon Web Services made the recommendation.
   final String? generationTimestamp;
 
-  /// The ID for this specific recommendation.
+  /// The ID for the recommendation.
   final String? recommendationId;
 
   ReservationPurchaseRecommendationMetadata({
+    this.additionalMetadata,
     this.generationTimestamp,
     this.recommendationId,
   });
@@ -7987,6 +8651,7 @@ class ReservationPurchaseRecommendationMetadata {
   factory ReservationPurchaseRecommendationMetadata.fromJson(
       Map<String, dynamic> json) {
     return ReservationPurchaseRecommendationMetadata(
+      additionalMetadata: json['AdditionalMetadata'] as String?,
       generationTimestamp: json['GenerationTimestamp'] as String?,
       recommendationId: json['RecommendationId'] as String?,
     );
@@ -8272,19 +8937,19 @@ class RightsizingRecommendationConfiguration {
   }
 }
 
-/// Metadata for this recommendation set.
+/// Metadata for a recommendation set.
 class RightsizingRecommendationMetadata {
   /// Additional metadata that might be applicable to the recommendation.
   final String? additionalMetadata;
 
-  /// The timestamp for when Amazon Web Services made this recommendation.
+  /// The timestamp for when Amazon Web Services made the recommendation.
   final String? generationTimestamp;
 
   /// The number of days of previous usage that Amazon Web Services considers when
-  /// making this recommendation.
+  /// making the recommendation.
   final LookbackPeriodInDays? lookbackPeriodInDays;
 
-  /// The ID for this specific recommendation.
+  /// The ID for the recommendation.
   final String? recommendationId;
 
   RightsizingRecommendationMetadata({
@@ -8694,6 +9359,9 @@ class SavingsPlansPurchaseRecommendationDetail {
   /// configuration that's based on the usage during the lookback period.
   final String? hourlyCommitmentToPurchase;
 
+  /// Contains detailed information about a specific Savings Plan recommendation.
+  final String? recommendationDetailId;
+
   /// Details for your recommended Savings Plans.
   final SavingsPlansDetails? savingsPlansDetails;
 
@@ -8716,6 +9384,7 @@ class SavingsPlansPurchaseRecommendationDetail {
     this.estimatedSavingsAmount,
     this.estimatedSavingsPercentage,
     this.hourlyCommitmentToPurchase,
+    this.recommendationDetailId,
     this.savingsPlansDetails,
     this.upfrontCost,
   });
@@ -8743,6 +9412,7 @@ class SavingsPlansPurchaseRecommendationDetail {
       estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
       estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
       hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+      recommendationDetailId: json['RecommendationDetailId'] as String?,
       savingsPlansDetails: json['SavingsPlansDetails'] != null
           ? SavingsPlansDetails.fromJson(
               json['SavingsPlansDetails'] as Map<String, dynamic>)
@@ -9131,6 +9801,25 @@ extension SortOrderFromString on String {
         return SortOrder.descending;
     }
     throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
+class StartCostAllocationTagBackfillResponse {
+  /// An object containing detailed metadata of your new backfill request.
+  final CostAllocationTagBackfillRequest? backfillRequest;
+
+  StartCostAllocationTagBackfillResponse({
+    this.backfillRequest,
+  });
+
+  factory StartCostAllocationTagBackfillResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartCostAllocationTagBackfillResponse(
+      backfillRequest: json['BackfillRequest'] != null
+          ? CostAllocationTagBackfillRequest.fromJson(
+              json['BackfillRequest'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -9635,6 +10324,14 @@ class UtilizationByTime {
   }
 }
 
+class BackfillLimitExceededException extends _s.GenericAwsException {
+  BackfillLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'BackfillLimitExceededException',
+            message: message);
+}
+
 class BillExpirationException extends _s.GenericAwsException {
   BillExpirationException({String? type, String? message})
       : super(type: type, code: 'BillExpirationException', message: message);
@@ -9703,6 +10400,8 @@ class UnresolvableUsageUnitException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'BackfillLimitExceededException': (type, message) =>
+      BackfillLimitExceededException(type: type, message: message),
   'BillExpirationException': (type, message) =>
       BillExpirationException(type: type, message: message),
   'DataUnavailableException': (type, message) =>

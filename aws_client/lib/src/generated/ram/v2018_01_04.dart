@@ -206,17 +206,23 @@ class Ram {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs)</a> of the resources that you want to share. This
   /// can be <code>null</code> if you want to add only principals.
+  ///
+  /// Parameter [sources] :
+  /// Specifies from which source accounts the service principal has access to
+  /// the resources in this resource share.
   Future<AssociateResourceShareResponse> associateResourceShare({
     required String resourceShareArn,
     String? clientToken,
     List<String>? principals,
     List<String>? resourceArns,
+    List<String>? sources,
   }) async {
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       if (clientToken != null) 'clientToken': clientToken,
       if (principals != null) 'principals': principals,
       if (resourceArns != null) 'resourceArns': resourceArns,
+      if (sources != null) 'sources': sources,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -543,6 +549,7 @@ class Ram {
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceShareLimitExceededException].
   /// May throw [TagPolicyViolationException].
+  /// May throw [TagLimitExceededException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
   ///
@@ -622,6 +629,10 @@ class Ram {
   /// Specifies a list of one or more ARNs of the resources to associate with
   /// the resource share.
   ///
+  /// Parameter [sources] :
+  /// Specifies from which source accounts the service principal has access to
+  /// the resources in this resource share.
+  ///
   /// Parameter [tags] :
   /// Specifies one or more tags to attach to the resource share itself. It
   /// doesn't attach the tags to the resources associated with the resource
@@ -633,6 +644,7 @@ class Ram {
     List<String>? permissionArns,
     List<String>? principals,
     List<String>? resourceArns,
+    List<String>? sources,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -643,6 +655,7 @@ class Ram {
       if (permissionArns != null) 'permissionArns': permissionArns,
       if (principals != null) 'principals': principals,
       if (resourceArns != null) 'resourceArns': resourceArns,
+      if (sources != null) 'sources': sources,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -913,17 +926,23 @@ class Ram {
   /// Resource Names (ARNs)</a> for one or more resources that you want to
   /// remove from the resource share. After the operation runs, these resources
   /// are no longer shared with principals associated with the resource share.
+  ///
+  /// Parameter [sources] :
+  /// Specifies from which source accounts the service principal no longer has
+  /// access to the resources in this resource share.
   Future<DisassociateResourceShareResponse> disassociateResourceShare({
     required String resourceShareArn,
     String? clientToken,
     List<String>? principals,
     List<String>? resourceArns,
+    List<String>? sources,
   }) async {
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       if (clientToken != null) 'clientToken': clientToken,
       if (principals != null) 'principals': principals,
       if (resourceArns != null) 'resourceArns': resourceArns,
+      if (sources != null) 'sources': sources,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1184,7 +1203,7 @@ class Ram {
   /// retrieve. This can be an Amazon Web Services account ID, an organization
   /// ID, an organizational unit ID, or the <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of an individual IAM user or role.
+  /// Resource Name (ARN)</a> of an individual IAM role or user.
   ///
   /// You cannot specify this parameter if the association type is
   /// <code>RESOURCE</code>.

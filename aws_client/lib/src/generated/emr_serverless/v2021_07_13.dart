@@ -19,10 +19,10 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon EMR Serverless is a new deployment option for Amazon EMR. EMR
+/// Amazon EMR Serverless is a new deployment option for Amazon EMR. Amazon EMR
 /// Serverless provides a serverless runtime environment that simplifies running
 /// analytics applications using the latest open source frameworks such as
-/// Apache Spark and Apache Hive. With EMR Serverless, you don’t have to
+/// Apache Spark and Apache Hive. With Amazon EMR Serverless, you don’t have to
 /// configure, optimize, secure, or operate clusters to run applications with
 /// these frameworks.
 ///
@@ -108,7 +108,7 @@ class EmrServerless {
   /// May throw [ConflictException].
   ///
   /// Parameter [releaseLabel] :
-  /// The EMR release associated with the application.
+  /// The Amazon EMR release associated with the application.
   ///
   /// Parameter [type] :
   /// The type of application you want to start, such as Spark or Hive.
@@ -136,17 +136,31 @@ class EmrServerless {
   /// Parameter [initialCapacity] :
   /// The capacity to initialize when the application is created.
   ///
+  /// Parameter [interactiveConfiguration] :
+  /// The interactive configuration object that enables the interactive use
+  /// cases to use when running an application.
+  ///
   /// Parameter [maximumCapacity] :
   /// The maximum capacity to allocate when the application is created. This is
   /// cumulative across all workers at any given point in time, not just when an
   /// application is created. No new resources will be created once any one of
   /// the defined limits is hit.
   ///
+  /// Parameter [monitoringConfiguration] :
+  /// The configuration setting for monitoring.
+  ///
   /// Parameter [name] :
   /// The name of the application.
   ///
   /// Parameter [networkConfiguration] :
   /// The network configuration for customer VPC connectivity.
+  ///
+  /// Parameter [runtimeConfiguration] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html">Configuration</a>
+  /// specifications to use when creating an application. Each configuration
+  /// consists of a classification and properties. This configuration is applied
+  /// to all the job runs submitted under the application.
   ///
   /// Parameter [tags] :
   /// The tags assigned to the application.
@@ -168,9 +182,12 @@ class EmrServerless {
     String? clientToken,
     ImageConfigurationInput? imageConfiguration,
     Map<String, InitialCapacityConfig>? initialCapacity,
+    InteractiveConfiguration? interactiveConfiguration,
     MaximumAllowedResources? maximumCapacity,
+    MonitoringConfiguration? monitoringConfiguration,
     String? name,
     NetworkConfiguration? networkConfiguration,
+    List<Configuration>? runtimeConfiguration,
     Map<String, String>? tags,
     Map<String, WorkerTypeSpecificationInput>? workerTypeSpecifications,
   }) async {
@@ -185,10 +202,16 @@ class EmrServerless {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (imageConfiguration != null) 'imageConfiguration': imageConfiguration,
       if (initialCapacity != null) 'initialCapacity': initialCapacity,
+      if (interactiveConfiguration != null)
+        'interactiveConfiguration': interactiveConfiguration,
       if (maximumCapacity != null) 'maximumCapacity': maximumCapacity,
+      if (monitoringConfiguration != null)
+        'monitoringConfiguration': monitoringConfiguration,
       if (name != null) 'name': name,
       if (networkConfiguration != null)
         'networkConfiguration': networkConfiguration,
+      if (runtimeConfiguration != null)
+        'runtimeConfiguration': runtimeConfiguration,
       if (tags != null) 'tags': tags,
       if (workerTypeSpecifications != null)
         'workerTypeSpecifications': workerTypeSpecifications,
@@ -242,9 +265,18 @@ class EmrServerless {
     return GetApplicationResponse.fromJson(response);
   }
 
-  /// Returns a URL to access the job run dashboard. The generated URL is valid
-  /// for one hour, after which you must invoke the API again to generate a new
-  /// URL.
+  /// Creates and returns a URL that you can use to access the application UIs
+  /// for a job run.
+  ///
+  /// For jobs in a running state, the application UI is a live user interface
+  /// such as the Spark or Tez web UI. For completed jobs, the application UI is
+  /// a persistent application user interface such as the Spark History Server
+  /// or persistent Tez UI.
+  /// <note>
+  /// The URL is valid for one hour after you generate it. To access the
+  /// application UI after that hour elapses, you must invoke the API again to
+  /// generate a new URL.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -255,15 +287,30 @@ class EmrServerless {
   ///
   /// Parameter [jobRunId] :
   /// The ID of the job run.
+  ///
+  /// Parameter [attempt] :
+  /// An optimal parameter that indicates the amount of attempts for the job. If
+  /// not specified, this value defaults to the attempt of the latest job.
   Future<GetDashboardForJobRunResponse> getDashboardForJobRun({
     required String applicationId,
     required String jobRunId,
+    int? attempt,
   }) async {
+    _s.validateNumRange(
+      'attempt',
+      attempt,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      if (attempt != null) 'attempt': [attempt.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/applications/${Uri.encodeComponent(applicationId)}/jobruns/${Uri.encodeComponent(jobRunId)}/dashboard',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetDashboardForJobRunResponse.fromJson(response);
@@ -280,15 +327,30 @@ class EmrServerless {
   ///
   /// Parameter [jobRunId] :
   /// The ID of the job run.
+  ///
+  /// Parameter [attempt] :
+  /// An optimal parameter that indicates the amount of attempts for the job. If
+  /// not specified, this value defaults to the attempt of the latest job.
   Future<GetJobRunResponse> getJobRun({
     required String applicationId,
     required String jobRunId,
+    int? attempt,
   }) async {
+    _s.validateNumRange(
+      'attempt',
+      attempt,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      if (attempt != null) 'attempt': [attempt.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/applications/${Uri.encodeComponent(applicationId)}/jobruns/${Uri.encodeComponent(jobRunId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetJobRunResponse.fromJson(response);
@@ -334,6 +396,50 @@ class EmrServerless {
     return ListApplicationsResponse.fromJson(response);
   }
 
+  /// Lists all attempt of a job run.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The ID of the application for which to list job runs.
+  ///
+  /// Parameter [jobRunId] :
+  /// The ID of the job run to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of job run attempts to list.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of job run attempt results.
+  Future<ListJobRunAttemptsResponse> listJobRunAttempts({
+    required String applicationId,
+    required String jobRunId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationId)}/jobruns/${Uri.encodeComponent(jobRunId)}/attempts',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListJobRunAttemptsResponse.fromJson(response);
+  }
+
   /// Lists job runs based on a set of parameters.
   ///
   /// May throw [ValidationException].
@@ -351,6 +457,9 @@ class EmrServerless {
   /// Parameter [maxResults] :
   /// The maximum number of job runs that can be listed.
   ///
+  /// Parameter [mode] :
+  /// The mode of the job runs to list.
+  ///
   /// Parameter [nextToken] :
   /// The token for the next set of job run results.
   ///
@@ -362,6 +471,7 @@ class EmrServerless {
     DateTime? createdAtAfter,
     DateTime? createdAtBefore,
     int? maxResults,
+    JobRunMode? mode,
     String? nextToken,
     List<JobRunState>? states,
   }) async {
@@ -377,6 +487,7 @@ class EmrServerless {
       if (createdAtBefore != null)
         'createdAtBefore': [_s.iso8601ToJson(createdAtBefore).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (mode != null) 'mode': [mode.toValue()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (states != null) 'states': states.map((e) => e.toValue()).toList(),
     };
@@ -460,8 +571,14 @@ class EmrServerless {
   /// Parameter [jobDriver] :
   /// The job driver for the job run.
   ///
+  /// Parameter [mode] :
+  /// The mode of the job run when it starts.
+  ///
   /// Parameter [name] :
   /// The optional job run name. This doesn't have to be unique.
+  ///
+  /// Parameter [retryPolicy] :
+  /// The retry policy when job run starts.
   ///
   /// Parameter [tags] :
   /// The tags assigned to the job run.
@@ -472,7 +589,9 @@ class EmrServerless {
     ConfigurationOverrides? configurationOverrides,
     int? executionTimeoutMinutes,
     JobDriver? jobDriver,
+    JobRunMode? mode,
     String? name,
+    RetryPolicy? retryPolicy,
     Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
@@ -489,7 +608,9 @@ class EmrServerless {
       if (executionTimeoutMinutes != null)
         'executionTimeoutMinutes': executionTimeoutMinutes,
       if (jobDriver != null) 'jobDriver': jobDriver,
+      if (mode != null) 'mode': mode.toValue(),
       if (name != null) 'name': name,
+      if (retryPolicy != null) 'retryPolicy': retryPolicy,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -617,11 +738,29 @@ class EmrServerless {
   /// Parameter [initialCapacity] :
   /// The capacity to initialize when the application is updated.
   ///
+  /// Parameter [interactiveConfiguration] :
+  /// The interactive configuration object that contains new interactive use
+  /// cases when the application is updated.
+  ///
   /// Parameter [maximumCapacity] :
   /// The maximum capacity to allocate when the application is updated. This is
   /// cumulative across all workers at any given point in time during the
   /// lifespan of the application. No new resources will be created once any one
   /// of the defined limits is hit.
+  ///
+  /// Parameter [monitoringConfiguration] :
+  /// The configuration setting for monitoring.
+  ///
+  /// Parameter [releaseLabel] :
+  /// The Amazon EMR release label for the application. You can change the
+  /// release label to use a different release of Amazon EMR.
+  ///
+  /// Parameter [runtimeConfiguration] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html">Configuration</a>
+  /// specifications to use when updating an application. Each configuration
+  /// consists of a classification and properties. This configuration is applied
+  /// across all the job runs submitted under the application.
   ///
   /// Parameter [workerTypeSpecifications] :
   /// The key-value pairs that specify worker type to
@@ -639,8 +778,12 @@ class EmrServerless {
     String? clientToken,
     ImageConfigurationInput? imageConfiguration,
     Map<String, InitialCapacityConfig>? initialCapacity,
+    InteractiveConfiguration? interactiveConfiguration,
     MaximumAllowedResources? maximumCapacity,
+    MonitoringConfiguration? monitoringConfiguration,
     NetworkConfiguration? networkConfiguration,
+    String? releaseLabel,
+    List<Configuration>? runtimeConfiguration,
     Map<String, WorkerTypeSpecificationInput>? workerTypeSpecifications,
   }) async {
     final $payload = <String, dynamic>{
@@ -652,9 +795,16 @@ class EmrServerless {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (imageConfiguration != null) 'imageConfiguration': imageConfiguration,
       if (initialCapacity != null) 'initialCapacity': initialCapacity,
+      if (interactiveConfiguration != null)
+        'interactiveConfiguration': interactiveConfiguration,
       if (maximumCapacity != null) 'maximumCapacity': maximumCapacity,
+      if (monitoringConfiguration != null)
+        'monitoringConfiguration': monitoringConfiguration,
       if (networkConfiguration != null)
         'networkConfiguration': networkConfiguration,
+      if (releaseLabel != null) 'releaseLabel': releaseLabel,
+      if (runtimeConfiguration != null)
+        'runtimeConfiguration': runtimeConfiguration,
       if (workerTypeSpecifications != null)
         'workerTypeSpecifications': workerTypeSpecifications,
     };
@@ -668,8 +818,8 @@ class EmrServerless {
   }
 }
 
-/// Information about an application. EMR Serverless uses applications to run
-/// jobs.
+/// Information about an application. Amazon EMR Serverless uses applications to
+/// run jobs.
 class Application {
   /// The ID of the application.
   final String applicationId;
@@ -680,7 +830,7 @@ class Application {
   /// The date and time when the application run was created.
   final DateTime createdAt;
 
-  /// The EMR release associated with the application.
+  /// The Amazon EMR release associated with the application.
   final String releaseLabel;
 
   /// The state of the application.
@@ -709,17 +859,32 @@ class Application {
   /// The initial capacity of the application.
   final Map<String, InitialCapacityConfig>? initialCapacity;
 
+  /// The interactive configuration object that enables the interactive use cases
+  /// for an application.
+  final InteractiveConfiguration? interactiveConfiguration;
+
   /// The maximum capacity of the application. This is cumulative across all
   /// workers at any given point in time during the lifespan of the application is
   /// created. No new resources will be created once any one of the defined limits
   /// is hit.
   final MaximumAllowedResources? maximumCapacity;
+  final MonitoringConfiguration? monitoringConfiguration;
 
   /// The name of the application.
   final String? name;
 
   /// The network configuration for customer VPC connectivity for the application.
   final NetworkConfiguration? networkConfiguration;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html">Configuration</a>
+  /// specifications of an application. Each configuration consists of a
+  /// classification and properties. You use this parameter when creating or
+  /// updating an application. To see the runtimeConfiguration object of an
+  /// application, run the <a
+  /// href="https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_GetApplication.html">GetApplication</a>
+  /// API operation.
+  final List<Configuration>? runtimeConfiguration;
 
   /// The state details of the application.
   final String? stateDetails;
@@ -743,9 +908,12 @@ class Application {
     this.autoStopConfiguration,
     this.imageConfiguration,
     this.initialCapacity,
+    this.interactiveConfiguration,
     this.maximumCapacity,
+    this.monitoringConfiguration,
     this.name,
     this.networkConfiguration,
+    this.runtimeConfiguration,
     this.stateDetails,
     this.tags,
     this.workerTypeSpecifications,
@@ -776,15 +944,27 @@ class Application {
       initialCapacity: (json['initialCapacity'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(
               k, InitialCapacityConfig.fromJson(e as Map<String, dynamic>))),
+      interactiveConfiguration: json['interactiveConfiguration'] != null
+          ? InteractiveConfiguration.fromJson(
+              json['interactiveConfiguration'] as Map<String, dynamic>)
+          : null,
       maximumCapacity: json['maximumCapacity'] != null
           ? MaximumAllowedResources.fromJson(
               json['maximumCapacity'] as Map<String, dynamic>)
+          : null,
+      monitoringConfiguration: json['monitoringConfiguration'] != null
+          ? MonitoringConfiguration.fromJson(
+              json['monitoringConfiguration'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
       networkConfiguration: json['networkConfiguration'] != null
           ? NetworkConfiguration.fromJson(
               json['networkConfiguration'] as Map<String, dynamic>)
           : null,
+      runtimeConfiguration: (json['runtimeConfiguration'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       stateDetails: json['stateDetails'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -808,9 +988,12 @@ class Application {
     final autoStopConfiguration = this.autoStopConfiguration;
     final imageConfiguration = this.imageConfiguration;
     final initialCapacity = this.initialCapacity;
+    final interactiveConfiguration = this.interactiveConfiguration;
     final maximumCapacity = this.maximumCapacity;
+    final monitoringConfiguration = this.monitoringConfiguration;
     final name = this.name;
     final networkConfiguration = this.networkConfiguration;
+    final runtimeConfiguration = this.runtimeConfiguration;
     final stateDetails = this.stateDetails;
     final tags = this.tags;
     final workerTypeSpecifications = this.workerTypeSpecifications;
@@ -829,10 +1012,16 @@ class Application {
         'autoStopConfiguration': autoStopConfiguration,
       if (imageConfiguration != null) 'imageConfiguration': imageConfiguration,
       if (initialCapacity != null) 'initialCapacity': initialCapacity,
+      if (interactiveConfiguration != null)
+        'interactiveConfiguration': interactiveConfiguration,
       if (maximumCapacity != null) 'maximumCapacity': maximumCapacity,
+      if (monitoringConfiguration != null)
+        'monitoringConfiguration': monitoringConfiguration,
       if (name != null) 'name': name,
       if (networkConfiguration != null)
         'networkConfiguration': networkConfiguration,
+      if (runtimeConfiguration != null)
+        'runtimeConfiguration': runtimeConfiguration,
       if (stateDetails != null) 'stateDetails': stateDetails,
       if (tags != null) 'tags': tags,
       if (workerTypeSpecifications != null)
@@ -905,7 +1094,7 @@ class ApplicationSummary {
   /// The ID of the application.
   final String id;
 
-  /// The EMR release associated with the application.
+  /// The Amazon EMR release associated with the application.
   final String releaseLabel;
 
   /// The state of the application.
@@ -1091,6 +1280,79 @@ class CancelJobRunResponse {
     return {
       'applicationId': applicationId,
       'jobRunId': jobRunId,
+    };
+  }
+}
+
+/// The Amazon CloudWatch configuration for monitoring logs. You can configure
+/// your jobs to send log information to CloudWatch.
+class CloudWatchLoggingConfiguration {
+  /// Enables CloudWatch logging.
+  final bool enabled;
+
+  /// The Key Management Service (KMS) key ARN to encrypt the logs that you store
+  /// in CloudWatch Logs.
+  final String? encryptionKeyArn;
+
+  /// The name of the log group in Amazon CloudWatch Logs where you want to
+  /// publish your logs.
+  final String? logGroupName;
+
+  /// Prefix for the CloudWatch log stream name.
+  final String? logStreamNamePrefix;
+
+  /// The types of logs that you want to publish to CloudWatch. If you don't
+  /// specify any log types, driver STDOUT and STDERR logs will be published to
+  /// CloudWatch Logs by default. For more information including the supported
+  /// worker types for Hive and Spark, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/logging.html#jobs-log-storage-cw">Logging
+  /// for EMR Serverless with CloudWatch</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Key Valid Values</b>: <code>SPARK_DRIVER</code>,
+  /// <code>SPARK_EXECUTOR</code>, <code>HIVE_DRIVER</code>, <code>TEZ_TASK</code>
+  /// </li>
+  /// <li>
+  /// <b>Array Members Valid Values</b>: <code>STDOUT</code>, <code>STDERR</code>,
+  /// <code>HIVE_LOG</code>, <code>TEZ_AM</code>, <code>SYSTEM_LOGS</code>
+  /// </li>
+  /// </ul>
+  final Map<String, List<String>>? logTypes;
+
+  CloudWatchLoggingConfiguration({
+    required this.enabled,
+    this.encryptionKeyArn,
+    this.logGroupName,
+    this.logStreamNamePrefix,
+    this.logTypes,
+  });
+
+  factory CloudWatchLoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLoggingConfiguration(
+      enabled: json['enabled'] as bool,
+      encryptionKeyArn: json['encryptionKeyArn'] as String?,
+      logGroupName: json['logGroupName'] as String?,
+      logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
+      logTypes: (json['logTypes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final encryptionKeyArn = this.encryptionKeyArn;
+    final logGroupName = this.logGroupName;
+    final logStreamNamePrefix = this.logStreamNamePrefix;
+    final logTypes = this.logTypes;
+    return {
+      'enabled': enabled,
+      if (encryptionKeyArn != null) 'encryptionKeyArn': encryptionKeyArn,
+      if (logGroupName != null) 'logGroupName': logGroupName,
+      if (logStreamNamePrefix != null)
+        'logStreamNamePrefix': logStreamNamePrefix,
+      if (logTypes != null) 'logTypes': logTypes,
     };
   }
 }
@@ -1417,6 +1679,40 @@ class InitialCapacityConfig {
   }
 }
 
+/// The configuration to use to enable the different types of interactive use
+/// cases in an application.
+class InteractiveConfiguration {
+  /// Enables an Apache Livy endpoint that you can connect to and run interactive
+  /// jobs.
+  final bool? livyEndpointEnabled;
+
+  /// Enables you to connect an application to Amazon EMR Studio to run
+  /// interactive workloads in a notebook.
+  final bool? studioEnabled;
+
+  InteractiveConfiguration({
+    this.livyEndpointEnabled,
+    this.studioEnabled,
+  });
+
+  factory InteractiveConfiguration.fromJson(Map<String, dynamic> json) {
+    return InteractiveConfiguration(
+      livyEndpointEnabled: json['livyEndpointEnabled'] as bool?,
+      studioEnabled: json['studioEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final livyEndpointEnabled = this.livyEndpointEnabled;
+    final studioEnabled = this.studioEnabled;
+    return {
+      if (livyEndpointEnabled != null)
+        'livyEndpointEnabled': livyEndpointEnabled,
+      if (studioEnabled != null) 'studioEnabled': studioEnabled,
+    };
+  }
+}
+
 /// The driver that the job runs on.
 class JobDriver {
   /// The job driver parameters specified for Hive.
@@ -1452,8 +1748,8 @@ class JobDriver {
 }
 
 /// Information about a job run. A job run is a unit of work, such as a Spark
-/// JAR, Hive query, or SparkSQL query, that you submit to an EMR Serverless
-/// application.
+/// JAR, Hive query, or SparkSQL query, that you submit to an Amazon EMR
+/// Serverless application.
 class JobRun {
   /// The ID of the application the job is running on.
   final String applicationId;
@@ -1476,7 +1772,8 @@ class JobRun {
   /// The ID of the job run.
   final String jobRunId;
 
-  /// The EMR release associated with the application your job is running on.
+  /// The Amazon EMR release associated with the application your job is running
+  /// on.
   final String releaseLabel;
 
   /// The state of the job run.
@@ -1488,10 +1785,19 @@ class JobRun {
   /// The date and time when the job run was updated.
   final DateTime updatedAt;
 
-  /// The aggregate vCPU, memory, and storage that AWS has billed for the job run.
-  /// The billed resources include a 1-minute minimum usage for workers, plus
-  /// additional storage over 20 GB per worker. Note that billed resources do not
-  /// include usage for idle pre-initialized workers.
+  /// The attempt of the job run.
+  final int? attempt;
+
+  /// The date and time of when the job run attempt was created.
+  final DateTime? attemptCreatedAt;
+
+  /// The date and time of when the job run attempt was last updated.
+  final DateTime? attemptUpdatedAt;
+
+  /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed
+  /// for the job run. The billed resources include a 1-minute minimum usage for
+  /// workers, plus additional storage over 20 GB per worker. Note that billed
+  /// resources do not include usage for idle pre-initialized workers.
   final ResourceUtilization? billedResourceUtilization;
 
   /// The configuration settings that are used to override default configuration.
@@ -1502,9 +1808,15 @@ class JobRun {
   /// minutes.
   final int? executionTimeoutMinutes;
 
+  /// The mode of the job run.
+  final JobRunMode? mode;
+
   /// The optional job run name. This doesn't have to be unique.
   final String? name;
   final NetworkConfiguration? networkConfiguration;
+
+  /// The retry policy of the job run.
+  final RetryPolicy? retryPolicy;
 
   /// The tags assigned to the job run.
   final Map<String, String>? tags;
@@ -1531,11 +1843,16 @@ class JobRun {
     required this.state,
     required this.stateDetails,
     required this.updatedAt,
+    this.attempt,
+    this.attemptCreatedAt,
+    this.attemptUpdatedAt,
     this.billedResourceUtilization,
     this.configurationOverrides,
     this.executionTimeoutMinutes,
+    this.mode,
     this.name,
     this.networkConfiguration,
+    this.retryPolicy,
     this.tags,
     this.totalExecutionDurationSeconds,
     this.totalResourceUtilization,
@@ -1554,6 +1871,9 @@ class JobRun {
       state: (json['state'] as String).toJobRunState(),
       stateDetails: json['stateDetails'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      attempt: json['attempt'] as int?,
+      attemptCreatedAt: timeStampFromJson(json['attemptCreatedAt']),
+      attemptUpdatedAt: timeStampFromJson(json['attemptUpdatedAt']),
       billedResourceUtilization: json['billedResourceUtilization'] != null
           ? ResourceUtilization.fromJson(
               json['billedResourceUtilization'] as Map<String, dynamic>)
@@ -1563,10 +1883,14 @@ class JobRun {
               json['configurationOverrides'] as Map<String, dynamic>)
           : null,
       executionTimeoutMinutes: json['executionTimeoutMinutes'] as int?,
+      mode: (json['mode'] as String?)?.toJobRunMode(),
       name: json['name'] as String?,
       networkConfiguration: json['networkConfiguration'] != null
           ? NetworkConfiguration.fromJson(
               json['networkConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryPolicy: json['retryPolicy'] != null
+          ? RetryPolicy.fromJson(json['retryPolicy'] as Map<String, dynamic>)
           : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1591,11 +1915,16 @@ class JobRun {
     final state = this.state;
     final stateDetails = this.stateDetails;
     final updatedAt = this.updatedAt;
+    final attempt = this.attempt;
+    final attemptCreatedAt = this.attemptCreatedAt;
+    final attemptUpdatedAt = this.attemptUpdatedAt;
     final billedResourceUtilization = this.billedResourceUtilization;
     final configurationOverrides = this.configurationOverrides;
     final executionTimeoutMinutes = this.executionTimeoutMinutes;
+    final mode = this.mode;
     final name = this.name;
     final networkConfiguration = this.networkConfiguration;
+    final retryPolicy = this.retryPolicy;
     final tags = this.tags;
     final totalExecutionDurationSeconds = this.totalExecutionDurationSeconds;
     final totalResourceUtilization = this.totalResourceUtilization;
@@ -1611,21 +1940,178 @@ class JobRun {
       'state': state.toValue(),
       'stateDetails': stateDetails,
       'updatedAt': unixTimestampToJson(updatedAt),
+      if (attempt != null) 'attempt': attempt,
+      if (attemptCreatedAt != null)
+        'attemptCreatedAt': unixTimestampToJson(attemptCreatedAt),
+      if (attemptUpdatedAt != null)
+        'attemptUpdatedAt': unixTimestampToJson(attemptUpdatedAt),
       if (billedResourceUtilization != null)
         'billedResourceUtilization': billedResourceUtilization,
       if (configurationOverrides != null)
         'configurationOverrides': configurationOverrides,
       if (executionTimeoutMinutes != null)
         'executionTimeoutMinutes': executionTimeoutMinutes,
+      if (mode != null) 'mode': mode.toValue(),
       if (name != null) 'name': name,
       if (networkConfiguration != null)
         'networkConfiguration': networkConfiguration,
+      if (retryPolicy != null) 'retryPolicy': retryPolicy,
       if (tags != null) 'tags': tags,
       if (totalExecutionDurationSeconds != null)
         'totalExecutionDurationSeconds': totalExecutionDurationSeconds,
       if (totalResourceUtilization != null)
         'totalResourceUtilization': totalResourceUtilization,
     };
+  }
+}
+
+/// The summary of attributes associated with a job run attempt.
+class JobRunAttemptSummary {
+  /// The ID of the application the job is running on.
+  final String applicationId;
+
+  /// The Amazon Resource Name (ARN) of the job run.
+  final String arn;
+
+  /// The date and time when the job run attempt was created.
+  final DateTime createdAt;
+
+  /// The user who created the job run.
+  final String createdBy;
+
+  /// The Amazon Resource Name (ARN) of the execution role of the job run..
+  final String executionRole;
+
+  /// The ID of the job run attempt.
+  final String id;
+
+  /// The date and time of when the job run was created.
+  final DateTime jobCreatedAt;
+
+  /// The Amazon EMR release label of the job run attempt.
+  final String releaseLabel;
+
+  /// The state of the job run attempt.
+  final JobRunState state;
+
+  /// The state details of the job run attempt.
+  final String stateDetails;
+
+  /// The date and time of when the job run attempt was last updated.
+  final DateTime updatedAt;
+
+  /// The attempt number of the job run execution.
+  final int? attempt;
+
+  /// The mode of the job run attempt.
+  final JobRunMode? mode;
+
+  /// The name of the job run attempt.
+  final String? name;
+
+  /// The type of the job run, such as Spark or Hive.
+  final String? type;
+
+  JobRunAttemptSummary({
+    required this.applicationId,
+    required this.arn,
+    required this.createdAt,
+    required this.createdBy,
+    required this.executionRole,
+    required this.id,
+    required this.jobCreatedAt,
+    required this.releaseLabel,
+    required this.state,
+    required this.stateDetails,
+    required this.updatedAt,
+    this.attempt,
+    this.mode,
+    this.name,
+    this.type,
+  });
+
+  factory JobRunAttemptSummary.fromJson(Map<String, dynamic> json) {
+    return JobRunAttemptSummary(
+      applicationId: json['applicationId'] as String,
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      createdBy: json['createdBy'] as String,
+      executionRole: json['executionRole'] as String,
+      id: json['id'] as String,
+      jobCreatedAt:
+          nonNullableTimeStampFromJson(json['jobCreatedAt'] as Object),
+      releaseLabel: json['releaseLabel'] as String,
+      state: (json['state'] as String).toJobRunState(),
+      stateDetails: json['stateDetails'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      attempt: json['attempt'] as int?,
+      mode: (json['mode'] as String?)?.toJobRunMode(),
+      name: json['name'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final executionRole = this.executionRole;
+    final id = this.id;
+    final jobCreatedAt = this.jobCreatedAt;
+    final releaseLabel = this.releaseLabel;
+    final state = this.state;
+    final stateDetails = this.stateDetails;
+    final updatedAt = this.updatedAt;
+    final attempt = this.attempt;
+    final mode = this.mode;
+    final name = this.name;
+    final type = this.type;
+    return {
+      'applicationId': applicationId,
+      'arn': arn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'createdBy': createdBy,
+      'executionRole': executionRole,
+      'id': id,
+      'jobCreatedAt': unixTimestampToJson(jobCreatedAt),
+      'releaseLabel': releaseLabel,
+      'state': state.toValue(),
+      'stateDetails': stateDetails,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      if (attempt != null) 'attempt': attempt,
+      if (mode != null) 'mode': mode.toValue(),
+      if (name != null) 'name': name,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+enum JobRunMode {
+  batch,
+  streaming,
+}
+
+extension JobRunModeValueExtension on JobRunMode {
+  String toValue() {
+    switch (this) {
+      case JobRunMode.batch:
+        return 'BATCH';
+      case JobRunMode.streaming:
+        return 'STREAMING';
+    }
+  }
+}
+
+extension JobRunModeFromString on String {
+  JobRunMode toJobRunMode() {
+    switch (this) {
+      case 'BATCH':
+        return JobRunMode.batch;
+      case 'STREAMING':
+        return JobRunMode.streaming;
+    }
+    throw Exception('$this is not known in enum JobRunMode');
   }
 }
 
@@ -1707,7 +2193,8 @@ class JobRunSummary {
   /// The ID of the job run.
   final String id;
 
-  /// The EMR release associated with the application your job is running on.
+  /// The Amazon EMR release associated with the application your job is running
+  /// on.
   final String releaseLabel;
 
   /// The state of the job run.
@@ -1718,6 +2205,18 @@ class JobRunSummary {
 
   /// The date and time when the job run was last updated.
   final DateTime updatedAt;
+
+  /// The attempt number of the job run execution.
+  final int? attempt;
+
+  /// The date and time of when the job run attempt was created.
+  final DateTime? attemptCreatedAt;
+
+  /// The date and time of when the job run attempt was last updated.
+  final DateTime? attemptUpdatedAt;
+
+  /// The mode of the job run.
+  final JobRunMode? mode;
 
   /// The optional job run name. This doesn't have to be unique.
   final String? name;
@@ -1736,6 +2235,10 @@ class JobRunSummary {
     required this.state,
     required this.stateDetails,
     required this.updatedAt,
+    this.attempt,
+    this.attemptCreatedAt,
+    this.attemptUpdatedAt,
+    this.mode,
     this.name,
     this.type,
   });
@@ -1752,6 +2255,10 @@ class JobRunSummary {
       state: (json['state'] as String).toJobRunState(),
       stateDetails: json['stateDetails'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      attempt: json['attempt'] as int?,
+      attemptCreatedAt: timeStampFromJson(json['attemptCreatedAt']),
+      attemptUpdatedAt: timeStampFromJson(json['attemptUpdatedAt']),
+      mode: (json['mode'] as String?)?.toJobRunMode(),
       name: json['name'] as String?,
       type: json['type'] as String?,
     );
@@ -1768,6 +2275,10 @@ class JobRunSummary {
     final state = this.state;
     final stateDetails = this.stateDetails;
     final updatedAt = this.updatedAt;
+    final attempt = this.attempt;
+    final attemptCreatedAt = this.attemptCreatedAt;
+    final attemptUpdatedAt = this.attemptUpdatedAt;
+    final mode = this.mode;
     final name = this.name;
     final type = this.type;
     return {
@@ -1781,6 +2292,12 @@ class JobRunSummary {
       'state': state.toValue(),
       'stateDetails': stateDetails,
       'updatedAt': unixTimestampToJson(updatedAt),
+      if (attempt != null) 'attempt': attempt,
+      if (attemptCreatedAt != null)
+        'attemptCreatedAt': unixTimestampToJson(attemptCreatedAt),
+      if (attemptUpdatedAt != null)
+        'attemptUpdatedAt': unixTimestampToJson(attemptUpdatedAt),
+      if (mode != null) 'mode': mode.toValue(),
       if (name != null) 'name': name,
       if (type != null) 'type': type,
     };
@@ -1816,6 +2333,40 @@ class ListApplicationsResponse {
     final nextToken = this.nextToken;
     return {
       'applications': applications,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListJobRunAttemptsResponse {
+  /// The array of the listed job run attempt objects.
+  final List<JobRunAttemptSummary> jobRunAttempts;
+
+  /// The output displays the token for the next set of application results. This
+  /// is required for pagination and is available as a response of the previous
+  /// request.
+  final String? nextToken;
+
+  ListJobRunAttemptsResponse({
+    required this.jobRunAttempts,
+    this.nextToken,
+  });
+
+  factory ListJobRunAttemptsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobRunAttemptsResponse(
+      jobRunAttempts: (json['jobRunAttempts'] as List)
+          .whereNotNull()
+          .map((e) => JobRunAttemptSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobRunAttempts = this.jobRunAttempts;
+    final nextToken = this.nextToken;
+    return {
+      'jobRunAttempts': jobRunAttempts,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -1950,24 +2501,45 @@ class MaximumAllowedResources {
 
 /// The configuration setting for monitoring.
 class MonitoringConfiguration {
+  /// The Amazon CloudWatch configuration for monitoring logs. You can configure
+  /// your jobs to send log information to CloudWatch.
+  final CloudWatchLoggingConfiguration? cloudWatchLoggingConfiguration;
+
   /// The managed log persistence configuration for a job run.
   final ManagedPersistenceMonitoringConfiguration?
       managedPersistenceMonitoringConfiguration;
+
+  /// The monitoring configuration object you can configure to send metrics to
+  /// Amazon Managed Service for Prometheus for a job run.
+  final PrometheusMonitoringConfiguration? prometheusMonitoringConfiguration;
 
   /// The Amazon S3 configuration for monitoring log publishing.
   final S3MonitoringConfiguration? s3MonitoringConfiguration;
 
   MonitoringConfiguration({
+    this.cloudWatchLoggingConfiguration,
     this.managedPersistenceMonitoringConfiguration,
+    this.prometheusMonitoringConfiguration,
     this.s3MonitoringConfiguration,
   });
 
   factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
     return MonitoringConfiguration(
+      cloudWatchLoggingConfiguration: json['cloudWatchLoggingConfiguration'] !=
+              null
+          ? CloudWatchLoggingConfiguration.fromJson(
+              json['cloudWatchLoggingConfiguration'] as Map<String, dynamic>)
+          : null,
       managedPersistenceMonitoringConfiguration:
           json['managedPersistenceMonitoringConfiguration'] != null
               ? ManagedPersistenceMonitoringConfiguration.fromJson(
                   json['managedPersistenceMonitoringConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      prometheusMonitoringConfiguration:
+          json['prometheusMonitoringConfiguration'] != null
+              ? PrometheusMonitoringConfiguration.fromJson(
+                  json['prometheusMonitoringConfiguration']
                       as Map<String, dynamic>)
               : null,
       s3MonitoringConfiguration: json['s3MonitoringConfiguration'] != null
@@ -1978,13 +2550,20 @@ class MonitoringConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final cloudWatchLoggingConfiguration = this.cloudWatchLoggingConfiguration;
     final managedPersistenceMonitoringConfiguration =
         this.managedPersistenceMonitoringConfiguration;
+    final prometheusMonitoringConfiguration =
+        this.prometheusMonitoringConfiguration;
     final s3MonitoringConfiguration = this.s3MonitoringConfiguration;
     return {
+      if (cloudWatchLoggingConfiguration != null)
+        'cloudWatchLoggingConfiguration': cloudWatchLoggingConfiguration,
       if (managedPersistenceMonitoringConfiguration != null)
         'managedPersistenceMonitoringConfiguration':
             managedPersistenceMonitoringConfiguration,
+      if (prometheusMonitoringConfiguration != null)
+        'prometheusMonitoringConfiguration': prometheusMonitoringConfiguration,
       if (s3MonitoringConfiguration != null)
         's3MonitoringConfiguration': s3MonitoringConfiguration,
     };
@@ -2027,6 +2606,32 @@ class NetworkConfiguration {
   }
 }
 
+/// The monitoring configuration object you can configure to send metrics to
+/// Amazon Managed Service for Prometheus for a job run.
+class PrometheusMonitoringConfiguration {
+  /// The remote write URL in the Amazon Managed Service for Prometheus workspace
+  /// to send metrics to.
+  final String? remoteWriteUrl;
+
+  PrometheusMonitoringConfiguration({
+    this.remoteWriteUrl,
+  });
+
+  factory PrometheusMonitoringConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return PrometheusMonitoringConfiguration(
+      remoteWriteUrl: json['remoteWriteUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final remoteWriteUrl = this.remoteWriteUrl;
+    return {
+      if (remoteWriteUrl != null) 'remoteWriteUrl': remoteWriteUrl,
+    };
+  }
+}
+
 /// The resource utilization for memory, storage, and vCPU for jobs.
 class ResourceUtilization {
   /// The aggregated memory used per hour from the time the job starts executing
@@ -2063,6 +2668,39 @@ class ResourceUtilization {
       if (memoryGBHour != null) 'memoryGBHour': memoryGBHour,
       if (storageGBHour != null) 'storageGBHour': storageGBHour,
       if (vCPUHour != null) 'vCPUHour': vCPUHour,
+    };
+  }
+}
+
+/// The retry policy to use for a job run.
+class RetryPolicy {
+  /// Maximum number of attempts for the job run. This parameter is only
+  /// applicable for <code>BATCH</code> mode.
+  final int? maxAttempts;
+
+  /// Maximum number of failed attempts per hour. This [arameter is only
+  /// applicable for <code>STREAMING</code> mode.
+  final int? maxFailedAttemptsPerHour;
+
+  RetryPolicy({
+    this.maxAttempts,
+    this.maxFailedAttemptsPerHour,
+  });
+
+  factory RetryPolicy.fromJson(Map<String, dynamic> json) {
+    return RetryPolicy(
+      maxAttempts: json['maxAttempts'] as int?,
+      maxFailedAttemptsPerHour: json['maxFailedAttemptsPerHour'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxAttempts = this.maxAttempts;
+    final maxFailedAttemptsPerHour = this.maxFailedAttemptsPerHour;
+    return {
+      if (maxAttempts != null) 'maxAttempts': maxAttempts,
+      if (maxFailedAttemptsPerHour != null)
+        'maxFailedAttemptsPerHour': maxFailedAttemptsPerHour,
     };
   }
 }
@@ -2302,10 +2940,16 @@ class WorkerResourceConfig {
   /// The disk requirements for every worker instance of the worker type.
   final String? disk;
 
+  /// The disk type for every worker instance of the work type. Shuffle optimized
+  /// disks have higher performance characteristics and are better for shuffle
+  /// heavy workloads. Default is <code>STANDARD</code>.
+  final String? diskType;
+
   WorkerResourceConfig({
     required this.cpu,
     required this.memory,
     this.disk,
+    this.diskType,
   });
 
   factory WorkerResourceConfig.fromJson(Map<String, dynamic> json) {
@@ -2313,6 +2957,7 @@ class WorkerResourceConfig {
       cpu: json['cpu'] as String,
       memory: json['memory'] as String,
       disk: json['disk'] as String?,
+      diskType: json['diskType'] as String?,
     );
   }
 
@@ -2320,10 +2965,12 @@ class WorkerResourceConfig {
     final cpu = this.cpu;
     final memory = this.memory;
     final disk = this.disk;
+    final diskType = this.diskType;
     return {
       'cpu': cpu,
       'memory': memory,
       if (disk != null) 'disk': disk,
+      if (diskType != null) 'diskType': diskType,
     };
   }
 }

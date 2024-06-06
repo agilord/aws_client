@@ -168,6 +168,8 @@ class Ecr {
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [UnableToGetUpstreamImageException].
   ///
   /// Parameter [imageIds] :
   /// A list of image ID references that correspond to images to describe. The
@@ -315,8 +317,11 @@ class Ecr {
   }
 
   /// Creates a pull through cache rule. A pull through cache rule provides a
-  /// way to cache images from an external public registry in your Amazon ECR
-  /// private registry.
+  /// way to cache images from an upstream registry source in your Amazon ECR
+  /// private registry. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html">Using
+  /// pull through cache rules</a> in the <i>Amazon Elastic Container Registry
+  /// User Guide</i>.
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
@@ -324,6 +329,9 @@ class Ecr {
   /// May throw [PullThroughCacheRuleAlreadyExistsException].
   /// May throw [UnsupportedUpstreamRegistryException].
   /// May throw [LimitExceededException].
+  /// May throw [UnableToAccessSecretException].
+  /// May throw [SecretNotFoundException].
+  /// May throw [UnableToDecryptSecretValueException].
   ///
   /// Parameter [ecrRepositoryPrefix] :
   /// The repository name prefix to use when caching images from the source
@@ -331,16 +339,54 @@ class Ecr {
   ///
   /// Parameter [upstreamRegistryUrl] :
   /// The registry URL of the upstream public registry to use as the source for
-  /// the pull through cache rule.
+  /// the pull through cache rule. The following is the syntax to use for each
+  /// supported upstream registry.
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon ECR Public (<code>ecr-public</code>) - <code>public.ecr.aws</code>
+  /// </li>
+  /// <li>
+  /// Docker Hub (<code>docker-hub</code>) - <code>registry-1.docker.io</code>
+  /// </li>
+  /// <li>
+  /// Quay (<code>quay</code>) - <code>quay.io</code>
+  /// </li>
+  /// <li>
+  /// Kubernetes (<code>k8s</code>) - <code>registry.k8s.io</code>
+  /// </li>
+  /// <li>
+  /// GitHub Container Registry (<code>github-container-registry</code>) -
+  /// <code>ghcr.io</code>
+  /// </li>
+  /// <li>
+  /// Microsoft Azure Container Registry (<code>azure-container-registry</code>)
+  /// - <code>&lt;custom&gt;.azurecr.io</code>
+  /// </li>
+  /// <li>
+  /// GitLab Container Registry (<code>gitlab-container-registry</code>) -
+  /// <code>registry.gitlab.com</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [credentialArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  /// secret that identifies the credentials to authenticate to the upstream
+  /// registry.
   ///
   /// Parameter [registryId] :
   /// The Amazon Web Services account ID associated with the registry to create
   /// the pull through cache rule for. If you do not specify a registry, the
   /// default registry is assumed.
+  ///
+  /// Parameter [upstreamRegistry] :
+  /// The name of the upstream registry.
   Future<CreatePullThroughCacheRuleResponse> createPullThroughCacheRule({
     required String ecrRepositoryPrefix,
     required String upstreamRegistryUrl,
+    String? credentialArn,
     String? registryId,
+    UpstreamRegistry? upstreamRegistry,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -356,7 +402,10 @@ class Ecr {
       payload: {
         'ecrRepositoryPrefix': ecrRepositoryPrefix,
         'upstreamRegistryUrl': upstreamRegistryUrl,
+        if (credentialArn != null) 'credentialArn': credentialArn,
         if (registryId != null) 'registryId': registryId,
+        if (upstreamRegistry != null)
+          'upstreamRegistry': upstreamRegistry.toValue(),
       },
     );
 
@@ -381,6 +430,9 @@ class Ecr {
   /// on its own (such as <code>nginx-web-app</code>) or it can be prepended
   /// with a namespace to group the repository into a category (such as
   /// <code>project-a/nginx-web-app</code>).
+  ///
+  /// The repository name must start with a letter and can only contain
+  /// lowercase letters, numbers, hyphens, underscores, and forward slashes.
   ///
   /// Parameter [encryptionConfiguration] :
   /// The encryption configuration for the repository. This determines how the
@@ -448,6 +500,7 @@ class Ecr {
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [LifecyclePolicyNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository.
@@ -542,9 +595,10 @@ class Ecr {
     return DeleteRegistryPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a repository. If the repository contains images, you must either
-  /// delete all images in the repository or use the <code>force</code> option
-  /// to delete the repository.
+  /// Deletes a repository. If the repository isn't empty, you must either
+  /// delete the contents of the repository or use the <code>force</code> option
+  /// to delete the repository and have Amazon ECR delete all of its contents on
+  /// your behalf.
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
@@ -556,7 +610,9 @@ class Ecr {
   /// The name of the repository to delete.
   ///
   /// Parameter [force] :
-  /// If a repository contains images, forces the deletion.
+  /// If true, deleting the repository force deletes the contents of the
+  /// repository. If false, the repository must be empty before attempting to
+  /// delete it.
   ///
   /// Parameter [registryId] :
   /// The Amazon Web Services account ID associated with the registry that
@@ -1057,6 +1113,7 @@ class Ecr {
   /// May throw [LayersNotFoundException].
   /// May throw [LayerInaccessibleException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [UnableToGetUpstreamLayerException].
   ///
   /// Parameter [layerDigest] :
   /// The digest of the image layer to download.
@@ -1101,6 +1158,7 @@ class Ecr {
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [LifecyclePolicyNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository.
@@ -1139,6 +1197,7 @@ class Ecr {
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [LifecyclePolicyPreviewNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository.
@@ -1647,6 +1706,7 @@ class Ecr {
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lifecyclePolicyText] :
   /// The JSON repository policy text to apply to the repository.
@@ -1929,6 +1989,7 @@ class Ecr {
   /// May throw [RepositoryNotFoundException].
   /// May throw [LifecyclePolicyNotFoundException].
   /// May throw [LifecyclePolicyPreviewInProgressException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to be evaluated.
@@ -2042,6 +2103,55 @@ class Ecr {
     );
   }
 
+  /// Updates an existing pull through cache rule.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  /// May throw [UnableToAccessSecretException].
+  /// May throw [PullThroughCacheRuleNotFoundException].
+  /// May throw [SecretNotFoundException].
+  /// May throw [UnableToDecryptSecretValueException].
+  ///
+  /// Parameter [credentialArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  /// secret that identifies the credentials to authenticate to the upstream
+  /// registry.
+  ///
+  /// Parameter [ecrRepositoryPrefix] :
+  /// The repository name prefix to use when caching images from the source
+  /// registry.
+  ///
+  /// Parameter [registryId] :
+  /// The Amazon Web Services account ID associated with the registry associated
+  /// with the pull through cache rule. If you do not specify a registry, the
+  /// default registry is assumed.
+  Future<UpdatePullThroughCacheRuleResponse> updatePullThroughCacheRule({
+    required String credentialArn,
+    required String ecrRepositoryPrefix,
+    String? registryId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.UpdatePullThroughCacheRule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'credentialArn': credentialArn,
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+        if (registryId != null) 'registryId': registryId,
+      },
+    );
+
+    return UpdatePullThroughCacheRuleResponse.fromJson(jsonResponse.body);
+  }
+
   /// Uploads an image layer part to Amazon ECR.
   ///
   /// When an image is pushed, each new image layer is uploaded in parts. The
@@ -2127,6 +2237,46 @@ class Ecr {
     );
 
     return UploadLayerPartResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Validates an existing pull through cache rule for an upstream registry
+  /// that requires authentication. This will retrieve the contents of the
+  /// Amazon Web Services Secrets Manager secret, verify the syntax, and then
+  /// validate that authentication to the upstream registry is successful.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  /// May throw [PullThroughCacheRuleNotFoundException].
+  ///
+  /// Parameter [ecrRepositoryPrefix] :
+  /// The repository name prefix associated with the pull through cache rule.
+  ///
+  /// Parameter [registryId] :
+  /// The registry ID associated with the pull through cache rule. If you do not
+  /// specify a registry, the default registry is assumed.
+  Future<ValidatePullThroughCacheRuleResponse> validatePullThroughCacheRule({
+    required String ecrRepositoryPrefix,
+    String? registryId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.ValidatePullThroughCacheRule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+        if (registryId != null) 'registryId': registryId,
+      },
+    );
+
+    return ValidatePullThroughCacheRuleResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -2474,6 +2624,10 @@ class CreatePullThroughCacheRuleResponse {
   /// rule was created.
   final DateTime? createdAt;
 
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  /// secret associated with the pull through cache rule.
+  final String? credentialArn;
+
   /// The Amazon ECR repository prefix associated with the pull through cache
   /// rule.
   final String? ecrRepositoryPrefix;
@@ -2481,13 +2635,19 @@ class CreatePullThroughCacheRuleResponse {
   /// The registry ID associated with the request.
   final String? registryId;
 
+  /// The name of the upstream registry associated with the pull through cache
+  /// rule.
+  final UpstreamRegistry? upstreamRegistry;
+
   /// The upstream registry URL associated with the pull through cache rule.
   final String? upstreamRegistryUrl;
 
   CreatePullThroughCacheRuleResponse({
     this.createdAt,
+    this.credentialArn,
     this.ecrRepositoryPrefix,
     this.registryId,
+    this.upstreamRegistry,
     this.upstreamRegistryUrl,
   });
 
@@ -2495,22 +2655,30 @@ class CreatePullThroughCacheRuleResponse {
       Map<String, dynamic> json) {
     return CreatePullThroughCacheRuleResponse(
       createdAt: timeStampFromJson(json['createdAt']),
+      credentialArn: json['credentialArn'] as String?,
       ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
       registryId: json['registryId'] as String?,
+      upstreamRegistry:
+          (json['upstreamRegistry'] as String?)?.toUpstreamRegistry(),
       upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
+    final credentialArn = this.credentialArn;
     final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
     final registryId = this.registryId;
+    final upstreamRegistry = this.upstreamRegistry;
     final upstreamRegistryUrl = this.upstreamRegistryUrl;
     return {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (credentialArn != null) 'credentialArn': credentialArn,
       if (ecrRepositoryPrefix != null)
         'ecrRepositoryPrefix': ecrRepositoryPrefix,
       if (registryId != null) 'registryId': registryId,
+      if (upstreamRegistry != null)
+        'upstreamRegistry': upstreamRegistry.toValue(),
       if (upstreamRegistryUrl != null)
         'upstreamRegistryUrl': upstreamRegistryUrl,
     };
@@ -2720,6 +2888,10 @@ class DeletePullThroughCacheRuleResponse {
   /// The timestamp associated with the pull through cache rule.
   final DateTime? createdAt;
 
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  /// secret associated with the pull through cache rule.
+  final String? credentialArn;
+
   /// The Amazon ECR repository prefix associated with the request.
   final String? ecrRepositoryPrefix;
 
@@ -2731,6 +2903,7 @@ class DeletePullThroughCacheRuleResponse {
 
   DeletePullThroughCacheRuleResponse({
     this.createdAt,
+    this.credentialArn,
     this.ecrRepositoryPrefix,
     this.registryId,
     this.upstreamRegistryUrl,
@@ -2740,6 +2913,7 @@ class DeletePullThroughCacheRuleResponse {
       Map<String, dynamic> json) {
     return DeletePullThroughCacheRuleResponse(
       createdAt: timeStampFromJson(json['createdAt']),
+      credentialArn: json['credentialArn'] as String?,
       ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
       registryId: json['registryId'] as String?,
       upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
@@ -2748,11 +2922,13 @@ class DeletePullThroughCacheRuleResponse {
 
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
+    final credentialArn = this.credentialArn;
     final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
     final registryId = this.registryId;
     final upstreamRegistryUrl = this.upstreamRegistryUrl;
     return {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (credentialArn != null) 'credentialArn': credentialArn,
       if (ecrRepositoryPrefix != null)
         'ecrRepositoryPrefix': ecrRepositoryPrefix,
       if (registryId != null) 'registryId': registryId,
@@ -3936,6 +4112,9 @@ enum ImageFailureCode {
   missingDigestAndTag,
   imageReferencedByManifestList,
   kmsError,
+  upstreamAccessDenied,
+  upstreamTooManyRequests,
+  upstreamUnavailable,
 }
 
 extension ImageFailureCodeValueExtension on ImageFailureCode {
@@ -3955,6 +4134,12 @@ extension ImageFailureCodeValueExtension on ImageFailureCode {
         return 'ImageReferencedByManifestList';
       case ImageFailureCode.kmsError:
         return 'KmsError';
+      case ImageFailureCode.upstreamAccessDenied:
+        return 'UpstreamAccessDenied';
+      case ImageFailureCode.upstreamTooManyRequests:
+        return 'UpstreamTooManyRequests';
+      case ImageFailureCode.upstreamUnavailable:
+        return 'UpstreamUnavailable';
     }
   }
 }
@@ -3976,6 +4161,12 @@ extension ImageFailureCodeFromString on String {
         return ImageFailureCode.imageReferencedByManifestList;
       case 'KmsError':
         return ImageFailureCode.kmsError;
+      case 'UpstreamAccessDenied':
+        return ImageFailureCode.upstreamAccessDenied;
+      case 'UpstreamTooManyRequests':
+        return ImageFailureCode.upstreamTooManyRequests;
+      case 'UpstreamUnavailable':
+        return ImageFailureCode.upstreamUnavailable;
     }
     throw Exception('$this is not known in enum ImageFailureCode');
   }
@@ -4831,6 +5022,10 @@ class PullThroughCacheRule {
   /// The date and time the pull through cache was created.
   final DateTime? createdAt;
 
+  /// The ARN of the Secrets Manager secret associated with the pull through cache
+  /// rule.
+  final String? credentialArn;
+
   /// The Amazon ECR repository prefix associated with the pull through cache
   /// rule.
   final String? ecrRepositoryPrefix;
@@ -4839,35 +5034,57 @@ class PullThroughCacheRule {
   /// through cache rule is associated with.
   final String? registryId;
 
+  /// The date and time, in JavaScript date format, when the pull through cache
+  /// rule was last updated.
+  final DateTime? updatedAt;
+
+  /// The name of the upstream source registry associated with the pull through
+  /// cache rule.
+  final UpstreamRegistry? upstreamRegistry;
+
   /// The upstream registry URL associated with the pull through cache rule.
   final String? upstreamRegistryUrl;
 
   PullThroughCacheRule({
     this.createdAt,
+    this.credentialArn,
     this.ecrRepositoryPrefix,
     this.registryId,
+    this.updatedAt,
+    this.upstreamRegistry,
     this.upstreamRegistryUrl,
   });
 
   factory PullThroughCacheRule.fromJson(Map<String, dynamic> json) {
     return PullThroughCacheRule(
       createdAt: timeStampFromJson(json['createdAt']),
+      credentialArn: json['credentialArn'] as String?,
       ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
       registryId: json['registryId'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+      upstreamRegistry:
+          (json['upstreamRegistry'] as String?)?.toUpstreamRegistry(),
       upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
+    final credentialArn = this.credentialArn;
     final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
     final registryId = this.registryId;
+    final updatedAt = this.updatedAt;
+    final upstreamRegistry = this.upstreamRegistry;
     final upstreamRegistryUrl = this.upstreamRegistryUrl;
     return {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (credentialArn != null) 'credentialArn': credentialArn,
       if (ecrRepositoryPrefix != null)
         'ecrRepositoryPrefix': ecrRepositoryPrefix,
       if (registryId != null) 'registryId': registryId,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+      if (upstreamRegistry != null)
+        'upstreamRegistry': upstreamRegistry.toValue(),
       if (upstreamRegistryUrl != null)
         'upstreamRegistryUrl': upstreamRegistryUrl,
     };
@@ -5170,8 +5387,9 @@ class RegistryScanningRule {
   /// The frequency that scans are performed at for a private registry. When the
   /// <code>ENHANCED</code> scan type is specified, the supported scan frequencies
   /// are <code>CONTINUOUS_SCAN</code> and <code>SCAN_ON_PUSH</code>. When the
-  /// <code>BASIC</code> scan type is specified, the <code>SCAN_ON_PUSH</code> and
-  /// <code>MANUAL</code> scan frequencies are supported.
+  /// <code>BASIC</code> scan type is specified, the <code>SCAN_ON_PUSH</code>
+  /// scan frequency is supported. If scan on push is not specified, then the
+  /// <code>MANUAL</code> scan frequency is set by default.
   final ScanFrequency scanFrequency;
 
   RegistryScanningRule({
@@ -5381,7 +5599,7 @@ class Repository {
   /// contains the <code>arn:aws:ecr</code> namespace, followed by the region of
   /// the repository, Amazon Web Services account ID of the repository owner,
   /// repository namespace, and repository name. For example,
-  /// <code>arn:aws:ecr:region:012345678910:repository/test</code>.
+  /// <code>arn:aws:ecr:region:012345678910:repository-namespace/repository-name</code>.
   final String? repositoryArn;
 
   /// The name of the repository.
@@ -5449,8 +5667,8 @@ class Repository {
 
 /// The filter settings used with image replication. Specifying a repository
 /// filter to a replication rule provides a method for controlling which
-/// repositories in a private registry are replicated. If no repository filter
-/// is specified, all images in the repository are replicated.
+/// repositories in a private registry are replicated. If no filters are added,
+/// the contents of all repositories are replicated.
 class RepositoryFilter {
   /// The repository filter details. When the <code>PREFIX_MATCH</code> filter
   /// type is specified, this value is required and should be the repository name
@@ -6039,20 +6257,20 @@ class StartLifecyclePolicyPreviewResponse {
 class Tag {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
-  final String? key;
+  final String key;
 
   /// A <code>value</code> acts as a descriptor within a tag category (key).
-  final String? value;
+  final String value;
 
   Tag({
-    this.key,
-    this.value,
+    required this.key,
+    required this.value,
   });
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
+      key: json['Key'] as String,
+      value: json['Value'] as String,
     );
   }
 
@@ -6060,8 +6278,8 @@ class Tag {
     final key = this.key;
     final value = this.value;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      'Key': key,
+      'Value': value,
     };
   }
 }
@@ -6123,6 +6341,54 @@ class UntagResourceResponse {
   }
 }
 
+class UpdatePullThroughCacheRuleResponse {
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  /// secret associated with the pull through cache rule.
+  final String? credentialArn;
+
+  /// The Amazon ECR repository prefix associated with the pull through cache
+  /// rule.
+  final String? ecrRepositoryPrefix;
+
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The date and time, in JavaScript date format, when the pull through cache
+  /// rule was updated.
+  final DateTime? updatedAt;
+
+  UpdatePullThroughCacheRuleResponse({
+    this.credentialArn,
+    this.ecrRepositoryPrefix,
+    this.registryId,
+    this.updatedAt,
+  });
+
+  factory UpdatePullThroughCacheRuleResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdatePullThroughCacheRuleResponse(
+      credentialArn: json['credentialArn'] as String?,
+      ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
+      registryId: json['registryId'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final credentialArn = this.credentialArn;
+    final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
+    final registryId = this.registryId;
+    final updatedAt = this.updatedAt;
+    return {
+      if (credentialArn != null) 'credentialArn': credentialArn,
+      if (ecrRepositoryPrefix != null)
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+      if (registryId != null) 'registryId': registryId,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
 class UploadLayerPartResponse {
   /// The integer value of the last byte received in the request.
   final int? lastByteReceived;
@@ -6162,6 +6428,128 @@ class UploadLayerPartResponse {
       if (registryId != null) 'registryId': registryId,
       if (repositoryName != null) 'repositoryName': repositoryName,
       if (uploadId != null) 'uploadId': uploadId,
+    };
+  }
+}
+
+enum UpstreamRegistry {
+  ecrPublic,
+  quay,
+  k8s,
+  dockerHub,
+  githubContainerRegistry,
+  azureContainerRegistry,
+  gitlabContainerRegistry,
+}
+
+extension UpstreamRegistryValueExtension on UpstreamRegistry {
+  String toValue() {
+    switch (this) {
+      case UpstreamRegistry.ecrPublic:
+        return 'ecr-public';
+      case UpstreamRegistry.quay:
+        return 'quay';
+      case UpstreamRegistry.k8s:
+        return 'k8s';
+      case UpstreamRegistry.dockerHub:
+        return 'docker-hub';
+      case UpstreamRegistry.githubContainerRegistry:
+        return 'github-container-registry';
+      case UpstreamRegistry.azureContainerRegistry:
+        return 'azure-container-registry';
+      case UpstreamRegistry.gitlabContainerRegistry:
+        return 'gitlab-container-registry';
+    }
+  }
+}
+
+extension UpstreamRegistryFromString on String {
+  UpstreamRegistry toUpstreamRegistry() {
+    switch (this) {
+      case 'ecr-public':
+        return UpstreamRegistry.ecrPublic;
+      case 'quay':
+        return UpstreamRegistry.quay;
+      case 'k8s':
+        return UpstreamRegistry.k8s;
+      case 'docker-hub':
+        return UpstreamRegistry.dockerHub;
+      case 'github-container-registry':
+        return UpstreamRegistry.githubContainerRegistry;
+      case 'azure-container-registry':
+        return UpstreamRegistry.azureContainerRegistry;
+      case 'gitlab-container-registry':
+        return UpstreamRegistry.gitlabContainerRegistry;
+    }
+    throw Exception('$this is not known in enum UpstreamRegistry');
+  }
+}
+
+class ValidatePullThroughCacheRuleResponse {
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  /// secret associated with the pull through cache rule.
+  final String? credentialArn;
+
+  /// The Amazon ECR repository prefix associated with the pull through cache
+  /// rule.
+  final String? ecrRepositoryPrefix;
+
+  /// The reason the validation failed. For more details about possible causes and
+  /// how to address them, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html">Using
+  /// pull through cache rules</a> in the <i>Amazon Elastic Container Registry
+  /// User Guide</i>.
+  final String? failure;
+
+  /// Whether or not the pull through cache rule was validated. If
+  /// <code>true</code>, Amazon ECR was able to reach the upstream registry and
+  /// authentication was successful. If <code>false</code>, there was an issue and
+  /// validation failed. The <code>failure</code> reason indicates the cause.
+  final bool? isValid;
+
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The upstream registry URL associated with the pull through cache rule.
+  final String? upstreamRegistryUrl;
+
+  ValidatePullThroughCacheRuleResponse({
+    this.credentialArn,
+    this.ecrRepositoryPrefix,
+    this.failure,
+    this.isValid,
+    this.registryId,
+    this.upstreamRegistryUrl,
+  });
+
+  factory ValidatePullThroughCacheRuleResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ValidatePullThroughCacheRuleResponse(
+      credentialArn: json['credentialArn'] as String?,
+      ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
+      failure: json['failure'] as String?,
+      isValid: json['isValid'] as bool?,
+      registryId: json['registryId'] as String?,
+      upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final credentialArn = this.credentialArn;
+    final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
+    final failure = this.failure;
+    final isValid = this.isValid;
+    final registryId = this.registryId;
+    final upstreamRegistryUrl = this.upstreamRegistryUrl;
+    return {
+      if (credentialArn != null) 'credentialArn': credentialArn,
+      if (ecrRepositoryPrefix != null)
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+      if (failure != null) 'failure': failure,
+      if (isValid != null) 'isValid': isValid,
+      if (registryId != null) 'registryId': registryId,
+      if (upstreamRegistryUrl != null)
+        'upstreamRegistryUrl': upstreamRegistryUrl,
     };
   }
 }
@@ -6412,6 +6800,11 @@ class ScanNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ScanNotFoundException', message: message);
 }
 
+class SecretNotFoundException extends _s.GenericAwsException {
+  SecretNotFoundException({String? type, String? message})
+      : super(type: type, code: 'SecretNotFoundException', message: message);
+}
+
 class ServerException extends _s.GenericAwsException {
   ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
@@ -6420,6 +6813,38 @@ class ServerException extends _s.GenericAwsException {
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
+}
+
+class UnableToAccessSecretException extends _s.GenericAwsException {
+  UnableToAccessSecretException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'UnableToAccessSecretException',
+            message: message);
+}
+
+class UnableToDecryptSecretValueException extends _s.GenericAwsException {
+  UnableToDecryptSecretValueException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'UnableToDecryptSecretValueException',
+            message: message);
+}
+
+class UnableToGetUpstreamImageException extends _s.GenericAwsException {
+  UnableToGetUpstreamImageException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'UnableToGetUpstreamImageException',
+            message: message);
+}
+
+class UnableToGetUpstreamLayerException extends _s.GenericAwsException {
+  UnableToGetUpstreamLayerException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'UnableToGetUpstreamLayerException',
+            message: message);
 }
 
 class UnsupportedImageTypeException extends _s.GenericAwsException {
@@ -6502,10 +6927,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       RepositoryPolicyNotFoundException(type: type, message: message),
   'ScanNotFoundException': (type, message) =>
       ScanNotFoundException(type: type, message: message),
+  'SecretNotFoundException': (type, message) =>
+      SecretNotFoundException(type: type, message: message),
   'ServerException': (type, message) =>
       ServerException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
+  'UnableToAccessSecretException': (type, message) =>
+      UnableToAccessSecretException(type: type, message: message),
+  'UnableToDecryptSecretValueException': (type, message) =>
+      UnableToDecryptSecretValueException(type: type, message: message),
+  'UnableToGetUpstreamImageException': (type, message) =>
+      UnableToGetUpstreamImageException(type: type, message: message),
+  'UnableToGetUpstreamLayerException': (type, message) =>
+      UnableToGetUpstreamLayerException(type: type, message: message),
   'UnsupportedImageTypeException': (type, message) =>
       UnsupportedImageTypeException(type: type, message: message),
   'UnsupportedUpstreamRegistryException': (type, message) =>

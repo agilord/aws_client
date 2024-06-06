@@ -171,9 +171,7 @@ class QuickSight {
   /// Q.
   ///
   /// The Amazon Web Services Region for the account is derived from what is
-  /// configured in the CLI or SDK. This operation isn't supported in the US
-  /// East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific
-  /// (Singapore) Region.
+  /// configured in the CLI or SDK.
   ///
   /// Before you use this operation, make sure that you can connect to an
   /// existing Amazon Web Services account. If you don't have an Amazon Web
@@ -226,17 +224,100 @@ class QuickSight {
   ///
   /// Parameter [authenticationMethod] :
   /// The method that you want to use to authenticate your Amazon QuickSight
-  /// account. Currently, the valid values for this parameter are
-  /// <code>IAM_AND_QUICKSIGHT</code>, <code>IAM_ONLY</code>, and
-  /// <code>ACTIVE_DIRECTORY</code>.
+  /// account.
   ///
   /// If you choose <code>ACTIVE_DIRECTORY</code>, provide an
   /// <code>ActiveDirectoryName</code> and an <code>AdminGroup</code> associated
   /// with your Active Directory.
   ///
+  /// If you choose <code>IAM_IDENTITY_CENTER</code>, provide an
+  /// <code>AdminGroup</code> associated with your IAM Identity Center account.
+  ///
   /// Parameter [awsAccountId] :
   /// The Amazon Web Services account ID of the account that you're using to
   /// create your Amazon QuickSight account.
+  ///
+  /// Parameter [notificationEmail] :
+  /// The email address that you want Amazon QuickSight to send notifications to
+  /// regarding your Amazon QuickSight account or Amazon QuickSight
+  /// subscription.
+  ///
+  /// Parameter [activeDirectoryName] :
+  /// The name of your Active Directory. This field is required if
+  /// <code>ACTIVE_DIRECTORY</code> is the selected authentication method of the
+  /// new Amazon QuickSight account.
+  ///
+  /// Parameter [adminGroup] :
+  /// The admin group associated with your Active Directory or IAM Identity
+  /// Center account. Either this field or the <code>AdminProGroup</code> field
+  /// is required if <code>ACTIVE_DIRECTORY</code> or
+  /// <code>IAM_IDENTITY_CENTER</code> is the selected authentication method of
+  /// the new Amazon QuickSight account.
+  ///
+  /// For more information about using IAM Identity Center in Amazon QuickSight,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html">Using
+  /// IAM Identity Center with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide. For more information about using Active
+  /// Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide.
+  ///
+  /// Parameter [adminProGroup] :
+  /// The admin pro group associated with your Active Directory or IAM Identity
+  /// Center account. Either this field or the <code>AdminGroup</code> field is
+  /// required if <code>ACTIVE_DIRECTORY</code> or
+  /// <code>IAM_IDENTITY_CENTER</code> is the selected authentication method of
+  /// the new Amazon QuickSight account.
+  ///
+  /// For more information about using IAM Identity Center in Amazon QuickSight,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html">Using
+  /// IAM Identity Center with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide. For more information about using Active
+  /// Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide.
+  ///
+  /// Parameter [authorGroup] :
+  /// The author group associated with your Active Directory or IAM Identity
+  /// Center account.
+  ///
+  /// For more information about using IAM Identity Center in Amazon QuickSight,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html">Using
+  /// IAM Identity Center with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide. For more information about using Active
+  /// Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide.
+  ///
+  /// Parameter [authorProGroup] :
+  /// The author pro group associated with your Active Directory or IAM Identity
+  /// Center account.
+  ///
+  /// For more information about using IAM Identity Center in Amazon QuickSight,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html">Using
+  /// IAM Identity Center with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide. For more information about using Active
+  /// Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide.
+  ///
+  /// Parameter [contactNumber] :
+  /// A 10-digit phone number for the author of the Amazon QuickSight account to
+  /// use for future communications. This field is required if
+  /// <code>ENTERPPRISE_AND_Q</code> is the selected edition of the new Amazon
+  /// QuickSight account.
+  ///
+  /// Parameter [directoryId] :
+  /// The ID of the Active Directory that is associated with your Amazon
+  /// QuickSight account.
   ///
   /// Parameter [edition] :
   /// The edition of Amazon QuickSight that you want your account to have.
@@ -261,42 +342,6 @@ class QuickSight {
   /// </li>
   /// </ul>
   ///
-  /// Parameter [notificationEmail] :
-  /// The email address that you want Amazon QuickSight to send notifications to
-  /// regarding your Amazon QuickSight account or Amazon QuickSight
-  /// subscription.
-  ///
-  /// Parameter [activeDirectoryName] :
-  /// The name of your Active Directory. This field is required if
-  /// <code>ACTIVE_DIRECTORY</code> is the selected authentication method of the
-  /// new Amazon QuickSight account.
-  ///
-  /// Parameter [adminGroup] :
-  /// The admin group associated with your Active Directory. This field is
-  /// required if <code>ACTIVE_DIRECTORY</code> is the selected authentication
-  /// method of the new Amazon QuickSight account. For more information about
-  /// using Active Directory in Amazon QuickSight, see <a
-  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
-  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
-  /// Amazon QuickSight User Guide.
-  ///
-  /// Parameter [authorGroup] :
-  /// The author group associated with your Active Directory. For more
-  /// information about using Active Directory in Amazon QuickSight, see <a
-  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
-  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
-  /// Amazon QuickSight User Guide.
-  ///
-  /// Parameter [contactNumber] :
-  /// A 10-digit phone number for the author of the Amazon QuickSight account to
-  /// use for future communications. This field is required if
-  /// <code>ENTERPPRISE_AND_Q</code> is the selected edition of the new Amazon
-  /// QuickSight account.
-  ///
-  /// Parameter [directoryId] :
-  /// The ID of the Active Directory that is associated with your Amazon
-  /// QuickSight account.
-  ///
   /// Parameter [emailAddress] :
   /// The email address of the author of the Amazon QuickSight account to use
   /// for future communications. This field is required if
@@ -309,6 +354,9 @@ class QuickSight {
   /// <code>ENTERPPRISE_AND_Q</code> is the selected edition of the new Amazon
   /// QuickSight account.
   ///
+  /// Parameter [iAMIdentityCenterInstanceArn] :
+  /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
+  ///
   /// Parameter [lastName] :
   /// The last name of the author of the Amazon QuickSight account to use for
   /// future communications. This field is required if
@@ -316,11 +364,32 @@ class QuickSight {
   /// QuickSight account.
   ///
   /// Parameter [readerGroup] :
-  /// The reader group associated with your Active Direcrtory. For more
-  /// information about using Active Directory in Amazon QuickSight, see <a
+  /// The reader group associated with your Active Directory or IAM Identity
+  /// Center account.
+  ///
+  /// For more information about using IAM Identity Center in Amazon QuickSight,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html">Using
+  /// IAM Identity Center with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide. For more information about using Active
+  /// Directory in Amazon QuickSight, see <a
   /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
   /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
-  /// <i>Amazon QuickSight User Guide</i>.
+  /// Amazon QuickSight User Guide.
+  ///
+  /// Parameter [readerProGroup] :
+  /// The reader pro group associated with your Active Directory or IAM Identity
+  /// Center account.
+  ///
+  /// For more information about using IAM Identity Center in Amazon QuickSight,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html">Using
+  /// IAM Identity Center with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide. For more information about using Active
+  /// Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide.
   ///
   /// Parameter [realm] :
   /// The realm of the Active Directory that is associated with your Amazon
@@ -331,34 +400,43 @@ class QuickSight {
     required String accountName,
     required AuthenticationMethodOption authenticationMethod,
     required String awsAccountId,
-    required Edition edition,
     required String notificationEmail,
     String? activeDirectoryName,
     List<String>? adminGroup,
+    List<String>? adminProGroup,
     List<String>? authorGroup,
+    List<String>? authorProGroup,
     String? contactNumber,
     String? directoryId,
+    Edition? edition,
     String? emailAddress,
     String? firstName,
+    String? iAMIdentityCenterInstanceArn,
     String? lastName,
     List<String>? readerGroup,
+    List<String>? readerProGroup,
     String? realm,
   }) async {
     final $payload = <String, dynamic>{
       'AccountName': accountName,
       'AuthenticationMethod': authenticationMethod.toValue(),
-      'Edition': edition.toValue(),
       'NotificationEmail': notificationEmail,
       if (activeDirectoryName != null)
         'ActiveDirectoryName': activeDirectoryName,
       if (adminGroup != null) 'AdminGroup': adminGroup,
+      if (adminProGroup != null) 'AdminProGroup': adminProGroup,
       if (authorGroup != null) 'AuthorGroup': authorGroup,
+      if (authorProGroup != null) 'AuthorProGroup': authorProGroup,
       if (contactNumber != null) 'ContactNumber': contactNumber,
       if (directoryId != null) 'DirectoryId': directoryId,
+      if (edition != null) 'Edition': edition.toValue(),
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (firstName != null) 'FirstName': firstName,
+      if (iAMIdentityCenterInstanceArn != null)
+        'IAMIdentityCenterInstanceArn': iAMIdentityCenterInstanceArn,
       if (lastName != null) 'LastName': lastName,
       if (readerGroup != null) 'ReaderGroup': readerGroup,
+      if (readerProGroup != null) 'ReaderProGroup': readerProGroup,
       if (realm != null) 'Realm': realm,
     };
     final response = await _protocol.send(
@@ -403,6 +481,10 @@ class QuickSight {
   /// Either a <code>SourceEntity</code> or a <code>Definition</code> must be
   /// provided in order for the request to be valid.
   ///
+  /// Parameter [folderArns] :
+  /// When you create the analysis, Amazon QuickSight adds the analysis to these
+  /// folders.
+  ///
   /// Parameter [parameters] :
   /// The parameter names and override values that you want to use. An analysis
   /// can have any parameter type, and some parameters might accept multiple
@@ -433,25 +515,33 @@ class QuickSight {
   /// The ARN for the theme to apply to the analysis that you're creating. To
   /// see the theme in the Amazon QuickSight console, make sure that you have
   /// access to it.
+  ///
+  /// Parameter [validationStrategy] :
+  /// The option to relax the validation needed to create an analysis with
+  /// definition objects. This skips the validation step for specific errors.
   Future<CreateAnalysisResponse> createAnalysis({
     required String analysisId,
     required String awsAccountId,
     required String name,
     AnalysisDefinition? definition,
+    List<String>? folderArns,
     Parameters? parameters,
     List<ResourcePermission>? permissions,
     AnalysisSourceEntity? sourceEntity,
     List<Tag>? tags,
     String? themeArn,
+    ValidationStrategy? validationStrategy,
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
       if (definition != null) 'Definition': definition,
+      if (folderArns != null) 'FolderArns': folderArns,
       if (parameters != null) 'Parameters': parameters,
       if (permissions != null) 'Permissions': permissions,
       if (sourceEntity != null) 'SourceEntity': sourceEntity,
       if (tags != null) 'Tags': tags,
       if (themeArn != null) 'ThemeArn': themeArn,
+      if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -528,6 +618,18 @@ class QuickSight {
   /// Either a <code>SourceEntity</code> or a <code>Definition</code> must be
   /// provided in order for the request to be valid.
   ///
+  /// Parameter [folderArns] :
+  /// When you create the dashboard, Amazon QuickSight adds the dashboard to
+  /// these folders.
+  ///
+  /// Parameter [linkEntities] :
+  /// A list of analysis Amazon Resource Names (ARNs) to be linked to the
+  /// dashboard.
+  ///
+  /// Parameter [linkSharingConfiguration] :
+  /// A structure that contains the permissions of a shareable link to the
+  /// dashboard.
+  ///
   /// Parameter [parameters] :
   /// The parameters for the creation of the dashboard, which you want to use to
   /// override the default settings. A dashboard can have any type of
@@ -571,6 +673,11 @@ class QuickSight {
   /// is used in the source entity. The theme ARN must exist in the same Amazon
   /// Web Services account where you create the dashboard.
   ///
+  /// Parameter [validationStrategy] :
+  /// The option to relax the validation needed to create a dashboard with
+  /// definition objects. This option skips the validation step for specific
+  /// errors.
+  ///
   /// Parameter [versionDescription] :
   /// A description for the first version of the dashboard being created.
   Future<CreateDashboardResponse> createDashboard({
@@ -579,11 +686,15 @@ class QuickSight {
     required String name,
     DashboardPublishOptions? dashboardPublishOptions,
     DashboardVersionDefinition? definition,
+    List<String>? folderArns,
+    List<String>? linkEntities,
+    LinkSharingConfiguration? linkSharingConfiguration,
     Parameters? parameters,
     List<ResourcePermission>? permissions,
     DashboardSourceEntity? sourceEntity,
     List<Tag>? tags,
     String? themeArn,
+    ValidationStrategy? validationStrategy,
     String? versionDescription,
   }) async {
     final $payload = <String, dynamic>{
@@ -591,11 +702,16 @@ class QuickSight {
       if (dashboardPublishOptions != null)
         'DashboardPublishOptions': dashboardPublishOptions,
       if (definition != null) 'Definition': definition,
+      if (folderArns != null) 'FolderArns': folderArns,
+      if (linkEntities != null) 'LinkEntities': linkEntities,
+      if (linkSharingConfiguration != null)
+        'LinkSharingConfiguration': linkSharingConfiguration,
       if (parameters != null) 'Parameters': parameters,
       if (permissions != null) 'Permissions': permissions,
       if (sourceEntity != null) 'SourceEntity': sourceEntity,
       if (tags != null) 'Tags': tags,
       if (themeArn != null) 'ThemeArn': themeArn,
+      if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
       if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
@@ -653,6 +769,10 @@ class QuickSight {
   /// Parameter [fieldFolders] :
   /// The folder that contains fields and nested subfolders for your dataset.
   ///
+  /// Parameter [folderArns] :
+  /// When you create the dataset, Amazon QuickSight adds the dataset to these
+  /// folders.
+  ///
   /// Parameter [logicalTableMap] :
   /// Configures the combination and transformation of the data from the
   /// physical tables.
@@ -682,6 +802,7 @@ class QuickSight {
     DataSetUsageConfiguration? dataSetUsageConfiguration,
     List<DatasetParameter>? datasetParameters,
     Map<String, FieldFolder>? fieldFolders,
+    List<String>? folderArns,
     Map<String, LogicalTable>? logicalTableMap,
     List<ResourcePermission>? permissions,
     RowLevelPermissionDataSet? rowLevelPermissionDataSet,
@@ -700,6 +821,7 @@ class QuickSight {
         'DataSetUsageConfiguration': dataSetUsageConfiguration,
       if (datasetParameters != null) 'DatasetParameters': datasetParameters,
       if (fieldFolders != null) 'FieldFolders': fieldFolders,
+      if (folderArns != null) 'FolderArns': folderArns,
       if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
       if (permissions != null) 'Permissions': permissions,
       if (rowLevelPermissionDataSet != null)
@@ -754,6 +876,10 @@ class QuickSight {
   /// The parameters that Amazon QuickSight uses to connect to your underlying
   /// source.
   ///
+  /// Parameter [folderArns] :
+  /// When you create the data source, Amazon QuickSight adds the data source to
+  /// these folders.
+  ///
   /// Parameter [permissions] :
   /// A list of resource permissions on the data source.
   ///
@@ -775,6 +901,7 @@ class QuickSight {
     required DataSourceType type,
     DataSourceCredentials? credentials,
     DataSourceParameters? dataSourceParameters,
+    List<String>? folderArns,
     List<ResourcePermission>? permissions,
     SslProperties? sslProperties,
     List<Tag>? tags,
@@ -787,6 +914,7 @@ class QuickSight {
       if (credentials != null) 'Credentials': credentials,
       if (dataSourceParameters != null)
         'DataSourceParameters': dataSourceParameters,
+      if (folderArns != null) 'FolderArns': folderArns,
       if (permissions != null) 'Permissions': permissions,
       if (sslProperties != null) 'SslProperties': sslProperties,
       if (tags != null) 'Tags': tags,
@@ -840,6 +968,10 @@ class QuickSight {
   ///
   /// To specify no permissions, omit <code>Permissions</code>.
   ///
+  /// Parameter [sharingModel] :
+  /// An optional parameter that determines the sharing scope of the folder. The
+  /// default value for this parameter is <code>ACCOUNT</code>.
+  ///
   /// Parameter [tags] :
   /// Tags for the folder.
   Future<CreateFolderResponse> createFolder({
@@ -849,6 +981,7 @@ class QuickSight {
     String? name,
     String? parentFolderArn,
     List<ResourcePermission>? permissions,
+    SharingModel? sharingModel,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -856,6 +989,7 @@ class QuickSight {
       if (name != null) 'Name': name,
       if (parentFolderArn != null) 'ParentFolderArn': parentFolderArn,
       if (permissions != null) 'Permissions': permissions,
+      if (sharingModel != null) 'SharingModel': sharingModel.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -886,11 +1020,10 @@ class QuickSight {
   /// The ID of the folder.
   ///
   /// Parameter [memberId] :
-  /// The ID of the asset (the dashboard, analysis, or dataset).
+  /// The ID of the asset that you want to add to the folder.
   ///
   /// Parameter [memberType] :
-  /// The type of the member, including <code>DASHBOARD</code>,
-  /// <code>ANALYSIS</code>, and <code>DATASET</code>.
+  /// The member type of the asset that you want to add to a folder.
   Future<CreateFolderMembershipResponse> createFolderMembership({
     required String awsAccountId,
     required String folderId,
@@ -909,7 +1042,8 @@ class QuickSight {
 
   /// Use the <code>CreateGroup</code> operation to create a group in Amazon
   /// QuickSight. You can create up to 10,000 groups in a namespace. If you want
-  /// to create more than 10,000 groups in a namespace, contact AWS Support.
+  /// to create more than 10,000 groups in a namespace, contact Amazon Web
+  /// Services Support.
   ///
   /// The permissions resource is
   /// <code>arn:aws:quicksight:&lt;your-region&gt;:<i>&lt;relevant-aws-account-id&gt;</i>:group/default/<i>&lt;group-name&gt;</i>
@@ -1220,6 +1354,46 @@ class QuickSight {
     return CreateRefreshScheduleResponse.fromJson(response);
   }
 
+  /// Use <code>CreateRoleMembership</code> to add an existing Amazon QuickSight
+  /// group to an existing role.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that you want to create a group
+  /// in. The Amazon Web Services account ID that you provide must be the same
+  /// Amazon Web Services account that contains your Amazon QuickSight account.
+  ///
+  /// Parameter [memberName] :
+  /// The name of the group that you want to add to the role.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that the role belongs to.
+  ///
+  /// Parameter [role] :
+  /// The role that you want to add a group to.
+  Future<CreateRoleMembershipResponse> createRoleMembership({
+    required String awsAccountId,
+    required String memberName,
+    required String namespace,
+    required Role role,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/members/${Uri.encodeComponent(memberName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateRoleMembershipResponse.fromJson(response);
+  }
+
   /// Creates a template either from a <code>TemplateDefinition</code> or from
   /// an existing Amazon QuickSight analysis or template. You can use the
   /// resulting template to create additional dashboards, templates, or
@@ -1290,6 +1464,10 @@ class QuickSight {
   /// Contains a map of the key-value pairs for the resource tag or tags
   /// assigned to the resource.
   ///
+  /// Parameter [validationStrategy] :
+  /// TThe option to relax the validation needed to create a template with
+  /// definition objects. This skips the validation step for specific errors.
+  ///
   /// Parameter [versionDescription] :
   /// A description of the current template version being created. This API
   /// operation creates the first version of the template. Every time
@@ -1304,6 +1482,7 @@ class QuickSight {
     List<ResourcePermission>? permissions,
     TemplateSourceEntity? sourceEntity,
     List<Tag>? tags,
+    ValidationStrategy? validationStrategy,
     String? versionDescription,
   }) async {
     final $payload = <String, dynamic>{
@@ -1312,6 +1491,7 @@ class QuickSight {
       if (permissions != null) 'Permissions': permissions,
       if (sourceEntity != null) 'SourceEntity': sourceEntity,
       if (tags != null) 'Tags': tags,
+      if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
       if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
@@ -1673,6 +1853,8 @@ class QuickSight {
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceUnavailableException].
   ///
@@ -1982,12 +2164,10 @@ class QuickSight {
   /// The Folder ID.
   ///
   /// Parameter [memberId] :
-  /// The ID of the asset (the dashboard, analysis, or dataset) that you want to
-  /// delete.
+  /// The ID of the asset that you want to delete.
   ///
   /// Parameter [memberType] :
-  /// The type of the member, including <code>DASHBOARD</code>,
-  /// <code>ANALYSIS</code>, and <code>DATASET</code>
+  /// The member type of the asset that you want to delete from a folder.
   Future<DeleteFolderMembershipResponse> deleteFolderMembership({
     required String awsAccountId,
     required String folderId,
@@ -2113,6 +2293,40 @@ class QuickSight {
     return DeleteIAMPolicyAssignmentResponse.fromJson(response);
   }
 
+  /// Deletes all access scopes and authorized targets that are associated with
+  /// a service from the Amazon QuickSight IAM Identity Center application.
+  ///
+  /// This operation is only supported for Amazon QuickSight accounts that use
+  /// IAM Identity Center.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that you want to delete an
+  /// identity propagation configuration from.
+  ///
+  /// Parameter [service] :
+  /// The name of the Amazon Web Services service that you want to delete the
+  /// associated access scopes and authorized targets from.
+  Future<DeleteIdentityPropagationConfigResponse>
+      deleteIdentityPropagationConfig({
+    required String awsAccountId,
+    required ServiceType service,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/identity-propagation-config/${Uri.encodeComponent(service.toValue())}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteIdentityPropagationConfigResponse.fromJson(response);
+  }
+
   /// Deletes a namespace and the users and groups that are associated with the
   /// namespace. This is an asynchronous process. Assets including dashboards,
   /// analyses, datasets and data sources are not deleted. To delete these
@@ -2176,6 +2390,80 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRefreshScheduleResponse.fromJson(response);
+  }
+
+  /// Removes custom permissions from the role.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that includes the role.
+  ///
+  /// Parameter [role] :
+  /// The role that you want to remove permissions from.
+  Future<DeleteRoleCustomPermissionResponse> deleteRoleCustomPermission({
+    required String awsAccountId,
+    required String namespace,
+    required Role role,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/custom-permission',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteRoleCustomPermissionResponse.fromJson(response);
+  }
+
+  /// Removes a group from a role.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that you want to create a group
+  /// in. The Amazon Web Services account ID that you provide must be the same
+  /// Amazon Web Services account that contains your Amazon QuickSight account.
+  ///
+  /// Parameter [memberName] :
+  /// The name of the group.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that contains the role.
+  ///
+  /// Parameter [role] :
+  /// The role that you want to remove permissions from.
+  Future<DeleteRoleMembershipResponse> deleteRoleMembership({
+    required String awsAccountId,
+    required String memberName,
+    required String namespace,
+    required Role role,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/members/${Uri.encodeComponent(memberName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteRoleMembershipResponse.fromJson(response);
   }
 
   /// Deletes a template.
@@ -2976,6 +3264,87 @@ class QuickSight {
     return DescribeDashboardPermissionsResponse.fromJson(response);
   }
 
+  /// Describes an existing snapshot job.
+  ///
+  /// Poll job descriptions after a job starts to know the status of the job.
+  /// For information on available status codes, see <code>JobStatus</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that the dashboard snapshot job
+  /// is executed in.
+  ///
+  /// Parameter [dashboardId] :
+  /// The ID of the dashboard that you have started a snapshot job for.
+  ///
+  /// Parameter [snapshotJobId] :
+  /// The ID of the job to be described. The job ID is set when you start a new
+  /// job with a <code>StartDashboardSnapshotJob</code> API call.
+  Future<DescribeDashboardSnapshotJobResponse> describeDashboardSnapshotJob({
+    required String awsAccountId,
+    required String dashboardId,
+    required String snapshotJobId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/dashboards/${Uri.encodeComponent(dashboardId)}/snapshot-jobs/${Uri.encodeComponent(snapshotJobId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDashboardSnapshotJobResponse.fromJson(response);
+  }
+
+  /// Describes the result of an existing snapshot job that has finished
+  /// running.
+  ///
+  /// A finished snapshot job will return a <code>COMPLETED</code> or
+  /// <code>FAILED</code> status when you poll the job with a
+  /// <code>DescribeDashboardSnapshotJob</code> API call.
+  ///
+  /// If the job has not finished running, this operation returns a message that
+  /// says <code>Dashboard Snapshot Job with id &lt;SnapshotjobId&gt; has not
+  /// reached a terminal state.</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that the dashboard snapshot job
+  /// is executed in.
+  ///
+  /// Parameter [dashboardId] :
+  /// The ID of the dashboard that you have started a snapshot job for.
+  ///
+  /// Parameter [snapshotJobId] :
+  /// The ID of the job to be described. The job ID is set when you start a new
+  /// job with a <code>StartDashboardSnapshotJob</code> API call.
+  Future<DescribeDashboardSnapshotJobResultResponse>
+      describeDashboardSnapshotJobResult({
+    required String awsAccountId,
+    required String dashboardId,
+    required String snapshotJobId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/dashboards/${Uri.encodeComponent(dashboardId)}/snapshot-jobs/${Uri.encodeComponent(snapshotJobId)}/result',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDashboardSnapshotJobResultResponse.fromJson(response);
+  }
+
   /// Describes a dataset. This operation doesn't support datasets that include
   /// uploaded files as a source.
   ///
@@ -3156,6 +3525,7 @@ class QuickSight {
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [UnsupportedUserEditionException].
   /// May throw [InternalFailureException].
   ///
@@ -3164,15 +3534,39 @@ class QuickSight {
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace of the folder whose permissions you want described.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
   Future<DescribeFolderPermissionsResponse> describeFolderPermissions({
     required String awsAccountId,
     required String folderId,
+    int? maxResults,
+    String? namespace,
+    String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (namespace != null) 'namespace': [namespace],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/accounts/${Uri.encodeComponent(awsAccountId)}/folders/${Uri.encodeComponent(folderId)}/permissions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFolderPermissionsResponse.fromJson(response);
@@ -3186,6 +3580,7 @@ class QuickSight {
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [UnsupportedUserEditionException].
   /// May throw [InternalFailureException].
   ///
@@ -3194,16 +3589,40 @@ class QuickSight {
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace of the folder whose permissions you want described.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
   Future<DescribeFolderResolvedPermissionsResponse>
       describeFolderResolvedPermissions({
     required String awsAccountId,
     required String folderId,
+    int? maxResults,
+    String? namespace,
+    String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (namespace != null) 'namespace': [namespace],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/accounts/${Uri.encodeComponent(awsAccountId)}/folders/${Uri.encodeComponent(folderId)}/resolved-permissions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFolderResolvedPermissionsResponse.fromJson(response);
@@ -3376,6 +3795,39 @@ class QuickSight {
     return DescribeIpRestrictionResponse.fromJson(response);
   }
 
+  /// Describes all customer managed key registrations in a Amazon QuickSight
+  /// account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the customer
+  /// managed key registration that you want to describe.
+  ///
+  /// Parameter [defaultKeyOnly] :
+  /// Determines whether the request returns the default key only.
+  Future<DescribeKeyRegistrationResponse> describeKeyRegistration({
+    required String awsAccountId,
+    bool? defaultKeyOnly,
+  }) async {
+    final $query = <String, List<String>>{
+      if (defaultKeyOnly != null)
+        'default-key-only': [defaultKeyOnly.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/key-registration',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeKeyRegistrationResponse.fromJson(response);
+  }
+
   /// Describes the current namespace.
   ///
   /// May throw [AccessDeniedException].
@@ -3435,6 +3887,41 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRefreshScheduleResponse.fromJson(response);
+  }
+
+  /// Describes all custom permissions that are mapped to a role.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that you want to create a group
+  /// in. The Amazon Web Services account ID that you provide must be the same
+  /// Amazon Web Services account that contains your Amazon QuickSight account.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that contains the role.
+  ///
+  /// Parameter [role] :
+  /// The name of the role whose permissions you want described.
+  Future<DescribeRoleCustomPermissionResponse> describeRoleCustomPermission({
+    required String awsAccountId,
+    required String namespace,
+    required Role role,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/custom-permission',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeRoleCustomPermissionResponse.fromJson(response);
   }
 
   /// Describes a template's metadata.
@@ -3973,10 +4460,16 @@ class QuickSight {
   ///
   /// Parameter [authorizedResourceArns] :
   /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that
-  /// the user is authorized to access during the lifetime of the session. If
-  /// you choose <code>Dashboard</code> embedding experience, pass the list of
-  /// dashboard ARNs in the account that you want the user to be able to view.
-  /// Currently, you can pass up to 25 dashboard ARNs in each API call.
+  /// the user is authorized to access during the lifetime of the session.
+  ///
+  /// If you choose <code>Dashboard</code> embedding experience, pass the list
+  /// of dashboard ARNs in the account that you want the user to be able to
+  /// view.
+  ///
+  /// If you want to make changes to the theme of your embedded content, pass a
+  /// list of theme ARNs that the anonymous users need access to.
+  ///
+  /// Currently, you can pass up to 25 theme ARNs in each API call.
   ///
   /// Parameter [awsAccountId] :
   /// The ID for the Amazon Web Services account that contains the dashboard
@@ -4105,9 +4598,10 @@ class QuickSight {
   /// that you're embedding.
   ///
   /// Parameter [experienceConfiguration] :
-  /// The experience you are embedding. For registered users, you can embed
+  /// The experience that you want to embed. For registered users, you can embed
   /// Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon
-  /// QuickSight Q search bar, or the entire Amazon QuickSight console.
+  /// QuickSight Q search bar, the Amazon QuickSight Generative Q&amp;A
+  /// experience, or the entire Amazon QuickSight console.
   ///
   /// Parameter [userArn] :
   /// The Amazon Resource Name for the registered user.
@@ -5073,6 +5567,55 @@ class QuickSight {
     return ListIAMPolicyAssignmentsForUserResponse.fromJson(response);
   }
 
+  /// Lists all services and authorized targets that the Amazon QuickSight IAM
+  /// Identity Center application can access.
+  ///
+  /// This operation is only supported for Amazon QuickSight accounts that use
+  /// IAM Identity Center.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contain the identity
+  /// propagation configurations of.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no more
+  /// results.
+  Future<ListIdentityPropagationConfigsResponse>
+      listIdentityPropagationConfigs({
+    required String awsAccountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/identity-propagation-config',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIdentityPropagationConfigsResponse.fromJson(response);
+  }
+
   /// Lists the history of SPICE ingestions for a dataset.
   ///
   /// May throw [AccessDeniedException].
@@ -5202,6 +5745,62 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return ListRefreshSchedulesResponse.fromJson(response);
+  }
+
+  /// Lists all groups that are associated with a role.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that you want to create a group
+  /// in. The Amazon Web Services account ID that you provide must be the same
+  /// Amazon Web Services account that contains your Amazon QuickSight account.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that includes the role.
+  ///
+  /// Parameter [role] :
+  /// The name of the role.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token that can be used in a subsequent request.
+  Future<ListRoleMembershipsResponse> listRoleMemberships({
+    required String awsAccountId,
+    required String namespace,
+    required Role role,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/members',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRoleMembershipsResponse.fromJson(response);
   }
 
   /// Lists the tags assigned to a resource.
@@ -5832,19 +6431,8 @@ class QuickSight {
   /// The email address of the user that you want to register.
   ///
   /// Parameter [identityType] :
-  /// Amazon QuickSight supports several ways of managing the identity of users.
-  /// This parameter accepts two values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IAM</code>: A user whose identity maps to an existing IAM user or
-  /// role.
-  /// </li>
-  /// <li>
-  /// <code>QUICKSIGHT</code>: A user whose identity is owned and managed
-  /// internally by Amazon QuickSight.
-  /// </li>
-  /// </ul>
+  /// The identity type that your Amazon QuickSight account uses to manage the
+  /// identity of users.
   ///
   /// Parameter [namespace] :
   /// The namespace. Currently, you should set this to <code>default</code>.
@@ -5864,6 +6452,23 @@ class QuickSight {
   /// <li>
   /// <code>ADMIN</code>: A user who is an author, who can also manage Amazon
   /// QuickSight settings.
+  /// </li>
+  /// <li>
+  /// <code>READER_PRO</code>: Reader Pro adds Generative BI capabilities to the
+  /// Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can
+  /// build stories with Amazon Q, and can generate executive summaries from
+  /// dashboards.
+  /// </li>
+  /// <li>
+  /// <code>AUTHOR_PRO</code>: Author Pro adds Generative BI capabilities to the
+  /// Author role. Author Pros can author dashboards with natural language with
+  /// Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and
+  /// generate executive summaries from dashboards.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_PRO</code>: Admin Pros are Author Pros who can also manage
+  /// Amazon QuickSight administrative settings. Admin Pro users are billed at
+  /// Author Pro pricing.
   /// </li>
   /// <li>
   /// <code>RESTRICTED_READER</code>: This role isn't currently available for
@@ -5914,7 +6519,7 @@ class QuickSight {
   /// Amazon QuickSight custom permissions are applied through IAM policies.
   /// Therefore, they override the permissions typically granted by assigning
   /// Amazon QuickSight users to one of the default security cohorts in Amazon
-  /// QuickSight (admin, author, reader).
+  /// QuickSight (admin, author, reader, admin pro, author pro, reader pro).
   ///
   /// This feature is available only to Amazon QuickSight Enterprise edition
   /// subscriptions.
@@ -5957,6 +6562,9 @@ class QuickSight {
   /// href="https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html">
   /// <code>assume-role</code> </a> in the <i>CLI Reference.</i>
   ///
+  /// Parameter [tags] :
+  /// The tags to associate with the user.
+  ///
   /// Parameter [userName] :
   /// The Amazon QuickSight user name that you want to create for the user you
   /// are registering.
@@ -5972,6 +6580,7 @@ class QuickSight {
     String? externalLoginId,
     String? iamArn,
     String? sessionName,
+    List<Tag>? tags,
     String? userName,
   }) async {
     final $payload = <String, dynamic>{
@@ -5988,6 +6597,7 @@ class QuickSight {
       if (externalLoginId != null) 'ExternalLoginId': externalLoginId,
       if (iamArn != null) 'IamArn': iamArn,
       if (sessionName != null) 'SessionName': sessionName,
+      if (tags != null) 'Tags': tags,
       if (userName != null) 'UserName': userName,
     };
     final response = await _protocol.send(
@@ -6355,7 +6965,7 @@ class QuickSight {
   /// successfully completed, a download URL that contains the exported assets
   /// is returned. The URL is valid for 5 minutes and can be refreshed with a
   /// <code>DescribeAssetBundleExportJob</code> API call. Each Amazon QuickSight
-  /// account can run up to 10 export jobs concurrently.
+  /// account can run up to 5 export jobs concurrently.
   ///
   /// The API caller must have the necessary permissions in their IAM role to
   /// access each resource before the resources can be exported.
@@ -6422,8 +7032,27 @@ class QuickSight {
   /// are recursively exported with the job. For example, say you provided a
   /// Dashboard ARN to the <code>ResourceArns</code> parameter. If you set
   /// <code>IncludeAllDependencies</code> to <code>TRUE</code>, any theme,
-  /// dataset, and dataource resource that is a dependency of the dashboard is
+  /// dataset, and data source resource that is a dependency of the dashboard is
   /// also exported.
+  ///
+  /// Parameter [includePermissions] :
+  /// A Boolean that determines whether all permissions for each resource ARN
+  /// are exported with the job. If you set <code>IncludePermissions</code> to
+  /// <code>TRUE</code>, any permissions associated with each resource are
+  /// exported.
+  ///
+  /// Parameter [includeTags] :
+  /// A Boolean that determines whether all tags for each resource ARN are
+  /// exported with the job. If you set <code>IncludeTags</code> to
+  /// <code>TRUE</code>, any tags associated with each resource are exported.
+  ///
+  /// Parameter [validationStrategy] :
+  /// An optional parameter that determines which validation strategy to use for
+  /// the export job. If <code>StrictModeForAllResources</code> is set to
+  /// <code>TRUE</code>, strict validation for every error is enforced. If it is
+  /// set to <code>FALSE</code>, validation is skipped for specific UI errors
+  /// that are shown as warnings. The default value for
+  /// <code>StrictModeForAllResources</code> is <code>FALSE</code>.
   Future<StartAssetBundleExportJobResponse> startAssetBundleExportJob({
     required String assetBundleExportJobId,
     required String awsAccountId,
@@ -6432,6 +7061,9 @@ class QuickSight {
     AssetBundleCloudFormationOverridePropertyConfiguration?
         cloudFormationOverridePropertyConfiguration,
     bool? includeAllDependencies,
+    bool? includePermissions,
+    bool? includeTags,
+    AssetBundleExportJobValidationStrategy? validationStrategy,
   }) async {
     final $payload = <String, dynamic>{
       'AssetBundleExportJobId': assetBundleExportJobId,
@@ -6442,6 +7074,9 @@ class QuickSight {
             cloudFormationOverridePropertyConfiguration,
       if (includeAllDependencies != null)
         'IncludeAllDependencies': includeAllDependencies,
+      if (includePermissions != null) 'IncludePermissions': includePermissions,
+      if (includeTags != null) 'IncludeTags': includeTags,
+      if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -6460,7 +7095,7 @@ class QuickSight {
   /// prefix and specified configuration overrides. The assets that are
   /// contained in the bundle file that you provide are used to create or update
   /// a new or existing asset in your Amazon QuickSight account. Each Amazon
-  /// QuickSight account can run up to 10 import jobs concurrently.
+  /// QuickSight account can run up to 5 import jobs concurrently.
   ///
   /// The API caller must have the necessary <code>"create"</code>,
   /// <code>"describe"</code>, and <code>"update"</code> permissions in their
@@ -6481,7 +7116,7 @@ class QuickSight {
   ///
   /// Parameter [assetBundleImportSource] :
   /// The source of the asset bundle zip file that contains the data that you
-  /// want to import.
+  /// want to import. The file must be in <code>QUICKSIGHT_JSON</code> format.
   ///
   /// Parameter [awsAccountId] :
   /// The ID of the Amazon Web Services account to import assets into.
@@ -6493,24 +7128,44 @@ class QuickSight {
   /// undo any asset changes caused by the failed job.
   ///
   /// If you choose <code>DO_NOTHING</code>, failed import jobs will not attempt
-  /// to roll back any asset changes caused by the failed job, possibly leaving
+  /// to roll back any asset changes caused by the failed job, possibly keeping
   /// the Amazon QuickSight account in an inconsistent state.
   ///
   /// Parameter [overrideParameters] :
-  /// Optional overrides to be applied to the resource configuration before
+  /// Optional overrides that are applied to the resource configuration before
   /// import.
+  ///
+  /// Parameter [overridePermissions] :
+  /// Optional permission overrides that are applied to the resource
+  /// configuration before import.
+  ///
+  /// Parameter [overrideTags] :
+  /// Optional tag overrides that are applied to the resource configuration
+  /// before import.
+  ///
+  /// Parameter [overrideValidationStrategy] :
+  /// An optional validation strategy override for all analyses and dashboards
+  /// that is applied to the resource configuration before import.
   Future<StartAssetBundleImportJobResponse> startAssetBundleImportJob({
     required String assetBundleImportJobId,
     required AssetBundleImportSource assetBundleImportSource,
     required String awsAccountId,
     AssetBundleImportFailureAction? failureAction,
     AssetBundleImportJobOverrideParameters? overrideParameters,
+    AssetBundleImportJobOverridePermissions? overridePermissions,
+    AssetBundleImportJobOverrideTags? overrideTags,
+    AssetBundleImportJobOverrideValidationStrategy? overrideValidationStrategy,
   }) async {
     final $payload = <String, dynamic>{
       'AssetBundleImportJobId': assetBundleImportJobId,
       'AssetBundleImportSource': assetBundleImportSource,
       if (failureAction != null) 'FailureAction': failureAction.toValue(),
       if (overrideParameters != null) 'OverrideParameters': overrideParameters,
+      if (overridePermissions != null)
+        'OverridePermissions': overridePermissions,
+      if (overrideTags != null) 'OverrideTags': overrideTags,
+      if (overrideValidationStrategy != null)
+        'OverrideValidationStrategy': overrideValidationStrategy,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -6520,6 +7175,163 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return StartAssetBundleImportJobResponse.fromJson(response);
+  }
+
+  /// Starts an asynchronous job that generates a snapshot of a dashboard's
+  /// output. You can request one or several of the following format
+  /// configurations in each API call.
+  ///
+  /// <ul>
+  /// <li>
+  /// 1 Paginated PDF
+  /// </li>
+  /// <li>
+  /// 1 Excel workbook that includes up to 5 table or pivot table visuals
+  /// </li>
+  /// <li>
+  /// 5 CSVs from table or pivot table visuals
+  /// </li>
+  /// </ul>
+  /// The status of a submitted job can be polled with the
+  /// <code>DescribeDashboardSnapshotJob</code> API. When you call the
+  /// <code>DescribeDashboardSnapshotJob</code> API, check the
+  /// <code>JobStatus</code> field in the response. Once the job reaches a
+  /// <code>COMPLETED</code> or <code>FAILED</code> status, use the
+  /// <code>DescribeDashboardSnapshotJobResult</code> API to obtain the URLs for
+  /// the generated files. If the job fails, the
+  /// <code>DescribeDashboardSnapshotJobResult</code> API returns detailed
+  /// information about the error that occurred.
+  ///
+  /// <b>StartDashboardSnapshotJob API throttling</b>
+  ///
+  /// Amazon QuickSight utilizes API throttling to create a more consistent user
+  /// experience within a time span for customers when they call the
+  /// <code>StartDashboardSnapshotJob</code>. By default, 12 jobs can run
+  /// simlutaneously in one Amazon Web Services account and users can submit up
+  /// 10 API requests per second before an account is throttled. If an
+  /// overwhelming number of API requests are made by the same user in a short
+  /// period of time, Amazon QuickSight throttles the API calls to maintin an
+  /// optimal experience and reliability for all Amazon QuickSight users.
+  ///
+  /// <b>Common throttling scenarios</b>
+  ///
+  /// The following list provides information about the most commin throttling
+  /// scenarios that can occur.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>A large number of <code>SnapshotExport</code> API jobs are running
+  /// simultaneously on an Amazon Web Services account.</b> When a new
+  /// <code>StartDashboardSnapshotJob</code> is created and there are already 12
+  /// jobs with the <code>RUNNING</code> status, the new job request fails and
+  /// returns a <code>LimitExceededException</code> error. Wait for a current
+  /// job to comlpete before you resubmit the new job.
+  /// </li>
+  /// <li>
+  /// <b>A large number of API requests are submitted on an Amazon Web Services
+  /// account.</b> When a user makes more than 10 API calls to the Amazon
+  /// QuickSight API in one second, a <code>ThrottlingException</code> is
+  /// returned.
+  /// </li>
+  /// </ul>
+  /// If your use case requires a higher throttling limit, contact your account
+  /// admin or <a href="http://aws.amazon.com/contact-us/">Amazon Web
+  /// ServicesSupport</a> to explore options to tailor a more optimal expereince
+  /// for your account.
+  ///
+  /// <b>Best practices to handle throttling</b>
+  ///
+  /// If your use case projects high levels of API traffic, try to reduce the
+  /// degree of frequency and parallelism of API calls as much as you can to
+  /// avoid throttling. You can also perform a timing test to calculate an
+  /// estimate for the total processing time of your projected load that stays
+  /// within the throttling limits of the Amazon QuickSight APIs. For example,
+  /// if your projected traffic is 100 snapshot jobs before 12:00 PM per day,
+  /// start 12 jobs in parallel and measure the amount of time it takes to
+  /// proccess all 12 jobs. Once you obtain the result, multiply the duration by
+  /// 9, for example <code>(12 minutes * 9 = 108 minutes)</code>. Use the new
+  /// result to determine the latest time at which the jobs need to be started
+  /// to meet your target deadline.
+  ///
+  /// The time that it takes to process a job can be impacted by the following
+  /// factors:
+  ///
+  /// <ul>
+  /// <li>
+  /// The dataset type (Direct Query or SPICE).
+  /// </li>
+  /// <li>
+  /// The size of the dataset.
+  /// </li>
+  /// <li>
+  /// The complexity of the calculated fields that are used in the dashboard.
+  /// </li>
+  /// <li>
+  /// The number of visuals that are on a sheet.
+  /// </li>
+  /// <li>
+  /// The types of visuals that are on the sheet.
+  /// </li>
+  /// <li>
+  /// The number of formats and snapshots that are requested in the job
+  /// configuration.
+  /// </li>
+  /// <li>
+  /// The size of the generated snapshots.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [UnsupportedPricingPlanException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that the dashboard snapshot job
+  /// is executed in.
+  ///
+  /// Parameter [dashboardId] :
+  /// The ID of the dashboard that you want to start a snapshot job for.
+  ///
+  /// Parameter [snapshotConfiguration] :
+  /// A structure that describes the configuration of the dashboard snapshot.
+  ///
+  /// Parameter [snapshotJobId] :
+  /// An ID for the dashboard snapshot job. This ID is unique to the dashboard
+  /// while the job is running. This ID can be used to poll the status of a job
+  /// with a <code>DescribeDashboardSnapshotJob</code> while the job runs. You
+  /// can reuse this ID for another job 24 hours after the current job is
+  /// completed.
+  ///
+  /// Parameter [userConfiguration] :
+  /// A structure that contains information about the anonymous users that the
+  /// generated snapshot is for. This API will not return information about
+  /// registered Amazon QuickSight.
+  Future<StartDashboardSnapshotJobResponse> startDashboardSnapshotJob({
+    required String awsAccountId,
+    required String dashboardId,
+    required SnapshotConfiguration snapshotConfiguration,
+    required String snapshotJobId,
+    required SnapshotUserConfiguration userConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'SnapshotConfiguration': snapshotConfiguration,
+      'SnapshotJobId': snapshotJobId,
+      'UserConfiguration': userConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/dashboards/${Uri.encodeComponent(dashboardId)}/snapshot-jobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartDashboardSnapshotJobResponse.fromJson(response);
   }
 
   /// Assigns one or more tags (key-value pairs) to the specified Amazon
@@ -6535,17 +7347,17 @@ class QuickSight {
   /// specify replaces the previous value for that tag.
   ///
   /// You can associate as many as 50 tags with a resource. Amazon QuickSight
-  /// supports tagging on data set, data source, dashboard, template, and topic.
+  /// supports tagging on data set, data source, dashboard, template, topic, and
+  /// user.
   ///
   /// Tagging for Amazon QuickSight works in a similar way to tagging for other
   /// Amazon Web Services services, except for the following:
   ///
   /// <ul>
   /// <li>
-  /// You can't use tags to track costs for Amazon QuickSight. This isn't
-  /// possible because you can't tag the resources that Amazon QuickSight costs
-  /// are based on, for example Amazon QuickSight storage capacity (SPICE),
-  /// number of users, type of users, and usage metrics.
+  /// Tags are used to track costs for users in Amazon QuickSight. You can't tag
+  /// other resources that Amazon QuickSight costs are based on, such as storage
+  /// capacoty (SPICE), session usage, alert consumption, or reporting units.
   /// </li>
   /// <li>
   /// Amazon QuickSight doesn't currently support the tag editor for Resource
@@ -6758,6 +7570,10 @@ class QuickSight {
   /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that
   /// you're creating. To see the theme in the Amazon QuickSight console, make
   /// sure that you have access to it.
+  ///
+  /// Parameter [validationStrategy] :
+  /// The option to relax the validation needed to update an analysis with
+  /// definition objects. This skips the validation step for specific errors.
   Future<UpdateAnalysisResponse> updateAnalysis({
     required String analysisId,
     required String awsAccountId,
@@ -6766,6 +7582,7 @@ class QuickSight {
     Parameters? parameters,
     AnalysisSourceEntity? sourceEntity,
     String? themeArn,
+    ValidationStrategy? validationStrategy,
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
@@ -6773,6 +7590,7 @@ class QuickSight {
       if (parameters != null) 'Parameters': parameters,
       if (sourceEntity != null) 'SourceEntity': sourceEntity,
       if (themeArn != null) 'ThemeArn': themeArn,
+      if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -6916,6 +7734,10 @@ class QuickSight {
   /// was originally associated with the entity. The theme ARN must exist in the
   /// same Amazon Web Services account where you create the dashboard.
   ///
+  /// Parameter [validationStrategy] :
+  /// The option to relax the validation needed to update a dashboard with
+  /// definition objects. This skips the validation step for specific errors.
+  ///
   /// Parameter [versionDescription] :
   /// A description for the first version of the dashboard being created.
   Future<UpdateDashboardResponse> updateDashboard({
@@ -6927,6 +7749,7 @@ class QuickSight {
     Parameters? parameters,
     DashboardSourceEntity? sourceEntity,
     String? themeArn,
+    ValidationStrategy? validationStrategy,
     String? versionDescription,
   }) async {
     final $payload = <String, dynamic>{
@@ -6937,6 +7760,7 @@ class QuickSight {
       if (parameters != null) 'Parameters': parameters,
       if (sourceEntity != null) 'SourceEntity': sourceEntity,
       if (themeArn != null) 'ThemeArn': themeArn,
+      if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
       if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
@@ -6947,6 +7771,44 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDashboardResponse.fromJson(response);
+  }
+
+  /// Updates the linked analyses on a dashboard.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the dashboard
+  /// whose links you want to update.
+  ///
+  /// Parameter [dashboardId] :
+  /// The ID for the dashboard.
+  ///
+  /// Parameter [linkEntities] :
+  /// list of analysis Amazon Resource Names (ARNs) to be linked to the
+  /// dashboard.
+  Future<UpdateDashboardLinksResponse> updateDashboardLinks({
+    required String awsAccountId,
+    required String dashboardId,
+    required List<String> linkEntities,
+  }) async {
+    final $payload = <String, dynamic>{
+      'LinkEntities': linkEntities,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/dashboards/${Uri.encodeComponent(dashboardId)}/linked-entities',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateDashboardLinksResponse.fromJson(response);
   }
 
   /// Updates read and write permissions on a dashboard.
@@ -7348,10 +8210,12 @@ class QuickSight {
   /// The ID of the folder.
   ///
   /// Parameter [grantPermissions] :
-  /// The permissions that you want to grant on a resource.
+  /// The permissions that you want to grant on a resource. Namespace ARNs are
+  /// not supported <code>Principal</code> values for folder permissions.
   ///
   /// Parameter [revokePermissions] :
-  /// The permissions that you want to revoke from a resource.
+  /// The permissions that you want to revoke from a resource. Namespace ARNs
+  /// are not supported <code>Principal</code> values for folder permissions.
   Future<UpdateFolderPermissionsResponse> updateFolderPermissions({
     required String awsAccountId,
     required String folderId,
@@ -7486,8 +8350,53 @@ class QuickSight {
     return UpdateIAMPolicyAssignmentResponse.fromJson(response);
   }
 
-  /// Updates the content and status of IP rules. To use this operation, you
-  /// must provide the entire map of rules. You can use the
+  /// Adds or updates services and authorized targets to configure what the
+  /// Amazon QuickSight IAM Identity Center application can access.
+  ///
+  /// This operation is only supported for Amazon QuickSight accounts using IAM
+  /// Identity Center
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the identity
+  /// propagation configuration that you want to update.
+  ///
+  /// Parameter [service] :
+  /// The name of the Amazon Web Services service that contains the authorized
+  /// targets that you want to add or update.
+  ///
+  /// Parameter [authorizedTargets] :
+  /// Specifies a list of application ARNs that represent the authorized targets
+  /// for a service.
+  Future<UpdateIdentityPropagationConfigResponse>
+      updateIdentityPropagationConfig({
+    required String awsAccountId,
+    required ServiceType service,
+    List<String>? authorizedTargets,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/identity-propagation-config/${Uri.encodeComponent(service.toValue())}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateIdentityPropagationConfigResponse.fromJson(response);
+  }
+
+  /// Updates the content and status of IP rules. Traffic from a source is
+  /// allowed when the source satisfies either the
+  /// <code>IpRestrictionRule</code>, <code>VpcIdRestrictionRule</code>, or
+  /// <code>VpcEndpointIdRestrictionRule</code>. To use this operation, you must
+  /// provide the entire map of rules. You can use the
   /// <code>DescribeIpRestriction</code> operation to get the current rule map.
   ///
   /// May throw [LimitExceededException].
@@ -7506,15 +8415,30 @@ class QuickSight {
   /// Parameter [ipRestrictionRuleMap] :
   /// A map that describes the updated IP rules with CIDR ranges and
   /// descriptions.
+  ///
+  /// Parameter [vpcEndpointIdRestrictionRuleMap] :
+  /// A map of allowed VPC endpoint IDs and their corresponding rule
+  /// descriptions.
+  ///
+  /// Parameter [vpcIdRestrictionRuleMap] :
+  /// A map of VPC IDs and their corresponding rules. When you configure this
+  /// parameter, traffic from all VPC endpoints that are present in the
+  /// specified VPC is allowed.
   Future<UpdateIpRestrictionResponse> updateIpRestriction({
     required String awsAccountId,
     bool? enabled,
     Map<String, String>? ipRestrictionRuleMap,
+    Map<String, String>? vpcEndpointIdRestrictionRuleMap,
+    Map<String, String>? vpcIdRestrictionRuleMap,
   }) async {
     final $payload = <String, dynamic>{
       if (enabled != null) 'Enabled': enabled,
       if (ipRestrictionRuleMap != null)
         'IpRestrictionRuleMap': ipRestrictionRuleMap,
+      if (vpcEndpointIdRestrictionRuleMap != null)
+        'VpcEndpointIdRestrictionRuleMap': vpcEndpointIdRestrictionRuleMap,
+      if (vpcIdRestrictionRuleMap != null)
+        'VpcIdRestrictionRuleMap': vpcIdRestrictionRuleMap,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -7524,6 +8448,37 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIpRestrictionResponse.fromJson(response);
+  }
+
+  /// Updates a customer managed key in a Amazon QuickSight account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the customer
+  /// managed key registration that you want to update.
+  ///
+  /// Parameter [keyRegistration] :
+  /// A list of <code>RegisteredCustomerManagedKey</code> objects to be updated
+  /// to the Amazon QuickSight account.
+  Future<UpdateKeyRegistrationResponse> updateKeyRegistration({
+    required String awsAccountId,
+    required List<RegisteredCustomerManagedKey> keyRegistration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'KeyRegistration': keyRegistration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/key-registration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateKeyRegistrationResponse.fromJson(response);
   }
 
   /// Use the <code>UpdatePublicSharingSettings</code> operation to turn on or
@@ -7607,6 +8562,92 @@ class QuickSight {
     return UpdateRefreshScheduleResponse.fromJson(response);
   }
 
+  /// Updates the custom permissions that are associated with a role.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that you want to create a group
+  /// in. The Amazon Web Services account ID that you provide must be the same
+  /// Amazon Web Services account that contains your Amazon QuickSight account.
+  ///
+  /// Parameter [customPermissionsName] :
+  /// The name of the custom permission that you want to update the role with.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that contains the role that you want to update.
+  ///
+  /// Parameter [role] :
+  /// The name of role tht you want to update.
+  Future<UpdateRoleCustomPermissionResponse> updateRoleCustomPermission({
+    required String awsAccountId,
+    required String customPermissionsName,
+    required String namespace,
+    required Role role,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CustomPermissionsName': customPermissionsName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/custom-permission',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateRoleCustomPermissionResponse.fromJson(response);
+  }
+
+  /// Updates the SPICE capacity configuration for a Amazon QuickSight account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the SPICE
+  /// configuration that you want to update.
+  ///
+  /// Parameter [purchaseMode] :
+  /// Determines how SPICE capacity can be purchased. The following options are
+  /// available.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MANUAL</code>: SPICE capacity can only be purchased manually.
+  /// </li>
+  /// <li>
+  /// <code>AUTO_PURCHASE</code>: Extra SPICE capacity is automatically
+  /// purchased on your behalf as needed. SPICE capacity can also be purchased
+  /// manually with this option.
+  /// </li>
+  /// </ul>
+  Future<UpdateSPICECapacityConfigurationResponse>
+      updateSPICECapacityConfiguration({
+    required String awsAccountId,
+    required PurchaseMode purchaseMode,
+  }) async {
+    final $payload = <String, dynamic>{
+      'PurchaseMode': purchaseMode.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/spice-capacity-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSPICECapacityConfigurationResponse.fromJson(response);
+  }
+
   /// Updates a template from an existing Amazon QuickSight analysis or another
   /// template.
   ///
@@ -7651,6 +8692,10 @@ class QuickSight {
   /// replacement datasets for the placeholders listed in the original. The
   /// schema in each dataset must match its placeholder.
   ///
+  /// Parameter [validationStrategy] :
+  /// The option to relax the validation needed to update a template with
+  /// definition objects. This skips the validation step for specific errors.
+  ///
   /// Parameter [versionDescription] :
   /// A description of the current template version that is being updated. Every
   /// time you call <code>UpdateTemplate</code>, you create a new version of the
@@ -7662,12 +8707,14 @@ class QuickSight {
     TemplateVersionDefinition? definition,
     String? name,
     TemplateSourceEntity? sourceEntity,
+    ValidationStrategy? validationStrategy,
     String? versionDescription,
   }) async {
     final $payload = <String, dynamic>{
       if (definition != null) 'Definition': definition,
       if (name != null) 'Name': name,
       if (sourceEntity != null) 'SourceEntity': sourceEntity,
+      if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
       if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
@@ -8148,6 +9195,23 @@ class QuickSight {
   /// <code>ADMIN</code>: A user who is an author, who can also manage Amazon
   /// QuickSight settings.
   /// </li>
+  /// <li>
+  /// <code>READER_PRO</code>: Reader Pro adds Generative BI capabilities to the
+  /// Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can
+  /// build stories with Amazon Q, and can generate executive summaries from
+  /// dashboards.
+  /// </li>
+  /// <li>
+  /// <code>AUTHOR_PRO</code>: Author Pro adds Generative BI capabilities to the
+  /// Author role. Author Pros can author dashboards with natural language with
+  /// Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and
+  /// generate executive summaries from dashboards.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_PRO</code>: Admin Pros are Author Pros who can also manage
+  /// Amazon QuickSight administrative settings. Admin Pro users are billed at
+  /// Author Pro pricing.
+  /// </li>
   /// </ul>
   /// The name of the Amazon QuickSight role is invisible to the user except for
   /// the console screens dealing with permissions.
@@ -8398,6 +9462,9 @@ class AccountInfo {
   /// The edition of your Amazon QuickSight account.
   final Edition? edition;
 
+  /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
+  final String? iAMIdentityCenterInstanceArn;
+
   /// The email address that will be used for Amazon QuickSight to send
   /// notifications regarding your Amazon Web Services account or Amazon
   /// QuickSight subscription.
@@ -8408,6 +9475,7 @@ class AccountInfo {
     this.accountSubscriptionStatus,
     this.authenticationType,
     this.edition,
+    this.iAMIdentityCenterInstanceArn,
     this.notificationEmail,
   });
 
@@ -8417,6 +9485,8 @@ class AccountInfo {
       accountSubscriptionStatus: json['AccountSubscriptionStatus'] as String?,
       authenticationType: json['AuthenticationType'] as String?,
       edition: (json['Edition'] as String?)?.toEdition(),
+      iAMIdentityCenterInstanceArn:
+          json['IAMIdentityCenterInstanceArn'] as String?,
       notificationEmail: json['NotificationEmail'] as String?,
     );
   }
@@ -8528,6 +9598,9 @@ class AdHocFilteringOption {
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
 class AggregationFunction {
+  /// Aggregation for attributes.
+  final AttributeAggregationFunction? attributeAggregationFunction;
+
   /// Aggregation for categorical values.
   ///
   /// <ul>
@@ -8566,6 +9639,7 @@ class AggregationFunction {
   final NumericalAggregationFunction? numericalAggregationFunction;
 
   AggregationFunction({
+    this.attributeAggregationFunction,
     this.categoricalAggregationFunction,
     this.dateAggregationFunction,
     this.numericalAggregationFunction,
@@ -8573,6 +9647,10 @@ class AggregationFunction {
 
   factory AggregationFunction.fromJson(Map<String, dynamic> json) {
     return AggregationFunction(
+      attributeAggregationFunction: json['AttributeAggregationFunction'] != null
+          ? AttributeAggregationFunction.fromJson(
+              json['AttributeAggregationFunction'] as Map<String, dynamic>)
+          : null,
       categoricalAggregationFunction:
           (json['CategoricalAggregationFunction'] as String?)
               ?.toCategoricalAggregationFunction(),
@@ -8586,10 +9664,13 @@ class AggregationFunction {
   }
 
   Map<String, dynamic> toJson() {
+    final attributeAggregationFunction = this.attributeAggregationFunction;
     final categoricalAggregationFunction = this.categoricalAggregationFunction;
     final dateAggregationFunction = this.dateAggregationFunction;
     final numericalAggregationFunction = this.numericalAggregationFunction;
     return {
+      if (attributeAggregationFunction != null)
+        'AttributeAggregationFunction': attributeAggregationFunction,
       if (categoricalAggregationFunction != null)
         'CategoricalAggregationFunction':
             categoricalAggregationFunction.toValue(),
@@ -8603,9 +9684,6 @@ class AggregationFunction {
 
 /// The configuration options to sort aggregated values.
 class AggregationSortConfiguration {
-  /// The function that aggregates the values in <code>Column</code>.
-  final AggregationFunction aggregationFunction;
-
   /// The column that determines the sort order of aggregated values.
   final ColumnIdentifier column;
 
@@ -8621,30 +9699,55 @@ class AggregationSortConfiguration {
   /// </ul>
   final SortDirection sortDirection;
 
+  /// The function that aggregates the values in <code>Column</code>.
+  final AggregationFunction? aggregationFunction;
+
   AggregationSortConfiguration({
-    required this.aggregationFunction,
     required this.column,
     required this.sortDirection,
+    this.aggregationFunction,
   });
 
   factory AggregationSortConfiguration.fromJson(Map<String, dynamic> json) {
     return AggregationSortConfiguration(
-      aggregationFunction: AggregationFunction.fromJson(
-          json['AggregationFunction'] as Map<String, dynamic>),
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       sortDirection: (json['SortDirection'] as String).toSortDirection(),
+      aggregationFunction: json['AggregationFunction'] != null
+          ? AggregationFunction.fromJson(
+              json['AggregationFunction'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final aggregationFunction = this.aggregationFunction;
     final column = this.column;
     final sortDirection = this.sortDirection;
+    final aggregationFunction = this.aggregationFunction;
     return {
-      'AggregationFunction': aggregationFunction,
       'Column': column,
       'SortDirection': sortDirection.toValue(),
+      if (aggregationFunction != null)
+        'AggregationFunction': aggregationFunction,
     };
+  }
+}
+
+/// An empty object that represents that the <code>AllSheets</code> option is
+/// the chosen value for the <code>FilterScopeConfiguration</code> parameter.
+/// This structure applies the filter to all visuals on all sheets of an
+/// Analysis, Dashboard, or Template.
+///
+/// This is a union type structure. For this structure to be valid, only one of
+/// the attributes can be defined.
+class AllSheetsFilterScopeConfiguration {
+  AllSheetsFilterScopeConfiguration();
+
+  factory AllSheetsFilterScopeConfiguration.fromJson(Map<String, dynamic> _) {
+    return AllSheetsFilterScopeConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -8812,6 +9915,9 @@ class AnalysisDefinition {
   /// Data in Amazon QuickSight</a> in the <i>Amazon QuickSight User Guide</i>.
   final List<FilterGroup>? filterGroups;
 
+  /// An array of option definitions for an analysis.
+  final AssetOptions? options;
+
   /// An array of parameter declarations for an analysis.
   ///
   /// Parameters are named variables that can transfer a value for use by an
@@ -8833,6 +9939,7 @@ class AnalysisDefinition {
     this.calculatedFields,
     this.columnConfigurations,
     this.filterGroups,
+    this.options,
     this.parameterDeclarations,
     this.sheets,
   });
@@ -8861,6 +9968,9 @@ class AnalysisDefinition {
           ?.whereNotNull()
           .map((e) => FilterGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
+      options: json['Options'] != null
+          ? AssetOptions.fromJson(json['Options'] as Map<String, dynamic>)
+          : null,
       parameterDeclarations: (json['ParameterDeclarations'] as List?)
           ?.whereNotNull()
           .map((e) => ParameterDeclaration.fromJson(e as Map<String, dynamic>))
@@ -8878,6 +9988,7 @@ class AnalysisDefinition {
     final calculatedFields = this.calculatedFields;
     final columnConfigurations = this.columnConfigurations;
     final filterGroups = this.filterGroups;
+    final options = this.options;
     final parameterDeclarations = this.parameterDeclarations;
     final sheets = this.sheets;
     return {
@@ -8887,6 +9998,7 @@ class AnalysisDefinition {
       if (columnConfigurations != null)
         'ColumnConfigurations': columnConfigurations,
       if (filterGroups != null) 'FilterGroups': filterGroups,
+      if (options != null) 'Options': options,
       if (parameterDeclarations != null)
         'ParameterDeclarations': parameterDeclarations,
       if (sheets != null) 'Sheets': sheets,
@@ -9327,37 +10439,69 @@ class AnonymousUserEmbeddingExperienceConfiguration {
   /// The type of embedding experience. In this case, Amazon QuickSight visuals.
   final AnonymousUserDashboardVisualEmbeddingConfiguration? dashboardVisual;
 
+  /// The Generative Q&amp;A experience that you want to use for anonymous user
+  /// embedding.
+  final AnonymousUserGenerativeQnAEmbeddingConfiguration? generativeQnA;
+
   /// The Q search bar that you want to use for anonymous user embedding.
   final AnonymousUserQSearchBarEmbeddingConfiguration? qSearchBar;
 
   AnonymousUserEmbeddingExperienceConfiguration({
     this.dashboard,
     this.dashboardVisual,
+    this.generativeQnA,
     this.qSearchBar,
   });
 
   Map<String, dynamic> toJson() {
     final dashboard = this.dashboard;
     final dashboardVisual = this.dashboardVisual;
+    final generativeQnA = this.generativeQnA;
     final qSearchBar = this.qSearchBar;
     return {
       if (dashboard != null) 'Dashboard': dashboard,
       if (dashboardVisual != null) 'DashboardVisual': dashboardVisual,
+      if (generativeQnA != null) 'GenerativeQnA': generativeQnA,
       if (qSearchBar != null) 'QSearchBar': qSearchBar,
+    };
+  }
+}
+
+/// The settings that you want to use for the Generative Q&amp;A experience.
+class AnonymousUserGenerativeQnAEmbeddingConfiguration {
+  /// The Amazon QuickSight Q topic ID of the new reader experience topic that you
+  /// want the anonymous user to see first. This ID is included in the output URL.
+  /// When the URL in response is accessed, Amazon QuickSight renders the
+  /// Generative Q&amp;A experience with this new reader experience topic pre
+  /// selected.
+  ///
+  /// The Amazon Resource Name (ARN) of this Q new reader experience topic must be
+  /// included in the <code>AuthorizedResourceArns</code> parameter. Otherwise,
+  /// the request fails with an <code>InvalidParameterValueException</code> error.
+  final String initialTopicId;
+
+  AnonymousUserGenerativeQnAEmbeddingConfiguration({
+    required this.initialTopicId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final initialTopicId = this.initialTopicId;
+    return {
+      'InitialTopicId': initialTopicId,
     };
   }
 }
 
 /// The settings that you want to use with the Q search bar.
 class AnonymousUserQSearchBarEmbeddingConfiguration {
-  /// The QuickSight Q topic ID of the topic that you want the anonymous user to
-  /// see first. This ID is included in the output URL. When the URL in response
-  /// is accessed, Amazon QuickSight renders the Q search bar with this topic
-  /// pre-selected.
+  /// The Amazon QuickSight Q topic ID of the legacy topic that you want the
+  /// anonymous user to see first. This ID is included in the output URL. When the
+  /// URL in response is accessed, Amazon QuickSight renders the Q search bar with
+  /// this legacy topic pre-selected.
   ///
-  /// The Amazon Resource Name (ARN) of this Q topic must be included in the
-  /// <code>AuthorizedResourceArns</code> parameter. Otherwise, the request will
-  /// fail with <code>InvalidParameterValueException</code>.
+  /// The Amazon Resource Name (ARN) of this Q legacy topic must be included in
+  /// the <code>AuthorizedResourceArns</code> parameter. Otherwise, the request
+  /// fails with an <code>InvalidParameterValueException</code> error.
   final String initialTopicId;
 
   AnonymousUserQSearchBarEmbeddingConfiguration({
@@ -9369,6 +10513,32 @@ class AnonymousUserQSearchBarEmbeddingConfiguration {
     return {
       'InitialTopicId': initialTopicId,
     };
+  }
+}
+
+/// A structure that contains the file groups that are requested for the
+/// artifact generation in a <code>StartDashboardSnapshotJob</code> API call.
+class AnonymousUserSnapshotJobResult {
+  /// A list of <code>SnapshotJobResultFileGroup</code> objects that contain
+  /// information on the files that are requested during a
+  /// <code>StartDashboardSnapshotJob</code> API call. If the job succeeds, these
+  /// objects contain the location where the snapshot artifacts are stored. If the
+  /// job fails, the objects contain information about the error that caused the
+  /// job to fail.
+  final List<SnapshotJobResultFileGroup>? fileGroups;
+
+  AnonymousUserSnapshotJobResult({
+    this.fileGroups,
+  });
+
+  factory AnonymousUserSnapshotJobResult.fromJson(Map<String, dynamic> json) {
+    return AnonymousUserSnapshotJobResult(
+      fileGroups: (json['FileGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SnapshotJobResultFileGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 }
 
@@ -9713,37 +10883,37 @@ extension AssetBundleExportFormatFromString on String {
 /// Controls how a specific <code>Analysis</code> resource is parameterized in
 /// the returned CloudFormation template.
 class AssetBundleExportJobAnalysisOverrideProperties {
+  /// The ARN of the specific <code>Analysis</code> resource whose override
+  /// properties are configured in this structure.
+  final String arn;
+
   /// A list of <code>Analysis</code> resource properties to generate variables
   /// for in the returned CloudFormation template.
   final List<AssetBundleExportJobAnalysisPropertyToOverride> properties;
 
-  /// The ARN of the specific <code>Analysis</code> resource whose override
-  /// properties are configured in this structure.
-  final String? arn;
-
   AssetBundleExportJobAnalysisOverrideProperties({
+    required this.arn,
     required this.properties,
-    this.arn,
   });
 
   factory AssetBundleExportJobAnalysisOverrideProperties.fromJson(
       Map<String, dynamic> json) {
     return AssetBundleExportJobAnalysisOverrideProperties(
+      arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) =>
               (e as String).toAssetBundleExportJobAnalysisPropertyToOverride())
           .toList(),
-      arn: json['Arn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final properties = this.properties;
     final arn = this.arn;
+    final properties = this.properties;
     return {
+      'Arn': arn,
       'Properties': properties.map((e) => e.toValue()).toList(),
-      if (arn != null) 'Arn': arn,
     };
   }
 }
@@ -9777,37 +10947,37 @@ extension AssetBundleExportJobAnalysisPropertyToOverrideFromString on String {
 /// Controls how a specific <code>Dashboard</code> resource is parameterized in
 /// the returned CloudFormation template.
 class AssetBundleExportJobDashboardOverrideProperties {
+  /// The ARN of the specific <code>Dashboard</code> resource whose override
+  /// properties are configured in this structure.
+  final String arn;
+
   /// A list of <code>Dashboard</code> resource properties to generate variables
   /// for in the returned CloudFormation template.
   final List<AssetBundleExportJobDashboardPropertyToOverride> properties;
 
-  /// The ARN of the specific <code>Dashboard</code> resource whose override
-  /// properties are configured in this structure.
-  final String? arn;
-
   AssetBundleExportJobDashboardOverrideProperties({
+    required this.arn,
     required this.properties,
-    this.arn,
   });
 
   factory AssetBundleExportJobDashboardOverrideProperties.fromJson(
       Map<String, dynamic> json) {
     return AssetBundleExportJobDashboardOverrideProperties(
+      arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) =>
               (e as String).toAssetBundleExportJobDashboardPropertyToOverride())
           .toList(),
-      arn: json['Arn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final properties = this.properties;
     final arn = this.arn;
+    final properties = this.properties;
     return {
+      'Arn': arn,
       'Properties': properties.map((e) => e.toValue()).toList(),
-      if (arn != null) 'Arn': arn,
     };
   }
 }
@@ -9841,37 +11011,37 @@ extension AssetBundleExportJobDashboardPropertyToOverrideFromString on String {
 /// Controls how a specific <code>DataSet</code> resource is parameterized in
 /// the returned CloudFormation template.
 class AssetBundleExportJobDataSetOverrideProperties {
+  /// The ARN of the specific <code>DataSet</code> resource whose override
+  /// properties are configured in this structure.
+  final String arn;
+
   /// A list of <code>DataSet</code> resource properties to generate variables for
   /// in the returned CloudFormation template.
   final List<AssetBundleExportJobDataSetPropertyToOverride> properties;
 
-  /// The ARN of the specific <code>DataSet</code> resource whose override
-  /// properties are configured in this structure.
-  final String? arn;
-
   AssetBundleExportJobDataSetOverrideProperties({
+    required this.arn,
     required this.properties,
-    this.arn,
   });
 
   factory AssetBundleExportJobDataSetOverrideProperties.fromJson(
       Map<String, dynamic> json) {
     return AssetBundleExportJobDataSetOverrideProperties(
+      arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) =>
               (e as String).toAssetBundleExportJobDataSetPropertyToOverride())
           .toList(),
-      arn: json['Arn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final properties = this.properties;
     final arn = this.arn;
+    final properties = this.properties;
     return {
+      'Arn': arn,
       'Properties': properties.map((e) => e.toValue()).toList(),
-      if (arn != null) 'Arn': arn,
     };
   }
 }
@@ -9905,37 +11075,37 @@ extension AssetBundleExportJobDataSetPropertyToOverrideFromString on String {
 /// Controls how a specific <code>DataSource</code> resource is parameterized in
 /// the returned CloudFormation template.
 class AssetBundleExportJobDataSourceOverrideProperties {
+  /// The ARN of the specific <code>DataSource</code> resource whose override
+  /// properties are configured in this structure.
+  final String arn;
+
   /// A list of <code>DataSource</code> resource properties to generate variables
   /// for in the returned CloudFormation template.
   final List<AssetBundleExportJobDataSourcePropertyToOverride> properties;
 
-  /// The ARN of the specific <code>DataSource</code> resource whose override
-  /// properties are configured in this structure.
-  final String? arn;
-
   AssetBundleExportJobDataSourceOverrideProperties({
+    required this.arn,
     required this.properties,
-    this.arn,
   });
 
   factory AssetBundleExportJobDataSourceOverrideProperties.fromJson(
       Map<String, dynamic> json) {
     return AssetBundleExportJobDataSourceOverrideProperties(
+      arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) => (e as String)
               .toAssetBundleExportJobDataSourcePropertyToOverride())
           .toList(),
-      arn: json['Arn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final properties = this.properties;
     final arn = this.arn;
+    final properties = this.properties;
     return {
+      'Arn': arn,
       'Properties': properties.map((e) => e.toValue()).toList(),
-      if (arn != null) 'Arn': arn,
     };
   }
 }
@@ -9958,6 +11128,7 @@ enum AssetBundleExportJobDataSourcePropertyToOverride {
   manifestFileLocation,
   warehouse,
   roleArn,
+  productType,
 }
 
 extension AssetBundleExportJobDataSourcePropertyToOverrideValueExtension
@@ -9999,6 +11170,8 @@ extension AssetBundleExportJobDataSourcePropertyToOverrideValueExtension
         return 'Warehouse';
       case AssetBundleExportJobDataSourcePropertyToOverride.roleArn:
         return 'RoleArn';
+      case AssetBundleExportJobDataSourcePropertyToOverride.productType:
+        return 'ProductType';
     }
   }
 }
@@ -10042,6 +11215,8 @@ extension AssetBundleExportJobDataSourcePropertyToOverrideFromString on String {
         return AssetBundleExportJobDataSourcePropertyToOverride.warehouse;
       case 'RoleArn':
         return AssetBundleExportJobDataSourcePropertyToOverride.roleArn;
+      case 'ProductType':
+        return AssetBundleExportJobDataSourcePropertyToOverride.productType;
     }
     throw Exception(
         '$this is not known in enum AssetBundleExportJobDataSourcePropertyToOverride');
@@ -10077,37 +11252,37 @@ class AssetBundleExportJobError {
 /// Controls how a specific <code>RefreshSchedule</code> resource is
 /// parameterized in the returned CloudFormation template.
 class AssetBundleExportJobRefreshScheduleOverrideProperties {
+  /// The ARN of the specific <code>RefreshSchedule</code> resource whose override
+  /// properties are configured in this structure.
+  final String arn;
+
   /// A list of <code>RefreshSchedule</code> resource properties to generate
   /// variables for in the returned CloudFormation template.
   final List<AssetBundleExportJobRefreshSchedulePropertyToOverride> properties;
 
-  /// The ARN of the specific <code>RefreshSchedule</code> resource whose override
-  /// properties are configured in this structure.
-  final String? arn;
-
   AssetBundleExportJobRefreshScheduleOverrideProperties({
+    required this.arn,
     required this.properties,
-    this.arn,
   });
 
   factory AssetBundleExportJobRefreshScheduleOverrideProperties.fromJson(
       Map<String, dynamic> json) {
     return AssetBundleExportJobRefreshScheduleOverrideProperties(
+      arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) => (e as String)
               .toAssetBundleExportJobRefreshSchedulePropertyToOverride())
           .toList(),
-      arn: json['Arn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final properties = this.properties;
     final arn = this.arn;
+    final properties = this.properties;
     return {
+      'Arn': arn,
       'Properties': properties.map((e) => e.toValue()).toList(),
-      if (arn != null) 'Arn': arn,
     };
   }
 }
@@ -10227,6 +11402,14 @@ class AssetBundleExportJobSummary {
   /// returned asset bundle.
   final bool? includeAllDependencies;
 
+  /// The flag that determines the inclusion of permissions associated with each
+  /// resource ARN.
+  final bool? includePermissions;
+
+  /// The flag that determines the inclusion of tags associated with each resource
+  /// ARN.
+  final bool? includeTags;
+
   /// The current status of the export job.
   final AssetBundleExportJobStatus? jobStatus;
 
@@ -10236,6 +11419,8 @@ class AssetBundleExportJobSummary {
     this.createdTime,
     this.exportFormat,
     this.includeAllDependencies,
+    this.includePermissions,
+    this.includeTags,
     this.jobStatus,
   });
 
@@ -10247,6 +11432,8 @@ class AssetBundleExportJobSummary {
       exportFormat:
           (json['ExportFormat'] as String?)?.toAssetBundleExportFormat(),
       includeAllDependencies: json['IncludeAllDependencies'] as bool?,
+      includePermissions: json['IncludePermissions'] as bool?,
+      includeTags: json['IncludeTags'] as bool?,
       jobStatus: (json['JobStatus'] as String?)?.toAssetBundleExportJobStatus(),
     );
   }
@@ -10255,37 +11442,37 @@ class AssetBundleExportJobSummary {
 /// Controls how a specific <code>Theme</code> resource is parameterized in the
 /// returned CloudFormation template.
 class AssetBundleExportJobThemeOverrideProperties {
+  /// The ARN of the specific <code>Theme</code> resource whose override
+  /// properties are configured in this structure.
+  final String arn;
+
   /// A list of <code>Theme</code> resource properties to generate variables for
   /// in the returned CloudFormation template.
   final List<AssetBundleExportJobThemePropertyToOverride> properties;
 
-  /// The ARN of the specific <code>Theme</code> resource whose override
-  /// properties are configured in this structure.
-  final String? arn;
-
   AssetBundleExportJobThemeOverrideProperties({
+    required this.arn,
     required this.properties,
-    this.arn,
   });
 
   factory AssetBundleExportJobThemeOverrideProperties.fromJson(
       Map<String, dynamic> json) {
     return AssetBundleExportJobThemeOverrideProperties(
+      arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) =>
               (e as String).toAssetBundleExportJobThemePropertyToOverride())
           .toList(),
-      arn: json['Arn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final properties = this.properties;
     final arn = this.arn;
+    final properties = this.properties;
     return {
+      'Arn': arn,
       'Properties': properties.map((e) => e.toValue()).toList(),
-      if (arn != null) 'Arn': arn,
     };
   }
 }
@@ -10319,37 +11506,37 @@ extension AssetBundleExportJobThemePropertyToOverrideFromString on String {
 /// Controls how a specific <code>VPCConnection</code> resource is parameterized
 /// in the outputted CloudFormation template.
 class AssetBundleExportJobVPCConnectionOverrideProperties {
+  /// The ARN of the specific <code>VPCConnection</code> resource whose override
+  /// properties are configured in this structure.
+  final String arn;
+
   /// A list of <code>VPCConnection</code> resource properties to generate
   /// variables for in the returned CloudFormation template.
   final List<AssetBundleExportJobVPCConnectionPropertyToOverride> properties;
 
-  /// The ARN of the specific <code>VPCConnection</code> resource whose override
-  /// properties are configured in this structure.
-  final String? arn;
-
   AssetBundleExportJobVPCConnectionOverrideProperties({
+    required this.arn,
     required this.properties,
-    this.arn,
   });
 
   factory AssetBundleExportJobVPCConnectionOverrideProperties.fromJson(
       Map<String, dynamic> json) {
     return AssetBundleExportJobVPCConnectionOverrideProperties(
+      arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) => (e as String)
               .toAssetBundleExportJobVPCConnectionPropertyToOverride())
           .toList(),
-      arn: json['Arn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final properties = this.properties;
     final arn = this.arn;
+    final properties = this.properties;
     return {
+      'Arn': arn,
       'Properties': properties.map((e) => e.toValue()).toList(),
-      if (arn != null) 'Arn': arn,
     };
   }
 }
@@ -10388,6 +11575,55 @@ extension AssetBundleExportJobVPCConnectionPropertyToOverrideFromString
     }
     throw Exception(
         '$this is not known in enum AssetBundleExportJobVPCConnectionPropertyToOverride');
+  }
+}
+
+/// The option to relax the validation that is required to export each asset.
+/// When <code>StrictModeForAllResource</code> is set to <code>false</code>,
+/// validation is skipped for specific UI errors.
+class AssetBundleExportJobValidationStrategy {
+  /// A Boolean value that indicates whether to export resources under strict or
+  /// lenient mode.
+  final bool? strictModeForAllResources;
+
+  AssetBundleExportJobValidationStrategy({
+    this.strictModeForAllResources,
+  });
+
+  factory AssetBundleExportJobValidationStrategy.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleExportJobValidationStrategy(
+      strictModeForAllResources: json['StrictModeForAllResources'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final strictModeForAllResources = this.strictModeForAllResources;
+    return {
+      if (strictModeForAllResources != null)
+        'StrictModeForAllResources': strictModeForAllResources,
+    };
+  }
+}
+
+/// Describes a warning that occurred during an Asset Bundle export job.
+class AssetBundleExportJobWarning {
+  /// The ARN of the resource whose processing caused a warning.
+  final String? arn;
+
+  /// A description of the warning.
+  final String? message;
+
+  AssetBundleExportJobWarning({
+    this.arn,
+    this.message,
+  });
+
+  factory AssetBundleExportJobWarning.fromJson(Map<String, dynamic> json) {
+    return AssetBundleExportJobWarning(
+      arn: json['Arn'] as String?,
+      message: json['Message'] as String?,
+    );
   }
 }
 
@@ -10452,6 +11688,82 @@ class AssetBundleImportJobAnalysisOverrideParameters {
   }
 }
 
+/// An object that contains a list of permissions to be applied to a list of
+/// analysis IDs.
+class AssetBundleImportJobAnalysisOverridePermissions {
+  /// A list of analysis IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all analyses in this asset bundle.
+  final List<String> analysisIds;
+
+  /// A list of permissions for the analyses that you want to apply overrides to.
+  final AssetBundleResourcePermissions permissions;
+
+  AssetBundleImportJobAnalysisOverridePermissions({
+    required this.analysisIds,
+    required this.permissions,
+  });
+
+  factory AssetBundleImportJobAnalysisOverridePermissions.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobAnalysisOverridePermissions(
+      analysisIds: (json['AnalysisIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      permissions: AssetBundleResourcePermissions.fromJson(
+          json['Permissions'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisIds = this.analysisIds;
+    final permissions = this.permissions;
+    return {
+      'AnalysisIds': analysisIds,
+      'Permissions': permissions,
+    };
+  }
+}
+
+/// An object that contains a list of tags to be assigned to a list of analysis
+/// IDs.
+class AssetBundleImportJobAnalysisOverrideTags {
+  /// A list of analysis IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all analyses in this asset bundle.
+  final List<String> analysisIds;
+
+  /// A list of tags for the analyses that you want to apply overrides to.
+  final List<Tag> tags;
+
+  AssetBundleImportJobAnalysisOverrideTags({
+    required this.analysisIds,
+    required this.tags,
+  });
+
+  factory AssetBundleImportJobAnalysisOverrideTags.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobAnalysisOverrideTags(
+      analysisIds: (json['AnalysisIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisIds = this.analysisIds;
+    final tags = this.tags;
+    return {
+      'AnalysisIds': analysisIds,
+      'Tags': tags,
+    };
+  }
+}
+
 /// The override parameters for a single dashboard that is being imported.
 class AssetBundleImportJobDashboardOverrideParameters {
   /// The ID of the dashboard that you want to apply overrides to.
@@ -10483,6 +11795,97 @@ class AssetBundleImportJobDashboardOverrideParameters {
   }
 }
 
+/// An object that contains a list of permissions to be applied to a list of
+/// dashboard IDs.
+class AssetBundleImportJobDashboardOverridePermissions {
+  /// A list of dashboard IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all dashboards in this asset bundle.
+  final List<String> dashboardIds;
+
+  /// A structure that contains the link sharing configurations that you want to
+  /// apply overrides to.
+  final AssetBundleResourceLinkSharingConfiguration? linkSharingConfiguration;
+
+  /// A list of permissions for the dashboards that you want to apply overrides
+  /// to.
+  final AssetBundleResourcePermissions? permissions;
+
+  AssetBundleImportJobDashboardOverridePermissions({
+    required this.dashboardIds,
+    this.linkSharingConfiguration,
+    this.permissions,
+  });
+
+  factory AssetBundleImportJobDashboardOverridePermissions.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobDashboardOverridePermissions(
+      dashboardIds: (json['DashboardIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      linkSharingConfiguration: json['LinkSharingConfiguration'] != null
+          ? AssetBundleResourceLinkSharingConfiguration.fromJson(
+              json['LinkSharingConfiguration'] as Map<String, dynamic>)
+          : null,
+      permissions: json['Permissions'] != null
+          ? AssetBundleResourcePermissions.fromJson(
+              json['Permissions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardIds = this.dashboardIds;
+    final linkSharingConfiguration = this.linkSharingConfiguration;
+    final permissions = this.permissions;
+    return {
+      'DashboardIds': dashboardIds,
+      if (linkSharingConfiguration != null)
+        'LinkSharingConfiguration': linkSharingConfiguration,
+      if (permissions != null) 'Permissions': permissions,
+    };
+  }
+}
+
+/// An object that contains a list of tags to be assigned to a list of dashboard
+/// IDs.
+class AssetBundleImportJobDashboardOverrideTags {
+  /// A list of dashboard IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all dashboards in this asset bundle.
+  final List<String> dashboardIds;
+
+  /// A list of tags for the dashboards that you want to apply overrides to.
+  final List<Tag> tags;
+
+  AssetBundleImportJobDashboardOverrideTags({
+    required this.dashboardIds,
+    required this.tags,
+  });
+
+  factory AssetBundleImportJobDashboardOverrideTags.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobDashboardOverrideTags(
+      dashboardIds: (json['DashboardIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardIds = this.dashboardIds;
+    final tags = this.tags;
+    return {
+      'DashboardIds': dashboardIds,
+      'Tags': tags,
+    };
+  }
+}
+
 /// The override parameters for a single dataset that is being imported.
 class AssetBundleImportJobDataSetOverrideParameters {
   /// The ID of the dataset to apply overrides to.
@@ -10510,6 +11913,82 @@ class AssetBundleImportJobDataSetOverrideParameters {
     return {
       'DataSetId': dataSetId,
       if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// An object that contains a list of permissions to be applied to a list of
+/// dataset IDs.
+class AssetBundleImportJobDataSetOverridePermissions {
+  /// A list of dataset IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all datasets in this asset bundle.
+  final List<String> dataSetIds;
+
+  /// A list of permissions for the datasets that you want to apply overrides to.
+  final AssetBundleResourcePermissions permissions;
+
+  AssetBundleImportJobDataSetOverridePermissions({
+    required this.dataSetIds,
+    required this.permissions,
+  });
+
+  factory AssetBundleImportJobDataSetOverridePermissions.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobDataSetOverridePermissions(
+      dataSetIds: (json['DataSetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      permissions: AssetBundleResourcePermissions.fromJson(
+          json['Permissions'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetIds = this.dataSetIds;
+    final permissions = this.permissions;
+    return {
+      'DataSetIds': dataSetIds,
+      'Permissions': permissions,
+    };
+  }
+}
+
+/// An object that contains a list of tags to be assigned to a list of dataset
+/// IDs.
+class AssetBundleImportJobDataSetOverrideTags {
+  /// A list of dataset IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all datasets in this asset bundle.
+  final List<String> dataSetIds;
+
+  /// A list of tags for the datasets that you want to apply overrides to.
+  final List<Tag> tags;
+
+  AssetBundleImportJobDataSetOverrideTags({
+    required this.dataSetIds,
+    required this.tags,
+  });
+
+  factory AssetBundleImportJobDataSetOverrideTags.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobDataSetOverrideTags(
+      dataSetIds: (json['DataSetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetIds = this.dataSetIds;
+    final tags = this.tags;
+    return {
+      'DataSetIds': dataSetIds,
+      'Tags': tags,
     };
   }
 }
@@ -10549,13 +12028,13 @@ class AssetBundleImportJobDataSourceCredentialPair {
 /// The login credentials to use to import a data source resource.
 class AssetBundleImportJobDataSourceCredentials {
   /// A username and password credential pair to be used to create the imported
-  /// data source. Leave this field blank if you are using an Secrets Manager
-  /// Secret to provide credentials.
+  /// data source. Keep this field blank if you are using a Secrets Manager secret
+  /// to provide credentials.
   final AssetBundleImportJobDataSourceCredentialPair? credentialPair;
 
-  /// The ARN of the Secrets Manager Secret to be used to create the imported data
-  /// source leave this field blank if you aren't using a Secret in place of a
-  /// credential pair.
+  /// The ARN of the Secrets Manager secret that's used to create the imported
+  /// data source. Keep this field blank, unless you are using a secret in place
+  /// of a credential pair.
   final String? secretArn;
 
   AssetBundleImportJobDataSourceCredentials({
@@ -10648,6 +12127,83 @@ class AssetBundleImportJobDataSourceOverrideParameters {
       if (sslProperties != null) 'SslProperties': sslProperties,
       if (vpcConnectionProperties != null)
         'VpcConnectionProperties': vpcConnectionProperties,
+    };
+  }
+}
+
+/// An object that contains a list of permissions to be applied to a list of
+/// data source IDs.
+class AssetBundleImportJobDataSourceOverridePermissions {
+  /// A list of data source IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all data sources in this asset bundle.
+  final List<String> dataSourceIds;
+
+  /// A list of permissions for the data source that you want to apply overrides
+  /// to.
+  final AssetBundleResourcePermissions permissions;
+
+  AssetBundleImportJobDataSourceOverridePermissions({
+    required this.dataSourceIds,
+    required this.permissions,
+  });
+
+  factory AssetBundleImportJobDataSourceOverridePermissions.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobDataSourceOverridePermissions(
+      dataSourceIds: (json['DataSourceIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      permissions: AssetBundleResourcePermissions.fromJson(
+          json['Permissions'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceIds = this.dataSourceIds;
+    final permissions = this.permissions;
+    return {
+      'DataSourceIds': dataSourceIds,
+      'Permissions': permissions,
+    };
+  }
+}
+
+/// An object that contains a list of tags to be assigned to a list of data
+/// source IDs.
+class AssetBundleImportJobDataSourceOverrideTags {
+  /// A list of data source IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all data sources in this asset bundle.
+  final List<String> dataSourceIds;
+
+  /// A list of tags for the data source that you want to apply overrides to.
+  final List<Tag> tags;
+
+  AssetBundleImportJobDataSourceOverrideTags({
+    required this.dataSourceIds,
+    required this.tags,
+  });
+
+  factory AssetBundleImportJobDataSourceOverrideTags.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobDataSourceOverrideTags(
+      dataSourceIds: (json['DataSourceIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceIds = this.dataSourceIds;
+    final tags = this.tags;
+    return {
+      'DataSourceIds': dataSourceIds,
+      'Tags': tags,
     };
   }
 }
@@ -10800,6 +12356,202 @@ class AssetBundleImportJobOverrideParameters {
   }
 }
 
+/// A structure that contains the override permission configurations that modify
+/// the permissions for specified resources before the resource is imported.
+class AssetBundleImportJobOverridePermissions {
+  /// A list of permissions overrides for any <code>Analysis</code> resources that
+  /// are present in the asset bundle that is imported.
+  final List<AssetBundleImportJobAnalysisOverridePermissions>? analyses;
+
+  /// A list of permissions overrides for any <code>Dashboard</code> resources
+  /// that are present in the asset bundle that is imported.
+  final List<AssetBundleImportJobDashboardOverridePermissions>? dashboards;
+
+  /// A list of permissions overrides for any <code>DataSet</code> resources that
+  /// are present in the asset bundle that is imported.
+  final List<AssetBundleImportJobDataSetOverridePermissions>? dataSets;
+
+  /// A list of permissions overrides for any <code>DataSource</code> resources
+  /// that are present in the asset bundle that is imported.
+  final List<AssetBundleImportJobDataSourceOverridePermissions>? dataSources;
+
+  /// A list of permissions overrides for any <code>Theme</code> resources that
+  /// are present in the asset bundle that is imported.
+  final List<AssetBundleImportJobThemeOverridePermissions>? themes;
+
+  AssetBundleImportJobOverridePermissions({
+    this.analyses,
+    this.dashboards,
+    this.dataSets,
+    this.dataSources,
+    this.themes,
+  });
+
+  factory AssetBundleImportJobOverridePermissions.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobOverridePermissions(
+      analyses: (json['Analyses'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobAnalysisOverridePermissions.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      dashboards: (json['Dashboards'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobDashboardOverridePermissions.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      dataSets: (json['DataSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobDataSetOverridePermissions.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      dataSources: (json['DataSources'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AssetBundleImportJobDataSourceOverridePermissions.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      themes: (json['Themes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobThemeOverridePermissions.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyses = this.analyses;
+    final dashboards = this.dashboards;
+    final dataSets = this.dataSets;
+    final dataSources = this.dataSources;
+    final themes = this.themes;
+    return {
+      if (analyses != null) 'Analyses': analyses,
+      if (dashboards != null) 'Dashboards': dashboards,
+      if (dataSets != null) 'DataSets': dataSets,
+      if (dataSources != null) 'DataSources': dataSources,
+      if (themes != null) 'Themes': themes,
+    };
+  }
+}
+
+/// A structure that contains the override tag configuration that modify the
+/// tags that are assigned to specified resources before the resource is
+/// imported.
+class AssetBundleImportJobOverrideTags {
+  /// A list of tag overrides for any <code>Analysis</code> resources that are
+  /// present in the asset bundle that is imported.
+  final List<AssetBundleImportJobAnalysisOverrideTags>? analyses;
+
+  /// A list of tag overrides for any <code>Dashboard</code> resources that are
+  /// present in the asset bundle that is imported.
+  final List<AssetBundleImportJobDashboardOverrideTags>? dashboards;
+
+  /// A list of tag overrides for any <code>DataSet</code> resources that are
+  /// present in the asset bundle that is imported.
+  final List<AssetBundleImportJobDataSetOverrideTags>? dataSets;
+
+  /// A list of tag overrides for any <code>DataSource</code> resources that are
+  /// present in the asset bundle that is imported.
+  final List<AssetBundleImportJobDataSourceOverrideTags>? dataSources;
+
+  /// A list of tag overrides for any <code>Theme</code> resources that are
+  /// present in the asset bundle that is imported.
+  final List<AssetBundleImportJobThemeOverrideTags>? themes;
+
+  /// A list of tag overrides for any <code>VPCConnection</code> resources that
+  /// are present in the asset bundle that is imported.
+  final List<AssetBundleImportJobVPCConnectionOverrideTags>? vPCConnections;
+
+  AssetBundleImportJobOverrideTags({
+    this.analyses,
+    this.dashboards,
+    this.dataSets,
+    this.dataSources,
+    this.themes,
+    this.vPCConnections,
+  });
+
+  factory AssetBundleImportJobOverrideTags.fromJson(Map<String, dynamic> json) {
+    return AssetBundleImportJobOverrideTags(
+      analyses: (json['Analyses'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobAnalysisOverrideTags.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      dashboards: (json['Dashboards'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobDashboardOverrideTags.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      dataSets: (json['DataSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobDataSetOverrideTags.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      dataSources: (json['DataSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobDataSourceOverrideTags.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      themes: (json['Themes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobThemeOverrideTags.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      vPCConnections: (json['VPCConnections'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetBundleImportJobVPCConnectionOverrideTags.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyses = this.analyses;
+    final dashboards = this.dashboards;
+    final dataSets = this.dataSets;
+    final dataSources = this.dataSources;
+    final themes = this.themes;
+    final vPCConnections = this.vPCConnections;
+    return {
+      if (analyses != null) 'Analyses': analyses,
+      if (dashboards != null) 'Dashboards': dashboards,
+      if (dataSets != null) 'DataSets': dataSets,
+      if (dataSources != null) 'DataSources': dataSources,
+      if (themes != null) 'Themes': themes,
+      if (vPCConnections != null) 'VPCConnections': vPCConnections,
+    };
+  }
+}
+
+/// An optional parameter that overrides the validation strategy for all
+/// analyses and dashboards before the resource is imported.
+class AssetBundleImportJobOverrideValidationStrategy {
+  /// A Boolean value that indicates whether to import all analyses and dashboards
+  /// under strict or lenient mode.
+  final bool? strictModeForAllResources;
+
+  AssetBundleImportJobOverrideValidationStrategy({
+    this.strictModeForAllResources,
+  });
+
+  factory AssetBundleImportJobOverrideValidationStrategy.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobOverrideValidationStrategy(
+      strictModeForAllResources: json['StrictModeForAllResources'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final strictModeForAllResources = this.strictModeForAllResources;
+    return {
+      if (strictModeForAllResources != null)
+        'StrictModeForAllResources': strictModeForAllResources,
+    };
+  }
+}
+
 /// A list of overrides for a specific <code>RefreshsSchedule</code> resource
 /// that is present in the asset bundle that is imported.
 class AssetBundleImportJobRefreshScheduleOverrideParameters {
@@ -10814,7 +12566,7 @@ class AssetBundleImportJobRefreshScheduleOverrideParameters {
   final String scheduleId;
 
   /// An override for the <code>StartAfterDateTime</code> of a
-  /// <code>RefreshSchedule</code> to ensure that the
+  /// <code>RefreshSchedule</code>. Make sure that the
   /// <code>StartAfterDateTime</code> is set to a time that takes place in the
   /// future.
   final DateTime? startAfterDateTime;
@@ -10848,7 +12600,7 @@ class AssetBundleImportJobRefreshScheduleOverrideParameters {
 }
 
 /// An optional structure that configures resource ID overrides for the import
-/// job
+/// job.
 class AssetBundleImportJobResourceIdOverrideConfiguration {
   /// An option to request a CloudFormation variable for a prefix to be prepended
   /// to each resource's ID before import. The prefix is only added to the asset
@@ -10999,12 +12751,88 @@ class AssetBundleImportJobThemeOverrideParameters {
   }
 }
 
+/// An object that contains a list of permissions to be applied to a list of
+/// theme IDs.
+class AssetBundleImportJobThemeOverridePermissions {
+  /// A list of permissions for the themes that you want to apply overrides to.
+  final AssetBundleResourcePermissions permissions;
+
+  /// A list of theme IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all themes in this asset bundle.
+  final List<String> themeIds;
+
+  AssetBundleImportJobThemeOverridePermissions({
+    required this.permissions,
+    required this.themeIds,
+  });
+
+  factory AssetBundleImportJobThemeOverridePermissions.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobThemeOverridePermissions(
+      permissions: AssetBundleResourcePermissions.fromJson(
+          json['Permissions'] as Map<String, dynamic>),
+      themeIds: (json['ThemeIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    final themeIds = this.themeIds;
+    return {
+      'Permissions': permissions,
+      'ThemeIds': themeIds,
+    };
+  }
+}
+
+/// An object that contains a list of tags to be assigned to a list of theme
+/// IDs.
+class AssetBundleImportJobThemeOverrideTags {
+  /// A list of tags for the themes that you want to apply overrides to.
+  final List<Tag> tags;
+
+  /// A list of theme IDs that you want to apply overrides to. You can use
+  /// <code>*</code> to override all themes in this asset bundle.
+  final List<String> themeIds;
+
+  AssetBundleImportJobThemeOverrideTags({
+    required this.tags,
+    required this.themeIds,
+  });
+
+  factory AssetBundleImportJobThemeOverrideTags.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobThemeOverrideTags(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      themeIds: (json['ThemeIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final themeIds = this.themeIds;
+    return {
+      'Tags': tags,
+      'ThemeIds': themeIds,
+    };
+  }
+}
+
 /// The override parameters for a single VPC connection that is imported.
 class AssetBundleImportJobVPCConnectionOverrideParameters {
   /// The ID of the VPC Connection to apply overrides to.
   final String vPCConnectionId;
 
-  /// An optional override of dns resolvers to be used by the VPC connection.
+  /// An optional override of DNS resolvers to be used by the VPC connection.
   final List<String>? dnsResolvers;
 
   /// A new name for the VPC connection.
@@ -11015,12 +12843,12 @@ class AssetBundleImportJobVPCConnectionOverrideParameters {
 
   /// A new security group ID for the VPC connection you are importing. This field
   /// is required if you are importing the VPC connection from another Amazon Web
-  /// Services account or region.
+  /// Services account or Region.
   final List<String>? securityGroupIds;
 
   /// A list of new subnet IDs for the VPC connection you are importing. This
   /// field is required if you are importing the VPC connection from another
-  /// Amazon Web Services account or region.
+  /// Amazon Web Services account or Region.
   final List<String>? subnetIds;
 
   AssetBundleImportJobVPCConnectionOverrideParameters({
@@ -11071,22 +12899,83 @@ class AssetBundleImportJobVPCConnectionOverrideParameters {
   }
 }
 
+/// An object that contains a list of tags to be assigned to a list of VPC
+/// connection IDs.
+class AssetBundleImportJobVPCConnectionOverrideTags {
+  /// A list of tags for the VPC connections that you want to apply overrides to.
+  final List<Tag> tags;
+
+  /// A list of VPC connection IDs that you want to apply overrides to. You can
+  /// use <code>*</code> to override all VPC connections in this asset bundle.
+  final List<String> vPCConnectionIds;
+
+  AssetBundleImportJobVPCConnectionOverrideTags({
+    required this.tags,
+    required this.vPCConnectionIds,
+  });
+
+  factory AssetBundleImportJobVPCConnectionOverrideTags.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleImportJobVPCConnectionOverrideTags(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vPCConnectionIds: (json['VPCConnectionIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final vPCConnectionIds = this.vPCConnectionIds;
+    return {
+      'Tags': tags,
+      'VPCConnectionIds': vPCConnectionIds,
+    };
+  }
+}
+
+/// Describes a warning that occurred during an Asset Bundle import job.
+class AssetBundleImportJobWarning {
+  /// The ARN of the resource that the warning occurred for.
+  final String? arn;
+
+  /// A description of the warning that occurred during an Asset Bundle import
+  /// job.
+  final String? message;
+
+  AssetBundleImportJobWarning({
+    this.arn,
+    this.message,
+  });
+
+  factory AssetBundleImportJobWarning.fromJson(Map<String, dynamic> json) {
+    return AssetBundleImportJobWarning(
+      arn: json['Arn'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+}
+
 /// The source of the asset bundle zip file that contains the data that you want
-/// to import.
+/// to import. The file must be in <code>QUICKSIGHT_JSON</code> format.
 class AssetBundleImportSource {
-  /// The bytes of the Base64 encoded asset bundle import zip file. This file
-  /// can't exceed 20MB.
+  /// The bytes of the base64 encoded asset bundle import zip file. This file
+  /// can't exceed 20 MB.
   ///
-  /// If you are calling the APIs from the Amazon Web Services Java, JavaScript,
-  /// Python, or PHP SDKs, the SDK encodes Base64 automatically to allow the
-  /// direct setting of the zip file's bytes. If you are using a SDK of a
-  /// different language or are receiving related errors, try to Base64 encode
+  /// If you are calling the API operations from the Amazon Web Services SDK for
+  /// Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to
+  /// allow the direct setting of the zip file's bytes. If you are using an SDK
+  /// for a different language or receiving related errors, try to base64 encode
   /// your data.
   final Uint8List? body;
 
-  /// The Amazon S3 uri for an asset bundle import file that exists in an Amazon
+  /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon
   /// S3 bucket that the caller has read access to. The file must be a zip format
-  /// file and can't exceed 20MB.
+  /// file and can't exceed 20 MB.
   final String? s3Uri;
 
   AssetBundleImportSource({
@@ -11106,17 +12995,17 @@ class AssetBundleImportSource {
 
 /// A description of the import source that you provide at the start of an
 /// import job. This value is set to either <code>Body</code> or
-/// <code>S3Uri</code> depending on how the
+/// <code>S3Uri</code>, depending on how the
 /// <code>StartAssetBundleImportJobRequest</code> is configured.
 class AssetBundleImportSourceDescription {
-  /// A HTTPS download URL for the provided asset bundle that you optionally
-  /// provided at the start of the import job. This URL is valid for 5 minutes
+  /// An HTTPS download URL for the provided asset bundle that you optionally
+  /// provided at the start of the import job. This URL is valid for five minutes
   /// after issuance. Call <code>DescribeAssetBundleExportJob</code> again for a
   /// fresh URL if needed. The downloaded asset bundle is a <code>.qs</code> zip
   /// file.
   final String? body;
 
-  /// The Amazon S3 uri that you provided at the start of the import job.
+  /// The Amazon S3 URI that you provided at the start of the import job.
   final String? s3Uri;
 
   AssetBundleImportSourceDescription({
@@ -11130,6 +13019,102 @@ class AssetBundleImportSourceDescription {
       body: json['Body'] as String?,
       s3Uri: json['S3Uri'] as String?,
     );
+  }
+}
+
+/// A structure that contains the configuration of a shared link to an Amazon
+/// QuickSight dashboard.
+class AssetBundleResourceLinkSharingConfiguration {
+  /// A list of link sharing permissions for the dashboards that you want to apply
+  /// overrides to.
+  final AssetBundleResourcePermissions? permissions;
+
+  AssetBundleResourceLinkSharingConfiguration({
+    this.permissions,
+  });
+
+  factory AssetBundleResourceLinkSharingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AssetBundleResourceLinkSharingConfiguration(
+      permissions: json['Permissions'] != null
+          ? AssetBundleResourcePermissions.fromJson(
+              json['Permissions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    return {
+      if (permissions != null) 'Permissions': permissions,
+    };
+  }
+}
+
+/// A structure that contains the permissions for the resource that you want to
+/// override in an asset bundle import job.
+class AssetBundleResourcePermissions {
+  /// A list of IAM actions to grant permissions on.
+  final List<String> actions;
+
+  /// A list of principals to grant permissions on.
+  final List<String> principals;
+
+  AssetBundleResourcePermissions({
+    required this.actions,
+    required this.principals,
+  });
+
+  factory AssetBundleResourcePermissions.fromJson(Map<String, dynamic> json) {
+    return AssetBundleResourcePermissions(
+      actions: (json['Actions'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      principals: (json['Principals'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final principals = this.principals;
+    return {
+      'Actions': actions,
+      'Principals': principals,
+    };
+  }
+}
+
+/// An array of analysis level configurations.
+class AssetOptions {
+  /// Determines the timezone for the analysis.
+  final String? timezone;
+
+  /// Determines the week start day for an analysis.
+  final DayOfTheWeek? weekStart;
+
+  AssetOptions({
+    this.timezone,
+    this.weekStart,
+  });
+
+  factory AssetOptions.fromJson(Map<String, dynamic> json) {
+    return AssetOptions(
+      timezone: json['Timezone'] as String?,
+      weekStart: (json['WeekStart'] as String?)?.toDayOfTheWeek(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timezone = this.timezone;
+    final weekStart = this.weekStart;
+    return {
+      if (timezone != null) 'Timezone': timezone,
+      if (weekStart != null) 'WeekStart': weekStart.toValue(),
+    };
   }
 }
 
@@ -11198,6 +13183,49 @@ class AthenaParameters {
     return {
       if (roleArn != null) 'RoleArn': roleArn,
       if (workGroup != null) 'WorkGroup': workGroup,
+    };
+  }
+}
+
+/// Aggregation for attributes.
+class AttributeAggregationFunction {
+  /// The built-in aggregation functions for attributes.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>UNIQUE_VALUE</code>: Returns the unique value for a field, aggregated
+  /// by the dimension fields.
+  /// </li>
+  /// </ul>
+  final SimpleAttributeAggregationFunction? simpleAttributeAggregation;
+
+  /// Used by the <code>UNIQUE_VALUE</code> aggregation function. If there are
+  /// multiple values for the field used by the aggregation, the value for this
+  /// property will be returned instead. Defaults to '*'.
+  final String? valueForMultipleValues;
+
+  AttributeAggregationFunction({
+    this.simpleAttributeAggregation,
+    this.valueForMultipleValues,
+  });
+
+  factory AttributeAggregationFunction.fromJson(Map<String, dynamic> json) {
+    return AttributeAggregationFunction(
+      simpleAttributeAggregation:
+          (json['SimpleAttributeAggregation'] as String?)
+              ?.toSimpleAttributeAggregationFunction(),
+      valueForMultipleValues: json['ValueForMultipleValues'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final simpleAttributeAggregation = this.simpleAttributeAggregation;
+    final valueForMultipleValues = this.valueForMultipleValues;
+    return {
+      if (simpleAttributeAggregation != null)
+        'SimpleAttributeAggregation': simpleAttributeAggregation.toValue(),
+      if (valueForMultipleValues != null)
+        'ValueForMultipleValues': valueForMultipleValues,
     };
   }
 }
@@ -11280,6 +13308,7 @@ enum AuthenticationMethodOption {
   iamAndQuicksight,
   iamOnly,
   activeDirectory,
+  iamIdentityCenter,
 }
 
 extension AuthenticationMethodOptionValueExtension
@@ -11292,6 +13321,8 @@ extension AuthenticationMethodOptionValueExtension
         return 'IAM_ONLY';
       case AuthenticationMethodOption.activeDirectory:
         return 'ACTIVE_DIRECTORY';
+      case AuthenticationMethodOption.iamIdentityCenter:
+        return 'IAM_IDENTITY_CENTER';
     }
   }
 }
@@ -11305,6 +13336,8 @@ extension AuthenticationMethodOptionFromString on String {
         return AuthenticationMethodOption.iamOnly;
       case 'ACTIVE_DIRECTORY':
         return AuthenticationMethodOption.activeDirectory;
+      case 'IAM_IDENTITY_CENTER':
+        return AuthenticationMethodOption.iamIdentityCenter;
     }
     throw Exception('$this is not known in enum AuthenticationMethodOption');
   }
@@ -11386,6 +13419,31 @@ extension AuthorSpecifiedAggregationFromString on String {
         return AuthorSpecifiedAggregation.percentile;
     }
     throw Exception('$this is not known in enum AuthorSpecifiedAggregation');
+  }
+}
+
+/// The authorized targets that are associated with a service.
+class AuthorizedTargetsByService {
+  /// Aist of authorized targets that are represented by IAM Identity Center
+  /// application ARNs.
+  final List<String>? authorizedTargets;
+
+  /// The name of the Amazon Web Services service.
+  final ServiceType? service;
+
+  AuthorizedTargetsByService({
+    this.authorizedTargets,
+    this.service,
+  });
+
+  factory AuthorizedTargetsByService.fromJson(Map<String, dynamic> json) {
+    return AuthorizedTargetsByService(
+      authorizedTargets: (json['AuthorizedTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      service: (json['Service'] as String?)?.toServiceType(),
+    );
   }
 }
 
@@ -11916,6 +13974,9 @@ class BarChartConfiguration {
   /// The field wells of the visual.
   final BarChartFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
 
@@ -11967,6 +14028,7 @@ class BarChartConfiguration {
     this.contributionAnalysisDefaults,
     this.dataLabels,
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.orientation,
     this.referenceLines,
@@ -12007,6 +14069,10 @@ class BarChartConfiguration {
       fieldWells: json['FieldWells'] != null
           ? BarChartFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
@@ -12050,6 +14116,7 @@ class BarChartConfiguration {
     final contributionAnalysisDefaults = this.contributionAnalysisDefaults;
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final orientation = this.orientation;
     final referenceLines = this.referenceLines;
@@ -12069,6 +14136,7 @@ class BarChartConfiguration {
         'ContributionAnalysisDefaults': contributionAnalysisDefaults,
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (orientation != null) 'Orientation': orientation.toValue(),
       if (referenceLines != null) 'ReferenceLines': referenceLines,
@@ -12395,6 +14463,37 @@ extension BaseMapStyleTypeFromString on String {
   }
 }
 
+/// The parameters that are required to connect to a Google BigQuery data
+/// source.
+class BigQueryParameters {
+  /// The Google Cloud Platform project ID where your datasource was created.
+  final String projectId;
+
+  /// The storage location where you create a Google BigQuery data source.
+  final String? dataSetRegion;
+
+  BigQueryParameters({
+    required this.projectId,
+    this.dataSetRegion,
+  });
+
+  factory BigQueryParameters.fromJson(Map<String, dynamic> json) {
+    return BigQueryParameters(
+      projectId: json['ProjectId'] as String,
+      dataSetRegion: json['DataSetRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projectId = this.projectId;
+    final dataSetRegion = this.dataSetRegion;
+    return {
+      'ProjectId': projectId,
+      if (dataSetRegion != null) 'DataSetRegion': dataSetRegion,
+    };
+  }
+}
+
 /// The options that determine the bin count of a histogram.
 class BinCountOptions {
   /// The options that determine the bin count value.
@@ -12619,6 +14718,9 @@ class BoxPlotChartConfiguration {
 
   /// The field wells of the visual.
   final BoxPlotFieldWells? fieldWells;
+
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
   final LegendOptions? legend;
 
   /// The label display options (grid line, range, scale, axis step) of a box plot
@@ -12646,6 +14748,7 @@ class BoxPlotChartConfiguration {
     this.categoryAxis,
     this.categoryLabelOptions,
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.primaryYAxisDisplayOptions,
     this.primaryYAxisLabelOptions,
@@ -12672,6 +14775,10 @@ class BoxPlotChartConfiguration {
       fieldWells: json['FieldWells'] != null
           ? BoxPlotFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
@@ -12707,6 +14814,7 @@ class BoxPlotChartConfiguration {
     final categoryAxis = this.categoryAxis;
     final categoryLabelOptions = this.categoryLabelOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final primaryYAxisDisplayOptions = this.primaryYAxisDisplayOptions;
     final primaryYAxisLabelOptions = this.primaryYAxisLabelOptions;
@@ -12720,6 +14828,7 @@ class BoxPlotChartConfiguration {
       if (categoryLabelOptions != null)
         'CategoryLabelOptions': categoryLabelOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (primaryYAxisDisplayOptions != null)
         'PrimaryYAxisDisplayOptions': primaryYAxisDisplayOptions,
@@ -13186,10 +15295,15 @@ class CastColumnTypeOperation {
   /// in a format supported by Amazon QuickSight to denote the source data format.
   final String? format;
 
+  /// The sub data type of the new column. Sub types are only available for
+  /// decimal columns that are part of a SPICE dataset.
+  final ColumnDataSubType? subType;
+
   CastColumnTypeOperation({
     required this.columnName,
     required this.newColumnType,
     this.format,
+    this.subType,
   });
 
   factory CastColumnTypeOperation.fromJson(Map<String, dynamic> json) {
@@ -13197,6 +15311,7 @@ class CastColumnTypeOperation {
       columnName: json['ColumnName'] as String,
       newColumnType: (json['NewColumnType'] as String).toColumnDataType(),
       format: json['Format'] as String?,
+      subType: (json['SubType'] as String?)?.toColumnDataSubType(),
     );
   }
 
@@ -13204,10 +15319,12 @@ class CastColumnTypeOperation {
     final columnName = this.columnName;
     final newColumnType = this.newColumnType;
     final format = this.format;
+    final subType = this.subType;
     return {
       'ColumnName': columnName,
       'NewColumnType': newColumnType.toValue(),
       if (format != null) 'Format': format,
+      if (subType != null) 'SubType': subType.toValue(),
     };
   }
 }
@@ -13340,7 +15457,7 @@ class CategoricalMeasureField {
   }
 }
 
-/// The numeric equality type drill down filter.
+/// The category drill down filter.
 class CategoryDrillDownFilter {
   /// A list of the string inputs that are the values of the category drill down
   /// filter.
@@ -13390,10 +15507,15 @@ class CategoryFilter {
   /// analysis, or template.
   final String filterId;
 
+  /// The default configurations for the associated controls. This applies only
+  /// for filters that are scoped to multiple sheets.
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
   CategoryFilter({
     required this.column,
     required this.configuration,
     required this.filterId,
+    this.defaultFilterControlConfiguration,
   });
 
   factory CategoryFilter.fromJson(Map<String, dynamic> json) {
@@ -13402,6 +15524,12 @@ class CategoryFilter {
       configuration: CategoryFilterConfiguration.fromJson(
           json['Configuration'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -13409,10 +15537,14 @@ class CategoryFilter {
     final column = this.column;
     final configuration = this.configuration;
     final filterId = this.filterId;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
     return {
       'Column': column,
       'Configuration': configuration,
       'FilterId': filterId,
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
     };
   }
 }
@@ -13842,10 +15974,39 @@ class ColorScale {
   }
 }
 
+/// The color configurations for a column.
+class ColorsConfiguration {
+  /// A list of up to 50 custom colors.
+  final List<CustomColor>? customColors;
+
+  ColorsConfiguration({
+    this.customColors,
+  });
+
+  factory ColorsConfiguration.fromJson(Map<String, dynamic> json) {
+    return ColorsConfiguration(
+      customColors: (json['CustomColors'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomColor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customColors = this.customColors;
+    return {
+      if (customColors != null) 'CustomColors': customColors,
+    };
+  }
+}
+
 /// The general configuration of a column.
 class ColumnConfiguration {
   /// The column.
   final ColumnIdentifier column;
+
+  /// The color configurations of the column.
+  final ColorsConfiguration? colorsConfiguration;
 
   /// The format configuration of a column.
   final FormatConfiguration? formatConfiguration;
@@ -13855,6 +16016,7 @@ class ColumnConfiguration {
 
   ColumnConfiguration({
     required this.column,
+    this.colorsConfiguration,
     this.formatConfiguration,
     this.role,
   });
@@ -13862,6 +16024,10 @@ class ColumnConfiguration {
   factory ColumnConfiguration.fromJson(Map<String, dynamic> json) {
     return ColumnConfiguration(
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
+      colorsConfiguration: json['ColorsConfiguration'] != null
+          ? ColorsConfiguration.fromJson(
+              json['ColorsConfiguration'] as Map<String, dynamic>)
+          : null,
       formatConfiguration: json['FormatConfiguration'] != null
           ? FormatConfiguration.fromJson(
               json['FormatConfiguration'] as Map<String, dynamic>)
@@ -13872,10 +16038,13 @@ class ColumnConfiguration {
 
   Map<String, dynamic> toJson() {
     final column = this.column;
+    final colorsConfiguration = this.colorsConfiguration;
     final formatConfiguration = this.formatConfiguration;
     final role = this.role;
     return {
       'Column': column,
+      if (colorsConfiguration != null)
+        'ColorsConfiguration': colorsConfiguration,
       if (formatConfiguration != null)
         'FormatConfiguration': formatConfiguration,
       if (role != null) 'Role': role.toValue(),
@@ -13908,6 +16077,34 @@ extension ColumnDataRoleFromString on String {
         return ColumnDataRole.measure;
     }
     throw Exception('$this is not known in enum ColumnDataRole');
+  }
+}
+
+enum ColumnDataSubType {
+  float,
+  fixed,
+}
+
+extension ColumnDataSubTypeValueExtension on ColumnDataSubType {
+  String toValue() {
+    switch (this) {
+      case ColumnDataSubType.float:
+        return 'FLOAT';
+      case ColumnDataSubType.fixed:
+        return 'FIXED';
+    }
+  }
+}
+
+extension ColumnDataSubTypeFromString on String {
+  ColumnDataSubType toColumnDataSubType() {
+    switch (this) {
+      case 'FLOAT':
+        return ColumnDataSubType.float;
+      case 'FIXED':
+        return ColumnDataSubType.fixed;
+    }
+    throw Exception('$this is not known in enum ColumnDataSubType');
   }
 }
 
@@ -14397,6 +16594,9 @@ class ColumnTooltipItem {
   /// The label of the tooltip item.
   final String? label;
 
+  /// Determines the target of the column tooltip item in a combo chart visual.
+  final TooltipTarget? tooltipTarget;
+
   /// The visibility of the tooltip item.
   final Visibility? visibility;
 
@@ -14404,6 +16604,7 @@ class ColumnTooltipItem {
     required this.column,
     this.aggregation,
     this.label,
+    this.tooltipTarget,
     this.visibility,
   });
 
@@ -14415,6 +16616,7 @@ class ColumnTooltipItem {
               json['Aggregation'] as Map<String, dynamic>)
           : null,
       label: json['Label'] as String?,
+      tooltipTarget: (json['TooltipTarget'] as String?)?.toTooltipTarget(),
       visibility: (json['Visibility'] as String?)?.toVisibility(),
     );
   }
@@ -14423,11 +16625,13 @@ class ColumnTooltipItem {
     final column = this.column;
     final aggregation = this.aggregation;
     final label = this.label;
+    final tooltipTarget = this.tooltipTarget;
     final visibility = this.visibility;
     return {
       'Column': column,
       if (aggregation != null) 'Aggregation': aggregation,
       if (label != null) 'Label': label,
+      if (tooltipTarget != null) 'TooltipTarget': tooltipTarget.toValue(),
       if (visibility != null) 'Visibility': visibility.toValue(),
     };
   }
@@ -14527,6 +16731,9 @@ class ComboChartConfiguration {
   /// The field wells of the visual.
   final ComboChartFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
 
@@ -14553,6 +16760,7 @@ class ComboChartConfiguration {
   /// The label options (label text, label visibility, and sort icon visibility)
   /// of a combo chart's secondary y-axis(line) field well.
   final ChartAxisLabelOptions? secondaryYAxisLabelOptions;
+  final SingleAxisOptions? singleAxisOptions;
 
   /// The sort configuration of a <code>ComboChartVisual</code>.
   final ComboChartSortConfiguration? sortConfiguration;
@@ -14570,6 +16778,7 @@ class ComboChartConfiguration {
     this.categoryLabelOptions,
     this.colorLabelOptions,
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.lineDataLabels,
     this.primaryYAxisDisplayOptions,
@@ -14577,6 +16786,7 @@ class ComboChartConfiguration {
     this.referenceLines,
     this.secondaryYAxisDisplayOptions,
     this.secondaryYAxisLabelOptions,
+    this.singleAxisOptions,
     this.sortConfiguration,
     this.tooltip,
     this.visualPalette,
@@ -14606,6 +16816,10 @@ class ComboChartConfiguration {
           ? ComboChartFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
           : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
           : null,
@@ -14633,6 +16847,10 @@ class ComboChartConfiguration {
           ? ChartAxisLabelOptions.fromJson(
               json['SecondaryYAxisLabelOptions'] as Map<String, dynamic>)
           : null,
+      singleAxisOptions: json['SingleAxisOptions'] != null
+          ? SingleAxisOptions.fromJson(
+              json['SingleAxisOptions'] as Map<String, dynamic>)
+          : null,
       sortConfiguration: json['SortConfiguration'] != null
           ? ComboChartSortConfiguration.fromJson(
               json['SortConfiguration'] as Map<String, dynamic>)
@@ -14654,6 +16872,7 @@ class ComboChartConfiguration {
     final categoryLabelOptions = this.categoryLabelOptions;
     final colorLabelOptions = this.colorLabelOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final lineDataLabels = this.lineDataLabels;
     final primaryYAxisDisplayOptions = this.primaryYAxisDisplayOptions;
@@ -14661,6 +16880,7 @@ class ComboChartConfiguration {
     final referenceLines = this.referenceLines;
     final secondaryYAxisDisplayOptions = this.secondaryYAxisDisplayOptions;
     final secondaryYAxisLabelOptions = this.secondaryYAxisLabelOptions;
+    final singleAxisOptions = this.singleAxisOptions;
     final sortConfiguration = this.sortConfiguration;
     final tooltip = this.tooltip;
     final visualPalette = this.visualPalette;
@@ -14672,6 +16892,7 @@ class ComboChartConfiguration {
         'CategoryLabelOptions': categoryLabelOptions,
       if (colorLabelOptions != null) 'ColorLabelOptions': colorLabelOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (lineDataLabels != null) 'LineDataLabels': lineDataLabels,
       if (primaryYAxisDisplayOptions != null)
@@ -14683,6 +16904,7 @@ class ComboChartConfiguration {
         'SecondaryYAxisDisplayOptions': secondaryYAxisDisplayOptions,
       if (secondaryYAxisLabelOptions != null)
         'SecondaryYAxisLabelOptions': secondaryYAxisLabelOptions,
+      if (singleAxisOptions != null) 'SingleAxisOptions': singleAxisOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
       if (tooltip != null) 'Tooltip': tooltip,
       if (visualPalette != null) 'VisualPalette': visualPalette,
@@ -15562,6 +17784,33 @@ extension ConstantTypeFromString on String {
   }
 }
 
+/// The context menu options for a visual's interactions.
+class ContextMenuOption {
+  /// The availability status of the context menu options. If the value of this
+  /// property is set to <code>ENABLED</code>, dashboard readers can interact with
+  /// the context menu.
+  final DashboardBehavior? availabilityStatus;
+
+  ContextMenuOption({
+    this.availabilityStatus,
+  });
+
+  factory ContextMenuOption.fromJson(Map<String, dynamic> json) {
+    return ContextMenuOption(
+      availabilityStatus:
+          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityStatus = this.availabilityStatus;
+    return {
+      if (availabilityStatus != null)
+        'AvailabilityStatus': availabilityStatus.toValue(),
+    };
+  }
+}
+
 /// The contribution analysis visual display for a line, pie, or bar chart.
 class ContributionAnalysisDefault {
   /// The dimensions columns that are used in the contribution analysis, usually a
@@ -16152,6 +18401,26 @@ class CreateRefreshScheduleResponse {
   }
 }
 
+class CreateRoleMembershipResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  CreateRoleMembershipResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory CreateRoleMembershipResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRoleMembershipResponse(
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
 class CreateTemplateAliasResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16699,6 +18968,43 @@ class CustomActionURLOperation {
   }
 }
 
+/// Determines the color that's applied to a particular data value in a column.
+class CustomColor {
+  /// The color that is applied to the data value.
+  final String color;
+
+  /// The data value that the color is applied to.
+  final String? fieldValue;
+
+  /// The value of a special data value.
+  final SpecialValue? specialValue;
+
+  CustomColor({
+    required this.color,
+    this.fieldValue,
+    this.specialValue,
+  });
+
+  factory CustomColor.fromJson(Map<String, dynamic> json) {
+    return CustomColor(
+      color: json['Color'] as String,
+      fieldValue: json['FieldValue'] as String?,
+      specialValue: (json['SpecialValue'] as String?)?.toSpecialValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final color = this.color;
+    final fieldValue = this.fieldValue;
+    final specialValue = this.specialValue;
+    return {
+      'Color': color,
+      if (fieldValue != null) 'FieldValue': fieldValue,
+      if (specialValue != null) 'SpecialValue': specialValue.toValue(),
+    };
+  }
+}
+
 /// The configuration of a <code>CustomContentVisual</code>.
 class CustomContentConfiguration {
   /// The content type of the custom content visual. You can use this to have the
@@ -16714,10 +19020,14 @@ class CustomContentConfiguration {
   /// <code>'IMAGE'</code>.
   final CustomContentImageScalingConfiguration? imageScaling;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   CustomContentConfiguration({
     this.contentType,
     this.contentUrl,
     this.imageScaling,
+    this.interactions,
   });
 
   factory CustomContentConfiguration.fromJson(Map<String, dynamic> json) {
@@ -16726,6 +19036,10 @@ class CustomContentConfiguration {
       contentUrl: json['ContentUrl'] as String?,
       imageScaling: (json['ImageScaling'] as String?)
           ?.toCustomContentImageScalingConfiguration(),
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -16733,10 +19047,12 @@ class CustomContentConfiguration {
     final contentType = this.contentType;
     final contentUrl = this.contentUrl;
     final imageScaling = this.imageScaling;
+    final interactions = this.interactions;
     return {
       if (contentType != null) 'ContentType': contentType.toValue(),
       if (contentUrl != null) 'ContentUrl': contentUrl,
       if (imageScaling != null) 'ImageScaling': imageScaling.toValue(),
+      if (interactions != null) 'Interactions': interactions,
     };
   }
 }
@@ -17212,6 +19528,10 @@ class Dashboard {
   /// The last time that this dashboard was updated.
   final DateTime? lastUpdatedTime;
 
+  /// A list of analysis Amazon Resource Names (ARNs) to be linked to the
+  /// dashboard.
+  final List<String>? linkEntities;
+
   /// A display name for the dashboard.
   final String? name;
 
@@ -17224,6 +19544,7 @@ class Dashboard {
     this.dashboardId,
     this.lastPublishedTime,
     this.lastUpdatedTime,
+    this.linkEntities,
     this.name,
     this.version,
   });
@@ -17235,6 +19556,10 @@ class Dashboard {
       dashboardId: json['DashboardId'] as String?,
       lastPublishedTime: timeStampFromJson(json['LastPublishedTime']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      linkEntities: (json['LinkEntities'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       name: json['Name'] as String?,
       version: json['Version'] != null
           ? DashboardVersion.fromJson(json['Version'] as Map<String, dynamic>)
@@ -17855,6 +20180,9 @@ class DashboardVersionDefinition {
   /// Data in Amazon QuickSight</a> in the <i>Amazon QuickSight User Guide</i>.
   final List<FilterGroup>? filterGroups;
 
+  /// An array of option definitions for a dashboard.
+  final AssetOptions? options;
+
   /// The parameter declarations for a dashboard. Parameters are named variables
   /// that can transfer a value for use by an action or an object.
   ///
@@ -17872,6 +20200,7 @@ class DashboardVersionDefinition {
     this.calculatedFields,
     this.columnConfigurations,
     this.filterGroups,
+    this.options,
     this.parameterDeclarations,
     this.sheets,
   });
@@ -17900,6 +20229,9 @@ class DashboardVersionDefinition {
           ?.whereNotNull()
           .map((e) => FilterGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
+      options: json['Options'] != null
+          ? AssetOptions.fromJson(json['Options'] as Map<String, dynamic>)
+          : null,
       parameterDeclarations: (json['ParameterDeclarations'] as List?)
           ?.whereNotNull()
           .map((e) => ParameterDeclaration.fromJson(e as Map<String, dynamic>))
@@ -17917,6 +20249,7 @@ class DashboardVersionDefinition {
     final calculatedFields = this.calculatedFields;
     final columnConfigurations = this.columnConfigurations;
     final filterGroups = this.filterGroups;
+    final options = this.options;
     final parameterDeclarations = this.parameterDeclarations;
     final sheets = this.sheets;
     return {
@@ -17926,6 +20259,7 @@ class DashboardVersionDefinition {
       if (columnConfigurations != null)
         'ColumnConfigurations': columnConfigurations,
       if (filterGroups != null) 'FilterGroups': filterGroups,
+      if (options != null) 'Options': options,
       if (parameterDeclarations != null)
         'ParameterDeclarations': parameterDeclarations,
       if (sheets != null) 'Sheets': sheets,
@@ -18638,32 +20972,89 @@ class DataPathSort {
   }
 }
 
-/// The data path that needs to be sorted.
-class DataPathValue {
-  /// The field ID of the field that needs to be sorted.
-  final String fieldId;
+/// The type of the data path value.
+class DataPathType {
+  /// The type of data path value utilized in a pivot table. Choose one of the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HIERARCHY_ROWS_LAYOUT_COLUMN</code> - The type of data path for the
+  /// rows layout column, when <code>RowsLayout</code> is set to
+  /// <code>HIERARCHY</code>.
+  /// </li>
+  /// <li>
+  /// <code>MULTIPLE_ROW_METRICS_COLUMN</code> - The type of data path for the
+  /// metric column when the row is set to Metric Placement.
+  /// </li>
+  /// <li>
+  /// <code>EMPTY_COLUMN_HEADER</code> - The type of data path for the column with
+  /// empty column header, when there is no field in <code>ColumnsFieldWell</code>
+  /// and the row is set to Metric Placement.
+  /// </li>
+  /// <li>
+  /// <code>COUNT_METRIC_COLUMN</code> - The type of data path for the column with
+  /// <code>COUNT</code> as the metric, when there is no field in the
+  /// <code>ValuesFieldWell</code>.
+  /// </li>
+  /// </ul>
+  final PivotTableDataPathType? pivotTableDataPathType;
 
-  /// The actual value of the field that needs to be sorted.
-  final String fieldValue;
-
-  DataPathValue({
-    required this.fieldId,
-    required this.fieldValue,
+  DataPathType({
+    this.pivotTableDataPathType,
   });
 
-  factory DataPathValue.fromJson(Map<String, dynamic> json) {
-    return DataPathValue(
-      fieldId: json['FieldId'] as String,
-      fieldValue: json['FieldValue'] as String,
+  factory DataPathType.fromJson(Map<String, dynamic> json) {
+    return DataPathType(
+      pivotTableDataPathType: (json['PivotTableDataPathType'] as String?)
+          ?.toPivotTableDataPathType(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final pivotTableDataPathType = this.pivotTableDataPathType;
+    return {
+      if (pivotTableDataPathType != null)
+        'PivotTableDataPathType': pivotTableDataPathType.toValue(),
+    };
+  }
+}
+
+/// The data path that needs to be sorted.
+class DataPathValue {
+  /// The type configuration of the field.
+  final DataPathType? dataPathType;
+
+  /// The field ID of the field that needs to be sorted.
+  final String? fieldId;
+
+  /// The actual value of the field that needs to be sorted.
+  final String? fieldValue;
+
+  DataPathValue({
+    this.dataPathType,
+    this.fieldId,
+    this.fieldValue,
+  });
+
+  factory DataPathValue.fromJson(Map<String, dynamic> json) {
+    return DataPathValue(
+      dataPathType: json['DataPathType'] != null
+          ? DataPathType.fromJson(json['DataPathType'] as Map<String, dynamic>)
+          : null,
+      fieldId: json['FieldId'] as String?,
+      fieldValue: json['FieldValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataPathType = this.dataPathType;
     final fieldId = this.fieldId;
     final fieldValue = this.fieldValue;
     return {
-      'FieldId': fieldId,
-      'FieldValue': fieldValue,
+      if (dataPathType != null) 'DataPathType': dataPathType,
+      if (fieldId != null) 'FieldId': fieldId,
+      if (fieldValue != null) 'FieldValue': fieldValue,
     };
   }
 }
@@ -19568,8 +21959,11 @@ class DataSourceParameters {
   /// The parameters for IoT Analytics.
   final AwsIotAnalyticsParameters? awsIotAnalyticsParameters;
 
-  /// The required parameters that are needed to connect to a Databricks data
+  /// The parameters that are required to connect to a Google BigQuery data
   /// source.
+  final BigQueryParameters? bigQueryParameters;
+
+  /// The parameters that are required to connect to a Databricks data source.
   final DatabricksParameters? databricksParameters;
 
   /// The parameters for Exasol.
@@ -19614,8 +22008,14 @@ class DataSourceParameters {
   /// The parameters for SQL Server.
   final SqlServerParameters? sqlServerParameters;
 
+  /// The parameters that are required to connect to a Starburst data source.
+  final StarburstParameters? starburstParameters;
+
   /// The parameters for Teradata.
   final TeradataParameters? teradataParameters;
+
+  /// The parameters that are required to connect to a Trino data source.
+  final TrinoParameters? trinoParameters;
 
   /// The parameters for Twitter.
   final TwitterParameters? twitterParameters;
@@ -19627,6 +22027,7 @@ class DataSourceParameters {
     this.auroraParameters,
     this.auroraPostgreSqlParameters,
     this.awsIotAnalyticsParameters,
+    this.bigQueryParameters,
     this.databricksParameters,
     this.exasolParameters,
     this.jiraParameters,
@@ -19642,7 +22043,9 @@ class DataSourceParameters {
     this.snowflakeParameters,
     this.sparkParameters,
     this.sqlServerParameters,
+    this.starburstParameters,
     this.teradataParameters,
+    this.trinoParameters,
     this.twitterParameters,
   });
 
@@ -19672,6 +22075,10 @@ class DataSourceParameters {
       awsIotAnalyticsParameters: json['AwsIotAnalyticsParameters'] != null
           ? AwsIotAnalyticsParameters.fromJson(
               json['AwsIotAnalyticsParameters'] as Map<String, dynamic>)
+          : null,
+      bigQueryParameters: json['BigQueryParameters'] != null
+          ? BigQueryParameters.fromJson(
+              json['BigQueryParameters'] as Map<String, dynamic>)
           : null,
       databricksParameters: json['DatabricksParameters'] != null
           ? DatabricksParameters.fromJson(
@@ -19732,9 +22139,17 @@ class DataSourceParameters {
           ? SqlServerParameters.fromJson(
               json['SqlServerParameters'] as Map<String, dynamic>)
           : null,
+      starburstParameters: json['StarburstParameters'] != null
+          ? StarburstParameters.fromJson(
+              json['StarburstParameters'] as Map<String, dynamic>)
+          : null,
       teradataParameters: json['TeradataParameters'] != null
           ? TeradataParameters.fromJson(
               json['TeradataParameters'] as Map<String, dynamic>)
+          : null,
+      trinoParameters: json['TrinoParameters'] != null
+          ? TrinoParameters.fromJson(
+              json['TrinoParameters'] as Map<String, dynamic>)
           : null,
       twitterParameters: json['TwitterParameters'] != null
           ? TwitterParameters.fromJson(
@@ -19750,6 +22165,7 @@ class DataSourceParameters {
     final auroraParameters = this.auroraParameters;
     final auroraPostgreSqlParameters = this.auroraPostgreSqlParameters;
     final awsIotAnalyticsParameters = this.awsIotAnalyticsParameters;
+    final bigQueryParameters = this.bigQueryParameters;
     final databricksParameters = this.databricksParameters;
     final exasolParameters = this.exasolParameters;
     final jiraParameters = this.jiraParameters;
@@ -19765,7 +22181,9 @@ class DataSourceParameters {
     final snowflakeParameters = this.snowflakeParameters;
     final sparkParameters = this.sparkParameters;
     final sqlServerParameters = this.sqlServerParameters;
+    final starburstParameters = this.starburstParameters;
     final teradataParameters = this.teradataParameters;
+    final trinoParameters = this.trinoParameters;
     final twitterParameters = this.twitterParameters;
     return {
       if (amazonElasticsearchParameters != null)
@@ -19778,6 +22196,7 @@ class DataSourceParameters {
         'AuroraPostgreSqlParameters': auroraPostgreSqlParameters,
       if (awsIotAnalyticsParameters != null)
         'AwsIotAnalyticsParameters': awsIotAnalyticsParameters,
+      if (bigQueryParameters != null) 'BigQueryParameters': bigQueryParameters,
       if (databricksParameters != null)
         'DatabricksParameters': databricksParameters,
       if (exasolParameters != null) 'ExasolParameters': exasolParameters,
@@ -19798,7 +22217,10 @@ class DataSourceParameters {
       if (sparkParameters != null) 'SparkParameters': sparkParameters,
       if (sqlServerParameters != null)
         'SqlServerParameters': sqlServerParameters,
+      if (starburstParameters != null)
+        'StarburstParameters': starburstParameters,
       if (teradataParameters != null) 'TeradataParameters': teradataParameters,
+      if (trinoParameters != null) 'TrinoParameters': trinoParameters,
       if (twitterParameters != null) 'TwitterParameters': twitterParameters,
     };
   }
@@ -19950,6 +22372,9 @@ enum DataSourceType {
   amazonOpensearch,
   exasol,
   databricks,
+  starburst,
+  trino,
+  bigquery,
 }
 
 extension DataSourceTypeValueExtension on DataSourceType {
@@ -20007,6 +22432,12 @@ extension DataSourceTypeValueExtension on DataSourceType {
         return 'EXASOL';
       case DataSourceType.databricks:
         return 'DATABRICKS';
+      case DataSourceType.starburst:
+        return 'STARBURST';
+      case DataSourceType.trino:
+        return 'TRINO';
+      case DataSourceType.bigquery:
+        return 'BIGQUERY';
     }
   }
 }
@@ -20066,13 +22497,18 @@ extension DataSourceTypeFromString on String {
         return DataSourceType.exasol;
       case 'DATABRICKS':
         return DataSourceType.databricks;
+      case 'STARBURST':
+        return DataSourceType.starburst;
+      case 'TRINO':
+        return DataSourceType.trino;
+      case 'BIGQUERY':
+        return DataSourceType.bigquery;
     }
     throw Exception('$this is not known in enum DataSourceType');
   }
 }
 
-/// The required parameters that are needed to connect to a Databricks data
-/// source.
+/// The parameters that are required to connect to a Databricks data source.
 class DatabricksParameters {
   /// The host name of the Databricks data source.
   final String host;
@@ -20196,7 +22632,8 @@ class DatasetMetadata {
   }
 }
 
-/// A dataset parameter.
+/// A parameter that is created in a dataset. The parameter can be a string,
+/// integer, decimal, or datetime data type.
 class DatasetParameter {
   /// A date time parameter that is created in the dataset.
   final DateTimeDatasetParameter? dateTimeDatasetParameter;
@@ -20256,6 +22693,8 @@ class DatasetParameter {
   }
 }
 
+/// The value type of the parameter. The value type is used to validate the
+/// parameter before it is evaluated.
 enum DatasetParameterValueType {
   multiValued,
   singleValued,
@@ -20711,6 +23150,16 @@ class DateTimeParameter {
     required this.values,
   });
 
+  factory DateTimeParameter.fromJson(Map<String, dynamic> json) {
+    return DateTimeParameter(
+      name: json['Name'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -20790,11 +23239,15 @@ class DateTimePickerControlDisplayOptions {
   /// Customize how dates are formatted in controls.
   final String? dateTimeFormat;
 
+  /// The configuration of info icon label options.
+  final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
+
   /// The options to configure the title visibility, name, and font size.
   final LabelOptions? titleOptions;
 
   DateTimePickerControlDisplayOptions({
     this.dateTimeFormat,
+    this.infoIconLabelOptions,
     this.titleOptions,
   });
 
@@ -20802,6 +23255,10 @@ class DateTimePickerControlDisplayOptions {
       Map<String, dynamic> json) {
     return DateTimePickerControlDisplayOptions(
       dateTimeFormat: json['DateTimeFormat'] as String?,
+      infoIconLabelOptions: json['InfoIconLabelOptions'] != null
+          ? SheetControlInfoIconLabelOptions.fromJson(
+              json['InfoIconLabelOptions'] as Map<String, dynamic>)
+          : null,
       titleOptions: json['TitleOptions'] != null
           ? LabelOptions.fromJson(json['TitleOptions'] as Map<String, dynamic>)
           : null,
@@ -20810,9 +23267,12 @@ class DateTimePickerControlDisplayOptions {
 
   Map<String, dynamic> toJson() {
     final dateTimeFormat = this.dateTimeFormat;
+    final infoIconLabelOptions = this.infoIconLabelOptions;
     final titleOptions = this.titleOptions;
     return {
       if (dateTimeFormat != null) 'DateTimeFormat': dateTimeFormat,
+      if (infoIconLabelOptions != null)
+        'InfoIconLabelOptions': infoIconLabelOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
     };
   }
@@ -20859,6 +23319,59 @@ class DateTimeValueWhenUnsetConfiguration {
       if (valueWhenUnsetOption != null)
         'ValueWhenUnsetOption': valueWhenUnsetOption.toValue(),
     };
+  }
+}
+
+enum DayOfTheWeek {
+  sunday,
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+}
+
+extension DayOfTheWeekValueExtension on DayOfTheWeek {
+  String toValue() {
+    switch (this) {
+      case DayOfTheWeek.sunday:
+        return 'SUNDAY';
+      case DayOfTheWeek.monday:
+        return 'MONDAY';
+      case DayOfTheWeek.tuesday:
+        return 'TUESDAY';
+      case DayOfTheWeek.wednesday:
+        return 'WEDNESDAY';
+      case DayOfTheWeek.thursday:
+        return 'THURSDAY';
+      case DayOfTheWeek.friday:
+        return 'FRIDAY';
+      case DayOfTheWeek.saturday:
+        return 'SATURDAY';
+    }
+  }
+}
+
+extension DayOfTheWeekFromString on String {
+  DayOfTheWeek toDayOfTheWeek() {
+    switch (this) {
+      case 'SUNDAY':
+        return DayOfTheWeek.sunday;
+      case 'MONDAY':
+        return DayOfTheWeek.monday;
+      case 'TUESDAY':
+        return DayOfTheWeek.tuesday;
+      case 'WEDNESDAY':
+        return DayOfTheWeek.wednesday;
+      case 'THURSDAY':
+        return DayOfTheWeek.thursday;
+      case 'FRIDAY':
+        return DayOfTheWeek.friday;
+      case 'SATURDAY':
+        return DayOfTheWeek.saturday;
+    }
+    throw Exception('$this is not known in enum DayOfTheWeek');
   }
 }
 
@@ -21041,6 +23554,16 @@ class DecimalParameter {
     required this.values,
   });
 
+  factory DecimalParameter.fromJson(Map<String, dynamic> json) {
+    return DecimalParameter(
+      name: json['Name'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -21189,6 +23712,11 @@ enum DefaultAggregation {
   count,
   distinctCount,
   average,
+  median,
+  stdev,
+  stdevp,
+  $var,
+  varp,
 }
 
 extension DefaultAggregationValueExtension on DefaultAggregation {
@@ -21206,6 +23734,16 @@ extension DefaultAggregationValueExtension on DefaultAggregation {
         return 'DISTINCT_COUNT';
       case DefaultAggregation.average:
         return 'AVERAGE';
+      case DefaultAggregation.median:
+        return 'MEDIAN';
+      case DefaultAggregation.stdev:
+        return 'STDEV';
+      case DefaultAggregation.stdevp:
+        return 'STDEVP';
+      case DefaultAggregation.$var:
+        return 'VAR';
+      case DefaultAggregation.varp:
+        return 'VARP';
     }
   }
 }
@@ -21225,8 +23763,310 @@ extension DefaultAggregationFromString on String {
         return DefaultAggregation.distinctCount;
       case 'AVERAGE':
         return DefaultAggregation.average;
+      case 'MEDIAN':
+        return DefaultAggregation.median;
+      case 'STDEV':
+        return DefaultAggregation.stdev;
+      case 'STDEVP':
+        return DefaultAggregation.stdevp;
+      case 'VAR':
+        return DefaultAggregation.$var;
+      case 'VARP':
+        return DefaultAggregation.varp;
     }
     throw Exception('$this is not known in enum DefaultAggregation');
+  }
+}
+
+/// The default options that correspond to the filter control type of a
+/// <code>DateTimePicker</code>.
+class DefaultDateTimePickerControlOptions {
+  /// The display options of a control.
+  final DateTimePickerControlDisplayOptions? displayOptions;
+
+  /// The date time picker type of the
+  /// <code>DefaultDateTimePickerControlOptions</code>. Choose one of the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SINGLE_VALUED</code>: The filter condition is a fixed date.
+  /// </li>
+  /// <li>
+  /// <code>DATE_RANGE</code>: The filter condition is a date time range.
+  /// </li>
+  /// </ul>
+  final SheetControlDateTimePickerType? type;
+
+  DefaultDateTimePickerControlOptions({
+    this.displayOptions,
+    this.type,
+  });
+
+  factory DefaultDateTimePickerControlOptions.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultDateTimePickerControlOptions(
+      displayOptions: json['DisplayOptions'] != null
+          ? DateTimePickerControlDisplayOptions.fromJson(
+              json['DisplayOptions'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toSheetControlDateTimePickerType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayOptions = this.displayOptions;
+    final type = this.type;
+    return {
+      if (displayOptions != null) 'DisplayOptions': displayOptions,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// The default configuration for all dependent controls of the filter.
+class DefaultFilterControlConfiguration {
+  /// The control option for the <code>DefaultFilterControlConfiguration</code>.
+  final DefaultFilterControlOptions controlOptions;
+
+  /// The title of the <code>DefaultFilterControlConfiguration</code>. This title
+  /// is shared by all controls that are tied to this filter.
+  final String title;
+
+  DefaultFilterControlConfiguration({
+    required this.controlOptions,
+    required this.title,
+  });
+
+  factory DefaultFilterControlConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultFilterControlConfiguration(
+      controlOptions: DefaultFilterControlOptions.fromJson(
+          json['ControlOptions'] as Map<String, dynamic>),
+      title: json['Title'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlOptions = this.controlOptions;
+    final title = this.title;
+    return {
+      'ControlOptions': controlOptions,
+      'Title': title,
+    };
+  }
+}
+
+/// The option that corresponds to the control type of the filter.
+class DefaultFilterControlOptions {
+  /// The default options that correspond to the filter control type of a
+  /// <code>DateTimePicker</code>.
+  final DefaultDateTimePickerControlOptions? defaultDateTimePickerOptions;
+
+  /// The default options that correspond to the <code>Dropdown</code> filter
+  /// control type.
+  final DefaultFilterDropDownControlOptions? defaultDropdownOptions;
+
+  /// The default options that correspond to the <code>List</code> filter control
+  /// type.
+  final DefaultFilterListControlOptions? defaultListOptions;
+
+  /// The default options that correspond to the <code>RelativeDateTime</code>
+  /// filter control type.
+  final DefaultRelativeDateTimeControlOptions? defaultRelativeDateTimeOptions;
+
+  /// The default options that correspond to the <code>Slider</code> filter
+  /// control type.
+  final DefaultSliderControlOptions? defaultSliderOptions;
+
+  /// The default options that correspond to the <code>TextArea</code> filter
+  /// control type.
+  final DefaultTextAreaControlOptions? defaultTextAreaOptions;
+
+  /// The default options that correspond to the <code>TextField</code> filter
+  /// control type.
+  final DefaultTextFieldControlOptions? defaultTextFieldOptions;
+
+  DefaultFilterControlOptions({
+    this.defaultDateTimePickerOptions,
+    this.defaultDropdownOptions,
+    this.defaultListOptions,
+    this.defaultRelativeDateTimeOptions,
+    this.defaultSliderOptions,
+    this.defaultTextAreaOptions,
+    this.defaultTextFieldOptions,
+  });
+
+  factory DefaultFilterControlOptions.fromJson(Map<String, dynamic> json) {
+    return DefaultFilterControlOptions(
+      defaultDateTimePickerOptions: json['DefaultDateTimePickerOptions'] != null
+          ? DefaultDateTimePickerControlOptions.fromJson(
+              json['DefaultDateTimePickerOptions'] as Map<String, dynamic>)
+          : null,
+      defaultDropdownOptions: json['DefaultDropdownOptions'] != null
+          ? DefaultFilterDropDownControlOptions.fromJson(
+              json['DefaultDropdownOptions'] as Map<String, dynamic>)
+          : null,
+      defaultListOptions: json['DefaultListOptions'] != null
+          ? DefaultFilterListControlOptions.fromJson(
+              json['DefaultListOptions'] as Map<String, dynamic>)
+          : null,
+      defaultRelativeDateTimeOptions: json['DefaultRelativeDateTimeOptions'] !=
+              null
+          ? DefaultRelativeDateTimeControlOptions.fromJson(
+              json['DefaultRelativeDateTimeOptions'] as Map<String, dynamic>)
+          : null,
+      defaultSliderOptions: json['DefaultSliderOptions'] != null
+          ? DefaultSliderControlOptions.fromJson(
+              json['DefaultSliderOptions'] as Map<String, dynamic>)
+          : null,
+      defaultTextAreaOptions: json['DefaultTextAreaOptions'] != null
+          ? DefaultTextAreaControlOptions.fromJson(
+              json['DefaultTextAreaOptions'] as Map<String, dynamic>)
+          : null,
+      defaultTextFieldOptions: json['DefaultTextFieldOptions'] != null
+          ? DefaultTextFieldControlOptions.fromJson(
+              json['DefaultTextFieldOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultDateTimePickerOptions = this.defaultDateTimePickerOptions;
+    final defaultDropdownOptions = this.defaultDropdownOptions;
+    final defaultListOptions = this.defaultListOptions;
+    final defaultRelativeDateTimeOptions = this.defaultRelativeDateTimeOptions;
+    final defaultSliderOptions = this.defaultSliderOptions;
+    final defaultTextAreaOptions = this.defaultTextAreaOptions;
+    final defaultTextFieldOptions = this.defaultTextFieldOptions;
+    return {
+      if (defaultDateTimePickerOptions != null)
+        'DefaultDateTimePickerOptions': defaultDateTimePickerOptions,
+      if (defaultDropdownOptions != null)
+        'DefaultDropdownOptions': defaultDropdownOptions,
+      if (defaultListOptions != null) 'DefaultListOptions': defaultListOptions,
+      if (defaultRelativeDateTimeOptions != null)
+        'DefaultRelativeDateTimeOptions': defaultRelativeDateTimeOptions,
+      if (defaultSliderOptions != null)
+        'DefaultSliderOptions': defaultSliderOptions,
+      if (defaultTextAreaOptions != null)
+        'DefaultTextAreaOptions': defaultTextAreaOptions,
+      if (defaultTextFieldOptions != null)
+        'DefaultTextFieldOptions': defaultTextFieldOptions,
+    };
+  }
+}
+
+/// The default options that correspond to the <code>Dropdown</code> filter
+/// control type.
+class DefaultFilterDropDownControlOptions {
+  /// The display options of a control.
+  final DropDownControlDisplayOptions? displayOptions;
+
+  /// A list of selectable values that are used in a control.
+  final FilterSelectableValues? selectableValues;
+
+  /// The type of the <code>FilterDropDownControl</code>. Choose one of the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MULTI_SELECT</code>: The user can select multiple entries from a
+  /// dropdown menu.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_SELECT</code>: The user can select a single entry from a
+  /// dropdown menu.
+  /// </li>
+  /// </ul>
+  final SheetControlListType? type;
+
+  DefaultFilterDropDownControlOptions({
+    this.displayOptions,
+    this.selectableValues,
+    this.type,
+  });
+
+  factory DefaultFilterDropDownControlOptions.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultFilterDropDownControlOptions(
+      displayOptions: json['DisplayOptions'] != null
+          ? DropDownControlDisplayOptions.fromJson(
+              json['DisplayOptions'] as Map<String, dynamic>)
+          : null,
+      selectableValues: json['SelectableValues'] != null
+          ? FilterSelectableValues.fromJson(
+              json['SelectableValues'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toSheetControlListType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayOptions = this.displayOptions;
+    final selectableValues = this.selectableValues;
+    final type = this.type;
+    return {
+      if (displayOptions != null) 'DisplayOptions': displayOptions,
+      if (selectableValues != null) 'SelectableValues': selectableValues,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// The default options that correspond to the <code>List</code> filter control
+/// type.
+class DefaultFilterListControlOptions {
+  /// The display options of a control.
+  final ListControlDisplayOptions? displayOptions;
+
+  /// A list of selectable values that are used in a control.
+  final FilterSelectableValues? selectableValues;
+
+  /// The type of the <code>DefaultFilterListControlOptions</code>. Choose one of
+  /// the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MULTI_SELECT</code>: The user can select multiple entries from the
+  /// list.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_SELECT</code>: The user can select a single entry from the
+  /// list.
+  /// </li>
+  /// </ul>
+  final SheetControlListType? type;
+
+  DefaultFilterListControlOptions({
+    this.displayOptions,
+    this.selectableValues,
+    this.type,
+  });
+
+  factory DefaultFilterListControlOptions.fromJson(Map<String, dynamic> json) {
+    return DefaultFilterListControlOptions(
+      displayOptions: json['DisplayOptions'] != null
+          ? ListControlDisplayOptions.fromJson(
+              json['DisplayOptions'] as Map<String, dynamic>)
+          : null,
+      selectableValues: json['SelectableValues'] != null
+          ? FilterSelectableValues.fromJson(
+              json['SelectableValues'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toSheetControlListType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayOptions = this.displayOptions;
+    final selectableValues = this.selectableValues;
+    final type = this.type;
+    return {
+      if (displayOptions != null) 'DisplayOptions': displayOptions,
+      if (selectableValues != null) 'SelectableValues': selectableValues,
+      if (type != null) 'Type': type.toValue(),
+    };
   }
 }
 
@@ -21436,6 +24276,34 @@ class DefaultPaginatedLayoutConfiguration {
   }
 }
 
+/// The default options that correspond to the <code>RelativeDateTime</code>
+/// filter control type.
+class DefaultRelativeDateTimeControlOptions {
+  /// The display options of a control.
+  final RelativeDateTimeControlDisplayOptions? displayOptions;
+
+  DefaultRelativeDateTimeControlOptions({
+    this.displayOptions,
+  });
+
+  factory DefaultRelativeDateTimeControlOptions.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultRelativeDateTimeControlOptions(
+      displayOptions: json['DisplayOptions'] != null
+          ? RelativeDateTimeControlDisplayOptions.fromJson(
+              json['DisplayOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayOptions = this.displayOptions;
+    return {
+      if (displayOptions != null) 'DisplayOptions': displayOptions,
+    };
+  }
+}
+
 /// The options that determine the default settings for a section-based layout
 /// configuration.
 class DefaultSectionBasedLayoutConfiguration {
@@ -21458,6 +24326,132 @@ class DefaultSectionBasedLayoutConfiguration {
     final canvasSizeOptions = this.canvasSizeOptions;
     return {
       'CanvasSizeOptions': canvasSizeOptions,
+    };
+  }
+}
+
+/// The default options that correspond to the <code>Slider</code> filter
+/// control type.
+class DefaultSliderControlOptions {
+  /// The larger value that is displayed at the right of the slider.
+  final double maximumValue;
+
+  /// The smaller value that is displayed at the left of the slider.
+  final double minimumValue;
+
+  /// The number of increments that the slider bar is divided into.
+  final double stepSize;
+
+  /// The display options of a control.
+  final SliderControlDisplayOptions? displayOptions;
+
+  /// The type of the <code>DefaultSliderControlOptions</code>. Choose one of the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SINGLE_POINT</code>: Filter against(equals) a single data point.
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code>: Filter data that is in a specified range.
+  /// </li>
+  /// </ul>
+  final SheetControlSliderType? type;
+
+  DefaultSliderControlOptions({
+    required this.maximumValue,
+    required this.minimumValue,
+    required this.stepSize,
+    this.displayOptions,
+    this.type,
+  });
+
+  factory DefaultSliderControlOptions.fromJson(Map<String, dynamic> json) {
+    return DefaultSliderControlOptions(
+      maximumValue: json['MaximumValue'] as double,
+      minimumValue: json['MinimumValue'] as double,
+      stepSize: json['StepSize'] as double,
+      displayOptions: json['DisplayOptions'] != null
+          ? SliderControlDisplayOptions.fromJson(
+              json['DisplayOptions'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toSheetControlSliderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumValue = this.maximumValue;
+    final minimumValue = this.minimumValue;
+    final stepSize = this.stepSize;
+    final displayOptions = this.displayOptions;
+    final type = this.type;
+    return {
+      'MaximumValue': maximumValue,
+      'MinimumValue': minimumValue,
+      'StepSize': stepSize,
+      if (displayOptions != null) 'DisplayOptions': displayOptions,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// The default options that correspond to the <code>TextArea</code> filter
+/// control type.
+class DefaultTextAreaControlOptions {
+  /// The delimiter that is used to separate the lines in text.
+  final String? delimiter;
+
+  /// The display options of a control.
+  final TextAreaControlDisplayOptions? displayOptions;
+
+  DefaultTextAreaControlOptions({
+    this.delimiter,
+    this.displayOptions,
+  });
+
+  factory DefaultTextAreaControlOptions.fromJson(Map<String, dynamic> json) {
+    return DefaultTextAreaControlOptions(
+      delimiter: json['Delimiter'] as String?,
+      displayOptions: json['DisplayOptions'] != null
+          ? TextAreaControlDisplayOptions.fromJson(
+              json['DisplayOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimiter = this.delimiter;
+    final displayOptions = this.displayOptions;
+    return {
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (displayOptions != null) 'DisplayOptions': displayOptions,
+    };
+  }
+}
+
+/// The default options that correspond to the <code>TextField</code> filter
+/// control type.
+class DefaultTextFieldControlOptions {
+  /// The display options of a control.
+  final TextFieldControlDisplayOptions? displayOptions;
+
+  DefaultTextFieldControlOptions({
+    this.displayOptions,
+  });
+
+  factory DefaultTextFieldControlOptions.fromJson(Map<String, dynamic> json) {
+    return DefaultTextFieldControlOptions(
+      displayOptions: json['DisplayOptions'] != null
+          ? TextFieldControlDisplayOptions.fromJson(
+              json['DisplayOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayOptions = this.displayOptions;
+    return {
+      if (displayOptions != null) 'DisplayOptions': displayOptions,
     };
   }
 }
@@ -21768,6 +24762,27 @@ class DeleteIAMPolicyAssignmentResponse {
   }
 }
 
+class DeleteIdentityPropagationConfigResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DeleteIdentityPropagationConfigResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory DeleteIdentityPropagationConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteIdentityPropagationConfigResponse(
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
 class DeleteNamespaceResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -21813,6 +24828,47 @@ class DeleteRefreshScheduleResponse {
       arn: json['Arn'] as String?,
       requestId: json['RequestId'] as String?,
       scheduleId: json['ScheduleId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
+class DeleteRoleCustomPermissionResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DeleteRoleCustomPermissionResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory DeleteRoleCustomPermissionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteRoleCustomPermissionResponse(
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
+class DeleteRoleMembershipResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DeleteRoleMembershipResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory DeleteRoleMembershipResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRoleMembershipResponse(
+      requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
     );
   }
@@ -22425,13 +25481,22 @@ class DescribeAssetBundleExportJobResponse {
   /// records is available after the job has completed and failed.
   final List<AssetBundleExportJobError>? errors;
 
-  /// The format of the export.
+  /// The format of the exported asset bundle. A <code>QUICKSIGHT_JSON</code>
+  /// formatted file can be used to make a <code>StartAssetBundleImportJob</code>
+  /// API call. A <code>CLOUDFORMATION_JSON</code> formatted file can be used in
+  /// the CloudFormation console and with the CloudFormation APIs.
   final AssetBundleExportFormat? exportFormat;
 
   /// The include dependencies flag.
   final bool? includeAllDependencies;
 
-  /// Indicates tha status of a job through its queueing and execution.
+  /// The include permissions flag.
+  final bool? includePermissions;
+
+  /// The include tags flag.
+  final bool? includeTags;
+
+  /// Indicates the status of a job through its queuing and execution.
   ///
   /// Poll this <code>DescribeAssetBundleExportApi</code> until
   /// <code>JobStatus</code> is either <code>SUCCESSFUL</code> or
@@ -22447,6 +25512,17 @@ class DescribeAssetBundleExportJobResponse {
   /// The HTTP status of the response.
   final int? status;
 
+  /// The validation strategy that is used to export the analysis or dashboard.
+  final AssetBundleExportJobValidationStrategy? validationStrategy;
+
+  /// An array of warning records that describe the analysis or dashboard that is
+  /// exported. This array includes UI errors that can be skipped during the
+  /// validation process.
+  ///
+  /// This property only appears if <code>StrictModeForAllResources</code> in
+  /// <code>ValidationStrategy</code> is set to <code>FALSE</code>.
+  final List<AssetBundleExportJobWarning>? warnings;
+
   DescribeAssetBundleExportJobResponse({
     this.arn,
     this.assetBundleExportJobId,
@@ -22457,10 +25533,14 @@ class DescribeAssetBundleExportJobResponse {
     this.errors,
     this.exportFormat,
     this.includeAllDependencies,
+    this.includePermissions,
+    this.includeTags,
     this.jobStatus,
     this.requestId,
     this.resourceArns,
     this.status,
+    this.validationStrategy,
+    this.warnings,
   });
 
   factory DescribeAssetBundleExportJobResponse.fromJson(
@@ -22485,6 +25565,8 @@ class DescribeAssetBundleExportJobResponse {
       exportFormat:
           (json['ExportFormat'] as String?)?.toAssetBundleExportFormat(),
       includeAllDependencies: json['IncludeAllDependencies'] as bool?,
+      includePermissions: json['IncludePermissions'] as bool?,
+      includeTags: json['IncludeTags'] as bool?,
       jobStatus: (json['JobStatus'] as String?)?.toAssetBundleExportJobStatus(),
       requestId: json['RequestId'] as String?,
       resourceArns: (json['ResourceArns'] as List?)
@@ -22492,6 +25574,15 @@ class DescribeAssetBundleExportJobResponse {
           .map((e) => e as String)
           .toList(),
       status: json['Status'] as int?,
+      validationStrategy: json['ValidationStrategy'] != null
+          ? AssetBundleExportJobValidationStrategy.fromJson(
+              json['ValidationStrategy'] as Map<String, dynamic>)
+          : null,
+      warnings: (json['Warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AssetBundleExportJobWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -22524,10 +25615,10 @@ class DescribeAssetBundleImportJobResponse {
   /// The failure action for the import job.
   final AssetBundleImportFailureAction? failureAction;
 
-  /// Indicates tha status of a job through its queueing and execution.
+  /// Indicates the status of a job through its queuing and execution.
   ///
-  /// Poll this <code>DescribeAssetBundleImport</code> API until
-  /// <code>JobStatus</code> returns one of the following values.
+  /// Poll the <code>DescribeAssetBundleImport</code> API until
+  /// <code>JobStatus</code> returns one of the following values:
   ///
   /// <ul>
   /// <li>
@@ -22545,9 +25636,22 @@ class DescribeAssetBundleImportJobResponse {
   /// </ul>
   final AssetBundleImportJobStatus? jobStatus;
 
-  /// Optional overrides to be applied to the resource configuration before
+  /// Optional overrides that are applied to the resource configuration before
   /// import.
   final AssetBundleImportJobOverrideParameters? overrideParameters;
+
+  /// Optional permission overrides that are applied to the resource configuration
+  /// before import.
+  final AssetBundleImportJobOverridePermissions? overridePermissions;
+
+  /// Optional tag overrides that are applied to the resource configuration before
+  /// import.
+  final AssetBundleImportJobOverrideTags? overrideTags;
+
+  /// An optional validation strategy override for all analyses and dashboards to
+  /// be applied to the resource configuration before import.
+  final AssetBundleImportJobOverrideValidationStrategy?
+      overrideValidationStrategy;
 
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -22562,6 +25666,10 @@ class DescribeAssetBundleImportJobResponse {
   /// The HTTP status of the response.
   final int? status;
 
+  /// An array of warning records that describe all permitted errors that are
+  /// encountered during the import job.
+  final List<AssetBundleImportJobWarning>? warnings;
+
   DescribeAssetBundleImportJobResponse({
     this.arn,
     this.assetBundleImportJobId,
@@ -22572,9 +25680,13 @@ class DescribeAssetBundleImportJobResponse {
     this.failureAction,
     this.jobStatus,
     this.overrideParameters,
+    this.overridePermissions,
+    this.overrideTags,
+    this.overrideValidationStrategy,
     this.requestId,
     this.rollbackErrors,
     this.status,
+    this.warnings,
   });
 
   factory DescribeAssetBundleImportJobResponse.fromJson(
@@ -22600,6 +25712,18 @@ class DescribeAssetBundleImportJobResponse {
           ? AssetBundleImportJobOverrideParameters.fromJson(
               json['OverrideParameters'] as Map<String, dynamic>)
           : null,
+      overridePermissions: json['OverridePermissions'] != null
+          ? AssetBundleImportJobOverridePermissions.fromJson(
+              json['OverridePermissions'] as Map<String, dynamic>)
+          : null,
+      overrideTags: json['OverrideTags'] != null
+          ? AssetBundleImportJobOverrideTags.fromJson(
+              json['OverrideTags'] as Map<String, dynamic>)
+          : null,
+      overrideValidationStrategy: json['OverrideValidationStrategy'] != null
+          ? AssetBundleImportJobOverrideValidationStrategy.fromJson(
+              json['OverrideValidationStrategy'] as Map<String, dynamic>)
+          : null,
       requestId: json['RequestId'] as String?,
       rollbackErrors: (json['RollbackErrors'] as List?)
           ?.whereNotNull()
@@ -22607,6 +25731,11 @@ class DescribeAssetBundleImportJobResponse {
               AssetBundleImportJobError.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['Status'] as int?,
+      warnings: (json['Warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AssetBundleImportJobWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -22803,6 +25932,162 @@ class DescribeDashboardResponse {
   }
 }
 
+class DescribeDashboardSnapshotJobResponse {
+  /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is
+  /// generated when you start a new job with a
+  /// <code>StartDashboardSnapshotJob</code> API call.
+  final String? arn;
+
+  /// The ID of the Amazon Web Services account that the dashboard snapshot job is
+  /// executed in.
+  final String? awsAccountId;
+
+  /// The time that the snapshot job was created.
+  final DateTime? createdTime;
+
+  /// The ID of the dashboard that you have started a snapshot job for.
+  final String? dashboardId;
+
+  /// Indicates the status of a job. The status updates as the job executes. This
+  /// shows one of the following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPLETED</code> - The job was completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The job failed to execute.
+  /// </li>
+  /// <li>
+  /// <code>QUEUED</code> - The job is queued and hasn't started yet.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> - The job is still running.
+  /// </li>
+  /// </ul>
+  final SnapshotJobStatus? jobStatus;
+
+  /// The time that the snapshot job status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The snapshot configuration of the job. This information is provided when you
+  /// make a <code>StartDashboardSnapshotJob</code> API call.
+  final SnapshotConfiguration? snapshotConfiguration;
+
+  /// The ID of the job to be described. The job ID is set when you start a new
+  /// job with a <code>StartDashboardSnapshotJob</code> API call.
+  final String? snapshotJobId;
+
+  /// The HTTP status of the request
+  final int? status;
+
+  /// The user configuration for the snapshot job. This information is provided
+  /// when you make a <code>StartDashboardSnapshotJob</code> API call.
+  final SnapshotUserConfigurationRedacted? userConfiguration;
+
+  DescribeDashboardSnapshotJobResponse({
+    this.arn,
+    this.awsAccountId,
+    this.createdTime,
+    this.dashboardId,
+    this.jobStatus,
+    this.lastUpdatedTime,
+    this.requestId,
+    this.snapshotConfiguration,
+    this.snapshotJobId,
+    this.status,
+    this.userConfiguration,
+  });
+
+  factory DescribeDashboardSnapshotJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDashboardSnapshotJobResponse(
+      arn: json['Arn'] as String?,
+      awsAccountId: json['AwsAccountId'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      dashboardId: json['DashboardId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toSnapshotJobStatus(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      requestId: json['RequestId'] as String?,
+      snapshotConfiguration: json['SnapshotConfiguration'] != null
+          ? SnapshotConfiguration.fromJson(
+              json['SnapshotConfiguration'] as Map<String, dynamic>)
+          : null,
+      snapshotJobId: json['SnapshotJobId'] as String?,
+      status: json['Status'] as int?,
+      userConfiguration: json['UserConfiguration'] != null
+          ? SnapshotUserConfigurationRedacted.fromJson(
+              json['UserConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class DescribeDashboardSnapshotJobResultResponse {
+  /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is
+  /// generated when you start a new job with a
+  /// <code>StartDashboardSnapshotJob</code> API call.
+  final String? arn;
+
+  /// The time that a snapshot job was created.
+  final DateTime? createdTime;
+
+  /// Displays information for the error that caused a job to fail.
+  final SnapshotJobErrorInfo? errorInfo;
+
+  /// Indicates the status of a job after it has reached a terminal state. A
+  /// finished snapshot job will retuen a <code>COMPLETED</code> or
+  /// <code>FAILED</code> status.
+  final SnapshotJobStatus? jobStatus;
+
+  /// The time that a snapshot job status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The result of the snapshot job. Jobs that have successfully completed will
+  /// return the S3Uri where they are located. Jobs that have failedwill return
+  /// information on the error that caused the job to fail.
+  final SnapshotJobResult? result;
+
+  /// The HTTP status of the request
+  final int? status;
+
+  DescribeDashboardSnapshotJobResultResponse({
+    this.arn,
+    this.createdTime,
+    this.errorInfo,
+    this.jobStatus,
+    this.lastUpdatedTime,
+    this.requestId,
+    this.result,
+    this.status,
+  });
+
+  factory DescribeDashboardSnapshotJobResultResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDashboardSnapshotJobResultResponse(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      errorInfo: json['ErrorInfo'] != null
+          ? SnapshotJobErrorInfo.fromJson(
+              json['ErrorInfo'] as Map<String, dynamic>)
+          : null,
+      jobStatus: (json['JobStatus'] as String?)?.toSnapshotJobStatus(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      requestId: json['RequestId'] as String?,
+      result: json['Result'] != null
+          ? SnapshotJobResult.fromJson(json['Result'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
 class DescribeDataSetPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? dataSetArn;
@@ -22973,6 +26258,10 @@ class DescribeFolderPermissionsResponse {
   /// The ID of the folder.
   final String? folderId;
 
+  /// The pagination token for the next set of results, or null if there are no
+  /// more results.
+  final String? nextToken;
+
   /// Information about the permissions on the folder.
   final List<ResourcePermission>? permissions;
 
@@ -22985,6 +26274,7 @@ class DescribeFolderPermissionsResponse {
   DescribeFolderPermissionsResponse({
     this.arn,
     this.folderId,
+    this.nextToken,
     this.permissions,
     this.requestId,
     this.status,
@@ -22995,6 +26285,7 @@ class DescribeFolderPermissionsResponse {
     return DescribeFolderPermissionsResponse(
       arn: json['Arn'] as String?,
       folderId: json['FolderId'] as String?,
+      nextToken: json['NextToken'] as String?,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
           .map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
@@ -23012,6 +26303,10 @@ class DescribeFolderResolvedPermissionsResponse {
   /// The ID of the folder.
   final String? folderId;
 
+  /// A pagination token for the next set of results, or null if there are no more
+  /// results.
+  final String? nextToken;
+
   /// Information about the permissions for the folder.
   final List<ResourcePermission>? permissions;
 
@@ -23024,6 +26319,7 @@ class DescribeFolderResolvedPermissionsResponse {
   DescribeFolderResolvedPermissionsResponse({
     this.arn,
     this.folderId,
+    this.nextToken,
     this.permissions,
     this.requestId,
     this.status,
@@ -23034,6 +26330,7 @@ class DescribeFolderResolvedPermissionsResponse {
     return DescribeFolderResolvedPermissionsResponse(
       arn: json['Arn'] as String?,
       folderId: json['FolderId'] as String?,
+      nextToken: json['NextToken'] as String?,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
           .map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
@@ -23196,12 +26493,20 @@ class DescribeIpRestrictionResponse {
   /// The HTTP status of the request.
   final int? status;
 
+  /// A map of allowed VPC endpoint IDs and their rule descriptions.
+  final Map<String, String>? vpcEndpointIdRestrictionRuleMap;
+
+  /// A map of allowed VPC IDs and their rule descriptions.
+  final Map<String, String>? vpcIdRestrictionRuleMap;
+
   DescribeIpRestrictionResponse({
     this.awsAccountId,
     this.enabled,
     this.ipRestrictionRuleMap,
     this.requestId,
     this.status,
+    this.vpcEndpointIdRestrictionRuleMap,
+    this.vpcIdRestrictionRuleMap,
   });
 
   factory DescribeIpRestrictionResponse.fromJson(Map<String, dynamic> json) {
@@ -23211,6 +26516,48 @@ class DescribeIpRestrictionResponse {
       ipRestrictionRuleMap:
           (json['IpRestrictionRuleMap'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      vpcEndpointIdRestrictionRuleMap:
+          (json['VpcEndpointIdRestrictionRuleMap'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      vpcIdRestrictionRuleMap:
+          (json['VpcIdRestrictionRuleMap'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+class DescribeKeyRegistrationResponse {
+  /// The ID of the Amazon Web Services account that contains the customer managed
+  /// key registration specified in the request.
+  final String? awsAccountId;
+
+  /// A list of <code>RegisteredCustomerManagedKey</code> objects in a Amazon
+  /// QuickSight account.
+  final List<RegisteredCustomerManagedKey>? keyRegistration;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DescribeKeyRegistrationResponse({
+    this.awsAccountId,
+    this.keyRegistration,
+    this.requestId,
+    this.status,
+  });
+
+  factory DescribeKeyRegistrationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeKeyRegistrationResponse(
+      awsAccountId: json['AwsAccountId'] as String?,
+      keyRegistration: (json['KeyRegistration'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RegisteredCustomerManagedKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
     );
@@ -23276,6 +26623,32 @@ class DescribeRefreshScheduleResponse {
           ? RefreshSchedule.fromJson(
               json['RefreshSchedule'] as Map<String, dynamic>)
           : null,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
+class DescribeRoleCustomPermissionResponse {
+  /// The name of the custom permission that is described.
+  final String? customPermissionsName;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DescribeRoleCustomPermissionResponse({
+    this.customPermissionsName,
+    this.requestId,
+    this.status,
+  });
+
+  factory DescribeRoleCustomPermissionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeRoleCustomPermissionResponse(
+      customPermissionsName: json['CustomPermissionsName'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
     );
@@ -24158,6 +27531,9 @@ class DrillDownFilter {
 
 /// The display options of a control.
 class DropDownControlDisplayOptions {
+  /// The configuration of info icon label options.
+  final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
+
   /// The configuration of the <code>Select all</code> options in a dropdown
   /// control.
   final ListControlSelectAllOptions? selectAllOptions;
@@ -24166,12 +27542,17 @@ class DropDownControlDisplayOptions {
   final LabelOptions? titleOptions;
 
   DropDownControlDisplayOptions({
+    this.infoIconLabelOptions,
     this.selectAllOptions,
     this.titleOptions,
   });
 
   factory DropDownControlDisplayOptions.fromJson(Map<String, dynamic> json) {
     return DropDownControlDisplayOptions(
+      infoIconLabelOptions: json['InfoIconLabelOptions'] != null
+          ? SheetControlInfoIconLabelOptions.fromJson(
+              json['InfoIconLabelOptions'] as Map<String, dynamic>)
+          : null,
       selectAllOptions: json['SelectAllOptions'] != null
           ? ListControlSelectAllOptions.fromJson(
               json['SelectAllOptions'] as Map<String, dynamic>)
@@ -24183,9 +27564,12 @@ class DropDownControlDisplayOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final infoIconLabelOptions = this.infoIconLabelOptions;
     final selectAllOptions = this.selectAllOptions;
     final titleOptions = this.titleOptions;
     return {
+      if (infoIconLabelOptions != null)
+        'InfoIconLabelOptions': infoIconLabelOptions,
       if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
     };
@@ -24585,6 +27969,44 @@ class ExportWithHiddenFieldsOption {
   }
 }
 
+/// An entry that appears when a <code>KeyRegistration</code> update to Amazon
+/// QuickSight fails.
+class FailedKeyRegistrationEntry {
+  /// A message that provides information about why a
+  /// <code>FailedKeyRegistrationEntry</code> error occurred.
+  final String message;
+
+  /// A boolean that indicates whether a <code>FailedKeyRegistrationEntry</code>
+  /// resulted from user error. If the value of this property is
+  /// <code>True</code>, the error was caused by user error. If the value of this
+  /// property is <code>False</code>, the error occurred on the backend. If your
+  /// job continues fail and with a <code>False</code> <code>SenderFault</code>
+  /// value, contact Amazon Web Services Support.
+  final bool senderFault;
+
+  /// The HTTP status of a <code>FailedKeyRegistrationEntry</code> error.
+  final int statusCode;
+
+  /// The ARN of the KMS key that failed to update.
+  final String? keyArn;
+
+  FailedKeyRegistrationEntry({
+    required this.message,
+    required this.senderFault,
+    required this.statusCode,
+    this.keyArn,
+  });
+
+  factory FailedKeyRegistrationEntry.fromJson(Map<String, dynamic> json) {
+    return FailedKeyRegistrationEntry(
+      message: json['Message'] as String,
+      senderFault: json['SenderFault'] as bool,
+      statusCode: json['StatusCode'] as int,
+      keyArn: json['KeyArn'] as String?,
+    );
+  }
+}
+
 /// The setup for the detailed tooltip.
 class FieldBasedTooltip {
   /// The visibility of <code>Show aggregations</code>.
@@ -24824,12 +28246,16 @@ class FieldTooltipItem {
   /// The label of the tooltip item.
   final String? label;
 
+  /// Determines the target of the field tooltip item in a combo chart visual.
+  final TooltipTarget? tooltipTarget;
+
   /// The visibility of the tooltip item.
   final Visibility? visibility;
 
   FieldTooltipItem({
     required this.fieldId,
     this.label,
+    this.tooltipTarget,
     this.visibility,
   });
 
@@ -24837,6 +28263,7 @@ class FieldTooltipItem {
     return FieldTooltipItem(
       fieldId: json['FieldId'] as String,
       label: json['Label'] as String?,
+      tooltipTarget: (json['TooltipTarget'] as String?)?.toTooltipTarget(),
       visibility: (json['Visibility'] as String?)?.toVisibility(),
     );
   }
@@ -24844,10 +28271,12 @@ class FieldTooltipItem {
   Map<String, dynamic> toJson() {
     final fieldId = this.fieldId;
     final label = this.label;
+    final tooltipTarget = this.tooltipTarget;
     final visibility = this.visibility;
     return {
       'FieldId': fieldId,
       if (label != null) 'Label': label,
+      if (tooltipTarget != null) 'TooltipTarget': tooltipTarget.toValue(),
       if (visibility != null) 'Visibility': visibility.toValue(),
     };
   }
@@ -24997,6 +28426,9 @@ class FilledMapConfiguration {
   /// The field wells of the visual.
   final FilledMapFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
 
@@ -25014,6 +28446,7 @@ class FilledMapConfiguration {
 
   FilledMapConfiguration({
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.mapStyleOptions,
     this.sortConfiguration,
@@ -25026,6 +28459,10 @@ class FilledMapConfiguration {
       fieldWells: json['FieldWells'] != null
           ? FilledMapFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
@@ -25050,6 +28487,7 @@ class FilledMapConfiguration {
 
   Map<String, dynamic> toJson() {
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final mapStyleOptions = this.mapStyleOptions;
     final sortConfiguration = this.sortConfiguration;
@@ -25057,6 +28495,7 @@ class FilledMapConfiguration {
     final windowOptions = this.windowOptions;
     return {
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (mapStyleOptions != null) 'MapStyleOptions': mapStyleOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
@@ -25389,6 +28828,10 @@ extension FilterClassFromString on String {
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
 class FilterControl {
+  /// A control from a filter that is scoped across more than one sheet. This
+  /// represents your filter control on a sheet
+  final FilterCrossSheetControl? crossSheet;
+
   /// A control from a date filter that is used to specify date and time.
   final FilterDateTimePickerControl? dateTimePicker;
 
@@ -25414,6 +28857,7 @@ class FilterControl {
   final FilterTextFieldControl? textField;
 
   FilterControl({
+    this.crossSheet,
     this.dateTimePicker,
     this.dropdown,
     this.list,
@@ -25425,6 +28869,10 @@ class FilterControl {
 
   factory FilterControl.fromJson(Map<String, dynamic> json) {
     return FilterControl(
+      crossSheet: json['CrossSheet'] != null
+          ? FilterCrossSheetControl.fromJson(
+              json['CrossSheet'] as Map<String, dynamic>)
+          : null,
       dateTimePicker: json['DateTimePicker'] != null
           ? FilterDateTimePickerControl.fromJson(
               json['DateTimePicker'] as Map<String, dynamic>)
@@ -25455,6 +28903,7 @@ class FilterControl {
   }
 
   Map<String, dynamic> toJson() {
+    final crossSheet = this.crossSheet;
     final dateTimePicker = this.dateTimePicker;
     final dropdown = this.dropdown;
     final list = this.list;
@@ -25463,6 +28912,7 @@ class FilterControl {
     final textArea = this.textArea;
     final textField = this.textField;
     return {
+      if (crossSheet != null) 'CrossSheet': crossSheet,
       if (dateTimePicker != null) 'DateTimePicker': dateTimePicker,
       if (dropdown != null) 'Dropdown': dropdown,
       if (list != null) 'List': list,
@@ -25470,6 +28920,50 @@ class FilterControl {
       if (slider != null) 'Slider': slider,
       if (textArea != null) 'TextArea': textArea,
       if (textField != null) 'TextField': textField,
+    };
+  }
+}
+
+/// A control from a filter that is scoped across more than one sheet. This
+/// represents your filter control on a sheet
+class FilterCrossSheetControl {
+  /// The ID of the <code>FilterCrossSheetControl</code>.
+  final String filterControlId;
+
+  /// The source filter ID of the <code>FilterCrossSheetControl</code>.
+  final String sourceFilterId;
+
+  /// The values that are displayed in a control can be configured to only show
+  /// values that are valid based on what's selected in other controls.
+  final CascadingControlConfiguration? cascadingControlConfiguration;
+
+  FilterCrossSheetControl({
+    required this.filterControlId,
+    required this.sourceFilterId,
+    this.cascadingControlConfiguration,
+  });
+
+  factory FilterCrossSheetControl.fromJson(Map<String, dynamic> json) {
+    return FilterCrossSheetControl(
+      filterControlId: json['FilterControlId'] as String,
+      sourceFilterId: json['SourceFilterId'] as String,
+      cascadingControlConfiguration:
+          json['CascadingControlConfiguration'] != null
+              ? CascadingControlConfiguration.fromJson(
+                  json['CascadingControlConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterControlId = this.filterControlId;
+    final sourceFilterId = this.sourceFilterId;
+    final cascadingControlConfiguration = this.cascadingControlConfiguration;
+    return {
+      'FilterControlId': filterControlId,
+      'SourceFilterId': sourceFilterId,
+      if (cascadingControlConfiguration != null)
+        'CascadingControlConfiguration': cascadingControlConfiguration,
     };
   }
 }
@@ -25488,15 +28982,17 @@ class FilterDateTimePickerControl {
   /// The display options of a control.
   final DateTimePickerControlDisplayOptions? displayOptions;
 
-  /// The date time picker type of a <code>FilterDateTimePickerControl</code>.
-  /// Choose one of the following options:
+  /// The type of the <code>FilterDropDownControl</code>. Choose one of the
+  /// following options:
   ///
   /// <ul>
   /// <li>
-  /// <code>SINGLE_VALUED</code>: The filter condition is a fixed date.
+  /// <code>MULTI_SELECT</code>: The user can select multiple entries from a
+  /// dropdown menu.
   /// </li>
   /// <li>
-  /// <code>DATE_RANGE</code>: The filter condition is a date time range.
+  /// <code>SINGLE_SELECT</code>: The user can select a single entry from a
+  /// dropdown menu.
   /// </li>
   /// </ul>
   final SheetControlDateTimePickerType? type;
@@ -25712,6 +29208,22 @@ class FilterListConfiguration {
   /// The list of category values for the filter.
   final List<String>? categoryValues;
 
+  /// This option determines how null values should be treated when filtering
+  /// data.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL_VALUES</code>: Include null values in filtered results.
+  /// </li>
+  /// <li>
+  /// <code>NULLS_ONLY</code>: Only include null values in filtered results.
+  /// </li>
+  /// <li>
+  /// <code>NON_NULLS_ONLY</code>: Exclude null values from filtered results.
+  /// </li>
+  /// </ul>
+  final FilterNullOption? nullOption;
+
   /// Select all of the values. Null is not the assigned value of select all.
   ///
   /// <ul>
@@ -25724,6 +29236,7 @@ class FilterListConfiguration {
   FilterListConfiguration({
     required this.matchOperator,
     this.categoryValues,
+    this.nullOption,
     this.selectAllOptions,
   });
 
@@ -25735,6 +29248,7 @@ class FilterListConfiguration {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      nullOption: (json['NullOption'] as String?)?.toFilterNullOption(),
       selectAllOptions: (json['SelectAllOptions'] as String?)
           ?.toCategoryFilterSelectAllOptions(),
     );
@@ -25743,10 +29257,12 @@ class FilterListConfiguration {
   Map<String, dynamic> toJson() {
     final matchOperator = this.matchOperator;
     final categoryValues = this.categoryValues;
+    final nullOption = this.nullOption;
     final selectAllOptions = this.selectAllOptions;
     return {
       'MatchOperator': matchOperator.toValue(),
       if (categoryValues != null) 'CategoryValues': categoryValues,
+      if (nullOption != null) 'NullOption': nullOption.toValue(),
       if (selectAllOptions != null)
         'SelectAllOptions': selectAllOptions.toValue(),
     };
@@ -25775,7 +29291,7 @@ class FilterListControl {
   /// A list of selectable values that are used in a control.
   final FilterSelectableValues? selectableValues;
 
-  /// The type of <code>FilterListControl</code>. Choose one of the following
+  /// The type of the <code>FilterListControl</code>. Choose one of the following
   /// options:
   ///
   /// <ul>
@@ -26076,15 +29592,27 @@ class FilterRelativeDateTimeControl {
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
 class FilterScopeConfiguration {
+  /// The configuration that applies a filter to all sheets. When you choose
+  /// <code>AllSheets</code> as the value for a
+  /// <code>FilterScopeConfiguration</code>, this filter is applied to all visuals
+  /// of all sheets in an Analysis, Dashboard, or Template. The
+  /// <code>AllSheetsFilterScopeConfiguration</code> is chosen.
+  final AllSheetsFilterScopeConfiguration? allSheets;
+
   /// The configuration for applying a filter to specific sheets.
   final SelectedSheetsFilterScopeConfiguration? selectedSheets;
 
   FilterScopeConfiguration({
+    this.allSheets,
     this.selectedSheets,
   });
 
   factory FilterScopeConfiguration.fromJson(Map<String, dynamic> json) {
     return FilterScopeConfiguration(
+      allSheets: json['AllSheets'] != null
+          ? AllSheetsFilterScopeConfiguration.fromJson(
+              json['AllSheets'] as Map<String, dynamic>)
+          : null,
       selectedSheets: json['SelectedSheets'] != null
           ? SelectedSheetsFilterScopeConfiguration.fromJson(
               json['SelectedSheets'] as Map<String, dynamic>)
@@ -26093,8 +29621,10 @@ class FilterScopeConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final allSheets = this.allSheets;
     final selectedSheets = this.selectedSheets;
     return {
+      if (allSheets != null) 'AllSheets': allSheets,
       if (selectedSheets != null) 'SelectedSheets': selectedSheets,
     };
   }
@@ -26132,10 +29662,10 @@ class FilterSliderControl {
   /// The ID of the <code>FilterSliderControl</code>.
   final String filterControlId;
 
-  /// The smaller value that is displayed at the left of the slider.
+  /// The larger value that is displayed at the right of the slider.
   final double maximumValue;
 
-  /// The larger value that is displayed at the right of the slider.
+  /// The smaller value that is displayed at the left of the slider.
   final double minimumValue;
 
   /// The source filter ID of the <code>FilterSliderControl</code>.
@@ -26150,8 +29680,8 @@ class FilterSliderControl {
   /// The display options of a control.
   final SliderControlDisplayOptions? displayOptions;
 
-  /// The type of <code>FilterSliderControl</code>. Choose one of the following
-  /// options:
+  /// The type of the <code>FilterSliderControl</code>. Choose one of the
+  /// following options:
   ///
   /// <ul>
   /// <li>
@@ -26364,6 +29894,9 @@ class Folder {
   /// A display name for the folder.
   final String? name;
 
+  /// The sharing scope of the folder.
+  final SharingModel? sharingModel;
+
   Folder({
     this.arn,
     this.createdTime,
@@ -26372,6 +29905,7 @@ class Folder {
     this.folderType,
     this.lastUpdatedTime,
     this.name,
+    this.sharingModel,
   });
 
   factory Folder.fromJson(Map<String, dynamic> json) {
@@ -26386,6 +29920,7 @@ class Folder {
       folderType: (json['FolderType'] as String?)?.toFolderType(),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
+      sharingModel: (json['SharingModel'] as String?)?.toSharingModel(),
     );
   }
 }
@@ -26576,6 +30111,9 @@ class FolderSummary {
   /// The display name of the folder.
   final String? name;
 
+  /// The sharing scope of the folder.
+  final SharingModel? sharingModel;
+
   FolderSummary({
     this.arn,
     this.createdTime,
@@ -26583,6 +30121,7 @@ class FolderSummary {
     this.folderType,
     this.lastUpdatedTime,
     this.name,
+    this.sharingModel,
   });
 
   factory FolderSummary.fromJson(Map<String, dynamic> json) {
@@ -26593,12 +30132,14 @@ class FolderSummary {
       folderType: (json['FolderType'] as String?)?.toFolderType(),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
+      sharingModel: (json['SharingModel'] as String?)?.toSharingModel(),
     );
   }
 }
 
 enum FolderType {
   shared,
+  restricted,
 }
 
 extension FolderTypeValueExtension on FolderType {
@@ -26606,6 +30147,8 @@ extension FolderTypeValueExtension on FolderType {
     switch (this) {
       case FolderType.shared:
         return 'SHARED';
+      case FolderType.restricted:
+        return 'RESTRICTED';
     }
   }
 }
@@ -26615,6 +30158,8 @@ extension FolderTypeFromString on String {
     switch (this) {
       case 'SHARED':
         return FolderType.shared;
+      case 'RESTRICTED':
+        return FolderType.restricted;
     }
     throw Exception('$this is not known in enum FolderType');
   }
@@ -26833,9 +30378,6 @@ class ForecastComputation {
   /// The ID for a computation.
   final String computationId;
 
-  /// The time field that is used in a computation.
-  final DimensionField time;
-
   /// The custom seasonality value setup of a forecast computation.
   final int? customSeasonalityValue;
 
@@ -26867,6 +30409,9 @@ class ForecastComputation {
   /// </ul>
   final ForecastComputationSeasonality? seasonality;
 
+  /// The time field that is used in a computation.
+  final DimensionField? time;
+
   /// The upper boundary setup of a forecast computation.
   final double? upperBoundary;
 
@@ -26875,7 +30420,6 @@ class ForecastComputation {
 
   ForecastComputation({
     required this.computationId,
-    required this.time,
     this.customSeasonalityValue,
     this.lowerBoundary,
     this.name,
@@ -26883,6 +30427,7 @@ class ForecastComputation {
     this.periodsForward,
     this.predictionInterval,
     this.seasonality,
+    this.time,
     this.upperBoundary,
     this.value,
   });
@@ -26890,7 +30435,6 @@ class ForecastComputation {
   factory ForecastComputation.fromJson(Map<String, dynamic> json) {
     return ForecastComputation(
       computationId: json['ComputationId'] as String,
-      time: DimensionField.fromJson(json['Time'] as Map<String, dynamic>),
       customSeasonalityValue: json['CustomSeasonalityValue'] as int?,
       lowerBoundary: json['LowerBoundary'] as double?,
       name: json['Name'] as String?,
@@ -26899,6 +30443,9 @@ class ForecastComputation {
       predictionInterval: json['PredictionInterval'] as int?,
       seasonality:
           (json['Seasonality'] as String?)?.toForecastComputationSeasonality(),
+      time: json['Time'] != null
+          ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
+          : null,
       upperBoundary: json['UpperBoundary'] as double?,
       value: json['Value'] != null
           ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
@@ -26908,7 +30455,6 @@ class ForecastComputation {
 
   Map<String, dynamic> toJson() {
     final computationId = this.computationId;
-    final time = this.time;
     final customSeasonalityValue = this.customSeasonalityValue;
     final lowerBoundary = this.lowerBoundary;
     final name = this.name;
@@ -26916,11 +30462,11 @@ class ForecastComputation {
     final periodsForward = this.periodsForward;
     final predictionInterval = this.predictionInterval;
     final seasonality = this.seasonality;
+    final time = this.time;
     final upperBoundary = this.upperBoundary;
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Time': time,
       if (customSeasonalityValue != null)
         'CustomSeasonalityValue': customSeasonalityValue,
       if (lowerBoundary != null) 'LowerBoundary': lowerBoundary,
@@ -26929,6 +30475,7 @@ class ForecastComputation {
       if (periodsForward != null) 'PeriodsForward': periodsForward,
       if (predictionInterval != null) 'PredictionInterval': predictionInterval,
       if (seasonality != null) 'Seasonality': seasonality.toValue(),
+      if (time != null) 'Time': time,
       if (upperBoundary != null) 'UpperBoundary': upperBoundary,
       if (value != null) 'Value': value,
     };
@@ -27432,6 +30979,9 @@ class FunnelChartConfiguration {
   /// The field well configuration of a <code>FunnelChartVisual</code>.
   final FunnelChartFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The sort configuration of a <code>FunnelChartVisual</code>.
   final FunnelChartSortConfiguration? sortConfiguration;
 
@@ -27449,6 +30999,7 @@ class FunnelChartConfiguration {
     this.categoryLabelOptions,
     this.dataLabelOptions,
     this.fieldWells,
+    this.interactions,
     this.sortConfiguration,
     this.tooltip,
     this.valueLabelOptions,
@@ -27468,6 +31019,10 @@ class FunnelChartConfiguration {
       fieldWells: json['FieldWells'] != null
           ? FunnelChartFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       sortConfiguration: json['SortConfiguration'] != null
           ? FunnelChartSortConfiguration.fromJson(
@@ -27491,6 +31046,7 @@ class FunnelChartConfiguration {
     final categoryLabelOptions = this.categoryLabelOptions;
     final dataLabelOptions = this.dataLabelOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final sortConfiguration = this.sortConfiguration;
     final tooltip = this.tooltip;
     final valueLabelOptions = this.valueLabelOptions;
@@ -27500,6 +31056,7 @@ class FunnelChartConfiguration {
         'CategoryLabelOptions': categoryLabelOptions,
       if (dataLabelOptions != null) 'DataLabelOptions': dataLabelOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
       if (tooltip != null) 'Tooltip': tooltip,
       if (valueLabelOptions != null) 'ValueLabelOptions': valueLabelOptions,
@@ -27809,6 +31366,36 @@ class GaugeChartArcConditionalFormatting {
   }
 }
 
+/// The color configuration of a <code>GaugeChartVisual</code>.
+class GaugeChartColorConfiguration {
+  /// The background color configuration of a <code>GaugeChartVisual</code>.
+  final String? backgroundColor;
+
+  /// The foreground color configuration of a <code>GaugeChartVisual</code>.
+  final String? foregroundColor;
+
+  GaugeChartColorConfiguration({
+    this.backgroundColor,
+    this.foregroundColor,
+  });
+
+  factory GaugeChartColorConfiguration.fromJson(Map<String, dynamic> json) {
+    return GaugeChartColorConfiguration(
+      backgroundColor: json['BackgroundColor'] as String?,
+      foregroundColor: json['ForegroundColor'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backgroundColor = this.backgroundColor;
+    final foregroundColor = this.foregroundColor;
+    return {
+      if (backgroundColor != null) 'BackgroundColor': backgroundColor,
+      if (foregroundColor != null) 'ForegroundColor': foregroundColor,
+    };
+  }
+}
+
 /// The conditional formatting of a <code>GaugeChartVisual</code>.
 class GaugeChartConditionalFormatting {
   /// Conditional formatting options of a <code>GaugeChartVisual</code>.
@@ -27880,6 +31467,9 @@ class GaugeChartConditionalFormattingOption {
 
 /// The configuration of a <code>GaugeChartVisual</code>.
 class GaugeChartConfiguration {
+  /// The color configuration of a <code>GaugeChartVisual</code>.
+  final GaugeChartColorConfiguration? colorConfiguration;
+
   /// The data label configuration of a <code>GaugeChartVisual</code>.
   final DataLabelOptions? dataLabels;
 
@@ -27890,6 +31480,9 @@ class GaugeChartConfiguration {
   /// <code>GaugeChartVisual</code>.
   final GaugeChartOptions? gaugeChartOptions;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The tooltip configuration of a <code>GaugeChartVisual</code>.
   final TooltipOptions? tooltipOptions;
 
@@ -27897,15 +31490,21 @@ class GaugeChartConfiguration {
   final VisualPalette? visualPalette;
 
   GaugeChartConfiguration({
+    this.colorConfiguration,
     this.dataLabels,
     this.fieldWells,
     this.gaugeChartOptions,
+    this.interactions,
     this.tooltipOptions,
     this.visualPalette,
   });
 
   factory GaugeChartConfiguration.fromJson(Map<String, dynamic> json) {
     return GaugeChartConfiguration(
+      colorConfiguration: json['ColorConfiguration'] != null
+          ? GaugeChartColorConfiguration.fromJson(
+              json['ColorConfiguration'] as Map<String, dynamic>)
+          : null,
       dataLabels: json['DataLabels'] != null
           ? DataLabelOptions.fromJson(
               json['DataLabels'] as Map<String, dynamic>)
@@ -27917,6 +31516,10 @@ class GaugeChartConfiguration {
       gaugeChartOptions: json['GaugeChartOptions'] != null
           ? GaugeChartOptions.fromJson(
               json['GaugeChartOptions'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       tooltipOptions: json['TooltipOptions'] != null
           ? TooltipOptions.fromJson(
@@ -27930,15 +31533,19 @@ class GaugeChartConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final colorConfiguration = this.colorConfiguration;
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
     final gaugeChartOptions = this.gaugeChartOptions;
+    final interactions = this.interactions;
     final tooltipOptions = this.tooltipOptions;
     final visualPalette = this.visualPalette;
     return {
+      if (colorConfiguration != null) 'ColorConfiguration': colorConfiguration,
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
       if (gaugeChartOptions != null) 'GaugeChartOptions': gaugeChartOptions,
+      if (interactions != null) 'Interactions': interactions,
       if (tooltipOptions != null) 'TooltipOptions': tooltipOptions,
       if (visualPalette != null) 'VisualPalette': visualPalette,
     };
@@ -28199,8 +31806,8 @@ class GenerateEmbedUrlForAnonymousUserResponse {
 }
 
 class GenerateEmbedUrlForRegisteredUserResponse {
-  /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, or
-  /// console.
+  /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar,
+  /// Generative Q&amp;A experience, or console.
   final String embedUrl;
 
   /// The Amazon Web Services request ID for this operation.
@@ -28516,6 +32123,9 @@ class GeospatialMapConfiguration {
   /// The field wells of the visual.
   final GeospatialMapFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
 
@@ -28534,6 +32144,7 @@ class GeospatialMapConfiguration {
 
   GeospatialMapConfiguration({
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.mapStyleOptions,
     this.pointStyleOptions,
@@ -28547,6 +32158,10 @@ class GeospatialMapConfiguration {
       fieldWells: json['FieldWells'] != null
           ? GeospatialMapFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
@@ -28575,6 +32190,7 @@ class GeospatialMapConfiguration {
 
   Map<String, dynamic> toJson() {
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final mapStyleOptions = this.mapStyleOptions;
     final pointStyleOptions = this.pointStyleOptions;
@@ -28583,6 +32199,7 @@ class GeospatialMapConfiguration {
     final windowOptions = this.windowOptions;
     return {
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (mapStyleOptions != null) 'MapStyleOptions': mapStyleOptions,
       if (pointStyleOptions != null) 'PointStyleOptions': pointStyleOptions,
@@ -29306,32 +32923,34 @@ class GrowthRateComputation {
   /// The ID for a computation.
   final String computationId;
 
-  /// The time field that is used in a computation.
-  final DimensionField time;
-
   /// The name of a computation.
   final String? name;
 
   /// The period size setup of a growth rate computation.
   final int? periodSize;
 
+  /// The time field that is used in a computation.
+  final DimensionField? time;
+
   /// The value field that is used in a computation.
   final MeasureField? value;
 
   GrowthRateComputation({
     required this.computationId,
-    required this.time,
     this.name,
     this.periodSize,
+    this.time,
     this.value,
   });
 
   factory GrowthRateComputation.fromJson(Map<String, dynamic> json) {
     return GrowthRateComputation(
       computationId: json['ComputationId'] as String,
-      time: DimensionField.fromJson(json['Time'] as Map<String, dynamic>),
       name: json['Name'] as String?,
       periodSize: json['PeriodSize'] as int?,
+      time: json['Time'] != null
+          ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
+          : null,
       value: json['Value'] != null
           ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
           : null,
@@ -29340,15 +32959,15 @@ class GrowthRateComputation {
 
   Map<String, dynamic> toJson() {
     final computationId = this.computationId;
-    final time = this.time;
     final name = this.name;
     final periodSize = this.periodSize;
+    final time = this.time;
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Time': time,
       if (name != null) 'Name': name,
       if (periodSize != null) 'PeriodSize': periodSize,
+      if (time != null) 'Time': time,
       if (value != null) 'Value': value,
     };
   }
@@ -29478,6 +33097,9 @@ class HeatMapConfiguration {
   /// The field wells of the visual.
   final HeatMapFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
 
@@ -29495,6 +33117,7 @@ class HeatMapConfiguration {
     this.columnLabelOptions,
     this.dataLabels,
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.rowLabelOptions,
     this.sortConfiguration,
@@ -29518,6 +33141,10 @@ class HeatMapConfiguration {
           ? HeatMapFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
           : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
           : null,
@@ -29540,6 +33167,7 @@ class HeatMapConfiguration {
     final columnLabelOptions = this.columnLabelOptions;
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final rowLabelOptions = this.rowLabelOptions;
     final sortConfiguration = this.sortConfiguration;
@@ -29549,6 +33177,7 @@ class HeatMapConfiguration {
       if (columnLabelOptions != null) 'ColumnLabelOptions': columnLabelOptions,
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (rowLabelOptions != null) 'RowLabelOptions': rowLabelOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
@@ -29847,6 +33476,9 @@ class HistogramConfiguration {
   /// The field well configuration of a histogram.
   final HistogramFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The tooltip configuration of a histogram.
   final TooltipOptions? tooltip;
 
@@ -29866,6 +33498,7 @@ class HistogramConfiguration {
     this.binOptions,
     this.dataLabels,
     this.fieldWells,
+    this.interactions,
     this.tooltip,
     this.visualPalette,
     this.xAxisDisplayOptions,
@@ -29886,6 +33519,10 @@ class HistogramConfiguration {
       fieldWells: json['FieldWells'] != null
           ? HistogramFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       tooltip: json['Tooltip'] != null
           ? TooltipOptions.fromJson(json['Tooltip'] as Map<String, dynamic>)
@@ -29913,6 +33550,7 @@ class HistogramConfiguration {
     final binOptions = this.binOptions;
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final tooltip = this.tooltip;
     final visualPalette = this.visualPalette;
     final xAxisDisplayOptions = this.xAxisDisplayOptions;
@@ -29922,6 +33560,7 @@ class HistogramConfiguration {
       if (binOptions != null) 'BinOptions': binOptions,
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (tooltip != null) 'Tooltip': tooltip,
       if (visualPalette != null) 'VisualPalette': visualPalette,
       if (xAxisDisplayOptions != null)
@@ -30282,6 +33921,31 @@ extension IconFromString on String {
   }
 }
 
+/// The parameters for an IAM Identity Center configuration.
+class IdentityCenterConfiguration {
+  /// A Boolean option that controls whether Trusted Identity Propagation should
+  /// be used.
+  final bool? enableIdentityPropagation;
+
+  IdentityCenterConfiguration({
+    this.enableIdentityPropagation,
+  });
+
+  factory IdentityCenterConfiguration.fromJson(Map<String, dynamic> json) {
+    return IdentityCenterConfiguration(
+      enableIdentityPropagation: json['EnableIdentityPropagation'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableIdentityPropagation = this.enableIdentityPropagation;
+    return {
+      if (enableIdentityPropagation != null)
+        'EnableIdentityPropagation': enableIdentityPropagation,
+    };
+  }
+}
+
 enum IdentityStore {
   quicksight,
 }
@@ -30308,6 +33972,7 @@ extension IdentityStoreFromString on String {
 enum IdentityType {
   iam,
   quicksight,
+  iamIdentityCenter,
 }
 
 extension IdentityTypeValueExtension on IdentityType {
@@ -30317,6 +33982,8 @@ extension IdentityTypeValueExtension on IdentityType {
         return 'IAM';
       case IdentityType.quicksight:
         return 'QUICKSIGHT';
+      case IdentityType.iamIdentityCenter:
+        return 'IAM_IDENTITY_CENTER';
     }
   }
 }
@@ -30328,6 +33995,8 @@ extension IdentityTypeFromString on String {
         return IdentityType.iam;
       case 'QUICKSIGHT':
         return IdentityType.quicksight;
+      case 'IAM_IDENTITY_CENTER':
+        return IdentityType.iamIdentityCenter;
     }
     throw Exception('$this is not known in enum IdentityType');
   }
@@ -30823,24 +34492,32 @@ class InputColumn {
   /// The data type of the column.
   final InputColumnDataType type;
 
+  /// The sub data type of the column. Sub types are only available for decimal
+  /// columns that are part of a SPICE dataset.
+  final ColumnDataSubType? subType;
+
   InputColumn({
     required this.name,
     required this.type,
+    this.subType,
   });
 
   factory InputColumn.fromJson(Map<String, dynamic> json) {
     return InputColumn(
       name: json['Name'] as String,
       type: (json['Type'] as String).toInputColumnDataType(),
+      subType: (json['SubType'] as String?)?.toColumnDataSubType(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
     final type = this.type;
+    final subType = this.subType;
     return {
       'Name': name,
       'Type': type.toValue(),
+      if (subType != null) 'SubType': subType.toValue(),
     };
   }
 }
@@ -30906,9 +34583,13 @@ class InsightConfiguration {
   /// The custom narrative of the insight visual.
   final CustomNarrativeOptions? customNarrative;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   InsightConfiguration({
     this.computations,
     this.customNarrative,
+    this.interactions,
   });
 
   factory InsightConfiguration.fromJson(Map<String, dynamic> json) {
@@ -30921,15 +34602,21 @@ class InsightConfiguration {
           ? CustomNarrativeOptions.fromJson(
               json['CustomNarrative'] as Map<String, dynamic>)
           : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final computations = this.computations;
     final customNarrative = this.customNarrative;
+    final interactions = this.interactions;
     return {
       if (computations != null) 'Computations': computations,
       if (customNarrative != null) 'CustomNarrative': customNarrative,
+      if (interactions != null) 'Interactions': interactions,
     };
   }
 }
@@ -31136,6 +34823,14 @@ class IntegerParameter {
     required this.name,
     required this.values,
   });
+
+  factory IntegerParameter.fromJson(Map<String, dynamic> json) {
+    return IntegerParameter(
+      name: json['Name'] as String,
+      values:
+          (json['Values'] as List).whereNotNull().map((e) => e as int).toList(),
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
@@ -31450,6 +35145,80 @@ extension JoinTypeFromString on String {
   }
 }
 
+/// The conditional formatting for the actual value of a KPI visual.
+class KPIActualValueConditionalFormatting {
+  /// The conditional formatting of the actual value's icon.
+  final ConditionalFormattingIcon? icon;
+
+  /// The conditional formatting of the actual value's text color.
+  final ConditionalFormattingColor? textColor;
+
+  KPIActualValueConditionalFormatting({
+    this.icon,
+    this.textColor,
+  });
+
+  factory KPIActualValueConditionalFormatting.fromJson(
+      Map<String, dynamic> json) {
+    return KPIActualValueConditionalFormatting(
+      icon: json['Icon'] != null
+          ? ConditionalFormattingIcon.fromJson(
+              json['Icon'] as Map<String, dynamic>)
+          : null,
+      textColor: json['TextColor'] != null
+          ? ConditionalFormattingColor.fromJson(
+              json['TextColor'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final icon = this.icon;
+    final textColor = this.textColor;
+    return {
+      if (icon != null) 'Icon': icon,
+      if (textColor != null) 'TextColor': textColor,
+    };
+  }
+}
+
+/// The conditional formatting for the comparison value of a KPI visual.
+class KPIComparisonValueConditionalFormatting {
+  /// The conditional formatting of the comparison value's icon.
+  final ConditionalFormattingIcon? icon;
+
+  /// The conditional formatting of the comparison value's text color.
+  final ConditionalFormattingColor? textColor;
+
+  KPIComparisonValueConditionalFormatting({
+    this.icon,
+    this.textColor,
+  });
+
+  factory KPIComparisonValueConditionalFormatting.fromJson(
+      Map<String, dynamic> json) {
+    return KPIComparisonValueConditionalFormatting(
+      icon: json['Icon'] != null
+          ? ConditionalFormattingIcon.fromJson(
+              json['Icon'] as Map<String, dynamic>)
+          : null,
+      textColor: json['TextColor'] != null
+          ? ConditionalFormattingColor.fromJson(
+              json['TextColor'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final icon = this.icon;
+    final textColor = this.textColor;
+    return {
+      if (icon != null) 'Icon': icon,
+      if (textColor != null) 'TextColor': textColor,
+    };
+  }
+}
+
 /// The conditional formatting of a KPI visual.
 class KPIConditionalFormatting {
   /// The conditional formatting options of a KPI visual.
@@ -31481,6 +35250,12 @@ class KPIConditionalFormatting {
 
 /// The conditional formatting options of a KPI visual.
 class KPIConditionalFormattingOption {
+  /// The conditional formatting for the actual value of a KPI visual.
+  final KPIActualValueConditionalFormatting? actualValue;
+
+  /// The conditional formatting for the comparison value of a KPI visual.
+  final KPIComparisonValueConditionalFormatting? comparisonValue;
+
   /// The conditional formatting for the primary value of a KPI visual.
   final KPIPrimaryValueConditionalFormatting? primaryValue;
 
@@ -31488,12 +35263,22 @@ class KPIConditionalFormattingOption {
   final KPIProgressBarConditionalFormatting? progressBar;
 
   KPIConditionalFormattingOption({
+    this.actualValue,
+    this.comparisonValue,
     this.primaryValue,
     this.progressBar,
   });
 
   factory KPIConditionalFormattingOption.fromJson(Map<String, dynamic> json) {
     return KPIConditionalFormattingOption(
+      actualValue: json['ActualValue'] != null
+          ? KPIActualValueConditionalFormatting.fromJson(
+              json['ActualValue'] as Map<String, dynamic>)
+          : null,
+      comparisonValue: json['ComparisonValue'] != null
+          ? KPIComparisonValueConditionalFormatting.fromJson(
+              json['ComparisonValue'] as Map<String, dynamic>)
+          : null,
       primaryValue: json['PrimaryValue'] != null
           ? KPIPrimaryValueConditionalFormatting.fromJson(
               json['PrimaryValue'] as Map<String, dynamic>)
@@ -31506,9 +35291,13 @@ class KPIConditionalFormattingOption {
   }
 
   Map<String, dynamic> toJson() {
+    final actualValue = this.actualValue;
+    final comparisonValue = this.comparisonValue;
     final primaryValue = this.primaryValue;
     final progressBar = this.progressBar;
     return {
+      if (actualValue != null) 'ActualValue': actualValue,
+      if (comparisonValue != null) 'ComparisonValue': comparisonValue,
       if (primaryValue != null) 'PrimaryValue': primaryValue,
       if (progressBar != null) 'ProgressBar': progressBar,
     };
@@ -31520,6 +35309,9 @@ class KPIConfiguration {
   /// The field well configuration of a KPI visual.
   final KPIFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The options that determine the presentation of a KPI visual.
   final KPIOptions? kPIOptions;
 
@@ -31528,6 +35320,7 @@ class KPIConfiguration {
 
   KPIConfiguration({
     this.fieldWells,
+    this.interactions,
     this.kPIOptions,
     this.sortConfiguration,
   });
@@ -31536,6 +35329,10 @@ class KPIConfiguration {
     return KPIConfiguration(
       fieldWells: json['FieldWells'] != null
           ? KPIFieldWells.fromJson(json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       kPIOptions: json['KPIOptions'] != null
           ? KPIOptions.fromJson(json['KPIOptions'] as Map<String, dynamic>)
@@ -31549,10 +35346,12 @@ class KPIConfiguration {
 
   Map<String, dynamic> toJson() {
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final kPIOptions = this.kPIOptions;
     final sortConfiguration = this.sortConfiguration;
     return {
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (kPIOptions != null) 'KPIOptions': kPIOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
     };
@@ -31627,8 +35426,15 @@ class KPIOptions {
   /// The options that determine the secondary value font configuration.
   final FontConfiguration? secondaryValueFontConfiguration;
 
+  /// The options that determine the visibility, color, type, and tooltip
+  /// visibility of the sparkline of a KPI visual.
+  final KPISparklineOptions? sparkline;
+
   /// The options that determine the presentation of trend arrows in a KPI visual.
   final TrendArrowOptions? trendArrows;
+
+  /// The options that determine the layout a KPI visual.
+  final KPIVisualLayoutOptions? visualLayoutOptions;
 
   KPIOptions({
     this.comparison,
@@ -31637,7 +35443,9 @@ class KPIOptions {
     this.progressBar,
     this.secondaryValue,
     this.secondaryValueFontConfiguration,
+    this.sparkline,
     this.trendArrows,
+    this.visualLayoutOptions,
   });
 
   factory KPIOptions.fromJson(Map<String, dynamic> json) {
@@ -31667,9 +35475,17 @@ class KPIOptions {
                   json['SecondaryValueFontConfiguration']
                       as Map<String, dynamic>)
               : null,
+      sparkline: json['Sparkline'] != null
+          ? KPISparklineOptions.fromJson(
+              json['Sparkline'] as Map<String, dynamic>)
+          : null,
       trendArrows: json['TrendArrows'] != null
           ? TrendArrowOptions.fromJson(
               json['TrendArrows'] as Map<String, dynamic>)
+          : null,
+      visualLayoutOptions: json['VisualLayoutOptions'] != null
+          ? KPIVisualLayoutOptions.fromJson(
+              json['VisualLayoutOptions'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -31682,7 +35498,9 @@ class KPIOptions {
     final secondaryValue = this.secondaryValue;
     final secondaryValueFontConfiguration =
         this.secondaryValueFontConfiguration;
+    final sparkline = this.sparkline;
     final trendArrows = this.trendArrows;
+    final visualLayoutOptions = this.visualLayoutOptions;
     return {
       if (comparison != null) 'Comparison': comparison,
       if (primaryValueDisplayType != null)
@@ -31693,7 +35511,10 @@ class KPIOptions {
       if (secondaryValue != null) 'SecondaryValue': secondaryValue,
       if (secondaryValueFontConfiguration != null)
         'SecondaryValueFontConfiguration': secondaryValueFontConfiguration,
+      if (sparkline != null) 'Sparkline': sparkline,
       if (trendArrows != null) 'TrendArrows': trendArrows,
+      if (visualLayoutOptions != null)
+        'VisualLayoutOptions': visualLayoutOptions,
     };
   }
 }
@@ -31788,6 +35609,80 @@ class KPISortConfiguration {
   }
 }
 
+/// The options that determine the visibility, color, type, and tooltip
+/// visibility of the sparkline of a KPI visual.
+class KPISparklineOptions {
+  /// The type of the sparkline.
+  final KPISparklineType type;
+
+  /// The color of the sparkline.
+  final String? color;
+
+  /// The tooltip visibility of the sparkline.
+  final Visibility? tooltipVisibility;
+
+  /// The visibility of the sparkline.
+  final Visibility? visibility;
+
+  KPISparklineOptions({
+    required this.type,
+    this.color,
+    this.tooltipVisibility,
+    this.visibility,
+  });
+
+  factory KPISparklineOptions.fromJson(Map<String, dynamic> json) {
+    return KPISparklineOptions(
+      type: (json['Type'] as String).toKPISparklineType(),
+      color: json['Color'] as String?,
+      tooltipVisibility: (json['TooltipVisibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.toVisibility(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final color = this.color;
+    final tooltipVisibility = this.tooltipVisibility;
+    final visibility = this.visibility;
+    return {
+      'Type': type.toValue(),
+      if (color != null) 'Color': color,
+      if (tooltipVisibility != null)
+        'TooltipVisibility': tooltipVisibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.toValue(),
+    };
+  }
+}
+
+enum KPISparklineType {
+  line,
+  area,
+}
+
+extension KPISparklineTypeValueExtension on KPISparklineType {
+  String toValue() {
+    switch (this) {
+      case KPISparklineType.line:
+        return 'LINE';
+      case KPISparklineType.area:
+        return 'AREA';
+    }
+  }
+}
+
+extension KPISparklineTypeFromString on String {
+  KPISparklineType toKPISparklineType() {
+    switch (this) {
+      case 'LINE':
+        return KPISparklineType.line;
+      case 'AREA':
+        return KPISparklineType.area;
+    }
+    throw Exception('$this is not known in enum KPISparklineType');
+  }
+}
+
 /// A key performance indicator (KPI).
 ///
 /// For more information, see <a
@@ -31875,6 +35770,84 @@ class KPIVisual {
       if (subtitle != null) 'Subtitle': subtitle,
       if (title != null) 'Title': title,
     };
+  }
+}
+
+/// The options that determine the layout a KPI visual.
+class KPIVisualLayoutOptions {
+  /// The standard layout of the KPI visual.
+  final KPIVisualStandardLayout? standardLayout;
+
+  KPIVisualLayoutOptions({
+    this.standardLayout,
+  });
+
+  factory KPIVisualLayoutOptions.fromJson(Map<String, dynamic> json) {
+    return KPIVisualLayoutOptions(
+      standardLayout: json['StandardLayout'] != null
+          ? KPIVisualStandardLayout.fromJson(
+              json['StandardLayout'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final standardLayout = this.standardLayout;
+    return {
+      if (standardLayout != null) 'StandardLayout': standardLayout,
+    };
+  }
+}
+
+/// The standard layout of the KPI visual.
+class KPIVisualStandardLayout {
+  /// The standard layout type.
+  final KPIVisualStandardLayoutType type;
+
+  KPIVisualStandardLayout({
+    required this.type,
+  });
+
+  factory KPIVisualStandardLayout.fromJson(Map<String, dynamic> json) {
+    return KPIVisualStandardLayout(
+      type: (json['Type'] as String).toKPIVisualStandardLayoutType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'Type': type.toValue(),
+    };
+  }
+}
+
+enum KPIVisualStandardLayoutType {
+  classic,
+  vertical,
+}
+
+extension KPIVisualStandardLayoutTypeValueExtension
+    on KPIVisualStandardLayoutType {
+  String toValue() {
+    switch (this) {
+      case KPIVisualStandardLayoutType.classic:
+        return 'CLASSIC';
+      case KPIVisualStandardLayoutType.vertical:
+        return 'VERTICAL';
+    }
+  }
+}
+
+extension KPIVisualStandardLayoutTypeFromString on String {
+  KPIVisualStandardLayoutType toKPIVisualStandardLayoutType() {
+    switch (this) {
+      case 'CLASSIC':
+        return KPIVisualStandardLayoutType.classic;
+      case 'VERTICAL':
+        return KPIVisualStandardLayoutType.vertical;
+    }
+    throw Exception('$this is not known in enum KPIVisualStandardLayoutType');
   }
 }
 
@@ -32228,6 +36201,9 @@ class LineChartConfiguration {
   /// The forecast configuration of a line chart.
   final List<ForecastConfiguration>? forecastConfigurations;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend configuration of a line chart.
   final LegendOptions? legend;
 
@@ -32248,6 +36224,7 @@ class LineChartConfiguration {
 
   /// The series item configuration of a line chart.
   final List<SeriesItem>? series;
+  final SingleAxisOptions? singleAxisOptions;
 
   /// The small multiples setup for the visual.
   final SmallMultiplesOptions? smallMultiplesOptions;
@@ -32276,6 +36253,7 @@ class LineChartConfiguration {
     this.defaultSeriesSettings,
     this.fieldWells,
     this.forecastConfigurations,
+    this.interactions,
     this.legend,
     this.primaryYAxisDisplayOptions,
     this.primaryYAxisLabelOptions,
@@ -32283,6 +36261,7 @@ class LineChartConfiguration {
     this.secondaryYAxisDisplayOptions,
     this.secondaryYAxisLabelOptions,
     this.series,
+    this.singleAxisOptions,
     this.smallMultiplesOptions,
     this.sortConfiguration,
     this.tooltip,
@@ -32316,6 +36295,10 @@ class LineChartConfiguration {
           ?.whereNotNull()
           .map((e) => ForecastConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
           : null,
@@ -32343,6 +36326,10 @@ class LineChartConfiguration {
           ?.whereNotNull()
           .map((e) => SeriesItem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      singleAxisOptions: json['SingleAxisOptions'] != null
+          ? SingleAxisOptions.fromJson(
+              json['SingleAxisOptions'] as Map<String, dynamic>)
+          : null,
       smallMultiplesOptions: json['SmallMultiplesOptions'] != null
           ? SmallMultiplesOptions.fromJson(
               json['SmallMultiplesOptions'] as Map<String, dynamic>)
@@ -32376,6 +36363,7 @@ class LineChartConfiguration {
     final defaultSeriesSettings = this.defaultSeriesSettings;
     final fieldWells = this.fieldWells;
     final forecastConfigurations = this.forecastConfigurations;
+    final interactions = this.interactions;
     final legend = this.legend;
     final primaryYAxisDisplayOptions = this.primaryYAxisDisplayOptions;
     final primaryYAxisLabelOptions = this.primaryYAxisLabelOptions;
@@ -32383,6 +36371,7 @@ class LineChartConfiguration {
     final secondaryYAxisDisplayOptions = this.secondaryYAxisDisplayOptions;
     final secondaryYAxisLabelOptions = this.secondaryYAxisLabelOptions;
     final series = this.series;
+    final singleAxisOptions = this.singleAxisOptions;
     final smallMultiplesOptions = this.smallMultiplesOptions;
     final sortConfiguration = this.sortConfiguration;
     final tooltip = this.tooltip;
@@ -32399,6 +36388,7 @@ class LineChartConfiguration {
       if (fieldWells != null) 'FieldWells': fieldWells,
       if (forecastConfigurations != null)
         'ForecastConfigurations': forecastConfigurations,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (primaryYAxisDisplayOptions != null)
         'PrimaryYAxisDisplayOptions': primaryYAxisDisplayOptions,
@@ -32410,6 +36400,7 @@ class LineChartConfiguration {
       if (secondaryYAxisLabelOptions != null)
         'SecondaryYAxisLabelOptions': secondaryYAxisLabelOptions,
       if (series != null) 'Series': series,
+      if (singleAxisOptions != null) 'SingleAxisOptions': singleAxisOptions,
       if (smallMultiplesOptions != null)
         'SmallMultiplesOptions': smallMultiplesOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
@@ -33021,6 +37012,13 @@ class LinkSharingConfiguration {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    return {
+      if (permissions != null) 'Permissions': permissions,
+    };
+  }
 }
 
 class ListAnalysesResponse {
@@ -33130,6 +37128,9 @@ class ListAssetBundleImportJobsResponse {
 
 /// The display options of a control.
 class ListControlDisplayOptions {
+  /// The configuration of info icon label options.
+  final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
+
   /// The configuration of the search options in a list control.
   final ListControlSearchOptions? searchOptions;
 
@@ -33140,6 +37141,7 @@ class ListControlDisplayOptions {
   final LabelOptions? titleOptions;
 
   ListControlDisplayOptions({
+    this.infoIconLabelOptions,
     this.searchOptions,
     this.selectAllOptions,
     this.titleOptions,
@@ -33147,6 +37149,10 @@ class ListControlDisplayOptions {
 
   factory ListControlDisplayOptions.fromJson(Map<String, dynamic> json) {
     return ListControlDisplayOptions(
+      infoIconLabelOptions: json['InfoIconLabelOptions'] != null
+          ? SheetControlInfoIconLabelOptions.fromJson(
+              json['InfoIconLabelOptions'] as Map<String, dynamic>)
+          : null,
       searchOptions: json['SearchOptions'] != null
           ? ListControlSearchOptions.fromJson(
               json['SearchOptions'] as Map<String, dynamic>)
@@ -33162,10 +37168,13 @@ class ListControlDisplayOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final infoIconLabelOptions = this.infoIconLabelOptions;
     final searchOptions = this.searchOptions;
     final selectAllOptions = this.selectAllOptions;
     final titleOptions = this.titleOptions;
     return {
+      if (infoIconLabelOptions != null)
+        'InfoIconLabelOptions': infoIconLabelOptions,
       if (searchOptions != null) 'SearchOptions': searchOptions,
       if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
@@ -33558,6 +37567,42 @@ class ListIAMPolicyAssignmentsResponse {
   }
 }
 
+class ListIdentityPropagationConfigsResponse {
+  /// The token for the next set of results, or null if there are no more results.
+  final String? nextToken;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// A list of services and their authorized targets that the Amazon QuickSight
+  /// IAM Identity Center application can access.
+  final List<AuthorizedTargetsByService>? services;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  ListIdentityPropagationConfigsResponse({
+    this.nextToken,
+    this.requestId,
+    this.services,
+    this.status,
+  });
+
+  factory ListIdentityPropagationConfigsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListIdentityPropagationConfigsResponse(
+      nextToken: json['NextToken'] as String?,
+      requestId: json['RequestId'] as String?,
+      services: (json['Services'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AuthorizedTargetsByService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['Status'] as int?,
+    );
+  }
+}
+
 class ListIngestionsResponse {
   /// A list of the ingestions.
   final List<Ingestion>? ingestions;
@@ -33654,6 +37699,39 @@ class ListRefreshSchedulesResponse {
           ?.whereNotNull()
           .map((e) => RefreshSchedule.fromJson(e as Map<String, dynamic>))
           .toList(),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
+class ListRoleMembershipsResponse {
+  /// The list of groups associated with a role
+  final List<String>? membersList;
+
+  /// A pagination token that can be used in a subsequent request.
+  final String? nextToken;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  ListRoleMembershipsResponse({
+    this.membersList,
+    this.nextToken,
+    this.requestId,
+    this.status,
+  });
+
+  factory ListRoleMembershipsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRoleMembershipsResponse(
+      membersList: (json['MembersList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
     );
@@ -34478,9 +38556,6 @@ class MaximumMinimumComputation {
   /// The ID for a computation.
   final String computationId;
 
-  /// The time field that is used in a computation.
-  final DimensionField time;
-
   /// The type of computation. Choose one of the following options:
   ///
   /// <ul>
@@ -34496,23 +38571,28 @@ class MaximumMinimumComputation {
   /// The name of a computation.
   final String? name;
 
+  /// The time field that is used in a computation.
+  final DimensionField? time;
+
   /// The value field that is used in a computation.
   final MeasureField? value;
 
   MaximumMinimumComputation({
     required this.computationId,
-    required this.time,
     required this.type,
     this.name,
+    this.time,
     this.value,
   });
 
   factory MaximumMinimumComputation.fromJson(Map<String, dynamic> json) {
     return MaximumMinimumComputation(
       computationId: json['ComputationId'] as String,
-      time: DimensionField.fromJson(json['Time'] as Map<String, dynamic>),
       type: (json['Type'] as String).toMaximumMinimumComputationType(),
       name: json['Name'] as String?,
+      time: json['Time'] != null
+          ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
+          : null,
       value: json['Value'] != null
           ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
           : null,
@@ -34521,15 +38601,15 @@ class MaximumMinimumComputation {
 
   Map<String, dynamic> toJson() {
     final computationId = this.computationId;
-    final time = this.time;
     final type = this.type;
     final name = this.name;
+    final time = this.time;
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Time': time,
       'Type': type.toValue(),
       if (name != null) 'Name': name,
+      if (time != null) 'Time': time,
       if (value != null) 'Value': value,
     };
   }
@@ -34649,6 +38729,8 @@ enum MemberType {
   dashboard,
   analysis,
   dataset,
+  datasource,
+  topic,
 }
 
 extension MemberTypeValueExtension on MemberType {
@@ -34660,6 +38742,10 @@ extension MemberTypeValueExtension on MemberType {
         return 'ANALYSIS';
       case MemberType.dataset:
         return 'DATASET';
+      case MemberType.datasource:
+        return 'DATASOURCE';
+      case MemberType.topic:
+        return 'TOPIC';
     }
   }
 }
@@ -34673,6 +38759,10 @@ extension MemberTypeFromString on String {
         return MemberType.analysis;
       case 'DATASET':
         return MemberType.dataset;
+      case 'DATASOURCE':
+        return MemberType.datasource;
+      case 'TOPIC':
+        return MemberType.topic;
     }
     throw Exception('$this is not known in enum MemberType');
   }
@@ -34684,49 +38774,53 @@ class MetricComparisonComputation {
   final String computationId;
 
   /// The field that is used in a metric comparison from value setup.
-  final MeasureField fromValue;
-
-  /// The field that is used in a metric comparison to value setup.
-  final MeasureField targetValue;
-
-  /// The time field that is used in a computation.
-  final DimensionField time;
+  final MeasureField? fromValue;
 
   /// The name of a computation.
   final String? name;
 
+  /// The field that is used in a metric comparison to value setup.
+  final MeasureField? targetValue;
+
+  /// The time field that is used in a computation.
+  final DimensionField? time;
+
   MetricComparisonComputation({
     required this.computationId,
-    required this.fromValue,
-    required this.targetValue,
-    required this.time,
+    this.fromValue,
     this.name,
+    this.targetValue,
+    this.time,
   });
 
   factory MetricComparisonComputation.fromJson(Map<String, dynamic> json) {
     return MetricComparisonComputation(
       computationId: json['ComputationId'] as String,
-      fromValue:
-          MeasureField.fromJson(json['FromValue'] as Map<String, dynamic>),
-      targetValue:
-          MeasureField.fromJson(json['TargetValue'] as Map<String, dynamic>),
-      time: DimensionField.fromJson(json['Time'] as Map<String, dynamic>),
+      fromValue: json['FromValue'] != null
+          ? MeasureField.fromJson(json['FromValue'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
+      targetValue: json['TargetValue'] != null
+          ? MeasureField.fromJson(json['TargetValue'] as Map<String, dynamic>)
+          : null,
+      time: json['Time'] != null
+          ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final computationId = this.computationId;
     final fromValue = this.fromValue;
+    final name = this.name;
     final targetValue = this.targetValue;
     final time = this.time;
-    final name = this.name;
     return {
       'ComputationId': computationId,
-      'FromValue': fromValue,
-      'TargetValue': targetValue,
-      'Time': time,
+      if (fromValue != null) 'FromValue': fromValue,
       if (name != null) 'Name': name,
+      if (targetValue != null) 'TargetValue': targetValue,
+      if (time != null) 'Time': time,
     };
   }
 }
@@ -35757,7 +39851,7 @@ class NumericAxisOptions {
   }
 }
 
-/// The category drill down filter.
+/// The numeric equality type drill down filter.
 class NumericEqualityDrillDownFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -35819,6 +39913,10 @@ class NumericEqualityFilter {
   /// The aggregation function of the filter.
   final AggregationFunction? aggregationFunction;
 
+  /// The default configurations for the associated controls. This applies only
+  /// for filters that are scoped to multiple sheets.
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
   /// The parameter whose value should be used for the filter value.
   final String? parameterName;
 
@@ -35840,6 +39938,7 @@ class NumericEqualityFilter {
     required this.matchOperator,
     required this.nullOption,
     this.aggregationFunction,
+    this.defaultFilterControlConfiguration,
     this.parameterName,
     this.selectAllOptions,
     this.value,
@@ -35856,6 +39955,12 @@ class NumericEqualityFilter {
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
           : null,
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       parameterName: json['ParameterName'] as String?,
       selectAllOptions: (json['SelectAllOptions'] as String?)
           ?.toNumericFilterSelectAllOptions(),
@@ -35869,6 +39974,8 @@ class NumericEqualityFilter {
     final matchOperator = this.matchOperator;
     final nullOption = this.nullOption;
     final aggregationFunction = this.aggregationFunction;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
     final parameterName = this.parameterName;
     final selectAllOptions = this.selectAllOptions;
     final value = this.value;
@@ -35879,6 +39986,8 @@ class NumericEqualityFilter {
       'NullOption': nullOption.toValue(),
       if (aggregationFunction != null)
         'AggregationFunction': aggregationFunction,
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (parameterName != null) 'ParameterName': parameterName,
       if (selectAllOptions != null)
         'SelectAllOptions': selectAllOptions.toValue(),
@@ -36033,6 +40142,10 @@ class NumericRangeFilter {
   /// The aggregation function of the filter.
   final AggregationFunction? aggregationFunction;
 
+  /// The default configurations for the associated controls. This applies only
+  /// for filters that are scoped to multiple sheets.
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
   /// Determines whether the maximum value in the filter value range should be
   /// included in the filtered results.
   final bool? includeMaximum;
@@ -36061,6 +40174,7 @@ class NumericRangeFilter {
     required this.filterId,
     required this.nullOption,
     this.aggregationFunction,
+    this.defaultFilterControlConfiguration,
     this.includeMaximum,
     this.includeMinimum,
     this.rangeMaximum,
@@ -36077,6 +40191,12 @@ class NumericRangeFilter {
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
           : null,
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       includeMaximum: json['IncludeMaximum'] as bool?,
       includeMinimum: json['IncludeMinimum'] as bool?,
       rangeMaximum: json['RangeMaximum'] != null
@@ -36097,6 +40217,8 @@ class NumericRangeFilter {
     final filterId = this.filterId;
     final nullOption = this.nullOption;
     final aggregationFunction = this.aggregationFunction;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
     final includeMaximum = this.includeMaximum;
     final includeMinimum = this.includeMinimum;
     final rangeMaximum = this.rangeMaximum;
@@ -36108,6 +40230,8 @@ class NumericRangeFilter {
       'NullOption': nullOption.toValue(),
       if (aggregationFunction != null)
         'AggregationFunction': aggregationFunction,
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (includeMaximum != null) 'IncludeMaximum': includeMaximum,
       if (includeMinimum != null) 'IncludeMinimum': includeMinimum,
       if (rangeMaximum != null) 'RangeMaximum': rangeMaximum,
@@ -36461,15 +40585,19 @@ class OutputColumn {
   /// A description for a column.
   final String? description;
 
-  /// A display name for the dataset.
+  /// The display name of the column..
   final String? name;
 
-  /// The type.
+  /// The sub data type of the column.
+  final ColumnDataSubType? subType;
+
+  /// The data type of the column.
   final ColumnDataType? type;
 
   OutputColumn({
     this.description,
     this.name,
+    this.subType,
     this.type,
   });
 
@@ -36477,6 +40605,7 @@ class OutputColumn {
     return OutputColumn(
       description: json['Description'] as String?,
       name: json['Name'] as String?,
+      subType: (json['SubType'] as String?)?.toColumnDataSubType(),
       type: (json['Type'] as String?)?.toColumnDataType(),
     );
   }
@@ -37208,10 +41337,10 @@ class ParameterSelectableValues {
 /// A control to display a horizontal toggle bar. This is used to change a value
 /// by sliding the toggle.
 class ParameterSliderControl {
-  /// The smaller value that is displayed at the left of the slider.
+  /// The larger value that is displayed at the right of the slider.
   final double maximumValue;
 
-  /// The larger value that is displayed at the right of the slider.
+  /// The smaller value that is displayed at the left of the slider.
   final double minimumValue;
 
   /// The ID of the <code>ParameterSliderControl</code>.
@@ -37424,6 +41553,27 @@ class Parameters {
     this.stringParameters,
   });
 
+  factory Parameters.fromJson(Map<String, dynamic> json) {
+    return Parameters(
+      dateTimeParameters: (json['DateTimeParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => DateTimeParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      decimalParameters: (json['DecimalParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => DecimalParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      integerParameters: (json['IntegerParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => IntegerParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stringParameters: (json['StringParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => StringParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final dateTimeParameters = this.dateTimeParameters;
     final decimalParameters = this.decimalParameters;
@@ -37572,27 +41722,29 @@ class PeriodOverPeriodComputation {
   /// The ID for a computation.
   final String computationId;
 
-  /// The time field that is used in a computation.
-  final DimensionField time;
-
   /// The name of a computation.
   final String? name;
+
+  /// The time field that is used in a computation.
+  final DimensionField? time;
 
   /// The value field that is used in a computation.
   final MeasureField? value;
 
   PeriodOverPeriodComputation({
     required this.computationId,
-    required this.time,
     this.name,
+    this.time,
     this.value,
   });
 
   factory PeriodOverPeriodComputation.fromJson(Map<String, dynamic> json) {
     return PeriodOverPeriodComputation(
       computationId: json['ComputationId'] as String,
-      time: DimensionField.fromJson(json['Time'] as Map<String, dynamic>),
       name: json['Name'] as String?,
+      time: json['Time'] != null
+          ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
+          : null,
       value: json['Value'] != null
           ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
           : null,
@@ -37601,13 +41753,13 @@ class PeriodOverPeriodComputation {
 
   Map<String, dynamic> toJson() {
     final computationId = this.computationId;
-    final time = this.time;
     final name = this.name;
+    final time = this.time;
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Time': time,
       if (name != null) 'Name': name,
+      if (time != null) 'Time': time,
       if (value != null) 'Value': value,
     };
   }
@@ -37617,9 +41769,6 @@ class PeriodOverPeriodComputation {
 class PeriodToDateComputation {
   /// The ID for a computation.
   final String computationId;
-
-  /// The time field that is used in a computation.
-  final DimensionField time;
 
   /// The name of a computation.
   final String? name;
@@ -37637,24 +41786,29 @@ class PeriodToDateComputation {
   /// </ul>
   final TimeGranularity? periodTimeGranularity;
 
+  /// The time field that is used in a computation.
+  final DimensionField? time;
+
   /// The value field that is used in a computation.
   final MeasureField? value;
 
   PeriodToDateComputation({
     required this.computationId,
-    required this.time,
     this.name,
     this.periodTimeGranularity,
+    this.time,
     this.value,
   });
 
   factory PeriodToDateComputation.fromJson(Map<String, dynamic> json) {
     return PeriodToDateComputation(
       computationId: json['ComputationId'] as String,
-      time: DimensionField.fromJson(json['Time'] as Map<String, dynamic>),
       name: json['Name'] as String?,
       periodTimeGranularity:
           (json['PeriodTimeGranularity'] as String?)?.toTimeGranularity(),
+      time: json['Time'] != null
+          ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
+          : null,
       value: json['Value'] != null
           ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
           : null,
@@ -37663,16 +41817,16 @@ class PeriodToDateComputation {
 
   Map<String, dynamic> toJson() {
     final computationId = this.computationId;
-    final time = this.time;
     final name = this.name;
     final periodTimeGranularity = this.periodTimeGranularity;
+    final time = this.time;
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Time': time,
       if (name != null) 'Name': name,
       if (periodTimeGranularity != null)
         'PeriodTimeGranularity': periodTimeGranularity.toValue(),
+      if (time != null) 'Time': time,
       if (value != null) 'Value': value,
     };
   }
@@ -37789,6 +41943,9 @@ class PieChartConfiguration {
   /// The field wells of the visual.
   final PieChartFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
 
@@ -37813,6 +41970,7 @@ class PieChartConfiguration {
     this.dataLabels,
     this.donutOptions,
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.smallMultiplesOptions,
     this.sortConfiguration,
@@ -37843,6 +42001,10 @@ class PieChartConfiguration {
       fieldWells: json['FieldWells'] != null
           ? PieChartFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
@@ -37875,6 +42037,7 @@ class PieChartConfiguration {
     final dataLabels = this.dataLabels;
     final donutOptions = this.donutOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final smallMultiplesOptions = this.smallMultiplesOptions;
     final sortConfiguration = this.sortConfiguration;
@@ -37889,6 +42052,7 @@ class PieChartConfiguration {
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (donutOptions != null) 'DonutOptions': donutOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (smallMultiplesOptions != null)
         'SmallMultiplesOptions': smallMultiplesOptions,
@@ -38172,12 +42336,16 @@ class PivotTableCellConditionalFormatting {
   /// The scope of the cell for conditional formatting.
   final PivotTableConditionalFormattingScope? scope;
 
+  /// A list of cell scopes for conditional formatting.
+  final List<PivotTableConditionalFormattingScope>? scopes;
+
   /// The text format of the cell for conditional formatting.
   final TextConditionalFormat? textFormat;
 
   PivotTableCellConditionalFormatting({
     required this.fieldId,
     this.scope,
+    this.scopes,
     this.textFormat,
   });
 
@@ -38189,6 +42357,11 @@ class PivotTableCellConditionalFormatting {
           ? PivotTableConditionalFormattingScope.fromJson(
               json['Scope'] as Map<String, dynamic>)
           : null,
+      scopes: (json['Scopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => PivotTableConditionalFormattingScope.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       textFormat: json['TextFormat'] != null
           ? TextConditionalFormat.fromJson(
               json['TextFormat'] as Map<String, dynamic>)
@@ -38199,10 +42372,12 @@ class PivotTableCellConditionalFormatting {
   Map<String, dynamic> toJson() {
     final fieldId = this.fieldId;
     final scope = this.scope;
+    final scopes = this.scopes;
     final textFormat = this.textFormat;
     return {
       'FieldId': fieldId,
       if (scope != null) 'Scope': scope,
+      if (scopes != null) 'Scopes': scopes,
       if (textFormat != null) 'TextFormat': textFormat,
     };
   }
@@ -38335,6 +42510,9 @@ class PivotTableConfiguration {
   /// The field wells of the visual.
   final PivotTableFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The paginated report options for a pivot table visual.
   final PivotTablePaginatedReportOptions? paginatedReportOptions;
 
@@ -38350,6 +42528,7 @@ class PivotTableConfiguration {
   PivotTableConfiguration({
     this.fieldOptions,
     this.fieldWells,
+    this.interactions,
     this.paginatedReportOptions,
     this.sortConfiguration,
     this.tableOptions,
@@ -38365,6 +42544,10 @@ class PivotTableConfiguration {
       fieldWells: json['FieldWells'] != null
           ? PivotTableFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       paginatedReportOptions: json['PaginatedReportOptions'] != null
           ? PivotTablePaginatedReportOptions.fromJson(
@@ -38388,6 +42571,7 @@ class PivotTableConfiguration {
   Map<String, dynamic> toJson() {
     final fieldOptions = this.fieldOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final paginatedReportOptions = this.paginatedReportOptions;
     final sortConfiguration = this.sortConfiguration;
     final tableOptions = this.tableOptions;
@@ -38395,6 +42579,7 @@ class PivotTableConfiguration {
     return {
       if (fieldOptions != null) 'FieldOptions': fieldOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (paginatedReportOptions != null)
         'PaginatedReportOptions': paginatedReportOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
@@ -38433,6 +42618,150 @@ class PivotTableDataPathOption {
     return {
       'DataPathList': dataPathList,
       if (width != null) 'Width': width,
+    };
+  }
+}
+
+enum PivotTableDataPathType {
+  hierarchyRowsLayoutColumn,
+  multipleRowMetricsColumn,
+  emptyColumnHeader,
+  countMetricColumn,
+}
+
+extension PivotTableDataPathTypeValueExtension on PivotTableDataPathType {
+  String toValue() {
+    switch (this) {
+      case PivotTableDataPathType.hierarchyRowsLayoutColumn:
+        return 'HIERARCHY_ROWS_LAYOUT_COLUMN';
+      case PivotTableDataPathType.multipleRowMetricsColumn:
+        return 'MULTIPLE_ROW_METRICS_COLUMN';
+      case PivotTableDataPathType.emptyColumnHeader:
+        return 'EMPTY_COLUMN_HEADER';
+      case PivotTableDataPathType.countMetricColumn:
+        return 'COUNT_METRIC_COLUMN';
+    }
+  }
+}
+
+extension PivotTableDataPathTypeFromString on String {
+  PivotTableDataPathType toPivotTableDataPathType() {
+    switch (this) {
+      case 'HIERARCHY_ROWS_LAYOUT_COLUMN':
+        return PivotTableDataPathType.hierarchyRowsLayoutColumn;
+      case 'MULTIPLE_ROW_METRICS_COLUMN':
+        return PivotTableDataPathType.multipleRowMetricsColumn;
+      case 'EMPTY_COLUMN_HEADER':
+        return PivotTableDataPathType.emptyColumnHeader;
+      case 'COUNT_METRIC_COLUMN':
+        return PivotTableDataPathType.countMetricColumn;
+    }
+    throw Exception('$this is not known in enum PivotTableDataPathType');
+  }
+}
+
+enum PivotTableFieldCollapseState {
+  collapsed,
+  expanded,
+}
+
+extension PivotTableFieldCollapseStateValueExtension
+    on PivotTableFieldCollapseState {
+  String toValue() {
+    switch (this) {
+      case PivotTableFieldCollapseState.collapsed:
+        return 'COLLAPSED';
+      case PivotTableFieldCollapseState.expanded:
+        return 'EXPANDED';
+    }
+  }
+}
+
+extension PivotTableFieldCollapseStateFromString on String {
+  PivotTableFieldCollapseState toPivotTableFieldCollapseState() {
+    switch (this) {
+      case 'COLLAPSED':
+        return PivotTableFieldCollapseState.collapsed;
+      case 'EXPANDED':
+        return PivotTableFieldCollapseState.expanded;
+    }
+    throw Exception('$this is not known in enum PivotTableFieldCollapseState');
+  }
+}
+
+/// The collapse state options for the pivot table field options.
+class PivotTableFieldCollapseStateOption {
+  /// A tagged-union object that sets the collapse state.
+  final PivotTableFieldCollapseStateTarget target;
+
+  /// The state of the field target of a pivot table. Choose one of the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COLLAPSED</code>
+  /// </li>
+  /// <li>
+  /// <code>EXPANDED</code>
+  /// </li>
+  /// </ul>
+  final PivotTableFieldCollapseState? state;
+
+  PivotTableFieldCollapseStateOption({
+    required this.target,
+    this.state,
+  });
+
+  factory PivotTableFieldCollapseStateOption.fromJson(
+      Map<String, dynamic> json) {
+    return PivotTableFieldCollapseStateOption(
+      target: PivotTableFieldCollapseStateTarget.fromJson(
+          json['Target'] as Map<String, dynamic>),
+      state: (json['State'] as String?)?.toPivotTableFieldCollapseState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final target = this.target;
+    final state = this.state;
+    return {
+      'Target': target,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
+/// The target of a pivot table field collapse state.
+class PivotTableFieldCollapseStateTarget {
+  /// The data path of the pivot table's header. Used to set the collapse state.
+  final List<DataPathValue>? fieldDataPathValues;
+
+  /// The field ID of the pivot table that the collapse state needs to be set to.
+  final String? fieldId;
+
+  PivotTableFieldCollapseStateTarget({
+    this.fieldDataPathValues,
+    this.fieldId,
+  });
+
+  factory PivotTableFieldCollapseStateTarget.fromJson(
+      Map<String, dynamic> json) {
+    return PivotTableFieldCollapseStateTarget(
+      fieldDataPathValues: (json['FieldDataPathValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataPathValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fieldId: json['FieldId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldDataPathValues = this.fieldDataPathValues;
+    final fieldId = this.fieldId;
+    return {
+      if (fieldDataPathValues != null)
+        'FieldDataPathValues': fieldDataPathValues,
+      if (fieldId != null) 'FieldId': fieldId,
     };
   }
 }
@@ -38476,6 +42805,9 @@ class PivotTableFieldOption {
 
 /// The field options for a pivot table visual.
 class PivotTableFieldOptions {
+  /// The collapse state options for the pivot table field options.
+  final List<PivotTableFieldCollapseStateOption>? collapseStateOptions;
+
   /// The data path options for the pivot table field options.
   final List<PivotTableDataPathOption>? dataPathOptions;
 
@@ -38483,12 +42815,18 @@ class PivotTableFieldOptions {
   final List<PivotTableFieldOption>? selectedFieldOptions;
 
   PivotTableFieldOptions({
+    this.collapseStateOptions,
     this.dataPathOptions,
     this.selectedFieldOptions,
   });
 
   factory PivotTableFieldOptions.fromJson(Map<String, dynamic> json) {
     return PivotTableFieldOptions(
+      collapseStateOptions: (json['CollapseStateOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PivotTableFieldCollapseStateOption.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       dataPathOptions: (json['DataPathOptions'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -38502,9 +42840,12 @@ class PivotTableFieldOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final collapseStateOptions = this.collapseStateOptions;
     final dataPathOptions = this.dataPathOptions;
     final selectedFieldOptions = this.selectedFieldOptions;
     return {
+      if (collapseStateOptions != null)
+        'CollapseStateOptions': collapseStateOptions,
       if (dataPathOptions != null) 'DataPathOptions': dataPathOptions,
       if (selectedFieldOptions != null)
         'SelectedFieldOptions': selectedFieldOptions,
@@ -38611,6 +42952,9 @@ class PivotTableOptions {
   /// The visibility of the column names.
   final Visibility? columnNamesVisibility;
 
+  /// The default cell width of the pivot table.
+  final String? defaultCellWidth;
+
   /// The metric placement (row, column) options.
   final PivotTableMetricPlacement? metricPlacement;
 
@@ -38623,6 +42967,26 @@ class PivotTableOptions {
   /// The table cell style of the row headers.
   final TableCellStyle? rowHeaderStyle;
 
+  /// The options for the label that is located above the row headers. This option
+  /// is only applicable when <code>RowsLayout</code> is set to
+  /// <code>HIERARCHY</code>.
+  final PivotTableRowsLabelOptions? rowsLabelOptions;
+
+  /// The layout for the row dimension headers of a pivot table. Choose one of the
+  /// following options.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TABULAR</code>: (Default) Each row field is displayed in a separate
+  /// column.
+  /// </li>
+  /// <li>
+  /// <code>HIERARCHY</code>: All row fields are displayed in a single column.
+  /// Indentation is used to differentiate row headers of different fields.
+  /// </li>
+  /// </ul>
+  final PivotTableRowsLayout? rowsLayout;
+
   /// The visibility of the single metric options.
   final Visibility? singleMetricVisibility;
 
@@ -38634,10 +42998,13 @@ class PivotTableOptions {
     this.collapsedRowDimensionsVisibility,
     this.columnHeaderStyle,
     this.columnNamesVisibility,
+    this.defaultCellWidth,
     this.metricPlacement,
     this.rowAlternateColorOptions,
     this.rowFieldNamesStyle,
     this.rowHeaderStyle,
+    this.rowsLabelOptions,
+    this.rowsLayout,
     this.singleMetricVisibility,
     this.toggleButtonsVisibility,
   });
@@ -38655,6 +43022,7 @@ class PivotTableOptions {
           : null,
       columnNamesVisibility:
           (json['ColumnNamesVisibility'] as String?)?.toVisibility(),
+      defaultCellWidth: json['DefaultCellWidth'] as String?,
       metricPlacement:
           (json['MetricPlacement'] as String?)?.toPivotTableMetricPlacement(),
       rowAlternateColorOptions: json['RowAlternateColorOptions'] != null
@@ -38669,6 +43037,11 @@ class PivotTableOptions {
           ? TableCellStyle.fromJson(
               json['RowHeaderStyle'] as Map<String, dynamic>)
           : null,
+      rowsLabelOptions: json['RowsLabelOptions'] != null
+          ? PivotTableRowsLabelOptions.fromJson(
+              json['RowsLabelOptions'] as Map<String, dynamic>)
+          : null,
+      rowsLayout: (json['RowsLayout'] as String?)?.toPivotTableRowsLayout(),
       singleMetricVisibility:
           (json['SingleMetricVisibility'] as String?)?.toVisibility(),
       toggleButtonsVisibility:
@@ -38682,10 +43055,13 @@ class PivotTableOptions {
         this.collapsedRowDimensionsVisibility;
     final columnHeaderStyle = this.columnHeaderStyle;
     final columnNamesVisibility = this.columnNamesVisibility;
+    final defaultCellWidth = this.defaultCellWidth;
     final metricPlacement = this.metricPlacement;
     final rowAlternateColorOptions = this.rowAlternateColorOptions;
     final rowFieldNamesStyle = this.rowFieldNamesStyle;
     final rowHeaderStyle = this.rowHeaderStyle;
+    final rowsLabelOptions = this.rowsLabelOptions;
+    final rowsLayout = this.rowsLayout;
     final singleMetricVisibility = this.singleMetricVisibility;
     final toggleButtonsVisibility = this.toggleButtonsVisibility;
     return {
@@ -38696,11 +43072,14 @@ class PivotTableOptions {
       if (columnHeaderStyle != null) 'ColumnHeaderStyle': columnHeaderStyle,
       if (columnNamesVisibility != null)
         'ColumnNamesVisibility': columnNamesVisibility.toValue(),
+      if (defaultCellWidth != null) 'DefaultCellWidth': defaultCellWidth,
       if (metricPlacement != null) 'MetricPlacement': metricPlacement.toValue(),
       if (rowAlternateColorOptions != null)
         'RowAlternateColorOptions': rowAlternateColorOptions,
       if (rowFieldNamesStyle != null) 'RowFieldNamesStyle': rowFieldNamesStyle,
       if (rowHeaderStyle != null) 'RowHeaderStyle': rowHeaderStyle,
+      if (rowsLabelOptions != null) 'RowsLabelOptions': rowsLabelOptions,
+      if (rowsLayout != null) 'RowsLayout': rowsLayout.toValue(),
       if (singleMetricVisibility != null)
         'SingleMetricVisibility': singleMetricVisibility.toValue(),
       if (toggleButtonsVisibility != null)
@@ -38741,6 +43120,66 @@ class PivotTablePaginatedReportOptions {
       if (verticalOverflowVisibility != null)
         'VerticalOverflowVisibility': verticalOverflowVisibility.toValue(),
     };
+  }
+}
+
+/// The options for the label thta is located above the row headers. This option
+/// is only applicable when <code>RowsLayout</code> is set to
+/// <code>HIERARCHY</code>.
+class PivotTableRowsLabelOptions {
+  /// The custom label string for the rows label.
+  final String? customLabel;
+
+  /// The visibility of the rows label.
+  final Visibility? visibility;
+
+  PivotTableRowsLabelOptions({
+    this.customLabel,
+    this.visibility,
+  });
+
+  factory PivotTableRowsLabelOptions.fromJson(Map<String, dynamic> json) {
+    return PivotTableRowsLabelOptions(
+      customLabel: json['CustomLabel'] as String?,
+      visibility: (json['Visibility'] as String?)?.toVisibility(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customLabel = this.customLabel;
+    final visibility = this.visibility;
+    return {
+      if (customLabel != null) 'CustomLabel': customLabel,
+      if (visibility != null) 'Visibility': visibility.toValue(),
+    };
+  }
+}
+
+enum PivotTableRowsLayout {
+  tabular,
+  hierarchy,
+}
+
+extension PivotTableRowsLayoutValueExtension on PivotTableRowsLayout {
+  String toValue() {
+    switch (this) {
+      case PivotTableRowsLayout.tabular:
+        return 'TABULAR';
+      case PivotTableRowsLayout.hierarchy:
+        return 'HIERARCHY';
+    }
+  }
+}
+
+extension PivotTableRowsLayoutFromString on String {
+  PivotTableRowsLayout toPivotTableRowsLayout() {
+    switch (this) {
+      case 'TABULAR':
+        return PivotTableRowsLayout.tabular;
+      case 'HIERARCHY':
+        return PivotTableRowsLayout.hierarchy;
+    }
+    throw Exception('$this is not known in enum PivotTableRowsLayout');
   }
 }
 
@@ -38999,6 +43438,9 @@ class PivotTotalOptions {
   /// The scroll status (pinned, scrolled) for the total cells.
   final TableTotalsScrollStatus? scrollStatus;
 
+  /// The total aggregation options for each value field.
+  final List<TotalAggregationOption>? totalAggregationOptions;
+
   /// The cell styling options for the total cells.
   final TableCellStyle? totalCellStyle;
 
@@ -39013,6 +43455,7 @@ class PivotTotalOptions {
     this.metricHeaderCellStyle,
     this.placement,
     this.scrollStatus,
+    this.totalAggregationOptions,
     this.totalCellStyle,
     this.totalsVisibility,
     this.valueCellStyle,
@@ -39028,6 +43471,11 @@ class PivotTotalOptions {
       placement: (json['Placement'] as String?)?.toTableTotalsPlacement(),
       scrollStatus:
           (json['ScrollStatus'] as String?)?.toTableTotalsScrollStatus(),
+      totalAggregationOptions: (json['TotalAggregationOptions'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => TotalAggregationOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
       totalCellStyle: json['TotalCellStyle'] != null
           ? TableCellStyle.fromJson(
               json['TotalCellStyle'] as Map<String, dynamic>)
@@ -39045,6 +43493,7 @@ class PivotTotalOptions {
     final metricHeaderCellStyle = this.metricHeaderCellStyle;
     final placement = this.placement;
     final scrollStatus = this.scrollStatus;
+    final totalAggregationOptions = this.totalAggregationOptions;
     final totalCellStyle = this.totalCellStyle;
     final totalsVisibility = this.totalsVisibility;
     final valueCellStyle = this.valueCellStyle;
@@ -39054,6 +43503,8 @@ class PivotTotalOptions {
         'MetricHeaderCellStyle': metricHeaderCellStyle,
       if (placement != null) 'Placement': placement.toValue(),
       if (scrollStatus != null) 'ScrollStatus': scrollStatus.toValue(),
+      if (totalAggregationOptions != null)
+        'TotalAggregationOptions': totalAggregationOptions,
       if (totalCellStyle != null) 'TotalCellStyle': totalCellStyle,
       if (totalsVisibility != null)
         'TotalsVisibility': totalsVisibility.toValue(),
@@ -39327,6 +43778,34 @@ extension PropertyUsageFromString on String {
   }
 }
 
+enum PurchaseMode {
+  manual,
+  autoPurchase,
+}
+
+extension PurchaseModeValueExtension on PurchaseMode {
+  String toValue() {
+    switch (this) {
+      case PurchaseMode.manual:
+        return 'MANUAL';
+      case PurchaseMode.autoPurchase:
+        return 'AUTO_PURCHASE';
+    }
+  }
+}
+
+extension PurchaseModeFromString on String {
+  PurchaseMode toPurchaseMode() {
+    switch (this) {
+      case 'MANUAL':
+        return PurchaseMode.manual;
+      case 'AUTO_PURCHASE':
+        return PurchaseMode.autoPurchase;
+    }
+    throw Exception('$this is not known in enum PurchaseMode');
+  }
+}
+
 class PutDataSetRefreshPropertiesResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -39439,6 +43918,39 @@ class RadarChartAreaStyleSettings {
   }
 }
 
+enum RadarChartAxesRangeScale {
+  auto,
+  independent,
+  shared,
+}
+
+extension RadarChartAxesRangeScaleValueExtension on RadarChartAxesRangeScale {
+  String toValue() {
+    switch (this) {
+      case RadarChartAxesRangeScale.auto:
+        return 'AUTO';
+      case RadarChartAxesRangeScale.independent:
+        return 'INDEPENDENT';
+      case RadarChartAxesRangeScale.shared:
+        return 'SHARED';
+    }
+  }
+}
+
+extension RadarChartAxesRangeScaleFromString on String {
+  RadarChartAxesRangeScale toRadarChartAxesRangeScale() {
+    switch (this) {
+      case 'AUTO':
+        return RadarChartAxesRangeScale.auto;
+      case 'INDEPENDENT':
+        return RadarChartAxesRangeScale.independent;
+      case 'SHARED':
+        return RadarChartAxesRangeScale.shared;
+    }
+    throw Exception('$this is not known in enum RadarChartAxesRangeScale');
+  }
+}
+
 /// The configuration of a <code>RadarChartVisual</code>.
 class RadarChartConfiguration {
   /// Determines the visibility of the colors of alternatign bands in a radar
@@ -39450,6 +43962,9 @@ class RadarChartConfiguration {
 
   /// The color of the odd-numbered alternate bands of a radar chart.
   final String? alternateBandOddColor;
+
+  /// The axis behavior options of a radar chart.
+  final RadarChartAxesRangeScale? axesRangeScale;
 
   /// The base sreies settings of a radar chart.
   final RadarChartSeriesSettings? baseSeriesSettings;
@@ -39468,6 +43983,9 @@ class RadarChartConfiguration {
 
   /// The field well configuration of a <code>RadarChartVisual</code>.
   final RadarChartFieldWells? fieldWells;
+
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
 
   /// The legend display setup of the visual.
   final LegendOptions? legend;
@@ -39488,12 +44006,14 @@ class RadarChartConfiguration {
     this.alternateBandColorsVisibility,
     this.alternateBandEvenColor,
     this.alternateBandOddColor,
+    this.axesRangeScale,
     this.baseSeriesSettings,
     this.categoryAxis,
     this.categoryLabelOptions,
     this.colorAxis,
     this.colorLabelOptions,
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.shape,
     this.sortConfiguration,
@@ -39507,6 +44027,8 @@ class RadarChartConfiguration {
           (json['AlternateBandColorsVisibility'] as String?)?.toVisibility(),
       alternateBandEvenColor: json['AlternateBandEvenColor'] as String?,
       alternateBandOddColor: json['AlternateBandOddColor'] as String?,
+      axesRangeScale:
+          (json['AxesRangeScale'] as String?)?.toRadarChartAxesRangeScale(),
       baseSeriesSettings: json['BaseSeriesSettings'] != null
           ? RadarChartSeriesSettings.fromJson(
               json['BaseSeriesSettings'] as Map<String, dynamic>)
@@ -39531,6 +44053,10 @@ class RadarChartConfiguration {
           ? RadarChartFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
           : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
           : null,
@@ -39551,12 +44077,14 @@ class RadarChartConfiguration {
     final alternateBandColorsVisibility = this.alternateBandColorsVisibility;
     final alternateBandEvenColor = this.alternateBandEvenColor;
     final alternateBandOddColor = this.alternateBandOddColor;
+    final axesRangeScale = this.axesRangeScale;
     final baseSeriesSettings = this.baseSeriesSettings;
     final categoryAxis = this.categoryAxis;
     final categoryLabelOptions = this.categoryLabelOptions;
     final colorAxis = this.colorAxis;
     final colorLabelOptions = this.colorLabelOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final shape = this.shape;
     final sortConfiguration = this.sortConfiguration;
@@ -39570,6 +44098,7 @@ class RadarChartConfiguration {
         'AlternateBandEvenColor': alternateBandEvenColor,
       if (alternateBandOddColor != null)
         'AlternateBandOddColor': alternateBandOddColor,
+      if (axesRangeScale != null) 'AxesRangeScale': axesRangeScale.toValue(),
       if (baseSeriesSettings != null) 'BaseSeriesSettings': baseSeriesSettings,
       if (categoryAxis != null) 'CategoryAxis': categoryAxis,
       if (categoryLabelOptions != null)
@@ -39577,6 +44106,7 @@ class RadarChartConfiguration {
       if (colorAxis != null) 'ColorAxis': colorAxis,
       if (colorLabelOptions != null) 'ColorLabelOptions': colorLabelOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (shape != null) 'Shape': shape.toValue(),
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
@@ -39882,6 +44412,76 @@ class RdsParameters {
   }
 }
 
+/// A structure that grants Amazon QuickSight access to your cluster and make a
+/// call to the <code>redshift:GetClusterCredentials</code> API. For more
+/// information on the <code>redshift:GetClusterCredentials</code> API, see <a
+/// href="https://docs.aws.amazon.com/redshift/latest/APIReference/API_GetClusterCredentials.html">
+/// <code>GetClusterCredentials</code> </a>.
+class RedshiftIAMParameters {
+  /// Use the <code>RoleArn</code> structure to allow Amazon QuickSight to call
+  /// <code>redshift:GetClusterCredentials</code> on your cluster. The calling
+  /// principal must have <code>iam:PassRole</code> access to pass the role to
+  /// Amazon QuickSight. The role's trust policy must allow the Amazon QuickSight
+  /// service principal to assume the role.
+  final String roleArn;
+
+  /// Automatically creates a database user. If your database doesn't have a
+  /// <code>DatabaseUser</code>, set this parameter to <code>True</code>. If there
+  /// is no <code>DatabaseUser</code>, Amazon QuickSight can't connect to your
+  /// cluster. The <code>RoleArn</code> that you use for this operation must grant
+  /// access to <code>redshift:CreateClusterUser</code> to successfully create the
+  /// user.
+  final bool? autoCreateDatabaseUser;
+
+  /// A list of groups whose permissions will be granted to Amazon QuickSight to
+  /// access the cluster. These permissions are combined with the permissions
+  /// granted to Amazon QuickSight by the <code>DatabaseUser</code>. If you choose
+  /// to include this parameter, the <code>RoleArn</code> must grant access to
+  /// <code>redshift:JoinGroup</code>.
+  final List<String>? databaseGroups;
+
+  /// The user whose permissions and group memberships will be used by Amazon
+  /// QuickSight to access the cluster. If this user already exists in your
+  /// database, Amazon QuickSight is granted the same permissions that the user
+  /// has. If the user doesn't exist, set the value of
+  /// <code>AutoCreateDatabaseUser</code> to <code>True</code> to create a new
+  /// user with PUBLIC permissions.
+  final String? databaseUser;
+
+  RedshiftIAMParameters({
+    required this.roleArn,
+    this.autoCreateDatabaseUser,
+    this.databaseGroups,
+    this.databaseUser,
+  });
+
+  factory RedshiftIAMParameters.fromJson(Map<String, dynamic> json) {
+    return RedshiftIAMParameters(
+      roleArn: json['RoleArn'] as String,
+      autoCreateDatabaseUser: json['AutoCreateDatabaseUser'] as bool?,
+      databaseGroups: (json['DatabaseGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      databaseUser: json['DatabaseUser'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final autoCreateDatabaseUser = this.autoCreateDatabaseUser;
+    final databaseGroups = this.databaseGroups;
+    final databaseUser = this.databaseUser;
+    return {
+      'RoleArn': roleArn,
+      if (autoCreateDatabaseUser != null)
+        'AutoCreateDatabaseUser': autoCreateDatabaseUser,
+      if (databaseGroups != null) 'DatabaseGroups': databaseGroups,
+      if (databaseUser != null) 'DatabaseUser': databaseUser,
+    };
+  }
+}
+
 /// The parameters for Amazon Redshift. The <code>ClusterId</code> field can be
 /// blank if <code>Host</code> and <code>Port</code> are both set. The
 /// <code>Host</code> and <code>Port</code> fields can be blank if the
@@ -39897,6 +44497,18 @@ class RedshiftParameters {
   /// Host. This field can be blank if <code>ClusterId</code> is provided.
   final String? host;
 
+  /// An optional parameter that uses IAM authentication to grant Amazon
+  /// QuickSight access to your cluster. This parameter can be used instead of <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DataSourceCredentials.html">DataSourceCredentials</a>.
+  final RedshiftIAMParameters? iAMParameters;
+
+  /// An optional parameter that configures IAM Identity Center authentication to
+  /// grant Amazon QuickSight access to your cluster.
+  ///
+  /// This parameter can only be specified if your Amazon QuickSight account is
+  /// configured with IAM Identity Center.
+  final IdentityCenterConfiguration? identityCenterConfiguration;
+
   /// Port. This field can be blank if the <code>ClusterId</code> is provided.
   final int? port;
 
@@ -39904,6 +44516,8 @@ class RedshiftParameters {
     required this.database,
     this.clusterId,
     this.host,
+    this.iAMParameters,
+    this.identityCenterConfiguration,
     this.port,
   });
 
@@ -39912,6 +44526,14 @@ class RedshiftParameters {
       database: json['Database'] as String,
       clusterId: json['ClusterId'] as String?,
       host: json['Host'] as String?,
+      iAMParameters: json['IAMParameters'] != null
+          ? RedshiftIAMParameters.fromJson(
+              json['IAMParameters'] as Map<String, dynamic>)
+          : null,
+      identityCenterConfiguration: json['IdentityCenterConfiguration'] != null
+          ? IdentityCenterConfiguration.fromJson(
+              json['IdentityCenterConfiguration'] as Map<String, dynamic>)
+          : null,
       port: json['Port'] as int?,
     );
   }
@@ -39920,11 +44542,16 @@ class RedshiftParameters {
     final database = this.database;
     final clusterId = this.clusterId;
     final host = this.host;
+    final iAMParameters = this.iAMParameters;
+    final identityCenterConfiguration = this.identityCenterConfiguration;
     final port = this.port;
     return {
       'Database': database,
       if (clusterId != null) 'ClusterId': clusterId,
       if (host != null) 'Host': host,
+      if (iAMParameters != null) 'IAMParameters': iAMParameters,
+      if (identityCenterConfiguration != null)
+        'IdentityCenterConfiguration': identityCenterConfiguration,
       if (port != null) 'Port': port,
     };
   }
@@ -40021,10 +44648,10 @@ class ReferenceLineDataConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// PrimaryY
+  /// <code>PrimaryY</code>
   /// </li>
   /// <li>
-  /// SecondaryY
+  /// <code>SecondaryY</code>
   /// </li>
   /// </ul>
   final AxisBinding? axisBinding;
@@ -40032,12 +44659,26 @@ class ReferenceLineDataConfiguration {
   /// The dynamic configuration of the reference line data configuration.
   final ReferenceLineDynamicDataConfiguration? dynamicConfiguration;
 
+  /// The series type of the reference line data configuration. Choose one of the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BAR</code>
+  /// </li>
+  /// <li>
+  /// <code>LINE</code>
+  /// </li>
+  /// </ul>
+  final ReferenceLineSeriesType? seriesType;
+
   /// The static data configuration of the reference line data configuration.
   final ReferenceLineStaticDataConfiguration? staticConfiguration;
 
   ReferenceLineDataConfiguration({
     this.axisBinding,
     this.dynamicConfiguration,
+    this.seriesType,
     this.staticConfiguration,
   });
 
@@ -40048,6 +44689,7 @@ class ReferenceLineDataConfiguration {
           ? ReferenceLineDynamicDataConfiguration.fromJson(
               json['DynamicConfiguration'] as Map<String, dynamic>)
           : null,
+      seriesType: (json['SeriesType'] as String?)?.toReferenceLineSeriesType(),
       staticConfiguration: json['StaticConfiguration'] != null
           ? ReferenceLineStaticDataConfiguration.fromJson(
               json['StaticConfiguration'] as Map<String, dynamic>)
@@ -40058,11 +44700,13 @@ class ReferenceLineDataConfiguration {
   Map<String, dynamic> toJson() {
     final axisBinding = this.axisBinding;
     final dynamicConfiguration = this.dynamicConfiguration;
+    final seriesType = this.seriesType;
     final staticConfiguration = this.staticConfiguration;
     return {
       if (axisBinding != null) 'AxisBinding': axisBinding.toValue(),
       if (dynamicConfiguration != null)
         'DynamicConfiguration': dynamicConfiguration,
+      if (seriesType != null) 'SeriesType': seriesType.toValue(),
       if (staticConfiguration != null)
         'StaticConfiguration': staticConfiguration,
     };
@@ -40304,6 +44948,34 @@ extension ReferenceLinePatternTypeFromString on String {
         return ReferenceLinePatternType.dotted;
     }
     throw Exception('$this is not known in enum ReferenceLinePatternType');
+  }
+}
+
+enum ReferenceLineSeriesType {
+  bar,
+  line,
+}
+
+extension ReferenceLineSeriesTypeValueExtension on ReferenceLineSeriesType {
+  String toValue() {
+    switch (this) {
+      case ReferenceLineSeriesType.bar:
+        return 'BAR';
+      case ReferenceLineSeriesType.line:
+        return 'LINE';
+    }
+  }
+}
+
+extension ReferenceLineSeriesTypeFromString on String {
+  ReferenceLineSeriesType toReferenceLineSeriesType() {
+    switch (this) {
+      case 'BAR':
+        return ReferenceLineSeriesType.bar;
+      case 'LINE':
+        return ReferenceLineSeriesType.line;
+    }
+    throw Exception('$this is not known in enum ReferenceLineSeriesType');
   }
 }
 
@@ -40702,6 +45374,49 @@ class RegisterUserResponse {
   }
 }
 
+/// A customer managed key structure that contains the information listed below:
+///
+/// <ul>
+/// <li>
+/// <code>KeyArn</code> - The ARN of a KMS key that is registered to a Amazon
+/// QuickSight account for encryption and decryption use.
+/// </li>
+/// <li>
+/// <code>DefaultKey</code> - Indicates whether the current key is set as the
+/// default key for encryption and decryption use.
+/// </li>
+/// </ul>
+class RegisteredCustomerManagedKey {
+  /// Indicates whether a <code>RegisteredCustomerManagedKey</code> is set as the
+  /// default key for encryption and decryption use.
+  final bool? defaultKey;
+
+  /// The ARN of the KMS key that is registered to a Amazon QuickSight account for
+  /// encryption and decryption use.
+  final String? keyArn;
+
+  RegisteredCustomerManagedKey({
+    this.defaultKey,
+    this.keyArn,
+  });
+
+  factory RegisteredCustomerManagedKey.fromJson(Map<String, dynamic> json) {
+    return RegisteredCustomerManagedKey(
+      defaultKey: json['DefaultKey'] as bool?,
+      keyArn: json['KeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultKey = this.defaultKey;
+    final keyArn = this.keyArn;
+    return {
+      if (defaultKey != null) 'DefaultKey': defaultKey,
+      if (keyArn != null) 'KeyArn': keyArn,
+    };
+  }
+}
+
 /// The feature configurations of an embedded Amazon QuickSight console.
 class RegisteredUserConsoleFeatureConfigurations {
   /// The state persistence configurations of an embedded Amazon QuickSight
@@ -40812,6 +45527,14 @@ class RegisteredUserEmbeddingExperienceConfiguration {
   /// The type of embedding experience. In this case, Amazon QuickSight visuals.
   final RegisteredUserDashboardVisualEmbeddingConfiguration? dashboardVisual;
 
+  /// The configuration details for embedding the Generative Q&amp;A experience.
+  ///
+  /// For more information about embedding the Generative Q&amp;A experience, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html">Embedding
+  /// Overview</a> in the <i>Amazon QuickSight User Guide</i>.
+  final RegisteredUserGenerativeQnAEmbeddingConfiguration? generativeQnA;
+
   /// The configuration details for embedding the Q search bar.
   ///
   /// For more information about embedding the Q search bar, see <a
@@ -40864,6 +45587,7 @@ class RegisteredUserEmbeddingExperienceConfiguration {
   RegisteredUserEmbeddingExperienceConfiguration({
     this.dashboard,
     this.dashboardVisual,
+    this.generativeQnA,
     this.qSearchBar,
     this.quickSightConsole,
   });
@@ -40871,28 +45595,60 @@ class RegisteredUserEmbeddingExperienceConfiguration {
   Map<String, dynamic> toJson() {
     final dashboard = this.dashboard;
     final dashboardVisual = this.dashboardVisual;
+    final generativeQnA = this.generativeQnA;
     final qSearchBar = this.qSearchBar;
     final quickSightConsole = this.quickSightConsole;
     return {
       if (dashboard != null) 'Dashboard': dashboard,
       if (dashboardVisual != null) 'DashboardVisual': dashboardVisual,
+      if (generativeQnA != null) 'GenerativeQnA': generativeQnA,
       if (qSearchBar != null) 'QSearchBar': qSearchBar,
       if (quickSightConsole != null) 'QuickSightConsole': quickSightConsole,
     };
   }
 }
 
+/// An object that provides information about the configuration of a Generative
+/// Q&amp;A experience.
+class RegisteredUserGenerativeQnAEmbeddingConfiguration {
+  /// The ID of the new Q reader experience topic that you want to make the
+  /// starting topic in the Generative Q&amp;A experience. You can find a topic ID
+  /// by navigating to the Topics pane in the Amazon QuickSight application and
+  /// opening a topic. The ID is in the URL for the topic that you open.
+  ///
+  /// If you don't specify an initial topic or you specify a legacy topic, a list
+  /// of all shared new reader experience topics is shown in the Generative
+  /// Q&amp;A experience for your readers. When you select an initial new reader
+  /// experience topic, you can specify whether or not readers are allowed to
+  /// select other new reader experience topics from the available ones in the
+  /// list.
+  final String? initialTopicId;
+
+  RegisteredUserGenerativeQnAEmbeddingConfiguration({
+    this.initialTopicId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final initialTopicId = this.initialTopicId;
+    return {
+      if (initialTopicId != null) 'InitialTopicId': initialTopicId,
+    };
+  }
+}
+
 /// Information about the Q search bar embedding experience.
 class RegisteredUserQSearchBarEmbeddingConfiguration {
-  /// The ID of the Q topic that you want to make the starting topic in the Q
-  /// search bar. You can find a topic ID by navigating to the Topics pane in the
-  /// Amazon QuickSight application and opening a topic. The ID is in the URL for
-  /// the topic that you open.
+  /// The ID of the legacy Q topic that you want to use as the starting topic in
+  /// the Q search bar. To locate the topic ID of the topic that you want to use,
+  /// open the <a href="https://quicksight.aws.amazon.com/">Amazon QuickSight
+  /// console</a>, navigate to the <b>Topics</b> pane, and choose thre topic that
+  /// you want to use. The <code>TopicID</code> is located in the URL of the topic
+  /// that opens. When you select an initial topic, you can specify whether or not
+  /// readers are allowed to select other topics from the list of available
+  /// topics.
   ///
-  /// If you don't specify an initial topic, a list of all shared topics is shown
-  /// in the Q bar for your readers. When you select an initial topic, you can
-  /// specify whether or not readers are allowed to select other topics from the
-  /// available ones in the list.
+  /// If you don't specify an initial topic or if you specify a new reader
+  /// experience topic, a list of all shared legacy topics is shown in the Q bar.
   final String? initialTopicId;
 
   RegisteredUserQSearchBarEmbeddingConfiguration({
@@ -41016,11 +45772,15 @@ class RelativeDateTimeControlDisplayOptions {
   /// Customize how dates are formatted in controls.
   final String? dateTimeFormat;
 
+  /// The configuration of info icon label options.
+  final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
+
   /// The options to configure the title visibility, name, and font size.
   final LabelOptions? titleOptions;
 
   RelativeDateTimeControlDisplayOptions({
     this.dateTimeFormat,
+    this.infoIconLabelOptions,
     this.titleOptions,
   });
 
@@ -41028,6 +45788,10 @@ class RelativeDateTimeControlDisplayOptions {
       Map<String, dynamic> json) {
     return RelativeDateTimeControlDisplayOptions(
       dateTimeFormat: json['DateTimeFormat'] as String?,
+      infoIconLabelOptions: json['InfoIconLabelOptions'] != null
+          ? SheetControlInfoIconLabelOptions.fromJson(
+              json['InfoIconLabelOptions'] as Map<String, dynamic>)
+          : null,
       titleOptions: json['TitleOptions'] != null
           ? LabelOptions.fromJson(json['TitleOptions'] as Map<String, dynamic>)
           : null,
@@ -41036,9 +45800,12 @@ class RelativeDateTimeControlDisplayOptions {
 
   Map<String, dynamic> toJson() {
     final dateTimeFormat = this.dateTimeFormat;
+    final infoIconLabelOptions = this.infoIconLabelOptions;
     final titleOptions = this.titleOptions;
     return {
       if (dateTimeFormat != null) 'DateTimeFormat': dateTimeFormat,
+      if (infoIconLabelOptions != null)
+        'InfoIconLabelOptions': infoIconLabelOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
     };
   }
@@ -41140,6 +45907,10 @@ class RelativeDatesFilter {
   /// values.
   final TimeGranularity timeGranularity;
 
+  /// The default configurations for the associated controls. This applies only
+  /// for filters that are scoped to multiple sheets.
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
   /// The configuration for the exclude period of the filter.
   final ExcludePeriodConfiguration? excludePeriodConfiguration;
 
@@ -41159,6 +45930,7 @@ class RelativeDatesFilter {
     required this.nullOption,
     required this.relativeDateType,
     required this.timeGranularity,
+    this.defaultFilterControlConfiguration,
     this.excludePeriodConfiguration,
     this.minimumGranularity,
     this.parameterName,
@@ -41175,6 +45947,12 @@ class RelativeDatesFilter {
       relativeDateType:
           (json['RelativeDateType'] as String).toRelativeDateType(),
       timeGranularity: (json['TimeGranularity'] as String).toTimeGranularity(),
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       excludePeriodConfiguration: json['ExcludePeriodConfiguration'] != null
           ? ExcludePeriodConfiguration.fromJson(
               json['ExcludePeriodConfiguration'] as Map<String, dynamic>)
@@ -41193,6 +45971,8 @@ class RelativeDatesFilter {
     final nullOption = this.nullOption;
     final relativeDateType = this.relativeDateType;
     final timeGranularity = this.timeGranularity;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
     final excludePeriodConfiguration = this.excludePeriodConfiguration;
     final minimumGranularity = this.minimumGranularity;
     final parameterName = this.parameterName;
@@ -41204,6 +45984,8 @@ class RelativeDatesFilter {
       'NullOption': nullOption.toValue(),
       'RelativeDateType': relativeDateType.toValue(),
       'TimeGranularity': timeGranularity.toValue(),
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (excludePeriodConfiguration != null)
         'ExcludePeriodConfiguration': excludePeriodConfiguration,
       if (minimumGranularity != null)
@@ -41448,6 +46230,54 @@ class RestoreAnalysisResponse {
   }
 }
 
+enum Role {
+  admin,
+  author,
+  reader,
+  adminPro,
+  authorPro,
+  readerPro,
+}
+
+extension RoleValueExtension on Role {
+  String toValue() {
+    switch (this) {
+      case Role.admin:
+        return 'ADMIN';
+      case Role.author:
+        return 'AUTHOR';
+      case Role.reader:
+        return 'READER';
+      case Role.adminPro:
+        return 'ADMIN_PRO';
+      case Role.authorPro:
+        return 'AUTHOR_PRO';
+      case Role.readerPro:
+        return 'READER_PRO';
+    }
+  }
+}
+
+extension RoleFromString on String {
+  Role toRole() {
+    switch (this) {
+      case 'ADMIN':
+        return Role.admin;
+      case 'AUTHOR':
+        return Role.author;
+      case 'READER':
+        return Role.reader;
+      case 'ADMIN_PRO':
+        return Role.adminPro;
+      case 'AUTHOR_PRO':
+        return Role.authorPro;
+      case 'READER_PRO':
+        return Role.readerPro;
+    }
+    throw Exception('$this is not known in enum Role');
+  }
+}
+
 /// The rolling date configuration of a date time filter.
 class RollingDateConfiguration {
   /// The expression of the rolling date configuration.
@@ -41486,9 +46316,13 @@ class RowAlternateColorOptions {
   /// Determines the widget status.
   final WidgetStatus? status;
 
+  /// The primary background color options for alternate rows.
+  final WidgetStatus? usePrimaryBackgroundColor;
+
   RowAlternateColorOptions({
     this.rowAlternateColors,
     this.status,
+    this.usePrimaryBackgroundColor,
   });
 
   factory RowAlternateColorOptions.fromJson(Map<String, dynamic> json) {
@@ -41498,15 +46332,20 @@ class RowAlternateColorOptions {
           .map((e) => e as String)
           .toList(),
       status: (json['Status'] as String?)?.toWidgetStatus(),
+      usePrimaryBackgroundColor:
+          (json['UsePrimaryBackgroundColor'] as String?)?.toWidgetStatus(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final rowAlternateColors = this.rowAlternateColors;
     final status = this.status;
+    final usePrimaryBackgroundColor = this.usePrimaryBackgroundColor;
     return {
       if (rowAlternateColors != null) 'RowAlternateColors': rowAlternateColors,
       if (status != null) 'Status': status.toValue(),
+      if (usePrimaryBackgroundColor != null)
+        'UsePrimaryBackgroundColor': usePrimaryBackgroundColor.toValue(),
     };
   }
 }
@@ -41767,6 +46606,50 @@ class RowLevelPermissionTagRule {
   }
 }
 
+/// An optional structure that contains the Amazon S3 bucket configuration that
+/// the generated snapshots are stored in. If you don't provide this
+/// information, generated snapshots are stored in the default Amazon QuickSight
+/// bucket.
+class S3BucketConfiguration {
+  /// The name of an existing Amazon S3 bucket where the generated snapshot
+  /// artifacts are sent.
+  final String bucketName;
+
+  /// The prefix of the Amazon S3 bucket that the generated snapshots are stored
+  /// in.
+  final String bucketPrefix;
+
+  /// The region that the Amazon S3 bucket is located in. The bucket must be
+  /// located in the same region that the <code>StartDashboardSnapshotJob</code>
+  /// API call is made.
+  final String bucketRegion;
+
+  S3BucketConfiguration({
+    required this.bucketName,
+    required this.bucketPrefix,
+    required this.bucketRegion,
+  });
+
+  factory S3BucketConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3BucketConfiguration(
+      bucketName: json['BucketName'] as String,
+      bucketPrefix: json['BucketPrefix'] as String,
+      bucketRegion: json['BucketRegion'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketPrefix = this.bucketPrefix;
+    final bucketRegion = this.bucketRegion;
+    return {
+      'BucketName': bucketName,
+      'BucketPrefix': bucketPrefix,
+      'BucketRegion': bucketRegion,
+    };
+  }
+}
+
 /// The parameters for S3.
 class S3Parameters {
   /// Location of the Amazon S3 manifest file. This is NULL if the manifest file
@@ -41956,12 +46839,16 @@ class SankeyDiagramChartConfiguration {
   /// The field well configuration of a sankey diagram.
   final SankeyDiagramFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The sort configuration of a sankey diagram.
   final SankeyDiagramSortConfiguration? sortConfiguration;
 
   SankeyDiagramChartConfiguration({
     this.dataLabels,
     this.fieldWells,
+    this.interactions,
     this.sortConfiguration,
   });
 
@@ -41975,6 +46862,10 @@ class SankeyDiagramChartConfiguration {
           ? SankeyDiagramFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
           : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
       sortConfiguration: json['SortConfiguration'] != null
           ? SankeyDiagramSortConfiguration.fromJson(
               json['SortConfiguration'] as Map<String, dynamic>)
@@ -41985,10 +46876,12 @@ class SankeyDiagramChartConfiguration {
   Map<String, dynamic> toJson() {
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final sortConfiguration = this.sortConfiguration;
     return {
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
     };
   }
@@ -42221,8 +47114,14 @@ class ScatterPlotConfiguration {
   /// The field wells of the visual.
   final ScatterPlotFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
+
+  /// The sort configuration of a scatter plot.
+  final ScatterPlotSortConfiguration? sortConfiguration;
 
   /// The legend display setup of the visual.
   final TooltipOptions? tooltip;
@@ -42249,7 +47148,9 @@ class ScatterPlotConfiguration {
   ScatterPlotConfiguration({
     this.dataLabels,
     this.fieldWells,
+    this.interactions,
     this.legend,
+    this.sortConfiguration,
     this.tooltip,
     this.visualPalette,
     this.xAxisDisplayOptions,
@@ -42268,8 +47169,16 @@ class ScatterPlotConfiguration {
           ? ScatterPlotFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
           : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
+          : null,
+      sortConfiguration: json['SortConfiguration'] != null
+          ? ScatterPlotSortConfiguration.fromJson(
+              json['SortConfiguration'] as Map<String, dynamic>)
           : null,
       tooltip: json['Tooltip'] != null
           ? TooltipOptions.fromJson(json['Tooltip'] as Map<String, dynamic>)
@@ -42300,7 +47209,9 @@ class ScatterPlotConfiguration {
   Map<String, dynamic> toJson() {
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
+    final sortConfiguration = this.sortConfiguration;
     final tooltip = this.tooltip;
     final visualPalette = this.visualPalette;
     final xAxisDisplayOptions = this.xAxisDisplayOptions;
@@ -42310,7 +47221,9 @@ class ScatterPlotConfiguration {
     return {
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
+      if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
       if (tooltip != null) 'Tooltip': tooltip,
       if (visualPalette != null) 'VisualPalette': visualPalette,
       if (xAxisDisplayOptions != null)
@@ -42371,6 +47284,33 @@ class ScatterPlotFieldWells {
             scatterPlotCategoricallyAggregatedFieldWells,
       if (scatterPlotUnaggregatedFieldWells != null)
         'ScatterPlotUnaggregatedFieldWells': scatterPlotUnaggregatedFieldWells,
+    };
+  }
+}
+
+/// The sort configuration of a scatter plot.
+class ScatterPlotSortConfiguration {
+  final ItemsLimitConfiguration? scatterPlotLimitConfiguration;
+
+  ScatterPlotSortConfiguration({
+    this.scatterPlotLimitConfiguration,
+  });
+
+  factory ScatterPlotSortConfiguration.fromJson(Map<String, dynamic> json) {
+    return ScatterPlotSortConfiguration(
+      scatterPlotLimitConfiguration:
+          json['ScatterPlotLimitConfiguration'] != null
+              ? ItemsLimitConfiguration.fromJson(
+                  json['ScatterPlotLimitConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scatterPlotLimitConfiguration = this.scatterPlotLimitConfiguration;
+    return {
+      if (scatterPlotLimitConfiguration != null)
+        'ScatterPlotLimitConfiguration': scatterPlotLimitConfiguration,
     };
   }
 }
@@ -43377,6 +48317,29 @@ class ServiceNowParameters {
   }
 }
 
+enum ServiceType {
+  redshift,
+}
+
+extension ServiceTypeValueExtension on ServiceType {
+  String toValue() {
+    switch (this) {
+      case ServiceType.redshift:
+        return 'REDSHIFT';
+    }
+  }
+}
+
+extension ServiceTypeFromString on String {
+  ServiceType toServiceType() {
+    switch (this) {
+      case 'REDSHIFT':
+        return ServiceType.redshift;
+    }
+    throw Exception('$this is not known in enum ServiceType');
+  }
+}
+
 /// The key-value pair used for the row-level security tags feature.
 class SessionTag {
   /// The key for the tag.
@@ -43452,6 +48415,34 @@ class ShapeConditionalFormat {
     return {
       'BackgroundColor': backgroundColor,
     };
+  }
+}
+
+enum SharingModel {
+  account,
+  namespace,
+}
+
+extension SharingModelValueExtension on SharingModel {
+  String toValue() {
+    switch (this) {
+      case SharingModel.account:
+        return 'ACCOUNT';
+      case SharingModel.namespace:
+        return 'NAMESPACE';
+    }
+  }
+}
+
+extension SharingModelFromString on String {
+  SharingModel toSharingModel() {
+    switch (this) {
+      case 'ACCOUNT':
+        return SharingModel.account;
+      case 'NAMESPACE':
+        return SharingModel.namespace;
+    }
+    throw Exception('$this is not known in enum SharingModel');
   }
 }
 
@@ -43537,6 +48528,36 @@ extension SheetControlDateTimePickerTypeFromString on String {
     }
     throw Exception(
         '$this is not known in enum SheetControlDateTimePickerType');
+  }
+}
+
+/// A control to display info icons for filters and parameters.
+class SheetControlInfoIconLabelOptions {
+  /// The text content of info icon.
+  final String? infoIconText;
+
+  /// The visibility configuration of info icon label options.
+  final Visibility? visibility;
+
+  SheetControlInfoIconLabelOptions({
+    this.infoIconText,
+    this.visibility,
+  });
+
+  factory SheetControlInfoIconLabelOptions.fromJson(Map<String, dynamic> json) {
+    return SheetControlInfoIconLabelOptions(
+      infoIconText: json['InfoIconText'] as String?,
+      visibility: (json['Visibility'] as String?)?.toVisibility(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final infoIconText = this.infoIconText;
+    final visibility = this.visibility;
+    return {
+      if (infoIconText != null) 'InfoIconText': infoIconText,
+      if (visibility != null) 'Visibility': visibility.toValue(),
+    };
   }
 }
 
@@ -44086,6 +49107,31 @@ class SignupResponse {
   }
 }
 
+enum SimpleAttributeAggregationFunction {
+  uniqueValue,
+}
+
+extension SimpleAttributeAggregationFunctionValueExtension
+    on SimpleAttributeAggregationFunction {
+  String toValue() {
+    switch (this) {
+      case SimpleAttributeAggregationFunction.uniqueValue:
+        return 'UNIQUE_VALUE';
+    }
+  }
+}
+
+extension SimpleAttributeAggregationFunctionFromString on String {
+  SimpleAttributeAggregationFunction toSimpleAttributeAggregationFunction() {
+    switch (this) {
+      case 'UNIQUE_VALUE':
+        return SimpleAttributeAggregationFunction.uniqueValue;
+    }
+    throw Exception(
+        '$this is not known in enum SimpleAttributeAggregationFunction');
+  }
+}
+
 /// The simple cluster marker of the cluster marker.
 class SimpleClusterMarker {
   /// The color of the simple cluster marker.
@@ -44184,17 +49230,123 @@ extension SimpleNumericalAggregationFunctionFromString on String {
   }
 }
 
+enum SimpleTotalAggregationFunction {
+  $default,
+  sum,
+  average,
+  min,
+  max,
+  none,
+}
+
+extension SimpleTotalAggregationFunctionValueExtension
+    on SimpleTotalAggregationFunction {
+  String toValue() {
+    switch (this) {
+      case SimpleTotalAggregationFunction.$default:
+        return 'DEFAULT';
+      case SimpleTotalAggregationFunction.sum:
+        return 'SUM';
+      case SimpleTotalAggregationFunction.average:
+        return 'AVERAGE';
+      case SimpleTotalAggregationFunction.min:
+        return 'MIN';
+      case SimpleTotalAggregationFunction.max:
+        return 'MAX';
+      case SimpleTotalAggregationFunction.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension SimpleTotalAggregationFunctionFromString on String {
+  SimpleTotalAggregationFunction toSimpleTotalAggregationFunction() {
+    switch (this) {
+      case 'DEFAULT':
+        return SimpleTotalAggregationFunction.$default;
+      case 'SUM':
+        return SimpleTotalAggregationFunction.sum;
+      case 'AVERAGE':
+        return SimpleTotalAggregationFunction.average;
+      case 'MIN':
+        return SimpleTotalAggregationFunction.min;
+      case 'MAX':
+        return SimpleTotalAggregationFunction.max;
+      case 'NONE':
+        return SimpleTotalAggregationFunction.none;
+    }
+    throw Exception(
+        '$this is not known in enum SimpleTotalAggregationFunction');
+  }
+}
+
+/// The settings of a chart's single axis configuration.
+class SingleAxisOptions {
+  /// The Y axis options of a single axis configuration.
+  final YAxisOptions? yAxisOptions;
+
+  SingleAxisOptions({
+    this.yAxisOptions,
+  });
+
+  factory SingleAxisOptions.fromJson(Map<String, dynamic> json) {
+    return SingleAxisOptions(
+      yAxisOptions: json['YAxisOptions'] != null
+          ? YAxisOptions.fromJson(json['YAxisOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final yAxisOptions = this.yAxisOptions;
+    return {
+      if (yAxisOptions != null) 'YAxisOptions': yAxisOptions,
+    };
+  }
+}
+
+enum SingleYAxisOption {
+  primaryYAxis,
+}
+
+extension SingleYAxisOptionValueExtension on SingleYAxisOption {
+  String toValue() {
+    switch (this) {
+      case SingleYAxisOption.primaryYAxis:
+        return 'PRIMARY_Y_AXIS';
+    }
+  }
+}
+
+extension SingleYAxisOptionFromString on String {
+  SingleYAxisOption toSingleYAxisOption() {
+    switch (this) {
+      case 'PRIMARY_Y_AXIS':
+        return SingleYAxisOption.primaryYAxis;
+    }
+    throw Exception('$this is not known in enum SingleYAxisOption');
+  }
+}
+
 /// The display options of a control.
 class SliderControlDisplayOptions {
+  /// The configuration of info icon label options.
+  final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
+
   /// The options to configure the title visibility, name, and font size.
   final LabelOptions? titleOptions;
 
   SliderControlDisplayOptions({
+    this.infoIconLabelOptions,
     this.titleOptions,
   });
 
   factory SliderControlDisplayOptions.fromJson(Map<String, dynamic> json) {
     return SliderControlDisplayOptions(
+      infoIconLabelOptions: json['InfoIconLabelOptions'] != null
+          ? SheetControlInfoIconLabelOptions.fromJson(
+              json['InfoIconLabelOptions'] as Map<String, dynamic>)
+          : null,
       titleOptions: json['TitleOptions'] != null
           ? LabelOptions.fromJson(json['TitleOptions'] as Map<String, dynamic>)
           : null,
@@ -44202,10 +49354,105 @@ class SliderControlDisplayOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final infoIconLabelOptions = this.infoIconLabelOptions;
     final titleOptions = this.titleOptions;
     return {
+      if (infoIconLabelOptions != null)
+        'InfoIconLabelOptions': infoIconLabelOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
     };
+  }
+}
+
+enum SmallMultiplesAxisPlacement {
+  outside,
+  inside,
+}
+
+extension SmallMultiplesAxisPlacementValueExtension
+    on SmallMultiplesAxisPlacement {
+  String toValue() {
+    switch (this) {
+      case SmallMultiplesAxisPlacement.outside:
+        return 'OUTSIDE';
+      case SmallMultiplesAxisPlacement.inside:
+        return 'INSIDE';
+    }
+  }
+}
+
+extension SmallMultiplesAxisPlacementFromString on String {
+  SmallMultiplesAxisPlacement toSmallMultiplesAxisPlacement() {
+    switch (this) {
+      case 'OUTSIDE':
+        return SmallMultiplesAxisPlacement.outside;
+      case 'INSIDE':
+        return SmallMultiplesAxisPlacement.inside;
+    }
+    throw Exception('$this is not known in enum SmallMultiplesAxisPlacement');
+  }
+}
+
+/// Configures the properties of a chart's axes that are used by small multiples
+/// panels.
+class SmallMultiplesAxisProperties {
+  /// Defines the placement of the axis. By default, axes are rendered
+  /// <code>OUTSIDE</code> of the panels. Axes with <code>INDEPENDENT</code> scale
+  /// are rendered <code>INSIDE</code> the panels.
+  final SmallMultiplesAxisPlacement? placement;
+
+  /// Determines whether scale of the axes are shared or independent. The default
+  /// value is <code>SHARED</code>.
+  final SmallMultiplesAxisScale? scale;
+
+  SmallMultiplesAxisProperties({
+    this.placement,
+    this.scale,
+  });
+
+  factory SmallMultiplesAxisProperties.fromJson(Map<String, dynamic> json) {
+    return SmallMultiplesAxisProperties(
+      placement:
+          (json['Placement'] as String?)?.toSmallMultiplesAxisPlacement(),
+      scale: (json['Scale'] as String?)?.toSmallMultiplesAxisScale(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final placement = this.placement;
+    final scale = this.scale;
+    return {
+      if (placement != null) 'Placement': placement.toValue(),
+      if (scale != null) 'Scale': scale.toValue(),
+    };
+  }
+}
+
+enum SmallMultiplesAxisScale {
+  shared,
+  independent,
+}
+
+extension SmallMultiplesAxisScaleValueExtension on SmallMultiplesAxisScale {
+  String toValue() {
+    switch (this) {
+      case SmallMultiplesAxisScale.shared:
+        return 'SHARED';
+      case SmallMultiplesAxisScale.independent:
+        return 'INDEPENDENT';
+    }
+  }
+}
+
+extension SmallMultiplesAxisScaleFromString on String {
+  SmallMultiplesAxisScale toSmallMultiplesAxisScale() {
+    switch (this) {
+      case 'SHARED':
+        return SmallMultiplesAxisScale.shared;
+      case 'INDEPENDENT':
+        return SmallMultiplesAxisScale.independent;
+    }
+    throw Exception('$this is not known in enum SmallMultiplesAxisScale');
   }
 }
 
@@ -44229,10 +49476,18 @@ class SmallMultiplesOptions {
   /// Configures the display options for each small multiples panel.
   final PanelConfiguration? panelConfiguration;
 
+  /// The properties of a small multiples X axis.
+  final SmallMultiplesAxisProperties? xAxis;
+
+  /// The properties of a small multiples Y axis.
+  final SmallMultiplesAxisProperties? yAxis;
+
   SmallMultiplesOptions({
     this.maxVisibleColumns,
     this.maxVisibleRows,
     this.panelConfiguration,
+    this.xAxis,
+    this.yAxis,
   });
 
   factory SmallMultiplesOptions.fromJson(Map<String, dynamic> json) {
@@ -44243,6 +49498,14 @@ class SmallMultiplesOptions {
           ? PanelConfiguration.fromJson(
               json['PanelConfiguration'] as Map<String, dynamic>)
           : null,
+      xAxis: json['XAxis'] != null
+          ? SmallMultiplesAxisProperties.fromJson(
+              json['XAxis'] as Map<String, dynamic>)
+          : null,
+      yAxis: json['YAxis'] != null
+          ? SmallMultiplesAxisProperties.fromJson(
+              json['YAxis'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -44250,11 +49513,573 @@ class SmallMultiplesOptions {
     final maxVisibleColumns = this.maxVisibleColumns;
     final maxVisibleRows = this.maxVisibleRows;
     final panelConfiguration = this.panelConfiguration;
+    final xAxis = this.xAxis;
+    final yAxis = this.yAxis;
     return {
       if (maxVisibleColumns != null) 'MaxVisibleColumns': maxVisibleColumns,
       if (maxVisibleRows != null) 'MaxVisibleRows': maxVisibleRows,
       if (panelConfiguration != null) 'PanelConfiguration': panelConfiguration,
+      if (xAxis != null) 'XAxis': xAxis,
+      if (yAxis != null) 'YAxis': yAxis,
     };
+  }
+}
+
+/// A structure that contains information on the anonymous user configuration.
+class SnapshotAnonymousUser {
+  /// The tags to be used for row-level security (RLS). Make sure that the
+  /// relevant datasets have RLS tags configured before you start a snapshot
+  /// export job. You can configure the RLS tags of a dataset with a
+  /// <code>DataSet$RowLevelPermissionTagConfiguration</code> API call.
+  ///
+  /// These are not the tags that are used for Amazon Web Services resource
+  /// tagging. For more information on row level security in Amazon QuickSight,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html">Using
+  /// Row-Level Security (RLS) with Tags</a>in the <i>Amazon QuickSight User
+  /// Guide</i>.
+  final List<SessionTag>? rowLevelPermissionTags;
+
+  SnapshotAnonymousUser({
+    this.rowLevelPermissionTags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final rowLevelPermissionTags = this.rowLevelPermissionTags;
+    return {
+      if (rowLevelPermissionTags != null)
+        'RowLevelPermissionTags': rowLevelPermissionTags,
+    };
+  }
+}
+
+/// Use this structure to redact sensitive information that you provide about an
+/// anonymous user from the snapshot.
+class SnapshotAnonymousUserRedacted {
+  /// The tag keys for the <code>RowLevelPermissionTags</code>.
+  final List<String>? rowLevelPermissionTagKeys;
+
+  SnapshotAnonymousUserRedacted({
+    this.rowLevelPermissionTagKeys,
+  });
+
+  factory SnapshotAnonymousUserRedacted.fromJson(Map<String, dynamic> json) {
+    return SnapshotAnonymousUserRedacted(
+      rowLevelPermissionTagKeys: (json['RowLevelPermissionTagKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
+/// Describes the configuration of the dashboard snapshot.
+class SnapshotConfiguration {
+  /// A list of <code>SnapshotJobResultFileGroup</code> objects that contain
+  /// information about the snapshot that is generated. This list can hold a
+  /// maximum of 6 <code>FileGroup</code> configurations.
+  final List<SnapshotFileGroup> fileGroups;
+
+  /// A structure that contains information on the Amazon S3 bucket that the
+  /// generated snapshot is stored in.
+  final SnapshotDestinationConfiguration? destinationConfiguration;
+  final Parameters? parameters;
+
+  SnapshotConfiguration({
+    required this.fileGroups,
+    this.destinationConfiguration,
+    this.parameters,
+  });
+
+  factory SnapshotConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnapshotConfiguration(
+      fileGroups: (json['FileGroups'] as List)
+          .whereNotNull()
+          .map((e) => SnapshotFileGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      destinationConfiguration: json['DestinationConfiguration'] != null
+          ? SnapshotDestinationConfiguration.fromJson(
+              json['DestinationConfiguration'] as Map<String, dynamic>)
+          : null,
+      parameters: json['Parameters'] != null
+          ? Parameters.fromJson(json['Parameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileGroups = this.fileGroups;
+    final destinationConfiguration = this.destinationConfiguration;
+    final parameters = this.parameters;
+    return {
+      'FileGroups': fileGroups,
+      if (destinationConfiguration != null)
+        'DestinationConfiguration': destinationConfiguration,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// A structure that contains information on the Amazon S3 destinations of the
+/// generated snapshot.
+class SnapshotDestinationConfiguration {
+  /// A list of <code>SnapshotS3DestinationConfiguration</code> objects that
+  /// contain Amazon S3 destination configurations. This structure can hold a
+  /// maximum of 1 <code>S3DestinationConfiguration</code>.
+  final List<SnapshotS3DestinationConfiguration>? s3Destinations;
+
+  SnapshotDestinationConfiguration({
+    this.s3Destinations,
+  });
+
+  factory SnapshotDestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnapshotDestinationConfiguration(
+      s3Destinations: (json['S3Destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => SnapshotS3DestinationConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Destinations = this.s3Destinations;
+    return {
+      if (s3Destinations != null) 'S3Destinations': s3Destinations,
+    };
+  }
+}
+
+/// A structure that contains the information for the snapshot that you want to
+/// generate. This information is provided by you when you start a new snapshot
+/// job.
+class SnapshotFile {
+  /// The format of the snapshot file to be generated. You can choose between
+  /// <code>CSV</code>, <code>Excel</code>, or <code>PDF</code>.
+  final SnapshotFileFormatType formatType;
+
+  /// A list of <code>SnapshotFileSheetSelection</code> objects that contain
+  /// information on the dashboard sheet that is exported. These objects provide
+  /// information about the snapshot artifacts that are generated during the job.
+  /// This structure can hold a maximum of 5 CSV configurations, 5 Excel
+  /// configurations, or 1 configuration for PDF.
+  final List<SnapshotFileSheetSelection> sheetSelections;
+
+  SnapshotFile({
+    required this.formatType,
+    required this.sheetSelections,
+  });
+
+  factory SnapshotFile.fromJson(Map<String, dynamic> json) {
+    return SnapshotFile(
+      formatType: (json['FormatType'] as String).toSnapshotFileFormatType(),
+      sheetSelections: (json['SheetSelections'] as List)
+          .whereNotNull()
+          .map((e) =>
+              SnapshotFileSheetSelection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formatType = this.formatType;
+    final sheetSelections = this.sheetSelections;
+    return {
+      'FormatType': formatType.toValue(),
+      'SheetSelections': sheetSelections,
+    };
+  }
+}
+
+enum SnapshotFileFormatType {
+  csv,
+  pdf,
+  excel,
+}
+
+extension SnapshotFileFormatTypeValueExtension on SnapshotFileFormatType {
+  String toValue() {
+    switch (this) {
+      case SnapshotFileFormatType.csv:
+        return 'CSV';
+      case SnapshotFileFormatType.pdf:
+        return 'PDF';
+      case SnapshotFileFormatType.excel:
+        return 'EXCEL';
+    }
+  }
+}
+
+extension SnapshotFileFormatTypeFromString on String {
+  SnapshotFileFormatType toSnapshotFileFormatType() {
+    switch (this) {
+      case 'CSV':
+        return SnapshotFileFormatType.csv;
+      case 'PDF':
+        return SnapshotFileFormatType.pdf;
+      case 'EXCEL':
+        return SnapshotFileFormatType.excel;
+    }
+    throw Exception('$this is not known in enum SnapshotFileFormatType');
+  }
+}
+
+/// A structure that contains the information on the snapshot files.
+class SnapshotFileGroup {
+  /// A list of <code>SnapshotFile</code> objects that contain the information on
+  /// the snapshot files that need to be generated. This structure can hold 1
+  /// configuration at a time.
+  final List<SnapshotFile>? files;
+
+  SnapshotFileGroup({
+    this.files,
+  });
+
+  factory SnapshotFileGroup.fromJson(Map<String, dynamic> json) {
+    return SnapshotFileGroup(
+      files: (json['Files'] as List?)
+          ?.whereNotNull()
+          .map((e) => SnapshotFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final files = this.files;
+    return {
+      if (files != null) 'Files': files,
+    };
+  }
+}
+
+/// A structure that contains information that identifies the snapshot that
+/// needs to be generated.
+class SnapshotFileSheetSelection {
+  /// The selection scope of the visuals on a sheet of a dashboard that you are
+  /// generating a snapthot of. You can choose one of the following options.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL_VISUALS</code> - Selects all visuals that are on the sheet. This
+  /// value is required if the snapshot is a PDF.
+  /// </li>
+  /// <li>
+  /// <code>SELECTED_VISUALS</code> - Select the visual that you want to add to
+  /// the snapshot. This value is required if the snapshot is a CSV or Excel
+  /// workbook.
+  /// </li>
+  /// </ul>
+  final SnapshotFileSheetSelectionScope selectionScope;
+
+  /// The sheet ID of the dashboard to generate the snapshot artifact from. This
+  /// value is required for CSV, Excel, and PDF format types.
+  final String sheetId;
+
+  /// A structure that lists the IDs of the visuals in the selected sheet.
+  /// Supported visual types are table, pivot table visuals. This value is
+  /// required if you are generating a CSV or Excel workbook. This value supports
+  /// a maximum of 1 visual ID for CSV and 5 visual IDs across up to 5 sheet
+  /// selections for Excel. If you are generating an Excel workbook, the order of
+  /// the visual IDs provided in this structure determines the order of the
+  /// worksheets in the Excel file.
+  final List<String>? visualIds;
+
+  SnapshotFileSheetSelection({
+    required this.selectionScope,
+    required this.sheetId,
+    this.visualIds,
+  });
+
+  factory SnapshotFileSheetSelection.fromJson(Map<String, dynamic> json) {
+    return SnapshotFileSheetSelection(
+      selectionScope: (json['SelectionScope'] as String)
+          .toSnapshotFileSheetSelectionScope(),
+      sheetId: json['SheetId'] as String,
+      visualIds: (json['VisualIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selectionScope = this.selectionScope;
+    final sheetId = this.sheetId;
+    final visualIds = this.visualIds;
+    return {
+      'SelectionScope': selectionScope.toValue(),
+      'SheetId': sheetId,
+      if (visualIds != null) 'VisualIds': visualIds,
+    };
+  }
+}
+
+enum SnapshotFileSheetSelectionScope {
+  allVisuals,
+  selectedVisuals,
+}
+
+extension SnapshotFileSheetSelectionScopeValueExtension
+    on SnapshotFileSheetSelectionScope {
+  String toValue() {
+    switch (this) {
+      case SnapshotFileSheetSelectionScope.allVisuals:
+        return 'ALL_VISUALS';
+      case SnapshotFileSheetSelectionScope.selectedVisuals:
+        return 'SELECTED_VISUALS';
+    }
+  }
+}
+
+extension SnapshotFileSheetSelectionScopeFromString on String {
+  SnapshotFileSheetSelectionScope toSnapshotFileSheetSelectionScope() {
+    switch (this) {
+      case 'ALL_VISUALS':
+        return SnapshotFileSheetSelectionScope.allVisuals;
+      case 'SELECTED_VISUALS':
+        return SnapshotFileSheetSelectionScope.selectedVisuals;
+    }
+    throw Exception(
+        '$this is not known in enum SnapshotFileSheetSelectionScope');
+  }
+}
+
+/// An object that contains information on the error that caused the snapshot
+/// job to fail.
+class SnapshotJobErrorInfo {
+  /// The error message.
+  final String? errorMessage;
+
+  /// The error type.
+  final String? errorType;
+
+  SnapshotJobErrorInfo({
+    this.errorMessage,
+    this.errorType,
+  });
+
+  factory SnapshotJobErrorInfo.fromJson(Map<String, dynamic> json) {
+    return SnapshotJobErrorInfo(
+      errorMessage: json['ErrorMessage'] as String?,
+      errorType: json['ErrorType'] as String?,
+    );
+  }
+}
+
+/// An object that provides information on the result of a snapshot job. This
+/// object provides information about the job, the job status, and the location
+/// of the generated file.
+class SnapshotJobResult {
+  /// A list of <code>AnonymousUserSnapshotJobResult</code> objects that contain
+  /// information on anonymous users and their user configurations. This data
+  /// provided by you when you make a <code>StartDashboardSnapshotJob</code> API
+  /// call.
+  final List<AnonymousUserSnapshotJobResult>? anonymousUsers;
+
+  SnapshotJobResult({
+    this.anonymousUsers,
+  });
+
+  factory SnapshotJobResult.fromJson(Map<String, dynamic> json) {
+    return SnapshotJobResult(
+      anonymousUsers: (json['AnonymousUsers'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnonymousUserSnapshotJobResult.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Information on the error that caused the snapshot job to fail.
+class SnapshotJobResultErrorInfo {
+  /// The error message.
+  final String? errorMessage;
+
+  /// The error type.
+  final String? errorType;
+
+  SnapshotJobResultErrorInfo({
+    this.errorMessage,
+    this.errorType,
+  });
+
+  factory SnapshotJobResultErrorInfo.fromJson(Map<String, dynamic> json) {
+    return SnapshotJobResultErrorInfo(
+      errorMessage: json['ErrorMessage'] as String?,
+      errorType: json['ErrorType'] as String?,
+    );
+  }
+}
+
+/// A structure that contains information on the generated snapshot file groups.
+class SnapshotJobResultFileGroup {
+  /// A list of <code>SnapshotFile</code> objects.
+  final List<SnapshotFile>? files;
+
+  /// A list of <code>SnapshotJobS3Result</code> objects.
+  final List<SnapshotJobS3Result>? s3Results;
+
+  SnapshotJobResultFileGroup({
+    this.files,
+    this.s3Results,
+  });
+
+  factory SnapshotJobResultFileGroup.fromJson(Map<String, dynamic> json) {
+    return SnapshotJobResultFileGroup(
+      files: (json['Files'] as List?)
+          ?.whereNotNull()
+          .map((e) => SnapshotFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3Results: (json['S3Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => SnapshotJobS3Result.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The Amazon S3 result from the snapshot job. The result includes the
+/// <code>DestinationConfiguration</code> and the Amazon S3 Uri. If an error
+/// occured during the job, the result returns information on the error.
+class SnapshotJobS3Result {
+  /// An array of error records that describe any failures that occur while the
+  /// dashboard snapshot job runs.
+  final List<SnapshotJobResultErrorInfo>? errorInfo;
+
+  /// A list of Amazon S3 bucket configurations that are provided when you make a
+  /// <code>StartDashboardSnapshotJob</code> API call.
+  final SnapshotS3DestinationConfiguration? s3DestinationConfiguration;
+
+  /// The Amazon S3 Uri.
+  final String? s3Uri;
+
+  SnapshotJobS3Result({
+    this.errorInfo,
+    this.s3DestinationConfiguration,
+    this.s3Uri,
+  });
+
+  factory SnapshotJobS3Result.fromJson(Map<String, dynamic> json) {
+    return SnapshotJobS3Result(
+      errorInfo: (json['ErrorInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SnapshotJobResultErrorInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3DestinationConfiguration: json['S3DestinationConfiguration'] != null
+          ? SnapshotS3DestinationConfiguration.fromJson(
+              json['S3DestinationConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+}
+
+enum SnapshotJobStatus {
+  queued,
+  running,
+  completed,
+  failed,
+}
+
+extension SnapshotJobStatusValueExtension on SnapshotJobStatus {
+  String toValue() {
+    switch (this) {
+      case SnapshotJobStatus.queued:
+        return 'QUEUED';
+      case SnapshotJobStatus.running:
+        return 'RUNNING';
+      case SnapshotJobStatus.completed:
+        return 'COMPLETED';
+      case SnapshotJobStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension SnapshotJobStatusFromString on String {
+  SnapshotJobStatus toSnapshotJobStatus() {
+    switch (this) {
+      case 'QUEUED':
+        return SnapshotJobStatus.queued;
+      case 'RUNNING':
+        return SnapshotJobStatus.running;
+      case 'COMPLETED':
+        return SnapshotJobStatus.completed;
+      case 'FAILED':
+        return SnapshotJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum SnapshotJobStatus');
+  }
+}
+
+/// A structure that describes the Amazon S3 settings to use to save the
+/// generated dashboard snapshot.
+class SnapshotS3DestinationConfiguration {
+  /// A structure that contains details about the Amazon S3 bucket that the
+  /// generated dashboard snapshot is saved in.
+  final S3BucketConfiguration bucketConfiguration;
+
+  SnapshotS3DestinationConfiguration({
+    required this.bucketConfiguration,
+  });
+
+  factory SnapshotS3DestinationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SnapshotS3DestinationConfiguration(
+      bucketConfiguration: S3BucketConfiguration.fromJson(
+          json['BucketConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketConfiguration = this.bucketConfiguration;
+    return {
+      'BucketConfiguration': bucketConfiguration,
+    };
+  }
+}
+
+/// A structure that contains information about the users that the dashboard
+/// snapshot is generated for.
+class SnapshotUserConfiguration {
+  /// An array of records that describe the anonymous users that the dashboard
+  /// snapshot is generated for.
+  final List<SnapshotAnonymousUser>? anonymousUsers;
+
+  SnapshotUserConfiguration({
+    this.anonymousUsers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final anonymousUsers = this.anonymousUsers;
+    return {
+      if (anonymousUsers != null) 'AnonymousUsers': anonymousUsers,
+    };
+  }
+}
+
+/// A structure that contains information about the users that the dashboard
+/// snapshot is generated for. Sensitive user information is excluded.
+class SnapshotUserConfigurationRedacted {
+  /// An array of records that describe anonymous users that the dashboard
+  /// snapshot is generated for. Sensitive user information is excluded.
+  final List<SnapshotAnonymousUserRedacted>? anonymousUsers;
+
+  SnapshotUserConfigurationRedacted({
+    this.anonymousUsers,
+  });
+
+  factory SnapshotUserConfigurationRedacted.fromJson(
+      Map<String, dynamic> json) {
+    return SnapshotUserConfigurationRedacted(
+      anonymousUsers: (json['AnonymousUsers'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SnapshotAnonymousUserRedacted.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 }
 
@@ -44397,6 +50222,39 @@ class SparkParameters {
   }
 }
 
+enum SpecialValue {
+  empty,
+  $null,
+  other,
+}
+
+extension SpecialValueValueExtension on SpecialValue {
+  String toValue() {
+    switch (this) {
+      case SpecialValue.empty:
+        return 'EMPTY';
+      case SpecialValue.$null:
+        return 'NULL';
+      case SpecialValue.other:
+        return 'OTHER';
+    }
+  }
+}
+
+extension SpecialValueFromString on String {
+  SpecialValue toSpecialValue() {
+    switch (this) {
+      case 'EMPTY':
+        return SpecialValue.empty;
+      case 'NULL':
+        return SpecialValue.$null;
+      case 'OTHER':
+        return SpecialValue.other;
+    }
+    throw Exception('$this is not known in enum SpecialValue');
+  }
+}
+
 /// The parameters for SQL Server.
 class SqlServerParameters {
   /// Database.
@@ -44455,6 +50313,78 @@ class SslProperties {
     return {
       if (disableSsl != null) 'DisableSsl': disableSsl,
     };
+  }
+}
+
+/// The parameters that are required to connect to a Starburst data source.
+class StarburstParameters {
+  /// The catalog name for the Starburst data source.
+  final String catalog;
+
+  /// The host name of the Starburst data source.
+  final String host;
+
+  /// The port for the Starburst data source.
+  final int port;
+
+  /// The product type for the Starburst data source.
+  final StarburstProductType? productType;
+
+  StarburstParameters({
+    required this.catalog,
+    required this.host,
+    required this.port,
+    this.productType,
+  });
+
+  factory StarburstParameters.fromJson(Map<String, dynamic> json) {
+    return StarburstParameters(
+      catalog: json['Catalog'] as String,
+      host: json['Host'] as String,
+      port: json['Port'] as int,
+      productType: (json['ProductType'] as String?)?.toStarburstProductType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalog = this.catalog;
+    final host = this.host;
+    final port = this.port;
+    final productType = this.productType;
+    return {
+      'Catalog': catalog,
+      'Host': host,
+      'Port': port,
+      if (productType != null) 'ProductType': productType.toValue(),
+    };
+  }
+}
+
+enum StarburstProductType {
+  galaxy,
+  enterprise,
+}
+
+extension StarburstProductTypeValueExtension on StarburstProductType {
+  String toValue() {
+    switch (this) {
+      case StarburstProductType.galaxy:
+        return 'GALAXY';
+      case StarburstProductType.enterprise:
+        return 'ENTERPRISE';
+    }
+  }
+}
+
+extension StarburstProductTypeFromString on String {
+  StarburstProductType toStarburstProductType() {
+    switch (this) {
+      case 'GALAXY':
+        return StarburstProductType.galaxy;
+      case 'ENTERPRISE':
+        return StarburstProductType.enterprise;
+    }
+    throw Exception('$this is not known in enum StarburstProductType');
   }
 }
 
@@ -44517,6 +50447,38 @@ class StartAssetBundleImportJobResponse {
       arn: json['Arn'] as String?,
       assetBundleImportJobId: json['AssetBundleImportJobId'] as String?,
       requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
+class StartDashboardSnapshotJobResponse {
+  /// The Amazon Resource Name (ARN) for the dashboard snapshot job.
+  final String? arn;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The ID of the job. The job ID is set when you start a new job with a
+  /// <code>StartDashboardSnapshotJob</code> API call.
+  final String? snapshotJobId;
+
+  /// The HTTP status of the request
+  final int? status;
+
+  StartDashboardSnapshotJobResponse({
+    this.arn,
+    this.requestId,
+    this.snapshotJobId,
+    this.status,
+  });
+
+  factory StartDashboardSnapshotJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartDashboardSnapshotJobResponse(
+      arn: json['Arn'] as String?,
+      requestId: json['RequestId'] as String?,
+      snapshotJobId: json['SnapshotJobId'] as String?,
       status: json['Status'] as int?,
     );
   }
@@ -44732,6 +50694,16 @@ class StringParameter {
     required this.values,
   });
 
+  factory StringParameter.fromJson(Map<String, dynamic> json) {
+    return StringParameter(
+      name: json['Name'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -44850,6 +50822,39 @@ class StringValueWhenUnsetConfiguration {
   }
 }
 
+enum StyledCellType {
+  total,
+  metricHeader,
+  value,
+}
+
+extension StyledCellTypeValueExtension on StyledCellType {
+  String toValue() {
+    switch (this) {
+      case StyledCellType.total:
+        return 'TOTAL';
+      case StyledCellType.metricHeader:
+        return 'METRIC_HEADER';
+      case StyledCellType.value:
+        return 'VALUE';
+    }
+  }
+}
+
+extension StyledCellTypeFromString on String {
+  StyledCellType toStyledCellType() {
+    switch (this) {
+      case 'TOTAL':
+        return StyledCellType.total;
+      case 'METRIC_HEADER':
+        return StyledCellType.metricHeader;
+      case 'VALUE':
+        return StyledCellType.value;
+    }
+    throw Exception('$this is not known in enum StyledCellType');
+  }
+}
+
 /// The subtotal options.
 class SubtotalOptions {
   /// The custom label string for the subtotal cells.
@@ -44863,6 +50868,9 @@ class SubtotalOptions {
 
   /// The cell styling options for the subtotals of header cells.
   final TableCellStyle? metricHeaderCellStyle;
+
+  /// The style targets options for subtotals.
+  final List<TableStyleTarget>? styleTargets;
 
   /// The cell styling options for the subtotal cells.
   final TableCellStyle? totalCellStyle;
@@ -44878,6 +50886,7 @@ class SubtotalOptions {
     this.fieldLevel,
     this.fieldLevelOptions,
     this.metricHeaderCellStyle,
+    this.styleTargets,
     this.totalCellStyle,
     this.totalsVisibility,
     this.valueCellStyle,
@@ -44896,6 +50905,10 @@ class SubtotalOptions {
           ? TableCellStyle.fromJson(
               json['MetricHeaderCellStyle'] as Map<String, dynamic>)
           : null,
+      styleTargets: (json['StyleTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableStyleTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
       totalCellStyle: json['TotalCellStyle'] != null
           ? TableCellStyle.fromJson(
               json['TotalCellStyle'] as Map<String, dynamic>)
@@ -44913,6 +50926,7 @@ class SubtotalOptions {
     final fieldLevel = this.fieldLevel;
     final fieldLevelOptions = this.fieldLevelOptions;
     final metricHeaderCellStyle = this.metricHeaderCellStyle;
+    final styleTargets = this.styleTargets;
     final totalCellStyle = this.totalCellStyle;
     final totalsVisibility = this.totalsVisibility;
     final valueCellStyle = this.valueCellStyle;
@@ -44922,11 +50936,35 @@ class SubtotalOptions {
       if (fieldLevelOptions != null) 'FieldLevelOptions': fieldLevelOptions,
       if (metricHeaderCellStyle != null)
         'MetricHeaderCellStyle': metricHeaderCellStyle,
+      if (styleTargets != null) 'StyleTargets': styleTargets,
       if (totalCellStyle != null) 'TotalCellStyle': totalCellStyle,
       if (totalsVisibility != null)
         'TotalsVisibility': totalsVisibility.toValue(),
       if (valueCellStyle != null) 'ValueCellStyle': valueCellStyle,
     };
+  }
+}
+
+/// A success entry that occurs when a <code>KeyRegistration</code> job is
+/// successfully applied to the Amazon QuickSight account.
+class SuccessfulKeyRegistrationEntry {
+  /// The ARN of the KMS key that is associated with the
+  /// <code>SuccessfulKeyRegistrationEntry</code> entry.
+  final String keyArn;
+
+  /// The HTTP status of a <code>SuccessfulKeyRegistrationEntry</code> entry.
+  final int statusCode;
+
+  SuccessfulKeyRegistrationEntry({
+    required this.keyArn,
+    required this.statusCode,
+  });
+
+  factory SuccessfulKeyRegistrationEntry.fromJson(Map<String, dynamic> json) {
+    return SuccessfulKeyRegistrationEntry(
+      keyArn: json['KeyArn'] as String,
+      statusCode: json['StatusCode'] as int,
+    );
   }
 }
 
@@ -45287,6 +51325,9 @@ class TableConfiguration {
   /// The field wells of the visual.
   final TableFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The paginated report options for a table visual.
   final TablePaginatedReportOptions? paginatedReportOptions;
 
@@ -45305,6 +51346,7 @@ class TableConfiguration {
   TableConfiguration({
     this.fieldOptions,
     this.fieldWells,
+    this.interactions,
     this.paginatedReportOptions,
     this.sortConfiguration,
     this.tableInlineVisualizations,
@@ -45320,6 +51362,10 @@ class TableConfiguration {
           : null,
       fieldWells: json['FieldWells'] != null
           ? TableFieldWells.fromJson(json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       paginatedReportOptions: json['PaginatedReportOptions'] != null
           ? TablePaginatedReportOptions.fromJson(
@@ -45346,6 +51392,7 @@ class TableConfiguration {
   Map<String, dynamic> toJson() {
     final fieldOptions = this.fieldOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final paginatedReportOptions = this.paginatedReportOptions;
     final sortConfiguration = this.sortConfiguration;
     final tableInlineVisualizations = this.tableInlineVisualizations;
@@ -45354,6 +51401,7 @@ class TableConfiguration {
     return {
       if (fieldOptions != null) 'FieldOptions': fieldOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (paginatedReportOptions != null)
         'PaginatedReportOptions': paginatedReportOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
@@ -45595,16 +51643,21 @@ class TableFieldOption {
   }
 }
 
-/// The field options for a table visual.
+/// The field options of a table visual.
 class TableFieldOptions {
-  /// The order of field IDs of the field options for a table visual.
+  /// The order of the field IDs that are configured as field options for a table
+  /// visual.
   final List<String>? order;
 
-  /// The selected field options for the table field options.
+  /// The settings for the pinned columns of a table visual.
+  final TablePinnedFieldOptions? pinnedFieldOptions;
+
+  /// The field options to be configured to a table.
   final List<TableFieldOption>? selectedFieldOptions;
 
   TableFieldOptions({
     this.order,
+    this.pinnedFieldOptions,
     this.selectedFieldOptions,
   });
 
@@ -45614,6 +51667,10 @@ class TableFieldOptions {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      pinnedFieldOptions: json['PinnedFieldOptions'] != null
+          ? TablePinnedFieldOptions.fromJson(
+              json['PinnedFieldOptions'] as Map<String, dynamic>)
+          : null,
       selectedFieldOptions: (json['SelectedFieldOptions'] as List?)
           ?.whereNotNull()
           .map((e) => TableFieldOption.fromJson(e as Map<String, dynamic>))
@@ -45623,9 +51680,11 @@ class TableFieldOptions {
 
   Map<String, dynamic> toJson() {
     final order = this.order;
+    final pinnedFieldOptions = this.pinnedFieldOptions;
     final selectedFieldOptions = this.selectedFieldOptions;
     return {
       if (order != null) 'Order': order,
+      if (pinnedFieldOptions != null) 'PinnedFieldOptions': pinnedFieldOptions,
       if (selectedFieldOptions != null)
         'SelectedFieldOptions': selectedFieldOptions,
     };
@@ -45851,6 +51910,32 @@ class TablePaginatedReportOptions {
   }
 }
 
+/// The settings for the pinned columns of a table visual.
+class TablePinnedFieldOptions {
+  /// A list of columns to be pinned to the left of a table visual.
+  final List<String>? pinnedLeftFields;
+
+  TablePinnedFieldOptions({
+    this.pinnedLeftFields,
+  });
+
+  factory TablePinnedFieldOptions.fromJson(Map<String, dynamic> json) {
+    return TablePinnedFieldOptions(
+      pinnedLeftFields: (json['PinnedLeftFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pinnedLeftFields = this.pinnedLeftFields;
+    return {
+      if (pinnedLeftFields != null) 'PinnedLeftFields': pinnedLeftFields,
+    };
+  }
+}
+
 /// The conditional formatting of a table row.
 class TableRowConditionalFormatting {
   /// The conditional formatting color (solid, gradient) of the background for a
@@ -45998,9 +52083,33 @@ class TableSortConfiguration {
   }
 }
 
+/// The table style target.
+class TableStyleTarget {
+  /// The cell type of the table style target.
+  final StyledCellType cellType;
+
+  TableStyleTarget({
+    required this.cellType,
+  });
+
+  factory TableStyleTarget.fromJson(Map<String, dynamic> json) {
+    return TableStyleTarget(
+      cellType: (json['CellType'] as String).toStyledCellType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cellType = this.cellType;
+    return {
+      'CellType': cellType.toValue(),
+    };
+  }
+}
+
 enum TableTotalsPlacement {
   start,
   end,
+  auto,
 }
 
 extension TableTotalsPlacementValueExtension on TableTotalsPlacement {
@@ -46010,6 +52119,8 @@ extension TableTotalsPlacementValueExtension on TableTotalsPlacement {
         return 'START';
       case TableTotalsPlacement.end:
         return 'END';
+      case TableTotalsPlacement.auto:
+        return 'AUTO';
     }
   }
 }
@@ -46021,6 +52132,8 @@ extension TableTotalsPlacementFromString on String {
         return TableTotalsPlacement.start;
       case 'END':
         return TableTotalsPlacement.end;
+      case 'AUTO':
+        return TableTotalsPlacement.auto;
     }
     throw Exception('$this is not known in enum TableTotalsPlacement');
   }
@@ -46639,6 +52752,9 @@ class TemplateVersionDefinition {
   /// Data</a> in the <i>Amazon QuickSight User Guide</i>.
   final List<FilterGroup>? filterGroups;
 
+  /// An array of option definitions for a template.
+  final AssetOptions? options;
+
   /// An array of parameter declarations for a template.
   ///
   /// <i>Parameters</i> are named variables that can transfer a value for use by
@@ -46658,6 +52774,7 @@ class TemplateVersionDefinition {
     this.calculatedFields,
     this.columnConfigurations,
     this.filterGroups,
+    this.options,
     this.parameterDeclarations,
     this.sheets,
   });
@@ -46684,6 +52801,9 @@ class TemplateVersionDefinition {
           ?.whereNotNull()
           .map((e) => FilterGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
+      options: json['Options'] != null
+          ? AssetOptions.fromJson(json['Options'] as Map<String, dynamic>)
+          : null,
       parameterDeclarations: (json['ParameterDeclarations'] as List?)
           ?.whereNotNull()
           .map((e) => ParameterDeclaration.fromJson(e as Map<String, dynamic>))
@@ -46701,6 +52821,7 @@ class TemplateVersionDefinition {
     final calculatedFields = this.calculatedFields;
     final columnConfigurations = this.columnConfigurations;
     final filterGroups = this.filterGroups;
+    final options = this.options;
     final parameterDeclarations = this.parameterDeclarations;
     final sheets = this.sheets;
     return {
@@ -46710,6 +52831,7 @@ class TemplateVersionDefinition {
       if (columnConfigurations != null)
         'ColumnConfigurations': columnConfigurations,
       if (filterGroups != null) 'FilterGroups': filterGroups,
+      if (options != null) 'Options': options,
       if (parameterDeclarations != null)
         'ParameterDeclarations': parameterDeclarations,
       if (sheets != null) 'Sheets': sheets,
@@ -46792,6 +52914,9 @@ class TeradataParameters {
 
 /// The display options of a control.
 class TextAreaControlDisplayOptions {
+  /// The configuration of info icon label options.
+  final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
+
   /// The configuration of the placeholder options in a text area control.
   final TextControlPlaceholderOptions? placeholderOptions;
 
@@ -46799,12 +52924,17 @@ class TextAreaControlDisplayOptions {
   final LabelOptions? titleOptions;
 
   TextAreaControlDisplayOptions({
+    this.infoIconLabelOptions,
     this.placeholderOptions,
     this.titleOptions,
   });
 
   factory TextAreaControlDisplayOptions.fromJson(Map<String, dynamic> json) {
     return TextAreaControlDisplayOptions(
+      infoIconLabelOptions: json['InfoIconLabelOptions'] != null
+          ? SheetControlInfoIconLabelOptions.fromJson(
+              json['InfoIconLabelOptions'] as Map<String, dynamic>)
+          : null,
       placeholderOptions: json['PlaceholderOptions'] != null
           ? TextControlPlaceholderOptions.fromJson(
               json['PlaceholderOptions'] as Map<String, dynamic>)
@@ -46816,9 +52946,12 @@ class TextAreaControlDisplayOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final infoIconLabelOptions = this.infoIconLabelOptions;
     final placeholderOptions = this.placeholderOptions;
     final titleOptions = this.titleOptions;
     return {
+      if (infoIconLabelOptions != null)
+        'InfoIconLabelOptions': infoIconLabelOptions,
       if (placeholderOptions != null) 'PlaceholderOptions': placeholderOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
     };
@@ -46896,6 +53029,9 @@ class TextControlPlaceholderOptions {
 
 /// The display options of a control.
 class TextFieldControlDisplayOptions {
+  /// The configuration of info icon label options.
+  final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
+
   /// The configuration of the placeholder options in a text field control.
   final TextControlPlaceholderOptions? placeholderOptions;
 
@@ -46903,12 +53039,17 @@ class TextFieldControlDisplayOptions {
   final LabelOptions? titleOptions;
 
   TextFieldControlDisplayOptions({
+    this.infoIconLabelOptions,
     this.placeholderOptions,
     this.titleOptions,
   });
 
   factory TextFieldControlDisplayOptions.fromJson(Map<String, dynamic> json) {
     return TextFieldControlDisplayOptions(
+      infoIconLabelOptions: json['InfoIconLabelOptions'] != null
+          ? SheetControlInfoIconLabelOptions.fromJson(
+              json['InfoIconLabelOptions'] as Map<String, dynamic>)
+          : null,
       placeholderOptions: json['PlaceholderOptions'] != null
           ? TextControlPlaceholderOptions.fromJson(
               json['PlaceholderOptions'] as Map<String, dynamic>)
@@ -46920,9 +53061,12 @@ class TextFieldControlDisplayOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final infoIconLabelOptions = this.infoIconLabelOptions;
     final placeholderOptions = this.placeholderOptions;
     final titleOptions = this.titleOptions;
     return {
+      if (infoIconLabelOptions != null)
+        'InfoIconLabelOptions': infoIconLabelOptions,
       if (placeholderOptions != null) 'PlaceholderOptions': placeholderOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
     };
@@ -47492,10 +53636,21 @@ class TimeEqualityFilter {
   /// analysis, or template.
   final String filterId;
 
+  /// The default configurations for the associated controls. This applies only
+  /// for filters that are scoped to multiple sheets.
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
   /// The parameter whose value should be used for the filter value.
   ///
-  /// This field is mutually exclusive to <code>Value</code>.
+  /// This field is mutually exclusive to <code>Value</code> and
+  /// <code>RollingDate</code>.
   final String? parameterName;
+
+  /// The rolling date input for the <code>TimeEquality</code> filter.
+  ///
+  /// This field is mutually exclusive to <code>Value</code> and
+  /// <code>ParameterName</code>.
+  final RollingDateConfiguration? rollingDate;
 
   /// The level of time precision that is used to aggregate <code>DateTime</code>
   /// values.
@@ -47503,13 +53658,16 @@ class TimeEqualityFilter {
 
   /// The value of a <code>TimeEquality</code> filter.
   ///
-  /// This field is mutually exclusive to <code>ParameterName</code>.
+  /// This field is mutually exclusive to <code>RollingDate</code> and
+  /// <code>ParameterName</code>.
   final DateTime? value;
 
   TimeEqualityFilter({
     required this.column,
     required this.filterId,
+    this.defaultFilterControlConfiguration,
     this.parameterName,
+    this.rollingDate,
     this.timeGranularity,
     this.value,
   });
@@ -47518,7 +53676,17 @@ class TimeEqualityFilter {
     return TimeEqualityFilter(
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       parameterName: json['ParameterName'] as String?,
+      rollingDate: json['RollingDate'] != null
+          ? RollingDateConfiguration.fromJson(
+              json['RollingDate'] as Map<String, dynamic>)
+          : null,
       timeGranularity:
           (json['TimeGranularity'] as String?)?.toTimeGranularity(),
       value: timeStampFromJson(json['Value']),
@@ -47528,13 +53696,19 @@ class TimeEqualityFilter {
   Map<String, dynamic> toJson() {
     final column = this.column;
     final filterId = this.filterId;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
     final parameterName = this.parameterName;
+    final rollingDate = this.rollingDate;
     final timeGranularity = this.timeGranularity;
     final value = this.value;
     return {
       'Column': column,
       'FilterId': filterId,
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (parameterName != null) 'ParameterName': parameterName,
+      if (rollingDate != null) 'RollingDate': rollingDate,
       if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
       if (value != null) 'Value': unixTimestampToJson(value),
     };
@@ -47677,6 +53851,10 @@ class TimeRangeFilter {
   /// </ul>
   final FilterNullOption nullOption;
 
+  /// The default configurations for the associated controls. This applies only
+  /// for filters that are scoped to multiple sheets.
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
   /// The exclude period of the time range filter.
   final ExcludePeriodConfiguration? excludePeriodConfiguration;
 
@@ -47702,6 +53880,7 @@ class TimeRangeFilter {
     required this.column,
     required this.filterId,
     required this.nullOption,
+    this.defaultFilterControlConfiguration,
     this.excludePeriodConfiguration,
     this.includeMaximum,
     this.includeMinimum,
@@ -47715,6 +53894,12 @@ class TimeRangeFilter {
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
       nullOption: (json['NullOption'] as String).toFilterNullOption(),
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       excludePeriodConfiguration: json['ExcludePeriodConfiguration'] != null
           ? ExcludePeriodConfiguration.fromJson(
               json['ExcludePeriodConfiguration'] as Map<String, dynamic>)
@@ -47738,6 +53923,8 @@ class TimeRangeFilter {
     final column = this.column;
     final filterId = this.filterId;
     final nullOption = this.nullOption;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
     final excludePeriodConfiguration = this.excludePeriodConfiguration;
     final includeMaximum = this.includeMaximum;
     final includeMinimum = this.includeMinimum;
@@ -47748,6 +53935,8 @@ class TimeRangeFilter {
       'Column': column,
       'FilterId': filterId,
       'NullOption': nullOption.toValue(),
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (excludePeriodConfiguration != null)
         'ExcludePeriodConfiguration': excludePeriodConfiguration,
       if (includeMaximum != null) 'IncludeMaximum': includeMaximum,
@@ -47894,6 +54083,39 @@ class TooltipOptions {
   }
 }
 
+enum TooltipTarget {
+  both,
+  bar,
+  line,
+}
+
+extension TooltipTargetValueExtension on TooltipTarget {
+  String toValue() {
+    switch (this) {
+      case TooltipTarget.both:
+        return 'BOTH';
+      case TooltipTarget.bar:
+        return 'BAR';
+      case TooltipTarget.line:
+        return 'LINE';
+    }
+  }
+}
+
+extension TooltipTargetFromString on String {
+  TooltipTarget toTooltipTarget() {
+    switch (this) {
+      case 'BOTH':
+        return TooltipTarget.both;
+      case 'BAR':
+        return TooltipTarget.bar;
+      case 'LINE':
+        return TooltipTarget.line;
+    }
+    throw Exception('$this is not known in enum TooltipTarget');
+  }
+}
+
 enum TooltipTitleType {
   none,
   primaryValue,
@@ -47963,6 +54185,10 @@ class TopBottomFilter {
   /// analysis, or template.
   final String filterId;
 
+  /// The default configurations for the associated controls. This applies only
+  /// for filters that are scoped to multiple sheets.
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
   /// The number of items to include in the top bottom filter results.
   final int? limit;
 
@@ -47977,6 +54203,7 @@ class TopBottomFilter {
     required this.aggregationSortConfigurations,
     required this.column,
     required this.filterId,
+    this.defaultFilterControlConfiguration,
     this.limit,
     this.parameterName,
     this.timeGranularity,
@@ -47992,6 +54219,12 @@ class TopBottomFilter {
           .toList(),
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       limit: json['Limit'] as int?,
       parameterName: json['ParameterName'] as String?,
       timeGranularity:
@@ -48003,6 +54236,8 @@ class TopBottomFilter {
     final aggregationSortConfigurations = this.aggregationSortConfigurations;
     final column = this.column;
     final filterId = this.filterId;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
     final limit = this.limit;
     final parameterName = this.parameterName;
     final timeGranularity = this.timeGranularity;
@@ -48010,6 +54245,8 @@ class TopBottomFilter {
       'AggregationSortConfigurations': aggregationSortConfigurations,
       'Column': column,
       'FilterId': filterId,
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (limit != null) 'Limit': limit,
       if (parameterName != null) 'ParameterName': parameterName,
       if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
@@ -48019,14 +54256,8 @@ class TopBottomFilter {
 
 /// The top movers and bottom movers computation setup.
 class TopBottomMoversComputation {
-  /// The category field that is used in a computation.
-  final DimensionField category;
-
   /// The ID for a computation.
   final String computationId;
-
-  /// The time field that is used in a computation.
-  final DimensionField time;
 
   /// The computation type. Choose from the following options:
   ///
@@ -48040,6 +54271,9 @@ class TopBottomMoversComputation {
   /// </ul>
   final TopBottomComputationType type;
 
+  /// The category field that is used in a computation.
+  final DimensionField? category;
+
   /// The mover size setup of the top and bottom movers computation.
   final int? moverSize;
 
@@ -48049,30 +54283,36 @@ class TopBottomMoversComputation {
   /// The sort order setup of the top and bottom movers computation.
   final TopBottomSortOrder? sortOrder;
 
+  /// The time field that is used in a computation.
+  final DimensionField? time;
+
   /// The value field that is used in a computation.
   final MeasureField? value;
 
   TopBottomMoversComputation({
-    required this.category,
     required this.computationId,
-    required this.time,
     required this.type,
+    this.category,
     this.moverSize,
     this.name,
     this.sortOrder,
+    this.time,
     this.value,
   });
 
   factory TopBottomMoversComputation.fromJson(Map<String, dynamic> json) {
     return TopBottomMoversComputation(
-      category:
-          DimensionField.fromJson(json['Category'] as Map<String, dynamic>),
       computationId: json['ComputationId'] as String,
-      time: DimensionField.fromJson(json['Time'] as Map<String, dynamic>),
       type: (json['Type'] as String).toTopBottomComputationType(),
+      category: json['Category'] != null
+          ? DimensionField.fromJson(json['Category'] as Map<String, dynamic>)
+          : null,
       moverSize: json['MoverSize'] as int?,
       name: json['Name'] as String?,
       sortOrder: (json['SortOrder'] as String?)?.toTopBottomSortOrder(),
+      time: json['Time'] != null
+          ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
+          : null,
       value: json['Value'] != null
           ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
           : null,
@@ -48080,22 +54320,22 @@ class TopBottomMoversComputation {
   }
 
   Map<String, dynamic> toJson() {
-    final category = this.category;
     final computationId = this.computationId;
-    final time = this.time;
     final type = this.type;
+    final category = this.category;
     final moverSize = this.moverSize;
     final name = this.name;
     final sortOrder = this.sortOrder;
+    final time = this.time;
     final value = this.value;
     return {
-      'Category': category,
       'ComputationId': computationId,
-      'Time': time,
       'Type': type.toValue(),
+      if (category != null) 'Category': category,
       if (moverSize != null) 'MoverSize': moverSize,
       if (name != null) 'Name': name,
       if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (time != null) 'Time': time,
       if (value != null) 'Value': value,
     };
   }
@@ -48103,9 +54343,6 @@ class TopBottomMoversComputation {
 
 /// The top ranked and bottom ranked computation configuration.
 class TopBottomRankedComputation {
-  /// The category field that is used in a computation.
-  final DimensionField category;
-
   /// The ID for a computation.
   final String computationId;
 
@@ -48121,6 +54358,9 @@ class TopBottomRankedComputation {
   /// </ul>
   final TopBottomComputationType type;
 
+  /// The category field that is used in a computation.
+  final DimensionField? category;
+
   /// The name of a computation.
   final String? name;
 
@@ -48131,9 +54371,9 @@ class TopBottomRankedComputation {
   final MeasureField? value;
 
   TopBottomRankedComputation({
-    required this.category,
     required this.computationId,
     required this.type,
+    this.category,
     this.name,
     this.resultSize,
     this.value,
@@ -48141,10 +54381,11 @@ class TopBottomRankedComputation {
 
   factory TopBottomRankedComputation.fromJson(Map<String, dynamic> json) {
     return TopBottomRankedComputation(
-      category:
-          DimensionField.fromJson(json['Category'] as Map<String, dynamic>),
       computationId: json['ComputationId'] as String,
       type: (json['Type'] as String).toTopBottomComputationType(),
+      category: json['Category'] != null
+          ? DimensionField.fromJson(json['Category'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       resultSize: json['ResultSize'] as int?,
       value: json['Value'] != null
@@ -48154,16 +54395,16 @@ class TopBottomRankedComputation {
   }
 
   Map<String, dynamic> toJson() {
-    final category = this.category;
     final computationId = this.computationId;
     final type = this.type;
+    final category = this.category;
     final name = this.name;
     final resultSize = this.resultSize;
     final value = this.value;
     return {
-      'Category': category,
       'ComputationId': computationId,
       'Type': type.toValue(),
+      if (category != null) 'Category': category,
       if (name != null) 'Name': name,
       if (resultSize != null) 'ResultSize': resultSize,
       if (value != null) 'Value': value,
@@ -48252,6 +54493,9 @@ class TopicCalculatedField {
   /// in filters.
   final bool? neverAggregateInFilter;
 
+  /// The non additive for the table style target.
+  final bool? nonAdditive;
+
   /// The list of aggregation types that are not allowed for the calculated field.
   /// Valid values for this structure are <code>COUNT</code>,
   /// <code>DISTINCT_COUNT</code>, <code>MIN</code>, <code>MAX</code>,
@@ -48281,6 +54525,7 @@ class TopicCalculatedField {
     this.disableIndexing,
     this.isIncludedInTopic,
     this.neverAggregateInFilter,
+    this.nonAdditive,
     this.notAllowedAggregations,
     this.semanticType,
     this.timeGranularity,
@@ -48316,6 +54561,7 @@ class TopicCalculatedField {
       disableIndexing: json['DisableIndexing'] as bool?,
       isIncludedInTopic: json['IsIncludedInTopic'] as bool?,
       neverAggregateInFilter: json['NeverAggregateInFilter'] as bool?,
+      nonAdditive: json['NonAdditive'] as bool?,
       notAllowedAggregations: (json['NotAllowedAggregations'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toAuthorSpecifiedAggregation())
@@ -48342,6 +54588,7 @@ class TopicCalculatedField {
     final disableIndexing = this.disableIndexing;
     final isIncludedInTopic = this.isIncludedInTopic;
     final neverAggregateInFilter = this.neverAggregateInFilter;
+    final nonAdditive = this.nonAdditive;
     final notAllowedAggregations = this.notAllowedAggregations;
     final semanticType = this.semanticType;
     final timeGranularity = this.timeGranularity;
@@ -48364,6 +54611,7 @@ class TopicCalculatedField {
       if (isIncludedInTopic != null) 'IsIncludedInTopic': isIncludedInTopic,
       if (neverAggregateInFilter != null)
         'NeverAggregateInFilter': neverAggregateInFilter,
+      if (nonAdditive != null) 'NonAdditive': nonAdditive,
       if (notAllowedAggregations != null)
         'NotAllowedAggregations':
             notAllowedAggregations.map((e) => e.toValue()).toList(),
@@ -48476,9 +54724,7 @@ class TopicColumn {
   final String columnName;
 
   /// The type of aggregation that is performed on the column data when it's
-  /// queried. Valid values for this structure are <code>SUM</code>,
-  /// <code>MAX</code>, <code>MIN</code>, <code>COUNT</code>,
-  /// <code>DISTINCT_COUNT</code>, and <code>AVERAGE</code>.
+  /// queried.
   final DefaultAggregation? aggregation;
 
   /// The list of aggregation types that are allowed for the column. Valid values
@@ -48523,6 +54769,9 @@ class TopicColumn {
   /// it's used in a filter context.
   final bool? neverAggregateInFilter;
 
+  /// The non additive value for the column.
+  final bool? nonAdditive;
+
   /// The list of aggregation types that are not allowed for the column. Valid
   /// values for this structure are <code>COUNT</code>,
   /// <code>DISTINCT_COUNT</code>, <code>MIN</code>, <code>MAX</code>,
@@ -48552,6 +54801,7 @@ class TopicColumn {
     this.disableIndexing,
     this.isIncludedInTopic,
     this.neverAggregateInFilter,
+    this.nonAdditive,
     this.notAllowedAggregations,
     this.semanticType,
     this.timeGranularity,
@@ -48587,6 +54837,7 @@ class TopicColumn {
       disableIndexing: json['DisableIndexing'] as bool?,
       isIncludedInTopic: json['IsIncludedInTopic'] as bool?,
       neverAggregateInFilter: json['NeverAggregateInFilter'] as bool?,
+      nonAdditive: json['NonAdditive'] as bool?,
       notAllowedAggregations: (json['NotAllowedAggregations'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toAuthorSpecifiedAggregation())
@@ -48613,6 +54864,7 @@ class TopicColumn {
     final disableIndexing = this.disableIndexing;
     final isIncludedInTopic = this.isIncludedInTopic;
     final neverAggregateInFilter = this.neverAggregateInFilter;
+    final nonAdditive = this.nonAdditive;
     final notAllowedAggregations = this.notAllowedAggregations;
     final semanticType = this.semanticType;
     final timeGranularity = this.timeGranularity;
@@ -48633,6 +54885,7 @@ class TopicColumn {
       if (isIncludedInTopic != null) 'IsIncludedInTopic': isIncludedInTopic,
       if (neverAggregateInFilter != null)
         'NeverAggregateInFilter': neverAggregateInFilter,
+      if (nonAdditive != null) 'NonAdditive': nonAdditive,
       if (notAllowedAggregations != null)
         'NotAllowedAggregations':
             notAllowedAggregations.map((e) => e.toValue()).toList(),
@@ -48689,10 +54942,14 @@ class TopicDetails {
   /// The name of the topic.
   final String? name;
 
+  /// The user experience version of a topic.
+  final TopicUserExperienceVersion? userExperienceVersion;
+
   TopicDetails({
     this.dataSets,
     this.description,
     this.name,
+    this.userExperienceVersion,
   });
 
   factory TopicDetails.fromJson(Map<String, dynamic> json) {
@@ -48703,6 +54960,8 @@ class TopicDetails {
           .toList(),
       description: json['Description'] as String?,
       name: json['Name'] as String?,
+      userExperienceVersion: (json['UserExperienceVersion'] as String?)
+          ?.toTopicUserExperienceVersion(),
     );
   }
 
@@ -48710,10 +54969,13 @@ class TopicDetails {
     final dataSets = this.dataSets;
     final description = this.description;
     final name = this.name;
+    final userExperienceVersion = this.userExperienceVersion;
     return {
       if (dataSets != null) 'DataSets': dataSets,
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
+      if (userExperienceVersion != null)
+        'UserExperienceVersion': userExperienceVersion.toValue(),
     };
   }
 }
@@ -49393,10 +55655,14 @@ class TopicSummary {
   /// each Amazon Web Services account.
   final String? topicId;
 
+  /// The user experience version of the topic.
+  final TopicUserExperienceVersion? userExperienceVersion;
+
   TopicSummary({
     this.arn,
     this.name,
     this.topicId,
+    this.userExperienceVersion,
   });
 
   factory TopicSummary.fromJson(Map<String, dynamic> json) {
@@ -49404,6 +55670,8 @@ class TopicSummary {
       arn: json['Arn'] as String?,
       name: json['Name'] as String?,
       topicId: json['TopicId'] as String?,
+      userExperienceVersion: (json['UserExperienceVersion'] as String?)
+          ?.toTopicUserExperienceVersion(),
     );
   }
 }
@@ -49466,39 +55734,129 @@ extension TopicTimeGranularityFromString on String {
   }
 }
 
+enum TopicUserExperienceVersion {
+  legacy,
+  newReaderExperience,
+}
+
+extension TopicUserExperienceVersionValueExtension
+    on TopicUserExperienceVersion {
+  String toValue() {
+    switch (this) {
+      case TopicUserExperienceVersion.legacy:
+        return 'LEGACY';
+      case TopicUserExperienceVersion.newReaderExperience:
+        return 'NEW_READER_EXPERIENCE';
+    }
+  }
+}
+
+extension TopicUserExperienceVersionFromString on String {
+  TopicUserExperienceVersion toTopicUserExperienceVersion() {
+    switch (this) {
+      case 'LEGACY':
+        return TopicUserExperienceVersion.legacy;
+      case 'NEW_READER_EXPERIENCE':
+        return TopicUserExperienceVersion.newReaderExperience;
+    }
+    throw Exception('$this is not known in enum TopicUserExperienceVersion');
+  }
+}
+
 /// The total aggregation computation configuration.
 class TotalAggregationComputation {
   /// The ID for a computation.
   final String computationId;
 
-  /// The value field that is used in a computation.
-  final MeasureField value;
-
   /// The name of a computation.
   final String? name;
 
+  /// The value field that is used in a computation.
+  final MeasureField? value;
+
   TotalAggregationComputation({
     required this.computationId,
-    required this.value,
     this.name,
+    this.value,
   });
 
   factory TotalAggregationComputation.fromJson(Map<String, dynamic> json) {
     return TotalAggregationComputation(
       computationId: json['ComputationId'] as String,
-      value: MeasureField.fromJson(json['Value'] as Map<String, dynamic>),
       name: json['Name'] as String?,
+      value: json['Value'] != null
+          ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final computationId = this.computationId;
-    final value = this.value;
     final name = this.name;
+    final value = this.value;
     return {
       'ComputationId': computationId,
-      'Value': value,
       if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// An aggregation function that aggregates the total values of a measure.
+class TotalAggregationFunction {
+  /// A built in aggregation function for total values.
+  final SimpleTotalAggregationFunction? simpleTotalAggregationFunction;
+
+  TotalAggregationFunction({
+    this.simpleTotalAggregationFunction,
+  });
+
+  factory TotalAggregationFunction.fromJson(Map<String, dynamic> json) {
+    return TotalAggregationFunction(
+      simpleTotalAggregationFunction:
+          (json['SimpleTotalAggregationFunction'] as String?)
+              ?.toSimpleTotalAggregationFunction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final simpleTotalAggregationFunction = this.simpleTotalAggregationFunction;
+    return {
+      if (simpleTotalAggregationFunction != null)
+        'SimpleTotalAggregationFunction':
+            simpleTotalAggregationFunction.toValue(),
+    };
+  }
+}
+
+/// The total aggregation settings map of a field id.
+class TotalAggregationOption {
+  /// The field id that's associated with the total aggregation option.
+  final String fieldId;
+
+  /// The total aggregation function that you want to set for a specified field
+  /// id.
+  final TotalAggregationFunction totalAggregationFunction;
+
+  TotalAggregationOption({
+    required this.fieldId,
+    required this.totalAggregationFunction,
+  });
+
+  factory TotalAggregationOption.fromJson(Map<String, dynamic> json) {
+    return TotalAggregationOption(
+      fieldId: json['FieldId'] as String,
+      totalAggregationFunction: TotalAggregationFunction.fromJson(
+          json['TotalAggregationFunction'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldId = this.fieldId;
+    final totalAggregationFunction = this.totalAggregationFunction;
+    return {
+      'FieldId': fieldId,
+      'TotalAggregationFunction': totalAggregationFunction,
     };
   }
 }
@@ -49514,6 +55872,9 @@ class TotalOptions {
   /// The scroll status (pinned, scrolled) for the total cells.
   final TableTotalsScrollStatus? scrollStatus;
 
+  /// The total aggregation settings for each value field.
+  final List<TotalAggregationOption>? totalAggregationOptions;
+
   /// Cell styling options for the total cells.
   final TableCellStyle? totalCellStyle;
 
@@ -49524,6 +55885,7 @@ class TotalOptions {
     this.customLabel,
     this.placement,
     this.scrollStatus,
+    this.totalAggregationOptions,
     this.totalCellStyle,
     this.totalsVisibility,
   });
@@ -49534,6 +55896,11 @@ class TotalOptions {
       placement: (json['Placement'] as String?)?.toTableTotalsPlacement(),
       scrollStatus:
           (json['ScrollStatus'] as String?)?.toTableTotalsScrollStatus(),
+      totalAggregationOptions: (json['TotalAggregationOptions'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => TotalAggregationOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
       totalCellStyle: json['TotalCellStyle'] != null
           ? TableCellStyle.fromJson(
               json['TotalCellStyle'] as Map<String, dynamic>)
@@ -49546,12 +55913,15 @@ class TotalOptions {
     final customLabel = this.customLabel;
     final placement = this.placement;
     final scrollStatus = this.scrollStatus;
+    final totalAggregationOptions = this.totalAggregationOptions;
     final totalCellStyle = this.totalCellStyle;
     final totalsVisibility = this.totalsVisibility;
     return {
       if (customLabel != null) 'CustomLabel': customLabel,
       if (placement != null) 'Placement': placement.toValue(),
       if (scrollStatus != null) 'ScrollStatus': scrollStatus.toValue(),
+      if (totalAggregationOptions != null)
+        'TotalAggregationOptions': totalAggregationOptions,
       if (totalCellStyle != null) 'TotalCellStyle': totalCellStyle,
       if (totalsVisibility != null)
         'TotalsVisibility': totalsVisibility.toValue(),
@@ -49730,6 +56100,9 @@ class TreeMapConfiguration {
   /// displayed in a tree map.
   final ChartAxisLabelOptions? groupLabelOptions;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The legend display setup of the visual.
   final LegendOptions? legend;
 
@@ -49749,6 +56122,7 @@ class TreeMapConfiguration {
     this.dataLabels,
     this.fieldWells,
     this.groupLabelOptions,
+    this.interactions,
     this.legend,
     this.sizeLabelOptions,
     this.sortConfiguration,
@@ -49776,6 +56150,10 @@ class TreeMapConfiguration {
           ? ChartAxisLabelOptions.fromJson(
               json['GroupLabelOptions'] as Map<String, dynamic>)
           : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
+          : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
           : null,
@@ -49799,6 +56177,7 @@ class TreeMapConfiguration {
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
     final groupLabelOptions = this.groupLabelOptions;
+    final interactions = this.interactions;
     final legend = this.legend;
     final sizeLabelOptions = this.sizeLabelOptions;
     final sortConfiguration = this.sortConfiguration;
@@ -49809,6 +56188,7 @@ class TreeMapConfiguration {
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
       if (groupLabelOptions != null) 'GroupLabelOptions': groupLabelOptions,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (sizeLabelOptions != null) 'SizeLabelOptions': sizeLabelOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
@@ -49986,6 +56366,43 @@ class TrendArrowOptions {
     final visibility = this.visibility;
     return {
       if (visibility != null) 'Visibility': visibility.toValue(),
+    };
+  }
+}
+
+/// The parameters that are required to connect to a Trino data source.
+class TrinoParameters {
+  /// The catalog name for the Trino data source.
+  final String catalog;
+
+  /// The host name of the Trino data source.
+  final String host;
+
+  /// The port for the Trino data source.
+  final int port;
+
+  TrinoParameters({
+    required this.catalog,
+    required this.host,
+    required this.port,
+  });
+
+  factory TrinoParameters.fromJson(Map<String, dynamic> json) {
+    return TrinoParameters(
+      catalog: json['Catalog'] as String,
+      host: json['Host'] as String,
+      port: json['Port'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalog = this.catalog;
+    final host = this.host;
+    final port = this.port;
+    return {
+      'Catalog': catalog,
+      'Host': host,
+      'Port': port,
     };
   }
 }
@@ -50300,37 +56717,38 @@ extension UndefinedSpecifiedValueTypeFromString on String {
 
 /// The unique values computation configuration.
 class UniqueValuesComputation {
-  /// The category field that is used in a computation.
-  final DimensionField category;
-
   /// The ID for a computation.
   final String computationId;
+
+  /// The category field that is used in a computation.
+  final DimensionField? category;
 
   /// The name of a computation.
   final String? name;
 
   UniqueValuesComputation({
-    required this.category,
     required this.computationId,
+    this.category,
     this.name,
   });
 
   factory UniqueValuesComputation.fromJson(Map<String, dynamic> json) {
     return UniqueValuesComputation(
-      category:
-          DimensionField.fromJson(json['Category'] as Map<String, dynamic>),
       computationId: json['ComputationId'] as String,
+      category: json['Category'] != null
+          ? DimensionField.fromJson(json['Category'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final category = this.category;
     final computationId = this.computationId;
+    final category = this.category;
     final name = this.name;
     return {
-      'Category': category,
       'ComputationId': computationId,
+      if (category != null) 'Category': category,
       if (name != null) 'Name': name,
     };
   }
@@ -50527,6 +56945,40 @@ class UpdateAnalysisResponse {
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
       updateStatus: (json['UpdateStatus'] as String?)?.toResourceStatus(),
+    );
+  }
+}
+
+class UpdateDashboardLinksResponse {
+  /// The Amazon Resource Name (ARN) of the dashboard.
+  final String? dashboardArn;
+
+  /// A list of analysis Amazon Resource Names (ARNs) to be linked to the
+  /// dashboard.
+  final List<String>? linkEntities;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  UpdateDashboardLinksResponse({
+    this.dashboardArn,
+    this.linkEntities,
+    this.requestId,
+    this.status,
+  });
+
+  factory UpdateDashboardLinksResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDashboardLinksResponse(
+      dashboardArn: json['DashboardArn'] as String?,
+      linkEntities: (json['LinkEntities'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
     );
   }
 }
@@ -50952,6 +57404,27 @@ class UpdateIAMPolicyAssignmentResponse {
   }
 }
 
+class UpdateIdentityPropagationConfigResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  UpdateIdentityPropagationConfigResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory UpdateIdentityPropagationConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateIdentityPropagationConfigResponse(
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
 class UpdateIpRestrictionResponse {
   /// The ID of the Amazon Web Services account that contains the IP rules.
   final String? awsAccountId;
@@ -50973,6 +57446,40 @@ class UpdateIpRestrictionResponse {
       awsAccountId: json['AwsAccountId'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
+    );
+  }
+}
+
+class UpdateKeyRegistrationResponse {
+  /// A list of all customer managed key registrations that failed to update.
+  final List<FailedKeyRegistrationEntry>? failedKeyRegistration;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// A list of all customer managed key registrations that were successfully
+  /// updated.
+  final List<SuccessfulKeyRegistrationEntry>? successfulKeyRegistration;
+
+  UpdateKeyRegistrationResponse({
+    this.failedKeyRegistration,
+    this.requestId,
+    this.successfulKeyRegistration,
+  });
+
+  factory UpdateKeyRegistrationResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateKeyRegistrationResponse(
+      failedKeyRegistration: (json['FailedKeyRegistration'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedKeyRegistrationEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestId: json['RequestId'] as String?,
+      successfulKeyRegistration: (json['SuccessfulKeyRegistration'] as List?)
+          ?.whereNotNull()
+          .map((e) => SuccessfulKeyRegistrationEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -51023,6 +57530,48 @@ class UpdateRefreshScheduleResponse {
       arn: json['Arn'] as String?,
       requestId: json['RequestId'] as String?,
       scheduleId: json['ScheduleId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
+class UpdateRoleCustomPermissionResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  UpdateRoleCustomPermissionResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory UpdateRoleCustomPermissionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateRoleCustomPermissionResponse(
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+}
+
+class UpdateSPICECapacityConfigurationResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  UpdateSPICECapacityConfigurationResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory UpdateSPICECapacityConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSPICECapacityConfigurationResponse(
+      requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
     );
   }
@@ -51534,6 +58083,23 @@ class User {
   /// Amazon QuickSight settings.
   /// </li>
   /// <li>
+  /// <code>READER_PRO</code>: Reader Pro adds Generative BI capabilities to the
+  /// Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can
+  /// build stories with Amazon Q, and can generate executive summaries from
+  /// dashboards.
+  /// </li>
+  /// <li>
+  /// <code>AUTHOR_PRO</code>: Author Pro adds Generative BI capabilities to the
+  /// Author role. Author Pros can author dashboards with natural language with
+  /// Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and
+  /// generate executive summaries from dashboards.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_PRO</code>: Admin Pros are Author Pros who can also manage
+  /// Amazon QuickSight administrative settings. Admin Pro users are billed at
+  /// Author Pro pricing.
+  /// </li>
+  /// <li>
   /// <code>RESTRICTED_READER</code>: This role isn't currently available for use.
   /// </li>
   /// <li>
@@ -51588,6 +58154,9 @@ enum UserRole {
   reader,
   restrictedAuthor,
   restrictedReader,
+  adminPro,
+  authorPro,
+  readerPro,
 }
 
 extension UserRoleValueExtension on UserRole {
@@ -51603,6 +58172,12 @@ extension UserRoleValueExtension on UserRole {
         return 'RESTRICTED_AUTHOR';
       case UserRole.restrictedReader:
         return 'RESTRICTED_READER';
+      case UserRole.adminPro:
+        return 'ADMIN_PRO';
+      case UserRole.authorPro:
+        return 'AUTHOR_PRO';
+      case UserRole.readerPro:
+        return 'READER_PRO';
     }
   }
 }
@@ -51620,6 +58195,12 @@ extension UserRoleFromString on String {
         return UserRole.restrictedAuthor;
       case 'RESTRICTED_READER':
         return UserRole.restrictedReader;
+      case 'ADMIN_PRO':
+        return UserRole.adminPro;
+      case 'AUTHOR_PRO':
+        return UserRole.authorPro;
+      case 'READER_PRO':
+        return UserRole.readerPro;
     }
     throw Exception('$this is not known in enum UserRole');
   }
@@ -51890,6 +58471,57 @@ class VPCConnectionSummary {
   }
 }
 
+/// The option to relax the validation that is required to create and update
+/// analyses, dashboards, and templates with definition objects. When you set
+/// this value to <code>LENIENT</code>, validation is skipped for specific
+/// errors.
+class ValidationStrategy {
+  /// The mode of validation for the asset to be created or updated. When you set
+  /// this value to <code>STRICT</code>, strict validation for every error is
+  /// enforced. When you set this value to <code>LENIENT</code>, validation is
+  /// skipped for specific UI errors.
+  final ValidationStrategyMode mode;
+
+  ValidationStrategy({
+    required this.mode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    return {
+      'Mode': mode.toValue(),
+    };
+  }
+}
+
+enum ValidationStrategyMode {
+  strict,
+  lenient,
+}
+
+extension ValidationStrategyModeValueExtension on ValidationStrategyMode {
+  String toValue() {
+    switch (this) {
+      case ValidationStrategyMode.strict:
+        return 'STRICT';
+      case ValidationStrategyMode.lenient:
+        return 'LENIENT';
+    }
+  }
+}
+
+extension ValidationStrategyModeFromString on String {
+  ValidationStrategyMode toValidationStrategyMode() {
+    switch (this) {
+      case 'STRICT':
+        return ValidationStrategyMode.strict;
+      case 'LENIENT':
+        return ValidationStrategyMode.lenient;
+    }
+    throw Exception('$this is not known in enum ValidationStrategyMode');
+  }
+}
+
 enum ValueWhenUnsetOption {
   recommendedValue,
   $null,
@@ -51922,6 +58554,7 @@ enum VerticalTextAlignment {
   top,
   middle,
   bottom,
+  auto,
 }
 
 extension VerticalTextAlignmentValueExtension on VerticalTextAlignment {
@@ -51933,6 +58566,8 @@ extension VerticalTextAlignmentValueExtension on VerticalTextAlignment {
         return 'MIDDLE';
       case VerticalTextAlignment.bottom:
         return 'BOTTOM';
+      case VerticalTextAlignment.auto:
+        return 'AUTO';
     }
   }
 }
@@ -51946,6 +58581,8 @@ extension VerticalTextAlignmentFromString on String {
         return VerticalTextAlignment.middle;
       case 'BOTTOM':
         return VerticalTextAlignment.bottom;
+      case 'AUTO':
+        return VerticalTextAlignment.auto;
     }
     throw Exception('$this is not known in enum VerticalTextAlignment');
   }
@@ -52529,6 +59166,42 @@ extension VisualCustomActionTriggerFromString on String {
   }
 }
 
+/// The general visual interactions setup for visual publish options
+class VisualInteractionOptions {
+  /// The context menu options for a visual.
+  final ContextMenuOption? contextMenuOption;
+
+  /// The on-visual menu options for a visual.
+  final VisualMenuOption? visualMenuOption;
+
+  VisualInteractionOptions({
+    this.contextMenuOption,
+    this.visualMenuOption,
+  });
+
+  factory VisualInteractionOptions.fromJson(Map<String, dynamic> json) {
+    return VisualInteractionOptions(
+      contextMenuOption: json['ContextMenuOption'] != null
+          ? ContextMenuOption.fromJson(
+              json['ContextMenuOption'] as Map<String, dynamic>)
+          : null,
+      visualMenuOption: json['VisualMenuOption'] != null
+          ? VisualMenuOption.fromJson(
+              json['VisualMenuOption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contextMenuOption = this.contextMenuOption;
+    final visualMenuOption = this.visualMenuOption;
+    return {
+      if (contextMenuOption != null) 'ContextMenuOption': contextMenuOption,
+      if (visualMenuOption != null) 'VisualMenuOption': visualMenuOption,
+    };
+  }
+}
+
 /// The menu options for a visual.
 class VisualMenuOption {
   /// The availaiblity status of a visual's menu options.
@@ -52721,6 +59394,33 @@ class WaterfallChartAggregatedFieldWells {
   }
 }
 
+/// The color configuration of a waterfall visual.
+class WaterfallChartColorConfiguration {
+  /// The color configuration for individual groups within a waterfall visual.
+  final WaterfallChartGroupColorConfiguration? groupColorConfiguration;
+
+  WaterfallChartColorConfiguration({
+    this.groupColorConfiguration,
+  });
+
+  factory WaterfallChartColorConfiguration.fromJson(Map<String, dynamic> json) {
+    return WaterfallChartColorConfiguration(
+      groupColorConfiguration: json['GroupColorConfiguration'] != null
+          ? WaterfallChartGroupColorConfiguration.fromJson(
+              json['GroupColorConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupColorConfiguration = this.groupColorConfiguration;
+    return {
+      if (groupColorConfiguration != null)
+        'GroupColorConfiguration': groupColorConfiguration,
+    };
+  }
+}
+
 /// The configuration for a waterfall visual.
 class WaterfallChartConfiguration {
   /// The options that determine the presentation of the category axis.
@@ -52729,11 +59429,17 @@ class WaterfallChartConfiguration {
   /// The options that determine the presentation of the category axis label.
   final ChartAxisLabelOptions? categoryAxisLabelOptions;
 
+  /// The color configuration of a waterfall visual.
+  final WaterfallChartColorConfiguration? colorConfiguration;
+
   /// The data label configuration of a waterfall visual.
   final DataLabelOptions? dataLabels;
 
   /// The field well configuration of a waterfall visual.
   final WaterfallChartFieldWells? fieldWells;
+
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
 
   /// The legend configuration of a waterfall visual.
   final LegendOptions? legend;
@@ -52756,8 +59462,10 @@ class WaterfallChartConfiguration {
   WaterfallChartConfiguration({
     this.categoryAxisDisplayOptions,
     this.categoryAxisLabelOptions,
+    this.colorConfiguration,
     this.dataLabels,
     this.fieldWells,
+    this.interactions,
     this.legend,
     this.primaryYAxisDisplayOptions,
     this.primaryYAxisLabelOptions,
@@ -52776,6 +59484,10 @@ class WaterfallChartConfiguration {
           ? ChartAxisLabelOptions.fromJson(
               json['CategoryAxisLabelOptions'] as Map<String, dynamic>)
           : null,
+      colorConfiguration: json['ColorConfiguration'] != null
+          ? WaterfallChartColorConfiguration.fromJson(
+              json['ColorConfiguration'] as Map<String, dynamic>)
+          : null,
       dataLabels: json['DataLabels'] != null
           ? DataLabelOptions.fromJson(
               json['DataLabels'] as Map<String, dynamic>)
@@ -52783,6 +59495,10 @@ class WaterfallChartConfiguration {
       fieldWells: json['FieldWells'] != null
           ? WaterfallChartFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
@@ -52813,8 +59529,10 @@ class WaterfallChartConfiguration {
   Map<String, dynamic> toJson() {
     final categoryAxisDisplayOptions = this.categoryAxisDisplayOptions;
     final categoryAxisLabelOptions = this.categoryAxisLabelOptions;
+    final colorConfiguration = this.colorConfiguration;
     final dataLabels = this.dataLabels;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final legend = this.legend;
     final primaryYAxisDisplayOptions = this.primaryYAxisDisplayOptions;
     final primaryYAxisLabelOptions = this.primaryYAxisLabelOptions;
@@ -52826,8 +59544,10 @@ class WaterfallChartConfiguration {
         'CategoryAxisDisplayOptions': categoryAxisDisplayOptions,
       if (categoryAxisLabelOptions != null)
         'CategoryAxisLabelOptions': categoryAxisLabelOptions,
+      if (colorConfiguration != null) 'ColorConfiguration': colorConfiguration,
       if (dataLabels != null) 'DataLabels': dataLabels,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
       if (primaryYAxisDisplayOptions != null)
         'PrimaryYAxisDisplayOptions': primaryYAxisDisplayOptions,
@@ -52868,6 +59588,44 @@ class WaterfallChartFieldWells {
       if (waterfallChartAggregatedFieldWells != null)
         'WaterfallChartAggregatedFieldWells':
             waterfallChartAggregatedFieldWells,
+    };
+  }
+}
+
+/// The color configuration for individual groups within a waterfall visual.
+class WaterfallChartGroupColorConfiguration {
+  /// Defines the color for the negative bars of a waterfall chart.
+  final String? negativeBarColor;
+
+  /// Defines the color for the positive bars of a waterfall chart.
+  final String? positiveBarColor;
+
+  /// Defines the color for the total bars of a waterfall chart.
+  final String? totalBarColor;
+
+  WaterfallChartGroupColorConfiguration({
+    this.negativeBarColor,
+    this.positiveBarColor,
+    this.totalBarColor,
+  });
+
+  factory WaterfallChartGroupColorConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return WaterfallChartGroupColorConfiguration(
+      negativeBarColor: json['NegativeBarColor'] as String?,
+      positiveBarColor: json['PositiveBarColor'] as String?,
+      totalBarColor: json['TotalBarColor'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final negativeBarColor = this.negativeBarColor;
+    final positiveBarColor = this.positiveBarColor;
+    final totalBarColor = this.totalBarColor;
+    return {
+      if (negativeBarColor != null) 'NegativeBarColor': negativeBarColor,
+      if (positiveBarColor != null) 'PositiveBarColor': positiveBarColor,
+      if (totalBarColor != null) 'TotalBarColor': totalBarColor,
     };
   }
 }
@@ -53153,6 +59911,9 @@ class WordCloudChartConfiguration {
   /// The field wells of the visual.
   final WordCloudFieldWells? fieldWells;
 
+  /// The general visual interactions setup for a visual.
+  final VisualInteractionOptions? interactions;
+
   /// The sort configuration of a word cloud visual.
   final WordCloudSortConfiguration? sortConfiguration;
 
@@ -53162,6 +59923,7 @@ class WordCloudChartConfiguration {
   WordCloudChartConfiguration({
     this.categoryLabelOptions,
     this.fieldWells,
+    this.interactions,
     this.sortConfiguration,
     this.wordCloudOptions,
   });
@@ -53175,6 +59937,10 @@ class WordCloudChartConfiguration {
       fieldWells: json['FieldWells'] != null
           ? WordCloudFieldWells.fromJson(
               json['FieldWells'] as Map<String, dynamic>)
+          : null,
+      interactions: json['Interactions'] != null
+          ? VisualInteractionOptions.fromJson(
+              json['Interactions'] as Map<String, dynamic>)
           : null,
       sortConfiguration: json['SortConfiguration'] != null
           ? WordCloudSortConfiguration.fromJson(
@@ -53190,12 +59956,14 @@ class WordCloudChartConfiguration {
   Map<String, dynamic> toJson() {
     final categoryLabelOptions = this.categoryLabelOptions;
     final fieldWells = this.fieldWells;
+    final interactions = this.interactions;
     final sortConfiguration = this.sortConfiguration;
     final wordCloudOptions = this.wordCloudOptions;
     return {
       if (categoryLabelOptions != null)
         'CategoryLabelOptions': categoryLabelOptions,
       if (fieldWells != null) 'FieldWells': fieldWells,
+      if (interactions != null) 'Interactions': interactions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
       if (wordCloudOptions != null) 'WordCloudOptions': wordCloudOptions,
     };
@@ -53558,6 +60326,32 @@ extension WordCloudWordScalingFromString on String {
         return WordCloudWordScaling.normal;
     }
     throw Exception('$this is not known in enum WordCloudWordScaling');
+  }
+}
+
+/// The options that are available for a single Y axis in a chart.
+class YAxisOptions {
+  /// The Y axis type to be used in the chart.
+  ///
+  /// If you choose <code>PRIMARY_Y_AXIS</code>, the primary Y Axis is located on
+  /// the leftmost vertical axis of the chart.
+  final SingleYAxisOption yAxis;
+
+  YAxisOptions({
+    required this.yAxis,
+  });
+
+  factory YAxisOptions.fromJson(Map<String, dynamic> json) {
+    return YAxisOptions(
+      yAxis: (json['YAxis'] as String).toSingleYAxisOption(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final yAxis = this.yAxis;
+    return {
+      'YAxis': yAxis.toValue(),
+    };
   }
 }
 

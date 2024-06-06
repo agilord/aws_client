@@ -20,8 +20,8 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This API reference provides descriptions, syntax, and other details about
-/// each of the actions and data types for AWS Migration Hub Orchestrator. he
-/// topic for each action shows the API request parameters and the response.
+/// each of the actions and data types for AWS Migration Hub Orchestrator. The
+/// topic for each action shows the API request parameters and responses.
 /// Alternatively, you can use one of the AWS SDKs to access an API that is
 /// tailored to the programming language or platform that you're using.
 class MigrationHubOrchestrator {
@@ -53,16 +53,61 @@ class MigrationHubOrchestrator {
     _protocol.close();
   }
 
+  /// Creates a migration workflow template.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [templateName] :
+  /// The name of the migration workflow template.
+  ///
+  /// Parameter [templateSource] :
+  /// The source of the migration workflow template.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://smithy.io/2.0/spec/behavior-traits.html#idempotencytoken-trait">Idempotency</a>
+  /// in the Smithy documentation.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the migration workflow template.
+  ///
+  /// Parameter [templateDescription] :
+  /// A description of the migration workflow template.
+  Future<CreateTemplateResponse> createTemplate({
+    required String templateName,
+    required TemplateSource templateSource,
+    String? clientToken,
+    Map<String, String>? tags,
+    String? templateDescription,
+  }) async {
+    final $payload = <String, dynamic>{
+      'templateName': templateName,
+      'templateSource': templateSource,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+      if (templateDescription != null)
+        'templateDescription': templateDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/template',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTemplateResponse.fromJson(response);
+  }
+
   /// Create a workflow to orchestrate your migrations.
   ///
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
-  ///
-  /// Parameter [applicationConfigurationId] :
-  /// The configuration ID of the application configured in Application
-  /// Discovery Service.
   ///
   /// Parameter [inputParameters] :
   /// The input parameters required to create a migration workflow.
@@ -73,6 +118,10 @@ class MigrationHubOrchestrator {
   /// Parameter [templateId] :
   /// The ID of the template.
   ///
+  /// Parameter [applicationConfigurationId] :
+  /// The configuration ID of the application configured in Application
+  /// Discovery Service.
+  ///
   /// Parameter [description] :
   /// The description of the migration workflow.
   ///
@@ -82,19 +131,20 @@ class MigrationHubOrchestrator {
   /// Parameter [tags] :
   /// The tags to add on a migration workflow.
   Future<CreateMigrationWorkflowResponse> createWorkflow({
-    required String applicationConfigurationId,
     required Map<String, StepInput> inputParameters,
     required String name,
     required String templateId,
+    String? applicationConfigurationId,
     String? description,
     List<String>? stepTargets,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'applicationConfigurationId': applicationConfigurationId,
       'inputParameters': inputParameters,
       'name': name,
       'templateId': templateId,
+      if (applicationConfigurationId != null)
+        'applicationConfigurationId': applicationConfigurationId,
       if (description != null) 'description': description,
       if (stepTargets != null) 'stepTargets': stepTargets,
       if (tags != null) 'tags': tags,
@@ -222,6 +272,27 @@ class MigrationHubOrchestrator {
       exceptionFnMap: _exceptionFns,
     );
     return CreateWorkflowStepGroupResponse.fromJson(response);
+  }
+
+  /// Deletes a migration workflow template.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the request to delete a migration workflow template.
+  Future<void> deleteTemplate({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/template/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Delete a migration workflow. You must pause a running workflow in
@@ -427,7 +498,7 @@ class MigrationHubOrchestrator {
   /// The ID of the step.
   ///
   /// Parameter [stepGroupId] :
-  /// desThe ID of the step group.
+  /// The ID of the step group.
   ///
   /// Parameter [workflowId] :
   /// The ID of the migration workflow.
@@ -939,6 +1010,47 @@ class MigrationHubOrchestrator {
     );
   }
 
+  /// Updates a migration workflow template.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the request to update a migration workflow template.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [templateDescription] :
+  /// The description of the migration workflow template to update.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the migration workflow template to update.
+  Future<UpdateTemplateResponse> updateTemplate({
+    required String id,
+    String? clientToken,
+    String? templateDescription,
+    String? templateName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (templateDescription != null)
+        'templateDescription': templateDescription,
+      if (templateName != null) 'templateName': templateName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/template/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTemplateResponse.fromJson(response);
+  }
+
   /// Update a migration workflow.
   ///
   /// May throw [ThrottlingException].
@@ -1218,6 +1330,48 @@ class CreateMigrationWorkflowResponse {
   }
 }
 
+class CreateTemplateResponse {
+  /// The tags added to the migration workflow template.
+  final Map<String, String>? tags;
+
+  /// The Amazon Resource Name (ARN) of the migration workflow template. The
+  /// format for an Migration Hub Orchestrator template ARN is
+  /// <code>arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? templateArn;
+
+  /// The ID of the migration workflow template.
+  final String? templateId;
+
+  CreateTemplateResponse({
+    this.tags,
+    this.templateArn,
+    this.templateId,
+  });
+
+  factory CreateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTemplateResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateArn: json['templateArn'] as String?,
+      templateId: json['templateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final templateArn = this.templateArn;
+    final templateId = this.templateId;
+    return {
+      if (tags != null) 'tags': tags,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateId != null) 'templateId': templateId,
+    };
+  }
+}
+
 class CreateWorkflowStepGroupResponse {
   /// The time at which the step group is created.
   final DateTime? creationTime;
@@ -1413,6 +1567,18 @@ class DeleteMigrationWorkflowResponse {
       if (id != null) 'id': id,
       if (status != null) 'status': status.toValue(),
     };
+  }
+}
+
+class DeleteTemplateResponse {
+  DeleteTemplateResponse();
+
+  factory DeleteTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -1623,8 +1789,50 @@ class GetMigrationWorkflowTemplateResponse {
   /// The name of the template.
   final String? name;
 
+  /// The owner of the migration workflow template.
+  final String? owner;
+
   /// The status of the template.
   final TemplateStatus? status;
+
+  /// The status message of retrieving migration workflow templates.
+  final String? statusMessage;
+
+  /// The tags added to the migration workflow template.
+  final Map<String, String>? tags;
+
+  /// &gt;The Amazon Resource Name (ARN) of the migration workflow template. The
+  /// format for an Migration Hub Orchestrator template ARN is
+  /// <code>arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? templateArn;
+
+  /// The class of the migration workflow template. The available template classes
+  /// are:
+  ///
+  /// <ul>
+  /// <li>
+  /// A2C
+  /// </li>
+  /// <li>
+  /// MGN
+  /// </li>
+  /// <li>
+  /// SAP_MULTI
+  /// </li>
+  /// <li>
+  /// SQL_EC2
+  /// </li>
+  /// <li>
+  /// SQL_RDS
+  /// </li>
+  /// <li>
+  /// VMIE
+  /// </li>
+  /// </ul>
+  final String? templateClass;
 
   /// List of AWS services utilized in a migration workflow.
   final List<Tool>? tools;
@@ -1635,7 +1843,12 @@ class GetMigrationWorkflowTemplateResponse {
     this.id,
     this.inputs,
     this.name,
+    this.owner,
     this.status,
+    this.statusMessage,
+    this.tags,
+    this.templateArn,
+    this.templateClass,
     this.tools,
   });
 
@@ -1650,7 +1863,13 @@ class GetMigrationWorkflowTemplateResponse {
           .map((e) => TemplateInput.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
+      owner: json['owner'] as String?,
       status: (json['status'] as String?)?.toTemplateStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateArn: json['templateArn'] as String?,
+      templateClass: json['templateClass'] as String?,
       tools: (json['tools'] as List?)
           ?.whereNotNull()
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
@@ -1664,7 +1883,12 @@ class GetMigrationWorkflowTemplateResponse {
     final id = this.id;
     final inputs = this.inputs;
     final name = this.name;
+    final owner = this.owner;
     final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    final templateArn = this.templateArn;
+    final templateClass = this.templateClass;
     final tools = this.tools;
     return {
       if (creationTime != null)
@@ -1673,7 +1897,12 @@ class GetMigrationWorkflowTemplateResponse {
       if (id != null) 'id': id,
       if (inputs != null) 'inputs': inputs,
       if (name != null) 'name': name,
+      if (owner != null) 'owner': owner,
       if (status != null) 'status': status.toValue(),
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (tags != null) 'tags': tags,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateClass != null) 'templateClass': templateClass,
       if (tools != null) 'tools': tools,
     };
   }
@@ -3138,6 +3367,7 @@ class StepOutput {
 
 enum StepStatus {
   awaitingDependencies,
+  skipped,
   ready,
   inProgress,
   completed,
@@ -3151,6 +3381,8 @@ extension StepStatusValueExtension on StepStatus {
     switch (this) {
       case StepStatus.awaitingDependencies:
         return 'AWAITING_DEPENDENCIES';
+      case StepStatus.skipped:
+        return 'SKIPPED';
       case StepStatus.ready:
         return 'READY';
       case StepStatus.inProgress:
@@ -3172,6 +3404,8 @@ extension StepStatusFromString on String {
     switch (this) {
       case 'AWAITING_DEPENDENCIES':
         return StepStatus.awaitingDependencies;
+      case 'SKIPPED':
+        return StepStatus.skipped;
       case 'READY':
         return StepStatus.ready;
       case 'IN_PROGRESS':
@@ -3322,8 +3556,29 @@ class TemplateInput {
   }
 }
 
+/// The migration workflow template used as the source for the new template.
+class TemplateSource {
+  /// The ID of the workflow from the source migration workflow template.
+  final String? workflowId;
+
+  TemplateSource({
+    this.workflowId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    return {
+      if (workflowId != null) 'workflowId': workflowId,
+    };
+  }
+}
+
 enum TemplateStatus {
   created,
+  ready,
+  pendingCreation,
+  creating,
+  creationFailed,
 }
 
 extension TemplateStatusValueExtension on TemplateStatus {
@@ -3331,6 +3586,14 @@ extension TemplateStatusValueExtension on TemplateStatus {
     switch (this) {
       case TemplateStatus.created:
         return 'CREATED';
+      case TemplateStatus.ready:
+        return 'READY';
+      case TemplateStatus.pendingCreation:
+        return 'PENDING_CREATION';
+      case TemplateStatus.creating:
+        return 'CREATING';
+      case TemplateStatus.creationFailed:
+        return 'CREATION_FAILED';
     }
   }
 }
@@ -3340,6 +3603,14 @@ extension TemplateStatusFromString on String {
     switch (this) {
       case 'CREATED':
         return TemplateStatus.created;
+      case 'READY':
+        return TemplateStatus.ready;
+      case 'PENDING_CREATION':
+        return TemplateStatus.pendingCreation;
+      case 'CREATING':
+        return TemplateStatus.creating;
+      case 'CREATION_FAILED':
+        return TemplateStatus.creationFailed;
     }
     throw Exception('$this is not known in enum TemplateStatus');
   }
@@ -3671,6 +3942,48 @@ class UpdateMigrationWorkflowResponse {
       if (tags != null) 'tags': tags,
       if (templateId != null) 'templateId': templateId,
       if (workflowInputs != null) 'workflowInputs': workflowInputs,
+    };
+  }
+}
+
+class UpdateTemplateResponse {
+  /// The tags added to the migration workflow template.
+  final Map<String, String>? tags;
+
+  /// The ARN of the migration workflow template being updated. The format for an
+  /// Migration Hub Orchestrator template ARN is
+  /// <code>arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? templateArn;
+
+  /// The ID of the migration workflow template being updated.
+  final String? templateId;
+
+  UpdateTemplateResponse({
+    this.tags,
+    this.templateArn,
+    this.templateId,
+  });
+
+  factory UpdateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTemplateResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateArn: json['templateArn'] as String?,
+      templateId: json['templateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final templateArn = this.templateArn;
+    final templateId = this.templateId;
+    return {
+      if (tags != null) 'tags': tags,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateId != null) 'templateId': templateId,
     };
   }
 }
@@ -4128,6 +4441,11 @@ class AccessDeniedException extends _s.GenericAwsException {
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
@@ -4151,6 +4469,8 @@ class ValidationException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>

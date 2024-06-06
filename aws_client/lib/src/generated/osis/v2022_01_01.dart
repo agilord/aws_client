@@ -57,11 +57,13 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html">Creating
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [LimitExceededException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [maxUnits] :
   /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -80,6 +82,13 @@ class OpenSearchIngestion {
   /// are unique across the pipelines owned by an account within an Amazon Web
   /// Services Region.
   ///
+  /// Parameter [bufferOptions] :
+  /// Key-value pairs to configure persistent buffering for the pipeline.
+  ///
+  /// Parameter [encryptionAtRestOptions] :
+  /// Key-value pairs to configure encryption for data that is written to a
+  /// persistent buffer.
+  ///
   /// Parameter [logPublishingOptions] :
   /// Key-value pairs to configure log publishing.
   ///
@@ -95,6 +104,8 @@ class OpenSearchIngestion {
     required int minUnits,
     required String pipelineConfigurationBody,
     required String pipelineName,
+    BufferOptions? bufferOptions,
+    EncryptionAtRestOptions? encryptionAtRestOptions,
     LogPublishingOptions? logPublishingOptions,
     List<Tag>? tags,
     VpcOptions? vpcOptions,
@@ -103,14 +114,14 @@ class OpenSearchIngestion {
       'maxUnits',
       maxUnits,
       1,
-      96,
+      1152921504606846976,
       isRequired: true,
     );
     _s.validateNumRange(
       'minUnits',
       minUnits,
       1,
-      96,
+      1152921504606846976,
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -118,6 +129,9 @@ class OpenSearchIngestion {
       'MinUnits': minUnits,
       'PipelineConfigurationBody': pipelineConfigurationBody,
       'PipelineName': pipelineName,
+      if (bufferOptions != null) 'BufferOptions': bufferOptions,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (logPublishingOptions != null)
         'LogPublishingOptions': logPublishingOptions,
       if (tags != null) 'Tags': tags,
@@ -136,6 +150,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/delete-pipeline.html">Deleting
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   /// May throw [AccessDeniedException].
@@ -158,13 +173,14 @@ class OpenSearchIngestion {
 
   /// Retrieves information about an OpenSearch Ingestion pipeline.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [pipelineName] :
-  /// The name of the pipeline to get information about.
+  /// The name of the pipeline.
   Future<GetPipelineResponse> getPipeline({
     required String pipelineName,
   }) async {
@@ -184,6 +200,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint">Using
   /// blueprints to create a pipeline</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [ValidationException].
@@ -191,14 +208,22 @@ class OpenSearchIngestion {
   ///
   /// Parameter [blueprintName] :
   /// The name of the blueprint to retrieve.
+  ///
+  /// Parameter [format] :
+  /// The format format of the blueprint to retrieve.
   Future<GetPipelineBlueprintResponse> getPipelineBlueprint({
     required String blueprintName,
+    String? format,
   }) async {
+    final $query = <String, List<String>>{
+      if (format != null) 'format': [format],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/2022-01-01/osis/getPipelineBlueprint/${Uri.encodeComponent(blueprintName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetPipelineBlueprintResponse.fromJson(response);
@@ -212,6 +237,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#get-pipeline-progress">Tracking
   /// the status of pipeline creation</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   /// May throw [AccessDeniedException].
@@ -237,6 +263,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint">Using
   /// blueprints to create a pipeline</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   /// May throw [AccessDeniedException].
@@ -256,6 +283,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/list-pipeline.html">Viewing
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   /// May throw [AccessDeniedException].
@@ -300,6 +328,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html">Tagging
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
@@ -327,6 +356,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--start">Starting
   /// an OpenSearch Ingestion pipeline</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalException].
@@ -352,6 +382,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--stop">Stopping
   /// an OpenSearch Ingestion pipeline</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalException].
@@ -377,6 +408,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html">Tagging
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [LimitExceededException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
@@ -412,6 +444,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html">Tagging
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
@@ -445,6 +478,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/update-pipeline.html">Updating
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   /// May throw [AccessDeniedException].
@@ -453,6 +487,13 @@ class OpenSearchIngestion {
   ///
   /// Parameter [pipelineName] :
   /// The name of the pipeline to update.
+  ///
+  /// Parameter [bufferOptions] :
+  /// Key-value pairs to configure persistent buffering for the pipeline.
+  ///
+  /// Parameter [encryptionAtRestOptions] :
+  /// Key-value pairs to configure encryption for data that is written to a
+  /// persistent buffer.
   ///
   /// Parameter [logPublishingOptions] :
   /// Key-value pairs to configure log publishing.
@@ -470,6 +511,8 @@ class OpenSearchIngestion {
   /// <code>\n</code>.
   Future<UpdatePipelineResponse> updatePipeline({
     required String pipelineName,
+    BufferOptions? bufferOptions,
+    EncryptionAtRestOptions? encryptionAtRestOptions,
     LogPublishingOptions? logPublishingOptions,
     int? maxUnits,
     int? minUnits,
@@ -479,15 +522,18 @@ class OpenSearchIngestion {
       'maxUnits',
       maxUnits,
       1,
-      96,
+      1152921504606846976,
     );
     _s.validateNumRange(
       'minUnits',
       minUnits,
       1,
-      96,
+      1152921504606846976,
     );
     final $payload = <String, dynamic>{
+      if (bufferOptions != null) 'BufferOptions': bufferOptions,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (logPublishingOptions != null)
         'LogPublishingOptions': logPublishingOptions,
       if (maxUnits != null) 'MaxUnits': maxUnits,
@@ -510,6 +556,7 @@ class OpenSearchIngestion {
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html">Creating
   /// Amazon OpenSearch Ingestion pipelines</a>.
   ///
+  /// May throw [DisabledOperationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [ValidationException].
@@ -532,6 +579,33 @@ class OpenSearchIngestion {
       exceptionFnMap: _exceptionFns,
     );
     return ValidatePipelineResponse.fromJson(response);
+  }
+}
+
+/// Options that specify the configuration of a persistent buffer. To configure
+/// how OpenSearch Ingestion encrypts this data, set the
+/// <code>EncryptionAtRestOptions</code>. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/osis-features-overview.html#persistent-buffering">Persistent
+/// buffering</a>.
+class BufferOptions {
+  /// Whether persistent buffering should be enabled.
+  final bool persistentBufferEnabled;
+
+  BufferOptions({
+    required this.persistentBufferEnabled,
+  });
+
+  factory BufferOptions.fromJson(Map<String, dynamic> json) {
+    return BufferOptions(
+      persistentBufferEnabled: json['PersistentBufferEnabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final persistentBufferEnabled = this.persistentBufferEnabled;
+    return {
+      'PersistentBufferEnabled': persistentBufferEnabled,
+    };
   }
 }
 
@@ -711,7 +785,7 @@ extension ChangeProgressStatusesFromString on String {
 class CloudWatchLogDestination {
   /// The name of the CloudWatch Logs group to send pipeline logs to. You can
   /// specify an existing log group or create a new one. For example,
-  /// <code>/aws/OpenSearchService/IngestionService/my-pipeline</code>.
+  /// <code>/aws/vendedlogs/OpenSearchService/pipelines</code>.
   final String logGroup;
 
   CloudWatchLogDestination({
@@ -768,12 +842,40 @@ class DeletePipelineResponse {
   }
 }
 
+/// Options to control how OpenSearch encrypts buffer data.
+class EncryptionAtRestOptions {
+  /// The ARN of the KMS key used to encrypt buffer data. By default, data is
+  /// encrypted using an Amazon Web Services owned key.
+  final String kmsKeyArn;
+
+  EncryptionAtRestOptions({
+    required this.kmsKeyArn,
+  });
+
+  factory EncryptionAtRestOptions.fromJson(Map<String, dynamic> json) {
+    return EncryptionAtRestOptions(
+      kmsKeyArn: json['KmsKeyArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'KmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
 class GetPipelineBlueprintResponse {
   /// The requested blueprint in YAML format.
   final PipelineBlueprint? blueprint;
 
+  /// The format of the blueprint.
+  final String? format;
+
   GetPipelineBlueprintResponse({
     this.blueprint,
+    this.format,
   });
 
   factory GetPipelineBlueprintResponse.fromJson(Map<String, dynamic> json) {
@@ -782,13 +884,16 @@ class GetPipelineBlueprintResponse {
           ? PipelineBlueprint.fromJson(
               json['Blueprint'] as Map<String, dynamic>)
           : null,
+      format: json['Format'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final blueprint = this.blueprint;
+    final format = this.format;
     return {
       if (blueprint != null) 'Blueprint': blueprint,
+      if (format != null) 'Format': format,
     };
   }
 }
@@ -970,8 +1075,14 @@ class LogPublishingOptions {
 
 /// Information about an existing OpenSearch Ingestion pipeline.
 class Pipeline {
+  final BufferOptions? bufferOptions;
+
   /// The date and time when the pipeline was created.
   final DateTime? createdAt;
+
+  /// Destinations to which the pipeline writes data.
+  final List<PipelineDestination>? destinations;
+  final EncryptionAtRestOptions? encryptionAtRestOptions;
 
   /// The ingestion endpoints for the pipeline, which you can send data to.
   final List<String>? ingestEndpointUrls;
@@ -997,17 +1108,27 @@ class Pipeline {
   /// The name of the pipeline.
   final String? pipelineName;
 
+  /// A list of VPC endpoints that OpenSearch Ingestion has created to other
+  /// Amazon Web Services services.
+  final List<ServiceVpcEndpoint>? serviceVpcEndpoints;
+
   /// The current status of the pipeline.
   final PipelineStatus? status;
 
   /// The reason for the current status of the pipeline.
   final PipelineStatusReason? statusReason;
 
+  /// A list of tags associated with the given pipeline.
+  final List<Tag>? tags;
+
   /// The VPC interface endpoints that have access to the pipeline.
   final List<VpcEndpoint>? vpcEndpoints;
 
   Pipeline({
+    this.bufferOptions,
     this.createdAt,
+    this.destinations,
+    this.encryptionAtRestOptions,
     this.ingestEndpointUrls,
     this.lastUpdatedAt,
     this.logPublishingOptions,
@@ -1016,14 +1137,28 @@ class Pipeline {
     this.pipelineArn,
     this.pipelineConfigurationBody,
     this.pipelineName,
+    this.serviceVpcEndpoints,
     this.status,
     this.statusReason,
+    this.tags,
     this.vpcEndpoints,
   });
 
   factory Pipeline.fromJson(Map<String, dynamic> json) {
     return Pipeline(
+      bufferOptions: json['BufferOptions'] != null
+          ? BufferOptions.fromJson(
+              json['BufferOptions'] as Map<String, dynamic>)
+          : null,
       createdAt: timeStampFromJson(json['CreatedAt']),
+      destinations: (json['Destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => PipelineDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryptionAtRestOptions: json['EncryptionAtRestOptions'] != null
+          ? EncryptionAtRestOptions.fromJson(
+              json['EncryptionAtRestOptions'] as Map<String, dynamic>)
+          : null,
       ingestEndpointUrls: (json['IngestEndpointUrls'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1038,11 +1173,19 @@ class Pipeline {
       pipelineArn: json['PipelineArn'] as String?,
       pipelineConfigurationBody: json['PipelineConfigurationBody'] as String?,
       pipelineName: json['PipelineName'] as String?,
+      serviceVpcEndpoints: (json['ServiceVpcEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceVpcEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: (json['Status'] as String?)?.toPipelineStatus(),
       statusReason: json['StatusReason'] != null
           ? PipelineStatusReason.fromJson(
               json['StatusReason'] as Map<String, dynamic>)
           : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       vpcEndpoints: (json['VpcEndpoints'] as List?)
           ?.whereNotNull()
           .map((e) => VpcEndpoint.fromJson(e as Map<String, dynamic>))
@@ -1051,7 +1194,10 @@ class Pipeline {
   }
 
   Map<String, dynamic> toJson() {
+    final bufferOptions = this.bufferOptions;
     final createdAt = this.createdAt;
+    final destinations = this.destinations;
+    final encryptionAtRestOptions = this.encryptionAtRestOptions;
     final ingestEndpointUrls = this.ingestEndpointUrls;
     final lastUpdatedAt = this.lastUpdatedAt;
     final logPublishingOptions = this.logPublishingOptions;
@@ -1060,11 +1206,17 @@ class Pipeline {
     final pipelineArn = this.pipelineArn;
     final pipelineConfigurationBody = this.pipelineConfigurationBody;
     final pipelineName = this.pipelineName;
+    final serviceVpcEndpoints = this.serviceVpcEndpoints;
     final status = this.status;
     final statusReason = this.statusReason;
+    final tags = this.tags;
     final vpcEndpoints = this.vpcEndpoints;
     return {
+      if (bufferOptions != null) 'BufferOptions': bufferOptions,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (destinations != null) 'Destinations': destinations,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (ingestEndpointUrls != null) 'IngestEndpointUrls': ingestEndpointUrls,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
@@ -1076,8 +1228,11 @@ class Pipeline {
       if (pipelineConfigurationBody != null)
         'PipelineConfigurationBody': pipelineConfigurationBody,
       if (pipelineName != null) 'PipelineName': pipelineName,
+      if (serviceVpcEndpoints != null)
+        'ServiceVpcEndpoints': serviceVpcEndpoints,
       if (status != null) 'Status': status.toValue(),
       if (statusReason != null) 'StatusReason': statusReason,
+      if (tags != null) 'Tags': tags,
       if (vpcEndpoints != null) 'VpcEndpoints': vpcEndpoints,
     };
   }
@@ -1088,28 +1243,56 @@ class PipelineBlueprint {
   /// The name of the blueprint.
   final String? blueprintName;
 
+  /// A description of the blueprint.
+  final String? displayDescription;
+
+  /// The display name of the blueprint.
+  final String? displayName;
+
   /// The YAML configuration of the blueprint.
   final String? pipelineConfigurationBody;
 
+  /// The name of the service that the blueprint is associated with.
+  final String? service;
+
+  /// The use case that the blueprint relates to.
+  final String? useCase;
+
   PipelineBlueprint({
     this.blueprintName,
+    this.displayDescription,
+    this.displayName,
     this.pipelineConfigurationBody,
+    this.service,
+    this.useCase,
   });
 
   factory PipelineBlueprint.fromJson(Map<String, dynamic> json) {
     return PipelineBlueprint(
       blueprintName: json['BlueprintName'] as String?,
+      displayDescription: json['DisplayDescription'] as String?,
+      displayName: json['DisplayName'] as String?,
       pipelineConfigurationBody: json['PipelineConfigurationBody'] as String?,
+      service: json['Service'] as String?,
+      useCase: json['UseCase'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final blueprintName = this.blueprintName;
+    final displayDescription = this.displayDescription;
+    final displayName = this.displayName;
     final pipelineConfigurationBody = this.pipelineConfigurationBody;
+    final service = this.service;
+    final useCase = this.useCase;
     return {
       if (blueprintName != null) 'BlueprintName': blueprintName,
+      if (displayDescription != null) 'DisplayDescription': displayDescription,
+      if (displayName != null) 'DisplayName': displayName,
       if (pipelineConfigurationBody != null)
         'PipelineConfigurationBody': pipelineConfigurationBody,
+      if (service != null) 'Service': service,
+      if (useCase != null) 'UseCase': useCase,
     };
   }
 }
@@ -1119,20 +1302,78 @@ class PipelineBlueprintSummary {
   /// The name of the blueprint.
   final String? blueprintName;
 
+  /// A description of the blueprint.
+  final String? displayDescription;
+
+  /// The display name of the blueprint.
+  final String? displayName;
+
+  /// The name of the service that the blueprint is associated with.
+  final String? service;
+
+  /// The use case that the blueprint relates to.
+  final String? useCase;
+
   PipelineBlueprintSummary({
     this.blueprintName,
+    this.displayDescription,
+    this.displayName,
+    this.service,
+    this.useCase,
   });
 
   factory PipelineBlueprintSummary.fromJson(Map<String, dynamic> json) {
     return PipelineBlueprintSummary(
       blueprintName: json['BlueprintName'] as String?,
+      displayDescription: json['DisplayDescription'] as String?,
+      displayName: json['DisplayName'] as String?,
+      service: json['Service'] as String?,
+      useCase: json['UseCase'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final blueprintName = this.blueprintName;
+    final displayDescription = this.displayDescription;
+    final displayName = this.displayName;
+    final service = this.service;
+    final useCase = this.useCase;
     return {
       if (blueprintName != null) 'BlueprintName': blueprintName,
+      if (displayDescription != null) 'DisplayDescription': displayDescription,
+      if (displayName != null) 'DisplayName': displayName,
+      if (service != null) 'Service': service,
+      if (useCase != null) 'UseCase': useCase,
+    };
+  }
+}
+
+/// An object representing the destination of a pipeline.
+class PipelineDestination {
+  /// The endpoint receiving data from the pipeline.
+  final String? endpoint;
+
+  /// The name of the service receiving data from the pipeline.
+  final String? serviceName;
+
+  PipelineDestination({
+    this.endpoint,
+    this.serviceName,
+  });
+
+  factory PipelineDestination.fromJson(Map<String, dynamic> json) {
+    return PipelineDestination(
+      endpoint: json['Endpoint'] as String?,
+      serviceName: json['ServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final serviceName = this.serviceName;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (serviceName != null) 'ServiceName': serviceName,
     };
   }
 }
@@ -1233,6 +1474,9 @@ class PipelineSummary {
   /// The date and time when the pipeline was created.
   final DateTime? createdAt;
 
+  /// A list of destinations to which the pipeline writes data.
+  final List<PipelineDestination>? destinations;
+
   /// The date and time when the pipeline was last updated.
   final DateTime? lastUpdatedAt;
 
@@ -1252,8 +1496,12 @@ class PipelineSummary {
   final PipelineStatus? status;
   final PipelineStatusReason? statusReason;
 
+  /// A list of tags associated with the given pipeline.
+  final List<Tag>? tags;
+
   PipelineSummary({
     this.createdAt,
+    this.destinations,
     this.lastUpdatedAt,
     this.maxUnits,
     this.minUnits,
@@ -1261,11 +1509,16 @@ class PipelineSummary {
     this.pipelineName,
     this.status,
     this.statusReason,
+    this.tags,
   });
 
   factory PipelineSummary.fromJson(Map<String, dynamic> json) {
     return PipelineSummary(
       createdAt: timeStampFromJson(json['CreatedAt']),
+      destinations: (json['Destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => PipelineDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       maxUnits: json['MaxUnits'] as int?,
       minUnits: json['MinUnits'] as int?,
@@ -1276,11 +1529,16 @@ class PipelineSummary {
           ? PipelineStatusReason.fromJson(
               json['StatusReason'] as Map<String, dynamic>)
           : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
+    final destinations = this.destinations;
     final lastUpdatedAt = this.lastUpdatedAt;
     final maxUnits = this.maxUnits;
     final minUnits = this.minUnits;
@@ -1288,8 +1546,10 @@ class PipelineSummary {
     final pipelineName = this.pipelineName;
     final status = this.status;
     final statusReason = this.statusReason;
+    final tags = this.tags;
     return {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (destinations != null) 'Destinations': destinations,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (maxUnits != null) 'MaxUnits': maxUnits,
@@ -1298,6 +1558,38 @@ class PipelineSummary {
       if (pipelineName != null) 'PipelineName': pipelineName,
       if (status != null) 'Status': status.toValue(),
       if (statusReason != null) 'StatusReason': statusReason,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A container for information about VPC endpoints that were created to other
+/// services
+class ServiceVpcEndpoint {
+  /// The name of the service for which a VPC endpoint was created.
+  final VpcEndpointServiceName? serviceName;
+
+  /// The unique identifier of the VPC endpoint that was created.
+  final String? vpcEndpointId;
+
+  ServiceVpcEndpoint({
+    this.serviceName,
+    this.vpcEndpointId,
+  });
+
+  factory ServiceVpcEndpoint.fromJson(Map<String, dynamic> json) {
+    return ServiceVpcEndpoint(
+      serviceName: (json['ServiceName'] as String?)?.toVpcEndpointServiceName(),
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final vpcEndpointId = this.vpcEndpointId;
+    return {
+      if (serviceName != null) 'ServiceName': serviceName.toValue(),
+      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
     };
   }
 }
@@ -1486,6 +1778,37 @@ class ValidationMessage {
   }
 }
 
+/// Options for attaching a VPC to pipeline.
+class VpcAttachmentOptions {
+  /// Whether a VPC is attached to the pipeline.
+  final bool attachToVpc;
+
+  /// The CIDR block to be reserved for OpenSearch Ingestion to create elastic
+  /// network interfaces (ENIs).
+  final String? cidrBlock;
+
+  VpcAttachmentOptions({
+    required this.attachToVpc,
+    this.cidrBlock,
+  });
+
+  factory VpcAttachmentOptions.fromJson(Map<String, dynamic> json) {
+    return VpcAttachmentOptions(
+      attachToVpc: json['AttachToVpc'] as bool,
+      cidrBlock: json['CidrBlock'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachToVpc = this.attachToVpc;
+    final cidrBlock = this.cidrBlock;
+    return {
+      'AttachToVpc': attachToVpc,
+      if (cidrBlock != null) 'CidrBlock': cidrBlock,
+    };
+  }
+}
+
 /// An OpenSearch Ingestion-managed VPC endpoint that will access one or more
 /// pipelines.
 class VpcEndpoint {
@@ -1527,6 +1850,29 @@ class VpcEndpoint {
   }
 }
 
+enum VpcEndpointServiceName {
+  opensearchServerless,
+}
+
+extension VpcEndpointServiceNameValueExtension on VpcEndpointServiceName {
+  String toValue() {
+    switch (this) {
+      case VpcEndpointServiceName.opensearchServerless:
+        return 'OPENSEARCH_SERVERLESS';
+    }
+  }
+}
+
+extension VpcEndpointServiceNameFromString on String {
+  VpcEndpointServiceName toVpcEndpointServiceName() {
+    switch (this) {
+      case 'OPENSEARCH_SERVERLESS':
+        return VpcEndpointServiceName.opensearchServerless;
+    }
+    throw Exception('$this is not known in enum VpcEndpointServiceName');
+  }
+}
+
 /// Options that specify the subnets and security groups for an OpenSearch
 /// Ingestion VPC endpoint.
 class VpcOptions {
@@ -1536,9 +1882,13 @@ class VpcOptions {
   /// A list of security groups associated with the VPC endpoint.
   final List<String>? securityGroupIds;
 
+  /// Options for attaching a VPC to a pipeline.
+  final VpcAttachmentOptions? vpcAttachmentOptions;
+
   VpcOptions({
     required this.subnetIds,
     this.securityGroupIds,
+    this.vpcAttachmentOptions,
   });
 
   factory VpcOptions.fromJson(Map<String, dynamic> json) {
@@ -1551,15 +1901,22 @@ class VpcOptions {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      vpcAttachmentOptions: json['VpcAttachmentOptions'] != null
+          ? VpcAttachmentOptions.fromJson(
+              json['VpcAttachmentOptions'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final subnetIds = this.subnetIds;
     final securityGroupIds = this.securityGroupIds;
+    final vpcAttachmentOptions = this.vpcAttachmentOptions;
     return {
       'SubnetIds': subnetIds,
       if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (vpcAttachmentOptions != null)
+        'VpcAttachmentOptions': vpcAttachmentOptions,
     };
   }
 }
@@ -1572,6 +1929,11 @@ class AccessDeniedException extends _s.GenericAwsException {
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
+}
+
+class DisabledOperationException extends _s.GenericAwsException {
+  DisabledOperationException({String? type, String? message})
+      : super(type: type, code: 'DisabledOperationException', message: message);
 }
 
 class InternalException extends _s.GenericAwsException {
@@ -1615,6 +1977,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'DisabledOperationException': (type, message) =>
+      DisabledOperationException(type: type, message: message),
   'InternalException': (type, message) =>
       InternalException(type: type, message: message),
   'InvalidPaginationTokenException': (type, message) =>

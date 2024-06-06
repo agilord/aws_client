@@ -9,8 +9,10 @@ final rules = <String, RegionConfig>{
   'cn-*/*': RegionConfig(
     endpoint: '{service}.{region}.amazonaws.com.cn',
   ),
+  'eu-isoe-*/*': _euIsoe,
   'us-iso-*/*': _usIso,
   'us-isob-*/*': _usIsob,
+  'us-isof-*/*': _usIsof,
   '*/budgets': _globalSSL,
   '*/cloudfront': _globalSSL,
   '*/sts': _globalSSL,
@@ -49,6 +51,16 @@ final rules = <String, RegionConfig>{
     signingRegion: 'us-iso-east-1',
   ),
   'us-gov-*/iam': _globalGovCloud,
+  '*/ce': RegionConfig(
+    endpoint: '{service}.us-east-1.amazonaws.com',
+    globalEndpoint: true,
+    signingRegion: 'us-east-1',
+  ),
+  'cn-*/ce': RegionConfig(
+    endpoint: '{service}.cn-northwest-1.amazonaws.com.cn',
+    globalEndpoint: true,
+    signingRegion: 'cn-northwest-1',
+  ),
   'us-gov-*/sts': RegionConfig(
     endpoint: '{service}.{region}.amazonaws.com',
   ),
@@ -95,12 +107,20 @@ final _s3Signature = RegionConfig(
   signatureVersion: 's3',
 );
 
+final _euIsoe = RegionConfig(
+  endpoint: '{service}.{region}.cloud.adc-e.uk',
+);
+
 final _usIso = RegionConfig(
   endpoint: '{service}.{region}.c2s.ic.gov',
 );
 
 final _usIsob = RegionConfig(
   endpoint: '{service}.{region}.sc2s.sgov.gov',
+);
+
+final _usIsof = RegionConfig(
+  endpoint: '{service}.{region}.csp.hci.ic.gov',
 );
 
 final _dualstackByDefault = RegionConfig(

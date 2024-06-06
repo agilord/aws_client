@@ -251,14 +251,12 @@ class Macie2 {
   ///
   /// <ul>
   /// <li>
-  /// ALL - Use all the managed data identifiers that Amazon Macie provides. If
-  /// you specify this value, don't specify any values for the
-  /// managedDataIdentifierIds property.
+  /// ALL - Use all managed data identifiers. If you specify this value, don't
+  /// specify any values for the managedDataIdentifierIds property.
   /// </li>
   /// <li>
-  /// EXCLUDE - Use all the managed data identifiers that Macie provides except
-  /// the managed data identifiers specified by the managedDataIdentifierIds
-  /// property.
+  /// EXCLUDE - Use all managed data identifiers except the ones specified by
+  /// the managedDataIdentifierIds property.
   /// </li>
   /// <li>
   /// INCLUDE - Use only the managed data identifiers specified by the
@@ -266,15 +264,30 @@ class Macie2 {
   /// </li>
   /// <li>
   /// NONE - Don't use any managed data identifiers. If you specify this value,
-  /// specify at least one custom data identifier for the job
-  /// (customDataIdentifierIds) and don't specify any values for the
+  /// specify at least one value for the customDataIdentifierIds property and
+  /// don't specify any values for the managedDataIdentifierIds property.
+  /// </li>
+  /// <li>
+  /// RECOMMENDED (default) - Use the recommended set of managed data
+  /// identifiers. If you specify this value, don't specify any values for the
   /// managedDataIdentifierIds property.
   /// </li>
   /// </ul>
-  /// If you don't specify a value for this property, the job uses all managed
-  /// data identifiers. If you don't specify a value for this property or you
-  /// specify ALL or EXCLUDE for a recurring job, the job also uses new managed
-  /// data identifiers as they are released.
+  /// If you don't specify a value for this property, the job uses the
+  /// recommended set of managed data identifiers.
+  ///
+  /// If the job is a recurring job and you specify ALL or EXCLUDE, each job run
+  /// automatically uses new managed data identifiers that are released. If you
+  /// don't specify a value for this property or you specify RECOMMENDED for a
+  /// recurring job, each job run automatically uses all the managed data
+  /// identifiers that are in the recommended set when the run starts.
+  ///
+  /// For information about individual managed data identifiers or to determine
+  /// which ones are in the recommended set, see <a
+  /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
+  /// managed data identifiers</a> and <a
+  /// href="https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html">Recommended
+  /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
   ///
   /// Parameter [samplingPercentage] :
   /// The sampling depth, as a percentage, for the job to apply when processing
@@ -399,14 +412,14 @@ class Macie2 {
   ///
   /// Parameter [severityLevels] :
   /// The severity to assign to findings that the custom data identifier
-  /// produces, based on the number of occurrences of text that matches the
-  /// custom data identifier's detection criteria. You can specify as many as
-  /// three SeverityLevel objects in this array, one for each severity: LOW,
-  /// MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds
-  /// must be in ascending order by severity, moving from LOW to HIGH. For
-  /// example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object
-  /// contains fewer occurrences than the lowest specified threshold, Amazon
-  /// Macie doesn't create a finding.
+  /// produces, based on the number of occurrences of text that match the custom
+  /// data identifier's detection criteria. You can specify as many as three
+  /// SeverityLevel objects in this array, one for each severity: LOW, MEDIUM,
+  /// or HIGH. If you specify more than one, the occurrences thresholds must be
+  /// in ascending order by severity, moving from LOW to HIGH. For example, 1
+  /// for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer
+  /// occurrences than the lowest specified threshold, Amazon Macie doesn't
+  /// create a finding.
   ///
   /// If you don't specify any values for this array, Macie creates findings for
   /// S3 objects that contain at least one occurrence of text that matches the
@@ -2871,13 +2884,19 @@ class Macie2 {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [configuration] :
-  /// The new configuration settings and the status of the configuration for the
-  /// account.
+  /// The KMS key to use to encrypt the sensitive data, and the status of the
+  /// configuration for the Amazon Macie account.
+  ///
+  /// Parameter [retrievalConfiguration] :
+  /// The access method and settings to use when retrieving the sensitive data.
   Future<UpdateRevealConfigurationResponse> updateRevealConfiguration({
     required RevealConfiguration configuration,
+    UpdateRetrievalConfiguration? retrievalConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'configuration': configuration,
+      if (retrievalConfiguration != null)
+        'retrievalConfiguration': retrievalConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2917,7 +2936,7 @@ class Macie2 {
   ///
   /// Parameter [includes] :
   /// The allow lists, custom data identifiers, and managed data identifiers to
-  /// include (use) when analyzing data.
+  /// explicitly include (use) when analyzing data.
   Future<void> updateSensitivityInspectionTemplate({
     required String id,
     String? description,
@@ -3816,9 +3835,9 @@ class BucketCountByEffectivePermission {
 /// <i>Amazon Simple Storage Service User Guide</i>.
 class BucketCountByEncryptionType {
   /// The total number of buckets whose default encryption settings are configured
-  /// to encrypt new objects with an Amazon Web Services managed KMS key or a
-  /// customer managed KMS key. By default, these buckets encrypt new objects
-  /// automatically using SSE-KMS encryption.
+  /// to encrypt new objects with an KMS key, either an Amazon Web Services
+  /// managed key or a customer managed key. By default, these buckets encrypt new
+  /// objects automatically using DSSE-KMS or SSE-KMS encryption.
   final int? kmsManaged;
 
   /// The total number of buckets whose default encryption settings are configured
@@ -4606,13 +4625,18 @@ class BucketServerSideEncryption {
   ///
   /// <ul>
   /// <li>
-  /// AES256 - New objects are encrypted with an Amazon S3 managed key. They use
-  /// SSE-S3 encryption.
+  /// AES256 - New objects use SSE-S3 encryption. They're encrypted with an Amazon
+  /// S3 managed key.
   /// </li>
   /// <li>
-  /// aws:kms - New objects are encrypted with an KMS key (kmsMasterKeyId), either
-  /// an Amazon Web Services managed key or a customer managed key. They use
-  /// SSE-KMS encryption.
+  /// aws:kms - New objects use SSE-KMS encryption. They're encrypted with an KMS
+  /// key (kmsMasterKeyId), either an Amazon Web Services managed key or a
+  /// customer managed key.
+  /// </li>
+  /// <li>
+  /// aws:kms:dsse - New objects use DSSE-KMS encryption. They're encrypted with
+  /// an KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or a
+  /// customer managed key.
   /// </li>
   /// <li>
   /// NONE - The bucket's default encryption settings don't specify server-side
@@ -4893,7 +4917,7 @@ class ClassificationResult {
   /// This value can help you determine whether to investigate additional
   /// occurrences of sensitive data in an object. You can do this by referring to
   /// the corresponding sensitive data discovery result for the finding
-  /// (ClassificationDetails.detailedResultsLocation).
+  /// (classificationDetails.detailedResultsLocation).
   final bool? additionalOccurrences;
 
   /// The custom data identifiers that detected the sensitive data and the number
@@ -4999,7 +5023,7 @@ class ClassificationResultStatus {
   /// extracted and analyzed only some or none of the files in the archive. To
   /// determine which files Macie analyzed, if any, refer to the corresponding
   /// sensitive data discovery result for the finding
-  /// (ClassificationDetails.detailedResultsLocation).
+  /// (classificationDetails.detailedResultsLocation).
   /// </li>
   /// <li>
   /// ARCHIVE_EXCEEDS_SIZE_LIMIT - The object is an archive file whose total
@@ -6095,34 +6119,50 @@ class DescribeClassificationJobResponse {
   /// the job is explicitly configured to include (use) or exclude (not use) when
   /// it analyzes data. Inclusion or exclusion depends on the managed data
   /// identifier selection type specified for the job
-  /// (managedDataIdentifierSelector). This value is null if the job's managed
-  /// data identifier selection type is ALL or the job uses only custom data
-  /// identifiers (customDataIdentifierIds) to analyze data.
+  /// (managedDataIdentifierSelector).
+  ///
+  /// This value is null if the job's managed data identifier selection type is
+  /// ALL, NONE, or RECOMMENDED.
   final List<String>? managedDataIdentifierIds;
 
   /// The selection type that determines which managed data identifiers the job
-  /// uses to analyze data. Possible values are:
+  /// uses when it analyzes data. Possible values are:
   ///
   /// <ul>
   /// <li>
-  /// ALL - Use all the managed data identifiers that Amazon Macie provides.
+  /// ALL - Use all managed data identifiers.
   /// </li>
   /// <li>
-  /// EXCLUDE - Use all the managed data identifiers that Macie provides except
-  /// the managed data identifiers specified by the managedDataIdentifierIds
-  /// property.
+  /// EXCLUDE - Use all managed data identifiers except the ones specified by the
+  /// managedDataIdentifierIds property.
   /// </li>
   /// <li>
   /// INCLUDE - Use only the managed data identifiers specified by the
   /// managedDataIdentifierIds property.
   /// </li>
   /// <li>
-  /// NONE - Don't use any managed data identifiers.
+  /// NONE - Don't use any managed data identifiers. Use only custom data
+  /// identifiers (customDataIdentifierIds).
+  /// </li>
+  /// <li>
+  /// RECOMMENDED (default) - Use the recommended set of managed data identifiers.
   /// </li>
   /// </ul>
-  /// If this value is null, the job uses all managed data identifiers. If this
-  /// value is null, ALL, or EXCLUDE for a recurring job, the job also uses new
-  /// managed data identifiers as they are released.
+  /// If this value is null, the job uses the recommended set of managed data
+  /// identifiers.
+  ///
+  /// If the job is a recurring job and this value is ALL or EXCLUDE, each job run
+  /// automatically uses new managed data identifiers that are released. If this
+  /// value is null or RECOMMENDED for a recurring job, each job run uses all the
+  /// managed data identifiers that are in the recommended set when the run
+  /// starts.
+  ///
+  /// For information about individual managed data identifiers or to determine
+  /// which ones are in the recommended set, see <a
+  /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
+  /// managed data identifiers</a> and <a
+  /// href="https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html">Recommended
+  /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
   final ManagedDataIdentifierSelector? managedDataIdentifierSelector;
 
   /// The custom name of the job.
@@ -6319,8 +6359,8 @@ class DescribeOrganizationConfigurationResponse {
 /// Specifies 1-10 occurrences of a specific type of sensitive data reported by
 /// a finding.
 class DetectedDataDetails {
-  /// An occurrence of the specified type of sensitive data. Each occurrence can
-  /// contain 1-128 characters.
+  /// An occurrence of the specified type of sensitive data. Each occurrence
+  /// contains 1-128 characters.
   final String value;
 
   DetectedDataDetails({
@@ -6567,6 +6607,7 @@ enum EncryptionType {
   aes256,
   awsKms,
   unknown,
+  awsKmsDsse,
 }
 
 extension EncryptionTypeValueExtension on EncryptionType {
@@ -6580,6 +6621,8 @@ extension EncryptionTypeValueExtension on EncryptionType {
         return 'aws:kms';
       case EncryptionType.unknown:
         return 'UNKNOWN';
+      case EncryptionType.awsKmsDsse:
+        return 'aws:kms:dsse';
     }
   }
 }
@@ -6595,6 +6638,8 @@ extension EncryptionTypeFromString on String {
         return EncryptionType.awsKms;
       case 'UNKNOWN':
         return EncryptionType.unknown;
+      case 'aws:kms:dsse':
+        return EncryptionType.awsKmsDsse;
     }
     throw Exception('$this is not known in enum EncryptionType');
   }
@@ -7786,7 +7831,7 @@ class GetCustomDataIdentifierResponse {
   final String? regex;
 
   /// Specifies the severity that's assigned to findings that the custom data
-  /// identifier produces, based on the number of occurrences of text that matches
+  /// identifier produces, based on the number of occurrences of text that match
   /// the custom data identifier's detection criteria. By default, Amazon Macie
   /// creates findings for S3 objects that contain at least one occurrence of text
   /// that matches the detection criteria, and Macie assigns the MEDIUM severity
@@ -8076,7 +8121,7 @@ class GetMacieSessionResponse {
   final MacieStatus? status;
 
   /// The date and time, in UTC and extended ISO 8601 format, of the most recent
-  /// change to the status of the Amazon Macie account.
+  /// change to the status or configuration settings for the Amazon Macie account.
   final DateTime? updatedAt;
 
   GetMacieSessionResponse({
@@ -8294,12 +8339,16 @@ class GetResourceProfileResponse {
 }
 
 class GetRevealConfigurationResponse {
-  /// The current configuration settings and the status of the configuration for
-  /// the account.
+  /// The KMS key that's used to encrypt the sensitive data, and the status of the
+  /// configuration for the Amazon Macie account.
   final RevealConfiguration? configuration;
+
+  /// The access method and settings that are used to retrieve the sensitive data.
+  final RetrievalConfiguration? retrievalConfiguration;
 
   GetRevealConfigurationResponse({
     this.configuration,
+    this.retrievalConfiguration,
   });
 
   factory GetRevealConfigurationResponse.fromJson(Map<String, dynamic> json) {
@@ -8308,13 +8357,20 @@ class GetRevealConfigurationResponse {
           ? RevealConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
           : null,
+      retrievalConfiguration: json['retrievalConfiguration'] != null
+          ? RetrievalConfiguration.fromJson(
+              json['retrievalConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final configuration = this.configuration;
+    final retrievalConfiguration = this.retrievalConfiguration;
     return {
       if (configuration != null) 'configuration': configuration,
+      if (retrievalConfiguration != null)
+        'retrievalConfiguration': retrievalConfiguration,
     };
   }
 }
@@ -8332,21 +8388,60 @@ class GetSensitiveDataOccurrencesAvailabilityResponse {
   ///
   /// <ul>
   /// <li>
-  /// INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of
-  /// the sensitive data to retrieve. There isn't a corresponding sensitive data
-  /// discovery result for the finding. Or the sensitive data discovery result
-  /// specified by the ClassificationDetails.detailedResultsLocation field of the
-  /// finding isn't available, is malformed or corrupted, or uses an unsupported
-  /// storage format.
+  /// ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of
+  /// your organization. Or the account is part of your organization but Macie
+  /// isn't currently enabled for the account. You're not allowed to access the
+  /// affected S3 object by using Macie.
+  /// </li>
+  /// <li>
+  /// INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data
+  /// discovery result for the finding. Or the corresponding sensitive data
+  /// discovery result isn't available in the current Amazon Web Services Region,
+  /// is malformed or corrupted, or uses an unsupported storage format. Macie
+  /// can't verify the location of the sensitive data to retrieve.
+  /// </li>
+  /// <li>
+  /// INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result
+  /// is stored in an S3 object that wasn't signed by Macie. Macie can't verify
+  /// the integrity and authenticity of the sensitive data discovery result.
+  /// Therefore, Macie can't verify the location of the sensitive data to
+  /// retrieve.
+  /// </li>
+  /// <li>
+  /// MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM
+  /// role in the affected member account doesn't meet Macie requirements for
+  /// restricting access to the role. Or the role's trust policy doesn't specify
+  /// the correct external ID for your organization. Macie can't assume the role
+  /// to retrieve the sensitive data.
+  /// </li>
+  /// <li>
+  /// MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information
+  /// about the association between your account and the affected account. Macie
+  /// can't determine whether you’re allowed to access the affected S3 object as
+  /// the delegated Macie administrator for the affected account.
   /// </li>
   /// <li>
   /// OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object
-  /// exceeds the size quota for retrieving occurrences of sensitive data.
+  /// exceeds the size quota for retrieving occurrences of sensitive data from
+  /// this type of file.
   /// </li>
   /// <li>
-  /// OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object
-  /// might have been renamed, moved, or deleted. Or the object was changed after
-  /// Macie created the finding.
+  /// OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was
+  /// renamed, moved, deleted, or changed after Macie created the finding. Or the
+  /// object is encrypted with an KMS key that's currently disabled.
+  /// </li>
+  /// <li>
+  /// RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is
+  /// stored in an S3 object that hasn't been signed. Macie can't verify the
+  /// integrity and authenticity of the sensitive data discovery result.
+  /// Therefore, Macie can't verify the location of the sensitive data to
+  /// retrieve.
+  /// </li>
+  /// <li>
+  /// ROLE_TOO_PERMISSIVE - Your account is configured to retrieve occurrences of
+  /// sensitive data by using an IAM role whose trust or permissions policy
+  /// doesn't meet Macie requirements for restricting access to the role. Macie
+  /// can’t assume the role to retrieve the sensitive data.
   /// </li>
   /// <li>
   /// UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data
@@ -8462,7 +8557,7 @@ class GetSensitivityInspectionTemplateResponse {
   final SensitivityInspectionTemplateExcludes? excludes;
 
   /// The allow lists, custom data identifiers, and managed data identifiers that
-  /// are included (used) when analyzing data.
+  /// are explicitly included (used) when analyzing data.
   final SensitivityInspectionTemplateIncludes? includes;
 
   /// The name of the template: automated-sensitive-data-discovery.
@@ -10311,6 +10406,7 @@ enum ManagedDataIdentifierSelector {
   exclude,
   include,
   none,
+  recommended,
 }
 
 extension ManagedDataIdentifierSelectorValueExtension
@@ -10325,6 +10421,8 @@ extension ManagedDataIdentifierSelectorValueExtension
         return 'INCLUDE';
       case ManagedDataIdentifierSelector.none:
         return 'NONE';
+      case ManagedDataIdentifierSelector.recommended:
+        return 'RECOMMENDED';
     }
   }
 }
@@ -10340,6 +10438,8 @@ extension ManagedDataIdentifierSelectorFromString on String {
         return ManagedDataIdentifierSelector.include;
       case 'NONE':
         return ManagedDataIdentifierSelector.none;
+      case 'RECOMMENDED':
+        return ManagedDataIdentifierSelector.recommended;
     }
     throw Exception('$this is not known in enum ManagedDataIdentifierSelector');
   }
@@ -10737,17 +10837,18 @@ class MonthlySchedule {
 /// and use certain types of server-side encryption, use client-side encryption,
 /// or aren't encrypted.
 class ObjectCountByEncryptionType {
-  /// The total number of objects that are encrypted with a customer-provided key.
-  /// The objects use customer-provided server-side encryption (SSE-C).
+  /// The total number of objects that are encrypted with customer-provided keys.
+  /// The objects use server-side encryption with customer-provided keys (SSE-C).
   final int? customerManaged;
 
-  /// The total number of objects that are encrypted with an KMS key, either an
-  /// Amazon Web Services managed key or a customer managed key. The objects use
-  /// KMS encryption (SSE-KMS).
+  /// The total number of objects that are encrypted with KMS keys, either Amazon
+  /// Web Services managed keys or customer managed keys. The objects use
+  /// dual-layer server-side encryption or server-side encryption with KMS keys
+  /// (DSSE-KMS or SSE-KMS).
   final int? kmsManaged;
 
-  /// The total number of objects that are encrypted with an Amazon S3 managed
-  /// key. The objects use Amazon S3 managed encryption (SSE-S3).
+  /// The total number of objects that are encrypted with Amazon S3 managed keys.
+  /// The objects use server-side encryption with Amazon S3 managed keys (SSE-S3).
   final int? s3Managed;
 
   /// The total number of objects that use client-side encryption or aren't
@@ -11161,7 +11262,7 @@ class Record {
   /// data.
   ///
   /// If Amazon Macie detects sensitive data in the name of any element in the
-  /// path, Macie omits this field. If the name of an element exceeds 20
+  /// path, Macie omits this field. If the name of an element exceeds 240
   /// characters, Macie truncates the name by removing characters from the
   /// beginning of the name. If the resulting full path exceeds 250 characters,
   /// Macie also truncates the path, starting with the first element in the path,
@@ -11403,24 +11504,26 @@ class ResourceStatistics {
   /// sensitive data in.
   final int? totalItemsSensitive;
 
-  /// The total number of objects that Amazon Macie hasn't analyzed in the bucket
-  /// due to an error or issue. For example, the object is a malformed file. This
-  /// value includes objects that Macie hasn't analyzed for reasons reported by
-  /// other statistics in the ResourceStatistics object.
+  /// The total number of objects that Amazon Macie wasn't able to analyze in the
+  /// bucket due to an object-level issue or error. For example, an object is a
+  /// malformed file. This value includes objects that Macie wasn't able to
+  /// analyze for reasons reported by other statistics in the ResourceStatistics
+  /// object.
   final int? totalItemsSkipped;
 
-  /// The total number of objects that Amazon Macie hasn't analyzed in the bucket
-  /// because the objects are encrypted with a key that Macie isn't allowed to
-  /// use.
+  /// The total number of objects that Amazon Macie wasn't able to analyze in the
+  /// bucket because the objects are encrypted with a key that Macie can't access.
+  /// The objects use server-side encryption with customer-provided keys (SSE-C).
   final int? totalItemsSkippedInvalidEncryption;
 
-  /// The total number of objects that Amazon Macie hasn't analyzed in the bucket
-  /// because the objects are encrypted with an KMS key that was disabled or
-  /// deleted.
+  /// The total number of objects that Amazon Macie wasn't able to analyze in the
+  /// bucket because the objects are encrypted with KMS keys that were disabled,
+  /// are scheduled for deletion, or were deleted.
   final int? totalItemsSkippedInvalidKms;
 
-  /// The total number of objects that Amazon Macie hasn't analyzed in the bucket
-  /// because Macie isn't allowed to access the objects.
+  /// The total number of objects that Amazon Macie wasn't able to analyze in the
+  /// bucket due to the permissions settings for the objects or the permissions
+  /// settings for the keys that were used to encrypt the objects.
   final int? totalItemsSkippedPermissionDenied;
 
   ResourceStatistics({
@@ -11519,24 +11622,113 @@ class ResourcesAffected {
   }
 }
 
-/// Specifies the configuration settings for retrieving occurrences of sensitive
-/// data reported by findings, and the status of the configuration for an Amazon
-/// Macie account. When you enable the configuration for the first time, your
-/// request must specify an Key Management Service (KMS) key. Otherwise, an
-/// error occurs. Macie uses the specified key to encrypt the sensitive data
-/// that you retrieve.
+/// Provides information about the access method and settings that are used to
+/// retrieve occurrences of sensitive data reported by findings.
+class RetrievalConfiguration {
+  /// The access method that's used to retrieve sensitive data from affected S3
+  /// objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the
+  /// affected Amazon Web Services account and delegates access to Amazon Macie
+  /// (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who
+  /// requests the sensitive data.
+  final RetrievalMode retrievalMode;
+
+  /// The external ID to specify in the trust policy for the IAM role to assume
+  /// when retrieving sensitive data from affected S3 objects (roleName). This
+  /// value is null if the value for retrievalMode is CALLER_CREDENTIALS.
+  ///
+  /// This ID is a unique alphanumeric string that Amazon Macie generates
+  /// automatically after you configure it to assume an IAM role. For a Macie
+  /// administrator to retrieve sensitive data from an affected S3 object for a
+  /// member account, the trust policy for the role in the member account must
+  /// include an sts:ExternalId condition that requires this ID.
+  final String? externalId;
+
+  /// The name of the IAM role that is in the affected Amazon Web Services account
+  /// and Amazon Macie is allowed to assume when retrieving sensitive data from
+  /// affected S3 objects for the account. This value is null if the value for
+  /// retrievalMode is CALLER_CREDENTIALS.
+  final String? roleName;
+
+  RetrievalConfiguration({
+    required this.retrievalMode,
+    this.externalId,
+    this.roleName,
+  });
+
+  factory RetrievalConfiguration.fromJson(Map<String, dynamic> json) {
+    return RetrievalConfiguration(
+      retrievalMode: (json['retrievalMode'] as String).toRetrievalMode(),
+      externalId: json['externalId'] as String?,
+      roleName: json['roleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retrievalMode = this.retrievalMode;
+    final externalId = this.externalId;
+    final roleName = this.roleName;
+    return {
+      'retrievalMode': retrievalMode.toValue(),
+      if (externalId != null) 'externalId': externalId,
+      if (roleName != null) 'roleName': roleName,
+    };
+  }
+}
+
+/// The access method to use when retrieving occurrences of sensitive data
+/// reported by findings. Valid values are:
+enum RetrievalMode {
+  callerCredentials,
+  assumeRole,
+}
+
+extension RetrievalModeValueExtension on RetrievalMode {
+  String toValue() {
+    switch (this) {
+      case RetrievalMode.callerCredentials:
+        return 'CALLER_CREDENTIALS';
+      case RetrievalMode.assumeRole:
+        return 'ASSUME_ROLE';
+    }
+  }
+}
+
+extension RetrievalModeFromString on String {
+  RetrievalMode toRetrievalMode() {
+    switch (this) {
+      case 'CALLER_CREDENTIALS':
+        return RetrievalMode.callerCredentials;
+      case 'ASSUME_ROLE':
+        return RetrievalMode.assumeRole;
+    }
+    throw Exception('$this is not known in enum RetrievalMode');
+  }
+}
+
+/// Specifies the status of the Amazon Macie configuration for retrieving
+/// occurrences of sensitive data reported by findings, and the Key Management
+/// Service (KMS) key to use to encrypt sensitive data that's retrieved. When
+/// you enable the configuration for the first time, your request must specify
+/// an KMS key. Otherwise, an error occurs.
 class RevealConfiguration {
-  /// The status of the configuration for the Amazon Macie account. In a request,
-  /// valid values are: ENABLED, enable the configuration for the account; and,
-  /// DISABLED, disable the configuration for the account. In a response, possible
-  /// values are: ENABLED, the configuration is currently enabled for the account;
-  /// and, DISABLED, the configuration is currently disabled for the account.
+  /// The status of the configuration for the Amazon Macie account. In a response,
+  /// possible values are: ENABLED, the configuration is currently enabled for the
+  /// account; and, DISABLED, the configuration is currently disabled for the
+  /// account. In a request, valid values are: ENABLED, enable the configuration
+  /// for the account; and, DISABLED, disable the configuration for the account.
+  /// <important>
+  /// If you disable the configuration, you also permanently delete current
+  /// settings that specify how to access affected S3 objects. If your current
+  /// access method is ASSUME_ROLE, Macie also deletes the external ID and role
+  /// name currently specified for the configuration. These settings can't be
+  /// recovered after they're deleted.
+  /// </important>
   final RevealStatus status;
 
   /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to
   /// encrypt sensitive data that's retrieved. The key must be an existing,
-  /// customer managed, symmetric encryption key that's in the same Amazon Web
-  /// Services Region as the Amazon Macie account.
+  /// customer managed, symmetric encryption key that's enabled in the same Amazon
+  /// Web Services Region as the Amazon Macie account.
   ///
   /// If this value specifies an alias, it must include the following prefix:
   /// alias/. If this value specifies a key that's owned by another Amazon Web
@@ -11974,8 +12166,8 @@ class S3Destination {
 
   /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for
   /// encryption of the results. This must be the ARN of an existing, symmetric
-  /// encryption KMS key that's in the same Amazon Web Services Region as the
-  /// bucket.
+  /// encryption KMS key that's enabled in the same Amazon Web Services Region as
+  /// the bucket.
   final String kmsKeyArn;
 
   /// The path prefix to use in the path to the location in the bucket. This
@@ -12083,14 +12275,16 @@ class S3Object {
   /// name extension, this value is "".
   final String? extension;
 
-  /// The full key (name) that's assigned to the object.
+  /// The full name (<i>key</i>) of the object, including the object's prefix if
+  /// applicable.
   final String? key;
 
   /// The date and time, in UTC and extended ISO 8601 format, when the object was
   /// last modified.
   final DateTime? lastModified;
 
-  /// The path to the object, including the full key (name).
+  /// The full path to the affected object, including the name of the affected
+  /// bucket and the object's name (key).
   final String? path;
 
   /// Specifies whether the object is publicly accessible due to the combination
@@ -13248,7 +13442,7 @@ extension SeverityDescriptionFromString on String {
 
 /// Specifies a severity level for findings that a custom data identifier
 /// produces. A severity level determines which severity is assigned to the
-/// findings, based on the number of occurrences of text that matches the custom
+/// findings, based on the number of occurrences of text that match the custom
 /// data identifier's detection criteria.
 class SeverityLevel {
   /// The minimum number of occurrences of text that must match the custom data
@@ -13445,10 +13639,13 @@ class SimpleScopeTerm {
   /// OBJECT_KEY - STARTS_WITH
   /// </li>
   /// <li>
-  /// OBJECT_LAST_MODIFIED_DATE - Any operator except CONTAINS
+  /// OBJECT_LAST_MODIFIED_DATE - EQ (equals), GT (greater than), GTE (greater
+  /// than or equals), LT (less than), LTE (less than or equals), or NE (not
+  /// equals)
   /// </li>
   /// <li>
-  /// OBJECT_SIZE - Any operator except CONTAINS
+  /// OBJECT_SIZE - EQ (equals), GT (greater than), GTE (greater than or equals),
+  /// LT (less than), LTE (less than or equals), or NE (not equals)
   /// </li>
   /// </ul>
   final JobComparator? comparator;
@@ -13476,7 +13673,7 @@ class SimpleScopeTerm {
   /// <li>
   /// OBJECT_LAST_MODIFIED_DATE - The date and time (in UTC and extended ISO 8601
   /// format) when an object was created or last changed, whichever is latest. For
-  /// example: 2020-09-28T14:31:13Z
+  /// example: 2023-09-24T14:31:13Z
   /// </li>
   /// <li>
   /// OBJECT_SIZE - An integer that represents the storage size (in bytes) of an
@@ -13518,8 +13715,10 @@ class SimpleScopeTerm {
 
 /// Specifies criteria for sorting the results of a request for findings.
 class SortCriteria {
-  /// The name of the property to sort the results by. This value can be the name
-  /// of any property that Amazon Macie defines for a finding.
+  /// The name of the property to sort the results by. Valid values are: count,
+  /// createdAt, policyDetails.action.apiCallDetails.firstSeen,
+  /// policyDetails.action.apiCallDetails.lastSeen, resourcesAffected,
+  /// severity.score, type, and updatedAt.
   final String? attributeName;
 
   /// The sort order to apply to the results, based on the value for the property
@@ -13921,6 +14120,7 @@ enum Type {
   none,
   aes256,
   awsKms,
+  awsKmsDsse,
 }
 
 extension TypeValueExtension on Type {
@@ -13932,6 +14132,8 @@ extension TypeValueExtension on Type {
         return 'AES256';
       case Type.awsKms:
         return 'aws:kms';
+      case Type.awsKmsDsse:
+        return 'aws:kms:dsse';
     }
   }
 }
@@ -13945,6 +14147,8 @@ extension TypeFromString on String {
         return Type.aes256;
       case 'aws:kms':
         return Type.awsKms;
+      case 'aws:kms:dsse':
+        return Type.awsKmsDsse;
     }
     throw Exception('$this is not known in enum Type');
   }
@@ -13958,6 +14162,12 @@ enum UnavailabilityReasonCode {
   unsupportedFindingType,
   invalidClassificationResult,
   objectUnavailable,
+  accountNotInOrganization,
+  missingGetMemberPermission,
+  roleTooPermissive,
+  memberRoleTooPermissive,
+  invalidResultSignature,
+  resultNotSigned,
 }
 
 extension UnavailabilityReasonCodeValueExtension on UnavailabilityReasonCode {
@@ -13973,6 +14183,18 @@ extension UnavailabilityReasonCodeValueExtension on UnavailabilityReasonCode {
         return 'INVALID_CLASSIFICATION_RESULT';
       case UnavailabilityReasonCode.objectUnavailable:
         return 'OBJECT_UNAVAILABLE';
+      case UnavailabilityReasonCode.accountNotInOrganization:
+        return 'ACCOUNT_NOT_IN_ORGANIZATION';
+      case UnavailabilityReasonCode.missingGetMemberPermission:
+        return 'MISSING_GET_MEMBER_PERMISSION';
+      case UnavailabilityReasonCode.roleTooPermissive:
+        return 'ROLE_TOO_PERMISSIVE';
+      case UnavailabilityReasonCode.memberRoleTooPermissive:
+        return 'MEMBER_ROLE_TOO_PERMISSIVE';
+      case UnavailabilityReasonCode.invalidResultSignature:
+        return 'INVALID_RESULT_SIGNATURE';
+      case UnavailabilityReasonCode.resultNotSigned:
+        return 'RESULT_NOT_SIGNED';
     }
   }
 }
@@ -13990,6 +14212,18 @@ extension UnavailabilityReasonCodeFromString on String {
         return UnavailabilityReasonCode.invalidClassificationResult;
       case 'OBJECT_UNAVAILABLE':
         return UnavailabilityReasonCode.objectUnavailable;
+      case 'ACCOUNT_NOT_IN_ORGANIZATION':
+        return UnavailabilityReasonCode.accountNotInOrganization;
+      case 'MISSING_GET_MEMBER_PERMISSION':
+        return UnavailabilityReasonCode.missingGetMemberPermission;
+      case 'ROLE_TOO_PERMISSIVE':
+        return UnavailabilityReasonCode.roleTooPermissive;
+      case 'MEMBER_ROLE_TOO_PERMISSIVE':
+        return UnavailabilityReasonCode.memberRoleTooPermissive;
+      case 'INVALID_RESULT_SIGNATURE':
+        return UnavailabilityReasonCode.invalidResultSignature;
+      case 'RESULT_NOT_SIGNED':
+        return UnavailabilityReasonCode.resultNotSigned;
     }
     throw Exception('$this is not known in enum UnavailabilityReasonCode');
   }
@@ -14226,13 +14460,62 @@ class UpdateResourceProfileResponse {
   }
 }
 
+/// Specifies the access method and settings to use when retrieving occurrences
+/// of sensitive data reported by findings. If your request specifies an
+/// Identity and Access Management (IAM) role to assume, Amazon Macie verifies
+/// that the role exists and the attached policies are configured correctly. If
+/// there's an issue, Macie returns an error. For information about addressing
+/// the issue, see <a
+/// href="https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html">Configuration
+/// options and requirements for retrieving sensitive data samples</a> in the
+/// <i>Amazon Macie User Guide</i>.
+class UpdateRetrievalConfiguration {
+  /// The access method to use when retrieving sensitive data from affected S3
+  /// objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the
+  /// affected Amazon Web Services account and delegates access to Amazon Macie;
+  /// and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests
+  /// the sensitive data. If you specify ASSUME_ROLE, also specify the name of an
+  /// existing IAM role for Macie to assume (roleName).
+  /// <important>
+  /// If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an
+  /// existing configuration, Macie permanently deletes the external ID and role
+  /// name currently specified for the configuration. These settings can't be
+  /// recovered after they're deleted.
+  /// </important>
+  final RetrievalMode retrievalMode;
+
+  /// The name of the IAM role that is in the affected Amazon Web Services account
+  /// and Amazon Macie is allowed to assume when retrieving sensitive data from
+  /// affected S3 objects for the account. The trust and permissions policies for
+  /// the role must meet all requirements for Macie to assume the role.
+  final String? roleName;
+
+  UpdateRetrievalConfiguration({
+    required this.retrievalMode,
+    this.roleName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final retrievalMode = this.retrievalMode;
+    final roleName = this.roleName;
+    return {
+      'retrievalMode': retrievalMode.toValue(),
+      if (roleName != null) 'roleName': roleName,
+    };
+  }
+}
+
 class UpdateRevealConfigurationResponse {
-  /// The new configuration settings and the status of the configuration for the
-  /// account.
+  /// The KMS key to use to encrypt the sensitive data, and the status of the
+  /// configuration for the Amazon Macie account.
   final RevealConfiguration? configuration;
+
+  /// The access method and settings to use when retrieving the sensitive data.
+  final RetrievalConfiguration? retrievalConfiguration;
 
   UpdateRevealConfigurationResponse({
     this.configuration,
+    this.retrievalConfiguration,
   });
 
   factory UpdateRevealConfigurationResponse.fromJson(
@@ -14242,13 +14525,20 @@ class UpdateRevealConfigurationResponse {
           ? RevealConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
           : null,
+      retrievalConfiguration: json['retrievalConfiguration'] != null
+          ? RetrievalConfiguration.fromJson(
+              json['retrievalConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final configuration = this.configuration;
+    final retrievalConfiguration = this.retrievalConfiguration;
     return {
       if (configuration != null) 'configuration': configuration,
+      if (retrievalConfiguration != null)
+        'retrievalConfiguration': retrievalConfiguration,
     };
   }
 }

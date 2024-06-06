@@ -58,11 +58,16 @@ class Mgn {
   ///
   /// Parameter [applicationID] :
   /// Application ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<Application> archiveApplication({
     required String applicationID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'applicationID': applicationID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -82,11 +87,16 @@ class Mgn {
   ///
   /// Parameter [waveID] :
   /// Wave ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<Wave> archiveWave({
     required String waveID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'waveID': waveID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -109,13 +119,18 @@ class Mgn {
   ///
   /// Parameter [waveID] :
   /// Wave ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<void> associateApplications({
     required List<String> applicationIDs,
     required String waveID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'applicationIDs': applicationIDs,
       'waveID': waveID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -137,13 +152,18 @@ class Mgn {
   ///
   /// Parameter [sourceServerIDs] :
   /// Source server IDs list.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<void> associateSourceServers({
     required String applicationID,
     required List<String> sourceServerIDs,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'applicationID': applicationID,
       'sourceServerIDs': sourceServerIDs,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -169,13 +189,18 @@ class Mgn {
   /// Parameter [sourceServerID] :
   /// The request to change the source server migration lifecycle state by
   /// source server ID.
+  ///
+  /// Parameter [accountID] :
+  /// The request to change the source server migration account ID.
   Future<SourceServer> changeServerLifeCycleState({
     required ChangeServerLifeCycleStateSourceServerLifecycle lifeCycle,
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'lifeCycle': lifeCycle,
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -195,6 +220,9 @@ class Mgn {
   /// Parameter [name] :
   /// Application name.
   ///
+  /// Parameter [accountID] :
+  /// Account ID.
+  ///
   /// Parameter [description] :
   /// Application description.
   ///
@@ -202,11 +230,13 @@ class Mgn {
   /// Application tags.
   Future<Application> createApplication({
     required String name,
+    String? accountID,
     String? description,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
+      if (accountID != null) 'accountID': accountID,
       if (description != null) 'description': description,
       if (tags != null) 'tags': tags,
     };
@@ -217,6 +247,43 @@ class Mgn {
       exceptionFnMap: _exceptionFns,
     );
     return Application.fromJson(response);
+  }
+
+  /// Create Connector.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// Create Connector request name.
+  ///
+  /// Parameter [ssmInstanceID] :
+  /// Create Connector request SSM instance ID.
+  ///
+  /// Parameter [ssmCommandConfig] :
+  /// Create Connector request SSM command config.
+  ///
+  /// Parameter [tags] :
+  /// Create Connector request tags.
+  Future<Connector> createConnector({
+    required String name,
+    required String ssmInstanceID,
+    ConnectorSsmCommandConfig? ssmCommandConfig,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'ssmInstanceID': ssmInstanceID,
+      if (ssmCommandConfig != null) 'ssmCommandConfig': ssmCommandConfig,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/CreateConnector',
+      exceptionFnMap: _exceptionFns,
+    );
+    return Connector.fromJson(response);
   }
 
   /// Creates a new Launch Configuration Template.
@@ -372,6 +439,10 @@ class Mgn {
   ///
   /// Parameter [tags] :
   /// Request to configure tags during Replication Settings template creation.
+  ///
+  /// Parameter [useFipsEndpoint] :
+  /// Request to use Fips Endpoint during Replication Settings template
+  /// creation.
   Future<ReplicationConfigurationTemplate>
       createReplicationConfigurationTemplate({
     required bool associateDefaultSecurityGroup,
@@ -388,12 +459,13 @@ class Mgn {
     required bool useDedicatedReplicationServer,
     String? ebsEncryptionKeyArn,
     Map<String, String>? tags,
+    bool? useFipsEndpoint,
   }) async {
     _s.validateNumRange(
       'bandwidthThrottling',
       bandwidthThrottling,
       0,
-      1152921504606846976,
+      10000,
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -412,6 +484,7 @@ class Mgn {
       if (ebsEncryptionKeyArn != null)
         'ebsEncryptionKeyArn': ebsEncryptionKeyArn,
       if (tags != null) 'tags': tags,
+      if (useFipsEndpoint != null) 'useFipsEndpoint': useFipsEndpoint,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -431,6 +504,9 @@ class Mgn {
   /// Parameter [name] :
   /// Wave name.
   ///
+  /// Parameter [accountID] :
+  /// Account ID.
+  ///
   /// Parameter [description] :
   /// Wave description.
   ///
@@ -438,11 +514,13 @@ class Mgn {
   /// Wave tags.
   Future<Wave> createWave({
     required String name,
+    String? accountID,
     String? description,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
+      if (accountID != null) 'accountID': accountID,
       if (description != null) 'description': description,
       if (tags != null) 'tags': tags,
     };
@@ -463,16 +541,43 @@ class Mgn {
   ///
   /// Parameter [applicationID] :
   /// Application ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<void> deleteApplication({
     required String applicationID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'applicationID': applicationID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri: '/DeleteApplication',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Delete Connector.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorID] :
+  /// Delete Connector request connector ID.
+  Future<void> deleteConnector({
+    required String connectorID,
+  }) async {
+    final $payload = <String, dynamic>{
+      'connectorID': connectorID,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/DeleteConnector',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -485,11 +590,16 @@ class Mgn {
   ///
   /// Parameter [jobID] :
   /// Request to delete Job from service by Job ID.
+  ///
+  /// Parameter [accountID] :
+  /// Request to delete Job from service by Account ID.
   Future<void> deleteJob({
     required String jobID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'jobID': jobID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -552,11 +662,16 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Request to delete Source Server from service by Server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Request to delete Source Server from service by Account ID.
   Future<void> deleteSourceServer({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -596,11 +711,16 @@ class Mgn {
   ///
   /// Parameter [waveID] :
   /// Wave ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<void> deleteWave({
     required String waveID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'waveID': waveID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -618,6 +738,9 @@ class Mgn {
   /// Parameter [jobID] :
   /// Request to describe Job log job ID.
   ///
+  /// Parameter [accountID] :
+  /// Request to describe Job log Account ID.
+  ///
   /// Parameter [maxResults] :
   /// Request to describe Job log item maximum results.
   ///
@@ -625,6 +748,7 @@ class Mgn {
   /// Request to describe Job log next token.
   Future<DescribeJobLogItemsResponse> describeJobLogItems({
     required String jobID,
+    String? accountID,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -636,6 +760,7 @@ class Mgn {
     );
     final $payload = <String, dynamic>{
       'jobID': jobID,
+      if (accountID != null) 'accountID': accountID,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
     };
@@ -659,6 +784,9 @@ class Mgn {
   /// May throw [UninitializedAccountException].
   /// May throw [ValidationException].
   ///
+  /// Parameter [accountID] :
+  /// Request to describe job log items by Account ID.
+  ///
   /// Parameter [filters] :
   /// Request to describe Job log filters.
   ///
@@ -668,6 +796,7 @@ class Mgn {
   /// Parameter [nextToken] :
   /// Request to describe job log items by next token.
   Future<DescribeJobsResponse> describeJobs({
+    String? accountID,
     DescribeJobsRequestFilters? filters,
     int? maxResults,
     String? nextToken,
@@ -679,6 +808,7 @@ class Mgn {
       1000,
     );
     final $payload = <String, dynamic>{
+      if (accountID != null) 'accountID': accountID,
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -783,6 +913,9 @@ class Mgn {
   /// May throw [UninitializedAccountException].
   /// May throw [ValidationException].
   ///
+  /// Parameter [accountID] :
+  /// Request to filter Source Servers list by Accoun ID.
+  ///
   /// Parameter [filters] :
   /// Request to filter Source Servers list.
   ///
@@ -792,6 +925,7 @@ class Mgn {
   /// Parameter [nextToken] :
   /// Request to filter Source Servers list by next token.
   Future<DescribeSourceServersResponse> describeSourceServers({
+    String? accountID,
     DescribeSourceServersRequestFilters? filters,
     int? maxResults,
     String? nextToken,
@@ -803,6 +937,7 @@ class Mgn {
       1000,
     );
     final $payload = <String, dynamic>{
+      if (accountID != null) 'accountID': accountID,
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -862,13 +997,18 @@ class Mgn {
   ///
   /// Parameter [waveID] :
   /// Wave ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<void> disassociateApplications({
     required List<String> applicationIDs,
     required String waveID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'applicationIDs': applicationIDs,
       'waveID': waveID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -889,13 +1029,18 @@ class Mgn {
   ///
   /// Parameter [sourceServerIDs] :
   /// Source server IDs list.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<void> disassociateSourceServers({
     required String applicationID,
     required List<String> sourceServerIDs,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'applicationID': applicationID,
       'sourceServerIDs': sourceServerIDs,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -925,11 +1070,16 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Request to disconnect Source Server from service by Server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Request to disconnect Source Server from service by Account ID.
   Future<SourceServer> disconnectFromService({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -960,11 +1110,16 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Request to finalize Cutover by Source Server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Request to finalize Cutover by Source Account ID.
   Future<SourceServer> finalizeCutover({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -982,11 +1137,16 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Request to get Launch Configuration information by Source Server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Request to get Launch Configuration information by Account ID.
   Future<LaunchConfiguration> getLaunchConfiguration({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1004,11 +1164,16 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Request to get Replication Configuration by Source Server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Request to get Replication Configuration by Account ID.
   Future<ReplicationConfiguration> getReplicationConfiguration({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1036,6 +1201,9 @@ class Mgn {
   ///
   /// May throw [UninitializedAccountException].
   ///
+  /// Parameter [accountID] :
+  /// Applications list Account ID.
+  ///
   /// Parameter [filters] :
   /// Applications list filters.
   ///
@@ -1045,7 +1213,47 @@ class Mgn {
   /// Parameter [nextToken] :
   /// Request next token.
   Future<ListApplicationsResponse> listApplications({
+    String? accountID,
     ListApplicationsRequestFilters? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      if (accountID != null) 'accountID': accountID,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListApplications',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListApplicationsResponse.fromJson(response);
+  }
+
+  /// List Connectors.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filters] :
+  /// List Connectors Request filters.
+  ///
+  /// Parameter [maxResults] :
+  /// List Connectors Request max results.
+  ///
+  /// Parameter [nextToken] :
+  /// List Connectors Request next token.
+  Future<ListConnectorsResponse> listConnectors({
+    ListConnectorsRequestFilters? filters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1063,10 +1271,10 @@ class Mgn {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ListApplications',
+      requestUri: '/ListConnectors',
       exceptionFnMap: _exceptionFns,
     );
-    return ListApplicationsResponse.fromJson(response);
+    return ListConnectorsResponse.fromJson(response);
   }
 
   /// List export errors.
@@ -1217,6 +1425,39 @@ class Mgn {
     return ListImportsResponse.fromJson(response);
   }
 
+  /// List Managed Accounts.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// List managed accounts request max results.
+  ///
+  /// Parameter [nextToken] :
+  /// List managed accounts request next token.
+  Future<ListManagedAccountsResponse> listManagedAccounts({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListManagedAccounts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListManagedAccountsResponse.fromJson(response);
+  }
+
   /// List source server post migration custom actions.
   ///
   /// May throw [UninitializedAccountException].
@@ -1224,6 +1465,10 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Source server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID to return when listing source server post migration custom
+  /// actions.
   ///
   /// Parameter [filters] :
   /// Filters to apply when listing source server post migration custom actions.
@@ -1237,6 +1482,7 @@ class Mgn {
   /// actions.
   Future<ListSourceServerActionsResponse> listSourceServerActions({
     required String sourceServerID,
+    String? accountID,
     SourceServerActionsRequestFilters? filters,
     int? maxResults,
     String? nextToken,
@@ -1249,6 +1495,7 @@ class Mgn {
     );
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -1332,6 +1579,9 @@ class Mgn {
   ///
   /// May throw [UninitializedAccountException].
   ///
+  /// Parameter [accountID] :
+  /// Request account ID.
+  ///
   /// Parameter [filters] :
   /// Waves list filters.
   ///
@@ -1341,6 +1591,7 @@ class Mgn {
   /// Parameter [nextToken] :
   /// Request next token.
   Future<ListWavesResponse> listWaves({
+    String? accountID,
     ListWavesRequestFilters? filters,
     int? maxResults,
     String? nextToken,
@@ -1352,6 +1603,7 @@ class Mgn {
       1000,
     );
     final $payload = <String, dynamic>{
+      if (accountID != null) 'accountID': accountID,
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -1376,16 +1628,51 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Mark as archived by Source Server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Mark as archived by Account ID.
   Future<SourceServer> markAsArchived({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri: '/MarkAsArchived',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SourceServer.fromJson(response);
+  }
+
+  /// Pause Replication.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [sourceServerID] :
+  /// Pause Replication Request source server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Pause Replication Request account ID.
+  Future<SourceServer> pauseReplication({
+    required String sourceServerID,
+    String? accountID,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/PauseReplication',
       exceptionFnMap: _exceptionFns,
     );
     return SourceServer.fromJson(response);
@@ -1412,6 +1699,9 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Source server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Source server post migration custom account ID.
   ///
   /// Parameter [active] :
   /// Source server post migration custom action active status.
@@ -1442,6 +1732,7 @@ class Mgn {
     required String documentIdentifier,
     required int order,
     required String sourceServerID,
+    String? accountID,
     bool? active,
     ActionCategory? category,
     String? description,
@@ -1470,6 +1761,7 @@ class Mgn {
       'documentIdentifier': documentIdentifier,
       'order': order,
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
       if (active != null) 'active': active,
       if (category != null) 'category': category.toValue(),
       if (description != null) 'description': description,
@@ -1603,13 +1895,18 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Source server ID of the post migration custom action to remove.
+  ///
+  /// Parameter [accountID] :
+  /// Source server post migration account ID.
   Future<void> removeSourceServerAction({
     required String actionID,
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'actionID': actionID,
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1647,6 +1944,36 @@ class Mgn {
     );
   }
 
+  /// Resume Replication.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [sourceServerID] :
+  /// Resume Replication Request source server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Resume Replication Request account ID.
+  Future<SourceServer> resumeReplication({
+    required String sourceServerID,
+    String? accountID,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ResumeReplication',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SourceServer.fromJson(response);
+  }
+
   /// Causes the data replication initiation sequence to begin immediately upon
   /// next Handshake for specified SourceServer IDs, regardless of when the
   /// previous initiation started. This command will not work if the
@@ -1658,11 +1985,16 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Retry data replication for Source Server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Retry data replication for Account ID.
   Future<SourceServer> retryDataReplication({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1684,14 +2016,19 @@ class Mgn {
   /// Parameter [sourceServerIDs] :
   /// Start Cutover by Source Server IDs.
   ///
+  /// Parameter [accountID] :
+  /// Start Cutover by Account IDs
+  ///
   /// Parameter [tags] :
   /// Start Cutover by Tags.
   Future<StartCutoverResponse> startCutover({
     required List<String> sourceServerIDs,
+    String? accountID,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerIDs': sourceServerIDs,
+      if (accountID != null) 'accountID': accountID,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1776,11 +2113,16 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// ID of source server on which to start replication.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID on which to start replication.
   Future<SourceServer> startReplication({
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1802,14 +2144,19 @@ class Mgn {
   /// Parameter [sourceServerIDs] :
   /// Start Test for Source Server IDs.
   ///
+  /// Parameter [accountID] :
+  /// Start Test for Account ID.
+  ///
   /// Parameter [tags] :
   /// Start Test by Tags.
   Future<StartTestResponse> startTest({
     required List<String> sourceServerIDs,
+    String? accountID,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerIDs': sourceServerIDs,
+      if (accountID != null) 'accountID': accountID,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1819,6 +2166,36 @@ class Mgn {
       exceptionFnMap: _exceptionFns,
     );
     return StartTestResponse.fromJson(response);
+  }
+
+  /// Stop Replication.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [sourceServerID] :
+  /// Stop Replication Request source server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Stop Replication Request account ID.
+  Future<SourceServer> stopReplication({
+    required String sourceServerID,
+    String? accountID,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/StopReplication',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SourceServer.fromJson(response);
   }
 
   /// Adds or overwrites only the specified tags for the specified Application
@@ -1863,14 +2240,19 @@ class Mgn {
   /// Parameter [sourceServerIDs] :
   /// Terminate Target instance by Source Server IDs.
   ///
+  /// Parameter [accountID] :
+  /// Terminate Target instance by Account ID
+  ///
   /// Parameter [tags] :
   /// Terminate Target instance by Tags.
   Future<TerminateTargetInstancesResponse> terminateTargetInstances({
     required List<String> sourceServerIDs,
+    String? accountID,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerIDs': sourceServerIDs,
+      if (accountID != null) 'accountID': accountID,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1890,11 +2272,16 @@ class Mgn {
   ///
   /// Parameter [applicationID] :
   /// Application ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<Application> unarchiveApplication({
     required String applicationID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'applicationID': applicationID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1913,11 +2300,16 @@ class Mgn {
   ///
   /// Parameter [waveID] :
   /// Wave ID.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID.
   Future<Wave> unarchiveWave({
     required String waveID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'waveID': waveID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1967,6 +2359,9 @@ class Mgn {
   /// Parameter [applicationID] :
   /// Application ID.
   ///
+  /// Parameter [accountID] :
+  /// Account ID.
+  ///
   /// Parameter [description] :
   /// Application description.
   ///
@@ -1974,11 +2369,13 @@ class Mgn {
   /// Application name.
   Future<Application> updateApplication({
     required String applicationID,
+    String? accountID,
     String? description,
     String? name,
   }) async {
     final $payload = <String, dynamic>{
       'applicationID': applicationID,
+      if (accountID != null) 'accountID': accountID,
       if (description != null) 'description': description,
       if (name != null) 'name': name,
     };
@@ -1991,7 +2388,43 @@ class Mgn {
     return Application.fromJson(response);
   }
 
+  /// Update Connector.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorID] :
+  /// Update Connector request connector ID.
+  ///
+  /// Parameter [name] :
+  /// Update Connector request name.
+  ///
+  /// Parameter [ssmCommandConfig] :
+  /// Update Connector request SSM command config.
+  Future<Connector> updateConnector({
+    required String connectorID,
+    String? name,
+    ConnectorSsmCommandConfig? ssmCommandConfig,
+  }) async {
+    final $payload = <String, dynamic>{
+      'connectorID': connectorID,
+      if (name != null) 'name': name,
+      if (ssmCommandConfig != null) 'ssmCommandConfig': ssmCommandConfig,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/UpdateConnector',
+      exceptionFnMap: _exceptionFns,
+    );
+    return Connector.fromJson(response);
+  }
+
   /// Updates multiple LaunchConfigurations by Source Server ID.
+  /// <note>
+  /// bootMode valid values are <code>LEGACY_BIOS | UEFI</code>
+  /// </note>
   ///
   /// May throw [UninitializedAccountException].
   /// May throw [ResourceNotFoundException].
@@ -2000,6 +2433,9 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// Update Launch configuration by Source Server ID request.
+  ///
+  /// Parameter [accountID] :
+  /// Update Launch configuration Account ID.
   ///
   /// Parameter [bootMode] :
   /// Update Launch configuration boot mode request.
@@ -2029,6 +2465,7 @@ class Mgn {
   /// Update Launch configuration Target instance right sizing request.
   Future<LaunchConfiguration> updateLaunchConfiguration({
     required String sourceServerID,
+    String? accountID,
     BootMode? bootMode,
     bool? copyPrivateIp,
     bool? copyTags,
@@ -2042,6 +2479,7 @@ class Mgn {
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
       if (bootMode != null) 'bootMode': bootMode.toValue(),
       if (copyPrivateIp != null) 'copyPrivateIp': copyPrivateIp,
       if (copyTags != null) 'copyTags': copyTags,
@@ -2177,6 +2615,9 @@ class Mgn {
   /// Parameter [sourceServerID] :
   /// Update replication configuration Source Server ID request.
   ///
+  /// Parameter [accountID] :
+  /// Update replication configuration Account ID request.
+  ///
   /// Parameter [associateDefaultSecurityGroup] :
   /// Update replication configuration associate default Application Migration
   /// Service Security group request.
@@ -2221,8 +2662,12 @@ class Mgn {
   ///
   /// Parameter [useDedicatedReplicationServer] :
   /// Update replication configuration use dedicated Replication Server request.
+  ///
+  /// Parameter [useFipsEndpoint] :
+  /// Update replication configuration use Fips Endpoint.
   Future<ReplicationConfiguration> updateReplicationConfiguration({
     required String sourceServerID,
+    String? accountID,
     bool? associateDefaultSecurityGroup,
     int? bandwidthThrottling,
     bool? createPublicIP,
@@ -2238,15 +2683,17 @@ class Mgn {
     String? stagingAreaSubnetId,
     Map<String, String>? stagingAreaTags,
     bool? useDedicatedReplicationServer,
+    bool? useFipsEndpoint,
   }) async {
     _s.validateNumRange(
       'bandwidthThrottling',
       bandwidthThrottling,
       0,
-      1152921504606846976,
+      10000,
     );
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
       if (associateDefaultSecurityGroup != null)
         'associateDefaultSecurityGroup': associateDefaultSecurityGroup,
       if (bandwidthThrottling != null)
@@ -2271,6 +2718,7 @@ class Mgn {
       if (stagingAreaTags != null) 'stagingAreaTags': stagingAreaTags,
       if (useDedicatedReplicationServer != null)
         'useDedicatedReplicationServer': useDedicatedReplicationServer,
+      if (useFipsEndpoint != null) 'useFipsEndpoint': useFipsEndpoint,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2334,6 +2782,9 @@ class Mgn {
   /// Parameter [useDedicatedReplicationServer] :
   /// Update replication configuration template use dedicated Replication Server
   /// request.
+  ///
+  /// Parameter [useFipsEndpoint] :
+  /// Update replication configuration template use Fips Endpoint request.
   Future<ReplicationConfigurationTemplate>
       updateReplicationConfigurationTemplate({
     required String replicationConfigurationTemplateID,
@@ -2351,12 +2802,13 @@ class Mgn {
     String? stagingAreaSubnetId,
     Map<String, String>? stagingAreaTags,
     bool? useDedicatedReplicationServer,
+    bool? useFipsEndpoint,
   }) async {
     _s.validateNumRange(
       'bandwidthThrottling',
       bandwidthThrottling,
       0,
-      1152921504606846976,
+      10000,
     );
     final $payload = <String, dynamic>{
       'replicationConfigurationTemplateID': replicationConfigurationTemplateID,
@@ -2383,6 +2835,7 @@ class Mgn {
       if (stagingAreaTags != null) 'stagingAreaTags': stagingAreaTags,
       if (useDedicatedReplicationServer != null)
         'useDedicatedReplicationServer': useDedicatedReplicationServer,
+      if (useFipsEndpoint != null) 'useFipsEndpoint': useFipsEndpoint,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2391,6 +2844,39 @@ class Mgn {
       exceptionFnMap: _exceptionFns,
     );
     return ReplicationConfigurationTemplate.fromJson(response);
+  }
+
+  /// Update Source Server.
+  ///
+  /// May throw [UninitializedAccountException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [sourceServerID] :
+  /// Update Source Server request source server ID.
+  ///
+  /// Parameter [accountID] :
+  /// Update Source Server request account ID.
+  ///
+  /// Parameter [connectorAction] :
+  /// Update Source Server request connector action.
+  Future<SourceServer> updateSourceServer({
+    required String sourceServerID,
+    String? accountID,
+    SourceServerConnectorAction? connectorAction,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
+      if (connectorAction != null) 'connectorAction': connectorAction,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/UpdateSourceServer',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SourceServer.fromJson(response);
   }
 
   /// Allows you to change between the AGENT_BASED replication type and the
@@ -2406,13 +2892,18 @@ class Mgn {
   ///
   /// Parameter [sourceServerID] :
   /// ID of source server on which to update replication type.
+  ///
+  /// Parameter [accountID] :
+  /// Account ID on which to update replication type.
   Future<SourceServer> updateSourceServerReplicationType({
     required ReplicationType replicationType,
     required String sourceServerID,
+    String? accountID,
   }) async {
     final $payload = <String, dynamic>{
       'replicationType': replicationType.toValue(),
       'sourceServerID': sourceServerID,
+      if (accountID != null) 'accountID': accountID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2432,6 +2923,9 @@ class Mgn {
   /// Parameter [waveID] :
   /// Wave ID.
   ///
+  /// Parameter [accountID] :
+  /// Account ID.
+  ///
   /// Parameter [description] :
   /// Wave description.
   ///
@@ -2439,11 +2933,13 @@ class Mgn {
   /// Wave name.
   Future<Wave> updateWave({
     required String waveID,
+    String? accountID,
     String? description,
     String? name,
   }) async {
     final $payload = <String, dynamic>{
       'waveID': waveID,
+      if (accountID != null) 'accountID': accountID,
       if (description != null) 'description': description,
       if (name != null) 'name': name,
     };
@@ -2463,6 +2959,7 @@ enum ActionCategory {
   licenseAndSubscription,
   validation,
   observability,
+  refactoring,
   security,
   networking,
   configuration,
@@ -2483,6 +2980,8 @@ extension ActionCategoryValueExtension on ActionCategory {
         return 'VALIDATION';
       case ActionCategory.observability:
         return 'OBSERVABILITY';
+      case ActionCategory.refactoring:
+        return 'REFACTORING';
       case ActionCategory.security:
         return 'SECURITY';
       case ActionCategory.networking:
@@ -2510,6 +3009,8 @@ extension ActionCategoryFromString on String {
         return ActionCategory.validation;
       case 'OBSERVABILITY':
         return ActionCategory.observability;
+      case 'REFACTORING':
+        return ActionCategory.refactoring;
       case 'SECURITY':
         return ActionCategory.security;
       case 'NETWORKING':
@@ -2755,6 +3256,7 @@ class AssociateSourceServersResponse {
 enum BootMode {
   legacyBios,
   uefi,
+  useSource,
 }
 
 extension BootModeValueExtension on BootMode {
@@ -2764,6 +3266,8 @@ extension BootModeValueExtension on BootMode {
         return 'LEGACY_BIOS';
       case BootMode.uefi:
         return 'UEFI';
+      case BootMode.useSource:
+        return 'USE_SOURCE';
     }
   }
 }
@@ -2775,6 +3279,8 @@ extension BootModeFromString on String {
         return BootMode.legacyBios;
       case 'UEFI':
         return BootMode.uefi;
+      case 'USE_SOURCE':
+        return BootMode.useSource;
     }
     throw Exception('$this is not known in enum BootMode');
   }
@@ -2863,6 +3369,112 @@ extension ChangeServerLifeCycleStateSourceServerLifecycleStateFromString
     }
     throw Exception(
         '$this is not known in enum ChangeServerLifeCycleStateSourceServerLifecycleState');
+  }
+}
+
+class Connector {
+  /// Connector arn.
+  final String? arn;
+
+  /// Connector ID.
+  final String? connectorID;
+
+  /// Connector name.
+  final String? name;
+
+  /// Connector SSM command config.
+  final ConnectorSsmCommandConfig? ssmCommandConfig;
+
+  /// Connector SSM instance ID.
+  final String? ssmInstanceID;
+
+  /// Connector tags.
+  final Map<String, String>? tags;
+
+  Connector({
+    this.arn,
+    this.connectorID,
+    this.name,
+    this.ssmCommandConfig,
+    this.ssmInstanceID,
+    this.tags,
+  });
+
+  factory Connector.fromJson(Map<String, dynamic> json) {
+    return Connector(
+      arn: json['arn'] as String?,
+      connectorID: json['connectorID'] as String?,
+      name: json['name'] as String?,
+      ssmCommandConfig: json['ssmCommandConfig'] != null
+          ? ConnectorSsmCommandConfig.fromJson(
+              json['ssmCommandConfig'] as Map<String, dynamic>)
+          : null,
+      ssmInstanceID: json['ssmInstanceID'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final connectorID = this.connectorID;
+    final name = this.name;
+    final ssmCommandConfig = this.ssmCommandConfig;
+    final ssmInstanceID = this.ssmInstanceID;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (connectorID != null) 'connectorID': connectorID,
+      if (name != null) 'name': name,
+      if (ssmCommandConfig != null) 'ssmCommandConfig': ssmCommandConfig,
+      if (ssmInstanceID != null) 'ssmInstanceID': ssmInstanceID,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Connector SSM command config.
+class ConnectorSsmCommandConfig {
+  /// Connector SSM command config CloudWatch output enabled.
+  final bool cloudWatchOutputEnabled;
+
+  /// Connector SSM command config S3 output enabled.
+  final bool s3OutputEnabled;
+
+  /// Connector SSM command config CloudWatch log group name.
+  final String? cloudWatchLogGroupName;
+
+  /// Connector SSM command config output S3 bucket name.
+  final String? outputS3BucketName;
+
+  ConnectorSsmCommandConfig({
+    required this.cloudWatchOutputEnabled,
+    required this.s3OutputEnabled,
+    this.cloudWatchLogGroupName,
+    this.outputS3BucketName,
+  });
+
+  factory ConnectorSsmCommandConfig.fromJson(Map<String, dynamic> json) {
+    return ConnectorSsmCommandConfig(
+      cloudWatchOutputEnabled: json['cloudWatchOutputEnabled'] as bool,
+      s3OutputEnabled: json['s3OutputEnabled'] as bool,
+      cloudWatchLogGroupName: json['cloudWatchLogGroupName'] as String?,
+      outputS3BucketName: json['outputS3BucketName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchOutputEnabled = this.cloudWatchOutputEnabled;
+    final s3OutputEnabled = this.s3OutputEnabled;
+    final cloudWatchLogGroupName = this.cloudWatchLogGroupName;
+    final outputS3BucketName = this.outputS3BucketName;
+    return {
+      'cloudWatchOutputEnabled': cloudWatchOutputEnabled,
+      's3OutputEnabled': s3OutputEnabled,
+      if (cloudWatchLogGroupName != null)
+        'cloudWatchLogGroupName': cloudWatchLogGroupName,
+      if (outputS3BucketName != null) 'outputS3BucketName': outputS3BucketName,
+    };
   }
 }
 
@@ -4102,6 +4714,9 @@ class IdentificationHints {
 
 /// Import error data.
 class ImportErrorData {
+  /// Import error data source account ID.
+  final String? accountID;
+
   /// Import error data application ID.
   final String? applicationID;
 
@@ -4121,6 +4736,7 @@ class ImportErrorData {
   final String? waveID;
 
   ImportErrorData({
+    this.accountID,
     this.applicationID,
     this.ec2LaunchTemplateID,
     this.rawError,
@@ -4131,6 +4747,7 @@ class ImportErrorData {
 
   factory ImportErrorData.fromJson(Map<String, dynamic> json) {
     return ImportErrorData(
+      accountID: json['accountID'] as String?,
       applicationID: json['applicationID'] as String?,
       ec2LaunchTemplateID: json['ec2LaunchTemplateID'] as String?,
       rawError: json['rawError'] as String?,
@@ -4141,6 +4758,7 @@ class ImportErrorData {
   }
 
   Map<String, dynamic> toJson() {
+    final accountID = this.accountID;
     final applicationID = this.applicationID;
     final ec2LaunchTemplateID = this.ec2LaunchTemplateID;
     final rawError = this.rawError;
@@ -4148,6 +4766,7 @@ class ImportErrorData {
     final sourceServerID = this.sourceServerID;
     final waveID = this.waveID;
     return {
+      if (accountID != null) 'accountID': accountID,
       if (applicationID != null) 'applicationID': applicationID,
       if (ec2LaunchTemplateID != null)
         'ec2LaunchTemplateID': ec2LaunchTemplateID,
@@ -5786,6 +6405,55 @@ class ListApplicationsResponse {
   }
 }
 
+/// List Connectors Request Filters.
+class ListConnectorsRequestFilters {
+  /// List Connectors Request Filters connector IDs.
+  final List<String>? connectorIDs;
+
+  ListConnectorsRequestFilters({
+    this.connectorIDs,
+  });
+
+  Map<String, dynamic> toJson() {
+    final connectorIDs = this.connectorIDs;
+    return {
+      if (connectorIDs != null) 'connectorIDs': connectorIDs,
+    };
+  }
+}
+
+class ListConnectorsResponse {
+  /// List connectors response items.
+  final List<Connector>? items;
+
+  /// List connectors response next token.
+  final String? nextToken;
+
+  ListConnectorsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorsResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// List export errors response.
 class ListExportErrorsResponse {
   /// List export errors response items.
@@ -5952,6 +6620,39 @@ class ListImportsResponse {
   }
 }
 
+/// List managed accounts response.
+class ListManagedAccountsResponse {
+  /// List managed accounts response items.
+  final List<ManagedAccount> items;
+
+  /// List managed accounts response next token.
+  final String? nextToken;
+
+  ListManagedAccountsResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListManagedAccountsResponse.fromJson(Map<String, dynamic> json) {
+    return ListManagedAccountsResponse(
+      items: (json['items'] as List)
+          .whereNotNull()
+          .map((e) => ManagedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListSourceServerActionsResponse {
   /// List of source server post migration custom actions.
   final List<SourceServerActionDocument>? items;
@@ -6093,6 +6794,29 @@ class ListWavesResponse {
     return {
       if (items != null) 'items': items,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Managed account.
+class ManagedAccount {
+  /// Managed account, account ID.
+  final String? accountId;
+
+  ManagedAccount({
+    this.accountId,
+  });
+
+  factory ManagedAccount.fromJson(Map<String, dynamic> json) {
+    return ManagedAccount(
+      accountId: json['accountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    return {
+      if (accountId != null) 'accountId': accountId,
     };
   }
 }
@@ -6447,6 +7171,9 @@ class ReplicationConfiguration {
   /// Replication Configuration use Dedicated Replication Server.
   final bool? useDedicatedReplicationServer;
 
+  /// Replication Configuration use Fips Endpoint.
+  final bool? useFipsEndpoint;
+
   ReplicationConfiguration({
     this.associateDefaultSecurityGroup,
     this.bandwidthThrottling,
@@ -6463,6 +7190,7 @@ class ReplicationConfiguration {
     this.stagingAreaSubnetId,
     this.stagingAreaTags,
     this.useDedicatedReplicationServer,
+    this.useFipsEndpoint,
   });
 
   factory ReplicationConfiguration.fromJson(Map<String, dynamic> json) {
@@ -6498,6 +7226,7 @@ class ReplicationConfiguration {
           ?.map((k, e) => MapEntry(k, e as String)),
       useDedicatedReplicationServer:
           json['useDedicatedReplicationServer'] as bool?,
+      useFipsEndpoint: json['useFipsEndpoint'] as bool?,
     );
   }
 
@@ -6518,6 +7247,7 @@ class ReplicationConfiguration {
     final stagingAreaSubnetId = this.stagingAreaSubnetId;
     final stagingAreaTags = this.stagingAreaTags;
     final useDedicatedReplicationServer = this.useDedicatedReplicationServer;
+    final useFipsEndpoint = this.useFipsEndpoint;
     return {
       if (associateDefaultSecurityGroup != null)
         'associateDefaultSecurityGroup': associateDefaultSecurityGroup,
@@ -6544,6 +7274,7 @@ class ReplicationConfiguration {
       if (stagingAreaTags != null) 'stagingAreaTags': stagingAreaTags,
       if (useDedicatedReplicationServer != null)
         'useDedicatedReplicationServer': useDedicatedReplicationServer,
+      if (useFipsEndpoint != null) 'useFipsEndpoint': useFipsEndpoint,
     };
   }
 }
@@ -6810,6 +7541,9 @@ class ReplicationConfigurationTemplate {
   /// Replication Configuration template use Dedicated Replication Server.
   final bool? useDedicatedReplicationServer;
 
+  /// Replication Configuration template use Fips Endpoint.
+  final bool? useFipsEndpoint;
+
   ReplicationConfigurationTemplate({
     required this.replicationConfigurationTemplateID,
     this.arn,
@@ -6826,6 +7560,7 @@ class ReplicationConfigurationTemplate {
     this.stagingAreaTags,
     this.tags,
     this.useDedicatedReplicationServer,
+    this.useFipsEndpoint,
   });
 
   factory ReplicationConfigurationTemplate.fromJson(Map<String, dynamic> json) {
@@ -6859,6 +7594,7 @@ class ReplicationConfigurationTemplate {
           ?.map((k, e) => MapEntry(k, e as String)),
       useDedicatedReplicationServer:
           json['useDedicatedReplicationServer'] as bool?,
+      useFipsEndpoint: json['useFipsEndpoint'] as bool?,
     );
   }
 
@@ -6880,6 +7616,7 @@ class ReplicationConfigurationTemplate {
     final stagingAreaTags = this.stagingAreaTags;
     final tags = this.tags;
     final useDedicatedReplicationServer = this.useDedicatedReplicationServer;
+    final useFipsEndpoint = this.useFipsEndpoint;
     return {
       'replicationConfigurationTemplateID': replicationConfigurationTemplateID,
       if (arn != null) 'arn': arn,
@@ -6906,6 +7643,7 @@ class ReplicationConfigurationTemplate {
       if (tags != null) 'tags': tags,
       if (useDedicatedReplicationServer != null)
         'useDedicatedReplicationServer': useDedicatedReplicationServer,
+      if (useFipsEndpoint != null) 'useFipsEndpoint': useFipsEndpoint,
     };
   }
 }
@@ -7071,6 +7809,9 @@ class SourceServer {
   /// Source server ARN.
   final String? arn;
 
+  /// Source Server connector action.
+  final SourceServerConnectorAction? connectorAction;
+
   /// Source server data replication info.
   final DataReplicationInfo? dataReplicationInfo;
 
@@ -7107,6 +7848,7 @@ class SourceServer {
   SourceServer({
     this.applicationID,
     this.arn,
+    this.connectorAction,
     this.dataReplicationInfo,
     this.fqdnForActionFramework,
     this.isArchived,
@@ -7124,6 +7866,10 @@ class SourceServer {
     return SourceServer(
       applicationID: json['applicationID'] as String?,
       arn: json['arn'] as String?,
+      connectorAction: json['connectorAction'] != null
+          ? SourceServerConnectorAction.fromJson(
+              json['connectorAction'] as Map<String, dynamic>)
+          : null,
       dataReplicationInfo: json['dataReplicationInfo'] != null
           ? DataReplicationInfo.fromJson(
               json['dataReplicationInfo'] as Map<String, dynamic>)
@@ -7154,6 +7900,7 @@ class SourceServer {
   Map<String, dynamic> toJson() {
     final applicationID = this.applicationID;
     final arn = this.arn;
+    final connectorAction = this.connectorAction;
     final dataReplicationInfo = this.dataReplicationInfo;
     final fqdnForActionFramework = this.fqdnForActionFramework;
     final isArchived = this.isArchived;
@@ -7168,6 +7915,7 @@ class SourceServer {
     return {
       if (applicationID != null) 'applicationID': applicationID,
       if (arn != null) 'arn': arn,
+      if (connectorAction != null) 'connectorAction': connectorAction,
       if (dataReplicationInfo != null)
         'dataReplicationInfo': dataReplicationInfo,
       if (fqdnForActionFramework != null)
@@ -7307,6 +8055,37 @@ class SourceServerActionsRequestFilters {
     final actionIDs = this.actionIDs;
     return {
       if (actionIDs != null) 'actionIDs': actionIDs,
+    };
+  }
+}
+
+/// Source Server connector action.
+class SourceServerConnectorAction {
+  /// Source Server connector action connector arn.
+  final String? connectorArn;
+
+  /// Source Server connector action credentials secret arn.
+  final String? credentialsSecretArn;
+
+  SourceServerConnectorAction({
+    this.connectorArn,
+    this.credentialsSecretArn,
+  });
+
+  factory SourceServerConnectorAction.fromJson(Map<String, dynamic> json) {
+    return SourceServerConnectorAction(
+      connectorArn: json['connectorArn'] as String?,
+      credentialsSecretArn: json['credentialsSecretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    final credentialsSecretArn = this.credentialsSecretArn;
+    return {
+      if (connectorArn != null) 'connectorArn': connectorArn,
+      if (credentialsSecretArn != null)
+        'credentialsSecretArn': credentialsSecretArn,
     };
   }
 }

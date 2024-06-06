@@ -103,6 +103,69 @@ class OpenSearchServiceServerless {
     return BatchGetCollectionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of successful and failed retrievals for the OpenSearch
+  /// Serverless indexes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list">Viewing
+  /// data lifecycle policies</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceIdentifiers] :
+  /// The unique identifiers of policy types and resource names.
+  Future<BatchGetEffectiveLifecyclePolicyResponse>
+      batchGetEffectiveLifecyclePolicy({
+    required List<LifecyclePolicyResourceIdentifier> resourceIdentifiers,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'OpenSearchServerless.BatchGetEffectiveLifecyclePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceIdentifiers': resourceIdentifiers,
+      },
+    );
+
+    return BatchGetEffectiveLifecyclePolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns one or more configured OpenSearch Serverless lifecycle policies.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list">Viewing
+  /// data lifecycle policies</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifiers] :
+  /// The unique identifiers of policy types and policy names.
+  Future<BatchGetLifecyclePolicyResponse> batchGetLifecyclePolicy({
+    required List<LifecyclePolicyIdentifier> identifiers,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'OpenSearchServerless.BatchGetLifecyclePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identifiers': identifiers,
+      },
+    );
+
+    return BatchGetLifecyclePolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns attributes for one or more VPC endpoints associated with the
   /// current account. For more information, see <a
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html">Access
@@ -210,6 +273,9 @@ class OpenSearchServiceServerless {
   /// Parameter [description] :
   /// Description of the collection.
   ///
+  /// Parameter [standbyReplicas] :
+  /// Indicates whether standby replicas should be used for a collection.
+  ///
   /// Parameter [tags] :
   /// An arbitrary set of tags (key–value pairs) to associate with the
   /// OpenSearch Serverless collection.
@@ -220,6 +286,7 @@ class OpenSearchServiceServerless {
     required String name,
     String? clientToken,
     String? description,
+    StandbyReplicas? standbyReplicas,
     List<Tag>? tags,
     CollectionType? type,
   }) async {
@@ -237,12 +304,68 @@ class OpenSearchServiceServerless {
         'name': name,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
+        if (standbyReplicas != null)
+          'standbyReplicas': standbyReplicas.toValue(),
         if (tags != null) 'tags': tags,
         if (type != null) 'type': type.toValue(),
       },
     );
 
     return CreateCollectionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a lifecyle policy to be applied to OpenSearch Serverless indexes.
+  /// Lifecycle policies define the number of days or hours to retain the data
+  /// on an OpenSearch Serverless index. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-create">Creating
+  /// data lifecycle policies</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// The name of the lifecycle policy.
+  ///
+  /// Parameter [policy] :
+  /// The JSON policy document to use as the content for the lifecycle policy.
+  ///
+  /// Parameter [type] :
+  /// The type of lifecycle policy.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// A description of the lifecycle policy.
+  Future<CreateLifecyclePolicyResponse> createLifecyclePolicy({
+    required String name,
+    required String policy,
+    required LifecyclePolicyType type,
+    String? clientToken,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'OpenSearchServerless.CreateLifecyclePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'policy': policy,
+        'type': type.toValue(),
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'description': description,
+      },
+    );
+
+    return CreateLifecyclePolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Specifies a security configuration for OpenSearch Serverless. For more
@@ -497,6 +620,47 @@ class OpenSearchServiceServerless {
     return DeleteCollectionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an OpenSearch Serverless lifecycle policy. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-delete">Deleting
+  /// data lifecycle policies</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the policy to delete.
+  ///
+  /// Parameter [type] :
+  /// The type of lifecycle policy.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier to ensure idempotency of the request.
+  Future<void> deleteLifecyclePolicy({
+    required String name,
+    required LifecyclePolicyType type,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'OpenSearchServerless.DeleteLifecyclePolicy'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'type': type.toValue(),
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+  }
+
   /// Deletes a security configuration for OpenSearch Serverless. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html">SAML
@@ -624,7 +788,7 @@ class OpenSearchServiceServerless {
   /// The name of the access policy.
   ///
   /// Parameter [type] :
-  /// Tye type of policy. Currently the only supported value is
+  /// Tye type of policy. Currently, the only supported value is
   /// <code>data</code>.
   Future<GetAccessPolicyResponse> getAccessPolicy({
     required String name,
@@ -827,7 +991,7 @@ class OpenSearchServiceServerless {
   /// May throw [ValidationException].
   ///
   /// Parameter [collectionFilters] :
-  /// List of filter names and values that you can use for requests.
+  /// A list of filter names and values that you can use for requests.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return. Default is 20. You can use
@@ -867,6 +1031,64 @@ class OpenSearchServiceServerless {
     );
 
     return ListCollectionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of OpenSearch Serverless lifecycle policies. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list">Viewing
+  /// data lifecycle policies</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [type] :
+  /// The type of lifecycle policy.
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use use <code>nextToken</code> to get the next page of
+  /// results. The default is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListLifecyclePolicies</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListLifecyclePolicies</code>
+  /// operations, which returns results in the next page.
+  ///
+  /// Parameter [resources] :
+  /// Resource filters that policies can apply to. Currently, the only supported
+  /// resource type is <code>index</code>.
+  Future<ListLifecyclePoliciesResponse> listLifecyclePolicies({
+    required LifecyclePolicyType type,
+    int? maxResults,
+    String? nextToken,
+    List<String>? resources,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'OpenSearchServerless.ListLifecyclePolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'type': type.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (resources != null) 'resources': resources,
+      },
+    );
+
+    return ListLifecyclePoliciesResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about configured OpenSearch Serverless security
@@ -1271,6 +1493,65 @@ class OpenSearchServiceServerless {
     return UpdateCollectionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates an OpenSearch Serverless access policy. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-update">Updating
+  /// data lifecycle policies</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// The name of the policy.
+  ///
+  /// Parameter [policyVersion] :
+  /// The version of the policy being updated.
+  ///
+  /// Parameter [type] :
+  /// The type of lifecycle policy.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// A description of the lifecycle policy.
+  ///
+  /// Parameter [policy] :
+  /// The JSON policy document to use as the content for the lifecycle policy.
+  Future<UpdateLifecyclePolicyResponse> updateLifecyclePolicy({
+    required String name,
+    required String policyVersion,
+    required LifecyclePolicyType type,
+    String? clientToken,
+    String? description,
+    String? policy,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'OpenSearchServerless.UpdateLifecyclePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'policyVersion': policyVersion,
+        'type': type.toValue(),
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'description': description,
+        if (policy != null) 'policy': policy,
+      },
+    );
+
+    return UpdateLifecyclePolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates a security configuration for OpenSearch Serverless. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html">SAML
@@ -1559,7 +1840,7 @@ class AccessPolicySummary {
   /// The version of the policy.
   final String? policyVersion;
 
-  /// The type of access policy. Currently the only available type is
+  /// The type of access policy. Currently, the only available type is
   /// <code>data</code>.
   final AccessPolicyType? type;
 
@@ -1685,6 +1966,93 @@ class BatchGetCollectionResponse {
   }
 }
 
+class BatchGetEffectiveLifecyclePolicyResponse {
+  /// A list of lifecycle policies applied to the OpenSearch Serverless indexes.
+  final List<EffectiveLifecyclePolicyDetail>? effectiveLifecyclePolicyDetails;
+
+  /// A list of resources for which retrieval failed.
+  final List<EffectiveLifecyclePolicyErrorDetail>?
+      effectiveLifecyclePolicyErrorDetails;
+
+  BatchGetEffectiveLifecyclePolicyResponse({
+    this.effectiveLifecyclePolicyDetails,
+    this.effectiveLifecyclePolicyErrorDetails,
+  });
+
+  factory BatchGetEffectiveLifecyclePolicyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetEffectiveLifecyclePolicyResponse(
+      effectiveLifecyclePolicyDetails:
+          (json['effectiveLifecyclePolicyDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) => EffectiveLifecyclePolicyDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      effectiveLifecyclePolicyErrorDetails:
+          (json['effectiveLifecyclePolicyErrorDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) => EffectiveLifecyclePolicyErrorDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectiveLifecyclePolicyDetails =
+        this.effectiveLifecyclePolicyDetails;
+    final effectiveLifecyclePolicyErrorDetails =
+        this.effectiveLifecyclePolicyErrorDetails;
+    return {
+      if (effectiveLifecyclePolicyDetails != null)
+        'effectiveLifecyclePolicyDetails': effectiveLifecyclePolicyDetails,
+      if (effectiveLifecyclePolicyErrorDetails != null)
+        'effectiveLifecyclePolicyErrorDetails':
+            effectiveLifecyclePolicyErrorDetails,
+    };
+  }
+}
+
+class BatchGetLifecyclePolicyResponse {
+  /// A list of lifecycle policies matched to the input policy name and policy
+  /// type.
+  final List<LifecyclePolicyDetail>? lifecyclePolicyDetails;
+
+  /// A list of lifecycle policy names and policy types for which retrieval
+  /// failed.
+  final List<LifecyclePolicyErrorDetail>? lifecyclePolicyErrorDetails;
+
+  BatchGetLifecyclePolicyResponse({
+    this.lifecyclePolicyDetails,
+    this.lifecyclePolicyErrorDetails,
+  });
+
+  factory BatchGetLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetLifecyclePolicyResponse(
+      lifecyclePolicyDetails: (json['lifecyclePolicyDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecyclePolicyDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lifecyclePolicyErrorDetails: (json['lifecyclePolicyErrorDetails']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LifecyclePolicyErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyDetails = this.lifecyclePolicyDetails;
+    final lifecyclePolicyErrorDetails = this.lifecyclePolicyErrorDetails;
+    return {
+      if (lifecyclePolicyDetails != null)
+        'lifecyclePolicyDetails': lifecyclePolicyDetails,
+      if (lifecyclePolicyErrorDetails != null)
+        'lifecyclePolicyErrorDetails': lifecyclePolicyErrorDetails,
+    };
+  }
+}
+
 class BatchGetVpcEndpointResponse {
   /// Details about the specified VPC endpoint.
   final List<VpcEndpointDetail>? vpcEndpointDetails;
@@ -1789,6 +2157,9 @@ class CollectionDetail {
   /// The name of the collection.
   final String? name;
 
+  /// Details about an OpenSearch Serverless collection.
+  final StandbyReplicas? standbyReplicas;
+
   /// The current status of the collection.
   final CollectionStatus? status;
 
@@ -1805,6 +2176,7 @@ class CollectionDetail {
     this.kmsKeyArn,
     this.lastModifiedDate,
     this.name,
+    this.standbyReplicas,
     this.status,
     this.type,
   });
@@ -1820,6 +2192,8 @@ class CollectionDetail {
       kmsKeyArn: json['kmsKeyArn'] as String?,
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
+      standbyReplicas:
+          (json['standbyReplicas'] as String?)?.toStandbyReplicas(),
       status: (json['status'] as String?)?.toCollectionStatus(),
       type: (json['type'] as String?)?.toCollectionType(),
     );
@@ -1835,6 +2209,7 @@ class CollectionDetail {
     final kmsKeyArn = this.kmsKeyArn;
     final lastModifiedDate = this.lastModifiedDate;
     final name = this.name;
+    final standbyReplicas = this.standbyReplicas;
     final status = this.status;
     final type = this.type;
     return {
@@ -1847,6 +2222,7 @@ class CollectionDetail {
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
+      if (standbyReplicas != null) 'standbyReplicas': standbyReplicas.toValue(),
       if (status != null) 'status': status.toValue(),
       if (type != null) 'type': type.toValue(),
     };
@@ -1900,7 +2276,7 @@ class CollectionErrorDetail {
   }
 }
 
-/// List of filter keys that you can use for LIST, UPDATE, and DELETE requests
+/// A list of filter keys that you can use for LIST, UPDATE, and DELETE requests
 /// to OpenSearch Serverless collections.
 class CollectionFilters {
   /// The name of the collection.
@@ -2009,6 +2385,7 @@ class CollectionSummary {
 enum CollectionType {
   search,
   timeseries,
+  vectorsearch,
 }
 
 extension CollectionTypeValueExtension on CollectionType {
@@ -2018,6 +2395,8 @@ extension CollectionTypeValueExtension on CollectionType {
         return 'SEARCH';
       case CollectionType.timeseries:
         return 'TIMESERIES';
+      case CollectionType.vectorsearch:
+        return 'VECTORSEARCH';
     }
   }
 }
@@ -2029,6 +2408,8 @@ extension CollectionTypeFromString on String {
         return CollectionType.search;
       case 'TIMESERIES':
         return CollectionType.timeseries;
+      case 'VECTORSEARCH':
+        return CollectionType.vectorsearch;
     }
     throw Exception('$this is not known in enum CollectionType');
   }
@@ -2083,6 +2464,9 @@ class CreateCollectionDetail {
   /// The name of the collection.
   final String? name;
 
+  /// Creates details about an OpenSearch Serverless collection.
+  final StandbyReplicas? standbyReplicas;
+
   /// The current status of the collection.
   final CollectionStatus? status;
 
@@ -2097,6 +2481,7 @@ class CreateCollectionDetail {
     this.kmsKeyArn,
     this.lastModifiedDate,
     this.name,
+    this.standbyReplicas,
     this.status,
     this.type,
   });
@@ -2110,6 +2495,8 @@ class CreateCollectionDetail {
       kmsKeyArn: json['kmsKeyArn'] as String?,
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
+      standbyReplicas:
+          (json['standbyReplicas'] as String?)?.toStandbyReplicas(),
       status: (json['status'] as String?)?.toCollectionStatus(),
       type: (json['type'] as String?)?.toCollectionType(),
     );
@@ -2123,6 +2510,7 @@ class CreateCollectionDetail {
     final kmsKeyArn = this.kmsKeyArn;
     final lastModifiedDate = this.lastModifiedDate;
     final name = this.name;
+    final standbyReplicas = this.standbyReplicas;
     final status = this.status;
     final type = this.type;
     return {
@@ -2133,6 +2521,7 @@ class CreateCollectionDetail {
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
+      if (standbyReplicas != null) 'standbyReplicas': standbyReplicas.toValue(),
       if (status != null) 'status': status.toValue(),
       if (type != null) 'type': type.toValue(),
     };
@@ -2161,6 +2550,32 @@ class CreateCollectionResponse {
     return {
       if (createCollectionDetail != null)
         'createCollectionDetail': createCollectionDetail,
+    };
+  }
+}
+
+class CreateLifecyclePolicyResponse {
+  /// Details about the created lifecycle policy.
+  final LifecyclePolicyDetail? lifecyclePolicyDetail;
+
+  CreateLifecyclePolicyResponse({
+    this.lifecyclePolicyDetail,
+  });
+
+  factory CreateLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLifecyclePolicyResponse(
+      lifecyclePolicyDetail: json['lifecyclePolicyDetail'] != null
+          ? LifecyclePolicyDetail.fromJson(
+              json['lifecyclePolicyDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyDetail = this.lifecyclePolicyDetail;
+    return {
+      if (lifecyclePolicyDetail != null)
+        'lifecyclePolicyDetail': lifecyclePolicyDetail,
     };
   }
 }
@@ -2358,6 +2773,18 @@ class DeleteCollectionResponse {
   }
 }
 
+class DeleteLifecyclePolicyResponse {
+  DeleteLifecyclePolicyResponse();
+
+  factory DeleteLifecyclePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteLifecyclePolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteSecurityConfigResponse {
   DeleteSecurityConfigResponse();
 
@@ -2457,6 +2884,115 @@ class Document {
   }
 }
 
+/// Error information for an OpenSearch Serverless request.
+class EffectiveLifecyclePolicyDetail {
+  /// The minimum number of index retention days set. That is an optional param
+  /// that will return as <code>true</code> if the minimum number of days or hours
+  /// is not set to a index resource.
+  final bool? noMinRetentionPeriod;
+
+  /// The name of the lifecycle policy.
+  final String? policyName;
+
+  /// The name of the OpenSearch Serverless index resource.
+  final String? resource;
+
+  /// The type of OpenSearch Serverless resource. Currently, the only supported
+  /// resource is <code>index</code>.
+  final ResourceType? resourceType;
+
+  /// The minimum number of index retention in days or hours. This is an optional
+  /// parameter that will return only if it’s set.
+  final String? retentionPeriod;
+
+  /// The type of lifecycle policy.
+  final LifecyclePolicyType? type;
+
+  EffectiveLifecyclePolicyDetail({
+    this.noMinRetentionPeriod,
+    this.policyName,
+    this.resource,
+    this.resourceType,
+    this.retentionPeriod,
+    this.type,
+  });
+
+  factory EffectiveLifecyclePolicyDetail.fromJson(Map<String, dynamic> json) {
+    return EffectiveLifecyclePolicyDetail(
+      noMinRetentionPeriod: json['noMinRetentionPeriod'] as bool?,
+      policyName: json['policyName'] as String?,
+      resource: json['resource'] as String?,
+      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      retentionPeriod: json['retentionPeriod'] as String?,
+      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final noMinRetentionPeriod = this.noMinRetentionPeriod;
+    final policyName = this.policyName;
+    final resource = this.resource;
+    final resourceType = this.resourceType;
+    final retentionPeriod = this.retentionPeriod;
+    final type = this.type;
+    return {
+      if (noMinRetentionPeriod != null)
+        'noMinRetentionPeriod': noMinRetentionPeriod,
+      if (policyName != null) 'policyName': policyName,
+      if (resource != null) 'resource': resource,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
+/// Error information for an OpenSearch Serverless request.
+class EffectiveLifecyclePolicyErrorDetail {
+  /// The error code for the request.
+  final String? errorCode;
+
+  /// A description of the error. For example, <code>The specified Index resource
+  /// is not found</code>.
+  final String? errorMessage;
+
+  /// The name of OpenSearch Serverless index resource.
+  final String? resource;
+
+  /// The type of lifecycle policy.
+  final LifecyclePolicyType? type;
+
+  EffectiveLifecyclePolicyErrorDetail({
+    this.errorCode,
+    this.errorMessage,
+    this.resource,
+    this.type,
+  });
+
+  factory EffectiveLifecyclePolicyErrorDetail.fromJson(
+      Map<String, dynamic> json) {
+    return EffectiveLifecyclePolicyErrorDetail(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      resource: json['resource'] as String?,
+      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final resource = this.resource;
+    final type = this.type;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (resource != null) 'resource': resource,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
 class GetAccessPolicyResponse {
   /// Details about the requested access policy.
   final AccessPolicyDetail? accessPolicyDetail;
@@ -2512,6 +3048,9 @@ class GetPoliciesStatsResponse {
   /// Information about the data access policies in your account.
   final AccessPolicyStats? accessPolicyStats;
 
+  /// Information about the lifecycle policies in your account.
+  final LifecyclePolicyStats? lifecyclePolicyStats;
+
   /// Information about the security configurations in your account.
   final SecurityConfigStats? securityConfigStats;
 
@@ -2524,6 +3063,7 @@ class GetPoliciesStatsResponse {
 
   GetPoliciesStatsResponse({
     this.accessPolicyStats,
+    this.lifecyclePolicyStats,
     this.securityConfigStats,
     this.securityPolicyStats,
     this.totalPolicyCount,
@@ -2534,6 +3074,10 @@ class GetPoliciesStatsResponse {
       accessPolicyStats: json['AccessPolicyStats'] != null
           ? AccessPolicyStats.fromJson(
               json['AccessPolicyStats'] as Map<String, dynamic>)
+          : null,
+      lifecyclePolicyStats: json['LifecyclePolicyStats'] != null
+          ? LifecyclePolicyStats.fromJson(
+              json['LifecyclePolicyStats'] as Map<String, dynamic>)
           : null,
       securityConfigStats: json['SecurityConfigStats'] != null
           ? SecurityConfigStats.fromJson(
@@ -2549,11 +3093,14 @@ class GetPoliciesStatsResponse {
 
   Map<String, dynamic> toJson() {
     final accessPolicyStats = this.accessPolicyStats;
+    final lifecyclePolicyStats = this.lifecyclePolicyStats;
     final securityConfigStats = this.securityConfigStats;
     final securityPolicyStats = this.securityPolicyStats;
     final totalPolicyCount = this.totalPolicyCount;
     return {
       if (accessPolicyStats != null) 'AccessPolicyStats': accessPolicyStats,
+      if (lifecyclePolicyStats != null)
+        'LifecyclePolicyStats': lifecyclePolicyStats,
       if (securityConfigStats != null)
         'SecurityConfigStats': securityConfigStats,
       if (securityPolicyStats != null)
@@ -2612,6 +3159,269 @@ class GetSecurityPolicyResponse {
       if (securityPolicyDetail != null)
         'securityPolicyDetail': securityPolicyDetail,
     };
+  }
+}
+
+/// Details about an OpenSearch Serverless lifecycle policy.
+class LifecyclePolicyDetail {
+  /// The date the lifecycle policy was created.
+  final int? createdDate;
+
+  /// The description of the lifecycle policy.
+  final String? description;
+
+  /// The timestamp of when the lifecycle policy was last modified.
+  final int? lastModifiedDate;
+
+  /// The name of the lifecycle policy.
+  final String? name;
+
+  /// The JSON policy document without any whitespaces.
+  final Document? policy;
+
+  /// The version of the lifecycle policy.
+  final String? policyVersion;
+
+  /// The type of lifecycle policy.
+  final LifecyclePolicyType? type;
+
+  LifecyclePolicyDetail({
+    this.createdDate,
+    this.description,
+    this.lastModifiedDate,
+    this.name,
+    this.policy,
+    this.policyVersion,
+    this.type,
+  });
+
+  factory LifecyclePolicyDetail.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyDetail(
+      createdDate: json['createdDate'] as int?,
+      description: json['description'] as String?,
+      lastModifiedDate: json['lastModifiedDate'] as int?,
+      name: json['name'] as String?,
+      policy: json['policy'] != null
+          ? Document.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+      policyVersion: json['policyVersion'] as String?,
+      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final policy = this.policy;
+    final policyVersion = this.policyVersion;
+    final type = this.type;
+    return {
+      if (createdDate != null) 'createdDate': createdDate,
+      if (description != null) 'description': description,
+      if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
+      if (name != null) 'name': name,
+      if (policy != null) 'policy': policy,
+      if (policyVersion != null) 'policyVersion': policyVersion,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
+/// Error information for an OpenSearch Serverless request.
+class LifecyclePolicyErrorDetail {
+  /// The error code for the request. For example, <code>NOT_FOUND</code>.
+  final String? errorCode;
+
+  /// A description of the error. For example, <code>The specified Lifecycle
+  /// Policy is not found</code>.
+  final String? errorMessage;
+
+  /// The name of the lifecycle policy.
+  final String? name;
+
+  /// The type of lifecycle policy.
+  final LifecyclePolicyType? type;
+
+  LifecyclePolicyErrorDetail({
+    this.errorCode,
+    this.errorMessage,
+    this.name,
+    this.type,
+  });
+
+  factory LifecyclePolicyErrorDetail.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyErrorDetail(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
+/// The unique identifiers of policy types and policy names.
+class LifecyclePolicyIdentifier {
+  /// The name of the lifecycle policy.
+  final String name;
+
+  /// The type of lifecycle policy.
+  final LifecyclePolicyType type;
+
+  LifecyclePolicyIdentifier({
+    required this.name,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'name': name,
+      'type': type.toValue(),
+    };
+  }
+}
+
+/// The unique identifiers of policy types and resource names.
+class LifecyclePolicyResourceIdentifier {
+  /// The name of the OpenSearch Serverless ilndex resource.
+  final String resource;
+
+  /// The type of lifecycle policy.
+  final LifecyclePolicyType type;
+
+  LifecyclePolicyResourceIdentifier({
+    required this.resource,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resource = this.resource;
+    final type = this.type;
+    return {
+      'resource': resource,
+      'type': type.toValue(),
+    };
+  }
+}
+
+/// Statistics for an OpenSearch Serverless lifecycle policy.
+class LifecyclePolicyStats {
+  /// The number of retention lifecycle policies in the current account.
+  final int? retentionPolicyCount;
+
+  LifecyclePolicyStats({
+    this.retentionPolicyCount,
+  });
+
+  factory LifecyclePolicyStats.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyStats(
+      retentionPolicyCount: json['RetentionPolicyCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retentionPolicyCount = this.retentionPolicyCount;
+    return {
+      if (retentionPolicyCount != null)
+        'RetentionPolicyCount': retentionPolicyCount,
+    };
+  }
+}
+
+/// A summary of the lifecycle policy.
+class LifecyclePolicySummary {
+  /// The Epoch time when the lifecycle policy was created.
+  final int? createdDate;
+
+  /// The description of the lifecycle policy.
+  final String? description;
+
+  /// The date and time when the lifecycle policy was last modified.
+  final int? lastModifiedDate;
+
+  /// The name of the lifecycle policy.
+  final String? name;
+
+  /// The version of the lifecycle policy.
+  final String? policyVersion;
+
+  /// The type of lifecycle policy.
+  final LifecyclePolicyType? type;
+
+  LifecyclePolicySummary({
+    this.createdDate,
+    this.description,
+    this.lastModifiedDate,
+    this.name,
+    this.policyVersion,
+    this.type,
+  });
+
+  factory LifecyclePolicySummary.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicySummary(
+      createdDate: json['createdDate'] as int?,
+      description: json['description'] as String?,
+      lastModifiedDate: json['lastModifiedDate'] as int?,
+      name: json['name'] as String?,
+      policyVersion: json['policyVersion'] as String?,
+      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final policyVersion = this.policyVersion;
+    final type = this.type;
+    return {
+      if (createdDate != null) 'createdDate': createdDate,
+      if (description != null) 'description': description,
+      if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
+      if (name != null) 'name': name,
+      if (policyVersion != null) 'policyVersion': policyVersion,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
+enum LifecyclePolicyType {
+  retention,
+}
+
+extension LifecyclePolicyTypeValueExtension on LifecyclePolicyType {
+  String toValue() {
+    switch (this) {
+      case LifecyclePolicyType.retention:
+        return 'retention';
+    }
+  }
+}
+
+extension LifecyclePolicyTypeFromString on String {
+  LifecyclePolicyType toLifecyclePolicyType() {
+    switch (this) {
+      case 'retention':
+        return LifecyclePolicyType.retention;
+    }
+    throw Exception('$this is not known in enum LifecyclePolicyType');
   }
 }
 
@@ -2682,6 +3492,43 @@ class ListCollectionsResponse {
     return {
       if (collectionSummaries != null)
         'collectionSummaries': collectionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListLifecyclePoliciesResponse {
+  /// Details about the requested lifecycle policies.
+  final List<LifecyclePolicySummary>? lifecyclePolicySummaries;
+
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  final String? nextToken;
+
+  ListLifecyclePoliciesResponse({
+    this.lifecyclePolicySummaries,
+    this.nextToken,
+  });
+
+  factory ListLifecyclePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListLifecyclePoliciesResponse(
+      lifecyclePolicySummaries: (json['lifecyclePolicySummaries'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => LifecyclePolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicySummaries = this.lifecyclePolicySummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (lifecyclePolicySummaries != null)
+        'lifecyclePolicySummaries': lifecyclePolicySummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -2817,6 +3664,29 @@ class ListVpcEndpointsResponse {
       if (vpcEndpointSummaries != null)
         'vpcEndpointSummaries': vpcEndpointSummaries,
     };
+  }
+}
+
+enum ResourceType {
+  $index,
+}
+
+extension ResourceTypeValueExtension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.$index:
+        return 'index';
+    }
+  }
+}
+
+extension ResourceTypeFromString on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'index':
+        return ResourceType.$index;
+    }
+    throw Exception('$this is not known in enum ResourceType');
   }
 }
 
@@ -3221,6 +4091,34 @@ extension SecurityPolicyTypeFromString on String {
   }
 }
 
+enum StandbyReplicas {
+  enabled,
+  disabled,
+}
+
+extension StandbyReplicasValueExtension on StandbyReplicas {
+  String toValue() {
+    switch (this) {
+      case StandbyReplicas.enabled:
+        return 'ENABLED';
+      case StandbyReplicas.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension StandbyReplicasFromString on String {
+  StandbyReplicas toStandbyReplicas() {
+    switch (this) {
+      case 'ENABLED':
+        return StandbyReplicas.enabled;
+      case 'DISABLED':
+        return StandbyReplicas.disabled;
+    }
+    throw Exception('$this is not known in enum StandbyReplicas');
+  }
+}
+
 /// A map of key-value pairs associated to an OpenSearch Serverless resource.
 class Tag {
   /// The key to use in the tag.
@@ -3421,6 +4319,32 @@ class UpdateCollectionResponse {
     return {
       if (updateCollectionDetail != null)
         'updateCollectionDetail': updateCollectionDetail,
+    };
+  }
+}
+
+class UpdateLifecyclePolicyResponse {
+  /// Details about the updated lifecycle policy.
+  final LifecyclePolicyDetail? lifecyclePolicyDetail;
+
+  UpdateLifecyclePolicyResponse({
+    this.lifecyclePolicyDetail,
+  });
+
+  factory UpdateLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateLifecyclePolicyResponse(
+      lifecyclePolicyDetail: json['lifecyclePolicyDetail'] != null
+          ? LifecyclePolicyDetail.fromJson(
+              json['lifecyclePolicyDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyDetail = this.lifecyclePolicyDetail;
+    return {
+      if (lifecyclePolicyDetail != null)
+        'lifecyclePolicyDetail': lifecyclePolicyDetail,
     };
   }
 }

@@ -16,6 +16,7 @@ and Amazon SES</a> in the <a
 href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/Welcome.html">Amazon
 SES Developer Guide</a>.
 </note>
+This documentation contains reference information related to the following:
 
 ## Links
 

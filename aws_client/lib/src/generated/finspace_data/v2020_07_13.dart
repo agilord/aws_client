@@ -49,8 +49,8 @@ class FinSpaceData {
     _protocol.close();
   }
 
-  /// Adds a user account to a permission group to grant permissions for actions
-  /// a user can perform in FinSpace.
+  /// Adds a user to a permission group to grant permissions for actions a user
+  /// can perform in FinSpace.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -67,6 +67,7 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<AssociateUserToPermissionGroupResponse>
       associateUserToPermissionGroup({
     required String permissionGroupId,
@@ -179,6 +180,7 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<CreateChangesetResponse> createChangeset({
     required ChangeType changeType,
     required String datasetId,
@@ -232,6 +234,7 @@ class FinSpaceData {
   ///
   /// Parameter [sortColumns] :
   /// Columns to be used for sorting the data.
+  @Deprecated('This method will be discontinued.')
   Future<CreateDataViewResponse> createDataView({
     required String datasetId,
     required DataViewDestinationTypeParams destinationTypeParams,
@@ -300,6 +303,7 @@ class FinSpaceData {
   ///
   /// Parameter [schemaDefinition] :
   /// Definition for a schema on a tabular Dataset.
+  @Deprecated('This method will be discontinued.')
   Future<CreateDatasetResponse> createDataset({
     required String datasetTitle,
     required DatasetKind kind,
@@ -387,6 +391,7 @@ class FinSpaceData {
   ///
   /// Parameter [description] :
   /// A brief description for the permission group.
+  @Deprecated('This method will be discontinued.')
   Future<CreatePermissionGroupResponse> createPermissionGroup({
     required List<ApplicationPermission> applicationPermissions,
     required String name,
@@ -467,6 +472,7 @@ class FinSpaceData {
   ///
   /// Parameter [lastName] :
   /// The last name of the user that you want to register.
+  @Deprecated('This method will be discontinued.')
   Future<CreateUserResponse> createUser({
     required String emailAddress,
     required UserType type,
@@ -479,7 +485,7 @@ class FinSpaceData {
     final $payload = <String, dynamic>{
       'emailAddress': emailAddress,
       'type': type.toValue(),
-      if (apiAccess != null) 'ApiAccess': apiAccess.toValue(),
+      if (apiAccess != null) 'apiAccess': apiAccess.toValue(),
       if (apiAccessPrincipalArn != null)
         'apiAccessPrincipalArn': apiAccessPrincipalArn,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -510,6 +516,7 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<DeleteDatasetResponse> deleteDataset({
     required String datasetId,
     String? clientToken,
@@ -542,6 +549,7 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<DeletePermissionGroupResponse> deletePermissionGroup({
     required String permissionGroupId,
     String? clientToken,
@@ -570,10 +578,11 @@ class FinSpaceData {
   /// May throw [ConflictException].
   ///
   /// Parameter [userId] :
-  /// The unique identifier for the user account that you want to disable.
+  /// The unique identifier for the user that you want to deactivate.
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<DisableUserResponse> disableUser({
     required String userId,
     String? clientToken,
@@ -590,7 +599,7 @@ class FinSpaceData {
     return DisableUserResponse.fromJson(response);
   }
 
-  /// Removes a user account from a permission group.
+  /// Removes a user from a permission group.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -607,6 +616,7 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<DisassociateUserFromPermissionGroupResponse>
       disassociateUserFromPermissionGroup({
     required String permissionGroupId,
@@ -638,10 +648,11 @@ class FinSpaceData {
   /// May throw [ConflictException].
   ///
   /// Parameter [userId] :
-  /// The unique identifier for the user account that you want to enable.
+  /// The unique identifier for the user that you want to activate.
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<EnableUserResponse> enableUser({
     required String userId,
     String? clientToken,
@@ -673,6 +684,7 @@ class FinSpaceData {
   /// Parameter [datasetId] :
   /// The unique identifier for the FinSpace Dataset where the Changeset is
   /// created.
+  @Deprecated('This method will be discontinued.')
   Future<GetChangesetResponse> getChangeset({
     required String changesetId,
     required String datasetId,
@@ -700,6 +712,7 @@ class FinSpaceData {
   ///
   /// Parameter [datasetId] :
   /// The unique identifier for the Dataset used in the Dataview.
+  @Deprecated('This method will be discontinued.')
   Future<GetDataViewResponse> getDataView({
     required String dataViewId,
     required String datasetId,
@@ -725,6 +738,7 @@ class FinSpaceData {
   ///
   /// Parameter [datasetId] :
   /// The unique identifier for a Dataset.
+  @Deprecated('This method will be discontinued.')
   Future<GetDatasetResponse> getDataset({
     required String datasetId,
   }) async {
@@ -761,6 +775,7 @@ class FinSpaceData {
   ///
   /// Parameter [datasetId] :
   /// The unique identifier for the Dataset.
+  @Deprecated('This method will be discontinued.')
   Future<GetExternalDataViewAccessDetailsResponse>
       getExternalDataViewAccessDetails({
     required String dataViewId,
@@ -786,6 +801,7 @@ class FinSpaceData {
   ///
   /// Parameter [permissionGroupId] :
   /// The unique identifier for the permission group.
+  @Deprecated('This method will be discontinued.')
   Future<GetPermissionGroupResponse> getPermissionGroup({
     required String permissionGroupId,
   }) async {
@@ -798,7 +814,11 @@ class FinSpaceData {
     return GetPermissionGroupResponse.fromJson(response);
   }
 
-  /// Request programmatic credentials to use with FinSpace SDK.
+  /// Request programmatic credentials to use with FinSpace SDK. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/finspace/latest/data-api/fs-using-the-finspace-api.html#accessing-credentials">Step
+  /// 2. Access credentials programmatically using IAM access key id and secret
+  /// access key</a>.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -810,6 +830,7 @@ class FinSpaceData {
   ///
   /// Parameter [durationInMinutes] :
   /// The time duration in which the credentials remain valid.
+  @Deprecated('This method will be discontinued.')
   Future<GetProgrammaticAccessCredentialsResponse>
       getProgrammaticAccessCredentials({
     required String environmentId,
@@ -818,8 +839,8 @@ class FinSpaceData {
     _s.validateNumRange(
       'durationInMinutes',
       durationInMinutes,
+      1,
       60,
-      720,
     );
     final $query = <String, List<String>>{
       'environmentId': [environmentId],
@@ -846,6 +867,7 @@ class FinSpaceData {
   ///
   /// Parameter [userId] :
   /// The unique identifier of the user to get data for.
+  @Deprecated('This method will be discontinued.')
   Future<GetUserResponse> getUser({
     required String userId,
   }) async {
@@ -881,6 +903,7 @@ class FinSpaceData {
   /// creation operation.
   /// </li>
   /// </ul>
+  @Deprecated('This method will be discontinued.')
   Future<GetWorkingLocationResponse> getWorkingLocation({
     LocationType? locationType,
   }) async {
@@ -914,6 +937,7 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
+  @Deprecated('This method will be discontinued.')
   Future<ListChangesetsResponse> listChangesets({
     required String datasetId,
     int? maxResults,
@@ -955,6 +979,7 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
+  @Deprecated('This method will be discontinued.')
   Future<ListDataViewsResponse> listDataViews({
     required String datasetId,
     int? maxResults,
@@ -993,6 +1018,7 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
+  @Deprecated('This method will be discontinued.')
   Future<ListDatasetsResponse> listDatasets({
     int? maxResults,
     String? nextToken,
@@ -1029,6 +1055,7 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
+  @Deprecated('This method will be discontinued.')
   Future<ListPermissionGroupsResponse> listPermissionGroups({
     required int maxResults,
     String? nextToken,
@@ -1054,8 +1081,7 @@ class FinSpaceData {
     return ListPermissionGroupsResponse.fromJson(response);
   }
 
-  /// Lists all the permission groups that are associated with a specific user
-  /// account.
+  /// Lists all the permission groups that are associated with a specific user.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -1071,6 +1097,7 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
+  @Deprecated('This method will be discontinued.')
   Future<ListPermissionGroupsByUserResponse> listPermissionGroupsByUser({
     required int maxResults,
     required String userId,
@@ -1097,7 +1124,7 @@ class FinSpaceData {
     return ListPermissionGroupsByUserResponse.fromJson(response);
   }
 
-  /// Lists all available user accounts in FinSpace.
+  /// Lists all available users in FinSpace.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -1109,6 +1136,7 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
+  @Deprecated('This method will be discontinued.')
   Future<ListUsersResponse> listUsers({
     required int maxResults,
     String? nextToken,
@@ -1150,6 +1178,7 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
+  @Deprecated('This method will be discontinued.')
   Future<ListUsersByPermissionGroupResponse> listUsersByPermissionGroup({
     required int maxResults,
     required String permissionGroupId,
@@ -1195,6 +1224,7 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<ResetUserPasswordResponse> resetUserPassword({
     required String userId,
     String? clientToken,
@@ -1288,6 +1318,7 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
+  @Deprecated('This method will be discontinued.')
   Future<UpdateChangesetResponse> updateChangeset({
     required String changesetId,
     required String datasetId,
@@ -1348,6 +1379,7 @@ class FinSpaceData {
   ///
   /// Parameter [schemaDefinition] :
   /// Definition for a schema on a tabular Dataset.
+  @Deprecated('This method will be discontinued.')
   Future<UpdateDatasetResponse> updateDataset({
     required String datasetId,
     required String datasetTitle,
@@ -1435,6 +1467,7 @@ class FinSpaceData {
   ///
   /// Parameter [name] :
   /// The name of the permission group.
+  @Deprecated('This method will be discontinued.')
   Future<UpdatePermissionGroupResponse> updatePermissionGroup({
     required String permissionGroupId,
     List<ApplicationPermission>? applicationPermissions,
@@ -1459,7 +1492,7 @@ class FinSpaceData {
     return UpdatePermissionGroupResponse.fromJson(response);
   }
 
-  /// Modifies the details of the specified user account. You cannot update the
+  /// Modifies the details of the specified user. You cannot update the
   /// <code>userId</code> for a user.
   ///
   /// May throw [InternalServerException].
@@ -1470,7 +1503,7 @@ class FinSpaceData {
   /// May throw [ConflictException].
   ///
   /// Parameter [userId] :
-  /// The unique identifier for the user account to update.
+  /// The unique identifier for the user that you want to update.
   ///
   /// Parameter [apiAccess] :
   /// The option to indicate whether the user can use the
@@ -1515,6 +1548,7 @@ class FinSpaceData {
   /// users are assigned permissions by adding them to a permission group.
   /// </li>
   /// </ul>
+  @Deprecated('This method will be discontinued.')
   Future<UpdateUserResponse> updateUser({
     required String userId,
     ApiAccess? apiAccess,
@@ -2843,7 +2877,7 @@ class DeletePermissionGroupResponse {
 }
 
 class DisableUserResponse {
-  /// The unique identifier for the disabled user account.
+  /// The unique identifier for the deactivated user.
   final String? userId;
 
   DisableUserResponse({
@@ -2886,7 +2920,7 @@ class DisassociateUserFromPermissionGroupResponse {
 }
 
 class EnableUserResponse {
-  /// The unique identifier for the enabled user account.
+  /// The unique identifier for the active user.
   final String? userId;
 
   EnableUserResponse({
@@ -3510,8 +3544,8 @@ class GetUserResponse {
   /// FinSpace account.
   final String? apiAccessPrincipalArn;
 
-  /// The timestamp at which the user account was created in FinSpace. The value
-  /// is determined as epoch time in milliseconds.
+  /// The timestamp at which the user was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds.
   final int? createTime;
 
   /// The email address that is associated with the user.
@@ -3520,36 +3554,36 @@ class GetUserResponse {
   /// The first name of the user.
   final String? firstName;
 
-  /// Describes the last time the user account was disabled. The value is
-  /// determined as epoch time in milliseconds.
+  /// Describes the last time the user was deactivated. The value is determined as
+  /// epoch time in milliseconds.
   final int? lastDisabledTime;
 
-  /// Describes the last time the user account was enabled. The value is
-  /// determined as epoch time in milliseconds.
+  /// Describes the last time the user was activated. The value is determined as
+  /// epoch time in milliseconds.
   final int? lastEnabledTime;
 
   /// Describes the last time that the user logged into their account. The value
   /// is determined as epoch time in milliseconds.
   final int? lastLoginTime;
 
-  /// Describes the last time the user account was updated. The value is
+  /// Describes the last time the user details were updated. The value is
   /// determined as epoch time in milliseconds.
   final int? lastModifiedTime;
 
   /// The last name of the user.
   final String? lastName;
 
-  /// The current status of the user account.
+  /// The current status of the user.
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATING</code> – The user account creation is in progress.
+  /// <code>CREATING</code> – The creation is in progress.
   /// </li>
   /// <li>
-  /// <code>ENABLED</code> – The user account is created and is currently active.
+  /// <code>ENABLED</code> – The user is created and is currently active.
   /// </li>
   /// <li>
-  /// <code>DISABLED</code> – The user account is currently inactive.
+  /// <code>DISABLED</code> – The user is currently inactive.
   /// </li>
   /// </ul>
   final UserStatus? status;
@@ -3570,7 +3604,7 @@ class GetUserResponse {
   /// </ul>
   final UserType? type;
 
-  /// The unique identifier for the user account that is retrieved.
+  /// The unique identifier for the user that is retrieved.
   final String? userId;
 
   GetUserResponse({
@@ -3921,7 +3955,7 @@ class ListUsersResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
 
-  /// A list of all the user accounts.
+  /// A list of all the users.
   final List<User>? users;
 
   ListUsersResponse({
@@ -4001,16 +4035,16 @@ class PermissionGroup {
   /// determined as epoch time in milliseconds.
   final int? lastModifiedTime;
 
-  /// Indicates the status of the user account within a permission group.
+  /// Indicates the status of the user within a permission group.
   ///
   /// <ul>
   /// <li>
-  /// <code>ADDITION_IN_PROGRESS</code> – The user account is currently being
-  /// added to the permission group.
+  /// <code>ADDITION_IN_PROGRESS</code> – The user is currently being added to the
+  /// permission group.
   /// </li>
   /// <li>
-  /// <code>ADDITION_SUCCESS</code> – The user account is successfully added to
-  /// the permission group.
+  /// <code>ADDITION_SUCCESS</code> – The user is successfully added to the
+  /// permission group.
   /// </li>
   /// <li>
   /// <code>REMOVAL_IN_PROGRESS</code> – The user is currently being removed from
@@ -4074,18 +4108,18 @@ class PermissionGroup {
   }
 }
 
-/// The structure of a permission group associated with a user account.
+/// The structure of a permission group associated with a user.
 class PermissionGroupByUser {
-  /// Indicates the status of the user account within a permission group.
+  /// Indicates the status of the user within a permission group.
   ///
   /// <ul>
   /// <li>
-  /// <code>ADDITION_IN_PROGRESS</code> – The user account is currently being
-  /// added to the permission group.
+  /// <code>ADDITION_IN_PROGRESS</code> – The user is currently being added to the
+  /// permission group.
   /// </li>
   /// <li>
-  /// <code>ADDITION_SUCCESS</code> – The user account is successfully added to
-  /// the permission group.
+  /// <code>ADDITION_SUCCESS</code> – The user is successfully added to the
+  /// permission group.
   /// </li>
   /// <li>
   /// <code>REMOVAL_IN_PROGRESS</code> – The user is currently being removed from
@@ -4195,7 +4229,7 @@ class PermissionGroupParams {
 }
 
 class ResetUserPasswordResponse {
-  /// A randomly generated temporary password for the requested user account. This
+  /// A randomly generated temporary password for the requested user. This
   /// password expires in 7 days.
   final String? temporaryPassword;
 
@@ -4440,7 +4474,7 @@ class UpdatePermissionGroupResponse {
 }
 
 class UpdateUserResponse {
-  /// The unique identifier of the updated user account.
+  /// The unique identifier of the updated user.
   final String? userId;
 
   UpdateUserResponse({
@@ -4461,7 +4495,7 @@ class UpdateUserResponse {
   }
 }
 
-/// The details of the user account.
+/// The details of the user.
 class User {
   /// Indicates whether the user can use the
   /// <code>GetProgrammaticAccessCredentials</code> API to obtain credentials that
@@ -4483,8 +4517,8 @@ class User {
   /// FinSpace account.
   final String? apiAccessPrincipalArn;
 
-  /// The timestamp at which the user account was created in FinSpace. The value
-  /// is determined as epoch time in milliseconds.
+  /// The timestamp at which the user was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds.
   final int? createTime;
 
   /// The email address of the user. The email address serves as a uniquer
@@ -4494,36 +4528,36 @@ class User {
   /// The first name of the user.
   final String? firstName;
 
-  /// Describes the last time the user account was disabled. The value is
-  /// determined as epoch time in milliseconds.
+  /// Describes the last time the user was deactivated. The value is determined as
+  /// epoch time in milliseconds.
   final int? lastDisabledTime;
 
-  /// Describes the last time the user account was enabled. The value is
-  /// determined as epoch time in milliseconds.
+  /// Describes the last time the user was activated. The value is determined as
+  /// epoch time in milliseconds.
   final int? lastEnabledTime;
 
   /// Describes the last time that the user logged into their account. The value
   /// is determined as epoch time in milliseconds.
   final int? lastLoginTime;
 
-  /// Describes the last time the user account was updated. The value is
-  /// determined as epoch time in milliseconds.
+  /// Describes the last time the user was updated. The value is determined as
+  /// epoch time in milliseconds.
   final int? lastModifiedTime;
 
   /// The last name of the user.
   final String? lastName;
 
-  /// The current status of the user account.
+  /// The current status of the user.
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATING</code> – The user account creation is in progress.
+  /// <code>CREATING</code> – The user creation is in progress.
   /// </li>
   /// <li>
-  /// <code>ENABLED</code> – The user account is created and is currently active.
+  /// <code>ENABLED</code> – The user is created and is currently active.
   /// </li>
   /// <li>
-  /// <code>DISABLED</code> – The user account is currently inactive.
+  /// <code>DISABLED</code> – The user is currently inactive.
   /// </li>
   /// </ul>
   final UserStatus? status;
@@ -4612,7 +4646,7 @@ class User {
   }
 }
 
-/// The structure of a user account associated with a permission group.
+/// The structure of a user associated with a permission group.
 class UserByPermissionGroup {
   /// Indicates whether the user can access FinSpace API operations.
   ///
@@ -4640,16 +4674,16 @@ class UserByPermissionGroup {
   /// The last name of the user.
   final String? lastName;
 
-  /// Indicates the status of the user account within a permission group.
+  /// Indicates the status of the user within a permission group.
   ///
   /// <ul>
   /// <li>
-  /// <code>ADDITION_IN_PROGRESS</code> – The user account is currently being
-  /// added to the permission group.
+  /// <code>ADDITION_IN_PROGRESS</code> – The user is currently being added to the
+  /// permission group.
   /// </li>
   /// <li>
-  /// <code>ADDITION_SUCCESS</code> – The user account is successfully added to
-  /// the permission group.
+  /// <code>ADDITION_SUCCESS</code> – The user is successfully added to the
+  /// permission group.
   /// </li>
   /// <li>
   /// <code>REMOVAL_IN_PROGRESS</code> – The user is currently being removed from
@@ -4658,17 +4692,17 @@ class UserByPermissionGroup {
   /// </ul>
   final PermissionGroupMembershipStatus? membershipStatus;
 
-  /// The current status of the user account.
+  /// The current status of the user.
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATING</code> – The user account creation is in progress.
+  /// <code>CREATING</code> – The user creation is in progress.
   /// </li>
   /// <li>
-  /// <code>ENABLED</code> – The user account is created and is currently active.
+  /// <code>ENABLED</code> – The user is created and is currently active.
   /// </li>
   /// <li>
-  /// <code>DISABLED</code> – The user account is currently inactive.
+  /// <code>DISABLED</code> – The user is currently inactive.
   /// </li>
   /// </ul>
   final UserStatus? status;

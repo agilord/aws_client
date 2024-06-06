@@ -433,14 +433,163 @@ class SWF {
     return PendingTaskCount.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the specified <i>activity type</i>.
+  ///
+  /// Note: Prior to deletion, activity types must first be <b>deprecated</b>.
+  ///
+  /// After an activity type has been deleted, you cannot schedule new
+  /// activities of that type. Activities that started before the type was
+  /// deleted will continue to run.
+  ///
+  /// <b>Access Control</b>
+  ///
+  /// You can use IAM policies to control this action's access to Amazon SWF
+  /// resources as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use a <code>Resource</code> element with the domain name to limit the
+  /// action to only specified domains.
+  /// </li>
+  /// <li>
+  /// Use an <code>Action</code> element to allow or deny permission to call
+  /// this action.
+  /// </li>
+  /// <li>
+  /// Constrain the following parameters by using a <code>Condition</code>
+  /// element with the appropriate keys.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>activityType.name</code>: String constraint. The key is
+  /// <code>swf:activityType.name</code>.
+  /// </li>
+  /// <li>
+  /// <code>activityType.version</code>: String constraint. The key is
+  /// <code>swf:activityType.version</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// If the caller doesn't have sufficient permissions to invoke the action, or
+  /// the parameter values fall outside the specified constraints, the action
+  /// fails. The associated event attribute's <code>cause</code> parameter is
+  /// set to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+  /// policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  ///
+  /// May throw [UnknownResourceFault].
+  /// May throw [TypeNotDeprecatedFault].
+  /// May throw [OperationNotPermittedFault].
+  ///
+  /// Parameter [activityType] :
+  /// The activity type to delete.
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain in which the activity type is registered.
+  Future<void> deleteActivityType({
+    required ActivityType activityType,
+    required String domain,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'SimpleWorkflowService.DeleteActivityType'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'activityType': activityType,
+        'domain': domain,
+      },
+    );
+  }
+
+  /// Deletes the specified <i>workflow type</i>.
+  ///
+  /// Note: Prior to deletion, workflow types must first be <b>deprecated</b>.
+  ///
+  /// After a workflow type has been deleted, you cannot create new executions
+  /// of that type. Executions that started before the type was deleted will
+  /// continue to run.
+  ///
+  /// <b>Access Control</b>
+  ///
+  /// You can use IAM policies to control this action's access to Amazon SWF
+  /// resources as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use a <code>Resource</code> element with the domain name to limit the
+  /// action to only specified domains.
+  /// </li>
+  /// <li>
+  /// Use an <code>Action</code> element to allow or deny permission to call
+  /// this action.
+  /// </li>
+  /// <li>
+  /// Constrain the following parameters by using a <code>Condition</code>
+  /// element with the appropriate keys.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>workflowType.name</code>: String constraint. The key is
+  /// <code>swf:workflowType.name</code>.
+  /// </li>
+  /// <li>
+  /// <code>workflowType.version</code>: String constraint. The key is
+  /// <code>swf:workflowType.version</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// If the caller doesn't have sufficient permissions to invoke the action, or
+  /// the parameter values fall outside the specified constraints, the action
+  /// fails. The associated event attribute's <code>cause</code> parameter is
+  /// set to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+  /// policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  ///
+  /// May throw [UnknownResourceFault].
+  /// May throw [TypeNotDeprecatedFault].
+  /// May throw [OperationNotPermittedFault].
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain in which the workflow type is registered.
+  ///
+  /// Parameter [workflowType] :
+  /// The workflow type to delete.
+  Future<void> deleteWorkflowType({
+    required String domain,
+    required WorkflowType workflowType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'SimpleWorkflowService.DeleteWorkflowType'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'domain': domain,
+        'workflowType': workflowType,
+      },
+    );
+  }
+
   /// Deprecates the specified <i>activity type</i>. After an activity type has
   /// been deprecated, you cannot create new tasks of that activity type. Tasks
   /// of this type that were scheduled before the type was deprecated continue
   /// to run.
-  /// <note>
-  /// This operation is eventually consistent. The results are best effort and
-  /// may not exactly reflect recent updates and changes.
-  /// </note>
+  ///
   /// <b>Access Control</b>
   ///
   /// You can use IAM policies to control this action's access to Amazon SWF
@@ -2844,10 +2993,30 @@ class SWF {
   ///
   /// Parameter [executionContext] :
   /// User defined context to add to workflow execution.
+  ///
+  /// Parameter [taskList] :
+  /// The task list to use for the future decision tasks of this workflow
+  /// execution. This list overrides the original task list you specified while
+  /// starting the workflow execution.
+  ///
+  /// Parameter [taskListScheduleToStartTimeout] :
+  /// Specifies a timeout (in seconds) for the task list override. When this
+  /// parameter is missing, the task list override is permanent. This parameter
+  /// makes it possible to temporarily override the task list. If a decision
+  /// task scheduled on the override task list is not started within the
+  /// timeout, the decision task will time out. Amazon SWF will revert the
+  /// override and schedule a new decision task to the original task list.
+  ///
+  /// If a decision task scheduled on the override task list is started within
+  /// the timeout, but not completed within the start-to-close timeout, Amazon
+  /// SWF will also revert the override and schedule a new decision task to the
+  /// original task list.
   Future<void> respondDecisionTaskCompleted({
     required String taskToken,
     List<Decision>? decisions,
     String? executionContext,
+    TaskList? taskList,
+    String? taskListScheduleToStartTimeout,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2863,6 +3032,9 @@ class SWF {
         'taskToken': taskToken,
         if (decisions != null) 'decisions': decisions,
         if (executionContext != null) 'executionContext': executionContext,
+        if (taskList != null) 'taskList': taskList,
+        if (taskListScheduleToStartTimeout != null)
+          'taskListScheduleToStartTimeout': taskListScheduleToStartTimeout,
       },
     );
   }
@@ -5685,11 +5857,18 @@ class DecisionTaskCompletedEventAttributes {
 
   /// User defined context for the workflow execution.
   final String? executionContext;
+  final TaskList? taskList;
+
+  /// The maximum amount of time the decision task can wait to be assigned to a
+  /// worker.
+  final String? taskListScheduleToStartTimeout;
 
   DecisionTaskCompletedEventAttributes({
     required this.scheduledEventId,
     required this.startedEventId,
     this.executionContext,
+    this.taskList,
+    this.taskListScheduleToStartTimeout,
   });
 
   factory DecisionTaskCompletedEventAttributes.fromJson(
@@ -5698,6 +5877,11 @@ class DecisionTaskCompletedEventAttributes {
       scheduledEventId: json['scheduledEventId'] as int,
       startedEventId: json['startedEventId'] as int,
       executionContext: json['executionContext'] as String?,
+      taskList: json['taskList'] != null
+          ? TaskList.fromJson(json['taskList'] as Map<String, dynamic>)
+          : null,
+      taskListScheduleToStartTimeout:
+          json['taskListScheduleToStartTimeout'] as String?,
     );
   }
 }
@@ -5706,6 +5890,10 @@ class DecisionTaskCompletedEventAttributes {
 class DecisionTaskScheduledEventAttributes {
   /// The name of the task list in which the decision task was scheduled.
   final TaskList taskList;
+
+  /// The maximum amount of time the decision task can wait to be assigned to a
+  /// worker.
+  final String? scheduleToStartTimeout;
 
   /// The maximum duration for this decision task. The task is considered timed
   /// out if it doesn't completed within this duration.
@@ -5727,6 +5915,7 @@ class DecisionTaskScheduledEventAttributes {
 
   DecisionTaskScheduledEventAttributes({
     required this.taskList,
+    this.scheduleToStartTimeout,
     this.startToCloseTimeout,
     this.taskPriority,
   });
@@ -5735,6 +5924,7 @@ class DecisionTaskScheduledEventAttributes {
       Map<String, dynamic> json) {
     return DecisionTaskScheduledEventAttributes(
       taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
       startToCloseTimeout: json['startToCloseTimeout'] as String?,
       taskPriority: json['taskPriority'] as String?,
     );
@@ -5802,6 +5992,7 @@ class DecisionTaskTimedOutEventAttributes {
 
 enum DecisionTaskTimeoutType {
   startToClose,
+  scheduleToStart,
 }
 
 extension DecisionTaskTimeoutTypeValueExtension on DecisionTaskTimeoutType {
@@ -5809,6 +6000,8 @@ extension DecisionTaskTimeoutTypeValueExtension on DecisionTaskTimeoutType {
     switch (this) {
       case DecisionTaskTimeoutType.startToClose:
         return 'START_TO_CLOSE';
+      case DecisionTaskTimeoutType.scheduleToStart:
+        return 'SCHEDULE_TO_START';
     }
   }
 }
@@ -5818,6 +6011,8 @@ extension DecisionTaskTimeoutTypeFromString on String {
     switch (this) {
       case 'START_TO_CLOSE':
         return DecisionTaskTimeoutType.startToClose;
+      case 'SCHEDULE_TO_START':
+        return DecisionTaskTimeoutType.scheduleToStart;
     }
     throw Exception('$this is not known in enum DecisionTaskTimeoutType');
   }
@@ -11001,6 +11196,11 @@ class TypeDeprecatedFault extends _s.GenericAwsException {
       : super(type: type, code: 'TypeDeprecatedFault', message: message);
 }
 
+class TypeNotDeprecatedFault extends _s.GenericAwsException {
+  TypeNotDeprecatedFault({String? type, String? message})
+      : super(type: type, code: 'TypeNotDeprecatedFault', message: message);
+}
+
 class UnknownResourceFault extends _s.GenericAwsException {
   UnknownResourceFault({String? type, String? message})
       : super(type: type, code: 'UnknownResourceFault', message: message);
@@ -11031,6 +11231,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TypeAlreadyExistsFault(type: type, message: message),
   'TypeDeprecatedFault': (type, message) =>
       TypeDeprecatedFault(type: type, message: message),
+  'TypeNotDeprecatedFault': (type, message) =>
+      TypeNotDeprecatedFault(type: type, message: message),
   'UnknownResourceFault': (type, message) =>
       UnknownResourceFault(type: type, message: message),
   'WorkflowExecutionAlreadyStartedFault': (type, message) =>

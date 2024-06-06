@@ -234,6 +234,33 @@ class TimestreamQuery {
     );
   }
 
+  /// Describes the settings for your account that include the query pricing
+  /// model and the configured maximum TCUs the service can use for your query
+  /// workload.
+  ///
+  /// You're charged only for the duration of compute units used for your
+  /// workloads.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidEndpointException].
+  Future<DescribeAccountSettingsResponse> describeAccountSettings() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Timestream_20181101.DescribeAccountSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeAccountSettingsResponse.fromJson(jsonResponse.body);
+  }
+
   /// DescribeEndpoints returns a list of available endpoints to make Timestream
   /// API calls against. This API is available through both Write and Query.
   ///
@@ -449,8 +476,8 @@ class TimestreamQuery {
 
   /// A synchronous operation that allows you to submit a query with parameters
   /// to be stored by Timestream for later running. Timestream only supports
-  /// using this operation with the
-  /// <code>PrepareQueryRequest$ValidateOnly</code> set to <code>true</code>.
+  /// using this operation with <code>ValidateOnly</code> set to
+  /// <code>true</code>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -735,6 +762,59 @@ class TimestreamQuery {
     );
   }
 
+  /// Transitions your account to use TCUs for query pricing and modifies the
+  /// maximum query compute units that you've configured. If you reduce the
+  /// value of <code>MaxQueryTCU</code> to a desired configuration, the new
+  /// value can take up to 24 hours to be effective.
+  /// <note>
+  /// After you've transitioned your account to use TCUs for query pricing, you
+  /// can't transition to using bytes scanned for query pricing.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InvalidEndpointException].
+  ///
+  /// Parameter [maxQueryTCU] :
+  /// The maximum number of compute units the service will use at any point in
+  /// time to serve your queries. To run queries, you must set a minimum
+  /// capacity of 4 TCU. You can set the maximum number of TCU in multiples of
+  /// 4, for example, 4, 8, 16, 32, and so on.
+  ///
+  /// The maximum value supported for <code>MaxQueryTCU</code> is 1000. To
+  /// request an increase to this soft limit, contact Amazon Web Services
+  /// Support. For information about the default quota for maxQueryTCU, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default">Default
+  /// quotas</a>.
+  ///
+  /// Parameter [queryPricingModel] :
+  /// The pricing model for queries in an account.
+  Future<UpdateAccountSettingsResponse> updateAccountSettings({
+    int? maxQueryTCU,
+    QueryPricingModel? queryPricingModel,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Timestream_20181101.UpdateAccountSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
+        if (queryPricingModel != null)
+          'QueryPricingModel': queryPricingModel.toValue(),
+      },
+    );
+
+    return UpdateAccountSettingsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Update a scheduled query.
   ///
   /// May throw [AccessDeniedException].
@@ -908,6 +988,40 @@ class Datum {
       if (rowValue != null) 'RowValue': rowValue,
       if (scalarValue != null) 'ScalarValue': scalarValue,
       if (timeSeriesValue != null) 'TimeSeriesValue': timeSeriesValue,
+    };
+  }
+}
+
+class DescribeAccountSettingsResponse {
+  /// The maximum number of <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html">Timestream
+  /// compute units</a> (TCUs) the service will use at any point in time to serve
+  /// your queries.
+  final int? maxQueryTCU;
+
+  /// The pricing model for queries in your account.
+  final QueryPricingModel? queryPricingModel;
+
+  DescribeAccountSettingsResponse({
+    this.maxQueryTCU,
+    this.queryPricingModel,
+  });
+
+  factory DescribeAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAccountSettingsResponse(
+      maxQueryTCU: json['MaxQueryTCU'] as int?,
+      queryPricingModel:
+          (json['QueryPricingModel'] as String?)?.toQueryPricingModel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxQueryTCU = this.maxQueryTCU;
+    final queryPricingModel = this.queryPricingModel;
+    return {
+      if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
+      if (queryPricingModel != null)
+        'QueryPricingModel': queryPricingModel.toValue(),
     };
   }
 }
@@ -1103,6 +1217,9 @@ class ExecutionStats {
   /// Bytes metered for a single scheduled query run.
   final int? bytesMetered;
 
+  /// Bytes scanned for a single scheduled query run.
+  final int? cumulativeBytesScanned;
+
   /// Data writes metered for records ingested in a single scheduled query run.
   final int? dataWrites;
 
@@ -1119,6 +1236,7 @@ class ExecutionStats {
 
   ExecutionStats({
     this.bytesMetered,
+    this.cumulativeBytesScanned,
     this.dataWrites,
     this.executionTimeInMillis,
     this.queryResultRows,
@@ -1128,6 +1246,7 @@ class ExecutionStats {
   factory ExecutionStats.fromJson(Map<String, dynamic> json) {
     return ExecutionStats(
       bytesMetered: json['BytesMetered'] as int?,
+      cumulativeBytesScanned: json['CumulativeBytesScanned'] as int?,
       dataWrites: json['DataWrites'] as int?,
       executionTimeInMillis: json['ExecutionTimeInMillis'] as int?,
       queryResultRows: json['QueryResultRows'] as int?,
@@ -1137,12 +1256,15 @@ class ExecutionStats {
 
   Map<String, dynamic> toJson() {
     final bytesMetered = this.bytesMetered;
+    final cumulativeBytesScanned = this.cumulativeBytesScanned;
     final dataWrites = this.dataWrites;
     final executionTimeInMillis = this.executionTimeInMillis;
     final queryResultRows = this.queryResultRows;
     final recordsIngested = this.recordsIngested;
     return {
       if (bytesMetered != null) 'BytesMetered': bytesMetered,
+      if (cumulativeBytesScanned != null)
+        'CumulativeBytesScanned': cumulativeBytesScanned,
       if (dataWrites != null) 'DataWrites': dataWrites,
       if (executionTimeInMillis != null)
         'ExecutionTimeInMillis': executionTimeInMillis,
@@ -1501,6 +1623,34 @@ class PrepareQueryResponse {
       'Parameters': parameters,
       'QueryString': queryString,
     };
+  }
+}
+
+enum QueryPricingModel {
+  bytesScanned,
+  computeUnits,
+}
+
+extension QueryPricingModelValueExtension on QueryPricingModel {
+  String toValue() {
+    switch (this) {
+      case QueryPricingModel.bytesScanned:
+        return 'BYTES_SCANNED';
+      case QueryPricingModel.computeUnits:
+        return 'COMPUTE_UNITS';
+    }
+  }
+}
+
+extension QueryPricingModelFromString on String {
+  QueryPricingModel toQueryPricingModel() {
+    switch (this) {
+      case 'BYTES_SCANNED':
+        return QueryPricingModel.bytesScanned;
+      case 'COMPUTE_UNITS':
+        return QueryPricingModel.computeUnits;
+    }
+    throw Exception('$this is not known in enum QueryPricingModel');
   }
 }
 
@@ -2572,7 +2722,9 @@ class Type {
   final List<ColumnInfo>? rowColumnInfo;
 
   /// Indicates if the column is of type string, integer, Boolean, double,
-  /// timestamp, date, time.
+  /// timestamp, date, time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/supported-data-types.html">Supported
+  /// data types</a>.
   final ScalarType? scalarType;
 
   /// Indicates if the column is a timeseries data type.
@@ -2628,6 +2780,38 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateAccountSettingsResponse {
+  /// The configured maximum number of compute units the service will use at any
+  /// point in time to serve your queries.
+  final int? maxQueryTCU;
+
+  /// The pricing model for an account.
+  final QueryPricingModel? queryPricingModel;
+
+  UpdateAccountSettingsResponse({
+    this.maxQueryTCU,
+    this.queryPricingModel,
+  });
+
+  factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAccountSettingsResponse(
+      maxQueryTCU: json['MaxQueryTCU'] as int?,
+      queryPricingModel:
+          (json['QueryPricingModel'] as String?)?.toQueryPricingModel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxQueryTCU = this.maxQueryTCU;
+    final queryPricingModel = this.queryPricingModel;
+    return {
+      if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
+      if (queryPricingModel != null)
+        'QueryPricingModel': queryPricingModel.toValue(),
+    };
   }
 }
 

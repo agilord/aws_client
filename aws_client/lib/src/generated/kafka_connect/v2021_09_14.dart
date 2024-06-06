@@ -85,7 +85,14 @@ class KafkaConnect {
   /// Kafka cluster's version and the plugins.
   ///
   /// Parameter [plugins] :
-  /// Specifies which plugins to use for the connector.
+  /// <important>
+  /// Amazon MSK Connect does not currently support specifying multiple plugins
+  /// as a list. To use more than one plugin for your connector, you can create
+  /// a single custom plugin using a ZIP file that bundles multiple plugins
+  /// together.
+  /// </important>
+  /// Specifies which plugin to use for the connector. You must specify a
+  /// single-element list containing one <code>customPlugin</code> object.
   ///
   /// Parameter [serviceExecutionRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role used by the connector to
@@ -99,6 +106,9 @@ class KafkaConnect {
   ///
   /// Parameter [logDelivery] :
   /// Details about log delivery.
+  ///
+  /// Parameter [tags] :
+  /// The tags you want to attach to the connector.
   ///
   /// Parameter [workerConfiguration] :
   /// Specifies which worker configuration to use with the connector.
@@ -114,6 +124,7 @@ class KafkaConnect {
     required String serviceExecutionRoleArn,
     String? connectorDescription,
     LogDelivery? logDelivery,
+    Map<String, String>? tags,
     WorkerConfiguration? workerConfiguration,
   }) async {
     final $payload = <String, dynamic>{
@@ -129,6 +140,7 @@ class KafkaConnect {
       if (connectorDescription != null)
         'connectorDescription': connectorDescription,
       if (logDelivery != null) 'logDelivery': logDelivery,
+      if (tags != null) 'tags': tags,
       if (workerConfiguration != null)
         'workerConfiguration': workerConfiguration,
     };
@@ -163,17 +175,22 @@ class KafkaConnect {
   ///
   /// Parameter [description] :
   /// A summary description of the custom plugin.
+  ///
+  /// Parameter [tags] :
+  /// The tags you want to attach to the custom plugin.
   Future<CreateCustomPluginResponse> createCustomPlugin({
     required CustomPluginContentType contentType,
     required CustomPluginLocation location,
     required String name,
     String? description,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'contentType': contentType.toValue(),
       'location': location,
       'name': name,
       if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -203,15 +220,20 @@ class KafkaConnect {
   ///
   /// Parameter [description] :
   /// A summary description of the worker configuration.
+  ///
+  /// Parameter [tags] :
+  /// The tags you want to attach to the worker configuration.
   Future<CreateWorkerConfigurationResponse> createWorkerConfiguration({
     required String name,
     required String propertiesFileContent,
     String? description,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
       'propertiesFileContent': propertiesFileContent,
       if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -277,6 +299,32 @@ class KafkaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteCustomPluginResponse.fromJson(response);
+  }
+
+  /// Deletes the specified worker configuration.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [workerConfigurationArn] :
+  /// The Amazon Resource Name (ARN) of the worker configuration that you want
+  /// to delete.
+  Future<DeleteWorkerConfigurationResponse> deleteWorkerConfiguration({
+    required String workerConfigurationArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/worker-configurations/${Uri.encodeComponent(workerConfigurationArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteWorkerConfigurationResponse.fromJson(response);
   }
 
   /// Returns summary information about the connector.
@@ -415,12 +463,16 @@ class KafkaConnect {
   /// Parameter [maxResults] :
   /// The maximum number of custom plugins to list in one response.
   ///
+  /// Parameter [namePrefix] :
+  /// Lists custom plugin names that start with the specified text string.
+  ///
   /// Parameter [nextToken] :
   /// If the response of a ListCustomPlugins operation is truncated, it will
   /// include a NextToken. Send this NextToken in a subsequent request to
   /// continue listing from where the previous operation left off.
   Future<ListCustomPluginsResponse> listCustomPlugins({
     int? maxResults,
+    String? namePrefix,
     String? nextToken,
   }) async {
     _s.validateNumRange(
@@ -431,6 +483,7 @@ class KafkaConnect {
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (namePrefix != null) 'namePrefix': [namePrefix],
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final response = await _protocol.send(
@@ -441,6 +494,31 @@ class KafkaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return ListCustomPluginsResponse.fromJson(response);
+  }
+
+  /// Lists all the tags attached to the specified resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource for which you want to list
+  /// all attached tags.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
   }
 
   /// Returns a list of all of the worker configurations in this account and
@@ -457,12 +535,17 @@ class KafkaConnect {
   /// Parameter [maxResults] :
   /// The maximum number of worker configurations to list in one response.
   ///
+  /// Parameter [namePrefix] :
+  /// Lists worker configuration names that start with the specified text
+  /// string.
+  ///
   /// Parameter [nextToken] :
   /// If the response of a ListWorkerConfigurations operation is truncated, it
   /// will include a NextToken. Send this NextToken in a subsequent request to
   /// continue listing from where the previous operation left off.
   Future<ListWorkerConfigurationsResponse> listWorkerConfigurations({
     int? maxResults,
+    String? namePrefix,
     String? nextToken,
   }) async {
     _s.validateNumRange(
@@ -473,6 +556,7 @@ class KafkaConnect {
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (namePrefix != null) 'namePrefix': [namePrefix],
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final response = await _protocol.send(
@@ -483,6 +567,70 @@ class KafkaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return ListWorkerConfigurationsResponse.fromJson(response);
+  }
+
+  /// Attaches tags to the specified resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource to which you want to attach
+  /// tags.
+  ///
+  /// Parameter [tags] :
+  /// The tags that you want to attach to the resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes tags from the specified resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource from which you want to
+  /// remove tags.
+  ///
+  /// Parameter [tagKeys] :
+  /// The keys of the tags that you want to remove from the resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Updates the specified connector.
@@ -1165,11 +1313,15 @@ class CreateWorkerConfigurationResponse {
   /// configuration.
   final String? workerConfigurationArn;
 
+  /// The state of the worker configuration.
+  final WorkerConfigurationState? workerConfigurationState;
+
   CreateWorkerConfigurationResponse({
     this.creationTime,
     this.latestRevision,
     this.name,
     this.workerConfigurationArn,
+    this.workerConfigurationState,
   });
 
   factory CreateWorkerConfigurationResponse.fromJson(
@@ -1182,6 +1334,8 @@ class CreateWorkerConfigurationResponse {
           : null,
       name: json['name'] as String?,
       workerConfigurationArn: json['workerConfigurationArn'] as String?,
+      workerConfigurationState: (json['workerConfigurationState'] as String?)
+          ?.toWorkerConfigurationState(),
     );
   }
 
@@ -1190,18 +1344,21 @@ class CreateWorkerConfigurationResponse {
     final latestRevision = this.latestRevision;
     final name = this.name;
     final workerConfigurationArn = this.workerConfigurationArn;
+    final workerConfigurationState = this.workerConfigurationState;
     return {
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (latestRevision != null) 'latestRevision': latestRevision,
       if (name != null) 'name': name,
       if (workerConfigurationArn != null)
         'workerConfigurationArn': workerConfigurationArn,
+      if (workerConfigurationState != null)
+        'workerConfigurationState': workerConfigurationState.toValue(),
     };
   }
 }
 
-/// A plugin is an AWS resource that contains the code that defines a
-/// connector's logic.
+/// A plugin is an Amazon Web Services resource that contains the code that
+/// defines a connector's logic.
 class CustomPlugin {
   /// The Amazon Resource Name (ARN) of the custom plugin.
   final String customPluginArn;
@@ -1597,6 +1754,40 @@ class DeleteCustomPluginResponse {
   }
 }
 
+class DeleteWorkerConfigurationResponse {
+  /// The Amazon Resource Name (ARN) of the worker configuration that you
+  /// requested to delete.
+  final String? workerConfigurationArn;
+
+  /// The state of the worker configuration.
+  final WorkerConfigurationState? workerConfigurationState;
+
+  DeleteWorkerConfigurationResponse({
+    this.workerConfigurationArn,
+    this.workerConfigurationState,
+  });
+
+  factory DeleteWorkerConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteWorkerConfigurationResponse(
+      workerConfigurationArn: json['workerConfigurationArn'] as String?,
+      workerConfigurationState: (json['workerConfigurationState'] as String?)
+          ?.toWorkerConfigurationState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workerConfigurationArn = this.workerConfigurationArn;
+    final workerConfigurationState = this.workerConfigurationState;
+    return {
+      if (workerConfigurationArn != null)
+        'workerConfigurationArn': workerConfigurationArn,
+      if (workerConfigurationState != null)
+        'workerConfigurationState': workerConfigurationState.toValue(),
+    };
+  }
+}
+
 class DescribeConnectorResponse {
   /// Information about the capacity of the connector, whether it is auto scaled
   /// or provisioned.
@@ -1865,12 +2056,16 @@ class DescribeWorkerConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the custom configuration.
   final String? workerConfigurationArn;
 
+  /// The state of the worker configuration.
+  final WorkerConfigurationState? workerConfigurationState;
+
   DescribeWorkerConfigurationResponse({
     this.creationTime,
     this.description,
     this.latestRevision,
     this.name,
     this.workerConfigurationArn,
+    this.workerConfigurationState,
   });
 
   factory DescribeWorkerConfigurationResponse.fromJson(
@@ -1884,6 +2079,8 @@ class DescribeWorkerConfigurationResponse {
           : null,
       name: json['name'] as String?,
       workerConfigurationArn: json['workerConfigurationArn'] as String?,
+      workerConfigurationState: (json['workerConfigurationState'] as String?)
+          ?.toWorkerConfigurationState(),
     );
   }
 
@@ -1893,6 +2090,7 @@ class DescribeWorkerConfigurationResponse {
     final latestRevision = this.latestRevision;
     final name = this.name;
     final workerConfigurationArn = this.workerConfigurationArn;
+    final workerConfigurationState = this.workerConfigurationState;
     return {
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (description != null) 'description': description,
@@ -1900,6 +2098,8 @@ class DescribeWorkerConfigurationResponse {
       if (name != null) 'name': name,
       if (workerConfigurationArn != null)
         'workerConfigurationArn': workerConfigurationArn,
+      if (workerConfigurationState != null)
+        'workerConfigurationState': workerConfigurationState.toValue(),
     };
   }
 }
@@ -2223,6 +2423,30 @@ class ListCustomPluginsResponse {
   }
 }
 
+class ListTagsForResourceResponse {
+  /// Lists the tags attached to the specified resource in the corresponding
+  /// request.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
 class ListWorkerConfigurationsResponse {
   /// If the response of a ListWorkerConfigurations operation is truncated, it
   /// will include a NextToken. Send this NextToken in a subsequent request to
@@ -2304,8 +2528,8 @@ class LogDeliveryDescription {
   }
 }
 
-/// A plugin is an AWS resource that contains the code that defines your
-/// connector logic.
+/// A plugin is an Amazon Web Services resource that contains the code that
+/// defines your connector logic.
 class Plugin {
   /// Details about a custom plugin.
   final CustomPlugin customPlugin;
@@ -2713,6 +2937,30 @@ class StateDescription {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateConnectorResponse {
   /// The Amazon Resource Name (ARN) of the connector.
   final String? connectorArn;
@@ -2940,6 +3188,34 @@ class WorkerConfigurationRevisionSummary {
   }
 }
 
+enum WorkerConfigurationState {
+  active,
+  deleting,
+}
+
+extension WorkerConfigurationStateValueExtension on WorkerConfigurationState {
+  String toValue() {
+    switch (this) {
+      case WorkerConfigurationState.active:
+        return 'ACTIVE';
+      case WorkerConfigurationState.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension WorkerConfigurationStateFromString on String {
+  WorkerConfigurationState toWorkerConfigurationState() {
+    switch (this) {
+      case 'ACTIVE':
+        return WorkerConfigurationState.active;
+      case 'DELETING':
+        return WorkerConfigurationState.deleting;
+    }
+    throw Exception('$this is not known in enum WorkerConfigurationState');
+  }
+}
+
 /// The summary of a worker configuration.
 class WorkerConfigurationSummary {
   /// The time that a worker configuration was created.
@@ -2957,12 +3233,16 @@ class WorkerConfigurationSummary {
   /// The Amazon Resource Name (ARN) of the worker configuration.
   final String? workerConfigurationArn;
 
+  /// The state of the worker configuration.
+  final WorkerConfigurationState? workerConfigurationState;
+
   WorkerConfigurationSummary({
     this.creationTime,
     this.description,
     this.latestRevision,
     this.name,
     this.workerConfigurationArn,
+    this.workerConfigurationState,
   });
 
   factory WorkerConfigurationSummary.fromJson(Map<String, dynamic> json) {
@@ -2975,6 +3255,8 @@ class WorkerConfigurationSummary {
           : null,
       name: json['name'] as String?,
       workerConfigurationArn: json['workerConfigurationArn'] as String?,
+      workerConfigurationState: (json['workerConfigurationState'] as String?)
+          ?.toWorkerConfigurationState(),
     );
   }
 
@@ -2984,6 +3266,7 @@ class WorkerConfigurationSummary {
     final latestRevision = this.latestRevision;
     final name = this.name;
     final workerConfigurationArn = this.workerConfigurationArn;
+    final workerConfigurationState = this.workerConfigurationState;
     return {
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (description != null) 'description': description,
@@ -2991,6 +3274,8 @@ class WorkerConfigurationSummary {
       if (name != null) 'name': name,
       if (workerConfigurationArn != null)
         'workerConfigurationArn': workerConfigurationArn,
+      if (workerConfigurationState != null)
+        'workerConfigurationState': workerConfigurationState.toValue(),
     };
   }
 }

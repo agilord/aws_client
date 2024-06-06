@@ -35,6 +35,7 @@ Metadata _$MetadataFromJson(Map<String, dynamic> json) {
       'jsonVersion',
       'targetPrefix',
       'protocol',
+      'protocols',
       'timeStampFormat',
       'xmlNamespaceUri',
       'xmlNamespace',
@@ -42,7 +43,10 @@ Metadata _$MetadataFromJson(Map<String, dynamic> json) {
       'serviceFullName',
       'serviceId',
       'checksumFormat',
-      'protocolSettings'
+      'protocolSettings',
+      'auth',
+      'awsQueryCompatible',
+      'ripServiceName'
     ],
   );
   return Metadata(
@@ -65,6 +69,10 @@ Metadata _$MetadataFromJson(Map<String, dynamic> json) {
     (json['protocolSettings'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+    (json['protocols'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    json['auth'],
+    json['awsQueryCompatible'],
+    json['ripServiceName'] as String?,
   );
 }
 

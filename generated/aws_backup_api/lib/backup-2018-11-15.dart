@@ -351,6 +351,81 @@ class Backup {
     return CreateLegalHoldOutput.fromJson(response);
   }
 
+  /// This request creates a logical container to where backups may be copied.
+  ///
+  /// This request includes a name, the Region, the maximum number of retention
+  /// days, the minimum number of retention days, and optionally can include
+  /// tags and a creator request ID.
+  /// <note>
+  /// Do not include sensitive data, such as passport numbers, in the name of a
+  /// backup vault.
+  /// </note>
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [backupVaultName] :
+  /// This is the name of the vault that is being created.
+  ///
+  /// Parameter [maxRetentionDays] :
+  /// This is the setting that specifies the maximum retention period that the
+  /// vault retains its recovery points. If this parameter is not specified,
+  /// Backup does not enforce a maximum retention period on the recovery points
+  /// in the vault (allowing indefinite storage).
+  ///
+  /// If specified, any backup or copy job to the vault must have a lifecycle
+  /// policy with a retention period equal to or shorter than the maximum
+  /// retention period. If the job retention period is longer than that maximum
+  /// retention period, then the vault fails the backup or copy job, and you
+  /// should either modify your lifecycle settings or use a different vault.
+  ///
+  /// Parameter [minRetentionDays] :
+  /// This setting specifies the minimum retention period that the vault retains
+  /// its recovery points. If this parameter is not specified, no minimum
+  /// retention period is enforced.
+  ///
+  /// If specified, any backup or copy job to the vault must have a lifecycle
+  /// policy with a retention period equal to or longer than the minimum
+  /// retention period. If a job retention period is shorter than that minimum
+  /// retention period, then the vault fails the backup or copy job, and you
+  /// should either modify your lifecycle settings or use a different vault.
+  ///
+  /// Parameter [backupVaultTags] :
+  /// These are the tags that will be included in the newly-created vault.
+  ///
+  /// Parameter [creatorRequestId] :
+  /// This is the ID of the creation request.
+  ///
+  /// This parameter is optional. If used, this parameter must contain 1 to 50
+  /// alphanumeric or '-_.' characters.
+  Future<CreateLogicallyAirGappedBackupVaultOutput>
+      createLogicallyAirGappedBackupVault({
+    required String backupVaultName,
+    required int maxRetentionDays,
+    required int minRetentionDays,
+    Map<String, String>? backupVaultTags,
+    String? creatorRequestId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'MaxRetentionDays': maxRetentionDays,
+      'MinRetentionDays': minRetentionDays,
+      if (backupVaultTags != null) 'BackupVaultTags': backupVaultTags,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/logically-air-gapped-backup-vaults/${Uri.encodeComponent(backupVaultName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateLogicallyAirGappedBackupVaultOutput.fromJson(response);
+  }
+
   /// Creates a report plan. A report plan is a document that contains
   /// information about the contents of the report and where Backup will deliver
   /// it.
@@ -422,6 +497,141 @@ class Backup {
       exceptionFnMap: _exceptionFns,
     );
     return CreateReportPlanOutput.fromJson(response);
+  }
+
+  /// This is the first of two steps to create a restore testing plan; once this
+  /// request is successful, finish the procedure with request
+  /// CreateRestoreTestingSelection.
+  ///
+  /// You must include the parameter RestoreTestingPlan. You may optionally
+  /// include CreatorRequestId and Tags.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlan] :
+  /// A restore testing plan must contain a unique
+  /// <code>RestoreTestingPlanName</code> string you create and must contain a
+  /// <code>ScheduleExpression</code> cron. You may optionally include a
+  /// <code>StartWindowHours</code> integer and a <code>CreatorRequestId</code>
+  /// string.
+  ///
+  /// The <code>RestoreTestingPlanName</code> is a unique string that is the
+  /// name of the restore testing plan. This cannot be changed after creation,
+  /// and it must consist of only alphanumeric characters and underscores.
+  ///
+  /// Parameter [creatorRequestId] :
+  /// This is a unique string that identifies the request and allows failed
+  /// requests to be retriedwithout the risk of running the operation twice.
+  /// This parameter is optional. If used, this parameter must contain 1 to 50
+  /// alphanumeric or '-_.' characters.
+  ///
+  /// Parameter [tags] :
+  /// Optional tags to include. A tag is a key-value pair you can use to manage,
+  /// filter, and search for your resources. Allowed characters include UTF-8
+  /// letters,numbers, spaces, and the following characters: + - = . _ : /.
+  Future<CreateRestoreTestingPlanOutput> createRestoreTestingPlan({
+    required RestoreTestingPlanForCreate restoreTestingPlan,
+    String? creatorRequestId,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'RestoreTestingPlan': restoreTestingPlan,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/restore-testing/plans',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateRestoreTestingPlanOutput.fromJson(response);
+  }
+
+  /// This request can be sent after CreateRestoreTestingPlan request returns
+  /// successfully. This is the second part of creating a resource testing plan,
+  /// and it must be completed sequentially.
+  ///
+  /// This consists of <code>RestoreTestingSelectionName</code>,
+  /// <code>ProtectedResourceType</code>, and one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ProtectedResourceArns</code>
+  /// </li>
+  /// <li>
+  /// <code>ProtectedResourceConditions</code>
+  /// </li>
+  /// </ul>
+  /// Each protected resource type can have one single value.
+  ///
+  /// A restore testing selection can include a wildcard value ("*") for
+  /// <code>ProtectedResourceArns</code> along with
+  /// <code>ProtectedResourceConditions</code>. Alternatively, you can include
+  /// up to 30 specific protected resource ARNs in
+  /// <code>ProtectedResourceArns</code>.
+  ///
+  /// Cannot select by both protected resource types AND specific ARNs. Request
+  /// will fail if both are included.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// Input the restore testing plan name that was returned from the related
+  /// CreateRestoreTestingPlan request.
+  ///
+  /// Parameter [restoreTestingSelection] :
+  /// This consists of <code>RestoreTestingSelectionName</code>,
+  /// <code>ProtectedResourceType</code>, and one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ProtectedResourceArns</code>
+  /// </li>
+  /// <li>
+  /// <code>ProtectedResourceConditions</code>
+  /// </li>
+  /// </ul>
+  /// Each protected resource type can have one single value.
+  ///
+  /// A restore testing selection can include a wildcard value ("*") for
+  /// <code>ProtectedResourceArns</code> along with
+  /// <code>ProtectedResourceConditions</code>. Alternatively, you can include
+  /// up to 30 specific protected resource ARNs in
+  /// <code>ProtectedResourceArns</code>.
+  ///
+  /// Parameter [creatorRequestId] :
+  /// This is an optional unique string that identifies the request and allows
+  /// failed requests to be retried without the risk of running the operation
+  /// twice. If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+  /// characters.
+  Future<CreateRestoreTestingSelectionOutput> createRestoreTestingSelection({
+    required String restoreTestingPlanName,
+    required RestoreTestingSelectionForCreate restoreTestingSelection,
+    String? creatorRequestId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'RestoreTestingSelection': restoreTestingSelection,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}/selections',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateRestoreTestingSelectionOutput.fromJson(response);
   }
 
   /// Deletes a backup plan. A backup plan can only be deleted after all
@@ -672,6 +882,55 @@ class Backup {
     );
   }
 
+  /// This request deletes the specified restore testing plan.
+  ///
+  /// Deletion can only successfully occur if all associated restore testing
+  /// selections are deleted first.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// Required unique name of the restore testing plan you wish to delete.
+  Future<void> deleteRestoreTestingPlan({
+    required String restoreTestingPlanName,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Input the Restore Testing Plan name and Restore Testing Selection name.
+  ///
+  /// All testing selections associated with a restore testing plan must be
+  /// deleted before the restore testing plan can be deleted.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// Required unique name of the restore testing plan that contains the restore
+  /// testing selection you wish to delete.
+  ///
+  /// Parameter [restoreTestingSelectionName] :
+  /// Required unique name of the restore testing selection you wish to delete.
+  Future<void> deleteRestoreTestingSelection({
+    required String restoreTestingPlanName,
+    required String restoreTestingSelectionName,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}/selections/${Uri.encodeComponent(restoreTestingSelectionName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Returns backup job details for the specified <code>BackupJobId</code>.
   ///
   /// May throw [ResourceNotFoundException].
@@ -706,13 +965,22 @@ class Backup {
   /// are identified by names that are unique to the account used to create them
   /// and the Amazon Web Services Region where they are created. They consist of
   /// lowercase letters, numbers, and hyphens.
+  ///
+  /// Parameter [backupVaultAccountId] :
+  /// This is the account ID of the specified backup vault.
   Future<DescribeBackupVaultOutput> describeBackupVault({
     required String backupVaultName,
+    String? backupVaultAccountId,
   }) async {
+    final $query = <String, List<String>>{
+      if (backupVaultAccountId != null)
+        'backupVaultAccountId': [backupVaultAccountId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/backup-vaults/${Uri.encodeComponent(backupVaultName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBackupVaultOutput.fromJson(response);
@@ -820,15 +1088,24 @@ class Backup {
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point;
   /// for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
+  ///
+  /// Parameter [backupVaultAccountId] :
+  /// This is the account ID of the specified backup vault.
   Future<DescribeRecoveryPointOutput> describeRecoveryPoint({
     required String backupVaultName,
     required String recoveryPointArn,
+    String? backupVaultAccountId,
   }) async {
+    final $query = <String, List<String>>{
+      if (backupVaultAccountId != null)
+        'backupVaultAccountId': [backupVaultAccountId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/backup-vaults/${Uri.encodeComponent(backupVaultName)}/recovery-points/${Uri.encodeComponent(recoveryPointArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRecoveryPointOutput.fromJson(response);
@@ -1209,19 +1486,141 @@ class Backup {
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point;
   /// for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
+  ///
+  /// Parameter [backupVaultAccountId] :
+  /// This is the account ID of the specified backup vault.
   Future<GetRecoveryPointRestoreMetadataOutput>
       getRecoveryPointRestoreMetadata({
     required String backupVaultName,
     required String recoveryPointArn,
+    String? backupVaultAccountId,
   }) async {
+    final $query = <String, List<String>>{
+      if (backupVaultAccountId != null)
+        'backupVaultAccountId': [backupVaultAccountId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/backup-vaults/${Uri.encodeComponent(backupVaultName)}/recovery-points/${Uri.encodeComponent(recoveryPointArn)}/restore-metadata',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetRecoveryPointRestoreMetadataOutput.fromJson(response);
+  }
+
+  /// This request returns the metadata for the specified restore job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreJobId] :
+  /// This is a unique identifier of a restore job within Backup.
+  Future<GetRestoreJobMetadataOutput> getRestoreJobMetadata({
+    required String restoreJobId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/restore-jobs/${Uri.encodeComponent(restoreJobId)}/metadata',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRestoreJobMetadataOutput.fromJson(response);
+  }
+
+  /// This request returns the minimal required set of metadata needed to start
+  /// a restore job with secure default settings. <code>BackupVaultName</code>
+  /// and <code>RecoveryPointArn</code> are required parameters.
+  /// <code>BackupVaultAccountId</code> is an optional parameter.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [backupVaultName] :
+  /// The name of a logical container where backups are stored. Backup vaults
+  /// are identified by names that are unique to the account used to create them
+  /// and the Amazon Web ServicesRegion where they are created. They consist of
+  /// letters, numbers, and hyphens.
+  ///
+  /// Parameter [recoveryPointArn] :
+  /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point;
+  /// for example,
+  /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
+  ///
+  /// Parameter [backupVaultAccountId] :
+  /// This is the account ID of the specified backup vault.
+  Future<GetRestoreTestingInferredMetadataOutput>
+      getRestoreTestingInferredMetadata({
+    required String backupVaultName,
+    required String recoveryPointArn,
+    String? backupVaultAccountId,
+  }) async {
+    final $query = <String, List<String>>{
+      'BackupVaultName': [backupVaultName],
+      'RecoveryPointArn': [recoveryPointArn],
+      if (backupVaultAccountId != null)
+        'BackupVaultAccountId': [backupVaultAccountId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/restore-testing/inferred-metadata',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRestoreTestingInferredMetadataOutput.fromJson(response);
+  }
+
+  /// Returns <code>RestoreTestingPlan</code> details for the specified
+  /// <code>RestoreTestingPlanName</code>. The details are the body of a restore
+  /// testing plan in JSON format, in addition to plan metadata.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// Required unique name of the restore testing plan.
+  Future<GetRestoreTestingPlanOutput> getRestoreTestingPlan({
+    required String restoreTestingPlanName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRestoreTestingPlanOutput.fromJson(response);
+  }
+
+  /// Returns RestoreTestingSelection, which displays resources and elements of
+  /// the restore testing plan.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// Required unique name of the restore testing plan.
+  ///
+  /// Parameter [restoreTestingSelectionName] :
+  /// Required unique name of the restore testing selection.
+  Future<GetRestoreTestingSelectionOutput> getRestoreTestingSelection({
+    required String restoreTestingPlanName,
+    required String restoreTestingSelectionName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}/selections/${Uri.encodeComponent(restoreTestingSelectionName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRestoreTestingSelectionOutput.fromJson(response);
   }
 
   /// Returns the Amazon Web Services resource types supported by Backup.
@@ -1235,6 +1634,142 @@ class Backup {
       exceptionFnMap: _exceptionFns,
     );
     return GetSupportedResourceTypesOutput.fromJson(response);
+  }
+
+  /// This is a request for a summary of backup jobs created or running within
+  /// the most recent 30 days. You can include parameters AccountID, State,
+  /// ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken
+  /// to filter results.
+  ///
+  /// This request returns a summary that contains Region, Account, State,
+  /// ResourceType, MessageCategory, StartTime, EndTime, and Count of included
+  /// jobs.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [accountId] :
+  /// Returns the job count for the specified account.
+  ///
+  /// If the request is sent from a member account or an account not part of
+  /// Amazon Web Services Organizations, jobs within requestor's account will be
+  /// returned.
+  ///
+  /// Root, admin, and delegated administrator accounts can use the value ANY to
+  /// return job counts from every account in the organization.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts from all accounts within
+  /// the authenticated organization, then returns the sum.
+  ///
+  /// Parameter [aggregationPeriod] :
+  /// This is the period that sets the boundaries for returned results.
+  ///
+  /// Acceptable values include
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// </li>
+  /// <li>
+  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// </li>
+  /// <li>
+  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// This parameter sets the maximum number of items to be returned.
+  ///
+  /// The value is an integer. Range of accepted values is from 1 to 500.
+  ///
+  /// Parameter [messageCategory] :
+  /// This parameter returns the job count for the specified message category.
+  ///
+  /// Example accepted strings include <code>AccessDenied</code>,
+  /// <code>Success</code>, and <code>InvalidParameters</code>. See <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of accepted MessageCategory strings.
+  ///
+  /// The the value ANY returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message
+  /// categories and returns the sum.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>MaxResults</code> number of
+  /// resources, <code>NextToken</code> allows you to return more items in your
+  /// list starting at the location pointed to by the next token.
+  ///
+  /// Parameter [resourceType] :
+  /// Returns the job count for the specified resource type. Use request
+  /// <code>GetSupportedResourceTypes</code> to obtain strings for supported
+  /// resource types.
+  ///
+  /// The the value ANY returns count of all resource types.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all resource types
+  /// and returns the sum.
+  ///
+  /// The type of Amazon Web Services resource to be backed up; for example, an
+  /// Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational
+  /// Database Service (Amazon RDS) database.
+  ///
+  /// Parameter [state] :
+  /// This parameter returns the job count for jobs with the specified state.
+  ///
+  /// The the value ANY returns count of all states.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all states and
+  /// returns the sum.
+  ///
+  /// <code>Completed with issues</code> is a status found only in the Backup
+  /// console. For API, this status refers to jobs with a state of
+  /// <code>COMPLETED</code> and a <code>MessageCategory</code> with a value
+  /// other than <code>SUCCESS</code>; that is, the status is completed but
+  /// comes with a status message. To obtain the job count for <code>Completed
+  /// with issues</code>, run two GET requests, and subtract the second, smaller
+  /// number:
+  ///
+  /// GET
+  /// /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&amp;State=COMPLETED
+  ///
+  /// GET
+  /// /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&amp;MessageCategory=SUCCESS&amp;State=COMPLETED
+  Future<ListBackupJobSummariesOutput> listBackupJobSummaries({
+    String? accountId,
+    AggregationPeriod? aggregationPeriod,
+    int? maxResults,
+    String? messageCategory,
+    String? nextToken,
+    String? resourceType,
+    BackupJobStatus? state,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (accountId != null) 'AccountId': [accountId],
+      if (aggregationPeriod != null)
+        'AggregationPeriod': [aggregationPeriod.toValue()],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (messageCategory != null) 'MessageCategory': [messageCategory],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (resourceType != null) 'ResourceType': [resourceType],
+      if (state != null) 'State': [state.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/audit/backup-job-summaries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBackupJobSummariesOutput.fromJson(response);
   }
 
   /// Returns a list of existing backup jobs for an authenticated account for
@@ -1272,6 +1807,22 @@ class Backup {
   /// Parameter [byCreatedBefore] :
   /// Returns only backup jobs that were created before the specified date.
   ///
+  /// Parameter [byMessageCategory] :
+  /// This is an optional parameter that can be used to filter out jobs with a
+  /// MessageCategory which matches the value you input.
+  ///
+  /// Example strings may include <code>AccessDenied</code>,
+  /// <code>SUCCESS</code>, <code>AGGREGATE_ALL</code>, and
+  /// <code>InvalidParameters</code>.
+  ///
+  /// View <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  ///
+  /// The wildcard () returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message
+  /// categories and returns the sum.
+  ///
   /// Parameter [byParentJobId] :
   /// This is a filter to list child (nested) jobs based on parent job ID.
   ///
@@ -1285,6 +1836,9 @@ class Backup {
   /// <ul>
   /// <li>
   /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>CloudFormation</code> for CloudFormation
   /// </li>
   /// <li>
   /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
@@ -1308,13 +1862,22 @@ class Backup {
   /// <code>Neptune</code> for Amazon Neptune
   /// </li>
   /// <li>
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
   /// </li>
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
   /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// <li>
+  /// <code>Timestream</code> for Amazon Timestream
   /// </li>
   /// <li>
   /// <code>VirtualMachine</code> for virtual machines
@@ -1324,12 +1887,25 @@ class Backup {
   /// Parameter [byState] :
   /// Returns only backup jobs that are in the specified state.
   ///
+  /// <code>Completed with issues</code> is a status found only in the Backup
+  /// console. For API, this status refers to jobs with a state of
+  /// <code>COMPLETED</code> and a <code>MessageCategory</code> with a value
+  /// other than <code>SUCCESS</code>; that is, the status is completed but
+  /// comes with a status message.
+  ///
+  /// To obtain the job count for <code>Completed with issues</code>, run two
+  /// GET requests, and subtract the second, smaller number:
+  ///
+  /// GET /backup-jobs/?state=COMPLETED
+  ///
+  /// GET /backup-jobs/?messageCategory=SUCCESS&amp;state=COMPLETED
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of items to be returned.
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupJobsOutput> listBackupJobs({
@@ -1339,6 +1915,7 @@ class Backup {
     DateTime? byCompleteBefore,
     DateTime? byCreatedAfter,
     DateTime? byCreatedBefore,
+    String? byMessageCategory,
     String? byParentJobId,
     String? byResourceArn,
     String? byResourceType,
@@ -1363,6 +1940,7 @@ class Backup {
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
       if (byCreatedBefore != null)
         'createdBefore': [_s.iso8601ToJson(byCreatedBefore).toString()],
+      if (byMessageCategory != null) 'messageCategory': [byMessageCategory],
       if (byParentJobId != null) 'parentJobId': [byParentJobId],
       if (byResourceArn != null) 'resourceArn': [byResourceArn],
       if (byResourceType != null) 'resourceType': [byResourceType],
@@ -1393,7 +1971,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupPlanTemplatesOutput> listBackupPlanTemplates({
@@ -1437,7 +2015,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupPlanVersionsOutput> listBackupPlanVersions({
@@ -1485,7 +2063,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupPlansOutput> listBackupPlans({
@@ -1530,7 +2108,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupSelectionsOutput> listBackupSelections({
@@ -1567,15 +2145,23 @@ class Backup {
   /// May throw [MissingParameterValueException].
   /// May throw [ServiceUnavailableException].
   ///
+  /// Parameter [byShared] :
+  /// This parameter will sort the list of vaults by shared vaults.
+  ///
+  /// Parameter [byVaultType] :
+  /// This parameter will sort the list of vaults by vault type.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of items to be returned.
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupVaultsOutput> listBackupVaults({
+    bool? byShared,
+    VaultType? byVaultType,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1586,6 +2172,8 @@ class Backup {
       1000,
     );
     final $query = <String, List<String>>{
+      if (byShared != null) 'shared': [byShared.toString()],
+      if (byVaultType != null) 'vaultType': [byVaultType.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1597,6 +2185,126 @@ class Backup {
       exceptionFnMap: _exceptionFns,
     );
     return ListBackupVaultsOutput.fromJson(response);
+  }
+
+  /// This request obtains a list of copy jobs created or running within the the
+  /// most recent 30 days. You can include parameters AccountID, State,
+  /// ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken
+  /// to filter results.
+  ///
+  /// This request returns a summary that contains Region, Account, State,
+  /// RestourceType, MessageCategory, StartTime, EndTime, and Count of included
+  /// jobs.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [accountId] :
+  /// Returns the job count for the specified account.
+  ///
+  /// If the request is sent from a member account or an account not part of
+  /// Amazon Web Services Organizations, jobs within requestor's account will be
+  /// returned.
+  ///
+  /// Root, admin, and delegated administrator accounts can use the value ANY to
+  /// return job counts from every account in the organization.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts from all accounts within
+  /// the authenticated organization, then returns the sum.
+  ///
+  /// Parameter [aggregationPeriod] :
+  /// This is the period that sets the boundaries for returned results.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// </li>
+  /// <li>
+  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// </li>
+  /// <li>
+  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// This parameter sets the maximum number of items to be returned.
+  ///
+  /// The value is an integer. Range of accepted values is from 1 to 500.
+  ///
+  /// Parameter [messageCategory] :
+  /// This parameter returns the job count for the specified message category.
+  ///
+  /// Example accepted strings include <code>AccessDenied</code>,
+  /// <code>Success</code>, and <code>InvalidParameters</code>. See <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of accepted MessageCategory strings.
+  ///
+  /// The the value ANY returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message
+  /// categories and returns the sum.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>MaxResults</code> number of
+  /// resources, <code>NextToken</code> allows you to return more items in your
+  /// list starting at the location pointed to by the next token.
+  ///
+  /// Parameter [resourceType] :
+  /// Returns the job count for the specified resource type. Use request
+  /// <code>GetSupportedResourceTypes</code> to obtain strings for supported
+  /// resource types.
+  ///
+  /// The the value ANY returns count of all resource types.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all resource types
+  /// and returns the sum.
+  ///
+  /// The type of Amazon Web Services resource to be backed up; for example, an
+  /// Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational
+  /// Database Service (Amazon RDS) database.
+  ///
+  /// Parameter [state] :
+  /// This parameter returns the job count for jobs with the specified state.
+  ///
+  /// The the value ANY returns count of all states.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all states and
+  /// returns the sum.
+  Future<ListCopyJobSummariesOutput> listCopyJobSummaries({
+    String? accountId,
+    AggregationPeriod? aggregationPeriod,
+    int? maxResults,
+    String? messageCategory,
+    String? nextToken,
+    String? resourceType,
+    CopyJobStatus? state,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (accountId != null) 'AccountId': [accountId],
+      if (aggregationPeriod != null)
+        'AggregationPeriod': [aggregationPeriod.toValue()],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (messageCategory != null) 'MessageCategory': [messageCategory],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (resourceType != null) 'ResourceType': [resourceType],
+      if (state != null) 'State': [state.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/audit/copy-job-summaries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCopyJobSummariesOutput.fromJson(response);
   }
 
   /// Returns metadata about your copy jobs.
@@ -1627,6 +2335,23 @@ class Backup {
   /// vault to copy from; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
   ///
+  /// Parameter [byMessageCategory] :
+  /// This is an optional parameter that can be used to filter out jobs with a
+  /// MessageCategory which matches the value you input.
+  ///
+  /// Example strings may include <code>AccessDenied</code>,
+  /// <code>SUCCESS</code>, <code>AGGREGATE_ALL</code>, and
+  /// <code>INVALIDPARAMETERS</code>.
+  ///
+  /// View <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of accepted strings.
+  ///
+  /// The the value ANY returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message
+  /// categories and returns the sum.
+  ///
   /// Parameter [byParentJobId] :
   /// This is a filter to list child (nested) jobs based on parent job ID.
   ///
@@ -1640,6 +2365,9 @@ class Backup {
   /// <ul>
   /// <li>
   /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>CloudFormation</code> for CloudFormation
   /// </li>
   /// <li>
   /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
@@ -1663,13 +2391,22 @@ class Backup {
   /// <code>Neptune</code> for Amazon Neptune
   /// </li>
   /// <li>
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
   /// </li>
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
   /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// <li>
+  /// <code>Timestream</code> for Amazon Timestream
   /// </li>
   /// <li>
   /// <code>VirtualMachine</code> for virtual machines
@@ -1684,7 +2421,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return maxResults number of items, NextToken allows
+  /// a request is made to return MaxResults number of items, NextToken allows
   /// you to return more items in your list starting at the location pointed to
   /// by the next token.
   Future<ListCopyJobsOutput> listCopyJobs({
@@ -1694,6 +2431,7 @@ class Backup {
     DateTime? byCreatedAfter,
     DateTime? byCreatedBefore,
     String? byDestinationVaultArn,
+    String? byMessageCategory,
     String? byParentJobId,
     String? byResourceArn,
     String? byResourceType,
@@ -1719,6 +2457,7 @@ class Backup {
         'createdBefore': [_s.iso8601ToJson(byCreatedBefore).toString()],
       if (byDestinationVaultArn != null)
         'destinationVaultArn': [byDestinationVaultArn],
+      if (byMessageCategory != null) 'messageCategory': [byMessageCategory],
       if (byParentJobId != null) 'parentJobId': [byParentJobId],
       if (byResourceArn != null) 'resourceArn': [byResourceArn],
       if (byResourceType != null) 'resourceType': [byResourceType],
@@ -1783,7 +2522,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned resources. For example,
-  /// if a request is made to return <code>maxResults</code> number of
+  /// if a request is made to return <code>MaxResults</code> number of
   /// resources, <code>NextToken</code> allows you to return more items in your
   /// list starting at the location pointed to by the next token.
   Future<ListLegalHoldsOutput> listLegalHolds({
@@ -1822,7 +2561,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListProtectedResourcesOutput> listProtectedResources({
@@ -1849,6 +2588,59 @@ class Backup {
     return ListProtectedResourcesOutput.fromJson(response);
   }
 
+  /// This request lists the protected resources corresponding to each backup
+  /// vault.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [backupVaultName] :
+  /// This is the list of protected resources by backup vault within the
+  /// vault(s) you specify by name.
+  ///
+  /// Parameter [backupVaultAccountId] :
+  /// This is the list of protected resources by backup vault within the
+  /// vault(s) you specify by account ID.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned items. For example, if
+  /// a request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list
+  /// starting at the location pointed to by the next token.
+  Future<ListProtectedResourcesByBackupVaultOutput>
+      listProtectedResourcesByBackupVault({
+    required String backupVaultName,
+    String? backupVaultAccountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (backupVaultAccountId != null)
+        'backupVaultAccountId': [backupVaultAccountId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/backup-vaults/${Uri.encodeComponent(backupVaultName)}/resources/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProtectedResourcesByBackupVaultOutput.fromJson(response);
+  }
+
   /// Returns detailed information about the recovery points stored in a backup
   /// vault.
   ///
@@ -1866,6 +2658,9 @@ class Backup {
   /// Backup vault name might not be available when a supported service creates
   /// the backup.
   /// </note>
+  ///
+  /// Parameter [backupVaultAccountId] :
+  /// This parameter will sort the list of recovery points by account ID.
   ///
   /// Parameter [byBackupPlanId] :
   /// Returns only recovery points that match the specified backup plan ID.
@@ -1887,19 +2682,71 @@ class Backup {
   /// Resource Name (ARN).
   ///
   /// Parameter [byResourceType] :
-  /// Returns only recovery points that match the specified resource type.
+  /// Returns only recovery points that match the specified resource type(s):
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>CloudFormation</code> for CloudFormation
+  /// </li>
+  /// <li>
+  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
+  /// <li>
+  /// <code>DynamoDB</code> for Amazon DynamoDB
+  /// </li>
+  /// <li>
+  /// <code>EBS</code> for Amazon Elastic Block Store
+  /// </li>
+  /// <li>
+  /// <code>EC2</code> for Amazon Elastic Compute Cloud
+  /// </li>
+  /// <li>
+  /// <code>EFS</code> for Amazon Elastic File System
+  /// </li>
+  /// <li>
+  /// <code>FSx</code> for Amazon FSx
+  /// </li>
+  /// <li>
+  /// <code>Neptune</code> for Amazon Neptune
+  /// </li>
+  /// <li>
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
+  /// <code>RDS</code> for Amazon Relational Database Service
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
+  /// </li>
+  /// <li>
+  /// <code>Storage Gateway</code> for Storage Gateway
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// <li>
+  /// <code>Timestream</code> for Amazon Timestream
+  /// </li>
+  /// <li>
+  /// <code>VirtualMachine</code> for virtual machines
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to be returned.
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListRecoveryPointsByBackupVaultOutput>
       listRecoveryPointsByBackupVault({
     required String backupVaultName,
+    String? backupVaultAccountId,
     String? byBackupPlanId,
     DateTime? byCreatedAfter,
     DateTime? byCreatedBefore,
@@ -1916,6 +2763,8 @@ class Backup {
       1000,
     );
     final $query = <String, List<String>>{
+      if (backupVaultAccountId != null)
+        'backupVaultAccountId': [backupVaultAccountId],
       if (byBackupPlanId != null) 'backupPlanId': [byBackupPlanId],
       if (byCreatedAfter != null)
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
@@ -1954,7 +2803,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// This is the next item following a partial list of returned resources. For
-  /// example, if a request is made to return <code>maxResults</code> number of
+  /// example, if a request is made to return <code>MaxResults</code> number of
   /// resources, <code>NextToken</code> allows you to return more items in your
   /// list starting at the location pointed to by the next token.
   Future<ListRecoveryPointsByLegalHoldOutput> listRecoveryPointsByLegalHold({
@@ -1999,6 +2848,17 @@ class Backup {
   /// An ARN that uniquely identifies a resource. The format of the ARN depends
   /// on the resource type.
   ///
+  /// Parameter [managedByAWSBackupOnly] :
+  /// This attribute filters recovery points based on ownership.
+  ///
+  /// If this is set to <code>TRUE</code>, the response will contain recovery
+  /// points associated with the selected resources that are managed by Backup.
+  ///
+  /// If this is set to <code>FALSE</code>, the response will contain all
+  /// recovery points associated with the selected resource.
+  ///
+  /// Type: Boolean
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of items to be returned.
   /// <note>
@@ -2007,11 +2867,12 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListRecoveryPointsByResourceOutput> listRecoveryPointsByResource({
     required String resourceArn,
+    bool? managedByAWSBackupOnly,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -2022,6 +2883,8 @@ class Backup {
       1000,
     );
     final $query = <String, List<String>>{
+      if (managedByAWSBackupOnly != null)
+        'managedByAWSBackupOnly': [managedByAWSBackupOnly.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2141,6 +3004,113 @@ class Backup {
     return ListReportPlansOutput.fromJson(response);
   }
 
+  /// This request obtains a summary of restore jobs created or running within
+  /// the the most recent 30 days. You can include parameters AccountID, State,
+  /// ResourceType, AggregationPeriod, MaxResults, or NextToken to filter
+  /// results.
+  ///
+  /// This request returns a summary that contains Region, Account, State,
+  /// RestourceType, MessageCategory, StartTime, EndTime, and Count of included
+  /// jobs.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [accountId] :
+  /// Returns the job count for the specified account.
+  ///
+  /// If the request is sent from a member account or an account not part of
+  /// Amazon Web Services Organizations, jobs within requestor's account will be
+  /// returned.
+  ///
+  /// Root, admin, and delegated administrator accounts can use the value ANY to
+  /// return job counts from every account in the organization.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts from all accounts within
+  /// the authenticated organization, then returns the sum.
+  ///
+  /// Parameter [aggregationPeriod] :
+  /// This is the period that sets the boundaries for returned results.
+  ///
+  /// Acceptable values include
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// </li>
+  /// <li>
+  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// </li>
+  /// <li>
+  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// This parameter sets the maximum number of items to be returned.
+  ///
+  /// The value is an integer. Range of accepted values is from 1 to 500.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>MaxResults</code> number of
+  /// resources, <code>NextToken</code> allows you to return more items in your
+  /// list starting at the location pointed to by the next token.
+  ///
+  /// Parameter [resourceType] :
+  /// Returns the job count for the specified resource type. Use request
+  /// <code>GetSupportedResourceTypes</code> to obtain strings for supported
+  /// resource types.
+  ///
+  /// The the value ANY returns count of all resource types.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all resource types
+  /// and returns the sum.
+  ///
+  /// The type of Amazon Web Services resource to be backed up; for example, an
+  /// Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational
+  /// Database Service (Amazon RDS) database.
+  ///
+  /// Parameter [state] :
+  /// This parameter returns the job count for jobs with the specified state.
+  ///
+  /// The the value ANY returns count of all states.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all states and
+  /// returns the sum.
+  Future<ListRestoreJobSummariesOutput> listRestoreJobSummaries({
+    String? accountId,
+    AggregationPeriod? aggregationPeriod,
+    int? maxResults,
+    String? nextToken,
+    String? resourceType,
+    RestoreJobState? state,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (accountId != null) 'AccountId': [accountId],
+      if (aggregationPeriod != null)
+        'AggregationPeriod': [aggregationPeriod.toValue()],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (resourceType != null) 'ResourceType': [resourceType],
+      if (state != null) 'State': [state.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/audit/restore-job-summaries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRestoreJobSummariesOutput.fromJson(response);
+  }
+
   /// Returns a list of jobs that Backup initiated to restore a saved resource,
   /// including details about the recovery process.
   ///
@@ -2167,6 +3137,65 @@ class Backup {
   /// Parameter [byCreatedBefore] :
   /// Returns only restore jobs that were created before the specified date.
   ///
+  /// Parameter [byResourceType] :
+  /// Include this parameter to return only restore jobs for the specified
+  /// resources:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>CloudFormation</code> for CloudFormation
+  /// </li>
+  /// <li>
+  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
+  /// <li>
+  /// <code>DynamoDB</code> for Amazon DynamoDB
+  /// </li>
+  /// <li>
+  /// <code>EBS</code> for Amazon Elastic Block Store
+  /// </li>
+  /// <li>
+  /// <code>EC2</code> for Amazon Elastic Compute Cloud
+  /// </li>
+  /// <li>
+  /// <code>EFS</code> for Amazon Elastic File System
+  /// </li>
+  /// <li>
+  /// <code>FSx</code> for Amazon FSx
+  /// </li>
+  /// <li>
+  /// <code>Neptune</code> for Amazon Neptune
+  /// </li>
+  /// <li>
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
+  /// <code>RDS</code> for Amazon Relational Database Service
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
+  /// </li>
+  /// <li>
+  /// <code>Storage Gateway</code> for Storage Gateway
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// <li>
+  /// <code>Timestream</code> for Amazon Timestream
+  /// </li>
+  /// <li>
+  /// <code>VirtualMachine</code> for virtual machines
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [byRestoreTestingPlanArn] :
+  /// This returns only restore testing jobs that match the specified resource
+  /// Amazon Resource Name (ARN).
+  ///
   /// Parameter [byStatus] :
   /// Returns only restore jobs associated with the specified job status.
   ///
@@ -2175,7 +3204,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListRestoreJobsOutput> listRestoreJobs({
@@ -2184,6 +3213,8 @@ class Backup {
     DateTime? byCompleteBefore,
     DateTime? byCreatedAfter,
     DateTime? byCreatedBefore,
+    String? byResourceType,
+    String? byRestoreTestingPlanArn,
     RestoreJobStatus? byStatus,
     int? maxResults,
     String? nextToken,
@@ -2204,6 +3235,9 @@ class Backup {
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
       if (byCreatedBefore != null)
         'createdBefore': [_s.iso8601ToJson(byCreatedBefore).toString()],
+      if (byResourceType != null) 'resourceType': [byResourceType],
+      if (byRestoreTestingPlanArn != null)
+        'restoreTestingPlanArn': [byRestoreTestingPlanArn],
       if (byStatus != null) 'status': [byStatus.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -2216,6 +3250,162 @@ class Backup {
       exceptionFnMap: _exceptionFns,
     );
     return ListRestoreJobsOutput.fromJson(response);
+  }
+
+  /// This returns restore jobs that contain the specified protected resource.
+  ///
+  /// You must include <code>ResourceArn</code>. You can optionally include
+  /// <code>NextToken</code>, <code>ByStatus</code>, <code>MaxResults</code>,
+  /// <code>ByRecoveryPointCreationDateAfter</code> , and
+  /// <code>ByRecoveryPointCreationDateBefore</code>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [resourceArn] :
+  /// Returns only restore jobs that match the specified resource Amazon
+  /// Resource Name (ARN).
+  ///
+  /// Parameter [byRecoveryPointCreationDateAfter] :
+  /// Returns only restore jobs of recovery points that were created after the
+  /// specified date.
+  ///
+  /// Parameter [byRecoveryPointCreationDateBefore] :
+  /// Returns only restore jobs of recovery points that were created before the
+  /// specified date.
+  ///
+  /// Parameter [byStatus] :
+  /// Returns only restore jobs associated with the specified job status.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned items. For example, if
+  /// a request ismade to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list
+  /// starting at the location pointed to by the next token.
+  Future<ListRestoreJobsByProtectedResourceOutput>
+      listRestoreJobsByProtectedResource({
+    required String resourceArn,
+    DateTime? byRecoveryPointCreationDateAfter,
+    DateTime? byRecoveryPointCreationDateBefore,
+    RestoreJobStatus? byStatus,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (byRecoveryPointCreationDateAfter != null)
+        'recoveryPointCreationDateAfter': [
+          _s.iso8601ToJson(byRecoveryPointCreationDateAfter).toString()
+        ],
+      if (byRecoveryPointCreationDateBefore != null)
+        'recoveryPointCreationDateBefore': [
+          _s.iso8601ToJson(byRecoveryPointCreationDateBefore).toString()
+        ],
+      if (byStatus != null) 'status': [byStatus.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/resources/${Uri.encodeComponent(resourceArn)}/restore-jobs/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRestoreJobsByProtectedResourceOutput.fromJson(response);
+  }
+
+  /// Returns a list of restore testing plans.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned items. For example, if
+  /// a request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list
+  /// starting at the location pointed to by the nexttoken.
+  Future<ListRestoreTestingPlansOutput> listRestoreTestingPlans({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/restore-testing/plans',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRestoreTestingPlansOutput.fromJson(response);
+  }
+
+  /// Returns a list of restore testing selections. Can be filtered by
+  /// <code>MaxResults</code> and <code>RestoreTestingPlanName</code>.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// Returns restore testing selections by the specified restore testing plan
+  /// name.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned items. For example, if
+  /// a request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list
+  /// starting at the location pointed to by the nexttoken.
+  Future<ListRestoreTestingSelectionsOutput> listRestoreTestingSelections({
+    required String restoreTestingPlanName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}/selections',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRestoreTestingSelectionsOutput.fromJson(response);
   }
 
   /// Returns a list of key-value pairs assigned to a target recovery point,
@@ -2243,7 +3433,7 @@ class Backup {
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
-  /// a request is made to return <code>maxResults</code> number of items,
+  /// a request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListTagsOutput> listTags({
@@ -2475,6 +3665,45 @@ class Backup {
     );
   }
 
+  /// This request allows you to send your independent self-run restore test
+  /// validation results. <code>RestoreJobId</code> and
+  /// <code>ValidationStatus</code> are required. Optionally, you can input a
+  /// <code>ValidationStatusMessage</code>.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreJobId] :
+  /// This is a unique identifier of a restore job within Backup.
+  ///
+  /// Parameter [validationStatus] :
+  /// This is the status of your restore validation.
+  ///
+  /// Parameter [validationStatusMessage] :
+  /// This is an optional message string you can input to describe the
+  /// validation status for the restore test validation.
+  Future<void> putRestoreValidationResult({
+    required String restoreJobId,
+    required RestoreValidationStatus validationStatus,
+    String? validationStatusMessage,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ValidationStatus': validationStatus.toValue(),
+      if (validationStatusMessage != null)
+        'ValidationStatusMessage': validationStatusMessage,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/restore-jobs/${Uri.encodeComponent(restoreJobId)}/validations',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Starts an on-demand backup job for the specified resource.
   ///
   /// May throw [ResourceNotFoundException].
@@ -2514,6 +3743,9 @@ class Backup {
   /// add additional time for <code>StartWindowMinutes</code>, or if the backup
   /// started later than scheduled.
   ///
+  /// Like <code>StartWindowMinutes</code>, this parameter has a maximum value
+  /// of 100 years (52,560,000 minutes).
+  ///
   /// Parameter [idempotencyToken] :
   /// A customer-chosen string that you can use to distinguish between otherwise
   /// identical calls to <code>StartBackupJob</code>. Retrying a successful
@@ -2537,6 +3769,8 @@ class Backup {
   /// Feature availability by resource</a> table. Backup ignores this expression
   /// for other resource types.
   ///
+  /// This parameter has a maximum value of 100 years (36,500 days).
+  ///
   /// Parameter [recoveryPointTags] :
   /// To help organize your resources, you can assign your own metadata to the
   /// resources that you create. Each tag is a key-value pair.
@@ -2546,6 +3780,8 @@ class Backup {
   /// canceled if it doesn't start successfully. This value is optional, and the
   /// default is 8 hours. If this value is included, it must be at least 60
   /// minutes to avoid errors.
+  ///
+  /// This parameter has a maximum value of 100 years (52,560,000 minutes).
   ///
   /// During the start window, the backup job status remains in
   /// <code>CREATED</code> status until it has successfully begun or until the
@@ -2840,9 +4076,9 @@ class Backup {
   /// Attempts to cancel a job to create a one-time backup of a resource.
   ///
   /// This action is not supported for the following services: Amazon FSx for
-  /// Windows File Server, Amazon FSx for Lustre, FSx for ONTAP , Amazon FSx for
-  /// OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS,
-  /// Amazon Aurora, and Amazon Neptune.
+  /// Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP ,
+  /// Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility),
+  /// Amazon RDS, Amazon Aurora, and Amazon Neptune.
   ///
   /// May throw [MissingParameterValueException].
   /// May throw [ResourceNotFoundException].
@@ -3098,13 +4334,10 @@ class Backup {
     return UpdateRecoveryPointLifecycleOutput.fromJson(response);
   }
 
-  /// Updates the current service opt-in settings for the Region. If
-  /// service-opt-in is enabled for a service, Backup tries to protect that
-  /// service's resources in this Region, when the resource is included in an
-  /// on-demand backup or scheduled backup plan. Otherwise, Backup does not try
-  /// to protect that service's resources in this Region. Use the
-  /// <code>DescribeRegionSettings</code> API to determine the resource types
-  /// that are supported.
+  /// Updates the current service opt-in settings for the Region.
+  ///
+  /// Use the <code>DescribeRegionSettings</code> API to determine the resource
+  /// types that are supported.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [MissingParameterValueException].
@@ -3121,6 +4354,15 @@ class Backup {
   /// Parameter [resourceTypeOptInPreference] :
   /// Updates the list of services along with the opt-in preferences for the
   /// Region.
+  ///
+  /// If resource assignments are only based on tags, then service opt-in
+  /// settings are applied. If a resource type is explicitly assigned to a
+  /// backup plan, such as Amazon S3, Amazon EC2, or Amazon RDS, it will be
+  /// included in the backup even if the opt-in is not enabled for that
+  /// particular service. If both a resource type and tags are specified in a
+  /// resource assignment, the resource type specified in the backup plan takes
+  /// priority over the tag condition. Service opt-in settings are disregarded
+  /// in this situation.
   Future<void> updateRegionSettings({
     Map<String, bool>? resourceTypeManagementPreference,
     Map<String, bool>? resourceTypeOptInPreference,
@@ -3201,6 +4443,102 @@ class Backup {
     );
     return UpdateReportPlanOutput.fromJson(response);
   }
+
+  /// This request will send changes to your specified restore testing plan.
+  /// <code>RestoreTestingPlanName</code> cannot be updated after it is created.
+  ///
+  /// <code>RecoveryPointSelection</code> can contain:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Algorithm</code>
+  /// </li>
+  /// <li>
+  /// <code>ExcludeVaults</code>
+  /// </li>
+  /// <li>
+  /// <code>IncludeVaults</code>
+  /// </li>
+  /// <li>
+  /// <code>RecoveryPointTypes</code>
+  /// </li>
+  /// <li>
+  /// <code>SelectionWindowDays</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlan] :
+  /// Specifies the body of a restore testing plan.
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// This is the restore testing plan name you wish to update.
+  Future<UpdateRestoreTestingPlanOutput> updateRestoreTestingPlan({
+    required RestoreTestingPlanForUpdate restoreTestingPlan,
+    required String restoreTestingPlanName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'RestoreTestingPlan': restoreTestingPlan,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateRestoreTestingPlanOutput.fromJson(response);
+  }
+
+  /// Most elements except the <code>RestoreTestingSelectionName</code> can be
+  /// updated with this request.
+  ///
+  /// <code>RestoreTestingSelection</code> can use either protected resource
+  /// ARNs or conditions, but not both. That is, if your selection has
+  /// <code>ProtectedResourceArns</code>, requesting an update with the
+  /// parameter <code>ProtectedResourceConditions</code> will be unsuccessful.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [restoreTestingPlanName] :
+  /// The restore testing plan name is required to update the indicated testing
+  /// plan.
+  ///
+  /// Parameter [restoreTestingSelection] :
+  /// To update your restore testing selection, you can use either protected
+  /// resource ARNs or conditions, but not both. That is, if your selection has
+  /// <code>ProtectedResourceArns</code>, requesting an update with the
+  /// parameter <code>ProtectedResourceConditions</code> will be unsuccessful.
+  ///
+  /// Parameter [restoreTestingSelectionName] :
+  /// This is the required restore testing selection name of the restore testing
+  /// selection you wish to update.
+  Future<UpdateRestoreTestingSelectionOutput> updateRestoreTestingSelection({
+    required String restoreTestingPlanName,
+    required RestoreTestingSelectionForUpdate restoreTestingSelection,
+    required String restoreTestingSelectionName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'RestoreTestingSelection': restoreTestingSelection,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/restore-testing/plans/${Uri.encodeComponent(restoreTestingPlanName)}/selections/${Uri.encodeComponent(restoreTestingSelectionName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateRestoreTestingSelectionOutput.fromJson(response);
+  }
 }
 
 /// A list of backup options for each resource type.
@@ -3254,6 +4592,39 @@ class AdvancedBackupSetting {
       if (backupOptions != null) 'BackupOptions': backupOptions,
       if (resourceType != null) 'ResourceType': resourceType,
     };
+  }
+}
+
+enum AggregationPeriod {
+  oneDay,
+  sevenDays,
+  fourteenDays,
+}
+
+extension AggregationPeriodValueExtension on AggregationPeriod {
+  String toValue() {
+    switch (this) {
+      case AggregationPeriod.oneDay:
+        return 'ONE_DAY';
+      case AggregationPeriod.sevenDays:
+        return 'SEVEN_DAYS';
+      case AggregationPeriod.fourteenDays:
+        return 'FOURTEEN_DAYS';
+    }
+  }
+}
+
+extension AggregationPeriodFromString on String {
+  AggregationPeriod toAggregationPeriod() {
+    switch (this) {
+      case 'ONE_DAY':
+        return AggregationPeriod.oneDay;
+      case 'SEVEN_DAYS':
+        return AggregationPeriod.sevenDays;
+      case 'FOURTEEN_DAYS':
+        return AggregationPeriod.fourteenDays;
+    }
+    throw Exception('$this is not known in enum AggregationPeriod');
   }
 }
 
@@ -3328,8 +4699,24 @@ class BackupJob {
   /// without those strings lack permissions to perform backup jobs.
   final String? iamRoleArn;
 
+  /// This is the date on which the backup job was initiated.
+  final DateTime? initiationDate;
+
   /// This is a boolean value indicating this is a parent (composite) backup job.
   final bool? isParent;
+
+  /// This parameter is the job count for the specified message category.
+  ///
+  /// Example strings may include <code>AccessDenied</code>, <code>SUCCESS</code>,
+  /// <code>AGGREGATE_ALL</code>, and <code>INVALIDPARAMETERS</code>. See <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of MessageCategory strings.
+  ///
+  /// The the value ANY returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message categories
+  /// and returns the sum.
+  final String? messageCategory;
 
   /// This uniquely identifies a request to Backup to back up a resource. The
   /// return will be the parent (composite) job ID.
@@ -3366,7 +4753,7 @@ class BackupJob {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? startBy;
 
-  /// The current state of a resource recovery point.
+  /// The current state of a backup job.
   final BackupJobState? state;
 
   /// A detailed message explaining the status of the job to back up a resource.
@@ -3386,7 +4773,9 @@ class BackupJob {
     this.creationDate,
     this.expectedCompletionDate,
     this.iamRoleArn,
+    this.initiationDate,
     this.isParent,
+    this.messageCategory,
     this.parentJobId,
     this.percentDone,
     this.recoveryPointArn,
@@ -3417,7 +4806,9 @@ class BackupJob {
       creationDate: timeStampFromJson(json['CreationDate']),
       expectedCompletionDate: timeStampFromJson(json['ExpectedCompletionDate']),
       iamRoleArn: json['IamRoleArn'] as String?,
+      initiationDate: timeStampFromJson(json['InitiationDate']),
       isParent: json['IsParent'] as bool?,
+      messageCategory: json['MessageCategory'] as String?,
       parentJobId: json['ParentJobId'] as String?,
       percentDone: json['PercentDone'] as String?,
       recoveryPointArn: json['RecoveryPointArn'] as String?,
@@ -3491,6 +4882,154 @@ extension BackupJobStateFromString on String {
         return BackupJobState.partial;
     }
     throw Exception('$this is not known in enum BackupJobState');
+  }
+}
+
+enum BackupJobStatus {
+  created,
+  pending,
+  running,
+  aborting,
+  aborted,
+  completed,
+  failed,
+  expired,
+  partial,
+  aggregateAll,
+  any,
+}
+
+extension BackupJobStatusValueExtension on BackupJobStatus {
+  String toValue() {
+    switch (this) {
+      case BackupJobStatus.created:
+        return 'CREATED';
+      case BackupJobStatus.pending:
+        return 'PENDING';
+      case BackupJobStatus.running:
+        return 'RUNNING';
+      case BackupJobStatus.aborting:
+        return 'ABORTING';
+      case BackupJobStatus.aborted:
+        return 'ABORTED';
+      case BackupJobStatus.completed:
+        return 'COMPLETED';
+      case BackupJobStatus.failed:
+        return 'FAILED';
+      case BackupJobStatus.expired:
+        return 'EXPIRED';
+      case BackupJobStatus.partial:
+        return 'PARTIAL';
+      case BackupJobStatus.aggregateAll:
+        return 'AGGREGATE_ALL';
+      case BackupJobStatus.any:
+        return 'ANY';
+    }
+  }
+}
+
+extension BackupJobStatusFromString on String {
+  BackupJobStatus toBackupJobStatus() {
+    switch (this) {
+      case 'CREATED':
+        return BackupJobStatus.created;
+      case 'PENDING':
+        return BackupJobStatus.pending;
+      case 'RUNNING':
+        return BackupJobStatus.running;
+      case 'ABORTING':
+        return BackupJobStatus.aborting;
+      case 'ABORTED':
+        return BackupJobStatus.aborted;
+      case 'COMPLETED':
+        return BackupJobStatus.completed;
+      case 'FAILED':
+        return BackupJobStatus.failed;
+      case 'EXPIRED':
+        return BackupJobStatus.expired;
+      case 'PARTIAL':
+        return BackupJobStatus.partial;
+      case 'AGGREGATE_ALL':
+        return BackupJobStatus.aggregateAll;
+      case 'ANY':
+        return BackupJobStatus.any;
+    }
+    throw Exception('$this is not known in enum BackupJobStatus');
+  }
+}
+
+/// This is a summary of jobs created or running within the most recent 30 days.
+///
+/// The returned summary may contain the following: Region, Account, State,
+/// RestourceType, MessageCategory, StartTime, EndTime, and Count of included
+/// jobs.
+class BackupJobSummary {
+  /// The account ID that owns the jobs within the summary.
+  final String? accountId;
+
+  /// The value as a number of jobs in a job summary.
+  final int? count;
+
+  /// The value of time in number format of a job end time.
+  ///
+  /// This value is the time in Unix format, Coordinated Universal Time (UTC), and
+  /// accurate to milliseconds. For example, the value 1516925490.087 represents
+  /// Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? endTime;
+
+  /// This parameter is the job count for the specified message category.
+  ///
+  /// Example strings include <code>AccessDenied</code>, <code>Success</code>, and
+  /// <code>InvalidParameters</code>. See <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of MessageCategory strings.
+  ///
+  /// The the value ANY returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message categories
+  /// and returns the sum.
+  final String? messageCategory;
+
+  /// The Amazon Web Services Regions within the job summary.
+  final String? region;
+
+  /// This value is the job count for the specified resource type. The request
+  /// <code>GetSupportedResourceTypes</code> returns strings for supported
+  /// resource types.
+  final String? resourceType;
+
+  /// The value of time in number format of a job start time.
+  ///
+  /// This value is the time in Unix format, Coordinated Universal Time (UTC), and
+  /// accurate to milliseconds. For example, the value 1516925490.087 represents
+  /// Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? startTime;
+
+  /// This value is job count for jobs with the specified state.
+  final BackupJobStatus? state;
+
+  BackupJobSummary({
+    this.accountId,
+    this.count,
+    this.endTime,
+    this.messageCategory,
+    this.region,
+    this.resourceType,
+    this.startTime,
+    this.state,
+  });
+
+  factory BackupJobSummary.fromJson(Map<String, dynamic> json) {
+    return BackupJobSummary(
+      accountId: json['AccountId'] as String?,
+      count: json['Count'] as int?,
+      endTime: timeStampFromJson(json['EndTime']),
+      messageCategory: json['MessageCategory'] as String?,
+      region: json['Region'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.toBackupJobStatus(),
+    );
   }
 }
 
@@ -3724,6 +5263,10 @@ class BackupRule {
   /// a table of examples, click the preceding link and scroll down the page.
   final String? scheduleExpression;
 
+  /// This is the timezone in which the schedule expression is set. By default,
+  /// ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+  final String? scheduleExpressionTimezone;
+
   /// A value in minutes after a backup is scheduled before a job will be canceled
   /// if it doesn't start successfully. This value is optional. If this value is
   /// included, it must be at least 60 minutes to avoid errors.
@@ -3748,6 +5291,7 @@ class BackupRule {
     this.recoveryPointTags,
     this.ruleId,
     this.scheduleExpression,
+    this.scheduleExpressionTimezone,
     this.startWindowMinutes,
   });
 
@@ -3768,6 +5312,7 @@ class BackupRule {
           ?.map((k, e) => MapEntry(k, e as String)),
       ruleId: json['RuleId'] as String?,
       scheduleExpression: json['ScheduleExpression'] as String?,
+      scheduleExpressionTimezone: json['ScheduleExpressionTimezone'] as String?,
       startWindowMinutes: json['StartWindowMinutes'] as int?,
     );
   }
@@ -3813,6 +5358,8 @@ class BackupRuleInput {
   /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
   /// Feature availability by resource</a> table. Backup ignores this expression
   /// for other resource types.
+  ///
+  /// This parameter has a maximum value of 100 years (36,500 days).
   final Lifecycle? lifecycle;
 
   /// To help organize your resources, you can assign your own metadata to the
@@ -3822,9 +5369,15 @@ class BackupRuleInput {
   /// A CRON expression in UTC specifying when Backup initiates a backup job.
   final String? scheduleExpression;
 
+  /// This is the timezone in which the schedule expression is set. By default,
+  /// ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+  final String? scheduleExpressionTimezone;
+
   /// A value in minutes after a backup is scheduled before a job will be canceled
   /// if it doesn't start successfully. This value is optional. If this value is
   /// included, it must be at least 60 minutes to avoid errors.
+  ///
+  /// This parameter has a maximum value of 100 years (52,560,000 minutes).
   ///
   /// During the start window, the backup job status remains in
   /// <code>CREATED</code> status until it has successfully begun or until the
@@ -3845,6 +5398,7 @@ class BackupRuleInput {
     this.lifecycle,
     this.recoveryPointTags,
     this.scheduleExpression,
+    this.scheduleExpressionTimezone,
     this.startWindowMinutes,
   });
 
@@ -3857,6 +5411,7 @@ class BackupRuleInput {
     final lifecycle = this.lifecycle;
     final recoveryPointTags = this.recoveryPointTags;
     final scheduleExpression = this.scheduleExpression;
+    final scheduleExpressionTimezone = this.scheduleExpressionTimezone;
     final startWindowMinutes = this.startWindowMinutes;
     return {
       'RuleName': ruleName,
@@ -3869,6 +5424,8 @@ class BackupRuleInput {
       if (lifecycle != null) 'Lifecycle': lifecycle,
       if (recoveryPointTags != null) 'RecoveryPointTags': recoveryPointTags,
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (scheduleExpressionTimezone != null)
+        'ScheduleExpressionTimezone': scheduleExpressionTimezone,
       if (startWindowMinutes != null) 'StartWindowMinutes': startWindowMinutes,
     };
   }
@@ -3891,9 +5448,9 @@ class BackupSelection {
   final String selectionName;
 
   /// A list of conditions that you define to assign resources to your backup
-  /// plans using tags. For example, <code>"StringEquals": { "ConditionKey":
-  /// "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },</code>.
-  /// Condition operators are case sensitive.
+  /// plans using tags. For example, <code>"StringEquals": { "Key":
+  /// "aws:ResourceTag/CreatedByCryo", "Value": "true" },</code>. Condition
+  /// operators are case sensitive.
   ///
   /// <code>Conditions</code> differs from <code>ListOfTags</code> as follows:
   ///
@@ -3912,9 +5469,9 @@ class BackupSelection {
   final Conditions? conditions;
 
   /// A list of conditions that you define to assign resources to your backup
-  /// plans using tags. For example, <code>"StringEquals": { "ConditionKey":
-  /// "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },</code>.
-  /// Condition operators are case sensitive.
+  /// plans using tags. For example, <code>"StringEquals": { "Key":
+  /// "aws:ResourceTag/CreatedByCryo", "Value": "true" },</code>. Condition
+  /// operators are case sensitive.
   ///
   /// <code>ListOfTags</code> differs from <code>Conditions</code> as follows:
   ///
@@ -4656,6 +6213,19 @@ class CopyJob {
   /// This is a boolean value indicating this is a parent (composite) copy job.
   final bool? isParent;
 
+  /// This parameter is the job count for the specified message category.
+  ///
+  /// Example strings may include <code>AccessDenied</code>, <code>SUCCESS</code>,
+  /// <code>AGGREGATE_ALL</code>, and <code>InvalidParameters</code>. See <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of MessageCategory strings.
+  ///
+  /// The the value ANY returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message categories
+  /// and returns the sum
+  final String? messageCategory;
+
   /// This is the number of child (nested) copy jobs.
   final int? numberOfChildJobs;
 
@@ -4705,6 +6275,7 @@ class CopyJob {
     this.destinationRecoveryPointArn,
     this.iamRoleArn,
     this.isParent,
+    this.messageCategory,
     this.numberOfChildJobs,
     this.parentJobId,
     this.resourceArn,
@@ -4735,6 +6306,7 @@ class CopyJob {
           json['DestinationRecoveryPointArn'] as String?,
       iamRoleArn: json['IamRoleArn'] as String?,
       isParent: json['IsParent'] as bool?,
+      messageCategory: json['MessageCategory'] as String?,
       numberOfChildJobs: json['NumberOfChildJobs'] as int?,
       parentJobId: json['ParentJobId'] as String?,
       resourceArn: json['ResourceArn'] as String?,
@@ -4788,6 +6360,155 @@ extension CopyJobStateFromString on String {
         return CopyJobState.partial;
     }
     throw Exception('$this is not known in enum CopyJobState');
+  }
+}
+
+enum CopyJobStatus {
+  created,
+  running,
+  aborting,
+  aborted,
+  completing,
+  completed,
+  failing,
+  failed,
+  partial,
+  aggregateAll,
+  any,
+}
+
+extension CopyJobStatusValueExtension on CopyJobStatus {
+  String toValue() {
+    switch (this) {
+      case CopyJobStatus.created:
+        return 'CREATED';
+      case CopyJobStatus.running:
+        return 'RUNNING';
+      case CopyJobStatus.aborting:
+        return 'ABORTING';
+      case CopyJobStatus.aborted:
+        return 'ABORTED';
+      case CopyJobStatus.completing:
+        return 'COMPLETING';
+      case CopyJobStatus.completed:
+        return 'COMPLETED';
+      case CopyJobStatus.failing:
+        return 'FAILING';
+      case CopyJobStatus.failed:
+        return 'FAILED';
+      case CopyJobStatus.partial:
+        return 'PARTIAL';
+      case CopyJobStatus.aggregateAll:
+        return 'AGGREGATE_ALL';
+      case CopyJobStatus.any:
+        return 'ANY';
+    }
+  }
+}
+
+extension CopyJobStatusFromString on String {
+  CopyJobStatus toCopyJobStatus() {
+    switch (this) {
+      case 'CREATED':
+        return CopyJobStatus.created;
+      case 'RUNNING':
+        return CopyJobStatus.running;
+      case 'ABORTING':
+        return CopyJobStatus.aborting;
+      case 'ABORTED':
+        return CopyJobStatus.aborted;
+      case 'COMPLETING':
+        return CopyJobStatus.completing;
+      case 'COMPLETED':
+        return CopyJobStatus.completed;
+      case 'FAILING':
+        return CopyJobStatus.failing;
+      case 'FAILED':
+        return CopyJobStatus.failed;
+      case 'PARTIAL':
+        return CopyJobStatus.partial;
+      case 'AGGREGATE_ALL':
+        return CopyJobStatus.aggregateAll;
+      case 'ANY':
+        return CopyJobStatus.any;
+    }
+    throw Exception('$this is not known in enum CopyJobStatus');
+  }
+}
+
+/// This is a summary of copy jobs created or running within the most recent 30
+/// days.
+///
+/// The returned summary may contain the following: Region, Account, State,
+/// RestourceType, MessageCategory, StartTime, EndTime, and Count of included
+/// jobs.
+class CopyJobSummary {
+  /// The account ID that owns the jobs within the summary.
+  final String? accountId;
+
+  /// The value as a number of jobs in a job summary.
+  final int? count;
+
+  /// The value of time in number format of a job end time.
+  ///
+  /// This value is the time in Unix format, Coordinated Universal Time (UTC), and
+  /// accurate to milliseconds. For example, the value 1516925490.087 represents
+  /// Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? endTime;
+
+  /// This parameter is the job count for the specified message category.
+  ///
+  /// Example strings include <code>AccessDenied</code>, <code>Success</code>, and
+  /// <code>InvalidParameters</code>. See <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of MessageCategory strings.
+  ///
+  /// The the value ANY returns count of all message categories.
+  ///
+  /// <code>AGGREGATE_ALL</code> aggregates job counts for all message categories
+  /// and returns the sum.
+  final String? messageCategory;
+
+  /// This is the Amazon Web Services Regions within the job summary.
+  final String? region;
+
+  /// This value is the job count for the specified resource type. The request
+  /// <code>GetSupportedResourceTypes</code> returns strings for supported
+  /// resource types
+  final String? resourceType;
+
+  /// The value of time in number format of a job start time.
+  ///
+  /// This value is the time in Unix format, Coordinated Universal Time (UTC), and
+  /// accurate to milliseconds. For example, the value 1516925490.087 represents
+  /// Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? startTime;
+
+  /// This value is job count for jobs with the specified state.
+  final CopyJobStatus? state;
+
+  CopyJobSummary({
+    this.accountId,
+    this.count,
+    this.endTime,
+    this.messageCategory,
+    this.region,
+    this.resourceType,
+    this.startTime,
+    this.state,
+  });
+
+  factory CopyJobSummary.fromJson(Map<String, dynamic> json) {
+    return CopyJobSummary(
+      accountId: json['AccountId'] as String?,
+      count: json['Count'] as int?,
+      endTime: timeStampFromJson(json['EndTime']),
+      messageCategory: json['MessageCategory'] as String?,
+      region: json['Region'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.toCopyJobStatus(),
+    );
   }
 }
 
@@ -4974,6 +6695,44 @@ class CreateLegalHoldOutput {
   }
 }
 
+class CreateLogicallyAirGappedBackupVaultOutput {
+  /// This is the ARN (Amazon Resource Name) of the vault being created.
+  final String? backupVaultArn;
+
+  /// The name of a logical container where backups are stored. Logically
+  /// air-gapped backup vaults are identified by names that are unique to the
+  /// account used to create them and the Region where they are created. They
+  /// consist of lowercase letters, numbers, and hyphens.
+  final String? backupVaultName;
+
+  /// The date and time when the vault was created.
+  ///
+  /// This value is in Unix format, Coordinated Universal Time (UTC), and accurate
+  /// to milliseconds. For example, the value 1516925490.087 represents Friday,
+  /// January 26, 2018 12:11:30.087 AM.
+  final DateTime? creationDate;
+
+  /// This is the current state of the vault.
+  final VaultState? vaultState;
+
+  CreateLogicallyAirGappedBackupVaultOutput({
+    this.backupVaultArn,
+    this.backupVaultName,
+    this.creationDate,
+    this.vaultState,
+  });
+
+  factory CreateLogicallyAirGappedBackupVaultOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateLogicallyAirGappedBackupVaultOutput(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      vaultState: (json['VaultState'] as String?)?.toVaultState(),
+    );
+  }
+}
+
 class CreateReportPlanOutput {
   /// The date and time a backup vault is created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationTime</code> is accurate to
@@ -4999,6 +6758,77 @@ class CreateReportPlanOutput {
       creationTime: timeStampFromJson(json['CreationTime']),
       reportPlanArn: json['ReportPlanArn'] as String?,
       reportPlanName: json['ReportPlanName'] as String?,
+    );
+  }
+}
+
+class CreateRestoreTestingPlanOutput {
+  /// The date and time a restore testing plan was created, in Unix format and
+  /// Coordinated Universal Time (UTC). The value of <code>CreationTime</code> is
+  /// accurate to milliseconds. For example, the value 1516925490.087 represents
+  /// Friday, January 26, 2018 12:11:30.087AM.
+  final DateTime creationTime;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifies the created restore
+  /// testing plan.
+  final String restoreTestingPlanArn;
+
+  /// This unique string is the name of the restore testing plan.
+  ///
+  /// The name cannot be changed after creation. The name consists of only
+  /// alphanumeric characters and underscores. Maximum length is 50.
+  final String restoreTestingPlanName;
+
+  CreateRestoreTestingPlanOutput({
+    required this.creationTime,
+    required this.restoreTestingPlanArn,
+    required this.restoreTestingPlanName,
+  });
+
+  factory CreateRestoreTestingPlanOutput.fromJson(Map<String, dynamic> json) {
+    return CreateRestoreTestingPlanOutput(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+    );
+  }
+}
+
+class CreateRestoreTestingSelectionOutput {
+  /// This is the time the resource testing selection was created successfully.
+  final DateTime creationTime;
+
+  /// This is the ARN of the restore testing plan with which the restore testing
+  /// selection is associated.
+  final String restoreTestingPlanArn;
+
+  /// Unique string that is the name of the restore testing plan.
+  ///
+  /// The name cannot be changed after creation. The name consists of only
+  /// alphanumeric characters and underscores. Maximum length is 50.
+  final String restoreTestingPlanName;
+
+  /// This is the unique name of the restore testing selection that belongs to the
+  /// related restore testing plan.
+  final String restoreTestingSelectionName;
+
+  CreateRestoreTestingSelectionOutput({
+    required this.creationTime,
+    required this.restoreTestingPlanArn,
+    required this.restoreTestingPlanName,
+    required this.restoreTestingSelectionName,
+  });
+
+  factory CreateRestoreTestingSelectionOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateRestoreTestingSelectionOutput(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      restoreTestingSelectionName:
+          json['RestoreTestingSelectionName'] as String,
     );
   }
 }
@@ -5149,9 +6979,20 @@ class DescribeBackupJobOutput {
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
   final String? iamRoleArn;
 
+  /// This is the date a backup job was initiated.
+  final DateTime? initiationDate;
+
   /// This returns the boolean value that a backup job is a parent (composite)
   /// job.
   final bool? isParent;
+
+  /// This is the job count for the specified message category.
+  ///
+  /// Example strings may include <code>AccessDenied</code>, <code>SUCCESS</code>,
+  /// <code>AGGREGATE_ALL</code>, and <code>INVALIDPARAMETERS</code>. View <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html">Monitoring</a>
+  /// for a list of accepted MessageCategory strings.
+  final String? messageCategory;
 
   /// This returns the number of child (nested) backup jobs.
   final int? numberOfChildJobs;
@@ -5189,7 +7030,7 @@ class DescribeBackupJobOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? startBy;
 
-  /// The current state of a resource recovery point.
+  /// The current state of a backup job.
   final BackupJobState? state;
 
   /// A detailed message explaining the status of the job to back up a resource.
@@ -5210,7 +7051,9 @@ class DescribeBackupJobOutput {
     this.creationDate,
     this.expectedCompletionDate,
     this.iamRoleArn,
+    this.initiationDate,
     this.isParent,
+    this.messageCategory,
     this.numberOfChildJobs,
     this.parentJobId,
     this.percentDone,
@@ -5244,7 +7087,9 @@ class DescribeBackupJobOutput {
       creationDate: timeStampFromJson(json['CreationDate']),
       expectedCompletionDate: timeStampFromJson(json['ExpectedCompletionDate']),
       iamRoleArn: json['IamRoleArn'] as String?,
+      initiationDate: timeStampFromJson(json['InitiationDate']),
       isParent: json['IsParent'] as bool?,
+      messageCategory: json['MessageCategory'] as String?,
       numberOfChildJobs: json['NumberOfChildJobs'] as int?,
       parentJobId: json['ParentJobId'] as String?,
       percentDone: json['PercentDone'] as String?,
@@ -5278,7 +7123,9 @@ class DescribeBackupVaultOutput {
   final DateTime? creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
-  /// retried without the risk of running the operation twice.
+  /// retried without the risk of running the operation twice. This parameter is
+  /// optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+  /// characters.
   final String? creatorRequestId;
 
   /// The server-side encryption key that is used to protect your backups; for
@@ -5332,6 +7179,9 @@ class DescribeBackupVaultOutput {
   /// The number of recovery points that are stored in a backup vault.
   final int? numberOfRecoveryPoints;
 
+  /// This is the type of vault described.
+  final VaultType? vaultType;
+
   DescribeBackupVaultOutput({
     this.backupVaultArn,
     this.backupVaultName,
@@ -5343,6 +7193,7 @@ class DescribeBackupVaultOutput {
     this.maxRetentionDays,
     this.minRetentionDays,
     this.numberOfRecoveryPoints,
+    this.vaultType,
   });
 
   factory DescribeBackupVaultOutput.fromJson(Map<String, dynamic> json) {
@@ -5357,6 +7208,7 @@ class DescribeBackupVaultOutput {
       maxRetentionDays: json['MaxRetentionDays'] as int?,
       minRetentionDays: json['MinRetentionDays'] as int?,
       numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
+      vaultType: (json['VaultType'] as String?)?.toVaultType(),
     );
   }
 }
@@ -5496,6 +7348,22 @@ class DescribeProtectedResourceOutput {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? lastBackupTime;
 
+  /// This is the ARN (Amazon Resource Name) of the backup vault that contains the
+  /// most recent backup recovery point.
+  final String? lastBackupVaultArn;
+
+  /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+  final String? lastRecoveryPointArn;
+
+  /// This is the time in minutes the most recent restore job took to complete.
+  final int? latestRestoreExecutionTimeMinutes;
+
+  /// This is the creation date of the most recent restore job.
+  final DateTime? latestRestoreJobCreationDate;
+
+  /// This is the date the most recent recovery point was created.
+  final DateTime? latestRestoreRecoveryPointCreationDate;
+
   /// An ARN that uniquely identifies a resource. The format of the ARN depends on
   /// the resource type.
   final String? resourceArn;
@@ -5510,6 +7378,11 @@ class DescribeProtectedResourceOutput {
 
   DescribeProtectedResourceOutput({
     this.lastBackupTime,
+    this.lastBackupVaultArn,
+    this.lastRecoveryPointArn,
+    this.latestRestoreExecutionTimeMinutes,
+    this.latestRestoreJobCreationDate,
+    this.latestRestoreRecoveryPointCreationDate,
     this.resourceArn,
     this.resourceName,
     this.resourceType,
@@ -5518,6 +7391,14 @@ class DescribeProtectedResourceOutput {
   factory DescribeProtectedResourceOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProtectedResourceOutput(
       lastBackupTime: timeStampFromJson(json['LastBackupTime']),
+      lastBackupVaultArn: json['LastBackupVaultArn'] as String?,
+      lastRecoveryPointArn: json['LastRecoveryPointArn'] as String?,
+      latestRestoreExecutionTimeMinutes:
+          json['LatestRestoreExecutionTimeMinutes'] as int?,
+      latestRestoreJobCreationDate:
+          timeStampFromJson(json['LatestRestoreJobCreationDate']),
+      latestRestoreRecoveryPointCreationDate:
+          timeStampFromJson(json['LatestRestoreRecoveryPointCreationDate']),
       resourceArn: json['ResourceArn'] as String?,
       resourceName: json['ResourceName'] as String?,
       resourceType: json['ResourceType'] as String?,
@@ -5678,6 +7559,9 @@ class DescribeRecoveryPointOutput {
   /// <code>WARM</code> or <code>COLD</code>.
   final StorageClass? storageClass;
 
+  /// This is the type of vault in which the described recovery point is stored.
+  final VaultType? vaultType;
+
   DescribeRecoveryPointOutput({
     this.backupSizeInBytes,
     this.backupVaultArn,
@@ -5702,6 +7586,7 @@ class DescribeRecoveryPointOutput {
     this.status,
     this.statusMessage,
     this.storageClass,
+    this.vaultType,
   });
 
   factory DescribeRecoveryPointOutput.fromJson(Map<String, dynamic> json) {
@@ -5737,6 +7622,7 @@ class DescribeRecoveryPointOutput {
       status: (json['Status'] as String?)?.toRecoveryPointStatus(),
       statusMessage: json['StatusMessage'] as String?,
       storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      vaultType: (json['VaultType'] as String?)?.toVaultType(),
     );
   }
 }
@@ -5832,6 +7718,9 @@ class DescribeRestoreJobOutput {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? completionDate;
 
+  /// Contains identifying information about the creation of a restore job.
+  final RestoreJobCreator? createdBy;
+
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose
   /// recovery point is being restored. The format of the ARN depends on the
   /// resource type of the backed-up resource.
@@ -5842,6 +7731,14 @@ class DescribeRestoreJobOutput {
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? creationDate;
+
+  /// This notes the status of the data generated by the restore test. The status
+  /// may be <code>Deleting</code>, <code>Failed</code>, or
+  /// <code>Successful</code>.
+  final RestoreDeletionStatus? deletionStatus;
+
+  /// This describes the restore job deletion status.
+  final String? deletionStatusMessage;
 
   /// The amount of time in minutes that a job restoring a recovery point is
   /// expected to take.
@@ -5859,6 +7756,10 @@ class DescribeRestoreJobOutput {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   final String? recoveryPointArn;
 
+  /// This is the creation date of the recovery point made by the specifed restore
+  /// job.
+  final DateTime? recoveryPointCreationDate;
+
   /// Returns metadata associated with a restore job listed by resource type.
   final String? resourceType;
 
@@ -5872,20 +7773,32 @@ class DescribeRestoreJobOutput {
   /// A message showing the status of a job to restore a recovery point.
   final String? statusMessage;
 
+  /// This is the status of validation run on the indicated restore job.
+  final RestoreValidationStatus? validationStatus;
+
+  /// This describes the status of validation run on the indicated restore job.
+  final String? validationStatusMessage;
+
   DescribeRestoreJobOutput({
     this.accountId,
     this.backupSizeInBytes,
     this.completionDate,
+    this.createdBy,
     this.createdResourceArn,
     this.creationDate,
+    this.deletionStatus,
+    this.deletionStatusMessage,
     this.expectedCompletionTimeMinutes,
     this.iamRoleArn,
     this.percentDone,
     this.recoveryPointArn,
+    this.recoveryPointCreationDate,
     this.resourceType,
     this.restoreJobId,
     this.status,
     this.statusMessage,
+    this.validationStatus,
+    this.validationStatusMessage,
   });
 
   factory DescribeRestoreJobOutput.fromJson(Map<String, dynamic> json) {
@@ -5893,17 +7806,29 @@ class DescribeRestoreJobOutput {
       accountId: json['AccountId'] as String?,
       backupSizeInBytes: json['BackupSizeInBytes'] as int?,
       completionDate: timeStampFromJson(json['CompletionDate']),
+      createdBy: json['CreatedBy'] != null
+          ? RestoreJobCreator.fromJson(
+              json['CreatedBy'] as Map<String, dynamic>)
+          : null,
       createdResourceArn: json['CreatedResourceArn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
+      deletionStatus:
+          (json['DeletionStatus'] as String?)?.toRestoreDeletionStatus(),
+      deletionStatusMessage: json['DeletionStatusMessage'] as String?,
       expectedCompletionTimeMinutes:
           json['ExpectedCompletionTimeMinutes'] as int?,
       iamRoleArn: json['IamRoleArn'] as String?,
       percentDone: json['PercentDone'] as String?,
       recoveryPointArn: json['RecoveryPointArn'] as String?,
+      recoveryPointCreationDate:
+          timeStampFromJson(json['RecoveryPointCreationDate']),
       resourceType: json['ResourceType'] as String?,
       restoreJobId: json['RestoreJobId'] as String?,
       status: (json['Status'] as String?)?.toRestoreJobStatus(),
       statusMessage: json['StatusMessage'] as String?,
+      validationStatus:
+          (json['ValidationStatus'] as String?)?.toRestoreValidationStatus(),
+      validationStatusMessage: json['ValidationStatusMessage'] as String?,
     );
   }
 }
@@ -5990,8 +7915,10 @@ class FrameworkControl {
 
   /// The scope of a control. The control scope defines what the control will
   /// evaluate. Three examples of control scopes are: a specific backup plan, all
-  /// backup plans with a specific tag, or all backup plans. For more information,
-  /// see <a href="aws-backup/latest/devguide/API_ControlScope.html">
+  /// backup plans with a specific tag, or all backup plans.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_ControlScope.html">
   /// <code>ControlScope</code>.</a>
   final ControlScope? controlScope;
 
@@ -6333,6 +8260,9 @@ class GetRecoveryPointRestoreMetadataOutput {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   final String? recoveryPointArn;
 
+  /// This is the resource type associated with the recovery point.
+  final String? resourceType;
+
   /// The set of metadata key-value pairs that describe the original configuration
   /// of the backed-up resource. These values vary depending on the service that
   /// is being restored.
@@ -6341,6 +8271,7 @@ class GetRecoveryPointRestoreMetadataOutput {
   GetRecoveryPointRestoreMetadataOutput({
     this.backupVaultArn,
     this.recoveryPointArn,
+    this.resourceType,
     this.restoreMetadata,
   });
 
@@ -6349,8 +8280,80 @@ class GetRecoveryPointRestoreMetadataOutput {
     return GetRecoveryPointRestoreMetadataOutput(
       backupVaultArn: json['BackupVaultArn'] as String?,
       recoveryPointArn: json['RecoveryPointArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
       restoreMetadata: (json['RestoreMetadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+class GetRestoreJobMetadataOutput {
+  /// This contains the metadata of the specified backup job.
+  final Map<String, String>? metadata;
+
+  /// This is a unique identifier of a restore job within Backup.
+  final String? restoreJobId;
+
+  GetRestoreJobMetadataOutput({
+    this.metadata,
+    this.restoreJobId,
+  });
+
+  factory GetRestoreJobMetadataOutput.fromJson(Map<String, dynamic> json) {
+    return GetRestoreJobMetadataOutput(
+      metadata: (json['Metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      restoreJobId: json['RestoreJobId'] as String?,
+    );
+  }
+}
+
+class GetRestoreTestingInferredMetadataOutput {
+  /// This is a string map of the metadata inferred from the request.
+  final Map<String, String> inferredMetadata;
+
+  GetRestoreTestingInferredMetadataOutput({
+    required this.inferredMetadata,
+  });
+
+  factory GetRestoreTestingInferredMetadataOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetRestoreTestingInferredMetadataOutput(
+      inferredMetadata: (json['InferredMetadata'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+class GetRestoreTestingPlanOutput {
+  /// Specifies the body of a restore testing plan. Includes
+  /// <code>RestoreTestingPlanName</code>.
+  final RestoreTestingPlanForGet restoreTestingPlan;
+
+  GetRestoreTestingPlanOutput({
+    required this.restoreTestingPlan,
+  });
+
+  factory GetRestoreTestingPlanOutput.fromJson(Map<String, dynamic> json) {
+    return GetRestoreTestingPlanOutput(
+      restoreTestingPlan: RestoreTestingPlanForGet.fromJson(
+          json['RestoreTestingPlan'] as Map<String, dynamic>),
+    );
+  }
+}
+
+class GetRestoreTestingSelectionOutput {
+  /// Unique name of the restore testing selection.
+  final RestoreTestingSelectionForGet restoreTestingSelection;
+
+  GetRestoreTestingSelectionOutput({
+    required this.restoreTestingSelection,
+  });
+
+  factory GetRestoreTestingSelectionOutput.fromJson(Map<String, dynamic> json) {
+    return GetRestoreTestingSelectionOutput(
+      restoreTestingSelection: RestoreTestingSelectionForGet.fromJson(
+          json['RestoreTestingSelection'] as Map<String, dynamic>),
     );
   }
 }
@@ -6403,6 +8406,47 @@ class GetSupportedResourceTypesOutput {
           .map((e) => e as String)
           .toList(),
     );
+  }
+}
+
+/// Pair of two related strings. Allowed characters are letters, white space,
+/// and numbers that can be represented in UTF-8 and the following characters:
+/// <code> + - = . _ : /</code>
+class KeyValue {
+  /// The tag key (String). The key can't start with <code>aws:</code>.
+  ///
+  /// Length Constraints: Minimum length of 1. Maximum length of 128.
+  ///
+  /// Pattern:
+  /// <code>^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$</code>
+  final String key;
+
+  /// The value of the key.
+  ///
+  /// Length Constraints: Maximum length of 256.
+  ///
+  /// Pattern: <code>^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</code>
+  final String value;
+
+  KeyValue({
+    required this.key,
+    required this.value,
+  });
+
+  factory KeyValue.fromJson(Map<String, dynamic> json) {
+    return KeyValue(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
   }
 }
 
@@ -6523,26 +8567,84 @@ class Lifecycle {
   /// to cold storage.
   final int? moveToColdStorageAfterDays;
 
+  /// Optional Boolean. If this is true, this setting will instruct your backup
+  /// plan to transition supported resources to archive (cold) storage tier in
+  /// accordance with your lifecycle settings.
+  final bool? optInToArchiveForSupportedResources;
+
   Lifecycle({
     this.deleteAfterDays,
     this.moveToColdStorageAfterDays,
+    this.optInToArchiveForSupportedResources,
   });
 
   factory Lifecycle.fromJson(Map<String, dynamic> json) {
     return Lifecycle(
       deleteAfterDays: json['DeleteAfterDays'] as int?,
       moveToColdStorageAfterDays: json['MoveToColdStorageAfterDays'] as int?,
+      optInToArchiveForSupportedResources:
+          json['OptInToArchiveForSupportedResources'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final deleteAfterDays = this.deleteAfterDays;
     final moveToColdStorageAfterDays = this.moveToColdStorageAfterDays;
+    final optInToArchiveForSupportedResources =
+        this.optInToArchiveForSupportedResources;
     return {
       if (deleteAfterDays != null) 'DeleteAfterDays': deleteAfterDays,
       if (moveToColdStorageAfterDays != null)
         'MoveToColdStorageAfterDays': moveToColdStorageAfterDays,
+      if (optInToArchiveForSupportedResources != null)
+        'OptInToArchiveForSupportedResources':
+            optInToArchiveForSupportedResources,
     };
+  }
+}
+
+class ListBackupJobSummariesOutput {
+  /// This is the period that sets the boundaries for returned results.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// </li>
+  /// <li>
+  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// </li>
+  /// <li>
+  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// </li>
+  /// </ul>
+  final String? aggregationPeriod;
+
+  /// This request returns a summary that contains Region, Account, State,
+  /// ResourceType, MessageCategory, StartTime, EndTime, and Count of included
+  /// jobs.
+  final List<BackupJobSummary>? backupJobSummaries;
+
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>MaxResults</code> number of resources,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  ListBackupJobSummariesOutput({
+    this.aggregationPeriod,
+    this.backupJobSummaries,
+    this.nextToken,
+  });
+
+  factory ListBackupJobSummariesOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupJobSummariesOutput(
+      aggregationPeriod: json['AggregationPeriod'] as String?,
+      backupJobSummaries: (json['BackupJobSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackupJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
   }
 }
 
@@ -6552,7 +8654,7 @@ class ListBackupJobsOutput {
   final List<BackupJob>? backupJobs;
 
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6579,7 +8681,7 @@ class ListBackupPlanTemplatesOutput {
   final List<BackupPlanTemplatesListMember>? backupPlanTemplatesList;
 
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6606,7 +8708,7 @@ class ListBackupPlanVersionsOutput {
   final List<BackupPlansListMember>? backupPlanVersionsList;
 
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6633,7 +8735,7 @@ class ListBackupPlansOutput {
   final List<BackupPlansListMember>? backupPlansList;
 
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6660,7 +8762,7 @@ class ListBackupSelectionsOutput {
   final List<BackupSelectionsListMember>? backupSelectionsList;
 
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6690,7 +8792,7 @@ class ListBackupVaultsOutput {
   final List<BackupVaultListMember>? backupVaultList;
 
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6711,13 +8813,58 @@ class ListBackupVaultsOutput {
   }
 }
 
+class ListCopyJobSummariesOutput {
+  /// This is the period that sets the boundaries for returned results.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// </li>
+  /// <li>
+  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// </li>
+  /// <li>
+  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// </li>
+  /// </ul>
+  final String? aggregationPeriod;
+
+  /// This return shows a summary that contains Region, Account, State,
+  /// ResourceType, MessageCategory, StartTime, EndTime, and Count of included
+  /// jobs.
+  final List<CopyJobSummary>? copyJobSummaries;
+
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>MaxResults</code> number of resources,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  ListCopyJobSummariesOutput({
+    this.aggregationPeriod,
+    this.copyJobSummaries,
+    this.nextToken,
+  });
+
+  factory ListCopyJobSummariesOutput.fromJson(Map<String, dynamic> json) {
+    return ListCopyJobSummariesOutput(
+      aggregationPeriod: json['AggregationPeriod'] as String?,
+      copyJobSummaries: (json['CopyJobSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => CopyJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListCopyJobsOutput {
   /// An array of structures containing metadata about your copy jobs returned in
   /// JSON format.
   final List<CopyJob>? copyJobs;
 
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return maxResults number of items, NextToken allows you
+  /// request is made to return MaxResults number of items, NextToken allows you
   /// to return more items in your list starting at the location pointed to by the
   /// next token.
   final String? nextToken;
@@ -6769,7 +8916,7 @@ class ListLegalHoldsOutput {
   final List<LegalHold>? legalHolds;
 
   /// The next item following a partial list of returned resources. For example,
-  /// if a request is made to return <code>maxResults</code> number of resources,
+  /// if a request is made to return <code>MaxResults</code> number of resources,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6790,9 +8937,37 @@ class ListLegalHoldsOutput {
   }
 }
 
+class ListProtectedResourcesByBackupVaultOutput {
+  /// The next item following a partial list of returned items. For example, if a
+  /// request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  /// These are the results returned for the request
+  /// ListProtectedResourcesByBackupVault.
+  final List<ProtectedResource>? results;
+
+  ListProtectedResourcesByBackupVaultOutput({
+    this.nextToken,
+    this.results,
+  });
+
+  factory ListProtectedResourcesByBackupVaultOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListProtectedResourcesByBackupVaultOutput(
+      nextToken: json['NextToken'] as String?,
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProtectedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListProtectedResourcesOutput {
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6820,7 +8995,7 @@ class ListProtectedResourcesOutput {
 
 class ListRecoveryPointsByBackupVaultOutput {
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6874,7 +9049,7 @@ class ListRecoveryPointsByLegalHoldOutput {
 
 class ListRecoveryPointsByResourceOutput {
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6955,9 +9130,82 @@ class ListReportPlansOutput {
   }
 }
 
+class ListRestoreJobSummariesOutput {
+  /// This is the period that sets the boundaries for returned results.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// </li>
+  /// <li>
+  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// </li>
+  /// <li>
+  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// </li>
+  /// </ul>
+  final String? aggregationPeriod;
+
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>MaxResults</code> number of resources,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  /// This return contains a summary that contains Region, Account, State,
+  /// ResourceType, MessageCategory, StartTime, EndTime, and Count of included
+  /// jobs.
+  final List<RestoreJobSummary>? restoreJobSummaries;
+
+  ListRestoreJobSummariesOutput({
+    this.aggregationPeriod,
+    this.nextToken,
+    this.restoreJobSummaries,
+  });
+
+  factory ListRestoreJobSummariesOutput.fromJson(Map<String, dynamic> json) {
+    return ListRestoreJobSummariesOutput(
+      aggregationPeriod: json['AggregationPeriod'] as String?,
+      nextToken: json['NextToken'] as String?,
+      restoreJobSummaries: (json['RestoreJobSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => RestoreJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListRestoreJobsByProtectedResourceOutput {
+  /// The next item following a partial list of returned items. For example, if a
+  /// request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows youto return more items in your list starting
+  /// at the location pointed to by the next token
+  final String? nextToken;
+
+  /// An array of objects that contain detailed information about jobs to restore
+  /// saved resources.&gt;
+  final List<RestoreJobsListMember>? restoreJobs;
+
+  ListRestoreJobsByProtectedResourceOutput({
+    this.nextToken,
+    this.restoreJobs,
+  });
+
+  factory ListRestoreJobsByProtectedResourceOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListRestoreJobsByProtectedResourceOutput(
+      nextToken: json['NextToken'] as String?,
+      restoreJobs: (json['RestoreJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => RestoreJobsListMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListRestoreJobsOutput {
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -6982,9 +9230,65 @@ class ListRestoreJobsOutput {
   }
 }
 
+class ListRestoreTestingPlansOutput {
+  /// This is a returned list of restore testing plans.
+  final List<RestoreTestingPlanForList> restoreTestingPlans;
+
+  /// The next item following a partial list of returned items. For example, if a
+  /// request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the nexttoken.
+  final String? nextToken;
+
+  ListRestoreTestingPlansOutput({
+    required this.restoreTestingPlans,
+    this.nextToken,
+  });
+
+  factory ListRestoreTestingPlansOutput.fromJson(Map<String, dynamic> json) {
+    return ListRestoreTestingPlansOutput(
+      restoreTestingPlans: (json['RestoreTestingPlans'] as List)
+          .whereNotNull()
+          .map((e) =>
+              RestoreTestingPlanForList.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListRestoreTestingSelectionsOutput {
+  /// The returned restore testing selections associated with the restore testing
+  /// plan.
+  final List<RestoreTestingSelectionForList> restoreTestingSelections;
+
+  /// The next item following a partial list of returned items. For example, if a
+  /// request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the nexttoken.
+  final String? nextToken;
+
+  ListRestoreTestingSelectionsOutput({
+    required this.restoreTestingSelections,
+    this.nextToken,
+  });
+
+  factory ListRestoreTestingSelectionsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListRestoreTestingSelectionsOutput(
+      restoreTestingSelections: (json['RestoreTestingSelections'] as List)
+          .whereNotNull()
+          .map((e) => RestoreTestingSelectionForList.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListTagsOutput {
   /// The next item following a partial list of returned items. For example, if a
-  /// request is made to return <code>maxResults</code> number of items,
+  /// request is made to return <code>MaxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
   final String? nextToken;
@@ -7015,6 +9319,13 @@ class ProtectedResource {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? lastBackupTime;
 
+  /// This is the ARN (Amazon Resource Name) of the backup vault that contains the
+  /// most recent backup recovery point.
+  final String? lastBackupVaultArn;
+
+  /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+  final String? lastRecoveryPointArn;
+
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
   final String? resourceArn;
@@ -7031,6 +9342,8 @@ class ProtectedResource {
 
   ProtectedResource({
     this.lastBackupTime,
+    this.lastBackupVaultArn,
+    this.lastRecoveryPointArn,
     this.resourceArn,
     this.resourceName,
     this.resourceType,
@@ -7039,10 +9352,54 @@ class ProtectedResource {
   factory ProtectedResource.fromJson(Map<String, dynamic> json) {
     return ProtectedResource(
       lastBackupTime: timeStampFromJson(json['LastBackupTime']),
+      lastBackupVaultArn: json['LastBackupVaultArn'] as String?,
+      lastRecoveryPointArn: json['LastRecoveryPointArn'] as String?,
       resourceArn: json['ResourceArn'] as String?,
       resourceName: json['ResourceName'] as String?,
       resourceType: json['ResourceType'] as String?,
     );
+  }
+}
+
+/// A list of conditions that you define for resources in your restore testing
+/// plan using tags.
+///
+/// For example, <code>"StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo",
+/// "Value": "true" },</code>. Condition operators are case sensitive.
+class ProtectedResourceConditions {
+  /// Filters the values of your tagged resources for only those resources that
+  /// you tagged with the same value. Also called "exact matching."
+  final List<KeyValue>? stringEquals;
+
+  /// Filters the values of your tagged resources for only those resources that
+  /// you tagged that do not have the same value. Also called "negated matching."
+  final List<KeyValue>? stringNotEquals;
+
+  ProtectedResourceConditions({
+    this.stringEquals,
+    this.stringNotEquals,
+  });
+
+  factory ProtectedResourceConditions.fromJson(Map<String, dynamic> json) {
+    return ProtectedResourceConditions(
+      stringEquals: (json['StringEquals'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stringNotEquals: (json['StringNotEquals'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stringEquals = this.stringEquals;
+    final stringNotEquals = this.stringNotEquals;
+    return {
+      if (stringEquals != null) 'StringEquals': stringEquals,
+      if (stringNotEquals != null) 'StringNotEquals': stringNotEquals,
+    };
   }
 }
 
@@ -7166,6 +9523,9 @@ class RecoveryPointByBackupVault {
   /// A message explaining the reason of the recovery point deletion failure.
   final String? statusMessage;
 
+  /// This is the type of vault in which the described recovery point is stored.
+  final VaultType? vaultType;
+
   RecoveryPointByBackupVault({
     this.backupSizeInBytes,
     this.backupVaultArn,
@@ -7189,6 +9549,7 @@ class RecoveryPointByBackupVault {
     this.sourceBackupVaultArn,
     this.status,
     this.statusMessage,
+    this.vaultType,
   });
 
   factory RecoveryPointByBackupVault.fromJson(Map<String, dynamic> json) {
@@ -7223,6 +9584,7 @@ class RecoveryPointByBackupVault {
       sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
       status: (json['Status'] as String?)?.toRecoveryPointStatus(),
       statusMessage: json['StatusMessage'] as String?,
+      vaultType: (json['VaultType'] as String?)?.toVaultType(),
     );
   }
 }
@@ -7272,6 +9634,9 @@ class RecoveryPointByResource {
   /// A message explaining the reason of the recovery point deletion failure.
   final String? statusMessage;
 
+  /// This is the type of vault in which the described recovery point is stored.
+  final VaultType? vaultType;
+
   RecoveryPointByResource({
     this.backupSizeBytes,
     this.backupVaultName,
@@ -7283,6 +9648,7 @@ class RecoveryPointByResource {
     this.resourceName,
     this.status,
     this.statusMessage,
+    this.vaultType,
   });
 
   factory RecoveryPointByResource.fromJson(Map<String, dynamic> json) {
@@ -7297,6 +9663,7 @@ class RecoveryPointByResource {
       resourceName: json['ResourceName'] as String?,
       status: (json['Status'] as String?)?.toRecoveryPointStatus(),
       statusMessage: json['StatusMessage'] as String?,
+      vaultType: (json['VaultType'] as String?)?.toVaultType(),
     );
   }
 }
@@ -7771,6 +10138,115 @@ class ReportSetting {
   }
 }
 
+enum RestoreDeletionStatus {
+  deleting,
+  failed,
+  successful,
+}
+
+extension RestoreDeletionStatusValueExtension on RestoreDeletionStatus {
+  String toValue() {
+    switch (this) {
+      case RestoreDeletionStatus.deleting:
+        return 'DELETING';
+      case RestoreDeletionStatus.failed:
+        return 'FAILED';
+      case RestoreDeletionStatus.successful:
+        return 'SUCCESSFUL';
+    }
+  }
+}
+
+extension RestoreDeletionStatusFromString on String {
+  RestoreDeletionStatus toRestoreDeletionStatus() {
+    switch (this) {
+      case 'DELETING':
+        return RestoreDeletionStatus.deleting;
+      case 'FAILED':
+        return RestoreDeletionStatus.failed;
+      case 'SUCCESSFUL':
+        return RestoreDeletionStatus.successful;
+    }
+    throw Exception('$this is not known in enum RestoreDeletionStatus');
+  }
+}
+
+/// Contains information about the restore testing plan that Backup used to
+/// initiate the restore job.
+class RestoreJobCreator {
+  /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing
+  /// plan.
+  final String? restoreTestingPlanArn;
+
+  RestoreJobCreator({
+    this.restoreTestingPlanArn,
+  });
+
+  factory RestoreJobCreator.fromJson(Map<String, dynamic> json) {
+    return RestoreJobCreator(
+      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String?,
+    );
+  }
+}
+
+enum RestoreJobState {
+  created,
+  pending,
+  running,
+  aborted,
+  completed,
+  failed,
+  aggregateAll,
+  any,
+}
+
+extension RestoreJobStateValueExtension on RestoreJobState {
+  String toValue() {
+    switch (this) {
+      case RestoreJobState.created:
+        return 'CREATED';
+      case RestoreJobState.pending:
+        return 'PENDING';
+      case RestoreJobState.running:
+        return 'RUNNING';
+      case RestoreJobState.aborted:
+        return 'ABORTED';
+      case RestoreJobState.completed:
+        return 'COMPLETED';
+      case RestoreJobState.failed:
+        return 'FAILED';
+      case RestoreJobState.aggregateAll:
+        return 'AGGREGATE_ALL';
+      case RestoreJobState.any:
+        return 'ANY';
+    }
+  }
+}
+
+extension RestoreJobStateFromString on String {
+  RestoreJobState toRestoreJobState() {
+    switch (this) {
+      case 'CREATED':
+        return RestoreJobState.created;
+      case 'PENDING':
+        return RestoreJobState.pending;
+      case 'RUNNING':
+        return RestoreJobState.running;
+      case 'ABORTED':
+        return RestoreJobState.aborted;
+      case 'COMPLETED':
+        return RestoreJobState.completed;
+      case 'FAILED':
+        return RestoreJobState.failed;
+      case 'AGGREGATE_ALL':
+        return RestoreJobState.aggregateAll;
+      case 'ANY':
+        return RestoreJobState.any;
+    }
+    throw Exception('$this is not known in enum RestoreJobState');
+  }
+}
+
 enum RestoreJobStatus {
   pending,
   running,
@@ -7814,6 +10290,67 @@ extension RestoreJobStatusFromString on String {
   }
 }
 
+/// This is a summary of restore jobs created or running within the most recent
+/// 30 days.
+///
+/// The returned summary may contain the following: Region, Account, State,
+/// ResourceType, MessageCategory, StartTime, EndTime, and Count of included
+/// jobs.
+class RestoreJobSummary {
+  /// The account ID that owns the jobs within the summary.
+  final String? accountId;
+
+  /// The value as a number of jobs in a job summary.
+  final int? count;
+
+  /// The value of time in number format of a job end time.
+  ///
+  /// This value is the time in Unix format, Coordinated Universal Time (UTC), and
+  /// accurate to milliseconds. For example, the value 1516925490.087 represents
+  /// Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? endTime;
+
+  /// The Amazon Web Services Regions within the job summary.
+  final String? region;
+
+  /// This value is the job count for the specified resource type. The request
+  /// <code>GetSupportedResourceTypes</code> returns strings for supported
+  /// resource types.
+  final String? resourceType;
+
+  /// The value of time in number format of a job start time.
+  ///
+  /// This value is the time in Unix format, Coordinated Universal Time (UTC), and
+  /// accurate to milliseconds. For example, the value 1516925490.087 represents
+  /// Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? startTime;
+
+  /// This value is job count for jobs with the specified state.
+  final RestoreJobState? state;
+
+  RestoreJobSummary({
+    this.accountId,
+    this.count,
+    this.endTime,
+    this.region,
+    this.resourceType,
+    this.startTime,
+    this.state,
+  });
+
+  factory RestoreJobSummary.fromJson(Map<String, dynamic> json) {
+    return RestoreJobSummary(
+      accountId: json['AccountId'] as String?,
+      count: json['Count'] as int?,
+      endTime: timeStampFromJson(json['EndTime']),
+      region: json['Region'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.toRestoreJobState(),
+    );
+  }
+}
+
 /// Contains metadata about a restore job.
 class RestoreJobsListMember {
   /// The account ID that owns the restore job.
@@ -7828,6 +10365,9 @@ class RestoreJobsListMember {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? completionDate;
 
+  /// Contains identifying information about the creation of a restore job.
+  final RestoreJobCreator? createdBy;
+
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
   final String? createdResourceArn;
@@ -7837,6 +10377,14 @@ class RestoreJobsListMember {
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
   final DateTime? creationDate;
+
+  /// This notes the status of the data generated by the restore test. The status
+  /// may be <code>Deleting</code>, <code>Failed</code>, or
+  /// <code>Successful</code>.
+  final RestoreDeletionStatus? deletionStatus;
+
+  /// This describes the restore job deletion status.
+  final String? deletionStatusMessage;
 
   /// The amount of time in minutes that a job restoring a recovery point is
   /// expected to take.
@@ -7853,6 +10401,9 @@ class RestoreJobsListMember {
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   final String? recoveryPointArn;
+
+  /// The date on which a recovery point was created.
+  final DateTime? recoveryPointCreationDate;
 
   /// The resource type of the listed restore jobs; for example, an Amazon Elastic
   /// Block Store (Amazon EBS) volume or an Amazon Relational Database Service
@@ -7871,20 +10422,32 @@ class RestoreJobsListMember {
   /// point.
   final String? statusMessage;
 
+  /// This is the status of validation run on the indicated restore job.
+  final RestoreValidationStatus? validationStatus;
+
+  /// This describes the status of validation run on the indicated restore job.
+  final String? validationStatusMessage;
+
   RestoreJobsListMember({
     this.accountId,
     this.backupSizeInBytes,
     this.completionDate,
+    this.createdBy,
     this.createdResourceArn,
     this.creationDate,
+    this.deletionStatus,
+    this.deletionStatusMessage,
     this.expectedCompletionTimeMinutes,
     this.iamRoleArn,
     this.percentDone,
     this.recoveryPointArn,
+    this.recoveryPointCreationDate,
     this.resourceType,
     this.restoreJobId,
     this.status,
     this.statusMessage,
+    this.validationStatus,
+    this.validationStatusMessage,
   });
 
   factory RestoreJobsListMember.fromJson(Map<String, dynamic> json) {
@@ -7892,18 +10455,811 @@ class RestoreJobsListMember {
       accountId: json['AccountId'] as String?,
       backupSizeInBytes: json['BackupSizeInBytes'] as int?,
       completionDate: timeStampFromJson(json['CompletionDate']),
+      createdBy: json['CreatedBy'] != null
+          ? RestoreJobCreator.fromJson(
+              json['CreatedBy'] as Map<String, dynamic>)
+          : null,
       createdResourceArn: json['CreatedResourceArn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
+      deletionStatus:
+          (json['DeletionStatus'] as String?)?.toRestoreDeletionStatus(),
+      deletionStatusMessage: json['DeletionStatusMessage'] as String?,
       expectedCompletionTimeMinutes:
           json['ExpectedCompletionTimeMinutes'] as int?,
       iamRoleArn: json['IamRoleArn'] as String?,
       percentDone: json['PercentDone'] as String?,
       recoveryPointArn: json['RecoveryPointArn'] as String?,
+      recoveryPointCreationDate:
+          timeStampFromJson(json['RecoveryPointCreationDate']),
       resourceType: json['ResourceType'] as String?,
       restoreJobId: json['RestoreJobId'] as String?,
       status: (json['Status'] as String?)?.toRestoreJobStatus(),
       statusMessage: json['StatusMessage'] as String?,
+      validationStatus:
+          (json['ValidationStatus'] as String?)?.toRestoreValidationStatus(),
+      validationStatusMessage: json['ValidationStatusMessage'] as String?,
     );
+  }
+}
+
+/// This contains metadata about a restore testing plan.
+class RestoreTestingPlanForCreate {
+  /// Required: Algorithm; Required: Recovery point types; IncludeVaults (one or
+  /// more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults
+  /// (list of selectors), defaults to empty list if not listed.
+  final RestoreTestingRecoveryPointSelection recoveryPointSelection;
+
+  /// The RestoreTestingPlanName is a unique string that is the name of the
+  /// restore testing plan. This cannot be changed after creation, and it must
+  /// consist of only alphanumeric characters and underscores.
+  final String restoreTestingPlanName;
+
+  /// A CRON expression in specified timezone when a restore testing plan is
+  /// executed.
+  final String scheduleExpression;
+
+  /// Optional. This is the timezone in which the schedule expression is set. By
+  /// default, ScheduleExpressions are in UTC. You can modify this to a specified
+  /// timezone.
+  final String? scheduleExpressionTimezone;
+
+  /// Defaults to 24 hours.
+  ///
+  /// A value in hours after a restore test is scheduled before a job will be
+  /// canceled if it doesn't start successfully. This value is optional. If this
+  /// value is included, this parameter has a maximum value of 168 hours (one
+  /// week).
+  final int? startWindowHours;
+
+  RestoreTestingPlanForCreate({
+    required this.recoveryPointSelection,
+    required this.restoreTestingPlanName,
+    required this.scheduleExpression,
+    this.scheduleExpressionTimezone,
+    this.startWindowHours,
+  });
+
+  Map<String, dynamic> toJson() {
+    final recoveryPointSelection = this.recoveryPointSelection;
+    final restoreTestingPlanName = this.restoreTestingPlanName;
+    final scheduleExpression = this.scheduleExpression;
+    final scheduleExpressionTimezone = this.scheduleExpressionTimezone;
+    final startWindowHours = this.startWindowHours;
+    return {
+      'RecoveryPointSelection': recoveryPointSelection,
+      'RestoreTestingPlanName': restoreTestingPlanName,
+      'ScheduleExpression': scheduleExpression,
+      if (scheduleExpressionTimezone != null)
+        'ScheduleExpressionTimezone': scheduleExpressionTimezone,
+      if (startWindowHours != null) 'StartWindowHours': startWindowHours,
+    };
+  }
+}
+
+/// This contains metadata about a restore testing plan.
+class RestoreTestingPlanForGet {
+  /// The date and time that a restore testing plan was created, in Unix format
+  /// and Coordinated Universal Time (UTC). The value of <code>CreationTime</code>
+  /// is accurate to milliseconds. For example, the value 1516925490.087
+  /// represents Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime creationTime;
+
+  /// The specified criteria to assign a set of resources, such as recovery point
+  /// types or backup vaults.
+  final RestoreTestingRecoveryPointSelection recoveryPointSelection;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing
+  /// plan.
+  final String restoreTestingPlanArn;
+
+  /// This is the restore testing plan name.
+  final String restoreTestingPlanName;
+
+  /// A CRON expression in specified timezone when a restore testing plan is
+  /// executed.
+  final String scheduleExpression;
+
+  /// This identifies the request and allows failed requests to be retried without
+  /// the risk of running the operation twice. If the request includes a
+  /// <code>CreatorRequestId</code> that matches an existing backup plan, that
+  /// plan is returned. This parameter is optional.
+  ///
+  /// If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+  /// characters.
+  final String? creatorRequestId;
+
+  /// The last time a restore test was run with the specified restore testing
+  /// plan. A date and time, in Unix format and Coordinated Universal Time (UTC).
+  /// The value of <code>LastExecutionDate</code> is accurate to milliseconds. For
+  /// example, the value 1516925490.087 represents Friday, January 26, 2018
+  /// 12:11:30.087 AM.
+  final DateTime? lastExecutionTime;
+
+  /// The date and time that the restore testing plan was updated. This update is
+  /// in Unix format and Coordinated Universal Time (UTC). The value of
+  /// <code>LastUpdateTime</code> is accurate to milliseconds. For example, the
+  /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? lastUpdateTime;
+
+  /// Optional. This is the timezone in which the schedule expression is set. By
+  /// default, ScheduleExpressions are in UTC. You can modify this to a specified
+  /// timezone.
+  final String? scheduleExpressionTimezone;
+
+  /// Defaults to 24 hours.
+  ///
+  /// A value in hours after a restore test is scheduled before a job will be
+  /// canceled if it doesn't start successfully. This value is optional. If this
+  /// value is included, this parameter has a maximum value of 168 hours (one
+  /// week).
+  final int? startWindowHours;
+
+  RestoreTestingPlanForGet({
+    required this.creationTime,
+    required this.recoveryPointSelection,
+    required this.restoreTestingPlanArn,
+    required this.restoreTestingPlanName,
+    required this.scheduleExpression,
+    this.creatorRequestId,
+    this.lastExecutionTime,
+    this.lastUpdateTime,
+    this.scheduleExpressionTimezone,
+    this.startWindowHours,
+  });
+
+  factory RestoreTestingPlanForGet.fromJson(Map<String, dynamic> json) {
+    return RestoreTestingPlanForGet(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      recoveryPointSelection: RestoreTestingRecoveryPointSelection.fromJson(
+          json['RecoveryPointSelection'] as Map<String, dynamic>),
+      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      scheduleExpression: json['ScheduleExpression'] as String,
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      lastExecutionTime: timeStampFromJson(json['LastExecutionTime']),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      scheduleExpressionTimezone: json['ScheduleExpressionTimezone'] as String?,
+      startWindowHours: json['StartWindowHours'] as int?,
+    );
+  }
+}
+
+/// This contains metadata about a restore testing plan.
+class RestoreTestingPlanForList {
+  /// The date and time that a restore testing plan was created, in Unix format
+  /// and Coordinated Universal Time (UTC). The value of <code>CreationTime</code>
+  /// is accurate to milliseconds. For example, the value 1516925490.087
+  /// represents Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime creationTime;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifiesa restore testing
+  /// plan.
+  final String restoreTestingPlanArn;
+
+  /// This is the restore testing plan name.
+  final String restoreTestingPlanName;
+
+  /// A CRON expression in specified timezone when a restore testing plan is
+  /// executed.
+  final String scheduleExpression;
+
+  /// The last time a restore test was run with the specified restore testing
+  /// plan. A date and time, in Unix format and Coordinated Universal Time (UTC).
+  /// The value of <code>LastExecutionDate</code> is accurate to milliseconds. For
+  /// example, the value 1516925490.087 represents Friday, January 26, 2018
+  /// 12:11:30.087 AM.
+  final DateTime? lastExecutionTime;
+
+  /// The date and time that the restore testing plan was updated. This update is
+  /// in Unix format and Coordinated Universal Time (UTC). The value of
+  /// <code>LastUpdateTime</code> is accurate to milliseconds. For example, the
+  /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? lastUpdateTime;
+
+  /// Optional. This is the timezone in which the schedule expression is set. By
+  /// default, ScheduleExpressions are in UTC. You can modify this to a specified
+  /// timezone.
+  final String? scheduleExpressionTimezone;
+
+  /// Defaults to 24 hours.
+  ///
+  /// A value in hours after a restore test is scheduled before a job will be
+  /// canceled if it doesn't start successfully. This value is optional. If this
+  /// value is included, this parameter has a maximum value of 168 hours (one
+  /// week).
+  final int? startWindowHours;
+
+  RestoreTestingPlanForList({
+    required this.creationTime,
+    required this.restoreTestingPlanArn,
+    required this.restoreTestingPlanName,
+    required this.scheduleExpression,
+    this.lastExecutionTime,
+    this.lastUpdateTime,
+    this.scheduleExpressionTimezone,
+    this.startWindowHours,
+  });
+
+  factory RestoreTestingPlanForList.fromJson(Map<String, dynamic> json) {
+    return RestoreTestingPlanForList(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      scheduleExpression: json['ScheduleExpression'] as String,
+      lastExecutionTime: timeStampFromJson(json['LastExecutionTime']),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      scheduleExpressionTimezone: json['ScheduleExpressionTimezone'] as String?,
+      startWindowHours: json['StartWindowHours'] as int?,
+    );
+  }
+}
+
+/// This contains metadata about a restore testing plan.
+class RestoreTestingPlanForUpdate {
+  /// Required: <code>Algorithm</code>; <code>RecoveryPointTypes</code>;
+  /// <code>IncludeVaults</code> (<i>one or more</i>).
+  ///
+  /// Optional: <i>SelectionWindowDays</i> (<i>'30' if not specified</i>);
+  /// <code>ExcludeVaults</code> (defaults to empty list if not listed).
+  final RestoreTestingRecoveryPointSelection? recoveryPointSelection;
+
+  /// A CRON expression in specified timezone when a restore testing plan is
+  /// executed.
+  final String? scheduleExpression;
+
+  /// Optional. This is the timezone in which the schedule expression is set. By
+  /// default, ScheduleExpressions are in UTC. You can modify this to a specified
+  /// timezone.
+  final String? scheduleExpressionTimezone;
+
+  /// Defaults to 24 hours.
+  ///
+  /// A value in hours after a restore test is scheduled before a job will be
+  /// canceled if it doesn't start successfully. This value is optional. If this
+  /// value is included, this parameter has a maximum value of 168 hours (one
+  /// week).
+  final int? startWindowHours;
+
+  RestoreTestingPlanForUpdate({
+    this.recoveryPointSelection,
+    this.scheduleExpression,
+    this.scheduleExpressionTimezone,
+    this.startWindowHours,
+  });
+
+  Map<String, dynamic> toJson() {
+    final recoveryPointSelection = this.recoveryPointSelection;
+    final scheduleExpression = this.scheduleExpression;
+    final scheduleExpressionTimezone = this.scheduleExpressionTimezone;
+    final startWindowHours = this.startWindowHours;
+    return {
+      if (recoveryPointSelection != null)
+        'RecoveryPointSelection': recoveryPointSelection,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (scheduleExpressionTimezone != null)
+        'ScheduleExpressionTimezone': scheduleExpressionTimezone,
+      if (startWindowHours != null) 'StartWindowHours': startWindowHours,
+    };
+  }
+}
+
+/// Required: Algorithm; Required: Recovery point types; IncludeVaults(one or
+/// more). Optional: SelectionWindowDays ('30' if not specified);ExcludeVaults
+/// (list of selectors), defaults to empty list if not listed.
+class RestoreTestingRecoveryPointSelection {
+  /// Acceptable values include "LATEST_WITHIN_WINDOW" or "RANDOM_WITHIN_WINDOW"
+  final RestoreTestingRecoveryPointSelectionAlgorithm? algorithm;
+
+  /// Accepted values include specific ARNs or list of selectors. Defaults to
+  /// empty list if not listed.
+  final List<String>? excludeVaults;
+
+  /// Accepted values include wildcard ["*"] or by specific ARNs or ARN wilcard
+  /// replacement ["arn:aws:backup:us-west-2:123456789012:backup-vault:asdf", ...]
+  /// ["arn:aws:backup:*:*:backup-vault:asdf-*", ...]
+  final List<String>? includeVaults;
+
+  /// These are the types of recovery points.
+  final List<RestoreTestingRecoveryPointType>? recoveryPointTypes;
+
+  /// Accepted values are integers from 1 to 365.
+  final int? selectionWindowDays;
+
+  RestoreTestingRecoveryPointSelection({
+    this.algorithm,
+    this.excludeVaults,
+    this.includeVaults,
+    this.recoveryPointTypes,
+    this.selectionWindowDays,
+  });
+
+  factory RestoreTestingRecoveryPointSelection.fromJson(
+      Map<String, dynamic> json) {
+    return RestoreTestingRecoveryPointSelection(
+      algorithm: (json['Algorithm'] as String?)
+          ?.toRestoreTestingRecoveryPointSelectionAlgorithm(),
+      excludeVaults: (json['ExcludeVaults'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includeVaults: (json['IncludeVaults'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      recoveryPointTypes: (json['RecoveryPointTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toRestoreTestingRecoveryPointType())
+          .toList(),
+      selectionWindowDays: json['SelectionWindowDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithm = this.algorithm;
+    final excludeVaults = this.excludeVaults;
+    final includeVaults = this.includeVaults;
+    final recoveryPointTypes = this.recoveryPointTypes;
+    final selectionWindowDays = this.selectionWindowDays;
+    return {
+      if (algorithm != null) 'Algorithm': algorithm.toValue(),
+      if (excludeVaults != null) 'ExcludeVaults': excludeVaults,
+      if (includeVaults != null) 'IncludeVaults': includeVaults,
+      if (recoveryPointTypes != null)
+        'RecoveryPointTypes':
+            recoveryPointTypes.map((e) => e.toValue()).toList(),
+      if (selectionWindowDays != null)
+        'SelectionWindowDays': selectionWindowDays,
+    };
+  }
+}
+
+enum RestoreTestingRecoveryPointSelectionAlgorithm {
+  latestWithinWindow,
+  randomWithinWindow,
+}
+
+extension RestoreTestingRecoveryPointSelectionAlgorithmValueExtension
+    on RestoreTestingRecoveryPointSelectionAlgorithm {
+  String toValue() {
+    switch (this) {
+      case RestoreTestingRecoveryPointSelectionAlgorithm.latestWithinWindow:
+        return 'LATEST_WITHIN_WINDOW';
+      case RestoreTestingRecoveryPointSelectionAlgorithm.randomWithinWindow:
+        return 'RANDOM_WITHIN_WINDOW';
+    }
+  }
+}
+
+extension RestoreTestingRecoveryPointSelectionAlgorithmFromString on String {
+  RestoreTestingRecoveryPointSelectionAlgorithm
+      toRestoreTestingRecoveryPointSelectionAlgorithm() {
+    switch (this) {
+      case 'LATEST_WITHIN_WINDOW':
+        return RestoreTestingRecoveryPointSelectionAlgorithm.latestWithinWindow;
+      case 'RANDOM_WITHIN_WINDOW':
+        return RestoreTestingRecoveryPointSelectionAlgorithm.randomWithinWindow;
+    }
+    throw Exception(
+        '$this is not known in enum RestoreTestingRecoveryPointSelectionAlgorithm');
+  }
+}
+
+enum RestoreTestingRecoveryPointType {
+  continuous,
+  snapshot,
+}
+
+extension RestoreTestingRecoveryPointTypeValueExtension
+    on RestoreTestingRecoveryPointType {
+  String toValue() {
+    switch (this) {
+      case RestoreTestingRecoveryPointType.continuous:
+        return 'CONTINUOUS';
+      case RestoreTestingRecoveryPointType.snapshot:
+        return 'SNAPSHOT';
+    }
+  }
+}
+
+extension RestoreTestingRecoveryPointTypeFromString on String {
+  RestoreTestingRecoveryPointType toRestoreTestingRecoveryPointType() {
+    switch (this) {
+      case 'CONTINUOUS':
+        return RestoreTestingRecoveryPointType.continuous;
+      case 'SNAPSHOT':
+        return RestoreTestingRecoveryPointType.snapshot;
+    }
+    throw Exception(
+        '$this is not known in enum RestoreTestingRecoveryPointType');
+  }
+}
+
+/// This contains metadata about a specific restore testing selection.
+///
+/// ProtectedResourceType is required, such as Amazon EBS or Amazon EC2.
+///
+/// This consists of <code>RestoreTestingSelectionName</code>,
+/// <code>ProtectedResourceType</code>, and one of the following:
+///
+/// <ul>
+/// <li>
+/// <code>ProtectedResourceArns</code>
+/// </li>
+/// <li>
+/// <code>ProtectedResourceConditions</code>
+/// </li>
+/// </ul>
+/// Each protected resource type can have one single value.
+///
+/// A restore testing selection can include a wildcard value ("*") for
+/// <code>ProtectedResourceArns</code> along with
+/// <code>ProtectedResourceConditions</code>. Alternatively, you can include up
+/// to 30 specific protected resource ARNs in
+/// <code>ProtectedResourceArns</code>.
+///
+/// <code>ProtectedResourceConditions</code> examples include as
+/// <code>StringEquals</code> and <code>StringNotEquals</code>.
+class RestoreTestingSelectionForCreate {
+  /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
+  /// the target resource; for example:
+  /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
+  final String iamRoleArn;
+
+  /// The type of Amazon Web Services resource included in a restore testing
+  /// selection; for example, an Amazon EBS volume or an Amazon RDS database.
+  ///
+  /// Supported resource types accepted include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
+  /// <li>
+  /// <code>DynamoDB</code> for Amazon DynamoDB
+  /// </li>
+  /// <li>
+  /// <code>EBS</code> for Amazon Elastic Block Store
+  /// </li>
+  /// <li>
+  /// <code>EC2</code> for Amazon Elastic Compute Cloud
+  /// </li>
+  /// <li>
+  /// <code>EFS</code> for Amazon Elastic File System
+  /// </li>
+  /// <li>
+  /// <code>FSx</code> for Amazon FSx
+  /// </li>
+  /// <li>
+  /// <code>Neptune</code> for Amazon Neptune
+  /// </li>
+  /// <li>
+  /// <code>RDS</code> for Amazon Relational Database Service
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// </ul>
+  final String protectedResourceType;
+
+  /// This is the unique name of the restore testing selection that belongs to the
+  /// related restore testing plan.
+  final String restoreTestingSelectionName;
+
+  /// Each protected resource can be filtered by its specific ARNs, such as
+  /// <code>ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."]</code> or by a
+  /// wildcard: <code>ProtectedResourceArns: ["*"]</code>, but not both.
+  final List<String>? protectedResourceArns;
+
+  /// If you have included the wildcard in ProtectedResourceArns, you can include
+  /// resource conditions, such as <code>ProtectedResourceConditions: {
+  /// StringEquals: [{ key: "XXXX", value: "YYYY" }]</code>.
+  final ProtectedResourceConditions? protectedResourceConditions;
+
+  /// You can override certain restore metadata keys by including the parameter
+  /// <code>RestoreMetadataOverrides</code> in the body of
+  /// <code>RestoreTestingSelection</code>. Key values are not case sensitive.
+  ///
+  /// See the complete list of <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html">restore
+  /// testing inferred metadata</a>.
+  final Map<String, String>? restoreMetadataOverrides;
+
+  /// This is amount of hours (1 to 168) available to run a validation script on
+  /// the data. The data will be deleted upon the completion of the validation
+  /// script or the end of the specified retention period, whichever comes first.
+  final int? validationWindowHours;
+
+  RestoreTestingSelectionForCreate({
+    required this.iamRoleArn,
+    required this.protectedResourceType,
+    required this.restoreTestingSelectionName,
+    this.protectedResourceArns,
+    this.protectedResourceConditions,
+    this.restoreMetadataOverrides,
+    this.validationWindowHours,
+  });
+
+  Map<String, dynamic> toJson() {
+    final iamRoleArn = this.iamRoleArn;
+    final protectedResourceType = this.protectedResourceType;
+    final restoreTestingSelectionName = this.restoreTestingSelectionName;
+    final protectedResourceArns = this.protectedResourceArns;
+    final protectedResourceConditions = this.protectedResourceConditions;
+    final restoreMetadataOverrides = this.restoreMetadataOverrides;
+    final validationWindowHours = this.validationWindowHours;
+    return {
+      'IamRoleArn': iamRoleArn,
+      'ProtectedResourceType': protectedResourceType,
+      'RestoreTestingSelectionName': restoreTestingSelectionName,
+      if (protectedResourceArns != null)
+        'ProtectedResourceArns': protectedResourceArns,
+      if (protectedResourceConditions != null)
+        'ProtectedResourceConditions': protectedResourceConditions,
+      if (restoreMetadataOverrides != null)
+        'RestoreMetadataOverrides': restoreMetadataOverrides,
+      if (validationWindowHours != null)
+        'ValidationWindowHours': validationWindowHours,
+    };
+  }
+}
+
+/// This contains metadata about a restore testing selection.
+class RestoreTestingSelectionForGet {
+  /// The date and time that a restore testing selection was created, in Unix
+  /// format and Coordinated Universal Time (UTC). The value of
+  /// <code>CreationTime</code> is accurate to milliseconds. For example, the
+  /// value 1516925490.087 represents Friday, January 26, 201812:11:30.087 AM.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
+  /// the target resource; for
+  /// example:<code>arn:aws:iam::123456789012:role/S3Access</code>.
+  final String iamRoleArn;
+
+  /// The type of Amazon Web Services resource included in a resource testing
+  /// selection; for example, an Amazon EBS volume or an Amazon RDS database.
+  final String protectedResourceType;
+
+  /// The RestoreTestingPlanName is a unique string that is the name of the
+  /// restore testing plan.
+  final String restoreTestingPlanName;
+
+  /// This is the unique name of the restore testing selection that belongs to the
+  /// related restore testing plan.
+  final String restoreTestingSelectionName;
+
+  /// This identifies the request and allows failed requests to be retried without
+  /// the risk of running the operation twice. If the request includes a
+  /// <code>CreatorRequestId</code> that matches an existing backup plan, that
+  /// plan is returned. This parameter is optional.
+  ///
+  /// If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+  /// characters.
+  final String? creatorRequestId;
+
+  /// You can include specific ARNs, such as <code>ProtectedResourceArns:
+  /// ["arn:aws:...", "arn:aws:..."]</code> or you can include a wildcard:
+  /// <code>ProtectedResourceArns: ["*"]</code>, but not both.
+  final List<String>? protectedResourceArns;
+
+  /// In a resource testing selection, this parameter filters by specific
+  /// conditions such as <code>StringEquals</code> or
+  /// <code>StringNotEquals</code>.
+  final ProtectedResourceConditions? protectedResourceConditions;
+
+  /// You can override certain restore metadata keys by including the parameter
+  /// <code>RestoreMetadataOverrides</code> in the body of
+  /// <code>RestoreTestingSelection</code>. Key values are not case sensitive.
+  ///
+  /// See the complete list of <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html">restore
+  /// testing inferred metadata</a>.
+  final Map<String, String>? restoreMetadataOverrides;
+
+  /// This is amount of hours (1 to 168) available to run a validation script on
+  /// the data. The data will be deleted upon the completion of the validation
+  /// script or the end of the specified retention period, whichever comes first.
+  final int? validationWindowHours;
+
+  RestoreTestingSelectionForGet({
+    required this.creationTime,
+    required this.iamRoleArn,
+    required this.protectedResourceType,
+    required this.restoreTestingPlanName,
+    required this.restoreTestingSelectionName,
+    this.creatorRequestId,
+    this.protectedResourceArns,
+    this.protectedResourceConditions,
+    this.restoreMetadataOverrides,
+    this.validationWindowHours,
+  });
+
+  factory RestoreTestingSelectionForGet.fromJson(Map<String, dynamic> json) {
+    return RestoreTestingSelectionForGet(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      iamRoleArn: json['IamRoleArn'] as String,
+      protectedResourceType: json['ProtectedResourceType'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      restoreTestingSelectionName:
+          json['RestoreTestingSelectionName'] as String,
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      protectedResourceArns: (json['ProtectedResourceArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      protectedResourceConditions: json['ProtectedResourceConditions'] != null
+          ? ProtectedResourceConditions.fromJson(
+              json['ProtectedResourceConditions'] as Map<String, dynamic>)
+          : null,
+      restoreMetadataOverrides:
+          (json['RestoreMetadataOverrides'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      validationWindowHours: json['ValidationWindowHours'] as int?,
+    );
+  }
+}
+
+/// This contains metadata about a restore testing selection.
+class RestoreTestingSelectionForList {
+  /// This is the date and time that a restore testing selection was created, in
+  /// Unix format and Coordinated Universal Time (UTC). The value of
+  /// <code>CreationTime</code> is accurate to milliseconds. For example, the
+  /// value 1516925490.087 represents Friday, January 26,2018 12:11:30.087 AM.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
+  /// the target resource; for example:
+  /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
+  final String iamRoleArn;
+
+  /// The type of Amazon Web Services resource included in a restore testing
+  /// selection; for example, an Amazon EBS volume or an Amazon RDS database.
+  final String protectedResourceType;
+
+  /// Unique string that is the name of the restore testing plan.
+  ///
+  /// The name cannot be changed after creation. The name must consist of only
+  /// alphanumeric characters and underscores. Maximum length is 50.
+  final String restoreTestingPlanName;
+
+  /// Unique name of a restore testing selection.
+  final String restoreTestingSelectionName;
+
+  /// This value represents the time, in hours, data is retained after a restore
+  /// test so that optional validation can be completed.
+  ///
+  /// Accepted value is an integer between 0 and 168 (the hourly equivalent of
+  /// seven days).
+  final int? validationWindowHours;
+
+  RestoreTestingSelectionForList({
+    required this.creationTime,
+    required this.iamRoleArn,
+    required this.protectedResourceType,
+    required this.restoreTestingPlanName,
+    required this.restoreTestingSelectionName,
+    this.validationWindowHours,
+  });
+
+  factory RestoreTestingSelectionForList.fromJson(Map<String, dynamic> json) {
+    return RestoreTestingSelectionForList(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      iamRoleArn: json['IamRoleArn'] as String,
+      protectedResourceType: json['ProtectedResourceType'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      restoreTestingSelectionName:
+          json['RestoreTestingSelectionName'] as String,
+      validationWindowHours: json['ValidationWindowHours'] as int?,
+    );
+  }
+}
+
+/// This contains metadata about a restore testing selection.
+class RestoreTestingSelectionForUpdate {
+  /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
+  /// the target resource; for example:
+  /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
+  final String? iamRoleArn;
+
+  /// You can include a list of specific ARNs, such as
+  /// <code>ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."]</code> or you
+  /// can include a wildcard: <code>ProtectedResourceArns: ["*"]</code>, but not
+  /// both.
+  final List<String>? protectedResourceArns;
+
+  /// A list of conditions that you define for resources in your restore testing
+  /// plan using tags.
+  ///
+  /// For example, <code>"StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo",
+  /// "Value": "true" },</code>. Condition operators are case sensitive.
+  final ProtectedResourceConditions? protectedResourceConditions;
+
+  /// You can override certain restore metadata keys by including the parameter
+  /// <code>RestoreMetadataOverrides</code> in the body of
+  /// <code>RestoreTestingSelection</code>. Key values are not case sensitive.
+  ///
+  /// See the complete list of <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html">restore
+  /// testing inferred metadata</a>.
+  final Map<String, String>? restoreMetadataOverrides;
+
+  /// This value represents the time, in hours, data is retained after a restore
+  /// test so that optional validation can be completed.
+  ///
+  /// Accepted value is an integer between 0 and 168 (the hourly equivalent of
+  /// seven days).
+  final int? validationWindowHours;
+
+  RestoreTestingSelectionForUpdate({
+    this.iamRoleArn,
+    this.protectedResourceArns,
+    this.protectedResourceConditions,
+    this.restoreMetadataOverrides,
+    this.validationWindowHours,
+  });
+
+  Map<String, dynamic> toJson() {
+    final iamRoleArn = this.iamRoleArn;
+    final protectedResourceArns = this.protectedResourceArns;
+    final protectedResourceConditions = this.protectedResourceConditions;
+    final restoreMetadataOverrides = this.restoreMetadataOverrides;
+    final validationWindowHours = this.validationWindowHours;
+    return {
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (protectedResourceArns != null)
+        'ProtectedResourceArns': protectedResourceArns,
+      if (protectedResourceConditions != null)
+        'ProtectedResourceConditions': protectedResourceConditions,
+      if (restoreMetadataOverrides != null)
+        'RestoreMetadataOverrides': restoreMetadataOverrides,
+      if (validationWindowHours != null)
+        'ValidationWindowHours': validationWindowHours,
+    };
+  }
+}
+
+enum RestoreValidationStatus {
+  failed,
+  successful,
+  timedOut,
+  validating,
+}
+
+extension RestoreValidationStatusValueExtension on RestoreValidationStatus {
+  String toValue() {
+    switch (this) {
+      case RestoreValidationStatus.failed:
+        return 'FAILED';
+      case RestoreValidationStatus.successful:
+        return 'SUCCESSFUL';
+      case RestoreValidationStatus.timedOut:
+        return 'TIMED_OUT';
+      case RestoreValidationStatus.validating:
+        return 'VALIDATING';
+    }
+  }
+}
+
+extension RestoreValidationStatusFromString on String {
+  RestoreValidationStatus toRestoreValidationStatus() {
+    switch (this) {
+      case 'FAILED':
+        return RestoreValidationStatus.failed;
+      case 'SUCCESSFUL':
+        return RestoreValidationStatus.successful;
+      case 'TIMED_OUT':
+        return RestoreValidationStatus.timedOut;
+      case 'VALIDATING':
+        return RestoreValidationStatus.validating;
+    }
+    throw Exception('$this is not known in enum RestoreValidationStatus');
   }
 }
 
@@ -8194,6 +11550,138 @@ class UpdateReportPlanOutput {
       reportPlanArn: json['ReportPlanArn'] as String?,
       reportPlanName: json['ReportPlanName'] as String?,
     );
+  }
+}
+
+class UpdateRestoreTestingPlanOutput {
+  /// This is the time the resource testing plan was created.
+  final DateTime creationTime;
+
+  /// Unique ARN (Amazon Resource Name) of the restore testing plan.
+  final String restoreTestingPlanArn;
+
+  /// The name cannot be changed after creation. The name consists of only
+  /// alphanumeric characters and underscores. Maximum length is 50.
+  final String restoreTestingPlanName;
+
+  /// This is the time the update completed for the restore testing plan.
+  final DateTime updateTime;
+
+  UpdateRestoreTestingPlanOutput({
+    required this.creationTime,
+    required this.restoreTestingPlanArn,
+    required this.restoreTestingPlanName,
+    required this.updateTime,
+  });
+
+  factory UpdateRestoreTestingPlanOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateRestoreTestingPlanOutput(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+    );
+  }
+}
+
+class UpdateRestoreTestingSelectionOutput {
+  /// This is the time the resource testing selection was updated successfully.
+  final DateTime creationTime;
+
+  /// Unique string that is the name of the restore testing plan.
+  final String restoreTestingPlanArn;
+
+  /// This is the restore testing plan with which the updated restore testing
+  /// selection is associated.
+  final String restoreTestingPlanName;
+
+  /// This is the returned restore testing selection name.
+  final String restoreTestingSelectionName;
+
+  /// This is the time the update completed for the restore testing selection.
+  final DateTime updateTime;
+
+  UpdateRestoreTestingSelectionOutput({
+    required this.creationTime,
+    required this.restoreTestingPlanArn,
+    required this.restoreTestingPlanName,
+    required this.restoreTestingSelectionName,
+    required this.updateTime,
+  });
+
+  factory UpdateRestoreTestingSelectionOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateRestoreTestingSelectionOutput(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
+      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      restoreTestingSelectionName:
+          json['RestoreTestingSelectionName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+    );
+  }
+}
+
+enum VaultState {
+  creating,
+  available,
+  failed,
+}
+
+extension VaultStateValueExtension on VaultState {
+  String toValue() {
+    switch (this) {
+      case VaultState.creating:
+        return 'CREATING';
+      case VaultState.available:
+        return 'AVAILABLE';
+      case VaultState.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension VaultStateFromString on String {
+  VaultState toVaultState() {
+    switch (this) {
+      case 'CREATING':
+        return VaultState.creating;
+      case 'AVAILABLE':
+        return VaultState.available;
+      case 'FAILED':
+        return VaultState.failed;
+    }
+    throw Exception('$this is not known in enum VaultState');
+  }
+}
+
+enum VaultType {
+  backupVault,
+  logicallyAirGappedBackupVault,
+}
+
+extension VaultTypeValueExtension on VaultType {
+  String toValue() {
+    switch (this) {
+      case VaultType.backupVault:
+        return 'BACKUP_VAULT';
+      case VaultType.logicallyAirGappedBackupVault:
+        return 'LOGICALLY_AIR_GAPPED_BACKUP_VAULT';
+    }
+  }
+}
+
+extension VaultTypeFromString on String {
+  VaultType toVaultType() {
+    switch (this) {
+      case 'BACKUP_VAULT':
+        return VaultType.backupVault;
+      case 'LOGICALLY_AIR_GAPPED_BACKUP_VAULT':
+        return VaultType.logicallyAirGappedBackupVault;
+    }
+    throw Exception('$this is not known in enum VaultType');
   }
 }
 

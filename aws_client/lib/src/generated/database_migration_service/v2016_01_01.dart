@@ -227,6 +227,61 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// Creates a data provider using the provided settings. A data provider
+  /// stores a data store type and location information about your database.
+  ///
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  ///
+  /// Parameter [engine] :
+  /// The type of database engine for the data provider. Valid values include
+  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
+  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
+  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
+  /// <code>mongodb</code>, and <code>docdb</code>. A value of
+  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
+  ///
+  /// Parameter [settings] :
+  /// The settings in JSON format for a data provider.
+  ///
+  /// Parameter [dataProviderName] :
+  /// A user-friendly name for the data provider.
+  ///
+  /// Parameter [description] :
+  /// A user-friendly description of the data provider.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to be assigned to the data provider.
+  Future<CreateDataProviderResponse> createDataProvider({
+    required String engine,
+    required DataProviderSettings settings,
+    String? dataProviderName,
+    String? description,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CreateDataProvider'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Engine': engine,
+        'Settings': settings,
+        if (dataProviderName != null) 'DataProviderName': dataProviderName,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateDataProviderResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates an endpoint using the provided settings.
   /// <note>
   /// For a MySQL source or target endpoint, don't explicitly specify the
@@ -461,6 +516,9 @@ class DatabaseMigration {
   /// Parameter [tags] :
   /// One or more tags to be assigned to the endpoint.
   ///
+  /// Parameter [timestreamSettings] :
+  /// Settings in JSON format for the target Amazon Timestream endpoint.
+  ///
   /// Parameter [username] :
   /// The user name to be used to log in to the endpoint database.
   Future<CreateEndpointResponse> createEndpoint({
@@ -497,6 +555,7 @@ class DatabaseMigration {
     DmsSslModeValue? sslMode,
     SybaseSettings? sybaseSettings,
     List<Tag>? tags,
+    TimestreamSettings? timestreamSettings,
     String? username,
   }) async {
     final headers = <String, String>{
@@ -551,6 +610,8 @@ class DatabaseMigration {
         if (sslMode != null) 'SslMode': sslMode.toValue(),
         if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
         if (tags != null) 'Tags': tags,
+        if (timestreamSettings != null)
+          'TimestreamSettings': timestreamSettings,
         if (username != null) 'Username': username,
       },
     );
@@ -713,6 +774,317 @@ class DatabaseMigration {
     return CreateFleetAdvisorCollectorResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates the instance profile using the specified parameters.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [availabilityZone] :
+  /// The Availability Zone where the instance profile will be created. The
+  /// default value is a random, system-chosen Availability Zone in the Amazon
+  /// Web Services Region where your data provider is created, for examplem
+  /// <code>us-east-1d</code>.
+  ///
+  /// Parameter [description] :
+  /// A user-friendly description of the instance profile.
+  ///
+  /// Parameter [instanceProfileName] :
+  /// A user-friendly name for the instance profile.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
+  /// connection parameters for the instance profile.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyArn</code> parameter,
+  /// then DMS uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services
+  /// account. Your Amazon Web Services account has a different default
+  /// encryption key for each Amazon Web Services Region.
+  ///
+  /// Parameter [networkType] :
+  /// Specifies the network type for the instance profile. A value of
+  /// <code>IPV4</code> represents an instance profile with IPv4 network type
+  /// and only supports IPv4 addressing. A value of <code>IPV6</code> represents
+  /// an instance profile with IPv6 network type and only supports IPv6
+  /// addressing. A value of <code>DUAL</code> represents an instance profile
+  /// with dual network type that supports IPv4 and IPv6 addressing.
+  ///
+  /// Parameter [publiclyAccessible] :
+  /// Specifies the accessibility options for the instance profile. A value of
+  /// <code>true</code> represents an instance profile with a public IP address.
+  /// A value of <code>false</code> represents an instance profile with a
+  /// private IP address. The default value is <code>true</code>.
+  ///
+  /// Parameter [subnetGroupIdentifier] :
+  /// A subnet group to associate with the instance profile.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to be assigned to the instance profile.
+  ///
+  /// Parameter [vpcSecurityGroups] :
+  /// Specifies the VPC security group names to be used with the instance
+  /// profile. The VPC security group must work with the VPC containing the
+  /// instance profile.
+  Future<CreateInstanceProfileResponse> createInstanceProfile({
+    String? availabilityZone,
+    String? description,
+    String? instanceProfileName,
+    String? kmsKeyArn,
+    String? networkType,
+    bool? publiclyAccessible,
+    String? subnetGroupIdentifier,
+    List<Tag>? tags,
+    List<String>? vpcSecurityGroups,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CreateInstanceProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+        if (description != null) 'Description': description,
+        if (instanceProfileName != null)
+          'InstanceProfileName': instanceProfileName,
+        if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+        if (networkType != null) 'NetworkType': networkType,
+        if (publiclyAccessible != null)
+          'PubliclyAccessible': publiclyAccessible,
+        if (subnetGroupIdentifier != null)
+          'SubnetGroupIdentifier': subnetGroupIdentifier,
+        if (tags != null) 'Tags': tags,
+        if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+      },
+    );
+
+    return CreateInstanceProfileResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates the migration project using the specified parameters.
+  ///
+  /// You can run this action only after you create an instance profile and data
+  /// providers using <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html">CreateInstanceProfile</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html">CreateDataProvider</a>.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [instanceProfileIdentifier] :
+  /// The identifier of the associated instance profile. Identifiers must begin
+  /// with a letter and must contain only ASCII letters, digits, and hyphens.
+  /// They can't end with a hyphen, or contain two consecutive hyphens.
+  ///
+  /// Parameter [sourceDataProviderDescriptors] :
+  /// Information about the source data provider, including the name, ARN, and
+  /// Secrets Manager parameters.
+  ///
+  /// Parameter [targetDataProviderDescriptors] :
+  /// Information about the target data provider, including the name, ARN, and
+  /// Amazon Web Services Secrets Manager parameters.
+  ///
+  /// Parameter [description] :
+  /// A user-friendly description of the migration project.
+  ///
+  /// Parameter [migrationProjectName] :
+  /// A user-friendly name for the migration project.
+  ///
+  /// Parameter [schemaConversionApplicationAttributes] :
+  /// The schema conversion application attributes, including the Amazon S3
+  /// bucket name and Amazon S3 role ARN.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to be assigned to the migration project.
+  ///
+  /// Parameter [transformationRules] :
+  /// The settings in JSON format for migration rules. Migration rules make it
+  /// possible for you to change the object names according to the rules that
+  /// you specify. For example, you can change an object name to lowercase or
+  /// uppercase, add or remove a prefix or suffix, or rename objects.
+  Future<CreateMigrationProjectResponse> createMigrationProject({
+    required String instanceProfileIdentifier,
+    required List<DataProviderDescriptorDefinition>
+        sourceDataProviderDescriptors,
+    required List<DataProviderDescriptorDefinition>
+        targetDataProviderDescriptors,
+    String? description,
+    String? migrationProjectName,
+    SCApplicationAttributes? schemaConversionApplicationAttributes,
+    List<Tag>? tags,
+    String? transformationRules,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CreateMigrationProject'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceProfileIdentifier': instanceProfileIdentifier,
+        'SourceDataProviderDescriptors': sourceDataProviderDescriptors,
+        'TargetDataProviderDescriptors': targetDataProviderDescriptors,
+        if (description != null) 'Description': description,
+        if (migrationProjectName != null)
+          'MigrationProjectName': migrationProjectName,
+        if (schemaConversionApplicationAttributes != null)
+          'SchemaConversionApplicationAttributes':
+              schemaConversionApplicationAttributes,
+        if (tags != null) 'Tags': tags,
+        if (transformationRules != null)
+          'TransformationRules': transformationRules,
+      },
+    );
+
+    return CreateMigrationProjectResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a configuration that you can later provide to configure and start
+  /// an DMS Serverless replication. You can also provide options to validate
+  /// the configuration inputs before you start the replication.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [InvalidSubnet].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceQuotaExceededFault].
+  ///
+  /// Parameter [computeConfig] :
+  /// Configuration parameters for provisioning an DMS Serverless replication.
+  ///
+  /// Parameter [replicationConfigIdentifier] :
+  /// A unique identifier that you want to use to create a
+  /// <code>ReplicationConfigArn</code> that is returned as part of the output
+  /// from this action. You can then pass this output
+  /// <code>ReplicationConfigArn</code> as the value of the
+  /// <code>ReplicationConfigArn</code> option for other actions to identify
+  /// both DMS Serverless replications and replication configurations that you
+  /// want those actions to operate on. For some actions, you can also use
+  /// either this unique identifier or a corresponding ARN in action filters to
+  /// identify the specific replication and replication configuration to operate
+  /// on.
+  ///
+  /// Parameter [replicationType] :
+  /// The type of DMS Serverless replication to provision using this replication
+  /// configuration.
+  ///
+  /// Possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"full-load"</code>
+  /// </li>
+  /// <li>
+  /// <code>"cdc"</code>
+  /// </li>
+  /// <li>
+  /// <code>"full-load-and-cdc"</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [sourceEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the source endpoint for this DMS
+  /// Serverless replication configuration.
+  ///
+  /// Parameter [tableMappings] :
+  /// JSON table mappings for DMS Serverless replications that are provisioned
+  /// using this replication configuration. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.html">
+  /// Specifying table selection and transformations rules using JSON</a>.
+  ///
+  /// Parameter [targetEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the target endpoint for this DMS
+  /// serverless replication configuration.
+  ///
+  /// Parameter [replicationSettings] :
+  /// Optional JSON settings for DMS Serverless replications that are
+  /// provisioned using this replication configuration. For example, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.ChangeProcessingTuning.html">
+  /// Change processing tuning settings</a>.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// Optional unique value or name that you set for a given resource that can
+  /// be used to construct an Amazon Resource Name (ARN) for that resource. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.FineGrainedAccess">
+  /// Fine-grained access control using resource names and tags</a>.
+  ///
+  /// Parameter [supplementalSettings] :
+  /// Optional JSON settings for specifying supplemental data. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">
+  /// Specifying supplemental data for task settings</a>.
+  ///
+  /// Parameter [tags] :
+  /// One or more optional tags associated with resources used by the DMS
+  /// Serverless replication. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tagging.html">
+  /// Tagging resources in Database Migration Service</a>.
+  Future<CreateReplicationConfigResponse> createReplicationConfig({
+    required ComputeConfig computeConfig,
+    required String replicationConfigIdentifier,
+    required MigrationTypeValue replicationType,
+    required String sourceEndpointArn,
+    required String tableMappings,
+    required String targetEndpointArn,
+    String? replicationSettings,
+    String? resourceIdentifier,
+    String? supplementalSettings,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CreateReplicationConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ComputeConfig': computeConfig,
+        'ReplicationConfigIdentifier': replicationConfigIdentifier,
+        'ReplicationType': replicationType.toValue(),
+        'SourceEndpointArn': sourceEndpointArn,
+        'TableMappings': tableMappings,
+        'TargetEndpointArn': targetEndpointArn,
+        if (replicationSettings != null)
+          'ReplicationSettings': replicationSettings,
+        if (resourceIdentifier != null)
+          'ResourceIdentifier': resourceIdentifier,
+        if (supplementalSettings != null)
+          'SupplementalSettings': supplementalSettings,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateReplicationConfigResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates the replication instance using the specified parameters.
   ///
   /// DMS requires that your account have certain roles with appropriate
@@ -723,6 +1095,13 @@ class DatabaseMigration {
   /// required permissions, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.IAMPermissions">IAM
   /// Permissions Needed to Use DMS</a>.
+  /// <note>
+  /// If you don't specify a version when creating a replication instance, DMS
+  /// will create the instance using the default engine version. For information
+  /// about the default engine version, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReleaseNotes.html">Release
+  /// Notes</a>.
+  /// </note>
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [ResourceAlreadyExistsFault].
@@ -743,8 +1122,10 @@ class DatabaseMigration {
   ///
   /// For more information on the settings and capacities for the available
   /// replication instance classes, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
-  /// Selecting the right DMS replication instance for your migration</a>.
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html
+  /// "> Choosing the right DMS replication instance</a>; and, <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html">Selecting
+  /// the best size for a replication instance</a>.
   ///
   /// Parameter [replicationInstanceIdentifier] :
   /// The replication instance identifier. This parameter is stored as a
@@ -776,20 +1157,11 @@ class DatabaseMigration {
   ///
   /// Default: <code>true</code>
   ///
-  /// When <code>AutoMinorVersionUpgrade</code> is enabled, DMS uses the current
-  /// default engine version when you create a replication instance. For
-  /// example, if you set <code>EngineVersion</code> to a lower version number
-  /// than the current default version, DMS uses the default version.
-  ///
-  /// If <code>AutoMinorVersionUpgrade</code> <i>isn’t</i> enabled when you
-  /// create a replication instance, DMS uses the engine version specified by
-  /// the <code>EngineVersion</code> parameter.
-  ///
   /// Parameter [availabilityZone] :
   /// The Availability Zone where the replication instance will be created. The
   /// default value is a random, system-chosen Availability Zone in the
   /// endpoint's Amazon Web Services Region, for example:
-  /// <code>us-east-1d</code>
+  /// <code>us-east-1d</code>.
   ///
   /// Parameter [dnsNameServers] :
   /// A list of custom DNS name servers supported for the replication instance
@@ -933,6 +1305,14 @@ class DatabaseMigration {
   /// zones in the Amazon Web Services Region, otherwise the service will throw
   /// a <code>ReplicationSubnetGroupDoesNotCoverEnoughAZs</code> exception.
   ///
+  /// If a replication subnet group exists in your Amazon Web Services account,
+  /// the CreateReplicationSubnetGroup action returns the following error
+  /// message: The Replication Subnet Group already exists. In this case, delete
+  /// the existing replication subnet group. To do so, use the <a
+  /// href="https://docs.aws.amazon.com/en_us/dms/latest/APIReference/API_DeleteReplicationSubnetGroup.html">DeleteReplicationSubnetGroup</a>
+  /// action. Optionally, choose Subnet groups in the DMS console, then choose
+  /// your subnet group. Next, choose Delete from Actions.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
@@ -953,7 +1333,7 @@ class DatabaseMigration {
   /// Example: <code>mySubnetgroup</code>
   ///
   /// Parameter [subnetIds] :
-  /// One or more subnet IDs to be assigned to the subnet group.
+  /// Two or more subnet IDs to be assigned to the subnet group.
   ///
   /// Parameter [tags] :
   /// One or more tags to be assigned to the subnet group.
@@ -1068,8 +1448,7 @@ class DatabaseMigration {
   ///
   /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time:
-  /// 2018-02-09T12:12:12“
+  /// Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
   ///
   /// Parameter [replicationTaskSettings] :
   /// Overall settings for the task, in JSON format. For more information, see
@@ -1211,6 +1590,39 @@ class DatabaseMigration {
     return DeleteConnectionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the specified data provider.
+  /// <note>
+  /// All migration projects associated with the data provider must be deleted
+  /// or modified before you can delete the data provider.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [dataProviderIdentifier] :
+  /// The identifier of the data provider to delete.
+  Future<DeleteDataProviderResponse> deleteDataProvider({
+    required String dataProviderIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteDataProvider'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataProviderIdentifier': dataProviderIdentifier,
+      },
+    );
+
+    return DeleteDataProviderResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified endpoint.
   /// <note>
   /// All tasks associated with the endpoint must be deleted before you can
@@ -1324,6 +1736,104 @@ class DatabaseMigration {
     );
 
     return DeleteFleetAdvisorDatabasesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified instance profile.
+  /// <note>
+  /// All migration projects associated with the instance profile must be
+  /// deleted or modified before you can delete the instance profile.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [instanceProfileIdentifier] :
+  /// The identifier of the instance profile to delete.
+  Future<DeleteInstanceProfileResponse> deleteInstanceProfile({
+    required String instanceProfileIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteInstanceProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceProfileIdentifier': instanceProfileIdentifier,
+      },
+    );
+
+    return DeleteInstanceProfileResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified migration project.
+  /// <note>
+  /// The migration project must be closed before you can delete it.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The name or Amazon Resource Name (ARN) of the migration project to delete.
+  Future<DeleteMigrationProjectResponse> deleteMigrationProject({
+    required String migrationProjectIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteMigrationProject'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+      },
+    );
+
+    return DeleteMigrationProjectResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes an DMS Serverless replication configuration. This effectively
+  /// deprovisions any and all replications that use this configuration. You
+  /// can't delete the configuration for an DMS Serverless replication that is
+  /// ongoing. You can delete the configuration when the replication is in a
+  /// non-RUNNING and non-STARTING state.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [replicationConfigArn] :
+  /// The replication config to delete.
+  Future<DeleteReplicationConfigResponse> deleteReplicationConfig({
+    required String replicationConfigArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteReplicationConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationConfigArn': replicationConfigArn,
+      },
+    );
+
+    return DeleteReplicationConfigResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified replication instance.
@@ -1665,11 +2175,93 @@ class DatabaseMigration {
     return DescribeConnectionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns configuration parameters for a schema conversion project.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The name or Amazon Resource Name (ARN) for the schema conversion project
+  /// to describe.
+  Future<DescribeConversionConfigurationResponse>
+      describeConversionConfiguration({
+    required String migrationProjectIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeConversionConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+      },
+    );
+
+    return DescribeConversionConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a paginated list of data providers for your account in the current
+  /// region.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [AccessDeniedFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the data providers described in the form of key-value
+  /// pairs.
+  ///
+  /// Valid filter names: data-provider-identifier
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeDataProvidersResponse> describeDataProviders({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeDataProviders'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeDataProvidersResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about the possible endpoint settings available when
   /// you create an endpoint for a specific database engine.
   ///
   /// Parameter [engineName] :
-  /// The databse engine used for your source or target endpoint.
+  /// The database engine used for your source or target endpoint.
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
@@ -1800,6 +2392,42 @@ class DatabaseMigration {
     );
 
     return DescribeEndpointsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about the replication instance versions used in the
+  /// project.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeEngineVersionsResponse> describeEngineVersions({
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeEngineVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeEngineVersionsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists categories for all event source types, or, if specified, for a
@@ -1978,6 +2606,63 @@ class DatabaseMigration {
     );
 
     return DescribeEventsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a paginated list of extension pack associations for the specified
+  /// migration project. An extension pack is an add-on module that emulates
+  /// functions present in a source database that are required when converting
+  /// objects to the target database.
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The name or Amazon Resource Name (ARN) for the migration project.
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the extension pack associations described in the form
+  /// of key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeExtensionPackAssociationsResponse>
+      describeExtensionPackAssociations({
+    required String migrationProjectIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeExtensionPackAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeExtensionPackAssociationsResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns a list of the Fleet Advisor collectors in your account.
@@ -2269,6 +2954,383 @@ class DatabaseMigration {
     return DescribeFleetAdvisorSchemasResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a paginated list of instance profiles for your account in the
+  /// current region.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [AccessDeniedFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the instance profiles described in the form of
+  /// key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeInstanceProfilesResponse> describeInstanceProfiles({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeInstanceProfiles'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeInstanceProfilesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a paginated list of metadata model assessments for your account in
+  /// the current region.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The name or Amazon Resource Name (ARN) of the migration project.
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the metadata model assessments described in the form of
+  /// key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeMetadataModelAssessmentsResponse>
+      describeMetadataModelAssessments({
+    required String migrationProjectIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModelAssessments'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMetadataModelAssessmentsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a paginated list of metadata model conversions for a migration
+  /// project.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the metadata model conversions described in the form of
+  /// key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeMetadataModelConversionsResponse>
+      describeMetadataModelConversions({
+    required String migrationProjectIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModelConversions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMetadataModelConversionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a paginated list of metadata model exports.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the metadata model exports described in the form of
+  /// key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeMetadataModelExportsAsScriptResponse>
+      describeMetadataModelExportsAsScript({
+    required String migrationProjectIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModelExportsAsScript'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMetadataModelExportsAsScriptResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns a paginated list of metadata model exports.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the metadata model exports described in the form of
+  /// key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeMetadataModelExportsToTargetResponse>
+      describeMetadataModelExportsToTarget({
+    required String migrationProjectIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModelExportsToTarget'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMetadataModelExportsToTargetResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns a paginated list of metadata model imports.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the metadata model imports described in the form of
+  /// key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// A paginated list of metadata model imports.
+  Future<DescribeMetadataModelImportsResponse> describeMetadataModelImports({
+    required String migrationProjectIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModelImports'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMetadataModelImportsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a paginated list of migration projects for your account in the
+  /// current region.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [AccessDeniedFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the migration projects described in the form of
+  /// key-value pairs.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
+  Future<DescribeMigrationProjectsResponse> describeMigrationProjects({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMigrationProjects'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMigrationProjectsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about the replication instance types that can be
   /// created in the specified region.
   ///
@@ -2498,6 +3560,49 @@ class DatabaseMigration {
     return DescribeRefreshSchemasStatusResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns one or more existing DMS Serverless replication configurations as
+  /// a list of structures.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the replication configs.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeReplicationConfigsResponse> describeReplicationConfigs({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplicationConfigs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeReplicationConfigsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about the task logs for the specified task.
   ///
   /// May throw [ResourceNotFoundFault].
@@ -2644,6 +3749,57 @@ class DatabaseMigration {
     );
 
     return DescribeReplicationSubnetGroupsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns table and schema statistics for one or more provisioned
+  /// replications that use a given DMS Serverless replication configuration.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [replicationConfigArn] :
+  /// The replication config to describe.
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the replication table statistics.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeReplicationTableStatisticsResponse>
+      describeReplicationTableStatistics({
+    required String replicationConfigArn,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplicationTableStatistics'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationConfigArn': replicationConfigArn,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeReplicationTableStatisticsResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns the task assessment results from the Amazon S3 bucket that DMS
@@ -2876,6 +4032,49 @@ class DatabaseMigration {
     return DescribeReplicationTasksResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides details on replication progress by returning status information
+  /// for one or more provisioned DMS Serverless replications.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the replications.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeReplicationsResponse> describeReplications({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplications'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeReplicationsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about the schema for the specified endpoint.
   /// <p/>
   ///
@@ -2987,6 +4186,52 @@ class DatabaseMigration {
     return DescribeTableStatisticsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Saves a copy of a database migration assessment report to your Amazon S3
+  /// bucket. DMS can save your assessment report as a comma-separated value
+  /// (CSV) or a PDF file.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [selectionRules] :
+  /// A value that specifies the database objects to assess.
+  ///
+  /// Parameter [assessmentReportTypes] :
+  /// The file format of the assessment file.
+  ///
+  /// Parameter [fileName] :
+  /// The name of the assessment file to create in your Amazon S3 bucket.
+  Future<ExportMetadataModelAssessmentResponse> exportMetadataModelAssessment({
+    required String migrationProjectIdentifier,
+    required String selectionRules,
+    List<AssessmentReportType>? assessmentReportTypes,
+    String? fileName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ExportMetadataModelAssessment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'SelectionRules': selectionRules,
+        if (assessmentReportTypes != null)
+          'AssessmentReportTypes':
+              assessmentReportTypes.map((e) => e.toValue()).toList(),
+        if (fileName != null) 'FileName': fileName,
+      },
+    );
+
+    return ExportMetadataModelAssessmentResponse.fromJson(jsonResponse.body);
+  }
+
   /// Uploads the specified certificate.
   ///
   /// May throw [ResourceAlreadyExistsFault].
@@ -3079,6 +4324,120 @@ class DatabaseMigration {
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Modifies the specified schema conversion configuration using the provided
+  /// parameters.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [conversionConfiguration] :
+  /// The new conversion configuration.
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  Future<ModifyConversionConfigurationResponse> modifyConversionConfiguration({
+    required String conversionConfiguration,
+    required String migrationProjectIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ModifyConversionConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConversionConfiguration': conversionConfiguration,
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+      },
+    );
+
+    return ModifyConversionConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Modifies the specified data provider using the provided settings.
+  /// <note>
+  /// You must remove the data provider from all migration projects before you
+  /// can modify it.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [dataProviderIdentifier] :
+  /// The identifier of the data provider. Identifiers must begin with a letter
+  /// and must contain only ASCII letters, digits, and hyphens. They can't end
+  /// with a hyphen, or contain two consecutive hyphens.
+  ///
+  /// Parameter [dataProviderName] :
+  /// The name of the data provider.
+  ///
+  /// Parameter [description] :
+  /// A user-friendly description of the data provider.
+  ///
+  /// Parameter [engine] :
+  /// The type of database engine for the data provider. Valid values include
+  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
+  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
+  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
+  /// <code>mongodb</code>, and <code>docdb</code>. A value of
+  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
+  ///
+  /// Parameter [exactSettings] :
+  /// If this attribute is Y, the current call to
+  /// <code>ModifyDataProvider</code> replaces all existing data provider
+  /// settings with the exact settings that you specify in this call. If this
+  /// attribute is N, the current call to <code>ModifyDataProvider</code> does
+  /// two things:
+  ///
+  /// <ul>
+  /// <li>
+  /// It replaces any data provider settings that already exist with new values,
+  /// for settings with the same names.
+  /// </li>
+  /// <li>
+  /// It creates new data provider settings that you specify in the call, for
+  /// settings with different names.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [settings] :
+  /// The settings in JSON format for a data provider.
+  Future<ModifyDataProviderResponse> modifyDataProvider({
+    required String dataProviderIdentifier,
+    String? dataProviderName,
+    String? description,
+    String? engine,
+    bool? exactSettings,
+    DataProviderSettings? settings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ModifyDataProvider'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataProviderIdentifier': dataProviderIdentifier,
+        if (dataProviderName != null) 'DataProviderName': dataProviderName,
+        if (description != null) 'Description': description,
+        if (engine != null) 'Engine': engine,
+        if (exactSettings != null) 'ExactSettings': exactSettings,
+        if (settings != null) 'Settings': settings,
+      },
+    );
+
+    return ModifyDataProviderResponse.fromJson(jsonResponse.body);
   }
 
   /// Modifies the specified endpoint.
@@ -3317,6 +4676,9 @@ class DatabaseMigration {
   /// connection attributes when using SAP ASE as a target for DMS</a> in the
   /// <i>Database Migration Service User Guide.</i>
   ///
+  /// Parameter [timestreamSettings] :
+  /// Settings in JSON format for the target Amazon Timestream endpoint.
+  ///
   /// Parameter [username] :
   /// The user name to be used to login to the endpoint database.
   Future<ModifyEndpointResponse> modifyEndpoint({
@@ -3352,6 +4714,7 @@ class DatabaseMigration {
     String? serviceAccessRoleArn,
     DmsSslModeValue? sslMode,
     SybaseSettings? sybaseSettings,
+    TimestreamSettings? timestreamSettings,
     String? username,
   }) async {
     final headers = <String, String>{
@@ -3405,6 +4768,8 @@ class DatabaseMigration {
           'ServiceAccessRoleArn': serviceAccessRoleArn,
         if (sslMode != null) 'SslMode': sslMode.toValue(),
         if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
+        if (timestreamSettings != null)
+          'TimestreamSettings': timestreamSettings,
         if (username != null) 'Username': username,
       },
     );
@@ -3474,6 +4839,277 @@ class DatabaseMigration {
     return ModifyEventSubscriptionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Modifies the specified instance profile using the provided parameters.
+  /// <note>
+  /// All migration projects associated with the instance profile must be
+  /// deleted or modified before you can modify the instance profile.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [instanceProfileIdentifier] :
+  /// The identifier of the instance profile. Identifiers must begin with a
+  /// letter and must contain only ASCII letters, digits, and hyphens. They
+  /// can't end with a hyphen, or contain two consecutive hyphens.
+  ///
+  /// Parameter [availabilityZone] :
+  /// The Availability Zone where the instance profile runs.
+  ///
+  /// Parameter [description] :
+  /// A user-friendly description for the instance profile.
+  ///
+  /// Parameter [instanceProfileName] :
+  /// A user-friendly name for the instance profile.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
+  /// connection parameters for the instance profile.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyArn</code> parameter,
+  /// then DMS uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services
+  /// account. Your Amazon Web Services account has a different default
+  /// encryption key for each Amazon Web Services Region.
+  ///
+  /// Parameter [networkType] :
+  /// Specifies the network type for the instance profile. A value of
+  /// <code>IPV4</code> represents an instance profile with IPv4 network type
+  /// and only supports IPv4 addressing. A value of <code>IPV6</code> represents
+  /// an instance profile with IPv6 network type and only supports IPv6
+  /// addressing. A value of <code>DUAL</code> represents an instance profile
+  /// with dual network type that supports IPv4 and IPv6 addressing.
+  ///
+  /// Parameter [publiclyAccessible] :
+  /// Specifies the accessibility options for the instance profile. A value of
+  /// <code>true</code> represents an instance profile with a public IP address.
+  /// A value of <code>false</code> represents an instance profile with a
+  /// private IP address. The default value is <code>true</code>.
+  ///
+  /// Parameter [subnetGroupIdentifier] :
+  /// A subnet group to associate with the instance profile.
+  ///
+  /// Parameter [vpcSecurityGroups] :
+  /// Specifies the VPC security groups to be used with the instance profile.
+  /// The VPC security group must work with the VPC containing the instance
+  /// profile.
+  Future<ModifyInstanceProfileResponse> modifyInstanceProfile({
+    required String instanceProfileIdentifier,
+    String? availabilityZone,
+    String? description,
+    String? instanceProfileName,
+    String? kmsKeyArn,
+    String? networkType,
+    bool? publiclyAccessible,
+    String? subnetGroupIdentifier,
+    List<String>? vpcSecurityGroups,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ModifyInstanceProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceProfileIdentifier': instanceProfileIdentifier,
+        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+        if (description != null) 'Description': description,
+        if (instanceProfileName != null)
+          'InstanceProfileName': instanceProfileName,
+        if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+        if (networkType != null) 'NetworkType': networkType,
+        if (publiclyAccessible != null)
+          'PubliclyAccessible': publiclyAccessible,
+        if (subnetGroupIdentifier != null)
+          'SubnetGroupIdentifier': subnetGroupIdentifier,
+        if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+      },
+    );
+
+    return ModifyInstanceProfileResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Modifies the specified migration project using the provided parameters.
+  /// <note>
+  /// The migration project must be closed before you can modify it.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The identifier of the migration project. Identifiers must begin with a
+  /// letter and must contain only ASCII letters, digits, and hyphens. They
+  /// can't end with a hyphen, or contain two consecutive hyphens.
+  ///
+  /// Parameter [description] :
+  /// A user-friendly description of the migration project.
+  ///
+  /// Parameter [instanceProfileIdentifier] :
+  /// The name or Amazon Resource Name (ARN) for the instance profile.
+  ///
+  /// Parameter [migrationProjectName] :
+  /// A user-friendly name for the migration project.
+  ///
+  /// Parameter [schemaConversionApplicationAttributes] :
+  /// The schema conversion application attributes, including the Amazon S3
+  /// bucket name and Amazon S3 role ARN.
+  ///
+  /// Parameter [sourceDataProviderDescriptors] :
+  /// Information about the source data provider, including the name, ARN, and
+  /// Amazon Web Services Secrets Manager parameters.
+  ///
+  /// Parameter [targetDataProviderDescriptors] :
+  /// Information about the target data provider, including the name, ARN, and
+  /// Amazon Web Services Secrets Manager parameters.
+  ///
+  /// Parameter [transformationRules] :
+  /// The settings in JSON format for migration rules. Migration rules make it
+  /// possible for you to change the object names according to the rules that
+  /// you specify. For example, you can change an object name to lowercase or
+  /// uppercase, add or remove a prefix or suffix, or rename objects.
+  Future<ModifyMigrationProjectResponse> modifyMigrationProject({
+    required String migrationProjectIdentifier,
+    String? description,
+    String? instanceProfileIdentifier,
+    String? migrationProjectName,
+    SCApplicationAttributes? schemaConversionApplicationAttributes,
+    List<DataProviderDescriptorDefinition>? sourceDataProviderDescriptors,
+    List<DataProviderDescriptorDefinition>? targetDataProviderDescriptors,
+    String? transformationRules,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ModifyMigrationProject'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (description != null) 'Description': description,
+        if (instanceProfileIdentifier != null)
+          'InstanceProfileIdentifier': instanceProfileIdentifier,
+        if (migrationProjectName != null)
+          'MigrationProjectName': migrationProjectName,
+        if (schemaConversionApplicationAttributes != null)
+          'SchemaConversionApplicationAttributes':
+              schemaConversionApplicationAttributes,
+        if (sourceDataProviderDescriptors != null)
+          'SourceDataProviderDescriptors': sourceDataProviderDescriptors,
+        if (targetDataProviderDescriptors != null)
+          'TargetDataProviderDescriptors': targetDataProviderDescriptors,
+        if (transformationRules != null)
+          'TransformationRules': transformationRules,
+      },
+    );
+
+    return ModifyMigrationProjectResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Modifies an existing DMS Serverless replication configuration that you can
+  /// use to start a replication. This command includes input validation and
+  /// logic to check the state of any replication that uses this configuration.
+  /// You can only modify a replication configuration before any replication
+  /// that uses it has started. As soon as you have initially started a
+  /// replication with a given configuiration, you can't modify that
+  /// configuration, even if you stop it.
+  ///
+  /// Other run statuses that allow you to run this command include FAILED and
+  /// CREATED. A provisioning state that allows you to run this command is
+  /// FAILED_PROVISION.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [InvalidSubnet].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [replicationConfigArn] :
+  /// The Amazon Resource Name of the replication to modify.
+  ///
+  /// Parameter [computeConfig] :
+  /// Configuration parameters for provisioning an DMS Serverless replication.
+  ///
+  /// Parameter [replicationConfigIdentifier] :
+  /// The new replication config to apply to the replication.
+  ///
+  /// Parameter [replicationSettings] :
+  /// The settings for the replication.
+  ///
+  /// Parameter [replicationType] :
+  /// The type of replication.
+  ///
+  /// Parameter [sourceEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the source endpoint for this DMS
+  /// serverless replication configuration.
+  ///
+  /// Parameter [supplementalSettings] :
+  /// Additional settings for the replication.
+  ///
+  /// Parameter [tableMappings] :
+  /// Table mappings specified in the replication.
+  ///
+  /// Parameter [targetEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the target endpoint for this DMS
+  /// serverless replication configuration.
+  Future<ModifyReplicationConfigResponse> modifyReplicationConfig({
+    required String replicationConfigArn,
+    ComputeConfig? computeConfig,
+    String? replicationConfigIdentifier,
+    String? replicationSettings,
+    MigrationTypeValue? replicationType,
+    String? sourceEndpointArn,
+    String? supplementalSettings,
+    String? tableMappings,
+    String? targetEndpointArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ModifyReplicationConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationConfigArn': replicationConfigArn,
+        if (computeConfig != null) 'ComputeConfig': computeConfig,
+        if (replicationConfigIdentifier != null)
+          'ReplicationConfigIdentifier': replicationConfigIdentifier,
+        if (replicationSettings != null)
+          'ReplicationSettings': replicationSettings,
+        if (replicationType != null)
+          'ReplicationType': replicationType.toValue(),
+        if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
+        if (supplementalSettings != null)
+          'SupplementalSettings': supplementalSettings,
+        if (tableMappings != null) 'TableMappings': tableMappings,
+        if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
+      },
+    );
+
+    return ModifyReplicationConfigResponse.fromJson(jsonResponse.body);
+  }
+
   /// Modifies the replication instance to apply new settings. You can change
   /// one or more parameters by specifying these parameters and the new values
   /// in the request.
@@ -3529,14 +5165,6 @@ class DatabaseMigration {
   /// DMS has enabled automatic patching for the given engine version.
   /// </li>
   /// </ul>
-  /// When <code>AutoMinorVersionUpgrade</code> is enabled, DMS uses the current
-  /// default engine version when you modify a replication instance. For
-  /// example, if you set <code>EngineVersion</code> to a lower version number
-  /// than the current default version, DMS uses the default version.
-  ///
-  /// If <code>AutoMinorVersionUpgrade</code> <i>isn’t</i> enabled when you
-  /// modify a replication instance, DMS uses the engine version specified by
-  /// the <code>EngineVersion</code> parameter.
   ///
   /// Parameter [engineVersion] :
   /// The engine version number of the replication instance.
@@ -3736,8 +5364,7 @@ class DatabaseMigration {
   ///
   /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time:
-  /// 2018-02-09T12:12:12“
+  /// Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
   ///
   /// Parameter [migrationType] :
   /// The migration type. Valid values: <code>full-load</code> |
@@ -3941,6 +5568,53 @@ class DatabaseMigration {
     return RefreshSchemasResponse.fromJson(jsonResponse.body);
   }
 
+  /// Reloads the target database table with the source data for a given DMS
+  /// Serverless replication configuration.
+  ///
+  /// You can only use this operation with a task in the RUNNING state,
+  /// otherwise the service will throw an <code>InvalidResourceStateFault</code>
+  /// exception.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [replicationConfigArn] :
+  /// The Amazon Resource Name of the replication config for which to reload
+  /// tables.
+  ///
+  /// Parameter [tablesToReload] :
+  /// The list of tables to reload.
+  ///
+  /// Parameter [reloadOption] :
+  /// Options for reload. Specify <code>data-reload</code> to reload the data
+  /// and re-validate it if validation is enabled. Specify
+  /// <code>validate-only</code> to re-validate the table. This option applies
+  /// only when validation is enabled for the replication.
+  Future<ReloadReplicationTablesResponse> reloadReplicationTables({
+    required String replicationConfigArn,
+    required List<TableToReload> tablesToReload,
+    ReloadOptionValue? reloadOption,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ReloadReplicationTables'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationConfigArn': replicationConfigArn,
+        'TablesToReload': tablesToReload,
+        if (reloadOption != null) 'ReloadOption': reloadOption.toValue(),
+      },
+    );
+
+    return ReloadReplicationTablesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Reloads the target database table with the source data.
   ///
   /// You can only use this operation with a task in the <code>RUNNING</code>
@@ -4047,6 +5721,278 @@ class DatabaseMigration {
     return RunFleetAdvisorLsaAnalysisResponse.fromJson(jsonResponse.body);
   }
 
+  /// Applies the extension pack to your target database. An extension pack is
+  /// an add-on module that emulates functions present in a source database that
+  /// are required when converting objects to the target database.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  Future<StartExtensionPackAssociationResponse> startExtensionPackAssociation({
+    required String migrationProjectIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartExtensionPackAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+      },
+    );
+
+    return StartExtensionPackAssociationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a database migration assessment report by assessing the migration
+  /// complexity for your source database. A database migration assessment
+  /// report summarizes all of the schema conversion tasks. It also details the
+  /// action items for database objects that can't be converted to the database
+  /// engine of your target database instance.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [selectionRules] :
+  /// A value that specifies the database objects to assess.
+  Future<StartMetadataModelAssessmentResponse> startMetadataModelAssessment({
+    required String migrationProjectIdentifier,
+    required String selectionRules,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartMetadataModelAssessment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'SelectionRules': selectionRules,
+      },
+    );
+
+    return StartMetadataModelAssessmentResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Converts your source database objects to a format compatible with the
+  /// target database.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [selectionRules] :
+  /// A value that specifies the database objects to convert.
+  Future<StartMetadataModelConversionResponse> startMetadataModelConversion({
+    required String migrationProjectIdentifier,
+    required String selectionRules,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartMetadataModelConversion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'SelectionRules': selectionRules,
+      },
+    );
+
+    return StartMetadataModelConversionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Saves your converted code to a file as a SQL script, and stores this file
+  /// on your Amazon S3 bucket.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [origin] :
+  /// Whether to export the metadata model from the source or the target.
+  ///
+  /// Parameter [selectionRules] :
+  /// A value that specifies the database objects to export.
+  ///
+  /// Parameter [fileName] :
+  /// The name of the model file to create in the Amazon S3 bucket.
+  Future<StartMetadataModelExportAsScriptResponse>
+      startMetadataModelExportAsScript({
+    required String migrationProjectIdentifier,
+    required OriginTypeValue origin,
+    required String selectionRules,
+    String? fileName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartMetadataModelExportAsScript'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'Origin': origin.toValue(),
+        'SelectionRules': selectionRules,
+        if (fileName != null) 'FileName': fileName,
+      },
+    );
+
+    return StartMetadataModelExportAsScriptResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Applies converted database objects to your target database.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [selectionRules] :
+  /// A value that specifies the database objects to export.
+  ///
+  /// Parameter [overwriteExtensionPack] :
+  /// Whether to overwrite the migration project extension pack. An extension
+  /// pack is an add-on module that emulates functions present in a source
+  /// database that are required when converting objects to the target database.
+  Future<StartMetadataModelExportToTargetResponse>
+      startMetadataModelExportToTarget({
+    required String migrationProjectIdentifier,
+    required String selectionRules,
+    bool? overwriteExtensionPack,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartMetadataModelExportToTarget'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'SelectionRules': selectionRules,
+        if (overwriteExtensionPack != null)
+          'OverwriteExtensionPack': overwriteExtensionPack,
+      },
+    );
+
+    return StartMetadataModelExportToTargetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Loads the metadata for all the dependent database objects of the parent
+  /// object.
+  ///
+  /// This operation uses your project's Amazon S3 bucket as a metadata cache to
+  /// improve performance.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [S3AccessDeniedFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [origin] :
+  /// Whether to load metadata to the source or target database.
+  ///
+  /// Parameter [selectionRules] :
+  /// A value that specifies the database objects to import.
+  ///
+  /// Parameter [refresh] :
+  /// If <code>true</code>, DMS loads metadata for the specified objects from
+  /// the source database.
+  Future<StartMetadataModelImportResponse> startMetadataModelImport({
+    required String migrationProjectIdentifier,
+    required OriginTypeValue origin,
+    required String selectionRules,
+    bool? refresh,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartMetadataModelImport'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'Origin': origin.toValue(),
+        'SelectionRules': selectionRules,
+        if (refresh != null) 'Refresh': refresh,
+      },
+    );
+
+    return StartMetadataModelImportResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts the analysis of your source database to provide recommendations of
   /// target engines.
   ///
@@ -4088,6 +6034,71 @@ class DatabaseMigration {
         'Settings': settings,
       },
     );
+  }
+
+  /// For a given DMS Serverless replication configuration, DMS connects to the
+  /// source endpoint and collects the metadata to analyze the replication
+  /// workload. Using this metadata, DMS then computes and provisions the
+  /// required capacity and starts replicating to the target endpoint using the
+  /// server resources that DMS has provisioned for the DMS Serverless
+  /// replication.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [AccessDeniedFault].
+  ///
+  /// Parameter [replicationConfigArn] :
+  /// The Amazon Resource Name of the replication for which to start
+  /// replication.
+  ///
+  /// Parameter [startReplicationType] :
+  /// The replication type.
+  ///
+  /// Parameter [cdcStartPosition] :
+  /// Indicates when you want a change data capture (CDC) operation to start.
+  /// Use either <code>CdcStartPosition</code> or <code>CdcStartTime</code> to
+  /// specify when you want a CDC operation to start. Specifying both values
+  /// results in an error.
+  ///
+  /// The value can be in date, checkpoint, or LSN/SCN format.
+  ///
+  /// Parameter [cdcStartTime] :
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to
+  /// specify when you want a CDC operation to start. Specifying both values
+  /// results in an error.
+  ///
+  /// Parameter [cdcStopPosition] :
+  /// Indicates when you want a change data capture (CDC) operation to stop. The
+  /// value can be either server time or commit time.
+  Future<StartReplicationResponse> startReplication({
+    required String replicationConfigArn,
+    required String startReplicationType,
+    String? cdcStartPosition,
+    DateTime? cdcStartTime,
+    String? cdcStopPosition,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartReplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationConfigArn': replicationConfigArn,
+        'StartReplicationType': startReplicationType,
+        if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
+        if (cdcStartTime != null)
+          'CdcStartTime': unixTimestampToJson(cdcStartTime),
+        if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
+      },
+    );
+
+    return StartReplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts the replication task.
@@ -4161,8 +6172,7 @@ class DatabaseMigration {
   ///
   /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time:
-  /// 2018-02-09T12:12:12“
+  /// Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
   Future<StartReplicationTaskResponse> startReplicationTask({
     required String replicationTaskArn,
     required StartReplicationTaskTypeValue startReplicationTaskType,
@@ -4376,6 +6386,37 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// For a given DMS Serverless replication configuration, DMS stops any and
+  /// all ongoing DMS Serverless replications. This command doesn't deprovision
+  /// the stopped replications.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [AccessDeniedFault].
+  ///
+  /// Parameter [replicationConfigArn] :
+  /// The Amazon Resource Name of the replication to stop.
+  Future<StopReplicationResponse> stopReplication({
+    required String replicationConfigArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StopReplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationConfigArn': replicationConfigArn,
+      },
+    );
+
+    return StopReplicationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Stops the replication task.
   ///
   /// May throw [ResourceNotFoundFault].
@@ -4444,11 +6485,11 @@ class DatabaseMigration {
   /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and
   /// converts them to corresponding Amazon EventBridge rules. By default, this
   /// operation migrates subscriptions only when all your replication instance
-  /// versions are 3.4.6 or higher. If any replication instances are from
-  /// versions earlier than 3.4.6, the operation raises an error and tells you
-  /// to upgrade these instances to version 3.4.6 or higher. To enable migration
+  /// versions are 3.4.5 or higher. If any replication instances are from
+  /// versions earlier than 3.4.5, the operation raises an error and tells you
+  /// to upgrade these instances to version 3.4.5 or higher. To enable migration
   /// regardless of version, set the <code>Force</code> option to true. However,
-  /// if you don't upgrade instances earlier than version 3.4.6, some types of
+  /// if you don't upgrade instances earlier than version 3.4.5, some types of
   /// events might not be available when you use Amazon EventBridge.
   ///
   /// To call this operation, make sure that you have certain permissions added
@@ -4464,7 +6505,7 @@ class DatabaseMigration {
   /// When set to true, this operation migrates DMS subscriptions for Amazon SNS
   /// notifications no matter what your replication instance version is. If not
   /// set or set to false, this operation runs only when all your replication
-  /// instances are from DMS version 3.4.6 or higher.
+  /// instances are from DMS version 3.4.5 or higher.
   Future<UpdateSubscriptionsToEventBridgeResponse>
       updateSubscriptionsToEventBridge({
     bool? forceMove,
@@ -4567,6 +6608,34 @@ class ApplyPendingMaintenanceActionResponse {
       if (resourcePendingMaintenanceActions != null)
         'ResourcePendingMaintenanceActions': resourcePendingMaintenanceActions,
     };
+  }
+}
+
+enum AssessmentReportType {
+  pdf,
+  csv,
+}
+
+extension AssessmentReportTypeValueExtension on AssessmentReportType {
+  String toValue() {
+    switch (this) {
+      case AssessmentReportType.pdf:
+        return 'pdf';
+      case AssessmentReportType.csv:
+        return 'csv';
+    }
+  }
+}
+
+extension AssessmentReportTypeFromString on String {
+  AssessmentReportType toAssessmentReportType() {
+    switch (this) {
+      case 'pdf':
+        return AssessmentReportType.pdf;
+      case 'csv':
+        return AssessmentReportType.csv;
+    }
+    throw Exception('$this is not known in enum AssessmentReportType');
   }
 }
 
@@ -5203,6 +7272,137 @@ extension CompressionTypeValueFromString on String {
   }
 }
 
+/// Configuration parameters for provisioning an DMS Serverless replication.
+class ComputeConfig {
+  /// The Availability Zone where the DMS Serverless replication using this
+  /// configuration will run. The default value is a random, system-chosen
+  /// Availability Zone in the configuration's Amazon Web Services Region, for
+  /// example, <code>"us-west-2"</code>. You can't set this parameter if the
+  /// <code>MultiAZ</code> parameter is set to <code>true</code>.
+  final String? availabilityZone;
+
+  /// A list of custom DNS name servers supported for the DMS Serverless
+  /// replication to access your source or target database. This list overrides
+  /// the default name servers supported by the DMS Serverless replication. You
+  /// can specify a comma-separated list of internet addresses for up to four DNS
+  /// name servers. For example: <code>"1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"</code>
+  final String? dnsNameServers;
+
+  /// An Key Management Service (KMS) key Amazon Resource Name (ARN) that is used
+  /// to encrypt the data during DMS Serverless replication.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, DMS
+  /// uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyId;
+
+  /// Specifies the maximum value of the DMS capacity units (DCUs) for which a
+  /// given DMS Serverless replication can be provisioned. A single DCU is 2GB of
+  /// RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values
+  /// includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum
+  /// value that you can specify for DMS Serverless is 384. The
+  /// <code>MaxCapacityUnits</code> parameter is the only DCU parameter you are
+  /// required to specify.
+  final int? maxCapacityUnits;
+
+  /// Specifies the minimum value of the DMS capacity units (DCUs) for which a
+  /// given DMS Serverless replication can be provisioned. A single DCU is 2GB of
+  /// RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values
+  /// includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU
+  /// value that you can specify for DMS Serverless is 1. You don't have to
+  /// specify a value for the <code>MinCapacityUnits</code> parameter. If you
+  /// don't set this value, DMS scans the current activity of available source
+  /// tables to identify an optimum setting for this parameter. If there is no
+  /// current source activity or DMS can't otherwise identify a more appropriate
+  /// value, it sets this parameter to the minimum DCU value allowed, 1.
+  final int? minCapacityUnits;
+
+  /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment.
+  /// You can't set the <code>AvailabilityZone</code> parameter if the
+  /// <code>MultiAZ</code> parameter is set to <code>true</code>.
+  final bool? multiAZ;
+
+  /// The weekly time range during which system maintenance can occur for the DMS
+  /// Serverless replication, in Universal Coordinated Time (UTC). The format is
+  /// <code>ddd:hh24:mi-ddd:hh24:mi</code>.
+  ///
+  /// The default is a 30-minute window selected at random from an 8-hour block of
+  /// time per Amazon Web Services Region. This maintenance occurs on a random day
+  /// of the week. Valid values for days of the week include <code>Mon</code>,
+  /// <code>Tue</code>, <code>Wed</code>, <code>Thu</code>, <code>Fri</code>,
+  /// <code>Sat</code>, and <code>Sun</code>.
+  ///
+  /// Constraints include a minimum 30-minute window.
+  final String? preferredMaintenanceWindow;
+
+  /// Specifies a subnet group identifier to associate with the DMS Serverless
+  /// replication.
+  final String? replicationSubnetGroupId;
+
+  /// Specifies the virtual private cloud (VPC) security group to use with the DMS
+  /// Serverless replication. The VPC security group must work with the VPC
+  /// containing the replication.
+  final List<String>? vpcSecurityGroupIds;
+
+  ComputeConfig({
+    this.availabilityZone,
+    this.dnsNameServers,
+    this.kmsKeyId,
+    this.maxCapacityUnits,
+    this.minCapacityUnits,
+    this.multiAZ,
+    this.preferredMaintenanceWindow,
+    this.replicationSubnetGroupId,
+    this.vpcSecurityGroupIds,
+  });
+
+  factory ComputeConfig.fromJson(Map<String, dynamic> json) {
+    return ComputeConfig(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      dnsNameServers: json['DnsNameServers'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      maxCapacityUnits: json['MaxCapacityUnits'] as int?,
+      minCapacityUnits: json['MinCapacityUnits'] as int?,
+      multiAZ: json['MultiAZ'] as bool?,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      replicationSubnetGroupId: json['ReplicationSubnetGroupId'] as String?,
+      vpcSecurityGroupIds: (json['VpcSecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final dnsNameServers = this.dnsNameServers;
+    final kmsKeyId = this.kmsKeyId;
+    final maxCapacityUnits = this.maxCapacityUnits;
+    final minCapacityUnits = this.minCapacityUnits;
+    final multiAZ = this.multiAZ;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final replicationSubnetGroupId = this.replicationSubnetGroupId;
+    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (maxCapacityUnits != null) 'MaxCapacityUnits': maxCapacityUnits,
+      if (minCapacityUnits != null) 'MinCapacityUnits': minCapacityUnits,
+      if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (replicationSubnetGroupId != null)
+        'ReplicationSubnetGroupId': replicationSubnetGroupId,
+      if (vpcSecurityGroupIds != null)
+        'VpcSecurityGroupIds': vpcSecurityGroupIds,
+    };
+  }
+}
+
 /// Status of the connection between an endpoint and a replication instance,
 /// including Amazon Resource Names (ARNs) and the last error message issued.
 class Connection {
@@ -5280,6 +7480,30 @@ class Connection {
       if (replicationInstanceIdentifier != null)
         'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
       if (status != null) 'Status': status,
+    };
+  }
+}
+
+class CreateDataProviderResponse {
+  /// The data provider that was created.
+  final DataProvider? dataProvider;
+
+  CreateDataProviderResponse({
+    this.dataProvider,
+  });
+
+  factory CreateDataProviderResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDataProviderResponse(
+      dataProvider: json['DataProvider'] != null
+          ? DataProvider.fromJson(json['DataProvider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProvider = this.dataProvider;
+    return {
+      if (dataProvider != null) 'DataProvider': dataProvider,
     };
   }
 }
@@ -5386,6 +7610,83 @@ class CreateFleetAdvisorCollectorResponse {
       if (s3BucketName != null) 'S3BucketName': s3BucketName,
       if (serviceAccessRoleArn != null)
         'ServiceAccessRoleArn': serviceAccessRoleArn,
+    };
+  }
+}
+
+class CreateInstanceProfileResponse {
+  /// The instance profile that was created.
+  final InstanceProfile? instanceProfile;
+
+  CreateInstanceProfileResponse({
+    this.instanceProfile,
+  });
+
+  factory CreateInstanceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateInstanceProfileResponse(
+      instanceProfile: json['InstanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['InstanceProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfile = this.instanceProfile;
+    return {
+      if (instanceProfile != null) 'InstanceProfile': instanceProfile,
+    };
+  }
+}
+
+class CreateMigrationProjectResponse {
+  /// The migration project that was created.
+  final MigrationProject? migrationProject;
+
+  CreateMigrationProjectResponse({
+    this.migrationProject,
+  });
+
+  factory CreateMigrationProjectResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMigrationProjectResponse(
+      migrationProject: json['MigrationProject'] != null
+          ? MigrationProject.fromJson(
+              json['MigrationProject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationProject = this.migrationProject;
+    return {
+      if (migrationProject != null) 'MigrationProject': migrationProject,
+    };
+  }
+}
+
+/// <p/>
+class CreateReplicationConfigResponse {
+  /// Configuration parameters returned from the DMS Serverless replication after
+  /// it is created.
+  final ReplicationConfig? replicationConfig;
+
+  CreateReplicationConfigResponse({
+    this.replicationConfig,
+  });
+
+  factory CreateReplicationConfigResponse.fromJson(Map<String, dynamic> json) {
+    return CreateReplicationConfigResponse(
+      replicationConfig: json['ReplicationConfig'] != null
+          ? ReplicationConfig.fromJson(
+              json['ReplicationConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationConfig = this.replicationConfig;
+    return {
+      if (replicationConfig != null) 'ReplicationConfig': replicationConfig,
     };
   }
 }
@@ -5500,6 +7801,244 @@ extension DataFormatValueFromString on String {
   }
 }
 
+/// Provides information that defines a data provider.
+class DataProvider {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the data
+  /// provider.
+  final String? dataProviderArn;
+
+  /// The time the data provider was created.
+  final DateTime? dataProviderCreationTime;
+
+  /// The name of the data provider.
+  final String? dataProviderName;
+
+  /// A description of the data provider. Descriptions can have up to 31
+  /// characters. A description can contain only ASCII letters, digits, and
+  /// hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive
+  /// hyphens, and can only begin with a letter.
+  final String? description;
+
+  /// The type of database engine for the data provider. Valid values include
+  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
+  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
+  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
+  /// <code>mongodb</code>, and <code>docdb</code>. A value of
+  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
+  final String? engine;
+
+  /// The settings in JSON format for a data provider.
+  final DataProviderSettings? settings;
+
+  DataProvider({
+    this.dataProviderArn,
+    this.dataProviderCreationTime,
+    this.dataProviderName,
+    this.description,
+    this.engine,
+    this.settings,
+  });
+
+  factory DataProvider.fromJson(Map<String, dynamic> json) {
+    return DataProvider(
+      dataProviderArn: json['DataProviderArn'] as String?,
+      dataProviderCreationTime:
+          timeStampFromJson(json['DataProviderCreationTime']),
+      dataProviderName: json['DataProviderName'] as String?,
+      description: json['Description'] as String?,
+      engine: json['Engine'] as String?,
+      settings: json['Settings'] != null
+          ? DataProviderSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProviderArn = this.dataProviderArn;
+    final dataProviderCreationTime = this.dataProviderCreationTime;
+    final dataProviderName = this.dataProviderName;
+    final description = this.description;
+    final engine = this.engine;
+    final settings = this.settings;
+    return {
+      if (dataProviderArn != null) 'DataProviderArn': dataProviderArn,
+      if (dataProviderCreationTime != null)
+        'DataProviderCreationTime': iso8601ToJson(dataProviderCreationTime),
+      if (dataProviderName != null) 'DataProviderName': dataProviderName,
+      if (description != null) 'Description': description,
+      if (engine != null) 'Engine': engine,
+      if (settings != null) 'Settings': settings,
+    };
+  }
+}
+
+/// Information about a data provider.
+class DataProviderDescriptor {
+  /// The Amazon Resource Name (ARN) of the data provider.
+  final String? dataProviderArn;
+
+  /// The user-friendly name of the data provider.
+  final String? dataProviderName;
+
+  /// The ARN of the role used to access Amazon Web Services Secrets Manager.
+  final String? secretsManagerAccessRoleArn;
+
+  /// The identifier of the Amazon Web Services Secrets Manager Secret used to
+  /// store access credentials for the data provider.
+  final String? secretsManagerSecretId;
+
+  DataProviderDescriptor({
+    this.dataProviderArn,
+    this.dataProviderName,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+  });
+
+  factory DataProviderDescriptor.fromJson(Map<String, dynamic> json) {
+    return DataProviderDescriptor(
+      dataProviderArn: json['DataProviderArn'] as String?,
+      dataProviderName: json['DataProviderName'] as String?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProviderArn = this.dataProviderArn;
+    final dataProviderName = this.dataProviderName;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    return {
+      if (dataProviderArn != null) 'DataProviderArn': dataProviderArn,
+      if (dataProviderName != null) 'DataProviderName': dataProviderName,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+    };
+  }
+}
+
+/// Information about a data provider.
+class DataProviderDescriptorDefinition {
+  /// The name or Amazon Resource Name (ARN) of the data provider.
+  final String dataProviderIdentifier;
+
+  /// The ARN of the role used to access Amazon Web Services Secrets Manager.
+  final String? secretsManagerAccessRoleArn;
+
+  /// The identifier of the Amazon Web Services Secrets Manager Secret used to
+  /// store access credentials for the data provider.
+  final String? secretsManagerSecretId;
+
+  DataProviderDescriptorDefinition({
+    required this.dataProviderIdentifier,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataProviderIdentifier = this.dataProviderIdentifier;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    return {
+      'DataProviderIdentifier': dataProviderIdentifier,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+    };
+  }
+}
+
+/// Provides information that defines a data provider.
+class DataProviderSettings {
+  final DocDbDataProviderSettings? docDbSettings;
+
+  /// Provides information that defines a MariaDB data provider.
+  final MariaDbDataProviderSettings? mariaDbSettings;
+  final MicrosoftSqlServerDataProviderSettings? microsoftSqlServerSettings;
+
+  /// Provides information that defines a MongoDB data provider.
+  final MongoDbDataProviderSettings? mongoDbSettings;
+  final MySqlDataProviderSettings? mySqlSettings;
+  final OracleDataProviderSettings? oracleSettings;
+  final PostgreSqlDataProviderSettings? postgreSqlSettings;
+  final RedshiftDataProviderSettings? redshiftSettings;
+
+  DataProviderSettings({
+    this.docDbSettings,
+    this.mariaDbSettings,
+    this.microsoftSqlServerSettings,
+    this.mongoDbSettings,
+    this.mySqlSettings,
+    this.oracleSettings,
+    this.postgreSqlSettings,
+    this.redshiftSettings,
+  });
+
+  factory DataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return DataProviderSettings(
+      docDbSettings: json['DocDbSettings'] != null
+          ? DocDbDataProviderSettings.fromJson(
+              json['DocDbSettings'] as Map<String, dynamic>)
+          : null,
+      mariaDbSettings: json['MariaDbSettings'] != null
+          ? MariaDbDataProviderSettings.fromJson(
+              json['MariaDbSettings'] as Map<String, dynamic>)
+          : null,
+      microsoftSqlServerSettings: json['MicrosoftSqlServerSettings'] != null
+          ? MicrosoftSqlServerDataProviderSettings.fromJson(
+              json['MicrosoftSqlServerSettings'] as Map<String, dynamic>)
+          : null,
+      mongoDbSettings: json['MongoDbSettings'] != null
+          ? MongoDbDataProviderSettings.fromJson(
+              json['MongoDbSettings'] as Map<String, dynamic>)
+          : null,
+      mySqlSettings: json['MySqlSettings'] != null
+          ? MySqlDataProviderSettings.fromJson(
+              json['MySqlSettings'] as Map<String, dynamic>)
+          : null,
+      oracleSettings: json['OracleSettings'] != null
+          ? OracleDataProviderSettings.fromJson(
+              json['OracleSettings'] as Map<String, dynamic>)
+          : null,
+      postgreSqlSettings: json['PostgreSqlSettings'] != null
+          ? PostgreSqlDataProviderSettings.fromJson(
+              json['PostgreSqlSettings'] as Map<String, dynamic>)
+          : null,
+      redshiftSettings: json['RedshiftSettings'] != null
+          ? RedshiftDataProviderSettings.fromJson(
+              json['RedshiftSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final docDbSettings = this.docDbSettings;
+    final mariaDbSettings = this.mariaDbSettings;
+    final microsoftSqlServerSettings = this.microsoftSqlServerSettings;
+    final mongoDbSettings = this.mongoDbSettings;
+    final mySqlSettings = this.mySqlSettings;
+    final oracleSettings = this.oracleSettings;
+    final postgreSqlSettings = this.postgreSqlSettings;
+    final redshiftSettings = this.redshiftSettings;
+    return {
+      if (docDbSettings != null) 'DocDbSettings': docDbSettings,
+      if (mariaDbSettings != null) 'MariaDbSettings': mariaDbSettings,
+      if (microsoftSqlServerSettings != null)
+        'MicrosoftSqlServerSettings': microsoftSqlServerSettings,
+      if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+      if (mySqlSettings != null) 'MySqlSettings': mySqlSettings,
+      if (oracleSettings != null) 'OracleSettings': oracleSettings,
+      if (postgreSqlSettings != null) 'PostgreSqlSettings': postgreSqlSettings,
+      if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
+    };
+  }
+}
+
 /// Describes an inventory database instance for a Fleet Advisor collector.
 class DatabaseInstanceSoftwareDetailsResponse {
   /// The database engine of a database in a Fleet Advisor collector inventory,
@@ -5568,6 +8107,34 @@ class DatabaseInstanceSoftwareDetailsResponse {
       if (supportLevel != null) 'SupportLevel': supportLevel,
       if (tooltip != null) 'Tooltip': tooltip,
     };
+  }
+}
+
+enum DatabaseMode {
+  $default,
+  babelfish,
+}
+
+extension DatabaseModeValueExtension on DatabaseMode {
+  String toValue() {
+    switch (this) {
+      case DatabaseMode.$default:
+        return 'default';
+      case DatabaseMode.babelfish:
+        return 'babelfish';
+    }
+  }
+}
+
+extension DatabaseModeFromString on String {
+  DatabaseMode toDatabaseMode() {
+    switch (this) {
+      case 'default':
+        return DatabaseMode.$default;
+      case 'babelfish':
+        return DatabaseMode.babelfish;
+    }
+    throw Exception('$this is not known in enum DatabaseMode');
   }
 }
 
@@ -5775,6 +8342,29 @@ extension DatePartitionSequenceValueFromString on String {
   }
 }
 
+/// Provides error information about a schema conversion operation.
+class DefaultErrorDetails {
+  /// The error message.
+  final String? message;
+
+  DefaultErrorDetails({
+    this.message,
+  });
+
+  factory DefaultErrorDetails.fromJson(Map<String, dynamic> json) {
+    return DefaultErrorDetails(
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
 class DeleteCertificateResponse {
   /// The Secure Sockets Layer (SSL) certificate.
   final Certificate? certificate;
@@ -5820,6 +8410,30 @@ class DeleteConnectionResponse {
     final connection = this.connection;
     return {
       if (connection != null) 'Connection': connection,
+    };
+  }
+}
+
+class DeleteDataProviderResponse {
+  /// The data provider that was deleted.
+  final DataProvider? dataProvider;
+
+  DeleteDataProviderResponse({
+    this.dataProvider,
+  });
+
+  factory DeleteDataProviderResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDataProviderResponse(
+      dataProvider: json['DataProvider'] != null
+          ? DataProvider.fromJson(json['DataProvider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProvider = this.dataProvider;
+    return {
+      if (dataProvider != null) 'DataProvider': dataProvider,
     };
   }
 }
@@ -5897,6 +8511,83 @@ class DeleteFleetAdvisorDatabasesResponse {
     final databaseIds = this.databaseIds;
     return {
       if (databaseIds != null) 'DatabaseIds': databaseIds,
+    };
+  }
+}
+
+class DeleteInstanceProfileResponse {
+  /// The instance profile that was deleted.
+  final InstanceProfile? instanceProfile;
+
+  DeleteInstanceProfileResponse({
+    this.instanceProfile,
+  });
+
+  factory DeleteInstanceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteInstanceProfileResponse(
+      instanceProfile: json['InstanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['InstanceProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfile = this.instanceProfile;
+    return {
+      if (instanceProfile != null) 'InstanceProfile': instanceProfile,
+    };
+  }
+}
+
+class DeleteMigrationProjectResponse {
+  /// The migration project that was deleted.
+  final MigrationProject? migrationProject;
+
+  DeleteMigrationProjectResponse({
+    this.migrationProject,
+  });
+
+  factory DeleteMigrationProjectResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteMigrationProjectResponse(
+      migrationProject: json['MigrationProject'] != null
+          ? MigrationProject.fromJson(
+              json['MigrationProject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationProject = this.migrationProject;
+    return {
+      if (migrationProject != null) 'MigrationProject': migrationProject,
+    };
+  }
+}
+
+/// <p/>
+class DeleteReplicationConfigResponse {
+  /// Configuration parameters returned for the DMS Serverless replication after
+  /// it is deleted.
+  final ReplicationConfig? replicationConfig;
+
+  DeleteReplicationConfigResponse({
+    this.replicationConfig,
+  });
+
+  factory DeleteReplicationConfigResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteReplicationConfigResponse(
+      replicationConfig: json['ReplicationConfig'] != null
+          ? ReplicationConfig.fromJson(
+              json['ReplicationConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationConfig = this.replicationConfig;
+    return {
+      if (replicationConfig != null) 'ReplicationConfig': replicationConfig,
     };
   }
 }
@@ -6157,6 +8848,78 @@ class DescribeConnectionsResponse {
   }
 }
 
+class DescribeConversionConfigurationResponse {
+  /// The configuration parameters for the schema conversion project.
+  final String? conversionConfiguration;
+
+  /// The name or Amazon Resource Name (ARN) for the schema conversion project.
+  final String? migrationProjectIdentifier;
+
+  DescribeConversionConfigurationResponse({
+    this.conversionConfiguration,
+    this.migrationProjectIdentifier,
+  });
+
+  factory DescribeConversionConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeConversionConfigurationResponse(
+      conversionConfiguration: json['ConversionConfiguration'] as String?,
+      migrationProjectIdentifier: json['MigrationProjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conversionConfiguration = this.conversionConfiguration;
+    final migrationProjectIdentifier = this.migrationProjectIdentifier;
+    return {
+      if (conversionConfiguration != null)
+        'ConversionConfiguration': conversionConfiguration,
+      if (migrationProjectIdentifier != null)
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+    };
+  }
+}
+
+class DescribeDataProvidersResponse {
+  /// A description of data providers.
+  final List<DataProvider>? dataProviders;
+
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  DescribeDataProvidersResponse({
+    this.dataProviders,
+    this.marker,
+  });
+
+  factory DescribeDataProvidersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDataProvidersResponse(
+      dataProviders: (json['DataProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataProvider.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProviders = this.dataProviders;
+    final marker = this.marker;
+    return {
+      if (dataProviders != null) 'DataProviders': dataProviders,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
 class DescribeEndpointSettingsResponse {
   /// Descriptions of the endpoint settings available for your source or target
   /// database engine.
@@ -6263,6 +9026,41 @@ class DescribeEndpointsResponse {
   }
 }
 
+class DescribeEngineVersionsResponse {
+  /// Returned <code>EngineVersion</code> objects that describe the replication
+  /// instance engine versions used in the project.
+  final List<EngineVersion>? engineVersions;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DescribeEngineVersionsResponse({
+    this.engineVersions,
+    this.marker,
+  });
+
+  factory DescribeEngineVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEngineVersionsResponse(
+      engineVersions: (json['EngineVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EngineVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engineVersions = this.engineVersions;
+    final marker = this.marker;
+    return {
+      if (engineVersions != null) 'EngineVersions': engineVersions,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
 /// <p/>
 class DescribeEventCategoriesResponse {
   /// A list of event categories.
@@ -6358,6 +9156,49 @@ class DescribeEventsResponse {
     return {
       if (events != null) 'Events': events,
       if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeExtensionPackAssociationsResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  /// A paginated list of extension pack associations for the specified migration
+  /// project.
+  final List<SchemaConversionRequest>? requests;
+
+  DescribeExtensionPackAssociationsResponse({
+    this.marker,
+    this.requests,
+  });
+
+  factory DescribeExtensionPackAssociationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeExtensionPackAssociationsResponse(
+      marker: json['Marker'] as String?,
+      requests: (json['Requests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SchemaConversionRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final requests = this.requests;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (requests != null) 'Requests': requests,
     };
   }
 }
@@ -6548,6 +9389,298 @@ class DescribeFleetAdvisorSchemasResponse {
   }
 }
 
+class DescribeInstanceProfilesResponse {
+  /// A description of instance profiles.
+  final List<InstanceProfile>? instanceProfiles;
+
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  DescribeInstanceProfilesResponse({
+    this.instanceProfiles,
+    this.marker,
+  });
+
+  factory DescribeInstanceProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeInstanceProfilesResponse(
+      instanceProfiles: (json['InstanceProfiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfiles = this.instanceProfiles;
+    final marker = this.marker;
+    return {
+      if (instanceProfiles != null) 'InstanceProfiles': instanceProfiles,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeMetadataModelAssessmentsResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  /// A paginated list of metadata model assessments for the specified migration
+  /// project.
+  final List<SchemaConversionRequest>? requests;
+
+  DescribeMetadataModelAssessmentsResponse({
+    this.marker,
+    this.requests,
+  });
+
+  factory DescribeMetadataModelAssessmentsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMetadataModelAssessmentsResponse(
+      marker: json['Marker'] as String?,
+      requests: (json['Requests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SchemaConversionRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final requests = this.requests;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (requests != null) 'Requests': requests,
+    };
+  }
+}
+
+class DescribeMetadataModelConversionsResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  /// A paginated list of metadata model conversions.
+  final List<SchemaConversionRequest>? requests;
+
+  DescribeMetadataModelConversionsResponse({
+    this.marker,
+    this.requests,
+  });
+
+  factory DescribeMetadataModelConversionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMetadataModelConversionsResponse(
+      marker: json['Marker'] as String?,
+      requests: (json['Requests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SchemaConversionRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final requests = this.requests;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (requests != null) 'Requests': requests,
+    };
+  }
+}
+
+class DescribeMetadataModelExportsAsScriptResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  /// A paginated list of metadata model exports.
+  final List<SchemaConversionRequest>? requests;
+
+  DescribeMetadataModelExportsAsScriptResponse({
+    this.marker,
+    this.requests,
+  });
+
+  factory DescribeMetadataModelExportsAsScriptResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMetadataModelExportsAsScriptResponse(
+      marker: json['Marker'] as String?,
+      requests: (json['Requests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SchemaConversionRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final requests = this.requests;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (requests != null) 'Requests': requests,
+    };
+  }
+}
+
+class DescribeMetadataModelExportsToTargetResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  /// A paginated list of metadata model exports.
+  final List<SchemaConversionRequest>? requests;
+
+  DescribeMetadataModelExportsToTargetResponse({
+    this.marker,
+    this.requests,
+  });
+
+  factory DescribeMetadataModelExportsToTargetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMetadataModelExportsToTargetResponse(
+      marker: json['Marker'] as String?,
+      requests: (json['Requests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SchemaConversionRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final requests = this.requests;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (requests != null) 'Requests': requests,
+    };
+  }
+}
+
+class DescribeMetadataModelImportsResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  /// A paginated list of metadata model imports.
+  final List<SchemaConversionRequest>? requests;
+
+  DescribeMetadataModelImportsResponse({
+    this.marker,
+    this.requests,
+  });
+
+  factory DescribeMetadataModelImportsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMetadataModelImportsResponse(
+      marker: json['Marker'] as String?,
+      requests: (json['Requests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SchemaConversionRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final requests = this.requests;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (requests != null) 'Requests': requests,
+    };
+  }
+}
+
+class DescribeMigrationProjectsResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
+  final String? marker;
+
+  /// A description of migration projects.
+  final List<MigrationProject>? migrationProjects;
+
+  DescribeMigrationProjectsResponse({
+    this.marker,
+    this.migrationProjects,
+  });
+
+  factory DescribeMigrationProjectsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMigrationProjectsResponse(
+      marker: json['Marker'] as String?,
+      migrationProjects: (json['MigrationProjects'] as List?)
+          ?.whereNotNull()
+          .map((e) => MigrationProject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final migrationProjects = this.migrationProjects;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (migrationProjects != null) 'MigrationProjects': migrationProjects,
+    };
+  }
+}
+
 /// <p/>
 class DescribeOrderableReplicationInstancesResponse {
   /// An optional pagination token provided by a previous request. If this
@@ -6728,6 +9861,43 @@ class DescribeRefreshSchemasStatusResponse {
   }
 }
 
+/// <p/>
+class DescribeReplicationConfigsResponse {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// Returned configuration parameters that describe each provisioned DMS
+  /// Serverless replication.
+  final List<ReplicationConfig>? replicationConfigs;
+
+  DescribeReplicationConfigsResponse({
+    this.marker,
+    this.replicationConfigs,
+  });
+
+  factory DescribeReplicationConfigsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeReplicationConfigsResponse(
+      marker: json['Marker'] as String?,
+      replicationConfigs: (json['ReplicationConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicationConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationConfigs = this.replicationConfigs;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationConfigs != null) 'ReplicationConfigs': replicationConfigs,
+    };
+  }
+}
+
 class DescribeReplicationInstanceTaskLogsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -6846,6 +10016,52 @@ class DescribeReplicationSubnetGroupsResponse {
       if (marker != null) 'Marker': marker,
       if (replicationSubnetGroups != null)
         'ReplicationSubnetGroups': replicationSubnetGroups,
+    };
+  }
+}
+
+/// <p/>
+class DescribeReplicationTableStatisticsResponse {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// The Amazon Resource Name of the replication config.
+  final String? replicationConfigArn;
+
+  /// Returns table statistics on the replication, including table name, rows
+  /// inserted, rows updated, and rows deleted.
+  final List<TableStatistics>? replicationTableStatistics;
+
+  DescribeReplicationTableStatisticsResponse({
+    this.marker,
+    this.replicationConfigArn,
+    this.replicationTableStatistics,
+  });
+
+  factory DescribeReplicationTableStatisticsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeReplicationTableStatisticsResponse(
+      marker: json['Marker'] as String?,
+      replicationConfigArn: json['ReplicationConfigArn'] as String?,
+      replicationTableStatistics: (json['ReplicationTableStatistics'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableStatistics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationConfigArn = this.replicationConfigArn;
+    final replicationTableStatistics = this.replicationTableStatistics;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationConfigArn != null)
+        'ReplicationConfigArn': replicationConfigArn,
+      if (replicationTableStatistics != null)
+        'ReplicationTableStatistics': replicationTableStatistics,
     };
   }
 }
@@ -7017,6 +10233,41 @@ class DescribeReplicationTasksResponse {
 }
 
 /// <p/>
+class DescribeReplicationsResponse {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// The replication descriptions.
+  final List<Replication>? replications;
+
+  DescribeReplicationsResponse({
+    this.marker,
+    this.replications,
+  });
+
+  factory DescribeReplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReplicationsResponse(
+      marker: json['Marker'] as String?,
+      replications: (json['Replications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Replication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replications = this.replications;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replications != null) 'Replications': replications,
+    };
+  }
+}
+
+/// <p/>
 class DescribeSchemasResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -7163,6 +10414,58 @@ class DmsTransferSettings {
   }
 }
 
+/// Provides information that defines a DocumentDB data provider.
+class DocDbDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the DocumentDB data provider.
+  final String? databaseName;
+
+  /// The port value for the DocumentDB data provider.
+  final int? port;
+
+  /// The name of the source DocumentDB server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the DocumentDB data provider. The default
+  /// value is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  DocDbDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory DocDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return DocDbDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
+    };
+  }
+}
+
 /// Provides information that defines a DocumentDB endpoint.
 class DocDbSettings {
   /// The database name on the DocumentDB source endpoint.
@@ -7203,6 +10506,21 @@ class DocDbSettings {
   /// The port value for the DocumentDB source endpoint.
   final int? port;
 
+  /// If <code>true</code>, DMS replicates data to shard collections. DMS only
+  /// uses this setting if the target endpoint is a DocumentDB elastic cluster.
+  ///
+  /// When this setting is <code>true</code>, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must set <code>TargetTablePrepMode</code> to <code>nothing</code>.
+  /// </li>
+  /// <li>
+  /// DMS automatically sets <code>useUpdateLookup</code> to <code>false</code>.
+  /// </li>
+  /// </ul>
+  final bool? replicateShardCollections;
+
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
   /// the trusted entity and grants the required permissions to access the value
   /// in <code>SecretsManagerSecret</code>. The role must allow the
@@ -7232,6 +10550,12 @@ class DocDbSettings {
   /// The name of the server on the DocumentDB source endpoint.
   final String? serverName;
 
+  /// If <code>true</code>, DMS retrieves the entire document from the DocumentDB
+  /// source during migration. This may cause a migration failure if the server
+  /// response exceeds bandwidth limits. To fetch only updates and deletes during
+  /// migration, set this parameter to <code>false</code>.
+  final bool? useUpdateLookUp;
+
   /// The user name you use to access the DocumentDB source endpoint.
   final String? username;
 
@@ -7243,9 +10567,11 @@ class DocDbSettings {
     this.nestingLevel,
     this.password,
     this.port,
+    this.replicateShardCollections,
     this.secretsManagerAccessRoleArn,
     this.secretsManagerSecretId,
     this.serverName,
+    this.useUpdateLookUp,
     this.username,
   });
 
@@ -7258,10 +10584,12 @@ class DocDbSettings {
       nestingLevel: (json['NestingLevel'] as String?)?.toNestingLevelValue(),
       password: json['Password'] as String?,
       port: json['Port'] as int?,
+      replicateShardCollections: json['ReplicateShardCollections'] as bool?,
       secretsManagerAccessRoleArn:
           json['SecretsManagerAccessRoleArn'] as String?,
       secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
       serverName: json['ServerName'] as String?,
+      useUpdateLookUp: json['UseUpdateLookUp'] as bool?,
       username: json['Username'] as String?,
     );
   }
@@ -7274,9 +10602,11 @@ class DocDbSettings {
     final nestingLevel = this.nestingLevel;
     final password = this.password;
     final port = this.port;
+    final replicateShardCollections = this.replicateShardCollections;
     final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
     final secretsManagerSecretId = this.secretsManagerSecretId;
     final serverName = this.serverName;
+    final useUpdateLookUp = this.useUpdateLookUp;
     final username = this.username;
     return {
       if (databaseName != null) 'DatabaseName': databaseName,
@@ -7286,11 +10616,14 @@ class DocDbSettings {
       if (nestingLevel != null) 'NestingLevel': nestingLevel.toValue(),
       if (password != null) 'Password': password,
       if (port != null) 'Port': port,
+      if (replicateShardCollections != null)
+        'ReplicateShardCollections': replicateShardCollections,
       if (secretsManagerAccessRoleArn != null)
         'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
       if (secretsManagerSecretId != null)
         'SecretsManagerSecretId': secretsManagerSecretId,
       if (serverName != null) 'ServerName': serverName,
+      if (useUpdateLookUp != null) 'UseUpdateLookUp': useUpdateLookUp,
       if (username != null) 'Username': username,
     };
   }
@@ -7501,12 +10834,12 @@ class Endpoint {
   /// include <code>"mysql"</code>, <code>"oracle"</code>,
   /// <code>"postgres"</code>, <code>"mariadb"</code>, <code>"aurora"</code>,
   /// <code>"aurora-postgresql"</code>, <code>"redshift"</code>,
-  /// <code>"s3"</code>, <code>"db2"</code>, <code>"db2-zos"</code>,
-  /// <code>"azuredb"</code>, <code>"sybase"</code>, <code>"dynamodb"</code>,
-  /// <code>"mongodb"</code>, <code>"kinesis"</code>, <code>"kafka"</code>,
-  /// <code>"elasticsearch"</code>, <code>"documentdb"</code>,
-  /// <code>"sqlserver"</code>, <code>"neptune"</code>, and
-  /// <code>"babelfish"</code>.
+  /// <code>"redshift-serverless"</code>, <code>"s3"</code>, <code>"db2"</code>,
+  /// <code>"db2-zos"</code>, <code>"azuredb"</code>, <code>"sybase"</code>,
+  /// <code>"dynamodb"</code>, <code>"mongodb"</code>, <code>"kinesis"</code>,
+  /// <code>"kafka"</code>, <code>"elasticsearch"</code>,
+  /// <code>"documentdb"</code>, <code>"sqlserver"</code>, <code>"neptune"</code>,
+  /// and <code>"babelfish"</code>.
   final String? engineName;
 
   /// Value returned by a call to CreateEndpoint that can be used for
@@ -7602,6 +10935,10 @@ class Endpoint {
   /// information, see the <code>SybaseSettings</code> structure.
   final SybaseSettings? sybaseSettings;
 
+  /// The settings for the Amazon Timestream target endpoint. For more
+  /// information, see the <code>TimestreamSettings</code> structure.
+  final TimestreamSettings? timestreamSettings;
+
   /// The user name used to connect to the endpoint.
   final String? username;
 
@@ -7640,6 +10977,7 @@ class Endpoint {
     this.sslMode,
     this.status,
     this.sybaseSettings,
+    this.timestreamSettings,
     this.username,
   });
 
@@ -7733,6 +11071,10 @@ class Endpoint {
           ? SybaseSettings.fromJson(
               json['SybaseSettings'] as Map<String, dynamic>)
           : null,
+      timestreamSettings: json['TimestreamSettings'] != null
+          ? TimestreamSettings.fromJson(
+              json['TimestreamSettings'] as Map<String, dynamic>)
+          : null,
       username: json['Username'] as String?,
     );
   }
@@ -7772,6 +11114,7 @@ class Endpoint {
     final sslMode = this.sslMode;
     final status = this.status;
     final sybaseSettings = this.sybaseSettings;
+    final timestreamSettings = this.timestreamSettings;
     final username = this.username;
     return {
       if (certificateArn != null) 'CertificateArn': certificateArn,
@@ -7814,6 +11157,7 @@ class Endpoint {
       if (sslMode != null) 'SslMode': sslMode.toValue(),
       if (status != null) 'Status': status,
       if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
+      if (timestreamSettings != null) 'TimestreamSettings': timestreamSettings,
       if (username != null) 'Username': username,
     };
   }
@@ -7939,6 +11283,117 @@ extension EndpointSettingTypeValueFromString on String {
         return EndpointSettingTypeValue.$enum;
     }
     throw Exception('$this is not known in enum EndpointSettingTypeValue');
+  }
+}
+
+/// Provides information about a replication instance version.
+class EngineVersion {
+  /// The date when the replication instance will be automatically upgraded. This
+  /// setting only applies if the <code>auto-minor-version</code> setting is
+  /// enabled.
+  final DateTime? autoUpgradeDate;
+
+  /// The list of valid replication instance versions that you can upgrade to.
+  final List<String>? availableUpgrades;
+
+  /// The date when the replication instance version will be deprecated and can no
+  /// longer be requested.
+  final DateTime? deprecationDate;
+
+  /// The date when the replication instance will have a version upgrade forced.
+  final DateTime? forceUpgradeDate;
+
+  /// The date when the replication instance version became publicly available.
+  final DateTime? launchDate;
+
+  /// The lifecycle status of the replication instance version. Valid values are
+  /// <code>DEPRECATED</code>, <code>DEFAULT_VERSION</code>, and
+  /// <code>ACTIVE</code>.
+  final String? lifecycle;
+
+  /// The release status of the replication instance version.
+  final ReleaseStatusValues? releaseStatus;
+
+  /// The version number of the replication instance.
+  final String? version;
+
+  EngineVersion({
+    this.autoUpgradeDate,
+    this.availableUpgrades,
+    this.deprecationDate,
+    this.forceUpgradeDate,
+    this.launchDate,
+    this.lifecycle,
+    this.releaseStatus,
+    this.version,
+  });
+
+  factory EngineVersion.fromJson(Map<String, dynamic> json) {
+    return EngineVersion(
+      autoUpgradeDate: timeStampFromJson(json['AutoUpgradeDate']),
+      availableUpgrades: (json['AvailableUpgrades'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deprecationDate: timeStampFromJson(json['DeprecationDate']),
+      forceUpgradeDate: timeStampFromJson(json['ForceUpgradeDate']),
+      launchDate: timeStampFromJson(json['LaunchDate']),
+      lifecycle: json['Lifecycle'] as String?,
+      releaseStatus:
+          (json['ReleaseStatus'] as String?)?.toReleaseStatusValues(),
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoUpgradeDate = this.autoUpgradeDate;
+    final availableUpgrades = this.availableUpgrades;
+    final deprecationDate = this.deprecationDate;
+    final forceUpgradeDate = this.forceUpgradeDate;
+    final launchDate = this.launchDate;
+    final lifecycle = this.lifecycle;
+    final releaseStatus = this.releaseStatus;
+    final version = this.version;
+    return {
+      if (autoUpgradeDate != null)
+        'AutoUpgradeDate': unixTimestampToJson(autoUpgradeDate),
+      if (availableUpgrades != null) 'AvailableUpgrades': availableUpgrades,
+      if (deprecationDate != null)
+        'DeprecationDate': unixTimestampToJson(deprecationDate),
+      if (forceUpgradeDate != null)
+        'ForceUpgradeDate': unixTimestampToJson(forceUpgradeDate),
+      if (launchDate != null) 'LaunchDate': unixTimestampToJson(launchDate),
+      if (lifecycle != null) 'Lifecycle': lifecycle,
+      if (releaseStatus != null) 'ReleaseStatus': releaseStatus.toValue(),
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Provides error information about a project.
+class ErrorDetails {
+  /// Error information about a project.
+  final DefaultErrorDetails? defaultErrorDetails;
+
+  ErrorDetails({
+    this.defaultErrorDetails,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      defaultErrorDetails: json['defaultErrorDetails'] != null
+          ? DefaultErrorDetails.fromJson(
+              json['defaultErrorDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultErrorDetails = this.defaultErrorDetails;
+    return {
+      if (defaultErrorDetails != null)
+        'defaultErrorDetails': defaultErrorDetails,
+    };
   }
 }
 
@@ -8136,6 +11591,105 @@ class EventSubscription {
       if (status != null) 'Status': status,
       if (subscriptionCreationTime != null)
         'SubscriptionCreationTime': subscriptionCreationTime,
+    };
+  }
+}
+
+class ExportMetadataModelAssessmentResponse {
+  /// The Amazon S3 details for an assessment exported in CSV format.
+  final ExportMetadataModelAssessmentResultEntry? csvReport;
+
+  /// The Amazon S3 details for an assessment exported in PDF format.
+  final ExportMetadataModelAssessmentResultEntry? pdfReport;
+
+  ExportMetadataModelAssessmentResponse({
+    this.csvReport,
+    this.pdfReport,
+  });
+
+  factory ExportMetadataModelAssessmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ExportMetadataModelAssessmentResponse(
+      csvReport: json['CsvReport'] != null
+          ? ExportMetadataModelAssessmentResultEntry.fromJson(
+              json['CsvReport'] as Map<String, dynamic>)
+          : null,
+      pdfReport: json['PdfReport'] != null
+          ? ExportMetadataModelAssessmentResultEntry.fromJson(
+              json['PdfReport'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csvReport = this.csvReport;
+    final pdfReport = this.pdfReport;
+    return {
+      if (csvReport != null) 'CsvReport': csvReport,
+      if (pdfReport != null) 'PdfReport': pdfReport,
+    };
+  }
+}
+
+/// Provides information about an exported metadata model assessment.
+class ExportMetadataModelAssessmentResultEntry {
+  /// The URL for the object containing the exported metadata model assessment.
+  final String? objectURL;
+
+  /// The object key for the object containing the exported metadata model
+  /// assessment.
+  final String? s3ObjectKey;
+
+  ExportMetadataModelAssessmentResultEntry({
+    this.objectURL,
+    this.s3ObjectKey,
+  });
+
+  factory ExportMetadataModelAssessmentResultEntry.fromJson(
+      Map<String, dynamic> json) {
+    return ExportMetadataModelAssessmentResultEntry(
+      objectURL: json['ObjectURL'] as String?,
+      s3ObjectKey: json['S3ObjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectURL = this.objectURL;
+    final s3ObjectKey = this.s3ObjectKey;
+    return {
+      if (objectURL != null) 'ObjectURL': objectURL,
+      if (s3ObjectKey != null) 'S3ObjectKey': s3ObjectKey,
+    };
+  }
+}
+
+/// Provides information about a metadata model assessment exported to SQL.
+class ExportSqlDetails {
+  /// The URL for the object containing the exported metadata model assessment.
+  final String? objectURL;
+
+  /// The Amazon S3 object key for the object containing the exported metadata
+  /// model assessment.
+  final String? s3ObjectKey;
+
+  ExportSqlDetails({
+    this.objectURL,
+    this.s3ObjectKey,
+  });
+
+  factory ExportSqlDetails.fromJson(Map<String, dynamic> json) {
+    return ExportSqlDetails(
+      objectURL: json['ObjectURL'] as String?,
+      s3ObjectKey: json['S3ObjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectURL = this.objectURL;
+    final s3ObjectKey = this.s3ObjectKey;
+    return {
+      if (objectURL != null) 'ObjectURL': objectURL,
+      if (s3ObjectKey != null) 'S3ObjectKey': s3ObjectKey,
     };
   }
 }
@@ -8454,6 +12008,20 @@ class IBMDb2Settings {
   /// Database name for the endpoint.
   final String? databaseName;
 
+  /// If true, DMS saves any .csv files to the Db2 LUW target that were used to
+  /// replicate data. DMS uses these files for analysis and troubleshooting.
+  ///
+  /// The default value is false.
+  final bool? keepCsvFiles;
+
+  /// The amount of time (in milliseconds) before DMS times out operations
+  /// performed by DMS on the Db2 target. The default value is 1200 (20 minutes).
+  final int? loadTimeout;
+
+  /// Specifies the maximum size (in KB) of .csv files used to transfer data to
+  /// Db2 LUW.
+  final int? maxFileSize;
+
   /// Maximum number of bytes per read, as a NUMBER value. The default is 64 KB.
   final int? maxKBytesPerRead;
 
@@ -8498,9 +12066,17 @@ class IBMDb2Settings {
   /// Endpoint connection user name.
   final String? username;
 
+  /// The size (in KB) of the in-memory file write buffer used when generating
+  /// .csv files on the local disk on the DMS replication instance. The default
+  /// value is 1024 (1 MB).
+  final int? writeBufferSize;
+
   IBMDb2Settings({
     this.currentLsn,
     this.databaseName,
+    this.keepCsvFiles,
+    this.loadTimeout,
+    this.maxFileSize,
     this.maxKBytesPerRead,
     this.password,
     this.port,
@@ -8509,12 +12085,16 @@ class IBMDb2Settings {
     this.serverName,
     this.setDataCaptureChanges,
     this.username,
+    this.writeBufferSize,
   });
 
   factory IBMDb2Settings.fromJson(Map<String, dynamic> json) {
     return IBMDb2Settings(
       currentLsn: json['CurrentLsn'] as String?,
       databaseName: json['DatabaseName'] as String?,
+      keepCsvFiles: json['KeepCsvFiles'] as bool?,
+      loadTimeout: json['LoadTimeout'] as int?,
+      maxFileSize: json['MaxFileSize'] as int?,
       maxKBytesPerRead: json['MaxKBytesPerRead'] as int?,
       password: json['Password'] as String?,
       port: json['Port'] as int?,
@@ -8524,12 +12104,16 @@ class IBMDb2Settings {
       serverName: json['ServerName'] as String?,
       setDataCaptureChanges: json['SetDataCaptureChanges'] as bool?,
       username: json['Username'] as String?,
+      writeBufferSize: json['WriteBufferSize'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final currentLsn = this.currentLsn;
     final databaseName = this.databaseName;
+    final keepCsvFiles = this.keepCsvFiles;
+    final loadTimeout = this.loadTimeout;
+    final maxFileSize = this.maxFileSize;
     final maxKBytesPerRead = this.maxKBytesPerRead;
     final password = this.password;
     final port = this.port;
@@ -8538,9 +12122,13 @@ class IBMDb2Settings {
     final serverName = this.serverName;
     final setDataCaptureChanges = this.setDataCaptureChanges;
     final username = this.username;
+    final writeBufferSize = this.writeBufferSize;
     return {
       if (currentLsn != null) 'CurrentLsn': currentLsn,
       if (databaseName != null) 'DatabaseName': databaseName,
+      if (keepCsvFiles != null) 'KeepCsvFiles': keepCsvFiles,
+      if (loadTimeout != null) 'LoadTimeout': loadTimeout,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
       if (maxKBytesPerRead != null) 'MaxKBytesPerRead': maxKBytesPerRead,
       if (password != null) 'Password': password,
       if (port != null) 'Port': port,
@@ -8552,6 +12140,7 @@ class IBMDb2Settings {
       if (setDataCaptureChanges != null)
         'SetDataCaptureChanges': setDataCaptureChanges,
       if (username != null) 'Username': username,
+      if (writeBufferSize != null) 'WriteBufferSize': writeBufferSize,
     };
   }
 }
@@ -8576,6 +12165,122 @@ class ImportCertificateResponse {
     final certificate = this.certificate;
     return {
       if (certificate != null) 'Certificate': certificate,
+    };
+  }
+}
+
+/// Provides information that defines an instance profile.
+class InstanceProfile {
+  /// The Availability Zone where the instance profile runs.
+  final String? availabilityZone;
+
+  /// A description of the instance profile. Descriptions can have up to 31
+  /// characters. A description can contain only ASCII letters, digits, and
+  /// hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive
+  /// hyphens, and can only begin with a letter.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the instance
+  /// profile.
+  final String? instanceProfileArn;
+
+  /// The time the instance profile was created.
+  final DateTime? instanceProfileCreationTime;
+
+  /// The user-friendly name for the instance profile.
+  final String? instanceProfileName;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
+  /// connection parameters for the instance profile.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyArn</code> parameter, then
+  /// DMS uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyArn;
+
+  /// Specifies the network type for the instance profile. A value of
+  /// <code>IPV4</code> represents an instance profile with IPv4 network type and
+  /// only supports IPv4 addressing. A value of <code>IPV6</code> represents an
+  /// instance profile with IPv6 network type and only supports IPv6 addressing. A
+  /// value of <code>DUAL</code> represents an instance profile with dual network
+  /// type that supports IPv4 and IPv6 addressing.
+  final String? networkType;
+
+  /// Specifies the accessibility options for the instance profile. A value of
+  /// <code>true</code> represents an instance profile with a public IP address. A
+  /// value of <code>false</code> represents an instance profile with a private IP
+  /// address. The default value is <code>true</code>.
+  final bool? publiclyAccessible;
+
+  /// The identifier of the subnet group that is associated with the instance
+  /// profile.
+  final String? subnetGroupIdentifier;
+
+  /// The VPC security groups that are used with the instance profile. The VPC
+  /// security group must work with the VPC containing the instance profile.
+  final List<String>? vpcSecurityGroups;
+
+  InstanceProfile({
+    this.availabilityZone,
+    this.description,
+    this.instanceProfileArn,
+    this.instanceProfileCreationTime,
+    this.instanceProfileName,
+    this.kmsKeyArn,
+    this.networkType,
+    this.publiclyAccessible,
+    this.subnetGroupIdentifier,
+    this.vpcSecurityGroups,
+  });
+
+  factory InstanceProfile.fromJson(Map<String, dynamic> json) {
+    return InstanceProfile(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      description: json['Description'] as String?,
+      instanceProfileArn: json['InstanceProfileArn'] as String?,
+      instanceProfileCreationTime:
+          timeStampFromJson(json['InstanceProfileCreationTime']),
+      instanceProfileName: json['InstanceProfileName'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      networkType: json['NetworkType'] as String?,
+      publiclyAccessible: json['PubliclyAccessible'] as bool?,
+      subnetGroupIdentifier: json['SubnetGroupIdentifier'] as String?,
+      vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final description = this.description;
+    final instanceProfileArn = this.instanceProfileArn;
+    final instanceProfileCreationTime = this.instanceProfileCreationTime;
+    final instanceProfileName = this.instanceProfileName;
+    final kmsKeyArn = this.kmsKeyArn;
+    final networkType = this.networkType;
+    final publiclyAccessible = this.publiclyAccessible;
+    final subnetGroupIdentifier = this.subnetGroupIdentifier;
+    final vpcSecurityGroups = this.vpcSecurityGroups;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (description != null) 'Description': description,
+      if (instanceProfileArn != null) 'InstanceProfileArn': instanceProfileArn,
+      if (instanceProfileCreationTime != null)
+        'InstanceProfileCreationTime':
+            iso8601ToJson(instanceProfileCreationTime),
+      if (instanceProfileName != null)
+        'InstanceProfileName': instanceProfileName,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (networkType != null) 'NetworkType': networkType,
+      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
+      if (subnetGroupIdentifier != null)
+        'SubnetGroupIdentifier': subnetGroupIdentifier,
+      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
     };
   }
 }
@@ -8781,6 +12486,11 @@ class KafkaSettings {
   /// target endpoint.
   final String? sslClientKeyPassword;
 
+  /// Sets hostname verification for the certificate. This setting is supported in
+  /// DMS version 3.5.1 and later.
+  final KafkaSslEndpointIdentificationAlgorithm?
+      sslEndpointIdentificationAlgorithm;
+
   /// The topic to which you migrate the data. If you don't specify a topic, DMS
   /// specifies <code>"kafka-default-topic"</code> as the migration topic.
   final String? topic;
@@ -8804,6 +12514,7 @@ class KafkaSettings {
     this.sslClientCertificateArn,
     this.sslClientKeyArn,
     this.sslClientKeyPassword,
+    this.sslEndpointIdentificationAlgorithm,
     this.topic,
   });
 
@@ -8828,6 +12539,9 @@ class KafkaSettings {
       sslClientCertificateArn: json['SslClientCertificateArn'] as String?,
       sslClientKeyArn: json['SslClientKeyArn'] as String?,
       sslClientKeyPassword: json['SslClientKeyPassword'] as String?,
+      sslEndpointIdentificationAlgorithm:
+          (json['SslEndpointIdentificationAlgorithm'] as String?)
+              ?.toKafkaSslEndpointIdentificationAlgorithm(),
       topic: json['Topic'] as String?,
     );
   }
@@ -8851,6 +12565,8 @@ class KafkaSettings {
     final sslClientCertificateArn = this.sslClientCertificateArn;
     final sslClientKeyArn = this.sslClientKeyArn;
     final sslClientKeyPassword = this.sslClientKeyPassword;
+    final sslEndpointIdentificationAlgorithm =
+        this.sslEndpointIdentificationAlgorithm;
     final topic = this.topic;
     return {
       if (broker != null) 'Broker': broker,
@@ -8881,8 +12597,42 @@ class KafkaSettings {
       if (sslClientKeyArn != null) 'SslClientKeyArn': sslClientKeyArn,
       if (sslClientKeyPassword != null)
         'SslClientKeyPassword': sslClientKeyPassword,
+      if (sslEndpointIdentificationAlgorithm != null)
+        'SslEndpointIdentificationAlgorithm':
+            sslEndpointIdentificationAlgorithm.toValue(),
       if (topic != null) 'Topic': topic,
     };
+  }
+}
+
+enum KafkaSslEndpointIdentificationAlgorithm {
+  none,
+  https,
+}
+
+extension KafkaSslEndpointIdentificationAlgorithmValueExtension
+    on KafkaSslEndpointIdentificationAlgorithm {
+  String toValue() {
+    switch (this) {
+      case KafkaSslEndpointIdentificationAlgorithm.none:
+        return 'none';
+      case KafkaSslEndpointIdentificationAlgorithm.https:
+        return 'https';
+    }
+  }
+}
+
+extension KafkaSslEndpointIdentificationAlgorithmFromString on String {
+  KafkaSslEndpointIdentificationAlgorithm
+      toKafkaSslEndpointIdentificationAlgorithm() {
+    switch (this) {
+      case 'none':
+        return KafkaSslEndpointIdentificationAlgorithm.none;
+      case 'https':
+        return KafkaSslEndpointIdentificationAlgorithm.https;
+    }
+    throw Exception(
+        '$this is not known in enum KafkaSslEndpointIdentificationAlgorithm');
   }
 }
 
@@ -9109,6 +12859,84 @@ class ListTagsForResourceResponse {
   }
 }
 
+enum LongVarcharMappingType {
+  wstring,
+  clob,
+  nclob,
+}
+
+extension LongVarcharMappingTypeValueExtension on LongVarcharMappingType {
+  String toValue() {
+    switch (this) {
+      case LongVarcharMappingType.wstring:
+        return 'wstring';
+      case LongVarcharMappingType.clob:
+        return 'clob';
+      case LongVarcharMappingType.nclob:
+        return 'nclob';
+    }
+  }
+}
+
+extension LongVarcharMappingTypeFromString on String {
+  LongVarcharMappingType toLongVarcharMappingType() {
+    switch (this) {
+      case 'wstring':
+        return LongVarcharMappingType.wstring;
+      case 'clob':
+        return LongVarcharMappingType.clob;
+      case 'nclob':
+        return LongVarcharMappingType.nclob;
+    }
+    throw Exception('$this is not known in enum LongVarcharMappingType');
+  }
+}
+
+/// Provides information that defines a MariaDB data provider.
+class MariaDbDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The port value for the MariaDB data provider
+  final int? port;
+
+  /// The name of the MariaDB server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the MariaDB data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MariaDbDataProviderSettings({
+    this.certificateArn,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MariaDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return MariaDbDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
+    };
+  }
+}
+
 enum MessageFormatValue {
   json,
   jsonUnformatted,
@@ -9229,8 +13057,9 @@ class MicrosoftSQLServerSettings {
   /// Indicates the mode used to fetch CDC data.
   final TlogAccessMode? tlogAccessMode;
 
-  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
-  /// CHAR and NCHAR data types during migration. The default value is
+  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to right-trim
+  /// data on CHAR and NCHAR data types during migration. Setting
+  /// <code>TrimSpaceInChar</code> does not left-trim data. The default value is
   /// <code>true</code>.
   final bool? trimSpaceInChar;
 
@@ -9335,6 +13164,179 @@ class MicrosoftSQLServerSettings {
   }
 }
 
+/// Provides information that defines a Microsoft SQL Server data provider.
+class MicrosoftSqlServerDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the Microsoft SQL Server data provider.
+  final String? databaseName;
+
+  /// The port value for the Microsoft SQL Server data provider.
+  final int? port;
+
+  /// The name of the Microsoft SQL Server server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the Microsoft SQL Server data provider. The
+  /// default value is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MicrosoftSqlServerDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MicrosoftSqlServerDataProviderSettings.fromJson(
+      Map<String, dynamic> json) {
+    return MicrosoftSqlServerDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
+    };
+  }
+}
+
+/// Provides information that defines a migration project.
+class MigrationProject {
+  /// A user-friendly description of the migration project.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the instance profile for your migration
+  /// project.
+  final String? instanceProfileArn;
+
+  /// The name of the associated instance profile.
+  final String? instanceProfileName;
+
+  /// The ARN string that uniquely identifies the migration project.
+  final String? migrationProjectArn;
+
+  /// The time when the migration project was created.
+  final DateTime? migrationProjectCreationTime;
+
+  /// The name of the migration project.
+  final String? migrationProjectName;
+
+  /// The schema conversion application attributes, including the Amazon S3 bucket
+  /// name and Amazon S3 role ARN.
+  final SCApplicationAttributes? schemaConversionApplicationAttributes;
+
+  /// Information about the source data provider, including the name or ARN, and
+  /// Secrets Manager parameters.
+  final List<DataProviderDescriptor>? sourceDataProviderDescriptors;
+
+  /// Information about the target data provider, including the name or ARN, and
+  /// Secrets Manager parameters.
+  final List<DataProviderDescriptor>? targetDataProviderDescriptors;
+
+  /// The settings in JSON format for migration rules. Migration rules make it
+  /// possible for you to change the object names according to the rules that you
+  /// specify. For example, you can change an object name to lowercase or
+  /// uppercase, add or remove a prefix or suffix, or rename objects.
+  final String? transformationRules;
+
+  MigrationProject({
+    this.description,
+    this.instanceProfileArn,
+    this.instanceProfileName,
+    this.migrationProjectArn,
+    this.migrationProjectCreationTime,
+    this.migrationProjectName,
+    this.schemaConversionApplicationAttributes,
+    this.sourceDataProviderDescriptors,
+    this.targetDataProviderDescriptors,
+    this.transformationRules,
+  });
+
+  factory MigrationProject.fromJson(Map<String, dynamic> json) {
+    return MigrationProject(
+      description: json['Description'] as String?,
+      instanceProfileArn: json['InstanceProfileArn'] as String?,
+      instanceProfileName: json['InstanceProfileName'] as String?,
+      migrationProjectArn: json['MigrationProjectArn'] as String?,
+      migrationProjectCreationTime:
+          timeStampFromJson(json['MigrationProjectCreationTime']),
+      migrationProjectName: json['MigrationProjectName'] as String?,
+      schemaConversionApplicationAttributes:
+          json['SchemaConversionApplicationAttributes'] != null
+              ? SCApplicationAttributes.fromJson(
+                  json['SchemaConversionApplicationAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      sourceDataProviderDescriptors: (json['SourceDataProviderDescriptors']
+              as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => DataProviderDescriptor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetDataProviderDescriptors: (json['TargetDataProviderDescriptors']
+              as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => DataProviderDescriptor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transformationRules: json['TransformationRules'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final instanceProfileArn = this.instanceProfileArn;
+    final instanceProfileName = this.instanceProfileName;
+    final migrationProjectArn = this.migrationProjectArn;
+    final migrationProjectCreationTime = this.migrationProjectCreationTime;
+    final migrationProjectName = this.migrationProjectName;
+    final schemaConversionApplicationAttributes =
+        this.schemaConversionApplicationAttributes;
+    final sourceDataProviderDescriptors = this.sourceDataProviderDescriptors;
+    final targetDataProviderDescriptors = this.targetDataProviderDescriptors;
+    final transformationRules = this.transformationRules;
+    return {
+      if (description != null) 'Description': description,
+      if (instanceProfileArn != null) 'InstanceProfileArn': instanceProfileArn,
+      if (instanceProfileName != null)
+        'InstanceProfileName': instanceProfileName,
+      if (migrationProjectArn != null)
+        'MigrationProjectArn': migrationProjectArn,
+      if (migrationProjectCreationTime != null)
+        'MigrationProjectCreationTime':
+            iso8601ToJson(migrationProjectCreationTime),
+      if (migrationProjectName != null)
+        'MigrationProjectName': migrationProjectName,
+      if (schemaConversionApplicationAttributes != null)
+        'SchemaConversionApplicationAttributes':
+            schemaConversionApplicationAttributes,
+      if (sourceDataProviderDescriptors != null)
+        'SourceDataProviderDescriptors': sourceDataProviderDescriptors,
+      if (targetDataProviderDescriptors != null)
+        'TargetDataProviderDescriptors': targetDataProviderDescriptors,
+      if (transformationRules != null)
+        'TransformationRules': transformationRules,
+    };
+  }
+}
+
 enum MigrationTypeValue {
   fullLoad,
   cdc,
@@ -9365,6 +13367,54 @@ extension MigrationTypeValueFromString on String {
         return MigrationTypeValue.fullLoadAndCdc;
     }
     throw Exception('$this is not known in enum MigrationTypeValue');
+  }
+}
+
+class ModifyConversionConfigurationResponse {
+  /// The name or Amazon Resource Name (ARN) of the modified configuration.
+  final String? migrationProjectIdentifier;
+
+  ModifyConversionConfigurationResponse({
+    this.migrationProjectIdentifier,
+  });
+
+  factory ModifyConversionConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ModifyConversionConfigurationResponse(
+      migrationProjectIdentifier: json['MigrationProjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationProjectIdentifier = this.migrationProjectIdentifier;
+    return {
+      if (migrationProjectIdentifier != null)
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+    };
+  }
+}
+
+class ModifyDataProviderResponse {
+  /// The data provider that was modified.
+  final DataProvider? dataProvider;
+
+  ModifyDataProviderResponse({
+    this.dataProvider,
+  });
+
+  factory ModifyDataProviderResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyDataProviderResponse(
+      dataProvider: json['DataProvider'] != null
+          ? DataProvider.fromJson(json['DataProvider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProvider = this.dataProvider;
+    return {
+      if (dataProvider != null) 'DataProvider': dataProvider,
+    };
   }
 }
 
@@ -9415,6 +13465,81 @@ class ModifyEventSubscriptionResponse {
     final eventSubscription = this.eventSubscription;
     return {
       if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+class ModifyInstanceProfileResponse {
+  /// The instance profile that was modified.
+  final InstanceProfile? instanceProfile;
+
+  ModifyInstanceProfileResponse({
+    this.instanceProfile,
+  });
+
+  factory ModifyInstanceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyInstanceProfileResponse(
+      instanceProfile: json['InstanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['InstanceProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfile = this.instanceProfile;
+    return {
+      if (instanceProfile != null) 'InstanceProfile': instanceProfile,
+    };
+  }
+}
+
+class ModifyMigrationProjectResponse {
+  /// The migration project that was modified.
+  final MigrationProject? migrationProject;
+
+  ModifyMigrationProjectResponse({
+    this.migrationProject,
+  });
+
+  factory ModifyMigrationProjectResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyMigrationProjectResponse(
+      migrationProject: json['MigrationProject'] != null
+          ? MigrationProject.fromJson(
+              json['MigrationProject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationProject = this.migrationProject;
+    return {
+      if (migrationProject != null) 'MigrationProject': migrationProject,
+    };
+  }
+}
+
+class ModifyReplicationConfigResponse {
+  /// Information about the serverless replication config that was modified.
+  final ReplicationConfig? replicationConfig;
+
+  ModifyReplicationConfigResponse({
+    this.replicationConfig,
+  });
+
+  factory ModifyReplicationConfigResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyReplicationConfigResponse(
+      replicationConfig: json['ReplicationConfig'] != null
+          ? ReplicationConfig.fromJson(
+              json['ReplicationConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationConfig = this.replicationConfig;
+    return {
+      if (replicationConfig != null) 'ReplicationConfig': replicationConfig,
     };
   }
 }
@@ -9501,6 +13626,84 @@ class ModifyReplicationTaskResponse {
   }
 }
 
+/// Provides information that defines a MongoDB data provider.
+class MongoDbDataProviderSettings {
+  /// The authentication method for connecting to the data provider. Valid values
+  /// are DEFAULT, MONGODB_CR, or SCRAM_SHA_1.
+  final AuthMechanismValue? authMechanism;
+
+  /// The MongoDB database name. This setting isn't used when
+  /// <code>AuthType</code> is set to <code>"no"</code>.
+  ///
+  /// The default is <code>"admin"</code>.
+  final String? authSource;
+
+  /// The authentication type for the database connection. Valid values are
+  /// PASSWORD or NO.
+  final AuthTypeValue? authType;
+
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the MongoDB data provider.
+  final String? databaseName;
+
+  /// The port value for the MongoDB data provider.
+  final int? port;
+
+  /// The name of the MongoDB server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the MongoDB data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MongoDbDataProviderSettings({
+    this.authMechanism,
+    this.authSource,
+    this.authType,
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MongoDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return MongoDbDataProviderSettings(
+      authMechanism: (json['AuthMechanism'] as String?)?.toAuthMechanismValue(),
+      authSource: json['AuthSource'] as String?,
+      authType: (json['AuthType'] as String?)?.toAuthTypeValue(),
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authMechanism = this.authMechanism;
+    final authSource = this.authSource;
+    final authType = this.authType;
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (authMechanism != null) 'AuthMechanism': authMechanism.toValue(),
+      if (authSource != null) 'AuthSource': authSource,
+      if (authType != null) 'AuthType': authType.toValue(),
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
+    };
+  }
+}
+
 /// Provides information that defines a MongoDB endpoint.
 class MongoDbSettings {
   /// The authentication mechanism you use to access the MongoDB source endpoint.
@@ -9561,6 +13764,21 @@ class MongoDbSettings {
   /// The port value for the MongoDB source endpoint.
   final int? port;
 
+  /// If <code>true</code>, DMS replicates data to shard collections. DMS only
+  /// uses this setting if the target endpoint is a DocumentDB elastic cluster.
+  ///
+  /// When this setting is <code>true</code>, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must set <code>TargetTablePrepMode</code> to <code>nothing</code>.
+  /// </li>
+  /// <li>
+  /// DMS automatically sets <code>useUpdateLookup</code> to <code>false</code>.
+  /// </li>
+  /// </ul>
+  final bool? replicateShardCollections;
+
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
   /// the trusted entity and grants the required permissions to access the value
   /// in <code>SecretsManagerSecret</code>. The role must allow the
@@ -9587,8 +13805,15 @@ class MongoDbSettings {
   /// connection details.
   final String? secretsManagerSecretId;
 
-  /// The name of the server on the MongoDB source endpoint.
+  /// The name of the server on the MongoDB source endpoint. For MongoDB Atlas,
+  /// provide the server name for any of the servers in the replication set.
   final String? serverName;
+
+  /// If <code>true</code>, DMS retrieves the entire document from the MongoDB
+  /// source during migration. This may cause a migration failure if the server
+  /// response exceeds bandwidth limits. To fetch only updates and deletes during
+  /// migration, set this parameter to <code>false</code>.
+  final bool? useUpdateLookUp;
 
   /// The user name you use to access the MongoDB source endpoint.
   final String? username;
@@ -9604,9 +13829,11 @@ class MongoDbSettings {
     this.nestingLevel,
     this.password,
     this.port,
+    this.replicateShardCollections,
     this.secretsManagerAccessRoleArn,
     this.secretsManagerSecretId,
     this.serverName,
+    this.useUpdateLookUp,
     this.username,
   });
 
@@ -9622,10 +13849,12 @@ class MongoDbSettings {
       nestingLevel: (json['NestingLevel'] as String?)?.toNestingLevelValue(),
       password: json['Password'] as String?,
       port: json['Port'] as int?,
+      replicateShardCollections: json['ReplicateShardCollections'] as bool?,
       secretsManagerAccessRoleArn:
           json['SecretsManagerAccessRoleArn'] as String?,
       secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
       serverName: json['ServerName'] as String?,
+      useUpdateLookUp: json['UseUpdateLookUp'] as bool?,
       username: json['Username'] as String?,
     );
   }
@@ -9641,9 +13870,11 @@ class MongoDbSettings {
     final nestingLevel = this.nestingLevel;
     final password = this.password;
     final port = this.port;
+    final replicateShardCollections = this.replicateShardCollections;
     final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
     final secretsManagerSecretId = this.secretsManagerSecretId;
     final serverName = this.serverName;
+    final useUpdateLookUp = this.useUpdateLookUp;
     final username = this.username;
     return {
       if (authMechanism != null) 'AuthMechanism': authMechanism.toValue(),
@@ -9656,11 +13887,14 @@ class MongoDbSettings {
       if (nestingLevel != null) 'NestingLevel': nestingLevel.toValue(),
       if (password != null) 'Password': password,
       if (port != null) 'Port': port,
+      if (replicateShardCollections != null)
+        'ReplicateShardCollections': replicateShardCollections,
       if (secretsManagerAccessRoleArn != null)
         'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
       if (secretsManagerSecretId != null)
         'SecretsManagerSecretId': secretsManagerSecretId,
       if (serverName != null) 'ServerName': serverName,
+      if (useUpdateLookUp != null) 'UseUpdateLookUp': useUpdateLookUp,
       if (username != null) 'Username': username,
     };
   }
@@ -9725,6 +13959,9 @@ class MySQLSettings {
   /// In the example, DMS checks for changes in the binary logs every five
   /// seconds.
   final int? eventsPollInterval;
+
+  /// Sets the client statement timeout (in seconds) for a MySQL source endpoint.
+  final int? executeTimeout;
 
   /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
   /// a MySQL-compatible database.
@@ -9809,6 +14046,7 @@ class MySQLSettings {
     this.cleanSourceMetadataOnMismatch,
     this.databaseName,
     this.eventsPollInterval,
+    this.executeTimeout,
     this.maxFileSize,
     this.parallelLoadThreads,
     this.password,
@@ -9828,6 +14066,7 @@ class MySQLSettings {
           json['CleanSourceMetadataOnMismatch'] as bool?,
       databaseName: json['DatabaseName'] as String?,
       eventsPollInterval: json['EventsPollInterval'] as int?,
+      executeTimeout: json['ExecuteTimeout'] as int?,
       maxFileSize: json['MaxFileSize'] as int?,
       parallelLoadThreads: json['ParallelLoadThreads'] as int?,
       password: json['Password'] as String?,
@@ -9847,6 +14086,7 @@ class MySQLSettings {
     final cleanSourceMetadataOnMismatch = this.cleanSourceMetadataOnMismatch;
     final databaseName = this.databaseName;
     final eventsPollInterval = this.eventsPollInterval;
+    final executeTimeout = this.executeTimeout;
     final maxFileSize = this.maxFileSize;
     final parallelLoadThreads = this.parallelLoadThreads;
     final password = this.password;
@@ -9863,6 +14103,7 @@ class MySQLSettings {
         'CleanSourceMetadataOnMismatch': cleanSourceMetadataOnMismatch,
       if (databaseName != null) 'DatabaseName': databaseName,
       if (eventsPollInterval != null) 'EventsPollInterval': eventsPollInterval,
+      if (executeTimeout != null) 'ExecuteTimeout': executeTimeout,
       if (maxFileSize != null) 'MaxFileSize': maxFileSize,
       if (parallelLoadThreads != null)
         'ParallelLoadThreads': parallelLoadThreads,
@@ -9876,6 +14117,51 @@ class MySQLSettings {
       if (serverTimezone != null) 'ServerTimezone': serverTimezone,
       if (targetDbType != null) 'TargetDbType': targetDbType.toValue(),
       if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines a MySQL data provider.
+class MySqlDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The port value for the MySQL data provider.
+  final int? port;
+
+  /// The name of the MySQL server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the MySQL data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MySqlDataProviderSettings({
+    this.certificateArn,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MySqlDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return MySqlDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
     };
   }
 }
@@ -9989,6 +14275,121 @@ extension NestingLevelValueFromString on String {
         return NestingLevelValue.one;
     }
     throw Exception('$this is not known in enum NestingLevelValue');
+  }
+}
+
+/// Provides information that defines an Oracle data provider.
+class OracleDataProviderSettings {
+  /// The address of your Oracle Automatic Storage Management (ASM) server. You
+  /// can set this value from the <code>asm_server</code> value. You set
+  /// <code>asm_server</code> as part of the extra connection attribute string to
+  /// access an Oracle server with Binary Reader that uses ASM. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  final String? asmServer;
+
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the Oracle data provider.
+  final String? databaseName;
+
+  /// The port value for the Oracle data provider.
+  final int? port;
+
+  /// The ARN of the IAM role that provides access to the secret in Secrets
+  /// Manager that contains the Oracle ASM connection details.
+  final String? secretsManagerOracleAsmAccessRoleArn;
+
+  /// The identifier of the secret in Secrets Manager that contains the Oracle ASM
+  /// connection details.
+  ///
+  /// Required only if your data provider uses the Oracle ASM server.
+  final String? secretsManagerOracleAsmSecretId;
+
+  /// The ARN of the IAM role that provides access to the secret in Secrets
+  /// Manager that contains the TDE password.
+  final String? secretsManagerSecurityDbEncryptionAccessRoleArn;
+
+  /// The identifier of the secret in Secrets Manager that contains the
+  /// transparent data encryption (TDE) password. DMS requires this password to
+  /// access Oracle redo logs encrypted by TDE using Binary Reader.
+  final String? secretsManagerSecurityDbEncryptionSecretId;
+
+  /// The name of the Oracle server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the Oracle data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  OracleDataProviderSettings({
+    this.asmServer,
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.secretsManagerOracleAsmAccessRoleArn,
+    this.secretsManagerOracleAsmSecretId,
+    this.secretsManagerSecurityDbEncryptionAccessRoleArn,
+    this.secretsManagerSecurityDbEncryptionSecretId,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory OracleDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return OracleDataProviderSettings(
+      asmServer: json['AsmServer'] as String?,
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerOracleAsmAccessRoleArn:
+          json['SecretsManagerOracleAsmAccessRoleArn'] as String?,
+      secretsManagerOracleAsmSecretId:
+          json['SecretsManagerOracleAsmSecretId'] as String?,
+      secretsManagerSecurityDbEncryptionAccessRoleArn:
+          json['SecretsManagerSecurityDbEncryptionAccessRoleArn'] as String?,
+      secretsManagerSecurityDbEncryptionSecretId:
+          json['SecretsManagerSecurityDbEncryptionSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asmServer = this.asmServer;
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final secretsManagerOracleAsmAccessRoleArn =
+        this.secretsManagerOracleAsmAccessRoleArn;
+    final secretsManagerOracleAsmSecretId =
+        this.secretsManagerOracleAsmSecretId;
+    final secretsManagerSecurityDbEncryptionAccessRoleArn =
+        this.secretsManagerSecurityDbEncryptionAccessRoleArn;
+    final secretsManagerSecurityDbEncryptionSecretId =
+        this.secretsManagerSecurityDbEncryptionSecretId;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (asmServer != null) 'AsmServer': asmServer,
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (secretsManagerOracleAsmAccessRoleArn != null)
+        'SecretsManagerOracleAsmAccessRoleArn':
+            secretsManagerOracleAsmAccessRoleArn,
+      if (secretsManagerOracleAsmSecretId != null)
+        'SecretsManagerOracleAsmSecretId': secretsManagerOracleAsmSecretId,
+      if (secretsManagerSecurityDbEncryptionAccessRoleArn != null)
+        'SecretsManagerSecurityDbEncryptionAccessRoleArn':
+            secretsManagerSecurityDbEncryptionAccessRoleArn,
+      if (secretsManagerSecurityDbEncryptionSecretId != null)
+        'SecretsManagerSecurityDbEncryptionSecretId':
+            secretsManagerSecurityDbEncryptionSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
+    };
   }
 }
 
@@ -10140,6 +14541,17 @@ class OracleSettings {
   /// Example: <code>numberDataTypeScale=12</code>
   final int? numberDatatypeScale;
 
+  /// The timeframe in minutes to check for open transactions for a CDC-only task.
+  ///
+  /// You can specify an integer value between 0 (the default) and 240 (the
+  /// maximum).
+  /// <note>
+  /// This parameter is only valid in DMS version 3.5.0 and later. DMS supports a
+  /// window of up to 9.5 hours including the value for
+  /// <code>OpenTransactionWindow</code>.
+  /// </note>
+  final int? openTransactionWindow;
+
   /// Set this string attribute to the required value in order to use the Binary
   /// Reader to capture change data for an Amazon RDS for Oracle as the source.
   /// This value specifies the default Oracle root used to access the redo logs.
@@ -10211,7 +14623,7 @@ class OracleSettings {
   /// You can specify one of two sets of values for these permissions. You can
   /// specify the values for this setting and
   /// <code>SecretsManagerOracleAsmSecretId</code>. Or you can specify clear-text
-  /// values for <code>AsmUserName</code>, <code>AsmPassword</code>, and
+  /// values for <code>AsmUser</code>, <code>AsmPassword</code>, and
   /// <code>AsmServerName</code>. You can't specify both. For more information on
   /// creating this <code>SecretsManagerOracleAsmSecret</code> and the
   /// <code>SecretsManagerOracleAsmAccessRoleArn</code> and
@@ -10349,6 +14761,7 @@ class OracleSettings {
     this.extraArchivedLogDestIds,
     this.failTasksOnLobTruncation,
     this.numberDatatypeScale,
+    this.openTransactionWindow,
     this.oraclePathPrefix,
     this.parallelAsmReadThreads,
     this.password,
@@ -10400,6 +14813,7 @@ class OracleSettings {
           .toList(),
       failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool?,
       numberDatatypeScale: json['NumberDatatypeScale'] as int?,
+      openTransactionWindow: json['OpenTransactionWindow'] as int?,
       oraclePathPrefix: json['OraclePathPrefix'] as String?,
       parallelAsmReadThreads: json['ParallelAsmReadThreads'] as int?,
       password: json['Password'] as String?,
@@ -10450,6 +14864,7 @@ class OracleSettings {
     final extraArchivedLogDestIds = this.extraArchivedLogDestIds;
     final failTasksOnLobTruncation = this.failTasksOnLobTruncation;
     final numberDatatypeScale = this.numberDatatypeScale;
+    final openTransactionWindow = this.openTransactionWindow;
     final oraclePathPrefix = this.oraclePathPrefix;
     final parallelAsmReadThreads = this.parallelAsmReadThreads;
     final password = this.password;
@@ -10507,6 +14922,8 @@ class OracleSettings {
         'FailTasksOnLobTruncation': failTasksOnLobTruncation,
       if (numberDatatypeScale != null)
         'NumberDatatypeScale': numberDatatypeScale,
+      if (openTransactionWindow != null)
+        'OpenTransactionWindow': openTransactionWindow,
       if (oraclePathPrefix != null) 'OraclePathPrefix': oraclePathPrefix,
       if (parallelAsmReadThreads != null)
         'ParallelAsmReadThreads': parallelAsmReadThreads,
@@ -10656,6 +15073,34 @@ class OrderableReplicationInstance {
   }
 }
 
+enum OriginTypeValue {
+  source,
+  target,
+}
+
+extension OriginTypeValueValueExtension on OriginTypeValue {
+  String toValue() {
+    switch (this) {
+      case OriginTypeValue.source:
+        return 'SOURCE';
+      case OriginTypeValue.target:
+        return 'TARGET';
+    }
+  }
+}
+
+extension OriginTypeValueFromString on String {
+  OriginTypeValue toOriginTypeValue() {
+    switch (this) {
+      case 'SOURCE':
+        return OriginTypeValue.source;
+      case 'TARGET':
+        return OriginTypeValue.target;
+    }
+    throw Exception('$this is not known in enum OriginTypeValue');
+  }
+}
+
 enum ParquetVersionValue {
   parquet_1_0,
   parquet_2_0,
@@ -10802,12 +15247,20 @@ class PostgreSQLSettings {
   /// session_replication_role='replica'</code>
   final String? afterConnectScript;
 
+  /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
+  final String? babelfishDatabaseName;
+
   /// To capture DDL events, DMS creates various artifacts in the PostgreSQL
   /// database when the task starts. You can later remove these artifacts.
   ///
   /// If this value is set to <code>N</code>, you don't have to create tables or
   /// triggers on the source database.
   final bool? captureDdls;
+
+  /// Specifies the default behavior of the replication's handling of PostgreSQL-
+  /// compatible endpoints that require some additional configuration, such as
+  /// Babelfish endpoints.
+  final DatabaseMode? databaseMode;
 
   /// Database name for the endpoint.
   final String? databaseName;
@@ -10845,8 +15298,15 @@ class PostgreSQLSettings {
   final String? heartbeatSchema;
 
   /// When true, lets PostgreSQL migrate the boolean type as boolean. By default,
-  /// PostgreSQL migrates booleans as <code>varchar(5)</code>.
+  /// PostgreSQL migrates booleans as <code>varchar(5)</code>. You must set this
+  /// setting on both the source and target endpoints for it to take effect.
   final bool? mapBooleanAsBoolean;
+
+  /// When true, DMS migrates JSONB values as CLOB.
+  final bool? mapJsonbAsClob;
+
+  /// When true, DMS migrates LONG values as VARCHAR.
+  final LongVarcharMappingType? mapLongVarcharAs;
 
   /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
   /// PostgreSQL.
@@ -10915,7 +15375,7 @@ class PostgreSQLSettings {
   ///
   /// For more information about setting the <code>CdcStartPosition</code> request
   /// parameter, see <a
-  /// href="dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native">Determining
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native">Determining
   /// a CDC native start point</a> in the <i>Database Migration Service User
   /// Guide</i>. For more information about using <code>CdcStartPosition</code>,
   /// see <a
@@ -10936,7 +15396,9 @@ class PostgreSQLSettings {
 
   PostgreSQLSettings({
     this.afterConnectScript,
+    this.babelfishDatabaseName,
     this.captureDdls,
+    this.databaseMode,
     this.databaseName,
     this.ddlArtifactsSchema,
     this.executeTimeout,
@@ -10945,6 +15407,8 @@ class PostgreSQLSettings {
     this.heartbeatFrequency,
     this.heartbeatSchema,
     this.mapBooleanAsBoolean,
+    this.mapJsonbAsClob,
+    this.mapLongVarcharAs,
     this.maxFileSize,
     this.password,
     this.pluginName,
@@ -10960,7 +15424,9 @@ class PostgreSQLSettings {
   factory PostgreSQLSettings.fromJson(Map<String, dynamic> json) {
     return PostgreSQLSettings(
       afterConnectScript: json['AfterConnectScript'] as String?,
+      babelfishDatabaseName: json['BabelfishDatabaseName'] as String?,
       captureDdls: json['CaptureDdls'] as bool?,
+      databaseMode: (json['DatabaseMode'] as String?)?.toDatabaseMode(),
       databaseName: json['DatabaseName'] as String?,
       ddlArtifactsSchema: json['DdlArtifactsSchema'] as String?,
       executeTimeout: json['ExecuteTimeout'] as int?,
@@ -10969,6 +15435,9 @@ class PostgreSQLSettings {
       heartbeatFrequency: json['HeartbeatFrequency'] as int?,
       heartbeatSchema: json['HeartbeatSchema'] as String?,
       mapBooleanAsBoolean: json['MapBooleanAsBoolean'] as bool?,
+      mapJsonbAsClob: json['MapJsonbAsClob'] as bool?,
+      mapLongVarcharAs:
+          (json['MapLongVarcharAs'] as String?)?.toLongVarcharMappingType(),
       maxFileSize: json['MaxFileSize'] as int?,
       password: json['Password'] as String?,
       pluginName: (json['PluginName'] as String?)?.toPluginNameValue(),
@@ -10985,7 +15454,9 @@ class PostgreSQLSettings {
 
   Map<String, dynamic> toJson() {
     final afterConnectScript = this.afterConnectScript;
+    final babelfishDatabaseName = this.babelfishDatabaseName;
     final captureDdls = this.captureDdls;
+    final databaseMode = this.databaseMode;
     final databaseName = this.databaseName;
     final ddlArtifactsSchema = this.ddlArtifactsSchema;
     final executeTimeout = this.executeTimeout;
@@ -10994,6 +15465,8 @@ class PostgreSQLSettings {
     final heartbeatFrequency = this.heartbeatFrequency;
     final heartbeatSchema = this.heartbeatSchema;
     final mapBooleanAsBoolean = this.mapBooleanAsBoolean;
+    final mapJsonbAsClob = this.mapJsonbAsClob;
+    final mapLongVarcharAs = this.mapLongVarcharAs;
     final maxFileSize = this.maxFileSize;
     final password = this.password;
     final pluginName = this.pluginName;
@@ -11006,7 +15479,10 @@ class PostgreSQLSettings {
     final username = this.username;
     return {
       if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (babelfishDatabaseName != null)
+        'BabelfishDatabaseName': babelfishDatabaseName,
       if (captureDdls != null) 'CaptureDdls': captureDdls,
+      if (databaseMode != null) 'DatabaseMode': databaseMode.toValue(),
       if (databaseName != null) 'DatabaseName': databaseName,
       if (ddlArtifactsSchema != null) 'DdlArtifactsSchema': ddlArtifactsSchema,
       if (executeTimeout != null) 'ExecuteTimeout': executeTimeout,
@@ -11017,6 +15493,9 @@ class PostgreSQLSettings {
       if (heartbeatSchema != null) 'HeartbeatSchema': heartbeatSchema,
       if (mapBooleanAsBoolean != null)
         'MapBooleanAsBoolean': mapBooleanAsBoolean,
+      if (mapJsonbAsClob != null) 'MapJsonbAsClob': mapJsonbAsClob,
+      if (mapLongVarcharAs != null)
+        'MapLongVarcharAs': mapLongVarcharAs.toValue(),
       if (maxFileSize != null) 'MaxFileSize': maxFileSize,
       if (password != null) 'Password': password,
       if (pluginName != null) 'PluginName': pluginName.toValue(),
@@ -11033,6 +15512,126 @@ class PostgreSQLSettings {
   }
 }
 
+/// Provides information that defines a PostgreSQL data provider.
+class PostgreSqlDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the PostgreSQL data provider.
+  final String? databaseName;
+
+  /// The port value for the PostgreSQL data provider.
+  final int? port;
+
+  /// The name of the PostgreSQL server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the PostgreSQL data provider. The default
+  /// value is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  PostgreSqlDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory PostgreSqlDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return PostgreSqlDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
+    };
+  }
+}
+
+/// Information about provisioning resources for an DMS serverless replication.
+class ProvisionData {
+  /// The timestamp when provisioning became available.
+  final DateTime? dateNewProvisioningDataAvailable;
+
+  /// The timestamp when DMS provisioned replication resources.
+  final DateTime? dateProvisioned;
+
+  /// Whether the new provisioning is available to the replication.
+  final bool? isNewProvisioningAvailable;
+
+  /// The current provisioning state
+  final String? provisionState;
+
+  /// The number of capacity units the replication is using.
+  final int? provisionedCapacityUnits;
+
+  /// A message describing the reason that DMS provisioned new resources for the
+  /// serverless replication.
+  final String? reasonForNewProvisioningData;
+
+  ProvisionData({
+    this.dateNewProvisioningDataAvailable,
+    this.dateProvisioned,
+    this.isNewProvisioningAvailable,
+    this.provisionState,
+    this.provisionedCapacityUnits,
+    this.reasonForNewProvisioningData,
+  });
+
+  factory ProvisionData.fromJson(Map<String, dynamic> json) {
+    return ProvisionData(
+      dateNewProvisioningDataAvailable:
+          timeStampFromJson(json['DateNewProvisioningDataAvailable']),
+      dateProvisioned: timeStampFromJson(json['DateProvisioned']),
+      isNewProvisioningAvailable: json['IsNewProvisioningAvailable'] as bool?,
+      provisionState: json['ProvisionState'] as String?,
+      provisionedCapacityUnits: json['ProvisionedCapacityUnits'] as int?,
+      reasonForNewProvisioningData:
+          json['ReasonForNewProvisioningData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateNewProvisioningDataAvailable =
+        this.dateNewProvisioningDataAvailable;
+    final dateProvisioned = this.dateProvisioned;
+    final isNewProvisioningAvailable = this.isNewProvisioningAvailable;
+    final provisionState = this.provisionState;
+    final provisionedCapacityUnits = this.provisionedCapacityUnits;
+    final reasonForNewProvisioningData = this.reasonForNewProvisioningData;
+    return {
+      if (dateNewProvisioningDataAvailable != null)
+        'DateNewProvisioningDataAvailable':
+            unixTimestampToJson(dateNewProvisioningDataAvailable),
+      if (dateProvisioned != null)
+        'DateProvisioned': unixTimestampToJson(dateProvisioned),
+      if (isNewProvisioningAvailable != null)
+        'IsNewProvisioningAvailable': isNewProvisioningAvailable,
+      if (provisionState != null) 'ProvisionState': provisionState,
+      if (provisionedCapacityUnits != null)
+        'ProvisionedCapacityUnits': provisionedCapacityUnits,
+      if (reasonForNewProvisioningData != null)
+        'ReasonForNewProvisioningData': reasonForNewProvisioningData,
+    };
+  }
+}
+
 /// Provides information that describes the configuration of the recommended
 /// target engine on Amazon RDS.
 class RdsConfiguration {
@@ -11043,6 +15642,9 @@ class RdsConfiguration {
 
   /// Describes the recommended target Amazon RDS engine edition.
   final String? engineEdition;
+
+  /// Describes the recommended target Amazon RDS engine version.
+  final String? engineVersion;
 
   /// Describes the memory on the recommended Amazon RDS DB instance that meets
   /// your requirements.
@@ -11074,6 +15676,7 @@ class RdsConfiguration {
   RdsConfiguration({
     this.deploymentOption,
     this.engineEdition,
+    this.engineVersion,
     this.instanceMemory,
     this.instanceType,
     this.instanceVcpu,
@@ -11086,6 +15689,7 @@ class RdsConfiguration {
     return RdsConfiguration(
       deploymentOption: json['DeploymentOption'] as String?,
       engineEdition: json['EngineEdition'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
       instanceMemory: json['InstanceMemory'] as double?,
       instanceType: json['InstanceType'] as String?,
       instanceVcpu: json['InstanceVcpu'] as double?,
@@ -11098,6 +15702,7 @@ class RdsConfiguration {
   Map<String, dynamic> toJson() {
     final deploymentOption = this.deploymentOption;
     final engineEdition = this.engineEdition;
+    final engineVersion = this.engineVersion;
     final instanceMemory = this.instanceMemory;
     final instanceType = this.instanceType;
     final instanceVcpu = this.instanceVcpu;
@@ -11107,6 +15712,7 @@ class RdsConfiguration {
     return {
       if (deploymentOption != null) 'DeploymentOption': deploymentOption,
       if (engineEdition != null) 'EngineEdition': engineEdition,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
       if (instanceMemory != null) 'InstanceMemory': instanceMemory,
       if (instanceType != null) 'InstanceType': instanceType,
       if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
@@ -11169,6 +15775,9 @@ class RdsRequirements {
   /// The required target Amazon RDS engine edition.
   final String? engineEdition;
 
+  /// The required target Amazon RDS engine version.
+  final String? engineVersion;
+
   /// The required memory on the Amazon RDS DB instance.
   final double? instanceMemory;
 
@@ -11185,6 +15794,7 @@ class RdsRequirements {
   RdsRequirements({
     this.deploymentOption,
     this.engineEdition,
+    this.engineVersion,
     this.instanceMemory,
     this.instanceVcpu,
     this.storageIops,
@@ -11195,6 +15805,7 @@ class RdsRequirements {
     return RdsRequirements(
       deploymentOption: json['DeploymentOption'] as String?,
       engineEdition: json['EngineEdition'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
       instanceMemory: json['InstanceMemory'] as double?,
       instanceVcpu: json['InstanceVcpu'] as double?,
       storageIops: json['StorageIops'] as int?,
@@ -11205,6 +15816,7 @@ class RdsRequirements {
   Map<String, dynamic> toJson() {
     final deploymentOption = this.deploymentOption;
     final engineEdition = this.engineEdition;
+    final engineVersion = this.engineVersion;
     final instanceMemory = this.instanceMemory;
     final instanceVcpu = this.instanceVcpu;
     final storageIops = this.storageIops;
@@ -11212,6 +15824,7 @@ class RdsRequirements {
     return {
       if (deploymentOption != null) 'DeploymentOption': deploymentOption,
       if (engineEdition != null) 'EngineEdition': engineEdition,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
       if (instanceMemory != null) 'InstanceMemory': instanceMemory,
       if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
       if (storageIops != null) 'StorageIops': storageIops,
@@ -11519,6 +16132,43 @@ class RedisSettings {
   }
 }
 
+/// Provides information that defines an Amazon Redshift data provider.
+class RedshiftDataProviderSettings {
+  /// The database name on the Amazon Redshift data provider.
+  final String? databaseName;
+
+  /// The port value for the Amazon Redshift data provider.
+  final int? port;
+
+  /// The name of the Amazon Redshift server.
+  final String? serverName;
+
+  RedshiftDataProviderSettings({
+    this.databaseName,
+    this.port,
+    this.serverName,
+  });
+
+  factory RedshiftDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return RedshiftDataProviderSettings(
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final serverName = this.serverName;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+    };
+  }
+}
+
 /// Provides information that defines an Amazon Redshift endpoint.
 class RedshiftSettings {
   /// A value that indicates to allow any date format, including invalid formats
@@ -11630,7 +16280,8 @@ class RedshiftSettings {
   final int? loadTimeout;
 
   /// When true, lets Redshift migrate the boolean type as boolean. By default,
-  /// Redshift migrates booleans as <code>varchar(1)</code>.
+  /// Redshift migrates booleans as <code>varchar(1)</code>. You must set this
+  /// setting on both the source and target endpoints for it to take effect.
   final bool? mapBooleanAsBoolean;
 
   /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket
@@ -12047,6 +16698,31 @@ extension ReloadOptionValueFromString on String {
   }
 }
 
+/// <p/>
+class ReloadReplicationTablesResponse {
+  /// The Amazon Resource Name of the replication config for which to reload
+  /// tables.
+  final String? replicationConfigArn;
+
+  ReloadReplicationTablesResponse({
+    this.replicationConfigArn,
+  });
+
+  factory ReloadReplicationTablesResponse.fromJson(Map<String, dynamic> json) {
+    return ReloadReplicationTablesResponse(
+      replicationConfigArn: json['ReplicationConfigArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationConfigArn = this.replicationConfigArn;
+    return {
+      if (replicationConfigArn != null)
+        'ReplicationConfigArn': replicationConfigArn,
+    };
+  }
+}
+
 class ReloadTablesResponse {
   /// The Amazon Resource Name (ARN) of the replication task.
   final String? replicationTaskArn;
@@ -12079,6 +16755,357 @@ class RemoveTagsFromResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Provides information that describes a serverless replication created by the
+/// <code>CreateReplication</code> operation.
+class Replication {
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to specify
+  /// when you want a CDC operation to start. Specifying both values results in an
+  /// error.
+  final String? cdcStartPosition;
+
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to specify
+  /// when you want a CDC operation to start. Specifying both values results in an
+  /// error.
+  final DateTime? cdcStartTime;
+
+  /// Indicates when you want a change data capture (CDC) operation to stop. The
+  /// value can be either server time or commit time.
+  final String? cdcStopPosition;
+
+  /// Error and other information about why a serverless replication failed.
+  final List<String>? failureMessages;
+
+  /// Information about provisioning resources for an DMS serverless replication.
+  final ProvisionData? provisionData;
+
+  /// Indicates the last checkpoint that occurred during a change data capture
+  /// (CDC) operation. You can provide this value to the
+  /// <code>CdcStartPosition</code> parameter to start a CDC operation that begins
+  /// at that checkpoint.
+  final String? recoveryCheckpoint;
+
+  /// The Amazon Resource Name for the <code>ReplicationConfig</code> associated
+  /// with the replication.
+  final String? replicationConfigArn;
+
+  /// The identifier for the <code>ReplicationConfig</code> associated with the
+  /// replication.
+  final String? replicationConfigIdentifier;
+
+  /// The time the serverless replication was created.
+  final DateTime? replicationCreateTime;
+
+  /// The timestamp when DMS will deprovision the replication.
+  final DateTime? replicationDeprovisionTime;
+
+  /// The timestamp when replication was last stopped.
+  final DateTime? replicationLastStopTime;
+
+  /// This object provides a collection of statistics about a serverless
+  /// replication.
+  final ReplicationStats? replicationStats;
+
+  /// The type of the serverless replication.
+  final MigrationTypeValue? replicationType;
+
+  /// The time the serverless replication was updated.
+  final DateTime? replicationUpdateTime;
+
+  /// The Amazon Resource Name for an existing <code>Endpoint</code> the
+  /// serverless replication uses for its data source.
+  final String? sourceEndpointArn;
+
+  /// The replication type.
+  final String? startReplicationType;
+
+  /// The current status of the serverless replication.
+  final String? status;
+
+  /// The reason the replication task was stopped. This response parameter can
+  /// return one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"Stop Reason NORMAL"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECOVERABLE_ERROR"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason FATAL_ERROR"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason FULL_LOAD_ONLY_FINISHED"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_FULL_LOAD"</code> – Full load completed,
+  /// with cached changes not applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_CACHED_EVENTS"</code> – Full load
+  /// completed, with cached changes applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_DDL_APPLY"</code> – User-defined stop task
+  /// after DDL applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_MEMORY"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_DISK"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AT_SERVER_TIME"</code> – User-defined server time
+  /// for stopping task
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AT_COMMIT_TIME"</code> – User-defined commit time
+  /// for stopping task
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECONFIGURATION_RESTART"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECYCLE_TASK"</code>
+  /// </li>
+  /// </ul>
+  final String? stopReason;
+
+  /// The Amazon Resource Name for an existing <code>Endpoint</code> the
+  /// serverless replication uses for its data target.
+  final String? targetEndpointArn;
+
+  Replication({
+    this.cdcStartPosition,
+    this.cdcStartTime,
+    this.cdcStopPosition,
+    this.failureMessages,
+    this.provisionData,
+    this.recoveryCheckpoint,
+    this.replicationConfigArn,
+    this.replicationConfigIdentifier,
+    this.replicationCreateTime,
+    this.replicationDeprovisionTime,
+    this.replicationLastStopTime,
+    this.replicationStats,
+    this.replicationType,
+    this.replicationUpdateTime,
+    this.sourceEndpointArn,
+    this.startReplicationType,
+    this.status,
+    this.stopReason,
+    this.targetEndpointArn,
+  });
+
+  factory Replication.fromJson(Map<String, dynamic> json) {
+    return Replication(
+      cdcStartPosition: json['CdcStartPosition'] as String?,
+      cdcStartTime: timeStampFromJson(json['CdcStartTime']),
+      cdcStopPosition: json['CdcStopPosition'] as String?,
+      failureMessages: (json['FailureMessages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      provisionData: json['ProvisionData'] != null
+          ? ProvisionData.fromJson(
+              json['ProvisionData'] as Map<String, dynamic>)
+          : null,
+      recoveryCheckpoint: json['RecoveryCheckpoint'] as String?,
+      replicationConfigArn: json['ReplicationConfigArn'] as String?,
+      replicationConfigIdentifier:
+          json['ReplicationConfigIdentifier'] as String?,
+      replicationCreateTime: timeStampFromJson(json['ReplicationCreateTime']),
+      replicationDeprovisionTime:
+          timeStampFromJson(json['ReplicationDeprovisionTime']),
+      replicationLastStopTime:
+          timeStampFromJson(json['ReplicationLastStopTime']),
+      replicationStats: json['ReplicationStats'] != null
+          ? ReplicationStats.fromJson(
+              json['ReplicationStats'] as Map<String, dynamic>)
+          : null,
+      replicationType:
+          (json['ReplicationType'] as String?)?.toMigrationTypeValue(),
+      replicationUpdateTime: timeStampFromJson(json['ReplicationUpdateTime']),
+      sourceEndpointArn: json['SourceEndpointArn'] as String?,
+      startReplicationType: json['StartReplicationType'] as String?,
+      status: json['Status'] as String?,
+      stopReason: json['StopReason'] as String?,
+      targetEndpointArn: json['TargetEndpointArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cdcStartPosition = this.cdcStartPosition;
+    final cdcStartTime = this.cdcStartTime;
+    final cdcStopPosition = this.cdcStopPosition;
+    final failureMessages = this.failureMessages;
+    final provisionData = this.provisionData;
+    final recoveryCheckpoint = this.recoveryCheckpoint;
+    final replicationConfigArn = this.replicationConfigArn;
+    final replicationConfigIdentifier = this.replicationConfigIdentifier;
+    final replicationCreateTime = this.replicationCreateTime;
+    final replicationDeprovisionTime = this.replicationDeprovisionTime;
+    final replicationLastStopTime = this.replicationLastStopTime;
+    final replicationStats = this.replicationStats;
+    final replicationType = this.replicationType;
+    final replicationUpdateTime = this.replicationUpdateTime;
+    final sourceEndpointArn = this.sourceEndpointArn;
+    final startReplicationType = this.startReplicationType;
+    final status = this.status;
+    final stopReason = this.stopReason;
+    final targetEndpointArn = this.targetEndpointArn;
+    return {
+      if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
+      if (cdcStartTime != null)
+        'CdcStartTime': unixTimestampToJson(cdcStartTime),
+      if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
+      if (failureMessages != null) 'FailureMessages': failureMessages,
+      if (provisionData != null) 'ProvisionData': provisionData,
+      if (recoveryCheckpoint != null) 'RecoveryCheckpoint': recoveryCheckpoint,
+      if (replicationConfigArn != null)
+        'ReplicationConfigArn': replicationConfigArn,
+      if (replicationConfigIdentifier != null)
+        'ReplicationConfigIdentifier': replicationConfigIdentifier,
+      if (replicationCreateTime != null)
+        'ReplicationCreateTime': unixTimestampToJson(replicationCreateTime),
+      if (replicationDeprovisionTime != null)
+        'ReplicationDeprovisionTime':
+            unixTimestampToJson(replicationDeprovisionTime),
+      if (replicationLastStopTime != null)
+        'ReplicationLastStopTime': unixTimestampToJson(replicationLastStopTime),
+      if (replicationStats != null) 'ReplicationStats': replicationStats,
+      if (replicationType != null) 'ReplicationType': replicationType.toValue(),
+      if (replicationUpdateTime != null)
+        'ReplicationUpdateTime': unixTimestampToJson(replicationUpdateTime),
+      if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
+      if (startReplicationType != null)
+        'StartReplicationType': startReplicationType,
+      if (status != null) 'Status': status,
+      if (stopReason != null) 'StopReason': stopReason,
+      if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
+    };
+  }
+}
+
+/// This object provides configuration information about a serverless
+/// replication.
+class ReplicationConfig {
+  /// Configuration parameters for provisioning an DMS serverless replication.
+  final ComputeConfig? computeConfig;
+
+  /// The Amazon Resource Name (ARN) of this DMS Serverless replication
+  /// configuration.
+  final String? replicationConfigArn;
+
+  /// The time the serverless replication config was created.
+  final DateTime? replicationConfigCreateTime;
+
+  /// The identifier for the <code>ReplicationConfig</code> associated with the
+  /// replication.
+  final String? replicationConfigIdentifier;
+
+  /// The time the serverless replication config was updated.
+  final DateTime? replicationConfigUpdateTime;
+
+  /// Configuration parameters for an DMS serverless replication.
+  final String? replicationSettings;
+
+  /// The type of the replication.
+  final MigrationTypeValue? replicationType;
+
+  /// The Amazon Resource Name (ARN) of the source endpoint for this DMS
+  /// serverless replication configuration.
+  final String? sourceEndpointArn;
+
+  /// Additional parameters for an DMS serverless replication.
+  final String? supplementalSettings;
+
+  /// Table mappings specified in the replication.
+  final String? tableMappings;
+
+  /// The Amazon Resource Name (ARN) of the target endpoint for this DMS
+  /// serverless replication configuration.
+  final String? targetEndpointArn;
+
+  ReplicationConfig({
+    this.computeConfig,
+    this.replicationConfigArn,
+    this.replicationConfigCreateTime,
+    this.replicationConfigIdentifier,
+    this.replicationConfigUpdateTime,
+    this.replicationSettings,
+    this.replicationType,
+    this.sourceEndpointArn,
+    this.supplementalSettings,
+    this.tableMappings,
+    this.targetEndpointArn,
+  });
+
+  factory ReplicationConfig.fromJson(Map<String, dynamic> json) {
+    return ReplicationConfig(
+      computeConfig: json['ComputeConfig'] != null
+          ? ComputeConfig.fromJson(
+              json['ComputeConfig'] as Map<String, dynamic>)
+          : null,
+      replicationConfigArn: json['ReplicationConfigArn'] as String?,
+      replicationConfigCreateTime:
+          timeStampFromJson(json['ReplicationConfigCreateTime']),
+      replicationConfigIdentifier:
+          json['ReplicationConfigIdentifier'] as String?,
+      replicationConfigUpdateTime:
+          timeStampFromJson(json['ReplicationConfigUpdateTime']),
+      replicationSettings: json['ReplicationSettings'] as String?,
+      replicationType:
+          (json['ReplicationType'] as String?)?.toMigrationTypeValue(),
+      sourceEndpointArn: json['SourceEndpointArn'] as String?,
+      supplementalSettings: json['SupplementalSettings'] as String?,
+      tableMappings: json['TableMappings'] as String?,
+      targetEndpointArn: json['TargetEndpointArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeConfig = this.computeConfig;
+    final replicationConfigArn = this.replicationConfigArn;
+    final replicationConfigCreateTime = this.replicationConfigCreateTime;
+    final replicationConfigIdentifier = this.replicationConfigIdentifier;
+    final replicationConfigUpdateTime = this.replicationConfigUpdateTime;
+    final replicationSettings = this.replicationSettings;
+    final replicationType = this.replicationType;
+    final sourceEndpointArn = this.sourceEndpointArn;
+    final supplementalSettings = this.supplementalSettings;
+    final tableMappings = this.tableMappings;
+    final targetEndpointArn = this.targetEndpointArn;
+    return {
+      if (computeConfig != null) 'ComputeConfig': computeConfig,
+      if (replicationConfigArn != null)
+        'ReplicationConfigArn': replicationConfigArn,
+      if (replicationConfigCreateTime != null)
+        'ReplicationConfigCreateTime':
+            unixTimestampToJson(replicationConfigCreateTime),
+      if (replicationConfigIdentifier != null)
+        'ReplicationConfigIdentifier': replicationConfigIdentifier,
+      if (replicationConfigUpdateTime != null)
+        'ReplicationConfigUpdateTime':
+            unixTimestampToJson(replicationConfigUpdateTime),
+      if (replicationSettings != null)
+        'ReplicationSettings': replicationSettings,
+      if (replicationType != null) 'ReplicationType': replicationType.toValue(),
+      if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
+      if (supplementalSettings != null)
+        'SupplementalSettings': supplementalSettings,
+      if (tableMappings != null) 'TableMappings': tableMappings,
+      if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
+    };
   }
 }
 
@@ -12549,6 +17576,105 @@ class ReplicationPendingModifiedValues {
   }
 }
 
+/// This object provides a collection of statistics about a serverless
+/// replication.
+class ReplicationStats {
+  /// The elapsed time of the replication, in milliseconds.
+  final int? elapsedTimeMillis;
+
+  /// The date the replication was started either with a fresh start or a target
+  /// reload.
+  final DateTime? freshStartDate;
+
+  /// The date the replication full load was finished.
+  final DateTime? fullLoadFinishDate;
+
+  /// The percent complete for the full load serverless replication.
+  final int? fullLoadProgressPercent;
+
+  /// The date the replication full load was started.
+  final DateTime? fullLoadStartDate;
+
+  /// The date the replication is scheduled to start.
+  final DateTime? startDate;
+
+  /// The date the replication was stopped.
+  final DateTime? stopDate;
+
+  /// The number of errors that have occured for this replication.
+  final int? tablesErrored;
+
+  /// The number of tables loaded for this replication.
+  final int? tablesLoaded;
+
+  /// The number of tables currently loading for this replication.
+  final int? tablesLoading;
+
+  /// The number of tables queued for this replication.
+  final int? tablesQueued;
+
+  ReplicationStats({
+    this.elapsedTimeMillis,
+    this.freshStartDate,
+    this.fullLoadFinishDate,
+    this.fullLoadProgressPercent,
+    this.fullLoadStartDate,
+    this.startDate,
+    this.stopDate,
+    this.tablesErrored,
+    this.tablesLoaded,
+    this.tablesLoading,
+    this.tablesQueued,
+  });
+
+  factory ReplicationStats.fromJson(Map<String, dynamic> json) {
+    return ReplicationStats(
+      elapsedTimeMillis: json['ElapsedTimeMillis'] as int?,
+      freshStartDate: timeStampFromJson(json['FreshStartDate']),
+      fullLoadFinishDate: timeStampFromJson(json['FullLoadFinishDate']),
+      fullLoadProgressPercent: json['FullLoadProgressPercent'] as int?,
+      fullLoadStartDate: timeStampFromJson(json['FullLoadStartDate']),
+      startDate: timeStampFromJson(json['StartDate']),
+      stopDate: timeStampFromJson(json['StopDate']),
+      tablesErrored: json['TablesErrored'] as int?,
+      tablesLoaded: json['TablesLoaded'] as int?,
+      tablesLoading: json['TablesLoading'] as int?,
+      tablesQueued: json['TablesQueued'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elapsedTimeMillis = this.elapsedTimeMillis;
+    final freshStartDate = this.freshStartDate;
+    final fullLoadFinishDate = this.fullLoadFinishDate;
+    final fullLoadProgressPercent = this.fullLoadProgressPercent;
+    final fullLoadStartDate = this.fullLoadStartDate;
+    final startDate = this.startDate;
+    final stopDate = this.stopDate;
+    final tablesErrored = this.tablesErrored;
+    final tablesLoaded = this.tablesLoaded;
+    final tablesLoading = this.tablesLoading;
+    final tablesQueued = this.tablesQueued;
+    return {
+      if (elapsedTimeMillis != null) 'ElapsedTimeMillis': elapsedTimeMillis,
+      if (freshStartDate != null)
+        'FreshStartDate': unixTimestampToJson(freshStartDate),
+      if (fullLoadFinishDate != null)
+        'FullLoadFinishDate': unixTimestampToJson(fullLoadFinishDate),
+      if (fullLoadProgressPercent != null)
+        'FullLoadProgressPercent': fullLoadProgressPercent,
+      if (fullLoadStartDate != null)
+        'FullLoadStartDate': unixTimestampToJson(fullLoadStartDate),
+      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      if (stopDate != null) 'StopDate': unixTimestampToJson(stopDate),
+      if (tablesErrored != null) 'TablesErrored': tablesErrored,
+      if (tablesLoaded != null) 'TablesLoaded': tablesLoaded,
+      if (tablesLoading != null) 'TablesLoading': tablesLoading,
+      if (tablesQueued != null) 'TablesQueued': tablesQueued,
+    };
+  }
+}
+
 /// Describes a subnet group in response to a request by the
 /// <code>DescribeReplicationSubnetGroups</code> operation.
 class ReplicationSubnetGroup {
@@ -12646,7 +17772,7 @@ class ReplicationTask {
   ///
   /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+  /// Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
   final String? cdcStopPosition;
 
   /// The last error (failure) message generated for the replication task.
@@ -13565,9 +18691,11 @@ class S3Settings {
   /// <code>CdcInsertsAndUpdates</code> is set to <code>true</code> or
   /// <code>y</code>, only INSERTs and UPDATEs from the source database are
   /// migrated to the .csv or .parquet file.
-  ///
-  /// For .csv file format only, how these INSERTs and UPDATEs are recorded
-  /// depends on the value of the <code>IncludeOpForFullLoad</code> parameter. If
+  /// <important>
+  /// DMS supports the use of the .parquet files in versions 3.4.7 and later.
+  /// </important>
+  /// How these INSERTs and UPDATEs are recorded depends on the value of the
+  /// <code>IncludeOpForFullLoad</code> parameter. If
   /// <code>IncludeOpForFullLoad</code> is set to <code>true</code>, the first
   /// field of every CDC record is set to either <code>I</code> or <code>U</code>
   /// to indicate INSERT and UPDATE operations at the source. But if
@@ -13702,7 +18830,7 @@ class S3Settings {
   /// An optional parameter that specifies how DMS treats null values. While
   /// handling the null value, you can use this parameter to pass a user-defined
   /// string as null when writing to the target. For example, when target columns
-  /// are not nullable, you can use this option to differentiate between the empty
+  /// are nullable, you can use this option to differentiate between the empty
   /// string value and the null value. So, if you set this parameter value to the
   /// empty string ("" or ''), DMS treats the empty string as the null value
   /// instead of <code>NULL</code>.
@@ -13874,11 +19002,14 @@ class S3Settings {
   final int? ignoreHeaderRows;
 
   /// A value that enables a full load to write INSERT operations to the
-  /// comma-separated value (.csv) output files only to indicate how the rows were
-  /// added to the source database.
+  /// comma-separated value (.csv) or .parquet output files only to indicate how
+  /// the rows were added to the source database.
   /// <note>
   /// DMS supports the <code>IncludeOpForFullLoad</code> parameter in versions
   /// 3.1.4 and later.
+  ///
+  /// DMS supports the use of the .parquet files with the
+  /// <code>IncludeOpForFullLoad</code> parameter in versions 3.4.7 and later.
   /// </note>
   /// For full load, records can only be inserted. By default (the
   /// <code>false</code> setting), no information is recorded in these output
@@ -14245,6 +19376,37 @@ class S3Settings {
   }
 }
 
+/// Provides information that defines a schema conversion application.
+class SCApplicationAttributes {
+  /// The path for the Amazon S3 bucket that the application uses for exporting
+  /// assessment reports.
+  final String? s3BucketPath;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3BucketRoleArn;
+
+  SCApplicationAttributes({
+    this.s3BucketPath,
+    this.s3BucketRoleArn,
+  });
+
+  factory SCApplicationAttributes.fromJson(Map<String, dynamic> json) {
+    return SCApplicationAttributes(
+      s3BucketPath: json['S3BucketPath'] as String?,
+      s3BucketRoleArn: json['S3BucketRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketPath = this.s3BucketPath;
+    final s3BucketRoleArn = this.s3BucketRoleArn;
+    return {
+      if (s3BucketPath != null) 'S3BucketPath': s3BucketPath,
+      if (s3BucketRoleArn != null) 'S3BucketRoleArn': s3BucketRoleArn,
+    };
+  }
+}
+
 enum SafeguardPolicy {
   relyOnSqlServerReplicationAgent,
   exclusiveAutomaticTruncation,
@@ -14275,6 +19437,60 @@ extension SafeguardPolicyFromString on String {
         return SafeguardPolicy.sharedAutomaticTruncation;
     }
     throw Exception('$this is not known in enum SafeguardPolicy');
+  }
+}
+
+/// Provides information about a schema conversion action.
+class SchemaConversionRequest {
+  final ErrorDetails? error;
+  final ExportSqlDetails? exportSqlDetails;
+
+  /// The migration project ARN.
+  final String? migrationProjectArn;
+
+  /// The identifier for the schema conversion action.
+  final String? requestIdentifier;
+
+  /// The schema conversion action status.
+  final String? status;
+
+  SchemaConversionRequest({
+    this.error,
+    this.exportSqlDetails,
+    this.migrationProjectArn,
+    this.requestIdentifier,
+    this.status,
+  });
+
+  factory SchemaConversionRequest.fromJson(Map<String, dynamic> json) {
+    return SchemaConversionRequest(
+      error: json['Error'] != null
+          ? ErrorDetails.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      exportSqlDetails: json['ExportSqlDetails'] != null
+          ? ExportSqlDetails.fromJson(
+              json['ExportSqlDetails'] as Map<String, dynamic>)
+          : null,
+      migrationProjectArn: json['MigrationProjectArn'] as String?,
+      requestIdentifier: json['RequestIdentifier'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final exportSqlDetails = this.exportSqlDetails;
+    final migrationProjectArn = this.migrationProjectArn;
+    final requestIdentifier = this.requestIdentifier;
+    final status = this.status;
+    return {
+      if (error != null) 'Error': error,
+      if (exportSqlDetails != null) 'ExportSqlDetails': exportSqlDetails,
+      if (migrationProjectArn != null)
+        'MigrationProjectArn': migrationProjectArn,
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+      if (status != null) 'Status': status,
+    };
   }
 }
 
@@ -14507,6 +19723,143 @@ extension SslSecurityProtocolValueFromString on String {
   }
 }
 
+class StartExtensionPackAssociationResponse {
+  /// The identifier for the request operation.
+  final String? requestIdentifier;
+
+  StartExtensionPackAssociationResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartExtensionPackAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartExtensionPackAssociationResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+class StartMetadataModelAssessmentResponse {
+  /// The identifier for the assessment operation.
+  final String? requestIdentifier;
+
+  StartMetadataModelAssessmentResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelAssessmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelAssessmentResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+class StartMetadataModelConversionResponse {
+  /// The identifier for the conversion operation.
+  final String? requestIdentifier;
+
+  StartMetadataModelConversionResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelConversionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelConversionResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+class StartMetadataModelExportAsScriptResponse {
+  /// The identifier for the export operation.
+  final String? requestIdentifier;
+
+  StartMetadataModelExportAsScriptResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelExportAsScriptResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelExportAsScriptResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+class StartMetadataModelExportToTargetResponse {
+  /// The identifier for the export operation.
+  final String? requestIdentifier;
+
+  StartMetadataModelExportToTargetResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelExportToTargetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelExportToTargetResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+class StartMetadataModelImportResponse {
+  /// The identifier for the import operation.
+  final String? requestIdentifier;
+
+  StartMetadataModelImportResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelImportResponse.fromJson(Map<String, dynamic> json) {
+    return StartMetadataModelImportResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
 /// Provides information about the source database to analyze and provide target
 /// recommendations according to the specified requirements.
 class StartRecommendationsRequestEntry {
@@ -14527,6 +19880,31 @@ class StartRecommendationsRequestEntry {
     return {
       'DatabaseId': databaseId,
       'Settings': settings,
+    };
+  }
+}
+
+/// <p/>
+class StartReplicationResponse {
+  /// The replication that DMS started.
+  final Replication? replication;
+
+  StartReplicationResponse({
+    this.replication,
+  });
+
+  factory StartReplicationResponse.fromJson(Map<String, dynamic> json) {
+    return StartReplicationResponse(
+      replication: json['Replication'] != null
+          ? Replication.fromJson(json['Replication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replication = this.replication;
+    return {
+      if (replication != null) 'Replication': replication,
     };
   }
 }
@@ -14643,6 +20021,30 @@ extension StartReplicationTaskTypeValueFromString on String {
         return StartReplicationTaskTypeValue.reloadTarget;
     }
     throw Exception('$this is not known in enum StartReplicationTaskTypeValue');
+  }
+}
+
+class StopReplicationResponse {
+  /// The replication that DMS stopped.
+  final Replication? replication;
+
+  StopReplicationResponse({
+    this.replication,
+  });
+
+  factory StopReplicationResponse.fromJson(Map<String, dynamic> json) {
+    return StopReplicationResponse(
+      replication: json['Replication'] != null
+          ? Replication.fromJson(json['Replication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replication = this.replication;
+    return {
+      if (replication != null) 'Replication': replication,
+    };
   }
 }
 
@@ -15246,6 +20648,81 @@ class TestConnectionResponse {
     final connection = this.connection;
     return {
       if (connection != null) 'Connection': connection,
+    };
+  }
+}
+
+/// Provides information that defines an Amazon Timestream endpoint.
+class TimestreamSettings {
+  /// Database name for the endpoint.
+  final String databaseName;
+
+  /// Set this attribute to specify the default magnetic duration applied to the
+  /// Amazon Timestream tables in days. This is the number of days that records
+  /// remain in magnetic store before being discarded. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html">Storage</a>
+  /// in the <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/">Amazon
+  /// Timestream Developer Guide</a>.
+  final int magneticDuration;
+
+  /// Set this attribute to specify the length of time to store all of the tables
+  /// in memory that are migrated into Amazon Timestream from the source database.
+  /// Time is measured in units of hours. When Timestream data comes in, it first
+  /// resides in memory for the specified duration, which allows quick access to
+  /// it.
+  final int memoryDuration;
+
+  /// Set this attribute to <code>true</code> to specify that DMS only applies
+  /// inserts and updates, and not deletes. Amazon Timestream does not allow
+  /// deleting records, so if this value is <code>false</code>, DMS nulls out the
+  /// corresponding record in the Timestream database rather than deleting it.
+  final bool? cdcInsertsAndUpdates;
+
+  /// Set this attribute to <code>true</code> to enable memory store writes. When
+  /// this value is <code>false</code>, DMS does not write records that are older
+  /// in days than the value specified in <code>MagneticDuration</code>, because
+  /// Amazon Timestream does not allow memory writes by default. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html">Storage</a>
+  /// in the <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/">Amazon
+  /// Timestream Developer Guide</a>.
+  final bool? enableMagneticStoreWrites;
+
+  TimestreamSettings({
+    required this.databaseName,
+    required this.magneticDuration,
+    required this.memoryDuration,
+    this.cdcInsertsAndUpdates,
+    this.enableMagneticStoreWrites,
+  });
+
+  factory TimestreamSettings.fromJson(Map<String, dynamic> json) {
+    return TimestreamSettings(
+      databaseName: json['DatabaseName'] as String,
+      magneticDuration: json['MagneticDuration'] as int,
+      memoryDuration: json['MemoryDuration'] as int,
+      cdcInsertsAndUpdates: json['CdcInsertsAndUpdates'] as bool?,
+      enableMagneticStoreWrites: json['EnableMagneticStoreWrites'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final magneticDuration = this.magneticDuration;
+    final memoryDuration = this.memoryDuration;
+    final cdcInsertsAndUpdates = this.cdcInsertsAndUpdates;
+    final enableMagneticStoreWrites = this.enableMagneticStoreWrites;
+    return {
+      'DatabaseName': databaseName,
+      'MagneticDuration': magneticDuration,
+      'MemoryDuration': memoryDuration,
+      if (cdcInsertsAndUpdates != null)
+        'CdcInsertsAndUpdates': cdcInsertsAndUpdates,
+      if (enableMagneticStoreWrites != null)
+        'EnableMagneticStoreWrites': enableMagneticStoreWrites,
     };
   }
 }

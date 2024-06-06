@@ -3,8 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Welcome to the <i>AWS OpsWorks Stacks API Reference</i>. This guide provides
-descriptions, syntax, and usage examples for AWS OpsWorks Stacks actions and
+Welcome to the <i>OpsWorks Stacks API Reference</i>. This guide provides
+descriptions, syntax, and usage examples for OpsWorks Stacks actions and
 data types, including common parameters and error codes.
 
 ## Links

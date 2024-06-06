@@ -172,7 +172,13 @@ class ChimeSdkVoice {
     return BatchDeletePhoneNumberResponse.fromJson(response);
   }
 
-  /// Updates one or more phone numbers.
+  /// Updates phone number product types, calling names, or phone number names.
+  /// You can update one attribute at a time for each
+  /// <code>UpdatePhoneNumberRequestItem</code>. For example, you can update the
+  /// product type, the calling name, or phone name.
+  /// <note>
+  /// You cannot have a duplicate <code>phoneNumberId</code> in a request.
+  /// </note>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -217,13 +223,18 @@ class ChimeSdkVoice {
   ///
   /// Parameter [productType] :
   /// The phone number product type.
+  ///
+  /// Parameter [name] :
+  /// Specifies the name assigned to one or more phone numbers.
   Future<CreatePhoneNumberOrderResponse> createPhoneNumberOrder({
     required List<String> e164PhoneNumbers,
     required PhoneNumberProductType productType,
+    String? name,
   }) async {
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
       'ProductType': productType.toValue(),
+      if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1260,6 +1271,12 @@ class ChimeSdkVoice {
   }
 
   /// Gets the Alexa Skill configuration for the SIP media application.
+  /// <important>
+  /// Due to changes made by the Amazon Alexa service, this API is no longer
+  /// available for use. For more information, refer to the <a
+  /// href="https://developer.amazon.com/en-US/alexa/alexasmartproperties">Alexa
+  /// Smart Properties</a> page.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -1271,6 +1288,8 @@ class ChimeSdkVoice {
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
+  @Deprecated(
+      'Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).')
   Future<GetSipMediaApplicationAlexaSkillConfigurationResponse>
       getSipMediaApplicationAlexaSkillConfiguration({
     required String sipMediaApplicationId,
@@ -2200,6 +2219,12 @@ class ChimeSdkVoice {
   }
 
   /// Updates the Alexa Skill configuration for the SIP media application.
+  /// <important>
+  /// Due to changes made by the Amazon Alexa service, this API is no longer
+  /// available for use. For more information, refer to the <a
+  /// href="https://developer.amazon.com/en-US/alexa/alexasmartproperties">Alexa
+  /// Smart Properties</a> page.
+  /// </important>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2214,6 +2239,8 @@ class ChimeSdkVoice {
   ///
   /// Parameter [sipMediaApplicationAlexaSkillConfiguration] :
   /// The Alexa Skill configuration.
+  @Deprecated(
+      'Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).')
   Future<PutSipMediaApplicationAlexaSkillConfigurationResponse>
       putSipMediaApplicationAlexaSkillConfiguration({
     required String sipMediaApplicationId,
@@ -2653,6 +2680,9 @@ class ChimeSdkVoice {
   /// Parameter [voiceProfileDomainId] :
   /// The ID of the voice profile domain that will store the voice profile.
   ///
+  /// Parameter [callLeg] :
+  /// Specifies which call leg to stream for speaker search.
+  ///
   /// Parameter [clientRequestToken] :
   /// The unique identifier for the client request. Use a different token for
   /// different speaker search tasks.
@@ -2660,11 +2690,13 @@ class ChimeSdkVoice {
     required String transactionId,
     required String voiceConnectorId,
     required String voiceProfileDomainId,
+    CallLegType? callLeg,
     String? clientRequestToken,
   }) async {
     final $payload = <String, dynamic>{
       'TransactionId': transactionId,
       'VoiceProfileDomainId': voiceProfileDomainId,
+      if (callLeg != null) 'CallLeg': callLeg.toValue(),
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
     };
     final response = await _protocol.send(
@@ -2885,10 +2917,10 @@ class ChimeSdkVoice {
     );
   }
 
-  /// Updates phone number details, such as product type or calling name, for
-  /// the specified phone number ID. You can update one phone number detail at a
-  /// time. For example, you can update either the product type or the calling
-  /// name in one action.
+  /// Updates phone number details, such as product type, calling name, or phone
+  /// number name for the specified phone number ID. You can update one phone
+  /// number detail at a time. For example, you can update either the product
+  /// type, calling name, or phone number name in one action.
   ///
   /// For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media
   /// Application Dial-In product type.
@@ -2912,15 +2944,20 @@ class ChimeSdkVoice {
   /// Parameter [callingName] :
   /// The outbound calling name associated with the phone number.
   ///
+  /// Parameter [name] :
+  /// Specifies the updated name assigned to one or more phone numbers.
+  ///
   /// Parameter [productType] :
   /// The product type.
   Future<UpdatePhoneNumberResponse> updatePhoneNumber({
     required String phoneNumberId,
     String? callingName,
+    String? name,
     PhoneNumberProductType? productType,
   }) async {
     final $payload = <String, dynamic>{
       if (callingName != null) 'CallingName': callingName,
+      if (name != null) 'Name': name,
       if (productType != null) 'ProductType': productType.toValue(),
     };
     final response = await _protocol.send(
@@ -3612,6 +3649,34 @@ class CallDetails {
       if (transactionId != null) 'TransactionId': transactionId,
       if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
     };
+  }
+}
+
+enum CallLegType {
+  caller,
+  callee,
+}
+
+extension CallLegTypeValueExtension on CallLegType {
+  String toValue() {
+    switch (this) {
+      case CallLegType.caller:
+        return 'Caller';
+      case CallLegType.callee:
+        return 'Callee';
+    }
+  }
+}
+
+extension CallLegTypeFromString on String {
+  CallLegType toCallLegType() {
+    switch (this) {
+      case 'Caller':
+        return CallLegType.caller;
+      case 'Callee':
+        return CallLegType.callee;
+    }
+    throw Exception('$this is not known in enum CallLegType');
   }
 }
 
@@ -5653,6 +5718,9 @@ class PhoneNumber {
   /// The phone number, in E.164 format.
   final String? e164PhoneNumber;
 
+  /// The name of the phone number.
+  final String? name;
+
   /// The phone number's order ID.
   final String? orderId;
 
@@ -5680,6 +5748,7 @@ class PhoneNumber {
     this.createdTimestamp,
     this.deletionTimestamp,
     this.e164PhoneNumber,
+    this.name,
     this.orderId,
     this.phoneNumberId,
     this.productType,
@@ -5706,6 +5775,7 @@ class PhoneNumber {
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       deletionTimestamp: timeStampFromJson(json['DeletionTimestamp']),
       e164PhoneNumber: json['E164PhoneNumber'] as String?,
+      name: json['Name'] as String?,
       orderId: json['OrderId'] as String?,
       phoneNumberId: json['PhoneNumberId'] as String?,
       productType: (json['ProductType'] as String?)?.toPhoneNumberProductType(),
@@ -5724,6 +5794,7 @@ class PhoneNumber {
     final createdTimestamp = this.createdTimestamp;
     final deletionTimestamp = this.deletionTimestamp;
     final e164PhoneNumber = this.e164PhoneNumber;
+    final name = this.name;
     final orderId = this.orderId;
     final phoneNumberId = this.phoneNumberId;
     final productType = this.productType;
@@ -5742,6 +5813,7 @@ class PhoneNumber {
       if (deletionTimestamp != null)
         'DeletionTimestamp': iso8601ToJson(deletionTimestamp),
       if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
+      if (name != null) 'Name': name,
       if (orderId != null) 'OrderId': orderId,
       if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
       if (productType != null) 'ProductType': productType.toValue(),
@@ -6853,6 +6925,12 @@ class SipMediaApplication {
 }
 
 /// The Alexa Skill configuration of a SIP media application.
+/// <important>
+/// Due to changes made by the Amazon Alexa service, this data type is no longer
+/// available for use. For more information, refer to the <a
+/// href="https://developer.amazon.com/en-US/alexa/alexasmartproperties">Alexa
+/// Smart Properties</a> page.
+/// </important>
 class SipMediaApplicationAlexaSkillConfiguration {
   /// The ID of the Alexa Skill configuration.
   final List<String> alexaSkillIds;
@@ -7532,22 +7610,28 @@ class UpdatePhoneNumberRequestItem {
   /// The outbound calling name to update.
   final String? callingName;
 
+  /// The name of the phone number.
+  final String? name;
+
   /// The product type to update.
   final PhoneNumberProductType? productType;
 
   UpdatePhoneNumberRequestItem({
     required this.phoneNumberId,
     this.callingName,
+    this.name,
     this.productType,
   });
 
   Map<String, dynamic> toJson() {
     final phoneNumberId = this.phoneNumberId;
     final callingName = this.callingName;
+    final name = this.name;
     final productType = this.productType;
     return {
       'PhoneNumberId': phoneNumberId,
       if (callingName != null) 'CallingName': callingName,
+      if (name != null) 'Name': name,
       if (productType != null) 'ProductType': productType.toValue(),
     };
   }

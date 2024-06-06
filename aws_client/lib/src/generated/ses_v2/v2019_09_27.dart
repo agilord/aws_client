@@ -77,6 +77,25 @@ class SesV2 {
     return BatchGetMetricDataResponse.fromJson(response);
   }
 
+  /// Cancels an export job.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [jobId] :
+  /// The export job ID.
+  Future<void> cancelExportJob({
+    required String jobId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'PUT',
+      requestUri: '/v2/email/export-jobs/${Uri.encodeComponent(jobId)}/cancel',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Create a configuration set. <i>Configuration sets</i> are groups of rules
   /// that you can apply to the emails that you send. You apply a configuration
   /// set to an email by specifying the name of the configuration set when you
@@ -607,6 +626,37 @@ class SesV2 {
       requestUri: '/v2/email/templates',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Creates an export job for a data source and destination.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [exportDataSource] :
+  /// The data source for the export job.
+  ///
+  /// Parameter [exportDestination] :
+  /// The destination for the export job.
+  Future<CreateExportJobResponse> createExportJob({
+    required ExportDataSource exportDataSource,
+    required ExportDestination exportDestination,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ExportDataSource': exportDataSource,
+      'ExportDestination': exportDestination,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/export-jobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateExportJobResponse.fromJson(response);
   }
 
   /// Creates an import job for a data destination.
@@ -1347,6 +1397,26 @@ class SesV2 {
     return GetEmailTemplateResponse.fromJson(response);
   }
 
+  /// Provides information about an export job.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [jobId] :
+  /// The export job ID.
+  Future<GetExportJobResponse> getExportJob({
+    required String jobId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/export-jobs/${Uri.encodeComponent(jobId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetExportJobResponse.fromJson(response);
+  }
+
   /// Provides information about an import job.
   ///
   /// May throw [BadRequestException].
@@ -1365,6 +1435,31 @@ class SesV2 {
       exceptionFnMap: _exceptionFns,
     );
     return GetImportJobResponse.fromJson(response);
+  }
+
+  /// Provides information about a specific message, including the from address,
+  /// the subject, the recipient address, email tags, as well as events
+  /// associated with the message.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [messageId] :
+  /// A <code>MessageId</code> is a unique identifier for a message, and is
+  /// returned when sending emails through Amazon SES.
+  Future<GetMessageInsightsResponse> getMessageInsights({
+    required String messageId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/insights/${Uri.encodeComponent(messageId)}/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMessageInsightsResponse.fromJson(response);
   }
 
   /// Retrieves information about a specific email address that's on the
@@ -1496,16 +1591,16 @@ class SesV2 {
     String? nextToken,
     int? pageSize,
   }) async {
-    final $query = <String, List<String>>{
-      if (nextToken != null) 'NextToken': [nextToken],
-      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    final $payload = <String, dynamic>{
+      if (filter != null) 'Filter': filter,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (pageSize != null) 'PageSize': pageSize,
     };
     final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
+      payload: $payload,
+      method: 'POST',
       requestUri:
-          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}/contacts',
-      queryParams: $query,
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}/contacts/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListContactsResponse.fromJson(response);
@@ -1744,7 +1839,7 @@ class SesV2 {
   /// <code>NextToken</code> element, which you can use to obtain additional
   /// results.
   ///
-  /// The value you specify has to be at least 1, and can be no more than 10.
+  /// The value you specify has to be at least 1, and can be no more than 100.
   Future<ListEmailTemplatesResponse> listEmailTemplates({
     String? nextToken,
     int? pageSize,
@@ -1761,6 +1856,52 @@ class SesV2 {
       exceptionFnMap: _exceptionFns,
     );
     return ListEmailTemplatesResponse.fromJson(response);
+  }
+
+  /// Lists all of the export jobs.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [exportSourceType] :
+  /// A value used to list export jobs that have a certain
+  /// <code>ExportSourceType</code>.
+  ///
+  /// Parameter [jobStatus] :
+  /// A value used to list export jobs that have a certain
+  /// <code>JobStatus</code>.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token returned from a previous call to
+  /// <code>ListExportJobs</code> to indicate the position in the list of export
+  /// jobs.
+  ///
+  /// Parameter [pageSize] :
+  /// Maximum number of export jobs to return at once. Use this parameter to
+  /// paginate results. If additional export jobs exist beyond the specified
+  /// limit, the <code>NextToken</code> element is sent in the response. Use the
+  /// <code>NextToken</code> value in subsequent calls to
+  /// <code>ListExportJobs</code> to retrieve additional export jobs.
+  Future<ListExportJobsResponse> listExportJobs({
+    ExportSourceType? exportSourceType,
+    JobStatus? jobStatus,
+    String? nextToken,
+    int? pageSize,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (exportSourceType != null)
+        'ExportSourceType': exportSourceType.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (pageSize != null) 'PageSize': pageSize,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/list-export-jobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListExportJobsResponse.fromJson(response);
   }
 
   /// Lists all of the import jobs.
@@ -1789,15 +1930,16 @@ class SesV2 {
     String? nextToken,
     int? pageSize,
   }) async {
-    final $query = <String, List<String>>{
-      if (nextToken != null) 'NextToken': [nextToken],
-      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    final $payload = <String, dynamic>{
+      if (importDestinationType != null)
+        'ImportDestinationType': importDestinationType.toValue(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (pageSize != null) 'PageSize': pageSize,
     };
     final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/v2/email/import-jobs',
-      queryParams: $query,
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/import-jobs/list',
       exceptionFnMap: _exceptionFns,
     );
     return ListImportJobsResponse.fromJson(response);
@@ -1987,10 +2129,7 @@ class SesV2 {
   ///
   /// If the value is <code>false</code>, then your account is in the
   /// <i>sandbox</i>. When your account is in the sandbox, you can only send
-  /// email to verified identities. Additionally, the maximum number of emails
-  /// you can send in a 24-hour period (your sending quota) is 200, and the
-  /// maximum number of emails you can send per second (your maximum sending
-  /// rate) is 1.
+  /// email to verified identities.
   ///
   /// If the value is <code>true</code>, then your account has production
   /// access. When your account has production access, you can send email to any
@@ -2915,7 +3054,7 @@ class SesV2 {
   ///
   /// Parameter [content] :
   /// An object that contains the body of the message. You can send either a
-  /// Simple message Raw message or a template Message.
+  /// Simple message, Raw message, or a Templated message.
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set to use when sending the email.
@@ -3171,9 +3310,12 @@ class SesV2 {
     );
   }
 
-  /// Updates a contact's preferences for a list. It is not necessary to specify
-  /// all existing topic preferences in the TopicPreferences object, just the
-  /// ones that need updating.
+  /// Updates a contact's preferences for a list.
+  /// <note>
+  /// You must specify all existing topic preferences in the
+  /// <code>TopicPreferences</code> object, not just the ones that need
+  /// updating; otherwise, all your existing preferences will be removed.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [TooManyRequestsException].
@@ -3726,6 +3868,79 @@ class Body {
   }
 }
 
+/// Information about a <code>Bounce</code> event.
+class Bounce {
+  /// The subtype of the bounce, as determined by SES.
+  final String? bounceSubType;
+
+  /// The type of the bounce, as determined by SES. Can be one of
+  /// <code>UNDETERMINED</code>, <code>TRANSIENT</code>, or <code>PERMANENT</code>
+  final BounceType? bounceType;
+
+  /// The status code issued by the reporting Message Transfer Authority (MTA).
+  /// This field only appears if a delivery status notification (DSN) was attached
+  /// to the bounce and the <code>Diagnostic-Code</code> was provided in the DSN.
+  final String? diagnosticCode;
+
+  Bounce({
+    this.bounceSubType,
+    this.bounceType,
+    this.diagnosticCode,
+  });
+
+  factory Bounce.fromJson(Map<String, dynamic> json) {
+    return Bounce(
+      bounceSubType: json['BounceSubType'] as String?,
+      bounceType: (json['BounceType'] as String?)?.toBounceType(),
+      diagnosticCode: json['DiagnosticCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bounceSubType = this.bounceSubType;
+    final bounceType = this.bounceType;
+    final diagnosticCode = this.diagnosticCode;
+    return {
+      if (bounceSubType != null) 'BounceSubType': bounceSubType,
+      if (bounceType != null) 'BounceType': bounceType.toValue(),
+      if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
+    };
+  }
+}
+
+enum BounceType {
+  undetermined,
+  transient,
+  permanent,
+}
+
+extension BounceTypeValueExtension on BounceType {
+  String toValue() {
+    switch (this) {
+      case BounceType.undetermined:
+        return 'UNDETERMINED';
+      case BounceType.transient:
+        return 'TRANSIENT';
+      case BounceType.permanent:
+        return 'PERMANENT';
+    }
+  }
+}
+
+extension BounceTypeFromString on String {
+  BounceType toBounceType() {
+    switch (this) {
+      case 'UNDETERMINED':
+        return BounceType.undetermined;
+      case 'TRANSIENT':
+        return BounceType.transient;
+      case 'PERMANENT':
+        return BounceType.permanent;
+    }
+    throw Exception('$this is not known in enum BounceType');
+  }
+}
+
 /// An object that contains the body of the message. You can specify a template
 /// message.
 class BulkEmailContent {
@@ -3763,6 +3978,37 @@ class BulkEmailEntry {
   /// <code>BulkEmailEntry</code>.
   final ReplacementEmailContent? replacementEmailContent;
 
+  /// The list of message headers associated with the <code>BulkEmailEntry</code>
+  /// data type.
+  ///
+  /// <ul>
+  /// <li>
+  /// Headers Not Present in <code>BulkEmailEntry</code>: If a header is specified
+  /// in <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html">
+  /// <code>Template</code> </a> but not in <code>BulkEmailEntry</code>, the
+  /// header from <code>Template</code> will be added to the outgoing email.
+  /// </li>
+  /// <li>
+  /// Headers Present in <code>BulkEmailEntry</code>: If a header is specified in
+  /// <code>BulkEmailEntry</code>, it takes precedence over any header of the same
+  /// name specified in <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html">
+  /// <code>Template</code> </a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the header is also defined within <code>Template</code>, the value from
+  /// <code>BulkEmailEntry</code> will replace the header's value in the email.
+  /// </li>
+  /// <li>
+  /// If the header is not defined within <code>Template</code>, it will simply be
+  /// added to the email as specified in <code>BulkEmailEntry</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final List<MessageHeader>? replacementHeaders;
+
   /// A list of tags, in the form of name/value pairs, to apply to an email that
   /// you send using the <code>SendBulkTemplatedEmail</code> operation. Tags
   /// correspond to characteristics of the email that you define, so that you can
@@ -3772,17 +4018,20 @@ class BulkEmailEntry {
   BulkEmailEntry({
     required this.destination,
     this.replacementEmailContent,
+    this.replacementHeaders,
     this.replacementTags,
   });
 
   Map<String, dynamic> toJson() {
     final destination = this.destination;
     final replacementEmailContent = this.replacementEmailContent;
+    final replacementHeaders = this.replacementHeaders;
     final replacementTags = this.replacementTags;
     return {
       'Destination': destination,
       if (replacementEmailContent != null)
         'ReplacementEmailContent': replacementEmailContent,
+      if (replacementHeaders != null) 'ReplacementHeaders': replacementHeaders,
       if (replacementTags != null) 'ReplacementTags': replacementTags,
     };
   }
@@ -3981,6 +4230,20 @@ extension BulkEmailStatusFromString on String {
   }
 }
 
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+class CancelExportJobResponse {
+  CancelExportJobResponse();
+
+  factory CancelExportJobResponse.fromJson(Map<String, dynamic> _) {
+    return CancelExportJobResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// An object that defines an Amazon CloudWatch destination for email events.
 /// You can use Amazon CloudWatch to monitor and gain insights on your email
 /// sending metrics.
@@ -4074,6 +4337,41 @@ class CloudWatchDimensionConfiguration {
       'DefaultDimensionValue': defaultDimensionValue,
       'DimensionName': dimensionName,
       'DimensionValueSource': dimensionValueSource.toValue(),
+    };
+  }
+}
+
+/// Information about a <code>Complaint</code> event.
+class Complaint {
+  /// The value of the <code>Feedback-Type</code> field from the feedback report
+  /// received from the ISP.
+  final String? complaintFeedbackType;
+
+  /// Can either be <code>null</code> or <code>OnAccountSuppressionList</code>. If
+  /// the value is <code>OnAccountSuppressionList</code>, SES accepted the
+  /// message, but didn't attempt to send it because it was on the account-level
+  /// suppression list.
+  final String? complaintSubType;
+
+  Complaint({
+    this.complaintFeedbackType,
+    this.complaintSubType,
+  });
+
+  factory Complaint.fromJson(Map<String, dynamic> json) {
+    return Complaint(
+      complaintFeedbackType: json['ComplaintFeedbackType'] as String?,
+      complaintSubType: json['ComplaintSubType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complaintFeedbackType = this.complaintFeedbackType;
+    final complaintSubType = this.complaintSubType;
+    return {
+      if (complaintFeedbackType != null)
+        'ComplaintFeedbackType': complaintFeedbackType,
+      if (complaintSubType != null) 'ComplaintSubType': complaintSubType,
     };
   }
 }
@@ -4495,6 +4793,30 @@ class CreateEmailTemplateResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+class CreateExportJobResponse {
+  /// A string that represents the export job ID.
+  final String? jobId;
+
+  CreateExportJobResponse({
+    this.jobId,
+  });
+
+  factory CreateExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateExportJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
+  }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
 class CreateImportJobResponse {
   /// A string that represents the import job ID.
   final String? jobId;
@@ -4696,7 +5018,16 @@ class DashboardOptions {
   }
 }
 
-/// The data format of the import job's data source.
+/// The data format of a file, can be one of the following:
+///
+/// <ul>
+/// <li>
+/// <code>CSV</code> – A comma-separated values file.
+/// </li>
+/// <li>
+/// <code>JSON</code> – A JSON file.
+/// </li>
+/// </ul>
 enum DataFormat {
   csv,
   json,
@@ -5107,6 +5438,91 @@ extension DeliverabilityTestStatusFromString on String {
         return DeliverabilityTestStatus.completed;
     }
     throw Exception('$this is not known in enum DeliverabilityTestStatus');
+  }
+}
+
+/// The type of delivery events:
+///
+/// <ul>
+/// <li>
+/// <code>SEND</code> - The send request was successful and SES will attempt to
+/// deliver the message to the recipient’s mail server. (If account-level or
+/// global suppression is being used, SES will still count it as a send, but
+/// delivery is suppressed.)
+/// </li>
+/// <li>
+/// <code>DELIVERY</code> - SES successfully delivered the email to the
+/// recipient's mail server. Excludes deliveries to the mailbox simulator and
+/// emails addressed to more than one recipient.
+/// </li>
+/// <li>
+/// <code>TRANSIENT_BOUNCE</code> - Feedback received for delivery failures
+/// excluding issues with non-existent mailboxes. Excludes bounces from the
+/// mailbox simulator, and those from emails addressed to more than one
+/// recipient.
+/// </li>
+/// <li>
+/// <code>PERMANENT_BOUNCE</code> - Feedback received for emails sent to
+/// non-existent mailboxes. Excludes bounces from the mailbox simulator, those
+/// originating from your account-level suppression list (if enabled), and those
+/// from emails addressed to more than one recipient.
+/// </li>
+/// <li>
+/// <code>UNDETERMINED_BOUNCE</code> - SES was unable to determine the bounce
+/// reason.
+/// </li>
+/// <li>
+/// <code>COMPLAINT</code> - Complaint received for the email. This excludes
+/// complaints from the mailbox simulator, those originating from your
+/// account-level suppression list (if enabled), and those from emails addressed
+/// to more than one recipient.
+/// </li>
+/// </ul>
+enum DeliveryEventType {
+  send,
+  delivery,
+  transientBounce,
+  permanentBounce,
+  undeterminedBounce,
+  complaint,
+}
+
+extension DeliveryEventTypeValueExtension on DeliveryEventType {
+  String toValue() {
+    switch (this) {
+      case DeliveryEventType.send:
+        return 'SEND';
+      case DeliveryEventType.delivery:
+        return 'DELIVERY';
+      case DeliveryEventType.transientBounce:
+        return 'TRANSIENT_BOUNCE';
+      case DeliveryEventType.permanentBounce:
+        return 'PERMANENT_BOUNCE';
+      case DeliveryEventType.undeterminedBounce:
+        return 'UNDETERMINED_BOUNCE';
+      case DeliveryEventType.complaint:
+        return 'COMPLAINT';
+    }
+  }
+}
+
+extension DeliveryEventTypeFromString on String {
+  DeliveryEventType toDeliveryEventType() {
+    switch (this) {
+      case 'SEND':
+        return DeliveryEventType.send;
+      case 'DELIVERY':
+        return DeliveryEventType.delivery;
+      case 'TRANSIENT_BOUNCE':
+        return DeliveryEventType.transientBounce;
+      case 'PERMANENT_BOUNCE':
+        return DeliveryEventType.permanentBounce;
+      case 'UNDETERMINED_BOUNCE':
+        return DeliveryEventType.undeterminedBounce;
+      case 'COMPLAINT':
+        return DeliveryEventType.complaint;
+    }
+    throw Exception('$this is not known in enum DeliveryEventType');
   }
 }
 
@@ -5807,7 +6223,10 @@ class EmailContent {
   /// SES API v2 supports.
   /// </li>
   /// <li>
-  /// The entire message must be Base64 encoded.
+  /// The raw data of the message needs to base64-encoded if you are accessing
+  /// Amazon SES directly through the HTTPS interface. If you are accessing Amazon
+  /// SES using an Amazon Web Services SDK, the SDK takes care of the base
+  /// 64-encoding for you.
   /// </li>
   /// <li>
   /// If any of the MIME parts in your message contain content that is outside of
@@ -5843,6 +6262,47 @@ class EmailContent {
       if (raw != null) 'Raw': raw,
       if (simple != null) 'Simple': simple,
       if (template != null) 'Template': template,
+    };
+  }
+}
+
+/// An email's insights contain metadata and delivery information about a
+/// specific email.
+class EmailInsights {
+  /// The recipient of the email.
+  final String? destination;
+
+  /// A list of events associated with the sent email.
+  final List<InsightsEvent>? events;
+
+  /// The recipient's ISP (e.g., <code>Gmail</code>, <code>Yahoo</code>, etc.).
+  final String? isp;
+
+  EmailInsights({
+    this.destination,
+    this.events,
+    this.isp,
+  });
+
+  factory EmailInsights.fromJson(Map<String, dynamic> json) {
+    return EmailInsights(
+      destination: json['Destination'] as String?,
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => InsightsEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isp: json['Isp'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final events = this.events;
+    final isp = this.isp;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (events != null) 'Events': events,
+      if (isp != null) 'Isp': isp,
     };
   }
 }
@@ -5914,6 +6374,46 @@ class EmailTemplateMetadata {
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (templateName != null) 'TemplateName': templateName,
     };
+  }
+}
+
+/// The type of delivery events:
+///
+/// <ul>
+/// <li>
+/// <code>OPEN</code> - Open event for emails including open trackers. Excludes
+/// opens for emails addressed to more than one recipient.
+/// </li>
+/// <li>
+/// <code>CLICK</code> - Click event for emails including wrapped links.
+/// Excludes clicks for emails addressed to more than one recipient.
+/// </li>
+/// </ul>
+enum EngagementEventType {
+  open,
+  click,
+}
+
+extension EngagementEventTypeValueExtension on EngagementEventType {
+  String toValue() {
+    switch (this) {
+      case EngagementEventType.open:
+        return 'OPEN';
+      case EngagementEventType.click:
+        return 'CLICK';
+    }
+  }
+}
+
+extension EngagementEventTypeFromString on String {
+  EngagementEventType toEngagementEventType() {
+    switch (this) {
+      case 'OPEN':
+        return EngagementEventType.open;
+      case 'CLICK':
+        return EngagementEventType.click;
+    }
+    throw Exception('$this is not known in enum EngagementEventType');
   }
 }
 
@@ -6149,6 +6649,42 @@ class EventDestinationDefinition {
   }
 }
 
+/// Contains a <code>Bounce</code> object if the event type is
+/// <code>BOUNCE</code>. Contains a <code>Complaint</code> object if the event
+/// type is <code>COMPLAINT</code>.
+class EventDetails {
+  /// Information about a <code>Bounce</code> event.
+  final Bounce? bounce;
+
+  /// Information about a <code>Complaint</code> event.
+  final Complaint? complaint;
+
+  EventDetails({
+    this.bounce,
+    this.complaint,
+  });
+
+  factory EventDetails.fromJson(Map<String, dynamic> json) {
+    return EventDetails(
+      bounce: json['Bounce'] != null
+          ? Bounce.fromJson(json['Bounce'] as Map<String, dynamic>)
+          : null,
+      complaint: json['Complaint'] != null
+          ? Complaint.fromJson(json['Complaint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bounce = this.bounce;
+    final complaint = this.complaint;
+    return {
+      if (bounce != null) 'Bounce': bounce,
+      if (complaint != null) 'Complaint': complaint,
+    };
+  }
+}
+
 /// An email sending event type. For example, email sends, opens, and bounces
 /// are all email events.
 enum EventType {
@@ -6219,12 +6755,242 @@ extension EventTypeFromString on String {
   }
 }
 
-/// An object that contains the failure details about an import job.
+/// An object that contains details about the data source of the export job. It
+/// can only contain one of <code>MetricsDataSource</code> or
+/// <code>MessageInsightsDataSource</code> object.
+class ExportDataSource {
+  final MessageInsightsDataSource? messageInsightsDataSource;
+  final MetricsDataSource? metricsDataSource;
+
+  ExportDataSource({
+    this.messageInsightsDataSource,
+    this.metricsDataSource,
+  });
+
+  factory ExportDataSource.fromJson(Map<String, dynamic> json) {
+    return ExportDataSource(
+      messageInsightsDataSource: json['MessageInsightsDataSource'] != null
+          ? MessageInsightsDataSource.fromJson(
+              json['MessageInsightsDataSource'] as Map<String, dynamic>)
+          : null,
+      metricsDataSource: json['MetricsDataSource'] != null
+          ? MetricsDataSource.fromJson(
+              json['MetricsDataSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageInsightsDataSource = this.messageInsightsDataSource;
+    final metricsDataSource = this.metricsDataSource;
+    return {
+      if (messageInsightsDataSource != null)
+        'MessageInsightsDataSource': messageInsightsDataSource,
+      if (metricsDataSource != null) 'MetricsDataSource': metricsDataSource,
+    };
+  }
+}
+
+/// An object that contains details about the destination of the export job.
+class ExportDestination {
+  /// The data format of the final export job file, can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CSV</code> - A comma-separated values file.
+  /// </li>
+  /// <li>
+  /// <code>JSON</code> - A Json file.
+  /// </li>
+  /// </ul>
+  final DataFormat dataFormat;
+
+  /// An Amazon S3 pre-signed URL that points to the generated export file.
+  final String? s3Url;
+
+  ExportDestination({
+    required this.dataFormat,
+    this.s3Url,
+  });
+
+  factory ExportDestination.fromJson(Map<String, dynamic> json) {
+    return ExportDestination(
+      dataFormat: (json['DataFormat'] as String).toDataFormat(),
+      s3Url: json['S3Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataFormat = this.dataFormat;
+    final s3Url = this.s3Url;
+    return {
+      'DataFormat': dataFormat.toValue(),
+      if (s3Url != null) 'S3Url': s3Url,
+    };
+  }
+}
+
+/// A summary of the export job.
+class ExportJobSummary {
+  /// The timestamp of when the export job was completed.
+  final DateTime? completedTimestamp;
+
+  /// The timestamp of when the export job was created.
+  final DateTime? createdTimestamp;
+
+  /// The source type of the export job.
+  final ExportSourceType? exportSourceType;
+
+  /// The export job ID.
+  final String? jobId;
+
+  /// The status of the export job.
+  final JobStatus? jobStatus;
+
+  ExportJobSummary({
+    this.completedTimestamp,
+    this.createdTimestamp,
+    this.exportSourceType,
+    this.jobId,
+    this.jobStatus,
+  });
+
+  factory ExportJobSummary.fromJson(Map<String, dynamic> json) {
+    return ExportJobSummary(
+      completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      exportSourceType:
+          (json['ExportSourceType'] as String?)?.toExportSourceType(),
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completedTimestamp = this.completedTimestamp;
+    final createdTimestamp = this.createdTimestamp;
+    final exportSourceType = this.exportSourceType;
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (completedTimestamp != null)
+        'CompletedTimestamp': unixTimestampToJson(completedTimestamp),
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (exportSourceType != null)
+        'ExportSourceType': exportSourceType.toValue(),
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
+}
+
+/// An object that contains a mapping between a <code>Metric</code> and
+/// <code>MetricAggregation</code>.
+class ExportMetric {
+  final MetricAggregation? aggregation;
+  final Metric? name;
+
+  ExportMetric({
+    this.aggregation,
+    this.name,
+  });
+
+  factory ExportMetric.fromJson(Map<String, dynamic> json) {
+    return ExportMetric(
+      aggregation: (json['Aggregation'] as String?)?.toMetricAggregation(),
+      name: (json['Name'] as String?)?.toMetric(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregation = this.aggregation;
+    final name = this.name;
+    return {
+      if (aggregation != null) 'Aggregation': aggregation.toValue(),
+      if (name != null) 'Name': name.toValue(),
+    };
+  }
+}
+
+/// The type of data source of an export, can be one of the following:
+///
+/// <ul>
+/// <li>
+/// <code>METRICS_DATA</code> - The metrics export.
+/// </li>
+/// <li>
+/// <code>MESSAGE_INSIGHTS</code> - The Message Insights export.
+/// </li>
+/// </ul>
+enum ExportSourceType {
+  metricsData,
+  messageInsights,
+}
+
+extension ExportSourceTypeValueExtension on ExportSourceType {
+  String toValue() {
+    switch (this) {
+      case ExportSourceType.metricsData:
+        return 'METRICS_DATA';
+      case ExportSourceType.messageInsights:
+        return 'MESSAGE_INSIGHTS';
+    }
+  }
+}
+
+extension ExportSourceTypeFromString on String {
+  ExportSourceType toExportSourceType() {
+    switch (this) {
+      case 'METRICS_DATA':
+        return ExportSourceType.metricsData;
+      case 'MESSAGE_INSIGHTS':
+        return ExportSourceType.messageInsights;
+    }
+    throw Exception('$this is not known in enum ExportSourceType');
+  }
+}
+
+/// Statistics about the execution of an export job.
+class ExportStatistics {
+  /// The number of records that were exported to the final export file.
+  ///
+  /// This value might not be available for all export source types
+  final int? exportedRecordsCount;
+
+  /// The number of records that were processed to generate the final export file.
+  final int? processedRecordsCount;
+
+  ExportStatistics({
+    this.exportedRecordsCount,
+    this.processedRecordsCount,
+  });
+
+  factory ExportStatistics.fromJson(Map<String, dynamic> json) {
+    return ExportStatistics(
+      exportedRecordsCount: json['ExportedRecordsCount'] as int?,
+      processedRecordsCount: json['ProcessedRecordsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportedRecordsCount = this.exportedRecordsCount;
+    final processedRecordsCount = this.processedRecordsCount;
+    return {
+      if (exportedRecordsCount != null)
+        'ExportedRecordsCount': exportedRecordsCount,
+      if (processedRecordsCount != null)
+        'ProcessedRecordsCount': processedRecordsCount,
+    };
+  }
+}
+
+/// An object that contains the failure details about a job.
 class FailureInfo {
-  /// A message about why the import job failed.
+  /// A message about why the job failed.
   final String? errorMessage;
 
-  /// An Amazon S3 presigned URL that contains all the failed records and related
+  /// An Amazon S3 pre-signed URL that contains all the failed records and related
   /// information.
   final String? failedRecordsS3Url;
 
@@ -6315,9 +7081,7 @@ class GetAccountResponse {
   ///
   /// If the value is <code>false</code>, then your account is in the
   /// <i>sandbox</i>. When your account is in the sandbox, you can only send email
-  /// to verified identities. Additionally, the maximum number of emails you can
-  /// send in a 24-hour period (your sending quota) is 200, and the maximum number
-  /// of emails you can send per second (your maximum sending rate) is 1.
+  /// to verified identities.
   ///
   /// If the value is <code>true</code>, then your account has production access.
   /// When your account has production access, you can send email to any address.
@@ -7131,6 +7895,10 @@ class GetEmailIdentityResponse {
   /// associated with the email identity.
   final List<Tag>? tags;
 
+  /// An object that contains additional information about the verification status
+  /// for the identity.
+  final VerificationInfo? verificationInfo;
+
   /// The verification status of the identity. The status can be one of the
   /// following:
   ///
@@ -7171,6 +7939,7 @@ class GetEmailIdentityResponse {
     this.mailFromAttributes,
     this.policies,
     this.tags,
+    this.verificationInfo,
     this.verificationStatus,
     this.verifiedForSendingStatus,
   });
@@ -7194,6 +7963,10 @@ class GetEmailIdentityResponse {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      verificationInfo: json['VerificationInfo'] != null
+          ? VerificationInfo.fromJson(
+              json['VerificationInfo'] as Map<String, dynamic>)
+          : null,
       verificationStatus:
           (json['VerificationStatus'] as String?)?.toVerificationStatus(),
       verifiedForSendingStatus: json['VerifiedForSendingStatus'] as bool?,
@@ -7208,6 +7981,7 @@ class GetEmailIdentityResponse {
     final mailFromAttributes = this.mailFromAttributes;
     final policies = this.policies;
     final tags = this.tags;
+    final verificationInfo = this.verificationInfo;
     final verificationStatus = this.verificationStatus;
     final verifiedForSendingStatus = this.verifiedForSendingStatus;
     return {
@@ -7220,6 +7994,7 @@ class GetEmailIdentityResponse {
       if (mailFromAttributes != null) 'MailFromAttributes': mailFromAttributes,
       if (policies != null) 'Policies': policies,
       if (tags != null) 'Tags': tags,
+      if (verificationInfo != null) 'VerificationInfo': verificationInfo,
       if (verificationStatus != null)
         'VerificationStatus': verificationStatus.toValue(),
       if (verifiedForSendingStatus != null)
@@ -7256,6 +8031,101 @@ class GetEmailTemplateResponse {
     return {
       'TemplateContent': templateContent,
       'TemplateName': templateName,
+    };
+  }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+class GetExportJobResponse {
+  /// The timestamp of when the export job was completed.
+  final DateTime? completedTimestamp;
+
+  /// The timestamp of when the export job was created.
+  final DateTime? createdTimestamp;
+
+  /// The data source of the export job.
+  final ExportDataSource? exportDataSource;
+
+  /// The destination of the export job.
+  final ExportDestination? exportDestination;
+
+  /// The type of source of the export job.
+  final ExportSourceType? exportSourceType;
+
+  /// The failure details about an export job.
+  final FailureInfo? failureInfo;
+
+  /// The export job ID.
+  final String? jobId;
+
+  /// The status of the export job.
+  final JobStatus? jobStatus;
+
+  /// The statistics about the export job.
+  final ExportStatistics? statistics;
+
+  GetExportJobResponse({
+    this.completedTimestamp,
+    this.createdTimestamp,
+    this.exportDataSource,
+    this.exportDestination,
+    this.exportSourceType,
+    this.failureInfo,
+    this.jobId,
+    this.jobStatus,
+    this.statistics,
+  });
+
+  factory GetExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetExportJobResponse(
+      completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      exportDataSource: json['ExportDataSource'] != null
+          ? ExportDataSource.fromJson(
+              json['ExportDataSource'] as Map<String, dynamic>)
+          : null,
+      exportDestination: json['ExportDestination'] != null
+          ? ExportDestination.fromJson(
+              json['ExportDestination'] as Map<String, dynamic>)
+          : null,
+      exportSourceType:
+          (json['ExportSourceType'] as String?)?.toExportSourceType(),
+      failureInfo: json['FailureInfo'] != null
+          ? FailureInfo.fromJson(json['FailureInfo'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      statistics: json['Statistics'] != null
+          ? ExportStatistics.fromJson(
+              json['Statistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completedTimestamp = this.completedTimestamp;
+    final createdTimestamp = this.createdTimestamp;
+    final exportDataSource = this.exportDataSource;
+    final exportDestination = this.exportDestination;
+    final exportSourceType = this.exportSourceType;
+    final failureInfo = this.failureInfo;
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    final statistics = this.statistics;
+    return {
+      if (completedTimestamp != null)
+        'CompletedTimestamp': unixTimestampToJson(completedTimestamp),
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (exportDataSource != null) 'ExportDataSource': exportDataSource,
+      if (exportDestination != null) 'ExportDestination': exportDestination,
+      if (exportSourceType != null)
+        'ExportSourceType': exportSourceType.toValue(),
+      if (failureInfo != null) 'FailureInfo': failureInfo,
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (statistics != null) 'Statistics': statistics,
     };
   }
 }
@@ -7348,6 +8218,65 @@ class GetImportJobResponse {
       if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
       if (processedRecordsCount != null)
         'ProcessedRecordsCount': processedRecordsCount,
+    };
+  }
+}
+
+/// Information about a message.
+class GetMessageInsightsResponse {
+  /// A list of tags, in the form of name/value pairs, that were applied to the
+  /// email you sent, along with Amazon SES <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-using-event-publishing.html">Auto-Tags</a>.
+  final List<MessageTag>? emailTags;
+
+  /// The from address used to send the message.
+  final String? fromEmailAddress;
+
+  /// A set of insights associated with the message.
+  final List<EmailInsights>? insights;
+
+  /// A unique identifier for the message.
+  final String? messageId;
+
+  /// The subject line of the message.
+  final String? subject;
+
+  GetMessageInsightsResponse({
+    this.emailTags,
+    this.fromEmailAddress,
+    this.insights,
+    this.messageId,
+    this.subject,
+  });
+
+  factory GetMessageInsightsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMessageInsightsResponse(
+      emailTags: (json['EmailTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fromEmailAddress: json['FromEmailAddress'] as String?,
+      insights: (json['Insights'] as List?)
+          ?.whereNotNull()
+          .map((e) => EmailInsights.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      messageId: json['MessageId'] as String?,
+      subject: json['Subject'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailTags = this.emailTags;
+    final fromEmailAddress = this.fromEmailAddress;
+    final insights = this.insights;
+    final messageId = this.messageId;
+    final subject = this.subject;
+    return {
+      if (emailTags != null) 'EmailTags': emailTags,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (insights != null) 'Insights': insights,
+      if (messageId != null) 'MessageId': messageId,
+      if (subject != null) 'Subject': subject,
     };
   }
 }
@@ -7755,6 +8684,80 @@ class InboxPlacementTrackingOption {
   }
 }
 
+/// An object containing details about a specific event.
+class InsightsEvent {
+  /// Details about bounce or complaint events.
+  final EventDetails? details;
+
+  /// The timestamp of the event.
+  final DateTime? timestamp;
+
+  /// The type of event:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SEND</code> - The send request was successful and SES will attempt to
+  /// deliver the message to the recipient’s mail server. (If account-level or
+  /// global suppression is being used, SES will still count it as a send, but
+  /// delivery is suppressed.)
+  /// </li>
+  /// <li>
+  /// <code>DELIVERY</code> - SES successfully delivered the email to the
+  /// recipient's mail server. Excludes deliveries to the mailbox simulator, and
+  /// those from emails addressed to more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>BOUNCE</code> - Feedback received for delivery failures. Additional
+  /// details about the bounce are provided in the <code>Details</code> object.
+  /// Excludes bounces from the mailbox simulator, and those from emails addressed
+  /// to more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>COMPLAINT</code> - Complaint received for the email. Additional
+  /// details about the complaint are provided in the <code>Details</code> object.
+  /// This excludes complaints from the mailbox simulator, those originating from
+  /// your account-level suppression list (if enabled), and those from emails
+  /// addressed to more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>OPEN</code> - Open event for emails including open trackers. Excludes
+  /// opens for emails addressed to more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>CLICK</code> - Click event for emails including wrapped links.
+  /// Excludes clicks for emails addressed to more than one recipient.
+  /// </li>
+  /// </ul>
+  final EventType? type;
+
+  InsightsEvent({
+    this.details,
+    this.timestamp,
+    this.type,
+  });
+
+  factory InsightsEvent.fromJson(Map<String, dynamic> json) {
+    return InsightsEvent(
+      details: json['Details'] != null
+          ? EventDetails.fromJson(json['Details'] as Map<String, dynamic>)
+          : null,
+      timestamp: timeStampFromJson(json['Timestamp']),
+      type: (json['Type'] as String?)?.toEventType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final timestamp = this.timestamp;
+    final type = this.type;
+    return {
+      if (details != null) 'Details': details,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
 /// An object that describes how email sent during the predictive inbox
 /// placement test was handled by a certain email provider.
 class IspPlacement {
@@ -7791,12 +8794,28 @@ class IspPlacement {
   }
 }
 
-/// The status of the import job.
+/// The status of a job.
+///
+/// <ul>
+/// <li>
+/// <code>CREATED</code> – Job has just been created.
+/// </li>
+/// <li>
+/// <code>PROCESSING</code> – Job is processing.
+/// </li>
+/// <li>
+/// <code>ERROR</code> – An error occurred during processing.
+/// </li>
+/// <li>
+/// <code>COMPLETED</code> – Job has completed processing successfully.
+/// </li>
+/// </ul>
 enum JobStatus {
   created,
   processing,
   completed,
   failed,
+  cancelled,
 }
 
 extension JobStatusValueExtension on JobStatus {
@@ -7810,6 +8829,8 @@ extension JobStatusValueExtension on JobStatus {
         return 'COMPLETED';
       case JobStatus.failed:
         return 'FAILED';
+      case JobStatus.cancelled:
+        return 'CANCELLED';
     }
   }
 }
@@ -7825,6 +8846,8 @@ extension JobStatusFromString on String {
         return JobStatus.completed;
       case 'FAILED':
         return JobStatus.failed;
+      case 'CANCELLED':
+        return JobStatus.cancelled;
     }
     throw Exception('$this is not known in enum JobStatus');
   }
@@ -8234,6 +9257,43 @@ class ListEmailTemplatesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+class ListExportJobsResponse {
+  /// A list of the export job summaries.
+  final List<ExportJobSummary>? exportJobs;
+
+  /// A string token indicating that there might be additional export jobs
+  /// available to be listed. Use this token to a subsequent call to
+  /// <code>ListExportJobs</code> with the same parameters to retrieve the next
+  /// page of export jobs.
+  final String? nextToken;
+
+  ListExportJobsResponse({
+    this.exportJobs,
+    this.nextToken,
+  });
+
+  factory ListExportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListExportJobsResponse(
+      exportJobs: (json['ExportJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExportJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportJobs = this.exportJobs;
+    final nextToken = this.nextToken;
+    return {
+      if (exportJobs != null) 'ExportJobs': exportJobs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
 class ListImportJobsResponse {
   /// A list of the import job summaries.
   final List<ImportJobSummary>? importJobs;
@@ -8630,17 +9690,225 @@ class Message {
   /// href="https://tools.ietf.org/html/rfc2047">RFC 2047</a>.
   final Content subject;
 
+  /// The list of message headers that will be added to the email message.
+  final List<MessageHeader>? headers;
+
   Message({
     required this.body,
     required this.subject,
+    this.headers,
   });
 
   Map<String, dynamic> toJson() {
     final body = this.body;
     final subject = this.subject;
+    final headers = this.headers;
     return {
       'Body': body,
       'Subject': subject,
+      if (headers != null) 'Headers': headers,
+    };
+  }
+}
+
+/// Contains the name and value of a message header that you add to an email.
+class MessageHeader {
+  /// The name of the message header. The message header name has to meet the
+  /// following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// Can contain any printable ASCII character (33 - 126) except for colon (:).
+  /// </li>
+  /// <li>
+  /// Can contain no more than 126 characters.
+  /// </li>
+  /// </ul>
+  final String name;
+
+  /// The value of the message header. The message header value has to meet the
+  /// following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// Can contain any printable ASCII character.
+  /// </li>
+  /// <li>
+  /// Can contain no more than 870 characters.
+  /// </li>
+  /// </ul>
+  final String value;
+
+  MessageHeader({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// An object that contains filters applied when performing the Message Insights
+/// export.
+class MessageInsightsDataSource {
+  /// Represents the end date for the export interval as a timestamp. The end date
+  /// is inclusive.
+  final DateTime endDate;
+
+  /// Represents the start date for the export interval as a timestamp. The start
+  /// date is inclusive.
+  final DateTime startDate;
+
+  /// Filters for results to be excluded from the export file.
+  final MessageInsightsFilters? exclude;
+
+  /// Filters for results to be included in the export file.
+  final MessageInsightsFilters? include;
+
+  /// The maximum number of results.
+  final int? maxResults;
+
+  MessageInsightsDataSource({
+    required this.endDate,
+    required this.startDate,
+    this.exclude,
+    this.include,
+    this.maxResults,
+  });
+
+  factory MessageInsightsDataSource.fromJson(Map<String, dynamic> json) {
+    return MessageInsightsDataSource(
+      endDate: nonNullableTimeStampFromJson(json['EndDate'] as Object),
+      startDate: nonNullableTimeStampFromJson(json['StartDate'] as Object),
+      exclude: json['Exclude'] != null
+          ? MessageInsightsFilters.fromJson(
+              json['Exclude'] as Map<String, dynamic>)
+          : null,
+      include: json['Include'] != null
+          ? MessageInsightsFilters.fromJson(
+              json['Include'] as Map<String, dynamic>)
+          : null,
+      maxResults: json['MaxResults'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endDate = this.endDate;
+    final startDate = this.startDate;
+    final exclude = this.exclude;
+    final include = this.include;
+    final maxResults = this.maxResults;
+    return {
+      'EndDate': unixTimestampToJson(endDate),
+      'StartDate': unixTimestampToJson(startDate),
+      if (exclude != null) 'Exclude': exclude,
+      if (include != null) 'Include': include,
+      if (maxResults != null) 'MaxResults': maxResults,
+    };
+  }
+}
+
+/// An object containing Message Insights filters.
+///
+/// If you specify multiple filters, the filters are joined by AND.
+///
+/// If you specify multiple values for a filter, the values are joined by OR.
+/// Filter values are case-sensitive.
+///
+/// <code>FromEmailAddress</code>, <code>Destination</code>, and
+/// <code>Subject</code> filters support partial match. A partial match is
+/// performed by using the <code>*</code> wildcard character placed at the
+/// beginning (suffix match), the end (prefix match) or both ends of the string
+/// (contains match). In order to match the literal characters <code>*</code> or
+/// <code>\</code>, they must be escaped using the <code>\</code> character. If
+/// no wildcard character is present, an exact match is performed.
+class MessageInsightsFilters {
+  /// The recipient's email address.
+  final List<String>? destination;
+
+  /// The from address used to send the message.
+  final List<String>? fromEmailAddress;
+
+  /// The recipient's ISP (e.g., <code>Gmail</code>, <code>Yahoo</code>, etc.).
+  final List<String>? isp;
+
+  /// The last delivery-related event for the email, where the ordering is as
+  /// follows: <code>SEND</code> &lt; <code>BOUNCE</code> &lt;
+  /// <code>DELIVERY</code> &lt; <code>COMPLAINT</code>.
+  final List<DeliveryEventType>? lastDeliveryEvent;
+
+  /// The last engagement-related event for the email, where the ordering is as
+  /// follows: <code>OPEN</code> &lt; <code>CLICK</code>.
+  ///
+  /// Engagement events are only available if <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/vdm-settings.html">Engagement
+  /// tracking</a> is enabled.
+  final List<EngagementEventType>? lastEngagementEvent;
+
+  /// The subject line of the message.
+  final List<String>? subject;
+
+  MessageInsightsFilters({
+    this.destination,
+    this.fromEmailAddress,
+    this.isp,
+    this.lastDeliveryEvent,
+    this.lastEngagementEvent,
+    this.subject,
+  });
+
+  factory MessageInsightsFilters.fromJson(Map<String, dynamic> json) {
+    return MessageInsightsFilters(
+      destination: (json['Destination'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      fromEmailAddress: (json['FromEmailAddress'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isp: (json['Isp'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      lastDeliveryEvent: (json['LastDeliveryEvent'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toDeliveryEventType())
+          .toList(),
+      lastEngagementEvent: (json['LastEngagementEvent'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEngagementEventType())
+          .toList(),
+      subject: (json['Subject'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final fromEmailAddress = this.fromEmailAddress;
+    final isp = this.isp;
+    final lastDeliveryEvent = this.lastDeliveryEvent;
+    final lastEngagementEvent = this.lastEngagementEvent;
+    final subject = this.subject;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (isp != null) 'Isp': isp,
+      if (lastDeliveryEvent != null)
+        'LastDeliveryEvent': lastDeliveryEvent.map((e) => e.toValue()).toList(),
+      if (lastEngagementEvent != null)
+        'LastEngagementEvent':
+            lastEngagementEvent.map((e) => e.toValue()).toList(),
+      if (subject != null) 'Subject': subject,
     };
   }
 }
@@ -8681,6 +9949,13 @@ class MessageTag {
     required this.value,
   });
 
+  factory MessageTag.fromJson(Map<String, dynamic> json) {
+    return MessageTag(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -8691,6 +9966,62 @@ class MessageTag {
   }
 }
 
+/// The metric to export, can be one of the following:
+///
+/// <ul>
+/// <li>
+/// <code>SEND</code> - Emails sent eligible for tracking in the VDM dashboard.
+/// This excludes emails sent to the mailbox simulator and emails addressed to
+/// more than one recipient.
+/// </li>
+/// <li>
+/// <code>COMPLAINT</code> - Complaints received for your account. This excludes
+/// complaints from the mailbox simulator, those originating from your
+/// account-level suppression list (if enabled), and those for emails addressed
+/// to more than one recipient
+/// </li>
+/// <li>
+/// <code>PERMANENT_BOUNCE</code> - Permanent bounces - i.e., feedback received
+/// for emails sent to non-existent mailboxes. Excludes bounces from the mailbox
+/// simulator, those originating from your account-level suppression list (if
+/// enabled), and those for emails addressed to more than one recipient.
+/// </li>
+/// <li>
+/// <code>TRANSIENT_BOUNCE</code> - Transient bounces - i.e., feedback received
+/// for delivery failures excluding issues with non-existent mailboxes. Excludes
+/// bounces from the mailbox simulator, and those for emails addressed to more
+/// than one recipient.
+/// </li>
+/// <li>
+/// <code>OPEN</code> - Unique open events for emails including open trackers.
+/// Excludes opens for emails addressed to more than one recipient.
+/// </li>
+/// <li>
+/// <code>CLICK</code> - Unique click events for emails including wrapped links.
+/// Excludes clicks for emails addressed to more than one recipient.
+/// </li>
+/// <li>
+/// <code>DELIVERY</code> - Successful deliveries for email sending attempts.
+/// Excludes deliveries to the mailbox simulator and for emails addressed to
+/// more than one recipient.
+/// </li>
+/// <li>
+/// <code>DELIVERY_OPEN</code> - Successful deliveries for email sending
+/// attempts. Excludes deliveries to the mailbox simulator, for emails addressed
+/// to more than one recipient, and emails without open trackers.
+/// </li>
+/// <li>
+/// <code>DELIVERY_CLICK</code> - Successful deliveries for email sending
+/// attempts. Excludes deliveries to the mailbox simulator, for emails addressed
+/// to more than one recipient, and emails without click trackers.
+/// </li>
+/// <li>
+/// <code>DELIVERY_COMPLAINT</code> - Successful deliveries for email sending
+/// attempts. Excludes deliveries to the mailbox simulator, for emails addressed
+/// to more than one recipient, and emails addressed to recipients hosted by
+/// ISPs with which Amazon SES does not have a feedback loop agreement.
+/// </li>
+/// </ul>
 enum Metric {
   send,
   complaint,
@@ -8756,6 +10087,45 @@ extension MetricFromString on String {
         return Metric.deliveryComplaint;
     }
     throw Exception('$this is not known in enum Metric');
+  }
+}
+
+/// The aggregation to apply to a metric, can be one of the following:
+///
+/// <ul>
+/// <li>
+/// <code>VOLUME</code> - The volume of events for this metric.
+/// </li>
+/// <li>
+/// <code>RATE</code> - The rate for this metric relative to the
+/// <code>SEND</code> metric volume.
+/// </li>
+/// </ul>
+enum MetricAggregation {
+  rate,
+  volume,
+}
+
+extension MetricAggregationValueExtension on MetricAggregation {
+  String toValue() {
+    switch (this) {
+      case MetricAggregation.rate:
+        return 'RATE';
+      case MetricAggregation.volume:
+        return 'VOLUME';
+    }
+  }
+}
+
+extension MetricAggregationFromString on String {
+  MetricAggregation toMetricAggregation() {
+    switch (this) {
+      case 'RATE':
+        return MetricAggregation.rate;
+      case 'VOLUME':
+        return MetricAggregation.volume;
+    }
+    throw Exception('$this is not known in enum MetricAggregation');
   }
 }
 
@@ -8921,6 +10291,65 @@ extension MetricNamespaceFromString on String {
         return MetricNamespace.vdm;
     }
     throw Exception('$this is not known in enum MetricNamespace');
+  }
+}
+
+/// An object that contains details about the data source for the metrics
+/// export.
+class MetricsDataSource {
+  /// An object that contains a mapping between a <code>MetricDimensionName</code>
+  /// and <code>MetricDimensionValue</code> to filter metrics by. Must contain a
+  /// least 1 dimension but no more than 3 unique ones.
+  final Map<MetricDimensionName, List<String>> dimensions;
+
+  /// Represents the end date for the export interval as a timestamp.
+  final DateTime endDate;
+
+  /// A list of <code>ExportMetric</code> objects to export.
+  final List<ExportMetric> metrics;
+
+  /// The metrics namespace - e.g., <code>VDM</code>.
+  final MetricNamespace namespace;
+
+  /// Represents the start date for the export interval as a timestamp.
+  final DateTime startDate;
+
+  MetricsDataSource({
+    required this.dimensions,
+    required this.endDate,
+    required this.metrics,
+    required this.namespace,
+    required this.startDate,
+  });
+
+  factory MetricsDataSource.fromJson(Map<String, dynamic> json) {
+    return MetricsDataSource(
+      dimensions: (json['Dimensions'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k.toMetricDimensionName(),
+              (e as List).whereNotNull().map((e) => e as String).toList())),
+      endDate: nonNullableTimeStampFromJson(json['EndDate'] as Object),
+      metrics: (json['Metrics'] as List)
+          .whereNotNull()
+          .map((e) => ExportMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      namespace: (json['Namespace'] as String).toMetricNamespace(),
+      startDate: nonNullableTimeStampFromJson(json['StartDate'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final endDate = this.endDate;
+    final metrics = this.metrics;
+    final namespace = this.namespace;
+    final startDate = this.startDate;
+    return {
+      'Dimensions': dimensions.map((k, e) => MapEntry(k.toValue(), e)),
+      'EndDate': unixTimestampToJson(endDate),
+      'Metrics': metrics,
+      'Namespace': namespace.toValue(),
+      'StartDate': unixTimestampToJson(startDate),
+    };
   }
 }
 
@@ -9481,7 +10910,10 @@ class RawMessage {
   /// Attachments must be in a file format that the Amazon SES supports.
   /// </li>
   /// <li>
-  /// The entire message must be Base64 encoded.
+  /// The raw data of the message needs to base64-encoded if you are accessing
+  /// Amazon SES directly through the HTTPS interface. If you are accessing Amazon
+  /// SES using an Amazon Web Services SDK, the SDK takes care of the base
+  /// 64-encoding for you.
   /// </li>
   /// <li>
   /// If any of the MIME parts in your message contain content that is outside of
@@ -9842,6 +11274,44 @@ extension ReviewStatusFromString on String {
   }
 }
 
+/// An object that contains information about the start of authority (SOA)
+/// record associated with the identity.
+class SOARecord {
+  /// Administrative contact email from the SOA record.
+  final String? adminEmail;
+
+  /// Primary name server specified in the SOA record.
+  final String? primaryNameServer;
+
+  /// Serial number from the SOA record.
+  final int? serialNumber;
+
+  SOARecord({
+    this.adminEmail,
+    this.primaryNameServer,
+    this.serialNumber,
+  });
+
+  factory SOARecord.fromJson(Map<String, dynamic> json) {
+    return SOARecord(
+      adminEmail: json['AdminEmail'] as String?,
+      primaryNameServer: json['PrimaryNameServer'] as String?,
+      serialNumber: json['SerialNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminEmail = this.adminEmail;
+    final primaryNameServer = this.primaryNameServer;
+    final serialNumber = this.serialNumber;
+    return {
+      if (adminEmail != null) 'AdminEmail': adminEmail,
+      if (primaryNameServer != null) 'PrimaryNameServer': primaryNameServer,
+      if (serialNumber != null) 'SerialNumber': serialNumber,
+    };
+  }
+}
+
 enum ScalingMode {
   standard,
   managed,
@@ -9927,10 +11397,10 @@ class SendEmailResponse {
   /// A unique identifier for the message that is generated when the message is
   /// accepted.
   /// <note>
-  /// It's possible for Amazon SES to accept a message without sending it. This
-  /// can happen when the message that you're trying to send has an attachment
-  /// contains a virus, or when you send a templated email that contains invalid
-  /// personalization content, for example.
+  /// It's possible for Amazon SES to accept a message without sending it. For
+  /// example, this can happen when the message that you're trying to send has an
+  /// attachment that contains a virus, or when you send a templated email that
+  /// contains invalid personalization content.
   /// </note>
   final String? messageId;
 
@@ -10494,6 +11964,9 @@ class TagResourceResponse {
 /// template</i> is a type of message template that contains content that you
 /// want to define, save, and reuse in email messages that you send.
 class Template {
+  /// The list of message headers that will be added to the email message.
+  final List<MessageHeader>? headers;
+
   /// The Amazon Resource Name (ARN) of the template.
   final String? templateArn;
 
@@ -10509,16 +11982,19 @@ class Template {
   final String? templateName;
 
   Template({
+    this.headers,
     this.templateArn,
     this.templateData,
     this.templateName,
   });
 
   Map<String, dynamic> toJson() {
+    final headers = this.headers;
     final templateArn = this.templateArn;
     final templateData = this.templateData;
     final templateName = this.templateName;
     return {
+      if (headers != null) 'Headers': headers,
       if (templateArn != null) 'TemplateArn': templateArn,
       if (templateData != null) 'TemplateData': templateData,
       if (templateName != null) 'TemplateName': templateName,
@@ -10905,6 +12381,126 @@ class VdmOptions {
     return {
       if (dashboardOptions != null) 'DashboardOptions': dashboardOptions,
       if (guardianOptions != null) 'GuardianOptions': guardianOptions,
+    };
+  }
+}
+
+enum VerificationError {
+  serviceError,
+  dnsServerError,
+  hostNotFound,
+  typeNotFound,
+  invalidValue,
+}
+
+extension VerificationErrorValueExtension on VerificationError {
+  String toValue() {
+    switch (this) {
+      case VerificationError.serviceError:
+        return 'SERVICE_ERROR';
+      case VerificationError.dnsServerError:
+        return 'DNS_SERVER_ERROR';
+      case VerificationError.hostNotFound:
+        return 'HOST_NOT_FOUND';
+      case VerificationError.typeNotFound:
+        return 'TYPE_NOT_FOUND';
+      case VerificationError.invalidValue:
+        return 'INVALID_VALUE';
+    }
+  }
+}
+
+extension VerificationErrorFromString on String {
+  VerificationError toVerificationError() {
+    switch (this) {
+      case 'SERVICE_ERROR':
+        return VerificationError.serviceError;
+      case 'DNS_SERVER_ERROR':
+        return VerificationError.dnsServerError;
+      case 'HOST_NOT_FOUND':
+        return VerificationError.hostNotFound;
+      case 'TYPE_NOT_FOUND':
+        return VerificationError.typeNotFound;
+      case 'INVALID_VALUE':
+        return VerificationError.invalidValue;
+    }
+    throw Exception('$this is not known in enum VerificationError');
+  }
+}
+
+/// An object that contains additional information about the verification status
+/// for the identity.
+class VerificationInfo {
+  /// Provides the reason for the failure describing why Amazon SES was not able
+  /// to successfully verify the identity. Below are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INVALID_VALUE</code> – Amazon SES was able to find the record, but the
+  /// value contained within the record was invalid. Ensure you have published the
+  /// correct values for the record.
+  /// </li>
+  /// <li>
+  /// <code>TYPE_NOT_FOUND</code> – The queried hostname exists but does not have
+  /// the requested type of DNS record. Ensure that you have published the correct
+  /// type of DNS record.
+  /// </li>
+  /// <li>
+  /// <code>HOST_NOT_FOUND</code> – The queried hostname does not exist or was not
+  /// reachable at the time of the request. Ensure that you have published the
+  /// required DNS record(s).
+  /// </li>
+  /// <li>
+  /// <code>SERVICE_ERROR</code> – A temporary issue is preventing Amazon SES from
+  /// determining the verification status of the domain.
+  /// </li>
+  /// <li>
+  /// <code>DNS_SERVER_ERROR</code> – The DNS server encountered an issue and was
+  /// unable to complete the request.
+  /// </li>
+  /// </ul>
+  final VerificationError? errorType;
+
+  /// The last time a verification attempt was made for this identity.
+  final DateTime? lastCheckedTimestamp;
+
+  /// The last time a successful verification was made for this identity.
+  final DateTime? lastSuccessTimestamp;
+
+  /// An object that contains information about the start of authority (SOA)
+  /// record associated with the identity.
+  final SOARecord? sOARecord;
+
+  VerificationInfo({
+    this.errorType,
+    this.lastCheckedTimestamp,
+    this.lastSuccessTimestamp,
+    this.sOARecord,
+  });
+
+  factory VerificationInfo.fromJson(Map<String, dynamic> json) {
+    return VerificationInfo(
+      errorType: (json['ErrorType'] as String?)?.toVerificationError(),
+      lastCheckedTimestamp: timeStampFromJson(json['LastCheckedTimestamp']),
+      lastSuccessTimestamp: timeStampFromJson(json['LastSuccessTimestamp']),
+      sOARecord: json['SOARecord'] != null
+          ? SOARecord.fromJson(json['SOARecord'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorType = this.errorType;
+    final lastCheckedTimestamp = this.lastCheckedTimestamp;
+    final lastSuccessTimestamp = this.lastSuccessTimestamp;
+    final sOARecord = this.sOARecord;
+    return {
+      if (errorType != null) 'ErrorType': errorType.toValue(),
+      if (lastCheckedTimestamp != null)
+        'LastCheckedTimestamp': unixTimestampToJson(lastCheckedTimestamp),
+      if (lastSuccessTimestamp != null)
+        'LastSuccessTimestamp': unixTimestampToJson(lastSuccessTimestamp),
+      if (sOARecord != null) 'SOARecord': sOARecord,
     };
   }
 }

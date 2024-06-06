@@ -139,6 +139,9 @@ class MediaTailor {
   /// endless loop. When the last program in the schedule stops playing,
   /// playback loops back to the first program in the schedule.
   ///
+  /// Parameter [audiences] :
+  /// The list of audiences defined in channel.
+  ///
   /// Parameter [fillerSlate] :
   /// The slate used to fill gaps between programs in the schedule. You must
   /// configure filler slate if your channel uses the <code>LINEAR</code>
@@ -154,20 +157,29 @@ class MediaTailor {
   ///
   /// Parameter [tier] :
   /// The tier of the channel.
+  ///
+  /// Parameter [timeShiftConfiguration] :
+  /// The time-shifted viewing configuration you want to associate to the
+  /// channel.
   Future<CreateChannelResponse> createChannel({
     required String channelName,
     required List<RequestOutputItem> outputs,
     required PlaybackMode playbackMode,
+    List<String>? audiences,
     SlateSource? fillerSlate,
     Map<String, String>? tags,
     Tier? tier,
+    TimeShiftConfiguration? timeShiftConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'Outputs': outputs,
       'PlaybackMode': playbackMode.toValue(),
+      if (audiences != null) 'Audiences': audiences,
       if (fillerSlate != null) 'FillerSlate': fillerSlate,
       if (tags != null) 'tags': tags,
       if (tier != null) 'Tier': tier.toValue(),
+      if (timeShiftConfiguration != null)
+        'TimeShiftConfiguration': timeShiftConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -288,6 +300,9 @@ class MediaTailor {
   /// Parameter [adBreaks] :
   /// The ad break configuration settings.
   ///
+  /// Parameter [audienceMedia] :
+  /// The list of AudienceMedia defined in program.
+  ///
   /// Parameter [liveSourceName] :
   /// The name of the LiveSource for this Program.
   ///
@@ -299,6 +314,7 @@ class MediaTailor {
     required ScheduleConfiguration scheduleConfiguration,
     required String sourceLocationName,
     List<AdBreak>? adBreaks,
+    List<AudienceMedia>? audienceMedia,
     String? liveSourceName,
     String? vodSourceName,
   }) async {
@@ -306,6 +322,7 @@ class MediaTailor {
       'ScheduleConfiguration': scheduleConfiguration,
       'SourceLocationName': sourceLocationName,
       if (adBreaks != null) 'AdBreaks': adBreaks,
+      if (audienceMedia != null) 'AudienceMedia': audienceMedia,
       if (liveSourceName != null) 'LiveSourceName': liveSourceName,
       if (vodSourceName != null) 'VodSourceName': vodSourceName,
     };
@@ -694,6 +711,9 @@ class MediaTailor {
   /// Parameter [channelName] :
   /// The name of the channel associated with this Channel Schedule.
   ///
+  /// Parameter [audience] :
+  /// The single audience for GetChannelScheduleRequest.
+  ///
   /// Parameter [durationMinutes] :
   /// The duration in minutes of the channel schedule.
   ///
@@ -719,6 +739,7 @@ class MediaTailor {
   /// there are no more channel schedules to get.
   Future<GetChannelScheduleResponse> getChannelSchedule({
     required String channelName,
+    String? audience,
     String? durationMinutes,
     int? maxResults,
     String? nextToken,
@@ -730,6 +751,7 @@ class MediaTailor {
       100,
     );
     final $query = <String, List<String>>{
+      if (audience != null) 'audience': [audience],
       if (durationMinutes != null) 'durationMinutes': [durationMinutes],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1168,6 +1190,14 @@ class MediaTailor {
   /// Parameter [dashConfiguration] :
   /// The configuration for DASH content.
   ///
+  /// Parameter [insertionMode] :
+  /// The setting that controls whether players can use stitched or guided ad
+  /// insertion. The default, <code>STITCHED_ONLY</code>, forces all player
+  /// sessions to use stitched (server-side) ad insertion. Choosing
+  /// <code>PLAYER_SELECT</code> allows players to select either stitched or
+  /// guided ad insertion at session-initialization time. The default for
+  /// players that do not specify an insertion mode is stitched.
+  ///
   /// Parameter [livePreRollConfiguration] :
   /// The configuration for pre-roll ad insertion.
   ///
@@ -1219,6 +1249,7 @@ class MediaTailor {
     CdnConfiguration? cdnConfiguration,
     Map<String, Map<String, String>>? configurationAliases,
     DashConfigurationForPut? dashConfiguration,
+    InsertionMode? insertionMode,
     LivePreRollConfiguration? livePreRollConfiguration,
     ManifestProcessingRules? manifestProcessingRules,
     int? personalizationThresholdSeconds,
@@ -1243,6 +1274,7 @@ class MediaTailor {
       if (configurationAliases != null)
         'ConfigurationAliases': configurationAliases,
       if (dashConfiguration != null) 'DashConfiguration': dashConfiguration,
+      if (insertionMode != null) 'InsertionMode': insertionMode.toValue(),
       if (livePreRollConfiguration != null)
         'LivePreRollConfiguration': livePreRollConfiguration,
       if (manifestProcessingRules != null)
@@ -1366,19 +1398,31 @@ class MediaTailor {
   /// Parameter [outputs] :
   /// The channel's output properties.
   ///
+  /// Parameter [audiences] :
+  /// The list of audiences defined in channel.
+  ///
   /// Parameter [fillerSlate] :
   /// The slate used to fill gaps between programs in the schedule. You must
   /// configure filler slate if your channel uses the <code>LINEAR</code>
   /// <code>PlaybackMode</code>. MediaTailor doesn't support filler slate for
   /// channels using the <code>LOOP</code> <code>PlaybackMode</code>.
+  ///
+  /// Parameter [timeShiftConfiguration] :
+  /// The time-shifted viewing configuration you want to associate to the
+  /// channel.
   Future<UpdateChannelResponse> updateChannel({
     required String channelName,
     required List<RequestOutputItem> outputs,
+    List<String>? audiences,
     SlateSource? fillerSlate,
+    TimeShiftConfiguration? timeShiftConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'Outputs': outputs,
+      if (audiences != null) 'Audiences': audiences,
       if (fillerSlate != null) 'FillerSlate': fillerSlate,
+      if (timeShiftConfiguration != null)
+        'TimeShiftConfiguration': timeShiftConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1430,15 +1474,20 @@ class MediaTailor {
   ///
   /// Parameter [adBreaks] :
   /// The ad break configuration settings.
+  ///
+  /// Parameter [audienceMedia] :
+  /// The list of AudienceMedia defined in program.
   Future<UpdateProgramResponse> updateProgram({
     required String channelName,
     required String programName,
     required UpdateProgramScheduleConfiguration scheduleConfiguration,
     List<AdBreak>? adBreaks,
+    List<AudienceMedia>? audienceMedia,
   }) async {
     final $payload = <String, dynamic>{
       'ScheduleConfiguration': scheduleConfiguration,
       if (adBreaks != null) 'AdBreaks': adBreaks,
+      if (audienceMedia != null) 'AudienceMedia': audienceMedia,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1529,8 +1578,7 @@ class MediaTailor {
 /// Access configuration parameters.
 class AccessConfiguration {
   /// The type of authentication used to access content from
-  /// <code>HttpConfiguration::BaseUrl</code> on your source location. Accepted
-  /// value: <code>S3_SIGV4</code>.
+  /// <code>HttpConfiguration::BaseUrl</code> on your source location.
   ///
   /// <code>S3_SIGV4</code> - AWS Signature Version 4 authentication for Amazon S3
   /// hosted virtual-style access. If your source location base URL is an Amazon
@@ -1553,6 +1601,44 @@ class AccessConfiguration {
   /// • The caller of the API must have s3:GetObject IAM permissions to read all
   /// top level manifests referenced by your MediaTailor VodSource packaging
   /// configurations.
+  ///
+  /// <code>AUTODETECT_SIGV4</code> - AWS Signature Version 4 authentication for a
+  /// set of supported services: MediaPackage Version 2 and Amazon S3 hosted
+  /// virtual-style access. If your source location base URL is a MediaPackage
+  /// Version 2 endpoint or an Amazon S3 bucket, MediaTailor can use AWS Signature
+  /// Version 4 (SigV4) authentication to access the resource where your source
+  /// content is stored.
+  ///
+  /// Before you can use <code>AUTODETECT_SIGV4</code> with a MediaPackage Version
+  /// 2 endpoint, you must meet these requirements:
+  ///
+  /// • You must grant MediaTailor access to your MediaPackage endpoint by
+  /// granting <code>mediatailor.amazonaws.com</code> principal access in an
+  /// Origin Access policy on the endpoint.
+  ///
+  /// • Your MediaTailor source location base URL must be a MediaPackage V2
+  /// endpoint.
+  ///
+  /// • The caller of the API must have <code>mediapackagev2:GetObject</code> IAM
+  /// permissions to read all top level manifests referenced by the MediaTailor
+  /// source packaging configurations.
+  ///
+  /// Before you can use <code>AUTODETECT_SIGV4</code> with an Amazon S3 bucket,
+  /// you must meet these requirements:
+  ///
+  /// • You must grant MediaTailor access to your S3 bucket by granting
+  /// <code>mediatailor.amazonaws.com</code> principal access in IAM. For more
+  /// information about configuring access in IAM, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+  /// management</a> in the <i>IAM User Guide.</i>.
+  ///
+  /// • The <code>mediatailor.amazonaws.com</code> service principal must have
+  /// permissions to read all top-level manifests referenced by the
+  /// <code>VodSource</code> packaging configurations.
+  ///
+  /// • The caller of the API must have <code>s3:GetObject</code> IAM permissions
+  /// to read all top level manifests referenced by your MediaTailor
+  /// <code>VodSource</code> packaging configurations.
   final AccessType? accessType;
 
   /// AWS Secrets Manager access token configuration parameters.
@@ -1592,6 +1678,7 @@ class AccessConfiguration {
 enum AccessType {
   s3Sigv4,
   secretsManagerAccessToken,
+  autodetectSigv4,
 }
 
 extension AccessTypeValueExtension on AccessType {
@@ -1601,6 +1688,8 @@ extension AccessTypeValueExtension on AccessType {
         return 'S3_SIGV4';
       case AccessType.secretsManagerAccessToken:
         return 'SECRETS_MANAGER_ACCESS_TOKEN';
+      case AccessType.autodetectSigv4:
+        return 'AUTODETECT_SIGV4';
     }
   }
 }
@@ -1612,6 +1701,8 @@ extension AccessTypeFromString on String {
         return AccessType.s3Sigv4;
       case 'SECRETS_MANAGER_ACCESS_TOKEN':
         return AccessType.secretsManagerAccessToken;
+      case 'AUTODETECT_SIGV4':
+        return AccessType.autodetectSigv4;
     }
     throw Exception('$this is not known in enum AccessType');
   }
@@ -1619,14 +1710,18 @@ extension AccessTypeFromString on String {
 
 /// Ad break configuration parameters.
 class AdBreak {
-  /// The SCTE-35 ad insertion type. Accepted value: <code>SPLICE_INSERT</code>,
-  /// <code>TIME_SIGNAL</code>.
-  final MessageType? messageType;
-
   /// How long (in milliseconds) after the beginning of the program that an ad
   /// starts. This value must fall within 100ms of a segment boundary, otherwise
   /// the ad break will be skipped.
-  final int? offsetMillis;
+  final int offsetMillis;
+
+  /// Defines a list of key/value pairs that MediaTailor generates within the
+  /// <code>EXT-X-ASSET</code>tag for <code>SCTE35_ENHANCED</code> output.
+  final List<KeyValuePair>? adBreakMetadata;
+
+  /// The SCTE-35 ad insertion type. Accepted value: <code>SPLICE_INSERT</code>,
+  /// <code>TIME_SIGNAL</code>.
+  final MessageType? messageType;
 
   /// Ad break slate configuration.
   final SlateSource? slate;
@@ -1646,8 +1741,9 @@ class AdBreak {
   final TimeSignalMessage? timeSignalMessage;
 
   AdBreak({
+    required this.offsetMillis,
+    this.adBreakMetadata,
     this.messageType,
-    this.offsetMillis,
     this.slate,
     this.spliceInsertMessage,
     this.timeSignalMessage,
@@ -1655,8 +1751,12 @@ class AdBreak {
 
   factory AdBreak.fromJson(Map<String, dynamic> json) {
     return AdBreak(
+      offsetMillis: json['OffsetMillis'] as int,
+      adBreakMetadata: (json['AdBreakMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
       messageType: (json['MessageType'] as String?)?.toMessageType(),
-      offsetMillis: json['OffsetMillis'] as int?,
       slate: json['Slate'] != null
           ? SlateSource.fromJson(json['Slate'] as Map<String, dynamic>)
           : null,
@@ -1672,19 +1772,39 @@ class AdBreak {
   }
 
   Map<String, dynamic> toJson() {
-    final messageType = this.messageType;
     final offsetMillis = this.offsetMillis;
+    final adBreakMetadata = this.adBreakMetadata;
+    final messageType = this.messageType;
     final slate = this.slate;
     final spliceInsertMessage = this.spliceInsertMessage;
     final timeSignalMessage = this.timeSignalMessage;
     return {
+      'OffsetMillis': offsetMillis,
+      if (adBreakMetadata != null) 'AdBreakMetadata': adBreakMetadata,
       if (messageType != null) 'MessageType': messageType.toValue(),
-      if (offsetMillis != null) 'OffsetMillis': offsetMillis,
       if (slate != null) 'Slate': slate,
       if (spliceInsertMessage != null)
         'SpliceInsertMessage': spliceInsertMessage,
       if (timeSignalMessage != null) 'TimeSignalMessage': timeSignalMessage,
     };
+  }
+}
+
+/// A location at which a zero-duration ad marker was detected in a VOD source
+/// manifest.
+class AdBreakOpportunity {
+  /// The offset in milliseconds from the start of the VOD source at which an ad
+  /// marker was detected.
+  final int offsetMillis;
+
+  AdBreakOpportunity({
+    required this.offsetMillis,
+  });
+
+  factory AdBreakOpportunity.fromJson(Map<String, dynamic> json) {
+    return AdBreakOpportunity(
+      offsetMillis: json['OffsetMillis'] as int,
+    );
   }
 }
 
@@ -1719,6 +1839,34 @@ class AdMarkerPassthrough {
   }
 }
 
+enum AdMarkupType {
+  daterange,
+  scte35Enhanced,
+}
+
+extension AdMarkupTypeValueExtension on AdMarkupType {
+  String toValue() {
+    switch (this) {
+      case AdMarkupType.daterange:
+        return 'DATERANGE';
+      case AdMarkupType.scte35Enhanced:
+        return 'SCTE35_ENHANCED';
+    }
+  }
+}
+
+extension AdMarkupTypeFromString on String {
+  AdMarkupType toAdMarkupType() {
+    switch (this) {
+      case 'DATERANGE':
+        return AdMarkupType.daterange;
+      case 'SCTE35_ENHANCED':
+        return AdMarkupType.scte35Enhanced;
+    }
+    throw Exception('$this is not known in enum AdMarkupType');
+  }
+}
+
 /// Alert configuration parameters.
 class Alert {
   /// The code for the alert. For example, <code>NOT_PROCESSED</code>.
@@ -1737,12 +1885,16 @@ class Alert {
   /// The Amazon Resource Name (ARN) of the resource.
   final String resourceArn;
 
+  /// The category that MediaTailor assigns to the alert.
+  final AlertCategory? category;
+
   Alert({
     required this.alertCode,
     required this.alertMessage,
     required this.lastModifiedTime,
     required this.relatedResourceArns,
     required this.resourceArn,
+    this.category,
   });
 
   factory Alert.fromJson(Map<String, dynamic> json) {
@@ -1756,7 +1908,145 @@ class Alert {
           .map((e) => e as String)
           .toList(),
       resourceArn: json['ResourceArn'] as String,
+      category: (json['Category'] as String?)?.toAlertCategory(),
     );
+  }
+}
+
+enum AlertCategory {
+  schedulingError,
+  playbackWarning,
+  info,
+}
+
+extension AlertCategoryValueExtension on AlertCategory {
+  String toValue() {
+    switch (this) {
+      case AlertCategory.schedulingError:
+        return 'SCHEDULING_ERROR';
+      case AlertCategory.playbackWarning:
+        return 'PLAYBACK_WARNING';
+      case AlertCategory.info:
+        return 'INFO';
+    }
+  }
+}
+
+extension AlertCategoryFromString on String {
+  AlertCategory toAlertCategory() {
+    switch (this) {
+      case 'SCHEDULING_ERROR':
+        return AlertCategory.schedulingError;
+      case 'PLAYBACK_WARNING':
+        return AlertCategory.playbackWarning;
+      case 'INFO':
+        return AlertCategory.info;
+    }
+    throw Exception('$this is not known in enum AlertCategory');
+  }
+}
+
+/// A playlist of media (VOD and/or live) to be played instead of the default
+/// media on a particular program.
+class AlternateMedia {
+  /// Ad break configuration parameters defined in AlternateMedia.
+  final List<AdBreak>? adBreaks;
+  final ClipRange? clipRange;
+
+  /// The duration of the alternateMedia in milliseconds.
+  final int? durationMillis;
+
+  /// The name of the live source for alternateMedia.
+  final String? liveSourceName;
+
+  /// The date and time that the alternateMedia is scheduled to start, in epoch
+  /// milliseconds.
+  final int? scheduledStartTimeMillis;
+
+  /// The name of the source location for alternateMedia.
+  final String? sourceLocationName;
+
+  /// The name of the VOD source for alternateMedia.
+  final String? vodSourceName;
+
+  AlternateMedia({
+    this.adBreaks,
+    this.clipRange,
+    this.durationMillis,
+    this.liveSourceName,
+    this.scheduledStartTimeMillis,
+    this.sourceLocationName,
+    this.vodSourceName,
+  });
+
+  factory AlternateMedia.fromJson(Map<String, dynamic> json) {
+    return AlternateMedia(
+      adBreaks: (json['AdBreaks'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clipRange: json['ClipRange'] != null
+          ? ClipRange.fromJson(json['ClipRange'] as Map<String, dynamic>)
+          : null,
+      durationMillis: json['DurationMillis'] as int?,
+      liveSourceName: json['LiveSourceName'] as String?,
+      scheduledStartTimeMillis: json['ScheduledStartTimeMillis'] as int?,
+      sourceLocationName: json['SourceLocationName'] as String?,
+      vodSourceName: json['VodSourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adBreaks = this.adBreaks;
+    final clipRange = this.clipRange;
+    final durationMillis = this.durationMillis;
+    final liveSourceName = this.liveSourceName;
+    final scheduledStartTimeMillis = this.scheduledStartTimeMillis;
+    final sourceLocationName = this.sourceLocationName;
+    final vodSourceName = this.vodSourceName;
+    return {
+      if (adBreaks != null) 'AdBreaks': adBreaks,
+      if (clipRange != null) 'ClipRange': clipRange,
+      if (durationMillis != null) 'DurationMillis': durationMillis,
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
+      if (scheduledStartTimeMillis != null)
+        'ScheduledStartTimeMillis': scheduledStartTimeMillis,
+      if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
+      if (vodSourceName != null) 'VodSourceName': vodSourceName,
+    };
+  }
+}
+
+/// An AudienceMedia object contains an Audience and a list of AlternateMedia.
+class AudienceMedia {
+  /// The list of AlternateMedia defined in AudienceMedia.
+  final List<AlternateMedia>? alternateMedia;
+
+  /// The Audience defined in AudienceMedia.
+  final String? audience;
+
+  AudienceMedia({
+    this.alternateMedia,
+    this.audience,
+  });
+
+  factory AudienceMedia.fromJson(Map<String, dynamic> json) {
+    return AudienceMedia(
+      alternateMedia: (json['AlternateMedia'] as List?)
+          ?.whereNotNull()
+          .map((e) => AlternateMedia.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      audience: json['Audience'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alternateMedia = this.alternateMedia;
+    final audience = this.audience;
+    return {
+      if (alternateMedia != null) 'AlternateMedia': alternateMedia,
+      if (audience != null) 'Audience': audience,
+    };
   }
 }
 
@@ -1980,6 +2270,9 @@ class Channel {
   /// The tier for this channel. STANDARD tier channels can contain live programs.
   final String tier;
 
+  /// The list of audiences defined in channel.
+  final List<String>? audiences;
+
   /// The timestamp of when the channel was created.
   final DateTime? creationTime;
 
@@ -2007,6 +2300,7 @@ class Channel {
     required this.outputs,
     required this.playbackMode,
     required this.tier,
+    this.audiences,
     this.creationTime,
     this.fillerSlate,
     this.lastModifiedTime,
@@ -2026,6 +2320,10 @@ class Channel {
           .toList(),
       playbackMode: json['PlaybackMode'] as String,
       tier: json['Tier'] as String,
+      audiences: (json['Audiences'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
       fillerSlate: json['FillerSlate'] != null
           ? SlateSource.fromJson(json['FillerSlate'] as Map<String, dynamic>)
@@ -2069,22 +2367,30 @@ extension ChannelStateFromString on String {
 class ClipRange {
   /// The end offset of the clip range, in milliseconds, starting from the
   /// beginning of the VOD source associated with the program.
-  final int endOffsetMillis;
+  final int? endOffsetMillis;
+
+  /// The start offset of the clip range, in milliseconds. This offset truncates
+  /// the start at the number of milliseconds into the duration of the VOD source.
+  final int? startOffsetMillis;
 
   ClipRange({
-    required this.endOffsetMillis,
+    this.endOffsetMillis,
+    this.startOffsetMillis,
   });
 
   factory ClipRange.fromJson(Map<String, dynamic> json) {
     return ClipRange(
-      endOffsetMillis: json['EndOffsetMillis'] as int,
+      endOffsetMillis: json['EndOffsetMillis'] as int?,
+      startOffsetMillis: json['StartOffsetMillis'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final endOffsetMillis = this.endOffsetMillis;
+    final startOffsetMillis = this.startOffsetMillis;
     return {
-      'EndOffsetMillis': endOffsetMillis,
+      if (endOffsetMillis != null) 'EndOffsetMillis': endOffsetMillis,
+      if (startOffsetMillis != null) 'StartOffsetMillis': startOffsetMillis,
     };
   }
 }
@@ -2138,6 +2444,9 @@ class CreateChannelResponse {
   /// The Amazon Resource Name (ARN) to assign to the channel.
   final String? arn;
 
+  /// The list of audiences defined in channel.
+  final List<String>? audiences;
+
   /// The name to assign to the channel.
   final String? channelName;
 
@@ -2170,8 +2479,12 @@ class CreateChannelResponse {
   /// The tier of the channel.
   final String? tier;
 
+  /// The time-shifted viewing configuration assigned to the channel.
+  final TimeShiftConfiguration? timeShiftConfiguration;
+
   CreateChannelResponse({
     this.arn,
+    this.audiences,
     this.channelName,
     this.channelState,
     this.creationTime,
@@ -2181,11 +2494,16 @@ class CreateChannelResponse {
     this.playbackMode,
     this.tags,
     this.tier,
+    this.timeShiftConfiguration,
   });
 
   factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
     return CreateChannelResponse(
       arn: json['Arn'] as String?,
+      audiences: (json['Audiences'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       channelName: json['ChannelName'] as String?,
       channelState: (json['ChannelState'] as String?)?.toChannelState(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -2201,6 +2519,10 @@ class CreateChannelResponse {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       tier: json['Tier'] as String?,
+      timeShiftConfiguration: json['TimeShiftConfiguration'] != null
+          ? TimeShiftConfiguration.fromJson(
+              json['TimeShiftConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -2323,6 +2645,9 @@ class CreateProgramResponse {
   /// The ARN to assign to the program.
   final String? arn;
 
+  /// The list of AudienceMedia defined in program.
+  final List<AudienceMedia>? audienceMedia;
+
   /// The name to assign to the channel for this program.
   final String? channelName;
 
@@ -2353,6 +2678,7 @@ class CreateProgramResponse {
   CreateProgramResponse({
     this.adBreaks,
     this.arn,
+    this.audienceMedia,
     this.channelName,
     this.clipRange,
     this.creationTime,
@@ -2371,6 +2697,10 @@ class CreateProgramResponse {
           .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
+      audienceMedia: (json['AudienceMedia'] as List?)
+          ?.whereNotNull()
+          .map((e) => AudienceMedia.fromJson(e as Map<String, dynamic>))
+          .toList(),
       channelName: json['ChannelName'] as String?,
       clipRange: json['ClipRange'] != null
           ? ClipRange.fromJson(json['ClipRange'] as Map<String, dynamic>)
@@ -2758,6 +3088,9 @@ class DescribeChannelResponse {
   /// The ARN of the channel.
   final String? arn;
 
+  /// The list of audiences defined in channel.
+  final List<String>? audiences;
+
   /// The name of the channel.
   final String? channelName;
 
@@ -2790,9 +3123,13 @@ class DescribeChannelResponse {
   /// The channel's tier.
   final String? tier;
 
+  /// The time-shifted viewing configuration for the channel.
+  final TimeShiftConfiguration? timeShiftConfiguration;
+
   DescribeChannelResponse({
     required this.logConfiguration,
     this.arn,
+    this.audiences,
     this.channelName,
     this.channelState,
     this.creationTime,
@@ -2802,6 +3139,7 @@ class DescribeChannelResponse {
     this.playbackMode,
     this.tags,
     this.tier,
+    this.timeShiftConfiguration,
   });
 
   factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
@@ -2809,6 +3147,10 @@ class DescribeChannelResponse {
       logConfiguration: LogConfigurationForChannel.fromJson(
           json['LogConfiguration'] as Map<String, dynamic>),
       arn: json['Arn'] as String?,
+      audiences: (json['Audiences'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       channelName: json['ChannelName'] as String?,
       channelState: (json['ChannelState'] as String?)?.toChannelState(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -2824,6 +3166,10 @@ class DescribeChannelResponse {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       tier: json['Tier'] as String?,
+      timeShiftConfiguration: json['TimeShiftConfiguration'] != null
+          ? TimeShiftConfiguration.fromJson(
+              json['TimeShiftConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -2889,6 +3235,9 @@ class DescribeProgramResponse {
   /// The ARN of the program.
   final String? arn;
 
+  /// The list of AudienceMedia defined in program.
+  final List<AudienceMedia>? audienceMedia;
+
   /// The name of the channel that the program belongs to.
   final String? channelName;
 
@@ -2921,6 +3270,7 @@ class DescribeProgramResponse {
   DescribeProgramResponse({
     this.adBreaks,
     this.arn,
+    this.audienceMedia,
     this.channelName,
     this.clipRange,
     this.creationTime,
@@ -2939,6 +3289,10 @@ class DescribeProgramResponse {
           .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
+      audienceMedia: (json['AudienceMedia'] as List?)
+          ?.whereNotNull()
+          .map((e) => AudienceMedia.fromJson(e as Map<String, dynamic>))
+          .toList(),
       channelName: json['ChannelName'] as String?,
       clipRange: json['ClipRange'] != null
           ? ClipRange.fromJson(json['ClipRange'] as Map<String, dynamic>)
@@ -3032,6 +3386,9 @@ class DescribeSourceLocationResponse {
 }
 
 class DescribeVodSourceResponse {
+  /// The ad break opportunities within the VOD source.
+  final List<AdBreakOpportunity>? adBreakOpportunities;
+
   /// The ARN of the VOD source.
   final String? arn;
 
@@ -3058,6 +3415,7 @@ class DescribeVodSourceResponse {
   final String? vodSourceName;
 
   DescribeVodSourceResponse({
+    this.adBreakOpportunities,
     this.arn,
     this.creationTime,
     this.httpPackageConfigurations,
@@ -3069,6 +3427,10 @@ class DescribeVodSourceResponse {
 
   factory DescribeVodSourceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeVodSourceResponse(
+      adBreakOpportunities: (json['AdBreakOpportunities'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdBreakOpportunity.fromJson(e as Map<String, dynamic>))
+          .toList(),
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
@@ -3189,6 +3551,14 @@ class GetPlaybackConfigurationResponse {
   /// The configuration for HLS content.
   final HlsConfiguration? hlsConfiguration;
 
+  /// The setting that controls whether players can use stitched or guided ad
+  /// insertion. The default, <code>STITCHED_ONLY</code>, forces all player
+  /// sessions to use stitched (server-side) ad insertion. Choosing
+  /// <code>PLAYER_SELECT</code> allows players to select either stitched or
+  /// guided ad insertion at session-initialization time. The default for players
+  /// that do not specify an insertion mode is stitched.
+  final InsertionMode? insertionMode;
+
   /// The configuration for pre-roll ad insertion.
   final LivePreRollConfiguration? livePreRollConfiguration;
 
@@ -3257,6 +3627,7 @@ class GetPlaybackConfigurationResponse {
     this.configurationAliases,
     this.dashConfiguration,
     this.hlsConfiguration,
+    this.insertionMode,
     this.livePreRollConfiguration,
     this.logConfiguration,
     this.manifestProcessingRules,
@@ -3299,6 +3670,7 @@ class GetPlaybackConfigurationResponse {
           ? HlsConfiguration.fromJson(
               json['HlsConfiguration'] as Map<String, dynamic>)
           : null,
+      insertionMode: (json['InsertionMode'] as String?)?.toInsertionMode(),
       livePreRollConfiguration: json['LivePreRollConfiguration'] != null
           ? LivePreRollConfiguration.fromJson(
               json['LivePreRollConfiguration'] as Map<String, dynamic>)
@@ -3400,23 +3772,38 @@ class HlsConfiguration {
 
 /// HLS playlist configuration parameters.
 class HlsPlaylistSettings {
+  /// Determines the type of SCTE 35 tags to use in ad markup. Specify
+  /// <code>DATERANGE</code> to use <code>DATERANGE</code> tags (for live or VOD
+  /// content). Specify <code>SCTE35_ENHANCED</code> to use
+  /// <code>EXT-X-CUE-OUT</code> and <code>EXT-X-CUE-IN</code> tags (for VOD
+  /// content only).
+  final List<AdMarkupType>? adMarkupType;
+
   /// The total duration (in seconds) of each manifest. Minimum value:
   /// <code>30</code> seconds. Maximum value: <code>3600</code> seconds.
   final int? manifestWindowSeconds;
 
   HlsPlaylistSettings({
+    this.adMarkupType,
     this.manifestWindowSeconds,
   });
 
   factory HlsPlaylistSettings.fromJson(Map<String, dynamic> json) {
     return HlsPlaylistSettings(
+      adMarkupType: (json['AdMarkupType'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAdMarkupType())
+          .toList(),
       manifestWindowSeconds: json['ManifestWindowSeconds'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final adMarkupType = this.adMarkupType;
     final manifestWindowSeconds = this.manifestWindowSeconds;
     return {
+      if (adMarkupType != null)
+        'AdMarkupType': adMarkupType.map((e) => e.toValue()).toList(),
       if (manifestWindowSeconds != null)
         'ManifestWindowSeconds': manifestWindowSeconds,
     };
@@ -3483,6 +3870,74 @@ class HttpPackageConfiguration {
       'Path': path,
       'SourceGroup': sourceGroup,
       'Type': type.toValue(),
+    };
+  }
+}
+
+/// Insertion Mode controls whether players can use stitched or guided ad
+/// insertion.
+enum InsertionMode {
+  stitchedOnly,
+  playerSelect,
+}
+
+extension InsertionModeValueExtension on InsertionMode {
+  String toValue() {
+    switch (this) {
+      case InsertionMode.stitchedOnly:
+        return 'STITCHED_ONLY';
+      case InsertionMode.playerSelect:
+        return 'PLAYER_SELECT';
+    }
+  }
+}
+
+extension InsertionModeFromString on String {
+  InsertionMode toInsertionMode() {
+    switch (this) {
+      case 'STITCHED_ONLY':
+        return InsertionMode.stitchedOnly;
+      case 'PLAYER_SELECT':
+        return InsertionMode.playerSelect;
+    }
+    throw Exception('$this is not known in enum InsertionMode');
+  }
+}
+
+/// For <code>SCTE35_ENHANCED</code> output, defines a key and corresponding
+/// value. MediaTailor generates these pairs within the
+/// <code>EXT-X-ASSET</code>tag.
+class KeyValuePair {
+  /// For <code>SCTE35_ENHANCED</code> output, defines a key. MediaTailor takes
+  /// this key, and its associated value, and generates the key/value pair within
+  /// the <code>EXT-X-ASSET</code>tag. If you specify a key, you must also specify
+  /// a corresponding value.
+  final String key;
+
+  /// For <code>SCTE35_ENHANCED</code> output, defines a value. MediaTailor; takes
+  /// this value, and its associated key, and generates the key/value pair within
+  /// the <code>EXT-X-ASSET</code>tag. If you specify a value, you must also
+  /// specify a corresponding key.
+  final String value;
+
+  KeyValuePair({
+    required this.key,
+    required this.value,
+  });
+
+  factory KeyValuePair.fromJson(Map<String, dynamic> json) {
+    return KeyValuePair(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
     };
   }
 }
@@ -4026,6 +4481,14 @@ class PlaybackConfiguration {
   /// The configuration for HLS content.
   final HlsConfiguration? hlsConfiguration;
 
+  /// The setting that controls whether players can use stitched or guided ad
+  /// insertion. The default, <code>STITCHED_ONLY</code>, forces all player
+  /// sessions to use stitched (server-side) ad insertion. Choosing
+  /// <code>PLAYER_SELECT</code> allows players to select either stitched or
+  /// guided ad insertion at session-initialization time. The default for players
+  /// that do not specify an insertion mode is stitched.
+  final InsertionMode? insertionMode;
+
   /// The configuration for pre-roll ad insertion.
   final LivePreRollConfiguration? livePreRollConfiguration;
 
@@ -4094,6 +4557,7 @@ class PlaybackConfiguration {
     this.configurationAliases,
     this.dashConfiguration,
     this.hlsConfiguration,
+    this.insertionMode,
     this.livePreRollConfiguration,
     this.logConfiguration,
     this.manifestProcessingRules,
@@ -4136,6 +4600,7 @@ class PlaybackConfiguration {
           ? HlsConfiguration.fromJson(
               json['HlsConfiguration'] as Map<String, dynamic>)
           : null,
+      insertionMode: (json['InsertionMode'] as String?)?.toInsertionMode(),
       livePreRollConfiguration: json['LivePreRollConfiguration'] != null
           ? LivePreRollConfiguration.fromJson(
               json['LivePreRollConfiguration'] as Map<String, dynamic>)
@@ -4391,6 +4856,14 @@ class PutPlaybackConfigurationResponse {
   /// The configuration for HLS content.
   final HlsConfiguration? hlsConfiguration;
 
+  /// The setting that controls whether players can use stitched or guided ad
+  /// insertion. The default, <code>STITCHED_ONLY</code>, forces all player
+  /// sessions to use stitched (server-side) ad insertion. Choosing
+  /// <code>PLAYER_SELECT</code> allows players to select either stitched or
+  /// guided ad insertion at session-initialization time. The default for players
+  /// that do not specify an insertion mode is stitched.
+  final InsertionMode? insertionMode;
+
   /// The configuration for pre-roll ad insertion.
   final LivePreRollConfiguration? livePreRollConfiguration;
 
@@ -4458,6 +4931,7 @@ class PutPlaybackConfigurationResponse {
     this.configurationAliases,
     this.dashConfiguration,
     this.hlsConfiguration,
+    this.insertionMode,
     this.livePreRollConfiguration,
     this.logConfiguration,
     this.manifestProcessingRules,
@@ -4500,6 +4974,7 @@ class PutPlaybackConfigurationResponse {
           ? HlsConfiguration.fromJson(
               json['HlsConfiguration'] as Map<String, dynamic>)
           : null,
+      insertionMode: (json['InsertionMode'] as String?)?.toInsertionMode(),
       livePreRollConfiguration: json['LivePreRollConfiguration'] != null
           ? LivePreRollConfiguration.fromJson(
               json['LivePreRollConfiguration'] as Map<String, dynamic>)
@@ -4715,6 +5190,9 @@ class ScheduleEntry {
   /// The approximate time that the program will start playing.
   final DateTime? approximateStartTime;
 
+  /// The list of audiences defined in ScheduleEntry.
+  final List<String>? audiences;
+
   /// The name of the live source used for the program.
   final String? liveSourceName;
 
@@ -4734,6 +5212,7 @@ class ScheduleEntry {
     required this.sourceLocationName,
     this.approximateDurationSeconds,
     this.approximateStartTime,
+    this.audiences,
     this.liveSourceName,
     this.scheduleAdBreaks,
     this.scheduleEntryType,
@@ -4748,6 +5227,10 @@ class ScheduleEntry {
       sourceLocationName: json['SourceLocationName'] as String,
       approximateDurationSeconds: json['ApproximateDurationSeconds'] as int?,
       approximateStartTime: timeStampFromJson(json['ApproximateStartTime']),
+      audiences: (json['Audiences'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       liveSourceName: json['LiveSourceName'] as String?,
       scheduleAdBreaks: (json['ScheduleAdBreaks'] as List?)
           ?.whereNotNull()
@@ -4763,6 +5246,7 @@ class ScheduleEntry {
 enum ScheduleEntryType {
   program,
   fillerSlate,
+  alternateMedia,
 }
 
 extension ScheduleEntryTypeValueExtension on ScheduleEntryType {
@@ -4772,6 +5256,8 @@ extension ScheduleEntryTypeValueExtension on ScheduleEntryType {
         return 'PROGRAM';
       case ScheduleEntryType.fillerSlate:
         return 'FILLER_SLATE';
+      case ScheduleEntryType.alternateMedia:
+        return 'ALTERNATE_MEDIA';
     }
   }
 }
@@ -4783,6 +5269,8 @@ extension ScheduleEntryTypeFromString on String {
         return ScheduleEntryType.program;
       case 'FILLER_SLATE':
         return ScheduleEntryType.fillerSlate;
+      case 'ALTERNATE_MEDIA':
+        return ScheduleEntryType.alternateMedia;
     }
     throw Exception('$this is not known in enum ScheduleEntryType');
   }
@@ -5188,6 +5676,31 @@ extension TierFromString on String {
   }
 }
 
+/// The configuration for time-shifted viewing.
+class TimeShiftConfiguration {
+  /// The maximum time delay for time-shifted viewing. The minimum allowed maximum
+  /// time delay is 0 seconds, and the maximum allowed maximum time delay is 21600
+  /// seconds (6 hours).
+  final int maxTimeDelaySeconds;
+
+  TimeShiftConfiguration({
+    required this.maxTimeDelaySeconds,
+  });
+
+  factory TimeShiftConfiguration.fromJson(Map<String, dynamic> json) {
+    return TimeShiftConfiguration(
+      maxTimeDelaySeconds: json['MaxTimeDelaySeconds'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxTimeDelaySeconds = this.maxTimeDelaySeconds;
+    return {
+      'MaxTimeDelaySeconds': maxTimeDelaySeconds,
+    };
+  }
+}
+
 /// The SCTE-35 <code>time_signal</code> message can be sent with one or more
 /// <code>segmentation_descriptor</code> messages. A <code>time_signal</code>
 /// message can be sent only if a single <code>segmentation_descriptor</code>
@@ -5325,6 +5838,9 @@ class UpdateChannelResponse {
   /// The Amazon Resource Name (ARN) associated with the channel.
   final String? arn;
 
+  /// The list of audiences defined in channel.
+  final List<String>? audiences;
+
   /// The name of the channel.
   final String? channelName;
 
@@ -5365,8 +5881,12 @@ class UpdateChannelResponse {
   /// The tier associated with this Channel.
   final String? tier;
 
+  /// The time-shifted viewing configuration for the channel.
+  final TimeShiftConfiguration? timeShiftConfiguration;
+
   UpdateChannelResponse({
     this.arn,
+    this.audiences,
     this.channelName,
     this.channelState,
     this.creationTime,
@@ -5376,11 +5896,16 @@ class UpdateChannelResponse {
     this.playbackMode,
     this.tags,
     this.tier,
+    this.timeShiftConfiguration,
   });
 
   factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
     return UpdateChannelResponse(
       arn: json['Arn'] as String?,
+      audiences: (json['Audiences'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       channelName: json['ChannelName'] as String?,
       channelState: (json['ChannelState'] as String?)?.toChannelState(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -5396,6 +5921,10 @@ class UpdateChannelResponse {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       tier: json['Tier'] as String?,
+      timeShiftConfiguration: json['TimeShiftConfiguration'] != null
+          ? TimeShiftConfiguration.fromJson(
+              json['TimeShiftConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -5461,6 +5990,9 @@ class UpdateProgramResponse {
   /// The ARN to assign to the program.
   final String? arn;
 
+  /// The list of AudienceMedia defined in program.
+  final List<AudienceMedia>? audienceMedia;
+
   /// The name to assign to the channel for this program.
   final String? channelName;
 
@@ -5491,6 +6023,7 @@ class UpdateProgramResponse {
   UpdateProgramResponse({
     this.adBreaks,
     this.arn,
+    this.audienceMedia,
     this.channelName,
     this.clipRange,
     this.creationTime,
@@ -5509,6 +6042,10 @@ class UpdateProgramResponse {
           .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
+      audienceMedia: (json['AudienceMedia'] as List?)
+          ?.whereNotNull()
+          .map((e) => AudienceMedia.fromJson(e as Map<String, dynamic>))
+          .toList(),
       channelName: json['ChannelName'] as String?,
       clipRange: json['ClipRange'] != null
           ? ClipRange.fromJson(json['ClipRange'] as Map<String, dynamic>)

@@ -191,7 +191,9 @@ class ChimeSdkMediaPipelines {
   /// key-value map of strings.
   ///
   /// Parameter [s3RecordingSinkRuntimeConfiguration] :
-  /// The runtime configuration for the S3 recording sink.
+  /// The runtime configuration for the S3 recording sink. If specified, the
+  /// settings in this structure override any settings in
+  /// <code>S3RecordingSinkConfiguration</code>.
   ///
   /// Parameter [tags] :
   /// The tags assigned to the media insights pipeline.
@@ -337,6 +339,93 @@ class ChimeSdkMediaPipelines {
     return CreateMediaLiveConnectorPipelineResponse.fromJson(response);
   }
 
+  /// Creates an Kinesis video stream pool for the media pipeline.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [poolName] :
+  /// The name of the video stream pool.
+  ///
+  /// Parameter [streamConfiguration] :
+  /// The configuration settings for the video stream.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The token assigned to the client making the request.
+  ///
+  /// Parameter [tags] :
+  /// The tags assigned to the video stream pool.
+  Future<CreateMediaPipelineKinesisVideoStreamPoolResponse>
+      createMediaPipelineKinesisVideoStreamPool({
+    required String poolName,
+    required KinesisVideoStreamConfiguration streamConfiguration,
+    String? clientRequestToken,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'PoolName': poolName,
+      'StreamConfiguration': streamConfiguration,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/media-pipeline-kinesis-video-stream-pools',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMediaPipelineKinesisVideoStreamPoolResponse.fromJson(response);
+  }
+
+  /// Creates a streaming media pipeline.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sinks] :
+  /// The data sink for the media pipeline.
+  ///
+  /// Parameter [sources] :
+  /// The data sources for the media pipeline.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The token assigned to the client making the request.
+  ///
+  /// Parameter [tags] :
+  /// The tags assigned to the media pipeline.
+  Future<CreateMediaStreamPipelineResponse> createMediaStreamPipeline({
+    required List<MediaStreamSink> sinks,
+    required List<MediaStreamSource> sources,
+    String? clientRequestToken,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Sinks': sinks,
+      'Sources': sources,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/sdk-media-stream-pipelines',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMediaStreamPipelineResponse.fromJson(response);
+  }
+
   /// Deletes the media pipeline.
   ///
   /// May throw [BadRequestException].
@@ -394,6 +483,7 @@ class ChimeSdkMediaPipelines {
   /// May throw [ThrottledClientException].
   /// May throw [NotFoundException].
   /// May throw [UnauthorizedClientException].
+  /// May throw [ConflictException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
@@ -407,6 +497,31 @@ class ChimeSdkMediaPipelines {
       method: 'DELETE',
       requestUri:
           '/sdk-media-pipelines/${Uri.encodeComponent(mediaPipelineId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an Kinesis video stream pool.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the pool being deleted.
+  Future<void> deleteMediaPipelineKinesisVideoStreamPool({
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/media-pipeline-kinesis-video-stream-pools/${Uri.encodeComponent(identifier)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -486,6 +601,92 @@ class ChimeSdkMediaPipelines {
       exceptionFnMap: _exceptionFns,
     );
     return GetMediaPipelineResponse.fromJson(response);
+  }
+
+  /// Gets an Kinesis video stream pool.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the video stream pool.
+  Future<GetMediaPipelineKinesisVideoStreamPoolResponse>
+      getMediaPipelineKinesisVideoStreamPool({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/media-pipeline-kinesis-video-stream-pools/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMediaPipelineKinesisVideoStreamPoolResponse.fromJson(response);
+  }
+
+  /// Retrieves the details of the specified speaker search task.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the resource to be updated. Valid values include
+  /// the ID and ARN of the media insights pipeline.
+  ///
+  /// Parameter [speakerSearchTaskId] :
+  /// The ID of the speaker search task.
+  Future<GetSpeakerSearchTaskResponse> getSpeakerSearchTask({
+    required String identifier,
+    required String speakerSearchTaskId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/media-insights-pipelines/${Uri.encodeComponent(identifier)}/speaker-search-tasks/${Uri.encodeComponent(speakerSearchTaskId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSpeakerSearchTaskResponse.fromJson(response);
+  }
+
+  /// Retrieves the details of a voice tone analysis task.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the resource to be updated. Valid values include
+  /// the ID and ARN of the media insights pipeline.
+  ///
+  /// Parameter [voiceToneAnalysisTaskId] :
+  /// The ID of the voice tone analysis task.
+  Future<GetVoiceToneAnalysisTaskResponse> getVoiceToneAnalysisTask({
+    required String identifier,
+    required String voiceToneAnalysisTaskId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/media-insights-pipelines/${Uri.encodeComponent(identifier)}/voice-tone-analysis-tasks/${Uri.encodeComponent(voiceToneAnalysisTaskId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetVoiceToneAnalysisTaskResponse.fromJson(response);
   }
 
   /// Returns a list of media pipelines.
@@ -568,6 +769,46 @@ class ChimeSdkMediaPipelines {
     return ListMediaInsightsPipelineConfigurationsResponse.fromJson(response);
   }
 
+  /// Lists the video stream pools in the media pipeline.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token used to return the next page of results.
+  Future<ListMediaPipelineKinesisVideoStreamPoolsResponse>
+      listMediaPipelineKinesisVideoStreamPools({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/media-pipeline-kinesis-video-stream-pools',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMediaPipelineKinesisVideoStreamPoolsResponse.fromJson(response);
+  }
+
   /// Returns a list of media pipelines.
   ///
   /// May throw [BadRequestException].
@@ -635,6 +876,182 @@ class ChimeSdkMediaPipelines {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Starts a speaker search task.
+  /// <important>
+  /// Before starting any speaker search tasks, you must provide all notices and
+  /// obtain all consents from the speaker as required under applicable privacy
+  /// and biometrics laws, and as required under the <a
+  /// href="https://aws.amazon.com/service-terms/">AWS service terms</a> for the
+  /// Amazon Chime SDK.
+  /// </important>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the resource to be updated. Valid values include
+  /// the ID and ARN of the media insights pipeline.
+  ///
+  /// Parameter [voiceProfileDomainArn] :
+  /// The ARN of the voice profile domain that will store the voice profile.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The unique identifier for the client request. Use a different token for
+  /// different speaker search tasks.
+  ///
+  /// Parameter [kinesisVideoStreamSourceTaskConfiguration] :
+  /// The task configuration for the Kinesis video stream source of the media
+  /// insights pipeline.
+  Future<StartSpeakerSearchTaskResponse> startSpeakerSearchTask({
+    required String identifier,
+    required String voiceProfileDomainArn,
+    String? clientRequestToken,
+    KinesisVideoStreamSourceTaskConfiguration?
+        kinesisVideoStreamSourceTaskConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'VoiceProfileDomainArn': voiceProfileDomainArn,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (kinesisVideoStreamSourceTaskConfiguration != null)
+        'KinesisVideoStreamSourceTaskConfiguration':
+            kinesisVideoStreamSourceTaskConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/media-insights-pipelines/${Uri.encodeComponent(identifier)}/speaker-search-tasks?operation=start',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartSpeakerSearchTaskResponse.fromJson(response);
+  }
+
+  /// Starts a voice tone analysis task. For more information about voice tone
+  /// analysis, see <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html">Using
+  /// Amazon Chime SDK voice analytics</a> in the <i>Amazon Chime SDK Developer
+  /// Guide</i>.
+  /// <important>
+  /// Before starting any voice tone analysis tasks, you must provide all
+  /// notices and obtain all consents from the speaker as required under
+  /// applicable privacy and biometrics laws, and as required under the <a
+  /// href="https://aws.amazon.com/service-terms/">AWS service terms</a> for the
+  /// Amazon Chime SDK.
+  /// </important>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the resource to be updated. Valid values include
+  /// the ID and ARN of the media insights pipeline.
+  ///
+  /// Parameter [languageCode] :
+  /// The language code.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The unique identifier for the client request. Use a different token for
+  /// different voice tone analysis tasks.
+  ///
+  /// Parameter [kinesisVideoStreamSourceTaskConfiguration] :
+  /// The task configuration for the Kinesis video stream source of the media
+  /// insights pipeline.
+  Future<StartVoiceToneAnalysisTaskResponse> startVoiceToneAnalysisTask({
+    required String identifier,
+    required VoiceAnalyticsLanguageCode languageCode,
+    String? clientRequestToken,
+    KinesisVideoStreamSourceTaskConfiguration?
+        kinesisVideoStreamSourceTaskConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'LanguageCode': languageCode.toValue(),
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (kinesisVideoStreamSourceTaskConfiguration != null)
+        'KinesisVideoStreamSourceTaskConfiguration':
+            kinesisVideoStreamSourceTaskConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/media-insights-pipelines/${Uri.encodeComponent(identifier)}/voice-tone-analysis-tasks?operation=start',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartVoiceToneAnalysisTaskResponse.fromJson(response);
+  }
+
+  /// Stops a speaker search task.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the resource to be updated. Valid values include
+  /// the ID and ARN of the media insights pipeline.
+  ///
+  /// Parameter [speakerSearchTaskId] :
+  /// The speaker search task ID.
+  Future<void> stopSpeakerSearchTask({
+    required String identifier,
+    required String speakerSearchTaskId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/media-insights-pipelines/${Uri.encodeComponent(identifier)}/speaker-search-tasks/${Uri.encodeComponent(speakerSearchTaskId)}?operation=stop',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Stops a voice tone analysis task.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the resource to be updated. Valid values include
+  /// the ID and ARN of the media insights pipeline.
+  ///
+  /// Parameter [voiceToneAnalysisTaskId] :
+  /// The ID of the voice tone analysis task.
+  Future<void> stopVoiceToneAnalysisTask({
+    required String identifier,
+    required String voiceToneAnalysisTaskId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/media-insights-pipelines/${Uri.encodeComponent(identifier)}/voice-tone-analysis-tasks/${Uri.encodeComponent(voiceToneAnalysisTaskId)}?operation=stop',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// The ARN of the media pipeline that you want to tag. Consists of the
@@ -781,6 +1198,104 @@ class ChimeSdkMediaPipelines {
           '/media-insights-pipeline-status/${Uri.encodeComponent(identifier)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates an Kinesis video stream pool in a media pipeline.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the video stream pool.
+  ///
+  /// Parameter [streamConfiguration] :
+  /// The configuration settings for the video stream.
+  Future<UpdateMediaPipelineKinesisVideoStreamPoolResponse>
+      updateMediaPipelineKinesisVideoStreamPool({
+    required String identifier,
+    KinesisVideoStreamConfigurationUpdate? streamConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (streamConfiguration != null)
+        'StreamConfiguration': streamConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/media-pipeline-kinesis-video-stream-pools/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateMediaPipelineKinesisVideoStreamPoolResponse.fromJson(response);
+  }
+}
+
+/// Defines the configuration for an <code>ActiveSpeakerOnly</code> video tile.
+class ActiveSpeakerOnlyConfiguration {
+  /// The position of the <code>ActiveSpeakerOnly</code> video tile.
+  final ActiveSpeakerPosition? activeSpeakerPosition;
+
+  ActiveSpeakerOnlyConfiguration({
+    this.activeSpeakerPosition,
+  });
+
+  factory ActiveSpeakerOnlyConfiguration.fromJson(Map<String, dynamic> json) {
+    return ActiveSpeakerOnlyConfiguration(
+      activeSpeakerPosition:
+          (json['ActiveSpeakerPosition'] as String?)?.toActiveSpeakerPosition(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeSpeakerPosition = this.activeSpeakerPosition;
+    return {
+      if (activeSpeakerPosition != null)
+        'ActiveSpeakerPosition': activeSpeakerPosition.toValue(),
+    };
+  }
+}
+
+enum ActiveSpeakerPosition {
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
+}
+
+extension ActiveSpeakerPositionValueExtension on ActiveSpeakerPosition {
+  String toValue() {
+    switch (this) {
+      case ActiveSpeakerPosition.topLeft:
+        return 'TopLeft';
+      case ActiveSpeakerPosition.topRight:
+        return 'TopRight';
+      case ActiveSpeakerPosition.bottomLeft:
+        return 'BottomLeft';
+      case ActiveSpeakerPosition.bottomRight:
+        return 'BottomRight';
+    }
+  }
+}
+
+extension ActiveSpeakerPositionFromString on String {
+  ActiveSpeakerPosition toActiveSpeakerPosition() {
+    switch (this) {
+      case 'TopLeft':
+        return ActiveSpeakerPosition.topLeft;
+      case 'TopRight':
+        return ActiveSpeakerPosition.topRight;
+      case 'BottomLeft':
+        return ActiveSpeakerPosition.bottomLeft;
+      case 'BottomRight':
+        return ActiveSpeakerPosition.bottomRight;
+    }
+    throw Exception('$this is not known in enum ActiveSpeakerPosition');
   }
 }
 
@@ -1015,16 +1530,6 @@ class AmazonTranscribeCallAnalyticsProcessorConfiguration {
 /// A structure that contains the configuration settings for an Amazon
 /// Transcribe processor.
 class AmazonTranscribeProcessorConfiguration {
-  /// The language code that represents the language spoken in your audio.
-  ///
-  /// If you're unsure of the language spoken in your audio, consider using
-  /// <code>IdentifyLanguage</code> to enable automatic language identification.
-  ///
-  /// For a list of languages that real-time Call Analytics supports, see the <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
-  /// languages table</a> in the <i>Amazon Transcribe Developer Guide</i>.
-  final CallAnalyticsLanguageCode languageCode;
-
   /// Labels all personally identifiable information (PII) identified in your
   /// transcript.
   ///
@@ -1070,6 +1575,19 @@ class AmazonTranscribeProcessorConfiguration {
   /// filtered out of the insights target.
   final bool? filterPartialResults;
 
+  /// Turns language identification on or off.
+  final bool? identifyLanguage;
+
+  /// The language code that represents the language spoken in your audio.
+  ///
+  /// If you're unsure of the language spoken in your audio, consider using
+  /// <code>IdentifyLanguage</code> to enable automatic language identification.
+  ///
+  /// For a list of languages that real-time Call Analytics supports, see the <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
+  /// languages table</a> in the <i>Amazon Transcribe Developer Guide</i>.
+  final CallAnalyticsLanguageCode? languageCode;
+
   /// The name of the custom language model that you want to use when processing
   /// your transcription. Note that language model names are case sensitive.
   ///
@@ -1082,6 +1600,10 @@ class AmazonTranscribeProcessorConfiguration {
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html">Custom
   /// language models</a> in the <i>Amazon Transcribe Developer Guide</i>.
   final String? languageModelName;
+
+  /// The language options for the transcription, such as automatic language
+  /// detection.
+  final String? languageOptions;
 
   /// The level of stability to use when you enable partial results stabilization
   /// (<code>EnablePartialResultsStabilization</code>).
@@ -1112,6 +1634,9 @@ class AmazonTranscribeProcessorConfiguration {
   /// <code>ALL</code>.
   final String? piiEntityTypes;
 
+  /// The preferred language for the transcription.
+  final CallAnalyticsLanguageCode? preferredLanguage;
+
   /// Enables speaker partitioning (diarization) in your transcription output.
   /// Speaker partitioning labels the speech from individual speakers in your
   /// media file.
@@ -1130,32 +1655,43 @@ class AmazonTranscribeProcessorConfiguration {
   /// Length Constraints: Minimum length of 1. Maximum length of 200.
   final String? vocabularyFilterName;
 
+  /// The names of the custom vocabulary filter or filters using during
+  /// transcription.
+  final String? vocabularyFilterNames;
+
   /// The name of the custom vocabulary that you specified in your Call Analytics
   /// request.
   ///
   /// Length Constraints: Minimum length of 1. Maximum length of 200.
   final String? vocabularyName;
 
+  /// The names of the custom vocabulary or vocabularies used during
+  /// transcription.
+  final String? vocabularyNames;
+
   AmazonTranscribeProcessorConfiguration({
-    required this.languageCode,
     this.contentIdentificationType,
     this.contentRedactionType,
     this.enablePartialResultsStabilization,
     this.filterPartialResults,
+    this.identifyLanguage,
+    this.languageCode,
     this.languageModelName,
+    this.languageOptions,
     this.partialResultsStability,
     this.piiEntityTypes,
+    this.preferredLanguage,
     this.showSpeakerLabel,
     this.vocabularyFilterMethod,
     this.vocabularyFilterName,
+    this.vocabularyFilterNames,
     this.vocabularyName,
+    this.vocabularyNames,
   });
 
   factory AmazonTranscribeProcessorConfiguration.fromJson(
       Map<String, dynamic> json) {
     return AmazonTranscribeProcessorConfiguration(
-      languageCode:
-          (json['LanguageCode'] as String).toCallAnalyticsLanguageCode(),
       contentIdentificationType:
           (json['ContentIdentificationType'] as String?)?.toContentType(),
       contentRedactionType:
@@ -1163,34 +1699,46 @@ class AmazonTranscribeProcessorConfiguration {
       enablePartialResultsStabilization:
           json['EnablePartialResultsStabilization'] as bool?,
       filterPartialResults: json['FilterPartialResults'] as bool?,
+      identifyLanguage: json['IdentifyLanguage'] as bool?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.toCallAnalyticsLanguageCode(),
       languageModelName: json['LanguageModelName'] as String?,
+      languageOptions: json['LanguageOptions'] as String?,
       partialResultsStability: (json['PartialResultsStability'] as String?)
           ?.toPartialResultsStability(),
       piiEntityTypes: json['PiiEntityTypes'] as String?,
+      preferredLanguage:
+          (json['PreferredLanguage'] as String?)?.toCallAnalyticsLanguageCode(),
       showSpeakerLabel: json['ShowSpeakerLabel'] as bool?,
       vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
           ?.toVocabularyFilterMethod(),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyFilterNames: json['VocabularyFilterNames'] as String?,
       vocabularyName: json['VocabularyName'] as String?,
+      vocabularyNames: json['VocabularyNames'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
     final contentIdentificationType = this.contentIdentificationType;
     final contentRedactionType = this.contentRedactionType;
     final enablePartialResultsStabilization =
         this.enablePartialResultsStabilization;
     final filterPartialResults = this.filterPartialResults;
+    final identifyLanguage = this.identifyLanguage;
+    final languageCode = this.languageCode;
     final languageModelName = this.languageModelName;
+    final languageOptions = this.languageOptions;
     final partialResultsStability = this.partialResultsStability;
     final piiEntityTypes = this.piiEntityTypes;
+    final preferredLanguage = this.preferredLanguage;
     final showSpeakerLabel = this.showSpeakerLabel;
     final vocabularyFilterMethod = this.vocabularyFilterMethod;
     final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyFilterNames = this.vocabularyFilterNames;
     final vocabularyName = this.vocabularyName;
+    final vocabularyNames = this.vocabularyNames;
     return {
-      'LanguageCode': languageCode.toValue(),
       if (contentIdentificationType != null)
         'ContentIdentificationType': contentIdentificationType.toValue(),
       if (contentRedactionType != null)
@@ -1199,16 +1747,24 @@ class AmazonTranscribeProcessorConfiguration {
         'EnablePartialResultsStabilization': enablePartialResultsStabilization,
       if (filterPartialResults != null)
         'FilterPartialResults': filterPartialResults,
+      if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
       if (languageModelName != null) 'LanguageModelName': languageModelName,
+      if (languageOptions != null) 'LanguageOptions': languageOptions,
       if (partialResultsStability != null)
         'PartialResultsStability': partialResultsStability.toValue(),
       if (piiEntityTypes != null) 'PiiEntityTypes': piiEntityTypes,
+      if (preferredLanguage != null)
+        'PreferredLanguage': preferredLanguage.toValue(),
       if (showSpeakerLabel != null) 'ShowSpeakerLabel': showSpeakerLabel,
       if (vocabularyFilterMethod != null)
         'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
       if (vocabularyFilterName != null)
         'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyFilterNames != null)
+        'VocabularyFilterNames': vocabularyFilterNames,
       if (vocabularyName != null) 'VocabularyName': vocabularyName,
+      if (vocabularyNames != null) 'VocabularyNames': vocabularyNames,
     };
   }
 }
@@ -1526,6 +2082,54 @@ extension AudioMuxTypeFromString on String {
   }
 }
 
+enum BorderColor {
+  black,
+  blue,
+  red,
+  green,
+  white,
+  yellow,
+}
+
+extension BorderColorValueExtension on BorderColor {
+  String toValue() {
+    switch (this) {
+      case BorderColor.black:
+        return 'Black';
+      case BorderColor.blue:
+        return 'Blue';
+      case BorderColor.red:
+        return 'Red';
+      case BorderColor.green:
+        return 'Green';
+      case BorderColor.white:
+        return 'White';
+      case BorderColor.yellow:
+        return 'Yellow';
+    }
+  }
+}
+
+extension BorderColorFromString on String {
+  BorderColor toBorderColor() {
+    switch (this) {
+      case 'Black':
+        return BorderColor.black;
+      case 'Blue':
+        return BorderColor.blue;
+      case 'Red':
+        return BorderColor.red;
+      case 'Green':
+        return BorderColor.green;
+      case 'White':
+        return BorderColor.white;
+      case 'Yellow':
+        return BorderColor.yellow;
+    }
+    throw Exception('$this is not known in enum BorderColor');
+  }
+}
+
 enum CallAnalyticsLanguageCode {
   enUs,
   enGb,
@@ -1586,6 +2190,34 @@ extension CallAnalyticsLanguageCodeFromString on String {
         return CallAnalyticsLanguageCode.ptBr;
     }
     throw Exception('$this is not known in enum CallAnalyticsLanguageCode');
+  }
+}
+
+enum CanvasOrientation {
+  landscape,
+  portrait,
+}
+
+extension CanvasOrientationValueExtension on CanvasOrientation {
+  String toValue() {
+    switch (this) {
+      case CanvasOrientation.landscape:
+        return 'Landscape';
+      case CanvasOrientation.portrait:
+        return 'Portrait';
+    }
+  }
+}
+
+extension CanvasOrientationFromString on String {
+  CanvasOrientation toCanvasOrientation() {
+    switch (this) {
+      case 'Landscape':
+        return CanvasOrientation.landscape;
+      case 'Portrait':
+        return CanvasOrientation.portrait;
+    }
+    throw Exception('$this is not known in enum CanvasOrientation');
   }
 }
 
@@ -2030,6 +2662,7 @@ enum ContentShareLayoutOption {
   presenterOnly,
   horizontal,
   vertical,
+  activeSpeakerOnly,
 }
 
 extension ContentShareLayoutOptionValueExtension on ContentShareLayoutOption {
@@ -2041,6 +2674,8 @@ extension ContentShareLayoutOptionValueExtension on ContentShareLayoutOption {
         return 'Horizontal';
       case ContentShareLayoutOption.vertical:
         return 'Vertical';
+      case ContentShareLayoutOption.activeSpeakerOnly:
+        return 'ActiveSpeakerOnly';
     }
   }
 }
@@ -2054,6 +2689,8 @@ extension ContentShareLayoutOptionFromString on String {
         return ContentShareLayoutOption.horizontal;
       case 'Vertical':
         return ContentShareLayoutOption.vertical;
+      case 'ActiveSpeakerOnly':
+        return ContentShareLayoutOption.activeSpeakerOnly;
     }
     throw Exception('$this is not known in enum ContentShareLayoutOption');
   }
@@ -2221,6 +2858,65 @@ class CreateMediaLiveConnectorPipelineResponse {
   }
 }
 
+class CreateMediaPipelineKinesisVideoStreamPoolResponse {
+  /// The configuration for the Kinesis video stream pool.
+  final KinesisVideoStreamPoolConfiguration?
+      kinesisVideoStreamPoolConfiguration;
+
+  CreateMediaPipelineKinesisVideoStreamPoolResponse({
+    this.kinesisVideoStreamPoolConfiguration,
+  });
+
+  factory CreateMediaPipelineKinesisVideoStreamPoolResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMediaPipelineKinesisVideoStreamPoolResponse(
+      kinesisVideoStreamPoolConfiguration:
+          json['KinesisVideoStreamPoolConfiguration'] != null
+              ? KinesisVideoStreamPoolConfiguration.fromJson(
+                  json['KinesisVideoStreamPoolConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisVideoStreamPoolConfiguration =
+        this.kinesisVideoStreamPoolConfiguration;
+    return {
+      if (kinesisVideoStreamPoolConfiguration != null)
+        'KinesisVideoStreamPoolConfiguration':
+            kinesisVideoStreamPoolConfiguration,
+    };
+  }
+}
+
+class CreateMediaStreamPipelineResponse {
+  /// The requested media pipeline.
+  final MediaStreamPipeline? mediaStreamPipeline;
+
+  CreateMediaStreamPipelineResponse({
+    this.mediaStreamPipeline,
+  });
+
+  factory CreateMediaStreamPipelineResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMediaStreamPipelineResponse(
+      mediaStreamPipeline: json['MediaStreamPipeline'] != null
+          ? MediaStreamPipeline.fromJson(
+              json['MediaStreamPipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaStreamPipeline = this.mediaStreamPipeline;
+    return {
+      if (mediaStreamPipeline != null)
+        'MediaStreamPipeline': mediaStreamPipeline,
+    };
+  }
+}
+
 /// The content configuration object's data channel.
 class DataChannelConcatenationConfiguration {
   /// Enables or disables the configuration object.
@@ -2271,7 +2967,7 @@ class DataChannelConcatenationConfiguration {
 class FragmentSelector {
   /// The origin of the timestamps to use, <code>Server</code> or
   /// <code>Producer</code>. For more information, see <a
-  /// href="kinesisvideostreams/latest/dg/API_dataplane_StartSelector.html#KinesisVideo-Type-dataplane_StartSelector-StartSelectorType">StartSelectorType</a>
+  /// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_dataplane_StartSelector.html">StartSelectorType</a>
   /// in the <i>Amazon Kinesis Video Streams Developer Guide</i>.
   final FragmentSelectorType fragmentSelectorType;
 
@@ -2387,6 +3083,38 @@ class GetMediaInsightsPipelineConfigurationResponse {
   }
 }
 
+class GetMediaPipelineKinesisVideoStreamPoolResponse {
+  /// The video stream pool configuration object.
+  final KinesisVideoStreamPoolConfiguration?
+      kinesisVideoStreamPoolConfiguration;
+
+  GetMediaPipelineKinesisVideoStreamPoolResponse({
+    this.kinesisVideoStreamPoolConfiguration,
+  });
+
+  factory GetMediaPipelineKinesisVideoStreamPoolResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetMediaPipelineKinesisVideoStreamPoolResponse(
+      kinesisVideoStreamPoolConfiguration:
+          json['KinesisVideoStreamPoolConfiguration'] != null
+              ? KinesisVideoStreamPoolConfiguration.fromJson(
+                  json['KinesisVideoStreamPoolConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisVideoStreamPoolConfiguration =
+        this.kinesisVideoStreamPoolConfiguration;
+    return {
+      if (kinesisVideoStreamPoolConfiguration != null)
+        'KinesisVideoStreamPoolConfiguration':
+            kinesisVideoStreamPoolConfiguration,
+    };
+  }
+}
+
 class GetMediaPipelineResponse {
   /// The media pipeline object.
   final MediaPipeline? mediaPipeline;
@@ -2412,38 +3140,264 @@ class GetMediaPipelineResponse {
   }
 }
 
+class GetSpeakerSearchTaskResponse {
+  /// The details of the speaker search task.
+  final SpeakerSearchTask? speakerSearchTask;
+
+  GetSpeakerSearchTaskResponse({
+    this.speakerSearchTask,
+  });
+
+  factory GetSpeakerSearchTaskResponse.fromJson(Map<String, dynamic> json) {
+    return GetSpeakerSearchTaskResponse(
+      speakerSearchTask: json['SpeakerSearchTask'] != null
+          ? SpeakerSearchTask.fromJson(
+              json['SpeakerSearchTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final speakerSearchTask = this.speakerSearchTask;
+    return {
+      if (speakerSearchTask != null) 'SpeakerSearchTask': speakerSearchTask,
+    };
+  }
+}
+
+class GetVoiceToneAnalysisTaskResponse {
+  /// The details of the voice tone analysis task.
+  final VoiceToneAnalysisTask? voiceToneAnalysisTask;
+
+  GetVoiceToneAnalysisTaskResponse({
+    this.voiceToneAnalysisTask,
+  });
+
+  factory GetVoiceToneAnalysisTaskResponse.fromJson(Map<String, dynamic> json) {
+    return GetVoiceToneAnalysisTaskResponse(
+      voiceToneAnalysisTask: json['VoiceToneAnalysisTask'] != null
+          ? VoiceToneAnalysisTask.fromJson(
+              json['VoiceToneAnalysisTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceToneAnalysisTask = this.voiceToneAnalysisTask;
+    return {
+      if (voiceToneAnalysisTask != null)
+        'VoiceToneAnalysisTask': voiceToneAnalysisTask,
+    };
+  }
+}
+
 /// Specifies the type of grid layout.
 class GridViewConfiguration {
   /// Defines the layout of the video tiles when content sharing is enabled.
   final ContentShareLayoutOption contentShareLayout;
 
+  /// The configuration settings for an <code>ActiveSpeakerOnly</code> video tile.
+  final ActiveSpeakerOnlyConfiguration? activeSpeakerOnlyConfiguration;
+
+  /// The orientation setting, horizontal or vertical.
+  final CanvasOrientation? canvasOrientation;
+
+  /// The configuration settings for a horizontal layout.
+  final HorizontalLayoutConfiguration? horizontalLayoutConfiguration;
+
   /// Defines the configuration options for a presenter only video tile.
   final PresenterOnlyConfiguration? presenterOnlyConfiguration;
 
+  /// The configuration settings for a vertical layout.
+  final VerticalLayoutConfiguration? verticalLayoutConfiguration;
+
+  /// The attribute settings for the video tiles.
+  final VideoAttribute? videoAttribute;
+
   GridViewConfiguration({
     required this.contentShareLayout,
+    this.activeSpeakerOnlyConfiguration,
+    this.canvasOrientation,
+    this.horizontalLayoutConfiguration,
     this.presenterOnlyConfiguration,
+    this.verticalLayoutConfiguration,
+    this.videoAttribute,
   });
 
   factory GridViewConfiguration.fromJson(Map<String, dynamic> json) {
     return GridViewConfiguration(
       contentShareLayout:
           (json['ContentShareLayout'] as String).toContentShareLayoutOption(),
+      activeSpeakerOnlyConfiguration: json['ActiveSpeakerOnlyConfiguration'] !=
+              null
+          ? ActiveSpeakerOnlyConfiguration.fromJson(
+              json['ActiveSpeakerOnlyConfiguration'] as Map<String, dynamic>)
+          : null,
+      canvasOrientation:
+          (json['CanvasOrientation'] as String?)?.toCanvasOrientation(),
+      horizontalLayoutConfiguration:
+          json['HorizontalLayoutConfiguration'] != null
+              ? HorizontalLayoutConfiguration.fromJson(
+                  json['HorizontalLayoutConfiguration'] as Map<String, dynamic>)
+              : null,
       presenterOnlyConfiguration: json['PresenterOnlyConfiguration'] != null
           ? PresenterOnlyConfiguration.fromJson(
               json['PresenterOnlyConfiguration'] as Map<String, dynamic>)
+          : null,
+      verticalLayoutConfiguration: json['VerticalLayoutConfiguration'] != null
+          ? VerticalLayoutConfiguration.fromJson(
+              json['VerticalLayoutConfiguration'] as Map<String, dynamic>)
+          : null,
+      videoAttribute: json['VideoAttribute'] != null
+          ? VideoAttribute.fromJson(
+              json['VideoAttribute'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final contentShareLayout = this.contentShareLayout;
+    final activeSpeakerOnlyConfiguration = this.activeSpeakerOnlyConfiguration;
+    final canvasOrientation = this.canvasOrientation;
+    final horizontalLayoutConfiguration = this.horizontalLayoutConfiguration;
     final presenterOnlyConfiguration = this.presenterOnlyConfiguration;
+    final verticalLayoutConfiguration = this.verticalLayoutConfiguration;
+    final videoAttribute = this.videoAttribute;
     return {
       'ContentShareLayout': contentShareLayout.toValue(),
+      if (activeSpeakerOnlyConfiguration != null)
+        'ActiveSpeakerOnlyConfiguration': activeSpeakerOnlyConfiguration,
+      if (canvasOrientation != null)
+        'CanvasOrientation': canvasOrientation.toValue(),
+      if (horizontalLayoutConfiguration != null)
+        'HorizontalLayoutConfiguration': horizontalLayoutConfiguration,
       if (presenterOnlyConfiguration != null)
         'PresenterOnlyConfiguration': presenterOnlyConfiguration,
+      if (verticalLayoutConfiguration != null)
+        'VerticalLayoutConfiguration': verticalLayoutConfiguration,
+      if (videoAttribute != null) 'VideoAttribute': videoAttribute,
     };
+  }
+}
+
+enum HighlightColor {
+  black,
+  blue,
+  red,
+  green,
+  white,
+  yellow,
+}
+
+extension HighlightColorValueExtension on HighlightColor {
+  String toValue() {
+    switch (this) {
+      case HighlightColor.black:
+        return 'Black';
+      case HighlightColor.blue:
+        return 'Blue';
+      case HighlightColor.red:
+        return 'Red';
+      case HighlightColor.green:
+        return 'Green';
+      case HighlightColor.white:
+        return 'White';
+      case HighlightColor.yellow:
+        return 'Yellow';
+    }
+  }
+}
+
+extension HighlightColorFromString on String {
+  HighlightColor toHighlightColor() {
+    switch (this) {
+      case 'Black':
+        return HighlightColor.black;
+      case 'Blue':
+        return HighlightColor.blue;
+      case 'Red':
+        return HighlightColor.red;
+      case 'Green':
+        return HighlightColor.green;
+      case 'White':
+        return HighlightColor.white;
+      case 'Yellow':
+        return HighlightColor.yellow;
+    }
+    throw Exception('$this is not known in enum HighlightColor');
+  }
+}
+
+/// Defines the configuration settings for the horizontal layout.
+class HorizontalLayoutConfiguration {
+  /// Specifies the aspect ratio of all video tiles.
+  final String? tileAspectRatio;
+
+  /// The maximum number of video tiles to display.
+  final int? tileCount;
+
+  /// Sets the automatic ordering of the video tiles.
+  final TileOrder? tileOrder;
+
+  /// Sets the position of horizontal tiles.
+  final HorizontalTilePosition? tilePosition;
+
+  HorizontalLayoutConfiguration({
+    this.tileAspectRatio,
+    this.tileCount,
+    this.tileOrder,
+    this.tilePosition,
+  });
+
+  factory HorizontalLayoutConfiguration.fromJson(Map<String, dynamic> json) {
+    return HorizontalLayoutConfiguration(
+      tileAspectRatio: json['TileAspectRatio'] as String?,
+      tileCount: json['TileCount'] as int?,
+      tileOrder: (json['TileOrder'] as String?)?.toTileOrder(),
+      tilePosition:
+          (json['TilePosition'] as String?)?.toHorizontalTilePosition(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tileAspectRatio = this.tileAspectRatio;
+    final tileCount = this.tileCount;
+    final tileOrder = this.tileOrder;
+    final tilePosition = this.tilePosition;
+    return {
+      if (tileAspectRatio != null) 'TileAspectRatio': tileAspectRatio,
+      if (tileCount != null) 'TileCount': tileCount,
+      if (tileOrder != null) 'TileOrder': tileOrder.toValue(),
+      if (tilePosition != null) 'TilePosition': tilePosition.toValue(),
+    };
+  }
+}
+
+enum HorizontalTilePosition {
+  top,
+  bottom,
+}
+
+extension HorizontalTilePositionValueExtension on HorizontalTilePosition {
+  String toValue() {
+    switch (this) {
+      case HorizontalTilePosition.top:
+        return 'Top';
+      case HorizontalTilePosition.bottom:
+        return 'Bottom';
+    }
+  }
+}
+
+extension HorizontalTilePositionFromString on String {
+  HorizontalTilePosition toHorizontalTilePosition() {
+    switch (this) {
+      case 'Top':
+        return HorizontalTilePosition.top;
+      case 'Bottom':
+        return HorizontalTilePosition.bottom;
+    }
+    throw Exception('$this is not known in enum HorizontalTilePosition');
   }
 }
 
@@ -2538,6 +3492,216 @@ class KinesisDataStreamSinkConfiguration {
   }
 }
 
+/// The configuration of an Kinesis video stream.
+class KinesisVideoStreamConfiguration {
+  /// The Amazon Web Services Region of the video stream.
+  final String region;
+
+  /// The amount of time that data is retained.
+  final int? dataRetentionInHours;
+
+  KinesisVideoStreamConfiguration({
+    required this.region,
+    this.dataRetentionInHours,
+  });
+
+  factory KinesisVideoStreamConfiguration.fromJson(Map<String, dynamic> json) {
+    return KinesisVideoStreamConfiguration(
+      region: json['Region'] as String,
+      dataRetentionInHours: json['DataRetentionInHours'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final dataRetentionInHours = this.dataRetentionInHours;
+    return {
+      'Region': region,
+      if (dataRetentionInHours != null)
+        'DataRetentionInHours': dataRetentionInHours,
+    };
+  }
+}
+
+/// The updated Kinesis video stream configuration object.
+class KinesisVideoStreamConfigurationUpdate {
+  /// The updated time that data is retained.
+  final int? dataRetentionInHours;
+
+  KinesisVideoStreamConfigurationUpdate({
+    this.dataRetentionInHours,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataRetentionInHours = this.dataRetentionInHours;
+    return {
+      if (dataRetentionInHours != null)
+        'DataRetentionInHours': dataRetentionInHours,
+    };
+  }
+}
+
+/// The video stream pool configuration object.
+class KinesisVideoStreamPoolConfiguration {
+  /// The time at which the configuration was created.
+  final DateTime? createdTimestamp;
+
+  /// The ARN of the video stream pool configuration.
+  final String? poolArn;
+
+  /// The ID of the video stream pool in the configuration.
+  final String? poolId;
+
+  /// The name of the video stream pool configuration.
+  final String? poolName;
+
+  /// The size of the video stream pool in the configuration.
+  final int? poolSize;
+
+  /// The status of the video stream pool in the configuration.
+  final KinesisVideoStreamPoolStatus? poolStatus;
+
+  /// The Kinesis video stream pool configuration object.
+  final KinesisVideoStreamConfiguration? streamConfiguration;
+
+  /// The time at which the configuration was updated.
+  final DateTime? updatedTimestamp;
+
+  KinesisVideoStreamPoolConfiguration({
+    this.createdTimestamp,
+    this.poolArn,
+    this.poolId,
+    this.poolName,
+    this.poolSize,
+    this.poolStatus,
+    this.streamConfiguration,
+    this.updatedTimestamp,
+  });
+
+  factory KinesisVideoStreamPoolConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return KinesisVideoStreamPoolConfiguration(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      poolArn: json['PoolArn'] as String?,
+      poolId: json['PoolId'] as String?,
+      poolName: json['PoolName'] as String?,
+      poolSize: json['PoolSize'] as int?,
+      poolStatus:
+          (json['PoolStatus'] as String?)?.toKinesisVideoStreamPoolStatus(),
+      streamConfiguration: json['StreamConfiguration'] != null
+          ? KinesisVideoStreamConfiguration.fromJson(
+              json['StreamConfiguration'] as Map<String, dynamic>)
+          : null,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final poolArn = this.poolArn;
+    final poolId = this.poolId;
+    final poolName = this.poolName;
+    final poolSize = this.poolSize;
+    final poolStatus = this.poolStatus;
+    final streamConfiguration = this.streamConfiguration;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (poolArn != null) 'PoolArn': poolArn,
+      if (poolId != null) 'PoolId': poolId,
+      if (poolName != null) 'PoolName': poolName,
+      if (poolSize != null) 'PoolSize': poolSize,
+      if (poolStatus != null) 'PoolStatus': poolStatus.toValue(),
+      if (streamConfiguration != null)
+        'StreamConfiguration': streamConfiguration,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+enum KinesisVideoStreamPoolStatus {
+  creating,
+  active,
+  updating,
+  deleting,
+  failed,
+}
+
+extension KinesisVideoStreamPoolStatusValueExtension
+    on KinesisVideoStreamPoolStatus {
+  String toValue() {
+    switch (this) {
+      case KinesisVideoStreamPoolStatus.creating:
+        return 'CREATING';
+      case KinesisVideoStreamPoolStatus.active:
+        return 'ACTIVE';
+      case KinesisVideoStreamPoolStatus.updating:
+        return 'UPDATING';
+      case KinesisVideoStreamPoolStatus.deleting:
+        return 'DELETING';
+      case KinesisVideoStreamPoolStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension KinesisVideoStreamPoolStatusFromString on String {
+  KinesisVideoStreamPoolStatus toKinesisVideoStreamPoolStatus() {
+    switch (this) {
+      case 'CREATING':
+        return KinesisVideoStreamPoolStatus.creating;
+      case 'ACTIVE':
+        return KinesisVideoStreamPoolStatus.active;
+      case 'UPDATING':
+        return KinesisVideoStreamPoolStatus.updating;
+      case 'DELETING':
+        return KinesisVideoStreamPoolStatus.deleting;
+      case 'FAILED':
+        return KinesisVideoStreamPoolStatus.failed;
+    }
+    throw Exception('$this is not known in enum KinesisVideoStreamPoolStatus');
+  }
+}
+
+/// A summary of the Kinesis video stream pool.
+class KinesisVideoStreamPoolSummary {
+  /// The ARN of the video stream pool.
+  final String? poolArn;
+
+  /// The ID of the video stream pool.
+  final String? poolId;
+
+  /// The name of the video stream pool.
+  final String? poolName;
+
+  KinesisVideoStreamPoolSummary({
+    this.poolArn,
+    this.poolId,
+    this.poolName,
+  });
+
+  factory KinesisVideoStreamPoolSummary.fromJson(Map<String, dynamic> json) {
+    return KinesisVideoStreamPoolSummary(
+      poolArn: json['PoolArn'] as String?,
+      poolId: json['PoolId'] as String?,
+      poolName: json['PoolName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final poolArn = this.poolArn;
+    final poolId = this.poolId;
+    final poolName = this.poolName;
+    return {
+      if (poolArn != null) 'PoolArn': poolArn,
+      if (poolId != null) 'PoolId': poolId,
+      if (poolName != null) 'PoolName': poolName,
+    };
+  }
+}
+
 /// A structure that contains the runtime settings for recording a Kinesis video
 /// stream.
 class KinesisVideoStreamRecordingSourceRuntimeConfiguration {
@@ -2623,6 +3787,35 @@ class KinesisVideoStreamSourceRuntimeConfiguration {
       'MediaEncoding': mediaEncoding.toValue(),
       'MediaSampleRate': mediaSampleRate,
       'Streams': streams,
+    };
+  }
+}
+
+/// The task configuration settings for the Kinesis video stream source.
+class KinesisVideoStreamSourceTaskConfiguration {
+  /// The channel ID.
+  final int channelId;
+
+  /// The ARN of the stream.
+  final String streamArn;
+
+  /// The unique identifier of the fragment to begin processing.
+  final String? fragmentNumber;
+
+  KinesisVideoStreamSourceTaskConfiguration({
+    required this.channelId,
+    required this.streamArn,
+    this.fragmentNumber,
+  });
+
+  Map<String, dynamic> toJson() {
+    final channelId = this.channelId;
+    final streamArn = this.streamArn;
+    final fragmentNumber = this.fragmentNumber;
+    return {
+      'ChannelId': channelId,
+      'StreamArn': streamArn,
+      if (fragmentNumber != null) 'FragmentNumber': fragmentNumber,
     };
   }
 }
@@ -2743,6 +3936,41 @@ class ListMediaInsightsPipelineConfigurationsResponse {
       if (mediaInsightsPipelineConfigurations != null)
         'MediaInsightsPipelineConfigurations':
             mediaInsightsPipelineConfigurations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListMediaPipelineKinesisVideoStreamPoolsResponse {
+  /// The list of video stream pools.
+  final List<KinesisVideoStreamPoolSummary>? kinesisVideoStreamPools;
+
+  /// The token used to return the next page of results.
+  final String? nextToken;
+
+  ListMediaPipelineKinesisVideoStreamPoolsResponse({
+    this.kinesisVideoStreamPools,
+    this.nextToken,
+  });
+
+  factory ListMediaPipelineKinesisVideoStreamPoolsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMediaPipelineKinesisVideoStreamPoolsResponse(
+      kinesisVideoStreamPools: (json['KinesisVideoStreamPools'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              KinesisVideoStreamPoolSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisVideoStreamPools = this.kinesisVideoStreamPools;
+    final nextToken = this.nextToken;
+    return {
+      if (kinesisVideoStreamPools != null)
+        'KinesisVideoStreamPools': kinesisVideoStreamPools,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -3247,6 +4475,10 @@ class MediaInsightsPipeline {
   /// The time at which the media insights pipeline was created.
   final DateTime? createdTimestamp;
 
+  /// The statuses that the elements in a media insights pipeline can have during
+  /// data processing.
+  final List<MediaInsightsPipelineElementStatus>? elementStatuses;
+
   /// The runtime configuration settings for a Kinesis recording video stream in a
   /// media insights pipeline.
   final KinesisVideoStreamRecordingSourceRuntimeConfiguration?
@@ -3279,6 +4511,7 @@ class MediaInsightsPipeline {
 
   MediaInsightsPipeline({
     this.createdTimestamp,
+    this.elementStatuses,
     this.kinesisVideoStreamRecordingSourceRuntimeConfiguration,
     this.kinesisVideoStreamSourceRuntimeConfiguration,
     this.mediaInsightsPipelineConfigurationArn,
@@ -3292,6 +4525,11 @@ class MediaInsightsPipeline {
   factory MediaInsightsPipeline.fromJson(Map<String, dynamic> json) {
     return MediaInsightsPipeline(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      elementStatuses: (json['ElementStatuses'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaInsightsPipelineElementStatus.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       kinesisVideoStreamRecordingSourceRuntimeConfiguration:
           json['KinesisVideoStreamRecordingSourceRuntimeConfiguration'] != null
               ? KinesisVideoStreamRecordingSourceRuntimeConfiguration.fromJson(
@@ -3323,6 +4561,7 @@ class MediaInsightsPipeline {
 
   Map<String, dynamic> toJson() {
     final createdTimestamp = this.createdTimestamp;
+    final elementStatuses = this.elementStatuses;
     final kinesisVideoStreamRecordingSourceRuntimeConfiguration =
         this.kinesisVideoStreamRecordingSourceRuntimeConfiguration;
     final kinesisVideoStreamSourceRuntimeConfiguration =
@@ -3338,6 +4577,7 @@ class MediaInsightsPipeline {
     return {
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (elementStatuses != null) 'ElementStatuses': elementStatuses,
       if (kinesisVideoStreamRecordingSourceRuntimeConfiguration != null)
         'KinesisVideoStreamRecordingSourceRuntimeConfiguration':
             kinesisVideoStreamRecordingSourceRuntimeConfiguration,
@@ -3497,6 +4737,10 @@ class MediaInsightsPipelineConfigurationElement {
   final VoiceAnalyticsProcessorConfiguration?
       voiceAnalyticsProcessorConfiguration;
 
+  /// The configuration settings for voice enhancement sink in a media insights
+  /// pipeline configuration element.
+  final VoiceEnhancementSinkConfiguration? voiceEnhancementSinkConfiguration;
+
   MediaInsightsPipelineConfigurationElement({
     required this.type,
     this.amazonTranscribeCallAnalyticsProcessorConfiguration,
@@ -3507,6 +4751,7 @@ class MediaInsightsPipelineConfigurationElement {
     this.snsTopicSinkConfiguration,
     this.sqsQueueSinkConfiguration,
     this.voiceAnalyticsProcessorConfiguration,
+    this.voiceEnhancementSinkConfiguration,
   });
 
   factory MediaInsightsPipelineConfigurationElement.fromJson(
@@ -3556,6 +4801,12 @@ class MediaInsightsPipelineConfigurationElement {
                   json['VoiceAnalyticsProcessorConfiguration']
                       as Map<String, dynamic>)
               : null,
+      voiceEnhancementSinkConfiguration:
+          json['VoiceEnhancementSinkConfiguration'] != null
+              ? VoiceEnhancementSinkConfiguration.fromJson(
+                  json['VoiceEnhancementSinkConfiguration']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -3574,6 +4825,8 @@ class MediaInsightsPipelineConfigurationElement {
     final sqsQueueSinkConfiguration = this.sqsQueueSinkConfiguration;
     final voiceAnalyticsProcessorConfiguration =
         this.voiceAnalyticsProcessorConfiguration;
+    final voiceEnhancementSinkConfiguration =
+        this.voiceEnhancementSinkConfiguration;
     return {
       'Type': type.toValue(),
       if (amazonTranscribeCallAnalyticsProcessorConfiguration != null)
@@ -3596,6 +4849,8 @@ class MediaInsightsPipelineConfigurationElement {
       if (voiceAnalyticsProcessorConfiguration != null)
         'VoiceAnalyticsProcessorConfiguration':
             voiceAnalyticsProcessorConfiguration,
+      if (voiceEnhancementSinkConfiguration != null)
+        'VoiceEnhancementSinkConfiguration': voiceEnhancementSinkConfiguration,
     };
   }
 }
@@ -3609,6 +4864,7 @@ enum MediaInsightsPipelineConfigurationElementType {
   sqsQueueSink,
   snsTopicSink,
   s3RecordingSink,
+  voiceEnhancementSink,
 }
 
 extension MediaInsightsPipelineConfigurationElementTypeValueExtension
@@ -3634,6 +4890,8 @@ extension MediaInsightsPipelineConfigurationElementTypeValueExtension
         return 'SnsTopicSink';
       case MediaInsightsPipelineConfigurationElementType.s3RecordingSink:
         return 'S3RecordingSink';
+      case MediaInsightsPipelineConfigurationElementType.voiceEnhancementSink:
+        return 'VoiceEnhancementSink';
     }
   }
 }
@@ -3662,6 +4920,9 @@ extension MediaInsightsPipelineConfigurationElementTypeFromString on String {
         return MediaInsightsPipelineConfigurationElementType.snsTopicSink;
       case 'S3RecordingSink':
         return MediaInsightsPipelineConfigurationElementType.s3RecordingSink;
+      case 'VoiceEnhancementSink':
+        return MediaInsightsPipelineConfigurationElementType
+            .voiceEnhancementSink;
     }
     throw Exception(
         '$this is not known in enum MediaInsightsPipelineConfigurationElementType');
@@ -3714,6 +4975,38 @@ class MediaInsightsPipelineConfigurationSummary {
       if (mediaInsightsPipelineConfigurationName != null)
         'MediaInsightsPipelineConfigurationName':
             mediaInsightsPipelineConfigurationName,
+    };
+  }
+}
+
+/// The status of the pipeline element.
+class MediaInsightsPipelineElementStatus {
+  /// The element's status.
+  final MediaPipelineElementStatus? status;
+
+  /// The type of status.
+  final MediaInsightsPipelineConfigurationElementType? type;
+
+  MediaInsightsPipelineElementStatus({
+    this.status,
+    this.type,
+  });
+
+  factory MediaInsightsPipelineElementStatus.fromJson(
+      Map<String, dynamic> json) {
+    return MediaInsightsPipelineElementStatus(
+      status: (json['Status'] as String?)?.toMediaPipelineElementStatus(),
+      type: (json['Type'] as String?)
+          ?.toMediaInsightsPipelineConfigurationElementType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
     };
   }
 }
@@ -3808,11 +5101,15 @@ class MediaPipeline {
   /// The connector pipeline of the media pipeline.
   final MediaLiveConnectorPipeline? mediaLiveConnectorPipeline;
 
+  /// Designates a media pipeline as a media stream pipeline.
+  final MediaStreamPipeline? mediaStreamPipeline;
+
   MediaPipeline({
     this.mediaCapturePipeline,
     this.mediaConcatenationPipeline,
     this.mediaInsightsPipeline,
     this.mediaLiveConnectorPipeline,
+    this.mediaStreamPipeline,
   });
 
   factory MediaPipeline.fromJson(Map<String, dynamic> json) {
@@ -3833,6 +5130,10 @@ class MediaPipeline {
           ? MediaLiveConnectorPipeline.fromJson(
               json['MediaLiveConnectorPipeline'] as Map<String, dynamic>)
           : null,
+      mediaStreamPipeline: json['MediaStreamPipeline'] != null
+          ? MediaStreamPipeline.fromJson(
+              json['MediaStreamPipeline'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3841,6 +5142,7 @@ class MediaPipeline {
     final mediaConcatenationPipeline = this.mediaConcatenationPipeline;
     final mediaInsightsPipeline = this.mediaInsightsPipeline;
     final mediaLiveConnectorPipeline = this.mediaLiveConnectorPipeline;
+    final mediaStreamPipeline = this.mediaStreamPipeline;
     return {
       if (mediaCapturePipeline != null)
         'MediaCapturePipeline': mediaCapturePipeline,
@@ -3850,7 +5152,68 @@ class MediaPipeline {
         'MediaInsightsPipeline': mediaInsightsPipeline,
       if (mediaLiveConnectorPipeline != null)
         'MediaLiveConnectorPipeline': mediaLiveConnectorPipeline,
+      if (mediaStreamPipeline != null)
+        'MediaStreamPipeline': mediaStreamPipeline,
     };
+  }
+}
+
+enum MediaPipelineElementStatus {
+  notStarted,
+  notSupported,
+  initializing,
+  inProgress,
+  failed,
+  stopping,
+  stopped,
+  paused,
+}
+
+extension MediaPipelineElementStatusValueExtension
+    on MediaPipelineElementStatus {
+  String toValue() {
+    switch (this) {
+      case MediaPipelineElementStatus.notStarted:
+        return 'NotStarted';
+      case MediaPipelineElementStatus.notSupported:
+        return 'NotSupported';
+      case MediaPipelineElementStatus.initializing:
+        return 'Initializing';
+      case MediaPipelineElementStatus.inProgress:
+        return 'InProgress';
+      case MediaPipelineElementStatus.failed:
+        return 'Failed';
+      case MediaPipelineElementStatus.stopping:
+        return 'Stopping';
+      case MediaPipelineElementStatus.stopped:
+        return 'Stopped';
+      case MediaPipelineElementStatus.paused:
+        return 'Paused';
+    }
+  }
+}
+
+extension MediaPipelineElementStatusFromString on String {
+  MediaPipelineElementStatus toMediaPipelineElementStatus() {
+    switch (this) {
+      case 'NotStarted':
+        return MediaPipelineElementStatus.notStarted;
+      case 'NotSupported':
+        return MediaPipelineElementStatus.notSupported;
+      case 'Initializing':
+        return MediaPipelineElementStatus.initializing;
+      case 'InProgress':
+        return MediaPipelineElementStatus.inProgress;
+      case 'Failed':
+        return MediaPipelineElementStatus.failed;
+      case 'Stopping':
+        return MediaPipelineElementStatus.stopping;
+      case 'Stopped':
+        return MediaPipelineElementStatus.stopped;
+      case 'Paused':
+        return MediaPipelineElementStatus.paused;
+    }
+    throw Exception('$this is not known in enum MediaPipelineElementStatus');
   }
 }
 
@@ -3907,6 +5270,7 @@ enum MediaPipelineStatus {
   stopping,
   stopped,
   paused,
+  notStarted,
 }
 
 extension MediaPipelineStatusValueExtension on MediaPipelineStatus {
@@ -3924,6 +5288,8 @@ extension MediaPipelineStatusValueExtension on MediaPipelineStatus {
         return 'Stopped';
       case MediaPipelineStatus.paused:
         return 'Paused';
+      case MediaPipelineStatus.notStarted:
+        return 'NotStarted';
     }
   }
 }
@@ -3943,6 +5309,8 @@ extension MediaPipelineStatusFromString on String {
         return MediaPipelineStatus.stopped;
       case 'Paused':
         return MediaPipelineStatus.paused;
+      case 'NotStarted':
+        return MediaPipelineStatus.notStarted;
     }
     throw Exception('$this is not known in enum MediaPipelineStatus');
   }
@@ -4003,6 +5371,253 @@ class MediaPipelineSummary {
       if (mediaPipelineArn != null) 'MediaPipelineArn': mediaPipelineArn,
       if (mediaPipelineId != null) 'MediaPipelineId': mediaPipelineId,
     };
+  }
+}
+
+enum MediaPipelineTaskStatus {
+  notStarted,
+  initializing,
+  inProgress,
+  failed,
+  stopping,
+  stopped,
+}
+
+extension MediaPipelineTaskStatusValueExtension on MediaPipelineTaskStatus {
+  String toValue() {
+    switch (this) {
+      case MediaPipelineTaskStatus.notStarted:
+        return 'NotStarted';
+      case MediaPipelineTaskStatus.initializing:
+        return 'Initializing';
+      case MediaPipelineTaskStatus.inProgress:
+        return 'InProgress';
+      case MediaPipelineTaskStatus.failed:
+        return 'Failed';
+      case MediaPipelineTaskStatus.stopping:
+        return 'Stopping';
+      case MediaPipelineTaskStatus.stopped:
+        return 'Stopped';
+    }
+  }
+}
+
+extension MediaPipelineTaskStatusFromString on String {
+  MediaPipelineTaskStatus toMediaPipelineTaskStatus() {
+    switch (this) {
+      case 'NotStarted':
+        return MediaPipelineTaskStatus.notStarted;
+      case 'Initializing':
+        return MediaPipelineTaskStatus.initializing;
+      case 'InProgress':
+        return MediaPipelineTaskStatus.inProgress;
+      case 'Failed':
+        return MediaPipelineTaskStatus.failed;
+      case 'Stopping':
+        return MediaPipelineTaskStatus.stopping;
+      case 'Stopped':
+        return MediaPipelineTaskStatus.stopped;
+    }
+    throw Exception('$this is not known in enum MediaPipelineTaskStatus');
+  }
+}
+
+/// Structure that contains the settings for a media stream pipeline.
+class MediaStreamPipeline {
+  /// The time at which the media stream pipeline was created.
+  final DateTime? createdTimestamp;
+
+  /// The ARN of the media stream pipeline.
+  final String? mediaPipelineArn;
+
+  /// The ID of the media stream pipeline
+  final String? mediaPipelineId;
+
+  /// The media stream pipeline's data sinks.
+  final List<MediaStreamSink>? sinks;
+
+  /// The media stream pipeline's data sources.
+  final List<MediaStreamSource>? sources;
+
+  /// The status of the media stream pipeline.
+  final MediaPipelineStatus? status;
+
+  /// The time at which the media stream pipeline was updated.
+  final DateTime? updatedTimestamp;
+
+  MediaStreamPipeline({
+    this.createdTimestamp,
+    this.mediaPipelineArn,
+    this.mediaPipelineId,
+    this.sinks,
+    this.sources,
+    this.status,
+    this.updatedTimestamp,
+  });
+
+  factory MediaStreamPipeline.fromJson(Map<String, dynamic> json) {
+    return MediaStreamPipeline(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      mediaPipelineArn: json['MediaPipelineArn'] as String?,
+      mediaPipelineId: json['MediaPipelineId'] as String?,
+      sinks: (json['Sinks'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaStreamSink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sources: (json['Sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaStreamSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)?.toMediaPipelineStatus(),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final mediaPipelineArn = this.mediaPipelineArn;
+    final mediaPipelineId = this.mediaPipelineId;
+    final sinks = this.sinks;
+    final sources = this.sources;
+    final status = this.status;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (mediaPipelineArn != null) 'MediaPipelineArn': mediaPipelineArn,
+      if (mediaPipelineId != null) 'MediaPipelineId': mediaPipelineId,
+      if (sinks != null) 'Sinks': sinks,
+      if (sources != null) 'Sources': sources,
+      if (status != null) 'Status': status.toValue(),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+enum MediaStreamPipelineSinkType {
+  kinesisVideoStreamPool,
+}
+
+extension MediaStreamPipelineSinkTypeValueExtension
+    on MediaStreamPipelineSinkType {
+  String toValue() {
+    switch (this) {
+      case MediaStreamPipelineSinkType.kinesisVideoStreamPool:
+        return 'KinesisVideoStreamPool';
+    }
+  }
+}
+
+extension MediaStreamPipelineSinkTypeFromString on String {
+  MediaStreamPipelineSinkType toMediaStreamPipelineSinkType() {
+    switch (this) {
+      case 'KinesisVideoStreamPool':
+        return MediaStreamPipelineSinkType.kinesisVideoStreamPool;
+    }
+    throw Exception('$this is not known in enum MediaStreamPipelineSinkType');
+  }
+}
+
+/// Structure that contains the settings for a media stream sink.
+class MediaStreamSink {
+  /// The media stream sink's media stream type.
+  final MediaStreamType mediaStreamType;
+
+  /// Specifies the number of streams that the sink can accept.
+  final int reservedStreamCapacity;
+
+  /// The ARN of the media stream sink.
+  final String sinkArn;
+
+  /// The media stream sink's type.
+  final MediaStreamPipelineSinkType sinkType;
+
+  MediaStreamSink({
+    required this.mediaStreamType,
+    required this.reservedStreamCapacity,
+    required this.sinkArn,
+    required this.sinkType,
+  });
+
+  factory MediaStreamSink.fromJson(Map<String, dynamic> json) {
+    return MediaStreamSink(
+      mediaStreamType: (json['MediaStreamType'] as String).toMediaStreamType(),
+      reservedStreamCapacity: json['ReservedStreamCapacity'] as int,
+      sinkArn: json['SinkArn'] as String,
+      sinkType: (json['SinkType'] as String).toMediaStreamPipelineSinkType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaStreamType = this.mediaStreamType;
+    final reservedStreamCapacity = this.reservedStreamCapacity;
+    final sinkArn = this.sinkArn;
+    final sinkType = this.sinkType;
+    return {
+      'MediaStreamType': mediaStreamType.toValue(),
+      'ReservedStreamCapacity': reservedStreamCapacity,
+      'SinkArn': sinkArn,
+      'SinkType': sinkType.toValue(),
+    };
+  }
+}
+
+/// Structure that contains the settings for media stream sources.
+class MediaStreamSource {
+  /// The ARN of the media stream source.
+  final String sourceArn;
+
+  /// The type of media stream source.
+  final MediaPipelineSourceType sourceType;
+
+  MediaStreamSource({
+    required this.sourceArn,
+    required this.sourceType,
+  });
+
+  factory MediaStreamSource.fromJson(Map<String, dynamic> json) {
+    return MediaStreamSource(
+      sourceArn: json['SourceArn'] as String,
+      sourceType: (json['SourceType'] as String).toMediaPipelineSourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceArn = this.sourceArn;
+    final sourceType = this.sourceType;
+    return {
+      'SourceArn': sourceArn,
+      'SourceType': sourceType.toValue(),
+    };
+  }
+}
+
+enum MediaStreamType {
+  mixedAudio,
+  individualAudio,
+}
+
+extension MediaStreamTypeValueExtension on MediaStreamType {
+  String toValue() {
+    switch (this) {
+      case MediaStreamType.mixedAudio:
+        return 'MixedAudio';
+      case MediaStreamType.individualAudio:
+        return 'IndividualAudio';
+    }
+  }
+}
+
+extension MediaStreamTypeFromString on String {
+  MediaStreamType toMediaStreamType() {
+    switch (this) {
+      case 'MixedAudio':
+        return MediaStreamType.mixedAudio;
+      case 'IndividualAudio':
+        return MediaStreamType.individualAudio;
+    }
+    throw Exception('$this is not known in enum MediaStreamType');
   }
 }
 
@@ -4660,6 +6275,56 @@ class SourceConfiguration {
   }
 }
 
+/// A representation of an asynchronous request to perform speaker search
+/// analysis on a media insights pipeline.
+class SpeakerSearchTask {
+  /// The time at which a speaker search task was created.
+  final DateTime? createdTimestamp;
+
+  /// The speaker search task ID.
+  final String? speakerSearchTaskId;
+
+  /// The status of the speaker search task.
+  final MediaPipelineTaskStatus? speakerSearchTaskStatus;
+
+  /// The time at which a speaker search task was updated.
+  final DateTime? updatedTimestamp;
+
+  SpeakerSearchTask({
+    this.createdTimestamp,
+    this.speakerSearchTaskId,
+    this.speakerSearchTaskStatus,
+    this.updatedTimestamp,
+  });
+
+  factory SpeakerSearchTask.fromJson(Map<String, dynamic> json) {
+    return SpeakerSearchTask(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      speakerSearchTaskId: json['SpeakerSearchTaskId'] as String?,
+      speakerSearchTaskStatus: (json['SpeakerSearchTaskStatus'] as String?)
+          ?.toMediaPipelineTaskStatus(),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final speakerSearchTaskId = this.speakerSearchTaskId;
+    final speakerSearchTaskStatus = this.speakerSearchTaskStatus;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (speakerSearchTaskId != null)
+        'SpeakerSearchTaskId': speakerSearchTaskId,
+      if (speakerSearchTaskStatus != null)
+        'SpeakerSearchTaskStatus': speakerSearchTaskStatus.toValue(),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
 /// The configuration settings for the SQS sink.
 class SqsQueueSinkConfiguration {
   /// The ARN of the SQS sink.
@@ -4679,6 +6344,58 @@ class SqsQueueSinkConfiguration {
     final insightsTarget = this.insightsTarget;
     return {
       if (insightsTarget != null) 'InsightsTarget': insightsTarget,
+    };
+  }
+}
+
+class StartSpeakerSearchTaskResponse {
+  /// The details of the speaker search task.
+  final SpeakerSearchTask? speakerSearchTask;
+
+  StartSpeakerSearchTaskResponse({
+    this.speakerSearchTask,
+  });
+
+  factory StartSpeakerSearchTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartSpeakerSearchTaskResponse(
+      speakerSearchTask: json['SpeakerSearchTask'] != null
+          ? SpeakerSearchTask.fromJson(
+              json['SpeakerSearchTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final speakerSearchTask = this.speakerSearchTask;
+    return {
+      if (speakerSearchTask != null) 'SpeakerSearchTask': speakerSearchTask,
+    };
+  }
+}
+
+class StartVoiceToneAnalysisTaskResponse {
+  /// The details of the voice tone analysis task.
+  final VoiceToneAnalysisTask? voiceToneAnalysisTask;
+
+  StartVoiceToneAnalysisTaskResponse({
+    this.voiceToneAnalysisTask,
+  });
+
+  factory StartVoiceToneAnalysisTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartVoiceToneAnalysisTaskResponse(
+      voiceToneAnalysisTask: json['VoiceToneAnalysisTask'] != null
+          ? VoiceToneAnalysisTask.fromJson(
+              json['VoiceToneAnalysisTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceToneAnalysisTask = this.voiceToneAnalysisTask;
+    return {
+      if (voiceToneAnalysisTask != null)
+        'VoiceToneAnalysisTask': voiceToneAnalysisTask,
     };
   }
 }
@@ -4796,6 +6513,34 @@ class TagResourceResponse {
   }
 }
 
+enum TileOrder {
+  joinSequence,
+  speakerSequence,
+}
+
+extension TileOrderValueExtension on TileOrder {
+  String toValue() {
+    switch (this) {
+      case TileOrder.joinSequence:
+        return 'JoinSequence';
+      case TileOrder.speakerSequence:
+        return 'SpeakerSequence';
+    }
+  }
+}
+
+extension TileOrderFromString on String {
+  TileOrder toTileOrder() {
+    switch (this) {
+      case 'JoinSequence':
+        return TileOrder.joinSequence;
+      case 'SpeakerSequence':
+        return TileOrder.speakerSequence;
+    }
+    throw Exception('$this is not known in enum TileOrder');
+  }
+}
+
 /// The range of timestamps to return.
 class TimestampRange {
   /// The ending timestamp for the specified range.
@@ -4895,6 +6640,110 @@ class UpdateMediaInsightsPipelineConfigurationResponse {
   }
 }
 
+class UpdateMediaPipelineKinesisVideoStreamPoolResponse {
+  /// The video stream pool configuration object.
+  final KinesisVideoStreamPoolConfiguration?
+      kinesisVideoStreamPoolConfiguration;
+
+  UpdateMediaPipelineKinesisVideoStreamPoolResponse({
+    this.kinesisVideoStreamPoolConfiguration,
+  });
+
+  factory UpdateMediaPipelineKinesisVideoStreamPoolResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateMediaPipelineKinesisVideoStreamPoolResponse(
+      kinesisVideoStreamPoolConfiguration:
+          json['KinesisVideoStreamPoolConfiguration'] != null
+              ? KinesisVideoStreamPoolConfiguration.fromJson(
+                  json['KinesisVideoStreamPoolConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisVideoStreamPoolConfiguration =
+        this.kinesisVideoStreamPoolConfiguration;
+    return {
+      if (kinesisVideoStreamPoolConfiguration != null)
+        'KinesisVideoStreamPoolConfiguration':
+            kinesisVideoStreamPoolConfiguration,
+    };
+  }
+}
+
+/// Defines the configuration settings for a vertical layout.
+class VerticalLayoutConfiguration {
+  /// Sets the aspect ratio of the video tiles, such as 16:9.
+  final String? tileAspectRatio;
+
+  /// The maximum number of tiles to display.
+  final int? tileCount;
+
+  /// Sets the automatic ordering of the video tiles.
+  final TileOrder? tileOrder;
+
+  /// Sets the position of vertical tiles.
+  final VerticalTilePosition? tilePosition;
+
+  VerticalLayoutConfiguration({
+    this.tileAspectRatio,
+    this.tileCount,
+    this.tileOrder,
+    this.tilePosition,
+  });
+
+  factory VerticalLayoutConfiguration.fromJson(Map<String, dynamic> json) {
+    return VerticalLayoutConfiguration(
+      tileAspectRatio: json['TileAspectRatio'] as String?,
+      tileCount: json['TileCount'] as int?,
+      tileOrder: (json['TileOrder'] as String?)?.toTileOrder(),
+      tilePosition: (json['TilePosition'] as String?)?.toVerticalTilePosition(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tileAspectRatio = this.tileAspectRatio;
+    final tileCount = this.tileCount;
+    final tileOrder = this.tileOrder;
+    final tilePosition = this.tilePosition;
+    return {
+      if (tileAspectRatio != null) 'TileAspectRatio': tileAspectRatio,
+      if (tileCount != null) 'TileCount': tileCount,
+      if (tileOrder != null) 'TileOrder': tileOrder.toValue(),
+      if (tilePosition != null) 'TilePosition': tilePosition.toValue(),
+    };
+  }
+}
+
+enum VerticalTilePosition {
+  left,
+  right,
+}
+
+extension VerticalTilePositionValueExtension on VerticalTilePosition {
+  String toValue() {
+    switch (this) {
+      case VerticalTilePosition.left:
+        return 'Left';
+      case VerticalTilePosition.right:
+        return 'Right';
+    }
+  }
+}
+
+extension VerticalTilePositionFromString on String {
+  VerticalTilePosition toVerticalTilePosition() {
+    switch (this) {
+      case 'Left':
+        return VerticalTilePosition.left;
+      case 'Right':
+        return VerticalTilePosition.right;
+    }
+    throw Exception('$this is not known in enum VerticalTilePosition');
+  }
+}
+
 /// The video artifact configuration object.
 class VideoArtifactsConfiguration {
   /// Indicates whether the video artifact is enabled or disabled.
@@ -4921,6 +6770,50 @@ class VideoArtifactsConfiguration {
     return {
       'State': state.toValue(),
       if (muxType != null) 'MuxType': muxType.toValue(),
+    };
+  }
+}
+
+/// Defines the settings for a video tile.
+class VideoAttribute {
+  /// Defines the border color of all video tiles.
+  final BorderColor? borderColor;
+
+  /// Defines the border thickness for all video tiles.
+  final int? borderThickness;
+
+  /// Sets the corner radius of all video tiles.
+  final int? cornerRadius;
+
+  /// Defines the highlight color for the active video tile.
+  final HighlightColor? highlightColor;
+
+  VideoAttribute({
+    this.borderColor,
+    this.borderThickness,
+    this.cornerRadius,
+    this.highlightColor,
+  });
+
+  factory VideoAttribute.fromJson(Map<String, dynamic> json) {
+    return VideoAttribute(
+      borderColor: (json['BorderColor'] as String?)?.toBorderColor(),
+      borderThickness: json['BorderThickness'] as int?,
+      cornerRadius: json['CornerRadius'] as int?,
+      highlightColor: (json['HighlightColor'] as String?)?.toHighlightColor(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final borderColor = this.borderColor;
+    final borderThickness = this.borderThickness;
+    final cornerRadius = this.cornerRadius;
+    final highlightColor = this.highlightColor;
+    return {
+      if (borderColor != null) 'BorderColor': borderColor.toValue(),
+      if (borderThickness != null) 'BorderThickness': borderThickness,
+      if (cornerRadius != null) 'CornerRadius': cornerRadius,
+      if (highlightColor != null) 'HighlightColor': highlightColor.toValue(),
     };
   }
 }
@@ -5034,6 +6927,30 @@ extension VoiceAnalyticsConfigurationStatusFromString on String {
   }
 }
 
+enum VoiceAnalyticsLanguageCode {
+  enUs,
+}
+
+extension VoiceAnalyticsLanguageCodeValueExtension
+    on VoiceAnalyticsLanguageCode {
+  String toValue() {
+    switch (this) {
+      case VoiceAnalyticsLanguageCode.enUs:
+        return 'en-US';
+    }
+  }
+}
+
+extension VoiceAnalyticsLanguageCodeFromString on String {
+  VoiceAnalyticsLanguageCode toVoiceAnalyticsLanguageCode() {
+    switch (this) {
+      case 'en-US':
+        return VoiceAnalyticsLanguageCode.enUs;
+    }
+    throw Exception('$this is not known in enum VoiceAnalyticsLanguageCode');
+  }
+}
+
 /// The configuration settings for a voice analytics processor.
 class VoiceAnalyticsProcessorConfiguration {
   /// The status of the speaker search task.
@@ -5065,6 +6982,82 @@ class VoiceAnalyticsProcessorConfiguration {
         'SpeakerSearchStatus': speakerSearchStatus.toValue(),
       if (voiceToneAnalysisStatus != null)
         'VoiceToneAnalysisStatus': voiceToneAnalysisStatus.toValue(),
+    };
+  }
+}
+
+/// A static structure that contains the configuration data for a
+/// <code>VoiceEnhancementSinkConfiguration</code> element.
+class VoiceEnhancementSinkConfiguration {
+  /// Disables the <code>VoiceEnhancementSinkConfiguration</code> element.
+  final bool? disabled;
+
+  VoiceEnhancementSinkConfiguration({
+    this.disabled,
+  });
+
+  factory VoiceEnhancementSinkConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return VoiceEnhancementSinkConfiguration(
+      disabled: json['Disabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disabled = this.disabled;
+    return {
+      if (disabled != null) 'Disabled': disabled,
+    };
+  }
+}
+
+/// A representation of an asynchronous request to perform voice tone analysis
+/// on a media insights pipeline.
+class VoiceToneAnalysisTask {
+  /// The time at which a voice tone analysis task was created.
+  final DateTime? createdTimestamp;
+
+  /// The time at which a voice tone analysis task was updated.
+  final DateTime? updatedTimestamp;
+
+  /// The ID of the voice tone analysis task.
+  final String? voiceToneAnalysisTaskId;
+
+  /// The status of a voice tone analysis task.
+  final MediaPipelineTaskStatus? voiceToneAnalysisTaskStatus;
+
+  VoiceToneAnalysisTask({
+    this.createdTimestamp,
+    this.updatedTimestamp,
+    this.voiceToneAnalysisTaskId,
+    this.voiceToneAnalysisTaskStatus,
+  });
+
+  factory VoiceToneAnalysisTask.fromJson(Map<String, dynamic> json) {
+    return VoiceToneAnalysisTask(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceToneAnalysisTaskId: json['VoiceToneAnalysisTaskId'] as String?,
+      voiceToneAnalysisTaskStatus:
+          (json['VoiceToneAnalysisTaskStatus'] as String?)
+              ?.toMediaPipelineTaskStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceToneAnalysisTaskId = this.voiceToneAnalysisTaskId;
+    final voiceToneAnalysisTaskStatus = this.voiceToneAnalysisTaskStatus;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceToneAnalysisTaskId != null)
+        'VoiceToneAnalysisTaskId': voiceToneAnalysisTaskId,
+      if (voiceToneAnalysisTaskStatus != null)
+        'VoiceToneAnalysisTaskStatus': voiceToneAnalysisTaskStatus.toValue(),
     };
   }
 }

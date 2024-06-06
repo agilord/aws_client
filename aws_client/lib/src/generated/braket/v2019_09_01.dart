@@ -118,6 +118,7 @@ class Braket {
   /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [DeviceOfflineException].
   /// May throw [DeviceRetiredException].
   /// May throw [InternalServiceException].
   /// May throw [ServiceQuotaExceededException].
@@ -149,6 +150,9 @@ class Braket {
   /// run an Amazon Braket job container on behalf of user, and output resources
   /// to the users' s3 buckets.
   ///
+  /// Parameter [associations] :
+  /// The list of Amazon Braket resources associated with the hybrid job.
+  ///
   /// Parameter [checkpointConfig] :
   /// Information about the output locations for job checkpoint data.
   ///
@@ -178,6 +182,7 @@ class Braket {
     required String jobName,
     required JobOutputDataConfig outputDataConfig,
     required String roleArn,
+    List<Association>? associations,
     JobCheckpointConfig? checkpointConfig,
     String? clientToken,
     Map<String, String>? hyperParameters,
@@ -192,6 +197,7 @@ class Braket {
       'jobName': jobName,
       'outputDataConfig': outputDataConfig,
       'roleArn': roleArn,
+      if (associations != null) 'associations': associations,
       if (checkpointConfig != null) 'checkpointConfig': checkpointConfig,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (hyperParameters != null) 'hyperParameters': hyperParameters,
@@ -233,6 +239,9 @@ class Braket {
   /// Parameter [shots] :
   /// The number of shots to use for the task.
   ///
+  /// Parameter [associations] :
+  /// The list of Amazon Braket resources associated with the quantum task.
+  ///
   /// Parameter [clientToken] :
   /// The client token associated with the request.
   ///
@@ -251,6 +260,7 @@ class Braket {
     required String outputS3Bucket,
     required String outputS3KeyPrefix,
     required int shots,
+    List<Association>? associations,
     String? clientToken,
     Object? deviceParameters,
     String? jobToken,
@@ -269,6 +279,7 @@ class Braket {
       'outputS3Bucket': outputS3Bucket,
       'outputS3KeyPrefix': outputS3KeyPrefix,
       'shots': shots,
+      if (associations != null) 'associations': associations,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (deviceParameters != null)
         'deviceParameters': jsonEncode(deviceParameters),
@@ -327,13 +338,23 @@ class Braket {
   ///
   /// Parameter [jobArn] :
   /// The ARN of the job to retrieve.
+  ///
+  /// Parameter [additionalAttributeNames] :
+  /// A list of attributes to return information for.
   Future<GetJobResponse> getJob({
     required String jobArn,
+    List<HybridJobAdditionalAttributeName>? additionalAttributeNames,
   }) async {
+    final $query = <String, List<String>>{
+      if (additionalAttributeNames != null)
+        'additionalAttributeNames':
+            additionalAttributeNames.map((e) => e.toValue()).toList(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/job/${Uri.encodeComponent(jobArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetJobResponse.fromJson(response);
@@ -348,14 +369,24 @@ class Braket {
   /// May throw [ValidationException].
   ///
   /// Parameter [quantumTaskArn] :
-  /// the ARN of the task to retrieve.
+  /// The ARN of the task to retrieve.
+  ///
+  /// Parameter [additionalAttributeNames] :
+  /// A list of attributes to return information for.
   Future<GetQuantumTaskResponse> getQuantumTask({
     required String quantumTaskArn,
+    List<QuantumTaskAdditionalAttributeName>? additionalAttributeNames,
   }) async {
+    final $query = <String, List<String>>{
+      if (additionalAttributeNames != null)
+        'additionalAttributeNames':
+            additionalAttributeNames.map((e) => e.toValue()).toList(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/quantum-task/${Uri.encodeComponent(quantumTaskArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetQuantumTaskResponse.fromJson(response);
@@ -602,6 +633,59 @@ class AlgorithmSpecification {
   }
 }
 
+/// The Amazon Braket resource and the association type.
+class Association {
+  /// The Amazon Braket resource arn.
+  final String arn;
+
+  /// The association type for the specified Amazon Braket resource arn.
+  final AssociationType type;
+
+  Association({
+    required this.arn,
+    required this.type,
+  });
+
+  factory Association.fromJson(Map<String, dynamic> json) {
+    return Association(
+      arn: json['arn'] as String,
+      type: (json['type'] as String).toAssociationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final type = this.type;
+    return {
+      'arn': arn,
+      'type': type.toValue(),
+    };
+  }
+}
+
+enum AssociationType {
+  reservationTimeWindowArn,
+}
+
+extension AssociationTypeValueExtension on AssociationType {
+  String toValue() {
+    switch (this) {
+      case AssociationType.reservationTimeWindowArn:
+        return 'RESERVATION_TIME_WINDOW_ARN';
+    }
+  }
+}
+
+extension AssociationTypeFromString on String {
+  AssociationType toAssociationType() {
+    switch (this) {
+      case 'RESERVATION_TIME_WINDOW_ARN':
+        return AssociationType.reservationTimeWindowArn;
+    }
+    throw Exception('$this is not known in enum AssociationType');
+  }
+}
+
 class CancelJobResponse {
   /// The status of the job cancellation request.
   final CancellationStatus cancellationStatus;
@@ -835,6 +919,44 @@ class DeviceConfig {
   }
 }
 
+/// Information about tasks and jobs queued on a device.
+class DeviceQueueInfo {
+  /// The name of the queue.
+  final QueueName queue;
+
+  /// The number of jobs or tasks in the queue for a given device.
+  final String queueSize;
+
+  /// Optional. Specifies the priority of the queue. Tasks in a priority queue are
+  /// processed before the tasks in a normal queue.
+  final QueuePriority? queuePriority;
+
+  DeviceQueueInfo({
+    required this.queue,
+    required this.queueSize,
+    this.queuePriority,
+  });
+
+  factory DeviceQueueInfo.fromJson(Map<String, dynamic> json) {
+    return DeviceQueueInfo(
+      queue: (json['queue'] as String).toQueueName(),
+      queueSize: json['queueSize'] as String,
+      queuePriority: (json['queuePriority'] as String?)?.toQueuePriority(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queue = this.queue;
+    final queueSize = this.queueSize;
+    final queuePriority = this.queuePriority;
+    return {
+      'queue': queue.toValue(),
+      'queueSize': queueSize,
+      if (queuePriority != null) 'queuePriority': queuePriority.toValue(),
+    };
+  }
+}
+
 enum DeviceStatus {
   online,
   offline,
@@ -966,6 +1088,9 @@ class GetDeviceResponse {
   /// The name of the partner company for the device.
   final String providerName;
 
+  /// List of information about tasks and jobs queued on a device.
+  final List<DeviceQueueInfo>? deviceQueueInfo;
+
   GetDeviceResponse({
     required this.deviceArn,
     required this.deviceCapabilities,
@@ -973,6 +1098,7 @@ class GetDeviceResponse {
     required this.deviceStatus,
     required this.deviceType,
     required this.providerName,
+    this.deviceQueueInfo,
   });
 
   factory GetDeviceResponse.fromJson(Map<String, dynamic> json) {
@@ -984,6 +1110,10 @@ class GetDeviceResponse {
       deviceStatus: (json['deviceStatus'] as String).toDeviceStatus(),
       deviceType: (json['deviceType'] as String).toDeviceType(),
       providerName: json['providerName'] as String,
+      deviceQueueInfo: (json['deviceQueueInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceQueueInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -994,6 +1124,7 @@ class GetDeviceResponse {
     final deviceStatus = this.deviceStatus;
     final deviceType = this.deviceType;
     final providerName = this.providerName;
+    final deviceQueueInfo = this.deviceQueueInfo;
     return {
       'deviceArn': deviceArn,
       'deviceCapabilities': jsonEncode(deviceCapabilities),
@@ -1001,6 +1132,7 @@ class GetDeviceResponse {
       'deviceStatus': deviceStatus.toValue(),
       'deviceType': deviceType.toValue(),
       'providerName': providerName,
+      if (deviceQueueInfo != null) 'deviceQueueInfo': deviceQueueInfo,
     };
   }
 }
@@ -1036,6 +1168,9 @@ class GetJobResponse {
   /// The status of the Amazon Braket job.
   final JobPrimaryStatus status;
 
+  /// The list of Amazon Braket resources associated with the hybrid job.
+  final List<Association>? associations;
+
   /// The billable time the Amazon Braket job used to complete.
   final int? billableDuration;
 
@@ -1066,6 +1201,12 @@ class GetJobResponse {
   /// it is located.
   final List<InputFileConfig>? inputDataConfig;
 
+  /// Queue information for the requested job. Only returned if
+  /// <code>QueueInfo</code> is specified in the
+  /// <code>additionalAttributeNames"</code> field in the <code>GetJob</code> API
+  /// request.
+  final HybridJobQueueInfo? queueInfo;
+
   /// The date and time that the Amazon Braket job was started.
   final DateTime? startedAt;
 
@@ -1085,6 +1226,7 @@ class GetJobResponse {
     required this.outputDataConfig,
     required this.roleArn,
     required this.status,
+    this.associations,
     this.billableDuration,
     this.checkpointConfig,
     this.deviceConfig,
@@ -1093,6 +1235,7 @@ class GetJobResponse {
     this.failureReason,
     this.hyperParameters,
     this.inputDataConfig,
+    this.queueInfo,
     this.startedAt,
     this.stoppingCondition,
     this.tags,
@@ -1111,6 +1254,10 @@ class GetJobResponse {
           json['outputDataConfig'] as Map<String, dynamic>),
       roleArn: json['roleArn'] as String,
       status: (json['status'] as String).toJobPrimaryStatus(),
+      associations: (json['associations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Association.fromJson(e as Map<String, dynamic>))
+          .toList(),
       billableDuration: json['billableDuration'] as int?,
       checkpointConfig: json['checkpointConfig'] != null
           ? JobCheckpointConfig.fromJson(
@@ -1131,6 +1278,10 @@ class GetJobResponse {
           ?.whereNotNull()
           .map((e) => InputFileConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
+      queueInfo: json['queueInfo'] != null
+          ? HybridJobQueueInfo.fromJson(
+              json['queueInfo'] as Map<String, dynamic>)
+          : null,
       startedAt: timeStampFromJson(json['startedAt']),
       stoppingCondition: json['stoppingCondition'] != null
           ? JobStoppingCondition.fromJson(
@@ -1150,6 +1301,7 @@ class GetJobResponse {
     final outputDataConfig = this.outputDataConfig;
     final roleArn = this.roleArn;
     final status = this.status;
+    final associations = this.associations;
     final billableDuration = this.billableDuration;
     final checkpointConfig = this.checkpointConfig;
     final deviceConfig = this.deviceConfig;
@@ -1158,6 +1310,7 @@ class GetJobResponse {
     final failureReason = this.failureReason;
     final hyperParameters = this.hyperParameters;
     final inputDataConfig = this.inputDataConfig;
+    final queueInfo = this.queueInfo;
     final startedAt = this.startedAt;
     final stoppingCondition = this.stoppingCondition;
     final tags = this.tags;
@@ -1170,6 +1323,7 @@ class GetJobResponse {
       'outputDataConfig': outputDataConfig,
       'roleArn': roleArn,
       'status': status.toValue(),
+      if (associations != null) 'associations': associations,
       if (billableDuration != null) 'billableDuration': billableDuration,
       if (checkpointConfig != null) 'checkpointConfig': checkpointConfig,
       if (deviceConfig != null) 'deviceConfig': deviceConfig,
@@ -1178,6 +1332,7 @@ class GetJobResponse {
       if (failureReason != null) 'failureReason': failureReason,
       if (hyperParameters != null) 'hyperParameters': hyperParameters,
       if (inputDataConfig != null) 'inputDataConfig': inputDataConfig,
+      if (queueInfo != null) 'queueInfo': queueInfo,
       if (startedAt != null) 'startedAt': iso8601ToJson(startedAt),
       if (stoppingCondition != null) 'stoppingCondition': stoppingCondition,
       if (tags != null) 'tags': tags,
@@ -1210,6 +1365,9 @@ class GetQuantumTaskResponse {
   /// The status of the task.
   final QuantumTaskStatus status;
 
+  /// The list of Amazon Braket resources associated with the quantum task.
+  final List<Association>? associations;
+
   /// The time at which the task ended.
   final DateTime? endedAt;
 
@@ -1218,6 +1376,12 @@ class GetQuantumTaskResponse {
 
   /// The ARN of the Amazon Braket job associated with the quantum task.
   final String? jobArn;
+
+  /// Queue information for the requested quantum task. Only returned if
+  /// <code>QueueInfo</code> is specified in the
+  /// <code>additionalAttributeNames"</code> field in the
+  /// <code>GetQuantumTask</code> API request.
+  final QuantumTaskQueueInfo? queueInfo;
 
   /// The tags that belong to this task.
   final Map<String, String>? tags;
@@ -1231,9 +1395,11 @@ class GetQuantumTaskResponse {
     required this.quantumTaskArn,
     required this.shots,
     required this.status,
+    this.associations,
     this.endedAt,
     this.failureReason,
     this.jobArn,
+    this.queueInfo,
     this.tags,
   });
 
@@ -1248,9 +1414,17 @@ class GetQuantumTaskResponse {
       quantumTaskArn: json['quantumTaskArn'] as String,
       shots: json['shots'] as int,
       status: (json['status'] as String).toQuantumTaskStatus(),
+      associations: (json['associations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Association.fromJson(e as Map<String, dynamic>))
+          .toList(),
       endedAt: timeStampFromJson(json['endedAt']),
       failureReason: json['failureReason'] as String?,
       jobArn: json['jobArn'] as String?,
+      queueInfo: json['queueInfo'] != null
+          ? QuantumTaskQueueInfo.fromJson(
+              json['queueInfo'] as Map<String, dynamic>)
+          : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1265,9 +1439,11 @@ class GetQuantumTaskResponse {
     final quantumTaskArn = this.quantumTaskArn;
     final shots = this.shots;
     final status = this.status;
+    final associations = this.associations;
     final endedAt = this.endedAt;
     final failureReason = this.failureReason;
     final jobArn = this.jobArn;
+    final queueInfo = this.queueInfo;
     final tags = this.tags;
     return {
       'createdAt': iso8601ToJson(createdAt),
@@ -1278,10 +1454,76 @@ class GetQuantumTaskResponse {
       'quantumTaskArn': quantumTaskArn,
       'shots': shots,
       'status': status.toValue(),
+      if (associations != null) 'associations': associations,
       if (endedAt != null) 'endedAt': iso8601ToJson(endedAt),
       if (failureReason != null) 'failureReason': failureReason,
       if (jobArn != null) 'jobArn': jobArn,
+      if (queueInfo != null) 'queueInfo': queueInfo,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+enum HybridJobAdditionalAttributeName {
+  queueInfo,
+}
+
+extension HybridJobAdditionalAttributeNameValueExtension
+    on HybridJobAdditionalAttributeName {
+  String toValue() {
+    switch (this) {
+      case HybridJobAdditionalAttributeName.queueInfo:
+        return 'QueueInfo';
+    }
+  }
+}
+
+extension HybridJobAdditionalAttributeNameFromString on String {
+  HybridJobAdditionalAttributeName toHybridJobAdditionalAttributeName() {
+    switch (this) {
+      case 'QueueInfo':
+        return HybridJobAdditionalAttributeName.queueInfo;
+    }
+    throw Exception(
+        '$this is not known in enum HybridJobAdditionalAttributeName');
+  }
+}
+
+/// Information about the queue for a specified job.
+class HybridJobQueueInfo {
+  /// Current position of the job in the jobs queue.
+  final String position;
+
+  /// The name of the queue.
+  final QueueName queue;
+
+  /// Optional. Provides more information about the queue position. For example,
+  /// if the job is complete and no longer in the queue, the message field
+  /// contains that information.
+  final String? message;
+
+  HybridJobQueueInfo({
+    required this.position,
+    required this.queue,
+    this.message,
+  });
+
+  factory HybridJobQueueInfo.fromJson(Map<String, dynamic> json) {
+    return HybridJobQueueInfo(
+      position: json['position'] as String,
+      queue: (json['queue'] as String).toQueueName(),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final position = this.position;
+    final queue = this.queue;
+    final message = this.message;
+    return {
+      'position': position,
+      'queue': queue.toValue(),
+      if (message != null) 'message': message,
     };
   }
 }
@@ -1620,7 +1862,7 @@ class JobEventDetails {
   /// job.
   final String? message;
 
-  /// TThe type of event that occurred related to the Amazon Braket job.
+  /// The type of event that occurred related to the Amazon Braket job.
   final DateTime? timeOfEvent;
 
   JobEventDetails({
@@ -1927,6 +2169,78 @@ class ListTagsForResourceResponse {
   }
 }
 
+enum QuantumTaskAdditionalAttributeName {
+  queueInfo,
+}
+
+extension QuantumTaskAdditionalAttributeNameValueExtension
+    on QuantumTaskAdditionalAttributeName {
+  String toValue() {
+    switch (this) {
+      case QuantumTaskAdditionalAttributeName.queueInfo:
+        return 'QueueInfo';
+    }
+  }
+}
+
+extension QuantumTaskAdditionalAttributeNameFromString on String {
+  QuantumTaskAdditionalAttributeName toQuantumTaskAdditionalAttributeName() {
+    switch (this) {
+      case 'QueueInfo':
+        return QuantumTaskAdditionalAttributeName.queueInfo;
+    }
+    throw Exception(
+        '$this is not known in enum QuantumTaskAdditionalAttributeName');
+  }
+}
+
+/// Information about the queue for the specified quantum task.
+class QuantumTaskQueueInfo {
+  /// Current position of the task in the quantum tasks queue.
+  final String position;
+
+  /// The name of the queue.
+  final QueueName queue;
+
+  /// Optional. Provides more information about the queue position. For example,
+  /// if the task is complete and no longer in the queue, the message field
+  /// contains that information.
+  final String? message;
+
+  /// Optional. Specifies the priority of the queue. Quantum tasks in a priority
+  /// queue are processed before the tasks in a normal queue.
+  final QueuePriority? queuePriority;
+
+  QuantumTaskQueueInfo({
+    required this.position,
+    required this.queue,
+    this.message,
+    this.queuePriority,
+  });
+
+  factory QuantumTaskQueueInfo.fromJson(Map<String, dynamic> json) {
+    return QuantumTaskQueueInfo(
+      position: json['position'] as String,
+      queue: (json['queue'] as String).toQueueName(),
+      message: json['message'] as String?,
+      queuePriority: (json['queuePriority'] as String?)?.toQueuePriority(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final position = this.position;
+    final queue = this.queue;
+    final message = this.message;
+    final queuePriority = this.queuePriority;
+    return {
+      'position': position,
+      'queue': queue.toValue(),
+      if (message != null) 'message': message,
+      if (queuePriority != null) 'queuePriority': queuePriority.toValue(),
+    };
+  }
+}
+
 enum QuantumTaskStatus {
   created,
   queued,
@@ -2057,6 +2371,62 @@ class QuantumTaskSummary {
       if (endedAt != null) 'endedAt': iso8601ToJson(endedAt),
       if (tags != null) 'tags': tags,
     };
+  }
+}
+
+enum QueueName {
+  quantumTasksQueue,
+  jobsQueue,
+}
+
+extension QueueNameValueExtension on QueueName {
+  String toValue() {
+    switch (this) {
+      case QueueName.quantumTasksQueue:
+        return 'QUANTUM_TASKS_QUEUE';
+      case QueueName.jobsQueue:
+        return 'JOBS_QUEUE';
+    }
+  }
+}
+
+extension QueueNameFromString on String {
+  QueueName toQueueName() {
+    switch (this) {
+      case 'QUANTUM_TASKS_QUEUE':
+        return QueueName.quantumTasksQueue;
+      case 'JOBS_QUEUE':
+        return QueueName.jobsQueue;
+    }
+    throw Exception('$this is not known in enum QueueName');
+  }
+}
+
+enum QueuePriority {
+  normal,
+  priority,
+}
+
+extension QueuePriorityValueExtension on QueuePriority {
+  String toValue() {
+    switch (this) {
+      case QueuePriority.normal:
+        return 'Normal';
+      case QueuePriority.priority:
+        return 'Priority';
+    }
+  }
+}
+
+extension QueuePriorityFromString on String {
+  QueuePriority toQueuePriority() {
+    switch (this) {
+      case 'Normal':
+        return QueuePriority.normal;
+      case 'Priority':
+        return QueuePriority.priority;
+    }
+    throw Exception('$this is not known in enum QueuePriority');
   }
 }
 

@@ -35,6 +35,11 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// By using Firmware Updates Over-The-Air (FUOTA) API operations, you can
 /// create a FUOTA task and schedule a session to update the firmware of
 /// individual devices or an entire group of devices in a multicast group.
+///
+/// To connect to the AWS IoT Wireless Service, use the Service endpoints as
+/// described in <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/iot-lorawan.html#iot-wireless_region">IoT
+/// Wireless Service endpoints</a> in the <i>AWS General Reference</i>.
 class IoTWireless {
   final _s.RestJsonProtocol _protocol;
   IoTWireless({
@@ -77,10 +82,16 @@ class IoTWireless {
   /// The Sidewalk account credentials.
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [tags] :
   /// The tags to attach to the specified resource. Tags are metadata that you
@@ -305,10 +316,16 @@ class IoTWireless {
   /// The ARN of the IAM Role that authorizes the destination.
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [description] :
   /// The description of the new resource.
@@ -352,10 +369,16 @@ class IoTWireless {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [loRaWAN] :
   /// The device profile information to use to create the device profile.
@@ -461,10 +484,16 @@ class IoTWireless {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [description] :
   /// The description of the multicast group.
@@ -500,6 +529,11 @@ class IoTWireless {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   ///
+  /// Parameter [multicastGroups] :
+  /// Multicast Group resources to add to the network analyzer configruation.
+  /// Provide the <code>MulticastGroupId</code> of the resource to add in the
+  /// input array.
+  ///
   /// Parameter [wirelessDevices] :
   /// Wireless device resources to add to the network analyzer configuration.
   /// Provide the <code>WirelessDeviceId</code> of the resource to add in the
@@ -514,6 +548,7 @@ class IoTWireless {
     required String name,
     String? clientRequestToken,
     String? description,
+    List<String>? multicastGroups,
     List<Tag>? tags,
     TraceContent? traceContent,
     List<String>? wirelessDevices,
@@ -523,6 +558,7 @@ class IoTWireless {
       'Name': name,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
+      if (multicastGroups != null) 'MulticastGroups': multicastGroups,
       if (tags != null) 'Tags': tags,
       if (traceContent != null) 'TraceContent': traceContent,
       if (wirelessDevices != null) 'WirelessDevices': wirelessDevices,
@@ -546,10 +582,16 @@ class IoTWireless {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [loRaWAN] :
   /// The service profile information to use to create the service profile.
@@ -597,10 +639,16 @@ class IoTWireless {
   /// The wireless device type.
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [description] :
   /// The description of the new resource.
@@ -653,6 +701,22 @@ class IoTWireless {
   }
 
   /// Provisions a wireless gateway.
+  /// <note>
+  /// When provisioning a wireless gateway, you might run into duplication
+  /// errors for the following reasons.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify a <code>GatewayEui</code> value that already exists.
+  /// </li>
+  /// <li>
+  /// If you used a <code>ClientRequestToken</code> with the same parameters
+  /// within the last 10 minutes.
+  /// </li>
+  /// </ul>
+  /// To avoid this error, make sure that you use unique identifiers and
+  /// parameters for each request within the specified time period.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -665,10 +729,16 @@ class IoTWireless {
   /// gateway.
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [description] :
   /// The description of the new resource.
@@ -747,10 +817,16 @@ class IoTWireless {
   /// task must me created by calling <code>CreateWirelessGatewayTask</code>.
   ///
   /// Parameter [clientRequestToken] :
-  /// Each resource must have a unique client request token. If you try to
-  /// create a new resource with the same token as a resource that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// Each resource must have a unique client request token. The client token is
+  /// used to implement idempotency. It ensures that the request completes no
+  /// more than one time. If you retry a request with the same token and the
+  /// same parameters, the request will complete successfully. However, if you
+  /// try to create a new resource using the same token but different
+  /// parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs
+  /// will automatically generate a unique client request. For more information
+  /// about idempotency, see <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html">Ensuring
+  /// idempotency in Amazon EC2 API requests</a>.
   ///
   /// Parameter [name] :
   /// The name of the new resource.
@@ -990,6 +1066,22 @@ class IoTWireless {
   }
 
   /// Deletes a wireless gateway.
+  /// <note>
+  /// When deleting a wireless gateway, you might run into duplication errors
+  /// for the following reasons.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify a <code>GatewayEui</code> value that already exists.
+  /// </li>
+  /// <li>
+  /// If you used a <code>ClientRequestToken</code> with the same parameters
+  /// within the last 10 minutes.
+  /// </li>
+  /// </ul>
+  /// To avoid this error, make sure that you use unique identifiers and
+  /// parameters for each request within the specified time period.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -1340,6 +1432,51 @@ class IoTWireless {
       exceptionFnMap: _exceptionFns,
     );
     return GetLogLevelsByResourceTypesResponse.fromJson(response);
+  }
+
+  /// Get the metric configuration status for this AWS account.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<GetMetricConfigurationResponse> getMetricConfiguration() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/metric-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMetricConfigurationResponse.fromJson(response);
+  }
+
+  /// Get the summary metrics for this AWS account.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [summaryMetricQueries] :
+  /// The list of queries to retrieve the summary metrics.
+  Future<GetMetricsResponse> getMetrics({
+    List<SummaryMetricQuery>? summaryMetricQueries,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (summaryMetricQueries != null)
+        'SummaryMetricQueries': summaryMetricQueries,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/metrics',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMetricsResponse.fromJson(response);
   }
 
   /// Gets information about a multicast group.
@@ -3290,6 +3427,31 @@ class IoTWireless {
     );
   }
 
+  /// Update the summary metric configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [summaryMetric] :
+  /// The value to be used to set summary metric configuration.
+  Future<void> updateMetricConfiguration({
+    SummaryMetricConfiguration? summaryMetric,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (summaryMetric != null) 'SummaryMetric': summaryMetric,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/metric-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates properties of a multicast group session.
   ///
   /// May throw [ValidationException].
@@ -3325,6 +3487,16 @@ class IoTWireless {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   ///
+  /// Parameter [multicastGroupsToAdd] :
+  /// Multicast group resources to add to the network analyzer configuration.
+  /// Provide the <code>MulticastGroupId</code> of the resource to add in the
+  /// input array.
+  ///
+  /// Parameter [multicastGroupsToRemove] :
+  /// Multicast group resources to remove from the network analyzer
+  /// configuration. Provide the <code>MulticastGroupId</code> of the resources
+  /// to remove in the input array.
+  ///
   /// Parameter [wirelessDevicesToAdd] :
   /// Wireless device resources to add to the network analyzer configuration.
   /// Provide the <code>WirelessDeviceId</code> of the resource to add in the
@@ -3347,6 +3519,8 @@ class IoTWireless {
   Future<void> updateNetworkAnalyzerConfiguration({
     required String configurationName,
     String? description,
+    List<String>? multicastGroupsToAdd,
+    List<String>? multicastGroupsToRemove,
     TraceContent? traceContent,
     List<String>? wirelessDevicesToAdd,
     List<String>? wirelessDevicesToRemove,
@@ -3355,6 +3529,10 @@ class IoTWireless {
   }) async {
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
+      if (multicastGroupsToAdd != null)
+        'MulticastGroupsToAdd': multicastGroupsToAdd,
+      if (multicastGroupsToRemove != null)
+        'MulticastGroupsToRemove': multicastGroupsToRemove,
       if (traceContent != null) 'TraceContent': traceContent,
       if (wirelessDevicesToAdd != null)
         'WirelessDevicesToAdd': wirelessDevicesToAdd,
@@ -3802,6 +3980,39 @@ class Accuracy {
       if (horizontalAccuracy != null) 'HorizontalAccuracy': horizontalAccuracy,
       if (verticalAccuracy != null) 'VerticalAccuracy': verticalAccuracy,
     };
+  }
+}
+
+enum AggregationPeriod {
+  oneHour,
+  oneDay,
+  oneWeek,
+}
+
+extension AggregationPeriodValueExtension on AggregationPeriod {
+  String toValue() {
+    switch (this) {
+      case AggregationPeriod.oneHour:
+        return 'OneHour';
+      case AggregationPeriod.oneDay:
+        return 'OneDay';
+      case AggregationPeriod.oneWeek:
+        return 'OneWeek';
+    }
+  }
+}
+
+extension AggregationPeriodFromString on String {
+  AggregationPeriod toAggregationPeriod() {
+    switch (this) {
+      case 'OneHour':
+        return AggregationPeriod.oneHour;
+      case 'OneDay':
+        return AggregationPeriod.oneDay;
+      case 'OneWeek':
+        return AggregationPeriod.oneWeek;
+    }
+    throw Exception('$this is not known in enum AggregationPeriod');
   }
 }
 
@@ -5094,6 +5305,64 @@ extension DeviceStateFromString on String {
   }
 }
 
+/// The required list of dimensions for the metric.
+class Dimension {
+  /// The name of the dimension.
+  final DimensionName? name;
+
+  /// The dimension's value.
+  final String? value;
+
+  Dimension({
+    this.name,
+    this.value,
+  });
+
+  factory Dimension.fromJson(Map<String, dynamic> json) {
+    return Dimension(
+      name: (json['name'] as String?)?.toDimensionName(),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+enum DimensionName {
+  deviceId,
+  gatewayId,
+}
+
+extension DimensionNameValueExtension on DimensionName {
+  String toValue() {
+    switch (this) {
+      case DimensionName.deviceId:
+        return 'DeviceId';
+      case DimensionName.gatewayId:
+        return 'GatewayId';
+    }
+  }
+}
+
+extension DimensionNameFromString on String {
+  DimensionName toDimensionName() {
+    switch (this) {
+      case 'DeviceId':
+        return DimensionName.deviceId;
+      case 'GatewayId':
+        return DimensionName.gatewayId;
+    }
+    throw Exception('$this is not known in enum DimensionName');
+  }
+}
+
 class DisassociateAwsAccountFromPartnerAccountResponse {
   DisassociateAwsAccountFromPartnerAccountResponse();
 
@@ -6113,6 +6382,58 @@ class GetLogLevelsByResourceTypesResponse {
   }
 }
 
+class GetMetricConfigurationResponse {
+  /// The configuration status of the AWS account for summary metric aggregation.
+  final SummaryMetricConfiguration? summaryMetric;
+
+  GetMetricConfigurationResponse({
+    this.summaryMetric,
+  });
+
+  factory GetMetricConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetMetricConfigurationResponse(
+      summaryMetric: json['SummaryMetric'] != null
+          ? SummaryMetricConfiguration.fromJson(
+              json['SummaryMetric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summaryMetric = this.summaryMetric;
+    return {
+      if (summaryMetric != null) 'SummaryMetric': summaryMetric,
+    };
+  }
+}
+
+class GetMetricsResponse {
+  /// The list of summary metrics that were retrieved.
+  final List<SummaryMetricQueryResult>? summaryMetricQueryResults;
+
+  GetMetricsResponse({
+    this.summaryMetricQueryResults,
+  });
+
+  factory GetMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMetricsResponse(
+      summaryMetricQueryResults: (json['SummaryMetricQueryResults'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SummaryMetricQueryResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summaryMetricQueryResults = this.summaryMetricQueryResults;
+    return {
+      if (summaryMetricQueryResults != null)
+        'SummaryMetricQueryResults': summaryMetricQueryResults,
+    };
+  }
+}
+
 class GetMulticastGroupResponse {
   final String? arn;
   final DateTime? createdAt;
@@ -6195,10 +6516,14 @@ class GetNetworkAnalyzerConfigurationResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
   final String? description;
+
+  /// List of multicast group resources that have been added to the network
+  /// analyzer configuration.
+  final List<String>? multicastGroups;
   final String? name;
   final TraceContent? traceContent;
 
-  /// List of wireless gateway resources that have been added to the network
+  /// List of wireless device resources that have been added to the network
   /// analyzer configuration.
   final List<String>? wirelessDevices;
 
@@ -6209,6 +6534,7 @@ class GetNetworkAnalyzerConfigurationResponse {
   GetNetworkAnalyzerConfigurationResponse({
     this.arn,
     this.description,
+    this.multicastGroups,
     this.name,
     this.traceContent,
     this.wirelessDevices,
@@ -6220,6 +6546,10 @@ class GetNetworkAnalyzerConfigurationResponse {
     return GetNetworkAnalyzerConfigurationResponse(
       arn: json['Arn'] as String?,
       description: json['Description'] as String?,
+      multicastGroups: (json['MulticastGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       name: json['Name'] as String?,
       traceContent: json['TraceContent'] != null
           ? TraceContent.fromJson(json['TraceContent'] as Map<String, dynamic>)
@@ -6238,6 +6568,7 @@ class GetNetworkAnalyzerConfigurationResponse {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final description = this.description;
+    final multicastGroups = this.multicastGroups;
     final name = this.name;
     final traceContent = this.traceContent;
     final wirelessDevices = this.wirelessDevices;
@@ -6245,6 +6576,7 @@ class GetNetworkAnalyzerConfigurationResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (description != null) 'Description': description,
+      if (multicastGroups != null) 'MulticastGroups': multicastGroups,
       if (name != null) 'Name': name,
       if (traceContent != null) 'TraceContent': traceContent,
       if (wirelessDevices != null) 'WirelessDevices': wirelessDevices,
@@ -6321,9 +6653,13 @@ class GetPositionConfigurationResponse {
 
 class GetPositionEstimateResponse {
   /// The position information of the resource, displayed as a JSON payload. The
-  /// payload uses the GeoJSON format, which a format that's used to encode
-  /// geographic data structures. For more information, see <a
-  /// href="https://geojson.org/">GeoJSON</a>.
+  /// payload is of type blob and uses the <a
+  /// href="https://geojson.org/">GeoJSON</a> format, which a format that's used
+  /// to encode geographic data structures. A sample payload contains the
+  /// timestamp information, the WGS84 coordinates of the location, and the
+  /// accuracy and confidence level. For more information and examples, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/location-resolve-console.html">Resolve
+  /// device location (console)</a>.
   final Uint8List? geoJsonPayload;
 
   GetPositionEstimateResponse({
@@ -6807,6 +7143,9 @@ class GetWirelessDeviceResponse {
 
 class GetWirelessDeviceStatisticsResponse {
   /// The date and time when the most recent uplink was received.
+  /// <note>
+  /// This value is only valid for 3 months.
+  /// </note>
   final String? lastUplinkReceivedAt;
 
   /// Information about the wireless device's operations.
@@ -6988,6 +7327,9 @@ class GetWirelessGatewayStatisticsResponse {
   final ConnectionStatus? connectionStatus;
 
   /// The date and time when the most recent uplink was received.
+  /// <note>
+  /// This value is only valid for 3 months.
+  /// </note>
   final String? lastUplinkReceivedAt;
 
   /// The ID of the wireless gateway.
@@ -7074,6 +7416,9 @@ class GetWirelessGatewayTaskDefinitionResponse {
 
 class GetWirelessGatewayTaskResponse {
   /// The date and time when the most recent uplink was received.
+  /// <note>
+  /// This value is only valid for 3 months.
+  /// </note>
   final String? lastUplinkReceivedAt;
 
   /// The status of the request.
@@ -8322,6 +8667,9 @@ class LoRaWANDeviceMetadata {
   /// Information about the gateways accessed by the device.
   final List<LoRaWANGatewayMetadata>? gateways;
 
+  /// Information about the LoRaWAN public network accessed by the device.
+  final List<LoRaWANPublicGatewayMetadata>? publicGateways;
+
   /// The date and time of the metadata.
   final String? timestamp;
 
@@ -8331,6 +8679,7 @@ class LoRaWANDeviceMetadata {
     this.fPort,
     this.frequency,
     this.gateways,
+    this.publicGateways,
     this.timestamp,
   });
 
@@ -8345,6 +8694,11 @@ class LoRaWANDeviceMetadata {
           .map(
               (e) => LoRaWANGatewayMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
+      publicGateways: (json['PublicGateways'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LoRaWANPublicGatewayMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
       timestamp: json['Timestamp'] as String?,
     );
   }
@@ -8355,6 +8709,7 @@ class LoRaWANDeviceMetadata {
     final fPort = this.fPort;
     final frequency = this.frequency;
     final gateways = this.gateways;
+    final publicGateways = this.publicGateways;
     final timestamp = this.timestamp;
     return {
       if (dataRate != null) 'DataRate': dataRate,
@@ -8362,6 +8717,7 @@ class LoRaWANDeviceMetadata {
       if (fPort != null) 'FPort': fPort,
       if (frequency != null) 'Frequency': frequency,
       if (gateways != null) 'Gateways': gateways,
+      if (publicGateways != null) 'PublicGateways': publicGateways,
       if (timestamp != null) 'Timestamp': timestamp,
     };
   }
@@ -8382,7 +8738,7 @@ class LoRaWANDeviceProfile {
   /// profile.
   final String? macVersion;
 
-  /// The MaxDutyCycle value.
+  /// The MaxDutyCycle value. It ranges from 0 to 15.
   final int? maxDutyCycle;
 
   /// The MaxEIRP value.
@@ -9083,6 +9439,62 @@ class LoRaWANMulticastSession {
   }
 }
 
+/// LoRaWAN public gateway metadata.
+class LoRaWANPublicGatewayMetadata {
+  /// Boolean that indicates whether downlink is allowed using the network.
+  final bool? dlAllowed;
+
+  /// The ID of the gateways that are operated by the network provider.
+  final String? id;
+
+  /// The ID of the LoRaWAN public network provider.
+  final String? providerNetId;
+  final String? rfRegion;
+
+  /// The RSSI (received signal strength indicator) value.
+  final double? rssi;
+
+  /// The SNR (signal to noise ratio) value.
+  final double? snr;
+
+  LoRaWANPublicGatewayMetadata({
+    this.dlAllowed,
+    this.id,
+    this.providerNetId,
+    this.rfRegion,
+    this.rssi,
+    this.snr,
+  });
+
+  factory LoRaWANPublicGatewayMetadata.fromJson(Map<String, dynamic> json) {
+    return LoRaWANPublicGatewayMetadata(
+      dlAllowed: json['DlAllowed'] as bool?,
+      id: json['Id'] as String?,
+      providerNetId: json['ProviderNetId'] as String?,
+      rfRegion: json['RfRegion'] as String?,
+      rssi: json['Rssi'] as double?,
+      snr: json['Snr'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dlAllowed = this.dlAllowed;
+    final id = this.id;
+    final providerNetId = this.providerNetId;
+    final rfRegion = this.rfRegion;
+    final rssi = this.rssi;
+    final snr = this.snr;
+    return {
+      if (dlAllowed != null) 'DlAllowed': dlAllowed,
+      if (id != null) 'Id': id,
+      if (providerNetId != null) 'ProviderNetId': providerNetId,
+      if (rfRegion != null) 'RfRegion': rfRegion,
+      if (rssi != null) 'Rssi': rssi,
+      if (snr != null) 'Snr': snr,
+    };
+  }
+}
+
 /// LoRaWAN router info.
 class LoRaWANSendDataToDevice {
   final int? fPort;
@@ -9584,6 +9996,297 @@ extension MessageTypeFromString on String {
   }
 }
 
+enum MetricName {
+  deviceRSSI,
+  deviceSNR,
+  deviceUplinkCount,
+  deviceDownlinkCount,
+  deviceUplinkLostCount,
+  deviceUplinkLostRate,
+  deviceJoinRequestCount,
+  deviceJoinAcceptCount,
+  deviceRoamingUplinkCount,
+  deviceRoamingDownlinkCount,
+  gatewayUpTime,
+  gatewayDownTime,
+  gatewayRSSI,
+  gatewaySNR,
+  gatewayUplinkCount,
+  gatewayDownlinkCount,
+  gatewayJoinRequestCount,
+  gatewayJoinAcceptCount,
+  awsAccountUplinkCount,
+  awsAccountDownlinkCount,
+  awsAccountUplinkLostCount,
+  awsAccountUplinkLostRate,
+  awsAccountJoinRequestCount,
+  awsAccountJoinAcceptCount,
+  awsAccountRoamingUplinkCount,
+  awsAccountRoamingDownlinkCount,
+  awsAccountDeviceCount,
+  awsAccountGatewayCount,
+  awsAccountActiveDeviceCount,
+  awsAccountActiveGatewayCount,
+}
+
+extension MetricNameValueExtension on MetricName {
+  String toValue() {
+    switch (this) {
+      case MetricName.deviceRSSI:
+        return 'DeviceRSSI';
+      case MetricName.deviceSNR:
+        return 'DeviceSNR';
+      case MetricName.deviceUplinkCount:
+        return 'DeviceUplinkCount';
+      case MetricName.deviceDownlinkCount:
+        return 'DeviceDownlinkCount';
+      case MetricName.deviceUplinkLostCount:
+        return 'DeviceUplinkLostCount';
+      case MetricName.deviceUplinkLostRate:
+        return 'DeviceUplinkLostRate';
+      case MetricName.deviceJoinRequestCount:
+        return 'DeviceJoinRequestCount';
+      case MetricName.deviceJoinAcceptCount:
+        return 'DeviceJoinAcceptCount';
+      case MetricName.deviceRoamingUplinkCount:
+        return 'DeviceRoamingUplinkCount';
+      case MetricName.deviceRoamingDownlinkCount:
+        return 'DeviceRoamingDownlinkCount';
+      case MetricName.gatewayUpTime:
+        return 'GatewayUpTime';
+      case MetricName.gatewayDownTime:
+        return 'GatewayDownTime';
+      case MetricName.gatewayRSSI:
+        return 'GatewayRSSI';
+      case MetricName.gatewaySNR:
+        return 'GatewaySNR';
+      case MetricName.gatewayUplinkCount:
+        return 'GatewayUplinkCount';
+      case MetricName.gatewayDownlinkCount:
+        return 'GatewayDownlinkCount';
+      case MetricName.gatewayJoinRequestCount:
+        return 'GatewayJoinRequestCount';
+      case MetricName.gatewayJoinAcceptCount:
+        return 'GatewayJoinAcceptCount';
+      case MetricName.awsAccountUplinkCount:
+        return 'AwsAccountUplinkCount';
+      case MetricName.awsAccountDownlinkCount:
+        return 'AwsAccountDownlinkCount';
+      case MetricName.awsAccountUplinkLostCount:
+        return 'AwsAccountUplinkLostCount';
+      case MetricName.awsAccountUplinkLostRate:
+        return 'AwsAccountUplinkLostRate';
+      case MetricName.awsAccountJoinRequestCount:
+        return 'AwsAccountJoinRequestCount';
+      case MetricName.awsAccountJoinAcceptCount:
+        return 'AwsAccountJoinAcceptCount';
+      case MetricName.awsAccountRoamingUplinkCount:
+        return 'AwsAccountRoamingUplinkCount';
+      case MetricName.awsAccountRoamingDownlinkCount:
+        return 'AwsAccountRoamingDownlinkCount';
+      case MetricName.awsAccountDeviceCount:
+        return 'AwsAccountDeviceCount';
+      case MetricName.awsAccountGatewayCount:
+        return 'AwsAccountGatewayCount';
+      case MetricName.awsAccountActiveDeviceCount:
+        return 'AwsAccountActiveDeviceCount';
+      case MetricName.awsAccountActiveGatewayCount:
+        return 'AwsAccountActiveGatewayCount';
+    }
+  }
+}
+
+extension MetricNameFromString on String {
+  MetricName toMetricName() {
+    switch (this) {
+      case 'DeviceRSSI':
+        return MetricName.deviceRSSI;
+      case 'DeviceSNR':
+        return MetricName.deviceSNR;
+      case 'DeviceUplinkCount':
+        return MetricName.deviceUplinkCount;
+      case 'DeviceDownlinkCount':
+        return MetricName.deviceDownlinkCount;
+      case 'DeviceUplinkLostCount':
+        return MetricName.deviceUplinkLostCount;
+      case 'DeviceUplinkLostRate':
+        return MetricName.deviceUplinkLostRate;
+      case 'DeviceJoinRequestCount':
+        return MetricName.deviceJoinRequestCount;
+      case 'DeviceJoinAcceptCount':
+        return MetricName.deviceJoinAcceptCount;
+      case 'DeviceRoamingUplinkCount':
+        return MetricName.deviceRoamingUplinkCount;
+      case 'DeviceRoamingDownlinkCount':
+        return MetricName.deviceRoamingDownlinkCount;
+      case 'GatewayUpTime':
+        return MetricName.gatewayUpTime;
+      case 'GatewayDownTime':
+        return MetricName.gatewayDownTime;
+      case 'GatewayRSSI':
+        return MetricName.gatewayRSSI;
+      case 'GatewaySNR':
+        return MetricName.gatewaySNR;
+      case 'GatewayUplinkCount':
+        return MetricName.gatewayUplinkCount;
+      case 'GatewayDownlinkCount':
+        return MetricName.gatewayDownlinkCount;
+      case 'GatewayJoinRequestCount':
+        return MetricName.gatewayJoinRequestCount;
+      case 'GatewayJoinAcceptCount':
+        return MetricName.gatewayJoinAcceptCount;
+      case 'AwsAccountUplinkCount':
+        return MetricName.awsAccountUplinkCount;
+      case 'AwsAccountDownlinkCount':
+        return MetricName.awsAccountDownlinkCount;
+      case 'AwsAccountUplinkLostCount':
+        return MetricName.awsAccountUplinkLostCount;
+      case 'AwsAccountUplinkLostRate':
+        return MetricName.awsAccountUplinkLostRate;
+      case 'AwsAccountJoinRequestCount':
+        return MetricName.awsAccountJoinRequestCount;
+      case 'AwsAccountJoinAcceptCount':
+        return MetricName.awsAccountJoinAcceptCount;
+      case 'AwsAccountRoamingUplinkCount':
+        return MetricName.awsAccountRoamingUplinkCount;
+      case 'AwsAccountRoamingDownlinkCount':
+        return MetricName.awsAccountRoamingDownlinkCount;
+      case 'AwsAccountDeviceCount':
+        return MetricName.awsAccountDeviceCount;
+      case 'AwsAccountGatewayCount':
+        return MetricName.awsAccountGatewayCount;
+      case 'AwsAccountActiveDeviceCount':
+        return MetricName.awsAccountActiveDeviceCount;
+      case 'AwsAccountActiveGatewayCount':
+        return MetricName.awsAccountActiveGatewayCount;
+    }
+    throw Exception('$this is not known in enum MetricName');
+  }
+}
+
+enum MetricQueryStatus {
+  succeeded,
+  failed,
+}
+
+extension MetricQueryStatusValueExtension on MetricQueryStatus {
+  String toValue() {
+    switch (this) {
+      case MetricQueryStatus.succeeded:
+        return 'Succeeded';
+      case MetricQueryStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension MetricQueryStatusFromString on String {
+  MetricQueryStatus toMetricQueryStatus() {
+    switch (this) {
+      case 'Succeeded':
+        return MetricQueryStatus.succeeded;
+      case 'Failed':
+        return MetricQueryStatus.failed;
+    }
+    throw Exception('$this is not known in enum MetricQueryStatus');
+  }
+}
+
+/// The aggregated values of the metric.
+class MetricQueryValue {
+  /// The average of the values of all data points collected during the
+  /// aggregation period.
+  final double? avg;
+
+  /// The maximum of the values of all the data points collected during the
+  /// aggregation period.
+  final double? max;
+
+  /// The minimum of the values of all data points collected during the
+  /// aggregation period.
+  final double? min;
+
+  /// The 90th percentile of the values of all data points collected during the
+  /// aggregation period.
+  final double? p90;
+
+  /// The standard deviation of the values of all data points collected during the
+  /// aggregation period.
+  final double? std;
+
+  /// The sum of the values of all data points collected during the aggregation
+  /// period.
+  final double? sum;
+
+  MetricQueryValue({
+    this.avg,
+    this.max,
+    this.min,
+    this.p90,
+    this.std,
+    this.sum,
+  });
+
+  factory MetricQueryValue.fromJson(Map<String, dynamic> json) {
+    return MetricQueryValue(
+      avg: json['Avg'] as double?,
+      max: json['Max'] as double?,
+      min: json['Min'] as double?,
+      p90: json['P90'] as double?,
+      std: json['Std'] as double?,
+      sum: json['Sum'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final avg = this.avg;
+    final max = this.max;
+    final min = this.min;
+    final p90 = this.p90;
+    final std = this.std;
+    final sum = this.sum;
+    return {
+      if (avg != null) 'Avg': avg,
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+      if (p90 != null) 'P90': p90,
+      if (std != null) 'Std': std,
+      if (sum != null) 'Sum': sum,
+    };
+  }
+}
+
+/// <code>FrameInfo</code> of your multicast group resources for the trace
+/// content. Use FrameInfo to debug the multicast communication between your
+/// multicast groups and the network server.
+enum MulticastFrameInfo {
+  enabled,
+  disabled,
+}
+
+extension MulticastFrameInfoValueExtension on MulticastFrameInfo {
+  String toValue() {
+    switch (this) {
+      case MulticastFrameInfo.enabled:
+        return 'ENABLED';
+      case MulticastFrameInfo.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension MulticastFrameInfoFromString on String {
+  MulticastFrameInfo toMulticastFrameInfo() {
+    switch (this) {
+      case 'ENABLED':
+        return MulticastFrameInfo.enabled;
+      case 'DISABLED':
+        return MulticastFrameInfo.disabled;
+    }
+    throw Exception('$this is not known in enum MulticastFrameInfo');
+  }
+}
+
 /// A multicast group.
 class MulticastGroup {
   final String? arn;
@@ -9723,7 +10426,8 @@ extension OnboardStatusFromString on String {
 /// OTAA device object for v1.0.x
 // ignore: camel_case_types
 class OtaaV1_0_x {
-  /// The AppEUI value.
+  /// The AppEUI value. You specify this value when using LoRaWAN versions v1.0.2
+  /// or v1.0.3.
   final String? appEui;
 
   /// The AppKey value.
@@ -9732,10 +10436,15 @@ class OtaaV1_0_x {
   /// The GenAppKey value.
   final String? genAppKey;
 
+  /// The JoinEUI value. You specify this value instead of the AppEUI when using
+  /// LoRaWAN version v1.0.4.
+  final String? joinEui;
+
   OtaaV1_0_x({
     this.appEui,
     this.appKey,
     this.genAppKey,
+    this.joinEui,
   });
 
   factory OtaaV1_0_x.fromJson(Map<String, dynamic> json) {
@@ -9743,6 +10452,7 @@ class OtaaV1_0_x {
       appEui: json['AppEui'] as String?,
       appKey: json['AppKey'] as String?,
       genAppKey: json['GenAppKey'] as String?,
+      joinEui: json['JoinEui'] as String?,
     );
   }
 
@@ -9750,10 +10460,12 @@ class OtaaV1_0_x {
     final appEui = this.appEui;
     final appKey = this.appKey;
     final genAppKey = this.genAppKey;
+    final joinEui = this.joinEui;
     return {
       if (appEui != null) 'AppEui': appEui,
       if (appKey != null) 'AppKey': appKey,
       if (genAppKey != null) 'GenAppKey': genAppKey,
+      if (joinEui != null) 'JoinEui': joinEui,
     };
   }
 }
@@ -11148,6 +11860,216 @@ class StartWirelessDeviceImportTaskResponse {
   }
 }
 
+/// The configuration of summary metrics.
+class SummaryMetricConfiguration {
+  /// The status of the configuration of summary metrics.
+  final SummaryMetricConfigurationStatus? status;
+
+  SummaryMetricConfiguration({
+    this.status,
+  });
+
+  factory SummaryMetricConfiguration.fromJson(Map<String, dynamic> json) {
+    return SummaryMetricConfiguration(
+      status: (json['Status'] as String?)?.toSummaryMetricConfigurationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum SummaryMetricConfigurationStatus {
+  enabled,
+  disabled,
+}
+
+extension SummaryMetricConfigurationStatusValueExtension
+    on SummaryMetricConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case SummaryMetricConfigurationStatus.enabled:
+        return 'Enabled';
+      case SummaryMetricConfigurationStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension SummaryMetricConfigurationStatusFromString on String {
+  SummaryMetricConfigurationStatus toSummaryMetricConfigurationStatus() {
+    switch (this) {
+      case 'Enabled':
+        return SummaryMetricConfigurationStatus.enabled;
+      case 'Disabled':
+        return SummaryMetricConfigurationStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum SummaryMetricConfigurationStatus');
+  }
+}
+
+/// The summary metric query object.
+class SummaryMetricQuery {
+  /// The aggregation period of the summary metric.
+  final AggregationPeriod? aggregationPeriod;
+
+  /// The dimensions of the summary metric.
+  final List<Dimension>? dimensions;
+
+  /// The end timestamp for the summary metric query.
+  final DateTime? endTimestamp;
+
+  /// The name of the metric.
+  final MetricName? metricName;
+
+  /// The id of the summary metric query.
+  final String? queryId;
+
+  /// The start timestamp for the summary metric query.
+  final DateTime? startTimestamp;
+
+  SummaryMetricQuery({
+    this.aggregationPeriod,
+    this.dimensions,
+    this.endTimestamp,
+    this.metricName,
+    this.queryId,
+    this.startTimestamp,
+  });
+
+  Map<String, dynamic> toJson() {
+    final aggregationPeriod = this.aggregationPeriod;
+    final dimensions = this.dimensions;
+    final endTimestamp = this.endTimestamp;
+    final metricName = this.metricName;
+    final queryId = this.queryId;
+    final startTimestamp = this.startTimestamp;
+    return {
+      if (aggregationPeriod != null)
+        'AggregationPeriod': aggregationPeriod.toValue(),
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (metricName != null) 'MetricName': metricName.toValue(),
+      if (queryId != null) 'QueryId': queryId,
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
+}
+
+/// The result of the summary metrics aggregation operation.
+class SummaryMetricQueryResult {
+  /// The aggregation period of the metric.
+  final AggregationPeriod? aggregationPeriod;
+
+  /// The dimensions of the metric.
+  final List<Dimension>? dimensions;
+
+  /// The end timestamp for the summary metric query.
+  final DateTime? endTimestamp;
+
+  /// The error message for the summary metric query result.
+  final String? error;
+
+  /// The name of the summary metric query result.
+  final MetricName? metricName;
+
+  /// The ID of the summary metric results query operation.
+  final String? queryId;
+
+  /// The status of the summary metric query result.
+  final MetricQueryStatus? queryStatus;
+
+  /// The start timestamp for the summary metric query.
+  final DateTime? startTimestamp;
+
+  /// The timestamp of each aggregation result.
+  final List<DateTime>? timestamps;
+
+  /// The units of measurement to be used for interpreting the aggregation result.
+  final String? unit;
+
+  /// The list of aggregated summary metric query results.
+  final List<MetricQueryValue>? values;
+
+  SummaryMetricQueryResult({
+    this.aggregationPeriod,
+    this.dimensions,
+    this.endTimestamp,
+    this.error,
+    this.metricName,
+    this.queryId,
+    this.queryStatus,
+    this.startTimestamp,
+    this.timestamps,
+    this.unit,
+    this.values,
+  });
+
+  factory SummaryMetricQueryResult.fromJson(Map<String, dynamic> json) {
+    return SummaryMetricQueryResult(
+      aggregationPeriod:
+          (json['AggregationPeriod'] as String?)?.toAggregationPeriod(),
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTimestamp: timeStampFromJson(json['EndTimestamp']),
+      error: json['Error'] as String?,
+      metricName: (json['MetricName'] as String?)?.toMetricName(),
+      queryId: json['QueryId'] as String?,
+      queryStatus: (json['QueryStatus'] as String?)?.toMetricQueryStatus(),
+      startTimestamp: timeStampFromJson(json['StartTimestamp']),
+      timestamps: (json['Timestamps'] as List?)
+          ?.whereNotNull()
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+      unit: json['Unit'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricQueryValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregationPeriod = this.aggregationPeriod;
+    final dimensions = this.dimensions;
+    final endTimestamp = this.endTimestamp;
+    final error = this.error;
+    final metricName = this.metricName;
+    final queryId = this.queryId;
+    final queryStatus = this.queryStatus;
+    final startTimestamp = this.startTimestamp;
+    final timestamps = this.timestamps;
+    final unit = this.unit;
+    final values = this.values;
+    return {
+      if (aggregationPeriod != null)
+        'AggregationPeriod': aggregationPeriod.toValue(),
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (error != null) 'Error': error,
+      if (metricName != null) 'MetricName': metricName.toValue(),
+      if (queryId != null) 'QueryId': queryId,
+      if (queryStatus != null) 'QueryStatus': queryStatus.toValue(),
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+      if (timestamps != null)
+        'Timestamps': timestamps.map(unixTimestampToJson).toList(),
+      if (unit != null) 'Unit': unit,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
 /// Supported RfRegions
 enum SupportedRfRegion {
   eu868,
@@ -11431,19 +12353,23 @@ class TestWirelessDeviceResponse {
   }
 }
 
-/// Trace content for your wireless gateway and wireless device resources.
+/// Trace content for your wireless devices, gateways, and multicast groups.
 class TraceContent {
   final LogLevel? logLevel;
+  final MulticastFrameInfo? multicastFrameInfo;
   final WirelessDeviceFrameInfo? wirelessDeviceFrameInfo;
 
   TraceContent({
     this.logLevel,
+    this.multicastFrameInfo,
     this.wirelessDeviceFrameInfo,
   });
 
   factory TraceContent.fromJson(Map<String, dynamic> json) {
     return TraceContent(
       logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
+      multicastFrameInfo:
+          (json['MulticastFrameInfo'] as String?)?.toMulticastFrameInfo(),
       wirelessDeviceFrameInfo: (json['WirelessDeviceFrameInfo'] as String?)
           ?.toWirelessDeviceFrameInfo(),
     );
@@ -11451,9 +12377,12 @@ class TraceContent {
 
   Map<String, dynamic> toJson() {
     final logLevel = this.logLevel;
+    final multicastFrameInfo = this.multicastFrameInfo;
     final wirelessDeviceFrameInfo = this.wirelessDeviceFrameInfo;
     return {
       if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (multicastFrameInfo != null)
+        'MulticastFrameInfo': multicastFrameInfo.toValue(),
       if (wirelessDeviceFrameInfo != null)
         'WirelessDeviceFrameInfo': wirelessDeviceFrameInfo.toValue(),
     };
@@ -11575,6 +12504,18 @@ class UpdateLogLevelsByResourceTypesResponse {
   factory UpdateLogLevelsByResourceTypesResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateLogLevelsByResourceTypesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateMetricConfigurationResponse {
+  UpdateMetricConfigurationResponse();
+
+  factory UpdateMetricConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateMetricConfigurationResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -12270,6 +13211,9 @@ class WirelessDeviceStatistics {
   final String? id;
 
   /// The date and time when the most recent uplink was received.
+  /// <note>
+  /// Theis value is only valid for 3 months.
+  /// </note>
   final String? lastUplinkReceivedAt;
 
   /// LoRaWAN device info.
@@ -12555,6 +13499,9 @@ class WirelessGatewayStatistics {
   final String? id;
 
   /// The date and time when the most recent uplink was received.
+  /// <note>
+  /// This value is only valid for 3 months.
+  /// </note>
   final String? lastUplinkReceivedAt;
 
   /// LoRaWAN gateway info.

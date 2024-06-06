@@ -153,7 +153,14 @@ class Kendra {
   ///
   /// The documents are deleted asynchronously. You can see the progress of the
   /// deletion by using Amazon Web Services CloudWatch. Any error messages
-  /// related to the processing of the batch are sent to you CloudWatch log.
+  /// related to the processing of the batch are sent to your Amazon Web
+  /// Services CloudWatch log. You can also use the
+  /// <code>BatchGetDocumentStatus</code> API to monitor the progress of
+  /// deleting your documents.
+  ///
+  /// Deleting documents from an index using <code>BatchDeleteDocument</code>
+  /// could take up to an hour or more, depending on the number of documents you
+  /// want to delete.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -299,6 +306,8 @@ class Kendra {
   /// The documents are indexed asynchronously. You can see the progress of the
   /// batch using Amazon Web Services CloudWatch. Any error messages related to
   /// processing the batch are sent to your Amazon Web Services CloudWatch log.
+  /// You can also use the <code>BatchGetDocumentStatus</code> API to monitor
+  /// the progress of indexing your documents.
   ///
   /// For an example of ingesting inline documents using Python and Java SDKs,
   /// see <a
@@ -711,8 +720,8 @@ class Kendra {
   /// The Amazon Resource Name (ARN) of an IAM role with permission to access
   /// <code>Query</code> API, <code>GetQuerySuggestions</code> API, and other
   /// required APIs. The role also must include permission to access IAM
-  /// Identity Center (successor to Single Sign-On) that stores your user and
-  /// group information. For more information, see <a
+  /// Identity Center that stores your user and group information. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM
   /// access roles for Amazon Kendra</a>.
   Future<CreateExperienceResponse> createExperience({
@@ -791,6 +800,8 @@ class Kendra {
   /// The format of the FAQ input file. You can choose between a basic CSV
   /// format, a CSV format that includes customs attributes in a header, and a
   /// JSON format that includes custom attributes.
+  ///
+  /// The default format is CSV.
   ///
   /// The format must match the format of the file stored in the S3 bucket
   /// identified in the <code>S3Path</code> parameter.
@@ -947,9 +958,10 @@ class Kendra {
   /// <code>Status</code> field is set to <code>ACTIVE</code> when the index is
   /// ready to use.
   ///
-  /// Once the index is active you can index your documents using the
-  /// <code>BatchPutDocument</code> API or using one of the supported data
-  /// sources.
+  /// Once the index is active, you can index your documents using the
+  /// <code>BatchPutDocument</code> API or using one of the supported <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-sources.html">data
+  /// sources</a>.
   ///
   /// For an example of creating an index and data source using the Python SDK,
   /// see <a
@@ -1022,9 +1034,11 @@ class Kendra {
   /// </dd> </dl>
   ///
   /// Parameter [userGroupResolutionConfiguration] :
-  /// Gets users and groups from IAM Identity Center (successor to Single
-  /// Sign-On) identity source. To configure this, see <a
+  /// Gets users and groups from IAM Identity Center identity source. To
+  /// configure this, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html">UserGroupResolutionConfiguration</a>.
+  /// This is useful for user context filtering, where search results are
+  /// filtered based on the user or their group access to documents.
   ///
   /// Parameter [userTokenConfigurations] :
   /// The user token configuration.
@@ -1299,6 +1313,10 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/delete-data-source.html">Deleting
   /// Data Sources</a>.
   ///
+  /// Deleting an entire data source or re-syncing your index after deleting
+  /// specific documents from a data source could take up to an hour or more,
+  /// depending on the number of documents you want to delete.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -1405,8 +1423,8 @@ class Kendra {
     );
   }
 
-  /// Deletes an existing Amazon Kendra index. An exception is not thrown if the
-  /// index is already being deleted. While the index is being deleted, the
+  /// Deletes an Amazon Kendra index. An exception is not thrown if the index is
+  /// already being deleted. While the index is being deleted, the
   /// <code>Status</code> field returned by a call to the
   /// <code>DescribeIndex</code> API is set to <code>DELETING</code>.
   ///
@@ -1572,7 +1590,7 @@ class Kendra {
     );
   }
 
-  /// Deletes an existing Amazon Kendra thesaurus.
+  /// Deletes an Amazon Kendra thesaurus.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -1804,7 +1822,7 @@ class Kendra {
     return DescribeFeaturedResultsSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about an existing Amazon Kendra index.
+  /// Gets information about an Amazon Kendra index.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -1974,7 +1992,7 @@ class Kendra {
     return DescribeQuerySuggestionsConfigResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about an existing Amazon Kendra thesaurus.
+  /// Gets information about an Amazon Kendra thesaurus.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -3086,31 +3104,43 @@ class Kendra {
     );
   }
 
-  /// Searches an active index. Use this API to search your documents using
-  /// query. The <code>Query</code> API enables to do faceted search and to
-  /// filter results based on document attributes.
+  /// Searches an index given an input query.
+  /// <note>
+  /// If you are working with large language models (LLMs) or implementing
+  /// retrieval augmented generation (RAG) systems, you can use Amazon Kendra's
+  /// <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_Retrieve.html">Retrieve</a>
+  /// API, which can return longer semantically relevant passages. We recommend
+  /// using the <code>Retrieve</code> API instead of filing a service limit
+  /// increase to increase the <code>Query</code> API document excerpt length.
+  /// </note>
+  /// You can configure boosting or relevance tuning at the query level to
+  /// override boosting at the index level, filter based on document
+  /// fields/attributes and faceted search, and filter based on the user or
+  /// their group access to documents. You can also include certain fields in
+  /// the response that might provide useful additional information.
   ///
-  /// It also enables you to provide user context that Amazon Kendra uses to
-  /// enforce document access control in the search results.
-  ///
-  /// Amazon Kendra searches your index for text content and question and answer
-  /// (FAQ) content. By default the response contains three types of results.
+  /// A query response contains three types of results.
   ///
   /// <ul>
   /// <li>
-  /// Relevant passages
+  /// Relevant suggested answers. The answers can be either a text excerpt or
+  /// table excerpt. The answer can be highlighted in the excerpt.
   /// </li>
   /// <li>
-  /// Matching FAQs
+  /// Matching FAQs or questions-answer from your FAQ file.
   /// </li>
   /// <li>
-  /// Relevant documents
+  /// Relevant documents. This result type includes an excerpt of the document
+  /// with the document title. The searched terms can be highlighted in the
+  /// excerpt.
   /// </li>
   /// </ul>
   /// You can specify that the query return only one type of result using the
-  /// <code>QueryResultTypeFilter</code> parameter.
-  ///
-  /// Each query returns the 100 most relevant results.
+  /// <code>QueryResultTypeFilter</code> parameter. Each query returns the 100
+  /// most relevant results. If you filter result type to only question-answers,
+  /// a maximum of four results are returned. If you filter result type to only
+  /// answers, a maximum of three results are returned.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -3121,38 +3151,39 @@ class Kendra {
   /// May throw [InternalServerException].
   ///
   /// Parameter [indexId] :
-  /// The identifier of the index to search. The identifier is returned in the
-  /// response from the <code>CreateIndex</code> API.
+  /// The identifier of the index for the search.
   ///
   /// Parameter [attributeFilter] :
-  /// Enables filtered searches based on document attributes. You can only
-  /// provide one attribute filter; however, the <code>AndAllFilters</code>,
+  /// Filters search results by document fields/attributes. You can only provide
+  /// one attribute filter; however, the <code>AndAllFilters</code>,
   /// <code>NotFilter</code>, and <code>OrAllFilters</code> parameters contain a
   /// list of other filters.
   ///
-  /// The <code>AttributeFilter</code> parameter enables you to create a set of
+  /// The <code>AttributeFilter</code> parameter means you can create a set of
   /// filtering rules that a document must satisfy to be included in the query
   /// results.
   ///
+  /// Parameter [collapseConfiguration] :
+  /// Provides configuration to determine how to group results by document
+  /// attribute value, and how to display them (collapsed or expanded) under a
+  /// designated primary document for each group.
+  ///
   /// Parameter [documentRelevanceOverrideConfigurations] :
-  /// Overrides relevance tuning configurations of fields or attributes set at
-  /// the index level.
+  /// Overrides relevance tuning configurations of fields/attributes set at the
+  /// index level.
   ///
   /// If you use this API to override the relevance tuning configured at the
   /// index level, but there is no relevance tuning configured at the index
   /// level, then Amazon Kendra does not apply any relevance tuning.
   ///
-  /// If there is relevance tuning configured at the index level, but you do not
-  /// use this API to override any relevance tuning in the index, then Amazon
-  /// Kendra uses the relevance tuning that is configured at the index level.
-  ///
-  /// If there is relevance tuning configured for fields at the index level, but
+  /// If there is relevance tuning configured for fields at the index level, and
   /// you use this API to override only some of these fields, then for the
   /// fields you did not override, the importance is set to 1.
   ///
   /// Parameter [facets] :
-  /// An array of documents attributes. Amazon Kendra returns a count for each
-  /// attribute key specified. This helps your users narrow their search.
+  /// An array of documents fields/attributes for faceted search. Amazon Kendra
+  /// returns a count for each field key specified. This helps your users narrow
+  /// their search.
   ///
   /// Parameter [pageNumber] :
   /// Query results are returned in pages the size of the <code>PageSize</code>
@@ -3165,17 +3196,22 @@ class Kendra {
   /// you ask for more than 100 results, only 100 are returned.
   ///
   /// Parameter [queryResultTypeFilter] :
-  /// Sets the type of query. Only results for the specified query type are
-  /// returned.
+  /// Sets the type of query result or response. Only results for the specified
+  /// type are returned.
   ///
   /// Parameter [queryText] :
   /// The input query text for the search. Amazon Kendra truncates queries at 30
   /// token words, which excludes punctuation and stop words. Truncation still
-  /// applies if you use Boolean or more advanced, complex queries.
+  /// applies if you use Boolean or more advanced, complex queries. For example,
+  /// <code>Timeoff AND October AND Category:HR</code> is counted as 3 tokens:
+  /// <code>timeoff</code>, <code>october</code>, <code>hr</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax">Searching
+  /// with advanced query syntax</a> in the Amazon Kendra Developer Guide.
   ///
   /// Parameter [requestedDocumentAttributes] :
-  /// An array of document attributes to include in the response. You can limit
-  /// the response to include certain document attributes. By default all
+  /// An array of document fields/attributes to include in the response. You can
+  /// limit the response to include certain document fields. By default, all
   /// document attributes are included in the response.
   ///
   /// Parameter [sortingConfiguration] :
@@ -3187,6 +3223,18 @@ class Kendra {
   ///
   /// If you don't provide sorting configuration, the results are sorted by the
   /// relevance that Amazon Kendra determines for the result.
+  ///
+  /// Parameter [sortingConfigurations] :
+  /// Provides configuration information to determine how the results of a query
+  /// are sorted.
+  ///
+  /// You can set upto 3 fields that Amazon Kendra should sort the results on,
+  /// and specify whether the results should be sorted in ascending or
+  /// descending order. The sort field quota can be increased.
+  ///
+  /// If you don't provide a sorting configuration, the results are sorted by
+  /// the relevance that Amazon Kendra determines for the result. In the case of
+  /// ties in sorting the results, the results are sorted by relevance.
   ///
   /// Parameter [spellCorrectionConfiguration] :
   /// Enables suggested spell corrections for queries.
@@ -3202,6 +3250,7 @@ class Kendra {
   Future<QueryResult> query({
     required String indexId,
     AttributeFilter? attributeFilter,
+    CollapseConfiguration? collapseConfiguration,
     List<DocumentRelevanceConfiguration>?
         documentRelevanceOverrideConfigurations,
     List<Facet>? facets,
@@ -3211,6 +3260,7 @@ class Kendra {
     String? queryText,
     List<String>? requestedDocumentAttributes,
     SortingConfiguration? sortingConfiguration,
+    List<SortingConfiguration>? sortingConfigurations,
     SpellCorrectionConfiguration? spellCorrectionConfiguration,
     UserContext? userContext,
     String? visitorId,
@@ -3228,6 +3278,8 @@ class Kendra {
       payload: {
         'IndexId': indexId,
         if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+        if (collapseConfiguration != null)
+          'CollapseConfiguration': collapseConfiguration,
         if (documentRelevanceOverrideConfigurations != null)
           'DocumentRelevanceOverrideConfigurations':
               documentRelevanceOverrideConfigurations,
@@ -3241,6 +3293,8 @@ class Kendra {
           'RequestedDocumentAttributes': requestedDocumentAttributes,
         if (sortingConfiguration != null)
           'SortingConfiguration': sortingConfiguration,
+        if (sortingConfigurations != null)
+          'SortingConfigurations': sortingConfigurations,
         if (spellCorrectionConfiguration != null)
           'SpellCorrectionConfiguration': spellCorrectionConfiguration,
         if (userContext != null) 'UserContext': userContext,
@@ -3251,9 +3305,159 @@ class Kendra {
     return QueryResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves relevant passages or text excerpts given an input query.
+  ///
+  /// This API is similar to the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_Query.html">Query</a>
+  /// API. However, by default, the <code>Query</code> API only returns excerpt
+  /// passages of up to 100 token words. With the <code>Retrieve</code> API, you
+  /// can retrieve longer passages of up to 200 token words and up to 100
+  /// semantically relevant passages. This doesn't include question-answer or
+  /// FAQ type responses from your index. The passages are text excerpts that
+  /// can be semantically extracted from multiple documents and multiple parts
+  /// of the same document. If in extreme cases your documents produce zero
+  /// passages using the <code>Retrieve</code> API, you can alternatively use
+  /// the <code>Query</code> API and its types of responses.
+  ///
+  /// You can also do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Override boosting at the index level
+  /// </li>
+  /// <li>
+  /// Filter based on document fields or attributes
+  /// </li>
+  /// <li>
+  /// Filter based on the user or their group access to documents
+  /// </li>
+  /// <li>
+  /// View the confidence score bucket for a retrieved passage result. The
+  /// confidence bucket provides a relative ranking that indicates how confident
+  /// Amazon Kendra is that the response is relevant to the query.
+  /// <note>
+  /// Confidence score buckets are currently available only for English.
+  /// </note> </li>
+  /// </ul>
+  /// You can also include certain fields in the response that might provide
+  /// useful additional information.
+  ///
+  /// The <code>Retrieve</code> API shares the number of <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_CapacityUnitsConfiguration.html">query
+  /// capacity units</a> that you set for your index. For more information on
+  /// what's included in a single capacity unit and the default base capacity
+  /// for an index, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html">Adjusting
+  /// capacity</a>.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [indexId] :
+  /// The identifier of the index to retrieve relevant passages for the search.
+  ///
+  /// Parameter [queryText] :
+  /// The input query text to retrieve relevant passages for the search. Amazon
+  /// Kendra truncates queries at 30 token words, which excludes punctuation and
+  /// stop words. Truncation still applies if you use Boolean or more advanced,
+  /// complex queries. For example, <code>Timeoff AND October AND
+  /// Category:HR</code> is counted as 3 tokens: <code>timeoff</code>,
+  /// <code>october</code>, <code>hr</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax">Searching
+  /// with advanced query syntax</a> in the Amazon Kendra Developer Guide.
+  ///
+  /// Parameter [attributeFilter] :
+  /// Filters search results by document fields/attributes. You can only provide
+  /// one attribute filter; however, the <code>AndAllFilters</code>,
+  /// <code>NotFilter</code>, and <code>OrAllFilters</code> parameters contain a
+  /// list of other filters.
+  ///
+  /// The <code>AttributeFilter</code> parameter means you can create a set of
+  /// filtering rules that a document must satisfy to be included in the query
+  /// results.
+  ///
+  /// Parameter [documentRelevanceOverrideConfigurations] :
+  /// Overrides relevance tuning configurations of fields/attributes set at the
+  /// index level.
+  ///
+  /// If you use this API to override the relevance tuning configured at the
+  /// index level, but there is no relevance tuning configured at the index
+  /// level, then Amazon Kendra does not apply any relevance tuning.
+  ///
+  /// If there is relevance tuning configured for fields at the index level, and
+  /// you use this API to override only some of these fields, then for the
+  /// fields you did not override, the importance is set to 1.
+  ///
+  /// Parameter [pageNumber] :
+  /// Retrieved relevant passages are returned in pages the size of the
+  /// <code>PageSize</code> parameter. By default, Amazon Kendra returns the
+  /// first page of results. Use this parameter to get result pages after the
+  /// first one.
+  ///
+  /// Parameter [pageSize] :
+  /// Sets the number of retrieved relevant passages that are returned in each
+  /// page of results. The default page size is 10. The maximum number of
+  /// results returned is 100. If you ask for more than 100 results, only 100
+  /// are returned.
+  ///
+  /// Parameter [requestedDocumentAttributes] :
+  /// A list of document fields/attributes to include in the response. You can
+  /// limit the response to include certain document fields. By default, all
+  /// document fields are included in the response.
+  ///
+  /// Parameter [userContext] :
+  /// The user context token or user and group information.
+  Future<RetrieveResult> retrieve({
+    required String indexId,
+    required String queryText,
+    AttributeFilter? attributeFilter,
+    List<DocumentRelevanceConfiguration>?
+        documentRelevanceOverrideConfigurations,
+    int? pageNumber,
+    int? pageSize,
+    List<String>? requestedDocumentAttributes,
+    UserContext? userContext,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSKendraFrontendService.Retrieve'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IndexId': indexId,
+        'QueryText': queryText,
+        if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+        if (documentRelevanceOverrideConfigurations != null)
+          'DocumentRelevanceOverrideConfigurations':
+              documentRelevanceOverrideConfigurations,
+        if (pageNumber != null) 'PageNumber': pageNumber,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (requestedDocumentAttributes != null)
+          'RequestedDocumentAttributes': requestedDocumentAttributes,
+        if (userContext != null) 'UserContext': userContext,
+      },
+    );
+
+    return RetrieveResult.fromJson(jsonResponse.body);
+  }
+
   /// Starts a synchronization job for a data source connector. If a
   /// synchronization job is already in progress, Amazon Kendra returns a
   /// <code>ResourceInUseException</code> exception.
+  ///
+  /// Re-syncing your data source with your index after modifying, adding, or
+  /// deleting documents from your data source respository could take up to an
+  /// hour or more, depending on the number of documents to sync.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -3543,7 +3747,7 @@ class Kendra {
     );
   }
 
-  /// Updates an existing Amazon Kendra data source connector.
+  /// Updates an Amazon Kendra data source connector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -3781,7 +3985,7 @@ class Kendra {
     return UpdateFeaturedResultsSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates an existing Amazon Kendra index.
+  /// Updates an Amazon Kendra index.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -3811,7 +4015,7 @@ class Kendra {
   /// For example, the company department name associated with each document.
   ///
   /// Parameter [name] :
-  /// The name of the index you want to update.
+  /// A new name for the index.
   ///
   /// Parameter [roleArn] :
   /// An Identity and Access Management (IAM) role that gives Amazon Kendra
@@ -3821,10 +4025,11 @@ class Kendra {
   /// The user context policy.
   ///
   /// Parameter [userGroupResolutionConfiguration] :
-  /// Enables fetching access levels of groups and users from an IAM Identity
-  /// Center (successor to Single Sign-On) identity source. To configure this,
-  /// see <a
+  /// Gets users and groups from IAM Identity Center identity source. To
+  /// configure this, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html">UserGroupResolutionConfiguration</a>.
+  /// This is useful for user context filtering, where search results are
+  /// filtered based on the user or their group access to documents.
   ///
   /// Parameter [userTokenConfigurations] :
   /// The user token configuration.
@@ -4306,10 +4511,10 @@ extension AdditionalResultAttributeValueTypeFromString on String {
 /// Provides the configuration information to connect to Alfresco as your data
 /// source.
 /// <note>
-/// Alfresco data source connector is currently in preview mode. Basic
-/// authentication is currently supported. If you would like to use Alfresco
-/// connector in production, contact <a
-/// href="http://aws.amazon.com/contact-us/">Support</a>.
+/// Support for <code>AlfrescoConfiguration</code> ended May 2023. We recommend
+/// migrating to or using the Alfresco data source template schema / <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// API.
 /// </note>
 class AlfrescoConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
@@ -4580,70 +4785,96 @@ class AssociatePersonasToEntitiesResponse {
   }
 }
 
-/// Provides filtering the query results based on document attributes or
-/// metadata fields.
+/// Filters the search results based on document attributes or fields.
 ///
-/// When you use the <code>AndAllFilters</code> or <code>OrAllFilters</code>,
-/// filters you can use 2 layers under the first attribute filter. For example,
-/// you can use:
+/// You can filter results using attributes for your particular documents. The
+/// attributes must exist in your index. For example, if your documents include
+/// the custom attribute "Department", you can filter documents that belong to
+/// the "HR" department. You would use the <code>EqualsTo</code> operation to
+/// filter results or documents with "Department" equals to "HR".
 ///
-/// <code>&lt;AndAllFilters&gt;</code>
-/// <ol>
+/// You can use <code>AndAllFilters</code> and <code>AndOrFilters</code> in
+/// combination with each other or with other operations such as
+/// <code>EqualsTo</code>. For example:
+///
+/// <code>AndAllFilters</code>
+///
+/// <ul>
 /// <li>
-/// <code> &lt;OrAllFilters&gt;</code>
+/// <code>EqualsTo</code>: "Department", "HR"
 /// </li>
 /// <li>
-/// <code> &lt;EqualsTo&gt;</code>
-/// </li> </ol>
-/// If you use more than 2 layers, you receive a
-/// <code>ValidationException</code> exception with the message
-/// "<code>AttributeFilter</code> cannot have a depth of more than 2."
+/// <code>AndOrFilters</code>
 ///
-/// If you use more than 10 attribute filters in a given list for
-/// <code>AndAllFilters</code> or <code>OrAllFilters</code>, you receive a
-/// <code>ValidationException</code> with the message
-/// "<code>AttributeFilter</code> cannot have a length of more than 10".
+/// <ul>
+/// <li>
+/// <code>ContainsAny</code>: "Project Name", ["new hires", "new hiring"]
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// This example filters results or documents that belong to the HR department
+/// <i>and</i> belong to projects that contain "new hires" <i>or</i> "new
+/// hiring" in the project name (must use <code>ContainAny</code> with
+/// <code>StringListValue</code>). This example is filtering with a depth of 2.
+///
+/// You cannot filter more than a depth of 2, otherwise you receive a
+/// <code>ValidationException</code> exception with the message "AttributeFilter
+/// cannot have a depth of more than 2." Also, if you use more than 10 attribute
+/// filters in a given list for <code>AndAllFilters</code> or
+/// <code>OrAllFilters</code>, you receive a <code>ValidationException</code>
+/// with the message "AttributeFilter cannot have a length of more than 10".
+///
+/// For examples of using <code>AttributeFilter</code>, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering">Using
+/// document attributes to filter search results</a>.
 class AttributeFilter {
-  /// Performs a logical <code>AND</code> operation on all supplied filters.
+  /// Performs a logical <code>AND</code> operation on all filters that you
+  /// specify.
   final List<AttributeFilter>? andAllFilters;
 
   /// Returns true when a document contains all of the specified document
-  /// attributes or metadata fields. This filter is only applicable to
-  /// <code>StringListValue</code> metadata.
+  /// attributes/fields. This filter is only applicable to <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">StringListValue</a>.
   final DocumentAttribute? containsAll;
 
   /// Returns true when a document contains any of the specified document
-  /// attributes or metadata fields. This filter is only applicable to
-  /// <code>StringListValue</code> metadata.
+  /// attributes/fields. This filter is only applicable to <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">StringListValue</a>.
   final DocumentAttribute? containsAny;
 
-  /// Performs an equals operation on two document attributes or metadata fields.
+  /// Performs an equals operation on document attributes/fields and their values.
   final DocumentAttribute? equalsTo;
 
-  /// Performs a greater than operation on two document attributes or metadata
-  /// fields. Use with a document attribute of type <code>Date</code> or
-  /// <code>Long</code>.
+  /// Performs a greater than operation on document attributes/fields and their
+  /// values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
   final DocumentAttribute? greaterThan;
 
-  /// Performs a greater or equals than operation on two document attributes or
-  /// metadata fields. Use with a document attribute of type <code>Date</code> or
-  /// <code>Long</code>.
+  /// Performs a greater or equals than operation on document attributes/fields
+  /// and their values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
   final DocumentAttribute? greaterThanOrEquals;
 
-  /// Performs a less than operation on two document attributes or metadata
-  /// fields. Use with a document attribute of type <code>Date</code> or
-  /// <code>Long</code>.
+  /// Performs a less than operation on document attributes/fields and their
+  /// values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
   final DocumentAttribute? lessThan;
 
-  /// Performs a less than or equals operation on two document attributes or
-  /// metadata fields. Use with a document attribute of type <code>Date</code> or
-  /// <code>Long</code>.
+  /// Performs a less than or equals operation on document attributes/fields and
+  /// their values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
   final DocumentAttribute? lessThanOrEquals;
 
-  /// Performs a logical <code>NOT</code> operation on all supplied filters.
+  /// Performs a logical <code>NOT</code> operation on all filters that you
+  /// specify.
   final AttributeFilter? notFilter;
 
-  /// Performs a logical <code>OR</code> operation on all supplied filters.
+  /// Performs a logical <code>OR</code> operation on all filters that you
+  /// specify.
   final List<AttributeFilter>? orAllFilters;
 
   AttributeFilter({
@@ -5163,7 +5394,7 @@ class BatchPutDocumentResponse {
   /// If there was an error adding a document to an index the error is reported in
   /// your Amazon Web Services CloudWatch log. For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/cloudwatch-logs.html">Monitoring
-  /// Amazon Kendra with Amazon CloudWatch Logs</a>
+  /// Amazon Kendra with Amazon CloudWatch logs</a>.
   final List<BatchPutDocumentResponseFailedDocument>? failedDocuments;
 
   BatchPutDocumentResponse({
@@ -5499,6 +5730,109 @@ class ClickFeedback {
     return {
       'ClickTime': unixTimestampToJson(clickTime),
       'ResultId': resultId,
+    };
+  }
+}
+
+/// Specifies how to group results by document attribute value, and how to
+/// display them collapsed/expanded under a designated primary document for each
+/// group.
+class CollapseConfiguration {
+  /// The document attribute used to group search results. You can use any
+  /// attribute that has the <code>Sortable</code> flag set to true. You can also
+  /// sort by any of the following built-in attributes:"_category","_created_at",
+  /// "_last_updated_at", "_version", "_view_count".
+  final String documentAttributeKey;
+
+  /// Specifies whether to expand the collapsed results.
+  final bool? expand;
+
+  /// Provides configuration information to customize expansion options for a
+  /// collapsed group.
+  final ExpandConfiguration? expandConfiguration;
+
+  /// Specifies the behavior for documents without a value for the collapse
+  /// attribute.
+  ///
+  /// Amazon Kendra offers three customization options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Choose to <code>COLLAPSE</code> all documents with null or missing values in
+  /// one group. This is the default configuration.
+  /// </li>
+  /// <li>
+  /// Choose to <code>IGNORE</code> documents with null or missing values. Ignored
+  /// documents will not appear in query results.
+  /// </li>
+  /// <li>
+  /// Choose to <code>EXPAND</code> each document with a null or missing value
+  /// into a group of its own.
+  /// </li>
+  /// </ul>
+  final MissingAttributeKeyStrategy? missingAttributeKeyStrategy;
+
+  /// A prioritized list of document attributes/fields that determine the primary
+  /// document among those in a collapsed group.
+  final List<SortingConfiguration>? sortingConfigurations;
+
+  CollapseConfiguration({
+    required this.documentAttributeKey,
+    this.expand,
+    this.expandConfiguration,
+    this.missingAttributeKeyStrategy,
+    this.sortingConfigurations,
+  });
+
+  Map<String, dynamic> toJson() {
+    final documentAttributeKey = this.documentAttributeKey;
+    final expand = this.expand;
+    final expandConfiguration = this.expandConfiguration;
+    final missingAttributeKeyStrategy = this.missingAttributeKeyStrategy;
+    final sortingConfigurations = this.sortingConfigurations;
+    return {
+      'DocumentAttributeKey': documentAttributeKey,
+      if (expand != null) 'Expand': expand,
+      if (expandConfiguration != null)
+        'ExpandConfiguration': expandConfiguration,
+      if (missingAttributeKeyStrategy != null)
+        'MissingAttributeKeyStrategy': missingAttributeKeyStrategy.toValue(),
+      if (sortingConfigurations != null)
+        'SortingConfigurations': sortingConfigurations,
+    };
+  }
+}
+
+/// Provides details about a collapsed group of search results.
+class CollapsedResultDetail {
+  /// The value of the document attribute that results are collapsed on.
+  final DocumentAttribute documentAttribute;
+
+  /// A list of results in the collapsed group.
+  final List<ExpandedResultItem>? expandedResults;
+
+  CollapsedResultDetail({
+    required this.documentAttribute,
+    this.expandedResults,
+  });
+
+  factory CollapsedResultDetail.fromJson(Map<String, dynamic> json) {
+    return CollapsedResultDetail(
+      documentAttribute: DocumentAttribute.fromJson(
+          json['DocumentAttribute'] as Map<String, dynamic>),
+      expandedResults: (json['ExpandedResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExpandedResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentAttribute = this.documentAttribute;
+    final expandedResults = this.expandedResults;
+    return {
+      'DocumentAttribute': documentAttribute,
+      if (expandedResults != null) 'ExpandedResults': expandedResults,
     };
   }
 }
@@ -7019,6 +7353,12 @@ class CustomDocumentEnrichmentConfiguration {
 class DataSourceConfiguration {
   /// Provides the configuration information to connect to Alfresco as your data
   /// source.
+  /// <note>
+  /// Support for <code>AlfrescoConfiguration</code> ended May 2023. We recommend
+  /// migrating to or using the Alfresco data source template schema / <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// API.
+  /// </note>
   final AlfrescoConfiguration? alfrescoConfiguration;
 
   /// Provides the configuration information to connect to Box as your data
@@ -7035,10 +7375,44 @@ class DataSourceConfiguration {
 
   /// Provides the configuration information to connect to Amazon FSx as your data
   /// source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded Amazon FSx Windows connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>FsxConfiguration</code> object to configure your
+  /// connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won't be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
   final FsxConfiguration? fsxConfiguration;
 
   /// Provides the configuration information to connect to GitHub as your data
   /// source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded GitHub connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>GitHubConfiguration</code> object to configure
+  /// your connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won’t be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
   final GitHubConfiguration? gitHubConfiguration;
 
   /// Provides the configuration information to connect to Google Drive as your
@@ -7059,6 +7433,23 @@ class DataSourceConfiguration {
 
   /// Provides the configuration information to connect to an Amazon S3 bucket as
   /// your data source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded Amazon S3 connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>S3DataSourceConfiguration</code> object to
+  /// configure your connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won't be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
   final S3DataSourceConfiguration? s3Configuration;
 
   /// Provides the configuration information to connect to Salesforce as your data
@@ -7075,6 +7466,23 @@ class DataSourceConfiguration {
 
   /// Provides the configuration information to connect to Slack as your data
   /// source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded Slack connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>SlackConfiguration</code> object to configure
+  /// your connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won't be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
   final SlackConfiguration? slackConfiguration;
 
   /// Provides a template for the configuration information to connect to your
@@ -7608,16 +8016,29 @@ extension DataSourceSyncJobStatusFromString on String {
   }
 }
 
-/// Maps a column or attribute in the data source to an index field. You must
-/// first create the fields in the index using the <code>UpdateIndex</code> API.
+/// Maps attributes or field names of the documents synced from the data source
+/// to Amazon Kendra index field names. You can set up field mappings for each
+/// data source when calling <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_CreateDataSource.html">CreateDataSource</a>
+/// or <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_UpdateDataSource.html">UpdateDataSource</a>
+/// API. To create custom fields, use the <code>UpdateIndex</code> API to first
+/// create an index field and then map to the data source field. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+/// data source fields</a>.
 class DataSourceToIndexFieldMapping {
-  /// The name of the column or attribute in the data source.
+  /// The name of the field in the data source. You must first create the index
+  /// field using the <code>UpdateIndex</code> API.
   final String dataSourceFieldName;
 
-  /// The name of the field in the index.
+  /// The name of the index field to map to the data source field. The index field
+  /// type must match the data source field type.
   final String indexFieldName;
 
-  /// The type of data stored in the column or attribute.
+  /// The format for date fields in the data source. If the field specified in
+  /// <code>DataSourceFieldName</code> is a date field, you must specify the date
+  /// format. If the field is not a date field, an exception is thrown.
   final String? dateFieldFormat;
 
   DataSourceToIndexFieldMapping({
@@ -7798,7 +8219,9 @@ class DataSourceVpcConfiguration {
   }
 }
 
-/// Provides the configuration information to connect to a index.
+/// Provides the configuration information to an <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html">Amazon
+/// Kendra supported database</a>.
 class DatabaseConfiguration {
   /// Information about where the index should get the document information from
   /// the database.
@@ -8524,10 +8947,10 @@ class DescribeIndexResponse {
   final String? name;
 
   /// The Amazon Resource Name (ARN) of the IAM role that gives Amazon Kendra
-  /// permission to write to your Amazon Cloudwatch logs.
+  /// permission to write to your Amazon CloudWatch logs.
   final String? roleArn;
 
-  /// The identifier of the KMScustomer master key (CMK) that is used to encrypt
+  /// The identifier of the KMS customer master key (CMK) that is used to encrypt
   /// your data. Amazon Kendra doesn't support asymmetric CMKs.
   final ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration;
 
@@ -8537,15 +8960,15 @@ class DescribeIndexResponse {
   /// that explains why.
   final IndexStatus? status;
 
-  /// The Unix when the index was last updated.
+  /// The Unix timestamp when the index was last updated.
   final DateTime? updatedAt;
 
   /// The user context policy for the Amazon Kendra index.
   final UserContextPolicy? userContextPolicy;
 
-  /// Whether you have enabled the configuration for fetching access levels of
-  /// groups and users from an IAM Identity Center (successor to Single Sign-On)
-  /// identity source.
+  /// Whether you have enabled IAM Identity Center identity source for your users
+  /// and groups. This is useful for user context filtering, where search results
+  /// are filtered based on the user or their group access to documents.
   final UserGroupResolutionConfiguration? userGroupResolutionConfiguration;
 
   /// The user token configuration for the Amazon Kendra index.
@@ -9201,6 +9624,11 @@ class Document {
   final Uint8List? blob;
 
   /// The file type of the document in the <code>Blob</code> field.
+  ///
+  /// If you want to index snippets or subsets of HTML documents instead of the
+  /// entirety of the HTML documents, you must add the <code>HTML</code> start and
+  /// closing tags (<code>&lt;HTML&gt;content&lt;/HTML&gt;</code>) around the
+  /// content.
   final ContentType? contentType;
 
   /// The list of <a
@@ -9476,17 +9904,17 @@ class DocumentAttributeValue {
   }
 }
 
-/// Provides the count of documents that match a particular attribute when doing
-/// a faceted search.
+/// Provides the count of documents that match a particular document attribute
+/// or field when doing a faceted search.
 class DocumentAttributeValueCountPair {
-  /// The number of documents in the response that have the attribute value for
-  /// the key.
+  /// The number of documents in the response that have the attribute/field value
+  /// for the key.
   final int? count;
 
-  /// The value of the attribute. For example, "HR".
+  /// The value of the attribute/field. For example, "HR".
   final DocumentAttributeValue? documentAttributeValue;
 
-  /// Contains the results of a document attribute that is a nested facet. A
+  /// Contains the results of a document attribute/field that is a nested facet. A
   /// <code>FacetResult</code> contains the counts for each facet nested within a
   /// facet.
   ///
@@ -9964,6 +10392,106 @@ extension ErrorCodeFromString on String {
   }
 }
 
+/// Specifies the configuration information needed to customize how collapsed
+/// search result groups expand.
+class ExpandConfiguration {
+  /// The number of expanded results to show per collapsed primary document. For
+  /// instance, if you set this value to 3, then at most 3 results per collapsed
+  /// group will be displayed.
+  final int? maxExpandedResultsPerItem;
+
+  /// The number of collapsed search result groups to expand. If you set this
+  /// value to 10, for example, only the first 10 out of 100 result groups will
+  /// have expand functionality.
+  final int? maxResultItemsToExpand;
+
+  ExpandConfiguration({
+    this.maxExpandedResultsPerItem,
+    this.maxResultItemsToExpand,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maxExpandedResultsPerItem = this.maxExpandedResultsPerItem;
+    final maxResultItemsToExpand = this.maxResultItemsToExpand;
+    return {
+      if (maxExpandedResultsPerItem != null)
+        'MaxExpandedResultsPerItem': maxExpandedResultsPerItem,
+      if (maxResultItemsToExpand != null)
+        'MaxResultItemsToExpand': maxResultItemsToExpand,
+    };
+  }
+}
+
+/// A single expanded result in a collapsed group of search results.
+///
+/// An expanded result item contains information about an expanded result
+/// document within a collapsed group of search results. This includes the
+/// original location of the document, a list of attributes assigned to the
+/// document, and relevant text from the document that satisfies the query.
+class ExpandedResultItem {
+  /// An array of document attributes assigned to a document in the search
+  /// results. For example, the document author ("_author") or the source URI
+  /// ("_source_uri") of the document.
+  final List<DocumentAttribute>? documentAttributes;
+  final TextWithHighlights? documentExcerpt;
+
+  /// The idenitifier of the document.
+  final String? documentId;
+  final TextWithHighlights? documentTitle;
+
+  /// The URI of the original location of the document.
+  final String? documentURI;
+
+  /// The identifier for the expanded result.
+  final String? id;
+
+  ExpandedResultItem({
+    this.documentAttributes,
+    this.documentExcerpt,
+    this.documentId,
+    this.documentTitle,
+    this.documentURI,
+    this.id,
+  });
+
+  factory ExpandedResultItem.fromJson(Map<String, dynamic> json) {
+    return ExpandedResultItem(
+      documentAttributes: (json['DocumentAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentExcerpt: json['DocumentExcerpt'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentExcerpt'] as Map<String, dynamic>)
+          : null,
+      documentId: json['DocumentId'] as String?,
+      documentTitle: json['DocumentTitle'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentTitle'] as Map<String, dynamic>)
+          : null,
+      documentURI: json['DocumentURI'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentAttributes = this.documentAttributes;
+    final documentExcerpt = this.documentExcerpt;
+    final documentId = this.documentId;
+    final documentTitle = this.documentTitle;
+    final documentURI = this.documentURI;
+    final id = this.id;
+    return {
+      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
+      if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
+      if (documentId != null) 'DocumentId': documentId,
+      if (documentTitle != null) 'DocumentTitle': documentTitle,
+      if (documentURI != null) 'DocumentURI': documentURI,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
 /// Provides the configuration information for your Amazon Kendra experience.
 /// This includes the data source IDs and/or FAQ IDs, and user or group
 /// information to grant access to your Amazon Kendra experience.
@@ -10183,8 +10711,8 @@ class ExperiencesSummary {
   }
 }
 
-/// Information about a document attribute. You can use document attributes as
-/// facets.
+/// Information about a document attribute or field. You can use document
+/// attributes as facets.
 ///
 /// For example, the document attribute or facet "Department" includes the
 /// values "HR", "Engineering", and "Accounting". You can display these values
@@ -10904,6 +11432,23 @@ class FeaturedResultsSetSummary {
 
 /// Provides the configuration information to connect to Amazon FSx as your data
 /// source.
+/// <note>
+/// Amazon Kendra now supports an upgraded Amazon FSx Windows connector.
+///
+/// You must now use the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// object instead of the <code>FsxConfiguration</code> object to configure your
+/// connector.
+///
+/// Connectors configured using the older console and API architecture will
+/// continue to function as configured. However, you won't be able to edit or
+/// update them. If you want to edit or update your connector configuration, you
+/// must create a new connector.
+///
+/// We recommended migrating your connector workflow to the upgraded version.
+/// Support for connectors configured using the older architecture is scheduled
+/// to end by June 2024.
+/// </note>
 class FsxConfiguration {
   /// The identifier of the Amazon FSx file system.
   ///
@@ -11131,6 +11676,23 @@ class GetSnapshotsResponse {
 
 /// Provides the configuration information to connect to GitHub as your data
 /// source.
+/// <note>
+/// Amazon Kendra now supports an upgraded GitHub connector.
+///
+/// You must now use the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// object instead of the <code>GitHubConfiguration</code> object to configure
+/// your connector.
+///
+/// Connectors configured using the older console and API architecture will
+/// continue to function as configured. However, you won’t be able to edit or
+/// update them. If you want to edit or update your connector configuration, you
+/// must create a new connector.
+///
+/// We recommended migrating your connector workflow to the upgraded version.
+/// Support for connectors configured using the older architecture is scheduled
+/// to end by June 2024.
+/// </note>
 class GitHubConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
   /// the key-value pairs required to connect to your GitHub. The secret must
@@ -13215,6 +13777,40 @@ extension MetricTypeFromString on String {
   }
 }
 
+enum MissingAttributeKeyStrategy {
+  ignore,
+  collapse,
+  expand,
+}
+
+extension MissingAttributeKeyStrategyValueExtension
+    on MissingAttributeKeyStrategy {
+  String toValue() {
+    switch (this) {
+      case MissingAttributeKeyStrategy.ignore:
+        return 'IGNORE';
+      case MissingAttributeKeyStrategy.collapse:
+        return 'COLLAPSE';
+      case MissingAttributeKeyStrategy.expand:
+        return 'EXPAND';
+    }
+  }
+}
+
+extension MissingAttributeKeyStrategyFromString on String {
+  MissingAttributeKeyStrategy toMissingAttributeKeyStrategy() {
+    switch (this) {
+      case 'IGNORE':
+        return MissingAttributeKeyStrategy.ignore;
+      case 'COLLAPSE':
+        return MissingAttributeKeyStrategy.collapse;
+      case 'EXPAND':
+        return MissingAttributeKeyStrategy.expand;
+    }
+    throw Exception('$this is not known in enum MissingAttributeKeyStrategy');
+  }
+}
+
 enum Mode {
   enabled,
   learnOnly,
@@ -13250,7 +13846,7 @@ class OnPremiseConfiguration {
   /// <i>https://on-prem-host-url/api/v3/</i>
   final String hostUrl;
 
-  /// The name of the organization of the GitHub Enterprise Server (in-premise)
+  /// The name of the organization of the GitHub Enterprise Server (on-premises)
   /// account you want to connect to. You can find your organization name by
   /// logging into GitHub desktop and selecting <b>Your organizations</b> under
   /// your profile picture dropdown.
@@ -13745,8 +14341,8 @@ extension QueryIdentifiersEnclosingOptionFromString on String {
 
 class QueryResult {
   /// Contains the facet results. A <code>FacetResult</code> contains the counts
-  /// for each attribute key that was specified in the <code>Facets</code> input
-  /// parameter.
+  /// for each field/attribute key that was specified in the <code>Facets</code>
+  /// input parameter.
   final List<FacetResult>? facetResults;
 
   /// The list of featured result items. Featured results are displayed at the top
@@ -13755,8 +14351,10 @@ class QueryResult {
   /// featured in the search results.
   final List<FeaturedResultsItem>? featuredResultsItems;
 
-  /// The identifier for the search. You use <code>QueryId</code> to identify the
-  /// search when using the feedback API.
+  /// The identifier for the search. You also use <code>QueryId</code> to identify
+  /// the search when using the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html">SubmitFeedback</a>
+  /// API.
   final String? queryId;
 
   /// The results of the search.
@@ -13765,7 +14363,7 @@ class QueryResult {
   /// A list of information related to suggested spell corrections for a query.
   final List<SpellCorrectedQuery>? spellCorrectedQueries;
 
-  /// The total number of items found by the search; however, you can only
+  /// The total number of items found by the search. However, you can only
   /// retrieve up to 100 items. For example, if the search found 192 items, you
   /// can only retrieve the first 100 of the items.
   final int? totalNumberOfResults;
@@ -13874,10 +14472,13 @@ extension QueryResultFormatFromString on String {
 /// assigned to the document, and relevant text from the document that satisfies
 /// the query.
 class QueryResultItem {
-  /// One or more additional attributes associated with the query result.
+  /// One or more additional fields/attributes associated with the query result.
   final List<AdditionalResultAttribute>? additionalAttributes;
 
-  /// An array of document attributes assigned to a document in the search
+  /// Provides details about a collapsed group of search results.
+  final CollapsedResultDetail? collapsedResultDetail;
+
+  /// An array of document fields/attributes assigned to a document in the search
   /// results. For example, the document author (<code>_author</code>) or the
   /// source URI (<code>_source_uri</code>) of the document.
   final List<DocumentAttribute>? documentAttributes;
@@ -13900,7 +14501,7 @@ class QueryResultItem {
   /// this token to provide click-through feedback for the result. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html">Submitting
-  /// feedback </a>.
+  /// feedback</a>.
   final String? feedbackToken;
 
   /// If the <code>Type</code> of document within the response is
@@ -13910,18 +14511,21 @@ class QueryResultItem {
   /// is returned in <code>DocumentExcerpt</code>.
   final QueryResultFormat? format;
 
-  /// The identifier for the query result.
+  /// The unique identifier for the query result item id (<code>Id</code>) and the
+  /// query result item document id (<code>DocumentId</code>) combined. The value
+  /// of this field changes with every request, even when you have the same
+  /// documents.
   final String? id;
 
-  /// Indicates the confidence that Amazon Kendra has that a result matches the
-  /// query that you provided. Each result is placed into a bin that indicates the
+  /// Indicates the confidence level of Amazon Kendra providing a relevant result
+  /// for the query. Each result is placed into a bin that indicates the
   /// confidence, <code>VERY_HIGH</code>, <code>HIGH</code>, <code>MEDIUM</code>
   /// and <code>LOW</code>. You can use the score to determine if a response meets
   /// the confidence needed for your application.
   ///
   /// The field is only set to <code>LOW</code> when the <code>Type</code> field
   /// is set to <code>DOCUMENT</code> and Amazon Kendra is not confident that the
-  /// result matches the query.
+  /// result is relevant to the query.
   final ScoreAttributes? scoreAttributes;
 
   /// An excerpt from a table within a document.
@@ -13933,6 +14537,7 @@ class QueryResultItem {
 
   QueryResultItem({
     this.additionalAttributes,
+    this.collapsedResultDetail,
     this.documentAttributes,
     this.documentExcerpt,
     this.documentId,
@@ -13953,6 +14558,10 @@ class QueryResultItem {
           .map((e) =>
               AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
+      collapsedResultDetail: json['CollapsedResultDetail'] != null
+          ? CollapsedResultDetail.fromJson(
+              json['CollapsedResultDetail'] as Map<String, dynamic>)
+          : null,
       documentAttributes: (json['DocumentAttributes'] as List?)
           ?.whereNotNull()
           .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
@@ -13983,6 +14592,7 @@ class QueryResultItem {
 
   Map<String, dynamic> toJson() {
     final additionalAttributes = this.additionalAttributes;
+    final collapsedResultDetail = this.collapsedResultDetail;
     final documentAttributes = this.documentAttributes;
     final documentExcerpt = this.documentExcerpt;
     final documentId = this.documentId;
@@ -13997,6 +14607,8 @@ class QueryResultItem {
     return {
       if (additionalAttributes != null)
         'AdditionalAttributes': additionalAttributes,
+      if (collapsedResultDetail != null)
+        'CollapsedResultDetail': collapsedResultDetail,
       if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
       if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
       if (documentId != null) 'DocumentId': documentId,
@@ -14407,9 +15019,8 @@ class Relevance {
 
   /// Indicates that this field determines how "fresh" a document is. For example,
   /// if document 1 was created on November 5, and document 2 was created on
-  /// October 31, document 1 is "fresher" than document 2. You can only set the
-  /// <code>Freshness</code> field on one <code>DATE</code> type field. Only
-  /// applies to <code>DATE</code> fields.
+  /// October 31, document 1 is "fresher" than document 2. Only applies to
+  /// <code>DATE</code> fields.
   final bool? freshness;
 
   /// The relative importance of the field in the search. Larger numbers provide
@@ -14426,12 +15037,12 @@ class Relevance {
   /// numbers are better. For example, in a task tracking application, a priority
   /// 1 task is more important than a priority 5 task.
   ///
-  /// Only applies to <code>LONG</code> and <code>DOUBLE</code> fields.
+  /// Only applies to <code>LONG</code> fields.
   final Order? rankOrder;
 
   /// A list of values that should be given a different boost when they appear in
   /// the result list. For example, if you are boosting a field called
-  /// "department," query terms that match the department field are boosted in the
+  /// "department", query terms that match the department field are boosted in the
   /// result. However, you can add entries from the department field to boost
   /// documents with those values higher.
   ///
@@ -14531,7 +15142,134 @@ extension RelevanceTypeFromString on String {
   }
 }
 
+class RetrieveResult {
+  /// The identifier of query used for the search. You also use
+  /// <code>QueryId</code> to identify the search when using the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html">Submitfeedback</a>
+  /// API.
+  final String? queryId;
+
+  /// The results of the retrieved relevant passages for the search.
+  final List<RetrieveResultItem>? resultItems;
+
+  RetrieveResult({
+    this.queryId,
+    this.resultItems,
+  });
+
+  factory RetrieveResult.fromJson(Map<String, dynamic> json) {
+    return RetrieveResult(
+      queryId: json['QueryId'] as String?,
+      resultItems: (json['ResultItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => RetrieveResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    final resultItems = this.resultItems;
+    return {
+      if (queryId != null) 'QueryId': queryId,
+      if (resultItems != null) 'ResultItems': resultItems,
+    };
+  }
+}
+
+/// A single retrieved relevant passage result.
+class RetrieveResultItem {
+  /// The contents of the relevant passage.
+  final String? content;
+
+  /// An array of document fields/attributes assigned to a document in the search
+  /// results. For example, the document author (<code>_author</code>) or the
+  /// source URI (<code>_source_uri</code>) of the document.
+  final List<DocumentAttribute>? documentAttributes;
+
+  /// The identifier of the document.
+  final String? documentId;
+
+  /// The title of the document.
+  final String? documentTitle;
+
+  /// The URI of the original location of the document.
+  final String? documentURI;
+
+  /// The identifier of the relevant passage result.
+  final String? id;
+
+  /// The confidence score bucket for a retrieved passage result. The confidence
+  /// bucket provides a relative ranking that indicates how confident Amazon
+  /// Kendra is that the response is relevant to the query.
+  final ScoreAttributes? scoreAttributes;
+
+  RetrieveResultItem({
+    this.content,
+    this.documentAttributes,
+    this.documentId,
+    this.documentTitle,
+    this.documentURI,
+    this.id,
+    this.scoreAttributes,
+  });
+
+  factory RetrieveResultItem.fromJson(Map<String, dynamic> json) {
+    return RetrieveResultItem(
+      content: json['Content'] as String?,
+      documentAttributes: (json['DocumentAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentId: json['DocumentId'] as String?,
+      documentTitle: json['DocumentTitle'] as String?,
+      documentURI: json['DocumentURI'] as String?,
+      id: json['Id'] as String?,
+      scoreAttributes: json['ScoreAttributes'] != null
+          ? ScoreAttributes.fromJson(
+              json['ScoreAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final documentAttributes = this.documentAttributes;
+    final documentId = this.documentId;
+    final documentTitle = this.documentTitle;
+    final documentURI = this.documentURI;
+    final id = this.id;
+    final scoreAttributes = this.scoreAttributes;
+    return {
+      if (content != null) 'Content': content,
+      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
+      if (documentId != null) 'DocumentId': documentId,
+      if (documentTitle != null) 'DocumentTitle': documentTitle,
+      if (documentURI != null) 'DocumentURI': documentURI,
+      if (id != null) 'Id': id,
+      if (scoreAttributes != null) 'ScoreAttributes': scoreAttributes,
+    };
+  }
+}
+
 /// Provides the configuration information to connect to an Amazon S3 bucket.
+/// <note>
+/// Amazon Kendra now supports an upgraded Amazon S3 connector.
+///
+/// You must now use the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// object instead of the <code>S3DataSourceConfiguration</code> object to
+/// configure your connector.
+///
+/// Connectors configured using the older console and API architecture will
+/// continue to function as configured. However, you won't be able to edit or
+/// update them. If you want to edit or update your connector configuration, you
+/// must create a new connector.
+///
+/// We recommended migrating your connector workflow to the upgraded version.
+/// Support for connectors configured using the older architecture is scheduled
+/// to end by June 2024.
+/// </note>
 class S3DataSourceConfiguration {
   /// The name of the bucket that contains the documents.
   final String bucketName;
@@ -14543,53 +15281,89 @@ class S3DataSourceConfiguration {
   final AccessControlListConfiguration? accessControlListConfiguration;
   final DocumentsMetadataConfiguration? documentsMetadataConfiguration;
 
-  /// A list of glob patterns for documents that should not be indexed. If a
-  /// document that matches an inclusion prefix or inclusion pattern also matches
-  /// an exclusion pattern, the document is not indexed.
-  ///
-  /// Some <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">examples</a>
-  /// are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>*.png , *.jpg</i> will exclude all PNG and JPEG image files in a
-  /// directory (files with the extensions .png and .jpg).
-  /// </li>
-  /// <li>
-  /// <i>*internal*</i> will exclude all files in a directory that contain
-  /// 'internal' in the file name, such as 'internal', 'internal_only',
-  /// 'company_internal'.
-  /// </li>
-  /// <li>
-  /// <i>**/*internal*</i> will exclude all internal-related files in a directory
-  /// and its subdirectories.
-  /// </li>
-  /// </ul>
-  final List<String>? exclusionPatterns;
-
-  /// A list of glob patterns for documents that should be indexed. If a document
-  /// that matches an inclusion pattern also matches an exclusion pattern, the
-  /// document is not indexed.
-  ///
-  /// Some <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">examples</a>
-  /// are:
+  /// A list of glob patterns (patterns that can expand a wildcard pattern into a
+  /// list of path names that match the given pattern) for certain file names and
+  /// file types to exclude from your index. If a document matches both an
+  /// inclusion and exclusion prefix or pattern, the exclusion prefix takes
+  /// precendence and the document is not indexed. Examples of glob patterns
+  /// include:
   ///
   /// <ul>
   /// <li>
-  /// <i>*.txt</i> will include all text files in a directory (files with the
-  /// extension .txt).
+  /// <i>/myapp/config/*</i>—All files inside config directory.
   /// </li>
   /// <li>
-  /// <i>**/*.txt</i> will include all text files in a directory and its
+  /// <i>**/*.png</i>—All .png files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>**/*.{png, ico, md}</i>—All .png, .ico or .md files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>/myapp/src/**/*.ts</i>—All .ts files inside src directory (and all its
+  /// subdirectories).
+  /// </li>
+  /// <li>
+  /// <i>**/!(*.module).ts</i>—All .ts files but not .module.ts
+  /// </li>
+  /// <li>
+  /// <i>*.png , *.jpg</i>—All PNG and JPEG image files in a directory (files with
+  /// the extensions .png and .jpg).
+  /// </li>
+  /// <li>
+  /// <i>*internal*</i>—All files in a directory that contain 'internal' in the
+  /// file name, such as 'internal', 'internal_only', 'company_internal'.
+  /// </li>
+  /// <li>
+  /// <i>**/*internal*</i>—All internal-related files in a directory and its
   /// subdirectories.
   /// </li>
+  /// </ul>
+  /// For more examples, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">Use
+  /// of Exclude and Include Filters</a> in the Amazon Web Services CLI Command
+  /// Reference.
+  final List<String>? exclusionPatterns;
+
+  /// A list of glob patterns (patterns that can expand a wildcard pattern into a
+  /// list of path names that match the given pattern) for certain file names and
+  /// file types to include in your index. If a document matches both an inclusion
+  /// and exclusion prefix or pattern, the exclusion prefix takes precendence and
+  /// the document is not indexed. Examples of glob patterns include:
+  ///
+  /// <ul>
   /// <li>
-  /// <i>*tax*</i> will include all files in a directory that contain 'tax' in the
-  /// file name, such as 'tax', 'taxes', 'income_tax'.
+  /// <i>/myapp/config/*</i>—All files inside config directory.
+  /// </li>
+  /// <li>
+  /// <i>**/*.png</i>—All .png files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>**/*.{png, ico, md}</i>—All .png, .ico or .md files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>/myapp/src/**/*.ts</i>—All .ts files inside src directory (and all its
+  /// subdirectories).
+  /// </li>
+  /// <li>
+  /// <i>**/!(*.module).ts</i>—All .ts files but not .module.ts
+  /// </li>
+  /// <li>
+  /// <i>*.png , *.jpg</i>—All PNG and JPEG image files in a directory (files with
+  /// the extensions .png and .jpg).
+  /// </li>
+  /// <li>
+  /// <i>*internal*</i>—All files in a directory that contain 'internal' in the
+  /// file name, such as 'internal', 'internal_only', 'company_internal'.
+  /// </li>
+  /// <li>
+  /// <i>**/*internal*</i>—All internal-related files in a directory and its
+  /// subdirectories.
   /// </li>
   /// </ul>
+  /// For more examples, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">Use
+  /// of Exclude and Include Filters</a> in the Amazon Web Services CLI Command
+  /// Reference.
   final List<String>? inclusionPatterns;
 
   /// A list of S3 prefixes for the documents that should be included in the
@@ -15379,9 +16153,9 @@ extension SalesforceStandardObjectNameFromString on String {
 }
 
 /// Provides a relative ranking that indicates how confident Amazon Kendra is
-/// that the response matches the query.
+/// that the response is relevant to the query.
 class ScoreAttributes {
-  /// A relative ranking for how well the response matches the query.
+  /// A relative ranking for how relevant the response is to the query.
   final ScoreConfidence? scoreConfidence;
 
   ScoreAttributes({
@@ -15518,17 +16292,17 @@ class SeedUrlConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// <code>HOST_ONLY</code> – crawl only the website host names. For example, if
+  /// <code>HOST_ONLY</code>—crawl only the website host names. For example, if
   /// the seed URL is "abc.example.com", then only URLs with host name
   /// "abc.example.com" are crawled.
   /// </li>
   /// <li>
-  /// <code>SUBDOMAINS</code> – crawl the website host names with subdomains. For
+  /// <code>SUBDOMAINS</code>—crawl the website host names with subdomains. For
   /// example, if the seed URL is "abc.example.com", then "a.abc.example.com" and
   /// "b.abc.example.com" are also crawled.
   /// </li>
   /// <li>
-  /// <code>EVERYTHING</code> – crawl the website host names with subdomains and
+  /// <code>EVERYTHING</code>—crawl the website host names with subdomains and
   /// other domains that the web pages link to.
   /// </li>
   /// </ul>
@@ -15750,14 +16524,11 @@ class ServiceNowKnowledgeArticleConfiguration {
   /// field.
   final String? documentTitleFieldName;
 
-  /// A list of regular expression patterns to exclude certain attachments of
-  /// knowledge articles in your ServiceNow. Item that match the patterns are
-  /// excluded from the index. Items that don't match the patterns are included in
-  /// the index. If an item matches both an inclusion and exclusion pattern, the
-  /// exclusion pattern takes precedence and the item isn't included in the index.
-  ///
-  /// The regex is applied to the field specified in the
-  /// <code>PatternTargetField</code>.
+  /// A list of regular expression patterns applied to exclude certain knowledge
+  /// article attachments. Attachments that match the patterns are excluded from
+  /// the index. Items that don't match the patterns are included in the index. If
+  /// an item matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the item isn't included in the index.
   final List<String>? excludeAttachmentFilePatterns;
 
   /// Maps attributes or field names of knoweldge articles to Amazon Kendra index
@@ -15778,14 +16549,11 @@ class ServiceNowKnowledgeArticleConfiguration {
   /// documents to index with a query</a>.
   final String? filterQuery;
 
-  /// A list of regular expression patterns to include certain attachments of
-  /// knowledge articles in your ServiceNow. Item that match the patterns are
-  /// included in the index. Items that don't match the patterns are excluded from
-  /// the index. If an item matches both an inclusion and exclusion pattern, the
-  /// exclusion pattern takes precedence and the item isn't included in the index.
-  ///
-  /// The regex is applied to the field specified in the
-  /// <code>PatternTargetField</code>.
+  /// A list of regular expression patterns applied to include knowledge article
+  /// attachments. Attachments that match the patterns are included in the index.
+  /// Items that don't match the patterns are excluded from the index. If an item
+  /// matches both an inclusion and exclusion pattern, the exclusion pattern takes
+  /// precedence and the item isn't included in the index.
   final List<String>? includeAttachmentFilePatterns;
 
   ServiceNowKnowledgeArticleConfiguration({
@@ -16241,6 +17009,23 @@ class SiteMapsConfiguration {
 
 /// Provides the configuration information to connect to Slack as your data
 /// source.
+/// <note>
+/// Amazon Kendra now supports an upgraded Slack connector.
+///
+/// You must now use the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// object instead of the <code>SlackConfiguration</code> object to configure
+/// your connector.
+///
+/// Connectors configured using the older console and API architecture will
+/// continue to function as configured. However, you won’t be able to edit or
+/// update them. If you want to edit or update your connector configuration, you
+/// must create a new connector.
+///
+/// We recommended migrating your connector workflow to the upgraded version.
+/// Support for connectors configured using the older architecture is scheduled
+/// to end by June 2024.
+/// </note>
 class SlackConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
   /// the key-value pairs required to connect to your Slack workspace team. The
@@ -17611,9 +18396,9 @@ extension UserContextPolicyFromString on String {
 }
 
 /// Provides the configuration information to get users and groups from an IAM
-/// Identity Center (successor to Single Sign-On) identity source. This is
-/// useful for user context filtering, where search results are filtered based
-/// on the user or their group access to documents. You can also use the <a
+/// Identity Center identity source. This is useful for user context filtering,
+/// where search results are filtered based on the user or their group access to
+/// documents. You can also use the <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html">PutPrincipalMapping</a>
 /// API to map users to their groups so that you only need to provide the user
 /// ID when you issue the query.
@@ -17634,9 +18419,9 @@ extension UserContextPolicyFromString on String {
 /// order to use <code>UserGroupResolutionConfiguration</code>.
 class UserGroupResolutionConfiguration {
   /// The identity store provider (mode) you want to use to get users and groups.
-  /// IAM Identity Center (successor to Single Sign-On) is currently the only
-  /// available mode. Your users and groups must exist in an IAM Identity Center
-  /// identity source in order to use this mode.
+  /// IAM Identity Center is currently the only available mode. Your users and
+  /// groups must exist in an IAM Identity Center identity source in order to use
+  /// this mode.
   final UserGroupResolutionMode userGroupResolutionMode;
 
   UserGroupResolutionConfiguration({
@@ -17842,15 +18627,9 @@ class WebCrawlerConfiguration {
   /// port is 443, the standard port for HTTPS.
   final AuthenticationConfiguration? authenticationConfiguration;
 
-  /// Specifies the number of levels in a website that you want to crawl.
-  ///
-  /// The first level begins from the website seed or starting point URL. For
-  /// example, if a website has three levels—index level (the seed in this
-  /// example), sections level, and subsections level—and you are only interested
-  /// in crawling information up to the sections level (levels 0-1), you can set
-  /// your depth to 1.
-  ///
-  /// The default crawl depth is set to 2.
+  /// The 'depth' or number of levels from the seed level to crawl. For example,
+  /// the seed URL page is depth 1 and any hyperlinks on this page that are also
+  /// crawled are depth 2.
   final int? crawlDepth;
 
   /// The maximum size (in MB) of a web page or attachment to crawl.

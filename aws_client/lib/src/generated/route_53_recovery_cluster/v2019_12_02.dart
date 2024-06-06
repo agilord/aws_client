@@ -28,8 +28,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// hosted on a highly available cluster in Route 53 ARC. A cluster provides a
 /// set of five redundant Regional endpoints against which you can run API calls
 /// to get or update the state of routing controls. To implement failover, you
-/// set one routing control On and another one Off, to reroute traffic from one
-/// Availability Zone or Amazon Web Services Region to another.
+/// set one routing control to ON and another one to OFF, to reroute traffic
+/// from one Availability Zone or Amazon Web Services Region to another.
 ///
 /// <i>Be aware that you must specify a Regional endpoint for a cluster when you
 /// work with API cluster operations to get or update routing control states in
@@ -112,8 +112,8 @@ class Route53RecoveryCluster {
 
   /// Get the state for a routing control. A routing control is a simple on/off
   /// switch that you can use to route traffic to cells. When a routing control
-  /// state is On, traffic flows to a cell. When the state is Off, traffic does
-  /// not flow.
+  /// state is set to ON, traffic flows to a cell. When the state is set to OFF,
+  /// traffic does not flow.
   ///
   /// Before you can create a routing control, you must first create a cluster,
   /// and then host the control in a control panel on the cluster. For more
@@ -187,8 +187,9 @@ class Route53RecoveryCluster {
   /// panel. Otherwise, it lists all the routing controls in the cluster.
   ///
   /// A routing control is a simple on/off switch in Route 53 ARC that you can
-  /// use to route traffic to cells. When a routing control state is On, traffic
-  /// flows to a cell. When the state is Off, traffic does not flow.
+  /// use to route traffic to cells. When a routing control state is set to ON,
+  /// traffic flows to a cell. When the state is set to OFF, traffic does not
+  /// flow.
   ///
   /// Before you can create a routing control, you must first create a cluster,
   /// and then host the control in a control panel on the cluster. For more
@@ -269,8 +270,8 @@ class Route53RecoveryCluster {
   }
 
   /// Set the state of the routing control to reroute traffic. You can set the
-  /// value to be On or Off. When the state is On, traffic flows to a cell. When
-  /// the state is Off, traffic does not flow.
+  /// value to ON or OFF. When the state is ON, traffic flows to a cell. When
+  /// the state is OFF, traffic does not flow.
   ///
   /// With Route 53 ARC, you can add safety rules for routing controls, which
   /// are safeguards for routing control state updates that help prevent
@@ -325,7 +326,7 @@ class Route53RecoveryCluster {
   /// update the state for.
   ///
   /// Parameter [routingControlState] :
-  /// The state of the routing control. You can set the value to be On or Off.
+  /// The state of the routing control. You can set the value to ON or OFF.
   ///
   /// Parameter [safetyRulesToOverride] :
   /// The Amazon Resource Names (ARNs) for the safety rules that you want to
@@ -362,8 +363,8 @@ class Route53RecoveryCluster {
   }
 
   /// Set multiple routing control states. You can set the value for each state
-  /// to be On or Off. When the state is On, traffic flows to a cell. When it's
-  /// Off, traffic does not flow.
+  /// to be ON or OFF. When the state is ON, traffic flows to a cell. When it's
+  /// OFF, traffic does not flow.
   ///
   /// With Route 53 ARC, you can add safety rules for routing controls, which
   /// are safeguards for routing control state updates that help prevent
@@ -522,15 +523,19 @@ class ListRoutingControlsResponse {
 }
 
 /// A routing control, which is a simple on/off switch that you can use to route
-/// traffic to cells. When a routing control state is On, traffic flows to a
-/// cell. When the state is Off, traffic does not flow.
+/// traffic to cells. When a routing control state is set to ON, traffic flows
+/// to a cell. When the state is set to OFF, traffic does not flow.
 class RoutingControl {
   /// The Amazon Resource Name (ARN) of the control panel where the routing
   /// control is located.
   final String? controlPanelArn;
 
-  /// The name of the control panel where the routing control is located.
+  /// The name of the control panel where the routing control is located. Only
+  /// ASCII characters are supported for control panel names.
   final String? controlPanelName;
+
+  /// The Amazon Web Services account ID of the routing control owner.
+  final String? owner;
 
   /// The Amazon Resource Name (ARN) of the routing control.
   final String? routingControlArn;
@@ -539,12 +544,14 @@ class RoutingControl {
   final String? routingControlName;
 
   /// The current state of the routing control. When a routing control state is
-  /// On, traffic flows to a cell. When the state is Off, traffic does not flow.
+  /// set to ON, traffic flows to a cell. When the state is set to OFF, traffic
+  /// does not flow.
   final RoutingControlState? routingControlState;
 
   RoutingControl({
     this.controlPanelArn,
     this.controlPanelName,
+    this.owner,
     this.routingControlArn,
     this.routingControlName,
     this.routingControlState,
@@ -554,6 +561,7 @@ class RoutingControl {
     return RoutingControl(
       controlPanelArn: json['ControlPanelArn'] as String?,
       controlPanelName: json['ControlPanelName'] as String?,
+      owner: json['Owner'] as String?,
       routingControlArn: json['RoutingControlArn'] as String?,
       routingControlName: json['RoutingControlName'] as String?,
       routingControlState:
@@ -564,12 +572,14 @@ class RoutingControl {
   Map<String, dynamic> toJson() {
     final controlPanelArn = this.controlPanelArn;
     final controlPanelName = this.controlPanelName;
+    final owner = this.owner;
     final routingControlArn = this.routingControlArn;
     final routingControlName = this.routingControlName;
     final routingControlState = this.routingControlState;
     return {
       if (controlPanelArn != null) 'ControlPanelArn': controlPanelArn,
       if (controlPanelName != null) 'ControlPanelName': controlPanelName,
+      if (owner != null) 'Owner': owner,
       if (routingControlArn != null) 'RoutingControlArn': routingControlArn,
       if (routingControlName != null) 'RoutingControlName': routingControlName,
       if (routingControlState != null)

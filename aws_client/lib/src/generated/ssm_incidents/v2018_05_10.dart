@@ -59,6 +59,41 @@ class SsmIncidents {
     _protocol.close();
   }
 
+  /// Retrieves details about all specified findings for an incident, including
+  /// descriptive details about each finding. A finding represents a recent
+  /// application environment change made by an CodeDeploy deployment or an
+  /// CloudFormation stack creation or update that can be investigated as a
+  /// potential cause of the incident.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [findingIds] :
+  /// A list of IDs of findings for which you want to view details.
+  ///
+  /// Parameter [incidentRecordArn] :
+  /// The Amazon Resource Name (ARN) of the incident for which you want to view
+  /// finding details.
+  Future<BatchGetIncidentFindingsOutput> batchGetIncidentFindings({
+    required List<String> findingIds,
+    required String incidentRecordArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'findingIds': findingIds,
+      'incidentRecordArn': incidentRecordArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/batchGetIncidentFindings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetIncidentFindingsOutput.fromJson(response);
+  }
+
   /// A replication set replicates and encrypts your data to the provided
   /// Regions with the provided KMS key.
   ///
@@ -185,11 +220,16 @@ class SsmIncidents {
   /// A short description of the event.
   ///
   /// Parameter [eventTime] :
-  /// The time that the event occurred.
+  /// The timestamp for when the event occurred.
   ///
   /// Parameter [eventType] :
   /// The type of event. You can create timeline events of type <code>Custom
-  /// Event</code>.
+  /// Event</code> and <code>Note</code>.
+  ///
+  /// To make a Note-type event appear on the <i>Incident notes</i> panel in the
+  /// console, specify <code>eventType</code> as <code>Note</code>and enter the
+  /// Amazon Resource Name (ARN) of the incident as the value for
+  /// <code>eventReference</code>.
   ///
   /// Parameter [incidentRecordArn] :
   /// The Amazon Resource Name (ARN) of the incident record that the action adds
@@ -437,7 +477,8 @@ class SsmIncidents {
   /// results.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token for the next set of items to return. (You received
+  /// this token from a previous call.)
   Future<GetResourcePoliciesOutput> getResourcePolicies({
     required String resourceArn,
     int? maxResults,
@@ -525,6 +566,53 @@ class SsmIncidents {
     return GetTimelineEventOutput.fromJson(response);
   }
 
+  /// Retrieves a list of the IDs of findings, plus their last modified times,
+  /// that have been identified for a specified incident. A finding represents a
+  /// recent application environment change made by an CloudFormation stack
+  /// creation or update or an CodeDeploy deployment that can be investigated as
+  /// a potential cause of the incident.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [incidentRecordArn] :
+  /// The Amazon Resource Name (ARN) of the incident for which you want to view
+  /// associated findings.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of findings to retrieve per call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token for the next set of items to return. (You received
+  /// this token from a previous call.)
+  Future<ListIncidentFindingsOutput> listIncidentFindings({
+    required String incidentRecordArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final $payload = <String, dynamic>{
+      'incidentRecordArn': incidentRecordArn,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listIncidentFindings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIncidentFindingsOutput.fromJson(response);
+  }
+
   /// Lists all incident records in your account. Use this command to retrieve
   /// the Amazon Resource Name (ARN) of the incident record you want to update.
   ///
@@ -571,7 +659,8 @@ class SsmIncidents {
   /// The maximum number of results per page.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token for the next set of items to return. (You received
+  /// this token from a previous call.)
   Future<ListIncidentRecordsOutput> listIncidentRecords({
     List<Filter>? filters,
     int? maxResults,
@@ -612,7 +701,8 @@ class SsmIncidents {
   /// The maximum number of related items per page.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token for the next set of items to return. (You received
+  /// this token from a previous call.)
   Future<ListRelatedItemsOutput> listRelatedItems({
     required String incidentRecordArn,
     int? maxResults,
@@ -649,7 +739,8 @@ class SsmIncidents {
   /// The maximum number of results per page.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token for the next set of items to return. (You received
+  /// this token from a previous call.)
   Future<ListReplicationSetsOutput> listReplicationSets({
     int? maxResults,
     String? nextToken,
@@ -684,7 +775,8 @@ class SsmIncidents {
   /// The maximum number of response plans per page.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token for the next set of items to return. (You received
+  /// this token from a previous call.)
   Future<ListResponsePlansOutput> listResponsePlans({
     int? maxResults,
     String? nextToken,
@@ -708,7 +800,8 @@ class SsmIncidents {
     return ListResponsePlansOutput.fromJson(response);
   }
 
-  /// Lists the tags that are attached to the specified response plan.
+  /// Lists the tags that are attached to the specified response plan or
+  /// incident.
   ///
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
@@ -717,7 +810,7 @@ class SsmIncidents {
   /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the response plan.
+  /// The Amazon Resource Name (ARN) of the response plan or incident.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
@@ -747,6 +840,9 @@ class SsmIncidents {
   ///
   /// <ul>
   /// <li>
+  /// <code>eventReference</code>
+  /// </li>
+  /// <li>
   /// <code>eventTime</code>
   /// </li>
   /// <li>
@@ -773,7 +869,8 @@ class SsmIncidents {
   /// The maximum number of results per page.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token for the next set of items to return. (You received
+  /// this token from a previous call.)
   ///
   /// Parameter [sortBy] :
   /// Sort timeline events by the specified key value pair.
@@ -869,28 +966,23 @@ class SsmIncidents {
   /// Parameter [impact] :
   /// Defines the impact to the customers. Providing an impact overwrites the
   /// impact provided by a response plan.
-  /// <p class="title"> <b>Possible impacts:</b>
+  /// <p class="title"> <b>Supported impact codes</b>
   ///
   /// <ul>
   /// <li>
-  /// <code>1</code> - Critical impact, this typically relates to full
-  /// application failure that impacts many to all customers.
+  /// <code>1</code> - Critical
   /// </li>
   /// <li>
-  /// <code>2</code> - High impact, partial application failure with impact to
-  /// many customers.
+  /// <code>2</code> - High
   /// </li>
   /// <li>
-  /// <code>3</code> - Medium impact, the application is providing reduced
-  /// service to customers.
+  /// <code>3</code> - Medium
   /// </li>
   /// <li>
-  /// <code>4</code> - Low impact, customer might aren't impacted by the problem
-  /// yet.
+  /// <code>4</code> - Low
   /// </li>
   /// <li>
-  /// <code>5</code> - No impact, customers aren't currently impacted but urgent
-  /// action is needed to avoid impact.
+  /// <code>5</code> - No Impact
   /// </li>
   /// </ul>
   ///
@@ -1061,27 +1153,23 @@ class SsmIncidents {
   /// Defines the impact of the incident to customers and applications. If you
   /// provide an impact for an incident, it overwrites the impact provided by
   /// the response plan.
-  /// <p class="title"> <b>Possible impacts:</b>
+  /// <p class="title"> <b>Supported impact codes</b>
   ///
   /// <ul>
   /// <li>
-  /// <code>1</code> - Critical impact, full application failure that impacts
-  /// many to all customers.
+  /// <code>1</code> - Critical
   /// </li>
   /// <li>
-  /// <code>2</code> - High impact, partial application failure with impact to
-  /// many customers.
+  /// <code>2</code> - High
   /// </li>
   /// <li>
-  /// <code>3</code> - Medium impact, the application is providing reduced
-  /// service to customers.
+  /// <code>3</code> - Medium
   /// </li>
   /// <li>
-  /// <code>4</code> - Low impact, customer aren't impacted by the problem yet.
+  /// <code>4</code> - Low
   /// </li>
   /// <li>
-  /// <code>5</code> - No impact, customers aren't currently impacted but urgent
-  /// action is needed to avoid impact.
+  /// <code>5</code> - No Impact
   /// </li>
   /// </ul>
   ///
@@ -1249,23 +1337,23 @@ class SsmIncidents {
   /// Parameter [incidentTemplateImpact] :
   /// Defines the impact to the customers. Providing an impact overwrites the
   /// impact provided by a response plan.
-  /// <p class="title"> <b>Possible impacts:</b>
+  /// <p class="title"> <b>Supported impact codes</b>
   ///
   /// <ul>
   /// <li>
-  /// <code>5</code> - Severe impact
+  /// <code>1</code> - Critical
   /// </li>
   /// <li>
-  /// <code>4</code> - High impact
+  /// <code>2</code> - High
   /// </li>
   /// <li>
-  /// <code>3</code> - Medium impact
+  /// <code>3</code> - Medium
   /// </li>
   /// <li>
-  /// <code>2</code> - Low impact
+  /// <code>4</code> - Low
   /// </li>
   /// <li>
-  /// <code>1</code> - No impact
+  /// <code>5</code> - No Impact
   /// </li>
   /// </ul>
   ///
@@ -1380,11 +1468,11 @@ class SsmIncidents {
   /// </important>
   ///
   /// Parameter [eventTime] :
-  /// The time that the event occurred.
+  /// The timestamp for when the event occurred.
   ///
   /// Parameter [eventType] :
-  /// The type of event. You can update events of type <code>Custom
-  /// Event</code>.
+  /// The type of event. You can update events of type <code>Custom Event</code>
+  /// and <code>Note</code>.
   Future<void> updateTimelineEvent({
     required String eventId,
     required String incidentRecordArn,
@@ -1511,6 +1599,83 @@ class AutomationExecution {
   }
 }
 
+/// Details about an error returned for a <a>BatchGetIncidentFindings</a>
+/// operation.
+class BatchGetIncidentFindingsError {
+  /// The code associated with an error that was returned for a
+  /// <code>BatchGetIncidentFindings</code> operation.
+  final String code;
+
+  /// The ID of a specified finding for which an error was returned for a
+  /// <code>BatchGetIncidentFindings</code> operation.
+  final String findingId;
+
+  /// The description for an error that was returned for a
+  /// <code>BatchGetIncidentFindings</code> operation.
+  final String message;
+
+  BatchGetIncidentFindingsError({
+    required this.code,
+    required this.findingId,
+    required this.message,
+  });
+
+  factory BatchGetIncidentFindingsError.fromJson(Map<String, dynamic> json) {
+    return BatchGetIncidentFindingsError(
+      code: json['code'] as String,
+      findingId: json['findingId'] as String,
+      message: json['message'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final findingId = this.findingId;
+    final message = this.message;
+    return {
+      'code': code,
+      'findingId': findingId,
+      'message': message,
+    };
+  }
+}
+
+class BatchGetIncidentFindingsOutput {
+  /// A list of errors encountered during the operation.
+  final List<BatchGetIncidentFindingsError> errors;
+
+  /// Information about the requested findings.
+  final List<Finding> findings;
+
+  BatchGetIncidentFindingsOutput({
+    required this.errors,
+    required this.findings,
+  });
+
+  factory BatchGetIncidentFindingsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetIncidentFindingsOutput(
+      errors: (json['errors'] as List)
+          .whereNotNull()
+          .map((e) =>
+              BatchGetIncidentFindingsError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      findings: (json['findings'] as List)
+          .whereNotNull()
+          .map((e) => Finding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final findings = this.findings;
+    return {
+      'errors': errors,
+      'findings': findings,
+    };
+  }
+}
+
 /// The Chatbot chat channel used for collaboration during an incident.
 class ChatChannel {
   /// The Amazon SNS targets that Chatbot uses to notify the chat channel of
@@ -1544,6 +1709,94 @@ class ChatChannel {
     return {
       if (chatbotSns != null) 'chatbotSns': chatbotSns,
       if (empty != null) 'empty': empty,
+    };
+  }
+}
+
+/// Information about an CloudFormation stack creation or update that occurred
+/// around the time of an incident and could be a potential cause of the
+/// incident.
+class CloudFormationStackUpdate {
+  /// The Amazon Resource Name (ARN) of the CloudFormation stack involved in the
+  /// update.
+  final String stackArn;
+
+  /// The timestamp for when the CloudFormation stack creation or update began.
+  final DateTime startTime;
+
+  /// The timestamp for when the CloudFormation stack creation or update ended.
+  /// Not reported for deployments that are still in progress.
+  final DateTime? endTime;
+
+  CloudFormationStackUpdate({
+    required this.stackArn,
+    required this.startTime,
+    this.endTime,
+  });
+
+  factory CloudFormationStackUpdate.fromJson(Map<String, dynamic> json) {
+    return CloudFormationStackUpdate(
+      stackArn: json['stackArn'] as String,
+      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      endTime: timeStampFromJson(json['endTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackArn = this.stackArn;
+    final startTime = this.startTime;
+    final endTime = this.endTime;
+    return {
+      'stackArn': stackArn,
+      'startTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+    };
+  }
+}
+
+/// Information about a CodeDeploy deployment that occurred around the time of
+/// an incident and could be a possible cause of the incident.
+class CodeDeployDeployment {
+  /// The Amazon Resource Name (ARN) of the CodeDeploy deployment group associated
+  /// with the deployment.
+  final String deploymentGroupArn;
+
+  /// The ID of the CodeDeploy deployment.
+  final String deploymentId;
+
+  /// The timestamp for when the CodeDeploy deployment began.
+  final DateTime startTime;
+
+  /// The timestamp for when the CodeDeploy deployment ended. Not reported for
+  /// deployments that are still in progress.
+  final DateTime? endTime;
+
+  CodeDeployDeployment({
+    required this.deploymentGroupArn,
+    required this.deploymentId,
+    required this.startTime,
+    this.endTime,
+  });
+
+  factory CodeDeployDeployment.fromJson(Map<String, dynamic> json) {
+    return CodeDeployDeployment(
+      deploymentGroupArn: json['deploymentGroupArn'] as String,
+      deploymentId: json['deploymentId'] as String,
+      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      endTime: timeStampFromJson(json['endTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentGroupArn = this.deploymentGroupArn;
+    final deploymentId = this.deploymentId;
+    final startTime = this.startTime;
+    final endTime = this.endTime;
+    return {
+      'deploymentGroupArn': deploymentGroupArn,
+      'deploymentId': deploymentId,
+      'startTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
     };
   }
 }
@@ -1809,13 +2062,14 @@ class EventSummary {
   /// The timeline event ID.
   final String eventId;
 
-  /// The time that the event occurred.
+  /// The timestamp for when the event occurred.
   final DateTime eventTime;
 
-  /// The type of event. The timeline event must be <code>Custom Event</code>.
+  /// The type of event. The timeline event must be <code>Custom Event</code> or
+  /// <code>Note</code>.
   final String eventType;
 
-  /// The time that the timeline event was last updated.
+  /// The timestamp for when the timeline event was last updated.
   final DateTime eventUpdatedTime;
 
   /// The Amazon Resource Name (ARN) of the incident that the event happened
@@ -1891,6 +2145,127 @@ class Filter {
   }
 }
 
+/// Information about a specific CodeDeploy deployment or CloudFormation stack
+/// creation or update that occurred around the time of a reported incident.
+/// These activities can be investigated as a potential cause of the incident.
+class Finding {
+  /// The timestamp for when a finding was created.
+  final DateTime creationTime;
+
+  /// The ID assigned to the finding.
+  final String id;
+
+  /// The timestamp for when the finding was most recently updated with additional
+  /// information.
+  final DateTime lastModifiedTime;
+
+  /// Details about the finding.
+  final FindingDetails? details;
+
+  Finding({
+    required this.creationTime,
+    required this.id,
+    required this.lastModifiedTime,
+    this.details,
+  });
+
+  factory Finding.fromJson(Map<String, dynamic> json) {
+    return Finding(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      id: json['id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
+      details: json['details'] != null
+          ? FindingDetails.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final details = this.details;
+    return {
+      'creationTime': unixTimestampToJson(creationTime),
+      'id': id,
+      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+/// Extended textual information about the finding.
+class FindingDetails {
+  /// Information about the CloudFormation stack creation or update associated
+  /// with the finding.
+  final CloudFormationStackUpdate? cloudFormationStackUpdate;
+
+  /// Information about the CodeDeploy deployment associated with the finding.
+  final CodeDeployDeployment? codeDeployDeployment;
+
+  FindingDetails({
+    this.cloudFormationStackUpdate,
+    this.codeDeployDeployment,
+  });
+
+  factory FindingDetails.fromJson(Map<String, dynamic> json) {
+    return FindingDetails(
+      cloudFormationStackUpdate: json['cloudFormationStackUpdate'] != null
+          ? CloudFormationStackUpdate.fromJson(
+              json['cloudFormationStackUpdate'] as Map<String, dynamic>)
+          : null,
+      codeDeployDeployment: json['codeDeployDeployment'] != null
+          ? CodeDeployDeployment.fromJson(
+              json['codeDeployDeployment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFormationStackUpdate = this.cloudFormationStackUpdate;
+    final codeDeployDeployment = this.codeDeployDeployment;
+    return {
+      if (cloudFormationStackUpdate != null)
+        'cloudFormationStackUpdate': cloudFormationStackUpdate,
+      if (codeDeployDeployment != null)
+        'codeDeployDeployment': codeDeployDeployment,
+    };
+  }
+}
+
+/// Identifying information about the finding.
+class FindingSummary {
+  /// The ID of the finding.
+  final String id;
+
+  /// The timestamp for when the finding was last updated.
+  final DateTime lastModifiedTime;
+
+  FindingSummary({
+    required this.id,
+    required this.lastModifiedTime,
+  });
+
+  factory FindingSummary.fromJson(Map<String, dynamic> json) {
+    return FindingSummary(
+      id: json['id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'id': id,
+      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
+  }
+}
+
 class GetIncidentRecordOutput {
   /// Details the structure of the incident record.
   final IncidentRecord incidentRecord;
@@ -1941,7 +2316,8 @@ class GetResourcePoliciesOutput {
   /// Details about the resource policy attached to the response plan.
   final List<ResourcePolicy> resourcePolicies;
 
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token to use when requesting the next set of items. If there
+  /// are no additional items to return, the string is null.
   final String? nextToken;
 
   GetResourcePoliciesOutput({
@@ -2081,7 +2457,7 @@ class IncidentRecord {
   /// The Amazon Resource Name (ARN) of the incident record.
   final String arn;
 
-  /// The time that Incident Manager created the incident record.
+  /// The timestamp for when Incident Manager created the incident record.
   final DateTime creationTime;
 
   /// The string Incident Manager uses to prevent duplicate incidents from being
@@ -2089,6 +2465,25 @@ class IncidentRecord {
   final String dedupeString;
 
   /// The impact of the incident on customers and applications.
+  /// <p class="title"> <b>Supported impact codes</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>1</code> - Critical
+  /// </li>
+  /// <li>
+  /// <code>2</code> - High
+  /// </li>
+  /// <li>
+  /// <code>3</code> - Medium
+  /// </li>
+  /// <li>
+  /// <code>4</code> - Low
+  /// </li>
+  /// <li>
+  /// <code>5</code> - No Impact
+  /// </li>
+  /// </ul>
   final int impact;
 
   /// Details about the action that started the incident.
@@ -2097,7 +2492,7 @@ class IncidentRecord {
   /// Who modified the incident most recently.
   final String lastModifiedBy;
 
-  /// The time at which the incident was most recently modified.
+  /// The timestamp for when the incident was most recently modified.
   final DateTime lastModifiedTime;
 
   /// The current status of the incident.
@@ -2117,7 +2512,7 @@ class IncidentRecord {
   /// incident.
   final List<NotificationTargetItem>? notificationTargets;
 
-  /// The time at which the incident was resolved. This appears as a timeline
+  /// The timestamp for when the incident was resolved. This appears as a timeline
   /// event.
   final DateTime? resolvedTime;
 
@@ -2291,7 +2686,7 @@ class IncidentRecordSummary {
   /// The Amazon Resource Name (ARN) of the incident.
   final String arn;
 
-  /// The time the incident was created.
+  /// The timestamp for when the incident was created.
   final DateTime creationTime;
 
   /// Defines the impact to customers and applications.
@@ -2307,7 +2702,7 @@ class IncidentRecordSummary {
   /// plan or overwritten on creation.
   final String title;
 
-  /// The time the incident was resolved.
+  /// The timestamp for when the incident was resolved.
   final DateTime? resolvedTime;
 
   IncidentRecordSummary({
@@ -2359,13 +2754,45 @@ class IncidentRecordSummary {
 /// used to create an incident record.
 class IncidentTemplate {
   /// The impact of the incident on your customers and applications.
+  /// <p class="title"> <b>Supported impact codes</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>1</code> - Critical
+  /// </li>
+  /// <li>
+  /// <code>2</code> - High
+  /// </li>
+  /// <li>
+  /// <code>3</code> - Medium
+  /// </li>
+  /// <li>
+  /// <code>4</code> - Low
+  /// </li>
+  /// <li>
+  /// <code>5</code> - No Impact
+  /// </li>
+  /// </ul>
   final int impact;
 
   /// The title of the incident.
   final String title;
 
-  /// Used to stop Incident Manager from creating multiple incident records for
-  /// the same incident.
+  /// The string Incident Manager uses to prevent the same root cause from
+  /// creating multiple incidents in the same account.
+  ///
+  /// A deduplication string is a term or phrase the system uses to check for
+  /// duplicate incidents. If you specify a deduplication string, Incident Manager
+  /// searches for open incidents that contain the same string in the
+  /// <code>dedupeString</code> field when it creates the incident. If a duplicate
+  /// is detected, Incident Manager deduplicates the newer incident into the
+  /// existing incident.
+  /// <note>
+  /// By default, Incident Manager automatically deduplicates multiple incidents
+  /// created by the same Amazon CloudWatch alarm or Amazon EventBridge event. You
+  /// don't have to enter your own deduplication string to prevent duplication for
+  /// these resource types.
+  /// </note>
   final String? dedupeString;
 
   /// Tags to assign to the template. When the <code>StartIncident</code> API
@@ -2595,11 +3022,46 @@ class ItemValue {
   }
 }
 
+class ListIncidentFindingsOutput {
+  /// A list of findings that represent deployments that might be the potential
+  /// cause of the incident.
+  final List<FindingSummary> findings;
+
+  /// The pagination token to use when requesting the next set of items. If there
+  /// are no additional items to return, the string is null.
+  final String? nextToken;
+
+  ListIncidentFindingsOutput({
+    required this.findings,
+    this.nextToken,
+  });
+
+  factory ListIncidentFindingsOutput.fromJson(Map<String, dynamic> json) {
+    return ListIncidentFindingsOutput(
+      findings: (json['findings'] as List)
+          .whereNotNull()
+          .map((e) => FindingSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findings = this.findings;
+    final nextToken = this.nextToken;
+    return {
+      'findings': findings,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListIncidentRecordsOutput {
   /// The details of each listed incident record.
   final List<IncidentRecordSummary> incidentRecordSummaries;
 
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token to use when requesting the next set of items. If there
+  /// are no additional items to return, the string is null.
   final String? nextToken;
 
   ListIncidentRecordsOutput({
@@ -2631,7 +3093,8 @@ class ListRelatedItemsOutput {
   /// Details about each related item.
   final List<RelatedItem> relatedItems;
 
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token to use when requesting the next set of items. If there
+  /// are no additional items to return, the string is null.
   final String? nextToken;
 
   ListRelatedItemsOutput({
@@ -2663,7 +3126,8 @@ class ListReplicationSetsOutput {
   /// The Amazon Resource Name (ARN) of the list replication set.
   final List<String> replicationSetArns;
 
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token to use when requesting the next set of items. If there
+  /// are no additional items to return, the string is null.
   final String? nextToken;
 
   ListReplicationSetsOutput({
@@ -2695,7 +3159,8 @@ class ListResponsePlansOutput {
   /// Details of each response plan.
   final List<ResponsePlanSummary> responsePlanSummaries;
 
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token to use when requesting the next set of items. If there
+  /// are no additional items to return, the string is null.
   final String? nextToken;
 
   ListResponsePlansOutput({
@@ -2724,7 +3189,7 @@ class ListResponsePlansOutput {
 }
 
 class ListTagsForResourceResponse {
-  /// A list of tags for the response plan.
+  /// A list of tags for the response plan or incident.
   final Map<String, String> tags;
 
   ListTagsForResourceResponse({
@@ -2750,7 +3215,8 @@ class ListTimelineEventsOutput {
   /// Details about each event that occurred during the incident.
   final List<EventSummary> eventSummaries;
 
-  /// The pagination token to continue to the next page of results.
+  /// The pagination token to use when requesting the next set of items. If there
+  /// are no additional items to return, the string is null.
   final String? nextToken;
 
   ListTimelineEventsOutput({
@@ -2935,8 +3401,8 @@ class RegionInfo {
   /// The status of the Amazon Web Services Region in the replication set.
   final RegionStatus status;
 
-  /// The most recent date and time that Incident Manager updated the Amazon Web
-  /// Services Region's status.
+  /// The timestamp for when Incident Manager updated the status of the Amazon Web
+  /// Services Region.
   final DateTime statusUpdateDateTime;
 
   /// The ID of the KMS key used to encrypt the data in this Amazon Web Services
@@ -3459,14 +3925,14 @@ class TimelineEvent {
   /// The ID of the timeline event.
   final String eventId;
 
-  /// The time that the event occurred.
+  /// The timestamp for when the event occurred.
   final DateTime eventTime;
 
   /// The type of event that occurred. Currently Incident Manager supports only
-  /// the <code>Custom Event</code> type.
+  /// the <code>Custom Event</code> and <code>Note</code> types.
   final String eventType;
 
-  /// The time that the timeline event was last updated.
+  /// The timestamp for when the timeline event was last updated.
   final DateTime eventUpdatedTime;
 
   /// The Amazon Resource Name (ARN) of the incident that the event occurred
@@ -3554,7 +4020,7 @@ class TriggerDetails {
   /// domain-name strings.
   final String source;
 
-  /// The time that the incident was detected.
+  /// The timestamp for when the incident was detected.
   final DateTime timestamp;
 
   /// Raw data passed from either Amazon EventBridge, Amazon CloudWatch, or

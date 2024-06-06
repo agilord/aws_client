@@ -169,6 +169,7 @@ class Metadata {
   final String? jsonVersion;
   final String? targetPrefix;
   final String protocol;
+  final List<String>? protocols;
 
   // If null, timeStampFormat should be set according to a set of rules:
   // If location is in a header: 'rfc822'
@@ -183,6 +184,9 @@ class Metadata {
   final String? serviceId;
   final String? checksumFormat;
   final Map<String, String>? protocolSettings;
+  final Object? auth;
+  final Object? awsQueryCompatible;
+  final String? ripServiceName;
 
   Metadata(
     this.apiVersion,
@@ -202,6 +206,10 @@ class Metadata {
     this.xmlNamespace,
     this.checksumFormat,
     this.protocolSettings,
+    this.protocols,
+    this.auth,
+    this.awsQueryCompatible,
+    this.ripServiceName,
   );
 
   String get className {

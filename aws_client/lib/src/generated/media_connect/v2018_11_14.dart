@@ -564,6 +564,30 @@ class MediaConnect {
     return DescribeFlowResponse.fromJson(response);
   }
 
+  /// Displays details of the flow's source stream. The response contains
+  /// information about the contents of the stream and its programs.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [flowArn] :
+  /// The Amazon Resource Name (ARN) of the flow.
+  Future<DescribeFlowSourceMetadataResponse> describeFlowSourceMetadata({
+    required String flowArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}/source-metadata',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeFlowSourceMetadataResponse.fromJson(response);
+  }
+
   /// Displays the details of a gateway. The response includes the gateway ARN,
   /// name, and CIDR blocks, as well as details about the networks.
   ///
@@ -3391,6 +3415,55 @@ class DescribeFlowResponse {
   }
 }
 
+class DescribeFlowSourceMetadataResponse {
+  /// The ARN of the flow that DescribeFlowSourceMetadata was performed on.
+  final String? flowArn;
+
+  /// Provides a status code and message regarding issues found with the flow
+  /// source metadata.
+  final List<MessageDetail>? messages;
+
+  /// The timestamp of the most recent change in metadata for this flow’s source.
+  final DateTime? timestamp;
+  final TransportMediaInfo? transportMediaInfo;
+
+  DescribeFlowSourceMetadataResponse({
+    this.flowArn,
+    this.messages,
+    this.timestamp,
+    this.transportMediaInfo,
+  });
+
+  factory DescribeFlowSourceMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFlowSourceMetadataResponse(
+      flowArn: json['flowArn'] as String?,
+      messages: (json['messages'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timestamp: timeStampFromJson(json['timestamp']),
+      transportMediaInfo: json['transportMediaInfo'] != null
+          ? TransportMediaInfo.fromJson(
+              json['transportMediaInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final messages = this.messages;
+    final timestamp = this.timestamp;
+    final transportMediaInfo = this.transportMediaInfo;
+    return {
+      if (flowArn != null) 'flowArn': flowArn,
+      if (messages != null) 'messages': messages,
+      if (timestamp != null) 'timestamp': iso8601ToJson(timestamp),
+      if (transportMediaInfo != null) 'transportMediaInfo': transportMediaInfo,
+    };
+  }
+}
+
 class DescribeGatewayInstanceResponse {
   final GatewayInstance? gatewayInstance;
 
@@ -4318,6 +4391,36 @@ class FmtpRequest {
       if (range != null) 'range': range.toValue(),
       if (scanMode != null) 'scanMode': scanMode.toValue(),
       if (tcs != null) 'tcs': tcs.toValue(),
+    };
+  }
+}
+
+/// The frame resolution used by the video stream.
+class FrameResolution {
+  /// The number of pixels in the height of the video frame.
+  final int frameHeight;
+
+  /// The number of pixels in the width of the video frame.
+  final int frameWidth;
+
+  FrameResolution({
+    required this.frameHeight,
+    required this.frameWidth,
+  });
+
+  factory FrameResolution.fromJson(Map<String, dynamic> json) {
+    return FrameResolution(
+      frameHeight: json['frameHeight'] as int,
+      frameWidth: json['frameWidth'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frameHeight = this.frameHeight;
+    final frameWidth = this.frameWidth;
+    return {
+      'frameHeight': frameHeight,
+      'frameWidth': frameWidth,
     };
   }
 }
@@ -7489,6 +7592,163 @@ class Transport {
         'sourceListenerAddress': sourceListenerAddress,
       if (sourceListenerPort != null) 'sourceListenerPort': sourceListenerPort,
       if (streamId != null) 'streamId': streamId,
+    };
+  }
+}
+
+/// The metadata of the transport stream in the current flow's source.
+class TransportMediaInfo {
+  /// The list of transport stream programs in the current flow's source.
+  final List<TransportStreamProgram> programs;
+
+  TransportMediaInfo({
+    required this.programs,
+  });
+
+  factory TransportMediaInfo.fromJson(Map<String, dynamic> json) {
+    return TransportMediaInfo(
+      programs: (json['programs'] as List)
+          .whereNotNull()
+          .map(
+              (e) => TransportStreamProgram.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final programs = this.programs;
+    return {
+      'programs': programs,
+    };
+  }
+}
+
+/// The metadata of an elementary transport stream.
+class TransportStream {
+  /// The Packet ID (PID) as it is reported in the Program Map Table.
+  final int pid;
+
+  /// The Stream Type as it is reported in the Program Map Table.
+  final String streamType;
+
+  /// The number of channels in the audio stream.
+  final int? channels;
+
+  /// The codec used by the stream.
+  final String? codec;
+
+  /// The frame rate used by the video stream.
+  final String? frameRate;
+  final FrameResolution? frameResolution;
+
+  /// The sample rate used by the audio stream.
+  final int? sampleRate;
+
+  /// The sample bit size used by the audio stream.
+  final int? sampleSize;
+
+  TransportStream({
+    required this.pid,
+    required this.streamType,
+    this.channels,
+    this.codec,
+    this.frameRate,
+    this.frameResolution,
+    this.sampleRate,
+    this.sampleSize,
+  });
+
+  factory TransportStream.fromJson(Map<String, dynamic> json) {
+    return TransportStream(
+      pid: json['pid'] as int,
+      streamType: json['streamType'] as String,
+      channels: json['channels'] as int?,
+      codec: json['codec'] as String?,
+      frameRate: json['frameRate'] as String?,
+      frameResolution: json['frameResolution'] != null
+          ? FrameResolution.fromJson(
+              json['frameResolution'] as Map<String, dynamic>)
+          : null,
+      sampleRate: json['sampleRate'] as int?,
+      sampleSize: json['sampleSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pid = this.pid;
+    final streamType = this.streamType;
+    final channels = this.channels;
+    final codec = this.codec;
+    final frameRate = this.frameRate;
+    final frameResolution = this.frameResolution;
+    final sampleRate = this.sampleRate;
+    final sampleSize = this.sampleSize;
+    return {
+      'pid': pid,
+      'streamType': streamType,
+      if (channels != null) 'channels': channels,
+      if (codec != null) 'codec': codec,
+      if (frameRate != null) 'frameRate': frameRate,
+      if (frameResolution != null) 'frameResolution': frameResolution,
+      if (sampleRate != null) 'sampleRate': sampleRate,
+      if (sampleSize != null) 'sampleSize': sampleSize,
+    };
+  }
+}
+
+/// The metadata of a single transport stream program.
+class TransportStreamProgram {
+  /// The Program Clock Reference (PCR) Packet ID (PID) as it is reported in the
+  /// Program Association Table.
+  final int pcrPid;
+
+  /// The program number as it is reported in the Program Association Table.
+  final int programNumber;
+
+  /// The program Packet ID (PID) as it is reported in the Program Association
+  /// Table.
+  final int programPid;
+
+  /// The list of elementary transport streams in the program. The list includes
+  /// video, audio, and data streams.
+  final List<TransportStream> streams;
+
+  /// The program name as it is reported in the Program Association Table.
+  final String? programName;
+
+  TransportStreamProgram({
+    required this.pcrPid,
+    required this.programNumber,
+    required this.programPid,
+    required this.streams,
+    this.programName,
+  });
+
+  factory TransportStreamProgram.fromJson(Map<String, dynamic> json) {
+    return TransportStreamProgram(
+      pcrPid: json['pcrPid'] as int,
+      programNumber: json['programNumber'] as int,
+      programPid: json['programPid'] as int,
+      streams: (json['streams'] as List)
+          .whereNotNull()
+          .map((e) => TransportStream.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      programName: json['programName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pcrPid = this.pcrPid;
+    final programNumber = this.programNumber;
+    final programPid = this.programPid;
+    final streams = this.streams;
+    final programName = this.programName;
+    return {
+      'pcrPid': pcrPid,
+      'programNumber': programNumber,
+      'programPid': programPid,
+      'streams': streams,
+      if (programName != null) 'programName': programName,
     };
   }
 }

@@ -252,20 +252,21 @@ class AuditManager {
     return BatchDisassociateAssessmentReportEvidenceResponse.fromJson(response);
   }
 
-  /// Uploads one or more pieces of evidence to a control in an Audit Manager
-  /// assessment. You can upload manual evidence from any Amazon Simple Storage
-  /// Service (Amazon S3) bucket by specifying the S3 URI of the evidence.
+  /// Adds one or more pieces of evidence to a control in an Audit Manager
+  /// assessment.
   ///
-  /// You must upload manual evidence to your S3 bucket before you can upload it
-  /// to your assessment. For instructions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
-  /// and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
-  /// in the <i>Amazon Simple Storage Service API Reference.</i>
+  /// You can import manual evidence from any S3 bucket by specifying the S3 URI
+  /// of the object. You can also upload a file from your browser, or enter
+  /// plain text in response to a risk assessment question.
   ///
   /// The following restrictions apply to this action:
   ///
   /// <ul>
+  /// <li>
+  /// <code>manualEvidence</code> can be only one of the following:
+  /// <code>evidenceFileName</code>, <code>s3ResourcePath</code>, or
+  /// <code>textResponse</code>
+  /// </li>
   /// <li>
   /// Maximum size of an individual evidence file: 100 MB
   /// </li>
@@ -286,6 +287,7 @@ class AuditManager {
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -656,6 +658,13 @@ class AuditManager {
   }
 
   /// Deletes a custom control in Audit Manager.
+  /// <important>
+  /// When you invoke this operation, the custom control is deleted from any
+  /// frameworks or assessments that it’s currently part of. As a result, Audit
+  /// Manager will stop collecting evidence for that custom control in all of
+  /// your assessments. This includes assessments that you previously created
+  /// before you deleted the custom control.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -834,7 +843,7 @@ class AuditManager {
     );
   }
 
-  /// Returns the registration status of an account in Audit Manager.
+  /// Gets the registration status of an account in Audit Manager.
   ///
   /// May throw [InternalServerException].
   Future<GetAccountStatusResponse> getAccountStatus() async {
@@ -847,7 +856,7 @@ class AuditManager {
     return GetAccountStatusResponse.fromJson(response);
   }
 
-  /// Returns an assessment from Audit Manager.
+  /// Gets information about a specified assessment.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -868,7 +877,7 @@ class AuditManager {
     return GetAssessmentResponse.fromJson(response);
   }
 
-  /// Returns a framework from Audit Manager.
+  /// Gets information about a specified framework.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -889,7 +898,7 @@ class AuditManager {
     return GetAssessmentFrameworkResponse.fromJson(response);
   }
 
-  /// Returns the URL of an assessment report in Audit Manager.
+  /// Gets the URL of an assessment report in Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -915,7 +924,7 @@ class AuditManager {
     return GetAssessmentReportUrlResponse.fromJson(response);
   }
 
-  /// Returns a list of changelogs from Audit Manager.
+  /// Gets a list of changelogs from Audit Manager.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -967,7 +976,7 @@ class AuditManager {
     return GetChangeLogsResponse.fromJson(response);
   }
 
-  /// Returns a control from Audit Manager.
+  /// Gets information about a specified control.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -988,7 +997,7 @@ class AuditManager {
     return GetControlResponse.fromJson(response);
   }
 
-  /// Returns a list of delegations from an audit owner to a delegate.
+  /// Gets a list of delegations from an audit owner to a delegate.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1024,7 +1033,7 @@ class AuditManager {
     return GetDelegationsResponse.fromJson(response);
   }
 
-  /// Returns evidence from Audit Manager.
+  /// Gets information about a specified evidence item.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1058,7 +1067,7 @@ class AuditManager {
     return GetEvidenceResponse.fromJson(response);
   }
 
-  /// Returns all evidence from a specified evidence folder in Audit Manager.
+  /// Gets all evidence from a specified evidence folder in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1108,7 +1117,57 @@ class AuditManager {
     return GetEvidenceByEvidenceFolderResponse.fromJson(response);
   }
 
-  /// Returns an evidence folder from the specified assessment in Audit Manager.
+  /// Creates a presigned Amazon S3 URL that can be used to upload a file as
+  /// manual evidence. For instructions on how to use this operation, see <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#how-to-upload-manual-evidence-files">Upload
+  /// a file from your browser </a> in the <i>Audit Manager User Guide</i>.
+  ///
+  /// The following restrictions apply to this operation:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum size of an individual evidence file: 100 MB
+  /// </li>
+  /// <li>
+  /// Number of daily manual evidence uploads per control: 100
+  /// </li>
+  /// <li>
+  /// Supported file formats: See <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files">Supported
+  /// file types for manual evidence</a> in the <i>Audit Manager User Guide</i>
+  /// </li>
+  /// </ul>
+  /// For more information about Audit Manager service restrictions, see <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html">Quotas
+  /// and restrictions for Audit Manager</a>.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [fileName] :
+  /// The file that you want to upload. For a list of supported file formats,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files">Supported
+  /// file types for manual evidence</a> in the <i>Audit Manager User Guide</i>.
+  Future<GetEvidenceFileUploadUrlResponse> getEvidenceFileUploadUrl({
+    required String fileName,
+  }) async {
+    final $query = <String, List<String>>{
+      'fileName': [fileName],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/evidenceFileUploadUrl',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEvidenceFileUploadUrlResponse.fromJson(response);
+  }
+
+  /// Gets an evidence folder from a specified assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1138,7 +1197,7 @@ class AuditManager {
     return GetEvidenceFolderResponse.fromJson(response);
   }
 
-  /// Returns the evidence folders from a specified assessment in Audit Manager.
+  /// Gets the evidence folders from a specified assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1181,7 +1240,7 @@ class AuditManager {
     return GetEvidenceFoldersByAssessmentResponse.fromJson(response);
   }
 
-  /// Returns a list of evidence folders that are associated with a specified
+  /// Gets a list of evidence folders that are associated with a specified
   /// control in an Audit Manager assessment.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1268,8 +1327,8 @@ class AuditManager {
     return GetInsightsByAssessmentResponse.fromJson(response);
   }
 
-  /// Returns the name of the delegated Amazon Web Services administrator
-  /// account for the organization.
+  /// Gets the name of the delegated Amazon Web Services administrator account
+  /// for a specified organization.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1286,7 +1345,7 @@ class AuditManager {
     return GetOrganizationAdminAccountResponse.fromJson(response);
   }
 
-  /// Returns a list of all of the Amazon Web Services that you can choose to
+  /// Gets a list of all of the Amazon Web Services that you can choose to
   /// include in your assessment. When you <a
   /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_CreateAssessment.html">create
   /// an assessment</a>, specify which of these services you want to include to
@@ -1306,7 +1365,7 @@ class AuditManager {
     return GetServicesInScopeResponse.fromJson(response);
   }
 
-  /// Returns the settings for the specified Amazon Web Services account.
+  /// Gets the settings for a specified Amazon Web Services account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2327,7 +2386,10 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [defaultAssessmentReportsDestination] :
-  /// The default storage destination for assessment reports.
+  /// The default S3 destination bucket for storing assessment reports.
+  ///
+  /// Parameter [defaultExportDestination] :
+  /// The default S3 destination bucket for storing evidence finder exports.
   ///
   /// Parameter [defaultProcessOwners] :
   /// A list of the default audit owners.
@@ -2359,6 +2421,7 @@ class AuditManager {
   /// Manager sends notifications to.
   Future<UpdateSettingsResponse> updateSettings({
     AssessmentReportsDestination? defaultAssessmentReportsDestination,
+    DefaultExportDestination? defaultExportDestination,
     List<Role>? defaultProcessOwners,
     DeregistrationPolicy? deregistrationPolicy,
     bool? evidenceFinderEnabled,
@@ -2369,6 +2432,8 @@ class AuditManager {
       if (defaultAssessmentReportsDestination != null)
         'defaultAssessmentReportsDestination':
             defaultAssessmentReportsDestination,
+      if (defaultExportDestination != null)
+        'defaultExportDestination': defaultExportDestination,
       if (defaultProcessOwners != null)
         'defaultProcessOwners': defaultProcessOwners,
       if (deregistrationPolicy != null)
@@ -3706,7 +3771,7 @@ extension AssessmentReportStatusFromString on String {
 /// The location where Audit Manager saves assessment reports for the given
 /// assessment.
 class AssessmentReportsDestination {
-  /// The destination of the assessment report.
+  /// The destination bucket where Audit Manager stores assessment reports.
   final String? destination;
 
   /// The destination type, such as Amazon S3.
@@ -4176,7 +4241,7 @@ class Control {
   /// satisfied.
   final String? testingInformation;
 
-  /// The type of control, such as a custom control or a standard control.
+  /// Specifies whether the control is a standard control or a custom control.
   final ControlType? type;
 
   Control({
@@ -4486,7 +4551,7 @@ class ControlMappingSource {
   /// The description of the source.
   final String? sourceDescription;
 
-  /// The frequency of evidence collection for the control mapping source.
+  /// Specifies how often evidence is collected from the control mapping source.
   final SourceFrequency? sourceFrequency;
 
   /// The unique identifier for the source.
@@ -4918,7 +4983,7 @@ class CreateControlMappingSource {
   /// collects evidence from for the control.
   final String? sourceDescription;
 
-  /// The frequency of evidence collection for the control mapping source.
+  /// Specifies how often evidence is collected from the control mapping source.
   final SourceFrequency? sourceFrequency;
   final SourceKeyword? sourceKeyword;
 
@@ -5042,6 +5107,38 @@ class CreateDelegationRequest {
       if (controlSetId != null) 'controlSetId': controlSetId,
       if (roleArn != null) 'roleArn': roleArn,
       if (roleType != null) 'roleType': roleType.toValue(),
+    };
+  }
+}
+
+/// The default s3 bucket where Audit Manager saves the files that you export
+/// from evidence finder.
+class DefaultExportDestination {
+  /// The destination bucket where Audit Manager stores exported files.
+  final String? destination;
+
+  /// The destination type, such as Amazon S3.
+  final ExportDestinationType? destinationType;
+
+  DefaultExportDestination({
+    this.destination,
+    this.destinationType,
+  });
+
+  factory DefaultExportDestination.fromJson(Map<String, dynamic> json) {
+    return DefaultExportDestination(
+      destination: json['destination'] as String?,
+      destinationType:
+          (json['destinationType'] as String?)?.toExportDestinationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final destinationType = this.destinationType;
+    return {
+      if (destination != null) 'destination': destination,
+      if (destinationType != null) 'destinationType': destinationType.toValue(),
     };
   }
 }
@@ -5824,20 +5921,42 @@ class EvidenceInsights {
   }
 }
 
+enum ExportDestinationType {
+  s3,
+}
+
+extension ExportDestinationTypeValueExtension on ExportDestinationType {
+  String toValue() {
+    switch (this) {
+      case ExportDestinationType.s3:
+        return 'S3';
+    }
+  }
+}
+
+extension ExportDestinationTypeFromString on String {
+  ExportDestinationType toExportDestinationType() {
+    switch (this) {
+      case 'S3':
+        return ExportDestinationType.s3;
+    }
+    throw Exception('$this is not known in enum ExportDestinationType');
+  }
+}
+
 /// The file that's used to structure and automate Audit Manager assessments for
 /// a given compliance standard.
 class Framework {
   /// The Amazon Resource Name (ARN) of the framework.
   final String? arn;
 
-  /// The compliance type that the new custom framework supports, such as CIS or
-  /// HIPAA.
+  /// The compliance type that the framework supports, such as CIS or HIPAA.
   final String? complianceType;
 
   /// The control sets that are associated with the framework.
   final List<ControlSet>? controlSets;
 
-  /// The sources that Audit Manager collects evidence from for the control.
+  /// The control data sources where Audit Manager collects evidence from.
   final String? controlSources;
 
   /// The time when the framework was created.
@@ -5867,7 +5986,8 @@ class Framework {
   /// The tags that are associated with the framework.
   final Map<String, String>? tags;
 
-  /// The framework type, such as a custom framework or a standard framework.
+  /// Specifies whether the framework is a standard framework or a custom
+  /// framework.
   final FrameworkType? type;
 
   Framework({
@@ -6150,7 +6270,7 @@ class GetChangeLogsResponse {
 }
 
 class GetControlResponse {
-  /// The name of the control that the <code>GetControl</code> API returned.
+  /// The details of the control that the <code>GetControl</code> API returned.
   final Control? control;
 
   GetControlResponse({
@@ -6235,6 +6355,36 @@ class GetEvidenceByEvidenceFolderResponse {
     return {
       if (evidence != null) 'evidence': evidence,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetEvidenceFileUploadUrlResponse {
+  /// The name of the uploaded manual evidence file that the presigned URL was
+  /// generated for.
+  final String? evidenceFileName;
+
+  /// The presigned URL that was generated.
+  final String? uploadUrl;
+
+  GetEvidenceFileUploadUrlResponse({
+    this.evidenceFileName,
+    this.uploadUrl,
+  });
+
+  factory GetEvidenceFileUploadUrlResponse.fromJson(Map<String, dynamic> json) {
+    return GetEvidenceFileUploadUrlResponse(
+      evidenceFileName: json['evidenceFileName'] as String?,
+      uploadUrl: json['uploadUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evidenceFileName = this.evidenceFileName;
+    final uploadUrl = this.uploadUrl;
+    return {
+      if (evidenceFileName != null) 'evidenceFileName': evidenceFileName,
+      if (uploadUrl != null) 'uploadUrl': uploadUrl,
     };
   }
 }
@@ -6717,6 +6867,8 @@ class InsightsByAssessment {
 
 enum KeywordInputType {
   selectFromList,
+  uploadFile,
+  inputText,
 }
 
 extension KeywordInputTypeValueExtension on KeywordInputType {
@@ -6724,6 +6876,10 @@ extension KeywordInputTypeValueExtension on KeywordInputType {
     switch (this) {
       case KeywordInputType.selectFromList:
         return 'SELECT_FROM_LIST';
+      case KeywordInputType.uploadFile:
+        return 'UPLOAD_FILE';
+      case KeywordInputType.inputText:
+        return 'INPUT_TEXT';
     }
   }
 }
@@ -6733,6 +6889,10 @@ extension KeywordInputTypeFromString on String {
     switch (this) {
       case 'SELECT_FROM_LIST':
         return KeywordInputType.selectFromList;
+      case 'UPLOAD_FILE':
+        return KeywordInputType.uploadFile;
+      case 'INPUT_TEXT':
+        return KeywordInputType.inputText;
     }
     throw Exception('$this is not known in enum KeywordInputType');
   }
@@ -6815,7 +6975,8 @@ class ListAssessmentFrameworkShareRequestsResponse {
 }
 
 class ListAssessmentFrameworksResponse {
-  /// The list of metadata objects for the framework.
+  /// A list of metadata that the <code>ListAssessmentFrameworks</code> API
+  /// returns for each framework.
   final List<AssessmentFrameworkMetadata>? frameworkMetadataList;
 
   /// The pagination token that's used to fetch the next set of results.
@@ -6883,7 +7044,8 @@ class ListAssessmentReportsResponse {
 }
 
 class ListAssessmentsResponse {
-  /// The metadata that's associated with the assessment.
+  /// The metadata that the <code>ListAssessments</code> API returns for each
+  /// assessment.
   final List<AssessmentMetadataItem>? assessmentMetadata;
 
   /// The pagination token that's used to fetch the next set of results.
@@ -7022,8 +7184,8 @@ class ListControlInsightsByControlDomainResponse {
 }
 
 class ListControlsResponse {
-  /// The list of control metadata objects that the <code>ListControls</code> API
-  /// returned.
+  /// A list of metadata that the <code>ListControls</code> API returns for each
+  /// control.
   final List<ControlMetadata>? controlMetadataList;
 
   /// The pagination token that's used to fetch the next set of results.
@@ -7143,25 +7305,45 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Evidence that's uploaded to Audit Manager manually.
+/// Evidence that's manually added to a control in Audit Manager.
+/// <code>manualEvidence</code> can be one of the following:
+/// <code>evidenceFileName</code>, <code>s3ResourcePath</code>, or
+/// <code>textResponse</code>.
 class ManualEvidence {
-  /// The Amazon S3 URL that points to a manual evidence object.
+  /// The name of the file that's uploaded as manual evidence. This name is
+  /// populated using the <code>evidenceFileName</code> value from the <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html">
+  /// <code>GetEvidenceFileUploadUrl</code> </a> API response.
+  final String? evidenceFileName;
+
+  /// The S3 URL of the object that's imported as manual evidence.
   final String? s3ResourcePath;
 
+  /// The plain text response that's entered and saved as manual evidence.
+  final String? textResponse;
+
   ManualEvidence({
+    this.evidenceFileName,
     this.s3ResourcePath,
+    this.textResponse,
   });
 
   factory ManualEvidence.fromJson(Map<String, dynamic> json) {
     return ManualEvidence(
+      evidenceFileName: json['evidenceFileName'] as String?,
       s3ResourcePath: json['s3ResourcePath'] as String?,
+      textResponse: json['textResponse'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final evidenceFileName = this.evidenceFileName;
     final s3ResourcePath = this.s3ResourcePath;
+    final textResponse = this.textResponse;
     return {
+      if (evidenceFileName != null) 'evidenceFileName': evidenceFileName,
       if (s3ResourcePath != null) 's3ResourcePath': s3ResourcePath,
+      if (textResponse != null) 'textResponse': textResponse,
     };
   }
 }
@@ -7554,6 +7736,7 @@ enum SettingAttribute {
   defaultProcessOwners,
   evidenceFinderEnablement,
   deregistrationPolicy,
+  defaultExportDestination,
 }
 
 extension SettingAttributeValueExtension on SettingAttribute {
@@ -7573,6 +7756,8 @@ extension SettingAttributeValueExtension on SettingAttribute {
         return 'EVIDENCE_FINDER_ENABLEMENT';
       case SettingAttribute.deregistrationPolicy:
         return 'DEREGISTRATION_POLICY';
+      case SettingAttribute.defaultExportDestination:
+        return 'DEFAULT_EXPORT_DESTINATION';
     }
   }
 }
@@ -7594,6 +7779,8 @@ extension SettingAttributeFromString on String {
         return SettingAttribute.evidenceFinderEnablement;
       case 'DEREGISTRATION_POLICY':
         return SettingAttribute.deregistrationPolicy;
+      case 'DEFAULT_EXPORT_DESTINATION':
+        return SettingAttribute.defaultExportDestination;
     }
     throw Exception('$this is not known in enum SettingAttribute');
   }
@@ -7601,8 +7788,11 @@ extension SettingAttributeFromString on String {
 
 /// The settings object that holds all supported Audit Manager settings.
 class Settings {
-  /// The default storage destination for assessment reports.
+  /// The default S3 destination bucket for storing assessment reports.
   final AssessmentReportsDestination? defaultAssessmentReportsDestination;
+
+  /// The default S3 destination bucket for storing evidence finder exports.
+  final DefaultExportDestination? defaultExportDestination;
 
   /// The designated default audit owners.
   final List<Role>? defaultProcessOwners;
@@ -7626,6 +7816,7 @@ class Settings {
 
   Settings({
     this.defaultAssessmentReportsDestination,
+    this.defaultExportDestination,
     this.defaultProcessOwners,
     this.deregistrationPolicy,
     this.evidenceFinderEnablement,
@@ -7642,6 +7833,10 @@ class Settings {
                   json['defaultAssessmentReportsDestination']
                       as Map<String, dynamic>)
               : null,
+      defaultExportDestination: json['defaultExportDestination'] != null
+          ? DefaultExportDestination.fromJson(
+              json['defaultExportDestination'] as Map<String, dynamic>)
+          : null,
       defaultProcessOwners: (json['defaultProcessOwners'] as List?)
           ?.whereNotNull()
           .map((e) => Role.fromJson(e as Map<String, dynamic>))
@@ -7663,6 +7858,7 @@ class Settings {
   Map<String, dynamic> toJson() {
     final defaultAssessmentReportsDestination =
         this.defaultAssessmentReportsDestination;
+    final defaultExportDestination = this.defaultExportDestination;
     final defaultProcessOwners = this.defaultProcessOwners;
     final deregistrationPolicy = this.deregistrationPolicy;
     final evidenceFinderEnablement = this.evidenceFinderEnablement;
@@ -7673,6 +7869,8 @@ class Settings {
       if (defaultAssessmentReportsDestination != null)
         'defaultAssessmentReportsDestination':
             defaultAssessmentReportsDestination,
+      if (defaultExportDestination != null)
+        'defaultExportDestination': defaultExportDestination,
       if (defaultProcessOwners != null)
         'defaultProcessOwners': defaultProcessOwners,
       if (deregistrationPolicy != null)
@@ -7838,8 +8036,13 @@ extension SourceFrequencyFromString on String {
   }
 }
 
-/// The keyword to search for in CloudTrail logs, Config rules, Security Hub
-/// checks, and Amazon Web Services API names.
+/// A keyword that relates to the control data source.
+///
+/// For manual evidence, this keyword indicates if the manual evidence is a file
+/// or text.
+///
+/// For automated evidence, this keyword identifies a specific CloudTrail event,
+/// Config rule, Security Hub control, or Amazon Web Services API name.
 ///
 /// To learn more about the supported keywords that you can use when mapping a
 /// control data source, see the following pages in the <i>Audit Manager User
@@ -7848,12 +8051,12 @@ extension SourceFrequencyFromString on String {
 /// <ul>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">Config
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">Config
 /// rules supported by Audit Manager</a>
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">Security
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">Security
 /// Hub controls supported by Audit Manager</a>
 /// </li>
 /// <li>
@@ -7869,6 +8072,35 @@ extension SourceFrequencyFromString on String {
 /// </ul>
 class SourceKeyword {
   /// The input method for the keyword.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SELECT_FROM_LIST</code> is used when mapping a data source for
+  /// automated evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// When <code>keywordInputType</code> is <code>SELECT_FROM_LIST</code>, a
+  /// keyword must be selected to collect automated evidence. For example, this
+  /// keyword can be a CloudTrail event name, a rule name for Config, a Security
+  /// Hub control, or the name of an Amazon Web Services API call.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>UPLOAD_FILE</code> and <code>INPUT_TEXT</code> are only used when
+  /// mapping a data source for manual evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// When <code>keywordInputType</code> is <code>UPLOAD_FILE</code>, a file must
+  /// be uploaded as manual evidence.
+  /// </li>
+  /// <li>
+  /// When <code>keywordInputType</code> is <code>INPUT_TEXT</code>, text must be
+  /// entered as manual evidence.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
   final KeywordInputType? keywordInputType;
 
   /// The value of the keyword that's used when mapping a control data source. For
@@ -7885,7 +8117,13 @@ class SourceKeyword {
   /// rules</a>, you can use the rule identifier as the <code>keywordValue</code>.
   /// You can find the rule identifier from the <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">list
-  /// of Config managed rules</a>.
+  /// of Config managed rules</a>. For some rules, the rule identifier is
+  /// different from the rule name. For example, the rule name
+  /// <code>restricted-ssh</code> has the following rule identifier:
+  /// <code>INCOMING_SSH_DISABLED</code>. Make sure to use the rule identifier,
+  /// not the rule name.
+  ///
+  /// Keyword example for managed rules:
   ///
   /// <ul>
   /// <li>
@@ -7900,7 +8138,9 @@ class SourceKeyword {
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html">custom
   /// rules</a>, you form the <code>keywordValue</code> by adding the
   /// <code>Custom_</code> prefix to the rule name. This prefix distinguishes the
-  /// rule from a managed rule.
+  /// custom rule from a managed rule.
+  ///
+  /// Keyword example for custom rules:
   ///
   /// <ul>
   /// <li>
@@ -7915,6 +8155,8 @@ class SourceKeyword {
   /// rules</a>, you form the <code>keywordValue</code> by adding the
   /// <code>Custom_</code> prefix to the rule name. In addition, you remove the
   /// suffix ID that appears at the end of the rule name.
+  ///
+  /// Keyword examples for service-linked rules:
   ///
   /// <ul>
   /// <li>
@@ -7931,7 +8173,58 @@ class SourceKeyword {
   /// <code>Custom_OrgConfigRule-s3-bucket-versioning-enabled</code>
   /// </li>
   /// </ul> </li>
-  /// </ul>
+  /// </ul> <important>
+  /// The <code>keywordValue</code> is case sensitive. If you enter a value
+  /// incorrectly, Audit Manager might not recognize the data source mapping. As a
+  /// result, you might not successfully collect evidence from that data source as
+  /// intended.
+  ///
+  /// Keep in mind the following requirements, depending on the data source type
+  /// that you're using.
+  /// <ol>
+  /// <li>
+  /// For Config:
+  ///
+  /// <ul>
+  /// <li>
+  /// For managed rules, make sure that the <code>keywordValue</code> is the rule
+  /// identifier in <code>ALL_CAPS_WITH_UNDERSCORES</code>. For example,
+  /// <code>CLOUDWATCH_LOG_GROUP_ENCRYPTED</code>. For accuracy, we recommend that
+  /// you reference the list of <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">supported
+  /// Config managed rules</a>.
+  /// </li>
+  /// <li>
+  /// For custom rules, make sure that the <code>keywordValue</code> has the
+  /// <code>Custom_</code> prefix followed by the custom rule name. The format of
+  /// the custom rule name itself may vary. For accuracy, we recommend that you
+  /// visit the <a href="https://console.aws.amazon.com/config/">Config
+  /// console</a> to verify your custom rule name.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For Security Hub: The format varies for Security Hub control names. For
+  /// accuracy, we recommend that you reference the list of <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">supported
+  /// Security Hub controls</a>.
+  /// </li>
+  /// <li>
+  /// For Amazon Web Services API calls: Make sure that the
+  /// <code>keywordValue</code> is written as
+  /// <code>serviceprefix_ActionName</code>. For example,
+  /// <code>iam_ListGroups</code>. For accuracy, we recommend that you reference
+  /// the list of <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html">supported
+  /// API calls</a>.
+  /// </li>
+  /// <li>
+  /// For CloudTrail: Make sure that the <code>keywordValue</code> is written as
+  /// <code>serviceprefix_ActionName</code>. For example,
+  /// <code>cloudtrail_StartLogging</code>. For accuracy, we recommend that you
+  /// review the Amazon Web Service prefix and action names in the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Service
+  /// Authorization Reference</a>.
+  /// </li> </ol> </important>
   final String? keywordValue;
 
   SourceKeyword({

@@ -1283,7 +1283,7 @@ class ApiGatewayV2 {
     );
   }
 
-  /// Deletes a route request parameter.
+  /// Deletes a route request parameter. Supported only for WebSocket APIs.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
@@ -2879,7 +2879,7 @@ class ApiGatewayV2 {
   /// action can be append, overwrite or remove. For values, you can provide
   /// static values, or map request data, stage variables, or context variables
   /// that are evaluated at runtime. To learn more, see <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.">Transforming
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
   ///
   /// Parameter [requestTemplates] :
@@ -4585,7 +4585,7 @@ class CreateIntegrationResult {
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
   /// with AWS service integrations for HTTP APIs</a>.
   ///
-  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// For HTTP API integrations, without a specified integrationSubtype request
   /// parameters are a key-value map specifying how to transform HTTP requests
   /// before sending them to backend integrations. The key should follow the
   /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The
@@ -6451,7 +6451,7 @@ class GetIntegrationResult {
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
   /// with AWS service integrations for HTTP APIs</a>.
   ///
-  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// For HTTP API integrations, without a specified integrationSubtype request
   /// parameters are a key-value map specifying how to transform HTTP requests
   /// before sending them to backend integrations. The key should follow the
   /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The
@@ -7740,7 +7740,7 @@ class Integration {
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
   /// with AWS service integrations for HTTP APIs</a>.
   ///
-  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// For HTTP API integrations, without a specified integrationSubtype request
   /// parameters are a key-value map specifying how to transform HTTP requests
   /// before sending them to backend integrations. The key should follow the
   /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The
@@ -9586,7 +9586,7 @@ class UpdateIntegrationResult {
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
   /// with AWS service integrations for HTTP APIs</a>.
   ///
-  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// For HTTP API integrations, without a specified integrationSubtype request
   /// parameters are a key-value map specifying how to transform HTTP requests
   /// before sending them to backend integrations. The key should follow the
   /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The

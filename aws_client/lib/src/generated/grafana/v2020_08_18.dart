@@ -59,8 +59,10 @@ class ManagedGrafana {
     _protocol.close();
   }
 
-  /// Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana
-  /// Enterprise incurs additional fees. For more information, see <a
+  /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must
+  /// use <code>ENTERPRISE</code> for the <code>licenseType</code>, and pass in
+  /// a valid Grafana Labs token for the <code>grafanaToken</code>. Upgrading to
+  /// Grafana Enterprise incurs additional fees. For more information, see <a
   /// href="https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html">Upgrade
   /// a workspace to Grafana Enterprise</a>.
   ///
@@ -72,18 +74,33 @@ class ManagedGrafana {
   ///
   /// Parameter [licenseType] :
   /// The type of license to associate with the workspace.
+  /// <note>
+  /// Amazon Managed Grafana workspaces no longer support Grafana Enterprise
+  /// free trials.
+  /// </note>
   ///
   /// Parameter [workspaceId] :
   /// The ID of the workspace to associate the license with.
+  ///
+  /// Parameter [grafanaToken] :
+  /// A token from Grafana Labs that ties your Amazon Web Services account with
+  /// a Grafana Labs account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise">Link
+  /// your account with Grafana Labs</a>.
   Future<AssociateLicenseResponse> associateLicense({
     required LicenseType licenseType,
     required String workspaceId,
+    String? grafanaToken,
   }) async {
+    final headers = <String, String>{
+      if (grafanaToken != null) 'Grafana-Token': grafanaToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/licenses/${Uri.encodeComponent(licenseType.toValue())}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return AssociateLicenseResponse.fromJson(response);
@@ -114,9 +131,9 @@ class ManagedGrafana {
   /// <code>workspaceOrganizationalUnits</code> parameter.
   ///
   /// Parameter [authenticationProviders] :
-  /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center
-  /// (successor to Single Sign-On), or both to authenticate users for using the
-  /// Grafana console within a workspace. For more information, see <a
+  /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or
+  /// both to authenticate users for using the Grafana console within a
+  /// workspace. For more information, see <a
   /// href="https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html">User
   /// authentication in Amazon Managed Grafana</a>.
   ///
@@ -153,9 +170,11 @@ class ManagedGrafana {
   /// in your Grafana workspace</a>.
   ///
   /// Parameter [grafanaVersion] :
-  /// Specifies the version of Grafana to support in the new workspace.
+  /// Specifies the version of Grafana to support in the new workspace. If not
+  /// specified, defaults to the latest version (for example, 10.4).
   ///
-  /// Supported values are <code>8.4</code> and <code>9.4</code>.
+  /// To get a list of supported versions, use the <code>ListVersions</code>
+  /// operation.
   ///
   /// Parameter [networkAccessControl] :
   /// Configuration for network access to your workspace.
@@ -183,6 +202,10 @@ class ManagedGrafana {
   /// Parameter [vpcConfiguration] :
   /// The configuration settings for an Amazon VPC that contains data sources
   /// for your Grafana workspace to connect to.
+  /// <note>
+  /// Connecting to a private VPC is not yet available in the Asia Pacific
+  /// (Seoul) Region (ap-northeast-2).
+  /// </note>
   ///
   /// Parameter [workspaceDataSources] :
   /// This parameter is for internal use only, and should not be used.
@@ -273,6 +296,11 @@ class ManagedGrafana {
   /// authenticate requests sent to the workspace's HTTP API. See <a
   /// href="https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html">https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html</a>
   /// for available APIs and example requests.
+  /// <note>
+  /// In workspaces compatible with Grafana version 9 or above, use workspace
+  /// service accounts instead of API keys. API keys will be removed in a future
+  /// release.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -288,7 +316,7 @@ class ManagedGrafana {
   /// Parameter [keyRole] :
   /// Specifies the permission level of the key.
   ///
-  /// Valid values: <code>VIEWER</code>|<code>EDITOR</code>|<code>ADMIN</code>
+  /// Valid values: <code>ADMIN</code>|<code>EDITOR</code>|<code>VIEWER</code>
   ///
   /// Parameter [secondsToLive] :
   /// Specifies the time in seconds until the key expires. Keys can be valid for
@@ -323,6 +351,130 @@ class ManagedGrafana {
     return CreateWorkspaceApiKeyResponse.fromJson(response);
   }
 
+  /// Creates a service account for the workspace. A service account can be used
+  /// to call Grafana HTTP APIs, and run automated workloads. After creating the
+  /// service account with the correct <code>GrafanaRole</code> for your use
+  /// case, use <code>CreateWorkspaceServiceAccountToken</code> to create a
+  /// token that can be used to authenticate and authorize Grafana HTTP API
+  /// calls.
+  ///
+  /// You can only create service accounts for workspaces that are compatible
+  /// with Grafana version 9 and above.
+  /// <note>
+  /// For more information about service accounts, see <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/userguide/service-accounts.html">Service
+  /// accounts</a> in the <i>Amazon Managed Grafana User Guide</i>.
+  ///
+  /// For more information about the Grafana HTTP APIs, see <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html">Using
+  /// Grafana HTTP APIs</a> in the <i>Amazon Managed Grafana User Guide</i>.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [grafanaRole] :
+  /// The permission level to use for this service account.
+  /// <note>
+  /// For more information about the roles and the permissions each has, see <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/userguide/Grafana-user-roles.html">User
+  /// roles</a> in the <i>Amazon Managed Grafana User Guide</i>.
+  /// </note>
+  ///
+  /// Parameter [name] :
+  /// A name for the service account. The name must be unique within the
+  /// workspace, as it determines the ID associated with the service account.
+  ///
+  /// Parameter [workspaceId] :
+  /// The ID of the workspace within which to create the service account.
+  Future<CreateWorkspaceServiceAccountResponse> createWorkspaceServiceAccount({
+    required Role grafanaRole,
+    required String name,
+    required String workspaceId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'grafanaRole': grafanaRole.toValue(),
+      'name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/serviceaccounts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorkspaceServiceAccountResponse.fromJson(response);
+  }
+
+  /// Creates a token that can be used to authenticate and authorize Grafana
+  /// HTTP API operations for the given <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/userguide/service-accounts.html">workspace
+  /// service account</a>. The service account acts as a user for the API
+  /// operations, and defines the permissions that are used by the API.
+  /// <important>
+  /// When you create the service account token, you will receive a key that is
+  /// used when calling Grafana APIs. Do not lose this key, as it will not be
+  /// retrievable again.
+  ///
+  /// If you do lose the key, you can delete the token and recreate it to
+  /// receive a new key. This will disable the initial key.
+  /// </important>
+  /// Service accounts are only available for workspaces that are compatible
+  /// with Grafana version 9 and above.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// A name for the token to create.
+  ///
+  /// Parameter [secondsToLive] :
+  /// Sets how long the token will be valid, in seconds. You can set the time up
+  /// to 30 days in the future.
+  ///
+  /// Parameter [serviceAccountId] :
+  /// The ID of the service account for which to create a token.
+  ///
+  /// Parameter [workspaceId] :
+  /// The ID of the workspace the service account resides within.
+  Future<CreateWorkspaceServiceAccountTokenResponse>
+      createWorkspaceServiceAccountToken({
+    required String name,
+    required int secondsToLive,
+    required String serviceAccountId,
+    required String workspaceId,
+  }) async {
+    _s.validateNumRange(
+      'secondsToLive',
+      secondsToLive,
+      1,
+      2592000,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'name': name,
+      'secondsToLive': secondsToLive,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/serviceaccounts/${Uri.encodeComponent(serviceAccountId)}/tokens',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorkspaceServiceAccountTokenResponse.fromJson(response);
+  }
+
   /// Deletes an Amazon Managed Grafana workspace.
   ///
   /// May throw [ResourceNotFoundException].
@@ -347,6 +499,11 @@ class ManagedGrafana {
   }
 
   /// Deletes a Grafana API key for the workspace.
+  /// <note>
+  /// In workspaces compatible with Grafana version 9 or above, use workspace
+  /// service accounts instead of API keys. API keys will be removed in a future
+  /// release.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -372,6 +529,81 @@ class ManagedGrafana {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteWorkspaceApiKeyResponse.fromJson(response);
+  }
+
+  /// Deletes a workspace service account from the workspace.
+  ///
+  /// This will delete any tokens created for the service account, as well. If
+  /// the tokens are currently in use, the will fail to authenticate / authorize
+  /// after they are deleted.
+  ///
+  /// Service accounts are only available for workspaces that are compatible
+  /// with Grafana version 9 and above.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [serviceAccountId] :
+  /// The ID of the service account to delete.
+  ///
+  /// Parameter [workspaceId] :
+  /// The ID of the workspace where the service account resides.
+  Future<DeleteWorkspaceServiceAccountResponse> deleteWorkspaceServiceAccount({
+    required String serviceAccountId,
+    required String workspaceId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/serviceaccounts/${Uri.encodeComponent(serviceAccountId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteWorkspaceServiceAccountResponse.fromJson(response);
+  }
+
+  /// Deletes a token for the workspace service account.
+  ///
+  /// This will disable the key associated with the token. If any automation is
+  /// currently using the key, it will no longer be authenticated or authorized
+  /// to perform actions with the Grafana HTTP APIs.
+  ///
+  /// Service accounts are only available for workspaces that are compatible
+  /// with Grafana version 9 and above.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [serviceAccountId] :
+  /// The ID of the service account from which to delete the token.
+  ///
+  /// Parameter [tokenId] :
+  /// The ID of the token to delete.
+  ///
+  /// Parameter [workspaceId] :
+  /// The ID of the workspace from which to delete the token.
+  Future<DeleteWorkspaceServiceAccountTokenResponse>
+      deleteWorkspaceServiceAccountToken({
+    required String serviceAccountId,
+    required String tokenId,
+    required String workspaceId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/serviceaccounts/${Uri.encodeComponent(serviceAccountId)}/tokens/${Uri.encodeComponent(tokenId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteWorkspaceServiceAccountTokenResponse.fromJson(response);
   }
 
   /// Displays information about one Amazon Managed Grafana workspace.
@@ -401,6 +633,7 @@ class ManagedGrafana {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -561,6 +794,157 @@ class ManagedGrafana {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Lists available versions of Grafana. These are available when calling
+  /// <code>CreateWorkspace</code>. Optionally, include a workspace to list the
+  /// versions to which it can be upgraded.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use when requesting the next set of results. You receive this
+  /// token from a previous <code>ListVersions</code> operation.
+  ///
+  /// Parameter [workspaceId] :
+  /// The ID of the workspace to list the available upgrade versions. If not
+  /// included, lists all versions of Grafana that are supported for
+  /// <code>CreateWorkspace</code>.
+  Future<ListVersionsResponse> listVersions({
+    int? maxResults,
+    String? nextToken,
+    String? workspaceId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (workspaceId != null) 'workspace-id': [workspaceId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVersionsResponse.fromJson(response);
+  }
+
+  /// Returns a list of tokens for a workspace service account.
+  /// <note>
+  /// This does not return the key for each token. You cannot access keys after
+  /// they are created. To create a new key, delete the token and recreate it.
+  /// </note>
+  /// Service accounts are only available for workspaces that are compatible
+  /// with Grafana version 9 and above.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [serviceAccountId] :
+  /// The ID of the service account for which to return tokens.
+  ///
+  /// Parameter [workspaceId] :
+  /// The ID of the workspace for which to return tokens.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of tokens to include in the results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of service accounts to return. (You receive
+  /// this token from a previous <code>ListWorkspaceServiceAccountTokens</code>
+  /// operation.)
+  Future<ListWorkspaceServiceAccountTokensResponse>
+      listWorkspaceServiceAccountTokens({
+    required String serviceAccountId,
+    required String workspaceId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/serviceaccounts/${Uri.encodeComponent(serviceAccountId)}/tokens',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkspaceServiceAccountTokensResponse.fromJson(response);
+  }
+
+  /// Returns a list of service accounts for a workspace.
+  ///
+  /// Service accounts are only available for workspaces that are compatible
+  /// with Grafana version 9 and above.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [workspaceId] :
+  /// The workspace for which to list service accounts.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of service accounts to include in the results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of service accounts to return. (You receive
+  /// this token from a previous <code>ListWorkspaceServiceAccounts</code>
+  /// operation.)
+  Future<ListWorkspaceServiceAccountsResponse> listWorkspaceServiceAccounts({
+    required String workspaceId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/serviceaccounts',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkspaceServiceAccountsResponse.fromJson(response);
   }
 
   /// Returns a list of Amazon Managed Grafana workspaces in the account, with
@@ -896,9 +1280,9 @@ class ManagedGrafana {
   /// May throw [InternalServerException].
   ///
   /// Parameter [authenticationProviders] :
-  /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center
-  /// (successor to Single Sign-On), or both to authenticate users for using the
-  /// Grafana console within a workspace. For more information, see <a
+  /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or
+  /// both to authenticate users for using the Grafana console within a
+  /// workspace. For more information, see <a
   /// href="https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html">User
   /// authentication in Amazon Managed Grafana</a>.
   ///
@@ -947,12 +1331,26 @@ class ManagedGrafana {
   ///
   /// Parameter [workspaceId] :
   /// The ID of the workspace to update.
+  ///
+  /// Parameter [grafanaVersion] :
+  /// Specifies the version of Grafana to support in the workspace. If not
+  /// specified, keeps the current version of the workspace.
+  ///
+  /// Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade
+  /// (for example, from 9.4 to 8.4).
+  ///
+  /// To know what versions are available to upgrade to for a specific
+  /// workspace, see the <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/APIReference/API_ListVersions.html">ListVersions</a>
+  /// operation.
   Future<void> updateWorkspaceConfiguration({
     required Object configuration,
     required String workspaceId,
+    String? grafanaVersion,
   }) async {
     final $payload = <String, dynamic>{
       'configuration': jsonEncode(configuration),
+      if (grafanaVersion != null) 'grafanaVersion': grafanaVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1285,6 +1683,89 @@ class CreateWorkspaceResponse {
   }
 }
 
+class CreateWorkspaceServiceAccountResponse {
+  /// The permission level given to the service account.
+  final Role grafanaRole;
+
+  /// The ID of the service account.
+  final String id;
+
+  /// The name of the service account.
+  final String name;
+
+  /// The workspace with which the service account is associated.
+  final String workspaceId;
+
+  CreateWorkspaceServiceAccountResponse({
+    required this.grafanaRole,
+    required this.id,
+    required this.name,
+    required this.workspaceId,
+  });
+
+  factory CreateWorkspaceServiceAccountResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateWorkspaceServiceAccountResponse(
+      grafanaRole: (json['grafanaRole'] as String).toRole(),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      workspaceId: json['workspaceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grafanaRole = this.grafanaRole;
+    final id = this.id;
+    final name = this.name;
+    final workspaceId = this.workspaceId;
+    return {
+      'grafanaRole': grafanaRole.toValue(),
+      'id': id,
+      'name': name,
+      'workspaceId': workspaceId,
+    };
+  }
+}
+
+class CreateWorkspaceServiceAccountTokenResponse {
+  /// The ID of the service account where the token was created.
+  final String serviceAccountId;
+
+  /// Information about the created token, including the key. Be sure to store the
+  /// key securely.
+  final ServiceAccountTokenSummaryWithKey serviceAccountToken;
+
+  /// The ID of the workspace where the token was created.
+  final String workspaceId;
+
+  CreateWorkspaceServiceAccountTokenResponse({
+    required this.serviceAccountId,
+    required this.serviceAccountToken,
+    required this.workspaceId,
+  });
+
+  factory CreateWorkspaceServiceAccountTokenResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateWorkspaceServiceAccountTokenResponse(
+      serviceAccountId: json['serviceAccountId'] as String,
+      serviceAccountToken: ServiceAccountTokenSummaryWithKey.fromJson(
+          json['serviceAccountToken'] as Map<String, dynamic>),
+      workspaceId: json['workspaceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceAccountId = this.serviceAccountId;
+    final serviceAccountToken = this.serviceAccountToken;
+    final workspaceId = this.workspaceId;
+    return {
+      'serviceAccountId': serviceAccountId,
+      'serviceAccountToken': serviceAccountToken,
+      'workspaceId': workspaceId,
+    };
+  }
+}
+
 enum DataSourceType {
   amazonOpensearchService,
   cloudwatch,
@@ -1400,6 +1881,73 @@ class DeleteWorkspaceResponse {
   }
 }
 
+class DeleteWorkspaceServiceAccountResponse {
+  /// The ID of the service account deleted.
+  final String serviceAccountId;
+
+  /// The ID of the workspace where the service account was deleted.
+  final String workspaceId;
+
+  DeleteWorkspaceServiceAccountResponse({
+    required this.serviceAccountId,
+    required this.workspaceId,
+  });
+
+  factory DeleteWorkspaceServiceAccountResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteWorkspaceServiceAccountResponse(
+      serviceAccountId: json['serviceAccountId'] as String,
+      workspaceId: json['workspaceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceAccountId = this.serviceAccountId;
+    final workspaceId = this.workspaceId;
+    return {
+      'serviceAccountId': serviceAccountId,
+      'workspaceId': workspaceId,
+    };
+  }
+}
+
+class DeleteWorkspaceServiceAccountTokenResponse {
+  /// The ID of the service account where the token was deleted.
+  final String serviceAccountId;
+
+  /// The ID of the token that was deleted.
+  final String tokenId;
+
+  /// The ID of the workspace where the token was deleted.
+  final String workspaceId;
+
+  DeleteWorkspaceServiceAccountTokenResponse({
+    required this.serviceAccountId,
+    required this.tokenId,
+    required this.workspaceId,
+  });
+
+  factory DeleteWorkspaceServiceAccountTokenResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteWorkspaceServiceAccountTokenResponse(
+      serviceAccountId: json['serviceAccountId'] as String,
+      tokenId: json['tokenId'] as String,
+      workspaceId: json['workspaceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceAccountId = this.serviceAccountId;
+    final tokenId = this.tokenId;
+    final workspaceId = this.workspaceId;
+    return {
+      'serviceAccountId': serviceAccountId,
+      'tokenId': tokenId,
+      'workspaceId': workspaceId,
+    };
+  }
+}
+
 class DescribeWorkspaceAuthenticationResponse {
   /// A structure containing information about the authentication methods used in
   /// the workspace.
@@ -1432,21 +1980,28 @@ class DescribeWorkspaceConfigurationResponse {
   /// in your Grafana workspace</a>.
   final Object configuration;
 
+  /// The supported Grafana version for the workspace.
+  final String? grafanaVersion;
+
   DescribeWorkspaceConfigurationResponse({
     required this.configuration,
+    this.grafanaVersion,
   });
 
   factory DescribeWorkspaceConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeWorkspaceConfigurationResponse(
       configuration: jsonDecode(json['configuration'] as String) as Object,
+      grafanaVersion: json['grafanaVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final configuration = this.configuration;
+    final grafanaVersion = this.grafanaVersion;
     return {
       'configuration': jsonEncode(configuration),
+      if (grafanaVersion != null) 'grafanaVersion': grafanaVersion,
     };
   }
 }
@@ -1615,6 +2170,128 @@ class ListTagsForResourceResponse {
   }
 }
 
+class ListVersionsResponse {
+  /// The Grafana versions available to create. If a workspace ID is included in
+  /// the request, the Grafana versions to which this workspace can be upgraded.
+  final List<String>? grafanaVersions;
+
+  /// The token to use in a subsequent <code>ListVersions</code> operation to
+  /// return the next set of results.
+  final String? nextToken;
+
+  ListVersionsResponse({
+    this.grafanaVersions,
+    this.nextToken,
+  });
+
+  factory ListVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListVersionsResponse(
+      grafanaVersions: (json['grafanaVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grafanaVersions = this.grafanaVersions;
+    final nextToken = this.nextToken;
+    return {
+      if (grafanaVersions != null) 'grafanaVersions': grafanaVersions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListWorkspaceServiceAccountTokensResponse {
+  /// The ID of the service account where the tokens reside.
+  final String serviceAccountId;
+
+  /// An array of structures containing information about the tokens.
+  final List<ServiceAccountTokenSummary> serviceAccountTokens;
+
+  /// The ID of the workspace where the tokens reside.
+  final String workspaceId;
+
+  /// The token to use when requesting the next set of service accounts.
+  final String? nextToken;
+
+  ListWorkspaceServiceAccountTokensResponse({
+    required this.serviceAccountId,
+    required this.serviceAccountTokens,
+    required this.workspaceId,
+    this.nextToken,
+  });
+
+  factory ListWorkspaceServiceAccountTokensResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListWorkspaceServiceAccountTokensResponse(
+      serviceAccountId: json['serviceAccountId'] as String,
+      serviceAccountTokens: (json['serviceAccountTokens'] as List)
+          .whereNotNull()
+          .map((e) =>
+              ServiceAccountTokenSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workspaceId: json['workspaceId'] as String,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceAccountId = this.serviceAccountId;
+    final serviceAccountTokens = this.serviceAccountTokens;
+    final workspaceId = this.workspaceId;
+    final nextToken = this.nextToken;
+    return {
+      'serviceAccountId': serviceAccountId,
+      'serviceAccountTokens': serviceAccountTokens,
+      'workspaceId': workspaceId,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListWorkspaceServiceAccountsResponse {
+  /// An array of structures containing information about the service accounts.
+  final List<ServiceAccountSummary> serviceAccounts;
+
+  /// The workspace to which the service accounts are associated.
+  final String workspaceId;
+
+  /// The token to use when requesting the next set of service accounts.
+  final String? nextToken;
+
+  ListWorkspaceServiceAccountsResponse({
+    required this.serviceAccounts,
+    required this.workspaceId,
+    this.nextToken,
+  });
+
+  factory ListWorkspaceServiceAccountsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListWorkspaceServiceAccountsResponse(
+      serviceAccounts: (json['serviceAccounts'] as List)
+          .whereNotNull()
+          .map((e) => ServiceAccountSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workspaceId: json['workspaceId'] as String,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceAccounts = this.serviceAccounts;
+    final workspaceId = this.workspaceId;
+    final nextToken = this.nextToken;
+    return {
+      'serviceAccounts': serviceAccounts,
+      'workspaceId': workspaceId,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListWorkspacesResponse {
   /// An array of structures that contain some information about the workspaces in
   /// the account.
@@ -1652,17 +2329,28 @@ class ListWorkspacesResponse {
 ///
 /// When this is configured, only listed IP addresses and VPC endpoints will be
 /// able to access your workspace. Standard Grafana authentication and
-/// authorization will still be required.
+/// authorization are still required.
+///
+/// Access is granted to a caller that is in either the IP address list or the
+/// VPC endpoint list - they do not need to be in both.
 ///
 /// If this is not configured, or is removed, then all IP addresses and VPC
-/// endpoints will be allowed. Standard Grafana authentication and authorization
-/// will still be required.
+/// endpoints are allowed. Standard Grafana authentication and authorization are
+/// still required.
+/// <note>
+/// While both <code>prefixListIds</code> and <code>vpceIds</code> are required,
+/// you can pass in an empty array of strings for either parameter if you do not
+/// want to allow any of that type.
+///
+/// If both are passed as empty arrays, no traffic is allowed to the workspace,
+/// because only <i>explicitly</i> allowed connections are accepted.
+/// </note>
 class NetworkAccessConfiguration {
   /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP
   /// addresses. The IP addresses specified are allowed to access your workspace.
-  /// If the list is not included in the configuration then no IP addresses will
-  /// be allowed to access the workspace. You create a prefix list using the
-  /// Amazon VPC console.
+  /// If the list is not included in the configuration (passed an empty array)
+  /// then no IP addresses are allowed to access the workspace. You create a
+  /// prefix list using the Amazon VPC console.
   ///
   /// Prefix list IDs have the format <code>pl-<i>1a2b3c4d</i> </code>.
   ///
@@ -1675,7 +2363,8 @@ class NetworkAccessConfiguration {
   /// An array of Amazon VPC endpoint IDs for the workspace. You can create VPC
   /// endpoints to your Amazon Managed Grafana workspace for access from within a
   /// VPC. If a <code>NetworkAccessConfiguration</code> is specified then only VPC
-  /// endpoints specified here will be allowed to access the workspace.
+  /// endpoints specified here are allowed to access the workspace. If you pass in
+  /// an empty array of strings, then no VPCs are allowed to access the workspace.
   ///
   /// VPC endpoint IDs have the format <code>vpce-<i>1a2b3c4d</i> </code>.
   ///
@@ -1686,7 +2375,7 @@ class NetworkAccessConfiguration {
   /// The only VPC endpoints that can be specified here are interface VPC
   /// endpoints for Grafana workspaces (using the
   /// <code>com.amazonaws.[region].grafana-workspace</code> service endpoint).
-  /// Other VPC endpoints will be ignored.
+  /// Other VPC endpoints are ignored.
   /// </note>
   final List<String> vpceIds;
 
@@ -2010,6 +2699,149 @@ extension SamlConfigurationStatusFromString on String {
   }
 }
 
+/// A structure that contains the information about one service account.
+class ServiceAccountSummary {
+  /// The role of the service account, which sets the permission level used when
+  /// calling Grafana APIs.
+  final Role grafanaRole;
+
+  /// The unique ID of the service account.
+  final String id;
+
+  /// Returns true if the service account is disabled. Service accounts can be
+  /// disabled and enabled in the Amazon Managed Grafana console.
+  final String isDisabled;
+
+  /// The name of the service account.
+  final String name;
+
+  ServiceAccountSummary({
+    required this.grafanaRole,
+    required this.id,
+    required this.isDisabled,
+    required this.name,
+  });
+
+  factory ServiceAccountSummary.fromJson(Map<String, dynamic> json) {
+    return ServiceAccountSummary(
+      grafanaRole: (json['grafanaRole'] as String).toRole(),
+      id: json['id'] as String,
+      isDisabled: json['isDisabled'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grafanaRole = this.grafanaRole;
+    final id = this.id;
+    final isDisabled = this.isDisabled;
+    final name = this.name;
+    return {
+      'grafanaRole': grafanaRole.toValue(),
+      'id': id,
+      'isDisabled': isDisabled,
+      'name': name,
+    };
+  }
+}
+
+/// A structure that contains the information about a service account token.
+class ServiceAccountTokenSummary {
+  /// When the service account token was created.
+  final DateTime createdAt;
+
+  /// When the service account token will expire.
+  final DateTime expiresAt;
+
+  /// The unique ID of the service account token.
+  final String id;
+
+  /// The name of the service account token.
+  final String name;
+
+  /// The last time the token was used to authorize a Grafana HTTP API.
+  final DateTime? lastUsedAt;
+
+  ServiceAccountTokenSummary({
+    required this.createdAt,
+    required this.expiresAt,
+    required this.id,
+    required this.name,
+    this.lastUsedAt,
+  });
+
+  factory ServiceAccountTokenSummary.fromJson(Map<String, dynamic> json) {
+    return ServiceAccountTokenSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      expiresAt: nonNullableTimeStampFromJson(json['expiresAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      lastUsedAt: timeStampFromJson(json['lastUsedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final expiresAt = this.expiresAt;
+    final id = this.id;
+    final name = this.name;
+    final lastUsedAt = this.lastUsedAt;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'expiresAt': unixTimestampToJson(expiresAt),
+      'id': id,
+      'name': name,
+      if (lastUsedAt != null) 'lastUsedAt': unixTimestampToJson(lastUsedAt),
+    };
+  }
+}
+
+/// A structure that contains the information about a service account token.
+///
+/// This structure is returned when creating the token. It is important to store
+/// the <code>key</code> that is returned, as it is not retrievable at a later
+/// time.
+///
+/// If you lose the key, you can delete and recreate the token, which will
+/// create a new key.
+class ServiceAccountTokenSummaryWithKey {
+  /// The unique ID of the service account token.
+  final String id;
+
+  /// The key for the service account token. Used when making calls to the Grafana
+  /// HTTP APIs to authenticate and authorize the requests.
+  final String key;
+
+  /// The name of the service account token.
+  final String name;
+
+  ServiceAccountTokenSummaryWithKey({
+    required this.id,
+    required this.key,
+    required this.name,
+  });
+
+  factory ServiceAccountTokenSummaryWithKey.fromJson(
+      Map<String, dynamic> json) {
+    return ServiceAccountTokenSummaryWithKey(
+      id: json['id'] as String,
+      key: json['key'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final key = this.key;
+    final name = this.name;
+    return {
+      'id': id,
+      'key': key,
+      'name': name,
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2298,6 +3130,9 @@ extension UserTypeFromString on String {
 /// <note>
 /// Provided <code>securityGroupIds</code> and <code>subnetIds</code> must be
 /// part of the same VPC.
+///
+/// Connecting to a private VPC is not yet available in the Asia Pacific (Seoul)
+/// Region (ap-northeast-2).
 /// </note>
 class VpcConfiguration {
   /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for
@@ -2382,18 +3217,38 @@ class WorkspaceDescription {
 
   /// Specifies whether this workspace has already fully used its free trial for
   /// Grafana Enterprise.
+  /// <note>
+  /// Amazon Managed Grafana workspaces no longer support Grafana Enterprise free
+  /// trials.
+  /// </note>
   final bool? freeTrialConsumed;
 
   /// If this workspace is currently in the free trial period for Grafana
   /// Enterprise, this value specifies when that free trial ends.
+  /// <note>
+  /// Amazon Managed Grafana workspaces no longer support Grafana Enterprise free
+  /// trials.
+  /// </note>
   final DateTime? freeTrialExpiration;
 
-  /// If this workspace has a full Grafana Enterprise license, this specifies when
-  /// the license ends and will need to be renewed.
+  /// The token that ties this workspace to a Grafana Labs account. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise">Link
+  /// your account with Grafana Labs</a>.
+  final String? grafanaToken;
+
+  /// If this workspace has a full Grafana Enterprise license purchased through
+  /// Amazon Web Services Marketplace, this specifies when the license ends and
+  /// will need to be renewed. Purchasing the Enterprise plugins option through
+  /// Amazon Managed Grafana does not have an expiration. It is valid until the
+  /// license is removed.
   final DateTime? licenseExpiration;
 
-  /// Specifies whether this workspace has a full Grafana Enterprise license or a
-  /// free trial license.
+  /// Specifies whether this workspace has a full Grafana Enterprise license.
+  /// <note>
+  /// Amazon Managed Grafana workspaces no longer support Grafana Enterprise free
+  /// trials.
+  /// </note>
   final LicenseType? licenseType;
 
   /// The name of the workspace.
@@ -2470,6 +3325,7 @@ class WorkspaceDescription {
     this.description,
     this.freeTrialConsumed,
     this.freeTrialExpiration,
+    this.grafanaToken,
     this.licenseExpiration,
     this.licenseType,
     this.name,
@@ -2503,6 +3359,7 @@ class WorkspaceDescription {
       description: json['description'] as String?,
       freeTrialConsumed: json['freeTrialConsumed'] as bool?,
       freeTrialExpiration: timeStampFromJson(json['freeTrialExpiration']),
+      grafanaToken: json['grafanaToken'] as String?,
       licenseExpiration: timeStampFromJson(json['licenseExpiration']),
       licenseType: (json['licenseType'] as String?)?.toLicenseType(),
       name: json['name'] as String?,
@@ -2544,6 +3401,7 @@ class WorkspaceDescription {
     final description = this.description;
     final freeTrialConsumed = this.freeTrialConsumed;
     final freeTrialExpiration = this.freeTrialExpiration;
+    final grafanaToken = this.grafanaToken;
     final licenseExpiration = this.licenseExpiration;
     final licenseType = this.licenseType;
     final name = this.name;
@@ -2571,6 +3429,7 @@ class WorkspaceDescription {
       if (freeTrialConsumed != null) 'freeTrialConsumed': freeTrialConsumed,
       if (freeTrialExpiration != null)
         'freeTrialExpiration': unixTimestampToJson(freeTrialExpiration),
+      if (grafanaToken != null) 'grafanaToken': grafanaToken,
       if (licenseExpiration != null)
         'licenseExpiration': unixTimestampToJson(licenseExpiration),
       if (licenseType != null) 'licenseType': licenseType.toValue(),
@@ -2605,6 +3464,8 @@ enum WorkspaceStatus {
   updateFailed,
   upgradeFailed,
   licenseRemovalFailed,
+  versionUpdating,
+  versionUpdateFailed,
 }
 
 extension WorkspaceStatusValueExtension on WorkspaceStatus {
@@ -2632,6 +3493,10 @@ extension WorkspaceStatusValueExtension on WorkspaceStatus {
         return 'UPGRADE_FAILED';
       case WorkspaceStatus.licenseRemovalFailed:
         return 'LICENSE_REMOVAL_FAILED';
+      case WorkspaceStatus.versionUpdating:
+        return 'VERSION_UPDATING';
+      case WorkspaceStatus.versionUpdateFailed:
+        return 'VERSION_UPDATE_FAILED';
     }
   }
 }
@@ -2661,6 +3526,10 @@ extension WorkspaceStatusFromString on String {
         return WorkspaceStatus.upgradeFailed;
       case 'LICENSE_REMOVAL_FAILED':
         return WorkspaceStatus.licenseRemovalFailed;
+      case 'VERSION_UPDATING':
+        return WorkspaceStatus.versionUpdating;
+      case 'VERSION_UPDATE_FAILED':
+        return WorkspaceStatus.versionUpdateFailed;
     }
     throw Exception('$this is not known in enum WorkspaceStatus');
   }
@@ -2694,6 +3563,19 @@ class WorkspaceSummary {
   /// The customer-entered description of the workspace.
   final String? description;
 
+  /// The token that ties this workspace to a Grafana Labs account. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise">Link
+  /// your account with Grafana Labs</a>.
+  final String? grafanaToken;
+
+  /// Specifies whether this workspace has a full Grafana Enterprise license.
+  /// <note>
+  /// Amazon Managed Grafana workspaces no longer support Grafana Enterprise free
+  /// trials.
+  /// </note>
+  final LicenseType? licenseType;
+
   /// The name of the workspace.
   final String? name;
 
@@ -2714,6 +3596,8 @@ class WorkspaceSummary {
     required this.modified,
     required this.status,
     this.description,
+    this.grafanaToken,
+    this.licenseType,
     this.name,
     this.notificationDestinations,
     this.tags,
@@ -2730,6 +3614,8 @@ class WorkspaceSummary {
       modified: nonNullableTimeStampFromJson(json['modified'] as Object),
       status: (json['status'] as String).toWorkspaceStatus(),
       description: json['description'] as String?,
+      grafanaToken: json['grafanaToken'] as String?,
+      licenseType: (json['licenseType'] as String?)?.toLicenseType(),
       name: json['name'] as String?,
       notificationDestinations: (json['notificationDestinations'] as List?)
           ?.whereNotNull()
@@ -2749,6 +3635,8 @@ class WorkspaceSummary {
     final modified = this.modified;
     final status = this.status;
     final description = this.description;
+    final grafanaToken = this.grafanaToken;
+    final licenseType = this.licenseType;
     final name = this.name;
     final notificationDestinations = this.notificationDestinations;
     final tags = this.tags;
@@ -2761,6 +3649,8 @@ class WorkspaceSummary {
       'modified': unixTimestampToJson(modified),
       'status': status.toValue(),
       if (description != null) 'description': description,
+      if (grafanaToken != null) 'grafanaToken': grafanaToken,
+      if (licenseType != null) 'licenseType': licenseType.toValue(),
       if (name != null) 'name': name,
       if (notificationDestinations != null)
         'notificationDestinations':

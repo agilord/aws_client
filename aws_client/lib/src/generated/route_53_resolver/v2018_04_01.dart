@@ -474,6 +474,70 @@ class Route53Resolver {
   /// failed requests without the risk of running the operation twice.
   /// <code>CreatorRequestId</code> can be any unique string, for example, a
   /// date/time stamp.
+  ///
+  /// Parameter [firewallDomainRedirectionAction] :
+  /// How you want the the rule to evaluate DNS redirection in the DNS
+  /// redirection chain, such as CNAME or DNAME.
+  ///
+  /// <code>Inspect_Redirection_Domain </code>(Default) inspects all domains in
+  /// the redirection chain. The individual domains in the redirection chain
+  /// must be added to the domain list.
+  ///
+  /// <code>Trust_Redirection_Domain </code> inspects only the first domain in
+  /// the redirection chain. You don't need to add the subsequent domains in the
+  /// domain in the redirection list to the domain list.
+  ///
+  /// Parameter [qtype] :
+  /// The DNS query type you want the rule to evaluate. Allowed values are;
+  ///
+  /// <ul>
+  /// <li>
+  /// A: Returns an IPv4 address.
+  /// </li>
+  /// <li>
+  /// AAAA: Returns an Ipv6 address.
+  /// </li>
+  /// <li>
+  /// CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+  /// </li>
+  /// <li>
+  /// CNAME: Returns another domain name.
+  /// </li>
+  /// <li>
+  /// DS: Record that identifies the DNSSEC signing key of a delegated zone.
+  /// </li>
+  /// <li>
+  /// MX: Specifies mail servers.
+  /// </li>
+  /// <li>
+  /// NAPTR: Regular-expression-based rewriting of domain names.
+  /// </li>
+  /// <li>
+  /// NS: Authoritative name servers.
+  /// </li>
+  /// <li>
+  /// PTR: Maps an IP address to a domain name.
+  /// </li>
+  /// <li>
+  /// SOA: Start of authority record for the zone.
+  /// </li>
+  /// <li>
+  /// SPF: Lists the servers authorized to send emails from a domain.
+  /// </li>
+  /// <li>
+  /// SRV: Application specific values that identify servers.
+  /// </li>
+  /// <li>
+  /// TXT: Verifies email senders and application-specific values.
+  /// </li>
+  /// <li>
+  /// A query type you define by using the DNS type ID, for example 28 for AAAA.
+  /// The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334,
+  /// for example, TYPE28. For more information, see <a
+  /// href="https://en.wikipedia.org/wiki/List_of_DNS_record_types">List of DNS
+  /// record types</a>.
+  /// </li>
+  /// </ul>
   Future<CreateFirewallRuleResponse> createFirewallRule({
     required Action action,
     required String firewallDomainListId,
@@ -485,6 +549,8 @@ class Route53Resolver {
     int? blockOverrideTtl,
     BlockResponse? blockResponse,
     String? creatorRequestId,
+    FirewallDomainRedirectionAction? firewallDomainRedirectionAction,
+    String? qtype,
   }) async {
     _s.validateNumRange(
       'blockOverrideTtl',
@@ -515,6 +581,10 @@ class Route53Resolver {
         if (blockOverrideTtl != null) 'BlockOverrideTtl': blockOverrideTtl,
         if (blockResponse != null) 'BlockResponse': blockResponse.toValue(),
         'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
+        if (firewallDomainRedirectionAction != null)
+          'FirewallDomainRedirectionAction':
+              firewallDomainRedirectionAction.toValue(),
+        if (qtype != null) 'Qtype': qtype,
       },
     );
 
@@ -567,6 +637,71 @@ class Route53Resolver {
     return CreateFirewallRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a Route 53 Resolver on an Outpost.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [creatorRequestId] :
+  /// A unique string that identifies the request and that allows failed
+  /// requests to be retried without the risk of running the operation twice.
+  ///
+  /// <code>CreatorRequestId</code> can be any unique string, for example, a
+  /// date/time stamp.
+  ///
+  /// Parameter [name] :
+  /// A friendly name that lets you easily find a configuration in the Resolver
+  /// dashboard in the Route 53 console.
+  ///
+  /// Parameter [outpostArn] :
+  /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you
+  /// must also specify a value for the <code>PreferredInstanceType</code>.
+  ///
+  /// Parameter [preferredInstanceType] :
+  /// The Amazon EC2 instance type. If you specify this, you must also specify a
+  /// value for the <code>OutpostArn</code>.
+  ///
+  /// Parameter [instanceCount] :
+  /// Number of Amazon EC2 instances for the Resolver on Outpost. The default
+  /// and minimal value is 4.
+  ///
+  /// Parameter [tags] :
+  /// A string that helps identify the Route 53 Resolvers on Outpost.
+  Future<CreateOutpostResolverResponse> createOutpostResolver({
+    required String creatorRequestId,
+    required String name,
+    required String outpostArn,
+    required String preferredInstanceType,
+    int? instanceCount,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.CreateOutpostResolver'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CreatorRequestId': creatorRequestId,
+        'Name': name,
+        'OutpostArn': outpostArn,
+        'PreferredInstanceType': preferredInstanceType,
+        if (instanceCount != null) 'InstanceCount': instanceCount,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateOutpostResolverResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a Resolver endpoint. There are two types of Resolver endpoints,
   /// inbound and outbound:
   ///
@@ -585,6 +720,7 @@ class Route53Resolver {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceExistsException].
+  /// May throw [AccessDeniedException].
   /// May throw [LimitExceededException].
   /// May throw [InternalServiceErrorException].
   /// May throw [ThrottlingException].
@@ -613,6 +749,10 @@ class Route53Resolver {
   /// The subnets and IP addresses in your VPC that DNS queries originate from
   /// (for outbound endpoints) or that you forward DNS queries to (for inbound
   /// endpoints). The subnet ID uniquely identifies a VPC.
+  /// <note>
+  /// Even though the minimum is 1, Route 53 requires that you create at least
+  /// two.
+  /// </note>
   ///
   /// Parameter [securityGroupIds] :
   /// The ID of one or more security groups that you want to use to control
@@ -622,12 +762,72 @@ class Route53Resolver {
   /// TCP and UDP access. For inbound access, open port 53. For outbound access,
   /// open the port that you're using for DNS queries on your network.
   ///
+  /// Some security group rules will cause your connection to be tracked. For
+  /// outbound resolver endpoint, it can potentially impact the maximum queries
+  /// per second from outbound endpoint to your target name server. For inbound
+  /// resolver endpoint, it can bring down the overall maximum queries per
+  /// second per IP address to as low as 1500. To avoid connection tracking
+  /// caused by security group, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#untracked-connectionsl">Untracked
+  /// connections</a>.
+  ///
   /// Parameter [name] :
   /// A friendly name that lets you easily find a configuration in the Resolver
   /// dashboard in the Route 53 console.
   ///
+  /// Parameter [outpostArn] :
+  /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you
+  /// must also specify a value for the <code>PreferredInstanceType</code>.
+  ///
+  /// Parameter [preferredInstanceType] :
+  /// The instance type. If you specify this, you must also specify a value for
+  /// the <code>OutpostArn</code>.
+  ///
+  /// Parameter [protocols] :
+  /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for
+  /// inbound endpoints only.
+  ///
+  /// For an inbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 and DoH-FIPS in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// DoH-FIPS alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul>
+  /// For an outbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [resolverEndpointType] :
-  /// For the endpoint type you can choose either IPv4, IPv6. or dual-stack. A
+  /// For the endpoint type you can choose either IPv4, IPv6, or dual-stack. A
   /// dual-stack endpoint means that it will resolve via both IPv4 and IPv6.
   /// This endpoint type is applied to all IP addresses.
   ///
@@ -640,6 +840,9 @@ class Route53Resolver {
     required List<IpAddressRequest> ipAddresses,
     required List<String> securityGroupIds,
     String? name,
+    String? outpostArn,
+    String? preferredInstanceType,
+    List<Protocol>? protocols,
     ResolverEndpointType? resolverEndpointType,
     List<Tag>? tags,
   }) async {
@@ -659,6 +862,11 @@ class Route53Resolver {
         'IpAddresses': ipAddresses,
         'SecurityGroupIds': securityGroupIds,
         if (name != null) 'Name': name,
+        if (outpostArn != null) 'OutpostArn': outpostArn,
+        if (preferredInstanceType != null)
+          'PreferredInstanceType': preferredInstanceType,
+        if (protocols != null)
+          'Protocols': protocols.map((e) => e.toValue()).toList(),
         if (resolverEndpointType != null)
           'ResolverEndpointType': resolverEndpointType.toValue(),
         if (tags != null) 'Tags': tags,
@@ -771,6 +979,7 @@ class Route53Resolver {
   /// May throw [ResourceExistsException].
   /// May throw [ResourceUnavailableException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [creatorRequestId] :
@@ -778,13 +987,6 @@ class Route53Resolver {
   /// requests to be retried without the risk of running the operation twice.
   /// <code>CreatorRequestId</code> can be any unique string, for example, a
   /// date/time stamp.
-  ///
-  /// Parameter [domainName] :
-  /// DNS queries for this domain name are forwarded to the IP addresses that
-  /// you specify in <code>TargetIps</code>. If a query matches multiple
-  /// Resolver rules (example.com and www.example.com), outbound DNS queries are
-  /// routed using the Resolver rule that contains the most specific domain name
-  /// (www.example.com).
   ///
   /// Parameter [ruleType] :
   /// When you want to forward DNS queries for specified domain name to
@@ -803,6 +1005,13 @@ class Route53Resolver {
   /// Currently, only Resolver can create rules that have a value of
   /// <code>RECURSIVE</code> for <code>RuleType</code>.
   ///
+  /// Parameter [domainName] :
+  /// DNS queries for this domain name are forwarded to the IP addresses that
+  /// you specify in <code>TargetIps</code>. If a query matches multiple
+  /// Resolver rules (example.com and www.example.com), outbound DNS queries are
+  /// routed using the Resolver rule that contains the most specific domain name
+  /// (www.example.com).
+  ///
   /// Parameter [name] :
   /// A friendly name that lets you easily find a rule in the Resolver dashboard
   /// in the Route 53 console.
@@ -817,14 +1026,15 @@ class Route53Resolver {
   ///
   /// Parameter [targetIps] :
   /// The IPs that you want Resolver to forward DNS queries to. You can specify
-  /// only IPv4 addresses. Separate IP addresses with a space.
+  /// either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP
+  /// addresses with a space.
   ///
   /// <code>TargetIps</code> is available only when the value of <code>Rule
   /// type</code> is <code>FORWARD</code>.
   Future<CreateResolverRuleResponse> createResolverRule({
     required String creatorRequestId,
-    required String domainName,
     required RuleTypeOption ruleType,
+    String? domainName,
     String? name,
     String? resolverEndpointId,
     List<Tag>? tags,
@@ -842,8 +1052,8 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'CreatorRequestId': creatorRequestId,
-        'DomainName': domainName,
         'RuleType': ruleType.toValue(),
+        if (domainName != null) 'DomainName': domainName,
         if (name != null) 'Name': name,
         if (resolverEndpointId != null)
           'ResolverEndpointId': resolverEndpointId,
@@ -899,9 +1109,63 @@ class Route53Resolver {
   /// Parameter [firewallRuleGroupId] :
   /// The unique identifier of the firewall rule group that you want to delete
   /// the rule from.
+  ///
+  /// Parameter [qtype] :
+  /// The DNS query type that the rule you are deleting evaluates. Allowed
+  /// values are;
+  ///
+  /// <ul>
+  /// <li>
+  /// A: Returns an IPv4 address.
+  /// </li>
+  /// <li>
+  /// AAAA: Returns an Ipv6 address.
+  /// </li>
+  /// <li>
+  /// CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+  /// </li>
+  /// <li>
+  /// CNAME: Returns another domain name.
+  /// </li>
+  /// <li>
+  /// DS: Record that identifies the DNSSEC signing key of a delegated zone.
+  /// </li>
+  /// <li>
+  /// MX: Specifies mail servers.
+  /// </li>
+  /// <li>
+  /// NAPTR: Regular-expression-based rewriting of domain names.
+  /// </li>
+  /// <li>
+  /// NS: Authoritative name servers.
+  /// </li>
+  /// <li>
+  /// PTR: Maps an IP address to a domain name.
+  /// </li>
+  /// <li>
+  /// SOA: Start of authority record for the zone.
+  /// </li>
+  /// <li>
+  /// SPF: Lists the servers authorized to send emails from a domain.
+  /// </li>
+  /// <li>
+  /// SRV: Application specific values that identify servers.
+  /// </li>
+  /// <li>
+  /// TXT: Verifies email senders and application-specific values.
+  /// </li>
+  /// <li>
+  /// A query type you define by using the DNS type ID, for example 28 for AAAA.
+  /// The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334,
+  /// for example, TYPE28. For more information, see <a
+  /// href="https://en.wikipedia.org/wiki/List_of_DNS_record_types">List of DNS
+  /// record types</a>.
+  /// </li>
+  /// </ul>
   Future<DeleteFirewallRuleResponse> deleteFirewallRule({
     required String firewallDomainListId,
     required String firewallRuleGroupId,
+    String? qtype,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -916,6 +1180,7 @@ class Route53Resolver {
       payload: {
         'FirewallDomainListId': firewallDomainListId,
         'FirewallRuleGroupId': firewallRuleGroupId,
+        if (qtype != null) 'Qtype': qtype,
       },
     );
 
@@ -952,6 +1217,38 @@ class Route53Resolver {
     );
 
     return DeleteFirewallRuleGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a Resolver on the Outpost.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// A unique string that identifies the Resolver on the Outpost.
+  Future<DeleteOutpostResolverResponse> deleteOutpostResolver({
+    required String id,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.DeleteOutpostResolver'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+      },
+    );
+
+    return DeleteOutpostResolverResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint
@@ -1412,6 +1709,38 @@ class Route53Resolver {
     );
 
     return GetFirewallRuleGroupPolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets information about a specified Resolver on the Outpost, such as its
+  /// instance count and type, name, and the current status of the Resolver.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the Resolver on the Outpost.
+  Future<GetOutpostResolverResponse> getOutpostResolver({
+    required String id,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.GetOutpostResolver'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+      },
+    );
+
+    return GetOutpostResolverResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the behavior configuration of Route 53 Resolver behavior for a
@@ -2207,6 +2536,58 @@ class Route53Resolver {
     );
 
     return ListFirewallRulesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all the Resolvers on Outposts that were created using the current
+  /// Amazon Web Services account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of Resolvers on the Outpost that you want to return in
+  /// the response to a <code>ListOutpostResolver</code> request. If you don't
+  /// specify a value for <code>MaxResults</code>, the request returns up to 100
+  /// Resolvers.
+  ///
+  /// Parameter [nextToken] :
+  /// For the first <code>ListOutpostResolver</code> request, omit this value.
+  /// <p/>
+  ///
+  /// Parameter [outpostArn] :
+  /// The Amazon Resource Name (ARN) of the Outpost.
+  Future<ListOutpostResolversResponse> listOutpostResolvers({
+    int? maxResults,
+    String? nextToken,
+    String? outpostArn,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.ListOutpostResolvers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (outpostArn != null) 'OutpostArn': outpostArn,
+      },
+    );
+
+    return ListOutpostResolversResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the Resolver configurations that you have defined. Route 53
@@ -3018,9 +3399,6 @@ class Route53Resolver {
   /// <code>route53resolver:DisassociateResolverQueryLogConfig</code>
   /// </li>
   /// <li>
-  /// <code>route53resolver:ListResolverQueryLogConfigAssociations</code>
-  /// </li>
-  /// <li>
   /// <code>route53resolver:ListResolverQueryLogConfigs</code>
   /// </li>
   /// </ul>
@@ -3444,6 +3822,18 @@ class Route53Resolver {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [firewallDomainRedirectionAction] :
+  /// How you want the the rule to evaluate DNS redirection in the DNS
+  /// redirection chain, such as CNAME or DNAME.
+  ///
+  /// <code>Inspect_Redirection_Domain </code>(Default) inspects all domains in
+  /// the redirection chain. The individual domains in the redirection chain
+  /// must be added to the domain list.
+  ///
+  /// <code>Trust_Redirection_Domain </code> inspects only the first domain in
+  /// the redirection chain. You don't need to add the subsequent domains in the
+  /// domain in the redirection list to the domain list.
+  ///
   /// Parameter [name] :
   /// The name of the rule.
   ///
@@ -3456,6 +3846,58 @@ class Route53Resolver {
   /// it easier to insert rules later, leave space between the numbers, for
   /// example, use 100, 200, and so on. You can change the priority setting for
   /// the rules in a rule group at any time.
+  ///
+  /// Parameter [qtype] :
+  /// The DNS query type you want the rule to evaluate. Allowed values are;
+  ///
+  /// <ul>
+  /// <li>
+  /// A: Returns an IPv4 address.
+  /// </li>
+  /// <li>
+  /// AAAA: Returns an Ipv6 address.
+  /// </li>
+  /// <li>
+  /// CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+  /// </li>
+  /// <li>
+  /// CNAME: Returns another domain name.
+  /// </li>
+  /// <li>
+  /// DS: Record that identifies the DNSSEC signing key of a delegated zone.
+  /// </li>
+  /// <li>
+  /// MX: Specifies mail servers.
+  /// </li>
+  /// <li>
+  /// NAPTR: Regular-expression-based rewriting of domain names.
+  /// </li>
+  /// <li>
+  /// NS: Authoritative name servers.
+  /// </li>
+  /// <li>
+  /// PTR: Maps an IP address to a domain name.
+  /// </li>
+  /// <li>
+  /// SOA: Start of authority record for the zone.
+  /// </li>
+  /// <li>
+  /// SPF: Lists the servers authorized to send emails from a domain.
+  /// </li>
+  /// <li>
+  /// SRV: Application specific values that identify servers.
+  /// </li>
+  /// <li>
+  /// TXT: Verifies email senders and application-specific values.
+  /// </li>
+  /// <li>
+  /// A query type you define by using the DNS type ID, for example 28 for AAAA.
+  /// The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334,
+  /// for example, TYPE28. For more information, see <a
+  /// href="https://en.wikipedia.org/wiki/List_of_DNS_record_types">List of DNS
+  /// record types</a>.
+  /// </li>
+  /// </ul>
   Future<UpdateFirewallRuleResponse> updateFirewallRule({
     required String firewallDomainListId,
     required String firewallRuleGroupId,
@@ -3464,8 +3906,10 @@ class Route53Resolver {
     String? blockOverrideDomain,
     int? blockOverrideTtl,
     BlockResponse? blockResponse,
+    FirewallDomainRedirectionAction? firewallDomainRedirectionAction,
     String? name,
     int? priority,
+    String? qtype,
   }) async {
     _s.validateNumRange(
       'blockOverrideTtl',
@@ -3493,8 +3937,12 @@ class Route53Resolver {
           'BlockOverrideDomain': blockOverrideDomain,
         if (blockOverrideTtl != null) 'BlockOverrideTtl': blockOverrideTtl,
         if (blockResponse != null) 'BlockResponse': blockResponse.toValue(),
+        if (firewallDomainRedirectionAction != null)
+          'FirewallDomainRedirectionAction':
+              firewallDomainRedirectionAction.toValue(),
         if (name != null) 'Name': name,
         if (priority != null) 'Priority': priority,
+        if (qtype != null) 'Qtype': qtype,
       },
     );
 
@@ -3561,6 +4009,56 @@ class Route53Resolver {
 
     return UpdateFirewallRuleGroupAssociationResponse.fromJson(
         jsonResponse.body);
+  }
+
+  /// You can use <code>UpdateOutpostResolver</code> to update the instance
+  /// count, type, or name of a Resolver on an Outpost.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// A unique string that identifies Resolver on an Outpost.
+  ///
+  /// Parameter [instanceCount] :
+  /// The Amazon EC2 instance count for a Resolver on the Outpost.
+  ///
+  /// Parameter [name] :
+  /// Name of the Resolver on the Outpost.
+  ///
+  /// Parameter [preferredInstanceType] :
+  /// Amazon EC2 instance type.
+  Future<UpdateOutpostResolverResponse> updateOutpostResolver({
+    required String id,
+    int? instanceCount,
+    String? name,
+    String? preferredInstanceType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.UpdateOutpostResolver'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        if (instanceCount != null) 'InstanceCount': instanceCount,
+        if (name != null) 'Name': name,
+        if (preferredInstanceType != null)
+          'PreferredInstanceType': preferredInstanceType,
+      },
+    );
+
+    return UpdateOutpostResolverResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the behavior configuration of Route 53 Resolver behavior for a
@@ -3662,13 +4160,14 @@ class Route53Resolver {
     return UpdateResolverDnssecConfigResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates the name, or enpoint type for an inbound or an outbound Resolver
+  /// Updates the name, or endpoint type for an inbound or an outbound Resolver
   /// endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint
   /// type can't be updated to other type.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [ThrottlingException].
   ///
@@ -3678,15 +4177,70 @@ class Route53Resolver {
   /// Parameter [name] :
   /// The name of the Resolver endpoint that you want to update.
   ///
+  /// Parameter [protocols] :
+  /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for
+  /// inbound endpoints only.
+  ///
+  /// For an inbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 and DoH-FIPS in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// DoH-FIPS alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul>
+  /// For an outbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul> <important>
+  /// You can't change the protocol of an inbound endpoint directly from only
+  /// Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden disruption to
+  /// incoming traffic that relies on Do53. To change the protocol from Do53 to
+  /// DoH, or DoH-FIPS, you must first enable both Do53 and DoH, or Do53 and
+  /// DoH-FIPS, to make sure that all incoming traffic has transferred to using
+  /// the DoH protocol, or DoH-FIPS, and then remove the Do53.
+  /// </important>
+  ///
   /// Parameter [resolverEndpointType] :
   /// Specifies the endpoint type for what type of IP address the endpoint uses
   /// to forward DNS queries.
   ///
+  /// Updating to <code>IPV6</code> type isn't currently supported.
+  ///
   /// Parameter [updateIpAddresses] :
-  /// Updates the Resolver endpoint type to IpV4, Ipv6, or dual-stack.
+  /// Specifies the IPv6 address when you update the Resolver endpoint from IPv4
+  /// to dual-stack. If you don't specify an IPv6 address, one will be
+  /// automatically chosen from your subnet.
   Future<UpdateResolverEndpointResponse> updateResolverEndpoint({
     required String resolverEndpointId,
     String? name,
+    List<Protocol>? protocols,
     ResolverEndpointType? resolverEndpointType,
     List<UpdateIpAddress>? updateIpAddresses,
   }) async {
@@ -3703,6 +4257,8 @@ class Route53Resolver {
       payload: {
         'ResolverEndpointId': resolverEndpointId,
         if (name != null) 'Name': name,
+        if (protocols != null)
+          'Protocols': protocols.map((e) => e.toValue()).toList(),
         if (resolverEndpointType != null)
           'ResolverEndpointType': resolverEndpointType.toValue(),
         if (updateIpAddresses != null) 'UpdateIpAddresses': updateIpAddresses,
@@ -3723,6 +4279,7 @@ class Route53Resolver {
   /// May throw [LimitExceededException].
   /// May throw [InternalServiceErrorException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [config] :
   /// The new settings for the Resolver rule.
@@ -4061,6 +4618,32 @@ class CreateFirewallRuleResponse {
   }
 }
 
+class CreateOutpostResolverResponse {
+  /// Information about the <code>CreateOutpostResolver</code> request, including
+  /// the status of the request.
+  final OutpostResolver? outpostResolver;
+
+  CreateOutpostResolverResponse({
+    this.outpostResolver,
+  });
+
+  factory CreateOutpostResolverResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOutpostResolverResponse(
+      outpostResolver: json['OutpostResolver'] != null
+          ? OutpostResolver.fromJson(
+              json['OutpostResolver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outpostResolver = this.outpostResolver;
+    return {
+      if (outpostResolver != null) 'OutpostResolver': outpostResolver,
+    };
+  }
+}
+
 class CreateResolverEndpointResponse {
   /// Information about the <code>CreateResolverEndpoint</code> request, including
   /// the status of the request.
@@ -4210,6 +4793,32 @@ class DeleteFirewallRuleResponse {
     final firewallRule = this.firewallRule;
     return {
       if (firewallRule != null) 'FirewallRule': firewallRule,
+    };
+  }
+}
+
+class DeleteOutpostResolverResponse {
+  /// Information about the <code>DeleteOutpostResolver</code> request, including
+  /// the status of the request.
+  final OutpostResolver? outpostResolver;
+
+  DeleteOutpostResolverResponse({
+    this.outpostResolver,
+  });
+
+  factory DeleteOutpostResolverResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteOutpostResolverResponse(
+      outpostResolver: json['OutpostResolver'] != null
+          ? OutpostResolver.fromJson(
+              json['OutpostResolver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outpostResolver = this.outpostResolver;
+    return {
+      if (outpostResolver != null) 'OutpostResolver': outpostResolver,
     };
   }
 }
@@ -4969,6 +5578,36 @@ extension FirewallDomainListStatusFromString on String {
   }
 }
 
+enum FirewallDomainRedirectionAction {
+  inspectRedirectionDomain,
+  trustRedirectionDomain,
+}
+
+extension FirewallDomainRedirectionActionValueExtension
+    on FirewallDomainRedirectionAction {
+  String toValue() {
+    switch (this) {
+      case FirewallDomainRedirectionAction.inspectRedirectionDomain:
+        return 'INSPECT_REDIRECTION_DOMAIN';
+      case FirewallDomainRedirectionAction.trustRedirectionDomain:
+        return 'TRUST_REDIRECTION_DOMAIN';
+    }
+  }
+}
+
+extension FirewallDomainRedirectionActionFromString on String {
+  FirewallDomainRedirectionAction toFirewallDomainRedirectionAction() {
+    switch (this) {
+      case 'INSPECT_REDIRECTION_DOMAIN':
+        return FirewallDomainRedirectionAction.inspectRedirectionDomain;
+      case 'TRUST_REDIRECTION_DOMAIN':
+        return FirewallDomainRedirectionAction.trustRedirectionDomain;
+    }
+    throw Exception(
+        '$this is not known in enum FirewallDomainRedirectionAction');
+  }
+}
+
 enum FirewallDomainUpdateOperation {
   add,
   remove,
@@ -5106,6 +5745,18 @@ class FirewallRule {
   /// The ID of the domain list that's used in the rule.
   final String? firewallDomainListId;
 
+  /// How you want the the rule to evaluate DNS redirection in the DNS redirection
+  /// chain, such as CNAME or DNAME.
+  ///
+  /// <code>Inspect_Redirection_Domain </code>(Default) inspects all domains in
+  /// the redirection chain. The individual domains in the redirection chain must
+  /// be added to the domain list.
+  ///
+  /// <code>Trust_Redirection_Domain </code> inspects only the first domain in the
+  /// redirection chain. You don't need to add the subsequent domains in the
+  /// domain in the redirection list to the domain list.
+  final FirewallDomainRedirectionAction? firewallDomainRedirectionAction;
+
   /// The unique identifier of the firewall rule group of the rule.
   final String? firewallRuleGroupId;
 
@@ -5121,6 +5772,58 @@ class FirewallRule {
   /// priority, starting from the lowest setting.
   final int? priority;
 
+  /// The DNS query type you want the rule to evaluate. Allowed values are;
+  ///
+  /// <ul>
+  /// <li>
+  /// A: Returns an IPv4 address.
+  /// </li>
+  /// <li>
+  /// AAAA: Returns an Ipv6 address.
+  /// </li>
+  /// <li>
+  /// CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+  /// </li>
+  /// <li>
+  /// CNAME: Returns another domain name.
+  /// </li>
+  /// <li>
+  /// DS: Record that identifies the DNSSEC signing key of a delegated zone.
+  /// </li>
+  /// <li>
+  /// MX: Specifies mail servers.
+  /// </li>
+  /// <li>
+  /// NAPTR: Regular-expression-based rewriting of domain names.
+  /// </li>
+  /// <li>
+  /// NS: Authoritative name servers.
+  /// </li>
+  /// <li>
+  /// PTR: Maps an IP address to a domain name.
+  /// </li>
+  /// <li>
+  /// SOA: Start of authority record for the zone.
+  /// </li>
+  /// <li>
+  /// SPF: Lists the servers authorized to send emails from a domain.
+  /// </li>
+  /// <li>
+  /// SRV: Application specific values that identify servers.
+  /// </li>
+  /// <li>
+  /// TXT: Verifies email senders and application-specific values.
+  /// </li>
+  /// <li>
+  /// A query type you define by using the DNS type ID, for example 28 for AAAA.
+  /// The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334,
+  /// for example, TYPE28. For more information, see <a
+  /// href="https://en.wikipedia.org/wiki/List_of_DNS_record_types">List of DNS
+  /// record types</a>.
+  /// </li>
+  /// </ul>
+  final String? qtype;
+
   FirewallRule({
     this.action,
     this.blockOverrideDnsType,
@@ -5130,10 +5833,12 @@ class FirewallRule {
     this.creationTime,
     this.creatorRequestId,
     this.firewallDomainListId,
+    this.firewallDomainRedirectionAction,
     this.firewallRuleGroupId,
     this.modificationTime,
     this.name,
     this.priority,
+    this.qtype,
   });
 
   factory FirewallRule.fromJson(Map<String, dynamic> json) {
@@ -5147,10 +5852,14 @@ class FirewallRule {
       creationTime: json['CreationTime'] as String?,
       creatorRequestId: json['CreatorRequestId'] as String?,
       firewallDomainListId: json['FirewallDomainListId'] as String?,
+      firewallDomainRedirectionAction:
+          (json['FirewallDomainRedirectionAction'] as String?)
+              ?.toFirewallDomainRedirectionAction(),
       firewallRuleGroupId: json['FirewallRuleGroupId'] as String?,
       modificationTime: json['ModificationTime'] as String?,
       name: json['Name'] as String?,
       priority: json['Priority'] as int?,
+      qtype: json['Qtype'] as String?,
     );
   }
 
@@ -5163,10 +5872,13 @@ class FirewallRule {
     final creationTime = this.creationTime;
     final creatorRequestId = this.creatorRequestId;
     final firewallDomainListId = this.firewallDomainListId;
+    final firewallDomainRedirectionAction =
+        this.firewallDomainRedirectionAction;
     final firewallRuleGroupId = this.firewallRuleGroupId;
     final modificationTime = this.modificationTime;
     final name = this.name;
     final priority = this.priority;
+    final qtype = this.qtype;
     return {
       if (action != null) 'Action': action.toValue(),
       if (blockOverrideDnsType != null)
@@ -5179,11 +5891,15 @@ class FirewallRule {
       if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
       if (firewallDomainListId != null)
         'FirewallDomainListId': firewallDomainListId,
+      if (firewallDomainRedirectionAction != null)
+        'FirewallDomainRedirectionAction':
+            firewallDomainRedirectionAction.toValue(),
       if (firewallRuleGroupId != null)
         'FirewallRuleGroupId': firewallRuleGroupId,
       if (modificationTime != null) 'ModificationTime': modificationTime,
       if (name != null) 'Name': name,
       if (priority != null) 'Priority': priority,
+      if (qtype != null) 'Qtype': qtype,
     };
   }
 }
@@ -5679,6 +6395,32 @@ class GetFirewallRuleGroupResponse {
   }
 }
 
+class GetOutpostResolverResponse {
+  /// Information about the <code>GetOutpostResolver</code> request, including the
+  /// status of the request.
+  final OutpostResolver? outpostResolver;
+
+  GetOutpostResolverResponse({
+    this.outpostResolver,
+  });
+
+  factory GetOutpostResolverResponse.fromJson(Map<String, dynamic> json) {
+    return GetOutpostResolverResponse(
+      outpostResolver: json['OutpostResolver'] != null
+          ? OutpostResolver.fromJson(
+              json['OutpostResolver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outpostResolver = this.outpostResolver;
+    return {
+      if (outpostResolver != null) 'OutpostResolver': outpostResolver,
+    };
+  }
+}
+
 class GetResolverConfigResponse {
   /// Information about the behavior configuration of Route 53 Resolver behavior
   /// for the VPC you specified in the <code>GetResolverConfig</code> request.
@@ -6086,6 +6828,7 @@ enum IpAddressStatus {
   deleting,
   deleteFailedFasExpired,
   updating,
+  updateFailed,
 }
 
 extension IpAddressStatusValueExtension on IpAddressStatus {
@@ -6113,6 +6856,8 @@ extension IpAddressStatusValueExtension on IpAddressStatus {
         return 'DELETE_FAILED_FAS_EXPIRED';
       case IpAddressStatus.updating:
         return 'UPDATING';
+      case IpAddressStatus.updateFailed:
+        return 'UPDATE_FAILED';
     }
   }
 }
@@ -6142,6 +6887,8 @@ extension IpAddressStatusFromString on String {
         return IpAddressStatus.deleteFailedFasExpired;
       case 'UPDATING':
         return IpAddressStatus.updating;
+      case 'UPDATE_FAILED':
+        return IpAddressStatus.updateFailed;
     }
     throw Exception('$this is not known in enum IpAddressStatus');
   }
@@ -6415,6 +7162,42 @@ class ListFirewallRulesResponse {
   }
 }
 
+class ListOutpostResolversResponse {
+  /// If more than <code>MaxResults</code> Resolvers match the specified criteria,
+  /// you can submit another <code>ListOutpostResolver</code> request to get the
+  /// next group of results. In the next request, specify the value of
+  /// <code>NextToken</code> from the previous response.
+  final String? nextToken;
+
+  /// The Resolvers on Outposts that were created by using the current Amazon Web
+  /// Services account, and that match the specified filters, if any.
+  final List<OutpostResolver>? outpostResolvers;
+
+  ListOutpostResolversResponse({
+    this.nextToken,
+    this.outpostResolvers,
+  });
+
+  factory ListOutpostResolversResponse.fromJson(Map<String, dynamic> json) {
+    return ListOutpostResolversResponse(
+      nextToken: json['NextToken'] as String?,
+      outpostResolvers: (json['OutpostResolvers'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutpostResolver.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final outpostResolvers = this.outpostResolvers;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (outpostResolvers != null) 'OutpostResolvers': outpostResolvers,
+    };
+  }
+}
+
 class ListResolverConfigsResponse {
   /// If a response includes the last of the Resolver configurations that are
   /// associated with the current Amazon Web Services account,
@@ -6473,7 +7256,8 @@ class ListResolverDnssecConfigsResponse {
   /// An array that contains one <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html">ResolverDnssecConfig</a>
   /// element for each configuration for DNSSEC validation that is associated with
-  /// the current Amazon Web Services account.
+  /// the current Amazon Web Services account. It doesn't contain disabled DNSSEC
+  /// configurations for the resource.
   final List<ResolverDnssecConfig>? resolverDnssecConfigs;
 
   ListResolverDnssecConfigsResponse({
@@ -6874,6 +7658,191 @@ extension MutationProtectionStatusFromString on String {
   }
 }
 
+/// A complex type that contains settings for an existing Resolver on an
+/// Outpost.
+class OutpostResolver {
+  /// The ARN (Amazon Resource Name) for the Resolver on an Outpost.
+  final String? arn;
+
+  /// The date and time that the Outpost Resolver was created, in Unix time format
+  /// and Coordinated Universal Time (UTC).
+  final String? creationTime;
+
+  /// A unique string that identifies the request that created the Resolver
+  /// endpoint. The <code>CreatorRequestId</code> allows failed requests to be
+  /// retried without the risk of running the operation twice.
+  final String? creatorRequestId;
+
+  /// The ID of the Resolver on Outpost.
+  final String? id;
+
+  /// Amazon EC2 instance count for the Resolver on the Outpost.
+  final int? instanceCount;
+
+  /// The date and time that the Outpost Resolver was modified, in Unix time
+  /// format and Coordinated Universal Time (UTC).
+  final String? modificationTime;
+
+  /// Name of the Resolver.
+  final String? name;
+
+  /// The ARN (Amazon Resource Name) for the Outpost.
+  final String? outpostArn;
+
+  /// The Amazon EC2 instance type.
+  final String? preferredInstanceType;
+
+  /// Status of the Resolver.
+  final OutpostResolverStatus? status;
+
+  /// A detailed description of the Resolver.
+  final String? statusMessage;
+
+  OutpostResolver({
+    this.arn,
+    this.creationTime,
+    this.creatorRequestId,
+    this.id,
+    this.instanceCount,
+    this.modificationTime,
+    this.name,
+    this.outpostArn,
+    this.preferredInstanceType,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory OutpostResolver.fromJson(Map<String, dynamic> json) {
+    return OutpostResolver(
+      arn: json['Arn'] as String?,
+      creationTime: json['CreationTime'] as String?,
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      id: json['Id'] as String?,
+      instanceCount: json['InstanceCount'] as int?,
+      modificationTime: json['ModificationTime'] as String?,
+      name: json['Name'] as String?,
+      outpostArn: json['OutpostArn'] as String?,
+      preferredInstanceType: json['PreferredInstanceType'] as String?,
+      status: (json['Status'] as String?)?.toOutpostResolverStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final creatorRequestId = this.creatorRequestId;
+    final id = this.id;
+    final instanceCount = this.instanceCount;
+    final modificationTime = this.modificationTime;
+    final name = this.name;
+    final outpostArn = this.outpostArn;
+    final preferredInstanceType = this.preferredInstanceType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null) 'CreationTime': creationTime,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+      if (id != null) 'Id': id,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (modificationTime != null) 'ModificationTime': modificationTime,
+      if (name != null) 'Name': name,
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (preferredInstanceType != null)
+        'PreferredInstanceType': preferredInstanceType,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+enum OutpostResolverStatus {
+  creating,
+  operational,
+  updating,
+  deleting,
+  actionNeeded,
+  failedCreation,
+  failedDeletion,
+}
+
+extension OutpostResolverStatusValueExtension on OutpostResolverStatus {
+  String toValue() {
+    switch (this) {
+      case OutpostResolverStatus.creating:
+        return 'CREATING';
+      case OutpostResolverStatus.operational:
+        return 'OPERATIONAL';
+      case OutpostResolverStatus.updating:
+        return 'UPDATING';
+      case OutpostResolverStatus.deleting:
+        return 'DELETING';
+      case OutpostResolverStatus.actionNeeded:
+        return 'ACTION_NEEDED';
+      case OutpostResolverStatus.failedCreation:
+        return 'FAILED_CREATION';
+      case OutpostResolverStatus.failedDeletion:
+        return 'FAILED_DELETION';
+    }
+  }
+}
+
+extension OutpostResolverStatusFromString on String {
+  OutpostResolverStatus toOutpostResolverStatus() {
+    switch (this) {
+      case 'CREATING':
+        return OutpostResolverStatus.creating;
+      case 'OPERATIONAL':
+        return OutpostResolverStatus.operational;
+      case 'UPDATING':
+        return OutpostResolverStatus.updating;
+      case 'DELETING':
+        return OutpostResolverStatus.deleting;
+      case 'ACTION_NEEDED':
+        return OutpostResolverStatus.actionNeeded;
+      case 'FAILED_CREATION':
+        return OutpostResolverStatus.failedCreation;
+      case 'FAILED_DELETION':
+        return OutpostResolverStatus.failedDeletion;
+    }
+    throw Exception('$this is not known in enum OutpostResolverStatus');
+  }
+}
+
+enum Protocol {
+  doH,
+  do53,
+  doHFips,
+}
+
+extension ProtocolValueExtension on Protocol {
+  String toValue() {
+    switch (this) {
+      case Protocol.doH:
+        return 'DoH';
+      case Protocol.do53:
+        return 'Do53';
+      case Protocol.doHFips:
+        return 'DoH-FIPS';
+    }
+  }
+}
+
+extension ProtocolFromString on String {
+  Protocol toProtocol() {
+    switch (this) {
+      case 'DoH':
+        return Protocol.doH;
+      case 'Do53':
+        return Protocol.do53;
+      case 'DoH-FIPS':
+        return Protocol.doHFips;
+    }
+    throw Exception('$this is not known in enum Protocol');
+  }
+}
+
 class PutFirewallRuleGroupPolicyResponse {
   /// <p/>
   final bool? returnValue;
@@ -7233,6 +8202,55 @@ class ResolverEndpoint {
   /// request.
   final String? name;
 
+  /// The ARN (Amazon Resource Name) for the Outpost.
+  final String? outpostArn;
+
+  /// The Amazon EC2 instance type.
+  final String? preferredInstanceType;
+
+  /// Protocols used for the endpoint. DoH-FIPS is applicable for inbound
+  /// endpoints only.
+  ///
+  /// For an inbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 and DoH-FIPS in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// DoH-FIPS alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul>
+  /// For an outbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul>
+  final List<Protocol>? protocols;
+
   /// The Resolver endpoint IP address type.
   final ResolverEndpointType? resolverEndpointType;
 
@@ -7309,6 +8327,9 @@ class ResolverEndpoint {
     this.ipAddressCount,
     this.modificationTime,
     this.name,
+    this.outpostArn,
+    this.preferredInstanceType,
+    this.protocols,
     this.resolverEndpointType,
     this.securityGroupIds,
     this.status,
@@ -7326,6 +8347,12 @@ class ResolverEndpoint {
       ipAddressCount: json['IpAddressCount'] as int?,
       modificationTime: json['ModificationTime'] as String?,
       name: json['Name'] as String?,
+      outpostArn: json['OutpostArn'] as String?,
+      preferredInstanceType: json['PreferredInstanceType'] as String?,
+      protocols: (json['Protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtocol())
+          .toList(),
       resolverEndpointType:
           (json['ResolverEndpointType'] as String?)?.toResolverEndpointType(),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
@@ -7347,6 +8374,9 @@ class ResolverEndpoint {
     final ipAddressCount = this.ipAddressCount;
     final modificationTime = this.modificationTime;
     final name = this.name;
+    final outpostArn = this.outpostArn;
+    final preferredInstanceType = this.preferredInstanceType;
+    final protocols = this.protocols;
     final resolverEndpointType = this.resolverEndpointType;
     final securityGroupIds = this.securityGroupIds;
     final status = this.status;
@@ -7361,6 +8391,11 @@ class ResolverEndpoint {
       if (ipAddressCount != null) 'IpAddressCount': ipAddressCount,
       if (modificationTime != null) 'ModificationTime': modificationTime,
       if (name != null) 'Name': name,
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (preferredInstanceType != null)
+        'PreferredInstanceType': preferredInstanceType,
+      if (protocols != null)
+        'Protocols': protocols.map((e) => e.toValue()).toList(),
       if (resolverEndpointType != null)
         'ResolverEndpointType': resolverEndpointType.toValue(),
       if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
@@ -7933,7 +8968,7 @@ class ResolverRule {
 
   /// An array that contains the IP addresses and ports that an outbound endpoint
   /// forwards DNS queries to. Typically, these are the IP addresses of DNS
-  /// resolvers on your network. Specify IPv4 addresses. IPv6 is not supported.
+  /// resolvers on your network.
   final List<TargetAddress>? targetIps;
 
   ResolverRule({
@@ -8351,10 +9386,54 @@ class TargetAddress {
   /// The port at <code>Ip</code> that you want to forward DNS queries to.
   final int? port;
 
+  /// The protocols for the Resolver endpoints. DoH-FIPS is applicable for inbound
+  /// endpoints only.
+  ///
+  /// For an inbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 and DoH-FIPS in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// DoH-FIPS alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul>
+  /// For an outbound endpoint you can apply the protocols as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do53 and DoH in combination.
+  /// </li>
+  /// <li>
+  /// Do53 alone.
+  /// </li>
+  /// <li>
+  /// DoH alone.
+  /// </li>
+  /// <li>
+  /// None, which is treated as Do53.
+  /// </li>
+  /// </ul>
+  final Protocol? protocol;
+
   TargetAddress({
     this.ip,
     this.ipv6,
     this.port,
+    this.protocol,
   });
 
   factory TargetAddress.fromJson(Map<String, dynamic> json) {
@@ -8362,6 +9441,7 @@ class TargetAddress {
       ip: json['Ip'] as String?,
       ipv6: json['Ipv6'] as String?,
       port: json['Port'] as int?,
+      protocol: (json['Protocol'] as String?)?.toProtocol(),
     );
   }
 
@@ -8369,10 +9449,12 @@ class TargetAddress {
     final ip = this.ip;
     final ipv6 = this.ipv6;
     final port = this.port;
+    final protocol = this.protocol;
     return {
       if (ip != null) 'Ip': ip,
       if (ipv6 != null) 'Ipv6': ipv6,
       if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol.toValue(),
     };
   }
 }
@@ -8529,6 +9611,31 @@ class UpdateIpAddress {
     return {
       'IpId': ipId,
       'Ipv6': ipv6,
+    };
+  }
+}
+
+class UpdateOutpostResolverResponse {
+  /// The response to an <code>UpdateOutpostResolver</code> request.
+  final OutpostResolver? outpostResolver;
+
+  UpdateOutpostResolverResponse({
+    this.outpostResolver,
+  });
+
+  factory UpdateOutpostResolverResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateOutpostResolverResponse(
+      outpostResolver: json['OutpostResolver'] != null
+          ? OutpostResolver.fromJson(
+              json['OutpostResolver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outpostResolver = this.outpostResolver;
+    return {
+      if (outpostResolver != null) 'OutpostResolver': outpostResolver,
     };
   }
 }
@@ -8737,6 +9844,14 @@ class ResourceUnavailableException extends _s.GenericAwsException {
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -8779,6 +9894,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ResourceUnavailableException': (type, message) =>
       ResourceUnavailableException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'UnknownResourceException': (type, message) =>

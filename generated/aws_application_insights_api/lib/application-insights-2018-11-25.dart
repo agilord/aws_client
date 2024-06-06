@@ -53,6 +53,48 @@ class ApplicationInsights {
     _protocol.close();
   }
 
+  /// Adds a workload to a component. Each component can have at most five
+  /// workloads.
+  ///
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [componentName] :
+  /// The name of the component.
+  ///
+  /// Parameter [resourceGroupName] :
+  /// The name of the resource group.
+  ///
+  /// Parameter [workloadConfiguration] :
+  /// The configuration settings of the workload. The value is the escaped JSON
+  /// of the configuration.
+  Future<AddWorkloadResponse> addWorkload({
+    required String componentName,
+    required String resourceGroupName,
+    required WorkloadConfiguration workloadConfiguration,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'EC2WindowsBarleyService.AddWorkload'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ComponentName': componentName,
+        'ResourceGroupName': resourceGroupName,
+        'WorkloadConfiguration': workloadConfiguration,
+      },
+    );
+
+    return AddWorkloadResponse.fromJson(jsonResponse.body);
+  }
+
   /// Adds an application that is created from a resource group.
   ///
   /// May throw [ResourceInUseException].
@@ -61,6 +103,10 @@ class ApplicationInsights {
   /// May throw [InternalServerException].
   /// May throw [TagsAlreadyExistException].
   /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [attachMissingPermission] :
+  /// If set to true, the managed policies for SSM and CW will be attached to
+  /// the instance roles if they are missing.
   ///
   /// Parameter [autoConfigEnabled] :
   /// Indicates whether Application Insights automatically configures
@@ -98,6 +144,7 @@ class ApplicationInsights {
   /// associated tag value (<code>Value</code>). The maximum length of a tag key
   /// is 128 characters. The maximum length of a tag value is 256 characters.
   Future<CreateApplicationResponse> createApplication({
+    bool? attachMissingPermission,
     bool? autoConfigEnabled,
     bool? autoCreate,
     bool? cWEMonitorEnabled,
@@ -118,6 +165,8 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (attachMissingPermission != null)
+          'AttachMissingPermission': attachMissingPermission,
         if (autoConfigEnabled != null) 'AutoConfigEnabled': autoConfigEnabled,
         if (autoCreate != null) 'AutoCreate': autoCreate,
         if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
@@ -343,8 +392,12 @@ class ApplicationInsights {
   ///
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   Future<DescribeApplicationResponse> describeApplication({
     required String resourceGroupName,
+    String? accountId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -358,6 +411,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
       },
     );
 
@@ -376,9 +430,13 @@ class ApplicationInsights {
   ///
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   Future<DescribeComponentResponse> describeComponent({
     required String componentName,
     required String resourceGroupName,
+    String? accountId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -393,6 +451,7 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
       },
     );
 
@@ -410,10 +469,14 @@ class ApplicationInsights {
   ///
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   Future<DescribeComponentConfigurationResponse>
       describeComponentConfiguration({
     required String componentName,
     required String resourceGroupName,
+    String? accountId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -428,6 +491,7 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
       },
     );
 
@@ -448,11 +512,19 @@ class ApplicationInsights {
   ///
   /// Parameter [tier] :
   /// The tier of the application component.
+  ///
+  /// Parameter [recommendationType] :
+  /// The recommended configuration type.
+  ///
+  /// Parameter [workloadName] :
+  /// The name of the workload.
   Future<DescribeComponentConfigurationRecommendationResponse>
       describeComponentConfigurationRecommendation({
     required String componentName,
     required String resourceGroupName,
     required Tier tier,
+    RecommendationType? recommendationType,
+    String? workloadName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -469,6 +541,9 @@ class ApplicationInsights {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
         'Tier': tier.toValue(),
+        if (recommendationType != null)
+          'RecommendationType': recommendationType.toValue(),
+        if (workloadName != null) 'WorkloadName': workloadName,
       },
     );
 
@@ -490,10 +565,14 @@ class ApplicationInsights {
   ///
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   Future<DescribeLogPatternResponse> describeLogPattern({
     required String patternName,
     required String patternSetName,
     required String resourceGroupName,
+    String? accountId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -509,6 +588,7 @@ class ApplicationInsights {
         'PatternName': patternName,
         'PatternSetName': patternSetName,
         'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
       },
     );
 
@@ -523,8 +603,12 @@ class ApplicationInsights {
   ///
   /// Parameter [observationId] :
   /// The ID of the observation.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   Future<DescribeObservationResponse> describeObservation({
     required String observationId,
+    String? accountId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -538,6 +622,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ObservationId': observationId,
+        if (accountId != null) 'AccountId': accountId,
       },
     );
 
@@ -552,8 +637,13 @@ class ApplicationInsights {
   ///
   /// Parameter [problemId] :
   /// The ID of the problem.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the owner of the resource group affected by the
+  /// problem.
   Future<DescribeProblemResponse> describeProblem({
     required String problemId,
+    String? accountId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -567,6 +657,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ProblemId': problemId,
+        if (accountId != null) 'AccountId': accountId,
       },
     );
 
@@ -581,8 +672,12 @@ class ApplicationInsights {
   ///
   /// Parameter [problemId] :
   /// The ID of the problem.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   Future<DescribeProblemObservationsResponse> describeProblemObservations({
     required String problemId,
+    String? accountId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -596,16 +691,64 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ProblemId': problemId,
+        if (accountId != null) 'AccountId': accountId,
       },
     );
 
     return DescribeProblemObservationsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Describes a workload and its configuration.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [componentName] :
+  /// The name of the component.
+  ///
+  /// Parameter [resourceGroupName] :
+  /// The name of the resource group.
+  ///
+  /// Parameter [workloadId] :
+  /// The ID of the workload.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the workload owner.
+  Future<DescribeWorkloadResponse> describeWorkload({
+    required String componentName,
+    required String resourceGroupName,
+    required String workloadId,
+    String? accountId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'EC2WindowsBarleyService.DescribeWorkload'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ComponentName': componentName,
+        'ResourceGroupName': resourceGroupName,
+        'WorkloadId': workloadId,
+        if (accountId != null) 'AccountId': accountId,
+      },
+    );
+
+    return DescribeWorkloadResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the IDs of the applications that you are monitoring.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. To retrieve the
@@ -615,6 +758,7 @@ class ApplicationInsights {
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
   Future<ListApplicationsResponse> listApplications({
+    String? accountId,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -635,6 +779,7 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (accountId != null) 'AccountId': accountId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -653,6 +798,9 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. To retrieve the
   /// remaining results, make another call with the returned
@@ -662,6 +810,7 @@ class ApplicationInsights {
   /// The token to request the next page of results.
   Future<ListComponentsResponse> listComponents({
     required String resourceGroupName,
+    String? accountId,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -683,6 +832,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -710,6 +860,9 @@ class ApplicationInsights {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   ///
   /// Parameter [endTime] :
   /// The end time of the event.
@@ -743,6 +896,7 @@ class ApplicationInsights {
   /// Parameter [startTime] :
   /// The start time of the event.
   Future<ListConfigurationHistoryResponse> listConfigurationHistory({
+    String? accountId,
     DateTime? endTime,
     ConfigurationEventStatus? eventStatus,
     int? maxResults,
@@ -767,6 +921,7 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (accountId != null) 'AccountId': accountId,
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (eventStatus != null) 'EventStatus': eventStatus.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
@@ -788,6 +943,9 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. To retrieve the
   /// remaining results, make another call with the returned
@@ -797,6 +955,7 @@ class ApplicationInsights {
   /// The token to request the next page of results.
   Future<ListLogPatternSetsResponse> listLogPatternSets({
     required String resourceGroupName,
+    String? accountId,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -818,6 +977,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -835,6 +995,9 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. To retrieve the
   /// remaining results, make another call with the returned
@@ -847,6 +1010,7 @@ class ApplicationInsights {
   /// The name of the log pattern set.
   Future<ListLogPatternsResponse> listLogPatterns({
     required String resourceGroupName,
+    String? accountId,
     int? maxResults,
     String? nextToken,
     String? patternSetName,
@@ -869,6 +1033,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (patternSetName != null) 'PatternSetName': patternSetName,
@@ -883,6 +1048,9 @@ class ApplicationInsights {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID for the resource group owner.
   ///
   /// Parameter [componentName] :
   /// The name of the component.
@@ -906,13 +1074,19 @@ class ApplicationInsights {
   /// The time when the problem was detected, in epoch seconds. If you don't
   /// specify a time frame for the request, problems within the past seven days
   /// are returned.
+  ///
+  /// Parameter [visibility] :
+  /// Specifies whether or not you can view the problem. If not specified,
+  /// visible and ignored problems are returned.
   Future<ListProblemsResponse> listProblems({
+    String? accountId,
     String? componentName,
     DateTime? endTime,
     int? maxResults,
     String? nextToken,
     String? resourceGroupName,
     DateTime? startTime,
+    Visibility? visibility,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -931,12 +1105,14 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (accountId != null) 'AccountId': accountId,
         if (componentName != null) 'ComponentName': componentName,
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
         if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+        if (visibility != null) 'Visibility': visibility.toValue(),
       },
     );
 
@@ -975,6 +1151,100 @@ class ApplicationInsights {
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the workloads that are configured on a given component.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [componentName] :
+  /// The name of the component.
+  ///
+  /// Parameter [resourceGroupName] :
+  /// The name of the resource group.
+  ///
+  /// Parameter [accountId] :
+  /// The AWS account ID of the owner of the workload.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ListWorkloadsResponse> listWorkloads({
+    required String componentName,
+    required String resourceGroupName,
+    String? accountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      40,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'EC2WindowsBarleyService.ListWorkloads'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ComponentName': componentName,
+        'ResourceGroupName': resourceGroupName,
+        if (accountId != null) 'AccountId': accountId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListWorkloadsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Remove workload from a component.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [componentName] :
+  /// The name of the component.
+  ///
+  /// Parameter [resourceGroupName] :
+  /// The name of the resource group.
+  ///
+  /// Parameter [workloadId] :
+  /// The ID of the workload.
+  Future<void> removeWorkload({
+    required String componentName,
+    required String resourceGroupName,
+    required String workloadId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'EC2WindowsBarleyService.RemoveWorkload'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ComponentName': componentName,
+        'ResourceGroupName': resourceGroupName,
+        'WorkloadId': workloadId,
+      },
+    );
   }
 
   /// Add one or more tags (keys and values) to a specified application. A
@@ -1068,6 +1338,10 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [attachMissingPermission] :
+  /// If set to true, the managed policies for SSM and CW will be attached to
+  /// the instance roles if they are missing.
+  ///
   /// Parameter [autoConfigEnabled] :
   /// Turns auto-configuration on or off.
   ///
@@ -1090,6 +1364,7 @@ class ApplicationInsights {
   /// problems.
   Future<UpdateApplicationResponse> updateApplication({
     required String resourceGroupName,
+    bool? attachMissingPermission,
     bool? autoConfigEnabled,
     bool? cWEMonitorEnabled,
     bool? opsCenterEnabled,
@@ -1108,6 +1383,8 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
+        if (attachMissingPermission != null)
+          'AttachMissingPermission': attachMissingPermission,
         if (autoConfigEnabled != null) 'AutoConfigEnabled': autoConfigEnabled,
         if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
         if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
@@ -1172,6 +1449,7 @@ class ApplicationInsights {
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [componentName] :
   /// The name of the component.
@@ -1290,6 +1568,118 @@ class ApplicationInsights {
 
     return UpdateLogPatternResponse.fromJson(jsonResponse.body);
   }
+
+  /// Updates the visibility of the problem or specifies the problem as
+  /// <code>RESOLVED</code>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [problemId] :
+  /// The ID of the problem.
+  ///
+  /// Parameter [updateStatus] :
+  /// The status of the problem. Arguments can be passed for only problems that
+  /// show a status of <code>RECOVERING</code>.
+  ///
+  /// Parameter [visibility] :
+  /// The visibility of a problem. When you pass a value of
+  /// <code>IGNORED</code>, the problem is removed from the default view, and
+  /// all notifications for the problem are suspended. When <code>VISIBLE</code>
+  /// is passed, the <code>IGNORED</code> action is reversed.
+  Future<void> updateProblem({
+    required String problemId,
+    UpdateStatus? updateStatus,
+    Visibility? visibility,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'EC2WindowsBarleyService.UpdateProblem'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProblemId': problemId,
+        if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+        if (visibility != null) 'Visibility': visibility.toValue(),
+      },
+    );
+  }
+
+  /// Adds a workload to a component. Each component can have at most five
+  /// workloads.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [componentName] :
+  /// The name of the component.
+  ///
+  /// Parameter [resourceGroupName] :
+  /// The name of the resource group.
+  ///
+  /// Parameter [workloadConfiguration] :
+  /// The configuration settings of the workload. The value is the escaped JSON
+  /// of the configuration.
+  ///
+  /// Parameter [workloadId] :
+  /// The ID of the workload.
+  Future<UpdateWorkloadResponse> updateWorkload({
+    required String componentName,
+    required String resourceGroupName,
+    required WorkloadConfiguration workloadConfiguration,
+    String? workloadId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'EC2WindowsBarleyService.UpdateWorkload'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ComponentName': componentName,
+        'ResourceGroupName': resourceGroupName,
+        'WorkloadConfiguration': workloadConfiguration,
+        if (workloadId != null) 'WorkloadId': workloadId,
+      },
+    );
+
+    return UpdateWorkloadResponse.fromJson(jsonResponse.body);
+  }
+}
+
+class AddWorkloadResponse {
+  /// The configuration settings of the workload. The value is the escaped JSON of
+  /// the configuration.
+  final WorkloadConfiguration? workloadConfiguration;
+
+  /// The ID of the workload.
+  final String? workloadId;
+
+  AddWorkloadResponse({
+    this.workloadConfiguration,
+    this.workloadId,
+  });
+
+  factory AddWorkloadResponse.fromJson(Map<String, dynamic> json) {
+    return AddWorkloadResponse(
+      workloadConfiguration: json['WorkloadConfiguration'] != null
+          ? WorkloadConfiguration.fromJson(
+              json['WorkloadConfiguration'] as Map<String, dynamic>)
+          : null,
+      workloadId: json['WorkloadId'] as String?,
+    );
+  }
 }
 
 /// Describes a standalone resource or similarly grouped resources that the
@@ -1347,6 +1737,13 @@ class ApplicationComponent {
 
 /// Describes the status of the application.
 class ApplicationInfo {
+  /// The AWS account ID for the owner of the application.
+  final String? accountId;
+
+  /// If set to true, the managed policies for SSM and CW will be attached to the
+  /// instance roles if they are missing.
+  final bool? attachMissingPermission;
+
   /// Indicates whether auto-configuration is turned on for this application.
   final bool? autoConfigEnabled;
 
@@ -1386,6 +1783,8 @@ class ApplicationInfo {
   final String? resourceGroupName;
 
   ApplicationInfo({
+    this.accountId,
+    this.attachMissingPermission,
     this.autoConfigEnabled,
     this.cWEMonitorEnabled,
     this.discoveryType,
@@ -1398,6 +1797,8 @@ class ApplicationInfo {
 
   factory ApplicationInfo.fromJson(Map<String, dynamic> json) {
     return ApplicationInfo(
+      accountId: json['AccountId'] as String?,
+      attachMissingPermission: json['AttachMissingPermission'] as bool?,
       autoConfigEnabled: json['AutoConfigEnabled'] as bool?,
       cWEMonitorEnabled: json['CWEMonitorEnabled'] as bool?,
       discoveryType: (json['DiscoveryType'] as String?)?.toDiscoveryType(),
@@ -1450,6 +1851,10 @@ extension CloudWatchEventSourceFromString on String {
 
 /// The event information.
 class ConfigurationEvent {
+  /// The AWS account ID for the owner of the application to which the
+  /// configuration event belongs.
+  final String? accountId;
+
   /// The details of the event in plain text.
   final String? eventDetail;
 
@@ -1470,17 +1875,24 @@ class ConfigurationEvent {
   /// The resource monitored by Application Insights.
   final String? monitoredResourceARN;
 
+  /// The name of the resource group of the application to which the configuration
+  /// event belongs.
+  final String? resourceGroupName;
+
   ConfigurationEvent({
+    this.accountId,
     this.eventDetail,
     this.eventResourceName,
     this.eventResourceType,
     this.eventStatus,
     this.eventTime,
     this.monitoredResourceARN,
+    this.resourceGroupName,
   });
 
   factory ConfigurationEvent.fromJson(Map<String, dynamic> json) {
     return ConfigurationEvent(
+      accountId: json['AccountId'] as String?,
       eventDetail: json['EventDetail'] as String?,
       eventResourceName: json['EventResourceName'] as String?,
       eventResourceType: (json['EventResourceType'] as String?)
@@ -1489,6 +1901,7 @@ class ConfigurationEvent {
           (json['EventStatus'] as String?)?.toConfigurationEventStatus(),
       eventTime: timeStampFromJson(json['EventTime']),
       monitoredResourceARN: json['MonitoredResourceARN'] as String?,
+      resourceGroupName: json['ResourceGroupName'] as String?,
     );
   }
 }
@@ -1728,6 +2141,9 @@ class DescribeComponentResponse {
 }
 
 class DescribeLogPatternResponse {
+  /// The AWS account ID for the resource group owner.
+  final String? accountId;
+
   /// The successfully created log pattern.
   final LogPattern? logPattern;
 
@@ -1735,12 +2151,14 @@ class DescribeLogPatternResponse {
   final String? resourceGroupName;
 
   DescribeLogPatternResponse({
+    this.accountId,
     this.logPattern,
     this.resourceGroupName,
   });
 
   factory DescribeLogPatternResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLogPatternResponse(
+      accountId: json['AccountId'] as String?,
       logPattern: json['LogPattern'] != null
           ? LogPattern.fromJson(json['LogPattern'] as Map<String, dynamic>)
           : null,
@@ -1798,6 +2216,36 @@ class DescribeProblemResponse {
       problem: json['Problem'] != null
           ? Problem.fromJson(json['Problem'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+class DescribeWorkloadResponse {
+  /// The configuration settings of the workload. The value is the escaped JSON of
+  /// the configuration.
+  final WorkloadConfiguration? workloadConfiguration;
+
+  /// The ID of the workload.
+  final String? workloadId;
+
+  /// If logging is supported for the resource type, shows whether the component
+  /// has configured logs to be monitored.
+  final String? workloadRemarks;
+
+  DescribeWorkloadResponse({
+    this.workloadConfiguration,
+    this.workloadId,
+    this.workloadRemarks,
+  });
+
+  factory DescribeWorkloadResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkloadResponse(
+      workloadConfiguration: json['WorkloadConfiguration'] != null
+          ? WorkloadConfiguration.fromJson(
+              json['WorkloadConfiguration'] as Map<String, dynamic>)
+          : null,
+      workloadId: json['WorkloadId'] as String?,
+      workloadRemarks: json['WorkloadRemarks'] as String?,
     );
   }
 }
@@ -1985,6 +2433,9 @@ class ListConfigurationHistoryResponse {
 }
 
 class ListLogPatternSetsResponse {
+  /// The AWS account ID for the resource group owner.
+  final String? accountId;
+
   /// The list of log pattern sets.
   final List<String>? logPatternSets;
 
@@ -1996,6 +2447,7 @@ class ListLogPatternSetsResponse {
   final String? resourceGroupName;
 
   ListLogPatternSetsResponse({
+    this.accountId,
     this.logPatternSets,
     this.nextToken,
     this.resourceGroupName,
@@ -2003,6 +2455,7 @@ class ListLogPatternSetsResponse {
 
   factory ListLogPatternSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListLogPatternSetsResponse(
+      accountId: json['AccountId'] as String?,
       logPatternSets: (json['LogPatternSets'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2014,6 +2467,9 @@ class ListLogPatternSetsResponse {
 }
 
 class ListLogPatternsResponse {
+  /// The AWS account ID for the resource group owner.
+  final String? accountId;
+
   /// The list of log patterns.
   final List<LogPattern>? logPatterns;
 
@@ -2025,6 +2481,7 @@ class ListLogPatternsResponse {
   final String? resourceGroupName;
 
   ListLogPatternsResponse({
+    this.accountId,
     this.logPatterns,
     this.nextToken,
     this.resourceGroupName,
@@ -2032,6 +2489,7 @@ class ListLogPatternsResponse {
 
   factory ListLogPatternsResponse.fromJson(Map<String, dynamic> json) {
     return ListLogPatternsResponse(
+      accountId: json['AccountId'] as String?,
       logPatterns: (json['LogPatterns'] as List?)
           ?.whereNotNull()
           .map((e) => LogPattern.fromJson(e as Map<String, dynamic>))
@@ -2043,6 +2501,9 @@ class ListLogPatternsResponse {
 }
 
 class ListProblemsResponse {
+  /// The AWS account ID for the resource group owner.
+  final String? accountId;
+
   /// The token used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
   final String? nextToken;
@@ -2054,6 +2515,7 @@ class ListProblemsResponse {
   final String? resourceGroupName;
 
   ListProblemsResponse({
+    this.accountId,
     this.nextToken,
     this.problemList,
     this.resourceGroupName,
@@ -2061,6 +2523,7 @@ class ListProblemsResponse {
 
   factory ListProblemsResponse.fromJson(Map<String, dynamic> json) {
     return ListProblemsResponse(
+      accountId: json['AccountId'] as String?,
       nextToken: json['NextToken'] as String?,
       problemList: (json['ProblemList'] as List?)
           ?.whereNotNull()
@@ -2086,6 +2549,29 @@ class ListTagsForResourceResponse {
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListWorkloadsResponse {
+  /// The token to request the next page of results.
+  final String? nextToken;
+
+  /// The list of workloads.
+  final List<Workload>? workloadList;
+
+  ListWorkloadsResponse({
+    this.nextToken,
+    this.workloadList,
+  });
+
+  factory ListWorkloadsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkloadsResponse(
+      nextToken: json['NextToken'] as String?,
+      workloadList: (json['WorkloadList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Workload.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -2451,6 +2937,10 @@ extension OsTypeFromString on String {
 
 /// Describes a problem that is detected by correlating observations.
 class Problem {
+  /// The AWS account ID for the owner of the resource group affected by the
+  /// problem.
+  final String? accountId;
+
   /// The resource affected by the problem.
   final String? affectedResource;
 
@@ -2473,6 +2963,12 @@ class Problem {
   /// was resolved.
   final int? recurringCount;
 
+  /// Specifies how the problem was resolved. If the value is
+  /// <code>AUTOMATIC</code>, the system resolved the problem. If the value is
+  /// <code>MANUAL</code>, the user resolved the problem. If the value is
+  /// <code>UNRESOLVED</code>, then the problem is not resolved.
+  final ResolutionMethod? resolutionMethod;
+
   /// The name of the resource group affected by the problem.
   final String? resourceGroupName;
 
@@ -2488,7 +2984,12 @@ class Problem {
   /// The name of the problem.
   final String? title;
 
+  /// Specifies whether or not you can view the problem. Updates to ignored
+  /// problems do not generate notifications.
+  final Visibility? visibility;
+
   Problem({
+    this.accountId,
     this.affectedResource,
     this.endTime,
     this.feedback,
@@ -2496,15 +2997,18 @@ class Problem {
     this.insights,
     this.lastRecurrenceTime,
     this.recurringCount,
+    this.resolutionMethod,
     this.resourceGroupName,
     this.severityLevel,
     this.startTime,
     this.status,
     this.title,
+    this.visibility,
   });
 
   factory Problem.fromJson(Map<String, dynamic> json) {
     return Problem(
+      accountId: json['AccountId'] as String?,
       affectedResource: json['AffectedResource'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       feedback: (json['Feedback'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -2513,12 +3017,48 @@ class Problem {
       insights: json['Insights'] as String?,
       lastRecurrenceTime: timeStampFromJson(json['LastRecurrenceTime']),
       recurringCount: json['RecurringCount'] as int?,
+      resolutionMethod:
+          (json['ResolutionMethod'] as String?)?.toResolutionMethod(),
       resourceGroupName: json['ResourceGroupName'] as String?,
       severityLevel: (json['SeverityLevel'] as String?)?.toSeverityLevel(),
       startTime: timeStampFromJson(json['StartTime']),
       status: (json['Status'] as String?)?.toStatus(),
       title: json['Title'] as String?,
+      visibility: (json['Visibility'] as String?)?.toVisibility(),
     );
+  }
+}
+
+enum RecommendationType {
+  infraOnly,
+  workloadOnly,
+  all,
+}
+
+extension RecommendationTypeValueExtension on RecommendationType {
+  String toValue() {
+    switch (this) {
+      case RecommendationType.infraOnly:
+        return 'INFRA_ONLY';
+      case RecommendationType.workloadOnly:
+        return 'WORKLOAD_ONLY';
+      case RecommendationType.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension RecommendationTypeFromString on String {
+  RecommendationType toRecommendationType() {
+    switch (this) {
+      case 'INFRA_ONLY':
+        return RecommendationType.infraOnly;
+      case 'WORKLOAD_ONLY':
+        return RecommendationType.workloadOnly;
+      case 'ALL':
+        return RecommendationType.all;
+    }
+    throw Exception('$this is not known in enum RecommendationType');
   }
 }
 
@@ -2538,6 +3078,47 @@ class RelatedObservations {
           .map((e) => Observation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+class RemoveWorkloadResponse {
+  RemoveWorkloadResponse();
+
+  factory RemoveWorkloadResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveWorkloadResponse();
+  }
+}
+
+enum ResolutionMethod {
+  manual,
+  automatic,
+  unresolved,
+}
+
+extension ResolutionMethodValueExtension on ResolutionMethod {
+  String toValue() {
+    switch (this) {
+      case ResolutionMethod.manual:
+        return 'MANUAL';
+      case ResolutionMethod.automatic:
+        return 'AUTOMATIC';
+      case ResolutionMethod.unresolved:
+        return 'UNRESOLVED';
+    }
+  }
+}
+
+extension ResolutionMethodFromString on String {
+  ResolutionMethod toResolutionMethod() {
+    switch (this) {
+      case 'MANUAL':
+        return ResolutionMethod.manual;
+      case 'AUTOMATIC':
+        return ResolutionMethod.automatic;
+      case 'UNRESOLVED':
+        return ResolutionMethod.unresolved;
+    }
+    throw Exception('$this is not known in enum ResolutionMethod');
   }
 }
 
@@ -2584,6 +3165,7 @@ enum Status {
   resolved,
   pending,
   recurring,
+  recovering,
 }
 
 extension StatusValueExtension on Status {
@@ -2597,6 +3179,8 @@ extension StatusValueExtension on Status {
         return 'PENDING';
       case Status.recurring:
         return 'RECURRING';
+      case Status.recovering:
+        return 'RECOVERING';
     }
   }
 }
@@ -2612,6 +3196,8 @@ extension StatusFromString on String {
         return Status.pending;
       case 'RECURRING':
         return Status.recurring;
+      case 'RECOVERING':
+        return Status.recovering;
     }
     throw Exception('$this is not known in enum Status');
   }
@@ -2705,6 +3291,9 @@ enum Tier {
   sqlServerFailoverClusterInstance,
   sharepoint,
   activeDirectory,
+  sapNetweaverStandard,
+  sapNetweaverDistributed,
+  sapNetweaverHighAvailability,
 }
 
 extension TierValueExtension on Tier {
@@ -2746,6 +3335,12 @@ extension TierValueExtension on Tier {
         return 'SHAREPOINT';
       case Tier.activeDirectory:
         return 'ACTIVE_DIRECTORY';
+      case Tier.sapNetweaverStandard:
+        return 'SAP_NETWEAVER_STANDARD';
+      case Tier.sapNetweaverDistributed:
+        return 'SAP_NETWEAVER_DISTRIBUTED';
+      case Tier.sapNetweaverHighAvailability:
+        return 'SAP_NETWEAVER_HIGH_AVAILABILITY';
     }
   }
 }
@@ -2789,6 +3384,12 @@ extension TierFromString on String {
         return Tier.sharepoint;
       case 'ACTIVE_DIRECTORY':
         return Tier.activeDirectory;
+      case 'SAP_NETWEAVER_STANDARD':
+        return Tier.sapNetweaverStandard;
+      case 'SAP_NETWEAVER_DISTRIBUTED':
+        return Tier.sapNetweaverDistributed;
+      case 'SAP_NETWEAVER_HIGH_AVAILABILITY':
+        return Tier.sapNetweaverHighAvailability;
     }
     throw Exception('$this is not known in enum Tier');
   }
@@ -2856,6 +3457,163 @@ class UpdateLogPatternResponse {
           : null,
       resourceGroupName: json['ResourceGroupName'] as String?,
     );
+  }
+}
+
+class UpdateProblemResponse {
+  UpdateProblemResponse();
+
+  factory UpdateProblemResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateProblemResponse();
+  }
+}
+
+enum UpdateStatus {
+  resolved,
+}
+
+extension UpdateStatusValueExtension on UpdateStatus {
+  String toValue() {
+    switch (this) {
+      case UpdateStatus.resolved:
+        return 'RESOLVED';
+    }
+  }
+}
+
+extension UpdateStatusFromString on String {
+  UpdateStatus toUpdateStatus() {
+    switch (this) {
+      case 'RESOLVED':
+        return UpdateStatus.resolved;
+    }
+    throw Exception('$this is not known in enum UpdateStatus');
+  }
+}
+
+class UpdateWorkloadResponse {
+  /// The configuration settings of the workload. The value is the escaped JSON of
+  /// the configuration.
+  final WorkloadConfiguration? workloadConfiguration;
+
+  /// The ID of the workload.
+  final String? workloadId;
+
+  UpdateWorkloadResponse({
+    this.workloadConfiguration,
+    this.workloadId,
+  });
+
+  factory UpdateWorkloadResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateWorkloadResponse(
+      workloadConfiguration: json['WorkloadConfiguration'] != null
+          ? WorkloadConfiguration.fromJson(
+              json['WorkloadConfiguration'] as Map<String, dynamic>)
+          : null,
+      workloadId: json['WorkloadId'] as String?,
+    );
+  }
+}
+
+enum Visibility {
+  ignored,
+  visible,
+}
+
+extension VisibilityValueExtension on Visibility {
+  String toValue() {
+    switch (this) {
+      case Visibility.ignored:
+        return 'IGNORED';
+      case Visibility.visible:
+        return 'VISIBLE';
+    }
+  }
+}
+
+extension VisibilityFromString on String {
+  Visibility toVisibility() {
+    switch (this) {
+      case 'IGNORED':
+        return Visibility.ignored;
+      case 'VISIBLE':
+        return Visibility.visible;
+    }
+    throw Exception('$this is not known in enum Visibility');
+  }
+}
+
+/// Describes the workloads on a component.
+class Workload {
+  /// The name of the component.
+  final String? componentName;
+
+  /// The tier of the workload.
+  final Tier? tier;
+
+  /// The ID of the workload.
+  final String? workloadId;
+
+  /// The name of the workload.
+  final String? workloadName;
+
+  /// If logging is supported for the resource type, shows whether the component
+  /// has configured logs to be monitored.
+  final String? workloadRemarks;
+
+  Workload({
+    this.componentName,
+    this.tier,
+    this.workloadId,
+    this.workloadName,
+    this.workloadRemarks,
+  });
+
+  factory Workload.fromJson(Map<String, dynamic> json) {
+    return Workload(
+      componentName: json['ComponentName'] as String?,
+      tier: (json['Tier'] as String?)?.toTier(),
+      workloadId: json['WorkloadId'] as String?,
+      workloadName: json['WorkloadName'] as String?,
+      workloadRemarks: json['WorkloadRemarks'] as String?,
+    );
+  }
+}
+
+/// The configuration of the workload.
+class WorkloadConfiguration {
+  /// The configuration settings of the workload.
+  final String? configuration;
+
+  /// The configuration of the workload tier.
+  final Tier? tier;
+
+  /// The name of the workload.
+  final String? workloadName;
+
+  WorkloadConfiguration({
+    this.configuration,
+    this.tier,
+    this.workloadName,
+  });
+
+  factory WorkloadConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkloadConfiguration(
+      configuration: json['Configuration'] as String?,
+      tier: (json['Tier'] as String?)?.toTier(),
+      workloadName: json['WorkloadName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final tier = this.tier;
+    final workloadName = this.workloadName;
+    return {
+      if (configuration != null) 'Configuration': configuration,
+      if (tier != null) 'Tier': tier.toValue(),
+      if (workloadName != null) 'WorkloadName': workloadName,
+    };
   }
 }
 

@@ -263,7 +263,7 @@ class Comprehend {
   ///
   /// For more information about targeted sentiment, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
-  /// sentiment</a>.
+  /// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [TextSizeLimitExceededException].
@@ -302,15 +302,30 @@ class Comprehend {
     return BatchDetectTargetedSentimentResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new document classification request to analyze a single document
-  /// in real-time, using a previously created and trained custom model and an
-  /// endpoint.
+  /// Creates a classification request to analyze a single document in
+  /// real-time. <code>ClassifyDocument</code> supports the following model
+  /// types:
   ///
-  /// You can input plain text or you can upload a single-page input document
-  /// (text, PDF, Word, or image).
-  ///
+  /// <ul>
+  /// <li>
+  /// Custom classifier - a custom model that you have created and trained. For
+  /// input, you can provide plain text, a single-page document (PDF, Word, or
+  /// image), or Amazon Textract API output. For more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification.html">Custom
+  /// classification</a> in the <i>Amazon Comprehend Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// Prompt safety classifier - Amazon Comprehend provides a pre-trained model
+  /// for classifying input prompts for generative AI applications. For input,
+  /// you provide English plain text input. For prompt safety classification,
+  /// the response includes only the <code>Classes</code> field. For more
+  /// information about prompt safety classifiers, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification">Prompt
+  /// safety classification</a> in the <i>Amazon Comprehend Developer Guide</i>.
+  /// </li>
+  /// </ul>
   /// If the system detects errors while processing a page in the input
-  /// document, the API response includes an entry in <code>Errors</code> that
+  /// document, the API response includes an <code>Errors</code> field that
   /// describes the errors.
   ///
   /// If the system detects a document-level error in your input document, the
@@ -325,16 +340,29 @@ class Comprehend {
   /// May throw [InternalServerException].
   ///
   /// Parameter [endpointArn] :
-  /// The Amazon Resource Number (ARN) of the endpoint. For information about
-  /// endpoints, see <a
-  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html">Managing
-  /// endpoints</a>.
+  /// The Amazon Resource Number (ARN) of the endpoint.
+  ///
+  /// For prompt safety classification, Amazon Comprehend provides the endpoint
+  /// ARN. For more information about prompt safety classifiers, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification">Prompt
+  /// safety classification</a> in the <i>Amazon Comprehend Developer Guide</i>
+  ///
+  /// For custom classification, you create an endpoint for your custom model.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html">Using
+  /// Amazon Comprehend endpoints</a>.
   ///
   /// Parameter [bytes] :
   /// Use the <code>Bytes</code> parameter to input a text, PDF, Word or image
-  /// file. You can also use the <code>Bytes</code> parameter to input an Amazon
-  /// Textract <code>DetectDocumentText</code> or <code>AnalyzeDocument</code>
-  /// output file.
+  /// file.
+  ///
+  /// When you classify a document using a custom model, you can also use the
+  /// <code>Bytes</code> parameter to input an Amazon Textract
+  /// <code>DetectDocumentText</code> or <code>AnalyzeDocument</code> output
+  /// file.
+  ///
+  /// To classify a document using the prompt safety classifier, use the
+  /// <code>Text</code> parameter for input.
   ///
   /// Provide the input document as a sequence of base64-encoded bytes. If your
   /// code uses an Amazon Web Services SDK to classify documents, the SDK may
@@ -394,8 +422,7 @@ class Comprehend {
   /// May throw [InternalServerException].
   ///
   /// Parameter [languageCode] :
-  /// The language of the input documents. Currently, English is the only valid
-  /// language.
+  /// The language of the input documents.
   ///
   /// Parameter [text] :
   /// A UTF-8 text string. The maximum string size is 100 KB.
@@ -531,11 +558,11 @@ class Comprehend {
   ///
   /// Parameter [mode] :
   /// Indicates the mode in which the classifier will be trained. The classifier
-  /// can be trained in multi-class mode, which identifies one and only one
-  /// class for each document, or multi-label mode, which identifies one or more
-  /// labels for each document. In multi-label mode, multiple labels for an
-  /// individual document are separated by a delimiter. The default delimiter
-  /// between labels is a pipe (|).
+  /// can be trained in multi-class (single-label) mode or multi-label mode.
+  /// Multi-class mode identifies a single class label for each document and
+  /// multi-label mode identifies one or more class labels for each document.
+  /// Multiple labels for an individual document are separated by a delimiter.
+  /// The default delimiter between labels is a pipe (|).
   ///
   /// Parameter [modelKmsKeyId] :
   /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom
@@ -571,7 +598,7 @@ class Comprehend {
   ///
   /// Parameter [outputDataConfig] :
   /// Specifies the location for the output files from a custom classifier job.
-  /// This parameter is required for a request that creates a native classifier
+  /// This parameter is required for a request that creates a native document
   /// model.
   ///
   /// Parameter [tags] :
@@ -934,7 +961,9 @@ class Comprehend {
   ///
   /// Parameter [activeModelArn] :
   /// To associate an existing model with the flywheel, specify the Amazon
-  /// Resource Number (ARN) of the model version.
+  /// Resource Number (ARN) of the model version. Do not set
+  /// <code>TaskConfig</code> or <code>ModelType</code> if you specify an
+  /// <code>ActiveModelArn</code>.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
@@ -944,13 +973,16 @@ class Comprehend {
   /// Data security configurations.
   ///
   /// Parameter [modelType] :
-  /// The model type.
+  /// The model type. You need to set <code>ModelType</code> if you are creating
+  /// a flywheel for a new model.
   ///
   /// Parameter [tags] :
   /// The tags to associate with this flywheel.
   ///
   /// Parameter [taskConfig] :
-  /// Configuration about the custom classifier associated with the flywheel.
+  /// Configuration about the model associated with the flywheel. You need to
+  /// set <code>TaskConfig</code> if you are creating a flywheel for a new
+  /// model.
   Future<CreateFlywheelResponse> createFlywheel({
     required String dataAccessRoleArn,
     required String dataLakeS3Uri,
@@ -1895,8 +1927,8 @@ class Comprehend {
   /// May throw [InternalServerException].
   ///
   /// Parameter [languageCode] :
-  /// The language of the input documents. Currently, English is the only valid
-  /// language.
+  /// The language of the input text. Enter the language code for English (en)
+  /// or Spanish (es).
   ///
   /// Parameter [text] :
   /// A UTF-8 text string. The maximum string size is 100 KB.
@@ -2008,7 +2040,7 @@ class Comprehend {
   ///
   /// For more information about targeted sentiment, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
-  /// sentiment</a>.
+  /// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [TextSizeLimitExceededException].
@@ -2042,6 +2074,47 @@ class Comprehend {
     );
 
     return DetectTargetedSentimentResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Performs toxicity analysis on the list of text strings that you provide as
+  /// input. The API response contains a results list that matches the size of
+  /// the input list. For more information about toxicity detection, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html">Toxicity
+  /// detection</a> in the <i>Amazon Comprehend Developer Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TextSizeLimitExceededException].
+  /// May throw [UnsupportedLanguageException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input text. Currently, English is the only supported
+  /// language.
+  ///
+  /// Parameter [textSegments] :
+  /// A list of up to 10 text strings. Each string has a maximum size of 1 KB,
+  /// and the maximum size of the list is 10 KB.
+  Future<DetectToxicContentResponse> detectToxicContent({
+    required LanguageCode languageCode,
+    required List<TextSegment> textSegments,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.DetectToxicContent'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LanguageCode': languageCode.toValue(),
+        'TextSegments': textSegments,
+      },
+    );
+
+    return DetectToxicContentResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new custom model that replicates a source custom model that you
@@ -3052,7 +3125,8 @@ class Comprehend {
     return PutResourcePolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Starts an asynchronous document classification job. Use the
+  /// Starts an asynchronous document classification job using a custom
+  /// classification model. Use the
   /// <code>DescribeDocumentClassificationJob</code> operation to track the
   /// progress of the job.
   ///
@@ -3609,8 +3683,8 @@ class Comprehend {
   /// The input properties for a PII entities detection job.
   ///
   /// Parameter [languageCode] :
-  /// The language of the input documents. Currently, English is the only valid
-  /// language.
+  /// The language of the input documents. Enter the language code for English
+  /// (en) or Spanish (es).
   ///
   /// Parameter [mode] :
   /// Specifies whether the output provides the locations (offsets) of PII
@@ -3792,7 +3866,7 @@ class Comprehend {
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   /// Comprehend read access to your input data. For more information, see <a
-  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions">Role-based
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions">Role-based
   /// permissions</a>.
   ///
   /// Parameter [languageCode] :
@@ -5547,10 +5621,15 @@ class ClassifierMetadata {
 }
 
 class ClassifyDocumentResponse {
-  /// The classes used by the document being analyzed. These are used for
-  /// multi-class trained models. Individual classes are mutually exclusive and
+  /// The classes used by the document being analyzed. These are used for models
+  /// trained in multi-class mode. Individual classes are mutually exclusive and
   /// each document is expected to have only a single class assigned to it. For
   /// example, an animal can be a dog or a cat, but not both at the same time.
+  ///
+  /// For prompt safety classification, the response includes only two classes
+  /// (SAFE_PROMPT and UNSAFE_PROMPT), along with a confidence score for each
+  /// class. The value range of the score is zero to one, where one is the highest
+  /// confidence.
   final List<DocumentClass>? classes;
 
   /// Extraction information about the document. This field is present in the
@@ -5566,11 +5645,11 @@ class ClassifyDocumentResponse {
   /// document. The field is empty if the system encountered no errors.
   final List<ErrorsListItem>? errors;
 
-  /// The labels used the document being analyzed. These are used for multi-label
-  /// trained models. Individual labels represent different categories that are
-  /// related in some manner and are not mutually exclusive. For example, a movie
-  /// can be just an action movie, or it can be an action movie, a science fiction
-  /// movie, and a comedy, all at the same time.
+  /// The labels used in the document being analyzed. These are used for
+  /// multi-label trained models. Individual labels represent different categories
+  /// that are related in some manner and are not mutually exclusive. For example,
+  /// a movie can be just an action movie, or it can be an action movie, a science
+  /// fiction movie, and a comedy, all at the same time.
   final List<DocumentLabel>? labels;
 
   /// Warnings detected while processing the input document. The response includes
@@ -7124,6 +7203,34 @@ class DetectTargetedSentimentResponse {
   }
 }
 
+class DetectToxicContentResponse {
+  /// Results of the content moderation analysis. Each entry in the results list
+  /// contains a list of toxic content types identified in the text, along with a
+  /// confidence score for each content type. The results list also includes a
+  /// toxicity score for each entry in the results list.
+  final List<ToxicLabels>? resultList;
+
+  DetectToxicContentResponse({
+    this.resultList,
+  });
+
+  factory DetectToxicContentResponse.fromJson(Map<String, dynamic> json) {
+    return DetectToxicContentResponse(
+      resultList: (json['ResultList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ToxicLabels.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resultList = this.resultList;
+    return {
+      if (resultList != null) 'ResultList': resultList,
+    };
+  }
+}
+
 /// Specifies the class that categorizes the document being analyzed
 class DocumentClass {
   /// The name of the class.
@@ -7163,7 +7270,7 @@ class DocumentClass {
   }
 }
 
-/// Configuration required for a custom classification model.
+/// Configuration required for a document classification model.
 class DocumentClassificationConfig {
   /// Classification mode indicates whether the documents are
   /// <code>MULTI_CLASS</code> or <code>MULTI_LABEL</code>.
@@ -7312,7 +7419,7 @@ class DocumentClassificationJobProperties {
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your document classification job.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vppc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   final VpcConfig? vpcConfig;
 
@@ -7457,7 +7564,7 @@ extension DocumentClassifierDocumentTypeFormatFromString on String {
 }
 
 /// The location of the training documents. This parameter is required in a
-/// request to create a native classifier model.
+/// request to create a semi-structured document classification model.
 class DocumentClassifierDocuments {
   /// The S3 URI location of the training documents specified in the S3Uri CSV
   /// file.
@@ -7575,11 +7682,11 @@ class DocumentClassifierInputDataConfig {
 
   /// The type of input documents for training the model. Provide plain-text
   /// documents to create a plain-text model, and provide semi-structured
-  /// documents to create a native model.
+  /// documents to create a native document model.
   final DocumentClassifierDocumentTypeFormat? documentType;
 
   /// The S3 location of the training documents. This parameter is required in a
-  /// request to create a native classifier model.
+  /// request to create a native document model.
   final DocumentClassifierDocuments? documents;
 
   /// Indicates the delimiter used to separate each label for training a
@@ -7605,9 +7712,9 @@ class DocumentClassifierInputDataConfig {
   /// <code>COMPREHEND_CSV</code>.
   final String? s3Uri;
 
-  /// This specifies the Amazon S3 location where the test annotations for an
-  /// entity recognizer are located. The URI must be in the same Amazon Web
-  /// Services Region as the API endpoint that you are calling.
+  /// This specifies the Amazon S3 location that contains the test annotations for
+  /// the document classifier. The URI must be in the same Amazon Web Services
+  /// Region as the API endpoint that you are calling.
   final String? testS3Uri;
 
   DocumentClassifierInputDataConfig({
@@ -7699,7 +7806,7 @@ extension DocumentClassifierModeFromString on String {
 }
 
 /// Provide the location for output data from a custom classifier job. This
-/// field is mandatory if you are training a native classifier model.
+/// field is mandatory if you are training a native document model.
 class DocumentClassifierOutputDataConfig {
   /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
   final String? flywheelStatsS3Prefix;
@@ -7871,7 +7978,7 @@ class DocumentClassifierProperties {
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your custom classifier. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/vppc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   final VpcConfig? vpcConfig;
 
@@ -8139,20 +8246,7 @@ extension DocumentReadActionFromString on String {
   }
 }
 
-/// Specifies the type of Amazon Textract features to apply. If you chose
-/// <code>TEXTRACT_ANALYZE_DOCUMENT</code> as the read action, you must specify
-/// one or both of the following values:
-///
-/// <ul>
-/// <li>
-/// <code>TABLES</code> - Returns additional information about any tables that
-/// are detected in the input document.
-/// </li>
-/// <li>
-/// <code>FORMS</code> - Returns additional information about any forms that are
-/// detected in the input document.
-/// </li>
-/// </ul>
+/// TABLES or FORMS
 enum DocumentReadFeatureTypes {
   tables,
   forms,
@@ -8273,12 +8367,12 @@ class DocumentReaderConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>TABLES</code> - Returns information about any tables that are detected
-  /// in the input document.
+  /// <code>TABLES</code> - Returns additional information about any tables that
+  /// are detected in the input document.
   /// </li>
   /// <li>
-  /// <code>FORMS</code> - Returns information and the data from any forms that
-  /// are detected in the input document.
+  /// <code>FORMS</code> - Returns additional information about any forms that are
+  /// detected in the input document.
   /// </li>
   /// </ul>
   final List<DocumentReadFeatureTypes>? featureTypes;
@@ -9983,7 +10077,7 @@ class EntityTypesListItem {
   ///
   /// Entity types must not contain the following invalid characters: \n (line
   /// break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage
-  /// return), \t (tab), \\t (escaped tab), space, and , (comma).
+  /// return), \t (tab), \\t (escaped tab), and , (comma).
   final String type;
 
   EntityTypesListItem({
@@ -10552,7 +10646,7 @@ class FlywheelProperties {
   /// The status of the flywheel.
   final FlywheelStatus? status;
 
-  /// Configuration about the custom classifier associated with the flywheel.
+  /// Configuration about the model associated with a flywheel.
   final TaskConfig? taskConfig;
 
   FlywheelProperties({
@@ -11931,7 +12025,7 @@ class ListTopicsDetectionJobsResponse {
 ///
 /// For more information about targeted sentiment, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
-/// sentiment</a>.
+/// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
 class MentionSentiment {
   /// The sentiment of the mention.
   final SentimentType? sentiment;
@@ -12068,8 +12162,11 @@ class OutputDataConfig {
   final String s3Uri;
 
   /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon
-  /// Comprehend uses to encrypt the output results from an analysis job. The
-  /// KmsKeyId can be one of the following formats:
+  /// Comprehend uses to encrypt the output results from an analysis job. Specify
+  /// the Key Id of a symmetric key, because you cannot use an asymmetric key for
+  /// uploading data to S3.
+  ///
+  /// The KmsKeyId can be one of the following formats:
   ///
   /// <ul>
   /// <li>
@@ -12405,7 +12502,7 @@ class PiiEntitiesDetectionJobProperties {
   /// failure.
   final JobStatus? jobStatus;
 
-  /// The language code of the input documents
+  /// The language code of the input documents.
   final LanguageCode? languageCode;
 
   /// A description of the status of a job.
@@ -14491,7 +14588,7 @@ class TargetedSentimentDetectionJobProperties {
 ///
 /// For more information about targeted sentiment, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
-/// sentiment</a>.
+/// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
 class TargetedSentimentEntity {
   /// One or more index into the Mentions array that provides the best name for
   /// the entity group.
@@ -14642,7 +14739,7 @@ extension TargetedSentimentEntityTypeFromString on String {
 ///
 /// For more information about targeted sentiment, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
-/// sentiment</a>.
+/// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
 class TargetedSentimentMention {
   /// The offset into the document text where the mention begins.
   final int? beginOffset;
@@ -14714,12 +14811,12 @@ class TargetedSentimentMention {
   }
 }
 
-/// Configuration about the custom classifier associated with the flywheel.
+/// Configuration about the model associated with a flywheel.
 class TaskConfig {
   /// Language code for the language that the model supports.
   final LanguageCode languageCode;
 
-  /// Configuration required for a classification model.
+  /// Configuration required for a document classification model.
   final DocumentClassificationConfig? documentClassificationConfig;
 
   /// Configuration required for an entity recognition model.
@@ -14755,6 +14852,23 @@ class TaskConfig {
         'DocumentClassificationConfig': documentClassificationConfig,
       if (entityRecognitionConfig != null)
         'EntityRecognitionConfig': entityRecognitionConfig,
+    };
+  }
+}
+
+/// One of the of text strings. Each string has a size limit of 1KB.
+class TextSegment {
+  /// The text content.
+  final String text;
+
+  TextSegment({
+    required this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      'Text': text,
     };
   }
 }
@@ -14949,6 +15063,130 @@ class TopicsDetectionJobProperties {
   }
 }
 
+/// Toxic content analysis result for one string. For more information about
+/// toxicity detection, see <a
+/// href="https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html">Toxicity
+/// detection</a> in the <i>Amazon Comprehend Developer Guide</i>
+class ToxicContent {
+  /// The name of the toxic content type.
+  final ToxicContentType? name;
+
+  /// Model confidence in the detected content type. Value range is zero to one,
+  /// where one is highest confidence.
+  final double? score;
+
+  ToxicContent({
+    this.name,
+    this.score,
+  });
+
+  factory ToxicContent.fromJson(Map<String, dynamic> json) {
+    return ToxicContent(
+      name: (json['Name'] as String?)?.toToxicContentType(),
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+enum ToxicContentType {
+  graphic,
+  harassmentOrAbuse,
+  hateSpeech,
+  insult,
+  profanity,
+  sexual,
+  violenceOrThreat,
+}
+
+extension ToxicContentTypeValueExtension on ToxicContentType {
+  String toValue() {
+    switch (this) {
+      case ToxicContentType.graphic:
+        return 'GRAPHIC';
+      case ToxicContentType.harassmentOrAbuse:
+        return 'HARASSMENT_OR_ABUSE';
+      case ToxicContentType.hateSpeech:
+        return 'HATE_SPEECH';
+      case ToxicContentType.insult:
+        return 'INSULT';
+      case ToxicContentType.profanity:
+        return 'PROFANITY';
+      case ToxicContentType.sexual:
+        return 'SEXUAL';
+      case ToxicContentType.violenceOrThreat:
+        return 'VIOLENCE_OR_THREAT';
+    }
+  }
+}
+
+extension ToxicContentTypeFromString on String {
+  ToxicContentType toToxicContentType() {
+    switch (this) {
+      case 'GRAPHIC':
+        return ToxicContentType.graphic;
+      case 'HARASSMENT_OR_ABUSE':
+        return ToxicContentType.harassmentOrAbuse;
+      case 'HATE_SPEECH':
+        return ToxicContentType.hateSpeech;
+      case 'INSULT':
+        return ToxicContentType.insult;
+      case 'PROFANITY':
+        return ToxicContentType.profanity;
+      case 'SEXUAL':
+        return ToxicContentType.sexual;
+      case 'VIOLENCE_OR_THREAT':
+        return ToxicContentType.violenceOrThreat;
+    }
+    throw Exception('$this is not known in enum ToxicContentType');
+  }
+}
+
+/// Toxicity analysis result for one string. For more information about toxicity
+/// detection, see <a
+/// href="https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html">Toxicity
+/// detection</a> in the <i>Amazon Comprehend Developer Guide</i>.
+class ToxicLabels {
+  /// Array of toxic content types identified in the string.
+  final List<ToxicContent>? labels;
+
+  /// Overall toxicity score for the string. Value range is zero to one, where one
+  /// is the highest confidence.
+  final double? toxicity;
+
+  ToxicLabels({
+    this.labels,
+    this.toxicity,
+  });
+
+  factory ToxicLabels.fromJson(Map<String, dynamic> json) {
+    return ToxicLabels(
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => ToxicContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      toxicity: json['Toxicity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    final toxicity = this.toxicity;
+    return {
+      if (labels != null) 'Labels': labels,
+      if (toxicity != null) 'Toxicity': toxicity,
+    };
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -15104,7 +15342,7 @@ class VpcConfig {
 /// <ul>
 /// <li>
 /// The document to classify is plain text, but the classifier is a native
-/// model.
+/// document model.
 /// </li>
 /// <li>
 /// The document to classify is semi-structured, but the classifier is a

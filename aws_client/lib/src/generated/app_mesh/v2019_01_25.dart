@@ -3125,9 +3125,10 @@ class FileAccessLog {
   /// use a log driver, such as <code>awslogs</code>, to export the access logs to
   /// a log storage service such as Amazon CloudWatch Logs. You can also specify a
   /// path in the Envoy container's file system to write the files to disk.
-  /// <pre><code> &lt;note&gt; &lt;p&gt;The Envoy process must have write
-  /// permissions to the path that you specify here. Otherwise, Envoy fails to
-  /// bootstrap properly.&lt;/p&gt; &lt;/note&gt; </code></pre>
+  /// <note>
+  /// The Envoy process must have write permissions to the path that you specify
+  /// here. Otherwise, Envoy fails to bootstrap properly.
+  /// </note>
   final String path;
 
   /// The specified format for the logs. The format is either
@@ -3598,7 +3599,7 @@ class GrpcGatewayRouteMatch {
   /// The gateway route metadata to be matched on.
   final List<GrpcGatewayRouteMetadata>? metadata;
 
-  /// The port number to match from the request.
+  /// The gateway route port to be matched on.
   final int? port;
 
   /// The fully qualified domain name for the service to match from the request.

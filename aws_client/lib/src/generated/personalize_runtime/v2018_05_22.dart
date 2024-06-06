@@ -49,6 +49,86 @@ class PersonalizeRuntime {
     _protocol.close();
   }
 
+  /// Returns a list of recommended actions in sorted in descending order by
+  /// prediction score. Use the <code>GetActionRecommendations</code> API if you
+  /// have a custom campaign that deploys a solution version trained with a
+  /// PERSONALIZED_ACTIONS recipe.
+  ///
+  /// For more information about PERSONALIZED_ACTIONS recipes, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/nexts-best-action-recipes.html">PERSONALIZED_ACTIONS
+  /// recipes</a>. For more information about getting action recommendations,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/get-action-recommendations.html">Getting
+  /// action recommendations</a>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [campaignArn] :
+  /// The Amazon Resource Name (ARN) of the campaign to use for getting action
+  /// recommendations. This campaign must deploy a solution version trained with
+  /// a PERSONALIZED_ACTIONS recipe.
+  ///
+  /// Parameter [filterArn] :
+  /// The ARN of the filter to apply to the returned recommendations. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
+  /// Recommendations</a>.
+  ///
+  /// When using this parameter, be sure the filter resource is
+  /// <code>ACTIVE</code>.
+  ///
+  /// Parameter [filterValues] :
+  /// The values to use when filtering recommendations. For each placeholder
+  /// parameter in your filter expression, provide the parameter name (in
+  /// matching case) as a key and the filter value(s) as the corresponding
+  /// value. Separate multiple values for one parameter with a comma.
+  ///
+  /// For filter expressions that use an <code>INCLUDE</code> element to include
+  /// actions, you must provide values for all parameters that are defined in
+  /// the expression. For filters with expressions that use an
+  /// <code>EXCLUDE</code> element to exclude actions, you can omit the
+  /// <code>filter-values</code>. In this case, Amazon Personalize doesn't use
+  /// that portion of the expression to filter recommendations.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
+  /// recommendations and user segments</a>.
+  ///
+  /// Parameter [numResults] :
+  /// The number of results to return. The default is 5. The maximum is 100.
+  ///
+  /// Parameter [userId] :
+  /// The user ID of the user to provide action recommendations for.
+  Future<GetActionRecommendationsResponse> getActionRecommendations({
+    String? campaignArn,
+    String? filterArn,
+    Map<String, String>? filterValues,
+    int? numResults,
+    String? userId,
+  }) async {
+    _s.validateNumRange(
+      'numResults',
+      numResults,
+      0,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      if (campaignArn != null) 'campaignArn': campaignArn,
+      if (filterArn != null) 'filterArn': filterArn,
+      if (filterValues != null) 'filterValues': filterValues,
+      if (numResults != null) 'numResults': numResults,
+      if (userId != null) 'userId': userId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/action-recommendations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetActionRecommendationsResponse.fromJson(response);
+  }
+
   /// Re-ranks a list of recommended items for the given user. The first item in
   /// the list is deemed the most likely item to be of interest to the user.
   /// <note>
@@ -66,7 +146,8 @@ class PersonalizeRuntime {
   /// Parameter [inputList] :
   /// A list of items (by <code>itemId</code>) to rank. If an item was not
   /// included in the training dataset, the item is appended to the end of the
-  /// reranked list. The maximum is 500.
+  /// reranked list. If you are including metadata in recommendations, the
+  /// maximum is 50. Otherwise, the maximum is 500.
   ///
   /// Parameter [userId] :
   /// The user for which you want the campaign to provide a personalized
@@ -101,6 +182,17 @@ class PersonalizeRuntime {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
   /// Recommendations</a>.
+  ///
+  /// Parameter [metadataColumns] :
+  /// If you enabled metadata in recommendations when you created or updated the
+  /// campaign, specify metadata columns from your Items dataset to include in
+  /// the personalized ranking. The map key is <code>ITEMS</code> and the value
+  /// is a list of column names from your Items dataset. The maximum number of
+  /// columns you can provide is 10.
+  ///
+  /// For information about enabling metadata for a campaign, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata">Enabling
+  /// metadata in recommendations for a campaign</a>.
   Future<GetPersonalizedRankingResponse> getPersonalizedRanking({
     required String campaignArn,
     required List<String> inputList,
@@ -108,6 +200,7 @@ class PersonalizeRuntime {
     Map<String, String>? context,
     String? filterArn,
     Map<String, String>? filterValues,
+    Map<String, List<String>>? metadataColumns,
   }) async {
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
@@ -116,6 +209,7 @@ class PersonalizeRuntime {
       if (context != null) 'context': context,
       if (filterArn != null) 'filterArn': filterArn,
       if (filterValues != null) 'filterValues': filterValues,
+      if (metadataColumns != null) 'metadataColumns': metadataColumns,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -193,8 +287,24 @@ class PersonalizeRuntime {
   ///
   /// Required for <code>RELATED_ITEMS</code> recipe type.
   ///
+  /// Parameter [metadataColumns] :
+  /// If you enabled metadata in recommendations when you created or updated the
+  /// campaign or recommender, specify the metadata columns from your Items
+  /// dataset to include in item recommendations. The map key is
+  /// <code>ITEMS</code> and the value is a list of column names from your Items
+  /// dataset. The maximum number of columns you can provide is 10.
+  ///
+  /// For information about enabling metadata for a campaign, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata">Enabling
+  /// metadata in recommendations for a campaign</a>. For information about
+  /// enabling metadata for a recommender, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/creating-recommenders.html#create-recommender-return-metadata">Enabling
+  /// metadata in recommendations for a recommender</a>.
+  ///
   /// Parameter [numResults] :
-  /// The number of results to return. The default is 25. The maximum is 500.
+  /// The number of results to return. The default is 25. If you are including
+  /// metadata in recommendations, the maximum is 50. Otherwise, the maximum is
+  /// 500.
   ///
   /// Parameter [promotions] :
   /// The promotions to apply to the recommendation request. A promotion defines
@@ -216,6 +326,7 @@ class PersonalizeRuntime {
     String? filterArn,
     Map<String, String>? filterValues,
     String? itemId,
+    Map<String, List<String>>? metadataColumns,
     int? numResults,
     List<Promotion>? promotions,
     String? recommenderArn,
@@ -233,6 +344,7 @@ class PersonalizeRuntime {
       if (filterArn != null) 'filterArn': filterArn,
       if (filterValues != null) 'filterValues': filterValues,
       if (itemId != null) 'itemId': itemId,
+      if (metadataColumns != null) 'metadataColumns': metadataColumns,
       if (numResults != null) 'numResults': numResults,
       if (promotions != null) 'promotions': promotions,
       if (recommenderArn != null) 'recommenderArn': recommenderArn,
@@ -245,6 +357,42 @@ class PersonalizeRuntime {
       exceptionFnMap: _exceptionFns,
     );
     return GetRecommendationsResponse.fromJson(response);
+  }
+}
+
+class GetActionRecommendationsResponse {
+  /// A list of action recommendations sorted in descending order by prediction
+  /// score. There can be a maximum of 100 actions in the list. For information
+  /// about action scores, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html">How
+  /// action recommendation scoring works</a>.
+  final List<PredictedAction>? actionList;
+
+  /// The ID of the recommendation.
+  final String? recommendationId;
+
+  GetActionRecommendationsResponse({
+    this.actionList,
+    this.recommendationId,
+  });
+
+  factory GetActionRecommendationsResponse.fromJson(Map<String, dynamic> json) {
+    return GetActionRecommendationsResponse(
+      actionList: (json['actionList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PredictedAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recommendationId: json['recommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionList = this.actionList;
+    final recommendationId = this.recommendationId;
+    return {
+      if (actionList != null) 'actionList': actionList,
+      if (recommendationId != null) 'recommendationId': recommendationId,
+    };
   }
 }
 
@@ -315,6 +463,41 @@ class GetRecommendationsResponse {
   }
 }
 
+/// An object that identifies an action.
+///
+/// The API returns a list of <code>PredictedAction</code>s.
+class PredictedAction {
+  /// The ID of the recommended action.
+  final String? actionId;
+
+  /// The score of the recommended action. For information about action scores,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html">How
+  /// action recommendation scoring works</a>.
+  final double? score;
+
+  PredictedAction({
+    this.actionId,
+    this.score,
+  });
+
+  factory PredictedAction.fromJson(Map<String, dynamic> json) {
+    return PredictedAction(
+      actionId: json['actionId'] as String?,
+      score: json['score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final score = this.score;
+    return {
+      if (actionId != null) 'actionId': actionId,
+      if (score != null) 'score': score,
+    };
+  }
+}
+
 /// An object that identifies an item.
 ///
 /// The and APIs return a list of <code>PredictedItem</code>s.
@@ -322,8 +505,36 @@ class PredictedItem {
   /// The recommended item ID.
   final String? itemId;
 
+  /// Metadata about the item from your Items dataset.
+  final Map<String, String>? metadata;
+
   /// The name of the promotion that included the predicted item.
   final String? promotionName;
+
+  /// If you use User-Personalization-v2, a list of reasons for why the item was
+  /// included in recommendations. Possible reasons include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Promoted item - Indicates the item was included as part of a promotion that
+  /// you applied in your recommendation request.
+  /// </li>
+  /// <li>
+  /// Exploration - Indicates the item was included with exploration. With
+  /// exploration, recommendations include items with less interactions data or
+  /// relevance for the user. For more information about exploration, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/use-case-recipe-features.html#about-exploration">Exploration</a>.
+  /// </li>
+  /// <li>
+  /// Popular item - Indicates the item was included as a placeholder popular
+  /// item. If you use a filter, depending on how many recommendations the filter
+  /// removes, Amazon Personalize might add placeholder items to meet the
+  /// <code>numResults</code> for your recommendation request. These items are
+  /// popular items, based on interactions data, that satisfy your filter
+  /// criteria. They don't have a relevance score for the user.
+  /// </li>
+  /// </ul>
+  final List<String>? reason;
 
   /// A numeric representation of the model's certainty that the item will be the
   /// next user selection. For more information on scoring logic, see
@@ -332,25 +543,37 @@ class PredictedItem {
 
   PredictedItem({
     this.itemId,
+    this.metadata,
     this.promotionName,
+    this.reason,
     this.score,
   });
 
   factory PredictedItem.fromJson(Map<String, dynamic> json) {
     return PredictedItem(
       itemId: json['itemId'] as String?,
+      metadata: (json['metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       promotionName: json['promotionName'] as String?,
+      reason: (json['reason'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       score: json['score'] as double?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final itemId = this.itemId;
+    final metadata = this.metadata;
     final promotionName = this.promotionName;
+    final reason = this.reason;
     final score = this.score;
     return {
       if (itemId != null) 'itemId': itemId,
+      if (metadata != null) 'metadata': metadata,
       if (promotionName != null) 'promotionName': promotionName,
+      if (reason != null) 'reason': reason,
       if (score != null) 'score': score,
     };
   }

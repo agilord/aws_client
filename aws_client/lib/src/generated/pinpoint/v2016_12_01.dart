@@ -750,7 +750,8 @@ class Pinpoint {
   /// the <b>Project ID</b> on the Amazon Pinpoint console.
   ///
   /// Parameter [endpointId] :
-  /// The unique identifier for the endpoint.
+  /// The case insensitive unique identifier for the endpoint. The identifier
+  /// can't contain <code>$</code>, <code>{</code> or <code>}</code>.
   Future<DeleteEndpointResponse> deleteEndpoint({
     required String applicationId,
     required String endpointId,
@@ -2074,7 +2075,8 @@ class Pinpoint {
   /// the <b>Project ID</b> on the Amazon Pinpoint console.
   ///
   /// Parameter [endpointId] :
-  /// The unique identifier for the endpoint.
+  /// The case insensitive unique identifier for the endpoint. The identifier
+  /// can't contain <code>$</code>, <code>{</code> or <code>}</code>.
   Future<GetEndpointResponse> getEndpoint({
     required String applicationId,
     required String endpointId,
@@ -3688,8 +3690,9 @@ class Pinpoint {
     );
   }
 
-  /// Removes one or more attributes, of the same attribute type, from all the
-  /// endpoints that are associated with an application.
+  /// Removes one or more custom attributes, of the same attribute type, from
+  /// the application. Existing endpoints still have the attributes but Amazon
+  /// Pinpoint will stop capturing new or changed values for these attributes.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -4251,7 +4254,8 @@ class Pinpoint {
   /// the <b>Project ID</b> on the Amazon Pinpoint console.
   ///
   /// Parameter [endpointId] :
-  /// The unique identifier for the endpoint.
+  /// The case insensitive unique identifier for the endpoint. The identifier
+  /// can't contain <code>$</code>, <code>{</code> or <code>}</code>.
   Future<UpdateEndpointResponse> updateEndpoint({
     required String applicationId,
     required String endpointId,
@@ -6912,6 +6916,52 @@ class ApplicationResponse {
   }
 }
 
+/// The default sending limits for journeys in the application. To override
+/// these limits and define custom limits for a specific journey, use the
+/// Journey resource.
+class ApplicationSettingsJourneyLimits {
+  /// The daily number of messages that an endpoint can receive from all journeys.
+  /// The maximum value is 100. If set to 0, this limit will not apply.
+  final int? dailyCap;
+
+  /// The default maximum number of messages that can be sent to an endpoint
+  /// during the specified timeframe for all journeys.
+  final JourneyTimeframeCap? timeframeCap;
+
+  /// The default maximum number of messages that a single journey can sent to a
+  /// single endpoint. The maximum value is 100. If set to 0, this limit will not
+  /// apply.
+  final int? totalCap;
+
+  ApplicationSettingsJourneyLimits({
+    this.dailyCap,
+    this.timeframeCap,
+    this.totalCap,
+  });
+
+  factory ApplicationSettingsJourneyLimits.fromJson(Map<String, dynamic> json) {
+    return ApplicationSettingsJourneyLimits(
+      dailyCap: json['DailyCap'] as int?,
+      timeframeCap: json['TimeframeCap'] != null
+          ? JourneyTimeframeCap.fromJson(
+              json['TimeframeCap'] as Map<String, dynamic>)
+          : null,
+      totalCap: json['TotalCap'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dailyCap = this.dailyCap;
+    final timeframeCap = this.timeframeCap;
+    final totalCap = this.totalCap;
+    return {
+      if (dailyCap != null) 'DailyCap': dailyCap,
+      if (timeframeCap != null) 'TimeframeCap': timeframeCap,
+      if (totalCap != null) 'TotalCap': totalCap,
+    };
+  }
+}
+
 /// Provides information about an application, including the default settings
 /// for an application.
 class ApplicationSettingsResource {
@@ -6923,6 +6973,11 @@ class ApplicationSettingsResource {
   /// for campaigns in the application. You can use this hook to customize
   /// segments that are used by campaigns in the application.
   final CampaignHook? campaignHook;
+
+  /// The default sending limits for journeys in the application. These limits
+  /// apply to each journey for the application but can be overridden, on a per
+  /// journey basis, with the JourneyLimits resource.
+  final ApplicationSettingsJourneyLimits? journeyLimits;
 
   /// The date and time, in ISO 8601 format, when the application's settings were
   /// last modified.
@@ -6958,6 +7013,7 @@ class ApplicationSettingsResource {
   ApplicationSettingsResource({
     required this.applicationId,
     this.campaignHook,
+    this.journeyLimits,
     this.lastModifiedDate,
     this.limits,
     this.quietTime,
@@ -6968,6 +7024,10 @@ class ApplicationSettingsResource {
       applicationId: json['ApplicationId'] as String,
       campaignHook: json['CampaignHook'] != null
           ? CampaignHook.fromJson(json['CampaignHook'] as Map<String, dynamic>)
+          : null,
+      journeyLimits: json['JourneyLimits'] != null
+          ? ApplicationSettingsJourneyLimits.fromJson(
+              json['JourneyLimits'] as Map<String, dynamic>)
           : null,
       lastModifiedDate: json['LastModifiedDate'] as String?,
       limits: json['Limits'] != null
@@ -6982,12 +7042,14 @@ class ApplicationSettingsResource {
   Map<String, dynamic> toJson() {
     final applicationId = this.applicationId;
     final campaignHook = this.campaignHook;
+    final journeyLimits = this.journeyLimits;
     final lastModifiedDate = this.lastModifiedDate;
     final limits = this.limits;
     final quietTime = this.quietTime;
     return {
       'ApplicationId': applicationId,
       if (campaignHook != null) 'CampaignHook': campaignHook,
+      if (journeyLimits != null) 'JourneyLimits': journeyLimits,
       if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
       if (limits != null) 'Limits': limits,
       if (quietTime != null) 'QuietTime': quietTime,
@@ -7624,6 +7686,11 @@ class CampaignEmailMessage {
   /// the FromAddress specified for the email channel for the application.
   final String? fromAddress;
 
+  /// The list of <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-campaigns-campaign-id.html#apps-application-id-campaigns-campaign-id-model-messageheader">MessageHeaders</a>
+  /// for the email. You can have up to 15 MessageHeaders for each email.
+  final List<MessageHeader>? headers;
+
   /// The body of the email, in HTML format, for recipients whose email clients
   /// render HTML content.
   final String? htmlBody;
@@ -7634,6 +7701,7 @@ class CampaignEmailMessage {
   CampaignEmailMessage({
     this.body,
     this.fromAddress,
+    this.headers,
     this.htmlBody,
     this.title,
   });
@@ -7642,6 +7710,10 @@ class CampaignEmailMessage {
     return CampaignEmailMessage(
       body: json['Body'] as String?,
       fromAddress: json['FromAddress'] as String?,
+      headers: (json['Headers'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
       htmlBody: json['HtmlBody'] as String?,
       title: json['Title'] as String?,
     );
@@ -7650,11 +7722,13 @@ class CampaignEmailMessage {
   Map<String, dynamic> toJson() {
     final body = this.body;
     final fromAddress = this.fromAddress;
+    final headers = this.headers;
     final htmlBody = this.htmlBody;
     final title = this.title;
     return {
       if (body != null) 'Body': body,
       if (fromAddress != null) 'FromAddress': fromAddress,
+      if (headers != null) 'Headers': headers,
       if (htmlBody != null) 'HtmlBody': htmlBody,
       if (title != null) 'Title': title,
     };
@@ -7815,7 +7889,7 @@ class CampaignLimits {
 
   /// The maximum number of messages that a campaign can send each second. For an
   /// application, this value specifies the default limit for the number of
-  /// messages that campaigns can send each second. The minimum value is 50. The
+  /// messages that campaigns can send each second. The minimum value is 1. The
   /// maximum value is 20,000.
   final int? messagesPerSecond;
 
@@ -9939,6 +10013,10 @@ class EmailChannelRequest {
   /// Specifies whether to enable the email channel for the application.
   final bool? enabled;
 
+  /// The ARN of an IAM role for Amazon Pinpoint to use to send email from your
+  /// campaigns or journeys through Amazon SES.
+  final String? orchestrationSendingRoleArn;
+
   /// The ARN of the AWS Identity and Access Management (IAM) role that you want
   /// Amazon Pinpoint to use when it submits email-related event data for the
   /// channel.
@@ -9949,6 +10027,7 @@ class EmailChannelRequest {
     required this.identity,
     this.configurationSet,
     this.enabled,
+    this.orchestrationSendingRoleArn,
     this.roleArn,
   });
 
@@ -9957,12 +10036,15 @@ class EmailChannelRequest {
     final identity = this.identity;
     final configurationSet = this.configurationSet;
     final enabled = this.enabled;
+    final orchestrationSendingRoleArn = this.orchestrationSendingRoleArn;
     final roleArn = this.roleArn;
     return {
       'FromAddress': fromAddress,
       'Identity': identity,
       if (configurationSet != null) 'ConfigurationSet': configurationSet,
       if (enabled != null) 'Enabled': enabled,
+      if (orchestrationSendingRoleArn != null)
+        'OrchestrationSendingRoleArn': orchestrationSendingRoleArn,
       if (roleArn != null) 'RoleArn': roleArn,
     };
   }
@@ -10020,6 +10102,10 @@ class EmailChannelResponse {
   /// second.
   final int? messagesPerSecond;
 
+  /// The ARN of an IAM role for Amazon Pinpoint to use to send email from your
+  /// campaigns or journeys through Amazon SES.
+  final String? orchestrationSendingRoleArn;
+
   /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon
   /// Pinpoint uses to submit email-related event data for the channel.
   final String? roleArn;
@@ -10041,6 +10127,7 @@ class EmailChannelResponse {
     this.lastModifiedBy,
     this.lastModifiedDate,
     this.messagesPerSecond,
+    this.orchestrationSendingRoleArn,
     this.roleArn,
     this.version,
   });
@@ -10060,6 +10147,8 @@ class EmailChannelResponse {
       lastModifiedBy: json['LastModifiedBy'] as String?,
       lastModifiedDate: json['LastModifiedDate'] as String?,
       messagesPerSecond: json['MessagesPerSecond'] as int?,
+      orchestrationSendingRoleArn:
+          json['OrchestrationSendingRoleArn'] as String?,
       roleArn: json['RoleArn'] as String?,
       version: json['Version'] as int?,
     );
@@ -10079,6 +10168,7 @@ class EmailChannelResponse {
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedDate = this.lastModifiedDate;
     final messagesPerSecond = this.messagesPerSecond;
+    final orchestrationSendingRoleArn = this.orchestrationSendingRoleArn;
     final roleArn = this.roleArn;
     final version = this.version;
     return {
@@ -10095,6 +10185,8 @@ class EmailChannelResponse {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
       if (messagesPerSecond != null) 'MessagesPerSecond': messagesPerSecond,
+      if (orchestrationSendingRoleArn != null)
+        'OrchestrationSendingRoleArn': orchestrationSendingRoleArn,
       if (roleArn != null) 'RoleArn': roleArn,
       if (version != null) 'Version': version,
     };
@@ -10233,6 +10325,11 @@ class EmailTemplateRequest {
   /// address-specific variables and values.
   final String? defaultSubstitutions;
 
+  /// The list of <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/templates-template-name-email.html#templates-template-name-email-model-messageheader">MessageHeaders</a>
+  /// for the email. You can have up to 15 Headers.
+  final List<MessageHeader>? headers;
+
   /// The message body, in HTML format, to use in email messages that are based on
   /// the message template. We recommend using HTML format for email clients that
   /// render HTML content. You can include links, formatted text, and more in an
@@ -10277,6 +10374,7 @@ class EmailTemplateRequest {
 
   EmailTemplateRequest({
     this.defaultSubstitutions,
+    this.headers,
     this.htmlPart,
     this.recommenderId,
     this.subject,
@@ -10287,6 +10385,7 @@ class EmailTemplateRequest {
 
   Map<String, dynamic> toJson() {
     final defaultSubstitutions = this.defaultSubstitutions;
+    final headers = this.headers;
     final htmlPart = this.htmlPart;
     final recommenderId = this.recommenderId;
     final subject = this.subject;
@@ -10296,6 +10395,7 @@ class EmailTemplateRequest {
     return {
       if (defaultSubstitutions != null)
         'DefaultSubstitutions': defaultSubstitutions,
+      if (headers != null) 'Headers': headers,
       if (htmlPart != null) 'HtmlPart': htmlPart,
       if (recommenderId != null) 'RecommenderId': recommenderId,
       if (subject != null) 'Subject': subject,
@@ -10331,6 +10431,11 @@ class EmailTemplateResponse {
   /// Each key defines a message variable in the template. The corresponding value
   /// defines the default value for that variable.
   final String? defaultSubstitutions;
+
+  /// The list of <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/templates-template-name-email.html#templates-template-name-email-model-messageheader">MessageHeaders</a>
+  /// for the email. You can have up to 15 Headers.
+  final List<MessageHeader>? headers;
 
   /// The message body, in HTML format, that's used in email messages that are
   /// based on the message template.
@@ -10368,6 +10473,7 @@ class EmailTemplateResponse {
     required this.templateType,
     this.arn,
     this.defaultSubstitutions,
+    this.headers,
     this.htmlPart,
     this.recommenderId,
     this.subject,
@@ -10385,6 +10491,10 @@ class EmailTemplateResponse {
       templateType: (json['TemplateType'] as String).toTemplateType(),
       arn: json['Arn'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
+      headers: (json['Headers'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
       htmlPart: json['HtmlPart'] as String?,
       recommenderId: json['RecommenderId'] as String?,
       subject: json['Subject'] as String?,
@@ -10403,6 +10513,7 @@ class EmailTemplateResponse {
     final templateType = this.templateType;
     final arn = this.arn;
     final defaultSubstitutions = this.defaultSubstitutions;
+    final headers = this.headers;
     final htmlPart = this.htmlPart;
     final recommenderId = this.recommenderId;
     final subject = this.subject;
@@ -10418,6 +10529,7 @@ class EmailTemplateResponse {
       if (arn != null) 'Arn': arn,
       if (defaultSubstitutions != null)
         'DefaultSubstitutions': defaultSubstitutions,
+      if (headers != null) 'Headers': headers,
       if (htmlPart != null) 'HtmlPart': htmlPart,
       if (recommenderId != null) 'RecommenderId': recommenderId,
       if (subject != null) 'Subject': subject,
@@ -10767,9 +10879,6 @@ class EndpointMessageResult {
   /// <li>
   /// THROTTLED - Amazon Pinpoint throttled the operation to send the message to
   /// the endpoint.
-  /// </li>
-  /// <li>
-  /// TIMEOUT - The message couldn't be sent within the timeout period.
   /// </li>
   /// <li>
   /// UNKNOWN_FAILURE - An unknown error occurred.
@@ -12005,22 +12114,40 @@ extension FrequencyFromString on String {
 class GCMChannelRequest {
   /// The Web API Key, also referred to as an <i>API_KEY</i> or <i>server key</i>,
   /// that you received from Google to communicate with Google services.
-  final String apiKey;
+  final String? apiKey;
+
+  /// The default authentication method used for GCM. Values are either "TOKEN" or
+  /// "KEY". Defaults to "KEY".
+  final String? defaultAuthenticationMethod;
 
   /// Specifies whether to enable the GCM channel for the application.
   final bool? enabled;
 
+  /// The contents of the JSON file provided by Google during registration in
+  /// order to generate an access token for authentication. For more information
+  /// see <a
+  /// href="https://firebase.google.com/docs/cloud-messaging/migrate-v1">Migrate
+  /// from legacy FCM APIs to HTTP v1</a>.
+  final String? serviceJson;
+
   GCMChannelRequest({
-    required this.apiKey,
+    this.apiKey,
+    this.defaultAuthenticationMethod,
     this.enabled,
+    this.serviceJson,
   });
 
   Map<String, dynamic> toJson() {
     final apiKey = this.apiKey;
+    final defaultAuthenticationMethod = this.defaultAuthenticationMethod;
     final enabled = this.enabled;
+    final serviceJson = this.serviceJson;
     return {
-      'ApiKey': apiKey,
+      if (apiKey != null) 'ApiKey': apiKey,
+      if (defaultAuthenticationMethod != null)
+        'DefaultAuthenticationMethod': defaultAuthenticationMethod,
       if (enabled != null) 'Enabled': enabled,
+      if (serviceJson != null) 'ServiceJson': serviceJson,
     };
   }
 }
@@ -12030,10 +12157,6 @@ class GCMChannelRequest {
 /// notifications through the Firebase Cloud Messaging (FCM), formerly Google
 /// Cloud Messaging (GCM), service.
 class GCMChannelResponse {
-  /// The Web API Key, also referred to as an <i>API_KEY</i> or <i>server key</i>,
-  /// that you received from Google to communicate with Google services.
-  final String credential;
-
   /// The type of messaging or notification platform for the channel. For the GCM
   /// channel, this value is GCM.
   final String platform;
@@ -12044,11 +12167,23 @@ class GCMChannelResponse {
   /// The date and time when the GCM channel was enabled.
   final String? creationDate;
 
+  /// The Web API Key, also referred to as an <i>API_KEY</i> or <i>server key</i>,
+  /// that you received from Google to communicate with Google services.
+  final String? credential;
+
+  /// The default authentication method used for GCM. Values are either "TOKEN" or
+  /// "KEY". Defaults to "KEY".
+  final String? defaultAuthenticationMethod;
+
   /// Specifies whether the GCM channel is enabled for the application.
   final bool? enabled;
 
   /// (Not used) This property is retained only for backward compatibility.
   final bool? hasCredential;
+
+  /// Returns true if the JSON file provided by Google during registration process
+  /// was used in the <b>ServiceJson</b> field of the request.
+  final bool? hasFcmServiceCredentials;
 
   /// (Deprecated) An identifier for the GCM channel. This property is retained
   /// only for backward compatibility.
@@ -12067,12 +12202,14 @@ class GCMChannelResponse {
   final int? version;
 
   GCMChannelResponse({
-    required this.credential,
     required this.platform,
     this.applicationId,
     this.creationDate,
+    this.credential,
+    this.defaultAuthenticationMethod,
     this.enabled,
     this.hasCredential,
+    this.hasFcmServiceCredentials,
     this.id,
     this.isArchived,
     this.lastModifiedBy,
@@ -12082,12 +12219,15 @@ class GCMChannelResponse {
 
   factory GCMChannelResponse.fromJson(Map<String, dynamic> json) {
     return GCMChannelResponse(
-      credential: json['Credential'] as String,
       platform: json['Platform'] as String,
       applicationId: json['ApplicationId'] as String?,
       creationDate: json['CreationDate'] as String?,
+      credential: json['Credential'] as String?,
+      defaultAuthenticationMethod:
+          json['DefaultAuthenticationMethod'] as String?,
       enabled: json['Enabled'] as bool?,
       hasCredential: json['HasCredential'] as bool?,
+      hasFcmServiceCredentials: json['HasFcmServiceCredentials'] as bool?,
       id: json['Id'] as String?,
       isArchived: json['IsArchived'] as bool?,
       lastModifiedBy: json['LastModifiedBy'] as String?,
@@ -12097,24 +12237,30 @@ class GCMChannelResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final credential = this.credential;
     final platform = this.platform;
     final applicationId = this.applicationId;
     final creationDate = this.creationDate;
+    final credential = this.credential;
+    final defaultAuthenticationMethod = this.defaultAuthenticationMethod;
     final enabled = this.enabled;
     final hasCredential = this.hasCredential;
+    final hasFcmServiceCredentials = this.hasFcmServiceCredentials;
     final id = this.id;
     final isArchived = this.isArchived;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedDate = this.lastModifiedDate;
     final version = this.version;
     return {
-      'Credential': credential,
       'Platform': platform,
       if (applicationId != null) 'ApplicationId': applicationId,
       if (creationDate != null) 'CreationDate': creationDate,
+      if (credential != null) 'Credential': credential,
+      if (defaultAuthenticationMethod != null)
+        'DefaultAuthenticationMethod': defaultAuthenticationMethod,
       if (enabled != null) 'Enabled': enabled,
       if (hasCredential != null) 'HasCredential': hasCredential,
+      if (hasFcmServiceCredentials != null)
+        'HasFcmServiceCredentials': hasFcmServiceCredentials,
       if (id != null) 'Id': id,
       if (isArchived != null) 'IsArchived': isArchived,
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
@@ -12175,12 +12321,16 @@ class GCMMessage {
   /// The URL of an image to display in the push notification.
   final String? imageUrl;
 
-  /// para>normal - The notification might be delayed. Delivery is optimized for
+  /// The preferred authentication method, with valid values "KEY" or "TOKEN". If
+  /// a value isn't provided then the <b>DefaultAuthenticationMethod</b> is used.
+  final String? preferredAuthenticationMethod;
+
+  /// para>normal – The notification might be delayed. Delivery is optimized for
   /// battery usage on the recipient's device. Use this value unless immediate
   /// delivery is required.
   /// /listitem>
   /// <li>
-  /// high - The notification is sent immediately and might wake a sleeping
+  /// high – The notification is sent immediately and might wake a sleeping
   /// device.
   /// </li>/para>
   /// Amazon Pinpoint specifies this value in the FCM priority parameter when it
@@ -12246,6 +12396,7 @@ class GCMMessage {
     this.iconReference,
     this.imageIconUrl,
     this.imageUrl,
+    this.preferredAuthenticationMethod,
     this.priority,
     this.rawContent,
     this.restrictedPackageName,
@@ -12266,6 +12417,7 @@ class GCMMessage {
     final iconReference = this.iconReference;
     final imageIconUrl = this.imageIconUrl;
     final imageUrl = this.imageUrl;
+    final preferredAuthenticationMethod = this.preferredAuthenticationMethod;
     final priority = this.priority;
     final rawContent = this.rawContent;
     final restrictedPackageName = this.restrictedPackageName;
@@ -12284,6 +12436,8 @@ class GCMMessage {
       if (iconReference != null) 'IconReference': iconReference,
       if (imageIconUrl != null) 'ImageIconUrl': imageIconUrl,
       if (imageUrl != null) 'ImageUrl': imageUrl,
+      if (preferredAuthenticationMethod != null)
+        'PreferredAuthenticationMethod': preferredAuthenticationMethod,
       if (priority != null) 'Priority': priority,
       if (rawContent != null) 'RawContent': rawContent,
       if (restrictedPackageName != null)
@@ -14477,11 +14631,21 @@ class JourneyLimits {
   /// The maximum number of messages that the journey can send each second.
   final int? messagesPerSecond;
 
+  /// The number of messages that an endpoint can receive during the specified
+  /// timeframe.
+  final JourneyTimeframeCap? timeframeCap;
+
+  /// The maximum number of messages a journey can sent to a single endpoint. The
+  /// maximum value is 100. If set to 0, this limit will not apply.
+  final int? totalCap;
+
   JourneyLimits({
     this.dailyCap,
     this.endpointReentryCap,
     this.endpointReentryInterval,
     this.messagesPerSecond,
+    this.timeframeCap,
+    this.totalCap,
   });
 
   factory JourneyLimits.fromJson(Map<String, dynamic> json) {
@@ -14490,6 +14654,11 @@ class JourneyLimits {
       endpointReentryCap: json['EndpointReentryCap'] as int?,
       endpointReentryInterval: json['EndpointReentryInterval'] as String?,
       messagesPerSecond: json['MessagesPerSecond'] as int?,
+      timeframeCap: json['TimeframeCap'] != null
+          ? JourneyTimeframeCap.fromJson(
+              json['TimeframeCap'] as Map<String, dynamic>)
+          : null,
+      totalCap: json['TotalCap'] as int?,
     );
   }
 
@@ -14498,12 +14667,16 @@ class JourneyLimits {
     final endpointReentryCap = this.endpointReentryCap;
     final endpointReentryInterval = this.endpointReentryInterval;
     final messagesPerSecond = this.messagesPerSecond;
+    final timeframeCap = this.timeframeCap;
+    final totalCap = this.totalCap;
     return {
       if (dailyCap != null) 'DailyCap': dailyCap,
       if (endpointReentryCap != null) 'EndpointReentryCap': endpointReentryCap,
       if (endpointReentryInterval != null)
         'EndpointReentryInterval': endpointReentryInterval,
       if (messagesPerSecond != null) 'MessagesPerSecond': messagesPerSecond,
+      if (timeframeCap != null) 'TimeframeCap': timeframeCap,
+      if (totalCap != null) 'TotalCap': totalCap,
     };
   }
 }
@@ -14692,6 +14865,28 @@ class JourneyResponse {
   /// </ul>
   final State? state;
 
+  /// An array of time zone estimation methods, if any, to use for determining an
+  /// <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html">Endpoints</a>
+  /// time zone if the Endpoint does not have a value for the Demographic.Timezone
+  /// attribute.
+  ///
+  /// <ul>
+  /// <li>
+  /// PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and
+  /// Endpoint.Location.Country.
+  /// </li>
+  /// <li>
+  /// POSTAL_CODE - A time zone is determined based on the
+  /// Endpoint.Location.PostalCode and Endpoint.Location.Country.
+  /// <note>
+  /// POSTAL_CODE detection is only supported in the United States, United
+  /// Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and
+  /// in regions where Amazon Pinpoint is available.
+  /// </note></li>
+  /// </ul>
+  final List<TimezoneEstimationMethodsElement>? timezoneEstimationMethods;
+
   /// Indicates whether endpoints in quiet hours should enter a wait activity
   /// until quiet hours have elapsed.
   final bool? waitForQuietTime;
@@ -14719,6 +14914,7 @@ class JourneyResponse {
     this.startActivity,
     this.startCondition,
     this.state,
+    this.timezoneEstimationMethods,
     this.waitForQuietTime,
     this.tags,
   });
@@ -14761,6 +14957,10 @@ class JourneyResponse {
               json['StartCondition'] as Map<String, dynamic>)
           : null,
       state: (json['State'] as String?)?.toState(),
+      timezoneEstimationMethods: (json['TimezoneEstimationMethods'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toTimezoneEstimationMethodsElement())
+          .toList(),
       waitForQuietTime: json['WaitForQuietTime'] as bool?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -14787,6 +14987,7 @@ class JourneyResponse {
     final startActivity = this.startActivity;
     final startCondition = this.startCondition;
     final state = this.state;
+    final timezoneEstimationMethods = this.timezoneEstimationMethods;
     final waitForQuietTime = this.waitForQuietTime;
     final tags = this.tags;
     return {
@@ -14811,6 +15012,9 @@ class JourneyResponse {
       if (startActivity != null) 'StartActivity': startActivity,
       if (startCondition != null) 'StartCondition': startCondition,
       if (state != null) 'State': state.toValue(),
+      if (timezoneEstimationMethods != null)
+        'TimezoneEstimationMethods':
+            timezoneEstimationMethods.map((e) => e.toValue()).toList(),
       if (waitForQuietTime != null) 'WaitForQuietTime': waitForQuietTime,
       if (tags != null) 'tags': tags,
     };
@@ -15239,6 +15443,40 @@ class JourneyStateRequest {
     final state = this.state;
     return {
       if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
+/// The number of messages that can be sent to an endpoint during the specified
+/// timeframe for all journeys.
+class JourneyTimeframeCap {
+  /// The maximum number of messages that all journeys can send to an endpoint
+  /// during the specified timeframe. The maximum value is 100. If set to 0, this
+  /// limit will not apply.
+  final int? cap;
+
+  /// The length of the timeframe in days. The maximum value is 30. If set to 0,
+  /// this limit will not apply.
+  final int? days;
+
+  JourneyTimeframeCap({
+    this.cap,
+    this.days,
+  });
+
+  factory JourneyTimeframeCap.fromJson(Map<String, dynamic> json) {
+    return JourneyTimeframeCap(
+      cap: json['Cap'] as int?,
+      days: json['Days'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cap = this.cap;
+    final days = this.days;
+    return {
+      if (cap != null) 'Cap': cap,
+      if (days != null) 'Days': days,
     };
   }
 }
@@ -15851,9 +16089,6 @@ class MessageResult {
   /// <li>
   /// THROTTLED - Amazon Pinpoint throttled the operation to send the message to
   /// the endpoint address.
-  /// </li>
-  /// <li>
-  /// TIMEOUT - The message couldn't be sent within the timeout period.
   /// </li>
   /// <li>
   /// UNKNOWN_FAILURE - An unknown error occurred.
@@ -18740,6 +18975,9 @@ class SimpleCondition {
 /// Specifies the contents of an email message, composed of a subject, a text
 /// part, and an HTML part.
 class SimpleEmail {
+  /// The list of MessageHeaders for the email. You can have up to 15 Headers.
+  final List<MessageHeader>? headers;
+
   /// The body of the email message, in HTML format. We recommend using HTML
   /// format for email clients that render HTML content. You can include links,
   /// formatted text, and more in an HTML message.
@@ -18754,19 +18992,58 @@ class SimpleEmail {
   final SimpleEmailPart? textPart;
 
   SimpleEmail({
+    this.headers,
     this.htmlPart,
     this.subject,
     this.textPart,
   });
 
   Map<String, dynamic> toJson() {
+    final headers = this.headers;
     final htmlPart = this.htmlPart;
     final subject = this.subject;
     final textPart = this.textPart;
     return {
+      if (headers != null) 'Headers': headers,
       if (htmlPart != null) 'HtmlPart': htmlPart,
       if (subject != null) 'Subject': subject,
       if (textPart != null) 'TextPart': textPart,
+    };
+  }
+}
+
+/// Contains the name and value pair of an email header to add to your email.
+/// You can have up to 15 MessageHeaders. A header can contain information such
+/// as the sender, receiver, route, or timestamp.
+class MessageHeader {
+  /// The name of the message header. The header name can contain up to 126
+  /// characters.
+  final String? name;
+
+  /// The value of the message header. The header value can contain up to 870
+  /// characters, including the length of any rendered attributes. For example if
+  /// you add the {CreationDate} attribute, it renders as YYYY-MM-DDTHH:MM:SS.SSSZ
+  /// and is 24 characters in length.
+  final String? value;
+
+  MessageHeader({
+    this.name,
+    this.value,
+  });
+
+  factory MessageHeader.fromJson(Map<String, dynamic> json) {
+    return MessageHeader(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
     };
   }
 }
@@ -19026,6 +19303,10 @@ class TemplateConfiguration {
   /// The email template to use for the message.
   final Template? emailTemplate;
 
+  /// The InApp template to use for the message. The InApp template object is not
+  /// supported for SendMessages.
+  final Template? inAppTemplate;
+
   /// The push notification template to use for the message.
   final Template? pushTemplate;
 
@@ -19038,6 +19319,7 @@ class TemplateConfiguration {
 
   TemplateConfiguration({
     this.emailTemplate,
+    this.inAppTemplate,
     this.pushTemplate,
     this.sMSTemplate,
     this.voiceTemplate,
@@ -19047,6 +19329,9 @@ class TemplateConfiguration {
     return TemplateConfiguration(
       emailTemplate: json['EmailTemplate'] != null
           ? Template.fromJson(json['EmailTemplate'] as Map<String, dynamic>)
+          : null,
+      inAppTemplate: json['InAppTemplate'] != null
+          ? Template.fromJson(json['InAppTemplate'] as Map<String, dynamic>)
           : null,
       pushTemplate: json['PushTemplate'] != null
           ? Template.fromJson(json['PushTemplate'] as Map<String, dynamic>)
@@ -19062,11 +19347,13 @@ class TemplateConfiguration {
 
   Map<String, dynamic> toJson() {
     final emailTemplate = this.emailTemplate;
+    final inAppTemplate = this.inAppTemplate;
     final pushTemplate = this.pushTemplate;
     final sMSTemplate = this.sMSTemplate;
     final voiceTemplate = this.voiceTemplate;
     return {
       if (emailTemplate != null) 'EmailTemplate': emailTemplate,
+      if (inAppTemplate != null) 'InAppTemplate': inAppTemplate,
       if (pushTemplate != null) 'PushTemplate': pushTemplate,
       if (sMSTemplate != null) 'SMSTemplate': sMSTemplate,
       if (voiceTemplate != null) 'VoiceTemplate': voiceTemplate,
@@ -19125,7 +19412,7 @@ class TemplateResponse {
   final String templateName;
 
   /// The type of channel that the message template is designed for. Possible
-  /// values are: EMAIL, PUSH, SMS, and VOICE.
+  /// values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
   final TemplateType templateType;
 
   /// The Amazon Resource Name (ARN) of the message template. This value isn't
@@ -19271,7 +19558,7 @@ class TemplateVersionResponse {
   final String templateName;
 
   /// The type of channel that the message template is designed for. Possible
-  /// values are: EMAIL, PUSH, SMS, and VOICE.
+  /// values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
   final String templateType;
 
   /// A JSON object that specifies the default values that are used for message
@@ -20590,6 +20877,11 @@ class WriteApplicationSettingsRequest {
   final bool? cloudWatchMetricsEnabled;
   final bool? eventTaggingEnabled;
 
+  /// The default sending limits for journeys in the application. These limits
+  /// apply to each journey for the application but can be overridden, on a per
+  /// journey basis, with the JourneyLimits resource.
+  final ApplicationSettingsJourneyLimits? journeyLimits;
+
   /// The default sending limits for campaigns in the application. To override
   /// these limits and define custom limits for a specific campaign or journey,
   /// use the <link
@@ -20634,6 +20926,7 @@ class WriteApplicationSettingsRequest {
     this.campaignHook,
     this.cloudWatchMetricsEnabled,
     this.eventTaggingEnabled,
+    this.journeyLimits,
     this.limits,
     this.quietTime,
   });
@@ -20642,6 +20935,7 @@ class WriteApplicationSettingsRequest {
     final campaignHook = this.campaignHook;
     final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
     final eventTaggingEnabled = this.eventTaggingEnabled;
+    final journeyLimits = this.journeyLimits;
     final limits = this.limits;
     final quietTime = this.quietTime;
     return {
@@ -20650,6 +20944,7 @@ class WriteApplicationSettingsRequest {
         'CloudWatchMetricsEnabled': cloudWatchMetricsEnabled,
       if (eventTaggingEnabled != null)
         'EventTaggingEnabled': eventTaggingEnabled,
+      if (journeyLimits != null) 'JourneyLimits': journeyLimits,
       if (limits != null) 'Limits': limits,
       if (quietTime != null) 'QuietTime': quietTime,
     };
@@ -20938,6 +21233,28 @@ class WriteJourneyRequest {
   /// resource.
   final State? state;
 
+  /// An array of time zone estimation methods, if any, to use for determining an
+  /// <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html">Endpoints</a>
+  /// time zone if the Endpoint does not have a value for the Demographic.Timezone
+  /// attribute.
+  ///
+  /// <ul>
+  /// <li>
+  /// PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and
+  /// Endpoint.Location.Country.
+  /// </li>
+  /// <li>
+  /// POSTAL_CODE - A time zone is determined based on the
+  /// Endpoint.Location.PostalCode and Endpoint.Location.Country.
+  /// <note>
+  /// POSTAL_CODE detection is only supported in the United States, United
+  /// Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and
+  /// in regions where Amazon Pinpoint is available.
+  /// </note></li>
+  /// </ul>
+  final List<TimezoneEstimationMethodsElement>? timezoneEstimationMethods;
+
   /// Specifies whether endpoints in quiet hours should enter a wait till the end
   /// of their quiet hours.
   final bool? waitForQuietTime;
@@ -20960,6 +21277,7 @@ class WriteJourneyRequest {
     this.startActivity,
     this.startCondition,
     this.state,
+    this.timezoneEstimationMethods,
     this.waitForQuietTime,
   });
 
@@ -20981,6 +21299,7 @@ class WriteJourneyRequest {
     final startActivity = this.startActivity;
     final startCondition = this.startCondition;
     final state = this.state;
+    final timezoneEstimationMethods = this.timezoneEstimationMethods;
     final waitForQuietTime = this.waitForQuietTime;
     return {
       'Name': name,
@@ -21002,6 +21321,9 @@ class WriteJourneyRequest {
       if (startActivity != null) 'StartActivity': startActivity,
       if (startCondition != null) 'StartCondition': startCondition,
       if (state != null) 'State': state.toValue(),
+      if (timezoneEstimationMethods != null)
+        'TimezoneEstimationMethods':
+            timezoneEstimationMethods.map((e) => e.toValue()).toList(),
       if (waitForQuietTime != null) 'WaitForQuietTime': waitForQuietTime,
     };
   }
@@ -21200,6 +21522,36 @@ extension EndpointTypesElementFromString on String {
         return EndpointTypesElement.inApp;
     }
     throw Exception('$this is not known in enum EndpointTypesElement');
+  }
+}
+
+enum TimezoneEstimationMethodsElement {
+  phoneNumber,
+  postalCode,
+}
+
+extension TimezoneEstimationMethodsElementValueExtension
+    on TimezoneEstimationMethodsElement {
+  String toValue() {
+    switch (this) {
+      case TimezoneEstimationMethodsElement.phoneNumber:
+        return 'PHONE_NUMBER';
+      case TimezoneEstimationMethodsElement.postalCode:
+        return 'POSTAL_CODE';
+    }
+  }
+}
+
+extension TimezoneEstimationMethodsElementFromString on String {
+  TimezoneEstimationMethodsElement toTimezoneEstimationMethodsElement() {
+    switch (this) {
+      case 'PHONE_NUMBER':
+        return TimezoneEstimationMethodsElement.phoneNumber;
+      case 'POSTAL_CODE':
+        return TimezoneEstimationMethodsElement.postalCode;
+    }
+    throw Exception(
+        '$this is not known in enum TimezoneEstimationMethodsElement');
   }
 }
 

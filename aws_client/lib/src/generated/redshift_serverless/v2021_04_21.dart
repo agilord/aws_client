@@ -115,6 +115,48 @@ class RedshiftServerless {
     return ConvertRecoveryPointToSnapshotResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a custom domain association for Amazon Redshift Serverless.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [customDomainCertificateArn] :
+  /// The custom domain name’s certificate Amazon resource name (ARN).
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name to associate with the workgroup.
+  ///
+  /// Parameter [workgroupName] :
+  /// The name of the workgroup associated with the database.
+  Future<CreateCustomDomainAssociationResponse> createCustomDomainAssociation({
+    required String customDomainCertificateArn,
+    required String customDomainName,
+    required String workgroupName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.CreateCustomDomainAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'customDomainCertificateArn': customDomainCertificateArn,
+        'customDomainName': customDomainName,
+        'workgroupName': workgroupName,
+      },
+    );
+
+    return CreateCustomDomainAssociationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates an Amazon Redshift Serverless managed VPC endpoint.
   ///
   /// May throw [InternalServerException].
@@ -137,6 +179,10 @@ class RedshiftServerless {
   /// Parameter [workgroupName] :
   /// The name of the workgroup to associate with the VPC endpoint.
   ///
+  /// Parameter [ownerAccount] :
+  /// The owner Amazon Web Services account for the Amazon Redshift Serverless
+  /// workgroup.
+  ///
   /// Parameter [vpcSecurityGroupIds] :
   /// The unique identifiers of the security group that defines the ports,
   /// protocols, and sources for inbound traffic that you are authorizing into
@@ -145,6 +191,7 @@ class RedshiftServerless {
     required String endpointName,
     required List<String> subnetIds,
     required String workgroupName,
+    String? ownerAccount,
     List<String>? vpcSecurityGroupIds,
   }) async {
     final headers = <String, String>{
@@ -161,6 +208,7 @@ class RedshiftServerless {
         'endpointName': endpointName,
         'subnetIds': subnetIds,
         'workgroupName': workgroupName,
+        if (ownerAccount != null) 'ownerAccount': ownerAccount,
         if (vpcSecurityGroupIds != null)
           'vpcSecurityGroupIds': vpcSecurityGroupIds,
       },
@@ -179,9 +227,17 @@ class RedshiftServerless {
   /// Parameter [namespaceName] :
   /// The name of the namespace.
   ///
+  /// Parameter [adminPasswordSecretKmsKeyId] :
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store
+  /// the namespace's admin credentials secret. You can only use this parameter
+  /// if <code>manageAdminPassword</code> is true.
+  ///
   /// Parameter [adminUserPassword] :
   /// The password of the administrator for the first database created in the
   /// namespace.
+  ///
+  /// You can't use <code>adminUserPassword</code> if
+  /// <code>manageAdminPassword</code> is true.
   ///
   /// Parameter [adminUsername] :
   /// The username of the administrator for the first database created in the
@@ -206,10 +262,23 @@ class RedshiftServerless {
   /// <code>userlog</code>, <code>connectionlog</code>, and
   /// <code>useractivitylog</code>.
   ///
+  /// Parameter [manageAdminPassword] :
+  /// If <code>true</code>, Amazon Redshift uses Secrets Manager to manage the
+  /// namespace's admin credentials. You can't use
+  /// <code>adminUserPassword</code> if <code>manageAdminPassword</code> is
+  /// true. If <code>manageAdminPassword</code> is false or not set, Amazon
+  /// Redshift uses <code>adminUserPassword</code> for the admin user account's
+  /// password.
+  ///
+  /// Parameter [redshiftIdcApplicationArn] :
+  /// The ARN for the Redshift application that integrates with IAM Identity
+  /// Center.
+  ///
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateNamespaceResponse> createNamespace({
     required String namespaceName,
+    String? adminPasswordSecretKmsKeyId,
     String? adminUserPassword,
     String? adminUsername,
     String? dbName,
@@ -217,6 +286,8 @@ class RedshiftServerless {
     List<String>? iamRoles,
     String? kmsKeyId,
     List<LogExport>? logExports,
+    bool? manageAdminPassword,
+    String? redshiftIdcApplicationArn,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -231,6 +302,8 @@ class RedshiftServerless {
       headers: headers,
       payload: {
         'namespaceName': namespaceName,
+        if (adminPasswordSecretKmsKeyId != null)
+          'adminPasswordSecretKmsKeyId': adminPasswordSecretKmsKeyId,
         if (adminUserPassword != null) 'adminUserPassword': adminUserPassword,
         if (adminUsername != null) 'adminUsername': adminUsername,
         if (dbName != null) 'dbName': dbName,
@@ -239,11 +312,115 @@ class RedshiftServerless {
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
         if (logExports != null)
           'logExports': logExports.map((e) => e.toValue()).toList(),
+        if (manageAdminPassword != null)
+          'manageAdminPassword': manageAdminPassword,
+        if (redshiftIdcApplicationArn != null)
+          'redshiftIdcApplicationArn': redshiftIdcApplicationArn,
         if (tags != null) 'tags': tags,
       },
     );
 
     return CreateNamespaceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a scheduled action. A scheduled action contains a schedule and an
+  /// Amazon Redshift API action. For example, you can create a schedule of when
+  /// to run the <code>CreateSnapshot</code> API operation.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [namespaceName] :
+  /// The name of the namespace for which to create a scheduled action.
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of the IAM role to assume to run the scheduled action. This IAM
+  /// role must have permission to run the Amazon Redshift Serverless API
+  /// operation in the scheduled action. This IAM role must allow the Amazon
+  /// Redshift scheduler to schedule creating snapshots. (Principal
+  /// scheduler.redshift.amazonaws.com) to assume permissions on your behalf.
+  /// For more information about the IAM role to use with the Amazon Redshift
+  /// scheduler, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
+  /// Identity-Based Policies for Amazon Redshift</a> in the Amazon Redshift
+  /// Cluster Management Guide
+  ///
+  /// Parameter [schedule] :
+  /// The schedule for a one-time (at timestamp format) or recurring (cron
+  /// format) scheduled action. Schedule invocations must be separated by at
+  /// least one hour. Times are in UTC.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format of at timestamp is <code>yyyy-mm-ddThh:mm:ss</code>. For example,
+  /// <code>2016-03-04T17:27:00</code>.
+  /// </li>
+  /// <li>
+  /// Format of cron expression is <code>(Minutes Hours Day-of-month Month
+  /// Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
+  /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [scheduledActionName] :
+  /// The name of the scheduled action.
+  ///
+  /// Parameter [enabled] :
+  /// Indicates whether the schedule is enabled. If false, the scheduled action
+  /// does not trigger. For more information about <code>state</code> of the
+  /// scheduled action, see <a
+  /// href="https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_ScheduledAction.html">ScheduledAction</a>.
+  ///
+  /// Parameter [endTime] :
+  /// The end time in UTC when the schedule is no longer active. After this
+  /// time, the scheduled action does not trigger.
+  ///
+  /// Parameter [scheduledActionDescription] :
+  /// The description of the scheduled action.
+  ///
+  /// Parameter [startTime] :
+  /// The start time in UTC when the schedule is active. Before this time, the
+  /// scheduled action does not trigger.
+  Future<CreateScheduledActionResponse> createScheduledAction({
+    required String namespaceName,
+    required String roleArn,
+    required Schedule schedule,
+    required String scheduledActionName,
+    required TargetAction targetAction,
+    bool? enabled,
+    DateTime? endTime,
+    String? scheduledActionDescription,
+    DateTime? startTime,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.CreateScheduledAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'namespaceName': namespaceName,
+        'roleArn': roleArn,
+        'schedule': schedule,
+        'scheduledActionName': scheduledActionName,
+        'targetAction': targetAction,
+        if (enabled != null) 'enabled': enabled,
+        if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+        if (scheduledActionDescription != null)
+          'scheduledActionDescription': scheduledActionDescription,
+        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      },
+    );
+
+    return CreateScheduledActionResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a snapshot of all databases in a namespace. For more information
@@ -296,6 +473,60 @@ class RedshiftServerless {
     );
 
     return CreateSnapshotResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a snapshot copy configuration that lets you copy snapshots to
+  /// another Amazon Web Services Region.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [destinationRegion] :
+  /// The destination Amazon Web Services Region that you want to copy snapshots
+  /// to.
+  ///
+  /// Parameter [namespaceName] :
+  /// The name of the namespace to copy snapshots from.
+  ///
+  /// Parameter [destinationKmsKeyId] :
+  /// The KMS key to use to encrypt your snapshots in the destination Amazon Web
+  /// Services Region.
+  ///
+  /// Parameter [snapshotRetentionPeriod] :
+  /// The retention period of the snapshots that you copy to the destination
+  /// Amazon Web Services Region.
+  Future<CreateSnapshotCopyConfigurationResponse>
+      createSnapshotCopyConfiguration({
+    required String destinationRegion,
+    required String namespaceName,
+    String? destinationKmsKeyId,
+    int? snapshotRetentionPeriod,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.CreateSnapshotCopyConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'destinationRegion': destinationRegion,
+        'namespaceName': namespaceName,
+        if (destinationKmsKeyId != null)
+          'destinationKmsKeyId': destinationKmsKeyId,
+        if (snapshotRetentionPeriod != null)
+          'snapshotRetentionPeriod': snapshotRetentionPeriod,
+      },
+    );
+
+    return CreateSnapshotCopyConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a usage limit for a specified Amazon Redshift Serverless usage
@@ -379,11 +610,12 @@ class RedshiftServerless {
   /// Parameter [configParameters] :
   /// An array of parameters to set for advanced control over a database. The
   /// options are <code>auto_mv</code>, <code>datestyle</code>,
-  /// <code>enable_case_sensitivity_identifier</code>,
+  /// <code>enable_case_sensitive_identifier</code>,
   /// <code>enable_user_activity_logging</code>, <code>query_group</code>,
-  /// <code>search_path</code>, and query monitoring metrics that let you define
-  /// performance boundaries. For more information about query monitoring rules
-  /// and available metrics, see <a
+  /// <code>search_path</code>, <code>require_ssl</code>,
+  /// <code>use_fips_ssl</code>, and query monitoring metrics that let you
+  /// define performance boundaries. For more information about query monitoring
+  /// rules and available metrics, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">
   /// Query monitoring metrics for Amazon Redshift Serverless</a>.
   ///
@@ -391,6 +623,10 @@ class RedshiftServerless {
   /// The value that specifies whether to turn on enhanced virtual private cloud
   /// (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   /// through your VPC instead of over the internet.
+  ///
+  /// Parameter [maxCapacity] :
+  /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to
+  /// serve queries. The max capacity is specified in RPUs.
   ///
   /// Parameter [port] :
   /// The custom port to use when connecting to a workgroup. Valid port ranges
@@ -414,6 +650,7 @@ class RedshiftServerless {
     int? baseCapacity,
     List<ConfigParameter>? configParameters,
     bool? enhancedVpcRouting,
+    int? maxCapacity,
     int? port,
     bool? publiclyAccessible,
     List<String>? securityGroupIds,
@@ -437,6 +674,7 @@ class RedshiftServerless {
         if (configParameters != null) 'configParameters': configParameters,
         if (enhancedVpcRouting != null)
           'enhancedVpcRouting': enhancedVpcRouting,
+        if (maxCapacity != null) 'maxCapacity': maxCapacity,
         if (port != null) 'port': port,
         if (publiclyAccessible != null)
           'publiclyAccessible': publiclyAccessible,
@@ -447,6 +685,41 @@ class RedshiftServerless {
     );
 
     return CreateWorkgroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a custom domain association for Amazon Redshift Serverless.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name associated with the workgroup.
+  ///
+  /// Parameter [workgroupName] :
+  /// The name of the workgroup associated with the database.
+  Future<void> deleteCustomDomainAssociation({
+    required String customDomainName,
+    required String workgroupName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.DeleteCustomDomainAssociation'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'customDomainName': customDomainName,
+        'workgroupName': workgroupName,
+      },
+    );
   }
 
   /// Deletes an Amazon Redshift Serverless managed VPC endpoint.
@@ -549,6 +822,35 @@ class RedshiftServerless {
     );
   }
 
+  /// Deletes a scheduled action.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [scheduledActionName] :
+  /// The name of the scheduled action to delete.
+  Future<DeleteScheduledActionResponse> deleteScheduledAction({
+    required String scheduledActionName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.DeleteScheduledAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'scheduledActionName': scheduledActionName,
+      },
+    );
+
+    return DeleteScheduledActionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes a snapshot from Amazon Redshift Serverless.
   ///
   /// May throw [InternalServerException].
@@ -577,6 +879,38 @@ class RedshiftServerless {
     );
 
     return DeleteSnapshotResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a snapshot copy configuration
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [snapshotCopyConfigurationId] :
+  /// The ID of the snapshot copy configuration to delete.
+  Future<DeleteSnapshotCopyConfigurationResponse>
+      deleteSnapshotCopyConfiguration({
+    required String snapshotCopyConfigurationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.DeleteSnapshotCopyConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'snapshotCopyConfigurationId': snapshotCopyConfigurationId,
+      },
+    );
+
+    return DeleteSnapshotCopyConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a usage limit from Amazon Redshift Serverless.
@@ -656,8 +990,9 @@ class RedshiftServerless {
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
-  /// Parameter [workgroupName] :
-  /// The name of the workgroup associated with the database.
+  /// Parameter [customDomainName] :
+  /// The custom domain name associated with the workgroup. The custom domain
+  /// name or the workgroup name must be included in the request.
   ///
   /// Parameter [dbName] :
   /// The name of the database to get temporary authorization to log on to.
@@ -688,10 +1023,14 @@ class RedshiftServerless {
   /// Parameter [durationSeconds] :
   /// The number of seconds until the returned temporary password expires. The
   /// minimum is 900 seconds, and the maximum is 3600 seconds.
+  ///
+  /// Parameter [workgroupName] :
+  /// The name of the workgroup associated with the database.
   Future<GetCredentialsResponse> getCredentials({
-    required String workgroupName,
+    String? customDomainName,
     String? dbName,
     int? durationSeconds,
+    String? workgroupName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -704,13 +1043,51 @@ class RedshiftServerless {
       // TODO queryParams
       headers: headers,
       payload: {
-        'workgroupName': workgroupName,
+        if (customDomainName != null) 'customDomainName': customDomainName,
         if (dbName != null) 'dbName': dbName,
         if (durationSeconds != null) 'durationSeconds': durationSeconds,
+        if (workgroupName != null) 'workgroupName': workgroupName,
       },
     );
 
     return GetCredentialsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets information about a specific custom domain association.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name associated with the workgroup.
+  ///
+  /// Parameter [workgroupName] :
+  /// The name of the workgroup associated with the database.
+  Future<GetCustomDomainAssociationResponse> getCustomDomainAssociation({
+    required String customDomainName,
+    required String workgroupName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.GetCustomDomainAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'customDomainName': customDomainName,
+        'workgroupName': workgroupName,
+      },
+    );
+
+    return GetCustomDomainAssociationResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information, such as the name, about a VPC endpoint.
@@ -829,6 +1206,35 @@ class RedshiftServerless {
     );
 
     return GetResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about a scheduled action.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [scheduledActionName] :
+  /// The name of the scheduled action.
+  Future<GetScheduledActionResponse> getScheduledAction({
+    required String scheduledActionName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.GetScheduledAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'scheduledActionName': scheduledActionName,
+      },
+    );
+
+    return GetScheduledActionResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a specific snapshot.
@@ -959,6 +1365,64 @@ class RedshiftServerless {
     return GetWorkgroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists custom domain associations for Amazon Redshift Serverless.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidPaginationException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [customDomainCertificateArn] :
+  /// The custom domain name’s certificate Amazon resource name (ARN).
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name associated with the workgroup.
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to display the next page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  Future<ListCustomDomainAssociationsResponse> listCustomDomainAssociations({
+    String? customDomainCertificateArn,
+    String? customDomainName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.ListCustomDomainAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (customDomainCertificateArn != null)
+          'customDomainCertificateArn': customDomainCertificateArn,
+        if (customDomainName != null) 'customDomainName': customDomainName,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListCustomDomainAssociationsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns an array of <code>EndpointAccess</code> objects and relevant
   /// information.
   ///
@@ -978,6 +1442,10 @@ class RedshiftServerless {
   /// <code>nextToken</code> in following <code>ListEndpointAccess</code>
   /// operations, which returns results in the next page.
   ///
+  /// Parameter [ownerAccount] :
+  /// The owner Amazon Web Services account for the Amazon Redshift Serverless
+  /// workgroup.
+  ///
   /// Parameter [vpcId] :
   /// The unique identifier of the virtual private cloud with access to Amazon
   /// Redshift Serverless.
@@ -987,6 +1455,7 @@ class RedshiftServerless {
   Future<ListEndpointAccessResponse> listEndpointAccess({
     int? maxResults,
     String? nextToken,
+    String? ownerAccount,
     String? vpcId,
     String? workgroupName,
   }) async {
@@ -1009,6 +1478,7 @@ class RedshiftServerless {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (ownerAccount != null) 'ownerAccount': ownerAccount,
         if (vpcId != null) 'vpcId': vpcId,
         if (workgroupName != null) 'workgroupName': workgroupName,
       },
@@ -1124,6 +1594,110 @@ class RedshiftServerless {
     );
 
     return ListRecoveryPointsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of scheduled actions. You can use the flags to filter the
+  /// list of returned scheduled actions.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidPaginationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. Use <code>nextToken</code> to display the next page of results.
+  ///
+  /// Parameter [namespaceName] :
+  /// The name of namespace associated with the scheduled action to retrieve.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  Future<ListScheduledActionsResponse> listScheduledActions({
+    int? maxResults,
+    String? namespaceName,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.ListScheduledActions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (namespaceName != null) 'namespaceName': namespaceName,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListScheduledActionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of snapshot copy configurations.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidPaginationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to display the next page of
+  /// results.
+  ///
+  /// Parameter [namespaceName] :
+  /// The namespace from which to list all snapshot copy configurations.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  Future<ListSnapshotCopyConfigurationsResponse>
+      listSnapshotCopyConfigurations({
+    int? maxResults,
+    String? namespaceName,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.ListSnapshotCopyConfigurations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (namespaceName != null) 'namespaceName': namespaceName,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListSnapshotCopyConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of snapshots.
@@ -1356,9 +1930,14 @@ class RedshiftServerless {
   /// If your initial ListWorkgroups operation returns a <code>nextToken</code>,
   /// you can include the returned <code>nextToken</code> in following
   /// ListNamespaces operations, which returns results in the next page.
+  ///
+  /// Parameter [ownerAccount] :
+  /// The owner Amazon Web Services account for the Amazon Redshift Serverless
+  /// workgroup.
   Future<ListWorkgroupsResponse> listWorkgroups({
     int? maxResults,
     String? nextToken,
+    String? ownerAccount,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1379,6 +1958,7 @@ class RedshiftServerless {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (ownerAccount != null) 'ownerAccount': ownerAccount,
       },
     );
 
@@ -1484,6 +2064,17 @@ class RedshiftServerless {
   /// Parameter [workgroupName] :
   /// The name of the workgroup used to restore the snapshot.
   ///
+  /// Parameter [adminPasswordSecretKmsKeyId] :
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store
+  /// the namespace's admin credentials secret.
+  ///
+  /// Parameter [manageAdminPassword] :
+  /// If <code>true</code>, Amazon Redshift uses Secrets Manager to manage the
+  /// restored snapshot's admin credentials. If
+  /// <code>MmanageAdminPassword</code> is false or not set, Amazon Redshift
+  /// uses the admin credentials that the namespace or cluster had at the time
+  /// the snapshot was taken.
+  ///
   /// Parameter [ownerAccount] :
   /// The Amazon Web Services account that owns the snapshot.
   ///
@@ -1501,6 +2092,8 @@ class RedshiftServerless {
   Future<RestoreFromSnapshotResponse> restoreFromSnapshot({
     required String namespaceName,
     required String workgroupName,
+    String? adminPasswordSecretKmsKeyId,
+    bool? manageAdminPassword,
     String? ownerAccount,
     String? snapshotArn,
     String? snapshotName,
@@ -1518,6 +2111,10 @@ class RedshiftServerless {
       payload: {
         'namespaceName': namespaceName,
         'workgroupName': workgroupName,
+        if (adminPasswordSecretKmsKeyId != null)
+          'adminPasswordSecretKmsKeyId': adminPasswordSecretKmsKeyId,
+        if (manageAdminPassword != null)
+          'manageAdminPassword': manageAdminPassword,
         if (ownerAccount != null) 'ownerAccount': ownerAccount,
         if (snapshotArn != null) 'snapshotArn': snapshotArn,
         if (snapshotName != null) 'snapshotName': snapshotName,
@@ -1525,6 +2122,87 @@ class RedshiftServerless {
     );
 
     return RestoreFromSnapshotResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Restores a table from a recovery point to your Amazon Redshift Serverless
+  /// instance. You can't use this operation to restore tables with interleaved
+  /// sort keys.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [namespaceName] :
+  /// Namespace of the recovery point to restore from.
+  ///
+  /// Parameter [newTableName] :
+  /// The name of the table to create from the restore operation.
+  ///
+  /// Parameter [recoveryPointId] :
+  /// The ID of the recovery point to restore the table from.
+  ///
+  /// Parameter [sourceDatabaseName] :
+  /// The name of the source database that contains the table being restored.
+  ///
+  /// Parameter [sourceTableName] :
+  /// The name of the source table being restored.
+  ///
+  /// Parameter [workgroupName] :
+  /// The workgroup to restore the table to.
+  ///
+  /// Parameter [activateCaseSensitiveIdentifier] :
+  /// Indicates whether name identifiers for database, schema, and table are
+  /// case sensitive. If true, the names are case sensitive. If false, the names
+  /// are not case sensitive. The default is false.
+  ///
+  /// Parameter [sourceSchemaName] :
+  /// The name of the source schema that contains the table being restored.
+  ///
+  /// Parameter [targetDatabaseName] :
+  /// The name of the database to restore the table to.
+  ///
+  /// Parameter [targetSchemaName] :
+  /// The name of the schema to restore the table to.
+  Future<RestoreTableFromRecoveryPointResponse> restoreTableFromRecoveryPoint({
+    required String namespaceName,
+    required String newTableName,
+    required String recoveryPointId,
+    required String sourceDatabaseName,
+    required String sourceTableName,
+    required String workgroupName,
+    bool? activateCaseSensitiveIdentifier,
+    String? sourceSchemaName,
+    String? targetDatabaseName,
+    String? targetSchemaName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.RestoreTableFromRecoveryPoint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'namespaceName': namespaceName,
+        'newTableName': newTableName,
+        'recoveryPointId': recoveryPointId,
+        'sourceDatabaseName': sourceDatabaseName,
+        'sourceTableName': sourceTableName,
+        'workgroupName': workgroupName,
+        if (activateCaseSensitiveIdentifier != null)
+          'activateCaseSensitiveIdentifier': activateCaseSensitiveIdentifier,
+        if (sourceSchemaName != null) 'sourceSchemaName': sourceSchemaName,
+        if (targetDatabaseName != null)
+          'targetDatabaseName': targetDatabaseName,
+        if (targetSchemaName != null) 'targetSchemaName': targetSchemaName,
+      },
+    );
+
+    return RestoreTableFromRecoveryPointResponse.fromJson(jsonResponse.body);
   }
 
   /// Restores a table from a snapshot to your Amazon Redshift Serverless
@@ -1676,6 +2354,50 @@ class RedshiftServerless {
     );
   }
 
+  /// Updates an Amazon Redshift Serverless certificate associated with a custom
+  /// domain.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [customDomainCertificateArn] :
+  /// The custom domain name’s certificate Amazon resource name (ARN). This is
+  /// optional.
+  ///
+  /// Parameter [customDomainName] :
+  /// The custom domain name associated with the workgroup.
+  ///
+  /// Parameter [workgroupName] :
+  /// The name of the workgroup associated with the database.
+  Future<UpdateCustomDomainAssociationResponse> updateCustomDomainAssociation({
+    required String customDomainCertificateArn,
+    required String customDomainName,
+    required String workgroupName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.UpdateCustomDomainAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'customDomainCertificateArn': customDomainCertificateArn,
+        'customDomainName': customDomainName,
+        'workgroupName': workgroupName,
+      },
+    );
+
+    return UpdateCustomDomainAssociationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates an Amazon Redshift Serverless managed endpoint.
   ///
   /// May throw [InternalServerException].
@@ -1729,10 +2451,18 @@ class RedshiftServerless {
   /// The name of the namespace to update. You can't update the name of a
   /// namespace once it is created.
   ///
+  /// Parameter [adminPasswordSecretKmsKeyId] :
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store
+  /// the namespace's admin credentials secret. You can only use this parameter
+  /// if <code>manageAdminPassword</code> is true.
+  ///
   /// Parameter [adminUserPassword] :
   /// The password of the administrator for the first database created in the
   /// namespace. This parameter must be updated together with
   /// <code>adminUsername</code>.
+  ///
+  /// You can't use <code>adminUserPassword</code> if
+  /// <code>manageAdminPassword</code> is true.
   ///
   /// Parameter [adminUsername] :
   /// The username of the administrator for the first database created in the
@@ -1756,14 +2486,24 @@ class RedshiftServerless {
   /// The types of logs the namespace can export. The export types are
   /// <code>userlog</code>, <code>connectionlog</code>, and
   /// <code>useractivitylog</code>.
+  ///
+  /// Parameter [manageAdminPassword] :
+  /// If <code>true</code>, Amazon Redshift uses Secrets Manager to manage the
+  /// namespace's admin credentials. You can't use
+  /// <code>adminUserPassword</code> if <code>manageAdminPassword</code> is
+  /// true. If <code>manageAdminPassword</code> is false or not set, Amazon
+  /// Redshift uses <code>adminUserPassword</code> for the admin user account's
+  /// password.
   Future<UpdateNamespaceResponse> updateNamespace({
     required String namespaceName,
+    String? adminPasswordSecretKmsKeyId,
     String? adminUserPassword,
     String? adminUsername,
     String? defaultIamRoleArn,
     List<String>? iamRoles,
     String? kmsKeyId,
     List<LogExport>? logExports,
+    bool? manageAdminPassword,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1777,6 +2517,8 @@ class RedshiftServerless {
       headers: headers,
       payload: {
         'namespaceName': namespaceName,
+        if (adminPasswordSecretKmsKeyId != null)
+          'adminPasswordSecretKmsKeyId': adminPasswordSecretKmsKeyId,
         if (adminUserPassword != null) 'adminUserPassword': adminUserPassword,
         if (adminUsername != null) 'adminUsername': adminUsername,
         if (defaultIamRoleArn != null) 'defaultIamRoleArn': defaultIamRoleArn,
@@ -1784,10 +2526,100 @@ class RedshiftServerless {
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
         if (logExports != null)
           'logExports': logExports.map((e) => e.toValue()).toList(),
+        if (manageAdminPassword != null)
+          'manageAdminPassword': manageAdminPassword,
       },
     );
 
     return UpdateNamespaceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a scheduled action.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [scheduledActionName] :
+  /// The name of the scheduled action to update to.
+  ///
+  /// Parameter [enabled] :
+  /// Specifies whether to enable the scheduled action.
+  ///
+  /// Parameter [endTime] :
+  /// The end time in UTC of the scheduled action to update.
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of the IAM role to assume to run the scheduled action. This IAM
+  /// role must have permission to run the Amazon Redshift Serverless API
+  /// operation in the scheduled action. This IAM role must allow the Amazon
+  /// Redshift scheduler to schedule creating snapshots (Principal
+  /// scheduler.redshift.amazonaws.com) to assume permissions on your behalf.
+  /// For more information about the IAM role to use with the Amazon Redshift
+  /// scheduler, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
+  /// Identity-Based Policies for Amazon Redshift</a> in the Amazon Redshift
+  /// Cluster Management Guide
+  ///
+  /// Parameter [schedule] :
+  /// The schedule for a one-time (at timestamp format) or recurring (cron
+  /// format) scheduled action. Schedule invocations must be separated by at
+  /// least one hour. Times are in UTC.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format of at timestamp is <code>yyyy-mm-ddThh:mm:ss</code>. For example,
+  /// <code>2016-03-04T17:27:00</code>.
+  /// </li>
+  /// <li>
+  /// Format of cron expression is <code>(Minutes Hours Day-of-month Month
+  /// Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
+  /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [scheduledActionDescription] :
+  /// The descripion of the scheduled action to update to.
+  ///
+  /// Parameter [startTime] :
+  /// The start time in UTC of the scheduled action to update to.
+  Future<UpdateScheduledActionResponse> updateScheduledAction({
+    required String scheduledActionName,
+    bool? enabled,
+    DateTime? endTime,
+    String? roleArn,
+    Schedule? schedule,
+    String? scheduledActionDescription,
+    DateTime? startTime,
+    TargetAction? targetAction,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.UpdateScheduledAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'scheduledActionName': scheduledActionName,
+        if (enabled != null) 'enabled': enabled,
+        if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+        if (roleArn != null) 'roleArn': roleArn,
+        if (schedule != null) 'schedule': schedule,
+        if (scheduledActionDescription != null)
+          'scheduledActionDescription': scheduledActionDescription,
+        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+        if (targetAction != null) 'targetAction': targetAction,
+      },
+    );
+
+    return UpdateScheduledActionResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a snapshot.
@@ -1823,6 +2655,45 @@ class RedshiftServerless {
     );
 
     return UpdateSnapshotResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a snapshot copy configuration.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [snapshotCopyConfigurationId] :
+  /// The ID of the snapshot copy configuration to update.
+  ///
+  /// Parameter [snapshotRetentionPeriod] :
+  /// The new retention period of how long to keep a snapshot in the destination
+  /// Amazon Web Services Region.
+  Future<UpdateSnapshotCopyConfigurationResponse>
+      updateSnapshotCopyConfiguration({
+    required String snapshotCopyConfigurationId,
+    int? snapshotRetentionPeriod,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftServerless.UpdateSnapshotCopyConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'snapshotCopyConfigurationId': snapshotCopyConfigurationId,
+        if (snapshotRetentionPeriod != null)
+          'snapshotRetentionPeriod': snapshotRetentionPeriod,
+      },
+    );
+
+    return UpdateSnapshotCopyConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Update a usage limit in Amazon Redshift Serverless. You can't update the
@@ -1891,11 +2762,12 @@ class RedshiftServerless {
   /// Parameter [configParameters] :
   /// An array of parameters to set for advanced control over a database. The
   /// options are <code>auto_mv</code>, <code>datestyle</code>,
-  /// <code>enable_case_sensitivity_identifier</code>,
+  /// <code>enable_case_sensitive_identifier</code>,
   /// <code>enable_user_activity_logging</code>, <code>query_group</code>,
-  /// <code>search_path</code>, and query monitoring metrics that let you define
-  /// performance boundaries. For more information about query monitoring rules
-  /// and available metrics, see <a
+  /// <code>search_path</code>, <code>require_ssl</code>,
+  /// <code>use_fips_ssl</code>, and query monitoring metrics that let you
+  /// define performance boundaries. For more information about query monitoring
+  /// rules and available metrics, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">
   /// Query monitoring metrics for Amazon Redshift Serverless</a>.
   ///
@@ -1903,6 +2775,10 @@ class RedshiftServerless {
   /// The value that specifies whether to turn on enhanced virtual private cloud
   /// (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   /// through your VPC.
+  ///
+  /// Parameter [maxCapacity] :
+  /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to
+  /// serve queries. The max capacity is specified in RPUs.
   ///
   /// Parameter [port] :
   /// The custom port to use when connecting to a workgroup. Valid port ranges
@@ -1922,6 +2798,7 @@ class RedshiftServerless {
     int? baseCapacity,
     List<ConfigParameter>? configParameters,
     bool? enhancedVpcRouting,
+    int? maxCapacity,
     int? port,
     bool? publiclyAccessible,
     List<String>? securityGroupIds,
@@ -1943,6 +2820,7 @@ class RedshiftServerless {
         if (configParameters != null) 'configParameters': configParameters,
         if (enhancedVpcRouting != null)
           'enhancedVpcRouting': enhancedVpcRouting,
+        if (maxCapacity != null) 'maxCapacity': maxCapacity,
         if (port != null) 'port': port,
         if (publiclyAccessible != null)
           'publiclyAccessible': publiclyAccessible,
@@ -1955,13 +2833,63 @@ class RedshiftServerless {
   }
 }
 
+/// An object that represents the custom domain name association.
+class Association {
+  /// The custom domain name’s certificate Amazon resource name (ARN).
+  final String? customDomainCertificateArn;
+
+  /// The expiration time for the certificate.
+  final DateTime? customDomainCertificateExpiryTime;
+
+  /// The custom domain name associated with the workgroup.
+  final String? customDomainName;
+
+  /// The name of the workgroup associated with the database.
+  final String? workgroupName;
+
+  Association({
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryTime,
+    this.customDomainName,
+    this.workgroupName,
+  });
+
+  factory Association.fromJson(Map<String, dynamic> json) {
+    return Association(
+      customDomainCertificateArn: json['customDomainCertificateArn'] as String?,
+      customDomainCertificateExpiryTime:
+          timeStampFromJson(json['customDomainCertificateExpiryTime']),
+      customDomainName: json['customDomainName'] as String?,
+      workgroupName: json['workgroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainCertificateExpiryTime =
+        this.customDomainCertificateExpiryTime;
+    final customDomainName = this.customDomainName;
+    final workgroupName = this.workgroupName;
+    return {
+      if (customDomainCertificateArn != null)
+        'customDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainCertificateExpiryTime != null)
+        'customDomainCertificateExpiryTime':
+            iso8601ToJson(customDomainCertificateExpiryTime),
+      if (customDomainName != null) 'customDomainName': customDomainName,
+      if (workgroupName != null) 'workgroupName': workgroupName,
+    };
+  }
+}
+
 /// An array of key-value pairs to set for advanced control over Amazon Redshift
 /// Serverless.
 class ConfigParameter {
   /// The key of the parameter. The options are <code>auto_mv</code>,
-  /// <code>datestyle</code>, <code>enable_case_sensitivity_identifier</code>,
+  /// <code>datestyle</code>, <code>enable_case_sensitive_identifier</code>,
   /// <code>enable_user_activity_logging</code>, <code>query_group</code>,
-  /// <code>search_path</code>, and query monitoring metrics that let you define
+  /// <code>search_path</code>, <code>require_ssl</code>,
+  /// <code>use_fips_ssl</code>, and query monitoring metrics that let you define
   /// performance boundaries. For more information about query monitoring rules
   /// and available metrics, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">Query
@@ -2018,6 +2946,55 @@ class ConvertRecoveryPointToSnapshotResponse {
   }
 }
 
+class CreateCustomDomainAssociationResponse {
+  /// The custom domain name’s certificate Amazon resource name (ARN).
+  final String? customDomainCertificateArn;
+
+  /// The expiration time for the certificate.
+  final DateTime? customDomainCertificateExpiryTime;
+
+  /// The custom domain name to associate with the workgroup.
+  final String? customDomainName;
+
+  /// The name of the workgroup associated with the database.
+  final String? workgroupName;
+
+  CreateCustomDomainAssociationResponse({
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryTime,
+    this.customDomainName,
+    this.workgroupName,
+  });
+
+  factory CreateCustomDomainAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCustomDomainAssociationResponse(
+      customDomainCertificateArn: json['customDomainCertificateArn'] as String?,
+      customDomainCertificateExpiryTime:
+          timeStampFromJson(json['customDomainCertificateExpiryTime']),
+      customDomainName: json['customDomainName'] as String?,
+      workgroupName: json['workgroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainCertificateExpiryTime =
+        this.customDomainCertificateExpiryTime;
+    final customDomainName = this.customDomainName;
+    final workgroupName = this.workgroupName;
+    return {
+      if (customDomainCertificateArn != null)
+        'customDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainCertificateExpiryTime != null)
+        'customDomainCertificateExpiryTime':
+            iso8601ToJson(customDomainCertificateExpiryTime),
+      if (customDomainName != null) 'customDomainName': customDomainName,
+      if (workgroupName != null) 'workgroupName': workgroupName,
+    };
+  }
+}
+
 class CreateEndpointAccessResponse {
   /// The created VPC endpoint.
   final EndpointAccess? endpoint;
@@ -2066,6 +3043,56 @@ class CreateNamespaceResponse {
   }
 }
 
+class CreateScheduledActionResponse {
+  /// The returned <code>ScheduledAction</code> object that describes the
+  /// properties of a scheduled action.
+  final ScheduledActionResponse? scheduledAction;
+
+  CreateScheduledActionResponse({
+    this.scheduledAction,
+  });
+
+  factory CreateScheduledActionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateScheduledActionResponse(
+      scheduledAction: json['scheduledAction'] != null
+          ? ScheduledActionResponse.fromJson(
+              json['scheduledAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledAction = this.scheduledAction;
+    return {
+      if (scheduledAction != null) 'scheduledAction': scheduledAction,
+    };
+  }
+}
+
+class CreateSnapshotCopyConfigurationResponse {
+  /// The snapshot copy configuration object that is returned.
+  final SnapshotCopyConfiguration snapshotCopyConfiguration;
+
+  CreateSnapshotCopyConfigurationResponse({
+    required this.snapshotCopyConfiguration,
+  });
+
+  factory CreateSnapshotCopyConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateSnapshotCopyConfigurationResponse(
+      snapshotCopyConfiguration: SnapshotCopyConfiguration.fromJson(
+          json['snapshotCopyConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotCopyConfiguration = this.snapshotCopyConfiguration;
+    return {
+      'snapshotCopyConfiguration': snapshotCopyConfiguration,
+    };
+  }
+}
+
 class CreateSnapshotResponse {
   /// The created snapshot object.
   final Snapshot? snapshot;
@@ -2086,6 +3113,63 @@ class CreateSnapshotResponse {
     final snapshot = this.snapshot;
     return {
       if (snapshot != null) 'snapshot': snapshot,
+    };
+  }
+}
+
+/// The parameters that you can use to configure a <a
+/// href="https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html">scheduled
+/// action</a> to create a snapshot. For more information about creating a
+/// scheduled action, see <a
+/// href="https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html">CreateScheduledAction</a>.
+class CreateSnapshotScheduleActionParameters {
+  /// The name of the namespace for which you want to configure a scheduled action
+  /// to create a snapshot.
+  final String namespaceName;
+
+  /// A string prefix that is attached to the name of the snapshot created by the
+  /// scheduled action. The final name of the snapshot is the string prefix
+  /// appended by the date and time of when the snapshot was created.
+  final String snapshotNamePrefix;
+
+  /// The retention period of the snapshot created by the scheduled action.
+  final int? retentionPeriod;
+
+  /// An array of <a
+  /// href="https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_Tag.html">Tag
+  /// objects</a> to associate with the snapshot.
+  final List<Tag>? tags;
+
+  CreateSnapshotScheduleActionParameters({
+    required this.namespaceName,
+    required this.snapshotNamePrefix,
+    this.retentionPeriod,
+    this.tags,
+  });
+
+  factory CreateSnapshotScheduleActionParameters.fromJson(
+      Map<String, dynamic> json) {
+    return CreateSnapshotScheduleActionParameters(
+      namespaceName: json['namespaceName'] as String,
+      snapshotNamePrefix: json['snapshotNamePrefix'] as String,
+      retentionPeriod: json['retentionPeriod'] as int?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespaceName = this.namespaceName;
+    final snapshotNamePrefix = this.snapshotNamePrefix;
+    final retentionPeriod = this.retentionPeriod;
+    final tags = this.tags;
+    return {
+      'namespaceName': namespaceName,
+      'snapshotNamePrefix': snapshotNamePrefix,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -2135,6 +3219,19 @@ class CreateWorkgroupResponse {
     return {
       if (workgroup != null) 'workgroup': workgroup,
     };
+  }
+}
+
+class DeleteCustomDomainAssociationResponse {
+  DeleteCustomDomainAssociationResponse();
+
+  factory DeleteCustomDomainAssociationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteCustomDomainAssociationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2193,6 +3290,55 @@ class DeleteResourcePolicyResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class DeleteScheduledActionResponse {
+  /// The deleted scheduled action object.
+  final ScheduledActionResponse? scheduledAction;
+
+  DeleteScheduledActionResponse({
+    this.scheduledAction,
+  });
+
+  factory DeleteScheduledActionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteScheduledActionResponse(
+      scheduledAction: json['scheduledAction'] != null
+          ? ScheduledActionResponse.fromJson(
+              json['scheduledAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledAction = this.scheduledAction;
+    return {
+      if (scheduledAction != null) 'scheduledAction': scheduledAction,
+    };
+  }
+}
+
+class DeleteSnapshotCopyConfigurationResponse {
+  /// The deleted snapshot copy configuration object.
+  final SnapshotCopyConfiguration snapshotCopyConfiguration;
+
+  DeleteSnapshotCopyConfigurationResponse({
+    required this.snapshotCopyConfiguration,
+  });
+
+  factory DeleteSnapshotCopyConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteSnapshotCopyConfigurationResponse(
+      snapshotCopyConfiguration: SnapshotCopyConfiguration.fromJson(
+          json['snapshotCopyConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotCopyConfiguration = this.snapshotCopyConfiguration;
+    return {
+      'snapshotCopyConfiguration': snapshotCopyConfiguration,
+    };
   }
 }
 
@@ -2454,6 +3600,55 @@ class GetCredentialsResponse {
   }
 }
 
+class GetCustomDomainAssociationResponse {
+  /// The custom domain name’s certificate Amazon resource name (ARN).
+  final String? customDomainCertificateArn;
+
+  /// The expiration time for the certificate.
+  final DateTime? customDomainCertificateExpiryTime;
+
+  /// The custom domain name associated with the workgroup.
+  final String? customDomainName;
+
+  /// The name of the workgroup associated with the database.
+  final String? workgroupName;
+
+  GetCustomDomainAssociationResponse({
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryTime,
+    this.customDomainName,
+    this.workgroupName,
+  });
+
+  factory GetCustomDomainAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCustomDomainAssociationResponse(
+      customDomainCertificateArn: json['customDomainCertificateArn'] as String?,
+      customDomainCertificateExpiryTime:
+          timeStampFromJson(json['customDomainCertificateExpiryTime']),
+      customDomainName: json['customDomainName'] as String?,
+      workgroupName: json['workgroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainCertificateExpiryTime =
+        this.customDomainCertificateExpiryTime;
+    final customDomainName = this.customDomainName;
+    final workgroupName = this.workgroupName;
+    return {
+      if (customDomainCertificateArn != null)
+        'customDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainCertificateExpiryTime != null)
+        'customDomainCertificateExpiryTime':
+            iso8601ToJson(customDomainCertificateExpiryTime),
+      if (customDomainName != null) 'customDomainName': customDomainName,
+      if (workgroupName != null) 'workgroupName': workgroupName,
+    };
+  }
+}
+
 class GetEndpointAccessResponse {
   /// The returned VPC endpoint.
   final EndpointAccess? endpoint;
@@ -2546,6 +3741,31 @@ class GetResourcePolicyResponse {
     final resourcePolicy = this.resourcePolicy;
     return {
       if (resourcePolicy != null) 'resourcePolicy': resourcePolicy,
+    };
+  }
+}
+
+class GetScheduledActionResponse {
+  /// The returned scheduled action object.
+  final ScheduledActionResponse? scheduledAction;
+
+  GetScheduledActionResponse({
+    this.scheduledAction,
+  });
+
+  factory GetScheduledActionResponse.fromJson(Map<String, dynamic> json) {
+    return GetScheduledActionResponse(
+      scheduledAction: json['scheduledAction'] != null
+          ? ScheduledActionResponse.fromJson(
+              json['scheduledAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledAction = this.scheduledAction;
+    return {
+      if (scheduledAction != null) 'scheduledAction': scheduledAction,
     };
   }
 }
@@ -2643,6 +3863,42 @@ class GetWorkgroupResponse {
     final workgroup = this.workgroup;
     return {
       'workgroup': workgroup,
+    };
+  }
+}
+
+class ListCustomDomainAssociationsResponse {
+  /// A list of Association objects.
+  final List<Association>? associations;
+
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  final String? nextToken;
+
+  ListCustomDomainAssociationsResponse({
+    this.associations,
+    this.nextToken,
+  });
+
+  factory ListCustomDomainAssociationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCustomDomainAssociationsResponse(
+      associations: (json['associations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Association.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final nextToken = this.nextToken;
+    return {
+      if (associations != null) 'associations': associations,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -2747,6 +4003,77 @@ class ListRecoveryPointsResponse {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (recoveryPoints != null) 'recoveryPoints': recoveryPoints,
+    };
+  }
+}
+
+class ListScheduledActionsResponse {
+  /// If nextToken is returned, there are more results available. The value of
+  /// nextToken is a unique pagination token for each page. Make the call again
+  /// using the returned token to retrieve the next page.
+  final String? nextToken;
+
+  /// All of the returned scheduled action association objects.
+  final List<ScheduledActionAssociation>? scheduledActions;
+
+  ListScheduledActionsResponse({
+    this.nextToken,
+    this.scheduledActions,
+  });
+
+  factory ListScheduledActionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListScheduledActionsResponse(
+      nextToken: json['nextToken'] as String?,
+      scheduledActions: (json['scheduledActions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ScheduledActionAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scheduledActions = this.scheduledActions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (scheduledActions != null) 'scheduledActions': scheduledActions,
+    };
+  }
+}
+
+class ListSnapshotCopyConfigurationsResponse {
+  /// All of the returned snapshot copy configurations.
+  final List<SnapshotCopyConfiguration> snapshotCopyConfigurations;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page.
+  final String? nextToken;
+
+  ListSnapshotCopyConfigurationsResponse({
+    required this.snapshotCopyConfigurations,
+    this.nextToken,
+  });
+
+  factory ListSnapshotCopyConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSnapshotCopyConfigurationsResponse(
+      snapshotCopyConfigurations: (json['snapshotCopyConfigurations'] as List)
+          .whereNotNull()
+          .map((e) =>
+              SnapshotCopyConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotCopyConfigurations = this.snapshotCopyConfigurations;
+    final nextToken = this.nextToken;
+    return {
+      'snapshotCopyConfigurations': snapshotCopyConfigurations,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -2950,6 +4277,14 @@ extension LogExportFromString on String {
 
 /// A collection of database objects and users.
 class Namespace {
+  /// The Amazon Resource Name (ARN) for the namespace's admin user credentials
+  /// secret.
+  final String? adminPasswordSecretArn;
+
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store the
+  /// namespace's admin credentials secret.
+  final String? adminPasswordSecretKmsKeyId;
+
   /// The username of the administrator for the first database created in the
   /// namespace.
   final String? adminUsername;
@@ -2992,6 +4327,8 @@ class Namespace {
   final NamespaceStatus? status;
 
   Namespace({
+    this.adminPasswordSecretArn,
+    this.adminPasswordSecretKmsKeyId,
     this.adminUsername,
     this.creationDate,
     this.dbName,
@@ -3007,6 +4344,9 @@ class Namespace {
 
   factory Namespace.fromJson(Map<String, dynamic> json) {
     return Namespace(
+      adminPasswordSecretArn: json['adminPasswordSecretArn'] as String?,
+      adminPasswordSecretKmsKeyId:
+          json['adminPasswordSecretKmsKeyId'] as String?,
       adminUsername: json['adminUsername'] as String?,
       creationDate: timeStampFromJson(json['creationDate']),
       dbName: json['dbName'] as String?,
@@ -3028,6 +4368,8 @@ class Namespace {
   }
 
   Map<String, dynamic> toJson() {
+    final adminPasswordSecretArn = this.adminPasswordSecretArn;
+    final adminPasswordSecretKmsKeyId = this.adminPasswordSecretKmsKeyId;
     final adminUsername = this.adminUsername;
     final creationDate = this.creationDate;
     final dbName = this.dbName;
@@ -3040,6 +4382,10 @@ class Namespace {
     final namespaceName = this.namespaceName;
     final status = this.status;
     return {
+      if (adminPasswordSecretArn != null)
+        'adminPasswordSecretArn': adminPasswordSecretArn,
+      if (adminPasswordSecretKmsKeyId != null)
+        'adminPasswordSecretKmsKeyId': adminPasswordSecretKmsKeyId,
       if (adminUsername != null) 'adminUsername': adminUsername,
       if (creationDate != null) 'creationDate': iso8601ToJson(creationDate),
       if (dbName != null) 'dbName': dbName,
@@ -3321,6 +4667,31 @@ class RestoreFromSnapshotResponse {
   }
 }
 
+class RestoreTableFromRecoveryPointResponse {
+  final TableRestoreStatus? tableRestoreStatus;
+
+  RestoreTableFromRecoveryPointResponse({
+    this.tableRestoreStatus,
+  });
+
+  factory RestoreTableFromRecoveryPointResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RestoreTableFromRecoveryPointResponse(
+      tableRestoreStatus: json['tableRestoreStatus'] != null
+          ? TableRestoreStatus.fromJson(
+              json['tableRestoreStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableRestoreStatus = this.tableRestoreStatus;
+    return {
+      if (tableRestoreStatus != null) 'tableRestoreStatus': tableRestoreStatus,
+    };
+  }
+}
+
 class RestoreTableFromSnapshotResponse {
   /// The TableRestoreStatus object that contains the status of the restore
   /// operation.
@@ -3347,6 +4718,207 @@ class RestoreTableFromSnapshotResponse {
   }
 }
 
+/// The schedule of when Amazon Redshift Serverless should run the scheduled
+/// action.
+class Schedule {
+  /// The timestamp of when Amazon Redshift Serverless should run the scheduled
+  /// action. Timestamp is in UTC. Format of at expression is
+  /// <code>yyyy-mm-ddThh:mm:ss</code>. For example,
+  /// <code>2016-03-04T17:27:00</code>.
+  final DateTime? at;
+
+  /// The cron expression to use to schedule a recurring scheduled action.
+  /// Schedule invocations must be separated by at least one hour. Times are in
+  /// UTC.
+  ///
+  /// Format of cron expressions is <code>(Minutes Hours Day-of-month Month
+  /// Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
+  /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+  final String? cron;
+
+  Schedule({
+    this.at,
+    this.cron,
+  });
+
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      at: timeStampFromJson(json['at']),
+      cron: json['cron'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final at = this.at;
+    final cron = this.cron;
+    return {
+      if (at != null) 'at': unixTimestampToJson(at),
+      if (cron != null) 'cron': cron,
+    };
+  }
+}
+
+/// Contains names of objects associated with a scheduled action.
+class ScheduledActionAssociation {
+  /// Name of associated Amazon Redshift Serverless namespace.
+  final String? namespaceName;
+
+  /// Name of associated scheduled action.
+  final String? scheduledActionName;
+
+  ScheduledActionAssociation({
+    this.namespaceName,
+    this.scheduledActionName,
+  });
+
+  factory ScheduledActionAssociation.fromJson(Map<String, dynamic> json) {
+    return ScheduledActionAssociation(
+      namespaceName: json['namespaceName'] as String?,
+      scheduledActionName: json['scheduledActionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespaceName = this.namespaceName;
+    final scheduledActionName = this.scheduledActionName;
+    return {
+      if (namespaceName != null) 'namespaceName': namespaceName,
+      if (scheduledActionName != null)
+        'scheduledActionName': scheduledActionName,
+    };
+  }
+}
+
+/// The returned scheduled action object.
+class ScheduledActionResponse {
+  /// The end time of
+  final DateTime? endTime;
+
+  /// The end time in UTC when the schedule is no longer active. After this time,
+  /// the scheduled action does not trigger.
+  final String? namespaceName;
+
+  /// An array of timestamps of when the next scheduled actions will trigger.
+  final List<DateTime>? nextInvocations;
+
+  /// The ARN of the IAM role to assume to run the scheduled action. This IAM role
+  /// must have permission to run the Amazon Redshift Serverless API operation in
+  /// the scheduled action. This IAM role must allow the Amazon Redshift scheduler
+  /// to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com)
+  /// to assume permissions on your behalf. For more information about the IAM
+  /// role to use with the Amazon Redshift scheduler, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
+  /// Identity-Based Policies for Amazon Redshift</a> in the Amazon Redshift
+  /// Cluster Management Guide
+  final String? roleArn;
+
+  /// The schedule for a one-time (at timestamp format) or recurring (cron format)
+  /// scheduled action. Schedule invocations must be separated by at least one
+  /// hour. Times are in UTC.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format of at timestamp is <code>yyyy-mm-ddThh:mm:ss</code>. For example,
+  /// <code>2016-03-04T17:27:00</code>.
+  /// </li>
+  /// <li>
+  /// Format of cron expression is <code>(Minutes Hours Day-of-month Month
+  /// Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
+  /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+  /// </li>
+  /// </ul>
+  final Schedule? schedule;
+
+  /// The description of the scheduled action.
+  final String? scheduledActionDescription;
+
+  /// The name of the scheduled action.
+  final String? scheduledActionName;
+
+  /// The uuid of the scheduled action.
+  final String? scheduledActionUuid;
+
+  /// The start time in UTC when the schedule is active. Before this time, the
+  /// scheduled action does not trigger.
+  final DateTime? startTime;
+
+  /// The state of the scheduled action.
+  final State? state;
+  final TargetAction? targetAction;
+
+  ScheduledActionResponse({
+    this.endTime,
+    this.namespaceName,
+    this.nextInvocations,
+    this.roleArn,
+    this.schedule,
+    this.scheduledActionDescription,
+    this.scheduledActionName,
+    this.scheduledActionUuid,
+    this.startTime,
+    this.state,
+    this.targetAction,
+  });
+
+  factory ScheduledActionResponse.fromJson(Map<String, dynamic> json) {
+    return ScheduledActionResponse(
+      endTime: timeStampFromJson(json['endTime']),
+      namespaceName: json['namespaceName'] as String?,
+      nextInvocations: (json['nextInvocations'] as List?)
+          ?.whereNotNull()
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+      roleArn: json['roleArn'] as String?,
+      schedule: json['schedule'] != null
+          ? Schedule.fromJson(json['schedule'] as Map<String, dynamic>)
+          : null,
+      scheduledActionDescription: json['scheduledActionDescription'] as String?,
+      scheduledActionName: json['scheduledActionName'] as String?,
+      scheduledActionUuid: json['scheduledActionUuid'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      state: (json['state'] as String?)?.toState(),
+      targetAction: json['targetAction'] != null
+          ? TargetAction.fromJson(json['targetAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final namespaceName = this.namespaceName;
+    final nextInvocations = this.nextInvocations;
+    final roleArn = this.roleArn;
+    final schedule = this.schedule;
+    final scheduledActionDescription = this.scheduledActionDescription;
+    final scheduledActionName = this.scheduledActionName;
+    final scheduledActionUuid = this.scheduledActionUuid;
+    final startTime = this.startTime;
+    final state = this.state;
+    final targetAction = this.targetAction;
+    return {
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (namespaceName != null) 'namespaceName': namespaceName,
+      if (nextInvocations != null)
+        'nextInvocations': nextInvocations.map(unixTimestampToJson).toList(),
+      if (roleArn != null) 'roleArn': roleArn,
+      if (schedule != null) 'schedule': schedule,
+      if (scheduledActionDescription != null)
+        'scheduledActionDescription': scheduledActionDescription,
+      if (scheduledActionName != null)
+        'scheduledActionName': scheduledActionName,
+      if (scheduledActionUuid != null)
+        'scheduledActionUuid': scheduledActionUuid,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (state != null) 'state': state.toValue(),
+      if (targetAction != null) 'targetAction': targetAction,
+    };
+  }
+}
+
 /// A snapshot object that contains databases.
 class Snapshot {
   /// All of the Amazon Web Services accounts that have access to restore a
@@ -3359,6 +4931,14 @@ class Snapshot {
 
   /// The size of the incremental backup in megabytes.
   final double? actualIncrementalBackupSizeInMegaBytes;
+
+  /// The Amazon Resource Name (ARN) for the namespace's admin user credentials
+  /// secret.
+  final String? adminPasswordSecretArn;
+
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store the
+  /// namespace's admin credentials secret.
+  final String? adminPasswordSecretKmsKeyId;
 
   /// The username of the database within a snapshot.
   final String? adminUsername;
@@ -3416,6 +4996,8 @@ class Snapshot {
     this.accountsWithProvisionedRestoreAccess,
     this.accountsWithRestoreAccess,
     this.actualIncrementalBackupSizeInMegaBytes,
+    this.adminPasswordSecretArn,
+    this.adminPasswordSecretKmsKeyId,
     this.adminUsername,
     this.backupProgressInMegaBytes,
     this.currentBackupRateInMegaBytesPerSecond,
@@ -3448,6 +5030,9 @@ class Snapshot {
           .toList(),
       actualIncrementalBackupSizeInMegaBytes:
           json['actualIncrementalBackupSizeInMegaBytes'] as double?,
+      adminPasswordSecretArn: json['adminPasswordSecretArn'] as String?,
+      adminPasswordSecretKmsKeyId:
+          json['adminPasswordSecretKmsKeyId'] as String?,
       adminUsername: json['adminUsername'] as String?,
       backupProgressInMegaBytes: json['backupProgressInMegaBytes'] as double?,
       currentBackupRateInMegaBytesPerSecond:
@@ -3477,6 +5062,8 @@ class Snapshot {
     final accountsWithRestoreAccess = this.accountsWithRestoreAccess;
     final actualIncrementalBackupSizeInMegaBytes =
         this.actualIncrementalBackupSizeInMegaBytes;
+    final adminPasswordSecretArn = this.adminPasswordSecretArn;
+    final adminPasswordSecretKmsKeyId = this.adminPasswordSecretKmsKeyId;
     final adminUsername = this.adminUsername;
     final backupProgressInMegaBytes = this.backupProgressInMegaBytes;
     final currentBackupRateInMegaBytesPerSecond =
@@ -3504,6 +5091,10 @@ class Snapshot {
       if (actualIncrementalBackupSizeInMegaBytes != null)
         'actualIncrementalBackupSizeInMegaBytes':
             actualIncrementalBackupSizeInMegaBytes,
+      if (adminPasswordSecretArn != null)
+        'adminPasswordSecretArn': adminPasswordSecretArn,
+      if (adminPasswordSecretKmsKeyId != null)
+        'adminPasswordSecretKmsKeyId': adminPasswordSecretKmsKeyId,
       if (adminUsername != null) 'adminUsername': adminUsername,
       if (backupProgressInMegaBytes != null)
         'backupProgressInMegaBytes': backupProgressInMegaBytes,
@@ -3531,6 +5122,74 @@ class Snapshot {
       if (status != null) 'status': status.toValue(),
       if (totalBackupSizeInMegaBytes != null)
         'totalBackupSizeInMegaBytes': totalBackupSizeInMegaBytes,
+    };
+  }
+}
+
+/// The object that you configure to copy snapshots from one namespace to a
+/// namespace in another Amazon Web Services Region.
+class SnapshotCopyConfiguration {
+  /// The ID of the KMS key to use to encrypt your snapshots in the destination
+  /// Amazon Web Services Region.
+  final String? destinationKmsKeyId;
+
+  /// The destination Amazon Web Services Region to copy snapshots to.
+  final String? destinationRegion;
+
+  /// The name of the namespace to copy snapshots from in the source Amazon Web
+  /// Services Region.
+  final String? namespaceName;
+
+  /// The ARN of the snapshot copy configuration object.
+  final String? snapshotCopyConfigurationArn;
+
+  /// The ID of the snapshot copy configuration object.
+  final String? snapshotCopyConfigurationId;
+
+  /// The retention period of snapshots that are copied to the destination Amazon
+  /// Web Services Region.
+  final int? snapshotRetentionPeriod;
+
+  SnapshotCopyConfiguration({
+    this.destinationKmsKeyId,
+    this.destinationRegion,
+    this.namespaceName,
+    this.snapshotCopyConfigurationArn,
+    this.snapshotCopyConfigurationId,
+    this.snapshotRetentionPeriod,
+  });
+
+  factory SnapshotCopyConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnapshotCopyConfiguration(
+      destinationKmsKeyId: json['destinationKmsKeyId'] as String?,
+      destinationRegion: json['destinationRegion'] as String?,
+      namespaceName: json['namespaceName'] as String?,
+      snapshotCopyConfigurationArn:
+          json['snapshotCopyConfigurationArn'] as String?,
+      snapshotCopyConfigurationId:
+          json['snapshotCopyConfigurationId'] as String?,
+      snapshotRetentionPeriod: json['snapshotRetentionPeriod'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationKmsKeyId = this.destinationKmsKeyId;
+    final destinationRegion = this.destinationRegion;
+    final namespaceName = this.namespaceName;
+    final snapshotCopyConfigurationArn = this.snapshotCopyConfigurationArn;
+    final snapshotCopyConfigurationId = this.snapshotCopyConfigurationId;
+    final snapshotRetentionPeriod = this.snapshotRetentionPeriod;
+    return {
+      if (destinationKmsKeyId != null)
+        'destinationKmsKeyId': destinationKmsKeyId,
+      if (destinationRegion != null) 'destinationRegion': destinationRegion,
+      if (namespaceName != null) 'namespaceName': namespaceName,
+      if (snapshotCopyConfigurationArn != null)
+        'snapshotCopyConfigurationArn': snapshotCopyConfigurationArn,
+      if (snapshotCopyConfigurationId != null)
+        'snapshotCopyConfigurationId': snapshotCopyConfigurationId,
+      if (snapshotRetentionPeriod != null)
+        'snapshotRetentionPeriod': snapshotRetentionPeriod,
     };
   }
 }
@@ -3583,11 +5242,39 @@ extension SnapshotStatusFromString on String {
   }
 }
 
+enum State {
+  active,
+  disabled,
+}
+
+extension StateValueExtension on State {
+  String toValue() {
+    switch (this) {
+      case State.active:
+        return 'ACTIVE';
+      case State.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension StateFromString on String {
+  State toState() {
+    switch (this) {
+      case 'ACTIVE':
+        return State.active;
+      case 'DISABLED':
+        return State.disabled;
+    }
+    throw Exception('$this is not known in enum State');
+  }
+}
+
 /// Contains information about a table restore request.
 class TableRestoreStatus {
-  /// A description of the status of the table restore request. Status values
-  /// include <code>SUCCEEDED</code>, <code>FAILED</code>, <code>CANCELED</code>,
-  /// <code>PENDING</code>, <code>IN_PROGRESS</code>.
+  /// A message that explains the returned status. For example, if the status of
+  /// the operation is <code>FAILED</code>, the message explains why the operation
+  /// failed.
   final String? message;
 
   /// The namespace of the table being restored from.
@@ -3598,6 +5285,9 @@ class TableRestoreStatus {
 
   /// The amount of data restored to the new table so far, in megabytes (MB).
   final int? progressInMegaBytes;
+
+  /// The ID of the recovery point being restored from.
+  final String? recoveryPointId;
 
   /// The time that the table restore request was made, in Universal Coordinated
   /// Time (UTC).
@@ -3616,8 +5306,8 @@ class TableRestoreStatus {
   final String? sourceTableName;
 
   /// A value that describes the current state of the table restore request.
-  /// Possible values include <code>SUCCEEDED</code>, <code>FAILED</code>,
-  /// <code>CANCELED</code>, <code>PENDING</code>, <code>IN_PROGRESS</code>.
+  /// Possible values are <code>SUCCEEDED</code>, <code>FAILED</code>,
+  /// <code>CANCELED</code>, <code>PENDING</code>, and <code>IN_PROGRESS</code>.
   final String? status;
 
   /// The ID of the RestoreTableFromSnapshot request.
@@ -3640,6 +5330,7 @@ class TableRestoreStatus {
     this.namespaceName,
     this.newTableName,
     this.progressInMegaBytes,
+    this.recoveryPointId,
     this.requestTime,
     this.snapshotName,
     this.sourceDatabaseName,
@@ -3659,6 +5350,7 @@ class TableRestoreStatus {
       namespaceName: json['namespaceName'] as String?,
       newTableName: json['newTableName'] as String?,
       progressInMegaBytes: json['progressInMegaBytes'] as int?,
+      recoveryPointId: json['recoveryPointId'] as String?,
       requestTime: timeStampFromJson(json['requestTime']),
       snapshotName: json['snapshotName'] as String?,
       sourceDatabaseName: json['sourceDatabaseName'] as String?,
@@ -3678,6 +5370,7 @@ class TableRestoreStatus {
     final namespaceName = this.namespaceName;
     final newTableName = this.newTableName;
     final progressInMegaBytes = this.progressInMegaBytes;
+    final recoveryPointId = this.recoveryPointId;
     final requestTime = this.requestTime;
     final snapshotName = this.snapshotName;
     final sourceDatabaseName = this.sourceDatabaseName;
@@ -3695,6 +5388,7 @@ class TableRestoreStatus {
       if (newTableName != null) 'newTableName': newTableName,
       if (progressInMegaBytes != null)
         'progressInMegaBytes': progressInMegaBytes,
+      if (recoveryPointId != null) 'recoveryPointId': recoveryPointId,
       if (requestTime != null) 'requestTime': unixTimestampToJson(requestTime),
       if (snapshotName != null) 'snapshotName': snapshotName,
       if (sourceDatabaseName != null) 'sourceDatabaseName': sourceDatabaseName,
@@ -3754,6 +5448,36 @@ class TagResourceResponse {
   }
 }
 
+/// A JSON format string of the Amazon Redshift Serverless API operation with
+/// input parameters. The following is an example of a target action.
+///
+/// <code>"{"CreateSnapshot": {"NamespaceName":
+/// "sampleNamespace","SnapshotName": "sampleSnapshot", "retentionPeriod":
+/// "1"}}"</code>
+class TargetAction {
+  final CreateSnapshotScheduleActionParameters? createSnapshot;
+
+  TargetAction({
+    this.createSnapshot,
+  });
+
+  factory TargetAction.fromJson(Map<String, dynamic> json) {
+    return TargetAction(
+      createSnapshot: json['createSnapshot'] != null
+          ? CreateSnapshotScheduleActionParameters.fromJson(
+              json['createSnapshot'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createSnapshot = this.createSnapshot;
+    return {
+      if (createSnapshot != null) 'createSnapshot': createSnapshot,
+    };
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3763,6 +5487,55 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateCustomDomainAssociationResponse {
+  /// The custom domain name’s certificate Amazon resource name (ARN).
+  final String? customDomainCertificateArn;
+
+  /// The expiration time for the certificate.
+  final DateTime? customDomainCertificateExpiryTime;
+
+  /// The custom domain name associated with the workgroup.
+  final String? customDomainName;
+
+  /// The name of the workgroup associated with the database.
+  final String? workgroupName;
+
+  UpdateCustomDomainAssociationResponse({
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryTime,
+    this.customDomainName,
+    this.workgroupName,
+  });
+
+  factory UpdateCustomDomainAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCustomDomainAssociationResponse(
+      customDomainCertificateArn: json['customDomainCertificateArn'] as String?,
+      customDomainCertificateExpiryTime:
+          timeStampFromJson(json['customDomainCertificateExpiryTime']),
+      customDomainName: json['customDomainName'] as String?,
+      workgroupName: json['workgroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainCertificateExpiryTime =
+        this.customDomainCertificateExpiryTime;
+    final customDomainName = this.customDomainName;
+    final workgroupName = this.workgroupName;
+    return {
+      if (customDomainCertificateArn != null)
+        'customDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainCertificateExpiryTime != null)
+        'customDomainCertificateExpiryTime':
+            iso8601ToJson(customDomainCertificateExpiryTime),
+      if (customDomainName != null) 'customDomainName': customDomainName,
+      if (workgroupName != null) 'workgroupName': workgroupName,
+    };
   }
 }
 
@@ -3808,6 +5581,55 @@ class UpdateNamespaceResponse {
     final namespace = this.namespace;
     return {
       'namespace': namespace,
+    };
+  }
+}
+
+class UpdateScheduledActionResponse {
+  /// The ScheduledAction object that was updated.
+  final ScheduledActionResponse? scheduledAction;
+
+  UpdateScheduledActionResponse({
+    this.scheduledAction,
+  });
+
+  factory UpdateScheduledActionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateScheduledActionResponse(
+      scheduledAction: json['scheduledAction'] != null
+          ? ScheduledActionResponse.fromJson(
+              json['scheduledAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledAction = this.scheduledAction;
+    return {
+      if (scheduledAction != null) 'scheduledAction': scheduledAction,
+    };
+  }
+}
+
+class UpdateSnapshotCopyConfigurationResponse {
+  /// The updated snapshot copy configuration object.
+  final SnapshotCopyConfiguration snapshotCopyConfiguration;
+
+  UpdateSnapshotCopyConfigurationResponse({
+    required this.snapshotCopyConfiguration,
+  });
+
+  factory UpdateSnapshotCopyConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSnapshotCopyConfigurationResponse(
+      snapshotCopyConfiguration: SnapshotCopyConfiguration.fromJson(
+          json['snapshotCopyConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotCopyConfiguration = this.snapshotCopyConfiguration;
+    return {
+      'snapshotCopyConfiguration': snapshotCopyConfiguration,
     };
   }
 }
@@ -4127,9 +5949,10 @@ class Workgroup {
 
   /// An array of parameters to set for advanced control over a database. The
   /// options are <code>auto_mv</code>, <code>datestyle</code>,
-  /// <code>enable_case_sensitivity_identifier</code>,
-  /// <code>enable_user_activity_logging</code>, <code>query_group</code>, ,
-  /// <code>search_path</code>, and query monitoring metrics that let you define
+  /// <code>enable_case_sensitive_identifier</code>,
+  /// <code>enable_user_activity_logging</code>, <code>query_group</code>,
+  /// <code>search_path</code>, <code>require_ssl</code>,
+  /// <code>use_fips_ssl</code>, and query monitoring metrics that let you define
   /// performance boundaries. For more information about query monitoring rules
   /// and available metrics, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">
@@ -4139,6 +5962,20 @@ class Workgroup {
   /// The creation date of the workgroup.
   final DateTime? creationDate;
 
+  /// A list of VPCs. Each entry is the unique identifier of a virtual private
+  /// cloud with access to Amazon Redshift Serverless. If all of the VPCs for the
+  /// grantee are allowed, it shows an asterisk.
+  final List<String>? crossAccountVpcs;
+
+  /// The custom domain name’s certificate Amazon resource name (ARN).
+  final String? customDomainCertificateArn;
+
+  /// The expiration time for the certificate.
+  final DateTime? customDomainCertificateExpiryTime;
+
+  /// The custom domain name associated with the workgroup.
+  final String? customDomainName;
+
   /// The endpoint that is created from the workgroup.
   final Endpoint? endpoint;
 
@@ -4147,15 +5984,25 @@ class Workgroup {
   /// through your VPC.
   final bool? enhancedVpcRouting;
 
+  /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve
+  /// queries. The max capacity is specified in RPUs.
+  final int? maxCapacity;
+
   /// The namespace the workgroup is associated with.
   final String? namespaceName;
+
+  /// The patch version of your Amazon Redshift Serverless workgroup. For more
+  /// information about patch versions, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/cluster-versions.html">Cluster
+  /// versions for Amazon Redshift</a>.
+  final String? patchVersion;
 
   /// The custom port to use when connecting to a workgroup. Valid port ranges are
   /// 5431-5455 and 8191-8215. The default is 5439.
   final int? port;
 
   /// A value that specifies whether the workgroup can be accessible from a public
-  /// network
+  /// network.
   final bool? publiclyAccessible;
 
   /// An array of security group IDs to associate with the workgroup.
@@ -4176,13 +6023,25 @@ class Workgroup {
   /// The name of the workgroup.
   final String? workgroupName;
 
+  /// The Amazon Redshift Serverless version of your workgroup. For more
+  /// information about Amazon Redshift Serverless versions, see<a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/cluster-versions.html">Cluster
+  /// versions for Amazon Redshift</a>.
+  final String? workgroupVersion;
+
   Workgroup({
     this.baseCapacity,
     this.configParameters,
     this.creationDate,
+    this.crossAccountVpcs,
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryTime,
+    this.customDomainName,
     this.endpoint,
     this.enhancedVpcRouting,
+    this.maxCapacity,
     this.namespaceName,
+    this.patchVersion,
     this.port,
     this.publiclyAccessible,
     this.securityGroupIds,
@@ -4191,6 +6050,7 @@ class Workgroup {
     this.workgroupArn,
     this.workgroupId,
     this.workgroupName,
+    this.workgroupVersion,
   });
 
   factory Workgroup.fromJson(Map<String, dynamic> json) {
@@ -4201,11 +6061,21 @@ class Workgroup {
           .map((e) => ConfigParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationDate: timeStampFromJson(json['creationDate']),
+      crossAccountVpcs: (json['crossAccountVpcs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      customDomainCertificateArn: json['customDomainCertificateArn'] as String?,
+      customDomainCertificateExpiryTime:
+          timeStampFromJson(json['customDomainCertificateExpiryTime']),
+      customDomainName: json['customDomainName'] as String?,
       endpoint: json['endpoint'] != null
           ? Endpoint.fromJson(json['endpoint'] as Map<String, dynamic>)
           : null,
       enhancedVpcRouting: json['enhancedVpcRouting'] as bool?,
+      maxCapacity: json['maxCapacity'] as int?,
       namespaceName: json['namespaceName'] as String?,
+      patchVersion: json['patchVersion'] as String?,
       port: json['port'] as int?,
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       securityGroupIds: (json['securityGroupIds'] as List?)
@@ -4220,6 +6090,7 @@ class Workgroup {
       workgroupArn: json['workgroupArn'] as String?,
       workgroupId: json['workgroupId'] as String?,
       workgroupName: json['workgroupName'] as String?,
+      workgroupVersion: json['workgroupVersion'] as String?,
     );
   }
 
@@ -4227,9 +6098,16 @@ class Workgroup {
     final baseCapacity = this.baseCapacity;
     final configParameters = this.configParameters;
     final creationDate = this.creationDate;
+    final crossAccountVpcs = this.crossAccountVpcs;
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainCertificateExpiryTime =
+        this.customDomainCertificateExpiryTime;
+    final customDomainName = this.customDomainName;
     final endpoint = this.endpoint;
     final enhancedVpcRouting = this.enhancedVpcRouting;
+    final maxCapacity = this.maxCapacity;
     final namespaceName = this.namespaceName;
+    final patchVersion = this.patchVersion;
     final port = this.port;
     final publiclyAccessible = this.publiclyAccessible;
     final securityGroupIds = this.securityGroupIds;
@@ -4238,13 +6116,23 @@ class Workgroup {
     final workgroupArn = this.workgroupArn;
     final workgroupId = this.workgroupId;
     final workgroupName = this.workgroupName;
+    final workgroupVersion = this.workgroupVersion;
     return {
       if (baseCapacity != null) 'baseCapacity': baseCapacity,
       if (configParameters != null) 'configParameters': configParameters,
       if (creationDate != null) 'creationDate': iso8601ToJson(creationDate),
+      if (crossAccountVpcs != null) 'crossAccountVpcs': crossAccountVpcs,
+      if (customDomainCertificateArn != null)
+        'customDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainCertificateExpiryTime != null)
+        'customDomainCertificateExpiryTime':
+            iso8601ToJson(customDomainCertificateExpiryTime),
+      if (customDomainName != null) 'customDomainName': customDomainName,
       if (endpoint != null) 'endpoint': endpoint,
       if (enhancedVpcRouting != null) 'enhancedVpcRouting': enhancedVpcRouting,
+      if (maxCapacity != null) 'maxCapacity': maxCapacity,
       if (namespaceName != null) 'namespaceName': namespaceName,
+      if (patchVersion != null) 'patchVersion': patchVersion,
       if (port != null) 'port': port,
       if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
@@ -4253,6 +6141,7 @@ class Workgroup {
       if (workgroupArn != null) 'workgroupArn': workgroupArn,
       if (workgroupId != null) 'workgroupId': workgroupId,
       if (workgroupName != null) 'workgroupName': workgroupName,
+      if (workgroupVersion != null) 'workgroupVersion': workgroupVersion,
     };
   }
 }

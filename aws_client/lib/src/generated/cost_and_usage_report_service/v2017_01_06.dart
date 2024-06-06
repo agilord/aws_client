@@ -19,18 +19,22 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// The AWS Cost and Usage Report API enables you to programmatically create,
-/// query, and delete AWS Cost and Usage report definitions.
+/// You can use the Amazon Web Services Cost and Usage Report API to
+/// programmatically create, query, and delete Amazon Web Services Cost and
+/// Usage Report definitions.
 ///
-/// AWS Cost and Usage reports track the monthly AWS costs and usage associated
-/// with your AWS account. The report contains line items for each unique
-/// combination of AWS product, usage type, and operation that your AWS account
-/// uses. You can configure the AWS Cost and Usage report to show only the data
-/// that you want, using the AWS Cost and Usage API.
+/// Amazon Web Services Cost and Usage Report track the monthly Amazon Web
+/// Services costs and usage associated with your Amazon Web Services account.
+/// The report contains line items for each unique combination of Amazon Web
+/// Services product, usage type, and operation that your Amazon Web Services
+/// account uses. You can configure the Amazon Web Services Cost and Usage
+/// Report to show only the data that you want, using the Amazon Web Services
+/// Cost and Usage Report API.
 ///
 /// Service Endpoint
 ///
-/// The AWS Cost and Usage Report API provides the following endpoint:
+/// The Amazon Web Services Cost and Usage Report API provides the following
+/// endpoint:
 ///
 /// <ul>
 /// <li>
@@ -66,7 +70,8 @@ class CostAndUsageReport {
     _protocol.close();
   }
 
-  /// Deletes the specified report.
+  /// Deletes the specified report. Any tags associated with the report are also
+  /// deleted.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ValidationException].
@@ -75,7 +80,7 @@ class CostAndUsageReport {
   /// The name of the report that you want to delete. The name must be unique,
   /// is case sensitive, and can't include spaces.
   Future<DeleteReportDefinitionResponse> deleteReportDefinition({
-    String? reportName,
+    required String reportName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -88,14 +93,15 @@ class CostAndUsageReport {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (reportName != null) 'ReportName': reportName,
+        'ReportName': reportName,
       },
     );
 
     return DeleteReportDefinitionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the AWS Cost and Usage reports available to this account.
+  /// Lists the Amazon Web Services Cost and Usage Report available to this
+  /// account.
   ///
   /// May throw [InternalErrorException].
   Future<DescribeReportDefinitionsResponse> describeReportDefinitions({
@@ -128,7 +134,36 @@ class CostAndUsageReport {
     return DescribeReportDefinitionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Allows you to programatically update your report preferences.
+  /// Lists the tags associated with the specified report definition.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [reportName] :
+  /// The report name of the report definition that tags are to be returned for.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String reportName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrigamiServiceGatewayService.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReportName': reportName,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Allows you to programmatically update your report preferences.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ValidationException].
@@ -159,12 +194,17 @@ class CostAndUsageReport {
   /// May throw [ReportLimitReachedException].
   /// May throw [InternalErrorException].
   /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [reportDefinition] :
   /// Represents the output of the PutReportDefinition operation. The content
   /// consists of the detailed metadata and data file information.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be assigned to the report definition resource.
   Future<void> putReportDefinition({
     required ReportDefinition reportDefinition,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -178,12 +218,80 @@ class CostAndUsageReport {
       headers: headers,
       payload: {
         'ReportDefinition': reportDefinition,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+  }
+
+  /// Associates a set of tags with a report definition.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [reportName] :
+  /// The report name of the report definition that tags are to be associated
+  /// with.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be assigned to the report definition resource.
+  Future<void> tagResource({
+    required String reportName,
+    required List<Tag> tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrigamiServiceGatewayService.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReportName': reportName,
+        'Tags': tags,
+      },
+    );
+  }
+
+  /// Disassociates a set of tags from a report definition.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [reportName] :
+  /// The report name of the report definition that tags are to be disassociated
+  /// from.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tags to be disassociated from the report definition resource.
+  Future<void> untagResource({
+    required String reportName,
+    required List<String> tagKeys,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrigamiServiceGatewayService.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReportName': reportName,
+        'TagKeys': tagKeys,
       },
     );
   }
 }
 
-/// The region of the S3 bucket that AWS delivers the report into.
+/// The region of the S3 bucket that Amazon Web Services delivers the report
+/// into.
 enum AWSRegion {
   afSouth_1,
   apEast_1,
@@ -342,7 +450,8 @@ extension AWSRegionFromString on String {
   }
 }
 
-/// The types of manifest that you want AWS to create for this report.
+/// The types of manifest that you want Amazon Web Services to create for this
+/// report.
 enum AdditionalArtifact {
   redshift,
   quicksight,
@@ -376,7 +485,7 @@ extension AdditionalArtifactFromString on String {
   }
 }
 
-/// The compression format that AWS uses for the report.
+/// The compression format that Amazon Web Services uses for the report.
 enum CompressionFormat {
   zip,
   gzip,
@@ -436,7 +545,7 @@ class DeleteReportDefinitionResponse {
 class DescribeReportDefinitionsResponse {
   final String? nextToken;
 
-  /// A list of AWS Cost and Usage reports owned by the account.
+  /// An Amazon Web Services Cost and Usage Report list owned by the account.
   final List<ReportDefinition>? reportDefinitions;
 
   DescribeReportDefinitionsResponse({
@@ -461,6 +570,64 @@ class DescribeReportDefinitionsResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (reportDefinitions != null) 'ReportDefinitions': reportDefinitions,
+    };
+  }
+}
+
+enum LastStatus {
+  success,
+  errorPermissions,
+  errorNoBucket,
+}
+
+extension LastStatusValueExtension on LastStatus {
+  String toValue() {
+    switch (this) {
+      case LastStatus.success:
+        return 'SUCCESS';
+      case LastStatus.errorPermissions:
+        return 'ERROR_PERMISSIONS';
+      case LastStatus.errorNoBucket:
+        return 'ERROR_NO_BUCKET';
+    }
+  }
+}
+
+extension LastStatusFromString on String {
+  LastStatus toLastStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return LastStatus.success;
+      case 'ERROR_PERMISSIONS':
+        return LastStatus.errorPermissions;
+      case 'ERROR_NO_BUCKET':
+        return LastStatus.errorNoBucket;
+    }
+    throw Exception('$this is not known in enum LastStatus');
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tags assigned to the report definition resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -491,9 +658,9 @@ class PutReportDefinitionResponse {
   }
 }
 
-/// The definition of AWS Cost and Usage Report. You can specify the report
-/// name, time unit, report format, compression format, S3 bucket, additional
-/// artifacts, and schema elements in the definition.
+/// The definition of Amazon Web Services Cost and Usage Report. You can specify
+/// the report name, time unit, report format, compression format, S3 bucket,
+/// additional artifacts, and schema elements in the definition.
 class ReportDefinition {
   /// A list of strings that indicate additional content that Amazon Web Services
   /// includes in the report, such as individual resource IDs.
@@ -510,14 +677,21 @@ class ReportDefinition {
   /// report.
   final List<AdditionalArtifact>? additionalArtifacts;
 
-  /// The Amazon resource name of the billing view. You can get this value by
-  /// using the billing view service public APIs.
+  /// The Amazon resource name of the billing view. The
+  /// <code>BillingViewArn</code> is needed to create Amazon Web Services Cost and
+  /// Usage Report for each billing group maintained in the Amazon Web Services
+  /// Billing Conductor service. The <code>BillingViewArn</code> for a billing
+  /// group can be constructed as:
+  /// <code>arn:aws:billing::payer-account-id:billingview/billing-group-primary-account-id</code>
   final String? billingViewArn;
 
   /// Whether you want Amazon Web Services to update your reports after they have
   /// been finalized if Amazon Web Services detects charges related to previous
   /// months. These charges can include refunds, credits, or support fees.
   final bool? refreshClosedReports;
+
+  /// The status of the report.
+  final ReportStatus? reportStatus;
 
   /// Whether you want Amazon Web Services to overwrite the previous version of
   /// each report or to deliver the report in addition to the previous versions.
@@ -535,6 +709,7 @@ class ReportDefinition {
     this.additionalArtifacts,
     this.billingViewArn,
     this.refreshClosedReports,
+    this.reportStatus,
     this.reportVersioning,
   });
 
@@ -557,6 +732,9 @@ class ReportDefinition {
           .toList(),
       billingViewArn: json['BillingViewArn'] as String?,
       refreshClosedReports: json['RefreshClosedReports'] as bool?,
+      reportStatus: json['ReportStatus'] != null
+          ? ReportStatus.fromJson(json['ReportStatus'] as Map<String, dynamic>)
+          : null,
       reportVersioning:
           (json['ReportVersioning'] as String?)?.toReportVersioning(),
     );
@@ -574,6 +752,7 @@ class ReportDefinition {
     final additionalArtifacts = this.additionalArtifacts;
     final billingViewArn = this.billingViewArn;
     final refreshClosedReports = this.refreshClosedReports;
+    final reportStatus = this.reportStatus;
     final reportVersioning = this.reportVersioning;
     return {
       'AdditionalSchemaElements':
@@ -591,13 +770,14 @@ class ReportDefinition {
       if (billingViewArn != null) 'BillingViewArn': billingViewArn,
       if (refreshClosedReports != null)
         'RefreshClosedReports': refreshClosedReports,
+      if (reportStatus != null) 'ReportStatus': reportStatus,
       if (reportVersioning != null)
         'ReportVersioning': reportVersioning.toValue(),
     };
   }
 }
 
-/// The format that AWS saves the report in.
+/// The format that Amazon Web Services saves the report in.
 enum ReportFormat {
   textORcsv,
   parquet,
@@ -623,6 +803,38 @@ extension ReportFormatFromString on String {
         return ReportFormat.parquet;
     }
     throw Exception('$this is not known in enum ReportFormat');
+  }
+}
+
+/// A two element dictionary with a <code>lastDelivery</code> and
+/// <code>lastStatus</code> key whose values describe the date and status of the
+/// last delivered report for a particular report definition.
+class ReportStatus {
+  /// A timestamp that gives the date of a report delivery.
+  final String? lastDelivery;
+
+  /// An enum that gives the status of a report delivery.
+  final LastStatus? lastStatus;
+
+  ReportStatus({
+    this.lastDelivery,
+    this.lastStatus,
+  });
+
+  factory ReportStatus.fromJson(Map<String, dynamic> json) {
+    return ReportStatus(
+      lastDelivery: json['lastDelivery'] as String?,
+      lastStatus: (json['lastStatus'] as String?)?.toLastStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastDelivery = this.lastDelivery;
+    final lastStatus = this.lastStatus;
+    return {
+      if (lastDelivery != null) 'lastDelivery': lastDelivery,
+      if (lastStatus != null) 'lastStatus': lastStatus.toValue(),
+    };
   }
 }
 
@@ -654,10 +866,11 @@ extension ReportVersioningFromString on String {
   }
 }
 
-/// Whether or not AWS includes resource IDs in the report.
+/// Whether or not Amazon Web Services includes resource IDs in the report.
 enum SchemaElement {
   resources,
   splitCostAllocationData,
+  manualDiscountCompatibility,
 }
 
 extension SchemaElementValueExtension on SchemaElement {
@@ -667,6 +880,8 @@ extension SchemaElementValueExtension on SchemaElement {
         return 'RESOURCES';
       case SchemaElement.splitCostAllocationData:
         return 'SPLIT_COST_ALLOCATION_DATA';
+      case SchemaElement.manualDiscountCompatibility:
+        return 'MANUAL_DISCOUNT_COMPATIBILITY';
     }
   }
 }
@@ -678,8 +893,56 @@ extension SchemaElementFromString on String {
         return SchemaElement.resources;
       case 'SPLIT_COST_ALLOCATION_DATA':
         return SchemaElement.splitCostAllocationData;
+      case 'MANUAL_DISCOUNT_COMPATIBILITY':
+        return SchemaElement.manualDiscountCompatibility;
     }
     throw Exception('$this is not known in enum SchemaElement');
+  }
+}
+
+/// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
+/// report definition.
+class Tag {
+  /// The key of the tag. Tag keys are case sensitive. Each report definition can
+  /// only have up to one tag with the same key. If you try to add an existing tag
+  /// with the same key, the existing tag value will be updated to the new value.
+  final String key;
+
+  /// The value of the tag. Tag values are case-sensitive. This can be an empty
+  /// string.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -717,6 +980,18 @@ extension TimeUnitFromString on String {
   }
 }
 
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DuplicateReportNameException extends _s.GenericAwsException {
   DuplicateReportNameException({String? type, String? message})
       : super(
@@ -734,6 +1009,11 @@ class ReportLimitReachedException extends _s.GenericAwsException {
             type: type, code: 'ReportLimitReachedException', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -746,6 +1026,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalErrorException(type: type, message: message),
   'ReportLimitReachedException': (type, message) =>
       ReportLimitReachedException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

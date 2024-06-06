@@ -13,7 +13,7 @@ HttpError _$HttpErrorFromJson(Map<String, dynamic> json) {
   );
   return HttpError(
     json['code'] as String?,
-    json['httpStatusCode'] as int,
+    (json['httpStatusCode'] as num).toInt(),
     json['senderFault'] as bool? ?? false,
   );
 }

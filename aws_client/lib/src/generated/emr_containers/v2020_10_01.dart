@@ -26,7 +26,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// containers for open-source applications. For more information about Amazon
 /// EMR on EKS concepts and tasks, see <a
 /// href="https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/emr-eks.html">What
-/// is shared id="EMR-EKS"/&gt;</a>.
+/// is Amazon EMR on EKS</a>.
 ///
 /// <i>Amazon EMR containers</i> is the API name for Amazon EMR on EKS. The
 /// <code>emr-containers</code> prefix is used in the following scenarios:
@@ -219,6 +219,48 @@ class EmrContainers {
     return CreateManagedEndpointResponse.fromJson(response);
   }
 
+  /// Creates a security configuration. Security configurations in Amazon EMR on
+  /// EKS are templates for different security setups. You can use security
+  /// configurations to configure the Lake Formation integration setup. You can
+  /// also create a security configuration to re-use a security setup each time
+  /// you create a virtual cluster.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [name] :
+  /// The name of the security configuration.
+  ///
+  /// Parameter [securityConfigurationData] :
+  /// Security configuration input for the request.
+  ///
+  /// Parameter [clientToken] :
+  /// The client idempotency token to use when creating the security
+  /// configuration.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the security configuration.
+  Future<CreateSecurityConfigurationResponse> createSecurityConfiguration({
+    required String name,
+    required SecurityConfigurationData securityConfigurationData,
+    String? clientToken,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'securityConfigurationData': securityConfigurationData,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/securityconfigurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSecurityConfigurationResponse.fromJson(response);
+  }
+
   /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon
   /// EMR on EKS. You can create, describe, list and delete virtual clusters.
   /// They do not consume any additional resource in your system. A single
@@ -229,6 +271,7 @@ class EmrContainers {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [EKSRequestThrottledException].
   ///
   /// Parameter [containerProvider] :
   /// The container provider of the virtual cluster.
@@ -239,18 +282,24 @@ class EmrContainers {
   /// Parameter [clientToken] :
   /// The client token of the virtual cluster.
   ///
+  /// Parameter [securityConfigurationId] :
+  /// The ID of the security configuration.
+  ///
   /// Parameter [tags] :
   /// The tags assigned to the virtual cluster.
   Future<CreateVirtualClusterResponse> createVirtualCluster({
     required ContainerProvider containerProvider,
     required String name,
     String? clientToken,
+    String? securityConfigurationId,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'containerProvider': containerProvider,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (securityConfigurationId != null)
+        'securityConfigurationId': securityConfigurationId,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -410,6 +459,30 @@ class EmrContainers {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeManagedEndpointResponse.fromJson(response);
+  }
+
+  /// Displays detailed information about a specified security configuration.
+  /// Security configurations in Amazon EMR on EKS are templates for different
+  /// security setups. You can use security configurations to configure the Lake
+  /// Formation integration setup. You can also create a security configuration
+  /// to re-use a security setup each time you create a virtual cluster.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the security configuration.
+  Future<DescribeSecurityConfigurationResponse> describeSecurityConfiguration({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/securityconfigurations/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeSecurityConfigurationResponse.fromJson(response);
   }
 
   /// Displays detailed information about a specified virtual cluster. Virtual
@@ -653,6 +726,50 @@ class EmrContainers {
     return ListManagedEndpointsResponse.fromJson(response);
   }
 
+  /// Lists security configurations based on a set of parameters. Security
+  /// configurations in Amazon EMR on EKS are templates for different security
+  /// setups. You can use security configurations to configure the Lake
+  /// Formation integration setup. You can also create a security configuration
+  /// to re-use a security setup each time you create a virtual cluster.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [createdAfter] :
+  /// The date and time after which the security configuration was created.
+  ///
+  /// Parameter [createdBefore] :
+  /// The date and time before which the security configuration was created.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of security configurations the operation can list.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of security configurations to return.
+  Future<ListSecurityConfigurationsResponse> listSecurityConfigurations({
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (createdAfter != null)
+        'createdAfter': [_s.iso8601ToJson(createdAfter).toString()],
+      if (createdBefore != null)
+        'createdBefore': [_s.iso8601ToJson(createdBefore).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/securityconfigurations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSecurityConfigurationsResponse.fromJson(response);
+  }
+
   /// Lists the tags assigned to the resources.
   ///
   /// May throw [InternalServerException].
@@ -696,6 +813,12 @@ class EmrContainers {
   /// Parameter [createdBefore] :
   /// The date and time before which the virtual clusters are created.
   ///
+  /// Parameter [eksAccessEntryIntegrated] :
+  /// Optional Boolean that specifies whether the operation should return the
+  /// virtual clusters that have the access entry integration enabled or
+  /// disabled. If not specified, the operation returns all applicable virtual
+  /// clusters.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of virtual clusters that can be listed.
   ///
@@ -709,6 +832,7 @@ class EmrContainers {
     ContainerProviderType? containerProviderType,
     DateTime? createdAfter,
     DateTime? createdBefore,
+    bool? eksAccessEntryIntegrated,
     int? maxResults,
     String? nextToken,
     List<VirtualClusterState>? states,
@@ -722,6 +846,8 @@ class EmrContainers {
         'createdAfter': [_s.iso8601ToJson(createdAfter).toString()],
       if (createdBefore != null)
         'createdBefore': [_s.iso8601ToJson(createdBefore).toString()],
+      if (eksAccessEntryIntegrated != null)
+        'eksAccessEntryIntegrated': [eksAccessEntryIntegrated.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (states != null) 'states': states.map((e) => e.toValue()).toList(),
@@ -876,6 +1002,44 @@ class EmrContainers {
   }
 }
 
+/// Authorization-related configuration inputs for the security configuration.
+class AuthorizationConfiguration {
+  /// Encryption-related configuration input for the security configuration.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// Lake Formation related configuration inputs for the security configuration.
+  final LakeFormationConfiguration? lakeFormationConfiguration;
+
+  AuthorizationConfiguration({
+    this.encryptionConfiguration,
+    this.lakeFormationConfiguration,
+  });
+
+  factory AuthorizationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuthorizationConfiguration(
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      lakeFormationConfiguration: json['lakeFormationConfiguration'] != null
+          ? LakeFormationConfiguration.fromJson(
+              json['lakeFormationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final lakeFormationConfiguration = this.lakeFormationConfiguration;
+    return {
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (lakeFormationConfiguration != null)
+        'lakeFormationConfiguration': lakeFormationConfiguration,
+    };
+  }
+}
+
 class CancelJobRunResponse {
   /// The output contains the ID of the cancelled job run.
   final String? id;
@@ -933,6 +1097,29 @@ class Certificate {
       if (certificateArn != null) 'certificateArn': certificateArn,
       if (certificateData != null) 'certificateData': certificateData,
     };
+  }
+}
+
+enum CertificateProviderType {
+  pem,
+}
+
+extension CertificateProviderTypeValueExtension on CertificateProviderType {
+  String toValue() {
+    switch (this) {
+      case CertificateProviderType.pem:
+        return 'PEM';
+    }
+  }
+}
+
+extension CertificateProviderTypeFromString on String {
+  CertificateProviderType toCertificateProviderType() {
+    switch (this) {
+      case 'PEM':
+        return CertificateProviderType.pem;
+    }
+    throw Exception('$this is not known in enum CertificateProviderType');
   }
 }
 
@@ -1076,6 +1263,37 @@ class ContainerInfo {
     final eksInfo = this.eksInfo;
     return {
       if (eksInfo != null) 'eksInfo': eksInfo,
+    };
+  }
+}
+
+/// The settings for container log rotation.
+class ContainerLogRotationConfiguration {
+  /// The number of files to keep in container after rotation.
+  final int maxFilesToKeep;
+
+  /// The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB.
+  final String rotationSize;
+
+  ContainerLogRotationConfiguration({
+    required this.maxFilesToKeep,
+    required this.rotationSize,
+  });
+
+  factory ContainerLogRotationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ContainerLogRotationConfiguration(
+      maxFilesToKeep: json['maxFilesToKeep'] as int,
+      rotationSize: json['rotationSize'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxFilesToKeep = this.maxFilesToKeep;
+    final rotationSize = this.rotationSize;
+    return {
+      'maxFilesToKeep': maxFilesToKeep,
+      'rotationSize': rotationSize,
     };
   }
 }
@@ -1225,6 +1443,43 @@ class CreateManagedEndpointResponse {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
+}
+
+class CreateSecurityConfigurationResponse {
+  /// The ARN (Amazon Resource Name) of the security configuration.
+  final String? arn;
+
+  /// The ID of the security configuration.
+  final String? id;
+
+  /// The name of the security configuration.
+  final String? name;
+
+  CreateSecurityConfigurationResponse({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory CreateSecurityConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateSecurityConfigurationResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
     };
   }
 }
@@ -1433,6 +1688,33 @@ class DescribeManagedEndpointResponse {
   }
 }
 
+class DescribeSecurityConfigurationResponse {
+  /// Details of the security configuration.
+  final SecurityConfiguration? securityConfiguration;
+
+  DescribeSecurityConfigurationResponse({
+    this.securityConfiguration,
+  });
+
+  factory DescribeSecurityConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeSecurityConfigurationResponse(
+      securityConfiguration: json['securityConfiguration'] != null
+          ? SecurityConfiguration.fromJson(
+              json['securityConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityConfiguration = this.securityConfiguration;
+    return {
+      if (securityConfiguration != null)
+        'securityConfiguration': securityConfiguration,
+    };
+  }
+}
+
 class DescribeVirtualClusterResponse {
   /// This output displays information about the specified virtual cluster.
   final VirtualCluster? virtualCluster;
@@ -1477,6 +1759,36 @@ class EksInfo {
     final namespace = this.namespace;
     return {
       if (namespace != null) 'namespace': namespace,
+    };
+  }
+}
+
+/// Configurations related to encryption for the security configuration.
+class EncryptionConfiguration {
+  /// In-transit encryption-related input for the security configuration.
+  final InTransitEncryptionConfiguration? inTransitEncryptionConfiguration;
+
+  EncryptionConfiguration({
+    this.inTransitEncryptionConfiguration,
+  });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      inTransitEncryptionConfiguration:
+          json['inTransitEncryptionConfiguration'] != null
+              ? InTransitEncryptionConfiguration.fromJson(
+                  json['inTransitEncryptionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inTransitEncryptionConfiguration =
+        this.inTransitEncryptionConfiguration;
+    return {
+      if (inTransitEncryptionConfiguration != null)
+        'inTransitEncryptionConfiguration': inTransitEncryptionConfiguration,
     };
   }
 }
@@ -1754,6 +2066,34 @@ class GetManagedEndpointSessionCredentialsResponse {
       if (credentials != null) 'credentials': credentials,
       if (expiresAt != null) 'expiresAt': iso8601ToJson(expiresAt),
       if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Configurations related to in-transit encryption for the security
+/// configuration.
+class InTransitEncryptionConfiguration {
+  /// TLS certificate-related configuration input for the security configuration.
+  final TLSCertificateConfiguration? tlsCertificateConfiguration;
+
+  InTransitEncryptionConfiguration({
+    this.tlsCertificateConfiguration,
+  });
+
+  factory InTransitEncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return InTransitEncryptionConfiguration(
+      tlsCertificateConfiguration: json['tlsCertificateConfiguration'] != null
+          ? TLSCertificateConfiguration.fromJson(
+              json['tlsCertificateConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tlsCertificateConfiguration = this.tlsCertificateConfiguration;
+    return {
+      if (tlsCertificateConfiguration != null)
+        'tlsCertificateConfiguration': tlsCertificateConfiguration,
     };
   }
 }
@@ -2160,6 +2500,51 @@ class JobTemplateData {
   }
 }
 
+/// Lake Formation related configuration inputs for the security configuration.
+class LakeFormationConfiguration {
+  /// The session tag to authorize Amazon EMR on EKS for API calls to Lake
+  /// Formation.
+  final String? authorizedSessionTagValue;
+
+  /// The query engine IAM role ARN that is tied to the secure Spark job. The
+  /// <code>QueryEngine</code> role assumes the <code>JobExecutionRole</code> to
+  /// execute all the Lake Formation calls.
+  final String? queryEngineRoleArn;
+
+  /// The namespace input of the system job.
+  final SecureNamespaceInfo? secureNamespaceInfo;
+
+  LakeFormationConfiguration({
+    this.authorizedSessionTagValue,
+    this.queryEngineRoleArn,
+    this.secureNamespaceInfo,
+  });
+
+  factory LakeFormationConfiguration.fromJson(Map<String, dynamic> json) {
+    return LakeFormationConfiguration(
+      authorizedSessionTagValue: json['authorizedSessionTagValue'] as String?,
+      queryEngineRoleArn: json['queryEngineRoleArn'] as String?,
+      secureNamespaceInfo: json['secureNamespaceInfo'] != null
+          ? SecureNamespaceInfo.fromJson(
+              json['secureNamespaceInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedSessionTagValue = this.authorizedSessionTagValue;
+    final queryEngineRoleArn = this.queryEngineRoleArn;
+    final secureNamespaceInfo = this.secureNamespaceInfo;
+    return {
+      if (authorizedSessionTagValue != null)
+        'authorizedSessionTagValue': authorizedSessionTagValue,
+      if (queryEngineRoleArn != null) 'queryEngineRoleArn': queryEngineRoleArn,
+      if (secureNamespaceInfo != null)
+        'secureNamespaceInfo': secureNamespaceInfo,
+    };
+  }
+}
+
 class ListJobRunsResponse {
   /// This output lists information about the specified job runs.
   final List<JobRun>? jobRuns;
@@ -2256,6 +2641,40 @@ class ListManagedEndpointsResponse {
   }
 }
 
+class ListSecurityConfigurationsResponse {
+  /// The token for the next set of security configurations to return.
+  final String? nextToken;
+
+  /// The list of returned security configurations.
+  final List<SecurityConfiguration>? securityConfigurations;
+
+  ListSecurityConfigurationsResponse({
+    this.nextToken,
+    this.securityConfigurations,
+  });
+
+  factory ListSecurityConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSecurityConfigurationsResponse(
+      nextToken: json['nextToken'] as String?,
+      securityConfigurations: (json['securityConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecurityConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final securityConfigurations = this.securityConfigurations;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (securityConfigurations != null)
+        'securityConfigurations': securityConfigurations,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The tags assigned to resources.
   final Map<String, String>? tags;
@@ -2316,6 +2735,9 @@ class MonitoringConfiguration {
   /// Monitoring configurations for CloudWatch.
   final CloudWatchMonitoringConfiguration? cloudWatchMonitoringConfiguration;
 
+  /// Enable or disable container log rotation.
+  final ContainerLogRotationConfiguration? containerLogRotationConfiguration;
+
   /// Monitoring configurations for the persistent application UI.
   final PersistentAppUI? persistentAppUI;
 
@@ -2324,6 +2746,7 @@ class MonitoringConfiguration {
 
   MonitoringConfiguration({
     this.cloudWatchMonitoringConfiguration,
+    this.containerLogRotationConfiguration,
     this.persistentAppUI,
     this.s3MonitoringConfiguration,
   });
@@ -2334,6 +2757,12 @@ class MonitoringConfiguration {
           json['cloudWatchMonitoringConfiguration'] != null
               ? CloudWatchMonitoringConfiguration.fromJson(
                   json['cloudWatchMonitoringConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      containerLogRotationConfiguration:
+          json['containerLogRotationConfiguration'] != null
+              ? ContainerLogRotationConfiguration.fromJson(
+                  json['containerLogRotationConfiguration']
                       as Map<String, dynamic>)
               : null,
       persistentAppUI:
@@ -2348,11 +2777,15 @@ class MonitoringConfiguration {
   Map<String, dynamic> toJson() {
     final cloudWatchMonitoringConfiguration =
         this.cloudWatchMonitoringConfiguration;
+    final containerLogRotationConfiguration =
+        this.containerLogRotationConfiguration;
     final persistentAppUI = this.persistentAppUI;
     final s3MonitoringConfiguration = this.s3MonitoringConfiguration;
     return {
       if (cloudWatchMonitoringConfiguration != null)
         'cloudWatchMonitoringConfiguration': cloudWatchMonitoringConfiguration,
+      if (containerLogRotationConfiguration != null)
+        'containerLogRotationConfiguration': containerLogRotationConfiguration,
       if (persistentAppUI != null) 'persistentAppUI': persistentAppUI.toValue(),
       if (s3MonitoringConfiguration != null)
         's3MonitoringConfiguration': s3MonitoringConfiguration,
@@ -2609,6 +3042,137 @@ class S3MonitoringConfiguration {
   }
 }
 
+/// Namespace inputs for the system job.
+class SecureNamespaceInfo {
+  /// The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run.
+  final String? clusterId;
+
+  /// The namespace of the Amazon EKS cluster where the system jobs run.
+  final String? namespace;
+
+  SecureNamespaceInfo({
+    this.clusterId,
+    this.namespace,
+  });
+
+  factory SecureNamespaceInfo.fromJson(Map<String, dynamic> json) {
+    return SecureNamespaceInfo(
+      clusterId: json['clusterId'] as String?,
+      namespace: json['namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterId = this.clusterId;
+    final namespace = this.namespace;
+    return {
+      if (clusterId != null) 'clusterId': clusterId,
+      if (namespace != null) 'namespace': namespace,
+    };
+  }
+}
+
+/// Inputs related to the security configuration. Security configurations in
+/// Amazon EMR on EKS are templates for different security setups. You can use
+/// security configurations to configure the Lake Formation integration setup.
+/// You can also create a security configuration to re-use a security setup each
+/// time you create a virtual cluster.
+class SecurityConfiguration {
+  /// The ARN (Amazon Resource Name) of the security configuration.
+  final String? arn;
+
+  /// The date and time that the job run was created.
+  final DateTime? createdAt;
+
+  /// The user who created the job run.
+  final String? createdBy;
+
+  /// The ID of the security configuration.
+  final String? id;
+
+  /// The name of the security configuration.
+  final String? name;
+
+  /// Security configuration inputs for the request.
+  final SecurityConfigurationData? securityConfigurationData;
+
+  /// The tags to assign to the security configuration.
+  final Map<String, String>? tags;
+
+  SecurityConfiguration({
+    this.arn,
+    this.createdAt,
+    this.createdBy,
+    this.id,
+    this.name,
+    this.securityConfigurationData,
+    this.tags,
+  });
+
+  factory SecurityConfiguration.fromJson(Map<String, dynamic> json) {
+    return SecurityConfiguration(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      securityConfigurationData: json['securityConfigurationData'] != null
+          ? SecurityConfigurationData.fromJson(
+              json['securityConfigurationData'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final id = this.id;
+    final name = this.name;
+    final securityConfigurationData = this.securityConfigurationData;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (securityConfigurationData != null)
+        'securityConfigurationData': securityConfigurationData,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Configurations related to the security configuration for the request.
+class SecurityConfigurationData {
+  /// Authorization-related configuration input for the security configuration.
+  final AuthorizationConfiguration? authorizationConfiguration;
+
+  SecurityConfigurationData({
+    this.authorizationConfiguration,
+  });
+
+  factory SecurityConfigurationData.fromJson(Map<String, dynamic> json) {
+    return SecurityConfigurationData(
+      authorizationConfiguration: json['authorizationConfiguration'] != null
+          ? AuthorizationConfiguration.fromJson(
+              json['authorizationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationConfiguration = this.authorizationConfiguration;
+    return {
+      if (authorizationConfiguration != null)
+        'authorizationConfiguration': authorizationConfiguration,
+    };
+  }
+}
+
 /// The job driver for job type.
 class SparkSqlJobDriver {
   /// The SQL file to be executed.
@@ -2725,6 +3289,52 @@ class StartJobRunResponse {
   }
 }
 
+/// Configurations related to the TLS certificate for the security
+/// configuration.
+class TLSCertificateConfiguration {
+  /// The TLS certificate type. Acceptable values: <code>PEM</code> or
+  /// <code>Custom</code>.
+  final CertificateProviderType? certificateProviderType;
+
+  /// Secrets Manager ARN that contains the private TLS certificate contents, used
+  /// for communication between the user job and the system job.
+  final String? privateCertificateSecretArn;
+
+  /// Secrets Manager ARN that contains the public TLS certificate contents, used
+  /// for communication between the user job and the system job.
+  final String? publicCertificateSecretArn;
+
+  TLSCertificateConfiguration({
+    this.certificateProviderType,
+    this.privateCertificateSecretArn,
+    this.publicCertificateSecretArn,
+  });
+
+  factory TLSCertificateConfiguration.fromJson(Map<String, dynamic> json) {
+    return TLSCertificateConfiguration(
+      certificateProviderType: (json['certificateProviderType'] as String?)
+          ?.toCertificateProviderType(),
+      privateCertificateSecretArn:
+          json['privateCertificateSecretArn'] as String?,
+      publicCertificateSecretArn: json['publicCertificateSecretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateProviderType = this.certificateProviderType;
+    final privateCertificateSecretArn = this.privateCertificateSecretArn;
+    final publicCertificateSecretArn = this.publicCertificateSecretArn;
+    return {
+      if (certificateProviderType != null)
+        'certificateProviderType': certificateProviderType.toValue(),
+      if (privateCertificateSecretArn != null)
+        'privateCertificateSecretArn': privateCertificateSecretArn,
+      if (publicCertificateSecretArn != null)
+        'publicCertificateSecretArn': publicCertificateSecretArn,
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2831,6 +3441,9 @@ class VirtualCluster {
   /// The name of the virtual cluster.
   final String? name;
 
+  /// The ID of the security configuration.
+  final String? securityConfigurationId;
+
   /// The state of the virtual cluster.
   final VirtualClusterState? state;
 
@@ -2843,6 +3456,7 @@ class VirtualCluster {
     this.createdAt,
     this.id,
     this.name,
+    this.securityConfigurationId,
     this.state,
     this.tags,
   });
@@ -2857,6 +3471,7 @@ class VirtualCluster {
       createdAt: timeStampFromJson(json['createdAt']),
       id: json['id'] as String?,
       name: json['name'] as String?,
+      securityConfigurationId: json['securityConfigurationId'] as String?,
       state: (json['state'] as String?)?.toVirtualClusterState(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2869,6 +3484,7 @@ class VirtualCluster {
     final createdAt = this.createdAt;
     final id = this.id;
     final name = this.name;
+    final securityConfigurationId = this.securityConfigurationId;
     final state = this.state;
     final tags = this.tags;
     return {
@@ -2877,6 +3493,8 @@ class VirtualCluster {
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (securityConfigurationId != null)
+        'securityConfigurationId': securityConfigurationId,
       if (state != null) 'state': state.toValue(),
       if (tags != null) 'tags': tags,
     };
@@ -2921,6 +3539,12 @@ extension VirtualClusterStateFromString on String {
   }
 }
 
+class EKSRequestThrottledException extends _s.GenericAwsException {
+  EKSRequestThrottledException({String? type, String? message})
+      : super(
+            type: type, code: 'EKSRequestThrottledException', message: message);
+}
+
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
@@ -2942,6 +3566,8 @@ class ValidationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'EKSRequestThrottledException': (type, message) =>
+      EKSRequestThrottledException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
   'RequestThrottledException': (type, message) =>

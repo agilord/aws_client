@@ -37,9 +37,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// basic functions that automatically take care of tasks such as
 /// cryptographically signing your requests, retrying requests, and handling
 /// error responses, so that it is easier for you to get started. For more
-/// information about the AWS SDKs, see <a
-/// href="https://docs.aws.amazon.com/https:/aws.amazon.com/tools/">Tools to
-/// build on AWS</a>.
+/// information about the AWS SDKs, go to <a
+/// href="https://aws.amazon.com/developer/tools/">Tools to build on AWS</a>
+/// page, scroll down to the <b>SDK</b> section, and choose plus (+) sign to
+/// expand the section.
 class FraudDetector {
   final _s.JsonProtocol _protocol;
   FraudDetector({
@@ -649,7 +650,7 @@ class FraudDetector {
   /// The source of the data.
   ///
   /// Parameter [dataType] :
-  /// The data type.
+  /// The data type of the variable.
   ///
   /// Parameter [defaultValue] :
   /// The default value for the variable when no value is received.
@@ -875,7 +876,10 @@ class FraudDetector {
   /// Deletes the specified event.
   ///
   /// When you delete an event, Amazon Fraud Detector permanently deletes that
-  /// event and the event data is no longer stored in Amazon Fraud Detector.
+  /// event and the event data is no longer stored in Amazon Fraud Detector. If
+  /// <code>deleteAuditHistory</code> is <code>True</code>, event data is
+  /// available through search for up to 30 seconds after the delete operation
+  /// is completed.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -890,7 +894,7 @@ class FraudDetector {
   ///
   /// Parameter [deleteAuditHistory] :
   /// Specifies whether or not to delete any predictions associated with the
-  /// event.
+  /// event. If set to <code>True</code>,
   Future<void> deleteEvent({
     required String eventId,
     required String eventTypeName,
@@ -2651,7 +2655,12 @@ class FraudDetector {
   /// The description of the event type.
   ///
   /// Parameter [eventIngestion] :
-  /// Specifies if ingenstion is enabled or disabled.
+  /// Specifies if ingestion is enabled or disabled.
+  ///
+  /// Parameter [eventOrchestration] :
+  /// Enables or disables event orchestration. If enabled, you can send event
+  /// predictions to select AWS services for downstream processing of the
+  /// events.
   ///
   /// Parameter [labels] :
   /// The event type labels.
@@ -2664,6 +2673,7 @@ class FraudDetector {
     required String name,
     String? description,
     EventIngestion? eventIngestion,
+    EventOrchestration? eventOrchestration,
     List<String>? labels,
     List<Tag>? tags,
   }) async {
@@ -2683,6 +2693,8 @@ class FraudDetector {
         'name': name,
         if (description != null) 'description': description,
         if (eventIngestion != null) 'eventIngestion': eventIngestion.toValue(),
+        if (eventOrchestration != null)
+          'eventOrchestration': eventOrchestration,
         if (labels != null) 'labels': labels,
         if (tags != null) 'tags': tags,
       },
@@ -2801,7 +2813,7 @@ class FraudDetector {
   /// The label description.
   ///
   /// Parameter [tags] :
-  /// <p/>
+  /// A collection of key and value pairs.
   Future<void> putLabel({
     required String name,
     String? description,
@@ -4301,6 +4313,7 @@ enum DataType {
   integer,
   float,
   boolean,
+  datetime,
 }
 
 extension DataTypeValueExtension on DataType {
@@ -4314,6 +4327,8 @@ extension DataTypeValueExtension on DataType {
         return 'FLOAT';
       case DataType.boolean:
         return 'BOOLEAN';
+      case DataType.datetime:
+        return 'DATETIME';
     }
   }
 }
@@ -4329,6 +4344,8 @@ extension DataTypeFromString on String {
         return DataType.float;
       case 'BOOLEAN':
         return DataType.boolean;
+      case 'DATETIME':
+        return DataType.datetime;
     }
     throw Exception('$this is not known in enum DataType');
   }
@@ -4934,6 +4951,29 @@ extension EventIngestionFromString on String {
   }
 }
 
+/// The event orchestration status.
+class EventOrchestration {
+  /// Specifies if event orchestration is enabled through Amazon EventBridge.
+  final bool eventBridgeEnabled;
+
+  EventOrchestration({
+    required this.eventBridgeEnabled,
+  });
+
+  factory EventOrchestration.fromJson(Map<String, dynamic> json) {
+    return EventOrchestration(
+      eventBridgeEnabled: json['eventBridgeEnabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventBridgeEnabled = this.eventBridgeEnabled;
+    return {
+      'eventBridgeEnabled': eventBridgeEnabled,
+    };
+  }
+}
+
 /// Information about the summary of an event prediction.
 class EventPredictionSummary {
   /// The detector ID.
@@ -4996,6 +5036,9 @@ class EventType {
   /// predictions.
   final EventIngestion? eventIngestion;
 
+  /// The event orchestration status.
+  final EventOrchestration? eventOrchestration;
+
   /// The event type event variables.
   final List<String>? eventVariables;
 
@@ -5017,6 +5060,7 @@ class EventType {
     this.description,
     this.entityTypes,
     this.eventIngestion,
+    this.eventOrchestration,
     this.eventVariables,
     this.ingestedEventStatistics,
     this.labels,
@@ -5034,6 +5078,10 @@ class EventType {
           .map((e) => e as String)
           .toList(),
       eventIngestion: (json['eventIngestion'] as String?)?.toEventIngestion(),
+      eventOrchestration: json['eventOrchestration'] != null
+          ? EventOrchestration.fromJson(
+              json['eventOrchestration'] as Map<String, dynamic>)
+          : null,
       eventVariables: (json['eventVariables'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -6151,7 +6199,7 @@ class LabelSchema {
   /// fraudulent.
   /// </li>
   /// <li>
-  /// Use <code>LEGIT</code> f you want to categorize all unlabeled events as
+  /// Use <code>LEGIT</code> if you want to categorize all unlabeled events as
   /// “Legit”. This is recommended when most of the events in your dataset are
   /// legitimate.
   /// </li>
@@ -7647,7 +7695,7 @@ class UncertaintyRange {
   /// The lower bound value of the area under curve (auc).
   final double lowerBoundValue;
 
-  /// The lower bound value of the area under curve (auc).
+  /// The upper bound value of the area under curve (auc).
   final double upperBoundValue;
 
   UncertaintyRange({

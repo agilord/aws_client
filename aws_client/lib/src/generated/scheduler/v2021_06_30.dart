@@ -79,7 +79,7 @@ class EventBridgeScheduler {
   /// <code>at</code> expression - <code>at(yyyy-mm-ddThh:mm:ss)</code>
   /// </li>
   /// <li>
-  /// <code>rate</code> expression - <code>rate(unit value)</code>
+  /// <code>rate</code> expression - <code>rate(value unit)</code>
   /// </li>
   /// <li>
   /// <code>cron</code> expression - <code>cron(fields)</code>
@@ -109,6 +109,10 @@ class EventBridgeScheduler {
   ///
   /// Parameter [target] :
   /// The schedule's target.
+  ///
+  /// Parameter [actionAfterCompletion] :
+  /// Specifies the action that EventBridge Scheduler applies to the schedule
+  /// after the schedule completes invoking the target.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier you provide to ensure the idempotency of
@@ -148,6 +152,7 @@ class EventBridgeScheduler {
     required String name,
     required String scheduleExpression,
     required Target target,
+    ActionAfterCompletion? actionAfterCompletion,
     String? clientToken,
     String? description,
     DateTime? endDate,
@@ -161,6 +166,8 @@ class EventBridgeScheduler {
       'FlexibleTimeWindow': flexibleTimeWindow,
       'ScheduleExpression': scheduleExpression,
       'Target': target,
+      if (actionAfterCompletion != null)
+        'ActionAfterCompletion': actionAfterCompletion.toValue(),
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
       if (endDate != null) 'EndDate': unixTimestampToJson(endDate),
@@ -558,7 +565,7 @@ class EventBridgeScheduler {
   /// <code>at</code> expression - <code>at(yyyy-mm-ddThh:mm:ss)</code>
   /// </li>
   /// <li>
-  /// <code>rate</code> expression - <code>rate(unit value)</code>
+  /// <code>rate</code> expression - <code>rate(value unit)</code>
   /// </li>
   /// <li>
   /// <code>cron</code> expression - <code>cron(fields)</code>
@@ -589,6 +596,10 @@ class EventBridgeScheduler {
   /// Parameter [target] :
   /// The schedule target. You can use this operation to change the target that
   /// your schedule invokes.
+  ///
+  /// Parameter [actionAfterCompletion] :
+  /// Specifies the action that EventBridge Scheduler applies to the schedule
+  /// after the schedule completes invoking the target.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier you provide to ensure the idempotency of
@@ -630,6 +641,7 @@ class EventBridgeScheduler {
     required String name,
     required String scheduleExpression,
     required Target target,
+    ActionAfterCompletion? actionAfterCompletion,
     String? clientToken,
     String? description,
     DateTime? endDate,
@@ -643,6 +655,8 @@ class EventBridgeScheduler {
       'FlexibleTimeWindow': flexibleTimeWindow,
       'ScheduleExpression': scheduleExpression,
       'Target': target,
+      if (actionAfterCompletion != null)
+        'ActionAfterCompletion': actionAfterCompletion.toValue(),
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
       if (endDate != null) 'EndDate': unixTimestampToJson(endDate),
@@ -660,6 +674,34 @@ class EventBridgeScheduler {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateScheduleOutput.fromJson(response);
+  }
+}
+
+enum ActionAfterCompletion {
+  none,
+  delete,
+}
+
+extension ActionAfterCompletionValueExtension on ActionAfterCompletion {
+  String toValue() {
+    switch (this) {
+      case ActionAfterCompletion.none:
+        return 'NONE';
+      case ActionAfterCompletion.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension ActionAfterCompletionFromString on String {
+  ActionAfterCompletion toActionAfterCompletion() {
+    switch (this) {
+      case 'NONE':
+        return ActionAfterCompletion.none;
+      case 'DELETE':
+        return ActionAfterCompletion.delete;
+    }
+    throw Exception('$this is not known in enum ActionAfterCompletion');
   }
 }
 
@@ -1191,6 +1233,10 @@ class GetScheduleGroupOutput {
 }
 
 class GetScheduleOutput {
+  /// Indicates the action that EventBridge Scheduler applies to the schedule
+  /// after the schedule completes invoking the target.
+  final ActionAfterCompletion? actionAfterCompletion;
+
   /// The Amazon Resource Name (ARN) of the schedule.
   final String? arn;
 
@@ -1231,7 +1277,7 @@ class GetScheduleOutput {
   /// <code>at</code> expression - <code>at(yyyy-mm-ddThh:mm:ss)</code>
   /// </li>
   /// <li>
-  /// <code>rate</code> expression - <code>rate(unit value)</code>
+  /// <code>rate</code> expression - <code>rate(value unit)</code>
   /// </li>
   /// <li>
   /// <code>cron</code> expression - <code>cron(fields)</code>
@@ -1276,6 +1322,7 @@ class GetScheduleOutput {
   final Target? target;
 
   GetScheduleOutput({
+    this.actionAfterCompletion,
     this.arn,
     this.creationDate,
     this.description,
@@ -1294,6 +1341,8 @@ class GetScheduleOutput {
 
   factory GetScheduleOutput.fromJson(Map<String, dynamic> json) {
     return GetScheduleOutput(
+      actionAfterCompletion:
+          (json['ActionAfterCompletion'] as String?)?.toActionAfterCompletion(),
       arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
@@ -1317,6 +1366,7 @@ class GetScheduleOutput {
   }
 
   Map<String, dynamic> toJson() {
+    final actionAfterCompletion = this.actionAfterCompletion;
     final arn = this.arn;
     final creationDate = this.creationDate;
     final description = this.description;
@@ -1332,6 +1382,8 @@ class GetScheduleOutput {
     final state = this.state;
     final target = this.target;
     return {
+      if (actionAfterCompletion != null)
+        'ActionAfterCompletion': actionAfterCompletion.toValue(),
       if (arn != null) 'Arn': arn,
       if (creationDate != null)
         'CreationDate': unixTimestampToJson(creationDate),

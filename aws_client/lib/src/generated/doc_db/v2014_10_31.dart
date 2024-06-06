@@ -20,7 +20,11 @@ import '../../shared/shared.dart'
 import 'v2014_10_31.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon DocumentDB API documentation
+/// Amazon DocumentDB is a fast, reliable, and fully managed database service.
+/// Amazon DocumentDB makes it easy to set up, operate, and scale
+/// MongoDB-compatible databases in the cloud. With Amazon DocumentDB, you can
+/// run the same application code and use the same drivers and tools that you
+/// use with MongoDB.
 class DocDB {
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
@@ -634,6 +638,22 @@ class DocDB {
   /// Parameter [storageEncrypted] :
   /// Specifies whether the cluster is encrypted.
   ///
+  /// Parameter [storageType] :
+  /// The storage type to associate with the DB cluster.
+  ///
+  /// For information on storage types for Amazon DocumentDB clusters, see
+  /// Cluster storage configurations in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  ///
+  /// Valid values for storage type - <code>standard | iopt1</code>
+  ///
+  /// Default value is <code>standard </code>
+  /// <note>
+  /// When you create a DocumentDB DB cluster with the storage type set to
+  /// <code>iopt1</code>, the storage type is returned in the response. The
+  /// storage type isn't returned when you set it to <code>standard</code>.
+  /// </note>
+  ///
   /// Parameter [tags] :
   /// The tags to be assigned to the cluster.
   ///
@@ -658,6 +678,7 @@ class DocDB {
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
     bool? storageEncrypted,
+    String? storageType,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
@@ -686,6 +707,7 @@ class DocDB {
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     storageEncrypted?.also((arg) => $request['StorageEncrypted'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
@@ -900,6 +922,17 @@ class DocDB {
   ///
   /// Example: <code>us-east-1d</code>
   ///
+  /// Parameter [cACertificateIdentifier] :
+  /// The CA certificate identifier to use for the DB instance's server
+  /// certificate.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
+  /// Your Amazon DocumentDB TLS Certificates</a> and <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
+  /// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  ///
   /// Parameter [copyTagsToSnapshot] :
   /// A value that indicates whether to copy tags from the DB instance to
   /// snapshots of the DB instance. By default, tags are not copied.
@@ -954,6 +987,7 @@ class DocDB {
     required String engine,
     bool? autoMinorVersionUpgrade,
     String? availabilityZone,
+    String? cACertificateIdentifier,
     bool? copyTagsToSnapshot,
     bool? enablePerformanceInsights,
     String? performanceInsightsKMSKeyId,
@@ -969,6 +1003,8 @@ class DocDB {
     autoMinorVersionUpgrade
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     availabilityZone?.also((arg) => $request['AvailabilityZone'] = arg);
+    cACertificateIdentifier
+        ?.also((arg) => $request['CACertificateIdentifier'] = arg);
     copyTagsToSnapshot?.also((arg) => $request['CopyTagsToSnapshot'] = arg);
     enablePerformanceInsights
         ?.also((arg) => $request['EnablePerformanceInsights'] = arg);
@@ -2756,6 +2792,13 @@ class DocDB {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [allowMajorVersionUpgrade] :
+  /// A value that indicates whether major version upgrades are allowed.
+  ///
+  /// Constraints: You must allow major version upgrades when specifying a value
+  /// for the <code>EngineVersion</code> parameter that is a different major
+  /// version than the DB cluster's current version.
+  ///
   /// Parameter [applyImmediately] :
   /// A value that specifies whether the changes in this request and any pending
   /// changes are asynchronously applied as soon as possible, regardless of the
@@ -2805,7 +2848,15 @@ class DocDB {
   ///
   /// Parameter [engineVersion] :
   /// The version number of the database engine to which you want to upgrade.
-  /// Modifying engine version is not supported on Amazon DocumentDB.
+  /// Changing this parameter results in an outage. The change is applied during
+  /// the next maintenance window unless <code>ApplyImmediately</code> is
+  /// enabled.
+  ///
+  /// To list all of the available engine versions for Amazon DocumentDB use the
+  /// following command:
+  ///
+  /// <code>aws docdb describe-db-engine-versions --engine docdb --query
+  /// "DBEngineVersions[].EngineVersion"</code>
   ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
@@ -2879,11 +2930,23 @@ class DocDB {
   ///
   /// Constraints: Minimum 30-minute window.
   ///
+  /// Parameter [storageType] :
+  /// The storage type to associate with the DB cluster.
+  ///
+  /// For information on storage types for Amazon DocumentDB clusters, see
+  /// Cluster storage configurations in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  ///
+  /// Valid values for storage type - <code>standard | iopt1</code>
+  ///
+  /// Default value is <code>standard </code>
+  ///
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of virtual private cloud (VPC) security groups that the cluster
   /// will belong to.
   Future<ModifyDBClusterResult> modifyDBCluster({
     required String dBClusterIdentifier,
+    bool? allowMajorVersionUpgrade,
     bool? applyImmediately,
     int? backupRetentionPeriod,
     CloudwatchLogsExportConfiguration? cloudwatchLogsExportConfiguration,
@@ -2895,10 +2958,13 @@ class DocDB {
     int? port,
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
+    String? storageType,
     List<String>? vpcSecurityGroupIds,
   }) async {
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
+    allowMajorVersionUpgrade
+        ?.also((arg) => $request['AllowMajorVersionUpgrade'] = arg);
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     backupRetentionPeriod
         ?.also((arg) => $request['BackupRetentionPeriod'] = arg);
@@ -2916,6 +2982,7 @@ class DocDB {
         ?.also((arg) => $request['PreferredBackupWindow'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -3106,6 +3173,24 @@ class DocDB {
   /// Parameter [cACertificateIdentifier] :
   /// Indicates the certificate that needs to be associated with the instance.
   ///
+  /// Parameter [certificateRotationRestart] :
+  /// Specifies whether the DB instance is restarted when you rotate your
+  /// SSL/TLS certificate.
+  ///
+  /// By default, the DB instance is restarted when you rotate your SSL/TLS
+  /// certificate. The certificate is not updated until the DB instance is
+  /// restarted.
+  /// <important>
+  /// Set this parameter only if you are <i>not</i> using SSL/TLS to connect to
+  /// the DB instance.
+  /// </important>
+  /// If you are using SSL/TLS to connect to the DB instance, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
+  /// Your Amazon DocumentDB TLS Certificates</a> and <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
+  /// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  ///
   /// Parameter [copyTagsToSnapshot] :
   /// A value that indicates whether to copy all tags from the DB instance to
   /// snapshots of the DB instance. By default, tags are not copied.
@@ -3194,6 +3279,7 @@ class DocDB {
     bool? applyImmediately,
     bool? autoMinorVersionUpgrade,
     String? cACertificateIdentifier,
+    bool? certificateRotationRestart,
     bool? copyTagsToSnapshot,
     String? dBInstanceClass,
     bool? enablePerformanceInsights,
@@ -3209,6 +3295,8 @@ class DocDB {
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     cACertificateIdentifier
         ?.also((arg) => $request['CACertificateIdentifier'] = arg);
+    certificateRotationRestart
+        ?.also((arg) => $request['CertificateRotationRestart'] = arg);
     copyTagsToSnapshot?.also((arg) => $request['CopyTagsToSnapshot'] = arg);
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     enablePerformanceInsights
@@ -3748,6 +3836,17 @@ class DocDB {
   ///
   /// Default: The same port as the original cluster.
   ///
+  /// Parameter [storageType] :
+  /// The storage type to associate with the DB cluster.
+  ///
+  /// For information on storage types for Amazon DocumentDB clusters, see
+  /// Cluster storage configurations in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  ///
+  /// Valid values for storage type - <code>standard | iopt1</code>
+  ///
+  /// Default value is <code>standard </code>
+  ///
   /// Parameter [tags] :
   /// The tags to be assigned to the restored cluster.
   ///
@@ -3766,6 +3865,7 @@ class DocDB {
     String? engineVersion,
     String? kmsKeyId,
     int? port,
+    String? storageType,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
@@ -3783,6 +3883,7 @@ class DocDB {
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     port?.also((arg) => $request['Port'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
@@ -3953,6 +4054,17 @@ class DocDB {
   /// If you don't specify a <code>RestoreType</code> value, then the new DB
   /// cluster is restored as a full copy of the source DB cluster.
   ///
+  /// Parameter [storageType] :
+  /// The storage type to associate with the DB cluster.
+  ///
+  /// For information on storage types for Amazon DocumentDB clusters, see
+  /// Cluster storage configurations in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  ///
+  /// Valid values for storage type - <code>standard | iopt1</code>
+  ///
+  /// Default value is <code>standard </code>
+  ///
   /// Parameter [tags] :
   /// The tags to be assigned to the restored cluster.
   ///
@@ -3977,6 +4089,7 @@ class DocDB {
     int? port,
     DateTime? restoreToTime,
     String? restoreType,
+    String? storageType,
     List<Tag>? tags,
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
@@ -3993,6 +4106,7 @@ class DocDB {
     restoreToTime
         ?.also((arg) => $request['RestoreToTime'] = _s.iso8601ToJson(arg));
     restoreType?.also((arg) => $request['RestoreType'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     useLatestRestorableTime
         ?.also((arg) => $request['UseLatestRestorableTime'] = arg);
@@ -4072,6 +4186,71 @@ class DocDB {
       resultWrapper: 'StopDBClusterResult',
     );
     return StopDBClusterResult.fromXml($result);
+  }
+
+  /// Switches over the specified secondary Amazon DocumentDB cluster to be the
+  /// new primary Amazon DocumentDB cluster in the global database cluster.
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  /// May throw [DBClusterNotFoundFault].
+  /// May throw [InvalidDBClusterStateFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The identifier of the Amazon DocumentDB global database cluster to switch
+  /// over. The identifier is the unique key assigned by the user when the
+  /// cluster is created. In other words, it's the name of the global cluster.
+  /// This parameter isn’t case-sensitive.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must match the identifier of an existing global cluster (Amazon DocumentDB
+  /// global database).
+  /// </li>
+  /// <li>
+  /// Minimum length of 1. Maximum length of 255.
+  /// </li>
+  /// </ul>
+  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  ///
+  /// Parameter [targetDbClusterIdentifier] :
+  /// The identifier of the secondary Amazon DocumentDB cluster to promote to
+  /// the new primary for the global database cluster. Use the Amazon Resource
+  /// Name (ARN) for the identifier so that Amazon DocumentDB can locate the
+  /// cluster in its Amazon Web Services region.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must match the identifier of an existing secondary cluster.
+  /// </li>
+  /// <li>
+  /// Minimum length of 1. Maximum length of 255.
+  /// </li>
+  /// </ul>
+  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  Future<SwitchoverGlobalClusterResult> switchoverGlobalCluster({
+    required String globalClusterIdentifier,
+    required String targetDbClusterIdentifier,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    $request['TargetDbClusterIdentifier'] = targetDbClusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'SwitchoverGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['SwitchoverGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'SwitchoverGlobalClusterResult',
+    );
+    return SwitchoverGlobalClusterResult.fromXml($result);
   }
 }
 
@@ -4235,6 +4414,43 @@ class Certificate {
       if (certificateType != null) 'CertificateType': certificateType,
       if (thumbprint != null) 'Thumbprint': thumbprint,
       if (validFrom != null) 'ValidFrom': iso8601ToJson(validFrom),
+      if (validTill != null) 'ValidTill': iso8601ToJson(validTill),
+    };
+  }
+}
+
+/// Returns the details of the DB instance’s server certificate.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
+/// Your Amazon DocumentDB TLS Certificates</a> and <a
+/// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
+/// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
+/// Guide</i>.
+class CertificateDetails {
+  /// The CA identifier of the CA certificate used for the DB instance's server
+  /// certificate.
+  final String? cAIdentifier;
+
+  /// The expiration date of the DB instance’s server certificate.
+  final DateTime? validTill;
+
+  CertificateDetails({
+    this.cAIdentifier,
+    this.validTill,
+  });
+  factory CertificateDetails.fromXml(_s.XmlElement elem) {
+    return CertificateDetails(
+      cAIdentifier: _s.extractXmlStringValue(elem, 'CAIdentifier'),
+      validTill: _s.extractXmlDateTimeValue(elem, 'ValidTill'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cAIdentifier = this.cAIdentifier;
+    final validTill = this.validTill;
+    return {
+      if (cAIdentifier != null) 'CAIdentifier': cAIdentifier,
       if (validTill != null) 'ValidTill': iso8601ToJson(validTill),
     };
   }
@@ -4624,6 +4840,18 @@ class DBCluster {
   /// Specifies whether the cluster is encrypted.
   final bool? storageEncrypted;
 
+  /// Storage type associated with your cluster
+  ///
+  /// Storage type associated with your cluster
+  ///
+  /// For information on storage types for Amazon DocumentDB clusters, see Cluster
+  /// storage configurations in the <i>Amazon DocumentDB Developer Guide</i>.
+  ///
+  /// Valid values for storage type - <code>standard | iopt1</code>
+  ///
+  /// Default value is <code>standard </code>
+  final String? storageType;
+
   /// Provides a list of virtual private cloud (VPC) security groups that the
   /// cluster belongs to.
   final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
@@ -4660,6 +4888,7 @@ class DBCluster {
     this.replicationSourceIdentifier,
     this.status,
     this.storageEncrypted,
+    this.storageType,
     this.vpcSecurityGroups,
   });
   factory DBCluster.fromXml(_s.XmlElement elem) {
@@ -4718,6 +4947,7 @@ class DBCluster {
           _s.extractXmlStringValue(elem, 'ReplicationSourceIdentifier'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
           (elem) => elem
               .findElements('VpcSecurityGroupMembership')
@@ -4758,6 +4988,7 @@ class DBCluster {
     final replicationSourceIdentifier = this.replicationSourceIdentifier;
     final status = this.status;
     final storageEncrypted = this.storageEncrypted;
+    final storageType = this.storageType;
     final vpcSecurityGroups = this.vpcSecurityGroups;
     return {
       if (associatedRoles != null) 'AssociatedRoles': associatedRoles,
@@ -4803,6 +5034,7 @@ class DBCluster {
         'ReplicationSourceIdentifier': replicationSourceIdentifier,
       if (status != null) 'Status': status,
       if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
+      if (storageType != null) 'StorageType': storageType,
       if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
     };
   }
@@ -5154,6 +5386,16 @@ class DBClusterSnapshot {
   /// Specifies whether the cluster snapshot is encrypted.
   final bool? storageEncrypted;
 
+  /// Storage type associated with your cluster snapshot
+  ///
+  /// For information on storage types for Amazon DocumentDB clusters, see Cluster
+  /// storage configurations in the <i>Amazon DocumentDB Developer Guide</i>.
+  ///
+  /// Valid values for storage type - <code>standard | iopt1</code>
+  ///
+  /// Default value is <code>standard </code>
+  final String? storageType;
+
   /// Provides the virtual private cloud (VPC) ID that is associated with the
   /// cluster snapshot.
   final String? vpcId;
@@ -5175,6 +5417,7 @@ class DBClusterSnapshot {
     this.sourceDBClusterSnapshotArn,
     this.status,
     this.storageEncrypted,
+    this.storageType,
     this.vpcId,
   });
   factory DBClusterSnapshot.fromXml(_s.XmlElement elem) {
@@ -5201,6 +5444,7 @@ class DBClusterSnapshot {
           _s.extractXmlStringValue(elem, 'SourceDBClusterSnapshotArn'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -5222,6 +5466,7 @@ class DBClusterSnapshot {
     final sourceDBClusterSnapshotArn = this.sourceDBClusterSnapshotArn;
     final status = this.status;
     final storageEncrypted = this.storageEncrypted;
+    final storageType = this.storageType;
     final vpcId = this.vpcId;
     return {
       if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
@@ -5246,6 +5491,7 @@ class DBClusterSnapshot {
         'SourceDBClusterSnapshotArn': sourceDBClusterSnapshotArn,
       if (status != null) 'Status': status,
       if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
+      if (storageType != null) 'StorageType': storageType,
       if (vpcId != null) 'VpcId': vpcId,
     };
   }
@@ -5388,6 +5634,20 @@ class DBEngineVersion {
   /// Amazon CloudWatch Logs.
   final List<String>? exportableLogTypes;
 
+  /// A list of the supported CA certificate identifiers.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
+  /// Your Amazon DocumentDB TLS Certificates</a> and <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
+  /// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  final List<String>? supportedCACertificateIdentifiers;
+
+  /// Indicates whether the engine version supports rotating the server
+  /// certificate without rebooting the DB instance.
+  final bool? supportsCertificateRotationWithoutRestart;
+
   /// A value that indicates whether the engine version supports exporting the log
   /// types specified by <code>ExportableLogTypes</code> to CloudWatch Logs.
   final bool? supportsLogExportsToCloudwatchLogs;
@@ -5403,6 +5663,8 @@ class DBEngineVersion {
     this.engine,
     this.engineVersion,
     this.exportableLogTypes,
+    this.supportedCACertificateIdentifiers,
+    this.supportsCertificateRotationWithoutRestart,
     this.supportsLogExportsToCloudwatchLogs,
     this.validUpgradeTarget,
   });
@@ -5419,6 +5681,11 @@ class DBEngineVersion {
       exportableLogTypes: _s
           .extractXmlChild(elem, 'ExportableLogTypes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportedCACertificateIdentifiers: _s
+          .extractXmlChild(elem, 'SupportedCACertificateIdentifiers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportsCertificateRotationWithoutRestart: _s.extractXmlBoolValue(
+          elem, 'SupportsCertificateRotationWithoutRestart'),
       supportsLogExportsToCloudwatchLogs:
           _s.extractXmlBoolValue(elem, 'SupportsLogExportsToCloudwatchLogs'),
       validUpgradeTarget: _s.extractXmlChild(elem, 'ValidUpgradeTarget')?.let(
@@ -5436,6 +5703,10 @@ class DBEngineVersion {
     final engine = this.engine;
     final engineVersion = this.engineVersion;
     final exportableLogTypes = this.exportableLogTypes;
+    final supportedCACertificateIdentifiers =
+        this.supportedCACertificateIdentifiers;
+    final supportsCertificateRotationWithoutRestart =
+        this.supportsCertificateRotationWithoutRestart;
     final supportsLogExportsToCloudwatchLogs =
         this.supportsLogExportsToCloudwatchLogs;
     final validUpgradeTarget = this.validUpgradeTarget;
@@ -5449,6 +5720,11 @@ class DBEngineVersion {
       if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (exportableLogTypes != null) 'ExportableLogTypes': exportableLogTypes,
+      if (supportedCACertificateIdentifiers != null)
+        'SupportedCACertificateIdentifiers': supportedCACertificateIdentifiers,
+      if (supportsCertificateRotationWithoutRestart != null)
+        'SupportsCertificateRotationWithoutRestart':
+            supportsCertificateRotationWithoutRestart,
       if (supportsLogExportsToCloudwatchLogs != null)
         'SupportsLogExportsToCloudwatchLogs':
             supportsLogExportsToCloudwatchLogs,
@@ -5507,6 +5783,9 @@ class DBInstance {
 
   /// The identifier of the CA certificate for this DB instance.
   final String? cACertificateIdentifier;
+
+  /// The details of the DB instance's server certificate.
+  final CertificateDetails? certificateDetails;
 
   /// A value that indicates whether to copy tags from the DB instance to
   /// snapshots of the DB instance. By default, tags are not copied.
@@ -5567,6 +5846,15 @@ class DBInstance {
   /// subelements.
   final PendingModifiedValues? pendingModifiedValues;
 
+  /// Set to <code>true</code> if Amazon RDS Performance Insights is enabled for
+  /// the DB instance, and otherwise <code>false</code>.
+  final bool? performanceInsightsEnabled;
+
+  /// The KMS key identifier for encryption of Performance Insights data. The KMS
+  /// key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key
+  /// alias for the KMS encryption key.
+  final String? performanceInsightsKMSKeyId;
+
   /// Specifies the daily time range during which automated backups are created if
   /// automated backups are enabled, as determined by the
   /// <code>BackupRetentionPeriod</code>.
@@ -5601,6 +5889,7 @@ class DBInstance {
     this.availabilityZone,
     this.backupRetentionPeriod,
     this.cACertificateIdentifier,
+    this.certificateDetails,
     this.copyTagsToSnapshot,
     this.dBClusterIdentifier,
     this.dBInstanceArn,
@@ -5617,6 +5906,8 @@ class DBInstance {
     this.kmsKeyId,
     this.latestRestorableTime,
     this.pendingModifiedValues,
+    this.performanceInsightsEnabled,
+    this.performanceInsightsKMSKeyId,
     this.preferredBackupWindow,
     this.preferredMaintenanceWindow,
     this.promotionTier,
@@ -5634,6 +5925,9 @@ class DBInstance {
           _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
       cACertificateIdentifier:
           _s.extractXmlStringValue(elem, 'CACertificateIdentifier'),
+      certificateDetails: _s
+          .extractXmlChild(elem, 'CertificateDetails')
+          ?.let(CertificateDetails.fromXml),
       copyTagsToSnapshot: _s.extractXmlBoolValue(elem, 'CopyTagsToSnapshot'),
       dBClusterIdentifier:
           _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
@@ -5659,6 +5953,10 @@ class DBInstance {
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
           ?.let(PendingModifiedValues.fromXml),
+      performanceInsightsEnabled:
+          _s.extractXmlBoolValue(elem, 'PerformanceInsightsEnabled'),
+      performanceInsightsKMSKeyId:
+          _s.extractXmlStringValue(elem, 'PerformanceInsightsKMSKeyId'),
       preferredBackupWindow:
           _s.extractXmlStringValue(elem, 'PreferredBackupWindow'),
       preferredMaintenanceWindow:
@@ -5683,6 +5981,7 @@ class DBInstance {
     final availabilityZone = this.availabilityZone;
     final backupRetentionPeriod = this.backupRetentionPeriod;
     final cACertificateIdentifier = this.cACertificateIdentifier;
+    final certificateDetails = this.certificateDetails;
     final copyTagsToSnapshot = this.copyTagsToSnapshot;
     final dBClusterIdentifier = this.dBClusterIdentifier;
     final dBInstanceArn = this.dBInstanceArn;
@@ -5699,6 +5998,8 @@ class DBInstance {
     final kmsKeyId = this.kmsKeyId;
     final latestRestorableTime = this.latestRestorableTime;
     final pendingModifiedValues = this.pendingModifiedValues;
+    final performanceInsightsEnabled = this.performanceInsightsEnabled;
+    final performanceInsightsKMSKeyId = this.performanceInsightsKMSKeyId;
     final preferredBackupWindow = this.preferredBackupWindow;
     final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
     final promotionTier = this.promotionTier;
@@ -5714,6 +6015,7 @@ class DBInstance {
         'BackupRetentionPeriod': backupRetentionPeriod,
       if (cACertificateIdentifier != null)
         'CACertificateIdentifier': cACertificateIdentifier,
+      if (certificateDetails != null) 'CertificateDetails': certificateDetails,
       if (copyTagsToSnapshot != null) 'CopyTagsToSnapshot': copyTagsToSnapshot,
       if (dBClusterIdentifier != null)
         'DBClusterIdentifier': dBClusterIdentifier,
@@ -5736,6 +6038,10 @@ class DBInstance {
         'LatestRestorableTime': iso8601ToJson(latestRestorableTime),
       if (pendingModifiedValues != null)
         'PendingModifiedValues': pendingModifiedValues,
+      if (performanceInsightsEnabled != null)
+        'PerformanceInsightsEnabled': performanceInsightsEnabled,
+      if (performanceInsightsKMSKeyId != null)
+        'PerformanceInsightsKMSKeyId': performanceInsightsKMSKeyId,
       if (preferredBackupWindow != null)
         'PreferredBackupWindow': preferredBackupWindow,
       if (preferredMaintenanceWindow != null)
@@ -6820,6 +7126,9 @@ class OrderableDBInstanceOption {
   /// The license model for an instance.
   final String? licenseModel;
 
+  /// The storage type to associate with the DB cluster
+  final String? storageType;
+
   /// Indicates whether an instance is in a virtual private cloud (VPC).
   final bool? vpc;
 
@@ -6829,6 +7138,7 @@ class OrderableDBInstanceOption {
     this.engine,
     this.engineVersion,
     this.licenseModel,
+    this.storageType,
     this.vpc,
   });
   factory OrderableDBInstanceOption.fromXml(_s.XmlElement elem) {
@@ -6842,6 +7152,7 @@ class OrderableDBInstanceOption {
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       licenseModel: _s.extractXmlStringValue(elem, 'LicenseModel'),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       vpc: _s.extractXmlBoolValue(elem, 'Vpc'),
     );
   }
@@ -6852,6 +7163,7 @@ class OrderableDBInstanceOption {
     final engine = this.engine;
     final engineVersion = this.engineVersion;
     final licenseModel = this.licenseModel;
+    final storageType = this.storageType;
     final vpc = this.vpc;
     return {
       if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
@@ -6859,6 +7171,7 @@ class OrderableDBInstanceOption {
       if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (licenseModel != null) 'LicenseModel': licenseModel,
+      if (storageType != null) 'StorageType': storageType,
       if (vpc != null) 'Vpc': vpc,
     };
   }
@@ -7533,6 +7846,27 @@ class Subnet {
         'SubnetAvailabilityZone': subnetAvailabilityZone,
       if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
       if (subnetStatus != null) 'SubnetStatus': subnetStatus,
+    };
+  }
+}
+
+class SwitchoverGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  SwitchoverGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory SwitchoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return SwitchoverGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
     };
   }
 }

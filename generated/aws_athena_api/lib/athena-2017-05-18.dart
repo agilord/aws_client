@@ -34,10 +34,6 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// support the API. For more information and to download the driver, see <a
 /// href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">Accessing
 /// Amazon Athena with JDBC</a>.
-///
-/// For code samples using the Amazon Web Services SDK for Java, see <a
-/// href="https://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
-/// and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
 class Athena {
   final _s.JsonProtocol _protocol;
   Athena({
@@ -175,7 +171,11 @@ class Athena {
     return BatchGetQueryExecutionOutput.fromJson(jsonResponse.body);
   }
 
-  /// Cancels the capacity reservation with the specified name.
+  /// Cancels the capacity reservation with the specified name. Cancelled
+  /// reservations remain in your account and will be deleted 45 days after
+  /// cancellation. During the 45 days, you cannot re-purpose or reuse a
+  /// reservation that has been cancelled, but you can refer to its tags and
+  /// view it for historical reference.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalServerException].
@@ -313,14 +313,6 @@ class Athena {
   /// <code>AwsDataCatalog</code> that already exists in your account, of which
   /// you can have only one and cannot modify.
   /// </li>
-  /// <li>
-  /// Queries that specify a Glue Data Catalog other than the default
-  /// <code>AwsDataCatalog</code> must be run on Athena engine version 2.
-  /// </li>
-  /// <li>
-  /// In Regions where Athena engine version 2 is not available, creating new
-  /// Glue data catalogs results in an <code>INVALID_INPUT</code> error.
-  /// </li>
   /// </ul> </li>
   /// </ul>
   ///
@@ -355,10 +347,6 @@ class Athena {
 
   /// Creates a named query in the specified workgroup. Requires that you have
   /// access to the workgroup.
-  ///
-  /// For code samples using the Amazon Web Services SDK for Java, see <a
-  /// href="http://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
-  /// and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -600,6 +588,37 @@ class Athena {
     );
   }
 
+  /// Deletes a cancelled capacity reservation. A reservation must be cancelled
+  /// before it can be deleted. A deleted reservation is immediately removed
+  /// from your account and can no longer be referenced, including by its ARN. A
+  /// deleted reservation cannot be called by
+  /// <code>GetCapacityReservation</code>, and deleted reservations do not
+  /// appear in the output of <code>ListCapacityReservations</code>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [name] :
+  /// The name of the capacity reservation to delete.
+  Future<void> deleteCapacityReservation({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.DeleteCapacityReservation'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+  }
+
   /// Deletes a data catalog.
   ///
   /// May throw [InternalServerException].
@@ -628,10 +647,6 @@ class Athena {
 
   /// Deletes the named query if you have access to the workgroup in which the
   /// query was saved.
-  ///
-  /// For code samples using the Amazon Web Services SDK for Java, see <a
-  /// href="http://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
-  /// and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -934,8 +949,13 @@ class Athena {
   ///
   /// Parameter [name] :
   /// The name of the data catalog to return.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup. Required if making an IAM Identity Center
+  /// request.
   Future<GetDataCatalogOutput> getDataCatalog({
     required String name,
+    String? workGroup,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -949,6 +969,7 @@ class Athena {
       headers: headers,
       payload: {
         'Name': name,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -966,9 +987,14 @@ class Athena {
   ///
   /// Parameter [databaseName] :
   /// The name of the database to return.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup for which the metadata is being fetched.
+  /// Required if requesting an IAM Identity Center enabled Glue Data Catalog.
   Future<GetDatabaseOutput> getDatabase({
     required String catalogName,
     required String databaseName,
+    String? workGroup,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -983,6 +1009,7 @@ class Athena {
       payload: {
         'CatalogName': catalogName,
         'DatabaseName': databaseName,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -1179,10 +1206,13 @@ class Athena {
 
   /// Returns query execution runtime statistics related to a single execution
   /// of a query if you have access to the workgroup in which the query ran.
-  /// Query execution runtime statistics are returned only when
-  /// <a>QueryExecutionStatus$State</a> is in a SUCCEEDED or FAILED state.
-  /// Stage-level input and output row count and data size statistics are not
-  /// shown when a query has row-level filters defined in Lake Formation.
+  /// Statistics from the <code>Timeline</code> section of the response object
+  /// are available as soon as <a>QueryExecutionStatus$State</a> is in a
+  /// SUCCEEDED or FAILED state. The remaining non-timeline statistics in the
+  /// response (like stage-level input and output row count and data size) are
+  /// updated asynchronously and may not be available immediately after a query
+  /// completes. The non-timeline statistics are also not included when a query
+  /// has row-level filters defined in Lake Formation.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -1284,10 +1314,15 @@ class Athena {
   ///
   /// Parameter [tableName] :
   /// The name of the table for which metadata is returned.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup for which the metadata is being fetched.
+  /// Required if requesting an IAM Identity Center enabled Glue Data Catalog.
   Future<GetTableMetadataOutput> getTableMetadata({
     required String catalogName,
     required String databaseName,
     required String tableName,
+    String? workGroup,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1303,6 +1338,7 @@ class Athena {
         'CatalogName': catalogName,
         'DatabaseName': databaseName,
         'TableName': tableName,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -1337,8 +1373,11 @@ class Athena {
     return GetWorkGroupOutput.fromJson(jsonResponse.body);
   }
 
-  /// Imports a single <code>ipynb</code> file to a Spark enabled workgroup. The
-  /// maximum file size that can be imported is 10 megabytes. If an
+  /// Imports a single <code>ipynb</code> file to a Spark enabled workgroup. To
+  /// import the notebook, the request must specify a value for either
+  /// <code>Payload</code> or <code>NoteBookS3LocationUri</code>. If neither is
+  /// specified or both are specified, an <code>InvalidRequestException</code>
+  /// occurs. The maximum file size that can be imported is 10 megabytes. If an
   /// <code>ipynb</code> file with the same name already exists in the
   /// workgroup, throws an error.
   ///
@@ -1348,9 +1387,6 @@ class Athena {
   ///
   /// Parameter [name] :
   /// The name of the notebook to import.
-  ///
-  /// Parameter [payload] :
-  /// The notebook content to be imported.
   ///
   /// Parameter [type] :
   /// The notebook content type. Currently, the only valid type is
@@ -1368,12 +1404,21 @@ class Athena {
   /// you. If you are not using the Amazon Web Services SDK or the Amazon Web
   /// Services CLI, you must provide this token or the action will fail.
   /// </important>
+  ///
+  /// Parameter [notebookS3LocationUri] :
+  /// A URI that specifies the Amazon S3 location of a notebook file in
+  /// <code>ipynb</code> format.
+  ///
+  /// Parameter [payload] :
+  /// The notebook content to be imported. The payload must be in
+  /// <code>ipynb</code> format.
   Future<ImportNotebookOutput> importNotebook({
     required String name,
-    required String payload,
     required NotebookType type,
     required String workGroup,
     String? clientRequestToken,
+    String? notebookS3LocationUri,
+    String? payload,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1387,11 +1432,13 @@ class Athena {
       headers: headers,
       payload: {
         'Name': name,
-        'Payload': payload,
         'Type': type.toValue(),
         'WorkGroup': workGroup,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
+        if (notebookS3LocationUri != null)
+          'NotebookS3LocationUri': notebookS3LocationUri,
+        if (payload != null) 'Payload': payload,
       },
     );
 
@@ -1573,9 +1620,14 @@ class Athena {
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the NextToken from the response object of the previous page
   /// call.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup. Required if making an IAM Identity Center
+  /// request.
   Future<ListDataCatalogsOutput> listDataCatalogs({
     int? maxResults,
     String? nextToken,
+    String? workGroup,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1596,6 +1648,7 @@ class Athena {
       payload: {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -1619,10 +1672,15 @@ class Athena {
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup for which the metadata is being fetched.
+  /// Required if requesting an IAM Identity Center enabled Glue Data Catalog.
   Future<ListDatabasesOutput> listDatabases({
     required String catalogName,
     int? maxResults,
     String? nextToken,
+    String? workGroup,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1644,6 +1702,7 @@ class Athena {
         'CatalogName': catalogName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -1768,10 +1827,6 @@ class Athena {
   /// specified workgroup. Requires that you have access to the specified
   /// workgroup. If a workgroup is not specified, lists the saved queries for
   /// the primary workgroup.
-  ///
-  /// For code samples using the Amazon Web Services SDK for Java, see <a
-  /// href="http://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
-  /// and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -1971,13 +2026,10 @@ class Athena {
   }
 
   /// Provides a list of available query execution IDs for the queries in the
-  /// specified workgroup. If a workgroup is not specified, returns a list of
-  /// query execution IDs for the primary workgroup. Requires you to have access
-  /// to the workgroup in which the queries ran.
-  ///
-  /// For code samples using the Amazon Web Services SDK for Java, see <a
-  /// href="http://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
-  /// and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
+  /// specified workgroup. Athena keeps a query history for 45 days. If a
+  /// workgroup is not specified, returns a list of query execution IDs for the
+  /// primary workgroup. Requires you to have access to the workgroup in which
+  /// the queries ran.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -2127,12 +2179,17 @@ class Athena {
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the NextToken from the response object of the previous page
   /// call.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup for which the metadata is being fetched.
+  /// Required if requesting an IAM Identity Center enabled Glue Data Catalog.
   Future<ListTableMetadataOutput> listTableMetadata({
     required String catalogName,
     required String databaseName,
     String? expression,
     int? maxResults,
     String? nextToken,
+    String? workGroup,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2156,6 +2213,7 @@ class Athena {
         if (expression != null) 'Expression': expression,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (workGroup != null) 'WorkGroup': workGroup,
       },
     );
 
@@ -2289,6 +2347,13 @@ class Athena {
 
   /// Submits calculations for execution within a session. You can supply the
   /// code to run as an inline code block within the request.
+  /// <note>
+  /// The request syntax requires the
+  /// <a>StartCalculationExecutionRequest$CodeBlock</a> parameter or the
+  /// <a>CalculationConfiguration$CodeBlock</a> parameter, but not both. Because
+  /// <a>CalculationConfiguration$CodeBlock</a> is deprecated, use the
+  /// <a>StartCalculationExecutionRequest$CodeBlock</a> parameter instead.
+  /// </note>
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -2314,7 +2379,8 @@ class Athena {
   /// </important>
   ///
   /// Parameter [codeBlock] :
-  /// A string that contains the code of the calculation.
+  /// A string that contains the code of the calculation. Use this parameter
+  /// instead of <a>CalculationConfiguration$CodeBlock</a>, which is deprecated.
   ///
   /// Parameter [description] :
   /// A description of the calculation.
@@ -2368,8 +2434,12 @@ class Athena {
   /// A unique case-sensitive string used to ensure the request to create the
   /// query is idempotent (executes only once). If another
   /// <code>StartQueryExecution</code> request is received, the same response is
-  /// returned and another query is not created. If a parameter has changed, for
-  /// example, the <code>QueryString</code>, an error is returned.
+  /// returned and another query is not created. An error is returned if a
+  /// parameter, such as <code>QueryString</code>, has changed. A call to
+  /// <code>StartQueryExecution</code> that uses a previous client request token
+  /// returns the same <code>QueryExecutionId</code> even if the requester
+  /// doesn't have permission on the tables specified in
+  /// <code>QueryString</code>.
   /// <important>
   /// This token is listed as not required because Amazon Web Services SDKs (for
   /// example the Amazon Web Services SDK for Java) auto-generate the token for
@@ -2558,10 +2628,6 @@ class Athena {
 
   /// Stops a query execution. Requires you to have access to the workgroup in
   /// which the query ran.
-  ///
-  /// For code samples using the Amazon Web Services SDK for Java, see <a
-  /// href="http://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
-  /// and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -3154,6 +3220,29 @@ class AthenaError {
   }
 }
 
+enum AuthenticationType {
+  directoryIdentity,
+}
+
+extension AuthenticationTypeValueExtension on AuthenticationType {
+  String toValue() {
+    switch (this) {
+      case AuthenticationType.directoryIdentity:
+        return 'DIRECTORY_IDENTITY';
+    }
+  }
+}
+
+extension AuthenticationTypeFromString on String {
+  AuthenticationType toAuthenticationType() {
+    switch (this) {
+      case 'DIRECTORY_IDENTITY':
+        return AuthenticationType.directoryIdentity;
+    }
+    throw Exception('$this is not known in enum AuthenticationType');
+  }
+}
+
 class BatchGetNamedQueryOutput {
   /// Information about the named query IDs submitted.
   final List<NamedQuery>? namedQueries;
@@ -3716,7 +3805,7 @@ class ColumnInfo {
   /// A column label.
   final String? label;
 
-  /// Indicates the column's nullable status.
+  /// Unsupported constraint. This value always shows as <code>UNKNOWN</code>.
   final ColumnNullable? nullable;
 
   /// For <code>DECIMAL</code> data types, specifies the total number of digits,
@@ -3884,10 +3973,12 @@ class CreateWorkGroupOutput {
   }
 }
 
-/// Specifies the KMS key that is used to encrypt the user's data stores in
-/// Athena.
+/// Specifies the customer managed KMS key that is used to encrypt the user's
+/// data stores in Athena. When an Amazon Web Services managed key is used, this
+/// value is null. This setting does not apply to Athena SQL workgroups.
 class CustomerContentEncryptionConfiguration {
-  /// The KMS key that is used to encrypt the user's data stores in Athena.
+  /// The customer managed KMS key that is used to encrypt the user's data stores
+  /// in Athena.
   final String kmsKey;
 
   CustomerContentEncryptionConfiguration({
@@ -3974,10 +4065,6 @@ class DataCatalog {
   /// The <code>GLUE</code> data catalog type also applies to the default
   /// <code>AwsDataCatalog</code> that already exists in your account, of which
   /// you can have only one and cannot modify.
-  /// </li>
-  /// <li>
-  /// Queries that specify a Glue Data Catalog other than the default
-  /// <code>AwsDataCatalog</code> must be run on Athena engine version 2.
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -4099,6 +4186,14 @@ class Datum {
     return Datum(
       varCharValue: json['VarCharValue'] as String?,
     );
+  }
+}
+
+class DeleteCapacityReservationOutput {
+  DeleteCapacityReservationOutput();
+
+  factory DeleteCapacityReservationOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteCapacityReservationOutput();
   }
 }
 
@@ -4241,11 +4336,16 @@ class EngineConfiguration {
   /// is 1.
   final int? defaultExecutorDpuSize;
 
+  /// Specifies custom jar files and Spark properties for use cases like cluster
+  /// encryption, table formats, and general Spark tuning.
+  final Map<String, String>? sparkProperties;
+
   EngineConfiguration({
     required this.maxConcurrentDpus,
     this.additionalConfigs,
     this.coordinatorDpuSize,
     this.defaultExecutorDpuSize,
+    this.sparkProperties,
   });
 
   factory EngineConfiguration.fromJson(Map<String, dynamic> json) {
@@ -4255,6 +4355,8 @@ class EngineConfiguration {
           ?.map((k, e) => MapEntry(k, e as String)),
       coordinatorDpuSize: json['CoordinatorDpuSize'] as int?,
       defaultExecutorDpuSize: json['DefaultExecutorDpuSize'] as int?,
+      sparkProperties: (json['SparkProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -4263,12 +4365,14 @@ class EngineConfiguration {
     final additionalConfigs = this.additionalConfigs;
     final coordinatorDpuSize = this.coordinatorDpuSize;
     final defaultExecutorDpuSize = this.defaultExecutorDpuSize;
+    final sparkProperties = this.sparkProperties;
     return {
       'MaxConcurrentDpus': maxConcurrentDpus,
       if (additionalConfigs != null) 'AdditionalConfigs': additionalConfigs,
       if (coordinatorDpuSize != null) 'CoordinatorDpuSize': coordinatorDpuSize,
       if (defaultExecutorDpuSize != null)
         'DefaultExecutorDpuSize': defaultExecutorDpuSize,
+      if (sparkProperties != null) 'SparkProperties': sparkProperties,
     };
   }
 }
@@ -4899,6 +5003,38 @@ class GetWorkGroupOutput {
           ? WorkGroup.fromJson(json['WorkGroup'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// Specifies whether the workgroup is IAM Identity Center supported.
+class IdentityCenterConfiguration {
+  /// Specifies whether the workgroup is IAM Identity Center supported.
+  final bool? enableIdentityCenter;
+
+  /// The IAM Identity Center instance ARN that the workgroup associates to.
+  final String? identityCenterInstanceArn;
+
+  IdentityCenterConfiguration({
+    this.enableIdentityCenter,
+    this.identityCenterInstanceArn,
+  });
+
+  factory IdentityCenterConfiguration.fromJson(Map<String, dynamic> json) {
+    return IdentityCenterConfiguration(
+      enableIdentityCenter: json['EnableIdentityCenter'] as bool?,
+      identityCenterInstanceArn: json['IdentityCenterInstanceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableIdentityCenter = this.enableIdentityCenter;
+    final identityCenterInstanceArn = this.identityCenterInstanceArn;
+    return {
+      if (enableIdentityCenter != null)
+        'EnableIdentityCenter': enableIdentityCenter,
+      if (identityCenterInstanceArn != null)
+        'IdentityCenterInstanceArn': identityCenterInstanceArn,
+    };
   }
 }
 
@@ -5537,7 +5673,7 @@ class QueryExecution {
 
   /// A list of values for the parameters in a query. The values are applied
   /// sequentially to the parameters in the query in the order in which the
-  /// parameters occur.
+  /// parameters occur. The list of parameters is not returned in the response.
   final List<String>? executionParameters;
 
   /// The SQL query statements which the query execution ran.
@@ -5548,6 +5684,10 @@ class QueryExecution {
 
   /// The unique identifier for each query execution.
   final String? queryExecutionId;
+
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final QueryResultsS3AccessGrantsConfiguration?
+      queryResultsS3AccessGrantsConfiguration;
 
   /// The location in Amazon S3 where query and calculation results are stored and
   /// the encryption option, if any, used for query results. These are known as
@@ -5587,6 +5727,7 @@ class QueryExecution {
     this.query,
     this.queryExecutionContext,
     this.queryExecutionId,
+    this.queryResultsS3AccessGrantsConfiguration,
     this.resultConfiguration,
     this.resultReuseConfiguration,
     this.statementType,
@@ -5612,6 +5753,12 @@ class QueryExecution {
               json['QueryExecutionContext'] as Map<String, dynamic>)
           : null,
       queryExecutionId: json['QueryExecutionId'] as String?,
+      queryResultsS3AccessGrantsConfiguration:
+          json['QueryResultsS3AccessGrantsConfiguration'] != null
+              ? QueryResultsS3AccessGrantsConfiguration.fromJson(
+                  json['QueryResultsS3AccessGrantsConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       resultConfiguration: json['ResultConfiguration'] != null
           ? ResultConfiguration.fromJson(
               json['ResultConfiguration'] as Map<String, dynamic>)
@@ -5744,6 +5891,10 @@ class QueryExecutionStatistics {
   /// the query.
   final ResultReuseInformation? resultReuseInformation;
 
+  /// The number of milliseconds that Athena took to preprocess the query before
+  /// submitting the query to the query engine.
+  final int? servicePreProcessingTimeInMillis;
+
   /// The number of milliseconds that Athena took to finalize and publish the
   /// query results after the query engine finished running the query.
   final int? serviceProcessingTimeInMillis;
@@ -5758,6 +5909,7 @@ class QueryExecutionStatistics {
     this.queryPlanningTimeInMillis,
     this.queryQueueTimeInMillis,
     this.resultReuseInformation,
+    this.servicePreProcessingTimeInMillis,
     this.serviceProcessingTimeInMillis,
     this.totalExecutionTimeInMillis,
   });
@@ -5773,6 +5925,8 @@ class QueryExecutionStatistics {
           ? ResultReuseInformation.fromJson(
               json['ResultReuseInformation'] as Map<String, dynamic>)
           : null,
+      servicePreProcessingTimeInMillis:
+          json['ServicePreProcessingTimeInMillis'] as int?,
       serviceProcessingTimeInMillis:
           json['ServiceProcessingTimeInMillis'] as int?,
       totalExecutionTimeInMillis: json['TotalExecutionTimeInMillis'] as int?,
@@ -5827,6 +5981,48 @@ class QueryExecutionStatus {
       stateChangeReason: json['StateChangeReason'] as String?,
       submissionDateTime: timeStampFromJson(json['SubmissionDateTime']),
     );
+  }
+}
+
+/// Specifies whether Amazon S3 access grants are enabled for query results.
+class QueryResultsS3AccessGrantsConfiguration {
+  /// The authentication type used for Amazon S3 access grants. Currently, only
+  /// <code>DIRECTORY_IDENTITY</code> is supported.
+  final AuthenticationType authenticationType;
+
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final bool enableS3AccessGrants;
+
+  /// When enabled, appends the user ID as an Amazon S3 path prefix to the query
+  /// result output location.
+  final bool? createUserLevelPrefix;
+
+  QueryResultsS3AccessGrantsConfiguration({
+    required this.authenticationType,
+    required this.enableS3AccessGrants,
+    this.createUserLevelPrefix,
+  });
+
+  factory QueryResultsS3AccessGrantsConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return QueryResultsS3AccessGrantsConfiguration(
+      authenticationType:
+          (json['AuthenticationType'] as String).toAuthenticationType(),
+      enableS3AccessGrants: json['EnableS3AccessGrants'] as bool,
+      createUserLevelPrefix: json['CreateUserLevelPrefix'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final enableS3AccessGrants = this.enableS3AccessGrants;
+    final createUserLevelPrefix = this.createUserLevelPrefix;
+    return {
+      'AuthenticationType': authenticationType.toValue(),
+      'EnableS3AccessGrants': enableS3AccessGrants,
+      if (createUserLevelPrefix != null)
+        'CreateUserLevelPrefix': createUserLevelPrefix,
+    };
   }
 }
 
@@ -5912,6 +6108,10 @@ class QueryRuntimeStatisticsTimeline {
   /// automatically add the query back to the queue.
   final int? queryQueueTimeInMillis;
 
+  /// The number of milliseconds that Athena spends on preprocessing before it
+  /// submits the query to the engine.
+  final int? servicePreProcessingTimeInMillis;
+
   /// The number of milliseconds that Athena took to finalize and publish the
   /// query results after the query engine finished running the query.
   final int? serviceProcessingTimeInMillis;
@@ -5923,6 +6123,7 @@ class QueryRuntimeStatisticsTimeline {
     this.engineExecutionTimeInMillis,
     this.queryPlanningTimeInMillis,
     this.queryQueueTimeInMillis,
+    this.servicePreProcessingTimeInMillis,
     this.serviceProcessingTimeInMillis,
     this.totalExecutionTimeInMillis,
   });
@@ -5932,6 +6133,8 @@ class QueryRuntimeStatisticsTimeline {
       engineExecutionTimeInMillis: json['EngineExecutionTimeInMillis'] as int?,
       queryPlanningTimeInMillis: json['QueryPlanningTimeInMillis'] as int?,
       queryQueueTimeInMillis: json['QueryQueueTimeInMillis'] as int?,
+      servicePreProcessingTimeInMillis:
+          json['ServicePreProcessingTimeInMillis'] as int?,
       serviceProcessingTimeInMillis:
           json['ServiceProcessingTimeInMillis'] as int?,
       totalExecutionTimeInMillis: json['TotalExecutionTimeInMillis'] as int?,
@@ -6094,10 +6297,7 @@ class ResultConfiguration {
   /// you must specify the query results location using one of the ways: either
   /// for individual queries using either this setting (client-side), or in the
   /// workgroup, using <a>WorkGroupConfiguration</a>. If none of them is set,
-  /// Athena issues an error that no output location is provided. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Working
-  /// with query results, recent queries, and output files</a>. If workgroup
+  /// Athena issues an error that no output location is provided. If workgroup
   /// settings override client-side settings, then the query uses the settings
   /// specified for the workgroup. See
   /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
@@ -6168,10 +6368,7 @@ class ResultConfigurationUpdates {
   final String? expectedBucketOwner;
 
   /// The location in Amazon S3 where your query and calculation results are
-  /// stored, such as <code>s3://path/to/query/bucket/</code>. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Working
-  /// with query results, recent queries, and output files</a>. If workgroup
+  /// stored, such as <code>s3://path/to/query/bucket/</code>. If workgroup
   /// settings override client-side settings, then the query uses the location for
   /// the query results and the encryption configuration that are specified for
   /// the workgroup. The "workgroup settings override" is specified in
@@ -6442,7 +6639,9 @@ extension S3AclOptionFromString on String {
 class SessionConfiguration {
   final EncryptionConfiguration? encryptionConfiguration;
 
-  /// The ARN of the execution role used for the session.
+  /// The ARN of the execution role used to access user resources for Spark
+  /// sessions and Identity Center enabled workgroups. This property applies only
+  /// to Spark enabled workgroups and Identity Center enabled workgroups.
   final String? executionRole;
 
   /// The idle timeout in seconds for the session.
@@ -7150,6 +7349,10 @@ class WorkGroup {
   /// The workgroup description.
   final String? description;
 
+  /// The ARN of the IAM Identity Center enabled application associated with the
+  /// workgroup.
+  final String? identityCenterApplicationArn;
+
   /// The state of the workgroup: ENABLED or DISABLED.
   final WorkGroupState? state;
 
@@ -7158,6 +7361,7 @@ class WorkGroup {
     this.configuration,
     this.creationTime,
     this.description,
+    this.identityCenterApplicationArn,
     this.state,
   });
 
@@ -7170,6 +7374,8 @@ class WorkGroup {
           : null,
       creationTime: timeStampFromJson(json['CreationTime']),
       description: json['Description'] as String?,
+      identityCenterApplicationArn:
+          json['IdentityCenterApplicationArn'] as String?,
       state: (json['State'] as String?)?.toWorkGroupState(),
     );
   }
@@ -7193,7 +7399,7 @@ class WorkGroupConfiguration {
   final int? bytesScannedCutoffPerQuery;
 
   /// Specifies the KMS key that is used to encrypt the user's data stores in
-  /// Athena.
+  /// Athena. This setting does not apply to Athena SQL workgroups.
   final CustomerContentEncryptionConfiguration?
       customerContentEncryptionConfiguration;
 
@@ -7221,11 +7427,21 @@ class WorkGroupConfiguration {
   /// preview engine regardless of this setting.
   final EngineVersion? engineVersion;
 
-  /// Role used in a session for accessing the user's resources.
+  /// The ARN of the execution role used to access user resources for Spark
+  /// sessions and IAM Identity Center enabled workgroups. This property applies
+  /// only to Spark enabled workgroups and IAM Identity Center enabled workgroups.
+  /// The property is required for IAM Identity Center enabled workgroups.
   final String? executionRole;
+
+  /// Specifies whether the workgroup is IAM Identity Center supported.
+  final IdentityCenterConfiguration? identityCenterConfiguration;
 
   /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
   final bool? publishCloudWatchMetricsEnabled;
+
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final QueryResultsS3AccessGrantsConfiguration?
+      queryResultsS3AccessGrantsConfiguration;
 
   /// If set to <code>true</code>, allows members assigned to a workgroup to
   /// reference Amazon S3 Requester Pays buckets in queries. If set to
@@ -7244,10 +7460,7 @@ class WorkGroupConfiguration {
   /// specify the query results location using one of the ways: either in the
   /// workgroup using this setting, or for individual queries (client-side), using
   /// <a>ResultConfiguration$OutputLocation</a>. If none of them is set, Athena
-  /// issues an error that no output location is provided. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Working
-  /// with query results, recent queries, and output files</a>.
+  /// issues an error that no output location is provided.
   final ResultConfiguration? resultConfiguration;
 
   WorkGroupConfiguration({
@@ -7258,7 +7471,9 @@ class WorkGroupConfiguration {
     this.enforceWorkGroupConfiguration,
     this.engineVersion,
     this.executionRole,
+    this.identityCenterConfiguration,
     this.publishCloudWatchMetricsEnabled,
+    this.queryResultsS3AccessGrantsConfiguration,
     this.requesterPaysEnabled,
     this.resultConfiguration,
   });
@@ -7282,8 +7497,18 @@ class WorkGroupConfiguration {
               json['EngineVersion'] as Map<String, dynamic>)
           : null,
       executionRole: json['ExecutionRole'] as String?,
+      identityCenterConfiguration: json['IdentityCenterConfiguration'] != null
+          ? IdentityCenterConfiguration.fromJson(
+              json['IdentityCenterConfiguration'] as Map<String, dynamic>)
+          : null,
       publishCloudWatchMetricsEnabled:
           json['PublishCloudWatchMetricsEnabled'] as bool?,
+      queryResultsS3AccessGrantsConfiguration:
+          json['QueryResultsS3AccessGrantsConfiguration'] != null
+              ? QueryResultsS3AccessGrantsConfiguration.fromJson(
+                  json['QueryResultsS3AccessGrantsConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       requesterPaysEnabled: json['RequesterPaysEnabled'] as bool?,
       resultConfiguration: json['ResultConfiguration'] != null
           ? ResultConfiguration.fromJson(
@@ -7302,8 +7527,11 @@ class WorkGroupConfiguration {
     final enforceWorkGroupConfiguration = this.enforceWorkGroupConfiguration;
     final engineVersion = this.engineVersion;
     final executionRole = this.executionRole;
+    final identityCenterConfiguration = this.identityCenterConfiguration;
     final publishCloudWatchMetricsEnabled =
         this.publishCloudWatchMetricsEnabled;
+    final queryResultsS3AccessGrantsConfiguration =
+        this.queryResultsS3AccessGrantsConfiguration;
     final requesterPaysEnabled = this.requesterPaysEnabled;
     final resultConfiguration = this.resultConfiguration;
     return {
@@ -7321,8 +7549,13 @@ class WorkGroupConfiguration {
         'EnforceWorkGroupConfiguration': enforceWorkGroupConfiguration,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (executionRole != null) 'ExecutionRole': executionRole,
+      if (identityCenterConfiguration != null)
+        'IdentityCenterConfiguration': identityCenterConfiguration,
       if (publishCloudWatchMetricsEnabled != null)
         'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
+      if (queryResultsS3AccessGrantsConfiguration != null)
+        'QueryResultsS3AccessGrantsConfiguration':
+            queryResultsS3AccessGrantsConfiguration,
       if (requesterPaysEnabled != null)
         'RequesterPaysEnabled': requesterPaysEnabled,
       if (resultConfiguration != null)
@@ -7374,18 +7607,25 @@ class WorkGroupConfigurationUpdates {
   /// engine regardless of this setting.
   final EngineVersion? engineVersion;
 
-  /// Contains the ARN of the execution role for the workgroup
+  /// The ARN of the execution role used to access user resources for Spark
+  /// sessions and Identity Center enabled workgroups. This property applies only
+  /// to Spark enabled workgroups and Identity Center enabled workgroups.
   final String? executionRole;
 
   /// Indicates whether this workgroup enables publishing metrics to Amazon
   /// CloudWatch.
   final bool? publishCloudWatchMetricsEnabled;
 
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final QueryResultsS3AccessGrantsConfiguration?
+      queryResultsS3AccessGrantsConfiguration;
+
   /// Indicates that the data usage control limit per query is removed.
   /// <a>WorkGroupConfiguration$BytesScannedCutoffPerQuery</a>
   final bool? removeBytesScannedCutoffPerQuery;
 
-  /// Removes content encryption configuration for a workgroup.
+  /// Removes content encryption configuration from an Apache Spark-enabled Athena
+  /// workgroup.
   final bool? removeCustomerContentEncryptionConfiguration;
 
   /// If set to <code>true</code>, allows members assigned to a workgroup to
@@ -7413,6 +7653,7 @@ class WorkGroupConfigurationUpdates {
     this.engineVersion,
     this.executionRole,
     this.publishCloudWatchMetricsEnabled,
+    this.queryResultsS3AccessGrantsConfiguration,
     this.removeBytesScannedCutoffPerQuery,
     this.removeCustomerContentEncryptionConfiguration,
     this.requesterPaysEnabled,
@@ -7431,6 +7672,8 @@ class WorkGroupConfigurationUpdates {
     final executionRole = this.executionRole;
     final publishCloudWatchMetricsEnabled =
         this.publishCloudWatchMetricsEnabled;
+    final queryResultsS3AccessGrantsConfiguration =
+        this.queryResultsS3AccessGrantsConfiguration;
     final removeBytesScannedCutoffPerQuery =
         this.removeBytesScannedCutoffPerQuery;
     final removeCustomerContentEncryptionConfiguration =
@@ -7454,6 +7697,9 @@ class WorkGroupConfigurationUpdates {
       if (executionRole != null) 'ExecutionRole': executionRole,
       if (publishCloudWatchMetricsEnabled != null)
         'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
+      if (queryResultsS3AccessGrantsConfiguration != null)
+        'QueryResultsS3AccessGrantsConfiguration':
+            queryResultsS3AccessGrantsConfiguration,
       if (removeBytesScannedCutoffPerQuery != null)
         'RemoveBytesScannedCutoffPerQuery': removeBytesScannedCutoffPerQuery,
       if (removeCustomerContentEncryptionConfiguration != null)
@@ -7509,6 +7755,10 @@ class WorkGroupSummary {
   /// engine regardless of this setting.
   final EngineVersion? engineVersion;
 
+  /// The ARN of the IAM Identity Center enabled application associated with the
+  /// workgroup.
+  final String? identityCenterApplicationArn;
+
   /// The name of the workgroup.
   final String? name;
 
@@ -7519,6 +7769,7 @@ class WorkGroupSummary {
     this.creationTime,
     this.description,
     this.engineVersion,
+    this.identityCenterApplicationArn,
     this.name,
     this.state,
   });
@@ -7531,6 +7782,8 @@ class WorkGroupSummary {
           ? EngineVersion.fromJson(
               json['EngineVersion'] as Map<String, dynamic>)
           : null,
+      identityCenterApplicationArn:
+          json['IdentityCenterApplicationArn'] as String?,
       name: json['Name'] as String?,
       state: (json['State'] as String?)?.toWorkGroupState(),
     );

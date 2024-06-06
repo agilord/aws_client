@@ -135,6 +135,13 @@ class EventBridge {
   /// Creates an API destination, which is an HTTP invocation endpoint
   /// configured as a target for events.
   ///
+  /// API destinations do not support private destinations, such as interface
+  /// VPC endpoints.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html">API
+  /// destinations</a> in the <i>EventBridge User Guide</i>.
+  ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
@@ -203,6 +210,33 @@ class EventBridge {
   /// do not specify a pattern to filter events sent to the archive, all events
   /// are sent to the archive except replayed events. Replayed events are not
   /// sent to an archive.
+  /// <note>
+  /// Archives and schema discovery are not supported for event buses encrypted
+  /// using a customer managed key. EventBridge returns an error if:
+  ///
+  /// <ul>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html">CreateArchive</a>
+  /// </code> on an event bus set to use a customer managed key for encryption.
+  /// </li>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer">CreateDiscoverer</a>
+  /// </code> on an event bus set to use a customer managed key for encryption.
+  /// </li>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html">UpdatedEventBus</a>
+  /// </code> to set a customer managed key on an event bus with an archives or
+  /// schema discovery enabled.
+  /// </li>
+  /// </ul>
+  /// To enable archives or schema discovery on an event bus, choose to use an
+  /// Amazon Web Services owned key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html">Data
+  /// encryption in EventBridge</a> in the <i>Amazon EventBridge User Guide</i>.
+  /// </note>
   ///
   /// May throw [ConcurrentModificationException].
   /// May throw [ResourceAlreadyExistsException].
@@ -403,15 +437,61 @@ class EventBridge {
   /// You can't use the name <code>default</code> for a custom event bus, as
   /// this name is already used for your account's default event bus.
   ///
+  /// Parameter [description] :
+  /// The event bus description.
+  ///
   /// Parameter [eventSourceName] :
   /// If you are creating a partner event bus, this specifies the partner event
   /// source that the new event bus will be matched with.
+  ///
+  /// Parameter [kmsKeyIdentifier] :
+  /// The identifier of the KMS customer managed key for EventBridge to use, if
+  /// you choose to use a customer managed key to encrypt events on this event
+  /// bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key
+  /// alias, or key alias ARN.
+  ///
+  /// If you do not specify a customer managed key identifier, EventBridge uses
+  /// an Amazon Web Services owned key to encrypt events on the event bus.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html">Managing
+  /// keys</a> in the <i>Key Management Service Developer Guide</i>.
+  /// <note>
+  /// Archives and schema discovery are not supported for event buses encrypted
+  /// using a customer managed key. EventBridge returns an error if:
+  ///
+  /// <ul>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html">CreateArchive</a>
+  /// </code> on an event bus set to use a customer managed key for encryption.
+  /// </li>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer">CreateDiscoverer</a>
+  /// </code> on an event bus set to use a customer managed key for encryption.
+  /// </li>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html">UpdatedEventBus</a>
+  /// </code> to set a customer managed key on an event bus with an archives or
+  /// schema discovery enabled.
+  /// </li>
+  /// </ul>
+  /// To enable archives or schema discovery on an event bus, choose to use an
+  /// Amazon Web Services owned key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html">Data
+  /// encryption in EventBridge</a> in the <i>Amazon EventBridge User Guide</i>.
+  /// </note>
   ///
   /// Parameter [tags] :
   /// Tags to associate with the event bus.
   Future<CreateEventBusResponse> createEventBus({
     required String name,
+    DeadLetterConfig? deadLetterConfig,
+    String? description,
     String? eventSourceName,
+    String? kmsKeyIdentifier,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -426,7 +506,10 @@ class EventBridge {
       headers: headers,
       payload: {
         'Name': name,
+        if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
+        if (description != null) 'Description': description,
         if (eventSourceName != null) 'EventSourceName': eventSourceName,
+        if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -455,14 +538,28 @@ class EventBridge {
   /// <code> <i>partner_name</i>/<i>event_namespace</i>/<i>event_name</i>
   /// </code>
   ///
-  /// <i>partner_name</i> is determined during partner registration and
+  /// <ul>
+  /// <li>
+  /// <i>partner_name</i> is determined during partner registration, and
   /// identifies the partner to Amazon Web Services customers.
-  /// <i>event_namespace</i> is determined by the partner and is a way for the
-  /// partner to categorize their events. <i>event_name</i> is determined by the
-  /// partner, and should uniquely identify an event-generating resource within
-  /// the partner system. The combination of <i>event_namespace</i> and
-  /// <i>event_name</i> should help Amazon Web Services customers decide whether
-  /// to create an event bus to receive these events.
+  /// </li>
+  /// <li>
+  /// <i>event_namespace</i> is determined by the partner, and is a way for the
+  /// partner to categorize their events.
+  /// </li>
+  /// <li>
+  /// <i>event_name</i> is determined by the partner, and should uniquely
+  /// identify an event-generating resource within the partner system.
+  ///
+  /// The <i>event_name</i> must be unique across all Amazon Web Services
+  /// customers. This is because the event source is a shared resource between
+  /// the partner and customer accounts, and each partner event source unique in
+  /// the partner account.
+  /// </li>
+  /// </ul>
+  /// The combination of <i>event_namespace</i> and <i>event_name</i> should
+  /// help Amazon Web Services customers decide whether to create an event bus
+  /// to receive these events.
   ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [InternalException].
@@ -659,7 +756,7 @@ class EventBridge {
   /// endpoints, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html">Making
   /// applications Regional-fault tolerant with global endpoints and event
-  /// replication</a> in the Amazon EventBridge User Guide.
+  /// replication</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
   ///
   /// May throw [ConcurrentModificationException].
   /// May throw [ResourceNotFoundException].
@@ -902,7 +999,7 @@ class EventBridge {
   /// information about global endpoints, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html">Making
   /// applications Regional-fault tolerant with global endpoints and event
-  /// replication</a> in the Amazon EventBridge User Guide..
+  /// replication</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
@@ -1353,7 +1450,7 @@ class EventBridge {
   /// information about global endpoints, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html">Making
   /// applications Regional-fault tolerant with global endpoints and event
-  /// replication</a> in the Amazon EventBridge User Guide..
+  /// replication</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
   ///
   /// May throw [InternalException].
   ///
@@ -1665,6 +1762,8 @@ class EventBridge {
   /// Lists the rules for the specified target. You can see which of the rules
   /// in Amazon EventBridge can invoke a specific target in your account.
   ///
+  /// The maximum number of results per page for requests is 100.
+  ///
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -1715,6 +1814,8 @@ class EventBridge {
 
   /// Lists your Amazon EventBridge rules. You can either list all the rules or
   /// you can provide a prefix to match to the rule names.
+  ///
+  /// The maximum number of results per page for requests is 100.
   ///
   /// ListRules does not list the targets of a rule. To see the targets
   /// associated with a rule, use <a
@@ -1799,6 +1900,8 @@ class EventBridge {
 
   /// Lists the targets assigned to the specified rule.
   ///
+  /// The maximum number of results per page for requests is 100.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
   ///
@@ -1849,6 +1952,18 @@ class EventBridge {
 
   /// Sends custom events to Amazon EventBridge so that they can be matched to
   /// rules.
+  ///
+  /// The maximum size for a PutEvents event entry is 256 KB. Entry size is
+  /// calculated including the event and any necessary characters and keys of
+  /// the JSON representation of the event. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html">Calculating
+  /// PutEvents event entry size</a> in the <i> <i>Amazon EventBridge User
+  /// Guide</i> </i>
+  ///
+  /// PutEvents accepts the data in JSON format. For the JSON number (integer)
+  /// data type, the constraints are: a minimum value of
+  /// -9,223,372,036,854,775,808 and a maximum value of
+  /// 9,223,372,036,854,775,807.
   /// <note>
   /// PutEvents will only process nested JSON up to 1100 levels deep.
   /// </note>
@@ -1892,6 +2007,11 @@ class EventBridge {
 
   /// This is used by SaaS partners to write events to a customer's partner
   /// event bus. Amazon Web Services customers do not use this operation.
+  ///
+  /// For information on calculating event batch size, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html">Calculating
+  /// EventBridge PutEvents event entry size</a> in the <i>EventBridge User
+  /// Guide</i>.
   ///
   /// May throw [InternalException].
   /// May throw [OperationDisabledException].
@@ -2115,8 +2235,8 @@ class EventBridge {
   /// Parameter [eventPattern] :
   /// The event pattern. For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html">Amazon
-  /// EventBridge event patterns</a> in the <i>Amazon EventBridge User
-  /// Guide</i>.
+  /// EventBridge event patterns</a> in the <i> <i>Amazon EventBridge User
+  /// Guide</i> </i>.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
@@ -2132,7 +2252,43 @@ class EventBridge {
   /// minutes)".
   ///
   /// Parameter [state] :
-  /// Indicates whether the rule is enabled or disabled.
+  /// The state of the rule.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DISABLED</code>: The rule is disabled. EventBridge does not match
+  /// any events against the rule.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED</code>: The rule is enabled. EventBridge matches events
+  /// against the rule, <i>except</i> for Amazon Web Services management events
+  /// delivered through CloudTrail.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS</code>: The rule is
+  /// enabled for all events, including Amazon Web Services management events
+  /// delivered through CloudTrail.
+  ///
+  /// Management events provide visibility into management operations that are
+  /// performed on resources in your Amazon Web Services account. These are also
+  /// known as control plane operations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html#logging-management-events">Logging
+  /// management events</a> in the <i>CloudTrail User Guide</i>, and <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-cloudtrail">Filtering
+  /// management events from Amazon Web Services services</a> in the <i>
+  /// <i>Amazon EventBridge User Guide</i> </i>.
+  ///
+  /// This value is only valid for rules on the <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is-how-it-works-concepts.html#eb-bus-concepts-buses">default</a>
+  /// event bus or <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-event-bus.html">custom
+  /// event buses</a>. It does not apply to <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-saas.html">partner
+  /// event buses</a>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [tags] :
   /// The list of key-value pairs to associate with the rule.
@@ -2176,116 +2332,32 @@ class EventBridge {
   /// if they are already associated with the rule.
   ///
   /// Targets are the resources that are invoked when a rule is triggered.
+  ///
+  /// The maximum number of entries per request is 10.
   /// <note>
   /// Each rule can have up to five (5) targets associated with it at one time.
   /// </note>
-  /// You can configure the following as targets for Events:
+  /// For a list of services you can configure as targets for events, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html">EventBridge
+  /// targets</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
+  ///
+  /// Creating rules with built-in targets is supported only in the Amazon Web
+  /// Services Management Console. The built-in targets are:
   ///
   /// <ul>
   /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html">API
-  /// destination</a>
+  /// <code>Amazon EBS CreateSnapshot API call</code>
   /// </li>
   /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-gateway-target.html">API
-  /// Gateway</a>
+  /// <code>Amazon EC2 RebootInstances API call</code>
   /// </li>
   /// <li>
-  /// Batch job queue
+  /// <code>Amazon EC2 StopInstances API call</code>
   /// </li>
   /// <li>
-  /// CloudWatch group
-  /// </li>
-  /// <li>
-  /// CodeBuild project
-  /// </li>
-  /// <li>
-  /// CodePipeline
-  /// </li>
-  /// <li>
-  /// EC2 <code>CreateSnapshot</code> API call
-  /// </li>
-  /// <li>
-  /// EC2 Image Builder
-  /// </li>
-  /// <li>
-  /// EC2 <code>RebootInstances</code> API call
-  /// </li>
-  /// <li>
-  /// EC2 <code>StopInstances</code> API call
-  /// </li>
-  /// <li>
-  /// EC2 <code>TerminateInstances</code> API call
-  /// </li>
-  /// <li>
-  /// ECS task
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cross-account.html">Event
-  /// bus in a different account or Region</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-bus-to-bus.html">Event
-  /// bus in the same account and Region</a>
-  /// </li>
-  /// <li>
-  /// Firehose delivery stream
-  /// </li>
-  /// <li>
-  /// Glue workflow
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-creation.html#incident-tracking-auto-eventbridge">Incident
-  /// Manager response plan</a>
-  /// </li>
-  /// <li>
-  /// Inspector assessment template
-  /// </li>
-  /// <li>
-  /// Kinesis stream
-  /// </li>
-  /// <li>
-  /// Lambda function
-  /// </li>
-  /// <li>
-  /// Redshift cluster
-  /// </li>
-  /// <li>
-  /// Redshift Serverless workgroup
-  /// </li>
-  /// <li>
-  /// SageMaker Pipeline
-  /// </li>
-  /// <li>
-  /// SNS topic
-  /// </li>
-  /// <li>
-  /// SQS queue
-  /// </li>
-  /// <li>
-  /// Step Functions state machine
-  /// </li>
-  /// <li>
-  /// Systems Manager Automation
-  /// </li>
-  /// <li>
-  /// Systems Manager OpsItem
-  /// </li>
-  /// <li>
-  /// Systems Manager Run Command
+  /// <code>Amazon EC2 TerminateInstances API call</code>
   /// </li>
   /// </ul>
-  /// Creating rules with built-in targets is supported only in the Amazon Web
-  /// Services Management Console. The built-in targets are <code>EC2
-  /// CreateSnapshot API call</code>, <code>EC2 RebootInstances API call</code>,
-  /// <code>EC2 StopInstances API call</code>, and <code>EC2 TerminateInstances
-  /// API call</code>.
-  ///
   /// For some target types, <code>PutTargets</code> provides target-specific
   /// parameters. If the target is a Kinesis data stream, you can optionally
   /// specify which shard the event goes to by using the
@@ -2294,14 +2366,23 @@ class EventBridge {
   /// <code>RunCommandParameters</code> field.
   ///
   /// To be able to make API calls against the resources that you own, Amazon
-  /// EventBridge needs the appropriate permissions. For Lambda and Amazon SNS
-  /// resources, EventBridge relies on resource-based policies. For EC2
-  /// instances, Kinesis Data Streams, Step Functions state machines and API
-  /// Gateway APIs, EventBridge relies on IAM roles that you specify in the
-  /// <code>RoleARN</code> argument in <code>PutTargets</code>. For more
-  /// information, see <a
+  /// EventBridge needs the appropriate permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// For Lambda and Amazon SNS resources, EventBridge relies on resource-based
+  /// policies.
+  /// </li>
+  /// <li>
+  /// For EC2 instances, Kinesis Data Streams, Step Functions state machines and
+  /// API Gateway APIs, EventBridge relies on IAM roles that you specify in the
+  /// <code>RoleARN</code> argument in <code>PutTargets</code>.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html">Authentication
-  /// and Access Control</a> in the <i>Amazon EventBridge User Guide</i>.
+  /// and Access Control</a> in the <i> <i>Amazon EventBridge User Guide</i>
+  /// </i>.
   ///
   /// If another Amazon Web Services account is in the same region and has
   /// granted you permission (using <code>PutPermission</code>), you can send
@@ -2328,7 +2409,11 @@ class EventBridge {
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html">Sending
   /// and Receiving Events Between Amazon Web Services Accounts</a> in the
   /// <i>Amazon EventBridge User Guide</i>.
-  ///
+  /// <note>
+  /// If you have an IAM role on a cross-account event bus target, a
+  /// <code>PutTargets</code> call without a role on the same target (same
+  /// <code>Id</code> and <code>Arn</code>) will not remove the role.
+  /// </note>
   /// For more information about enabling cross-account events, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html">PutPermission</a>.
   ///
@@ -2472,6 +2557,8 @@ class EventBridge {
   /// time. If that happens, <code>FailedEntryCount</code> is non-zero in the
   /// response and each entry in <code>FailedEntries</code> provides the ID of
   /// the failed target and the error code.
+  ///
+  /// The maximum number of entries per request is 10.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ConcurrentModificationException].
@@ -2684,7 +2771,8 @@ class EventBridge {
   /// Parameter [eventPattern] :
   /// The event pattern. For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
-  /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
+  /// and Event Patterns</a> in the <i> <i>Amazon EventBridge User Guide</i>
+  /// </i>.
   Future<TestEventPatternResponse> testEventPattern({
     required String event,
     required String eventPattern,
@@ -2909,7 +2997,7 @@ class EventBridge {
   /// see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html">Making
   /// applications Regional-fault tolerant with global endpoints and event
-  /// replication</a> in the Amazon EventBridge User Guide..
+  /// replication</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ConcurrentModificationException].
@@ -2962,6 +3050,85 @@ class EventBridge {
     );
 
     return UpdateEndpointResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the specified event bus.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [OperationDisabledException].
+  ///
+  /// Parameter [description] :
+  /// The event bus description.
+  ///
+  /// Parameter [kmsKeyIdentifier] :
+  /// The identifier of the KMS customer managed key for EventBridge to use, if
+  /// you choose to use a customer managed key to encrypt events on this event
+  /// bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key
+  /// alias, or key alias ARN.
+  ///
+  /// If you do not specify a customer managed key identifier, EventBridge uses
+  /// an Amazon Web Services owned key to encrypt events on the event bus.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html">Managing
+  /// keys</a> in the <i>Key Management Service Developer Guide</i>.
+  /// <note>
+  /// Archives and schema discovery are not supported for event buses encrypted
+  /// using a customer managed key. EventBridge returns an error if:
+  ///
+  /// <ul>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html">CreateArchive</a>
+  /// </code> on an event bus set to use a customer managed key for encryption.
+  /// </li>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer">CreateDiscoverer</a>
+  /// </code> on an event bus set to use a customer managed key for encryption.
+  /// </li>
+  /// <li>
+  /// You call <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html">UpdatedEventBus</a>
+  /// </code> to set a customer managed key on an event bus with an archives or
+  /// schema discovery enabled.
+  /// </li>
+  /// </ul>
+  /// To enable archives or schema discovery on an event bus, choose to use an
+  /// Amazon Web Services owned key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html">Data
+  /// encryption in EventBridge</a> in the <i>Amazon EventBridge User Guide</i>.
+  /// </note>
+  ///
+  /// Parameter [name] :
+  /// The name of the event bus.
+  Future<UpdateEventBusResponse> updateEventBus({
+    DeadLetterConfig? deadLetterConfig,
+    String? description,
+    String? kmsKeyIdentifier,
+    String? name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.UpdateEventBus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
+        if (description != null) 'Description': description,
+        if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
+        if (name != null) 'Name': name,
+      },
+    );
+
+    return UpdateEventBusResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -3101,6 +3268,35 @@ extension ApiDestinationStateFromString on String {
         return ApiDestinationState.inactive;
     }
     throw Exception('$this is not known in enum ApiDestinationState');
+  }
+}
+
+/// Contains the GraphQL operation to be parsed and executed, if the event
+/// target is an AppSync API.
+class AppSyncParameters {
+  /// The GraphQL operation; that is, the query, mutation, or subscription to be
+  /// parsed and executed by the GraphQL service.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appsync/latest/devguide/graphql-architecture.html#graphql-operations">Operations</a>
+  /// in the <i>AppSync User Guide</i>.
+  final String? graphQLOperation;
+
+  AppSyncParameters({
+    this.graphQLOperation,
+  });
+
+  factory AppSyncParameters.fromJson(Map<String, dynamic> json) {
+    return AppSyncParameters(
+      graphQLOperation: json['GraphQLOperation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final graphQLOperation = this.graphQLOperation;
+    return {
+      if (graphQLOperation != null) 'GraphQLOperation': graphQLOperation,
+    };
   }
 }
 
@@ -4291,16 +4487,38 @@ class CreateEndpointResponse {
 }
 
 class CreateEventBusResponse {
+  final DeadLetterConfig? deadLetterConfig;
+
+  /// The event bus description.
+  final String? description;
+
   /// The ARN of the new event bus.
   final String? eventBusArn;
 
+  /// The identifier of the KMS customer managed key for EventBridge to use to
+  /// encrypt events on this event bus, if one has been specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html">Data
+  /// encryption in EventBridge</a> in the <i>Amazon EventBridge User Guide</i>.
+  final String? kmsKeyIdentifier;
+
   CreateEventBusResponse({
+    this.deadLetterConfig,
+    this.description,
     this.eventBusArn,
+    this.kmsKeyIdentifier,
   });
 
   factory CreateEventBusResponse.fromJson(Map<String, dynamic> json) {
     return CreateEventBusResponse(
+      deadLetterConfig: json['DeadLetterConfig'] != null
+          ? DeadLetterConfig.fromJson(
+              json['DeadLetterConfig'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
       eventBusArn: json['EventBusArn'] as String?,
+      kmsKeyIdentifier: json['KmsKeyIdentifier'] as String?,
     );
   }
 }
@@ -4320,8 +4538,12 @@ class CreatePartnerEventSourceResponse {
   }
 }
 
-/// A <code>DeadLetterConfig</code> object that contains information about a
-/// dead-letter queue configuration.
+/// Configuration details of the Amazon SQS queue for EventBridge to use as a
+/// dead-letter queue (DLQ).
+///
+/// For more information, see <a
+/// href="eventbridge/latest/userguide/eb-rule-dlq.html">Event retry policy and
+/// using dead-letter queues</a> in the <i>EventBridge User Guide</i>.
 class DeadLetterConfig {
   /// The ARN of the SQS queue specified as the target for the dead-letter queue.
   final String? arn;
@@ -4737,6 +4959,24 @@ class DescribeEventBusResponse {
   /// the current account.
   final String? arn;
 
+  /// The time the event bus was created.
+  final DateTime? creationTime;
+  final DeadLetterConfig? deadLetterConfig;
+
+  /// The event bus description.
+  final String? description;
+
+  /// The identifier of the KMS customer managed key for EventBridge to use to
+  /// encrypt events on this event bus, if one has been specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html">Data
+  /// encryption in EventBridge</a> in the <i>Amazon EventBridge User Guide</i>.
+  final String? kmsKeyIdentifier;
+
+  /// The time the event bus was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the event bus. Currently, this is always <code>default</code>.
   final String? name;
 
@@ -4745,6 +4985,11 @@ class DescribeEventBusResponse {
 
   DescribeEventBusResponse({
     this.arn,
+    this.creationTime,
+    this.deadLetterConfig,
+    this.description,
+    this.kmsKeyIdentifier,
+    this.lastModifiedTime,
     this.name,
     this.policy,
   });
@@ -4752,6 +4997,14 @@ class DescribeEventBusResponse {
   factory DescribeEventBusResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventBusResponse(
       arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      deadLetterConfig: json['DeadLetterConfig'] != null
+          ? DeadLetterConfig.fromJson(
+              json['DeadLetterConfig'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      kmsKeyIdentifier: json['KmsKeyIdentifier'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       policy: json['Policy'] as String?,
     );
@@ -4917,7 +5170,7 @@ class DescribeRuleResponse {
 
   /// The event pattern. For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
-  /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
+  /// and Event Patterns</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
   final String? eventPattern;
 
   /// If this is a managed rule, created by an Amazon Web Services service on your
@@ -5154,7 +5407,7 @@ class EcsParameters {
 /// <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html">Making
 /// applications Regional-fault tolerant with global endpoints and event
-/// replication</a> in the Amazon EventBridge User Guide.
+/// replication</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
 class Endpoint {
   /// The ARN of the endpoint.
   final String? arn;
@@ -5331,6 +5584,15 @@ class EventBus {
   /// The ARN of the event bus.
   final String? arn;
 
+  /// The time the event bus was created.
+  final DateTime? creationTime;
+
+  /// The event bus description.
+  final String? description;
+
+  /// The time the event bus was last modified.
+  final DateTime? lastModifiedTime;
+
   /// The name of the event bus.
   final String? name;
 
@@ -5340,6 +5602,9 @@ class EventBus {
 
   EventBus({
     this.arn,
+    this.creationTime,
+    this.description,
+    this.lastModifiedTime,
     this.name,
     this.policy,
   });
@@ -5347,6 +5612,9 @@ class EventBus {
   factory EventBus.fromJson(Map<String, dynamic> json) {
     return EventBus(
       arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       policy: json['Policy'] as String?,
     );
@@ -6274,21 +6542,38 @@ extension PropagateTagsFromString on String {
 /// Represents an event to be submitted.
 class PutEventsRequestEntry {
   /// A valid JSON object. There is no other schema imposed. The JSON object may
-  /// contain fields and nested subobjects.
+  /// contain fields and nested sub-objects.
+  /// <note>
+  /// <code>Detail</code>, <code>DetailType</code>, and <code>Source</code> are
+  /// required for EventBridge to successfully send an event to an event bus. If
+  /// you include event entries in a request that do not include each of those
+  /// properties, EventBridge fails that entry. If you submit a request in which
+  /// <i>none</i> of the entries have each of these properties, EventBridge fails
+  /// the entire request.
+  /// </note>
   final String? detail;
 
   /// Free-form string, with a maximum of 128 characters, used to decide what
   /// fields to expect in the event detail.
+  /// <note>
+  /// <code>Detail</code>, <code>DetailType</code>, and <code>Source</code> are
+  /// required for EventBridge to successfully send an event to an event bus. If
+  /// you include event entries in a request that do not include each of those
+  /// properties, EventBridge fails that entry. If you submit a request in which
+  /// <i>none</i> of the entries have each of these properties, EventBridge fails
+  /// the entire request.
+  /// </note>
   final String? detailType;
 
   /// The name or ARN of the event bus to receive the event. Only the rules that
   /// are associated with this event bus are used to match the event. If you omit
   /// this, the default event bus is used.
   /// <note>
-  /// If you're using a global endpoint with a custom bus, you must enter the
-  /// name, not the ARN, of the event bus in either the primary or secondary
-  /// Region here and the corresponding event bus in the other Region will be
-  /// determined based on the endpoint referenced by the <code>EndpointId</code>.
+  /// If you're using a global endpoint with a custom bus, you can enter either
+  /// the name or Amazon Resource Name (ARN) of the event bus in either the
+  /// primary or secondary Region here. EventBridge then determines the
+  /// corresponding event bus in the other Region based on the endpoint referenced
+  /// by the <code>EndpointId</code>. Specifying the event bus ARN is preferred.
   /// </note>
   final String? eventBusName;
 
@@ -6298,6 +6583,14 @@ class PutEventsRequestEntry {
   final List<String>? resources;
 
   /// The source of the event.
+  /// <note>
+  /// <code>Detail</code>, <code>DetailType</code>, and <code>Source</code> are
+  /// required for EventBridge to successfully send an event to an event bus. If
+  /// you include event entries in a request that do not include each of those
+  /// properties, EventBridge fails that entry. If you submit a request in which
+  /// <i>none</i> of the entries have each of these properties, EventBridge fails
+  /// the entire request.
+  /// </note>
   final String? source;
 
   /// The time stamp of the event, per <a
@@ -6374,12 +6667,80 @@ class PutEventsResponse {
   }
 }
 
-/// Represents an event that failed to be submitted. For information about the
-/// errors that are common to all actions, see <a
+/// Represents the results of an event submitted to an event bus.
+///
+/// If the submission was successful, the entry has the event ID in it.
+/// Otherwise, you can use the error code and error message to identify the
+/// problem with the entry.
+///
+/// For information about the errors that are common to all actions, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html">Common
 /// Errors</a>.
 class PutEventsResultEntry {
   /// The error code that indicates why the event submission failed.
+  ///
+  /// Retryable errors include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html">InternalFailure</a>
+  /// </code>
+  ///
+  /// The request processing has failed because of an unknown error, exception or
+  /// failure.
+  /// </li>
+  /// <li>
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html">ThrottlingException</a>
+  /// </code>
+  ///
+  /// The request was denied due to request throttling.
+  /// </li>
+  /// </ul>
+  /// Non-retryable errors include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html">AccessDeniedException</a>
+  /// </code>
+  ///
+  /// You do not have sufficient access to perform this action.
+  /// </li>
+  /// <li>
+  /// <code>InvalidAccountIdException</code>
+  ///
+  /// The account ID provided is not valid.
+  /// </li>
+  /// <li>
+  /// <code>InvalidArgument</code>
+  ///
+  /// A specified parameter is not valid.
+  /// </li>
+  /// <li>
+  /// <code>MalformedDetail</code>
+  ///
+  /// The JSON provided is not valid.
+  /// </li>
+  /// <li>
+  /// <code>RedactionFailure</code>
+  ///
+  /// Redacting the CloudTrail event failed.
+  /// </li>
+  /// <li>
+  /// <code>NotAuthorizedForSourceException</code>
+  ///
+  /// You do not have permissions to publish events with this source onto this
+  /// event bus.
+  /// </li>
+  /// <li>
+  /// <code>NotAuthorizedForDetailTypeException</code>
+  ///
+  /// You do not have permissions to publish events with this detail type onto
+  /// this event bus.
+  /// </li>
+  /// </ul>
   final String? errorCode;
 
   /// The error message that explains why the event submission failed.
@@ -6406,11 +6767,27 @@ class PutEventsResultEntry {
 /// The details about an event generated by an SaaS partner.
 class PutPartnerEventsRequestEntry {
   /// A valid JSON string. There is no other schema imposed. The JSON string may
-  /// contain fields and nested subobjects.
+  /// contain fields and nested sub-objects.
+  /// <note>
+  /// <code>Detail</code>, <code>DetailType</code>, and <code>Source</code> are
+  /// required for EventBridge to successfully send an event to an event bus. If
+  /// you include event entries in a request that do not include each of those
+  /// properties, EventBridge fails that entry. If you submit a request in which
+  /// <i>none</i> of the entries have each of these properties, EventBridge fails
+  /// the entire request.
+  /// </note>
   final String? detail;
 
   /// A free-form string, with a maximum of 128 characters, used to decide what
   /// fields to expect in the event detail.
+  /// <note>
+  /// <code>Detail</code>, <code>DetailType</code>, and <code>Source</code> are
+  /// required for EventBridge to successfully send an event to an event bus. If
+  /// you include event entries in a request that do not include each of those
+  /// properties, EventBridge fails that entry. If you submit a request in which
+  /// <i>none</i> of the entries have each of these properties, EventBridge fails
+  /// the entire request.
+  /// </note>
   final String? detailType;
 
   /// Amazon Web Services resources, identified by Amazon Resource Name (ARN),
@@ -6419,6 +6796,14 @@ class PutPartnerEventsRequestEntry {
   final List<String>? resources;
 
   /// The event source that is generating the entry.
+  /// <note>
+  /// <code>Detail</code>, <code>DetailType</code>, and <code>Source</code> are
+  /// required for EventBridge to successfully send an event to an event bus. If
+  /// you include event entries in a request that do not include each of those
+  /// properties, EventBridge fails that entry. If you submit a request in which
+  /// <i>none</i> of the entries have each of these properties, EventBridge fails
+  /// the entire request.
+  /// </note>
   final String? source;
 
   /// The date and time of the event.
@@ -6449,8 +6834,13 @@ class PutPartnerEventsRequestEntry {
 }
 
 class PutPartnerEventsResponse {
-  /// The list of events from this operation that were successfully written to the
-  /// partner event bus.
+  /// The results for each event entry the partner submitted in this request. If
+  /// the event was successfully submitted, the entry has the event ID in it.
+  /// Otherwise, you can use the error code and error message to identify the
+  /// problem with the entry.
+  ///
+  /// For each record, the index of the response element is the same as the index
+  /// in the request array.
   final List<PutPartnerEventsResultEntry>? entries;
 
   /// The number of events from this operation that could not be written to the
@@ -6474,7 +6864,10 @@ class PutPartnerEventsResponse {
   }
 }
 
-/// Represents an event that a partner tried to generate, but failed.
+/// The result of an event entry the partner submitted in this request. If the
+/// event was successfully submitted, the entry has the event ID in it.
+/// Otherwise, you can use the error code and error message to identify the
+/// problem with the entry.
 class PutPartnerEventsResultEntry {
   /// The error code that indicates why the event submission failed.
   final String? errorCode;
@@ -6567,8 +6960,8 @@ class PutTargetsResultEntry {
 }
 
 /// These are custom parameters to be used when the target is a Amazon Redshift
-/// cluster or Redshift Serverless workgroup to invoke the Amazon Redshift Data
-/// API ExecuteStatement based on EventBridge events.
+/// cluster to invoke the Amazon Redshift Data API ExecuteStatement based on
+/// EventBridge events.
 class RedshiftDataParameters {
   /// The name of the database. Required when authenticating using temporary
   /// credentials.
@@ -6576,9 +6969,6 @@ class RedshiftDataParameters {
 
   /// The database user name. Required when authenticating using temporary
   /// credentials.
-  ///
-  /// Do not provide this parameter when connecting to a Redshift Serverless
-  /// workgroup.
   final String? dbUser;
 
   /// The name or ARN of the secret that enables access to the database. Required
@@ -6587,6 +6977,12 @@ class RedshiftDataParameters {
 
   /// The SQL statement text to run.
   final String? sql;
+
+  /// One or more SQL statements to run. The SQL statements are run as a single
+  /// transaction. They run serially in the order of the array. Subsequent SQL
+  /// statements don't start until the previous statement in the array completes.
+  /// If any SQL statement fails, then because they are run as one transaction,
+  /// all work is rolled back.
   final List<String>? sqls;
 
   /// The name of the SQL statement. You can name the SQL statement when you
@@ -6961,7 +7357,7 @@ class Rule {
 
   /// The event pattern of the rule. For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
-  /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
+  /// and Event Patterns</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
   final String? eventPattern;
 
   /// If the rule was created on behalf of your account by an Amazon Web Services
@@ -6989,6 +7385,42 @@ class Rule {
   final String? scheduleExpression;
 
   /// The state of the rule.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DISABLED</code>: The rule is disabled. EventBridge does not match any
+  /// events against the rule.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED</code>: The rule is enabled. EventBridge matches events
+  /// against the rule, <i>except</i> for Amazon Web Services management events
+  /// delivered through CloudTrail.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS</code>: The rule is
+  /// enabled for all events, including Amazon Web Services management events
+  /// delivered through CloudTrail.
+  ///
+  /// Management events provide visibility into management operations that are
+  /// performed on resources in your Amazon Web Services account. These are also
+  /// known as control plane operations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html#logging-management-events">Logging
+  /// management events</a> in the <i>CloudTrail User Guide</i>, and <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-cloudtrail">Filtering
+  /// management events from Amazon Web Services services</a> in the <i> <i>Amazon
+  /// EventBridge User Guide</i> </i>.
+  ///
+  /// This value is only valid for rules on the <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is-how-it-works-concepts.html#eb-bus-concepts-buses">default</a>
+  /// event bus or <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-event-bus.html">custom
+  /// event buses</a>. It does not apply to <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-saas.html">partner
+  /// event buses</a>.
+  /// </li>
+  /// </ul>
   final RuleState? state;
 
   Rule({
@@ -7021,6 +7453,7 @@ class Rule {
 enum RuleState {
   enabled,
   disabled,
+  enabledWithAllCloudtrailManagementEvents,
 }
 
 extension RuleStateValueExtension on RuleState {
@@ -7030,6 +7463,8 @@ extension RuleStateValueExtension on RuleState {
         return 'ENABLED';
       case RuleState.disabled:
         return 'DISABLED';
+      case RuleState.enabledWithAllCloudtrailManagementEvents:
+        return 'ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS';
     }
   }
 }
@@ -7041,6 +7476,8 @@ extension RuleStateFromString on String {
         return RuleState.enabled;
       case 'DISABLED':
         return RuleState.disabled;
+      case 'ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS':
+        return RuleState.enabledWithAllCloudtrailManagementEvents;
     }
     throw Exception('$this is not known in enum RuleState');
   }
@@ -7312,6 +7749,10 @@ class Target {
   /// string.
   final String id;
 
+  /// Contains the GraphQL operation to be parsed and executed, if the event
+  /// target is an AppSync API.
+  final AppSyncParameters? appSyncParameters;
+
   /// If the event target is an Batch job, this contains the job definition, job
   /// name, and other parameters. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/jobs.html">Jobs</a>
@@ -7400,6 +7841,7 @@ class Target {
   Target({
     required this.arn,
     required this.id,
+    this.appSyncParameters,
     this.batchParameters,
     this.deadLetterConfig,
     this.ecsParameters,
@@ -7420,6 +7862,10 @@ class Target {
     return Target(
       arn: json['Arn'] as String,
       id: json['Id'] as String,
+      appSyncParameters: json['AppSyncParameters'] != null
+          ? AppSyncParameters.fromJson(
+              json['AppSyncParameters'] as Map<String, dynamic>)
+          : null,
       batchParameters: json['BatchParameters'] != null
           ? BatchParameters.fromJson(
               json['BatchParameters'] as Map<String, dynamic>)
@@ -7472,6 +7918,7 @@ class Target {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final appSyncParameters = this.appSyncParameters;
     final batchParameters = this.batchParameters;
     final deadLetterConfig = this.deadLetterConfig;
     final ecsParameters = this.ecsParameters;
@@ -7489,6 +7936,7 @@ class Target {
     return {
       'Arn': arn,
       'Id': id,
+      if (appSyncParameters != null) 'AppSyncParameters': appSyncParameters,
       if (batchParameters != null) 'BatchParameters': batchParameters,
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (ecsParameters != null) 'EcsParameters': ecsParameters,
@@ -7846,6 +8294,47 @@ class UpdateEndpointResponse {
               json['RoutingConfig'] as Map<String, dynamic>)
           : null,
       state: (json['State'] as String?)?.toEndpointState(),
+    );
+  }
+}
+
+class UpdateEventBusResponse {
+  /// The event bus Amazon Resource Name (ARN).
+  final String? arn;
+  final DeadLetterConfig? deadLetterConfig;
+
+  /// The event bus description.
+  final String? description;
+
+  /// The identifier of the KMS customer managed key for EventBridge to use to
+  /// encrypt events on this event bus, if one has been specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html">Data
+  /// encryption in EventBridge</a> in the <i>Amazon EventBridge User Guide</i>.
+  final String? kmsKeyIdentifier;
+
+  /// The event bus name.
+  final String? name;
+
+  UpdateEventBusResponse({
+    this.arn,
+    this.deadLetterConfig,
+    this.description,
+    this.kmsKeyIdentifier,
+    this.name,
+  });
+
+  factory UpdateEventBusResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateEventBusResponse(
+      arn: json['Arn'] as String?,
+      deadLetterConfig: json['DeadLetterConfig'] != null
+          ? DeadLetterConfig.fromJson(
+              json['DeadLetterConfig'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      kmsKeyIdentifier: json['KmsKeyIdentifier'] as String?,
+      name: json['Name'] as String?,
     );
   }
 }

@@ -3,10 +3,10 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-This AWS CodeStar Connections API Reference provides descriptions and usage
-examples of the operations and data types for the AWS CodeStar Connections
-API. You can use the connections API to work with connections and
-installations.
+This Amazon Web Services CodeStar Connections API Reference provides
+descriptions and usage examples of the operations and data types for the
+Amazon Web Services CodeStar Connections API. You can use the connections
+API to work with connections and installations.
 
 ## Links
 

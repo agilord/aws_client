@@ -317,14 +317,10 @@ class ECS {
   /// specified cluster. To update an existing service, see the
   /// <a>UpdateService</a> action.
   /// <note>
-  /// Starting April 15, 2023, Amazon Web Services will not onboard new
-  /// customers to Amazon Elastic Inference (EI), and will help current
-  /// customers migrate their workloads to options that offer better price and
-  /// performance. After April 15, 2023, new customers will not be able to
-  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
-  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
-  /// once during the past 30-day period are considered current customers and
-  /// will be able to continue using the service.
+  /// On March 21, 2024, a change was made to resolve the task definition
+  /// revision before authorization. When a task definition revision is not
+  /// specified, authorization will occur using the latest revision of a task
+  /// definition.
   /// </note>
   /// In addition to maintaining the desired count of tasks in your service, you
   /// can optionally run your service behind one or more load balancers. The
@@ -332,6 +328,14 @@ class ECS {
   /// with the service. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Service
   /// load balancing</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
+  /// You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the
+  /// volume when creating or updating a service.
+  /// <code>volumeConfigurations</code> is only supported for REPLICA service
+  /// and not DAEMON service. For more infomation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
+  /// EBS volumes</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   ///
   /// Tasks for services that don't use a load balancer are considered healthy
@@ -431,7 +435,16 @@ class ECS {
   /// strategies, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html">Amazon
   /// ECS task placement</a> in the <i>Amazon Elastic Container Service
-  /// Developer Guide</i>.
+  /// Developer Guide</i>
+  ///
+  /// Starting April 15, 2023, Amazon Web Services will not onboard new
+  /// customers to Amazon Elastic Inference (EI), and will help current
+  /// customers migrate their workloads to options that offer better price and
+  /// performance. After April 15, 2023, new customers will not be able to
+  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
+  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+  /// once during the past 30-day period are considered current customers and
+  /// will be able to continue using the service.
   ///
   /// May throw [ServerException].
   /// May throw [ClientException].
@@ -463,8 +476,8 @@ class ECS {
   ///
   /// Parameter [clientToken] :
   /// An identifier that you provide to ensure the idempotency of the request.
-  /// It must be unique and is case sensitive. Up to 32 ASCII characters are
-  /// allowed.
+  /// It must be unique and is case sensitive. Up to 36 ASCII characters in the
+  /// range of 33-126 (inclusive) are allowed.
   ///
   /// Parameter [cluster] :
   /// The short name or full Amazon Resource Name (ARN) of the cluster that you
@@ -494,6 +507,9 @@ class ECS {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
   /// your Amazon ECS resources</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
+  ///
+  /// When you use Amazon ECS managed tags, you need to set the
+  /// <code>propagateTags</code> request parameter.
   ///
   /// Parameter [enableExecuteCommand] :
   /// Determines whether the execute command functionality is turned on for the
@@ -533,8 +549,8 @@ class ECS {
   /// <note>
   /// Fargate Spot infrastructure is available for use but a capacity provider
   /// strategy must be used. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html">Fargate
-  /// capacity providers</a> in the <i>Amazon ECS User Guide for Fargate</i>.
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html">Fargate
+  /// capacity providers</a> in the <i>Amazon ECS Developer Guide</i>.
   /// </note>
   /// The <code>EC2</code> launch type runs your tasks on Amazon EC2 instances
   /// registered to your cluster.
@@ -635,6 +651,14 @@ class ECS {
   /// after task creation, use the <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html">TagResource</a>
   /// API action.
+  ///
+  /// You must set this to a value other than <code>NONE</code> when you use
+  /// Cost Explorer. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/usage-reports.html">Amazon
+  /// ECS usage reports</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
+  /// The default is <code>NONE</code>.
   ///
   /// Parameter [role] :
   /// The name or full Amazon Resource Name (ARN) of the IAM role that allows
@@ -772,6 +796,11 @@ class ECS {
   /// For more information about deployment types, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html">Amazon
   /// ECS deployment types</a>.
+  ///
+  /// Parameter [volumeConfigurations] :
+  /// The configuration for a volume specified in the task definition as a
+  /// volume that is configured at launch time. Currently, the only supported
+  /// volume type is an Amazon EBS volume.
   Future<CreateServiceResponse> createService({
     required String serviceName,
     List<CapacityProviderStrategyItem>? capacityProviderStrategy,
@@ -796,6 +825,7 @@ class ECS {
     List<ServiceRegistry>? serviceRegistries,
     List<Tag>? tags,
     String? taskDefinition,
+    List<ServiceVolumeConfiguration>? volumeConfigurations,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -841,6 +871,8 @@ class ECS {
         if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
         if (tags != null) 'tags': tags,
         if (taskDefinition != null) 'taskDefinition': taskDefinition,
+        if (volumeConfigurations != null)
+          'volumeConfigurations': volumeConfigurations,
       },
     );
 
@@ -852,6 +884,17 @@ class ECS {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html">Amazon
   /// ECS deployment types</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  /// <note>
+  /// On March 21, 2024, a change was made to resolve the task definition
+  /// revision before authorization. When a task definition revision is not
+  /// specified, authorization will occur using the latest revision of a task
+  /// definition.
+  /// </note>
+  /// For information about the maximum number of task sets and otther quotas,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html">Amazon
+  /// ECS service quotas</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   ///
   /// May throw [ServerException].
@@ -875,7 +918,8 @@ class ECS {
   /// the task set in.
   ///
   /// Parameter [taskDefinition] :
-  /// The task definition for the tasks in the task set to use.
+  /// The task definition for the tasks in the task set to use. If a revision
+  /// isn't specified, the latest <code>ACTIVE</code> revision is used.
   ///
   /// Parameter [capacityProviderStrategy] :
   /// The capacity provider strategy to use for the task set.
@@ -908,9 +952,9 @@ class ECS {
   /// created.
   ///
   /// Parameter [clientToken] :
-  /// The identifier that you provide to ensure the idempotency of the request.
-  /// It's case sensitive and must be unique. It can be up to 32 ASCII
-  /// characters are allowed.
+  /// An identifier that you provide to ensure the idempotency of the request.
+  /// It must be unique and is case sensitive. Up to 36 ASCII characters in the
+  /// range of 33-126 (inclusive) are allowed.
   ///
   /// Parameter [externalId] :
   /// An optional non-unique tag that identifies this task set in external
@@ -1301,6 +1345,14 @@ class ECS {
   ///
   /// A task definition revision will stay in <code>DELETE_IN_PROGRESS</code>
   /// status until all the associated tasks and services have been terminated.
+  ///
+  /// When you delete all <code>INACTIVE</code> task definition revisions, the
+  /// task definition name is not displayed in the console and not returned in
+  /// the API. If a task definition revisions are in the
+  /// <code>DELETE_IN_PROGRESS</code> state, the task definition name is
+  /// displayed in the console and returned in the API. The task definition name
+  /// is retained by Amazon ECS and the revision is incremented the next time
+  /// you create a task definition with that name.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ClientException].
@@ -1857,6 +1909,11 @@ class ECS {
   ///
   /// Currently, stopped tasks appear in the returned results for at least one
   /// hour.
+  ///
+  /// If you have tasks with tags, and then delete the cluster, the tagged tasks
+  /// are returned in the response. If you create a new cluster with the same
+  /// name as the deleted cluster, the tagged tasks are not included in the
+  /// response.
   ///
   /// May throw [ServerException].
   /// May throw [ClientException].
@@ -2690,8 +2747,7 @@ class ECS {
   /// definition family, container instance, launch type, what IAM principal
   /// started the task, or by the desired status of the task.
   ///
-  /// Recently stopped tasks might appear in the returned results. Currently,
-  /// stopped tasks appear in the returned results for at least one hour.
+  /// Recently stopped tasks might appear in the returned results.
   ///
   /// May throw [ServerException].
   /// May throw [ClientException].
@@ -2814,8 +2870,36 @@ class ECS {
   /// Settings</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   ///
-  /// When <code>serviceLongArnFormat</code>, <code>taskLongArnFormat</code>, or
-  /// <code>containerInstanceLongArnFormat</code> are specified, the Amazon
+  /// May throw [ServerException].
+  /// May throw [ClientException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [name] :
+  /// The Amazon ECS account setting name to modify.
+  ///
+  /// The following are the valid values for the account setting name.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>serviceLongArnFormat</code> - When modified, the Amazon Resource
+  /// Name (ARN) and resource ID format of the resource type for a specified
+  /// user, role, or the root user for an account is affected. The opt-in and
+  /// opt-out account setting must be set for each Amazon ECS resource
+  /// separately. The ARN and resource ID format of a resource is defined by the
+  /// opt-in status of the user or role that created the resource. You must turn
+  /// on this setting to use Amazon ECS features such as resource tagging.
+  /// </li>
+  /// <li>
+  /// <code>taskLongArnFormat</code> - When modified, the Amazon Resource Name
+  /// (ARN) and resource ID format of the resource type for a specified user,
+  /// role, or the root user for an account is affected. The opt-in and opt-out
+  /// account setting must be set for each Amazon ECS resource separately. The
+  /// ARN and resource ID format of a resource is defined by the opt-in status
+  /// of the user or role that created the resource. You must turn on this
+  /// setting to use Amazon ECS features such as resource tagging.
+  /// </li>
+  /// <li>
+  /// <code>containerInstanceLongArnFormat</code> - When modified, the Amazon
   /// Resource Name (ARN) and resource ID format of the resource type for a
   /// specified user, role, or the root user for an account is affected. The
   /// opt-in and opt-out account setting must be set for each Amazon ECS
@@ -2823,17 +2907,19 @@ class ECS {
   /// defined by the opt-in status of the user or role that created the
   /// resource. You must turn on this setting to use Amazon ECS features such as
   /// resource tagging.
-  ///
-  /// When <code>awsvpcTrunking</code> is specified, the elastic network
-  /// interface (ENI) limit for any new container instances that support the
-  /// feature is changed. If <code>awsvpcTrunking</code> is turned on, any new
-  /// container instances that support the feature are launched have the
-  /// increased ENI limits available to them. For more information, see <a
+  /// </li>
+  /// <li>
+  /// <code>awsvpcTrunking</code> - When modified, the elastic network interface
+  /// (ENI) limit for any new container instances that support the feature is
+  /// changed. If <code>awsvpcTrunking</code> is turned on, any new container
+  /// instances that support the feature are launched have the increased ENI
+  /// limits available to them. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html">Elastic
   /// Network Interface Trunking</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  ///
-  /// When <code>containerInsights</code> is specified, the default setting
+  /// </li>
+  /// <li>
+  /// <code>containerInsights</code> - When modified, the default setting
   /// indicating whether Amazon Web Services CloudWatch Container Insights is
   /// turned on for your clusters is changed. If <code>containerInsights</code>
   /// is turned on, any new clusters that are created will have Container
@@ -2842,44 +2928,80 @@ class ECS {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html">CloudWatch
   /// Container Insights</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  ///
-  /// Amazon ECS is introducing tagging authorization for resource creation.
-  /// Users must have permissions for actions that create the resource, such as
-  /// <code>ecsCreateCluster</code>. If tags are specified when you create a
-  /// resource, Amazon Web Services performs additional authorization to verify
-  /// if users or roles have permissions to create tags. Therefore, you must
-  /// grant explicit permissions to use the <code>ecs:TagResource</code> action.
-  /// For more information, see <a
+  /// </li>
+  /// <li>
+  /// <code>dualStackIPv6</code> - When turned on, when using a VPC in dual
+  /// stack mode, your tasks using the <code>awsvpc</code> network mode can have
+  /// an IPv6 address assigned. For more information on using IPv6 with tasks
+  /// launched on Amazon EC2 instances, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack">Using
+  /// a VPC in dual-stack mode</a>. For more information on using IPv6 with
+  /// tasks launched on Fargate, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack">Using
+  /// a VPC in dual-stack mode</a>.
+  /// </li>
+  /// <li>
+  /// <code>fargateFIPSMode</code> - If you specify
+  /// <code>fargateFIPSMode</code>, Fargate FIPS 140 compliance is affected.
+  /// </li>
+  /// <li>
+  /// <code>fargateTaskRetirementWaitPeriod</code> - When Amazon Web Services
+  /// determines that a security or infrastructure update is needed for an
+  /// Amazon ECS task hosted on Fargate, the tasks need to be stopped and new
+  /// tasks launched to replace them. Use
+  /// <code>fargateTaskRetirementWaitPeriod</code> to configure the wait time to
+  /// retire a Fargate task. For information about the Fargate tasks
+  /// maintenance, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html">Amazon
+  /// Web Services Fargate task maintenance</a> in the <i>Amazon ECS Developer
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>tagResourceAuthorization</code> - Amazon ECS is introducing tagging
+  /// authorization for resource creation. Users must have permissions for
+  /// actions that create the resource, such as <code>ecsCreateCluster</code>.
+  /// If tags are specified when you create a resource, Amazon Web Services
+  /// performs additional authorization to verify if users or roles have
+  /// permissions to create tags. Therefore, you must grant explicit permissions
+  /// to use the <code>ecs:TagResource</code> action. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html">Grant
   /// permission to tag resources on creation</a> in the <i>Amazon ECS Developer
   /// Guide</i>.
-  ///
-  /// May throw [ServerException].
-  /// May throw [ClientException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [name] :
-  /// The Amazon ECS resource name for which to modify the account setting. If
-  /// <code>serviceLongArnFormat</code> is specified, the ARN for your Amazon
-  /// ECS services is affected. If <code>taskLongArnFormat</code> is specified,
-  /// the ARN and resource ID for your Amazon ECS tasks is affected. If
-  /// <code>containerInstanceLongArnFormat</code> is specified, the ARN and
-  /// resource ID for your Amazon ECS container instances is affected. If
-  /// <code>awsvpcTrunking</code> is specified, the elastic network interface
-  /// (ENI) limit for your Amazon ECS container instances is affected. If
-  /// <code>containerInsights</code> is specified, the default setting for
-  /// Amazon Web Services CloudWatch Container Insights for your clusters is
-  /// affected. If <code>fargateFIPSMode</code> is specified, Fargate FIPS 140
-  /// compliance is affected. If <code>tagResourceAuthorization</code> is
-  /// specified, the opt-in option for tagging resources on creation is
-  /// affected. For information about the opt-in timeline, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources">Tagging
-  /// authorization timeline</a> in the <i>Amazon ECS Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>guardDutyActivate</code> - The <code>guardDutyActivate</code>
+  /// parameter is read-only in Amazon ECS and indicates whether Amazon ECS
+  /// Runtime Monitoring is enabled or disabled by your security administrator
+  /// in your Amazon ECS account. Amazon GuardDuty controls this account setting
+  /// on your behalf. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html">Protecting
+  /// Amazon ECS workloads with Amazon ECS Runtime Monitoring</a>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [value] :
   /// The account setting value for the specified principal ARN. Accepted values
   /// are <code>enabled</code>, <code>disabled</code>, <code>on</code>, and
   /// <code>off</code>.
+  ///
+  /// When you specify <code>fargateTaskRetirementWaitPeriod</code> for the
+  /// <code>name</code>, the following are the valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>0</code> - Amazon Web Services sends the notification, and
+  /// immediately retires the affected tasks.
+  /// </li>
+  /// <li>
+  /// <code>7</code> - Amazon Web Services sends the notification, and waits 7
+  /// calendar days to retire the tasks.
+  /// </li>
+  /// <li>
+  /// <code>14</code> - Amazon Web Services sends the notification, and waits 14
+  /// calendar days to retire the tasks.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [principalArn] :
   /// The ARN of the principal, which can be a user, role, or the root user. If
@@ -2888,6 +3010,9 @@ class ECS {
   /// overrides these settings. If this field is omitted, the setting is changed
   /// only for the authenticated user.
   /// <note>
+  /// You must use the root user when you set the Fargate wait time
+  /// (<code>fargateTaskRetirementWaitPeriod</code>).
+  ///
   /// Federated users assume the account setting of the root user and can't have
   /// explicit account settings set for them.
   /// </note>
@@ -2925,35 +3050,133 @@ class ECS {
   /// May throw [InvalidParameterException].
   ///
   /// Parameter [name] :
-  /// The resource name for which to modify the account setting. If
-  /// <code>serviceLongArnFormat</code> is specified, the ARN for your Amazon
-  /// ECS services is affected. If <code>taskLongArnFormat</code> is specified,
-  /// the ARN and resource ID for your Amazon ECS tasks is affected. If
-  /// <code>containerInstanceLongArnFormat</code> is specified, the ARN and
-  /// resource ID for your Amazon ECS container instances is affected. If
-  /// <code>awsvpcTrunking</code> is specified, the ENI limit for your Amazon
-  /// ECS container instances is affected. If <code>containerInsights</code> is
-  /// specified, the default setting for Amazon Web Services CloudWatch
-  /// Container Insights for your clusters is affected. If
-  /// <code>tagResourceAuthorization</code> is specified, the opt-in option for
-  /// tagging resources on creation is affected. For information about the
-  /// opt-in timeline, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources">Tagging
-  /// authorization timeline</a> in the <i>Amazon ECS Developer Guide</i>.
+  /// The resource name for which to modify the account setting.
   ///
-  /// When you specify <code>fargateFIPSMode</code> for the <code>name</code>
-  /// and <code>enabled</code> for the <code>value</code>, Fargate uses FIPS-140
-  /// compliant cryptographic algorithms on your tasks. For more information
-  /// about FIPS-140 compliance with Fargate, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-fips-compliance.html">
-  /// Amazon Web Services Fargate Federal Information Processing Standard (FIPS)
-  /// 140-2 compliance</a> in the <i>Amazon Elastic Container Service Developer
+  /// The following are the valid values for the account setting name.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>serviceLongArnFormat</code> - When modified, the Amazon Resource
+  /// Name (ARN) and resource ID format of the resource type for a specified
+  /// user, role, or the root user for an account is affected. The opt-in and
+  /// opt-out account setting must be set for each Amazon ECS resource
+  /// separately. The ARN and resource ID format of a resource is defined by the
+  /// opt-in status of the user or role that created the resource. You must turn
+  /// on this setting to use Amazon ECS features such as resource tagging.
+  /// </li>
+  /// <li>
+  /// <code>taskLongArnFormat</code> - When modified, the Amazon Resource Name
+  /// (ARN) and resource ID format of the resource type for a specified user,
+  /// role, or the root user for an account is affected. The opt-in and opt-out
+  /// account setting must be set for each Amazon ECS resource separately. The
+  /// ARN and resource ID format of a resource is defined by the opt-in status
+  /// of the user or role that created the resource. You must turn on this
+  /// setting to use Amazon ECS features such as resource tagging.
+  /// </li>
+  /// <li>
+  /// <code>containerInstanceLongArnFormat</code> - When modified, the Amazon
+  /// Resource Name (ARN) and resource ID format of the resource type for a
+  /// specified user, role, or the root user for an account is affected. The
+  /// opt-in and opt-out account setting must be set for each Amazon ECS
+  /// resource separately. The ARN and resource ID format of a resource is
+  /// defined by the opt-in status of the user or role that created the
+  /// resource. You must turn on this setting to use Amazon ECS features such as
+  /// resource tagging.
+  /// </li>
+  /// <li>
+  /// <code>awsvpcTrunking</code> - When modified, the elastic network interface
+  /// (ENI) limit for any new container instances that support the feature is
+  /// changed. If <code>awsvpcTrunking</code> is turned on, any new container
+  /// instances that support the feature are launched have the increased ENI
+  /// limits available to them. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html">Elastic
+  /// Network Interface Trunking</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>containerInsights</code> - When modified, the default setting
+  /// indicating whether Amazon Web Services CloudWatch Container Insights is
+  /// turned on for your clusters is changed. If <code>containerInsights</code>
+  /// is turned on, any new clusters that are created will have Container
+  /// Insights turned on unless you disable it during cluster creation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html">CloudWatch
+  /// Container Insights</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>dualStackIPv6</code> - When turned on, when using a VPC in dual
+  /// stack mode, your tasks using the <code>awsvpc</code> network mode can have
+  /// an IPv6 address assigned. For more information on using IPv6 with tasks
+  /// launched on Amazon EC2 instances, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack">Using
+  /// a VPC in dual-stack mode</a>. For more information on using IPv6 with
+  /// tasks launched on Fargate, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack">Using
+  /// a VPC in dual-stack mode</a>.
+  /// </li>
+  /// <li>
+  /// <code>fargateFIPSMode</code> - If you specify
+  /// <code>fargateFIPSMode</code>, Fargate FIPS 140 compliance is affected.
+  /// </li>
+  /// <li>
+  /// <code>fargateTaskRetirementWaitPeriod</code> - When Amazon Web Services
+  /// determines that a security or infrastructure update is needed for an
+  /// Amazon ECS task hosted on Fargate, the tasks need to be stopped and new
+  /// tasks launched to replace them. Use
+  /// <code>fargateTaskRetirementWaitPeriod</code> to configure the wait time to
+  /// retire a Fargate task. For information about the Fargate tasks
+  /// maintenance, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html">Amazon
+  /// Web Services Fargate task maintenance</a> in the <i>Amazon ECS Developer
   /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>tagResourceAuthorization</code> - Amazon ECS is introducing tagging
+  /// authorization for resource creation. Users must have permissions for
+  /// actions that create the resource, such as <code>ecsCreateCluster</code>.
+  /// If tags are specified when you create a resource, Amazon Web Services
+  /// performs additional authorization to verify if users or roles have
+  /// permissions to create tags. Therefore, you must grant explicit permissions
+  /// to use the <code>ecs:TagResource</code> action. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html">Grant
+  /// permission to tag resources on creation</a> in the <i>Amazon ECS Developer
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>guardDutyActivate</code> - The <code>guardDutyActivate</code>
+  /// parameter is read-only in Amazon ECS and indicates whether Amazon ECS
+  /// Runtime Monitoring is enabled or disabled by your security administrator
+  /// in your Amazon ECS account. Amazon GuardDuty controls this account setting
+  /// on your behalf. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html">Protecting
+  /// Amazon ECS workloads with Amazon ECS Runtime Monitoring</a>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [value] :
   /// The account setting value for the specified principal ARN. Accepted values
   /// are <code>enabled</code>, <code>disabled</code>, <code>on</code>, and
   /// <code>off</code>.
+  ///
+  /// When you specify <code>fargateTaskRetirementWaitPeriod</code> for the
+  /// <code>name</code>, the following are the valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>0</code> - Amazon Web Services sends the notification, and
+  /// immediately retires the affected tasks.
+  /// </li>
+  /// <li>
+  /// <code>7</code> - Amazon Web Services sends the notification, and waits 7
+  /// calendar days to retire the tasks.
+  /// </li>
+  /// <li>
+  /// <code>14</code> - Amazon Web Services sends the notification, and waits 14
+  /// calendar days to retire the tasks.
+  /// </li>
+  /// </ul>
   Future<PutAccountSettingDefaultResponse> putAccountSettingDefault({
     required SettingName name,
     required String value,
@@ -3346,8 +3569,8 @@ class ECS {
   /// is used to expand the total amount of ephemeral storage available, beyond
   /// the default amount, for tasks hosted on Fargate. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html">Fargate
-  /// task storage</a> in the <i>Amazon ECS User Guide for Fargate</i>.
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html">Using
+  /// data volumes in tasks</a> in the <i>Amazon ECS Developer Guide</i>.
   /// <note>
   /// For tasks using the Fargate launch type, the task requires the following
   /// platforms:
@@ -3514,24 +3737,33 @@ class ECS {
   ///
   /// Parameter [pidMode] :
   /// The process namespace to use for the containers in the task. The valid
-  /// values are <code>host</code> or <code>task</code>. If <code>host</code> is
-  /// specified, then all containers within the tasks that specified the
-  /// <code>host</code> PID mode on the same container instance share the same
-  /// process namespace with the host Amazon EC2 instance. If <code>task</code>
-  /// is specified, all containers within the specified task share the same
-  /// process namespace. If no value is specified, the default is a private
-  /// namespace. For more information, see <a
+  /// values are <code>host</code> or <code>task</code>. On Fargate for Linux
+  /// containers, the only valid value is <code>task</code>. For example,
+  /// monitoring sidecars might need <code>pidMode</code> to access information
+  /// about other containers running in the same task.
+  ///
+  /// If <code>host</code> is specified, all containers within the tasks that
+  /// specified the <code>host</code> PID mode on the same container instance
+  /// share the same process namespace with the host Amazon EC2 instance.
+  ///
+  /// If <code>task</code> is specified, all containers within the specified
+  /// task share the same process namespace.
+  ///
+  /// If no value is specified, the default is a private namespace for each
+  /// container. For more information, see <a
   /// href="https://docs.docker.com/engine/reference/run/#pid-settings---pid">PID
   /// settings</a> in the <i>Docker run reference</i>.
   ///
-  /// If the <code>host</code> PID mode is used, be aware that there is a
-  /// heightened risk of undesired process namespace expose. For more
-  /// information, see <a
+  /// If the <code>host</code> PID mode is used, there's a heightened risk of
+  /// undesired process namespace exposure. For more information, see <a
   /// href="https://docs.docker.com/engine/security/security/">Docker
   /// security</a>.
   /// <note>
-  /// This parameter is not supported for Windows containers or tasks run on
-  /// Fargate.
+  /// This parameter is not supported for Windows containers.
+  /// </note> <note>
+  /// This parameter is only supported for tasks that are hosted on Fargate if
+  /// the tasks are using platform version <code>1.4.0</code> or later (Linux).
+  /// This isn't supported for Windows containers on Fargate.
   /// </note>
   ///
   /// Parameter [placementConstraints] :
@@ -3677,7 +3909,12 @@ class ECS {
   }
 
   /// Starts a new task using the specified task definition.
-  ///
+  /// <note>
+  /// On March 21, 2024, a change was made to resolve the task definition
+  /// revision before authorization. When a task definition revision is not
+  /// specified, authorization will occur using the latest revision of a task
+  /// definition.
+  /// </note>
   /// You can allow Amazon ECS to place tasks for you, or you can customize how
   /// Amazon ECS places tasks using placement constraints and placement
   /// strategies. For more information, see <a
@@ -3686,7 +3923,7 @@ class ECS {
   ///
   /// Alternatively, you can use <a>StartTask</a> to use your own scheduler or
   /// place tasks manually on specific container instances.
-  /// <note>
+  ///
   /// Starting April 15, 2023, Amazon Web Services will not onboard new
   /// customers to Amazon Elastic Inference (EI), and will help current
   /// customers migrate their workloads to options that offer better price and
@@ -3695,7 +3932,13 @@ class ECS {
   /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
   /// once during the past 30-day period are considered current customers and
   /// will be able to continue using the service.
-  /// </note>
+  ///
+  /// You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the
+  /// volume when creating or updating a service. For more infomation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
+  /// EBS volumes</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
   /// The Amazon ECS API follows an eventual consistency model. This is because
   /// of the distributed nature of the system supporting the API. This means
   /// that the result of an API command you run that affects your Amazon ECS
@@ -3731,6 +3974,7 @@ class ECS {
   /// May throw [PlatformTaskDefinitionIncompatibilityException].
   /// May throw [AccessDeniedException].
   /// May throw [BlockedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [taskDefinition] :
   /// The <code>family</code> and <code>revision</code>
@@ -3738,30 +3982,24 @@ class ECS {
   /// If a <code>revision</code> isn't specified, the latest <code>ACTIVE</code>
   /// revision is used.
   ///
-  /// When you create a policy for run-task, you can set the resource to be the
-  /// latest task definition revision, or a specific revision.
-  ///
   /// The full ARN value must match the value that you specified as the
   /// <code>Resource</code> of the principal's permissions policy.
   ///
-  /// When you specify the policy resource as the latest task definition version
-  /// (by setting the <code>Resource</code> in the policy to
-  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName</code>),
-  /// then set this value to
-  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName</code>.
+  /// When you specify a task definition, you must either specify a specific
+  /// revision, or all revisions in the ARN.
   ///
-  /// When you specify the policy resource as a specific task definition version
-  /// (by setting the <code>Resource</code> in the policy to
-  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1</code>
-  /// or
-  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*</code>),
-  /// then set this value to
-  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1</code>.
+  /// To specify a specific revision, include the revision number in the ARN.
+  /// For example, to specify revision 2, use
+  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:2</code>.
+  ///
+  /// To specify all revisions, use the wildcard (*) in the ARN. For example, to
+  /// specify all revisions, use
+  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*</code>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-resources">Policy
   /// Resources for Amazon ECS</a> in the Amazon Elastic Container Service
-  /// developer Guide.
+  /// Developer Guide.
   ///
   /// Parameter [capacityProviderStrategy] :
   /// The capacity provider strategy to use for the task.
@@ -3777,6 +4015,14 @@ class ECS {
   ///
   /// A capacity provider strategy may contain a maximum of 6 capacity
   /// providers.
+  ///
+  /// Parameter [clientToken] :
+  /// An identifier that you provide to ensure the idempotency of the request.
+  /// It must be unique and is case sensitive. Up to 64 characters are allowed.
+  /// The valid characters are characters in the range of 33-126, inclusive. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html">Ensuring
+  /// idempotency</a>.
   ///
   /// Parameter [cluster] :
   /// The short name or full Amazon Resource Name (ARN) of the cluster to run
@@ -3819,8 +4065,8 @@ class ECS {
   /// <note>
   /// Fargate Spot infrastructure is available for use but a capacity provider
   /// strategy must be used. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html">Fargate
-  /// capacity providers</a> in the <i>Amazon ECS User Guide for Fargate</i>.
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html">Fargate
+  /// capacity providers</a> in the <i>Amazon ECS Developer Guide</i>.
   /// </note>
   /// The <code>EC2</code> launch type runs your tasks on Amazon EC2 instances
   /// registered to your cluster.
@@ -3894,7 +4140,7 @@ class ECS {
   /// unique identifier for that job to your task with the
   /// <code>startedBy</code> parameter. You can then identify which tasks belong
   /// to that job by filtering the results of a <a>ListTasks</a> call with the
-  /// <code>startedBy</code> value. Up to 36 letters (uppercase and lowercase),
+  /// <code>startedBy</code> value. Up to 128 letters (uppercase and lowercase),
   /// numbers, hyphens (-), and underscores (_) are allowed.
   ///
   /// If a task is started by an Amazon ECS service, then the
@@ -3939,9 +4185,18 @@ class ECS {
   /// your tags per resource limit.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [volumeConfigurations] :
+  /// The details of the volume that was <code>configuredAtLaunch</code>. You
+  /// can configure the size, volumeType, IOPS, throughput, snapshot and
+  /// encryption in in <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html">TaskManagedEBSVolumeConfiguration</a>.
+  /// The <code>name</code> of the volume must match the <code>name</code> from
+  /// the task definition.
   Future<RunTaskResponse> runTask({
     required String taskDefinition,
     List<CapacityProviderStrategyItem>? capacityProviderStrategy,
+    String? clientToken,
     String? cluster,
     int? count,
     bool? enableECSManagedTags,
@@ -3957,6 +4212,7 @@ class ECS {
     String? referenceId,
     String? startedBy,
     List<Tag>? tags,
+    List<TaskVolumeConfiguration>? volumeConfigurations,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3972,6 +4228,7 @@ class ECS {
         'taskDefinition': taskDefinition,
         if (capacityProviderStrategy != null)
           'capacityProviderStrategy': capacityProviderStrategy,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (cluster != null) 'cluster': cluster,
         if (count != null) 'count': count,
         if (enableECSManagedTags != null)
@@ -3991,6 +4248,8 @@ class ECS {
         if (referenceId != null) 'referenceId': referenceId,
         if (startedBy != null) 'startedBy': startedBy,
         if (tags != null) 'tags': tags,
+        if (volumeConfigurations != null)
+          'volumeConfigurations': volumeConfigurations,
       },
     );
 
@@ -4000,6 +4259,11 @@ class ECS {
   /// Starts a new task from the specified task definition on the specified
   /// container instance or instances.
   /// <note>
+  /// On March 21, 2024, a change was made to resolve the task definition
+  /// revision before authorization. When a task definition revision is not
+  /// specified, authorization will occur using the latest revision of a task
+  /// definition.
+  /// </note>
   /// Starting April 15, 2023, Amazon Web Services will not onboard new
   /// customers to Amazon Elastic Inference (EI), and will help current
   /// customers migrate their workloads to options that offer better price and
@@ -4008,16 +4272,23 @@ class ECS {
   /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
   /// once during the past 30-day period are considered current customers and
   /// will be able to continue using the service.
-  /// </note>
+  ///
   /// Alternatively, you can use <a>RunTask</a> to place tasks for you. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html">Scheduling
   /// Tasks</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
   ///
+  /// You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the
+  /// volume when creating or updating a service. For more infomation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
+  /// EBS volumes</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
   /// May throw [ServerException].
   /// May throw [ClientException].
   /// May throw [InvalidParameterException].
   /// May throw [ClusterNotFoundException].
+  /// May throw [UnsupportedFeatureException].
   ///
   /// Parameter [containerInstances] :
   /// The container instance IDs or full ARN entries for the container instances
@@ -4127,6 +4398,14 @@ class ECS {
   /// your tags per resource limit.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [volumeConfigurations] :
+  /// The details of the volume that was <code>configuredAtLaunch</code>. You
+  /// can configure the size, volumeType, IOPS, throughput, snapshot and
+  /// encryption in <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html">TaskManagedEBSVolumeConfiguration</a>.
+  /// The <code>name</code> of the volume must match the <code>name</code> from
+  /// the task definition.
   Future<StartTaskResponse> startTask({
     required List<String> containerInstances,
     required String taskDefinition,
@@ -4140,6 +4419,7 @@ class ECS {
     String? referenceId,
     String? startedBy,
     List<Tag>? tags,
+    List<TaskVolumeConfiguration>? volumeConfigurations,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4167,6 +4447,8 @@ class ECS {
         if (referenceId != null) 'referenceId': referenceId,
         if (startedBy != null) 'startedBy': startedBy,
         if (tags != null) 'tags': tags,
+        if (volumeConfigurations != null)
+          'volumeConfigurations': volumeConfigurations,
       },
     );
 
@@ -4208,8 +4490,7 @@ class ECS {
   /// An optional message specified when a task is stopped. For example, if
   /// you're using a custom scheduler, you can use this parameter to specify the
   /// reason for stopping the task here, and the message appears in subsequent
-  /// <a>DescribeTasks</a> API operations on this task. Up to 255 characters are
-  /// allowed in this message.
+  /// <a>DescribeTasks</a> API operations on this task.
   Future<StopTaskResponse> stopTask({
     required String task,
     String? cluster,
@@ -4859,13 +5140,32 @@ class ECS {
   }
 
   /// Modifies the parameters of a service.
-  ///
+  /// <note>
+  /// On March 21, 2024, a change was made to resolve the task definition
+  /// revision before authorization. When a task definition revision is not
+  /// specified, authorization will occur using the latest revision of a task
+  /// definition.
+  /// </note>
   /// For services using the rolling update (<code>ECS</code>) you can update
   /// the desired count, deployment configuration, network configuration, load
   /// balancers, service registries, enable ECS managed tags option, propagate
   /// tags option, task placement constraints and strategies, and task
   /// definition. When you update any of these parameters, Amazon ECS starts new
   /// tasks with the new configuration.
+  ///
+  /// You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the
+  /// volume when starting or running a task, or when creating or updating a
+  /// service. For more infomation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
+  /// EBS volumes</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>. You can update your volume configurations and trigger a new
+  /// deployment. <code>volumeConfigurations</code> is only supported for
+  /// REPLICA service and not DAEMON service. If you leave
+  /// <code>volumeConfigurations</code> <code>null</code>, it doesn't trigger a
+  /// new deployment. For more infomation on volumes, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
+  /// EBS volumes</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
   ///
   /// For services using the blue/green (<code>CODE_DEPLOY</code>) deployment
   /// controller, only the desired count, deployment configuration, health check
@@ -4888,11 +5188,18 @@ class ECS {
   /// definition in a service by specifying the cluster that the service is
   /// running in and a new <code>desiredCount</code> parameter.
   ///
-  /// If you have updated the Docker image of your application, you can create a
-  /// new task definition with that image and deploy it to your service. The
-  /// service scheduler uses the minimum healthy percent and maximum percent
-  /// parameters (in the service's deployment configuration) to determine the
-  /// deployment strategy.
+  /// You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the
+  /// volume when starting or running a task, or when creating or updating a
+  /// service. For more infomation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
+  /// EBS volumes</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
+  /// If you have updated the container image of your application, you can
+  /// create a new task definition with that image and deploy it to your
+  /// service. The service scheduler uses the minimum healthy percent and
+  /// maximum percent parameters (in the service's deployment configuration) to
+  /// determine the deployment strategy.
   /// <note>
   /// If your updated Docker image uses the same tag as what is in the existing
   /// task definition for your service (for example,
@@ -4985,22 +5292,21 @@ class ECS {
   /// </li>
   /// </ul> <note>
   /// You must have a service-linked role when you update any of the following
-  /// service properties. If you specified a custom role when you created the
-  /// service, Amazon ECS automatically replaces the <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Service.html#ECS-Type-Service-roleArn">roleARN</a>
-  /// associated with the service with the ARN of your service-linked role. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Service-linked
-  /// roles</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+  /// service properties:
   ///
   /// <ul>
   /// <li>
-  /// <code>loadBalancers,</code>
+  /// <code>loadBalancers</code>,
   /// </li>
   /// <li>
   /// <code>serviceRegistries</code>
   /// </li>
-  /// </ul> </note>
+  /// </ul>
+  /// For more information about the role see the <code>CreateService</code>
+  /// request parameter <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html#ECS-CreateService-request-role">
+  /// <code>role</code> </a>.
+  /// </note>
   ///
   /// May throw [ServerException].
   /// May throw [ClientException].
@@ -5012,6 +5318,7 @@ class ECS {
   /// May throw [PlatformTaskDefinitionIncompatibilityException].
   /// May throw [AccessDeniedException].
   /// May throw [NamespaceNotFoundException].
+  /// May throw [UnsupportedFeatureException].
   ///
   /// Parameter [service] :
   /// The name of the service to update.
@@ -5215,6 +5522,16 @@ class ECS {
   /// with <code>UpdateService</code>, Amazon ECS spawns a task with the new
   /// version of the task definition and then stops an old task after the new
   /// version is running.
+  ///
+  /// Parameter [volumeConfigurations] :
+  /// The details of the volume that was <code>configuredAtLaunch</code>. You
+  /// can configure the size, volumeType, IOPS, throughput, snapshot and
+  /// encryption in <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html">ServiceManagedEBSVolumeConfiguration</a>.
+  /// The <code>name</code> of the volume must match the <code>name</code> from
+  /// the task definition. If set to null, no new deployment is triggered.
+  /// Otherwise, if this configuration differs from the existing one, it
+  /// triggers a new deployment.
   Future<UpdateServiceResponse> updateService({
     required String service,
     List<CapacityProviderStrategyItem>? capacityProviderStrategy,
@@ -5234,6 +5551,7 @@ class ECS {
     ServiceConnectConfiguration? serviceConnectConfiguration,
     List<ServiceRegistry>? serviceRegistries,
     String? taskDefinition,
+    List<ServiceVolumeConfiguration>? volumeConfigurations,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5273,6 +5591,8 @@ class ECS {
           'serviceConnectConfiguration': serviceConnectConfiguration,
         if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
         if (taskDefinition != null) 'taskDefinition': taskDefinition,
+        if (volumeConfigurations != null)
+          'volumeConfigurations': volumeConfigurations,
       },
     );
 
@@ -5599,9 +5919,19 @@ extension AssignPublicIpFromString on String {
 
 /// An object representing a container instance or task attachment.
 class Attachment {
-  /// Details of the attachment. For elastic network interfaces, this includes the
-  /// network interface ID, the MAC address, the subnet ID, and the private IPv4
-  /// address.
+  /// Details of the attachment.
+  ///
+  /// For elastic network interfaces, this includes the network interface ID, the
+  /// MAC address, the subnet ID, and the private IPv4 address.
+  ///
+  /// For Service Connect services, this includes <code>portName</code>,
+  /// <code>clientAliases</code>, <code>discoveryName</code>, and
+  /// <code>ingressPortOverride</code>.
+  ///
+  /// For Elastic Block Storage, this includes <code>roleArn</code>,
+  /// <code>deleteOnTermination</code>, <code>volumeName</code>,
+  /// <code>volumeId</code>, and <code>statusReason</code> (only when the
+  /// attachment fails to create or attach).
   final List<KeyValuePair>? details;
 
   /// The unique identifier for the attachment.
@@ -5613,7 +5943,8 @@ class Attachment {
   /// <code>FAILED</code>.
   final String? status;
 
-  /// The type of the attachment, such as <code>ElasticNetworkInterface</code>.
+  /// The type of the attachment, such as <code>ElasticNetworkInterface</code>,
+  /// <code>Service Connect</code>, and <code>AmazonElasticBlockStorage</code>.
   final String? type;
 
   Attachment({
@@ -5719,8 +6050,14 @@ class Attribute {
 
 /// The details of the Auto Scaling group for the capacity provider.
 class AutoScalingGroupProvider {
-  /// The Amazon Resource Name (ARN) that identifies the Auto Scaling group.
+  /// The Amazon Resource Name (ARN) that identifies the Auto Scaling group, or
+  /// the Auto Scaling group name.
   final String autoScalingGroupArn;
+
+  /// The managed draining option for the Auto Scaling group capacity provider.
+  /// When you enable this, Amazon ECS manages and gracefully drains the EC2
+  /// container instances that are in the Auto Scaling group capacity provider.
+  final ManagedDraining? managedDraining;
 
   /// The managed scaling settings for the Auto Scaling group capacity provider.
   final ManagedScaling? managedScaling;
@@ -5746,6 +6083,7 @@ class AutoScalingGroupProvider {
 
   AutoScalingGroupProvider({
     required this.autoScalingGroupArn,
+    this.managedDraining,
     this.managedScaling,
     this.managedTerminationProtection,
   });
@@ -5753,6 +6091,8 @@ class AutoScalingGroupProvider {
   factory AutoScalingGroupProvider.fromJson(Map<String, dynamic> json) {
     return AutoScalingGroupProvider(
       autoScalingGroupArn: json['autoScalingGroupArn'] as String,
+      managedDraining:
+          (json['managedDraining'] as String?)?.toManagedDraining(),
       managedScaling: json['managedScaling'] != null
           ? ManagedScaling.fromJson(
               json['managedScaling'] as Map<String, dynamic>)
@@ -5765,10 +6105,12 @@ class AutoScalingGroupProvider {
 
   Map<String, dynamic> toJson() {
     final autoScalingGroupArn = this.autoScalingGroupArn;
+    final managedDraining = this.managedDraining;
     final managedScaling = this.managedScaling;
     final managedTerminationProtection = this.managedTerminationProtection;
     return {
       'autoScalingGroupArn': autoScalingGroupArn,
+      if (managedDraining != null) 'managedDraining': managedDraining.toValue(),
       if (managedScaling != null) 'managedScaling': managedScaling,
       if (managedTerminationProtection != null)
         'managedTerminationProtection': managedTerminationProtection.toValue(),
@@ -5778,6 +6120,11 @@ class AutoScalingGroupProvider {
 
 /// The details of the Auto Scaling group capacity provider to update.
 class AutoScalingGroupProviderUpdate {
+  /// The managed draining option for the Auto Scaling group capacity provider.
+  /// When you enable this, Amazon ECS manages and gracefully drains the EC2
+  /// container instances that are in the Auto Scaling group capacity provider.
+  final ManagedDraining? managedDraining;
+
   /// The managed scaling settings for the Auto Scaling group capacity provider.
   final ManagedScaling? managedScaling;
 
@@ -5801,14 +6148,17 @@ class AutoScalingGroupProviderUpdate {
   final ManagedTerminationProtection? managedTerminationProtection;
 
   AutoScalingGroupProviderUpdate({
+    this.managedDraining,
     this.managedScaling,
     this.managedTerminationProtection,
   });
 
   Map<String, dynamic> toJson() {
+    final managedDraining = this.managedDraining;
     final managedScaling = this.managedScaling;
     final managedTerminationProtection = this.managedTerminationProtection;
     return {
+      if (managedDraining != null) 'managedDraining': managedDraining.toValue(),
       if (managedScaling != null) 'managedScaling': managedScaling,
       if (managedTerminationProtection != null)
         'managedTerminationProtection': managedTerminationProtection.toValue(),
@@ -5816,7 +6166,9 @@ class AutoScalingGroupProviderUpdate {
   }
 }
 
-/// An object representing the networking details for a task or service.
+/// An object representing the networking details for a task or service. For
+/// example
+/// <code>awsvpcConfiguration={subnets=["subnet-12344321"],securityGroups=["sg-12344321"]}</code>
 class AwsVpcConfiguration {
   /// The IDs of the subnets associated with the task or service. There's a limit
   /// of 16 subnets that can be specified per <code>AwsVpcConfiguration</code>.
@@ -6561,7 +6913,7 @@ class ClusterServiceConnectDefaultsRequest {
   /// in the Command Line Interface. Other types of instance discovery aren't used
   /// by Service Connect.
   ///
-  /// If you update the service with an empty string <code>""</code> for the
+  /// If you update the cluster with an empty string <code>""</code> for the
   /// namespace name, the cluster configuration for Service Connect is removed.
   /// Note that the namespace will remain in Cloud Map and must be deleted
   /// separately.
@@ -6934,6 +7286,44 @@ class ContainerDefinition {
   /// value is passed to Docker as <code>0</code>, which Windows interprets as 1%
   /// of one CPU.
   final int? cpu;
+
+  /// A list of ARNs in SSM or Amazon S3 to a credential spec
+  /// (<code>CredSpec</code>) file that configures the container for Active
+  /// Directory authentication. We recommend that you use this parameter instead
+  /// of the <code>dockerSecurityOptions</code>. The maximum number of ARNs is 1.
+  ///
+  /// There are two formats for each ARN.
+  /// <dl> <dt>credentialspecdomainless:MyARN</dt> <dd>
+  /// You use <code>credentialspecdomainless:MyARN</code> to provide a
+  /// <code>CredSpec</code> with an additional section for a secret in Secrets
+  /// Manager. You provide the login credentials to the domain in the secret.
+  ///
+  /// Each task that runs on any container instance can join different domains.
+  ///
+  /// You can use this format without joining the container instance to a domain.
+  /// </dd> <dt>credentialspec:MyARN</dt> <dd>
+  /// You use <code>credentialspec:MyARN</code> to provide a <code>CredSpec</code>
+  /// for a single domain.
+  ///
+  /// You must join the container instance to the domain before you start any
+  /// tasks that use this task definition.
+  /// </dd> </dl>
+  /// In both formats, replace <code>MyARN</code> with the ARN in SSM or Amazon
+  /// S3.
+  ///
+  /// If you provide a <code>credentialspecdomainless:MyARN</code>, the
+  /// <code>credspec</code> must provide a ARN in Secrets Manager for a secret
+  /// containing the username, password, and the domain to connect to. For better
+  /// security, the instance isn't joined to the domain for domainless
+  /// authentication. Other applications on the instance can't use the domainless
+  /// credentials. You can use this parameter to run tasks on the same instance,
+  /// even it the tasks need to join different domains. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows-gmsa.html">Using
+  /// gMSAs for Windows Containers</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/linux-gmsa.html">Using
+  /// gMSAs for Linux Containers</a>.
+  final List<String>? credentialSpecs;
 
   /// The dependencies defined for container startup and shutdown. A container can
   /// contain multiple dependencies on other containers in a task definition. When
@@ -7533,6 +7923,8 @@ class ContainerDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
   /// ECS-optimized Linux AMI</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
+  ///
+  /// The valid values are 2-120 seconds.
   final int? startTimeout;
 
   /// Time duration (in seconds) to wait before the container is forcefully killed
@@ -7574,6 +7966,8 @@ class ContainerDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
   /// ECS-optimized Linux AMI</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
+  ///
+  /// The valid values are 2-120 seconds.
   final int? stopTimeout;
 
   /// A list of namespaced kernel parameters to set in the container. This
@@ -7583,17 +7977,9 @@ class ContainerDefinition {
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--sysctl</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
-  /// run</a>.
-  /// <note>
-  /// We don't recommended that you specify network-related
-  /// <code>systemControls</code> parameters for multiple containers in a single
-  /// task that also uses either the <code>awsvpc</code> or <code>host</code>
-  /// network modes. For tasks that use the <code>awsvpc</code> network mode, the
-  /// container that's started last determines which <code>systemControls</code>
-  /// parameters take effect. For tasks that use the <code>host</code> network
-  /// mode, it changes the container instance's namespaced kernel parameters as
-  /// well as the containers.
-  /// </note>
+  /// run</a>. For example, you can configure
+  /// <code>net.ipv4.tcp_keepalive_time</code> setting to maintain longer lived
+  /// connections.
   final List<SystemControl>? systemControls;
 
   /// A list of <code>ulimits</code> to set in the container. If a
@@ -7612,7 +7998,7 @@ class ContainerDefinition {
   /// resource limit parameter which Fargate overrides. The <code>nofile</code>
   /// resource limit sets a restriction on the number of open files that a
   /// container can use. The default <code>nofile</code> soft limit is
-  /// <code>1024</code> and the default hard limit is <code>4096</code>.
+  /// <code>1024</code> and the default hard limit is <code>65535</code>.
   ///
   /// This parameter requires version 1.18 of the Docker Remote API or greater on
   /// your container instance. To check the Docker Remote API version on your
@@ -7686,6 +8072,7 @@ class ContainerDefinition {
   ContainerDefinition({
     this.command,
     this.cpu,
+    this.credentialSpecs,
     this.dependsOn,
     this.disableNetworking,
     this.dnsSearchDomains,
@@ -7732,6 +8119,10 @@ class ContainerDefinition {
           .map((e) => e as String)
           .toList(),
       cpu: json['cpu'] as int?,
+      credentialSpecs: (json['credentialSpecs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       dependsOn: (json['dependsOn'] as List?)
           ?.whereNotNull()
           .map((e) => ContainerDependency.fromJson(e as Map<String, dynamic>))
@@ -7838,6 +8229,7 @@ class ContainerDefinition {
   Map<String, dynamic> toJson() {
     final command = this.command;
     final cpu = this.cpu;
+    final credentialSpecs = this.credentialSpecs;
     final dependsOn = this.dependsOn;
     final disableNetworking = this.disableNetworking;
     final dnsSearchDomains = this.dnsSearchDomains;
@@ -7878,6 +8270,7 @@ class ContainerDefinition {
     return {
       if (command != null) 'command': command,
       if (cpu != null) 'cpu': cpu,
+      if (credentialSpecs != null) 'credentialSpecs': credentialSpecs,
       if (dependsOn != null) 'dependsOn': dependsOn,
       if (disableNetworking != null) 'disableNetworking': disableNetworking,
       if (dnsSearchDomains != null) 'dnsSearchDomains': dnsSearchDomains,
@@ -7955,6 +8348,10 @@ class ContainerDefinition {
 /// Windows platform version <code>1.0.0</code> or later.
 /// </li>
 /// </ul> </note>
+/// For more information about how to create a container dependency, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency">Container
+/// dependency</a> in the <i>Amazon Elastic Container Service Developer
+/// Guide</i>.
 class ContainerDependency {
   /// The dependency condition of the container. The following are the available
   /// conditions and their behavior:
@@ -8074,8 +8471,8 @@ class ContainerInstance {
   /// mode). Any port that's not specified here is available for new tasks.
   final List<Resource>? remainingResources;
 
-  /// The number of tasks on the container instance that are in the
-  /// <code>RUNNING</code> status.
+  /// The number of tasks on the container instance that have a desired status
+  /// (<code>desiredStatus</code>) of <code>RUNNING</code>.
   final int? runningTasksCount;
 
   /// The status of the container instance. The valid values are
@@ -8328,6 +8725,11 @@ extension ContainerInstanceStatusFromString on String {
 /// be passed in. An example of an empty container override is
 /// <code>{"containerOverrides": [ ] }</code>. If a non-empty container override
 /// is specified, the <code>name</code> parameter must be included.
+///
+/// You can use Secrets Manager or Amazon Web Services Systems Manager Parameter
+/// Store to store the sensitive data. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/secrets-envvar.html">Retrieve
+/// secrets through environment variables</a> in the Amazon ECS Developer Guide.
 class ContainerOverride {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the task definition. You must also specify a container
@@ -8820,6 +9222,14 @@ class Deployment {
   /// updated.
   final DateTime? updatedAt;
 
+  /// The details of the volume that was <code>configuredAtLaunch</code>. You can
+  /// configure different settings like the size, throughput, volumeType, and
+  /// ecryption in <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html">ServiceManagedEBSVolumeConfiguration</a>.
+  /// The <code>name</code> of the volume must match the <code>name</code> from
+  /// the task definition.
+  final List<ServiceVolumeConfiguration>? volumeConfigurations;
+
   Deployment({
     this.capacityProviderStrategy,
     this.createdAt,
@@ -8839,6 +9249,7 @@ class Deployment {
     this.status,
     this.taskDefinition,
     this.updatedAt,
+    this.volumeConfigurations,
   });
 
   factory Deployment.fromJson(Map<String, dynamic> json) {
@@ -8876,6 +9287,11 @@ class Deployment {
       status: json['status'] as String?,
       taskDefinition: json['taskDefinition'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
+      volumeConfigurations: (json['volumeConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ServiceVolumeConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -8951,6 +9367,11 @@ class DeploymentAlarms {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html">Rolling
 /// update</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// For more information about API failure reasons, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html">API
+/// failure reasons</a> in the <i>Amazon Elastic Container Service Developer
+/// Guide</i>.
 class DeploymentCircuitBreaker {
   /// Determines whether to use the deployment circuit breaker logic for the
   /// service.
@@ -9061,7 +9482,7 @@ class DeploymentConfiguration {
   /// is determined by the container health check settings.
   /// </li>
   /// </ul>
-  /// For services are that <i>do</i> use a load balancer, the following should be
+  /// For services that <i>do</i> use a load balancer, the following should be
   /// noted:
   ///
   /// <ul>
@@ -9078,6 +9499,18 @@ class DeploymentConfiguration {
   /// before counting the task towards the minimum healthy percent total.
   /// </li>
   /// </ul>
+  /// The default value for a replica service for
+  /// <code>minimumHealthyPercent</code> is 100%. The default
+  /// <code>minimumHealthyPercent</code> value for a service using the
+  /// <code>DAEMON</code> service schedule is 0% for the CLI, the Amazon Web
+  /// Services SDKs, and the APIs and 50% for the Amazon Web Services Management
+  /// Console.
+  ///
+  /// The minimum number of healthy tasks during a deployment is the
+  /// <code>desiredCount</code> multiplied by the
+  /// <code>minimumHealthyPercent</code>/100, rounded up to the nearest integer
+  /// value.
+  ///
   /// If a service is using either the blue/green (<code>CODE_DEPLOY</code>) or
   /// <code>EXTERNAL</code> deployment types and is running tasks that use the EC2
   /// launch type, the <b>minimum healthy percent</b> value is set to the default
@@ -9733,6 +10166,74 @@ class DockerVolumeConfiguration {
   }
 }
 
+enum EBSResourceType {
+  volume,
+}
+
+extension EBSResourceTypeValueExtension on EBSResourceType {
+  String toValue() {
+    switch (this) {
+      case EBSResourceType.volume:
+        return 'volume';
+    }
+  }
+}
+
+extension EBSResourceTypeFromString on String {
+  EBSResourceType toEBSResourceType() {
+    switch (this) {
+      case 'volume':
+        return EBSResourceType.volume;
+    }
+    throw Exception('$this is not known in enum EBSResourceType');
+  }
+}
+
+/// The tag specifications of an Amazon EBS volume.
+class EBSTagSpecification {
+  /// The type of volume resource.
+  final EBSResourceType resourceType;
+
+  /// Determines whether to propagate the tags from the task definition to
+  /// &#x2028;the Amazon EBS volume. Tags can only propagate to a
+  /// <code>SERVICE</code> specified in
+  /// &#x2028;<code>ServiceVolumeConfiguration</code>. If no value is specified,
+  /// the tags aren't &#x2028;propagated.
+  final PropagateTags? propagateTags;
+
+  /// The tags applied to this Amazon EBS volume. <code>AmazonECSCreated</code>
+  /// and <code>AmazonECSManaged</code> are reserved tags that can't be used.
+  final List<Tag>? tags;
+
+  EBSTagSpecification({
+    required this.resourceType,
+    this.propagateTags,
+    this.tags,
+  });
+
+  factory EBSTagSpecification.fromJson(Map<String, dynamic> json) {
+    return EBSTagSpecification(
+      resourceType: (json['resourceType'] as String).toEBSResourceType(),
+      propagateTags: (json['propagateTags'] as String?)?.toPropagateTags(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final propagateTags = this.propagateTags;
+    final tags = this.tags;
+    return {
+      'resourceType': resourceType.toValue(),
+      if (propagateTags != null) 'propagateTags': propagateTags.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
 /// The authorization configuration details for the Amazon EFS file system.
 class EFSAuthorizationConfig {
   /// The Amazon EFS access point ID to use. If an access point is specified, the
@@ -9919,10 +10420,7 @@ class EFSVolumeConfiguration {
 /// You can specify up to ten environment files. The file must have a
 /// <code>.env</code> file extension. Each line in an environment file should
 /// contain an environment variable in <code>VARIABLE=VALUE</code> format. Lines
-/// beginning with <code>#</code> are treated as comments and are ignored. For
-/// more information about the environment variable file syntax, see <a
-/// href="https://docs.docker.com/compose/env-file/">Declare default environment
-/// variables in file</a>.
+/// beginning with <code>#</code> are treated as comments and are ignored.
 ///
 /// If there are environment variables specified using the
 /// <code>environment</code> parameter in a container definition, they take
@@ -9930,12 +10428,14 @@ class EFSVolumeConfiguration {
 /// multiple environment files are specified that contain the same variable,
 /// they're processed from the top down. We recommend that you use unique
 /// variable names. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/taskdef-envfiles.html">Specifying
-/// environment variables</a> in the <i>Amazon Elastic Container Service
-/// Developer Guide</i>.
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/use-environment-file.html">Use
+/// a file to pass environment variables to a container</a> in the <i>Amazon
+/// Elastic Container Service Developer Guide</i>.
 ///
-/// This parameter is only supported for tasks hosted on Fargate using the
-/// following platform versions:
+/// Environment variable files are objects in Amazon S3 and all Amazon S3
+/// security considerations apply.
+///
+/// You must use the following platforms for the Fargate launch type:
 ///
 /// <ul>
 /// <li>
@@ -9945,8 +10445,22 @@ class EFSVolumeConfiguration {
 /// Windows platform version <code>1.0.0</code> or later.
 /// </li>
 /// </ul>
+/// Consider the following when using the Fargate launch type:
+///
+/// <ul>
+/// <li>
+/// The file is handled like a native Docker env-file.
+/// </li>
+/// <li>
+/// There is no support for shell escape handling.
+/// </li>
+/// <li>
+/// The container entry point interperts the <code>VARIABLE</code> values.
+/// </li>
+/// </ul>
 class EnvironmentFile {
-  /// The file type to use. The only supported value is <code>s3</code>.
+  /// The file type to use. Environment files are objects in Amazon S3. The only
+  /// supported value is <code>s3</code>.
   final EnvironmentFileType type;
 
   /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the
@@ -10001,8 +10515,8 @@ extension EnvironmentFileTypeFromString on String {
 /// The amount of ephemeral storage to allocate for the task. This parameter is
 /// used to expand the total amount of ephemeral storage available, beyond the
 /// default amount, for tasks hosted on Fargate. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html">Fargate
-/// task storage</a> in the <i>Amazon ECS User Guide for Fargate</i>.
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html">Using
+/// data volumes in tasks</a> in the <i>Amazon ECS Developer Guide;</i>.
 /// <note>
 /// For tasks using the Fargate launch type, the task requires the following
 /// platforms:
@@ -10017,7 +10531,7 @@ extension EnvironmentFileTypeFromString on String {
 /// </ul> </note>
 class EphemeralStorage {
   /// The total amount, in GiB, of ephemeral storage to set for the task. The
-  /// minimum supported value is <code>21</code> GiB and the maximum supported
+  /// minimum supported value is <code>20</code> GiB and the maximum supported
   /// value is <code>200</code> GiB.
   final int sizeInGiB;
 
@@ -10499,6 +11013,12 @@ class GetTaskProtectionResponse {
 /// the DescribeTasks API operation or when viewing the task details in the
 /// console.
 ///
+/// The health check is designed to make sure that your containers survive agent
+/// restarts, upgrades, or temporary unavailability.
+///
+/// Amazon ECS performs health checks on containers with the default that
+/// launched the container instance or the task.
+///
 /// The following describes the possible <code>healthStatus</code> values for a
 /// container:
 ///
@@ -10510,27 +11030,82 @@ class GetTaskProtectionResponse {
 /// <code>UNHEALTHY</code>-The container health check has failed.
 /// </li>
 /// <li>
-/// <code>UNKNOWN</code>-The container health check is being evaluated or
-/// there's no container health check defined.
+/// <code>UNKNOWN</code>-The container health check is being evaluated, there's
+/// no container health check defined, or Amazon ECS doesn't have the health
+/// status of the container.
 /// </li>
 /// </ul>
-/// The following describes the possible <code>healthStatus</code> values for a
-/// task. The container health check status of non-essential containers don't
-/// have an effect on the health status of a task.
+/// The following describes the possible <code>healthStatus</code> values based
+/// on the container health checker status of essential containers in the task
+/// with the following priority order (high to low):
 ///
 /// <ul>
-/// <li>
-/// <code>HEALTHY</code>-All essential containers within the task have passed
-/// their health checks.
-/// </li>
 /// <li>
 /// <code>UNHEALTHY</code>-One or more essential containers have failed their
 /// health check.
 /// </li>
 /// <li>
-/// <code>UNKNOWN</code>-The essential containers within the task are still
-/// having their health checks evaluated, there are only nonessential containers
-/// with health checks defined, or there are no container health checks defined.
+/// <code>UNKNOWN</code>-Any essential container running within the task is in
+/// an <code>UNKNOWN</code> state and no other essential containers have an
+/// <code>UNHEALTHY</code> state.
+/// </li>
+/// <li>
+/// <code>HEALTHY</code>-All essential containers within the task have passed
+/// their health checks.
+/// </li>
+/// </ul>
+/// Consider the following task health example with 2 containers.
+///
+/// <ul>
+/// <li>
+/// If Container1 is <code>UNHEALTHY</code> and Container2 is
+/// <code>UNKNOWN</code>, the task health is <code>UNHEALTHY</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>UNHEALTHY</code> and Container2 is
+/// <code>HEALTHY</code>, the task health is <code>UNHEALTHY</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>HEALTHY</code> and Container2 is
+/// <code>UNKNOWN</code>, the task health is <code>UNKNOWN</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>HEALTHY</code> and Container2 is
+/// <code>HEALTHY</code>, the task health is <code>HEALTHY</code>.
+/// </li>
+/// </ul>
+/// Consider the following task health example with 3 containers.
+///
+/// <ul>
+/// <li>
+/// If Container1 is <code>UNHEALTHY</code> and Container2 is
+/// <code>UNKNOWN</code>, and Container3 is <code>UNKNOWN</code>, the task
+/// health is <code>UNHEALTHY</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>UNHEALTHY</code> and Container2 is
+/// <code>UNKNOWN</code>, and Container3 is <code>HEALTHY</code>, the task
+/// health is <code>UNHEALTHY</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>UNHEALTHY</code> and Container2 is
+/// <code>HEALTHY</code>, and Container3 is <code>HEALTHY</code>, the task
+/// health is <code>UNHEALTHY</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>HEALTHY</code> and Container2 is
+/// <code>UNKNOWN</code>, and Container3 is <code>HEALTHY</code>, the task
+/// health is <code>UNKNOWN</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>HEALTHY</code> and Container2 is
+/// <code>UNKNOWN</code>, and Container3 is <code>UNKNOWN</code>, the task
+/// health is <code>UNKNOWN</code>.
+/// </li>
+/// <li>
+/// If Container1 is <code>HEALTHY</code> and Container2 is
+/// <code>HEALTHY</code>, and Container3 is <code>HEALTHY</code>, the task
+/// health is <code>HEALTHY</code>.
 /// </li>
 /// </ul>
 /// If a task is run manually, and not as part of a service, the task will
@@ -10541,6 +11116,15 @@ class GetTaskProtectionResponse {
 /// The following are notes about container health check support:
 ///
 /// <ul>
+/// <li>
+/// When the Amazon ECS agent cannot connect to the Amazon ECS service, the
+/// service reports the container as <code>UNHEALTHY</code>.
+/// </li>
+/// <li>
+/// The health check statuses are the "last heard from" response from the Amazon
+/// ECS agent. There are no assumptions made about the status of the container
+/// health checks.
+/// </li>
 /// <li>
 /// Container health checks require version 1.17.0 or greater of the Amazon ECS
 /// container agent. For more information, see <a
@@ -10943,9 +11527,10 @@ extension IpcModeFromString on String {
   }
 }
 
-/// The Linux capabilities for the container that are added to or dropped from
-/// the default configuration provided by Docker. For more information about the
-/// default capabilities and the non-default available capabilities, see <a
+/// The Linux capabilities to add or remove from the default Docker
+/// configuration for a container defined in the task definition. For more
+/// information about the default capabilities and the non-default available
+/// capabilities, see <a
 /// href="https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities">Runtime
 /// privilege and Linux capabilities</a> in the <i>Docker run reference</i>. For
 /// more detailed information about these Linux capabilities, see the <a
@@ -11525,6 +12110,9 @@ class ListTasksResponse {
 class LoadBalancer {
   /// The name of the container (as it appears in a container definition) to
   /// associate with the load balancer.
+  ///
+  /// You need to specify the container name when configuring the target group for
+  /// an Amazon ECS load balancer.
   final String? containerName;
 
   /// The port on the container to associate with the load balancer. This port
@@ -11537,7 +12125,6 @@ class LoadBalancer {
   /// The name of the load balancer to associate with the Amazon ECS service or
   /// task set.
   ///
-  /// A load balancer name is only specified when using a Classic Load Balancer.
   /// If you are using an Application Load Balancer or a Network Load Balancer the
   /// load balancer name parameter should be omitted.
   final String? loadBalancerName;
@@ -11546,8 +12133,7 @@ class LoadBalancer {
   /// group or groups associated with a service or task set.
   ///
   /// A target group ARN is only specified when using an Application Load Balancer
-  /// or Network Load Balancer. If you're using a Classic Load Balancer, omit the
-  /// target group ARN.
+  /// or Network Load Balancer.
   ///
   /// For services using the <code>ECS</code> deployment controller, you can
   /// specify one or multiple target groups. For more information, see <a
@@ -11624,8 +12210,17 @@ class LoadBalancer {
 /// <ul>
 /// <li>
 /// Amazon ECS currently supports a subset of the logging drivers available to
-/// the Docker daemon (shown in the valid values below). Additional log drivers
-/// may be available in future releases of the Amazon ECS container agent.
+/// the Docker daemon. Additional log drivers may be available in future
+/// releases of the Amazon ECS container agent.
+///
+/// For tasks on Fargate, the supported log drivers are <code>awslogs</code>,
+/// <code>splunk</code>, and <code>awsfirelens</code>.
+///
+/// For tasks hosted on Amazon EC2 instances, the supported log drivers are
+/// <code>awslogs</code>, <code>fluentd</code>, <code>gelf</code>,
+/// <code>json-file</code>, <code>journald</code>,
+/// <code>logentries</code>,<code>syslog</code>, <code>splunk</code>, and
+/// <code>awsfirelens</code>.
 /// </li>
 /// <li>
 /// This parameter requires version 1.18 of the Docker Remote API or greater on
@@ -11871,6 +12466,34 @@ class ManagedAgentStateChange {
   }
 }
 
+enum ManagedDraining {
+  enabled,
+  disabled,
+}
+
+extension ManagedDrainingValueExtension on ManagedDraining {
+  String toValue() {
+    switch (this) {
+      case ManagedDraining.enabled:
+        return 'ENABLED';
+      case ManagedDraining.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension ManagedDrainingFromString on String {
+  ManagedDraining toManagedDraining() {
+    switch (this) {
+      case 'ENABLED':
+        return ManagedDraining.enabled;
+      case 'DISABLED':
+        return ManagedDraining.disabled;
+    }
+    throw Exception('$this is not known in enum ManagedDraining');
+  }
+}
+
 /// The managed scaling settings for the Auto Scaling group capacity provider.
 ///
 /// When managed scaling is turned on, Amazon ECS manages the scale-in and
@@ -11892,7 +12515,7 @@ class ManagedScaling {
 
   /// The maximum number of Amazon EC2 instances that Amazon ECS will scale out at
   /// one time. The scale in process is not affected by this parameter. If this
-  /// parameter is omitted, the default value of <code>1</code> is used.
+  /// parameter is omitted, the default value of <code>10000</code> is used.
   final int? maximumScalingStepSize;
 
   /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at
@@ -12098,8 +12721,8 @@ class NetworkBinding {
   /// <ul>
   /// <li>
   /// For containers in a task with the <code>awsvpc</code> network mode, the
-  /// <code>hostPort</code> is set to the same value as the
-  /// <code>containerPort</code>. This is a static mapping strategy.
+  /// <code>hostPortRange</code> is set to the same value as the
+  /// <code>containerPortRange</code>. This is a static mapping strategy.
   /// </li>
   /// <li>
   /// For containers in a task with the <code>bridge</code> network mode, the
@@ -12612,6 +13235,9 @@ class PortMapping {
   /// If you don't set a value for this parameter, then TCP is used. However,
   /// Amazon ECS doesn't add protocol-specific telemetry for TCP.
   ///
+  /// <code>appProtocol</code> is immutable in a Service Connect service. Updating
+  /// this field requires a service deletion and redeployment.
+  ///
   /// Tasks that run in a namespace can use short names to connect to services in
   /// the namespace. Tasks can connect to services across all of the clusters in
   /// the namespace. Tasks connect through a managed proxy container that collects
@@ -12669,8 +13295,8 @@ class PortMapping {
   /// <ul>
   /// <li>
   /// For containers in a task with the <code>awsvpc</code> network mode, the
-  /// <code>hostPort</code> is set to the same value as the
-  /// <code>containerPort</code>. This is a static mapping strategy.
+  /// <code>hostPortRange</code> is set to the same value as the
+  /// <code>containerPortRange</code>. This is a static mapping strategy.
   /// </li>
   /// <li>
   /// For containers in a task with the <code>bridge</code> network mode, the
@@ -12742,9 +13368,10 @@ class PortMapping {
   /// listed on the instance under
   /// <code>/proc/sys/net/ipv4/ip_local_port_range</code>. If this kernel
   /// parameter is unavailable, the default ephemeral port range from 49153
-  /// through 65535 is used. Do not attempt to specify a host port in the
-  /// ephemeral port range as these are reserved for automatic assignment. In
-  /// general, ports below 32768 are outside of the ephemeral port range.
+  /// through 65535 (Linux) or 49152 through 65535 (Windows) is used. Do not
+  /// attempt to specify a host port in the ephemeral port range as these are
+  /// reserved for automatic assignment. In general, ports below 32768 are outside
+  /// of the ephemeral port range.
   ///
   /// The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376,
   /// and the Amazon ECS container agent ports 51678-51680. Any host port that was
@@ -12769,7 +13396,9 @@ class PortMapping {
   final String? name;
 
   /// The protocol used for the port mapping. Valid values are <code>tcp</code>
-  /// and <code>udp</code>. The default is <code>tcp</code>.
+  /// and <code>udp</code>. The default is <code>tcp</code>. <code>protocol</code>
+  /// is immutable in a Service Connect service. Updating this field requires a
+  /// service deletion and redeployment.
   final TransportProtocol? protocol;
 
   PortMapping({
@@ -13275,10 +13904,18 @@ extension ResourceTypeFromString on String {
 
 class RunTaskResponse {
   /// Any failures associated with the call.
+  ///
+  /// For information about how to address failures, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages.html#service-event-messages-list">Service
+  /// event messages</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html">API
+  /// failure reasons</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
   final List<Failure>? failures;
 
   /// A full description of the tasks that were run. The tasks that were
   /// successfully placed on your cluster are described here.
+  /// <p/>
   final List<Task>? tasks;
 
   RunTaskResponse({
@@ -14017,11 +14654,21 @@ class ServiceConnectService {
   /// of the Service Connect proxy.
   final int? ingressPortOverride;
 
+  /// A reference to an object that represents the configured timeouts for Service
+  /// Connect.
+  final TimeoutConfiguration? timeout;
+
+  /// A reference to an object that represents a Transport Layer Security (TLS)
+  /// configuration.
+  final ServiceConnectTlsConfiguration? tls;
+
   ServiceConnectService({
     required this.portName,
     this.clientAliases,
     this.discoveryName,
     this.ingressPortOverride,
+    this.timeout,
+    this.tls,
   });
 
   factory ServiceConnectService.fromJson(Map<String, dynamic> json) {
@@ -14034,6 +14681,14 @@ class ServiceConnectService {
           .toList(),
       discoveryName: json['discoveryName'] as String?,
       ingressPortOverride: json['ingressPortOverride'] as int?,
+      timeout: json['timeout'] != null
+          ? TimeoutConfiguration.fromJson(
+              json['timeout'] as Map<String, dynamic>)
+          : null,
+      tls: json['tls'] != null
+          ? ServiceConnectTlsConfiguration.fromJson(
+              json['tls'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -14042,12 +14697,16 @@ class ServiceConnectService {
     final clientAliases = this.clientAliases;
     final discoveryName = this.discoveryName;
     final ingressPortOverride = this.ingressPortOverride;
+    final timeout = this.timeout;
+    final tls = this.tls;
     return {
       'portName': portName,
       if (clientAliases != null) 'clientAliases': clientAliases,
       if (discoveryName != null) 'discoveryName': discoveryName,
       if (ingressPortOverride != null)
         'ingressPortOverride': ingressPortOverride,
+      if (timeout != null) 'timeout': timeout,
+      if (tls != null) 'tls': tls,
     };
   }
 }
@@ -14091,6 +14750,72 @@ class ServiceConnectServiceResource {
       discoveryArn: json['discoveryArn'] as String?,
       discoveryName: json['discoveryName'] as String?,
     );
+  }
+}
+
+/// An object that represents the Amazon Web Services Private Certificate
+/// Authority certificate.
+class ServiceConnectTlsCertificateAuthority {
+  /// The ARN of the Amazon Web Services Private Certificate Authority
+  /// certificate.
+  final String? awsPcaAuthorityArn;
+
+  ServiceConnectTlsCertificateAuthority({
+    this.awsPcaAuthorityArn,
+  });
+
+  factory ServiceConnectTlsCertificateAuthority.fromJson(
+      Map<String, dynamic> json) {
+    return ServiceConnectTlsCertificateAuthority(
+      awsPcaAuthorityArn: json['awsPcaAuthorityArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsPcaAuthorityArn = this.awsPcaAuthorityArn;
+    return {
+      if (awsPcaAuthorityArn != null) 'awsPcaAuthorityArn': awsPcaAuthorityArn,
+    };
+  }
+}
+
+/// An object that represents the configuration for Service Connect TLS.
+class ServiceConnectTlsConfiguration {
+  /// The signer certificate authority.
+  final ServiceConnectTlsCertificateAuthority issuerCertificateAuthority;
+
+  /// The Amazon Web Services Key Management Service key.
+  final String? kmsKey;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that's associated with the
+  /// Service Connect TLS.
+  final String? roleArn;
+
+  ServiceConnectTlsConfiguration({
+    required this.issuerCertificateAuthority,
+    this.kmsKey,
+    this.roleArn,
+  });
+
+  factory ServiceConnectTlsConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServiceConnectTlsConfiguration(
+      issuerCertificateAuthority:
+          ServiceConnectTlsCertificateAuthority.fromJson(
+              json['issuerCertificateAuthority'] as Map<String, dynamic>),
+      kmsKey: json['kmsKey'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuerCertificateAuthority = this.issuerCertificateAuthority;
+    final kmsKey = this.kmsKey;
+    final roleArn = this.roleArn;
+    return {
+      'issuerCertificateAuthority': issuerCertificateAuthority,
+      if (kmsKey != null) 'kmsKey': kmsKey,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
   }
 }
 
@@ -14140,6 +14865,222 @@ extension ServiceFieldFromString on String {
         return ServiceField.tags;
     }
     throw Exception('$this is not known in enum ServiceField');
+  }
+}
+
+/// The configuration for the Amazon EBS volume that Amazon ECS creates and
+/// manages on your behalf. These settings are used to create each Amazon EBS
+/// volume, with one volume created for each task in the service.
+///
+/// Many of these parameters map 1:1 with the Amazon EBS
+/// <code>CreateVolume</code> API request parameters.
+class ServiceManagedEBSVolumeConfiguration {
+  /// The ARN of the IAM role to associate with this volume. This is the Amazon
+  /// ECS infrastructure IAM role that is used to manage your Amazon Web Services
+  /// infrastructure. We recommend using the Amazon ECS-managed
+  /// <code>AmazonECSInfrastructureRolePolicyForVolumes</code> IAM policy with
+  /// this role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html">Amazon
+  /// ECS infrastructure IAM role</a> in the <i>Amazon ECS Developer Guide</i>.
+  final String roleArn;
+
+  /// Indicates whether the volume should be encrypted. If no value is specified,
+  /// encryption is turned on by default. This parameter maps 1:1 with the
+  /// <code>Encrypted</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final bool? encrypted;
+
+  /// The Linux filesystem type for the volume. For volumes created from a
+  /// snapshot, you must specify the same filesystem type that the volume was
+  /// using when the snapshot was created. If there is a filesystem type mismatch,
+  /// the task will fail to start.
+  ///
+  /// The available filesystem types are&#x2028; <code>ext3</code>,
+  /// <code>ext4</code>, and <code>xfs</code>. If no value is specified, the
+  /// <code>xfs</code> filesystem type is used by default.
+  final TaskFilesystemType? filesystemType;
+
+  /// The number of I/O operations per second (IOPS). For <code>gp3</code>,
+  /// <code>io1</code>, and <code>io2</code> volumes, this represents the number
+  /// of IOPS that are provisioned for the volume. For <code>gp2</code> volumes,
+  /// this represents the baseline performance of the volume and the rate at which
+  /// the volume accumulates I/O credits for bursting.
+  ///
+  /// The following are the supported values for each volume type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp3</code>: 3,000 - 16,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 100 - 64,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io2</code>: 100 - 256,000 IOPS
+  /// </li>
+  /// </ul>
+  /// This parameter is required for <code>io1</code> and <code>io2</code> volume
+  /// types. The default for <code>gp3</code> volumes is <code>3,000 IOPS</code>.
+  /// This parameter is not supported for <code>st1</code>, <code>sc1</code>, or
+  /// <code>standard</code> volume types.
+  ///
+  /// This parameter maps 1:1 with the <code>Iops</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final int? iops;
+
+  /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key
+  /// Management Service key to use for Amazon EBS encryption. When encryption is
+  /// turned on and no Amazon Web Services Key Management Service key is
+  /// specified, the default Amazon Web Services managed key for Amazon EBS
+  /// volumes is used. This parameter maps 1:1 with the <code>KmsKeyId</code>
+  /// parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  /// <important>
+  /// Amazon Web Services authenticates the Amazon Web Services Key Management
+  /// Service key asynchronously. Therefore, if you specify an ID, alias, or ARN
+  /// that is invalid, the action can appear to complete, but eventually fails.
+  /// </important>
+  final String? kmsKeyId;
+
+  /// The size of the volume in GiB. You must specify either a volume size or a
+  /// snapshot ID. If you specify a snapshot ID, the snapshot size is used for the
+  /// volume size by default. You can optionally specify a volume size greater
+  /// than or equal to the snapshot size. This parameter maps 1:1 with the
+  /// <code>Size</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  ///
+  /// The following are the supported volume size values for each volume type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp2</code> and <code>gp3</code>: 1-16,384
+  /// </li>
+  /// <li>
+  /// <code>io1</code> and <code>io2</code>: 4-16,384
+  /// </li>
+  /// <li>
+  /// <code>st1</code> and <code>sc1</code>: 125-16,384
+  /// </li>
+  /// <li>
+  /// <code>standard</code>: 1-1,024
+  /// </li>
+  /// </ul>
+  final int? sizeInGiB;
+
+  /// The snapshot that Amazon ECS uses to create the volume. You must specify
+  /// either a snapshot ID or a volume size. This parameter maps 1:1 with the
+  /// <code>SnapshotId</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final String? snapshotId;
+
+  /// The tags to apply to the volume. Amazon ECS applies service-managed tags by
+  /// default. This parameter maps 1:1 with the <code>TagSpecifications.N</code>
+  /// parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final List<EBSTagSpecification>? tagSpecifications;
+
+  /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000
+  /// MiB/s. This parameter maps 1:1 with the <code>Throughput</code> parameter of
+  /// the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  /// <important>
+  /// This parameter is only supported for the <code>gp3</code> volume type.
+  /// </important>
+  final int? throughput;
+
+  /// The volume type. This parameter maps 1:1 with the <code>VolumeType</code>
+  /// parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html">Amazon
+  /// EBS volume types</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// The following are the supported volume types.
+  ///
+  /// <ul>
+  /// <li>
+  /// General Purpose SSD: <code>gp2</code>|<code>gp3</code>
+  /// </li>
+  /// <li>
+  /// Provisioned IOPS SSD: <code>io1</code>|<code>io2</code>
+  /// </li>
+  /// <li>
+  /// Throughput Optimized HDD: <code>st1</code>
+  /// </li>
+  /// <li>
+  /// Cold HDD: <code>sc1</code>
+  /// </li>
+  /// <li>
+  /// Magnetic: <code>standard</code>
+  /// <note>
+  /// The magnetic volume type is not supported on Fargate.
+  /// </note> </li>
+  /// </ul>
+  final String? volumeType;
+
+  ServiceManagedEBSVolumeConfiguration({
+    required this.roleArn,
+    this.encrypted,
+    this.filesystemType,
+    this.iops,
+    this.kmsKeyId,
+    this.sizeInGiB,
+    this.snapshotId,
+    this.tagSpecifications,
+    this.throughput,
+    this.volumeType,
+  });
+
+  factory ServiceManagedEBSVolumeConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ServiceManagedEBSVolumeConfiguration(
+      roleArn: json['roleArn'] as String,
+      encrypted: json['encrypted'] as bool?,
+      filesystemType:
+          (json['filesystemType'] as String?)?.toTaskFilesystemType(),
+      iops: json['iops'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      sizeInGiB: json['sizeInGiB'] as int?,
+      snapshotId: json['snapshotId'] as String?,
+      tagSpecifications: (json['tagSpecifications'] as List?)
+          ?.whereNotNull()
+          .map((e) => EBSTagSpecification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      throughput: json['throughput'] as int?,
+      volumeType: json['volumeType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final encrypted = this.encrypted;
+    final filesystemType = this.filesystemType;
+    final iops = this.iops;
+    final kmsKeyId = this.kmsKeyId;
+    final sizeInGiB = this.sizeInGiB;
+    final snapshotId = this.snapshotId;
+    final tagSpecifications = this.tagSpecifications;
+    final throughput = this.throughput;
+    final volumeType = this.volumeType;
+    return {
+      'roleArn': roleArn,
+      if (encrypted != null) 'encrypted': encrypted,
+      if (filesystemType != null) 'filesystemType': filesystemType.toValue(),
+      if (iops != null) 'iops': iops,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (sizeInGiB != null) 'sizeInGiB': sizeInGiB,
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (tagSpecifications != null) 'tagSpecifications': tagSpecifications,
+      if (throughput != null) 'throughput': throughput,
+      if (volumeType != null) 'volumeType': volumeType,
+    };
   }
 }
 
@@ -14214,6 +15155,46 @@ class ServiceRegistry {
   }
 }
 
+/// The configuration for a volume specified in the task definition as a volume
+/// that is configured at launch time. Currently, the only supported volume type
+/// is an Amazon EBS volume.
+class ServiceVolumeConfiguration {
+  /// The name of the volume. This value must match the volume name from the
+  /// <code>Volume</code> object in the task definition.
+  final String name;
+
+  /// The configuration for the Amazon EBS volume that Amazon ECS creates and
+  /// manages on your behalf. These settings are used to create each Amazon EBS
+  /// volume, with one volume created for each task in the service. The Amazon EBS
+  /// volumes are visible in your account in the Amazon EC2 console once they are
+  /// created.
+  final ServiceManagedEBSVolumeConfiguration? managedEBSVolume;
+
+  ServiceVolumeConfiguration({
+    required this.name,
+    this.managedEBSVolume,
+  });
+
+  factory ServiceVolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServiceVolumeConfiguration(
+      name: json['name'] as String,
+      managedEBSVolume: json['managedEBSVolume'] != null
+          ? ServiceManagedEBSVolumeConfiguration.fromJson(
+              json['managedEBSVolume'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final managedEBSVolume = this.managedEBSVolume;
+    return {
+      'name': name,
+      if (managedEBSVolume != null) 'managedEBSVolume': managedEBSVolume,
+    };
+  }
+}
+
 /// The details for the execute command session.
 class Session {
   /// The ID of the execute command session.
@@ -14251,6 +15232,15 @@ class Setting {
   /// field is omitted, the authenticated user is assumed.
   final String? principalArn;
 
+  /// Indicates whether Amazon Web Services manages the account setting, or if the
+  /// user manages it.
+  ///
+  /// <code>aws_managed</code> account settings are read-only, as Amazon Web
+  /// Services manages such on the customer's behalf. Currently, the
+  /// <code>guardDutyActivate</code> account setting is the only one Amazon Web
+  /// Services manages.
+  final SettingType? type;
+
   /// Determines whether the account setting is on or off for the specified
   /// resource.
   final String? value;
@@ -14258,6 +15248,7 @@ class Setting {
   Setting({
     this.name,
     this.principalArn,
+    this.type,
     this.value,
   });
 
@@ -14265,6 +15256,7 @@ class Setting {
     return Setting(
       name: (json['name'] as String?)?.toSettingName(),
       principalArn: json['principalArn'] as String?,
+      type: (json['type'] as String?)?.toSettingType(),
       value: json['value'] as String?,
     );
   }
@@ -14278,6 +15270,8 @@ enum SettingName {
   containerInsights,
   fargateFIPSMode,
   tagResourceAuthorization,
+  fargateTaskRetirementWaitPeriod,
+  guardDutyActivate,
 }
 
 extension SettingNameValueExtension on SettingName {
@@ -14297,6 +15291,10 @@ extension SettingNameValueExtension on SettingName {
         return 'fargateFIPSMode';
       case SettingName.tagResourceAuthorization:
         return 'tagResourceAuthorization';
+      case SettingName.fargateTaskRetirementWaitPeriod:
+        return 'fargateTaskRetirementWaitPeriod';
+      case SettingName.guardDutyActivate:
+        return 'guardDutyActivate';
     }
   }
 }
@@ -14318,8 +15316,40 @@ extension SettingNameFromString on String {
         return SettingName.fargateFIPSMode;
       case 'tagResourceAuthorization':
         return SettingName.tagResourceAuthorization;
+      case 'fargateTaskRetirementWaitPeriod':
+        return SettingName.fargateTaskRetirementWaitPeriod;
+      case 'guardDutyActivate':
+        return SettingName.guardDutyActivate;
     }
     throw Exception('$this is not known in enum SettingName');
+  }
+}
+
+enum SettingType {
+  user,
+  awsManaged,
+}
+
+extension SettingTypeValueExtension on SettingType {
+  String toValue() {
+    switch (this) {
+      case SettingType.user:
+        return 'user';
+      case SettingType.awsManaged:
+        return 'aws_managed';
+    }
+  }
+}
+
+extension SettingTypeFromString on String {
+  SettingType toSettingType() {
+    switch (this) {
+      case 'user':
+        return SettingType.user;
+      case 'aws_managed':
+        return SettingType.awsManaged;
+    }
+    throw Exception('$this is not known in enum SettingType');
   }
 }
 
@@ -14477,34 +15507,65 @@ class SubmitTaskStateChangeResponse {
 /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
 /// the <code>--sysctl</code> option to <a
 /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
-/// run</a>.
+/// run</a>. For example, you can configure
+/// <code>net.ipv4.tcp_keepalive_time</code> setting to maintain longer lived
+/// connections.
 ///
 /// We don't recommend that you specify network-related
 /// <code>systemControls</code> parameters for multiple containers in a single
-/// task. This task also uses either the <code>awsvpc</code> or
-/// <code>host</code> network mode. It does it for the following reasons.
+/// task that also uses either the <code>awsvpc</code> or <code>host</code>
+/// network mode. Doing this has the following disadvantages:
 ///
 /// <ul>
 /// <li>
-/// For tasks that use the <code>awsvpc</code> network mode, if you set
-/// <code>systemControls</code> for any container, it applies to all containers
-/// in the task. If you set different <code>systemControls</code> for multiple
-/// containers in a single task, the container that's started last determines
-/// which <code>systemControls</code> take effect.
+/// For tasks that use the <code>awsvpc</code> network mode including Fargate,
+/// if you set <code>systemControls</code> for any container, it applies to all
+/// containers in the task. If you set different <code>systemControls</code> for
+/// multiple containers in a single task, the container that's started last
+/// determines which <code>systemControls</code> take effect.
 /// </li>
 /// <li>
-/// For tasks that use the <code>host</code> network mode, the
-/// <code>systemControls</code> parameter applies to the container instance's
-/// kernel parameter and that of all containers of any tasks running on that
-/// container instance.
+/// For tasks that use the <code>host</code> network mode, the network namespace
+/// <code>systemControls</code> aren't supported.
 /// </li>
 /// </ul>
+/// If you're setting an IPC resource namespace to use for the containers in the
+/// task, the following conditions apply to your system controls. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_definition_ipcmode">IPC
+/// mode</a>.
+///
+/// <ul>
+/// <li>
+/// For tasks that use the <code>host</code> IPC mode, IPC namespace
+/// <code>systemControls</code> aren't supported.
+/// </li>
+/// <li>
+/// For tasks that use the <code>task</code> IPC mode, IPC namespace
+/// <code>systemControls</code> values apply to all containers within a task.
+/// </li>
+/// </ul> <note>
+/// This parameter is not supported for Windows containers.
+/// </note> <note>
+/// This parameter is only supported for tasks that are hosted on Fargate if the
+/// tasks are using platform version <code>1.4.0</code> or later (Linux). This
+/// isn't supported for Windows containers on Fargate.
+/// </note>
 class SystemControl {
   /// The namespaced kernel parameter to set a <code>value</code> for.
   final String? namespace;
 
-  /// The value for the namespaced kernel parameter that's specified in
-  /// <code>namespace</code>.
+  /// The namespaced kernel parameter to set a <code>value</code> for.
+  ///
+  /// Valid IPC namespace values: <code>"kernel.msgmax" | "kernel.msgmnb" |
+  /// "kernel.msgmni" | "kernel.sem" | "kernel.shmall" | "kernel.shmmax" |
+  /// "kernel.shmmni" | "kernel.shm_rmid_forced"</code>, and <code>Sysctls</code>
+  /// that start with <code>"fs.mqueue.*"</code>
+  ///
+  /// Valid network namespace values: <code>Sysctls</code> that start with
+  /// <code>"net.*"</code>
+  ///
+  /// All of these values are supported by Fargate.
   final String? value;
 
   SystemControl({
@@ -14854,28 +15915,9 @@ class Task {
   /// The stop code indicating why a task was stopped. The
   /// <code>stoppedReason</code> might contain additional details.
   ///
-  /// The following are valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TaskFailedToStart</code>
-  /// </li>
-  /// <li>
-  /// <code>EssentialContainerExited</code>
-  /// </li>
-  /// <li>
-  /// <code>UserInitiated</code>
-  /// </li>
-  /// <li>
-  /// <code>TerminationNotice</code>
-  /// </li>
-  /// <li>
-  /// <code>ServiceSchedulerInitiated</code>
-  /// </li>
-  /// <li>
-  /// <code>SpotInterruption</code>
-  /// </li>
-  /// </ul>
+  /// For more information about stop code, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/stopped-task-error-codes.html">Stopped
+  /// tasks error codes</a> in the <i>Amazon ECS Developer Guide</i>.
   final TaskStopCode? stopCode;
 
   /// The Unix timestamp for the time when the task was stopped. More
@@ -14888,7 +15930,7 @@ class Task {
 
   /// The Unix timestamp for the time when the task stops. More specifically, it's
   /// for the time when the task transitions from the <code>RUNNING</code> state
-  /// to <code>STOPPED</code>.
+  /// to <code>STOPPING</code>.
   final DateTime? stoppingAt;
 
   /// The metadata that you apply to the task to help you categorize and organize
@@ -15274,23 +16316,33 @@ class TaskDefinition {
   final NetworkMode? networkMode;
 
   /// The process namespace to use for the containers in the task. The valid
-  /// values are <code>host</code> or <code>task</code>. If <code>host</code> is
-  /// specified, then all containers within the tasks that specified the
-  /// <code>host</code> PID mode on the same container instance share the same
-  /// process namespace with the host Amazon EC2 instance. If <code>task</code> is
-  /// specified, all containers within the specified task share the same process
-  /// namespace. If no value is specified, the default is a private namespace. For
-  /// more information, see <a
+  /// values are <code>host</code> or <code>task</code>. On Fargate for Linux
+  /// containers, the only valid value is <code>task</code>. For example,
+  /// monitoring sidecars might need <code>pidMode</code> to access information
+  /// about other containers running in the same task.
+  ///
+  /// If <code>host</code> is specified, all containers within the tasks that
+  /// specified the <code>host</code> PID mode on the same container instance
+  /// share the same process namespace with the host Amazon EC2 instance.
+  ///
+  /// If <code>task</code> is specified, all containers within the specified task
+  /// share the same process namespace.
+  ///
+  /// If no value is specified, the default is a private namespace for each
+  /// container. For more information, see <a
   /// href="https://docs.docker.com/engine/reference/run/#pid-settings---pid">PID
   /// settings</a> in the <i>Docker run reference</i>.
   ///
-  /// If the <code>host</code> PID mode is used, be aware that there is a
-  /// heightened risk of undesired process namespace expose. For more information,
-  /// see <a href="https://docs.docker.com/engine/security/security/">Docker
+  /// If the <code>host</code> PID mode is used, there's a heightened risk of
+  /// undesired process namespace exposure. For more information, see <a
+  /// href="https://docs.docker.com/engine/security/security/">Docker
   /// security</a>.
   /// <note>
-  /// This parameter is not supported for Windows containers or tasks run on
-  /// Fargate.
+  /// This parameter is not supported for Windows containers.
+  /// </note> <note>
+  /// This parameter is only supported for tasks that are hosted on Fargate if the
+  /// tasks are using platform version <code>1.4.0</code> or later (Linux). This
+  /// isn't supported for Windows containers on Fargate.
   /// </note>
   final PidMode? pidMode;
 
@@ -15333,8 +16385,9 @@ class TaskDefinition {
   /// </note>
   final List<Attribute>? requiresAttributes;
 
-  /// The task launch types the task definition was validated against. For more
-  /// information, see <a
+  /// The task launch types the task definition was validated against. The valid
+  /// values are <code>EC2</code>, <code>FARGATE</code>, and
+  /// <code>EXTERNAL</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
   /// ECS launch types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
@@ -15656,6 +16709,265 @@ extension TaskFieldFromString on String {
         return TaskField.tags;
     }
     throw Exception('$this is not known in enum TaskField');
+  }
+}
+
+enum TaskFilesystemType {
+  ext3,
+  ext4,
+  xfs,
+}
+
+extension TaskFilesystemTypeValueExtension on TaskFilesystemType {
+  String toValue() {
+    switch (this) {
+      case TaskFilesystemType.ext3:
+        return 'ext3';
+      case TaskFilesystemType.ext4:
+        return 'ext4';
+      case TaskFilesystemType.xfs:
+        return 'xfs';
+    }
+  }
+}
+
+extension TaskFilesystemTypeFromString on String {
+  TaskFilesystemType toTaskFilesystemType() {
+    switch (this) {
+      case 'ext3':
+        return TaskFilesystemType.ext3;
+      case 'ext4':
+        return TaskFilesystemType.ext4;
+      case 'xfs':
+        return TaskFilesystemType.xfs;
+    }
+    throw Exception('$this is not known in enum TaskFilesystemType');
+  }
+}
+
+/// The configuration for the Amazon EBS volume that Amazon ECS creates and
+/// manages on your behalf. These settings are used to create each Amazon EBS
+/// volume, with one volume created for each task.
+class TaskManagedEBSVolumeConfiguration {
+  /// The ARN of the IAM role to associate with this volume. This is the Amazon
+  /// ECS infrastructure IAM role that is used to manage your Amazon Web Services
+  /// infrastructure. We recommend using the Amazon ECS-managed
+  /// <code>AmazonECSInfrastructureRolePolicyForVolumes</code> IAM policy with
+  /// this role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html">Amazon
+  /// ECS infrastructure IAM role</a> in the <i>Amazon ECS Developer Guide</i>.
+  final String roleArn;
+
+  /// Indicates whether the volume should be encrypted. If no value is specified,
+  /// encryption is turned on by default. This parameter maps 1:1 with the
+  /// <code>Encrypted</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final bool? encrypted;
+
+  /// The Linux filesystem type for the volume. For volumes created from a
+  /// snapshot, you must specify the same filesystem type that the volume was
+  /// using when the snapshot was created. If there is a filesystem type mismatch,
+  /// the task will fail to start.
+  ///
+  /// The available filesystem types are&#x2028; <code>ext3</code>,
+  /// <code>ext4</code>, and <code>xfs</code>. If no value is specified, the
+  /// <code>xfs</code> filesystem type is used by default.
+  final TaskFilesystemType? filesystemType;
+
+  /// The number of I/O operations per second (IOPS). For <code>gp3</code>,
+  /// <code>io1</code>, and <code>io2</code> volumes, this represents the number
+  /// of IOPS that are provisioned for the volume. For <code>gp2</code> volumes,
+  /// this represents the baseline performance of the volume and the rate at which
+  /// the volume accumulates I/O credits for bursting.
+  ///
+  /// The following are the supported values for each volume type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp3</code>: 3,000 - 16,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 100 - 64,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io2</code>: 100 - 256,000 IOPS
+  /// </li>
+  /// </ul>
+  /// This parameter is required for <code>io1</code> and <code>io2</code> volume
+  /// types. The default for <code>gp3</code> volumes is <code>3,000 IOPS</code>.
+  /// This parameter is not supported for <code>st1</code>, <code>sc1</code>, or
+  /// <code>standard</code> volume types.
+  ///
+  /// This parameter maps 1:1 with the <code>Iops</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final int? iops;
+
+  /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key
+  /// Management Service key to use for Amazon EBS encryption. When encryption is
+  /// turned on and no Amazon Web Services Key Management Service key is
+  /// specified, the default Amazon Web Services managed key for Amazon EBS
+  /// volumes is used. This parameter maps 1:1 with the <code>KmsKeyId</code>
+  /// parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  /// <important>
+  /// Amazon Web Services authenticates the Amazon Web Services Key Management
+  /// Service key asynchronously. Therefore, if you specify an ID, alias, or ARN
+  /// that is invalid, the action can appear to complete, but eventually fails.
+  /// </important>
+  final String? kmsKeyId;
+
+  /// The size of the volume in GiB. You must specify either a volume size or a
+  /// snapshot ID. If you specify a snapshot ID, the snapshot size is used for the
+  /// volume size by default. You can optionally specify a volume size greater
+  /// than or equal to the snapshot size. This parameter maps 1:1 with the
+  /// <code>Size</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  ///
+  /// The following are the supported volume size values for each volume type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp2</code> and <code>gp3</code>: 1-16,384
+  /// </li>
+  /// <li>
+  /// <code>io1</code> and <code>io2</code>: 4-16,384
+  /// </li>
+  /// <li>
+  /// <code>st1</code> and <code>sc1</code>: 125-16,384
+  /// </li>
+  /// <li>
+  /// <code>standard</code>: 1-1,024
+  /// </li>
+  /// </ul>
+  final int? sizeInGiB;
+
+  /// The snapshot that Amazon ECS uses to create the volume. You must specify
+  /// either a snapshot ID or a volume size. This parameter maps 1:1 with the
+  /// <code>SnapshotId</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final String? snapshotId;
+
+  /// The tags to apply to the volume. Amazon ECS applies service-managed tags by
+  /// default. This parameter maps 1:1 with the <code>TagSpecifications.N</code>
+  /// parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  final List<EBSTagSpecification>? tagSpecifications;
+
+  /// The termination policy for the volume when the task exits. This provides a
+  /// way to control whether Amazon ECS terminates the Amazon EBS volume when the
+  /// task stops.
+  final TaskManagedEBSVolumeTerminationPolicy? terminationPolicy;
+
+  /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000
+  /// MiB/s. This parameter maps 1:1 with the <code>Throughput</code> parameter of
+  /// the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>.
+  /// <important>
+  /// This parameter is only supported for the <code>gp3</code> volume type.
+  /// </important>
+  final int? throughput;
+
+  /// The volume type. This parameter maps 1:1 with the <code>VolumeType</code>
+  /// parameter of the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html">CreateVolume
+  /// API</a> in the <i>Amazon EC2 API Reference</i>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html">Amazon
+  /// EBS volume types</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// The following are the supported volume types.
+  ///
+  /// <ul>
+  /// <li>
+  /// General Purpose SSD: <code>gp2</code>|<code>gp3</code>
+  /// </li>
+  /// <li>
+  /// Provisioned IOPS SSD: <code>io1</code>|<code>io2</code>
+  /// </li>
+  /// <li>
+  /// Throughput Optimized HDD: <code>st1</code>
+  /// </li>
+  /// <li>
+  /// Cold HDD: <code>sc1</code>
+  /// </li>
+  /// <li>
+  /// Magnetic: <code>standard</code>
+  /// <note>
+  /// The magnetic volume type is not supported on Fargate.
+  /// </note> </li>
+  /// </ul>
+  final String? volumeType;
+
+  TaskManagedEBSVolumeConfiguration({
+    required this.roleArn,
+    this.encrypted,
+    this.filesystemType,
+    this.iops,
+    this.kmsKeyId,
+    this.sizeInGiB,
+    this.snapshotId,
+    this.tagSpecifications,
+    this.terminationPolicy,
+    this.throughput,
+    this.volumeType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final encrypted = this.encrypted;
+    final filesystemType = this.filesystemType;
+    final iops = this.iops;
+    final kmsKeyId = this.kmsKeyId;
+    final sizeInGiB = this.sizeInGiB;
+    final snapshotId = this.snapshotId;
+    final tagSpecifications = this.tagSpecifications;
+    final terminationPolicy = this.terminationPolicy;
+    final throughput = this.throughput;
+    final volumeType = this.volumeType;
+    return {
+      'roleArn': roleArn,
+      if (encrypted != null) 'encrypted': encrypted,
+      if (filesystemType != null) 'filesystemType': filesystemType.toValue(),
+      if (iops != null) 'iops': iops,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (sizeInGiB != null) 'sizeInGiB': sizeInGiB,
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (tagSpecifications != null) 'tagSpecifications': tagSpecifications,
+      if (terminationPolicy != null) 'terminationPolicy': terminationPolicy,
+      if (throughput != null) 'throughput': throughput,
+      if (volumeType != null) 'volumeType': volumeType,
+    };
+  }
+}
+
+/// The termination policy for the Amazon EBS volume when the task exits. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
+/// ECS volume termination policy</a>.
+class TaskManagedEBSVolumeTerminationPolicy {
+  /// Indicates whether the volume should be deleted on when the task stops. If a
+  /// value of <code>true</code> is specified, &#x2028;Amazon ECS deletes the
+  /// Amazon EBS volume on your behalf when the task goes into the
+  /// <code>STOPPED</code> state. If no value is specified, the &#x2028;default
+  /// value is <code>true</code> is used. When set to <code>false</code>, Amazon
+  /// ECS leaves the volume in your &#x2028;account.
+  final bool deleteOnTermination;
+
+  TaskManagedEBSVolumeTerminationPolicy({
+    required this.deleteOnTermination,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deleteOnTermination = this.deleteOnTermination;
+    return {
+      'deleteOnTermination': deleteOnTermination,
+    };
   }
 }
 
@@ -16084,6 +17396,83 @@ extension TaskStopCodeFromString on String {
   }
 }
 
+/// Configuration settings for the task volume that was
+/// <code>configuredAtLaunch</code> that weren't set during
+/// <code>RegisterTaskDef</code>.
+class TaskVolumeConfiguration {
+  /// The name of the volume. This value must match the volume name from the
+  /// <code>Volume</code> object in the task definition.
+  final String name;
+
+  /// The configuration for the Amazon EBS volume that Amazon ECS creates and
+  /// manages on your behalf. These settings are used to create each Amazon EBS
+  /// volume, with one volume created for each task. The Amazon EBS volumes are
+  /// visible in your account in the Amazon EC2 console once they are created.
+  final TaskManagedEBSVolumeConfiguration? managedEBSVolume;
+
+  TaskVolumeConfiguration({
+    required this.name,
+    this.managedEBSVolume,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final managedEBSVolume = this.managedEBSVolume;
+    return {
+      'name': name,
+      if (managedEBSVolume != null) 'managedEBSVolume': managedEBSVolume,
+    };
+  }
+}
+
+/// An object that represents the timeout configurations for Service Connect.
+/// <note>
+/// If <code>idleTimeout</code> is set to a time that is less than
+/// <code>perRequestTimeout</code>, the connection will close when the
+/// <code>idleTimeout</code> is reached and not the
+/// <code>perRequestTimeout</code>.
+/// </note>
+class TimeoutConfiguration {
+  /// The amount of time in seconds a connection will stay active while idle. A
+  /// value of <code>0</code> can be set to disable <code>idleTimeout</code>.
+  ///
+  /// The <code>idleTimeout</code> default for
+  /// <code>HTTP</code>/<code>HTTP2</code>/<code>GRPC</code> is 5 minutes.
+  ///
+  /// The <code>idleTimeout</code> default for <code>TCP</code> is 1 hour.
+  final int? idleTimeoutSeconds;
+
+  /// The amount of time waiting for the upstream to respond with a complete
+  /// response per request. A value of <code>0</code> can be set to disable
+  /// <code>perRequestTimeout</code>. <code>perRequestTimeout</code> can only be
+  /// set if Service Connect <code>appProtocol</code> isn't <code>TCP</code>. Only
+  /// <code>idleTimeout</code> is allowed for <code>TCP</code>
+  /// <code>appProtocol</code>.
+  final int? perRequestTimeoutSeconds;
+
+  TimeoutConfiguration({
+    this.idleTimeoutSeconds,
+    this.perRequestTimeoutSeconds,
+  });
+
+  factory TimeoutConfiguration.fromJson(Map<String, dynamic> json) {
+    return TimeoutConfiguration(
+      idleTimeoutSeconds: json['idleTimeoutSeconds'] as int?,
+      perRequestTimeoutSeconds: json['perRequestTimeoutSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleTimeoutSeconds = this.idleTimeoutSeconds;
+    final perRequestTimeoutSeconds = this.perRequestTimeoutSeconds;
+    return {
+      if (idleTimeoutSeconds != null) 'idleTimeoutSeconds': idleTimeoutSeconds,
+      if (perRequestTimeoutSeconds != null)
+        'perRequestTimeoutSeconds': perRequestTimeoutSeconds,
+    };
+  }
+}
+
 /// The container path, mount options, and size of the tmpfs mount.
 class Tmpfs {
   /// The absolute file path where the tmpfs volume is to be mounted.
@@ -16167,7 +17556,7 @@ extension TransportProtocolFromString on String {
 /// resource limit parameter which Fargate overrides. The <code>nofile</code>
 /// resource limit sets a restriction on the number of open files that a
 /// container can use. The default <code>nofile</code> soft limit is
-/// <code>1024</code> and the default hard limit is <code>4096</code>.
+/// <code>1024</code> and the default hard limit is <code>65535</code>.
 ///
 /// You can specify the <code>ulimit</code> settings for a container in a task
 /// definition.
@@ -16538,17 +17927,30 @@ class VersionInfo {
   }
 }
 
-/// A data volume that's used in a task definition. For tasks that use the
-/// Amazon Elastic File System (Amazon EFS), specify an
-/// <code>efsVolumeConfiguration</code>. For Windows tasks that use Amazon FSx
-/// for Windows File Server file system, specify a
-/// <code>fsxWindowsFileServerVolumeConfiguration</code>. For tasks that use a
-/// Docker volume, specify a <code>DockerVolumeConfiguration</code>. For tasks
-/// that use a bind mount host volume, specify a <code>host</code> and optional
-/// <code>sourcePath</code>. For more information, see <a
+/// The data volume configuration for tasks launched using this task definition.
+/// Specifying a volume configuration in a task definition is optional. The
+/// volume configuration may contain multiple volumes but only one volume
+/// configured at launch is supported. Each volume defined in the volume
+/// configuration may only specify a <code>name</code> and one of either
+/// <code>configuredAtLaunch</code>, <code>dockerVolumeConfiguration</code>,
+/// <code>efsVolumeConfiguration</code>,
+/// <code>fsxWindowsFileServerVolumeConfiguration</code>, or <code>host</code>.
+/// If an empty volume configuration is specified, by default Amazon ECS uses a
+/// host volume. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html">Using
-/// Data Volumes in Tasks</a>.
+/// data volumes in tasks</a>.
 class Volume {
+  /// Indicates whether the volume should be configured at launch time. This is
+  /// used to create Amazon EBS volumes for standalone tasks or tasks created as
+  /// part of a service. Each task definition revision may only have one volume
+  /// configured at launch in the volume configuration.
+  ///
+  /// To configure a volume at launch time, use this task definition revision and
+  /// specify a <code>volumeConfigurations</code> object when calling the
+  /// <code>CreateService</code>, <code>UpdateService</code>, <code>RunTask</code>
+  /// or <code>StartTask</code> APIs.
+  final bool? configuredAtLaunch;
+
   /// This parameter is specified when you use Docker volumes.
   ///
   /// Windows containers only support the use of the <code>local</code> driver. To
@@ -16582,12 +17984,24 @@ class Volume {
   final HostVolumeProperties? host;
 
   /// The name of the volume. Up to 255 letters (uppercase and lowercase),
-  /// numbers, underscores, and hyphens are allowed. This name is referenced in
-  /// the <code>sourceVolume</code> parameter of container definition
-  /// <code>mountPoints</code>.
+  /// numbers, underscores, and hyphens are allowed.
+  ///
+  /// When using a volume configured at launch, the <code>name</code> is required
+  /// and must also be specified as the volume name in the
+  /// <code>ServiceVolumeConfiguration</code> or
+  /// <code>TaskVolumeConfiguration</code> parameter when creating your service or
+  /// standalone task.
+  ///
+  /// For all other types of volumes, this name is referenced in the
+  /// <code>sourceVolume</code> parameter of the <code>mountPoints</code> object
+  /// in the container definition.
+  ///
+  /// When a volume is using the <code>efsVolumeConfiguration</code>, the name is
+  /// required.
   final String? name;
 
   Volume({
+    this.configuredAtLaunch,
     this.dockerVolumeConfiguration,
     this.efsVolumeConfiguration,
     this.fsxWindowsFileServerVolumeConfiguration,
@@ -16597,6 +18011,7 @@ class Volume {
 
   factory Volume.fromJson(Map<String, dynamic> json) {
     return Volume(
+      configuredAtLaunch: json['configuredAtLaunch'] as bool?,
       dockerVolumeConfiguration: json['dockerVolumeConfiguration'] != null
           ? DockerVolumeConfiguration.fromJson(
               json['dockerVolumeConfiguration'] as Map<String, dynamic>)
@@ -16619,6 +18034,7 @@ class Volume {
   }
 
   Map<String, dynamic> toJson() {
+    final configuredAtLaunch = this.configuredAtLaunch;
     final dockerVolumeConfiguration = this.dockerVolumeConfiguration;
     final efsVolumeConfiguration = this.efsVolumeConfiguration;
     final fsxWindowsFileServerVolumeConfiguration =
@@ -16626,6 +18042,7 @@ class Volume {
     final host = this.host;
     final name = this.name;
     return {
+      if (configuredAtLaunch != null) 'configuredAtLaunch': configuredAtLaunch,
       if (dockerVolumeConfiguration != null)
         'dockerVolumeConfiguration': dockerVolumeConfiguration,
       if (efsVolumeConfiguration != null)
@@ -16723,6 +18140,11 @@ class ClusterContainsTasksException extends _s.GenericAwsException {
 class ClusterNotFoundException extends _s.GenericAwsException {
   ClusterNotFoundException({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundException', message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
@@ -16834,6 +18256,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ClusterContainsTasksException(type: type, message: message),
   'ClusterNotFoundException': (type, message) =>
       ClusterNotFoundException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
       InvalidParameterException(type: type, message: message),
   'LimitExceededException': (type, message) =>

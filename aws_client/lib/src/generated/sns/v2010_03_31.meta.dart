@@ -484,7 +484,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "CreatedAt": {"shape": "Timestamp", "flattened": false},
-      "PhoneNumber": {"shape": "String", "flattened": false},
+      "PhoneNumber": {"shape": "PhoneNumber", "flattened": false},
       "Status": {"shape": "String", "flattened": false},
       "Iso2CountryCode": {"shape": "Iso2CountryCode", "flattened": false},
       "RouteType": {"shape": "RouteType", "flattened": false},
@@ -573,7 +573,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "TopicArn": {"shape": "topicARN", "flattened": false},
       "TargetArn": {"shape": "String", "flattened": false},
-      "PhoneNumber": {"shape": "String", "flattened": false},
+      "PhoneNumber": {"shape": "PhoneNumber", "flattened": false},
       "Message": {"shape": "message", "flattened": false},
       "Subject": {"shape": "subject", "flattened": false},
       "MessageStructure": {"shape": "messageStructure", "flattened": false},

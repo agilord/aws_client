@@ -19,9 +19,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// This is the <i>Amazon Omics API Reference</i>. For an introduction to the
+/// This is the <i>AWS HealthOmics API Reference</i>. For an introduction to the
 /// service, see <a href="https://docs.aws.amazon.com/omics/latest/dev/">What is
-/// Amazon Omics?</a> in the <i>Amazon Omics User Guide</i>.
+/// AWS HealthOmics?</a> in the <i>AWS HealthOmics User Guide</i>.
 class Omics {
   final _s.RestJsonProtocol _protocol;
   Omics({
@@ -78,6 +78,30 @@ class Omics {
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/upload/${Uri.encodeComponent(uploadId)}/abort',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Accept a resource share request.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [shareId] :
+  /// The ID of the resource share.
+  Future<AcceptShareResponse> acceptShare({
+    required String shareId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/share/${Uri.encodeComponent(shareId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AcceptShareResponse.fromJson(response);
   }
 
   /// Deletes one or more read sets.
@@ -245,6 +269,10 @@ class Omics {
   ///
   /// Parameter [tags] :
   /// Tags for the store.
+  ///
+  /// Parameter [versionName] :
+  /// The name given to an annotation store version to distinguish it from other
+  /// versions.
   Future<CreateAnnotationStoreResponse> createAnnotationStore({
     required StoreFormat storeFormat,
     String? description,
@@ -253,6 +281,7 @@ class Omics {
     SseConfig? sseConfig,
     StoreOptions? storeOptions,
     Map<String, String>? tags,
+    String? versionName,
   }) async {
     final $payload = <String, dynamic>{
       'storeFormat': storeFormat.toValue(),
@@ -262,6 +291,7 @@ class Omics {
       if (sseConfig != null) 'sseConfig': sseConfig,
       if (storeOptions != null) 'storeOptions': storeOptions,
       if (tags != null) 'tags': tags,
+      if (versionName != null) 'versionName': versionName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -270,6 +300,54 @@ class Omics {
       exceptionFnMap: _exceptionFns,
     );
     return CreateAnnotationStoreResponse.fromJson(response);
+  }
+
+  /// Creates a new version of an annotation store.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of an annotation store version from which versions are being
+  /// created.
+  ///
+  /// Parameter [versionName] :
+  /// The name given to an annotation store version to distinguish it from other
+  /// versions.
+  ///
+  /// Parameter [description] :
+  /// The description of an annotation store version.
+  ///
+  /// Parameter [tags] :
+  /// Any tags added to annotation store version.
+  ///
+  /// Parameter [versionOptions] :
+  /// The options for an annotation store version.
+  Future<CreateAnnotationStoreVersionResponse> createAnnotationStoreVersion({
+    required String name,
+    required String versionName,
+    String? description,
+    Map<String, String>? tags,
+    VersionOptions? versionOptions,
+  }) async {
+    final $payload = <String, dynamic>{
+      'versionName': versionName,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+      if (versionOptions != null) 'versionOptions': versionOptions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/annotationStore/${Uri.encodeComponent(name)}/version',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAnnotationStoreVersionResponse.fromJson(response);
   }
 
   /// Begins a multipart read set upload.
@@ -285,9 +363,6 @@ class Omics {
   ///
   /// Parameter [name] :
   /// The name of the read set.
-  ///
-  /// Parameter [referenceArn] :
-  /// The ARN of the reference.
   ///
   /// Parameter [sampleId] :
   /// The source's sample ID.
@@ -312,11 +387,13 @@ class Omics {
   /// Parameter [generatedFrom] :
   /// Where the source originated.
   ///
+  /// Parameter [referenceArn] :
+  /// The ARN of the reference.
+  ///
   /// Parameter [tags] :
   /// Any tags to add to the read set.
   Future<CreateMultipartReadSetUploadResponse> createMultipartReadSetUpload({
     required String name,
-    required String referenceArn,
     required String sampleId,
     required String sequenceStoreId,
     required FileType sourceFileType,
@@ -324,17 +401,18 @@ class Omics {
     String? clientToken,
     String? description,
     String? generatedFrom,
+    String? referenceArn,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
-      'referenceArn': referenceArn,
       'sampleId': sampleId,
       'sourceFileType': sourceFileType.toValue(),
       'subjectId': subjectId,
       if (clientToken != null) 'clientToken': clientToken,
       if (description != null) 'description': description,
       if (generatedFrom != null) 'generatedFrom': generatedFrom,
+      if (referenceArn != null) 'referenceArn': referenceArn,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -496,6 +574,9 @@ class Omics {
   /// Parameter [description] :
   /// A description for the store.
   ///
+  /// Parameter [eTagAlgorithmFamily] :
+  /// The ETag algorithm family to use for ingested read sets.
+  ///
   /// Parameter [fallbackLocation] :
   /// An S3 location that is used to store files that have failed a direct
   /// upload.
@@ -509,6 +590,7 @@ class Omics {
     required String name,
     String? clientToken,
     String? description,
+    ETagAlgorithmFamily? eTagAlgorithmFamily,
     String? fallbackLocation,
     SseConfig? sseConfig,
     Map<String, String>? tags,
@@ -517,6 +599,8 @@ class Omics {
       'name': name,
       if (clientToken != null) 'clientToken': clientToken,
       if (description != null) 'description': description,
+      if (eTagAlgorithmFamily != null)
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (sseConfig != null) 'sseConfig': sseConfig,
       if (tags != null) 'tags': tags,
@@ -528,6 +612,60 @@ class Omics {
       exceptionFnMap: _exceptionFns,
     );
     return CreateSequenceStoreResponse.fromJson(response);
+  }
+
+  /// Creates a cross-account shared resource. The resource owner makes an offer
+  /// to share the resource with the principal subscriber (an AWS user with a
+  /// different account than the resource owner).
+  ///
+  /// The following resources support cross-account sharing:
+  ///
+  /// <ul>
+  /// <li>
+  /// Healthomics variant stores
+  /// </li>
+  /// <li>
+  /// Healthomics annotation stores
+  /// </li>
+  /// <li>
+  /// Private workflows
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [principalSubscriber] :
+  /// The principal subscriber is the account being offered shared access to the
+  /// resource.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource to be shared.
+  ///
+  /// Parameter [shareName] :
+  /// A name that the owner defines for the share.
+  Future<CreateShareResponse> createShare({
+    required String principalSubscriber,
+    required String resourceArn,
+    String? shareName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'principalSubscriber': principalSubscriber,
+      'resourceArn': resourceArn,
+      if (shareName != null) 'shareName': shareName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/share',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateShareResponse.fromJson(response);
   }
 
   /// Creates a variant store.
@@ -617,7 +755,7 @@ class Omics {
   /// each request.
   ///
   /// Parameter [storageCapacity] :
-  /// A storage capacity for the workflow in gigabytes.
+  /// The storage capacity for the workflow in gibibytes.
   ///
   /// Parameter [tags] :
   /// Tags for the workflow.
@@ -691,6 +829,46 @@ class Omics {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAnnotationStoreResponse.fromJson(response);
+  }
+
+  /// Deletes one or multiple versions of an annotation store.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the annotation store from which versions are being deleted.
+  ///
+  /// Parameter [versions] :
+  /// The versions of an annotation store to be deleted.
+  ///
+  /// Parameter [force] :
+  /// Forces the deletion of an annotation store version when imports are
+  /// in-progress..
+  Future<DeleteAnnotationStoreVersionsResponse> deleteAnnotationStoreVersions({
+    required String name,
+    required List<String> versions,
+    bool? force,
+  }) async {
+    final $query = <String, List<String>>{
+      if (force != null) 'force': [force.toString()],
+    };
+    final $payload = <String, dynamic>{
+      'versions': versions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/annotationStore/${Uri.encodeComponent(name)}/versions/delete',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteAnnotationStoreVersionsResponse.fromJson(response);
   }
 
   /// Deletes a genome reference.
@@ -815,6 +993,32 @@ class Omics {
     );
   }
 
+  /// Deletes a resource share. If you are the resource owner, the subscriber
+  /// will no longer have access to the shared resource. If you are the
+  /// subscriber, this operation deletes your access to the share.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [shareId] :
+  /// The ID for the resource share to be deleted.
+  Future<DeleteShareResponse> deleteShare({
+    required String shareId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/share/${Uri.encodeComponent(shareId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteShareResponse.fromJson(response);
+  }
+
   /// Deletes a variant store.
   ///
   /// May throw [InternalServerException].
@@ -912,6 +1116,35 @@ class Omics {
       exceptionFnMap: _exceptionFns,
     );
     return GetAnnotationStoreResponse.fromJson(response);
+  }
+
+  /// Retrieves the metadata for an annotation store version.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name given to an annotation store version to distinguish it from
+  /// others.
+  ///
+  /// Parameter [versionName] :
+  /// The name given to an annotation store version to distinguish it from
+  /// others.
+  Future<GetAnnotationStoreVersionResponse> getAnnotationStoreVersion({
+    required String name,
+    required String versionName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/annotationStore/${Uri.encodeComponent(name)}/version/${Uri.encodeComponent(versionName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAnnotationStoreVersionResponse.fromJson(response);
   }
 
   /// Gets a file from a read set.
@@ -1218,6 +1451,9 @@ class Omics {
 
   /// Gets information about a workflow run.
   ///
+  /// If a workflow is shared with you, you cannot export information about the
+  /// run.
+  ///
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
@@ -1286,7 +1522,7 @@ class Omics {
   /// May throw [RequestTimeoutException].
   ///
   /// Parameter [id] :
-  /// The task's ID.
+  /// The workflow run ID.
   ///
   /// Parameter [taskId] :
   /// The task's ID.
@@ -1325,6 +1561,30 @@ class Omics {
       exceptionFnMap: _exceptionFns,
     );
     return GetSequenceStoreResponse.fromJson(response);
+  }
+
+  /// Retrieves the metadata for the specified resource share.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [shareId] :
+  /// The ID of the share.
+  Future<GetShareResponse> getShare({
+    required String shareId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/share/${Uri.encodeComponent(shareId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetShareResponse.fromJson(response);
   }
 
   /// Gets information about a variant import job.
@@ -1373,6 +1633,8 @@ class Omics {
 
   /// Gets information about a workflow.
   ///
+  /// If a workflow is shared with you, you cannot export the workflow.
+  ///
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
@@ -1390,14 +1652,19 @@ class Omics {
   ///
   /// Parameter [type] :
   /// The workflow's type.
+  ///
+  /// Parameter [workflowOwnerId] :
+  /// The ID of the workflow owner.
   Future<GetWorkflowResponse> getWorkflow({
     required String id,
     List<WorkflowExport>? export,
     WorkflowType? type,
+    String? workflowOwnerId,
   }) async {
     final $query = <String, List<String>>{
       if (export != null) 'export': export.map((e) => e.toValue()).toList(),
       if (type != null) 'type': [type.toValue()],
+      if (workflowOwnerId != null) 'workflowOwnerId': [workflowOwnerId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1427,8 +1694,8 @@ class Omics {
   /// The maximum number of jobs to return in one page of results.
   ///
   /// Parameter [nextToken] :
-  /// Specify the pagination token from a previous request to retrieve the next
-  /// page of results.
+  /// Specifies the pagination token from a previous request to retrieve the
+  /// next page of results.
   Future<ListAnnotationImportJobsResponse> listAnnotationImportJobs({
     ListAnnotationImportJobsFilter? filter,
     List<String>? ids,
@@ -1457,6 +1724,56 @@ class Omics {
       exceptionFnMap: _exceptionFns,
     );
     return ListAnnotationImportJobsResponse.fromJson(response);
+  }
+
+  /// Lists the versions of an annotation store.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of an annotation store.
+  ///
+  /// Parameter [filter] :
+  /// A filter to apply to the list of annotation store versions.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of annotation store versions to return in one page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies the pagination token from a previous request to retrieve the
+  /// next page of results.
+  Future<ListAnnotationStoreVersionsResponse> listAnnotationStoreVersions({
+    required String name,
+    ListAnnotationStoreVersionsFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      if (filter != null) 'filter': filter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/annotationStore/${Uri.encodeComponent(name)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAnnotationStoreVersionsResponse.fromJson(response);
   }
 
   /// Retrieves a list of annotation stores.
@@ -1509,7 +1826,9 @@ class Omics {
     return ListAnnotationStoresResponse.fromJson(response);
   }
 
-  /// Lists all multipart read set uploads and their statuses.
+  /// Lists multipart read set uploads and for in progress uploads. Once the
+  /// upload is completed, a read set is created and the upload will no longer
+  /// be returned in the response.
   ///
   /// May throw [InternalServerException].
   /// May throw [NotSupportedOperationException].
@@ -2167,6 +2486,54 @@ class Omics {
     return ListSequenceStoresResponse.fromJson(response);
   }
 
+  /// Retrieves the resource shares associated with an account. Use the filter
+  /// parameter to retrieve a specific subset of the shares.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceOwner] :
+  /// The account that owns the resource shares.
+  ///
+  /// Parameter [filter] :
+  /// Attributes that you use to filter for a specific subset of resource
+  /// shares.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of shares to return in one page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the response of a previous
+  /// ListReadSetUploadPartsRequest call. Used to get the next page of results.
+  Future<ListSharesResponse> listShares({
+    required ResourceOwner resourceOwner,
+    Filter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      'resourceOwner': resourceOwner.toValue(),
+      if (filter != null) 'filter': filter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/shares',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSharesResponse.fromJson(response);
+  }
+
   /// Retrieves a list of tags for a resource.
   ///
   /// May throw [InternalServerException].
@@ -2307,14 +2674,14 @@ class Omics {
   /// The maximum number of workflows to return in one page of results.
   ///
   /// Parameter [name] :
-  /// The workflows' name.
+  /// Filter the list by workflow name.
   ///
   /// Parameter [startingToken] :
   /// Specify the pagination token from a previous request to retrieve the next
   /// page of results.
   ///
   /// Parameter [type] :
-  /// The workflows' type.
+  /// Filter the list by workflow type.
   Future<ListWorkflowsResponse> listWorkflows({
     int? maxResults,
     String? name,
@@ -2369,6 +2736,9 @@ class Omics {
   ///
   /// Parameter [runLeftNormalization] :
   /// The job's left normalization setting.
+  ///
+  /// Parameter [versionName] :
+  /// The name of the annotation store version.
   Future<StartAnnotationImportResponse> startAnnotationImportJob({
     required String destinationName,
     required List<AnnotationImportItemSource> items,
@@ -2376,6 +2746,7 @@ class Omics {
     Map<String, String>? annotationFields,
     FormatOptions? formatOptions,
     bool? runLeftNormalization,
+    String? versionName,
   }) async {
     final $payload = <String, dynamic>{
       'destinationName': destinationName,
@@ -2385,6 +2756,7 @@ class Omics {
       if (formatOptions != null) 'formatOptions': formatOptions,
       if (runLeftNormalization != null)
         'runLeftNormalization': runLeftNormalization,
+      if (versionName != null) 'versionName': versionName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2568,7 +2940,23 @@ class Omics {
     return StartReferenceImportJobResponse.fromJson(response);
   }
 
-  /// Starts a run.
+  /// Starts a workflow run. To duplicate a run, specify the run's ID and a role
+  /// ARN. The remaining parameters are copied from the previous run.
+  ///
+  /// StartRun will not support re-run for a workflow that is shared with you.
+  ///
+  /// The total number of runs in your account is subject to a quota per Region.
+  /// To avoid needing to delete runs manually, you can set the retention mode
+  /// to <code>REMOVE</code>. Runs with this setting are deleted automatically
+  /// when the run quoata is exceeded.
+  ///
+  /// By default, the run uses STATIC storage. For STATIC storage, set the
+  /// <code>storageCapacity</code> field. You can set the storage type to
+  /// DYNAMIC. You do not set <code>storageCapacity</code>, because HealthOmics
+  /// dynamically scales the storage up or down as required. For more
+  /// information about static and dynamic storage, see <a
+  /// href="https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html">Running
+  /// workflows</a> in the <i>AWS HealthOmics User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
@@ -2601,14 +2989,24 @@ class Omics {
   /// To ensure that requests don't run multiple times, specify a unique ID for
   /// each request.
   ///
+  /// Parameter [retentionMode] :
+  /// The retention mode for the run.
+  ///
   /// Parameter [runGroupId] :
   /// The run's group ID.
   ///
   /// Parameter [runId] :
-  /// The run's ID.
+  /// The ID of a run to duplicate.
   ///
   /// Parameter [storageCapacity] :
-  /// A storage capacity for the run in gigabytes.
+  /// A storage capacity for the run in gibibytes. This field is not required if
+  /// the storage type is dynamic (the system ignores any value that you enter).
+  ///
+  /// Parameter [storageType] :
+  /// The run's storage type. By default, the run uses STATIC storage type,
+  /// which allocates a fixed amount of storage. If you set the storage type to
+  /// DYNAMIC, HealthOmics dynamically scales the storage up or down, based on
+  /// file system utilization.
   ///
   /// Parameter [tags] :
   /// Tags for the run.
@@ -2616,8 +3014,11 @@ class Omics {
   /// Parameter [workflowId] :
   /// The run's workflow ID.
   ///
+  /// Parameter [workflowOwnerId] :
+  /// The ID of the workflow owner.
+  ///
   /// Parameter [workflowType] :
-  /// The run's workflows type.
+  /// The run's workflow type.
   Future<StartRunResponse> startRun({
     required String roleArn,
     RunLogLevel? logLevel,
@@ -2626,11 +3027,14 @@ class Omics {
     RunParameters? parameters,
     int? priority,
     String? requestId,
+    RunRetentionMode? retentionMode,
     String? runGroupId,
     String? runId,
     int? storageCapacity,
+    StorageType? storageType,
     Map<String, String>? tags,
     String? workflowId,
+    String? workflowOwnerId,
     WorkflowType? workflowType,
   }) async {
     _s.validateNumRange(
@@ -2653,11 +3057,14 @@ class Omics {
       if (parameters != null) 'parameters': parameters,
       if (priority != null) 'priority': priority,
       'requestId': requestId ?? _s.generateIdempotencyToken(),
+      if (retentionMode != null) 'retentionMode': retentionMode.toValue(),
       if (runGroupId != null) 'runGroupId': runGroupId,
       if (runId != null) 'runId': runId,
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
+      if (storageType != null) 'storageType': storageType.toValue(),
       if (tags != null) 'tags': tags,
       if (workflowId != null) 'workflowId': workflowId,
+      if (workflowOwnerId != null) 'workflowOwnerId': workflowOwnerId,
       if (workflowType != null) 'workflowType': workflowType.toValue(),
     };
     final response = await _protocol.send(
@@ -2806,6 +3213,40 @@ class Omics {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAnnotationStoreResponse.fromJson(response);
+  }
+
+  /// Updates the description of an annotation store version.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of an annotation store.
+  ///
+  /// Parameter [versionName] :
+  /// The name of an annotation store version.
+  ///
+  /// Parameter [description] :
+  /// The description of an annotation store.
+  Future<UpdateAnnotationStoreVersionResponse> updateAnnotationStoreVersion({
+    required String name,
+    required String versionName,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/annotationStore/${Uri.encodeComponent(name)}/version/${Uri.encodeComponent(versionName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAnnotationStoreVersionResponse.fromJson(response);
   }
 
   /// Updates a run group.
@@ -3040,6 +3481,28 @@ extension AcceleratorsFromString on String {
   }
 }
 
+class AcceptShareResponse {
+  /// The status of the resource share.
+  final ShareStatus? status;
+
+  AcceptShareResponse({
+    this.status,
+  });
+
+  factory AcceptShareResponse.fromJson(Map<String, dynamic> json) {
+    return AcceptShareResponse(
+      status: (json['status'] as String?)?.toShareStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
 /// A read set activation job filter.
 class ActivateReadSetFilter {
   /// The filter's start date.
@@ -3226,6 +3689,9 @@ class AnnotationImportJobItem {
   /// When the job was updated.
   final DateTime updateTime;
 
+  /// The name of the annotation store version.
+  final String versionName;
+
   /// The annotation schema generated by the parsed annotation data.
   final Map<String, String>? annotationFields;
 
@@ -3242,6 +3708,7 @@ class AnnotationImportJobItem {
     required this.roleArn,
     required this.status,
     required this.updateTime,
+    required this.versionName,
     this.annotationFields,
     this.completionTime,
     this.runLeftNormalization,
@@ -3256,6 +3723,7 @@ class AnnotationImportJobItem {
       roleArn: json['roleArn'] as String,
       status: (json['status'] as String).toJobStatus(),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      versionName: json['versionName'] as String,
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       completionTime: timeStampFromJson(json['completionTime']),
@@ -3270,6 +3738,7 @@ class AnnotationImportJobItem {
     final roleArn = this.roleArn;
     final status = this.status;
     final updateTime = this.updateTime;
+    final versionName = this.versionName;
     final annotationFields = this.annotationFields;
     final completionTime = this.completionTime;
     final runLeftNormalization = this.runLeftNormalization;
@@ -3280,6 +3749,7 @@ class AnnotationImportJobItem {
       'roleArn': roleArn,
       'status': status.toValue(),
       'updateTime': iso8601ToJson(updateTime),
+      'versionName': versionName,
       if (annotationFields != null) 'annotationFields': annotationFields,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
@@ -3387,6 +3857,100 @@ class AnnotationStoreItem {
       'storeFormat': storeFormat.toValue(),
       'storeSizeBytes': storeSizeBytes,
       'updateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+/// Annotation store versions.
+class AnnotationStoreVersionItem {
+  /// The time stamp for when an annotation store version was created.
+  final DateTime creationTime;
+
+  /// The description of an annotation store version.
+  final String description;
+
+  /// The annotation store version ID.
+  final String id;
+
+  /// A name given to an annotation store version to distinguish it from others.
+  final String name;
+
+  /// The status of an annotation store version.
+  final VersionStatus status;
+
+  /// The status of an annotation store version.
+  final String statusMessage;
+
+  /// The store ID for an annotation store version.
+  final String storeId;
+
+  /// The time stamp for when an annotation store version was updated.
+  final DateTime updateTime;
+
+  /// The Arn for an annotation store version.
+  final String versionArn;
+
+  /// The name of an annotation store version.
+  final String versionName;
+
+  /// The size of an annotation store version in Bytes.
+  final int versionSizeBytes;
+
+  AnnotationStoreVersionItem({
+    required this.creationTime,
+    required this.description,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.statusMessage,
+    required this.storeId,
+    required this.updateTime,
+    required this.versionArn,
+    required this.versionName,
+    required this.versionSizeBytes,
+  });
+
+  factory AnnotationStoreVersionItem.fromJson(Map<String, dynamic> json) {
+    return AnnotationStoreVersionItem(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      description: json['description'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: (json['status'] as String).toVersionStatus(),
+      statusMessage: json['statusMessage'] as String,
+      storeId: json['storeId'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      versionArn: json['versionArn'] as String,
+      versionName: json['versionName'] as String,
+      versionSizeBytes: json['versionSizeBytes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final storeId = this.storeId;
+    final updateTime = this.updateTime;
+    final versionArn = this.versionArn;
+    final versionName = this.versionName;
+    final versionSizeBytes = this.versionSizeBytes;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'description': description,
+      'id': id,
+      'name': name,
+      'status': status.toValue(),
+      'statusMessage': statusMessage,
+      'storeId': storeId,
+      'updateTime': iso8601ToJson(updateTime),
+      'versionArn': versionArn,
+      'versionName': versionName,
+      'versionSizeBytes': versionSizeBytes,
     };
   }
 }
@@ -3559,6 +4123,10 @@ class CreateAnnotationStoreResponse {
   /// The store's status.
   final StoreStatus status;
 
+  /// The name given to an annotation store version to distinguish it from other
+  /// versions.
+  final String versionName;
+
   /// The store's genome reference. Required for all stores except TSV format with
   /// generic annotations.
   final ReferenceItem? reference;
@@ -3574,6 +4142,7 @@ class CreateAnnotationStoreResponse {
     required this.id,
     required this.name,
     required this.status,
+    required this.versionName,
     this.reference,
     this.storeFormat,
     this.storeOptions,
@@ -3586,6 +4155,7 @@ class CreateAnnotationStoreResponse {
       id: json['id'] as String,
       name: json['name'] as String,
       status: (json['status'] as String).toStoreStatus(),
+      versionName: json['versionName'] as String,
       reference: json['reference'] != null
           ? ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>)
           : null,
@@ -3601,6 +4171,7 @@ class CreateAnnotationStoreResponse {
     final id = this.id;
     final name = this.name;
     final status = this.status;
+    final versionName = this.versionName;
     final reference = this.reference;
     final storeFormat = this.storeFormat;
     final storeOptions = this.storeOptions;
@@ -3609,9 +4180,81 @@ class CreateAnnotationStoreResponse {
       'id': id,
       'name': name,
       'status': status.toValue(),
+      'versionName': versionName,
       if (reference != null) 'reference': reference,
       if (storeFormat != null) 'storeFormat': storeFormat.toValue(),
       if (storeOptions != null) 'storeOptions': storeOptions,
+    };
+  }
+}
+
+class CreateAnnotationStoreVersionResponse {
+  /// The time stamp for the creation of an annotation store version.
+  final DateTime creationTime;
+
+  /// A generated ID for the annotation store
+  final String id;
+
+  /// The name given to an annotation store version to distinguish it from other
+  /// versions.
+  final String name;
+
+  /// The status of a annotation store version.
+  final VersionStatus status;
+
+  /// The ID for the annotation store from which new versions are being created.
+  final String storeId;
+
+  /// The name given to an annotation store version to distinguish it from other
+  /// versions.
+  final String versionName;
+
+  /// The options for an annotation store version.
+  final VersionOptions? versionOptions;
+
+  CreateAnnotationStoreVersionResponse({
+    required this.creationTime,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.storeId,
+    required this.versionName,
+    this.versionOptions,
+  });
+
+  factory CreateAnnotationStoreVersionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAnnotationStoreVersionResponse(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: (json['status'] as String).toVersionStatus(),
+      storeId: json['storeId'] as String,
+      versionName: json['versionName'] as String,
+      versionOptions: json['versionOptions'] != null
+          ? VersionOptions.fromJson(
+              json['versionOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final storeId = this.storeId;
+    final versionName = this.versionName;
+    final versionOptions = this.versionOptions;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'id': id,
+      'name': name,
+      'status': status.toValue(),
+      'storeId': storeId,
+      'versionName': versionName,
+      if (versionOptions != null) 'versionOptions': versionOptions,
     };
   }
 }
@@ -3635,7 +4278,7 @@ class CreateMultipartReadSetUploadResponse {
   /// The source's subject ID.
   final String subjectId;
 
-  /// he ID for the initiated multipart upload.
+  /// The ID for the initiated multipart upload.
   final String uploadId;
 
   /// The description of the read set.
@@ -3821,6 +4464,9 @@ class CreateSequenceStoreResponse {
   /// The store's description.
   final String? description;
 
+  /// The algorithm family of the ETag.
+  final ETagAlgorithmFamily? eTagAlgorithmFamily;
+
   /// An S3 location that is used to store files that have failed a direct upload.
   final String? fallbackLocation;
 
@@ -3835,6 +4481,7 @@ class CreateSequenceStoreResponse {
     required this.creationTime,
     required this.id,
     this.description,
+    this.eTagAlgorithmFamily,
     this.fallbackLocation,
     this.name,
     this.sseConfig,
@@ -3847,6 +4494,8 @@ class CreateSequenceStoreResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       description: json['description'] as String?,
+      eTagAlgorithmFamily:
+          (json['eTagAlgorithmFamily'] as String?)?.toETagAlgorithmFamily(),
       fallbackLocation: json['fallbackLocation'] as String?,
       name: json['name'] as String?,
       sseConfig: json['sseConfig'] != null
@@ -3860,6 +4509,7 @@ class CreateSequenceStoreResponse {
     final creationTime = this.creationTime;
     final id = this.id;
     final description = this.description;
+    final eTagAlgorithmFamily = this.eTagAlgorithmFamily;
     final fallbackLocation = this.fallbackLocation;
     final name = this.name;
     final sseConfig = this.sseConfig;
@@ -3868,9 +4518,47 @@ class CreateSequenceStoreResponse {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       if (description != null) 'description': description,
+      if (eTagAlgorithmFamily != null)
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (name != null) 'name': name,
       if (sseConfig != null) 'sseConfig': sseConfig,
+    };
+  }
+}
+
+class CreateShareResponse {
+  /// The ID that HealthOmics generates for the share.
+  final String? shareId;
+
+  /// The name of the share.
+  final String? shareName;
+
+  /// The status of the share.
+  final ShareStatus? status;
+
+  CreateShareResponse({
+    this.shareId,
+    this.shareName,
+    this.status,
+  });
+
+  factory CreateShareResponse.fromJson(Map<String, dynamic> json) {
+    return CreateShareResponse(
+      shareId: json['shareId'] as String?,
+      shareName: json['shareName'] as String?,
+      status: (json['status'] as String?)?.toShareStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareId = this.shareId;
+    final shareName = this.shareName;
+    final status = this.status;
+    return {
+      if (shareId != null) 'shareId': shareId,
+      if (shareName != null) 'shareName': shareName,
+      if (status != null) 'status': status.toValue(),
     };
   }
 }
@@ -3972,6 +4660,34 @@ class CreateWorkflowResponse {
   }
 }
 
+enum CreationType {
+  import,
+  upload,
+}
+
+extension CreationTypeValueExtension on CreationType {
+  String toValue() {
+    switch (this) {
+      case CreationType.import:
+        return 'IMPORT';
+      case CreationType.upload:
+        return 'UPLOAD';
+    }
+  }
+}
+
+extension CreationTypeFromString on String {
+  CreationType toCreationType() {
+    switch (this) {
+      case 'IMPORT':
+        return CreationType.import;
+      case 'UPLOAD':
+        return CreationType.upload;
+    }
+    throw Exception('$this is not known in enum CreationType');
+  }
+}
+
 class DeleteAnnotationStoreResponse {
   /// The store's status.
   final StoreStatus status;
@@ -3990,6 +4706,32 @@ class DeleteAnnotationStoreResponse {
     final status = this.status;
     return {
       'status': status.toValue(),
+    };
+  }
+}
+
+class DeleteAnnotationStoreVersionsResponse {
+  /// Any errors that occur when attempting to delete an annotation store version.
+  final List<VersionDeleteError>? errors;
+
+  DeleteAnnotationStoreVersionsResponse({
+    this.errors,
+  });
+
+  factory DeleteAnnotationStoreVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteAnnotationStoreVersionsResponse(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionDeleteError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'errors': errors,
     };
   }
 }
@@ -4030,6 +4772,28 @@ class DeleteSequenceStoreResponse {
   }
 }
 
+class DeleteShareResponse {
+  /// The status of the share being deleted.
+  final ShareStatus? status;
+
+  DeleteShareResponse({
+    this.status,
+  });
+
+  factory DeleteShareResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteShareResponse(
+      status: (json['status'] as String?)?.toShareStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
 class DeleteVariantStoreResponse {
   /// The store's status.
   final StoreStatus status;
@@ -4049,6 +4813,140 @@ class DeleteVariantStoreResponse {
     return {
       'status': status.toValue(),
     };
+  }
+}
+
+/// The entity tag (ETag) is a hash of the object representing its semantic
+/// content.
+class ETag {
+  /// The algorithm used to calculate the read set’s ETag(s).
+  final ETagAlgorithm? algorithm;
+
+  /// The ETag hash calculated on Source1 of the read set.
+  final String? source1;
+
+  /// The ETag hash calculated on Source2 of the read set.
+  final String? source2;
+
+  ETag({
+    this.algorithm,
+    this.source1,
+    this.source2,
+  });
+
+  factory ETag.fromJson(Map<String, dynamic> json) {
+    return ETag(
+      algorithm: (json['algorithm'] as String?)?.toETagAlgorithm(),
+      source1: json['source1'] as String?,
+      source2: json['source2'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithm = this.algorithm;
+    final source1 = this.source1;
+    final source2 = this.source2;
+    return {
+      if (algorithm != null) 'algorithm': algorithm.toValue(),
+      if (source1 != null) 'source1': source1,
+      if (source2 != null) 'source2': source2,
+    };
+  }
+}
+
+enum ETagAlgorithm {
+  fastqMD5up,
+  bamMD5up,
+  cramMD5up,
+  fastqSHA256up,
+  bamSHA256up,
+  cramSHA256up,
+  fastqSHA512up,
+  bamSHA512up,
+  cramSHA512up,
+}
+
+extension ETagAlgorithmValueExtension on ETagAlgorithm {
+  String toValue() {
+    switch (this) {
+      case ETagAlgorithm.fastqMD5up:
+        return 'FASTQ_MD5up';
+      case ETagAlgorithm.bamMD5up:
+        return 'BAM_MD5up';
+      case ETagAlgorithm.cramMD5up:
+        return 'CRAM_MD5up';
+      case ETagAlgorithm.fastqSHA256up:
+        return 'FASTQ_SHA256up';
+      case ETagAlgorithm.bamSHA256up:
+        return 'BAM_SHA256up';
+      case ETagAlgorithm.cramSHA256up:
+        return 'CRAM_SHA256up';
+      case ETagAlgorithm.fastqSHA512up:
+        return 'FASTQ_SHA512up';
+      case ETagAlgorithm.bamSHA512up:
+        return 'BAM_SHA512up';
+      case ETagAlgorithm.cramSHA512up:
+        return 'CRAM_SHA512up';
+    }
+  }
+}
+
+extension ETagAlgorithmFromString on String {
+  ETagAlgorithm toETagAlgorithm() {
+    switch (this) {
+      case 'FASTQ_MD5up':
+        return ETagAlgorithm.fastqMD5up;
+      case 'BAM_MD5up':
+        return ETagAlgorithm.bamMD5up;
+      case 'CRAM_MD5up':
+        return ETagAlgorithm.cramMD5up;
+      case 'FASTQ_SHA256up':
+        return ETagAlgorithm.fastqSHA256up;
+      case 'BAM_SHA256up':
+        return ETagAlgorithm.bamSHA256up;
+      case 'CRAM_SHA256up':
+        return ETagAlgorithm.cramSHA256up;
+      case 'FASTQ_SHA512up':
+        return ETagAlgorithm.fastqSHA512up;
+      case 'BAM_SHA512up':
+        return ETagAlgorithm.bamSHA512up;
+      case 'CRAM_SHA512up':
+        return ETagAlgorithm.cramSHA512up;
+    }
+    throw Exception('$this is not known in enum ETagAlgorithm');
+  }
+}
+
+enum ETagAlgorithmFamily {
+  mD5up,
+  sHA256up,
+  sHA512up,
+}
+
+extension ETagAlgorithmFamilyValueExtension on ETagAlgorithmFamily {
+  String toValue() {
+    switch (this) {
+      case ETagAlgorithmFamily.mD5up:
+        return 'MD5up';
+      case ETagAlgorithmFamily.sHA256up:
+        return 'SHA256up';
+      case ETagAlgorithmFamily.sHA512up:
+        return 'SHA512up';
+    }
+  }
+}
+
+extension ETagAlgorithmFamilyFromString on String {
+  ETagAlgorithmFamily toETagAlgorithmFamily() {
+    switch (this) {
+      case 'MD5up':
+        return ETagAlgorithmFamily.mD5up;
+      case 'SHA256up':
+        return ETagAlgorithmFamily.sHA256up;
+      case 'SHA512up':
+        return ETagAlgorithmFamily.sHA512up;
+    }
+    throw Exception('$this is not known in enum ETagAlgorithmFamily');
   }
 }
 
@@ -4226,12 +5124,16 @@ class FileInformation {
   /// The file's part size.
   final int? partSize;
 
+  /// The S3 URI metadata of a sequence store.
+  final ReadSetS3Access? s3Access;
+
   /// The file's total parts.
   final int? totalParts;
 
   FileInformation({
     this.contentLength,
     this.partSize,
+    this.s3Access,
     this.totalParts,
   });
 
@@ -4239,6 +5141,9 @@ class FileInformation {
     return FileInformation(
       contentLength: json['contentLength'] as int?,
       partSize: json['partSize'] as int?,
+      s3Access: json['s3Access'] != null
+          ? ReadSetS3Access.fromJson(json['s3Access'] as Map<String, dynamic>)
+          : null,
       totalParts: json['totalParts'] as int?,
     );
   }
@@ -4246,10 +5151,12 @@ class FileInformation {
   Map<String, dynamic> toJson() {
     final contentLength = this.contentLength;
     final partSize = this.partSize;
+    final s3Access = this.s3Access;
     final totalParts = this.totalParts;
     return {
       if (contentLength != null) 'contentLength': contentLength,
       if (partSize != null) 'partSize': partSize,
+      if (s3Access != null) 's3Access': s3Access,
       if (totalParts != null) 'totalParts': totalParts,
     };
   }
@@ -4259,6 +5166,7 @@ enum FileType {
   fastq,
   bam,
   cram,
+  ubam,
 }
 
 extension FileTypeValueExtension on FileType {
@@ -4270,6 +5178,8 @@ extension FileTypeValueExtension on FileType {
         return 'BAM';
       case FileType.cram:
         return 'CRAM';
+      case FileType.ubam:
+        return 'UBAM';
     }
   }
 }
@@ -4283,8 +5193,42 @@ extension FileTypeFromString on String {
         return FileType.bam;
       case 'CRAM':
         return FileType.cram;
+      case 'UBAM':
+        return FileType.ubam;
     }
     throw Exception('$this is not known in enum FileType');
+  }
+}
+
+/// Use filters to return a subset of resources. You can define filters for
+/// specific parameters, such as the resource status.
+class Filter {
+  /// Filter based on the Amazon Resource Number (ARN) of the resource. You can
+  /// specify up to 10 values.
+  final List<String>? resourceArns;
+
+  /// Filter based on the resource status. You can specify up to 10 values.
+  final List<ShareStatus>? status;
+
+  /// The type of resources to be filtered. You can specify one or more of the
+  /// resource types.
+  final List<ShareResourceType>? type;
+
+  Filter({
+    this.resourceArns,
+    this.status,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceArns = this.resourceArns;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (resourceArns != null) 'resourceArns': resourceArns,
+      if (status != null) 'status': status.map((e) => e.toValue()).toList(),
+      if (type != null) 'type': type.map((e) => e.toValue()).toList(),
+    };
   }
 }
 
@@ -4402,6 +5346,9 @@ class GetAnnotationImportResponse {
   /// When the job was updated.
   final DateTime updateTime;
 
+  /// The name of the annotation store version.
+  final String versionName;
+
   /// The annotation schema generated by the parsed annotation data.
   final Map<String, String>? annotationFields;
 
@@ -4417,6 +5364,7 @@ class GetAnnotationImportResponse {
     required this.status,
     required this.statusMessage,
     required this.updateTime,
+    required this.versionName,
     this.annotationFields,
   });
 
@@ -4440,6 +5388,7 @@ class GetAnnotationImportResponse {
       status: (json['status'] as String).toJobStatus(),
       statusMessage: json['statusMessage'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      versionName: json['versionName'] as String,
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4457,6 +5406,7 @@ class GetAnnotationImportResponse {
     final status = this.status;
     final statusMessage = this.statusMessage;
     final updateTime = this.updateTime;
+    final versionName = this.versionName;
     final annotationFields = this.annotationFields;
     return {
       'completionTime': iso8601ToJson(completionTime),
@@ -4470,6 +5420,7 @@ class GetAnnotationImportResponse {
       'status': status.toValue(),
       'statusMessage': statusMessage,
       'updateTime': iso8601ToJson(updateTime),
+      'versionName': versionName,
       if (annotationFields != null) 'annotationFields': annotationFields,
     };
   }
@@ -4487,6 +5438,9 @@ class GetAnnotationStoreResponse {
 
   /// The store's name.
   final String name;
+
+  /// An integer indicating how many versions of an annotation store exist.
+  final int numVersions;
 
   /// The store's genome reference.
   final ReferenceItem reference;
@@ -4523,6 +5477,7 @@ class GetAnnotationStoreResponse {
     required this.description,
     required this.id,
     required this.name,
+    required this.numVersions,
     required this.reference,
     required this.sseConfig,
     required this.status,
@@ -4542,6 +5497,7 @@ class GetAnnotationStoreResponse {
       description: json['description'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
+      numVersions: json['numVersions'] as int,
       reference:
           ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
       sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
@@ -4564,6 +5520,7 @@ class GetAnnotationStoreResponse {
     final description = this.description;
     final id = this.id;
     final name = this.name;
+    final numVersions = this.numVersions;
     final reference = this.reference;
     final sseConfig = this.sseConfig;
     final status = this.status;
@@ -4579,6 +5536,7 @@ class GetAnnotationStoreResponse {
       'description': description,
       'id': id,
       'name': name,
+      'numVersions': numVersions,
       'reference': reference,
       'sseConfig': sseConfig,
       'status': status.toValue(),
@@ -4589,6 +5547,118 @@ class GetAnnotationStoreResponse {
       'updateTime': iso8601ToJson(updateTime),
       if (storeFormat != null) 'storeFormat': storeFormat.toValue(),
       if (storeOptions != null) 'storeOptions': storeOptions,
+    };
+  }
+}
+
+class GetAnnotationStoreVersionResponse {
+  /// The time stamp for when an annotation store version was created.
+  final DateTime creationTime;
+
+  /// The description for an annotation store version.
+  final String description;
+
+  /// The annotation store version ID.
+  final String id;
+
+  /// The name of the annotation store.
+  final String name;
+
+  /// The status of an annotation store version.
+  final VersionStatus status;
+
+  /// The status of an annotation store version.
+  final String statusMessage;
+
+  /// The store ID for annotation store version.
+  final String storeId;
+
+  /// Any tags associated with an annotation store version.
+  final Map<String, String> tags;
+
+  /// The time stamp for when an annotation store version was updated.
+  final DateTime updateTime;
+
+  /// The Arn for the annotation store.
+  final String versionArn;
+
+  /// The name given to an annotation store version to distinguish it from others.
+  final String versionName;
+
+  /// The size of the annotation store version in Bytes.
+  final int versionSizeBytes;
+
+  /// The options for an annotation store version.
+  final VersionOptions? versionOptions;
+
+  GetAnnotationStoreVersionResponse({
+    required this.creationTime,
+    required this.description,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.statusMessage,
+    required this.storeId,
+    required this.tags,
+    required this.updateTime,
+    required this.versionArn,
+    required this.versionName,
+    required this.versionSizeBytes,
+    this.versionOptions,
+  });
+
+  factory GetAnnotationStoreVersionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetAnnotationStoreVersionResponse(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      description: json['description'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: (json['status'] as String).toVersionStatus(),
+      statusMessage: json['statusMessage'] as String,
+      storeId: json['storeId'] as String,
+      tags: (json['tags'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      versionArn: json['versionArn'] as String,
+      versionName: json['versionName'] as String,
+      versionSizeBytes: json['versionSizeBytes'] as int,
+      versionOptions: json['versionOptions'] != null
+          ? VersionOptions.fromJson(
+              json['versionOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final storeId = this.storeId;
+    final tags = this.tags;
+    final updateTime = this.updateTime;
+    final versionArn = this.versionArn;
+    final versionName = this.versionName;
+    final versionSizeBytes = this.versionSizeBytes;
+    final versionOptions = this.versionOptions;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'description': description,
+      'id': id,
+      'name': name,
+      'status': status.toValue(),
+      'statusMessage': statusMessage,
+      'storeId': storeId,
+      'tags': tags,
+      'updateTime': iso8601ToJson(updateTime),
+      'versionArn': versionArn,
+      'versionName': versionName,
+      'versionSizeBytes': versionSizeBytes,
+      if (versionOptions != null) 'versionOptions': versionOptions,
     };
   }
 }
@@ -4835,8 +5905,15 @@ class GetReadSetMetadataResponse {
   /// The read set's status.
   final ReadSetStatus status;
 
+  /// The creation type of the read set.
+  final CreationType? creationType;
+
   /// The read set's description.
   final String? description;
+
+  /// The entity tag (ETag) is a hash of the object meant to represent its
+  /// semantic content.
+  final ETag? etag;
 
   /// The read set's files.
   final ReadSetFiles? files;
@@ -4867,7 +5944,9 @@ class GetReadSetMetadataResponse {
     required this.id,
     required this.sequenceStoreId,
     required this.status,
+    this.creationType,
     this.description,
+    this.etag,
     this.files,
     this.name,
     this.referenceArn,
@@ -4886,7 +5965,11 @@ class GetReadSetMetadataResponse {
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
       status: (json['status'] as String).toReadSetStatus(),
+      creationType: (json['creationType'] as String?)?.toCreationType(),
       description: json['description'] as String?,
+      etag: json['etag'] != null
+          ? ETag.fromJson(json['etag'] as Map<String, dynamic>)
+          : null,
       files: json['files'] != null
           ? ReadSetFiles.fromJson(json['files'] as Map<String, dynamic>)
           : null,
@@ -4909,7 +5992,9 @@ class GetReadSetMetadataResponse {
     final id = this.id;
     final sequenceStoreId = this.sequenceStoreId;
     final status = this.status;
+    final creationType = this.creationType;
     final description = this.description;
+    final etag = this.etag;
     final files = this.files;
     final name = this.name;
     final referenceArn = this.referenceArn;
@@ -4924,7 +6009,9 @@ class GetReadSetMetadataResponse {
       'id': id,
       'sequenceStoreId': sequenceStoreId,
       'status': status.toValue(),
+      if (creationType != null) 'creationType': creationType.toValue(),
       if (description != null) 'description': description,
+      if (etag != null) 'etag': etag,
       if (files != null) 'files': files,
       if (name != null) 'name': name,
       if (referenceArn != null) 'referenceArn': referenceArn,
@@ -5289,11 +6376,17 @@ class GetRunResponse {
   /// The run's digest.
   final String? digest;
 
+  /// The reason a run has failed.
+  final String? failureReason;
+
   /// The run's ID.
   final String? id;
 
   /// The run's log level.
   final RunLogLevel? logLevel;
+
+  /// The location of the run log.
+  final RunLogLocation? logLocation;
 
   /// The run's name.
   final String? name;
@@ -5310,6 +6403,9 @@ class GetRunResponse {
   /// The run's resource digests.
   final Map<String, String>? resourceDigests;
 
+  /// The run's retention mode.
+  final RunRetentionMode? retentionMode;
+
   /// The run's service role ARN.
   final String? roleArn;
 
@@ -5318,6 +6414,9 @@ class GetRunResponse {
 
   /// The run's ID.
   final String? runId;
+
+  /// The destination for workflow outputs.
+  final String? runOutputUri;
 
   /// When the run started.
   final DateTime? startTime;
@@ -5334,14 +6433,25 @@ class GetRunResponse {
   /// The run's stop time.
   final DateTime? stopTime;
 
-  /// The run's storage capacity in gigabytes.
+  /// The run's storage capacity in gibibytes. For dynamic storage, after the run
+  /// has completed, this value is the maximum amount of storage used during the
+  /// run.
   final int? storageCapacity;
+
+  /// The run's storage type.
+  final StorageType? storageType;
 
   /// The run's tags.
   final Map<String, String>? tags;
 
+  /// The universally unique identifier for a run.
+  final String? uuid;
+
   /// The run's workflow ID.
   final String? workflowId;
+
+  /// The ID of the workflow owner.
+  final String? workflowOwnerId;
 
   /// The run's workflow type.
   final WorkflowType? workflowType;
@@ -5352,24 +6462,31 @@ class GetRunResponse {
     this.creationTime,
     this.definition,
     this.digest,
+    this.failureReason,
     this.id,
     this.logLevel,
+    this.logLocation,
     this.name,
     this.outputUri,
     this.parameters,
     this.priority,
     this.resourceDigests,
+    this.retentionMode,
     this.roleArn,
     this.runGroupId,
     this.runId,
+    this.runOutputUri,
     this.startTime,
     this.startedBy,
     this.status,
     this.statusMessage,
     this.stopTime,
     this.storageCapacity,
+    this.storageType,
     this.tags,
+    this.uuid,
     this.workflowId,
+    this.workflowOwnerId,
     this.workflowType,
   });
 
@@ -5380,8 +6497,12 @@ class GetRunResponse {
       creationTime: timeStampFromJson(json['creationTime']),
       definition: json['definition'] as String?,
       digest: json['digest'] as String?,
+      failureReason: json['failureReason'] as String?,
       id: json['id'] as String?,
       logLevel: (json['logLevel'] as String?)?.toRunLogLevel(),
+      logLocation: json['logLocation'] != null
+          ? RunLogLocation.fromJson(json['logLocation'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       outputUri: json['outputUri'] as String?,
       parameters: json['parameters'] != null
@@ -5390,18 +6511,23 @@ class GetRunResponse {
       priority: json['priority'] as int?,
       resourceDigests: (json['resourceDigests'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      retentionMode: (json['retentionMode'] as String?)?.toRunRetentionMode(),
       roleArn: json['roleArn'] as String?,
       runGroupId: json['runGroupId'] as String?,
       runId: json['runId'] as String?,
+      runOutputUri: json['runOutputUri'] as String?,
       startTime: timeStampFromJson(json['startTime']),
       startedBy: json['startedBy'] as String?,
       status: (json['status'] as String?)?.toRunStatus(),
       statusMessage: json['statusMessage'] as String?,
       stopTime: timeStampFromJson(json['stopTime']),
       storageCapacity: json['storageCapacity'] as int?,
+      storageType: (json['storageType'] as String?)?.toStorageType(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      uuid: json['uuid'] as String?,
       workflowId: json['workflowId'] as String?,
+      workflowOwnerId: json['workflowOwnerId'] as String?,
       workflowType: (json['workflowType'] as String?)?.toWorkflowType(),
     );
   }
@@ -5412,24 +6538,31 @@ class GetRunResponse {
     final creationTime = this.creationTime;
     final definition = this.definition;
     final digest = this.digest;
+    final failureReason = this.failureReason;
     final id = this.id;
     final logLevel = this.logLevel;
+    final logLocation = this.logLocation;
     final name = this.name;
     final outputUri = this.outputUri;
     final parameters = this.parameters;
     final priority = this.priority;
     final resourceDigests = this.resourceDigests;
+    final retentionMode = this.retentionMode;
     final roleArn = this.roleArn;
     final runGroupId = this.runGroupId;
     final runId = this.runId;
+    final runOutputUri = this.runOutputUri;
     final startTime = this.startTime;
     final startedBy = this.startedBy;
     final status = this.status;
     final statusMessage = this.statusMessage;
     final stopTime = this.stopTime;
     final storageCapacity = this.storageCapacity;
+    final storageType = this.storageType;
     final tags = this.tags;
+    final uuid = this.uuid;
     final workflowId = this.workflowId;
+    final workflowOwnerId = this.workflowOwnerId;
     final workflowType = this.workflowType;
     return {
       if (accelerators != null) 'accelerators': accelerators.toValue(),
@@ -5437,24 +6570,31 @@ class GetRunResponse {
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (definition != null) 'definition': definition,
       if (digest != null) 'digest': digest,
+      if (failureReason != null) 'failureReason': failureReason,
       if (id != null) 'id': id,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (logLocation != null) 'logLocation': logLocation,
       if (name != null) 'name': name,
       if (outputUri != null) 'outputUri': outputUri,
       if (parameters != null) 'parameters': parameters,
       if (priority != null) 'priority': priority,
       if (resourceDigests != null) 'resourceDigests': resourceDigests,
+      if (retentionMode != null) 'retentionMode': retentionMode.toValue(),
       if (roleArn != null) 'roleArn': roleArn,
       if (runGroupId != null) 'runGroupId': runGroupId,
       if (runId != null) 'runId': runId,
+      if (runOutputUri != null) 'runOutputUri': runOutputUri,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
       if (startedBy != null) 'startedBy': startedBy,
       if (status != null) 'status': status.toValue(),
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
+      if (storageType != null) 'storageType': storageType.toValue(),
       if (tags != null) 'tags': tags,
+      if (uuid != null) 'uuid': uuid,
       if (workflowId != null) 'workflowId': workflowId,
+      if (workflowOwnerId != null) 'workflowOwnerId': workflowOwnerId,
       if (workflowType != null) 'workflowType': workflowType.toValue(),
     };
   }
@@ -5467,8 +6607,14 @@ class GetRunTaskResponse {
   /// When the task was created.
   final DateTime? creationTime;
 
+  /// The reason a task has failed.
+  final String? failureReason;
+
   /// The number of Graphics Processing Units (GPU) specified in the task.
   final int? gpus;
+
+  /// The instance type for a task.
+  final String? instanceType;
 
   /// The task's log stream.
   final String? logStream;
@@ -5497,7 +6643,9 @@ class GetRunTaskResponse {
   GetRunTaskResponse({
     this.cpus,
     this.creationTime,
+    this.failureReason,
     this.gpus,
+    this.instanceType,
     this.logStream,
     this.memory,
     this.name,
@@ -5512,7 +6660,9 @@ class GetRunTaskResponse {
     return GetRunTaskResponse(
       cpus: json['cpus'] as int?,
       creationTime: timeStampFromJson(json['creationTime']),
+      failureReason: json['failureReason'] as String?,
       gpus: json['gpus'] as int?,
+      instanceType: json['instanceType'] as String?,
       logStream: json['logStream'] as String?,
       memory: json['memory'] as int?,
       name: json['name'] as String?,
@@ -5527,7 +6677,9 @@ class GetRunTaskResponse {
   Map<String, dynamic> toJson() {
     final cpus = this.cpus;
     final creationTime = this.creationTime;
+    final failureReason = this.failureReason;
     final gpus = this.gpus;
+    final instanceType = this.instanceType;
     final logStream = this.logStream;
     final memory = this.memory;
     final name = this.name;
@@ -5539,7 +6691,9 @@ class GetRunTaskResponse {
     return {
       if (cpus != null) 'cpus': cpus,
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (failureReason != null) 'failureReason': failureReason,
       if (gpus != null) 'gpus': gpus,
+      if (instanceType != null) 'instanceType': instanceType,
       if (logStream != null) 'logStream': logStream,
       if (memory != null) 'memory': memory,
       if (name != null) 'name': name,
@@ -5565,11 +6719,18 @@ class GetSequenceStoreResponse {
   /// The store's description.
   final String? description;
 
+  /// The algorithm family of the ETag.
+  final ETagAlgorithmFamily? eTagAlgorithmFamily;
+
   /// An S3 location that is used to store files that have failed a direct upload.
   final String? fallbackLocation;
 
   /// The store's name.
   final String? name;
+
+  /// The S3 metadata of a sequence store, including the ARN and S3 URI of the S3
+  /// bucket.
+  final SequenceStoreS3Access? s3Access;
 
   /// The store's server-side encryption (SSE) settings.
   final SseConfig? sseConfig;
@@ -5579,8 +6740,10 @@ class GetSequenceStoreResponse {
     required this.creationTime,
     required this.id,
     this.description,
+    this.eTagAlgorithmFamily,
     this.fallbackLocation,
     this.name,
+    this.s3Access,
     this.sseConfig,
   });
 
@@ -5591,8 +6754,14 @@ class GetSequenceStoreResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       description: json['description'] as String?,
+      eTagAlgorithmFamily:
+          (json['eTagAlgorithmFamily'] as String?)?.toETagAlgorithmFamily(),
       fallbackLocation: json['fallbackLocation'] as String?,
       name: json['name'] as String?,
+      s3Access: json['s3Access'] != null
+          ? SequenceStoreS3Access.fromJson(
+              json['s3Access'] as Map<String, dynamic>)
+          : null,
       sseConfig: json['sseConfig'] != null
           ? SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>)
           : null,
@@ -5604,17 +6773,47 @@ class GetSequenceStoreResponse {
     final creationTime = this.creationTime;
     final id = this.id;
     final description = this.description;
+    final eTagAlgorithmFamily = this.eTagAlgorithmFamily;
     final fallbackLocation = this.fallbackLocation;
     final name = this.name;
+    final s3Access = this.s3Access;
     final sseConfig = this.sseConfig;
     return {
       'arn': arn,
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       if (description != null) 'description': description,
+      if (eTagAlgorithmFamily != null)
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (name != null) 'name': name,
+      if (s3Access != null) 's3Access': s3Access,
       if (sseConfig != null) 'sseConfig': sseConfig,
+    };
+  }
+}
+
+class GetShareResponse {
+  /// A resource share details object. The object includes the status, the
+  /// resourceArn, and ownerId.
+  final ShareDetails? share;
+
+  GetShareResponse({
+    this.share,
+  });
+
+  factory GetShareResponse.fromJson(Map<String, dynamic> json) {
+    return GetShareResponse(
+      share: json['share'] != null
+          ? ShareDetails.fromJson(json['share'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final share = this.share;
+    return {
+      if (share != null) 'share': share,
     };
   }
 }
@@ -5863,7 +7062,7 @@ class GetWorkflowResponse {
   /// The workflow's status message.
   final String? statusMessage;
 
-  /// The workflow's storage capacity in gigabytes.
+  /// The workflow's storage capacity in gibibytes.
   final int? storageCapacity;
 
   /// The workflow's tags.
@@ -6365,7 +7564,8 @@ class ListAnnotationImportJobsResponse {
   /// A list of jobs.
   final List<AnnotationImportJobItem>? annotationImportJobs;
 
-  /// A pagination token that's included if more results are available.
+  /// Specifies the pagination token from a previous request to retrieve the next
+  /// page of results.
   final String? nextToken;
 
   ListAnnotationImportJobsResponse({
@@ -6390,6 +7590,60 @@ class ListAnnotationImportJobsResponse {
     return {
       if (annotationImportJobs != null)
         'annotationImportJobs': annotationImportJobs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Use filters to focus the returned annotation store versions on a specific
+/// parameter, such as the status of the annotation store.
+class ListAnnotationStoreVersionsFilter {
+  /// The status of an annotation store version.
+  final VersionStatus? status;
+
+  ListAnnotationStoreVersionsFilter({
+    this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+class ListAnnotationStoreVersionsResponse {
+  /// Lists all versions of an annotation store.
+  final List<AnnotationStoreVersionItem>? annotationStoreVersions;
+
+  /// Specifies the pagination token from a previous request to retrieve the next
+  /// page of results.
+  final String? nextToken;
+
+  ListAnnotationStoreVersionsResponse({
+    this.annotationStoreVersions,
+    this.nextToken,
+  });
+
+  factory ListAnnotationStoreVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAnnotationStoreVersionsResponse(
+      annotationStoreVersions: (json['annotationStoreVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AnnotationStoreVersionItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final annotationStoreVersions = this.annotationStoreVersions;
+    final nextToken = this.nextToken;
+    return {
+      if (annotationStoreVersions != null)
+        'annotationStoreVersions': annotationStoreVersions,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -6869,6 +8123,39 @@ class ListSequenceStoresResponse {
   }
 }
 
+class ListSharesResponse {
+  /// The shares available and their metadata details.
+  final List<ShareDetails> shares;
+
+  /// Next token returned in the response of a previous ListSharesResponse call.
+  /// Used to get the next page of results.
+  final String? nextToken;
+
+  ListSharesResponse({
+    required this.shares,
+    this.nextToken,
+  });
+
+  factory ListSharesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSharesResponse(
+      shares: (json['shares'] as List)
+          .whereNotNull()
+          .map((e) => ShareDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shares = this.shares;
+    final nextToken = this.nextToken;
+    return {
+      'shares': shares,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// A list of tags.
   final Map<String, String> tags;
@@ -6997,7 +8284,7 @@ class ListVariantStoresResponse {
 }
 
 class ListWorkflowsResponse {
-  /// The workflows' items.
+  /// A list of workflow items.
   final List<WorkflowListItem>? items;
 
   /// A pagination token that's included if more results are available.
@@ -7510,6 +8797,9 @@ class ReadSetFilter {
   /// The filter's end date.
   final DateTime? createdBefore;
 
+  /// The creation type of the read set.
+  final CreationType? creationType;
+
   /// Where the source originated.
   final String? generatedFrom;
 
@@ -7531,6 +8821,7 @@ class ReadSetFilter {
   ReadSetFilter({
     this.createdAfter,
     this.createdBefore,
+    this.creationType,
     this.generatedFrom,
     this.name,
     this.referenceArn,
@@ -7542,6 +8833,7 @@ class ReadSetFilter {
   Map<String, dynamic> toJson() {
     final createdAfter = this.createdAfter;
     final createdBefore = this.createdBefore;
+    final creationType = this.creationType;
     final generatedFrom = this.generatedFrom;
     final name = this.name;
     final referenceArn = this.referenceArn;
@@ -7551,6 +8843,7 @@ class ReadSetFilter {
     return {
       if (createdAfter != null) 'createdAfter': iso8601ToJson(createdAfter),
       if (createdBefore != null) 'createdBefore': iso8601ToJson(createdBefore),
+      if (creationType != null) 'creationType': creationType.toValue(),
       if (generatedFrom != null) 'generatedFrom': generatedFrom,
       if (name != null) 'name': name,
       if (referenceArn != null) 'referenceArn': referenceArn,
@@ -7673,8 +8966,15 @@ class ReadSetListItem {
   /// The read set's status.
   final ReadSetStatus status;
 
+  /// The creation type of the read set.
+  final CreationType? creationType;
+
   /// The read set's description.
   final String? description;
+
+  /// The entity tag (ETag) is a hash of the object representing its semantic
+  /// content.
+  final ETag? etag;
 
   /// The read set's name.
   final String? name;
@@ -7700,7 +9000,9 @@ class ReadSetListItem {
     required this.id,
     required this.sequenceStoreId,
     required this.status,
+    this.creationType,
     this.description,
+    this.etag,
     this.name,
     this.referenceArn,
     this.sampleId,
@@ -7718,7 +9020,11 @@ class ReadSetListItem {
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
       status: (json['status'] as String).toReadSetStatus(),
+      creationType: (json['creationType'] as String?)?.toCreationType(),
       description: json['description'] as String?,
+      etag: json['etag'] != null
+          ? ETag.fromJson(json['etag'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       referenceArn: json['referenceArn'] as String?,
       sampleId: json['sampleId'] as String?,
@@ -7738,7 +9044,9 @@ class ReadSetListItem {
     final id = this.id;
     final sequenceStoreId = this.sequenceStoreId;
     final status = this.status;
+    final creationType = this.creationType;
     final description = this.description;
+    final etag = this.etag;
     final name = this.name;
     final referenceArn = this.referenceArn;
     final sampleId = this.sampleId;
@@ -7752,7 +9060,9 @@ class ReadSetListItem {
       'id': id,
       'sequenceStoreId': sequenceStoreId,
       'status': status.toValue(),
+      if (creationType != null) 'creationType': creationType.toValue(),
       if (description != null) 'description': description,
+      if (etag != null) 'etag': etag,
       if (name != null) 'name': name,
       if (referenceArn != null) 'referenceArn': referenceArn,
       if (sampleId != null) 'sampleId': sampleId,
@@ -7789,6 +9099,29 @@ extension ReadSetPartSourceFromString on String {
         return ReadSetPartSource.source2;
     }
     throw Exception('$this is not known in enum ReadSetPartSource');
+  }
+}
+
+/// The S3 URI for each read set file.
+class ReadSetS3Access {
+  /// The S3 URI for each read set file.
+  final String? s3Uri;
+
+  ReadSetS3Access({
+    this.s3Uri,
+  });
+
+  factory ReadSetS3Access.fromJson(Map<String, dynamic> json) {
+    return ReadSetS3Access(
+      s3Uri: json['s3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      if (s3Uri != null) 's3Uri': s3Uri,
+    };
   }
 }
 
@@ -8345,6 +9678,34 @@ class ReferenceStoreFilter {
   }
 }
 
+enum ResourceOwner {
+  self,
+  other,
+}
+
+extension ResourceOwnerValueExtension on ResourceOwner {
+  String toValue() {
+    switch (this) {
+      case ResourceOwner.self:
+        return 'SELF';
+      case ResourceOwner.other:
+        return 'OTHER';
+    }
+  }
+}
+
+extension ResourceOwnerFromString on String {
+  ResourceOwner toResourceOwner() {
+    switch (this) {
+      case 'SELF':
+        return ResourceOwner.self;
+      case 'OTHER':
+        return ResourceOwner.other;
+    }
+    throw Exception('$this is not known in enum ResourceOwner');
+  }
+}
+
 enum RunExport {
   definition,
 }
@@ -8466,8 +9827,13 @@ class RunListItem {
   /// When the run stopped.
   final DateTime? stopTime;
 
-  /// The run's storage capacity.
+  /// The run's storage capacity in gibibytes. For dynamic storage, after the run
+  /// has completed, this value is the maximum amount of storage used during the
+  /// run.
   final int? storageCapacity;
+
+  /// The run's storage type.
+  final StorageType? storageType;
 
   /// The run's workflow ID.
   final String? workflowId;
@@ -8482,6 +9848,7 @@ class RunListItem {
     this.status,
     this.stopTime,
     this.storageCapacity,
+    this.storageType,
     this.workflowId,
   });
 
@@ -8496,6 +9863,7 @@ class RunListItem {
       status: (json['status'] as String?)?.toRunStatus(),
       stopTime: timeStampFromJson(json['stopTime']),
       storageCapacity: json['storageCapacity'] as int?,
+      storageType: (json['storageType'] as String?)?.toStorageType(),
       workflowId: json['workflowId'] as String?,
     );
   }
@@ -8510,6 +9878,7 @@ class RunListItem {
     final status = this.status;
     final stopTime = this.stopTime;
     final storageCapacity = this.storageCapacity;
+    final storageType = this.storageType;
     final workflowId = this.workflowId;
     return {
       if (arn != null) 'arn': arn,
@@ -8521,6 +9890,7 @@ class RunListItem {
       if (status != null) 'status': status.toValue(),
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
+      if (storageType != null) 'storageType': storageType.toValue(),
       if (workflowId != null) 'workflowId': workflowId,
     };
   }
@@ -8564,6 +9934,36 @@ extension RunLogLevelFromString on String {
   }
 }
 
+/// The URI for the run log.
+class RunLogLocation {
+  /// The log stream ARN for the engine log.
+  final String? engineLogStream;
+
+  /// The log stream ARN for the run log.
+  final String? runLogStream;
+
+  RunLogLocation({
+    this.engineLogStream,
+    this.runLogStream,
+  });
+
+  factory RunLogLocation.fromJson(Map<String, dynamic> json) {
+    return RunLogLocation(
+      engineLogStream: json['engineLogStream'] as String?,
+      runLogStream: json['runLogStream'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engineLogStream = this.engineLogStream;
+    final runLogStream = this.runLogStream;
+    return {
+      if (engineLogStream != null) 'engineLogStream': engineLogStream,
+      if (runLogStream != null) 'runLogStream': runLogStream,
+    };
+  }
+}
+
 class RunParameters {
   RunParameters();
 
@@ -8573,6 +9973,34 @@ class RunParameters {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+enum RunRetentionMode {
+  retain,
+  remove,
+}
+
+extension RunRetentionModeValueExtension on RunRetentionMode {
+  String toValue() {
+    switch (this) {
+      case RunRetentionMode.retain:
+        return 'RETAIN';
+      case RunRetentionMode.remove:
+        return 'REMOVE';
+    }
+  }
+}
+
+extension RunRetentionModeFromString on String {
+  RunRetentionMode toRunRetentionMode() {
+    switch (this) {
+      case 'RETAIN':
+        return RunRetentionMode.retain;
+      case 'REMOVE':
+        return RunRetentionMode.remove;
+    }
+    throw Exception('$this is not known in enum RunRetentionMode');
   }
 }
 
@@ -8740,6 +10168,9 @@ class SequenceStoreDetail {
   /// The store's description.
   final String? description;
 
+  /// The algorithm family of the ETag.
+  final ETagAlgorithmFamily? eTagAlgorithmFamily;
+
   /// An S3 location that is used to store files that have failed a direct upload.
   final String? fallbackLocation;
 
@@ -8754,6 +10185,7 @@ class SequenceStoreDetail {
     required this.creationTime,
     required this.id,
     this.description,
+    this.eTagAlgorithmFamily,
     this.fallbackLocation,
     this.name,
     this.sseConfig,
@@ -8766,6 +10198,8 @@ class SequenceStoreDetail {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       description: json['description'] as String?,
+      eTagAlgorithmFamily:
+          (json['eTagAlgorithmFamily'] as String?)?.toETagAlgorithmFamily(),
       fallbackLocation: json['fallbackLocation'] as String?,
       name: json['name'] as String?,
       sseConfig: json['sseConfig'] != null
@@ -8779,6 +10213,7 @@ class SequenceStoreDetail {
     final creationTime = this.creationTime;
     final id = this.id;
     final description = this.description;
+    final eTagAlgorithmFamily = this.eTagAlgorithmFamily;
     final fallbackLocation = this.fallbackLocation;
     final name = this.name;
     final sseConfig = this.sseConfig;
@@ -8787,6 +10222,8 @@ class SequenceStoreDetail {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       if (description != null) 'description': description,
+      if (eTagAlgorithmFamily != null)
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (name != null) 'name': name,
       if (sseConfig != null) 'sseConfig': sseConfig,
@@ -8820,6 +10257,206 @@ class SequenceStoreFilter {
       if (createdBefore != null) 'createdBefore': iso8601ToJson(createdBefore),
       if (name != null) 'name': name,
     };
+  }
+}
+
+/// The S3 access metadata of the sequence store.
+class SequenceStoreS3Access {
+  /// This is ARN of the access point associated with the S3 bucket storing read
+  /// sets.
+  final String? s3AccessPointArn;
+
+  /// The S3 URI of the sequence store.
+  final String? s3Uri;
+
+  SequenceStoreS3Access({
+    this.s3AccessPointArn,
+    this.s3Uri,
+  });
+
+  factory SequenceStoreS3Access.fromJson(Map<String, dynamic> json) {
+    return SequenceStoreS3Access(
+      s3AccessPointArn: json['s3AccessPointArn'] as String?,
+      s3Uri: json['s3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3AccessPointArn = this.s3AccessPointArn;
+    final s3Uri = this.s3Uri;
+    return {
+      if (s3AccessPointArn != null) 's3AccessPointArn': s3AccessPointArn,
+      if (s3Uri != null) 's3Uri': s3Uri,
+    };
+  }
+}
+
+/// The details of a resource share.
+class ShareDetails {
+  /// The timestamp of when the resource share was created.
+  final DateTime? creationTime;
+
+  /// The account ID for the data owner. The owner creates the resource share.
+  final String? ownerId;
+
+  /// The principal subscriber is the account that is sharing the resource.
+  final String? principalSubscriber;
+
+  /// The Arn of the shared resource.
+  final String? resourceArn;
+
+  /// The ID of the shared resource.
+  final String? resourceId;
+
+  /// The ID of the resource share.
+  final String? shareId;
+
+  /// The name of the resource share.
+  final String? shareName;
+
+  /// The status of the share.
+  final ShareStatus? status;
+
+  /// The status message for a resource share. It provides additional details
+  /// about the share status.
+  final String? statusMessage;
+
+  /// The timestamp of the resource share update.
+  final DateTime? updateTime;
+
+  ShareDetails({
+    this.creationTime,
+    this.ownerId,
+    this.principalSubscriber,
+    this.resourceArn,
+    this.resourceId,
+    this.shareId,
+    this.shareName,
+    this.status,
+    this.statusMessage,
+    this.updateTime,
+  });
+
+  factory ShareDetails.fromJson(Map<String, dynamic> json) {
+    return ShareDetails(
+      creationTime: timeStampFromJson(json['creationTime']),
+      ownerId: json['ownerId'] as String?,
+      principalSubscriber: json['principalSubscriber'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+      resourceId: json['resourceId'] as String?,
+      shareId: json['shareId'] as String?,
+      shareName: json['shareName'] as String?,
+      status: (json['status'] as String?)?.toShareStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      updateTime: timeStampFromJson(json['updateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final ownerId = this.ownerId;
+    final principalSubscriber = this.principalSubscriber;
+    final resourceArn = this.resourceArn;
+    final resourceId = this.resourceId;
+    final shareId = this.shareId;
+    final shareName = this.shareName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final updateTime = this.updateTime;
+    return {
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (ownerId != null) 'ownerId': ownerId,
+      if (principalSubscriber != null)
+        'principalSubscriber': principalSubscriber,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (shareId != null) 'shareId': shareId,
+      if (shareName != null) 'shareName': shareName,
+      if (status != null) 'status': status.toValue(),
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+enum ShareResourceType {
+  variantStore,
+  annotationStore,
+  workflow,
+}
+
+extension ShareResourceTypeValueExtension on ShareResourceType {
+  String toValue() {
+    switch (this) {
+      case ShareResourceType.variantStore:
+        return 'VARIANT_STORE';
+      case ShareResourceType.annotationStore:
+        return 'ANNOTATION_STORE';
+      case ShareResourceType.workflow:
+        return 'WORKFLOW';
+    }
+  }
+}
+
+extension ShareResourceTypeFromString on String {
+  ShareResourceType toShareResourceType() {
+    switch (this) {
+      case 'VARIANT_STORE':
+        return ShareResourceType.variantStore;
+      case 'ANNOTATION_STORE':
+        return ShareResourceType.annotationStore;
+      case 'WORKFLOW':
+        return ShareResourceType.workflow;
+    }
+    throw Exception('$this is not known in enum ShareResourceType');
+  }
+}
+
+enum ShareStatus {
+  pending,
+  activating,
+  active,
+  deleting,
+  deleted,
+  failed,
+}
+
+extension ShareStatusValueExtension on ShareStatus {
+  String toValue() {
+    switch (this) {
+      case ShareStatus.pending:
+        return 'PENDING';
+      case ShareStatus.activating:
+        return 'ACTIVATING';
+      case ShareStatus.active:
+        return 'ACTIVE';
+      case ShareStatus.deleting:
+        return 'DELETING';
+      case ShareStatus.deleted:
+        return 'DELETED';
+      case ShareStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension ShareStatusFromString on String {
+  ShareStatus toShareStatus() {
+    switch (this) {
+      case 'PENDING':
+        return ShareStatus.pending;
+      case 'ACTIVATING':
+        return ShareStatus.activating;
+      case 'ACTIVE':
+        return ShareStatus.active;
+      case 'DELETING':
+        return ShareStatus.deleting;
+      case 'DELETED':
+        return ShareStatus.deleted;
+      case 'FAILED':
+        return ShareStatus.failed;
+    }
+    throw Exception('$this is not known in enum ShareStatus');
   }
 }
 
@@ -9071,9 +10708,6 @@ class StartReadSetImportJobResponse {
 
 /// A source for a read set import job.
 class StartReadSetImportJobSourceItem {
-  /// The source's reference ARN.
-  final String referenceArn;
-
   /// The source's sample ID.
   final String sampleId;
 
@@ -9095,11 +10729,13 @@ class StartReadSetImportJobSourceItem {
   /// The source's name.
   final String? name;
 
+  /// The source's reference ARN.
+  final String? referenceArn;
+
   /// The source's tags.
   final Map<String, String>? tags;
 
   StartReadSetImportJobSourceItem({
-    required this.referenceArn,
     required this.sampleId,
     required this.sourceFileType,
     required this.sourceFiles,
@@ -9107,11 +10743,11 @@ class StartReadSetImportJobSourceItem {
     this.description,
     this.generatedFrom,
     this.name,
+    this.referenceArn,
     this.tags,
   });
 
   Map<String, dynamic> toJson() {
-    final referenceArn = this.referenceArn;
     final sampleId = this.sampleId;
     final sourceFileType = this.sourceFileType;
     final sourceFiles = this.sourceFiles;
@@ -9119,9 +10755,9 @@ class StartReadSetImportJobSourceItem {
     final description = this.description;
     final generatedFrom = this.generatedFrom;
     final name = this.name;
+    final referenceArn = this.referenceArn;
     final tags = this.tags;
     return {
-      'referenceArn': referenceArn,
       'sampleId': sampleId,
       'sourceFileType': sourceFileType.toValue(),
       'sourceFiles': sourceFiles,
@@ -9129,6 +10765,7 @@ class StartReadSetImportJobSourceItem {
       if (description != null) 'description': description,
       if (generatedFrom != null) 'generatedFrom': generatedFrom,
       if (name != null) 'name': name,
+      if (referenceArn != null) 'referenceArn': referenceArn,
       if (tags != null) 'tags': tags,
     };
   }
@@ -9227,39 +10864,53 @@ class StartRunResponse {
   /// The run's ID.
   final String? id;
 
+  /// The destination for workflow outputs.
+  final String? runOutputUri;
+
   /// The run's status.
   final RunStatus? status;
 
   /// The run's tags.
   final Map<String, String>? tags;
 
+  /// The universally unique identifier for a run.
+  final String? uuid;
+
   StartRunResponse({
     this.arn,
     this.id,
+    this.runOutputUri,
     this.status,
     this.tags,
+    this.uuid,
   });
 
   factory StartRunResponse.fromJson(Map<String, dynamic> json) {
     return StartRunResponse(
       arn: json['arn'] as String?,
       id: json['id'] as String?,
+      runOutputUri: json['runOutputUri'] as String?,
       status: (json['status'] as String?)?.toRunStatus(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      uuid: json['uuid'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final runOutputUri = this.runOutputUri;
     final status = this.status;
     final tags = this.tags;
+    final uuid = this.uuid;
     return {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
+      if (runOutputUri != null) 'runOutputUri': runOutputUri,
       if (status != null) 'status': status.toValue(),
       if (tags != null) 'tags': tags,
+      if (uuid != null) 'uuid': uuid,
     };
   }
 }
@@ -9283,6 +10934,34 @@ class StartVariantImportResponse {
     return {
       'jobId': jobId,
     };
+  }
+}
+
+enum StorageType {
+  static,
+  $dynamic,
+}
+
+extension StorageTypeValueExtension on StorageType {
+  String toValue() {
+    switch (this) {
+      case StorageType.static:
+        return 'STATIC';
+      case StorageType.$dynamic:
+        return 'DYNAMIC';
+    }
+  }
+}
+
+extension StorageTypeFromString on String {
+  StorageType toStorageType() {
+    switch (this) {
+      case 'STATIC':
+        return StorageType.static;
+      case 'DYNAMIC':
+        return StorageType.$dynamic;
+    }
+    throw Exception('$this is not known in enum StorageType');
   }
 }
 
@@ -9411,6 +11090,9 @@ class TaskListItem {
   /// The number of Graphics Processing Units (GPU) specified for the task.
   final int? gpus;
 
+  /// The instance type for a task.
+  final String? instanceType;
+
   /// The task's memory use in gigabyes.
   final int? memory;
 
@@ -9433,6 +11115,7 @@ class TaskListItem {
     this.cpus,
     this.creationTime,
     this.gpus,
+    this.instanceType,
     this.memory,
     this.name,
     this.startTime,
@@ -9446,6 +11129,7 @@ class TaskListItem {
       cpus: json['cpus'] as int?,
       creationTime: timeStampFromJson(json['creationTime']),
       gpus: json['gpus'] as int?,
+      instanceType: json['instanceType'] as String?,
       memory: json['memory'] as int?,
       name: json['name'] as String?,
       startTime: timeStampFromJson(json['startTime']),
@@ -9459,6 +11143,7 @@ class TaskListItem {
     final cpus = this.cpus;
     final creationTime = this.creationTime;
     final gpus = this.gpus;
+    final instanceType = this.instanceType;
     final memory = this.memory;
     final name = this.name;
     final startTime = this.startTime;
@@ -9469,6 +11154,7 @@ class TaskListItem {
       if (cpus != null) 'cpus': cpus,
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (gpus != null) 'gpus': gpus,
+      if (instanceType != null) 'instanceType': instanceType,
       if (memory != null) 'memory': memory,
       if (name != null) 'name': name,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
@@ -9604,6 +11290,53 @@ class TsvStoreOptions {
   }
 }
 
+/// The options for a TSV file.
+class TsvVersionOptions {
+  /// The store version's annotation type.
+  final AnnotationType? annotationType;
+
+  /// The annotation store version's header key to column name mapping.
+  final Map<FormatToHeaderKey, String>? formatToHeader;
+
+  /// The TSV schema for an annotation store version.
+  final List<Map<String, SchemaValueType>>? schema;
+
+  TsvVersionOptions({
+    this.annotationType,
+    this.formatToHeader,
+    this.schema,
+  });
+
+  factory TsvVersionOptions.fromJson(Map<String, dynamic> json) {
+    return TsvVersionOptions(
+      annotationType: (json['annotationType'] as String?)?.toAnnotationType(),
+      formatToHeader: (json['formatToHeader'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toFormatToHeaderKey(), e as String)),
+      schema: (json['schema'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, (e as String).toSchemaValueType())))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final annotationType = this.annotationType;
+    final formatToHeader = this.formatToHeader;
+    final schema = this.schema;
+    return {
+      if (annotationType != null) 'annotationType': annotationType.toValue(),
+      if (formatToHeader != null)
+        'formatToHeader':
+            formatToHeader.map((k, e) => MapEntry(k.toValue(), e)),
+      if (schema != null)
+        'schema': schema
+            .map((e) => e.map((k, e) => MapEntry(k, e.toValue())))
+            .toList(),
+    };
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -9694,6 +11427,79 @@ class UpdateAnnotationStoreResponse {
       'updateTime': iso8601ToJson(updateTime),
       if (storeFormat != null) 'storeFormat': storeFormat.toValue(),
       if (storeOptions != null) 'storeOptions': storeOptions,
+    };
+  }
+}
+
+class UpdateAnnotationStoreVersionResponse {
+  /// The time stamp for when an annotation store version was created.
+  final DateTime creationTime;
+
+  /// The description of an annotation store version.
+  final String description;
+
+  /// The annotation store version ID.
+  final String id;
+
+  /// The name of an annotation store.
+  final String name;
+
+  /// The status of an annotation store version.
+  final VersionStatus status;
+
+  /// The annotation store ID.
+  final String storeId;
+
+  /// The time stamp for when an annotation store version was updated.
+  final DateTime updateTime;
+
+  /// The name of an annotation store version.
+  final String versionName;
+
+  UpdateAnnotationStoreVersionResponse({
+    required this.creationTime,
+    required this.description,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.storeId,
+    required this.updateTime,
+    required this.versionName,
+  });
+
+  factory UpdateAnnotationStoreVersionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAnnotationStoreVersionResponse(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      description: json['description'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: (json['status'] as String).toVersionStatus(),
+      storeId: json['storeId'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      versionName: json['versionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final storeId = this.storeId;
+    final updateTime = this.updateTime;
+    final versionName = this.versionName;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'description': description,
+      'id': id,
+      'name': name,
+      'status': status.toValue(),
+      'storeId': storeId,
+      'updateTime': iso8601ToJson(updateTime),
+      'versionName': versionName,
     };
   }
 }
@@ -10049,9 +11855,109 @@ class VcfOptions {
   }
 }
 
+/// The error preventing deletion of the annotation store version.
+class VersionDeleteError {
+  /// The message explaining the error in annotation store deletion.
+  final String message;
+
+  /// The name given to an annotation store version.
+  final String versionName;
+
+  VersionDeleteError({
+    required this.message,
+    required this.versionName,
+  });
+
+  factory VersionDeleteError.fromJson(Map<String, dynamic> json) {
+    return VersionDeleteError(
+      message: json['message'] as String,
+      versionName: json['versionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final versionName = this.versionName;
+    return {
+      'message': message,
+      'versionName': versionName,
+    };
+  }
+}
+
+/// The options for an annotation store version.
+class VersionOptions {
+  /// File settings for a version of a TSV store.
+  final TsvVersionOptions? tsvVersionOptions;
+
+  VersionOptions({
+    this.tsvVersionOptions,
+  });
+
+  factory VersionOptions.fromJson(Map<String, dynamic> json) {
+    return VersionOptions(
+      tsvVersionOptions: json['tsvVersionOptions'] != null
+          ? TsvVersionOptions.fromJson(
+              json['tsvVersionOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tsvVersionOptions = this.tsvVersionOptions;
+    return {
+      if (tsvVersionOptions != null) 'tsvVersionOptions': tsvVersionOptions,
+    };
+  }
+}
+
+enum VersionStatus {
+  creating,
+  updating,
+  deleting,
+  active,
+  failed,
+}
+
+extension VersionStatusValueExtension on VersionStatus {
+  String toValue() {
+    switch (this) {
+      case VersionStatus.creating:
+        return 'CREATING';
+      case VersionStatus.updating:
+        return 'UPDATING';
+      case VersionStatus.deleting:
+        return 'DELETING';
+      case VersionStatus.active:
+        return 'ACTIVE';
+      case VersionStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension VersionStatusFromString on String {
+  VersionStatus toVersionStatus() {
+    switch (this) {
+      case 'CREATING':
+        return VersionStatus.creating;
+      case 'UPDATING':
+        return VersionStatus.updating;
+      case 'DELETING':
+        return VersionStatus.deleting;
+      case 'ACTIVE':
+        return VersionStatus.active;
+      case 'FAILED':
+        return VersionStatus.failed;
+    }
+    throw Exception('$this is not known in enum VersionStatus');
+  }
+}
+
 enum WorkflowEngine {
   wdl,
   nextflow,
+  cwl,
 }
 
 extension WorkflowEngineValueExtension on WorkflowEngine {
@@ -10061,6 +11967,8 @@ extension WorkflowEngineValueExtension on WorkflowEngine {
         return 'WDL';
       case WorkflowEngine.nextflow:
         return 'NEXTFLOW';
+      case WorkflowEngine.cwl:
+        return 'CWL';
     }
   }
 }
@@ -10072,6 +11980,8 @@ extension WorkflowEngineFromString on String {
         return WorkflowEngine.wdl;
       case 'NEXTFLOW':
         return WorkflowEngine.nextflow;
+      case 'CWL':
+        return WorkflowEngine.cwl;
     }
     throw Exception('$this is not known in enum WorkflowEngine');
   }

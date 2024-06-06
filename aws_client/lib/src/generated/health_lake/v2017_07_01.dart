@@ -19,9 +19,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon HealthLake is a HIPAA eligibile service that allows customers to
-/// store, transform, query, and analyze their FHIR-formatted data in a
-/// consistent fashion in the cloud.
+/// AWS HealthLake is a HIPAA eligibile service that allows customers to store,
+/// transform, query, and analyze their FHIR-formatted data in a consistent
+/// fashion in the cloud.
 class HealthLake {
   final _s.JsonProtocol _protocol;
   HealthLake({
@@ -51,7 +51,7 @@ class HealthLake {
     _protocol.close();
   }
 
-  /// Creates a Data Store that can ingest and export FHIR formatted data.
+  /// Creates a data store that can ingest and export FHIR formatted data.
   ///
   /// May throw [ValidationException].
   /// May throw [ThrottlingException].
@@ -59,29 +59,34 @@ class HealthLake {
   /// May throw [InternalServerException].
   ///
   /// Parameter [datastoreTypeVersion] :
-  /// The FHIR version of the Data Store. The only supported version is R4.
+  /// The FHIR version of the data store. The only supported version is R4.
   ///
   /// Parameter [clientToken] :
   /// Optional user provided token used for ensuring idempotency.
   ///
   /// Parameter [datastoreName] :
-  /// The user generated name for the Data Store.
+  /// The user generated name for the data store.
+  ///
+  /// Parameter [identityProviderConfiguration] :
+  /// The configuration of the identity provider that you want to use for your
+  /// data store.
   ///
   /// Parameter [preloadDataConfig] :
-  /// Optional parameter to preload data upon creation of the Data Store.
+  /// Optional parameter to preload data upon creation of the data store.
   /// Currently, the only supported preloaded data is synthetic data generated
   /// from Synthea.
   ///
   /// Parameter [sseConfiguration] :
   /// The server-side encryption key configuration for a customer provided
-  /// encryption key specified for creating a Data Store.
+  /// encryption key specified for creating a data store.
   ///
   /// Parameter [tags] :
-  /// Resource tags that are applied to a Data Store when it is created.
+  /// Resource tags that are applied to a data store when it is created.
   Future<CreateFHIRDatastoreResponse> createFHIRDatastore({
     required FHIRVersion datastoreTypeVersion,
     String? clientToken,
     String? datastoreName,
+    IdentityProviderConfiguration? identityProviderConfiguration,
     PreloadDataConfig? preloadDataConfig,
     SseConfiguration? sseConfiguration,
     List<Tag>? tags,
@@ -100,6 +105,8 @@ class HealthLake {
         'DatastoreTypeVersion': datastoreTypeVersion.toValue(),
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (datastoreName != null) 'DatastoreName': datastoreName,
+        if (identityProviderConfiguration != null)
+          'IdentityProviderConfiguration': identityProviderConfiguration,
         if (preloadDataConfig != null) 'PreloadDataConfig': preloadDataConfig,
         if (sseConfiguration != null) 'SseConfiguration': sseConfiguration,
         if (tags != null) 'Tags': tags,
@@ -109,7 +116,7 @@ class HealthLake {
     return CreateFHIRDatastoreResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a Data Store.
+  /// Deletes a data store.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -119,9 +126,9 @@ class HealthLake {
   /// May throw [InternalServerException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated ID for the Data Store to be deleted.
+  /// The AWS-generated ID for the data store to be deleted.
   Future<DeleteFHIRDatastoreResponse> deleteFHIRDatastore({
-    String? datastoreId,
+    required String datastoreId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -134,16 +141,17 @@ class HealthLake {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (datastoreId != null) 'DatastoreId': datastoreId,
+        'DatastoreId': datastoreId,
       },
     );
 
     return DeleteFHIRDatastoreResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets the properties associated with the FHIR Data Store, including the
-  /// Data Store ID, Data Store ARN, Data Store name, Data Store status, created
-  /// at, Data Store type version, and Data Store endpoint.
+  /// Gets the properties associated with the FHIR data store, including the
+  /// data store ID, data store ARN, data store name, data store status, when
+  /// the data store was created, data store type version, and the data store's
+  /// endpoint.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -151,10 +159,9 @@ class HealthLake {
   /// May throw [InternalServerException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated Data Store id. This is part of the ‘CreateFHIRDatastore’
-  /// output.
+  /// The AWS-generated data store ID.
   Future<DescribeFHIRDatastoreResponse> describeFHIRDatastore({
-    String? datastoreId,
+    required String datastoreId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -167,7 +174,7 @@ class HealthLake {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (datastoreId != null) 'DatastoreId': datastoreId,
+        'DatastoreId': datastoreId,
       },
     );
 
@@ -183,7 +190,7 @@ class HealthLake {
   /// May throw [InternalServerException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS generated ID for the Data Store from which files are being
+  /// The AWS generated ID for the data store from which files are being
   /// exported from for an export job.
   ///
   /// Parameter [jobId] :
@@ -220,7 +227,7 @@ class HealthLake {
   /// May throw [InternalServerException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated ID of the Data Store.
+  /// The AWS-generated ID of the data store.
   ///
   /// Parameter [jobId] :
   /// The AWS-generated job ID.
@@ -247,22 +254,22 @@ class HealthLake {
     return DescribeFHIRImportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all FHIR Data Stores that are in the user’s account, regardless of
-  /// Data Store status.
+  /// Lists all FHIR data stores that are in the user’s account, regardless of
+  /// data store status.
   ///
   /// May throw [ValidationException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [filter] :
-  /// Lists all filters associated with a FHIR Data Store request.
+  /// Lists all filters associated with a FHIR data store request.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of Data Stores returned in a single page of a
+  /// The maximum number of data stores returned in a single page of a
   /// ListFHIRDatastoresRequest call.
   ///
   /// Parameter [nextToken] :
-  /// Fetches the next page of Data Stores when results are paginated.
+  /// Fetches the next page of data stores when results are paginated.
   Future<ListFHIRDatastoresResponse> listFHIRDatastores({
     DatastoreFilter? filter,
     int? maxResults,
@@ -304,7 +311,7 @@ class HealthLake {
   ///
   /// Parameter [datastoreId] :
   /// This parameter limits the response to the export job with the specified
-  /// Data Store ID.
+  /// data store ID.
   ///
   /// Parameter [jobName] :
   /// This parameter limits the response to the export job with the specified
@@ -380,7 +387,7 @@ class HealthLake {
   ///
   /// Parameter [datastoreId] :
   /// This parameter limits the response to the import job with the specified
-  /// Data Store ID.
+  /// data store ID.
   ///
   /// Parameter [jobName] :
   /// This parameter limits the response to the import job with the specified
@@ -446,13 +453,13 @@ class HealthLake {
     return ListFHIRImportJobsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of all existing tags associated with a Data Store.
+  /// Returns a list of all existing tags associated with a data store.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name(ARN) of the Data Store for which tags are being
+  /// The Amazon Resource Name(ARN) of the data store for which tags are being
   /// added.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
@@ -487,7 +494,7 @@ class HealthLake {
   /// The Amazon Resource Name used during the initiation of the job.
   ///
   /// Parameter [datastoreId] :
-  /// The AWS generated ID for the Data Store from which files are being
+  /// The AWS generated ID for the data store from which files are being
   /// exported for an export job.
   ///
   /// Parameter [outputDataConfig] :
@@ -537,11 +544,11 @@ class HealthLake {
   /// May throw [InternalServerException].
   ///
   /// Parameter [dataAccessRoleArn] :
-  /// The Amazon Resource Name (ARN) that gives Amazon HealthLake access
+  /// The Amazon Resource Name (ARN) that gives AWS HealthLake access
   /// permission.
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated Data Store ID.
+  /// The AWS-generated data store ID.
   ///
   /// Parameter [inputDataConfig] :
   /// The input properties of the FHIR Import job in the StartFHIRImport job
@@ -583,17 +590,17 @@ class HealthLake {
     return StartFHIRImportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds a user specifed key and value tag to a Data Store.
+  /// Adds a user specified key and value tag to a data store.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name(ARN)that gives Amazon HealthLake access to the
-  /// Data Store which tags are being added to.
+  /// The Amazon Resource Name(ARN)that gives AWS HealthLake access to the data
+  /// store which tags are being added to.
   ///
   /// Parameter [tags] :
-  /// The user specified key and value pair tags being added to a Data Store.
+  /// The user specified key and value pair tags being added to a data store.
   Future<void> tagResource({
     required String resourceARN,
     required List<Tag> tags,
@@ -615,17 +622,17 @@ class HealthLake {
     );
   }
 
-  /// Removes tags from a Data Store.
+  /// Removes tags from a data store.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
-  /// "The Amazon Resource Name(ARN) of the Data Store for which tags are being
-  /// removed
+  /// The Amazon Resource Name(ARN) of the data store for which tags are being
+  /// removed.
   ///
   /// Parameter [tagKeys] :
-  /// The keys for the tags to be removed from the Healthlake Data Store.
+  /// The keys for the tags to be removed from the HealthLake data store.
   Future<void> untagResource({
     required String resourceARN,
     required List<String> tagKeys,
@@ -645,6 +652,34 @@ class HealthLake {
         'TagKeys': tagKeys,
       },
     );
+  }
+}
+
+enum AuthorizationStrategy {
+  smartOnFhirV1,
+  awsAuth,
+}
+
+extension AuthorizationStrategyValueExtension on AuthorizationStrategy {
+  String toValue() {
+    switch (this) {
+      case AuthorizationStrategy.smartOnFhirV1:
+        return 'SMART_ON_FHIR_V1';
+      case AuthorizationStrategy.awsAuth:
+        return 'AWS_AUTH';
+    }
+  }
+}
+
+extension AuthorizationStrategyFromString on String {
+  AuthorizationStrategy toAuthorizationStrategy() {
+    switch (this) {
+      case 'SMART_ON_FHIR_V1':
+        return AuthorizationStrategy.smartOnFhirV1;
+      case 'AWS_AUTH':
+        return AuthorizationStrategy.awsAuth;
+    }
+    throw Exception('$this is not known in enum AuthorizationStrategy');
   }
 }
 
@@ -677,20 +712,18 @@ extension CmkTypeFromString on String {
 }
 
 class CreateFHIRDatastoreResponse {
-  /// The datastore ARN is generated during the creation of the Data Store and can
-  /// be found in the output from the initial Data Store creation call.
+  /// The data store ARN is generated during the creation of the data store and
+  /// can be found in the output from the initial data store creation call.
   final String datastoreArn;
 
-  /// The AWS endpoint for the created Data Store. For preview, only US-east-1
-  /// endpoints are supported.
+  /// The AWS endpoint for the created data store.
   final String datastoreEndpoint;
 
-  /// The AWS-generated Data Store id. This id is in the output from the initial
-  /// Data Store creation call.
+  /// The AWS-generated data store id. This id is in the output from the initial
+  /// data store creation call.
   final String datastoreId;
 
-  /// The status of the FHIR Data Store. Possible statuses are ‘CREATING’,
-  /// ‘ACTIVE’, ‘DELETING’, ‘DELETED’.
+  /// The status of the FHIR data store.
   final DatastoreStatus datastoreStatus;
 
   CreateFHIRDatastoreResponse({
@@ -723,20 +756,20 @@ class CreateFHIRDatastoreResponse {
   }
 }
 
-/// The filters applied to Data Store query.
+/// The filters applied to data store query.
 class DatastoreFilter {
-  /// A filter that allows the user to set cutoff dates for records. All Data
-  /// Stores created after the specified date will be included in the results.
+  /// A filter that allows the user to set cutoff dates for records. All data
+  /// stores created after the specified date will be included in the results.
   final DateTime? createdAfter;
 
-  /// A filter that allows the user to set cutoff dates for records. All Data
-  /// Stores created before the specified date will be included in the results.
+  /// A filter that allows the user to set cutoff dates for records. All data
+  /// stores created before the specified date will be included in the results.
   final DateTime? createdBefore;
 
-  /// Allows the user to filter Data Store results by name.
+  /// Allows the user to filter data store results by name.
   final String? datastoreName;
 
-  /// Allows the user to filter Data Store results by status.
+  /// Allows the user to filter data store results by status.
   final DatastoreStatus? datastoreStatus;
 
   DatastoreFilter({
@@ -762,33 +795,38 @@ class DatastoreFilter {
   }
 }
 
-/// Displays the properties of the Data Store, including the ID, Arn, name, and
-/// the status of the Data Store.
+/// Displays the properties of the data store, including the ID, ARN, name, and
+/// the status of the data store.
 class DatastoreProperties {
-  /// The Amazon Resource Name used in the creation of the Data Store.
+  /// The Amazon Resource Name used in the creation of the data store.
   final String datastoreArn;
 
-  /// The AWS endpoint for the Data Store. Each Data Store will have it's own
-  /// endpoint with Data Store ID in the endpoint URL.
+  /// The AWS endpoint for the data store. Each data store will have it's own
+  /// endpoint with data store ID in the endpoint URL.
   final String datastoreEndpoint;
 
-  /// The AWS-generated ID number for the Data Store.
+  /// The AWS-generated ID number for the data store.
   final String datastoreId;
 
-  /// The status of the Data Store. Possible statuses are 'CREATING', 'ACTIVE',
-  /// 'DELETING', or 'DELETED'.
+  /// The status of the data store.
   final DatastoreStatus datastoreStatus;
 
   /// The FHIR version. Only R4 version data is supported.
   final FHIRVersion datastoreTypeVersion;
 
-  /// The time that a Data Store was created.
+  /// The time that a data store was created.
   final DateTime? createdAt;
 
-  /// The user-generated name for the Data Store.
+  /// The user-generated name for the data store.
   final String? datastoreName;
 
-  /// The preloaded data configuration for the Data Store. Only data preloaded
+  /// The error cause for the current data store operation.
+  final ErrorCause? errorCause;
+
+  /// The identity provider that you selected when you created the data store.
+  final IdentityProviderConfiguration? identityProviderConfiguration;
+
+  /// The preloaded data configuration for the data store. Only data preloaded
   /// from Synthea is supported.
   final PreloadDataConfig? preloadDataConfig;
 
@@ -804,6 +842,8 @@ class DatastoreProperties {
     required this.datastoreTypeVersion,
     this.createdAt,
     this.datastoreName,
+    this.errorCause,
+    this.identityProviderConfiguration,
     this.preloadDataConfig,
     this.sseConfiguration,
   });
@@ -818,6 +858,14 @@ class DatastoreProperties {
           (json['DatastoreTypeVersion'] as String).toFHIRVersion(),
       createdAt: timeStampFromJson(json['CreatedAt']),
       datastoreName: json['DatastoreName'] as String?,
+      errorCause: json['ErrorCause'] != null
+          ? ErrorCause.fromJson(json['ErrorCause'] as Map<String, dynamic>)
+          : null,
+      identityProviderConfiguration:
+          json['IdentityProviderConfiguration'] != null
+              ? IdentityProviderConfiguration.fromJson(
+                  json['IdentityProviderConfiguration'] as Map<String, dynamic>)
+              : null,
       preloadDataConfig: json['PreloadDataConfig'] != null
           ? PreloadDataConfig.fromJson(
               json['PreloadDataConfig'] as Map<String, dynamic>)
@@ -837,6 +885,8 @@ class DatastoreProperties {
     final datastoreTypeVersion = this.datastoreTypeVersion;
     final createdAt = this.createdAt;
     final datastoreName = this.datastoreName;
+    final errorCause = this.errorCause;
+    final identityProviderConfiguration = this.identityProviderConfiguration;
     final preloadDataConfig = this.preloadDataConfig;
     final sseConfiguration = this.sseConfiguration;
     return {
@@ -847,6 +897,9 @@ class DatastoreProperties {
       'DatastoreTypeVersion': datastoreTypeVersion.toValue(),
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (datastoreName != null) 'DatastoreName': datastoreName,
+      if (errorCause != null) 'ErrorCause': errorCause,
+      if (identityProviderConfiguration != null)
+        'IdentityProviderConfiguration': identityProviderConfiguration,
       if (preloadDataConfig != null) 'PreloadDataConfig': preloadDataConfig,
       if (sseConfiguration != null) 'SseConfiguration': sseConfiguration,
     };
@@ -858,6 +911,7 @@ enum DatastoreStatus {
   active,
   deleting,
   deleted,
+  createFailed,
 }
 
 extension DatastoreStatusValueExtension on DatastoreStatus {
@@ -871,6 +925,8 @@ extension DatastoreStatusValueExtension on DatastoreStatus {
         return 'DELETING';
       case DatastoreStatus.deleted:
         return 'DELETED';
+      case DatastoreStatus.createFailed:
+        return 'CREATE_FAILED';
     }
   }
 }
@@ -886,23 +942,24 @@ extension DatastoreStatusFromString on String {
         return DatastoreStatus.deleting;
       case 'DELETED':
         return DatastoreStatus.deleted;
+      case 'CREATE_FAILED':
+        return DatastoreStatus.createFailed;
     }
     throw Exception('$this is not known in enum DatastoreStatus');
   }
 }
 
 class DeleteFHIRDatastoreResponse {
-  /// The Amazon Resource Name (ARN) that gives Amazon HealthLake access
-  /// permission.
+  /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
   final String datastoreArn;
 
-  /// The AWS endpoint for the Data Store the user has requested to be deleted.
+  /// The AWS endpoint for the data store the user has requested to be deleted.
   final String datastoreEndpoint;
 
-  /// The AWS-generated ID for the Data Store to be deleted.
+  /// The AWS-generated ID for the data store to be deleted.
   final String datastoreId;
 
-  /// The status of the Data Store that the user has requested to be deleted.
+  /// The status of the data store that the user has requested to be deleted.
   final DatastoreStatus datastoreStatus;
 
   DeleteFHIRDatastoreResponse({
@@ -936,9 +993,9 @@ class DeleteFHIRDatastoreResponse {
 }
 
 class DescribeFHIRDatastoreResponse {
-  /// All properties associated with a Data Store, including the Data Store ID,
-  /// Data Store ARN, Data Store name, Data Store status, created at, Data Store
-  /// type version, and Data Store endpoint.
+  /// All properties associated with a data store, including the data store ID,
+  /// data store ARN, data store name, data store status, when the data store was
+  /// created, data store type version, and the data store's endpoint.
   final DatastoreProperties datastoreProperties;
 
   DescribeFHIRDatastoreResponse({
@@ -985,8 +1042,8 @@ class DescribeFHIRExportJobResponse {
 }
 
 class DescribeFHIRImportJobResponse {
-  /// The properties of the Import job request, including the ID, ARN, name, and
-  /// the status of the job.
+  /// The properties of the Import job request, including the ID, ARN, name,
+  /// status of the job, and the progress report of the job.
   final ImportJobProperties importJobProperties;
 
   DescribeFHIRImportJobResponse({
@@ -1008,10 +1065,69 @@ class DescribeFHIRImportJobResponse {
   }
 }
 
+enum ErrorCategory {
+  retryableError,
+  nonRetryableError,
+}
+
+extension ErrorCategoryValueExtension on ErrorCategory {
+  String toValue() {
+    switch (this) {
+      case ErrorCategory.retryableError:
+        return 'RETRYABLE_ERROR';
+      case ErrorCategory.nonRetryableError:
+        return 'NON_RETRYABLE_ERROR';
+    }
+  }
+}
+
+extension ErrorCategoryFromString on String {
+  ErrorCategory toErrorCategory() {
+    switch (this) {
+      case 'RETRYABLE_ERROR':
+        return ErrorCategory.retryableError;
+      case 'NON_RETRYABLE_ERROR':
+        return ErrorCategory.nonRetryableError;
+    }
+    throw Exception('$this is not known in enum ErrorCategory');
+  }
+}
+
+/// The error info of the create/delete data store operation.
+class ErrorCause {
+  /// The error category of the create/delete data store operation. Possible
+  /// statuses are RETRYABLE_ERROR or NON_RETRYABLE_ERROR.
+  final ErrorCategory? errorCategory;
+
+  /// The text of the error message.
+  final String? errorMessage;
+
+  ErrorCause({
+    this.errorCategory,
+    this.errorMessage,
+  });
+
+  factory ErrorCause.fromJson(Map<String, dynamic> json) {
+    return ErrorCause(
+      errorCategory: (json['ErrorCategory'] as String?)?.toErrorCategory(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCategory = this.errorCategory;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCategory != null) 'ErrorCategory': errorCategory.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
 /// The properties of a FHIR export job, including the ID, ARN, name, and the
 /// status of the job.
 class ExportJobProperties {
-  /// The AWS generated ID for the Data Store from which files are being exported
+  /// The AWS generated ID for the data store from which files are being exported
   /// for an export job.
   final String datastoreId;
 
@@ -1115,8 +1231,81 @@ extension FHIRVersionFromString on String {
   }
 }
 
-/// Displays the properties of the import job, including the ID, Arn, Name, and
-/// the status of the Data Store.
+/// The identity provider configuration that you gave when the data store was
+/// created.
+class IdentityProviderConfiguration {
+  /// The authorization strategy that you selected when you created the data
+  /// store.
+  final AuthorizationStrategy authorizationStrategy;
+
+  /// If you enabled fine-grained authorization when you created the data store.
+  final bool? fineGrainedAuthorizationEnabled;
+
+  /// The Amazon Resource Name (ARN) of the Lambda function that you want to use
+  /// to decode the access token created by the authorization server.
+  final String? idpLambdaArn;
+
+  /// The JSON metadata elements that you want to use in your identity provider
+  /// configuration. Required elements are listed based on the launch
+  /// specification of the SMART application. For more information on all possible
+  /// elements, see <a
+  /// href="https://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata">Metadata</a>
+  /// in SMART's App Launch specification.
+  ///
+  /// <code>authorization_endpoint</code>: The URL to the OAuth2 authorization
+  /// endpoint.
+  ///
+  /// <code>grant_types_supported</code>: An array of grant types that are
+  /// supported at the token endpoint. You must provide at least one grant type
+  /// option. Valid options are <code>authorization_code</code> and
+  /// <code>client_credentials</code>.
+  ///
+  /// <code>token_endpoint</code>: The URL to the OAuth2 token endpoint.
+  ///
+  /// <code>capabilities</code>: An array of strings of the SMART capabilities
+  /// that the authorization server supports.
+  ///
+  /// <code>code_challenge_methods_supported</code>: An array of strings of
+  /// supported PKCE code challenge methods. You must include the
+  /// <code>S256</code> method in the array of PKCE code challenge methods.
+  final String? metadata;
+
+  IdentityProviderConfiguration({
+    required this.authorizationStrategy,
+    this.fineGrainedAuthorizationEnabled,
+    this.idpLambdaArn,
+    this.metadata,
+  });
+
+  factory IdentityProviderConfiguration.fromJson(Map<String, dynamic> json) {
+    return IdentityProviderConfiguration(
+      authorizationStrategy:
+          (json['AuthorizationStrategy'] as String).toAuthorizationStrategy(),
+      fineGrainedAuthorizationEnabled:
+          json['FineGrainedAuthorizationEnabled'] as bool?,
+      idpLambdaArn: json['IdpLambdaArn'] as String?,
+      metadata: json['Metadata'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationStrategy = this.authorizationStrategy;
+    final fineGrainedAuthorizationEnabled =
+        this.fineGrainedAuthorizationEnabled;
+    final idpLambdaArn = this.idpLambdaArn;
+    final metadata = this.metadata;
+    return {
+      'AuthorizationStrategy': authorizationStrategy.toValue(),
+      if (fineGrainedAuthorizationEnabled != null)
+        'FineGrainedAuthorizationEnabled': fineGrainedAuthorizationEnabled,
+      if (idpLambdaArn != null) 'IdpLambdaArn': idpLambdaArn,
+      if (metadata != null) 'Metadata': metadata,
+    };
+  }
+}
+
+/// Displays the properties of the import job, including the ID, Arn, Name, the
+/// status of the job, and the progress report of the job.
 class ImportJobProperties {
   /// The datastore id used when the Import job was created.
   final String datastoreId;
@@ -1129,13 +1318,13 @@ class ImportJobProperties {
   final String jobId;
 
   /// The job status for an Import job. Possible statuses are SUBMITTED,
-  /// IN_PROGRESS, COMPLETED, FAILED.
+  /// IN_PROGRESS, COMPLETED_WITH_ERRORS, COMPLETED, FAILED.
   final JobStatus jobStatus;
 
   /// The time that the Import job was submitted for processing.
   final DateTime submitTime;
 
-  /// The Amazon Resource Name (ARN) that gives Amazon HealthLake access to your
+  /// The Amazon Resource Name (ARN) that gives AWS HealthLake access to your
   /// input data.
   final String? dataAccessRoleArn;
 
@@ -1145,6 +1334,10 @@ class ImportJobProperties {
   /// The user-generated name for an Import job.
   final String? jobName;
   final OutputDataConfig? jobOutputDataConfig;
+
+  /// Displays the progress of the import job, including total resources scanned,
+  /// total resources ingested, and total size of data ingested.
+  final JobProgressReport? jobProgressReport;
 
   /// An explanation of any errors that may have occurred during the FHIR import
   /// job.
@@ -1160,6 +1353,7 @@ class ImportJobProperties {
     this.endTime,
     this.jobName,
     this.jobOutputDataConfig,
+    this.jobProgressReport,
     this.message,
   });
 
@@ -1178,6 +1372,10 @@ class ImportJobProperties {
           ? OutputDataConfig.fromJson(
               json['JobOutputDataConfig'] as Map<String, dynamic>)
           : null,
+      jobProgressReport: json['JobProgressReport'] != null
+          ? JobProgressReport.fromJson(
+              json['JobProgressReport'] as Map<String, dynamic>)
+          : null,
       message: json['Message'] as String?,
     );
   }
@@ -1192,6 +1390,7 @@ class ImportJobProperties {
     final endTime = this.endTime;
     final jobName = this.jobName;
     final jobOutputDataConfig = this.jobOutputDataConfig;
+    final jobProgressReport = this.jobProgressReport;
     final message = this.message;
     return {
       'DatastoreId': datastoreId,
@@ -1204,6 +1403,7 @@ class ImportJobProperties {
       if (jobName != null) 'JobName': jobName,
       if (jobOutputDataConfig != null)
         'JobOutputDataConfig': jobOutputDataConfig,
+      if (jobProgressReport != null) 'JobProgressReport': jobProgressReport,
       if (message != null) 'Message': message,
     };
   }
@@ -1212,7 +1412,7 @@ class ImportJobProperties {
 /// The input properties for an import job.
 class InputDataConfig {
   /// The S3Uri is the user specified S3 location of the FHIR data to be imported
-  /// into Amazon HealthLake.
+  /// into AWS HealthLake.
   final String? s3Uri;
 
   InputDataConfig({
@@ -1233,12 +1433,105 @@ class InputDataConfig {
   }
 }
 
+/// The progress report of an import job.
+class JobProgressReport {
+  /// The throughput (in MB/sec) of the import job.
+  final double? throughput;
+
+  /// The number of files that failed to be read from the input S3 bucket due to
+  /// customer error.
+  final int? totalNumberOfFilesReadWithCustomerError;
+
+  /// The number of files imported so far.
+  final int? totalNumberOfImportedFiles;
+
+  /// The number of resources imported so far.
+  final int? totalNumberOfResourcesImported;
+
+  /// The number of resources scanned from the input S3 bucket.
+  final int? totalNumberOfResourcesScanned;
+
+  /// The number of resources that failed due to customer error.
+  final int? totalNumberOfResourcesWithCustomerError;
+
+  /// The number of files scanned from input S3 bucket.
+  final int? totalNumberOfScannedFiles;
+
+  /// The size (in MB) of the files scanned from the input S3 bucket.
+  final double? totalSizeOfScannedFilesInMB;
+
+  JobProgressReport({
+    this.throughput,
+    this.totalNumberOfFilesReadWithCustomerError,
+    this.totalNumberOfImportedFiles,
+    this.totalNumberOfResourcesImported,
+    this.totalNumberOfResourcesScanned,
+    this.totalNumberOfResourcesWithCustomerError,
+    this.totalNumberOfScannedFiles,
+    this.totalSizeOfScannedFilesInMB,
+  });
+
+  factory JobProgressReport.fromJson(Map<String, dynamic> json) {
+    return JobProgressReport(
+      throughput: json['Throughput'] as double?,
+      totalNumberOfFilesReadWithCustomerError:
+          json['TotalNumberOfFilesReadWithCustomerError'] as int?,
+      totalNumberOfImportedFiles: json['TotalNumberOfImportedFiles'] as int?,
+      totalNumberOfResourcesImported:
+          json['TotalNumberOfResourcesImported'] as int?,
+      totalNumberOfResourcesScanned:
+          json['TotalNumberOfResourcesScanned'] as int?,
+      totalNumberOfResourcesWithCustomerError:
+          json['TotalNumberOfResourcesWithCustomerError'] as int?,
+      totalNumberOfScannedFiles: json['TotalNumberOfScannedFiles'] as int?,
+      totalSizeOfScannedFilesInMB:
+          json['TotalSizeOfScannedFilesInMB'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final throughput = this.throughput;
+    final totalNumberOfFilesReadWithCustomerError =
+        this.totalNumberOfFilesReadWithCustomerError;
+    final totalNumberOfImportedFiles = this.totalNumberOfImportedFiles;
+    final totalNumberOfResourcesImported = this.totalNumberOfResourcesImported;
+    final totalNumberOfResourcesScanned = this.totalNumberOfResourcesScanned;
+    final totalNumberOfResourcesWithCustomerError =
+        this.totalNumberOfResourcesWithCustomerError;
+    final totalNumberOfScannedFiles = this.totalNumberOfScannedFiles;
+    final totalSizeOfScannedFilesInMB = this.totalSizeOfScannedFilesInMB;
+    return {
+      if (throughput != null) 'Throughput': throughput,
+      if (totalNumberOfFilesReadWithCustomerError != null)
+        'TotalNumberOfFilesReadWithCustomerError':
+            totalNumberOfFilesReadWithCustomerError,
+      if (totalNumberOfImportedFiles != null)
+        'TotalNumberOfImportedFiles': totalNumberOfImportedFiles,
+      if (totalNumberOfResourcesImported != null)
+        'TotalNumberOfResourcesImported': totalNumberOfResourcesImported,
+      if (totalNumberOfResourcesScanned != null)
+        'TotalNumberOfResourcesScanned': totalNumberOfResourcesScanned,
+      if (totalNumberOfResourcesWithCustomerError != null)
+        'TotalNumberOfResourcesWithCustomerError':
+            totalNumberOfResourcesWithCustomerError,
+      if (totalNumberOfScannedFiles != null)
+        'TotalNumberOfScannedFiles': totalNumberOfScannedFiles,
+      if (totalSizeOfScannedFilesInMB != null)
+        'TotalSizeOfScannedFilesInMB': totalSizeOfScannedFilesInMB,
+    };
+  }
+}
+
 enum JobStatus {
   submitted,
   inProgress,
   completedWithErrors,
   completed,
   failed,
+  cancelSubmitted,
+  cancelInProgress,
+  cancelCompleted,
+  cancelFailed,
 }
 
 extension JobStatusValueExtension on JobStatus {
@@ -1254,6 +1547,14 @@ extension JobStatusValueExtension on JobStatus {
         return 'COMPLETED';
       case JobStatus.failed:
         return 'FAILED';
+      case JobStatus.cancelSubmitted:
+        return 'CANCEL_SUBMITTED';
+      case JobStatus.cancelInProgress:
+        return 'CANCEL_IN_PROGRESS';
+      case JobStatus.cancelCompleted:
+        return 'CANCEL_COMPLETED';
+      case JobStatus.cancelFailed:
+        return 'CANCEL_FAILED';
     }
   }
 }
@@ -1271,19 +1572,27 @@ extension JobStatusFromString on String {
         return JobStatus.completed;
       case 'FAILED':
         return JobStatus.failed;
+      case 'CANCEL_SUBMITTED':
+        return JobStatus.cancelSubmitted;
+      case 'CANCEL_IN_PROGRESS':
+        return JobStatus.cancelInProgress;
+      case 'CANCEL_COMPLETED':
+        return JobStatus.cancelCompleted;
+      case 'CANCEL_FAILED':
+        return JobStatus.cancelFailed;
     }
     throw Exception('$this is not known in enum JobStatus');
   }
 }
 
-/// The customer-managed-key(CMK) used when creating a Data Store. If a customer
+/// The customer-managed-key(CMK) used when creating a data store. If a customer
 /// owned key is not specified, an AWS owned key will be used for encryption.
 class KmsEncryptionConfig {
-  /// The type of customer-managed-key(CMK) used for encyrption. The two types of
+  /// The type of customer-managed-key(CMK) used for encryption. The two types of
   /// supported CMKs are customer owned CMKs and AWS owned CMKs.
   final CmkType cmkType;
 
-  /// The KMS encryption key id/alias used to encrypt the Data Store contents at
+  /// The KMS encryption key id/alias used to encrypt the data store contents at
   /// rest.
   final String? kmsKeyId;
 
@@ -1310,7 +1619,7 @@ class KmsEncryptionConfig {
 }
 
 class ListFHIRDatastoresResponse {
-  /// All properties associated with the listed Data Stores.
+  /// All properties associated with the listed data stores.
   final List<DatastoreProperties> datastorePropertiesList;
 
   /// Pagination token that can be used to retrieve the next page of results.
@@ -1377,7 +1686,7 @@ class ListFHIRExportJobsResponse {
 
 class ListFHIRImportJobsResponse {
   /// The properties of a listed FHIR import jobs, including the ID, ARN, name,
-  /// and the status of the job.
+  /// the status of the job, and the progress report of the job.
   final List<ImportJobProperties> importJobPropertiesList;
 
   /// A pagination token used to identify the next page of results to return for a
@@ -1410,7 +1719,7 @@ class ListFHIRImportJobsResponse {
 }
 
 class ListTagsForResourceResponse {
-  /// Returns a list of tags associated with a Data Store.
+  /// Returns a list of tags associated with a data store.
   final List<Tag>? tags;
 
   ListTagsForResourceResponse({
@@ -1462,7 +1771,7 @@ class OutputDataConfig {
   }
 }
 
-/// The input properties for the preloaded Data Store. Only data preloaded from
+/// The input properties for the preloaded data store. Only data preloaded from
 /// Synthea is supported.
 class PreloadDataConfig {
   /// The type of preloaded data. Only Synthea preloaded data is supported.
@@ -1516,7 +1825,7 @@ class S3Configuration {
   final String kmsKeyId;
 
   /// The S3Uri is the user specified S3 location of the FHIR data to be imported
-  /// into Amazon HealthLake.
+  /// into AWS HealthLake.
   final String s3Uri;
 
   S3Configuration({
@@ -1575,7 +1884,7 @@ class StartFHIRExportJobResponse {
   /// IN_PROGRESS, COMPLETED, or FAILED.
   final JobStatus jobStatus;
 
-  /// The AWS generated ID for the Data Store from which files are being exported
+  /// The AWS generated ID for the data store from which files are being exported
   /// for an export job.
   final String? datastoreId;
 
@@ -1612,7 +1921,7 @@ class StartFHIRImportJobResponse {
   /// The status of an import job.
   final JobStatus jobStatus;
 
-  /// The AWS-generated Data Store ID.
+  /// The AWS-generated data store ID.
   final String? datastoreId;
 
   StartFHIRImportJobResponse({
@@ -1647,7 +1956,7 @@ class Tag {
   /// The key portion of a tag. Tag keys are case sensitive.
   final String key;
 
-  /// The value portion of tag. Tag values are case sensitive.
+  /// The value portion of a tag. Tag values are case sensitive.
   final String value;
 
   Tag({

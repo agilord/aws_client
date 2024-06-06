@@ -529,7 +529,9 @@ class ServiceDiscovery {
 
   /// Discovers registered instances for a specified namespace and service. You
   /// can use <code>DiscoverInstances</code> to discover instances for any type
-  /// of namespace. For public and private DNS namespaces, you can also use DNS
+  /// of namespace. <code>DiscoverInstances</code> returns a randomized list of
+  /// instances allowing customers to distribute traffic evenly across
+  /// instances. For public and private DNS namespaces, you can also use DNS
   /// queries to discover instances.
   ///
   /// May throw [ServiceNotFound].
@@ -540,7 +542,10 @@ class ServiceDiscovery {
   /// Parameter [namespaceName] :
   /// The <code>HttpName</code> name of the namespace. It's found in the
   /// <code>HttpProperties</code> member of the <code>Properties</code> member
-  /// of the namespace.
+  /// of the namespace. In most cases, <code>Name</code> and
+  /// <code>HttpName</code> match. However, if you reuse <code>Name</code> for
+  /// namespace creation, a generated hash is added to <code>HttpName</code> to
+  /// distinguish the two.
   ///
   /// Parameter [serviceName] :
   /// The name of the service that you specified when you registered the
@@ -615,6 +620,44 @@ class ServiceDiscovery {
     );
 
     return DiscoverInstancesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Discovers the increasing revision associated with an instance.
+  ///
+  /// May throw [ServiceNotFound].
+  /// May throw [NamespaceNotFound].
+  /// May throw [InvalidInput].
+  /// May throw [RequestLimitExceeded].
+  ///
+  /// Parameter [namespaceName] :
+  /// The <code>HttpName</code> name of the namespace. It's found in the
+  /// <code>HttpProperties</code> member of the <code>Properties</code> member
+  /// of the namespace.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the service that you specified when you registered the
+  /// instance.
+  Future<DiscoverInstancesRevisionResponse> discoverInstancesRevision({
+    required String namespaceName,
+    required String serviceName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53AutoNaming_v20170314.DiscoverInstancesRevision'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'NamespaceName': namespaceName,
+        'ServiceName': serviceName,
+      },
+    );
+
+    return DiscoverInstancesRevisionResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets information about a specified instance.
@@ -755,7 +798,7 @@ class ServiceDiscovery {
   }
 
   /// Gets information about any operation that returns an operation ID in the
-  /// response, such as a <code>CreateService</code> request.
+  /// response, such as a <code>CreateHttpNamespace</code> request.
   /// <note>
   /// To get a list of operations that match specified criteria, see <a
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html">ListOperations</a>.
@@ -992,7 +1035,7 @@ class ServiceDiscovery {
   }
 
   /// Lists summary information for all the services that are associated with
-  /// one or more specified namespaces.
+  /// one or more namespaces.
   ///
   /// May throw [InvalidInput].
   ///
@@ -1145,11 +1188,11 @@ class ServiceDiscovery {
   /// <li>
   /// For each attribute, the applicable value.
   /// </li>
-  /// </ul> <note>
+  /// </ul> <important>
   /// Do not include sensitive information in the attributes if the namespace is
   /// discoverable by public DNS queries.
-  /// </note>
-  /// Supported attribute keys include the following:
+  /// </important>
+  /// The following are the supported attribute keys.
   /// <dl> <dt>AWS_ALIAS_DNS_NAME</dt> <dd>
   /// If you want Cloud Map to create an Amazon Route 53 alias record that
   /// routes traffic to an Elastic Load Balancing load balancer, specify the DNS
@@ -1177,13 +1220,17 @@ class ServiceDiscovery {
   /// alias record.
   /// </li>
   /// <li>
-  /// Auto naming currently doesn't support creating alias records that route
+  /// Cloud Map currently doesn't support creating alias records that route
   /// traffic to Amazon Web Services resources other than Elastic Load Balancing
   /// load balancers.
   /// </li>
   /// <li>
   /// If you specify a value for <code>AWS_ALIAS_DNS_NAME</code>, don't specify
   /// values for any of the <code>AWS_INSTANCE</code> attributes.
+  /// </li>
+  /// <li>
+  /// The <code>AWS_ALIAS_DNS_NAME</code> is not supported in the GovCloud (US)
+  /// Regions.
   /// </li>
   /// </ul> </dd> <dt>AWS_EC2_INSTANCE_ID</dt> <dd>
   /// <i>HTTP namespaces only.</i> The Amazon EC2 instance ID for the instance.
@@ -1774,8 +1821,15 @@ class DiscoverInstancesResponse {
   /// registered instance.
   final List<HttpInstanceSummary>? instances;
 
+  /// The increasing revision associated to the response Instances list. If a new
+  /// instance is registered or deregistered, the <code>InstancesRevision</code>
+  /// updates. The health status updates don't update
+  /// <code>InstancesRevision</code>.
+  final int? instancesRevision;
+
   DiscoverInstancesResponse({
     this.instances,
+    this.instancesRevision,
   });
 
   factory DiscoverInstancesResponse.fromJson(Map<String, dynamic> json) {
@@ -1784,6 +1838,26 @@ class DiscoverInstancesResponse {
           ?.whereNotNull()
           .map((e) => HttpInstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      instancesRevision: json['InstancesRevision'] as int?,
+    );
+  }
+}
+
+class DiscoverInstancesRevisionResponse {
+  /// The increasing revision associated to the response Instances list. If a new
+  /// instance is registered or deregistered, the <code>InstancesRevision</code>
+  /// updates. The health status updates don't update
+  /// <code>InstancesRevision</code>.
+  final int? instancesRevision;
+
+  DiscoverInstancesRevisionResponse({
+    this.instancesRevision,
+  });
+
+  factory DiscoverInstancesRevisionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DiscoverInstancesRevisionResponse(
+      instancesRevision: json['InstancesRevision'] as int?,
     );
   }
 }

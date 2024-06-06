@@ -1223,7 +1223,8 @@ class DescribeLedgerResponse {
 
   /// Information about the encryption of data at rest in the ledger. This
   /// includes the current status, the KMS key, and when the key became
-  /// inaccessible (in the case of an error).
+  /// inaccessible (in the case of an error). If this parameter is undefined, the
+  /// ledger uses an Amazon Web Services owned KMS key for encryption.
   final LedgerEncryptionDescription? encryptionDescription;
 
   /// The name of the ledger.
@@ -1684,7 +1685,9 @@ class LedgerEncryptionDescription {
 
   /// The Amazon Resource Name (ARN) of the customer managed KMS key that the
   /// ledger uses for encryption at rest. If this parameter is undefined, the
-  /// ledger uses an Amazon Web Services owned KMS key for encryption.
+  /// ledger uses an Amazon Web Services owned KMS key for encryption. It will
+  /// display <code>AWS_OWNED_KMS_KEY</code> when updating the ledger's encryption
+  /// configuration to the Amazon Web Services owned KMS key.
   final String kmsKeyArn;
 
   /// The date and time, in epoch time format, when the KMS key first became

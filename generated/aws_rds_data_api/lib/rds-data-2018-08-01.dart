@@ -20,15 +20,8 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon
-/// Aurora Serverless v1 DB cluster. To run these statements, you work with the
-/// Data Service API.
-/// <note>
-/// The Data Service API isn't supported on Amazon Aurora Serverless v2 DB
-/// clusters.
-/// </note>
-/// For more information about the Data Service API, see <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
-/// the Data API</a> in the <i>Amazon Aurora User Guide</i>.
+/// Aurora DB cluster. To run these statements, you use the RDS Data API (Data
+/// API).
 class RDSDataService {
   final _s.RestJsonProtocol _protocol;
   RDSDataService({
@@ -81,12 +74,19 @@ class RDSDataService {
   /// response data, the call is terminated.
   /// </note>
   ///
+  /// May throw [SecretsErrorException].
+  /// May throw [HttpEndpointNotEnabledException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [TransactionNotFoundException].
+  /// May throw [InvalidSecretException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [ForbiddenException].
+  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableError].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -180,12 +180,19 @@ class RDSDataService {
   /// enabled.
   /// </note>
   ///
+  /// May throw [SecretsErrorException].
+  /// May throw [HttpEndpointNotEnabledException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [TransactionNotFoundException].
+  /// May throw [InvalidSecretException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [ForbiddenException].
+  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableError].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -222,12 +229,19 @@ class RDSDataService {
   /// Ends a SQL transaction started with the <code>BeginTransaction</code>
   /// operation and commits the changes.
   ///
+  /// May throw [SecretsErrorException].
+  /// May throw [HttpEndpointNotEnabledException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [TransactionNotFoundException].
+  /// May throw [InvalidSecretException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [ForbiddenException].
+  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableError].
   /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
@@ -259,8 +273,10 @@ class RDSDataService {
 
   /// Runs one or more SQL statements.
   /// <note>
-  /// This operation is deprecated. Use the <code>BatchExecuteStatement</code>
-  /// or <code>ExecuteStatement</code> operation.
+  /// This operation isn't supported for Aurora PostgreSQL Serverless v2 and
+  /// provisioned DB clusters, and for Aurora Serverless v1 DB clusters, the
+  /// operation is deprecated. Use the <code>BatchExecuteStatement</code> or
+  /// <code>ExecuteStatement</code> operation.
   /// </note>
   ///
   /// May throw [AccessDeniedException].
@@ -328,12 +344,20 @@ class RDSDataService {
   /// is terminated.
   /// </note>
   ///
+  /// May throw [SecretsErrorException].
+  /// May throw [HttpEndpointNotEnabledException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [TransactionNotFoundException].
+  /// May throw [InvalidSecretException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [ForbiddenException].
+  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableError].
+  /// May throw [UnsupportedResultException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -439,12 +463,19 @@ class RDSDataService {
   /// Performs a rollback of a transaction. Rolling back a transaction cancels
   /// its changes.
   ///
+  /// May throw [SecretsErrorException].
+  /// May throw [HttpEndpointNotEnabledException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [TransactionNotFoundException].
+  /// May throw [InvalidSecretException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [ForbiddenException].
+  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableError].
   /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
@@ -740,13 +771,13 @@ class ExecuteStatementResponse {
   final String? formattedRecords;
 
   /// Values for fields generated during a DML request.
-  /// <pre><code> &lt;note&gt; &lt;p&gt;The
-  /// &lt;code&gt;generatedFields&lt;/code&gt; data isn't supported by Aurora
-  /// PostgreSQL. To get the values of generated fields, use the
-  /// &lt;code&gt;RETURNING&lt;/code&gt; clause. For more information, see &lt;a
-  /// href=&quot;https://www.postgresql.org/docs/10/dml-returning.html&quot;&gt;Returning
-  /// Data From Modified Rows&lt;/a&gt; in the PostgreSQL documentation.&lt;/p&gt;
-  /// &lt;/note&gt; </code></pre>
+  /// <note>
+  /// The <code>generatedFields</code> data isn't supported by Aurora PostgreSQL.
+  /// To get the values of generated fields, use the <code>RETURNING</code>
+  /// clause. For more information, see <a
+  /// href="https://www.postgresql.org/docs/10/dml-returning.html">Returning Data
+  /// From Modified Rows</a> in the PostgreSQL documentation.
+  /// </note>
   final List<Field>? generatedFields;
 
   /// The number of records updated by the request.
@@ -1104,11 +1135,11 @@ class SqlParameter {
 }
 
 /// The result of a SQL statement.
-/// <pre><code> &lt;note&gt; &lt;p&gt;This data structure is only used with the
-/// deprecated &lt;code&gt;ExecuteSql&lt;/code&gt; operation. Use the
-/// &lt;code&gt;BatchExecuteStatement&lt;/code&gt; or
-/// &lt;code&gt;ExecuteStatement&lt;/code&gt; operation instead.&lt;/p&gt;
-/// &lt;/note&gt; </code></pre>
+/// <note>
+/// This data structure is only used with the deprecated <code>ExecuteSql</code>
+/// operation. Use the <code>BatchExecuteStatement</code> or
+/// <code>ExecuteStatement</code> operation instead.
+/// </note>
 class SqlStatementResult {
   /// The number of records updated by a SQL statement.
   final int? numberOfRecordsUpdated;
@@ -1223,11 +1254,11 @@ class UpdateResult {
 }
 
 /// Contains the value of a column.
-/// <pre><code> &lt;note&gt; &lt;p&gt;This data structure is only used with the
-/// deprecated &lt;code&gt;ExecuteSql&lt;/code&gt; operation. Use the
-/// &lt;code&gt;BatchExecuteStatement&lt;/code&gt; or
-/// &lt;code&gt;ExecuteStatement&lt;/code&gt; operation instead.&lt;/p&gt;
-/// &lt;/note&gt; </code></pre>
+/// <note>
+/// This data structure is only used with the deprecated <code>ExecuteSql</code>
+/// operation. Use the <code>BatchExecuteStatement</code> or
+/// <code>ExecuteStatement</code> operation instead.
+/// </note>
 class Value {
   /// An array of column values.
   final List<Value>? arrayValues;
@@ -1303,9 +1334,33 @@ class BadRequestException extends _s.GenericAwsException {
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+class DatabaseErrorException extends _s.GenericAwsException {
+  DatabaseErrorException({String? type, String? message})
+      : super(type: type, code: 'DatabaseErrorException', message: message);
+}
+
+class DatabaseNotFoundException extends _s.GenericAwsException {
+  DatabaseNotFoundException({String? type, String? message})
+      : super(type: type, code: 'DatabaseNotFoundException', message: message);
+}
+
+class DatabaseUnavailableException extends _s.GenericAwsException {
+  DatabaseUnavailableException({String? type, String? message})
+      : super(
+            type: type, code: 'DatabaseUnavailableException', message: message);
+}
+
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
+}
+
+class HttpEndpointNotEnabledException extends _s.GenericAwsException {
+  HttpEndpointNotEnabledException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'HttpEndpointNotEnabledException',
+            message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
@@ -1314,9 +1369,19 @@ class InternalServerErrorException extends _s.GenericAwsException {
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+class InvalidSecretException extends _s.GenericAwsException {
+  InvalidSecretException({String? type, String? message})
+      : super(type: type, code: 'InvalidSecretException', message: message);
+}
+
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
+}
+
+class SecretsErrorException extends _s.GenericAwsException {
+  SecretsErrorException({String? type, String? message})
+      : super(type: type, code: 'SecretsErrorException', message: message);
 }
 
 class ServiceUnavailableError extends _s.GenericAwsException {
@@ -1329,19 +1394,46 @@ class StatementTimeoutException extends _s.GenericAwsException {
       : super(type: type, code: 'StatementTimeoutException', message: message);
 }
 
+class TransactionNotFoundException extends _s.GenericAwsException {
+  TransactionNotFoundException({String? type, String? message})
+      : super(
+            type: type, code: 'TransactionNotFoundException', message: message);
+}
+
+class UnsupportedResultException extends _s.GenericAwsException {
+  UnsupportedResultException({String? type, String? message})
+      : super(type: type, code: 'UnsupportedResultException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
+  'DatabaseErrorException': (type, message) =>
+      DatabaseErrorException(type: type, message: message),
+  'DatabaseNotFoundException': (type, message) =>
+      DatabaseNotFoundException(type: type, message: message),
+  'DatabaseUnavailableException': (type, message) =>
+      DatabaseUnavailableException(type: type, message: message),
   'ForbiddenException': (type, message) =>
       ForbiddenException(type: type, message: message),
+  'HttpEndpointNotEnabledException': (type, message) =>
+      HttpEndpointNotEnabledException(type: type, message: message),
   'InternalServerErrorException': (type, message) =>
       InternalServerErrorException(type: type, message: message),
+  'InvalidSecretException': (type, message) =>
+      InvalidSecretException(type: type, message: message),
   'NotFoundException': (type, message) =>
       NotFoundException(type: type, message: message),
+  'SecretsErrorException': (type, message) =>
+      SecretsErrorException(type: type, message: message),
   'ServiceUnavailableError': (type, message) =>
       ServiceUnavailableError(type: type, message: message),
   'StatementTimeoutException': (type, message) =>
       StatementTimeoutException(type: type, message: message),
+  'TransactionNotFoundException': (type, message) =>
+      TransactionNotFoundException(type: type, message: message),
+  'UnsupportedResultException': (type, message) =>
+      UnsupportedResultException(type: type, message: message),
 };

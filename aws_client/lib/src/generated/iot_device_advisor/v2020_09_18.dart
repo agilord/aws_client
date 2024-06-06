@@ -1165,7 +1165,17 @@ class SuiteDefinitionConfiguration {
   /// Gets the device permission ARN. This is a required parameter.
   final String devicePermissionRoleArn;
 
-  /// Gets the test suite root group. This is a required parameter.
+  /// Gets the test suite root group. This is a required parameter. For updating
+  /// or creating the latest qualification suite, if
+  /// <code>intendedForQualification</code> is set to true, <code>rootGroup</code>
+  /// can be an empty string. If <code>intendedForQualification</code> is false,
+  /// <code>rootGroup</code> cannot be an empty string. If <code>rootGroup</code>
+  /// is empty, and <code>intendedForQualification</code> is set to true, all the
+  /// qualification tests are included, and the configuration is default.
+  ///
+  /// For a qualification suite, the minimum length is 0, and the maximum is 2048.
+  /// For a non-qualification suite, the minimum length is 1, and the maximum is
+  /// 2048.
   final String rootGroup;
 
   /// Gets the suite definition name. This is a required parameter.
@@ -1667,7 +1677,7 @@ class TestCaseScenario {
   /// </ul>
   final TestCaseScenarioStatus? status;
 
-  ///
+  /// Provides test case scenario system messages if any.
   final String? systemMessage;
 
   /// Provides test case scenario ID.

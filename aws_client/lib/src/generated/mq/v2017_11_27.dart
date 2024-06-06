@@ -103,8 +103,8 @@ class MQ {
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user">Create
-  /// an IAM User and Get Your AWS Credentials</a> and <a
-  /// href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface">Never
+  /// an IAM User and Get Your Amazon Web Services Credentials</a> and <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface">Never
   /// Modify or Delete the Amazon MQ Elastic Network Interface</a> in the
   /// <i>Amazon MQ Developer Guide</i>.
   ///
@@ -121,10 +121,16 @@ class MQ {
   /// broker reboot. Set to true by default, if no value is specified.
   ///
   /// Parameter [brokerName] :
-  /// Required. The broker's name. This value must be unique in your AWS
-  /// account, 1-50 characters long, must contain only letters, numbers, dashes,
-  /// and underscores, and must not contain white spaces, brackets, wildcard
-  /// characters, or special characters.
+  /// Required. The broker's name. This value must be unique in your Amazon Web
+  /// Services account, 1-50 characters long, must contain only letters,
+  /// numbers, dashes, and underscores, and must not contain white spaces,
+  /// brackets, wildcard characters, or special characters.
+  /// <important>
+  /// Do not add personally identifiable information (PII) or other confidential
+  /// or sensitive information in broker names. Broker names are accessible to
+  /// other Amazon Web Services services, including CloudWatch Logs. Broker
+  /// names are not intended to be used for private or sensitive data.
+  /// </important>
   ///
   /// Parameter [deploymentMode] :
   /// Required. The broker's deployment mode.
@@ -147,16 +153,11 @@ class MQ {
   /// broker's subnets. Set to false by default, if no value is provided.
   ///
   /// Parameter [users] :
-  /// Required. The list of broker users (persons or applications) who can
-  /// access queues and topics. This value can contain only alphanumeric
-  /// characters, dashes, periods, underscores, and tildes (- . _ ~). This value
-  /// must be 2-100 characters long.
-  /// <important><title>Amazon MQ for RabbitMQ</title>
-  /// When you create an Amazon MQ for RabbitMQ broker, one and only one
+  /// The list of broker users (persons or applications) who can access queues
+  /// and topics. For Amazon MQ for RabbitMQ brokers, one and only one
   /// administrative user is accepted and created when a broker is first
   /// provisioned. All subsequent broker users are created by making RabbitMQ
   /// API calls directly to brokers or via the RabbitMQ web console.
-  /// </important>
   ///
   /// Parameter [authenticationStrategy] :
   /// Optional. The authentication strategy used to secure the broker. The
@@ -167,12 +168,23 @@ class MQ {
   ///
   /// Parameter [creatorRequestId] :
   /// The unique ID that the requester receives for the created broker. Amazon
-  /// MQ passes your ID with the API action. Note: We recommend using a
-  /// Universally Unique Identifier (UUID) for the creatorRequestId. You may
-  /// omit the creatorRequestId if your application doesn't require idempotency.
+  /// MQ passes your ID with the API action.
+  /// <note>
+  /// We recommend using a Universally Unique Identifier (UUID) for the
+  /// creatorRequestId. You may omit the creatorRequestId if your application
+  /// doesn't require idempotency.
+  /// </note>
+  ///
+  /// Parameter [dataReplicationMode] :
+  /// Defines whether this broker is a part of a data replication pair.
+  ///
+  /// Parameter [dataReplicationPrimaryBrokerArn] :
+  /// The Amazon Resource Name (ARN) of the primary broker that is used to
+  /// replicate data from in a data replication pair, and is applied to the
+  /// replica broker. Must be set when dataReplicationMode is set to CRDR.
   ///
   /// Parameter [encryptionOptions] :
-  /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
+  /// Encryption options for the broker.
   ///
   /// Parameter [ldapServerMetadata] :
   /// Optional. The metadata of the LDAP server used to authenticate and
@@ -206,9 +218,9 @@ class MQ {
   /// If you specify subnets in a <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html">shared
   /// VPC</a> for a RabbitMQ broker, the associated VPC to which the specified
-  /// subnets belong must be owned by your AWS account. Amazon MQ will not be
-  /// able to create VPC endpoints in VPCs that are not owned by your AWS
-  /// account.
+  /// subnets belong must be owned by your Amazon Web Services account. Amazon
+  /// MQ will not be able to create VPC endpoints in VPCs that are not owned by
+  /// your Amazon Web Services account.
   /// </important>
   ///
   /// Parameter [tags] :
@@ -225,6 +237,8 @@ class MQ {
     AuthenticationStrategy? authenticationStrategy,
     ConfigurationId? configuration,
     String? creatorRequestId,
+    DataReplicationMode? dataReplicationMode,
+    String? dataReplicationPrimaryBrokerArn,
     EncryptionOptions? encryptionOptions,
     LdapServerMetadataInput? ldapServerMetadata,
     Logs? logs,
@@ -247,6 +261,10 @@ class MQ {
         'authenticationStrategy': authenticationStrategy.toValue(),
       if (configuration != null) 'configuration': configuration,
       'creatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
+      if (dataReplicationMode != null)
+        'dataReplicationMode': dataReplicationMode.toValue(),
+      if (dataReplicationPrimaryBrokerArn != null)
+        'dataReplicationPrimaryBrokerArn': dataReplicationPrimaryBrokerArn,
       if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
       if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
       if (logs != null) 'logs': logs,
@@ -347,6 +365,13 @@ class MQ {
   }
 
   /// Creates an ActiveMQ user.
+  /// <important>
+  /// Do not add personally identifiable information (PII) or other confidential
+  /// or sensitive information in broker usernames. Broker usernames are
+  /// accessible to other Amazon Web Services services, including CloudWatch
+  /// Logs. Broker usernames are not intended to be used for private or
+  /// sensitive data.
+  /// </important>
   ///
   /// May throw [NotFoundException].
   /// May throw [BadRequestException].
@@ -375,17 +400,22 @@ class MQ {
   /// value can contain only alphanumeric characters, dashes, periods,
   /// underscores, and tildes (- . _ ~). This value must be 2-100 characters
   /// long.
+  ///
+  /// Parameter [replicationUser] :
+  /// Defines if this user is intended for CRDR replication purposes.
   Future<void> createUser({
     required String brokerId,
     required String password,
     required String username,
     bool? consoleAccess,
     List<String>? groups,
+    bool? replicationUser,
   }) async {
     final $payload = <String, dynamic>{
       'password': password,
       if (consoleAccess != null) 'consoleAccess': consoleAccess,
       if (groups != null) 'groups': groups,
+      if (replicationUser != null) 'replicationUser': replicationUser,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -843,6 +873,35 @@ class MQ {
     return ListUsersResponse.fromJson(response);
   }
 
+  /// Promotes a data replication replica broker to the primary broker role.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [brokerId] :
+  /// The unique ID that Amazon MQ generates for the broker.
+  ///
+  /// Parameter [mode] :
+  /// The Promote mode requested. Note: Valid values for the parameter are
+  /// SWITCHOVER, FAILOVER.
+  Future<PromoteResponse> promote({
+    required String brokerId,
+    required PromoteMode mode,
+  }) async {
+    final $payload = <String, dynamic>{
+      'mode': mode.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/brokers/${Uri.encodeComponent(brokerId)}/promote',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PromoteResponse.fromJson(response);
+  }
+
   /// Reboots a broker. Note: This API is asynchronous.
   ///
   /// May throw [NotFoundException].
@@ -887,6 +946,9 @@ class MQ {
   /// Parameter [configuration] :
   /// A list of information about the configuration.
   ///
+  /// Parameter [dataReplicationMode] :
+  /// Defines whether this broker is a part of a data replication pair.
+  ///
   /// Parameter [engineVersion] :
   /// The broker engine version. For a list of supported engine versions, see <a
   /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
@@ -916,6 +978,7 @@ class MQ {
     AuthenticationStrategy? authenticationStrategy,
     bool? autoMinorVersionUpgrade,
     ConfigurationId? configuration,
+    DataReplicationMode? dataReplicationMode,
     String? engineVersion,
     String? hostInstanceType,
     LdapServerMetadataInput? ldapServerMetadata,
@@ -929,6 +992,8 @@ class MQ {
       if (autoMinorVersionUpgrade != null)
         'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (configuration != null) 'configuration': configuration,
+      if (dataReplicationMode != null)
+        'dataReplicationMode': dataReplicationMode.toValue(),
       if (engineVersion != null) 'engineVersion': engineVersion,
       if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
       if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
@@ -958,7 +1023,8 @@ class MQ {
   /// The unique ID that Amazon MQ generates for the configuration.
   ///
   /// Parameter [data] :
-  /// Required. The base64-encoded XML configuration.
+  /// Amazon MQ for Active MQ: The base64-encoded XML configuration. Amazon MQ
+  /// for RabbitMQ: the base64-encoded Cuttlefish configuration.
   ///
   /// Parameter [description] :
   /// The description of the configuration.
@@ -1009,17 +1075,22 @@ class MQ {
   /// The password of the user. This value must be at least 12 characters long,
   /// must contain at least 4 unique characters, and must not contain commas,
   /// colons, or equal signs (,:=).
+  ///
+  /// Parameter [replicationUser] :
+  /// Defines whether the user is intended for data replication.
   Future<void> updateUser({
     required String brokerId,
     required String username,
     bool? consoleAccess,
     List<String>? groups,
     String? password,
+    bool? replicationUser,
   }) async {
     final $payload = <String, dynamic>{
       if (consoleAccess != null) 'consoleAccess': consoleAccess,
       if (groups != null) 'groups': groups,
       if (password != null) 'password': password,
+      if (replicationUser != null) 'replicationUser': replicationUser,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1031,20 +1102,13 @@ class MQ {
   }
 }
 
-/// The action required to resolve a broker issue when the broker is in a
-/// CRITICAL_ACTION_REQUIRED state.
+/// Action required for a broker.
 class ActionRequired {
-  /// The code you can use to resolve your broker issue when the broker is in a
-  /// CRITICAL_ACTION_REQUIRED state. You can find instructions by choosing the
-  /// link for your code from the list of action required codes in <a
-  /// href="https://docs.aws.amazon.com//latest/developer-guide/troubleshooting-action-required-codes.html">Amazon
-  /// MQ action required codes</a>. Each code references a topic with detailed
-  /// information, instructions, and recommendations for how to resolve the issue
-  /// and prevent future occurrences.
+  /// The code you can use to find instructions on the action required to resolve
+  /// your broker issue.
   final String? actionRequiredCode;
 
-  /// Information about the action required to resolve your broker issue when the
-  /// broker is in a CRITICAL_ACTION_REQUIRED state.
+  /// Information about the action required to resolve your broker issue.
   final String? actionRequiredInfo;
 
   ActionRequired({
@@ -1274,6 +1338,7 @@ enum BrokerState {
   running,
   rebootInProgress,
   criticalActionRequired,
+  replica,
 }
 
 extension BrokerStateValueExtension on BrokerState {
@@ -1291,6 +1356,8 @@ extension BrokerStateValueExtension on BrokerState {
         return 'REBOOT_IN_PROGRESS';
       case BrokerState.criticalActionRequired:
         return 'CRITICAL_ACTION_REQUIRED';
+      case BrokerState.replica:
+        return 'REPLICA';
     }
   }
 }
@@ -1310,6 +1377,8 @@ extension BrokerStateFromString on String {
         return BrokerState.rebootInProgress;
       case 'CRITICAL_ACTION_REQUIRED':
         return BrokerState.criticalActionRequired;
+      case 'REPLICA':
+        return BrokerState.replica;
     }
     throw Exception('$this is not known in enum BrokerState');
   }
@@ -1361,10 +1430,10 @@ class BrokerSummary {
   /// The unique ID that Amazon MQ generates for the broker.
   final String? brokerId;
 
-  /// The broker's name. This value is unique in your AWS account, 1-50 characters
-  /// long, and containing only letters, numbers, dashes, and underscores, and
-  /// must not contain white spaces, brackets, wildcard characters, or special
-  /// characters.
+  /// The broker's name. This value is unique in your Amazon Web Services account,
+  /// 1-50 characters long, and containing only letters, numbers, dashes, and
+  /// underscores, and must not contain white spaces, brackets, wildcard
+  /// characters, or special characters.
   final String? brokerName;
 
   /// The broker's status.
@@ -1553,9 +1622,6 @@ class Configuration {
 }
 
 /// A list of information about the configuration.
-/// <important>
-/// Does not apply to RabbitMQ brokers.
-/// </important>
 class ConfigurationId {
   /// Required. The unique ID that Amazon MQ generates for the configuration.
   final String id;
@@ -1772,6 +1838,104 @@ class CreateUserResponse {
   }
 }
 
+/// Specifies a broker in a data replication pair.
+class DataReplicationCounterpart {
+  /// Required. The unique broker id generated by Amazon MQ.
+  final String brokerId;
+
+  /// Required. The region of the broker.
+  final String region;
+
+  DataReplicationCounterpart({
+    required this.brokerId,
+    required this.region,
+  });
+
+  factory DataReplicationCounterpart.fromJson(Map<String, dynamic> json) {
+    return DataReplicationCounterpart(
+      brokerId: json['brokerId'] as String,
+      region: json['region'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerId = this.brokerId;
+    final region = this.region;
+    return {
+      'brokerId': brokerId,
+      'region': region,
+    };
+  }
+}
+
+/// The replication details of the data replication-enabled broker. Only
+/// returned if dataReplicationMode or pendingDataReplicationMode is set to
+/// CRDR.
+class DataReplicationMetadataOutput {
+  /// Defines the role of this broker in a data replication pair. When a replica
+  /// broker is promoted to primary, this role is interchanged.
+  final String dataReplicationRole;
+
+  /// Describes the replica/primary broker. Only returned if this broker is
+  /// currently set as a primary or replica in the broker's dataReplicationRole
+  /// property.
+  final DataReplicationCounterpart? dataReplicationCounterpart;
+
+  DataReplicationMetadataOutput({
+    required this.dataReplicationRole,
+    this.dataReplicationCounterpart,
+  });
+
+  factory DataReplicationMetadataOutput.fromJson(Map<String, dynamic> json) {
+    return DataReplicationMetadataOutput(
+      dataReplicationRole: json['dataReplicationRole'] as String,
+      dataReplicationCounterpart: json['dataReplicationCounterpart'] != null
+          ? DataReplicationCounterpart.fromJson(
+              json['dataReplicationCounterpart'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataReplicationRole = this.dataReplicationRole;
+    final dataReplicationCounterpart = this.dataReplicationCounterpart;
+    return {
+      'dataReplicationRole': dataReplicationRole,
+      if (dataReplicationCounterpart != null)
+        'dataReplicationCounterpart': dataReplicationCounterpart,
+    };
+  }
+}
+
+/// Specifies whether a broker is a part of a data replication pair.
+enum DataReplicationMode {
+  none,
+  crdr,
+}
+
+extension DataReplicationModeValueExtension on DataReplicationMode {
+  String toValue() {
+    switch (this) {
+      case DataReplicationMode.none:
+        return 'NONE';
+      case DataReplicationMode.crdr:
+        return 'CRDR';
+    }
+  }
+}
+
+extension DataReplicationModeFromString on String {
+  DataReplicationMode toDataReplicationMode() {
+    switch (this) {
+      case 'NONE':
+        return DataReplicationMode.none;
+      case 'CRDR':
+        return DataReplicationMode.crdr;
+    }
+    throw Exception('$this is not known in enum DataReplicationMode');
+  }
+}
+
 enum DayOfWeek {
   monday,
   tuesday,
@@ -1979,7 +2143,7 @@ class DescribeBrokerInstanceOptionsResponse {
 }
 
 class DescribeBrokerResponse {
-  /// A list of actions required for a broker.
+  /// Actions required for a broker.
   final List<ActionRequired>? actionsRequired;
 
   /// The authentication strategy used to secure the broker. The default is
@@ -2001,10 +2165,10 @@ class DescribeBrokerResponse {
   /// A list of information about allocated brokers.
   final List<BrokerInstance>? brokerInstances;
 
-  /// The broker's name. This value must be unique in your AWS account, 1-50
-  /// characters long, must contain only letters, numbers, dashes, and
-  /// underscores, and must not contain white spaces, brackets, wildcard
-  /// characters, or special characters.
+  /// The broker's name. This value must be unique in your Amazon Web Services
+  /// account account, 1-50 characters long, must contain only letters, numbers,
+  /// dashes, and underscores, and must not contain white spaces, brackets,
+  /// wildcard characters, or special characters.
   final String? brokerName;
 
   /// The broker's status.
@@ -2016,10 +2180,17 @@ class DescribeBrokerResponse {
   /// The time when the broker was created.
   final DateTime? created;
 
+  /// The replication details of the data replication-enabled broker. Only
+  /// returned if dataReplicationMode is set to CRDR.
+  final DataReplicationMetadataOutput? dataReplicationMetadata;
+
+  /// Describes whether this broker is a part of a data replication pair.
+  final DataReplicationMode? dataReplicationMode;
+
   /// The broker's deployment mode.
   final DeploymentMode? deploymentMode;
 
-  /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
+  /// Encryption options for the broker.
   final EncryptionOptions? encryptionOptions;
 
   /// The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and
@@ -2048,6 +2219,14 @@ class DescribeBrokerResponse {
   /// The authentication strategy that will be applied when the broker is
   /// rebooted. The default is SIMPLE.
   final AuthenticationStrategy? pendingAuthenticationStrategy;
+
+  /// The pending replication details of the data replication-enabled broker. Only
+  /// returned if pendingDataReplicationMode is set to CRDR.
+  final DataReplicationMetadataOutput? pendingDataReplicationMetadata;
+
+  /// Describes whether this broker will be a part of a data replication pair
+  /// after reboot.
+  final DataReplicationMode? pendingDataReplicationMode;
 
   /// The broker engine version to upgrade to. For a list of supported engine
   /// versions, see <a
@@ -2100,6 +2279,8 @@ class DescribeBrokerResponse {
     this.brokerState,
     this.configurations,
     this.created,
+    this.dataReplicationMetadata,
+    this.dataReplicationMode,
     this.deploymentMode,
     this.encryptionOptions,
     this.engineType,
@@ -2109,6 +2290,8 @@ class DescribeBrokerResponse {
     this.logs,
     this.maintenanceWindowStartTime,
     this.pendingAuthenticationStrategy,
+    this.pendingDataReplicationMetadata,
+    this.pendingDataReplicationMode,
     this.pendingEngineVersion,
     this.pendingHostInstanceType,
     this.pendingLdapServerMetadata,
@@ -2143,6 +2326,12 @@ class DescribeBrokerResponse {
               json['configurations'] as Map<String, dynamic>)
           : null,
       created: timeStampFromJson(json['created']),
+      dataReplicationMetadata: json['dataReplicationMetadata'] != null
+          ? DataReplicationMetadataOutput.fromJson(
+              json['dataReplicationMetadata'] as Map<String, dynamic>)
+          : null,
+      dataReplicationMode:
+          (json['dataReplicationMode'] as String?)?.toDataReplicationMode(),
       deploymentMode: (json['deploymentMode'] as String?)?.toDeploymentMode(),
       encryptionOptions: json['encryptionOptions'] != null
           ? EncryptionOptions.fromJson(
@@ -2165,6 +2354,14 @@ class DescribeBrokerResponse {
       pendingAuthenticationStrategy:
           (json['pendingAuthenticationStrategy'] as String?)
               ?.toAuthenticationStrategy(),
+      pendingDataReplicationMetadata: json['pendingDataReplicationMetadata'] !=
+              null
+          ? DataReplicationMetadataOutput.fromJson(
+              json['pendingDataReplicationMetadata'] as Map<String, dynamic>)
+          : null,
+      pendingDataReplicationMode:
+          (json['pendingDataReplicationMode'] as String?)
+              ?.toDataReplicationMode(),
       pendingEngineVersion: json['pendingEngineVersion'] as String?,
       pendingHostInstanceType: json['pendingHostInstanceType'] as String?,
       pendingLdapServerMetadata: json['pendingLdapServerMetadata'] != null
@@ -2205,6 +2402,8 @@ class DescribeBrokerResponse {
     final brokerState = this.brokerState;
     final configurations = this.configurations;
     final created = this.created;
+    final dataReplicationMetadata = this.dataReplicationMetadata;
+    final dataReplicationMode = this.dataReplicationMode;
     final deploymentMode = this.deploymentMode;
     final encryptionOptions = this.encryptionOptions;
     final engineType = this.engineType;
@@ -2214,6 +2413,8 @@ class DescribeBrokerResponse {
     final logs = this.logs;
     final maintenanceWindowStartTime = this.maintenanceWindowStartTime;
     final pendingAuthenticationStrategy = this.pendingAuthenticationStrategy;
+    final pendingDataReplicationMetadata = this.pendingDataReplicationMetadata;
+    final pendingDataReplicationMode = this.pendingDataReplicationMode;
     final pendingEngineVersion = this.pendingEngineVersion;
     final pendingHostInstanceType = this.pendingHostInstanceType;
     final pendingLdapServerMetadata = this.pendingLdapServerMetadata;
@@ -2237,6 +2438,10 @@ class DescribeBrokerResponse {
       if (brokerState != null) 'brokerState': brokerState.toValue(),
       if (configurations != null) 'configurations': configurations,
       if (created != null) 'created': iso8601ToJson(created),
+      if (dataReplicationMetadata != null)
+        'dataReplicationMetadata': dataReplicationMetadata,
+      if (dataReplicationMode != null)
+        'dataReplicationMode': dataReplicationMode.toValue(),
       if (deploymentMode != null) 'deploymentMode': deploymentMode.toValue(),
       if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
       if (engineType != null) 'engineType': engineType.toValue(),
@@ -2249,6 +2454,10 @@ class DescribeBrokerResponse {
       if (pendingAuthenticationStrategy != null)
         'pendingAuthenticationStrategy':
             pendingAuthenticationStrategy.toValue(),
+      if (pendingDataReplicationMetadata != null)
+        'pendingDataReplicationMetadata': pendingDataReplicationMetadata,
+      if (pendingDataReplicationMode != null)
+        'pendingDataReplicationMode': pendingDataReplicationMode.toValue(),
       if (pendingEngineVersion != null)
         'pendingEngineVersion': pendingEngineVersion,
       if (pendingHostInstanceType != null)
@@ -2372,7 +2581,8 @@ class DescribeConfigurationRevisionResponse {
   /// Required. The date and time of the configuration.
   final DateTime? created;
 
-  /// Required. The base64-encoded XML configuration.
+  /// Amazon MQ for ActiveMQ: the base64-encoded XML configuration. Amazon MQ for
+  /// RabbitMQ: base64-encoded Cuttlefish.
   final String? data;
 
   /// The description of the configuration.
@@ -2424,6 +2634,9 @@ class DescribeUserResponse {
   /// The status of the changes pending for the ActiveMQ user.
   final UserPendingChanges? pending;
 
+  /// Describes whether the user is intended for data replication
+  final bool? replicationUser;
+
   /// Required. The username of the ActiveMQ user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 2-100 characters long.
@@ -2434,6 +2647,7 @@ class DescribeUserResponse {
     this.consoleAccess,
     this.groups,
     this.pending,
+    this.replicationUser,
     this.username,
   });
 
@@ -2448,6 +2662,7 @@ class DescribeUserResponse {
       pending: json['pending'] != null
           ? UserPendingChanges.fromJson(json['pending'] as Map<String, dynamic>)
           : null,
+      replicationUser: json['replicationUser'] as bool?,
       username: json['username'] as String?,
     );
   }
@@ -2457,30 +2672,28 @@ class DescribeUserResponse {
     final consoleAccess = this.consoleAccess;
     final groups = this.groups;
     final pending = this.pending;
+    final replicationUser = this.replicationUser;
     final username = this.username;
     return {
       if (brokerId != null) 'brokerId': brokerId,
       if (consoleAccess != null) 'consoleAccess': consoleAccess,
       if (groups != null) 'groups': groups,
       if (pending != null) 'pending': pending,
+      if (replicationUser != null) 'replicationUser': replicationUser,
       if (username != null) 'username': username,
     };
   }
 }
 
-/// <important>
-/// Does not apply to RabbitMQ brokers.
-/// </important>
 /// Encryption options for the broker.
 class EncryptionOptions {
-  /// Enables the use of an AWS owned CMK using AWS Key Management Service (KMS).
-  /// Set to true by default, if no value is provided, for example, for RabbitMQ
-  /// brokers.
+  /// Enables the use of an Amazon Web Services owned CMK using KMS (KMS). Set to
+  /// true by default, if no value is provided, for example, for RabbitMQ brokers.
   final bool useAwsOwnedKey;
 
-  /// The customer master key (CMK) to use for the AWS Key Management Service
-  /// (KMS). This key is used to encrypt your data at rest. If not provided,
-  /// Amazon MQ will use a default CMK to encrypt your data.
+  /// The customer master key (CMK) to use for the A KMS (KMS). This key is used
+  /// to encrypt your data at rest. If not provided, Amazon MQ will use a default
+  /// CMK to encrypt your data.
   final String? kmsKeyId;
 
   EncryptionOptions({
@@ -2563,8 +2776,8 @@ class EngineVersion {
 /// Does not apply to RabbitMQ brokers.
 /// </important>
 class LdapServerMetadataInput {
-  /// Specifies the location of the LDAP server such as AWS Directory Service for
-  /// Microsoft Active Directory . Optional failover server.
+  /// Specifies the location of the LDAP server such as Directory Service for
+  /// Microsoft Active Directory. Optional failover server.
   final List<String> hosts;
 
   /// The distinguished name of the node in the directory information tree (DIT)
@@ -2671,8 +2884,8 @@ class LdapServerMetadataInput {
 /// Optional. The metadata of the LDAP server used to authenticate and authorize
 /// connections to the broker.
 class LdapServerMetadataOutput {
-  /// Specifies the location of the LDAP server such as AWS Directory Service for
-  /// Microsoft Active Directory . Optional failover server.
+  /// Specifies the location of the LDAP server such as Directory Service for
+  /// Microsoft Active Directory. Optional failover server.
   final List<String> hosts;
 
   /// The distinguished name of the node in the directory information tree (DIT)
@@ -3098,6 +3311,57 @@ class PendingLogs {
   }
 }
 
+/// The Promote mode requested.
+enum PromoteMode {
+  switchover,
+  failover,
+}
+
+extension PromoteModeValueExtension on PromoteMode {
+  String toValue() {
+    switch (this) {
+      case PromoteMode.switchover:
+        return 'SWITCHOVER';
+      case PromoteMode.failover:
+        return 'FAILOVER';
+    }
+  }
+}
+
+extension PromoteModeFromString on String {
+  PromoteMode toPromoteMode() {
+    switch (this) {
+      case 'SWITCHOVER':
+        return PromoteMode.switchover;
+      case 'FAILOVER':
+        return PromoteMode.failover;
+    }
+    throw Exception('$this is not known in enum PromoteMode');
+  }
+}
+
+class PromoteResponse {
+  /// The unique ID that Amazon MQ generates for the broker.
+  final String? brokerId;
+
+  PromoteResponse({
+    this.brokerId,
+  });
+
+  factory PromoteResponse.fromJson(Map<String, dynamic> json) {
+    return PromoteResponse(
+      brokerId: json['brokerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerId = this.brokerId;
+    return {
+      if (brokerId != null) 'brokerId': brokerId,
+    };
+  }
+}
+
 class RebootBrokerResponse {
   RebootBrokerResponse();
 
@@ -3110,17 +3374,17 @@ class RebootBrokerResponse {
   }
 }
 
-/// Returns information about the XML element or attribute that was sanitized in
-/// the configuration.
+/// Returns information about the configuration element or attribute that was
+/// sanitized in the configuration.
 class SanitizationWarning {
-  /// Required. The reason for which the XML elements or attributes were
+  /// The reason for which the configuration elements or attributes were
   /// sanitized.
   final SanitizationWarningReason reason;
 
-  /// The name of the XML attribute that has been sanitized.
+  /// The name of the configuration attribute that has been sanitized.
   final String? attributeName;
 
-  /// The name of the XML element that has been sanitized.
+  /// The name of the configuration element that has been sanitized.
   final String? elementName;
 
   SanitizationWarning({
@@ -3149,7 +3413,8 @@ class SanitizationWarning {
   }
 }
 
-/// The reason for which the XML elements or attributes were sanitized.
+/// The reason for which the configuration elements or attributes were
+/// sanitized.
 enum SanitizationWarningReason {
   disallowedElementRemoved,
   disallowedAttributeRemoved,
@@ -3199,6 +3464,13 @@ class UpdateBrokerResponse {
   /// The ID of the updated configuration.
   final ConfigurationId? configuration;
 
+  /// The replication details of the data replication-enabled broker. Only
+  /// returned if dataReplicationMode is set to CRDR.
+  final DataReplicationMetadataOutput? dataReplicationMetadata;
+
+  /// Describes whether this broker is a part of a data replication pair.
+  final DataReplicationMode? dataReplicationMode;
+
   /// The broker engine version to upgrade to. For a list of supported engine
   /// versions, see <a
   /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
@@ -3221,6 +3493,14 @@ class UpdateBrokerResponse {
   /// The parameters that determine the WeeklyStartTime.
   final WeeklyStartTime? maintenanceWindowStartTime;
 
+  /// The pending replication details of the data replication-enabled broker. Only
+  /// returned if pendingDataReplicationMode is set to CRDR.
+  final DataReplicationMetadataOutput? pendingDataReplicationMetadata;
+
+  /// Describes whether this broker will be a part of a data replication pair
+  /// after reboot.
+  final DataReplicationMode? pendingDataReplicationMode;
+
   /// The list of security groups (1 minimum, 5 maximum) that authorizes
   /// connections to brokers.
   final List<String>? securityGroups;
@@ -3230,11 +3510,15 @@ class UpdateBrokerResponse {
     this.autoMinorVersionUpgrade,
     this.brokerId,
     this.configuration,
+    this.dataReplicationMetadata,
+    this.dataReplicationMode,
     this.engineVersion,
     this.hostInstanceType,
     this.ldapServerMetadata,
     this.logs,
     this.maintenanceWindowStartTime,
+    this.pendingDataReplicationMetadata,
+    this.pendingDataReplicationMode,
     this.securityGroups,
   });
 
@@ -3248,6 +3532,12 @@ class UpdateBrokerResponse {
           ? ConfigurationId.fromJson(
               json['configuration'] as Map<String, dynamic>)
           : null,
+      dataReplicationMetadata: json['dataReplicationMetadata'] != null
+          ? DataReplicationMetadataOutput.fromJson(
+              json['dataReplicationMetadata'] as Map<String, dynamic>)
+          : null,
+      dataReplicationMode:
+          (json['dataReplicationMode'] as String?)?.toDataReplicationMode(),
       engineVersion: json['engineVersion'] as String?,
       hostInstanceType: json['hostInstanceType'] as String?,
       ldapServerMetadata: json['ldapServerMetadata'] != null
@@ -3261,6 +3551,14 @@ class UpdateBrokerResponse {
           ? WeeklyStartTime.fromJson(
               json['maintenanceWindowStartTime'] as Map<String, dynamic>)
           : null,
+      pendingDataReplicationMetadata: json['pendingDataReplicationMetadata'] !=
+              null
+          ? DataReplicationMetadataOutput.fromJson(
+              json['pendingDataReplicationMetadata'] as Map<String, dynamic>)
+          : null,
+      pendingDataReplicationMode:
+          (json['pendingDataReplicationMode'] as String?)
+              ?.toDataReplicationMode(),
       securityGroups: (json['securityGroups'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3273,11 +3571,15 @@ class UpdateBrokerResponse {
     final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
     final brokerId = this.brokerId;
     final configuration = this.configuration;
+    final dataReplicationMetadata = this.dataReplicationMetadata;
+    final dataReplicationMode = this.dataReplicationMode;
     final engineVersion = this.engineVersion;
     final hostInstanceType = this.hostInstanceType;
     final ldapServerMetadata = this.ldapServerMetadata;
     final logs = this.logs;
     final maintenanceWindowStartTime = this.maintenanceWindowStartTime;
+    final pendingDataReplicationMetadata = this.pendingDataReplicationMetadata;
+    final pendingDataReplicationMode = this.pendingDataReplicationMode;
     final securityGroups = this.securityGroups;
     return {
       if (authenticationStrategy != null)
@@ -3286,36 +3588,44 @@ class UpdateBrokerResponse {
         'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (brokerId != null) 'brokerId': brokerId,
       if (configuration != null) 'configuration': configuration,
+      if (dataReplicationMetadata != null)
+        'dataReplicationMetadata': dataReplicationMetadata,
+      if (dataReplicationMode != null)
+        'dataReplicationMode': dataReplicationMode.toValue(),
       if (engineVersion != null) 'engineVersion': engineVersion,
       if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
       if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
       if (logs != null) 'logs': logs,
       if (maintenanceWindowStartTime != null)
         'maintenanceWindowStartTime': maintenanceWindowStartTime,
+      if (pendingDataReplicationMetadata != null)
+        'pendingDataReplicationMetadata': pendingDataReplicationMetadata,
+      if (pendingDataReplicationMode != null)
+        'pendingDataReplicationMode': pendingDataReplicationMode.toValue(),
       if (securityGroups != null) 'securityGroups': securityGroups,
     };
   }
 }
 
 class UpdateConfigurationResponse {
-  /// Required. The Amazon Resource Name (ARN) of the configuration.
+  /// The Amazon Resource Name (ARN) of the configuration.
   final String? arn;
 
   /// Required. The date and time of the configuration.
   final DateTime? created;
 
-  /// Required. The unique ID that Amazon MQ generates for the configuration.
+  /// The unique ID that Amazon MQ generates for the configuration.
   final String? id;
 
   /// The latest revision of the configuration.
   final ConfigurationRevision? latestRevision;
 
-  /// Required. The name of the configuration. This value can contain only
-  /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
-  /// This value must be 1-150 characters long.
+  /// The name of the configuration. This value can contain only alphanumeric
+  /// characters, dashes, periods, underscores, and tildes (- . _ ~). This value
+  /// must be 1-150 characters long.
   final String? name;
 
-  /// The list of the first 20 warnings about the configuration XML elements or
+  /// The list of the first 20 warnings about the configuration elements or
   /// attributes that were sanitized.
   final List<SanitizationWarning>? warnings;
 
@@ -3375,25 +3685,37 @@ class UpdateUserResponse {
   }
 }
 
-/// A user associated with the broker. For RabbitMQ brokers, one and only one
-/// administrative user is accepted and created when a broker is first
-/// provisioned. All subsequent broker users are created by making RabbitMQ API
-/// calls directly to brokers or via the RabbitMQ web console.
+/// A user associated with the broker. For Amazon MQ for RabbitMQ brokers, one
+/// and only one administrative user is accepted and created when a broker is
+/// first provisioned. All subsequent broker users are created by making
+/// RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
 class User {
   /// Required. The password of the user. This value must be at least 12
   /// characters long, must contain at least 4 unique characters, and must not
   /// contain commas, colons, or equal signs (,:=).
   final String password;
 
-  /// important><title>Amazon MQ for ActiveMQ</title> <para>For ActiveMQ brokers,
-  /// this value can contain only alphanumeric characters, dashes, periods,
-  /// underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-  /// /important> <important><title>Amazon MQ for RabbitMQ</title>
-  /// For RabbitMQ brokers, this value can contain only alphanumeric characters,
-  /// dashes, periods, underscores (- . _). This value must not contain a tilde
-  /// (~) character. Amazon MQ prohibts using guest as a valid usename. This value
+  /// The username of the broker user. The following restrictions apply to broker
+  /// usernames:
+  ///
+  /// <ul>
+  /// <li>
+  /// For Amazon MQ for ActiveMQ brokers, this value can contain only alphanumeric
+  /// characters, dashes, periods, underscores, and tildes (- . _ ~). This value
   /// must be 2-100 characters long.
-  /// </important></para>
+  /// </li>
+  /// <li>
+  /// para>For Amazon MQ for RabbitMQ brokers, this value can contain only
+  /// alphanumeric characters, dashes, periods, underscores (- . _). This value
+  /// must not contain a tilde (~) character. Amazon MQ prohibts using guest as a
+  /// valid usename. This value must be 2-100 characters long.
+  /// </para></li>
+  /// </ul> <important>
+  /// Do not add personally identifiable information (PII) or other confidential
+  /// or sensitive information in broker usernames. Broker usernames are
+  /// accessible to other Amazon Web Services services, including CloudWatch Logs.
+  /// Broker usernames are not intended to be used for private or sensitive data.
+  /// </important>
   final String username;
 
   /// Enables access to the ActiveMQ Web Console for the ActiveMQ user. Does not
@@ -3406,11 +3728,15 @@ class User {
   /// Does not apply to RabbitMQ brokers.
   final List<String>? groups;
 
+  /// Defines if this user is intended for CRDR replication purposes.
+  final bool? replicationUser;
+
   User({
     required this.password,
     required this.username,
     this.consoleAccess,
     this.groups,
+    this.replicationUser,
   });
 
   Map<String, dynamic> toJson() {
@@ -3418,11 +3744,13 @@ class User {
     final username = this.username;
     final consoleAccess = this.consoleAccess;
     final groups = this.groups;
+    final replicationUser = this.replicationUser;
     return {
       'password': password,
       'username': username,
       if (consoleAccess != null) 'consoleAccess': consoleAccess,
       if (groups != null) 'groups': groups,
+      if (replicationUser != null) 'replicationUser': replicationUser,
     };
   }
 }

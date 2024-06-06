@@ -65,9 +65,9 @@ class ManagedBlockchain {
     _protocol.close();
   }
 
-  /// Creates a new accessor for use with Managed Blockchain Ethereum nodes. An
-  /// accessor contains information required for token based access to your
-  /// Ethereum nodes.
+  /// Creates a new accessor for use with Amazon Managed Blockchain service that
+  /// supports token based access. The accessor contains information required
+  /// for token based access.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -90,6 +90,36 @@ class ManagedBlockchain {
   /// directly using an HTTP client. It is generated automatically if you use an
   /// Amazon Web Services SDK or the Amazon Web Services CLI.
   ///
+  /// Parameter [networkType] :
+  /// The blockchain network that the <code>Accessor</code> token is created
+  /// for.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// Use the actual <code>networkType</code> value for the blockchain network
+  /// that you are creating the <code>Accessor</code> token for.
+  /// </li>
+  /// <li>
+  /// With the shut down of the <i>Ethereum Goerli</i> and <i>Polygon Mumbai
+  /// Testnet</i> networks the following <code>networkType</code> values are no
+  /// longer available for selection and use.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ETHEREUM_MAINNET_AND_GOERLI</code>
+  /// </li>
+  /// <li>
+  /// <code>ETHEREUM_GOERLI</code>
+  /// </li>
+  /// <li>
+  /// <code>POLYGON_MUMBAI</code>
+  /// </li>
+  /// </ul>
+  /// However, your existing <code>Accessor</code> tokens with these
+  /// <code>networkType</code> values will remain unchanged.
+  /// </li>
+  /// </ul> </note>
+  ///
   /// Parameter [tags] :
   /// Tags to assign to the Accessor.
   ///
@@ -107,11 +137,13 @@ class ManagedBlockchain {
   Future<CreateAccessorOutput> createAccessor({
     required AccessorType accessorType,
     String? clientRequestToken,
+    AccessorNetworkType? networkType,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'AccessorType': accessorType.toValue(),
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (networkType != null) 'NetworkType': networkType.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -283,12 +315,6 @@ class ManagedBlockchain {
   /// <ul>
   /// <li>
   /// <code>n-ethereum-mainnet</code>
-  /// </li>
-  /// <li>
-  /// <code>n-ethereum-goerli</code>
-  /// </li>
-  /// <li>
-  /// <code>n-ethereum-rinkeby</code>
   /// </li>
   /// </ul>
   ///
@@ -508,12 +534,6 @@ class ManagedBlockchain {
   /// <li>
   /// <code>n-ethereum-mainnet</code>
   /// </li>
-  /// <li>
-  /// <code>n-ethereum-goerli</code>
-  /// </li>
-  /// <li>
-  /// <code>n-ethereum-rinkeby</code>
-  /// </li>
   /// </ul>
   ///
   /// Parameter [nodeId] :
@@ -698,10 +718,20 @@ class ManagedBlockchain {
   /// Parameter [maxResults] :
   /// The maximum number of accessors to list.
   ///
+  /// Parameter [networkType] :
+  /// The blockchain network that the <code>Accessor</code> token is created
+  /// for.
+  /// <note>
+  /// Use the value <code>ETHEREUM_MAINNET_AND_GOERLI</code> for all existing
+  /// <code>Accessors</code> tokens that were created before the
+  /// <code>networkType</code> property was introduced.
+  /// </note>
+  ///
   /// Parameter [nextToken] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListAccessorsOutput> listAccessors({
     int? maxResults,
+    AccessorNetworkType? networkType,
     String? nextToken,
   }) async {
     _s.validateNumRange(
@@ -712,6 +742,7 @@ class ManagedBlockchain {
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (networkType != null) 'networkType': [networkType.toValue()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final response = await _protocol.send(
@@ -1316,10 +1347,9 @@ class Accessor {
   /// Reference</i>.
   final String? arn;
 
-  /// The billing token is a property of the accessor. Use this token to make
-  /// Ethereum API calls to your Ethereum node. The billing token is used to track
-  /// your accessor object for billing Ethereum API requests made to your Ethereum
-  /// nodes.
+  /// The billing token is a property of the Accessor. Use this token to when
+  /// making calls to the blockchain network. The billing token is used to track
+  /// your accessor token for billing requests.
   final String? billingToken;
 
   /// The creation date and time of the accessor.
@@ -1327,6 +1357,9 @@ class Accessor {
 
   /// The unique identifier of the accessor.
   final String? id;
+
+  /// The blockchain network that the Accessor token is created for.
+  final AccessorNetworkType? networkType;
 
   /// The current status of the accessor.
   final AccessorStatus? status;
@@ -1353,6 +1386,7 @@ class Accessor {
     this.billingToken,
     this.creationDate,
     this.id,
+    this.networkType,
     this.status,
     this.tags,
     this.type,
@@ -1364,6 +1398,7 @@ class Accessor {
       billingToken: json['BillingToken'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       id: json['Id'] as String?,
+      networkType: (json['NetworkType'] as String?)?.toAccessorNetworkType(),
       status: (json['Status'] as String?)?.toAccessorStatus(),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1376,6 +1411,7 @@ class Accessor {
     final billingToken = this.billingToken;
     final creationDate = this.creationDate;
     final id = this.id;
+    final networkType = this.networkType;
     final status = this.status;
     final tags = this.tags;
     final type = this.type;
@@ -1384,10 +1420,54 @@ class Accessor {
       if (billingToken != null) 'BillingToken': billingToken,
       if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
       if (id != null) 'Id': id,
+      if (networkType != null) 'NetworkType': networkType.toValue(),
       if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type.toValue(),
     };
+  }
+}
+
+enum AccessorNetworkType {
+  ethereumGoerli,
+  ethereumMainnet,
+  ethereumMainnetAndGoerli,
+  polygonMainnet,
+  polygonMumbai,
+}
+
+extension AccessorNetworkTypeValueExtension on AccessorNetworkType {
+  String toValue() {
+    switch (this) {
+      case AccessorNetworkType.ethereumGoerli:
+        return 'ETHEREUM_GOERLI';
+      case AccessorNetworkType.ethereumMainnet:
+        return 'ETHEREUM_MAINNET';
+      case AccessorNetworkType.ethereumMainnetAndGoerli:
+        return 'ETHEREUM_MAINNET_AND_GOERLI';
+      case AccessorNetworkType.polygonMainnet:
+        return 'POLYGON_MAINNET';
+      case AccessorNetworkType.polygonMumbai:
+        return 'POLYGON_MUMBAI';
+    }
+  }
+}
+
+extension AccessorNetworkTypeFromString on String {
+  AccessorNetworkType toAccessorNetworkType() {
+    switch (this) {
+      case 'ETHEREUM_GOERLI':
+        return AccessorNetworkType.ethereumGoerli;
+      case 'ETHEREUM_MAINNET':
+        return AccessorNetworkType.ethereumMainnet;
+      case 'ETHEREUM_MAINNET_AND_GOERLI':
+        return AccessorNetworkType.ethereumMainnetAndGoerli;
+      case 'POLYGON_MAINNET':
+        return AccessorNetworkType.polygonMainnet;
+      case 'POLYGON_MUMBAI':
+        return AccessorNetworkType.polygonMumbai;
+    }
+    throw Exception('$this is not known in enum AccessorNetworkType');
   }
 }
 
@@ -1439,6 +1519,9 @@ class AccessorSummary {
   /// The unique identifier of the accessor.
   final String? id;
 
+  /// The blockchain network that the Accessor token is created for.
+  final AccessorNetworkType? networkType;
+
   /// The current status of the accessor.
   final AccessorStatus? status;
 
@@ -1452,6 +1535,7 @@ class AccessorSummary {
     this.arn,
     this.creationDate,
     this.id,
+    this.networkType,
     this.status,
     this.type,
   });
@@ -1461,6 +1545,7 @@ class AccessorSummary {
       arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       id: json['Id'] as String?,
+      networkType: (json['NetworkType'] as String?)?.toAccessorNetworkType(),
       status: (json['Status'] as String?)?.toAccessorStatus(),
       type: (json['Type'] as String?)?.toAccessorType(),
     );
@@ -1470,12 +1555,14 @@ class AccessorSummary {
     final arn = this.arn;
     final creationDate = this.creationDate;
     final id = this.id;
+    final networkType = this.networkType;
     final status = this.status;
     final type = this.type;
     return {
       if (arn != null) 'Arn': arn,
       if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
       if (id != null) 'Id': id,
+      if (networkType != null) 'NetworkType': networkType.toValue(),
       if (status != null) 'Status': status.toValue(),
       if (type != null) 'Type': type.toValue(),
     };
@@ -1522,7 +1609,7 @@ class ApprovalThresholdPolicy {
 
   /// Determines whether the vote percentage must be greater than the
   /// <code>ThresholdPercentage</code> or must be greater than or equal to the
-  /// <code>ThreholdPercentage</code> to be approved.
+  /// <code>ThresholdPercentage</code> to be approved.
   final ThresholdComparator? thresholdComparator;
 
   /// The percentage of votes among all members that must be <code>YES</code> for
@@ -1569,30 +1656,36 @@ class CreateAccessorOutput {
   /// The unique identifier of the accessor.
   final String? accessorId;
 
-  /// The billing token is a property of the Accessor. Use this token to make
-  /// Ethereum API calls to your Ethereum node. The billing token is used to track
-  /// your accessor object for billing Ethereum API requests made to your Ethereum
-  /// nodes.
+  /// The billing token is a property of the Accessor. Use this token to when
+  /// making calls to the blockchain network. The billing token is used to track
+  /// your accessor token for billing requests.
   final String? billingToken;
+
+  /// The blockchain network that the accessor token is created for.
+  final AccessorNetworkType? networkType;
 
   CreateAccessorOutput({
     this.accessorId,
     this.billingToken,
+    this.networkType,
   });
 
   factory CreateAccessorOutput.fromJson(Map<String, dynamic> json) {
     return CreateAccessorOutput(
       accessorId: json['AccessorId'] as String?,
       billingToken: json['BillingToken'] as String?,
+      networkType: (json['NetworkType'] as String?)?.toAccessorNetworkType(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final accessorId = this.accessorId;
     final billingToken = this.billingToken;
+    final networkType = this.networkType;
     return {
       if (accessorId != null) 'AccessorId': accessorId,
       if (billingToken != null) 'BillingToken': billingToken,
+      if (networkType != null) 'NetworkType': networkType.toValue(),
     };
   }
 }
@@ -3087,12 +3180,6 @@ class NetworkEthereumAttributes {
   /// <ul>
   /// <li>
   /// mainnet = <code>1</code>
-  /// </li>
-  /// <li>
-  /// goerli = <code>5</code>
-  /// </li>
-  /// <li>
-  /// rinkeby = <code>4</code>
   /// </li>
   /// </ul>
   final String? chainId;

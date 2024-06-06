@@ -61,6 +61,61 @@ class Cloud9 {
   /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
   ///
+  /// Parameter [imageId] :
+  /// The identifier for the Amazon Machine Image (AMI) that's used to create
+  /// the EC2 instance. To choose an AMI for the instance, you must specify a
+  /// valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path.
+  ///
+  /// From December 04, 2023, you will be required to include the
+  /// <code>imageId</code> parameter for the <code>CreateEnvironmentEC2</code>
+  /// action. This change will be reflected across all direct methods of
+  /// communicating with the API, such as Amazon Web Services SDK, Amazon Web
+  /// Services CLI and Amazon Web Services CloudFormation. This change will only
+  /// affect direct API consumers, and not Cloud9 console users.
+  ///
+  /// We recommend using Amazon Linux 2023 as the AMI to create your environment
+  /// as it is fully supported.
+  ///
+  /// Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we
+  /// recommend you choose Ubuntu 22.04.
+  ///
+  /// <b>AMI aliases </b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Linux 2: <code>amazonlinux-2-x86_64</code>
+  /// </li>
+  /// <li>
+  /// Amazon Linux 2023 (recommended): <code>amazonlinux-2023-x86_64</code>
+  /// </li>
+  /// <li>
+  /// Ubuntu 18.04: <code>ubuntu-18.04-x86_64</code>
+  /// </li>
+  /// <li>
+  /// Ubuntu 22.04: <code>ubuntu-22.04-x86_64</code>
+  /// </li>
+  /// </ul>
+  /// <b>SSM paths</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Linux 2:
+  /// <code>resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64</code>
+  /// </li>
+  /// <li>
+  /// Amazon Linux 2023 (recommended):
+  /// <code>resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64</code>
+  /// </li>
+  /// <li>
+  /// Ubuntu 18.04:
+  /// <code>resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64</code>
+  /// </li>
+  /// <li>
+  /// Ubuntu 22.04:
+  /// <code>resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [instanceType] :
   /// The type of instance to connect to the environment (for example,
   /// <code>t2.micro</code>).
@@ -103,50 +158,6 @@ class Cloud9 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
-  /// Parameter [imageId] :
-  /// The identifier for the Amazon Machine Image (AMI) that's used to create
-  /// the EC2 instance. To choose an AMI for the instance, you must specify a
-  /// valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path.
-  ///
-  /// The default Amazon Linux AMI is currently used if the parameter isn't
-  /// explicitly assigned a value in the request.
-  ///
-  /// In the future the parameter for Amazon Linux will no longer be available
-  /// when you specify an AMI for your instance. Amazon Linux 2 will then become
-  /// the default AMI, which is used to launch your instance if no parameter is
-  /// explicitly defined.
-  ///
-  /// <b>AMI aliases </b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Amazon Linux (default): <code>amazonlinux-1-x86_64</code> </b>
-  /// </li>
-  /// <li>
-  /// Amazon Linux 2: <code>amazonlinux-2-x86_64</code>
-  /// </li>
-  /// <li>
-  /// Ubuntu 18.04: <code>ubuntu-18.04-x86_64</code>
-  /// </li>
-  /// </ul>
-  /// <b>SSM paths</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Amazon Linux (default):
-  /// <code>resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64</code>
-  /// </b>
-  /// </li>
-  /// <li>
-  /// Amazon Linux 2:
-  /// <code>resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64</code>
-  /// </li>
-  /// <li>
-  /// Ubuntu 18.04:
-  /// <code>resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64</code>
-  /// </li>
-  /// </ul>
-  ///
   /// Parameter [ownerArn] :
   /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be
   /// the ARN of any IAM principal. If this value is not specified, the ARN
@@ -160,6 +171,7 @@ class Cloud9 {
   /// An array of key-value pairs that will be associated with the new Cloud9
   /// development environment.
   Future<CreateEnvironmentEC2Result> createEnvironmentEC2({
+    required String imageId,
     required String instanceType,
     required String name,
     int? automaticStopTimeMinutes,
@@ -167,7 +179,6 @@ class Cloud9 {
     ConnectionType? connectionType,
     String? description,
     bool? dryRun,
-    String? imageId,
     String? ownerArn,
     String? subnetId,
     List<Tag>? tags,
@@ -189,6 +200,7 @@ class Cloud9 {
       // TODO queryParams
       headers: headers,
       payload: {
+        'imageId': imageId,
         'instanceType': instanceType,
         'name': name,
         if (automaticStopTimeMinutes != null)
@@ -198,7 +210,6 @@ class Cloud9 {
         if (connectionType != null) 'connectionType': connectionType.toValue(),
         if (description != null) 'description': description,
         if (dryRun != null) 'dryRun': dryRun,
-        if (imageId != null) 'imageId': imageId,
         if (ownerArn != null) 'ownerArn': ownerArn,
         if (subnetId != null) 'subnetId': subnetId,
         if (tags != null) 'tags': tags,

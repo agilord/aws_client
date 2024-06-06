@@ -2356,6 +2356,7 @@ class AuthenticationMode {
 enum AuthenticationType {
   password,
   noPassword,
+  iam,
 }
 
 extension AuthenticationTypeValueExtension on AuthenticationType {
@@ -2365,6 +2366,8 @@ extension AuthenticationTypeValueExtension on AuthenticationType {
         return 'password';
       case AuthenticationType.noPassword:
         return 'no-password';
+      case AuthenticationType.iam:
+        return 'iam';
     }
   }
 }
@@ -2376,6 +2379,8 @@ extension AuthenticationTypeFromString on String {
         return AuthenticationType.password;
       case 'no-password':
         return AuthenticationType.noPassword;
+      case 'iam':
+        return AuthenticationType.iam;
     }
     throw Exception('$this is not known in enum AuthenticationType');
   }
@@ -3780,6 +3785,7 @@ class Filter {
 
 enum InputAuthenticationType {
   password,
+  iam,
 }
 
 extension InputAuthenticationTypeValueExtension on InputAuthenticationType {
@@ -3787,6 +3793,8 @@ extension InputAuthenticationTypeValueExtension on InputAuthenticationType {
     switch (this) {
       case InputAuthenticationType.password:
         return 'password';
+      case InputAuthenticationType.iam:
+        return 'iam';
     }
   }
 }
@@ -3796,6 +3804,8 @@ extension InputAuthenticationTypeFromString on String {
     switch (this) {
       case 'password':
         return InputAuthenticationType.password;
+      case 'iam':
+        return InputAuthenticationType.iam;
     }
     throw Exception('$this is not known in enum InputAuthenticationType');
   }

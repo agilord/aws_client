@@ -103,6 +103,18 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AlarmList": {
+    "type": "list",
+    "member": {"shape": "XmlStringMaxLen255"},
+    "flattened": false
+  },
+  "AlarmSpecification": {
+    "type": "structure",
+    "members": {
+      "Alarms": {"shape": "AlarmList", "flattened": false}
+    },
+    "flattened": false
+  },
   "Alarms": {
     "type": "list",
     "member": {"shape": "Alarm"},
@@ -114,6 +126,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "AllowedInstanceType"},
     "flattened": false
   },
+  "AnyPrintableAsciiStringMaxLen4000": {"type": "string", "flattened": false},
   "AsciiStringMaxLen255": {"type": "string", "flattened": false},
   "AssociatePublicIpAddress": {"type": "boolean", "flattened": false},
   "AttachInstancesQuery": {
@@ -254,7 +267,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "DefaultInstanceWarmup",
         "flattened": false
       },
-      "TrafficSources": {"shape": "TrafficSources", "flattened": false}
+      "TrafficSources": {"shape": "TrafficSources", "flattened": false},
+      "InstanceMaintenancePolicy": {
+        "shape": "InstanceMaintenancePolicy",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -568,7 +585,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "DefaultInstanceWarmup",
         "flattened": false
       },
-      "TrafficSources": {"shape": "TrafficSources", "flattened": false}
+      "TrafficSources": {"shape": "TrafficSources", "flattened": false},
+      "InstanceMaintenancePolicy": {
+        "shape": "InstanceMaintenancePolicy",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1300,6 +1321,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlStringMaxLen19"},
     "flattened": false
   },
+  "InstanceMaintenancePolicy": {
+    "type": "structure",
+    "members": {
+      "MinHealthyPercentage": {
+        "shape": "IntPercentResettable",
+        "flattened": false
+      },
+      "MaxHealthyPercentage": {
+        "shape": "IntPercent100To200Resettable",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "InstanceMetadataEndpointState": {"type": "string", "flattened": false},
   "InstanceMetadataHttpPutResponseHopLimit": {
     "type": "integer",
@@ -1422,6 +1457,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "NullablePositiveInteger",
         "flattened": false
       },
+      "MaxSpotPriceAsPercentageOfOptimalOnDemandPrice": {
+        "shape": "NullablePositiveInteger",
+        "flattened": false
+      },
       "OnDemandMaxPricePercentageOverLowestPrice": {
         "shape": "NullablePositiveInteger",
         "flattened": false
@@ -1506,6 +1545,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "InstancesToUpdate": {"type": "integer", "flattened": false},
   "IntPercent": {"type": "integer", "flattened": false},
+  "IntPercent100To200": {"type": "integer", "flattened": false},
+  "IntPercent100To200Resettable": {"type": "integer", "flattened": false},
+  "IntPercentResettable": {"type": "integer", "flattened": false},
   "LaunchConfiguration": {
     "type": "structure",
     "members": {
@@ -1653,7 +1695,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "RoleARN": {"shape": "XmlStringMaxLen255", "flattened": false},
       "NotificationMetadata": {
-        "shape": "XmlStringMaxLen1023",
+        "shape": "AnyPrintableAsciiStringMaxLen4000",
         "flattened": false
       },
       "HeartbeatTimeout": {"shape": "HeartbeatTimeout", "flattened": false},
@@ -1679,7 +1721,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "NotificationMetadata": {
-        "shape": "XmlStringMaxLen1023",
+        "shape": "AnyPrintableAsciiStringMaxLen4000",
         "flattened": false
       },
       "HeartbeatTimeout": {"shape": "HeartbeatTimeout", "flattened": false},
@@ -2163,7 +2205,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "NotificationMetadata": {
-        "shape": "XmlStringMaxLen1023",
+        "shape": "AnyPrintableAsciiStringMaxLen4000",
         "flattened": false
       },
       "HeartbeatTimeout": {"shape": "HeartbeatTimeout", "flattened": false},
@@ -2308,7 +2350,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "ScaleInProtectedInstances",
         "flattened": false
       },
-      "StandbyInstances": {"shape": "StandbyInstances", "flattened": false}
+      "StandbyInstances": {"shape": "StandbyInstances", "flattened": false},
+      "AlarmSpecification": {"shape": "AlarmSpecification", "flattened": false},
+      "MaxHealthyPercentage": {
+        "shape": "IntPercent100To200",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2791,6 +2838,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "DefaultInstanceWarmup": {
         "shape": "DefaultInstanceWarmup",
+        "flattened": false
+      },
+      "InstanceMaintenancePolicy": {
+        "shape": "InstanceMaintenancePolicy",
         "flattened": false
       }
     },

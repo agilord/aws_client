@@ -82,8 +82,8 @@ class Neptune {
   ///
   /// Parameter [featureName] :
   /// The name of the feature for the Neptune DB cluster that the IAM role is to
-  /// be associated with. For the list of supported feature names, see <a
-  /// href="neptune/latest/userguide/api-other-apis.html#DBEngineVersion">DBEngineVersion</a>.
+  /// be associated with. For the list of supported feature names, see
+  /// <a>DBEngineVersion</a>.
   Future<void> addRoleToDBCluster({
     required String dBClusterIdentifier,
     required String roleArn,
@@ -635,8 +635,11 @@ class Neptune {
   /// enabled. By default, deletion protection is enabled.
   ///
   /// Parameter [enableCloudwatchLogsExports] :
-  /// The list of log types that need to be enabled for exporting to CloudWatch
-  /// Logs.
+  /// A list of the log types that this DB cluster should export to CloudWatch
+  /// Logs. Valid log types are: <code>audit</code> (to publish audit logs) and
+  /// <code>slowquery</code> (to publish slow-query logs). See <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html">Publishing
+  /// Neptune logs to Amazon CloudWatch logs</a>.
   ///
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// If set to <code>true</code>, enables Amazon Identity and Access Management
@@ -712,9 +715,8 @@ class Neptune {
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
   /// of time for each Amazon Region. To see the time blocks available, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-  /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon Neptune
-  /// User Guide.</i>
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window">Neptune
+  /// Maintenance Window</a> in the <i>Amazon Neptune User Guide.</i>
   ///
   /// Constraints:
   ///
@@ -742,9 +744,8 @@ class Neptune {
   /// The default is a 30-minute window selected at random from an 8-hour block
   /// of time for each Amazon Region, occurring on a random day of the week. To
   /// see the time blocks available, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-  /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon Neptune
-  /// User Guide.</i>
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window">Neptune
+  /// Maintenance Window</a> in the <i>Amazon Neptune User Guide.</i>
   ///
   /// Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   ///
@@ -754,8 +755,37 @@ class Neptune {
   /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if
   /// this DB cluster is created as a Read Replica.
   ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of a Neptune Serverless DB cluster.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html">Using
+  /// Amazon Neptune Serverless</a> in the <i>Amazon Neptune User Guide</i>.
+  ///
   /// Parameter [storageEncrypted] :
   /// Specifies whether the DB cluster is encrypted.
+  ///
+  /// Parameter [storageType] :
+  /// The storage type to associate with the DB cluster.
+  ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>standard | iopt1</code>
+  /// </li>
+  /// </ul>
+  /// Default:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>standard</code>
+  /// </li>
+  /// </ul> <note>
+  /// When you create a Neptune cluster with the storage type set to
+  /// <code>iopt1</code>, the storage type is returned in the response. The
+  /// storage type isn't returned when you set it to <code>standard</code>.
+  /// </note>
   ///
   /// Parameter [tags] :
   /// The tags to assign to the new DB cluster.
@@ -788,6 +818,7 @@ class Neptune {
     String? replicationSourceIdentifier,
     ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     bool? storageEncrypted,
+    String? storageType,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
@@ -826,6 +857,7 @@ class Neptune {
     serverlessV2ScalingConfiguration
         ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
     storageEncrypted?.also((arg) => $request['StorageEncrypted'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
@@ -3713,6 +3745,7 @@ class Neptune {
   /// May throw [InvalidDBSecurityGroupStateFault].
   /// May throw [InvalidDBInstanceStateFault].
   /// May throw [DBClusterAlreadyExistsFault].
+  /// May throw [StorageTypeNotSupportedFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The DB cluster identifier for the cluster being modified. This parameter
@@ -3766,7 +3799,9 @@ class Neptune {
   ///
   /// Parameter [cloudwatchLogsExportConfiguration] :
   /// The configuration setting for the log types to be enabled for export to
-  /// CloudWatch Logs for a specific DB cluster.
+  /// CloudWatch Logs for a specific DB cluster. See <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html#cloudwatch-logs-cli">Using
+  /// the CLI to publish Neptune audit logs to CloudWatch Logs</a>.
   ///
   /// Parameter [copyTagsToSnapshot] :
   /// <i>If set to <code>true</code>, tags are copied to any snapshot of the DB
@@ -3818,8 +3853,7 @@ class Neptune {
   ///
   /// For a list of valid engine versions, see <a
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html">Engine
-  /// Releases for Amazon Neptune</a>, or call <a
-  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions">DescribeDBEngineVersions</a>.
+  /// Releases for Amazon Neptune</a>, or call <a>DescribeDBEngineVersions</a>.
   ///
   /// Parameter [masterUserPassword] :
   /// Not supported by Neptune.
@@ -3891,6 +3925,31 @@ class Neptune {
   ///
   /// Constraints: Minimum 30-minute window.
   ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of a Neptune Serverless DB cluster.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html">Using
+  /// Amazon Neptune Serverless</a> in the <i>Amazon Neptune User Guide</i>.
+  ///
+  /// Parameter [storageType] :
+  /// The storage type to associate with the DB cluster.
+  ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>standard | iopt1</code>
+  /// </li>
+  /// </ul>
+  /// Default:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>standard</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of VPC security groups that the DB cluster will belong to.
   Future<ModifyDBClusterResult> modifyDBCluster({
@@ -3912,6 +3971,7 @@ class Neptune {
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
     ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
+    String? storageType,
     List<String>? vpcSecurityGroupIds,
   }) async {
     final $request = <String, dynamic>{};
@@ -3943,6 +4003,7 @@ class Neptune {
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     serverlessV2ScalingConfiguration
         ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -4972,8 +5033,8 @@ class Neptune {
   ///
   /// Parameter [featureName] :
   /// The name of the feature for the DB cluster that the IAM role is to be
-  /// disassociated from. For the list of supported feature names, see <a
-  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions">DescribeDBEngineVersions</a>.
+  /// disassociated from. For the list of supported feature names, see
+  /// <a>DescribeDBEngineVersions</a>.
   Future<void> removeRoleFromDBCluster({
     required String dBClusterIdentifier,
     required String roleArn,
@@ -5335,6 +5396,20 @@ class Neptune {
   ///
   /// Default: The same port as the original DB cluster.
   ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of a Neptune Serverless DB cluster.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html">Using
+  /// Amazon Neptune Serverless</a> in the <i>Amazon Neptune User Guide</i>.
+  ///
+  /// Parameter [storageType] :
+  /// Specifies the storage type to be associated with the DB cluster.
+  ///
+  /// Valid values: <code>standard</code>, <code>iopt1</code>
+  ///
+  /// Default: <code>standard</code>
+  ///
   /// Parameter [tags] :
   /// The tags to be assigned to the restored DB cluster.
   ///
@@ -5357,6 +5432,7 @@ class Neptune {
     String? optionGroupName,
     int? port,
     ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
+    String? storageType,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
@@ -5381,6 +5457,7 @@ class Neptune {
     port?.also((arg) => $request['Port'] = arg);
     serverlessV2ScalingConfiguration
         ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
@@ -5578,6 +5655,20 @@ class Neptune {
   /// If you don't specify a <code>RestoreType</code> value, then the new DB
   /// cluster is restored as a full copy of the source DB cluster.
   ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of a Neptune Serverless DB cluster.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html">Using
+  /// Amazon Neptune Serverless</a> in the <i>Amazon Neptune User Guide</i>.
+  ///
+  /// Parameter [storageType] :
+  /// Specifies the storage type to be associated with the DB cluster.
+  ///
+  /// Valid values: <code>standard</code>, <code>iopt1</code>
+  ///
+  /// Default: <code>standard</code>
+  ///
   /// Parameter [tags] :
   /// The tags to be applied to the restored DB cluster.
   ///
@@ -5606,6 +5697,7 @@ class Neptune {
     DateTime? restoreToTime,
     String? restoreType,
     ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
+    String? storageType,
     List<Tag>? tags,
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
@@ -5629,6 +5721,7 @@ class Neptune {
     restoreType?.also((arg) => $request['RestoreType'] = arg);
     serverlessV2ScalingConfiguration
         ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
+    storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     useLatestRestorableTime
         ?.also((arg) => $request['UseLatestRestorableTime'] = arg);
@@ -5809,6 +5902,11 @@ class CharacterSet {
 ///
 /// The <code>EnableLogTypes</code> and <code>DisableLogTypes</code> arrays
 /// determine which logs will be exported (or not exported) to CloudWatch Logs.
+///
+/// Valid log types are: <code>audit</code> (to publish audit logs) and
+/// <code>slowquery</code> (to publish slow-query logs). See <a
+/// href="https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html">Publishing
+/// Neptune logs to Amazon CloudWatch logs</a>.
 class CloudwatchLogsExportConfiguration {
   /// The list of log types to disable.
   final List<String>? disableLogTypes;
@@ -5862,6 +5960,9 @@ class ClusterPendingModifiedValues {
   /// changes to which CloudWatch logs are enabled and which are disabled.
   final PendingCloudwatchLogsExports? pendingCloudwatchLogsExports;
 
+  /// The storage type for the DB cluster.
+  final String? storageType;
+
   ClusterPendingModifiedValues({
     this.allocatedStorage,
     this.backupRetentionPeriod,
@@ -5870,6 +5971,7 @@ class ClusterPendingModifiedValues {
     this.iAMDatabaseAuthenticationEnabled,
     this.iops,
     this.pendingCloudwatchLogsExports,
+    this.storageType,
   });
   factory ClusterPendingModifiedValues.fromXml(_s.XmlElement elem) {
     return ClusterPendingModifiedValues(
@@ -5885,6 +5987,7 @@ class ClusterPendingModifiedValues {
       pendingCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'PendingCloudwatchLogsExports')
           ?.let(PendingCloudwatchLogsExports.fromXml),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
     );
   }
 }
@@ -6151,7 +6254,7 @@ class CreateGlobalClusterResult {
 /// Contains the details of an Amazon Neptune DB cluster.
 ///
 /// This data type is used as a response element in the
-/// <a>DescribeDBClusters</a> action.
+/// <a>DescribeDBClusters</a>.
 class DBCluster {
   /// <code>AllocatedStorage</code> always returns 1, because Neptune DB cluster
   /// storage size is not fixed, but instead automatically adjusts as needed.
@@ -6228,8 +6331,12 @@ class DBCluster {
   /// point-in-time restore.
   final DateTime? earliestRestorableTime;
 
-  /// A list of log types that this DB cluster is configured to export to
-  /// CloudWatch Logs.
+  /// A list of the log types that this DB cluster is configured to export to
+  /// CloudWatch Logs. Valid log types are: <code>audit</code> (to publish audit
+  /// logs to CloudWatch) and slowquery (to publish slow-query logs to
+  /// CloudWatch). See <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html">Publishing
+  /// Neptune logs to Amazon CloudWatch logs</a>.
   final List<String>? enabledCloudwatchLogsExports;
 
   /// Specifies the connection endpoint for the primary instance of the DB
@@ -6252,6 +6359,10 @@ class DBCluster {
   /// True if mapping of Amazon Identity and Access Management (IAM) accounts to
   /// database accounts is enabled, and otherwise false.
   final bool? iAMDatabaseAuthenticationEnabled;
+
+  /// The next time you can modify the DB cluster to use the <code>iopt1</code>
+  /// storage type.
+  final DateTime? iOOptimizedNextAllowedModificationTime;
 
   /// If <code>StorageEncrypted</code> is true, the Amazon KMS key identifier for
   /// the encrypted DB cluster.
@@ -6307,6 +6418,12 @@ class DBCluster {
 
   /// Not supported by Neptune.
   final String? replicationSourceIdentifier;
+
+  /// Shows the scaling configuration for a Neptune Serverless DB cluster.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html">Using
+  /// Amazon Neptune Serverless</a> in the <i>Amazon Neptune User Guide</i>.
   final ServerlessV2ScalingConfigurationInfo? serverlessV2ScalingConfiguration;
 
   /// Specifies the current state of this DB cluster.
@@ -6314,6 +6431,9 @@ class DBCluster {
 
   /// Specifies whether the DB cluster is encrypted.
   final bool? storageEncrypted;
+
+  /// The storage type associated with the DB cluster.
+  final String? storageType;
 
   /// Provides a list of VPC security groups that the DB cluster belongs to.
   final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
@@ -6346,6 +6466,7 @@ class DBCluster {
     this.globalClusterIdentifier,
     this.hostedZoneId,
     this.iAMDatabaseAuthenticationEnabled,
+    this.iOOptimizedNextAllowedModificationTime,
     this.kmsKeyId,
     this.latestRestorableTime,
     this.masterUsername,
@@ -6361,6 +6482,7 @@ class DBCluster {
     this.serverlessV2ScalingConfiguration,
     this.status,
     this.storageEncrypted,
+    this.storageType,
     this.vpcSecurityGroups,
   });
   factory DBCluster.fromXml(_s.XmlElement elem) {
@@ -6416,6 +6538,8 @@ class DBCluster {
       hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
       iAMDatabaseAuthenticationEnabled:
           _s.extractXmlBoolValue(elem, 'IAMDatabaseAuthenticationEnabled'),
+      iOOptimizedNextAllowedModificationTime: _s.extractXmlDateTimeValue(
+          elem, 'IOOptimizedNextAllowedModificationTime'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       latestRestorableTime:
           _s.extractXmlDateTimeValue(elem, 'LatestRestorableTime'),
@@ -6442,6 +6566,7 @@ class DBCluster {
           ?.let(ServerlessV2ScalingConfigurationInfo.fromXml),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
           (elem) => elem
               .findElements('VpcSecurityGroupMembership')
@@ -6777,8 +6902,8 @@ class DBClusterParameterGroupsMessage {
 /// associated with a DB cluster.
 class DBClusterRole {
   /// The name of the feature associated with the Amazon Identity and Access
-  /// Management (IAM) role. For the list of supported feature names, see <a
-  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions">DescribeDBEngineVersions</a>.
+  /// Management (IAM) role. For the list of supported feature names, see
+  /// <a>DescribeDBEngineVersions</a>.
   final String? featureName;
 
   /// The Amazon Resource Name (ARN) of the IAM role that is associated with the
@@ -6905,6 +7030,9 @@ class DBClusterSnapshot {
   /// Specifies whether the DB cluster snapshot is encrypted.
   final bool? storageEncrypted;
 
+  /// The storage type associated with the DB cluster snapshot.
+  final String? storageType;
+
   /// Provides the VPC ID associated with the DB cluster snapshot.
   final String? vpcId;
 
@@ -6928,6 +7056,7 @@ class DBClusterSnapshot {
     this.sourceDBClusterSnapshotArn,
     this.status,
     this.storageEncrypted,
+    this.storageType,
     this.vpcId,
   });
   factory DBClusterSnapshot.fromXml(_s.XmlElement elem) {
@@ -6958,6 +7087,7 @@ class DBClusterSnapshot {
           _s.extractXmlStringValue(elem, 'SourceDBClusterSnapshotArn'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -9015,6 +9145,11 @@ class Parameter {
 
 /// A list of the log types whose configuration is still pending. In other
 /// words, these log types are in the process of being activated or deactivated.
+///
+/// Valid log types are: <code>audit</code> (to publish audit logs) and
+/// <code>slowquery</code> (to publish slow-query logs). See <a
+/// href="https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html">Publishing
+/// Neptune logs to Amazon CloudWatch logs</a>.
 class PendingCloudwatchLogsExports {
   /// Log types that are in the process of being enabled. After they are enabled,
   /// these log types are exported to CloudWatch Logs.

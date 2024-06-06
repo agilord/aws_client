@@ -249,6 +249,7 @@ class Appflow {
   /// May throw [ConflictException].
   /// May throw [ConnectorAuthenticationException].
   /// May throw [ConnectorServerException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [destinationFlowConfigList] :
   /// The configuration that controls how Amazon AppFlow places data in the
@@ -874,6 +875,101 @@ class Appflow {
     return RegisterConnectorResponse.fromJson(response);
   }
 
+  /// Resets metadata about your connector entities that Amazon AppFlow stored
+  /// in its cache. Use this action when you want Amazon AppFlow to return the
+  /// latest information about the data that you have in a source application.
+  ///
+  /// Amazon AppFlow returns metadata about your entities when you use the
+  /// ListConnectorEntities or DescribeConnectorEntities actions. Following
+  /// these actions, Amazon AppFlow caches the metadata to reduce the number of
+  /// API requests that it must send to the source application. Amazon AppFlow
+  /// automatically resets the cache once every hour, but you can use this
+  /// action when you want to get the latest metadata right away.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [apiVersion] :
+  /// The API version that you specified in the connector profile that you’re
+  /// resetting cached metadata for. You must use this parameter only if the
+  /// connector supports multiple API versions or if the connector type is
+  /// CustomConnector.
+  ///
+  /// To look up how many versions a connector supports, use the
+  /// DescribeConnectors action. In the response, find the value that Amazon
+  /// AppFlow returns for the connectorVersion parameter.
+  ///
+  /// To look up the connector type, use the DescribeConnectorProfiles action.
+  /// In the response, find the value that Amazon AppFlow returns for the
+  /// connectorType parameter.
+  ///
+  /// To look up the API version that you specified in a connector profile, use
+  /// the DescribeConnectorProfiles action.
+  ///
+  /// Parameter [connectorEntityName] :
+  /// Use this parameter if you want to reset cached metadata about the details
+  /// for an individual entity.
+  ///
+  /// If you don't include this parameter in your request, Amazon AppFlow only
+  /// resets cached metadata about entity names, not entity details.
+  ///
+  /// Parameter [connectorProfileName] :
+  /// The name of the connector profile that you want to reset cached metadata
+  /// for.
+  ///
+  /// You can omit this parameter if you're resetting the cache for any of the
+  /// following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout
+  /// for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any
+  /// other connector, you must include this parameter in your request.
+  ///
+  /// Parameter [connectorType] :
+  /// The type of connector to reset cached metadata for.
+  ///
+  /// You must include this parameter in your request if you're resetting the
+  /// cache for any of the following connectors: Amazon Connect, Amazon
+  /// EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're
+  /// resetting the cache for any other connector, you can omit this parameter
+  /// from your request.
+  ///
+  /// Parameter [entitiesPath] :
+  /// Use this parameter only if you’re resetting the cached metadata about a
+  /// nested entity. Only some connectors support nested entities. A nested
+  /// entity is one that has another entity as a parent. To use this parameter,
+  /// specify the name of the parent entity.
+  ///
+  /// To look up the parent-child relationship of entities, you can send a
+  /// ListConnectorEntities request that omits the entitiesPath parameter.
+  /// Amazon AppFlow will return a list of top-level entities. For each one, it
+  /// indicates whether the entity has nested entities. Then, in a subsequent
+  /// ListConnectorEntities request, you can specify a parent entity name for
+  /// the entitiesPath parameter. Amazon AppFlow will return a list of the child
+  /// entities for that parent.
+  Future<void> resetConnectorMetadataCache({
+    String? apiVersion,
+    String? connectorEntityName,
+    String? connectorProfileName,
+    ConnectorType? connectorType,
+    String? entitiesPath,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (apiVersion != null) 'apiVersion': apiVersion,
+      if (connectorEntityName != null)
+        'connectorEntityName': connectorEntityName,
+      if (connectorProfileName != null)
+        'connectorProfileName': connectorProfileName,
+      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (entitiesPath != null) 'entitiesPath': entitiesPath,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/reset-connector-metadata-cache',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Activates an existing flow. For on-demand flows, this operation runs the
   /// flow immediately. For schedule and event-triggered flows, this operation
   /// activates the flow.
@@ -1169,6 +1265,7 @@ class Appflow {
   /// May throw [ConnectorAuthenticationException].
   /// May throw [ConnectorServerException].
   /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [destinationFlowConfigList] :
   /// The configuration that controls how Amazon AppFlow transfers data to the
@@ -1762,6 +1859,18 @@ class ConnectorConfiguration {
   /// A list of API versions that are supported by the connector.
   final List<String>? supportedApiVersions;
 
+  /// The APIs of the connector application that Amazon AppFlow can use to
+  /// transfer your data.
+  final List<DataTransferApi>? supportedDataTransferApis;
+
+  /// The data transfer types that the connector supports.
+  /// <dl> <dt>RECORD</dt> <dd>
+  /// Structured records.
+  /// </dd> <dt>FILE</dt> <dd>
+  /// Files or binary data.
+  /// </dd> </dl>
+  final List<SupportedDataTransferType>? supportedDataTransferTypes;
+
   /// Lists the connectors that are available for use as destinations.
   final List<ConnectorType>? supportedDestinationConnectors;
 
@@ -1799,6 +1908,8 @@ class ConnectorConfiguration {
     this.registeredAt,
     this.registeredBy,
     this.supportedApiVersions,
+    this.supportedDataTransferApis,
+    this.supportedDataTransferTypes,
     this.supportedDestinationConnectors,
     this.supportedOperators,
     this.supportedSchedulingFrequencies,
@@ -1850,6 +1961,14 @@ class ConnectorConfiguration {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      supportedDataTransferApis: (json['supportedDataTransferApis'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataTransferApi.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSupportedDataTransferType())
+          .toList(),
       supportedDestinationConnectors:
           (json['supportedDestinationConnectors'] as List?)
               ?.whereNotNull()
@@ -1898,6 +2017,8 @@ class ConnectorConfiguration {
     final registeredAt = this.registeredAt;
     final registeredBy = this.registeredBy;
     final supportedApiVersions = this.supportedApiVersions;
+    final supportedDataTransferApis = this.supportedDataTransferApis;
+    final supportedDataTransferTypes = this.supportedDataTransferTypes;
     final supportedDestinationConnectors = this.supportedDestinationConnectors;
     final supportedOperators = this.supportedOperators;
     final supportedSchedulingFrequencies = this.supportedSchedulingFrequencies;
@@ -1935,6 +2056,11 @@ class ConnectorConfiguration {
       if (registeredBy != null) 'registeredBy': registeredBy,
       if (supportedApiVersions != null)
         'supportedApiVersions': supportedApiVersions,
+      if (supportedDataTransferApis != null)
+        'supportedDataTransferApis': supportedDataTransferApis,
+      if (supportedDataTransferTypes != null)
+        'supportedDataTransferTypes':
+            supportedDataTransferTypes.map((e) => e.toValue()).toList(),
       if (supportedDestinationConnectors != null)
         'supportedDestinationConnectors':
             supportedDestinationConnectors.map((e) => e.toValue()).toList(),
@@ -1989,6 +2115,14 @@ class ConnectorDetail {
   /// The user who registered the connector.
   final String? registeredBy;
 
+  /// The data transfer types that the connector supports.
+  /// <dl> <dt>RECORD</dt> <dd>
+  /// Structured records.
+  /// </dd> <dt>FILE</dt> <dd>
+  /// Files or binary data.
+  /// </dd> </dl>
+  final List<SupportedDataTransferType>? supportedDataTransferTypes;
+
   ConnectorDetail({
     this.applicationType,
     this.connectorDescription,
@@ -2001,6 +2135,7 @@ class ConnectorDetail {
     this.connectorVersion,
     this.registeredAt,
     this.registeredBy,
+    this.supportedDataTransferTypes,
   });
 
   factory ConnectorDetail.fromJson(Map<String, dynamic> json) {
@@ -2020,6 +2155,10 @@ class ConnectorDetail {
       connectorVersion: json['connectorVersion'] as String?,
       registeredAt: timeStampFromJson(json['registeredAt']),
       registeredBy: json['registeredBy'] as String?,
+      supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSupportedDataTransferType())
+          .toList(),
     );
   }
 
@@ -2035,6 +2174,7 @@ class ConnectorDetail {
     final connectorVersion = this.connectorVersion;
     final registeredAt = this.registeredAt;
     final registeredBy = this.registeredBy;
+    final supportedDataTransferTypes = this.supportedDataTransferTypes;
     return {
       if (applicationType != null) 'applicationType': applicationType,
       if (connectorDescription != null)
@@ -2050,6 +2190,9 @@ class ConnectorDetail {
       if (registeredAt != null)
         'registeredAt': unixTimestampToJson(registeredAt),
       if (registeredBy != null) 'registeredBy': registeredBy,
+      if (supportedDataTransferTypes != null)
+        'supportedDataTransferTypes':
+            supportedDataTransferTypes.map((e) => e.toValue()).toList(),
     };
   }
 }
@@ -3585,9 +3728,14 @@ class CustomConnectorSourceProperties {
   /// Custom properties that are required to use the custom connector as a source.
   final Map<String, String>? customProperties;
 
+  /// The API of the connector application that Amazon AppFlow uses to transfer
+  /// your data.
+  final DataTransferApi? dataTransferApi;
+
   CustomConnectorSourceProperties({
     required this.entityName,
     this.customProperties,
+    this.dataTransferApi,
   });
 
   factory CustomConnectorSourceProperties.fromJson(Map<String, dynamic> json) {
@@ -3595,15 +3743,21 @@ class CustomConnectorSourceProperties {
       entityName: json['entityName'] as String,
       customProperties: (json['customProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      dataTransferApi: json['dataTransferApi'] != null
+          ? DataTransferApi.fromJson(
+              json['dataTransferApi'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final entityName = this.entityName;
     final customProperties = this.customProperties;
+    final dataTransferApi = this.dataTransferApi;
     return {
       'entityName': entityName,
       if (customProperties != null) 'customProperties': customProperties,
+      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi,
     };
   }
 }
@@ -3679,6 +3833,80 @@ extension DataPullModeFromString on String {
         return DataPullMode.complete;
     }
     throw Exception('$this is not known in enum DataPullMode');
+  }
+}
+
+/// The API of the connector application that Amazon AppFlow uses to transfer
+/// your data.
+class DataTransferApi {
+  /// The name of the connector application API.
+  final String? name;
+
+  /// You can specify one of the following types:
+  /// <dl> <dt>AUTOMATIC</dt> <dd>
+  /// The default. Optimizes a flow for datasets that fluctuate in size from small
+  /// to large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC
+  /// API type based on the amount of data that the run transfers.
+  /// </dd> <dt>SYNC</dt> <dd>
+  /// A synchronous API. This type of API optimizes a flow for small to
+  /// medium-sized datasets.
+  /// </dd> <dt>ASYNC</dt> <dd>
+  /// An asynchronous API. This type of API optimizes a flow for large datasets.
+  /// </dd> </dl>
+  final DataTransferApiType? type;
+
+  DataTransferApi({
+    this.name,
+    this.type,
+  });
+
+  factory DataTransferApi.fromJson(Map<String, dynamic> json) {
+    return DataTransferApi(
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toDataTransferApiType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum DataTransferApiType {
+  sync,
+  async,
+  automatic,
+}
+
+extension DataTransferApiTypeValueExtension on DataTransferApiType {
+  String toValue() {
+    switch (this) {
+      case DataTransferApiType.sync:
+        return 'SYNC';
+      case DataTransferApiType.async:
+        return 'ASYNC';
+      case DataTransferApiType.automatic:
+        return 'AUTOMATIC';
+    }
+  }
+}
+
+extension DataTransferApiTypeFromString on String {
+  DataTransferApiType toDataTransferApiType() {
+    switch (this) {
+      case 'SYNC':
+        return DataTransferApiType.sync;
+      case 'ASYNC':
+        return DataTransferApiType.async;
+      case 'AUTOMATIC':
+        return DataTransferApiType.automatic;
+    }
+    throw Exception('$this is not known in enum DataTransferApiType');
   }
 }
 
@@ -4951,6 +5179,14 @@ class ExecutionResult {
   /// Provides any error message information related to the flow run.
   final ErrorInfo? errorInfo;
 
+  /// The maximum number of records that Amazon AppFlow receives in each page of
+  /// the response from your SAP application.
+  final int? maxPageSize;
+
+  /// The number of processes that Amazon AppFlow ran at the same time when it
+  /// retrieved your data.
+  final int? numParallelProcesses;
+
   /// The number of records processed in the flow run.
   final int? recordsProcessed;
 
@@ -4958,6 +5194,8 @@ class ExecutionResult {
     this.bytesProcessed,
     this.bytesWritten,
     this.errorInfo,
+    this.maxPageSize,
+    this.numParallelProcesses,
     this.recordsProcessed,
   });
 
@@ -4968,6 +5206,8 @@ class ExecutionResult {
       errorInfo: json['errorInfo'] != null
           ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
           : null,
+      maxPageSize: json['maxPageSize'] as int?,
+      numParallelProcesses: json['numParallelProcesses'] as int?,
       recordsProcessed: json['recordsProcessed'] as int?,
     );
   }
@@ -4976,11 +5216,16 @@ class ExecutionResult {
     final bytesProcessed = this.bytesProcessed;
     final bytesWritten = this.bytesWritten;
     final errorInfo = this.errorInfo;
+    final maxPageSize = this.maxPageSize;
+    final numParallelProcesses = this.numParallelProcesses;
     final recordsProcessed = this.recordsProcessed;
     return {
       if (bytesProcessed != null) 'bytesProcessed': bytesProcessed,
       if (bytesWritten != null) 'bytesWritten': bytesWritten,
       if (errorInfo != null) 'errorInfo': errorInfo,
+      if (maxPageSize != null) 'maxPageSize': maxPageSize,
+      if (numParallelProcesses != null)
+        'numParallelProcesses': numParallelProcesses,
       if (recordsProcessed != null) 'recordsProcessed': recordsProcessed,
     };
   }
@@ -7818,6 +8063,18 @@ class RegistrationOutput {
   }
 }
 
+class ResetConnectorMetadataCacheResponse {
+  ResetConnectorMetadataCacheResponse();
+
+  factory ResetConnectorMetadataCacheResponse.fromJson(Map<String, dynamic> _) {
+    return ResetConnectorMetadataCacheResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum S3ConnectorOperator {
   projection,
   lessThan,
@@ -8313,6 +8570,19 @@ class SAPODataConnectorProfileProperties {
   /// The port number of the SAPOData instance.
   final int portNumber;
 
+  /// If you set this parameter to <code>true</code>, Amazon AppFlow bypasses the
+  /// single sign-on (SSO) settings in your SAP account when it accesses your SAP
+  /// OData instance.
+  ///
+  /// Whether you need this option depends on the types of credentials that you
+  /// applied to your SAP OData connection profile. If your profile uses basic
+  /// authentication credentials, SAP SSO can prevent Amazon AppFlow from
+  /// connecting to your account with your username and password. In this case,
+  /// bypassing SSO makes it possible for Amazon AppFlow to connect successfully.
+  /// However, if your profile uses OAuth credentials, this parameter has no
+  /// affect.
+  final bool? disableSSO;
+
   /// The logon language of SAPOData instance.
   final String? logonLanguage;
 
@@ -8328,6 +8598,7 @@ class SAPODataConnectorProfileProperties {
     required this.applicationServicePath,
     required this.clientNumber,
     required this.portNumber,
+    this.disableSSO,
     this.logonLanguage,
     this.oAuthProperties,
     this.privateLinkServiceName,
@@ -8340,6 +8611,7 @@ class SAPODataConnectorProfileProperties {
       applicationServicePath: json['applicationServicePath'] as String,
       clientNumber: json['clientNumber'] as String,
       portNumber: json['portNumber'] as int,
+      disableSSO: json['disableSSO'] as bool?,
       logonLanguage: json['logonLanguage'] as String?,
       oAuthProperties: json['oAuthProperties'] != null
           ? OAuthProperties.fromJson(
@@ -8354,6 +8626,7 @@ class SAPODataConnectorProfileProperties {
     final applicationServicePath = this.applicationServicePath;
     final clientNumber = this.clientNumber;
     final portNumber = this.portNumber;
+    final disableSSO = this.disableSSO;
     final logonLanguage = this.logonLanguage;
     final oAuthProperties = this.oAuthProperties;
     final privateLinkServiceName = this.privateLinkServiceName;
@@ -8362,6 +8635,7 @@ class SAPODataConnectorProfileProperties {
       'applicationServicePath': applicationServicePath,
       'clientNumber': clientNumber,
       'portNumber': portNumber,
+      if (disableSSO != null) 'disableSSO': disableSSO,
       if (logonLanguage != null) 'logonLanguage': logonLanguage,
       if (oAuthProperties != null) 'oAuthProperties': oAuthProperties,
       if (privateLinkServiceName != null)
@@ -8446,25 +8720,103 @@ class SAPODataMetadata {
   }
 }
 
+/// Sets the page size for each <i>concurrent process</i> that transfers OData
+/// records from your SAP instance. A concurrent process is query that retrieves
+/// a batch of records as part of a flow run. Amazon AppFlow can run multiple
+/// concurrent processes in parallel to transfer data faster.
+class SAPODataPaginationConfig {
+  /// The maximum number of records that Amazon AppFlow receives in each page of
+  /// the response from your SAP application. For transfers of OData records, the
+  /// maximum page size is 3,000. For transfers of data that comes from an ODP
+  /// provider, the maximum page size is 10,000.
+  final int maxPageSize;
+
+  SAPODataPaginationConfig({
+    required this.maxPageSize,
+  });
+
+  factory SAPODataPaginationConfig.fromJson(Map<String, dynamic> json) {
+    return SAPODataPaginationConfig(
+      maxPageSize: json['maxPageSize'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxPageSize = this.maxPageSize;
+    return {
+      'maxPageSize': maxPageSize,
+    };
+  }
+}
+
+/// Sets the number of <i>concurrent processes</i> that transfer OData records
+/// from your SAP instance. A concurrent process is query that retrieves a batch
+/// of records as part of a flow run. Amazon AppFlow can run multiple concurrent
+/// processes in parallel to transfer data faster.
+class SAPODataParallelismConfig {
+  /// The maximum number of processes that Amazon AppFlow runs at the same time
+  /// when it retrieves your data from your SAP application.
+  final int maxParallelism;
+
+  SAPODataParallelismConfig({
+    required this.maxParallelism,
+  });
+
+  factory SAPODataParallelismConfig.fromJson(Map<String, dynamic> json) {
+    return SAPODataParallelismConfig(
+      maxParallelism: json['maxParallelism'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxParallelism = this.maxParallelism;
+    return {
+      'maxParallelism': maxParallelism,
+    };
+  }
+}
+
 /// The properties that are applied when using SAPOData as a flow source.
 class SAPODataSourceProperties {
   /// The object path specified in the SAPOData flow source.
   final String? objectPath;
 
+  /// Sets the page size for each concurrent process that transfers OData records
+  /// from your SAP instance.
+  final SAPODataPaginationConfig? paginationConfig;
+
+  /// Sets the number of concurrent processes that transfers OData records from
+  /// your SAP instance.
+  final SAPODataParallelismConfig? parallelismConfig;
+
   SAPODataSourceProperties({
     this.objectPath,
+    this.paginationConfig,
+    this.parallelismConfig,
   });
 
   factory SAPODataSourceProperties.fromJson(Map<String, dynamic> json) {
     return SAPODataSourceProperties(
       objectPath: json['objectPath'] as String?,
+      paginationConfig: json['paginationConfig'] != null
+          ? SAPODataPaginationConfig.fromJson(
+              json['paginationConfig'] as Map<String, dynamic>)
+          : null,
+      parallelismConfig: json['parallelismConfig'] != null
+          ? SAPODataParallelismConfig.fromJson(
+              json['parallelismConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final objectPath = this.objectPath;
+    final paginationConfig = this.paginationConfig;
+    final parallelismConfig = this.parallelismConfig;
     return {
       if (objectPath != null) 'objectPath': objectPath,
+      if (paginationConfig != null) 'paginationConfig': paginationConfig,
+      if (parallelismConfig != null) 'parallelismConfig': parallelismConfig,
     };
   }
 }
@@ -9313,23 +9665,29 @@ extension ServiceNowConnectorOperatorFromString on String {
 
 /// The connector-specific profile credentials required when using ServiceNow.
 class ServiceNowConnectorProfileCredentials {
+  /// The OAuth 2.0 credentials required to authenticate the user.
+  final OAuth2Credentials? oAuth2Credentials;
+
   /// The password that corresponds to the user name.
-  final String password;
+  final String? password;
 
   /// The name of the user.
-  final String username;
+  final String? username;
 
   ServiceNowConnectorProfileCredentials({
-    required this.password,
-    required this.username,
+    this.oAuth2Credentials,
+    this.password,
+    this.username,
   });
 
   Map<String, dynamic> toJson() {
+    final oAuth2Credentials = this.oAuth2Credentials;
     final password = this.password;
     final username = this.username;
     return {
-      'password': password,
-      'username': username,
+      if (oAuth2Credentials != null) 'oAuth2Credentials': oAuth2Credentials,
+      if (password != null) 'password': password,
+      if (username != null) 'username': username,
     };
   }
 }
@@ -10329,6 +10687,34 @@ class SuccessResponseHandlingConfig {
       if (bucketName != null) 'bucketName': bucketName,
       if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
     };
+  }
+}
+
+enum SupportedDataTransferType {
+  record,
+  file,
+}
+
+extension SupportedDataTransferTypeValueExtension on SupportedDataTransferType {
+  String toValue() {
+    switch (this) {
+      case SupportedDataTransferType.record:
+        return 'RECORD';
+      case SupportedDataTransferType.file:
+        return 'FILE';
+    }
+  }
+}
+
+extension SupportedDataTransferTypeFromString on String {
+  SupportedDataTransferType toSupportedDataTransferType() {
+    switch (this) {
+      case 'RECORD':
+        return SupportedDataTransferType.record;
+      case 'FILE':
+        return SupportedDataTransferType.file;
+    }
+    throw Exception('$this is not known in enum SupportedDataTransferType');
   }
 }
 

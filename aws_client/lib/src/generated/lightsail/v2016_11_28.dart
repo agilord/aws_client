@@ -188,10 +188,10 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [diskName] :
-  /// The unique Lightsail disk name (e.g., <code>my-disk</code>).
+  /// The unique Lightsail disk name (<code>my-disk</code>).
   ///
   /// Parameter [diskPath] :
-  /// The disk path to expose to the instance (e.g., <code>/dev/xvdf</code>).
+  /// The disk path to expose to the instance (<code>/dev/xvdf</code>).
   ///
   /// Parameter [instanceName] :
   /// The name of the Lightsail instance where you want to utilize the storage
@@ -713,18 +713,17 @@ class Lightsail {
   /// The name for the certificate.
   ///
   /// Parameter [domainName] :
-  /// The domain name (e.g., <code>example.com</code>) for the certificate.
+  /// The domain name (<code>example.com</code>) for the certificate.
   ///
   /// Parameter [subjectAlternativeNames] :
-  /// An array of strings that specify the alternate domains (e.g.,
-  /// <code>example2.com</code>) and subdomains (e.g.,
-  /// <code>blog.example.com</code>) for the certificate.
+  /// An array of strings that specify the alternate domains
+  /// (<code>example2.com</code>) and subdomains (<code>blog.example.com</code>)
+  /// for the certificate.
   ///
   /// You can specify a maximum of nine alternate domains (in addition to the
   /// primary domain name).
   ///
-  /// Wildcard domain entries (e.g., <code>*.example.com</code>) are not
-  /// supported.
+  /// Wildcard domain entries (<code>*.example.com</code>) are not supported.
   ///
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the certificate during create.
@@ -1159,7 +1158,7 @@ class Lightsail {
   }
 
   /// Creates a block storage disk that can be attached to an Amazon Lightsail
-  /// instance in the same Availability Zone (e.g., <code>us-east-2a</code>).
+  /// instance in the same Availability Zone (<code>us-east-2a</code>).
   ///
   /// The <code>create disk</code> operation supports tag-based access control
   /// via request tags. For more information, see the <a
@@ -1175,18 +1174,18 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [availabilityZone] :
-  /// The Availability Zone where you want to create the disk (e.g.,
-  /// <code>us-east-2a</code>). Use the same Availability Zone as the Lightsail
+  /// The Availability Zone where you want to create the disk
+  /// (<code>us-east-2a</code>). Use the same Availability Zone as the Lightsail
   /// instance to which you want to attach the disk.
   ///
   /// Use the <code>get regions</code> operation to list the Availability Zones
   /// where Lightsail is currently available.
   ///
   /// Parameter [diskName] :
-  /// The unique Lightsail disk name (e.g., <code>my-disk</code>).
+  /// The unique Lightsail disk name (<code>my-disk</code>).
   ///
   /// Parameter [sizeInGb] :
-  /// The size of the disk in GB (e.g., <code>32</code>).
+  /// The size of the disk in GB (<code>32</code>).
   ///
   /// Parameter [addOns] :
   /// An array of objects that represent the add-ons to enable for the new disk.
@@ -1227,7 +1226,7 @@ class Lightsail {
 
   /// Creates a block storage disk from a manual or automatic snapshot of a
   /// disk. The resulting disk can be attached to an Amazon Lightsail instance
-  /// in the same Availability Zone (e.g., <code>us-east-2a</code>).
+  /// in the same Availability Zone (<code>us-east-2a</code>).
   ///
   /// The <code>create disk from snapshot</code> operation supports tag-based
   /// access control via request tags and resource tags applied to the resource
@@ -1245,25 +1244,25 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [availabilityZone] :
-  /// The Availability Zone where you want to create the disk (e.g.,
-  /// <code>us-east-2a</code>). Choose the same Availability Zone as the
+  /// The Availability Zone where you want to create the disk
+  /// (<code>us-east-2a</code>). Choose the same Availability Zone as the
   /// Lightsail instance where you want to create the disk.
   ///
   /// Use the GetRegions operation to list the Availability Zones where
   /// Lightsail is currently available.
   ///
   /// Parameter [diskName] :
-  /// The unique Lightsail disk name (e.g., <code>my-disk</code>).
+  /// The unique Lightsail disk name (<code>my-disk</code>).
   ///
   /// Parameter [sizeInGb] :
-  /// The size of the disk in GB (e.g., <code>32</code>).
+  /// The size of the disk in GB (<code>32</code>).
   ///
   /// Parameter [addOns] :
   /// An array of objects that represent the add-ons to enable for the new disk.
   ///
   /// Parameter [diskSnapshotName] :
-  /// The name of the disk snapshot (e.g., <code>my-snapshot</code>) from which
-  /// to create the new storage disk.
+  /// The name of the disk snapshot (<code>my-snapshot</code>) from which to
+  /// create the new storage disk.
   ///
   /// Constraint:
   ///
@@ -1423,11 +1422,11 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [diskSnapshotName] :
-  /// The name of the destination disk snapshot (e.g.,
-  /// <code>my-disk-snapshot</code>) based on the source disk.
+  /// The name of the destination disk snapshot (<code>my-disk-snapshot</code>)
+  /// based on the source disk.
   ///
   /// Parameter [diskName] :
-  /// The unique name of the source disk (e.g., <code>Disk-Virginia-1</code>).
+  /// The unique name of the source disk (<code>Disk-Virginia-1</code>).
   /// <note>
   /// This parameter cannot be defined together with the <code>instance
   /// name</code> parameter. The <code>disk name</code> and <code>instance
@@ -1435,8 +1434,8 @@ class Lightsail {
   /// </note>
   ///
   /// Parameter [instanceName] :
-  /// The unique name of the source instance (e.g.,
-  /// <code>Amazon_Linux-512MB-Virginia-1</code>). When this is defined, a
+  /// The unique name of the source instance
+  /// (<code>Amazon_Linux-512MB-Virginia-1</code>). When this is defined, a
   /// snapshot of the instance's system volume is created.
   /// <note>
   /// This parameter cannot be defined together with the <code>disk name</code>
@@ -1519,6 +1518,14 @@ class Lightsail {
   /// An array of objects that describe the per-path cache behavior for the
   /// distribution.
   ///
+  /// Parameter [certificateName] :
+  /// The name of the SSL/TLS certificate that you want to attach to the
+  /// distribution.
+  ///
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html">GetCertificates</a>
+  /// action to get a list of certificate names that you can specify.
+  ///
   /// Parameter [ipAddressType] :
   /// The IP address type for the distribution.
   ///
@@ -1532,6 +1539,9 @@ class Lightsail {
   ///
   /// Use the <code>TagResource</code> action to tag a resource after it's
   /// created.
+  ///
+  /// Parameter [viewerMinimumTlsProtocolVersion] :
+  /// The minimum TLS protocol version for the SSL/TLS certificate.
   Future<CreateDistributionResult> createDistribution({
     required String bundleId,
     required CacheBehavior defaultCacheBehavior,
@@ -1539,8 +1549,10 @@ class Lightsail {
     required InputOrigin origin,
     CacheSettings? cacheBehaviorSettings,
     List<CacheBehaviorPerPath>? cacheBehaviors,
+    String? certificateName,
     IpAddressType? ipAddressType,
     List<Tag>? tags,
+    ViewerMinimumTlsProtocolVersionEnum? viewerMinimumTlsProtocolVersion,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1560,15 +1572,19 @@ class Lightsail {
         if (cacheBehaviorSettings != null)
           'cacheBehaviorSettings': cacheBehaviorSettings,
         if (cacheBehaviors != null) 'cacheBehaviors': cacheBehaviors,
+        if (certificateName != null) 'certificateName': certificateName,
         if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
         if (tags != null) 'tags': tags,
+        if (viewerMinimumTlsProtocolVersion != null)
+          'viewerMinimumTlsProtocolVersion':
+              viewerMinimumTlsProtocolVersion.toValue(),
       },
     );
 
     return CreateDistributionResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a domain resource for the specified domain (e.g., example.com).
+  /// Creates a domain resource for the specified domain (example.com).
   ///
   /// The <code>create domain</code> operation supports tag-based access control
   /// via request tags. For more information, see the <a
@@ -1584,7 +1600,7 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [domainName] :
-  /// The domain name to manage (e.g., <code>example.com</code>).
+  /// The domain name to manage (<code>example.com</code>).
   ///
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
@@ -1638,8 +1654,8 @@ class Lightsail {
   /// request.
   ///
   /// Parameter [domainName] :
-  /// The domain name (e.g., <code>example.com</code>) for which you want to
-  /// create the domain entry.
+  /// The domain name (<code>example.com</code>) for which you want to create
+  /// the domain entry.
   Future<CreateDomainEntryResult> createDomainEntry({
     required DomainEntry domainEntry,
     required String domainName,
@@ -1777,10 +1793,9 @@ class Lightsail {
   /// Zones</code> parameter to your request.
   ///
   /// Parameter [blueprintId] :
-  /// The ID for a virtual private server image (e.g.,
-  /// <code>app_wordpress_4_4</code> or <code>app_lamp_7_0</code>). Use the
-  /// <code>get blueprints</code> operation to return a list of available images
-  /// (or <i>blueprints</i>).
+  /// The ID for a virtual private server image (<code>app_wordpress_x_x</code>
+  /// or <code>app_lamp_x_x</code>). Use the <code>get blueprints</code>
+  /// operation to return a list of available images (or <i>blueprints</i>).
   /// <note>
   /// Use active blueprints when creating new instances. Inactive blueprints are
   /// listed to support customers with existing instances and are not
@@ -1791,8 +1806,8 @@ class Lightsail {
   ///
   /// Parameter [bundleId] :
   /// The bundle of specification information for your virtual private server
-  /// (or <i>instance</i>), including the pricing plan (e.g.,
-  /// <code>micro_1_0</code>).
+  /// (or <i>instance</i>), including the pricing plan
+  /// (<code>medium_x_x</code>).
   ///
   /// Parameter [instanceNames] :
   /// The names to use for your new Lightsail instances. Separate multiple
@@ -1804,17 +1819,17 @@ class Lightsail {
   /// instance.
   ///
   /// Parameter [customImageName] :
-  /// (Deprecated) The name for your custom image.
+  /// (Discontinued) The name for your custom image.
   /// <note>
   /// In releases prior to June 12, 2017, this parameter was ignored by the API.
-  /// It is now deprecated.
+  /// It is now discontinued.
   /// </note>
   ///
   /// Parameter [ipAddressType] :
   /// The IP address type for the instance.
   ///
-  /// The possible values are <code>ipv4</code> for IPv4 only, and
-  /// <code>dualstack</code> for IPv4 and IPv6.
+  /// The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code>
+  /// for IPv6 only, and <code>dualstack</code> for IPv4 and IPv6.
   ///
   /// The default value is <code>dualstack</code>.
   ///
@@ -1906,8 +1921,7 @@ class Lightsail {
   ///
   /// Parameter [bundleId] :
   /// The bundle of specification information for your virtual private server
-  /// (or <i>instance</i>), including the pricing plan (e.g.,
-  /// <code>micro_1_0</code>).
+  /// (or <i>instance</i>), including the pricing plan (<code>micro_x_x</code>).
   ///
   /// Parameter [instanceNames] :
   /// The names for your new instances.
@@ -1937,8 +1951,8 @@ class Lightsail {
   /// Parameter [ipAddressType] :
   /// The IP address type for the instance.
   ///
-  /// The possible values are <code>ipv4</code> for IPv4 only, and
-  /// <code>dualstack</code> for IPv4 and IPv6.
+  /// The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code>
+  /// for IPv6 only, and <code>dualstack</code> for IPv4 and IPv6.
   ///
   /// The default value is <code>dualstack</code>.
   ///
@@ -2160,12 +2174,12 @@ class Lightsail {
   ///
   /// Parameter [certificateAlternativeNames] :
   /// The optional alternative domains and subdomains to use with your SSL/TLS
-  /// certificate (e.g., <code>www.example.com</code>, <code>example.com</code>,
+  /// certificate (<code>www.example.com</code>, <code>example.com</code>,
   /// <code>m.example.com</code>, <code>blog.example.com</code>).
   ///
   /// Parameter [certificateDomainName] :
-  /// The domain name with which your certificate is associated (e.g.,
-  /// <code>example.com</code>).
+  /// The domain name with which your certificate is associated
+  /// (<code>example.com</code>).
   ///
   /// If you specify <code>certificateDomainName</code>, then
   /// <code>certificateName</code> is required (and vice-versa).
@@ -2179,7 +2193,7 @@ class Lightsail {
   /// Parameter [healthCheckPath] :
   /// The path you provided to perform the load balancer health check. If you
   /// didn't specify a health check path, Lightsail uses the root path of your
-  /// website (e.g., <code>"/"</code>).
+  /// website (<code>"/"</code>).
   ///
   /// You may want to specify a custom health check path other than the root of
   /// your application if your home page loads slowly or has a lot of media or
@@ -2188,8 +2202,8 @@ class Lightsail {
   /// Parameter [ipAddressType] :
   /// The IP address type for the load balancer.
   ///
-  /// The possible values are <code>ipv4</code> for IPv4 only, and
-  /// <code>dualstack</code> for IPv4 and IPv6.
+  /// The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code>
+  /// for IPv6 only, and <code>dualstack</code> for IPv4 and IPv6.
   ///
   /// The default value is <code>dualstack</code>.
   ///
@@ -2276,8 +2290,7 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [certificateDomainName] :
-  /// The domain name (e.g., <code>example.com</code>) for your SSL/TLS
-  /// certificate.
+  /// The domain name (<code>example.com</code>) for your SSL/TLS certificate.
   ///
   /// Parameter [certificateName] :
   /// The SSL/TLS certificate name.
@@ -2295,7 +2308,7 @@ class Lightsail {
   /// An array of strings listing alternative domains and subdomains for your
   /// SSL/TLS certificate. Lightsail will de-dupe the names for you. You can
   /// have a maximum of 9 alternative names (in addition to the 1 primary
-  /// domain). We do not support wildcards (e.g., <code>*.example.com</code>).
+  /// domain). We do not support wildcards (<code>*.example.com</code>).
   ///
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
@@ -3232,8 +3245,7 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [diskName] :
-  /// The unique name of the disk you want to delete (e.g.,
-  /// <code>my-disk</code>).
+  /// The unique name of the disk you want to delete (<code>my-disk</code>).
   ///
   /// Parameter [forceDeleteAddOns] :
   /// A Boolean value to indicate whether to delete all add-ons for the disk.
@@ -3284,8 +3296,8 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [diskSnapshotName] :
-  /// The name of the disk snapshot you want to delete (e.g.,
-  /// <code>my-disk-snapshot</code>).
+  /// The name of the disk snapshot you want to delete
+  /// (<code>my-disk-snapshot</code>).
   Future<DeleteDiskSnapshotResult> deleteDiskSnapshot({
     required String diskSnapshotName,
   }) async {
@@ -3889,8 +3901,8 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [diskName] :
-  /// The unique name of the disk you want to detach from your instance (e.g.,
-  /// <code>my-disk</code>).
+  /// The unique name of the disk you want to detach from your instance
+  /// (<code>my-disk</code>).
   Future<DetachDiskResult> detachDisk({
     required String diskName,
   }) async {
@@ -4694,7 +4706,7 @@ class Lightsail {
   /// Returns information about one or more Amazon Lightsail SSL/TLS
   /// certificates.
   /// <note>
-  /// To get a summary of a certificate, ommit
+  /// To get a summary of a certificate, omit
   /// <code>includeCertificateDetails</code> from your request. The response
   /// will include only the certificate Amazon Resource Name (ARN), certificate
   /// name, domain name, and tags.
@@ -4728,10 +4740,18 @@ class Lightsail {
   ///
   /// When omitted, the response includes only the certificate names, Amazon
   /// Resource Names (ARNs), domain names, and tags.
+  ///
+  /// Parameter [pageToken] :
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetCertificates</code>
+  /// request. If your results are paginated, the response will return a next
+  /// page token that you can specify as the page token in a subsequent request.
   Future<GetCertificatesResult> getCertificates({
     String? certificateName,
     List<CertificateStatus>? certificateStatuses,
     bool? includeCertificateDetails,
+    String? pageToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4750,6 +4770,7 @@ class Lightsail {
               certificateStatuses.map((e) => e.toValue()).toList(),
         if (includeCertificateDetails != null)
           'includeCertificateDetails': includeCertificateDetails,
+        if (pageToken != null) 'pageToken': pageToken,
       },
     );
 
@@ -5299,7 +5320,7 @@ class Lightsail {
   /// <li>
   /// Specified in the Unix time format.
   ///
-  /// For example, if you wish to use an end time of October 1, 2018, at 9 PM
+  /// For example, if you want to use an end time of October 1, 2018, at 9 PM
   /// UTC, specify <code>1538427600</code> as the end time.
   /// </li>
   /// </ul>
@@ -5322,7 +5343,7 @@ class Lightsail {
   /// <li>
   /// Specified in the Unix time format.
   ///
-  /// For example, if you wish to use a start time of October 1, 2018, at 8 PM
+  /// For example, if you want to use a start time of October 1, 2018, at 8 PM
   /// UTC, specify <code>1538424000</code> as the start time.
   /// </li>
   /// </ul>
@@ -5365,7 +5386,7 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [diskName] :
-  /// The name of the disk (e.g., <code>my-disk</code>).
+  /// The name of the disk (<code>my-disk</code>).
   Future<GetDiskResult> getDisk({
     required String diskName,
   }) async {
@@ -5398,7 +5419,7 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [diskSnapshotName] :
-  /// The name of the disk snapshot (e.g., <code>my-disk-snapshot</code>).
+  /// The name of the disk snapshot (<code>my-disk-snapshot</code>).
   Future<GetDiskSnapshotResult> getDiskSnapshot({
     required String diskSnapshotName,
   }) async {
@@ -6974,8 +6995,7 @@ class Lightsail {
     return GetOperationsResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets operations for a specific resource (e.g., an instance or a static
-  /// IP).
+  /// Gets operations for a specific resource (an instance or a static IP).
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
@@ -7033,12 +7053,12 @@ class Lightsail {
   /// Parameter [includeAvailabilityZones] :
   /// A Boolean value indicating whether to also include Availability Zones in
   /// your get regions request. Availability Zones are indicated with a letter:
-  /// e.g., <code>us-east-2a</code>.
+  /// <code>us-east-2a</code>.
   ///
   /// Parameter [includeRelationalDatabaseAvailabilityZones] :
   /// A Boolean value indicating whether to also include Availability Zones for
   /// databases in your get regions request. Availability Zones are indicated
-  /// with a letter (e.g., <code>us-east-2a</code>).
+  /// with a letter (<code>us-east-2a</code>).
   Future<GetRegionsResult> getRegions({
     bool? includeAvailabilityZones,
     bool? includeRelationalDatabaseAvailabilityZones,
@@ -7797,6 +7817,48 @@ class Lightsail {
     );
 
     return GetRelationalDatabasesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns detailed information for five of the most recent
+  /// <code>SetupInstanceHttps</code> requests that were ran on the target
+  /// instance.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [resourceName] :
+  /// The name of the resource for which you are requesting information.
+  ///
+  /// Parameter [pageToken] :
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetSetupHistory</code>
+  /// request. If your results are paginated, the response will return a next
+  /// page token that you can specify as the page token in a subsequent request.
+  Future<GetSetupHistoryResult> getSetupHistory({
+    required String resourceName,
+    String? pageToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetSetupHistory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceName': resourceName,
+        if (pageToken != null) 'pageToken': pageToken,
+      },
+    );
+
+    return GetSetupHistoryResult.fromJson(jsonResponse.body);
   }
 
   /// Returns information about an Amazon Lightsail static IP.
@@ -8577,8 +8639,8 @@ class Lightsail {
   /// Parameter [ipAddressType] :
   /// The IP address type to set for the specified resource.
   ///
-  /// The possible values are <code>ipv4</code> for IPv4 only, and
-  /// <code>dualstack</code> for IPv4 and IPv6.
+  /// The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code>
+  /// for IPv6 only, and <code>dualstack</code> for IPv4 and IPv6.
   ///
   /// Parameter [resourceName] :
   /// The name of the resource for which to set the IP address type.
@@ -8586,7 +8648,7 @@ class Lightsail {
   /// Parameter [resourceType] :
   /// The resource type.
   ///
-  /// The possible values are <code>Distribution</code>, <code>Instance</code>,
+  /// The resource values are <code>Distribution</code>, <code>Instance</code>,
   /// and <code>LoadBalancer</code>.
   /// <note>
   /// Distribution-related APIs are available only in the N. Virginia
@@ -8594,10 +8656,25 @@ class Lightsail {
   /// Services Region configuration to <code>us-east-1</code> to create, view,
   /// or edit distributions.
   /// </note>
+  ///
+  /// Parameter [acceptBundleUpdate] :
+  /// Required parameter to accept the instance bundle update when changing to,
+  /// and from, IPv6-only.
+  /// <note>
+  /// An instance bundle will change when switching from <code>dual-stack</code>
+  /// or <code>ipv4</code>, to <code>ipv6</code>. It also changes when switching
+  /// from <code>ipv6</code>, to <code>dual-stack</code> or <code>ipv4</code>.
+  ///
+  /// You must include this parameter in the command to update the bundle. For
+  /// example, if you switch from <code>dual-stack</code> to <code>ipv6</code>,
+  /// the bundle will be updated, and billing for the IPv6-only instance bundle
+  /// begins immediately.
+  /// </note>
   Future<SetIpAddressTypeResult> setIpAddressType({
     required IpAddressType ipAddressType,
     required String resourceName,
     required ResourceType resourceType,
+    bool? acceptBundleUpdate,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8613,6 +8690,8 @@ class Lightsail {
         'ipAddressType': ipAddressType.toValue(),
         'resourceName': resourceName,
         'resourceType': resourceType.toValue(),
+        if (acceptBundleUpdate != null)
+          'acceptBundleUpdate': acceptBundleUpdate,
       },
     );
 
@@ -8677,6 +8756,59 @@ class Lightsail {
     );
 
     return SetResourceAccessForBucketResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an SSL/TLS certificate that secures traffic for your website.
+  /// After the certificate is created, it is installed on the specified
+  /// Lightsail instance.
+  ///
+  /// If you provide more than one domain name in the request, at least one name
+  /// must be less than or equal to 63 characters in length.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [certificateProvider] :
+  /// The certificate authority that issues the SSL/TLS certificate.
+  ///
+  /// Parameter [domainNames] :
+  /// The name of the domain and subdomains that were specified for the SSL/TLS
+  /// certificate.
+  ///
+  /// Parameter [emailAddress] :
+  /// The contact method for SSL/TLS certificate renewal alerts. You can enter
+  /// one email address.
+  ///
+  /// Parameter [instanceName] :
+  /// The name of the Lightsail instance.
+  Future<SetupInstanceHttpsResult> setupInstanceHttps({
+    required CertificateProvider certificateProvider,
+    required List<String> domainNames,
+    required String emailAddress,
+    required String instanceName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.SetupInstanceHttps'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'certificateProvider': certificateProvider.toValue(),
+        'domainNames': domainNames,
+        'emailAddress': emailAddress,
+        'instanceName': instanceName,
+      },
+    );
+
+    return SetupInstanceHttpsResult.fromJson(jsonResponse.body);
   }
 
   /// Initiates a graphical user interface (GUI) session that’s used to access a
@@ -9397,6 +9529,17 @@ class Lightsail {
   /// An array of objects that describe the per-path cache behavior for the
   /// distribution.
   ///
+  /// Parameter [certificateName] :
+  /// The name of the SSL/TLS certificate that you want to attach to the
+  /// distribution.
+  ///
+  /// Only certificates with a status of <code>ISSUED</code> can be attached to
+  /// a distribution.
+  ///
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html">GetCertificates</a>
+  /// action to get a list of certificate names that you can specify.
+  ///
   /// Parameter [defaultCacheBehavior] :
   /// An object that describes the default cache behavior for the distribution.
   ///
@@ -9408,13 +9551,29 @@ class Lightsail {
   /// a Lightsail instance, bucket, or load balancer.
   ///
   /// The distribution pulls, caches, and serves content from the origin.
+  ///
+  /// Parameter [useDefaultCertificate] :
+  /// Indicates whether the default SSL/TLS certificate is attached to the
+  /// distribution. The default value is <code>true</code>. When
+  /// <code>true</code>, the distribution uses the default domain name such as
+  /// <code>d111111abcdef8.cloudfront.net</code>.
+  ///
+  /// Set this value to <code>false</code> to attach a new certificate to the
+  /// distribution.
+  ///
+  /// Parameter [viewerMinimumTlsProtocolVersion] :
+  /// Use this parameter to update the minimum TLS protocol version for the
+  /// SSL/TLS certificate that's attached to the distribution.
   Future<UpdateDistributionResult> updateDistribution({
     required String distributionName,
     CacheSettings? cacheBehaviorSettings,
     List<CacheBehaviorPerPath>? cacheBehaviors,
+    String? certificateName,
     CacheBehavior? defaultCacheBehavior,
     bool? isEnabled,
     InputOrigin? origin,
+    bool? useDefaultCertificate,
+    ViewerMinimumTlsProtocolVersionEnum? viewerMinimumTlsProtocolVersion,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9431,10 +9590,16 @@ class Lightsail {
         if (cacheBehaviorSettings != null)
           'cacheBehaviorSettings': cacheBehaviorSettings,
         if (cacheBehaviors != null) 'cacheBehaviors': cacheBehaviors,
+        if (certificateName != null) 'certificateName': certificateName,
         if (defaultCacheBehavior != null)
           'defaultCacheBehavior': defaultCacheBehavior,
         if (isEnabled != null) 'isEnabled': isEnabled,
         if (origin != null) 'origin': origin,
+        if (useDefaultCertificate != null)
+          'useDefaultCertificate': useDefaultCertificate,
+        if (viewerMinimumTlsProtocolVersion != null)
+          'viewerMinimumTlsProtocolVersion':
+              viewerMinimumTlsProtocolVersion.toValue(),
       },
     );
 
@@ -9696,8 +9861,8 @@ class Lightsail {
   /// </ul>
   ///
   /// Parameter [loadBalancerName] :
-  /// The name of the load balancer that you want to modify (e.g.,
-  /// <code>my-load-balancer</code>.
+  /// The name of the load balancer that you want to modify
+  /// (<code>my-load-balancer</code>.
   Future<UpdateLoadBalancerAttributeResult> updateLoadBalancerAttribute({
     required LoadBalancerAttributeName attributeName,
     required String attributeValue,
@@ -9845,6 +10010,15 @@ class Lightsail {
   /// a database that is available only to your Lightsail resources in the same
   /// region as your database.
   ///
+  /// Parameter [relationalDatabaseBlueprintId] :
+  /// This parameter is used to update the major version of the database. Enter
+  /// the <code>blueprintId</code> for the major version that you want to update
+  /// to.
+  ///
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRelationalDatabaseBlueprints.html">GetRelationalDatabaseBlueprints</a>
+  /// action to get a list of available blueprint IDs.
+  ///
   /// Parameter [rotateMasterUserPassword] :
   /// When <code>true</code>, the master user password is changed to a new
   /// strong password generated by Lightsail.
@@ -9861,6 +10035,7 @@ class Lightsail {
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
     bool? publiclyAccessible,
+    String? relationalDatabaseBlueprintId,
     bool? rotateMasterUserPassword,
   }) async {
     final headers = <String, String>{
@@ -9890,6 +10065,8 @@ class Lightsail {
           'preferredMaintenanceWindow': preferredMaintenanceWindow,
         if (publiclyAccessible != null)
           'publiclyAccessible': publiclyAccessible,
+        if (relationalDatabaseBlueprintId != null)
+          'relationalDatabaseBlueprintId': relationalDatabaseBlueprintId,
         if (rotateMasterUserPassword != null)
           'rotateMasterUserPassword': rotateMasterUserPassword,
       },
@@ -10577,7 +10754,7 @@ class Alarm {
   /// The period, in seconds, over which the statistic is applied.
   final int? period;
 
-  /// The Lightsail resource type (e.g., <code>Alarm</code>).
+  /// The Lightsail resource type of the alarm.
   final ResourceType? resourceType;
 
   /// The current state of the alarm.
@@ -11009,7 +11186,7 @@ class AttachStaticIpResult {
 /// Describes a block storage disk that is attached to an instance, and is
 /// included in an automatic snapshot.
 class AttachedDisk {
-  /// The path of the disk (e.g., <code>/dev/xvdf</code>).
+  /// The path of the disk (<code>/dev/xvdf</code>).
   final String? path;
 
   /// The size of the disk in GB.
@@ -11336,14 +11513,14 @@ class Blueprint {
   /// </important>
   final AppCategory? appCategory;
 
-  /// The ID for the virtual private server image (e.g.,
-  /// <code>app_wordpress_4_4</code> or <code>app_lamp_7_0</code>).
+  /// The ID for the virtual private server image (<code>app_wordpress_x_x</code>
+  /// or <code>app_lamp_x_x</code>).
   final String? blueprintId;
 
   /// The description of the blueprint.
   final String? description;
 
-  /// The group name of the blueprint (e.g., <code>amazon-linux</code>).
+  /// The group name of the blueprint (<code>amazon-linux</code>).
   final String? group;
 
   /// A Boolean value indicating whether the blueprint is active. Inactive
@@ -11362,7 +11539,7 @@ class Blueprint {
   /// that the blueprint runs on all instance sizes.
   final int? minPower;
 
-  /// The friendly name of the blueprint (e.g., <code>Amazon Linux</code>).
+  /// The friendly name of the blueprint (<code>Amazon Linux</code>).
   final String? name;
 
   /// The operating system platform (either Linux/Unix-based or Windows
@@ -11372,10 +11549,10 @@ class Blueprint {
   /// The product URL to learn more about the image or blueprint.
   final String? productUrl;
 
-  /// The type of the blueprint (e.g., <code>os</code> or <code>app</code>).
+  /// The type of the blueprint (<code>os</code> or <code>app</code>).
   final BlueprintType? type;
 
-  /// The version number of the operating system, application, or stack (e.g.,
+  /// The version number of the operating system, application, or stack (
   /// <code>2016.03.0</code>).
   final String? version;
 
@@ -11540,8 +11717,7 @@ class Bucket {
   /// have read-only access to the bucket.
   final List<String>? readonlyAccessAccounts;
 
-  /// The Lightsail resource type of the bucket (for example,
-  /// <code>Bucket</code>).
+  /// The Lightsail resource type of the bucket.
   final String? resourceType;
 
   /// An array of objects that describe Lightsail instances that have access to
@@ -11865,36 +12041,39 @@ class BucketState {
 /// Describes a bundle, which is a set of specs describing your virtual private
 /// server (or <i>instance</i>).
 class Bundle {
-  /// The bundle ID (e.g., <code>micro_1_0</code>).
+  /// The bundle ID (<code>micro_x_x</code>).
   final String? bundleId;
 
-  /// The number of vCPUs included in the bundle (e.g., <code>2</code>).
+  /// The number of vCPUs included in the bundle (<code>2</code>).
   final int? cpuCount;
 
-  /// The size of the SSD (e.g., <code>30</code>).
+  /// The size of the SSD (<code>30</code>).
   final int? diskSizeInGb;
 
-  /// The Amazon EC2 instance type (e.g., <code>t2.micro</code>).
+  /// The instance type (<code>micro</code>).
   final String? instanceType;
 
   /// A Boolean value indicating whether the bundle is active.
   final bool? isActive;
 
-  /// A friendly name for the bundle (e.g., <code>Micro</code>).
+  /// A friendly name for the bundle (<code>Micro</code>).
   final String? name;
 
-  /// A numeric value that represents the power of the bundle (e.g.,
-  /// <code>500</code>). You can use the bundle's power value in conjunction with
-  /// a blueprint's minimum power value to determine whether the blueprint will
-  /// run on the bundle. For example, you need a bundle with a power value of 500
-  /// or more to create an instance that uses a blueprint with a minimum power
-  /// value of 500.
+  /// A numeric value that represents the power of the bundle (<code>500</code>).
+  /// You can use the bundle's power value in conjunction with a blueprint's
+  /// minimum power value to determine whether the blueprint will run on the
+  /// bundle. For example, you need a bundle with a power value of 500 or more to
+  /// create an instance that uses a blueprint with a minimum power value of 500.
   final int? power;
 
-  /// The price in US dollars (e.g., <code>5.0</code>) of the bundle.
+  /// The price in US dollars (<code>5.0</code>) of the bundle.
   final double? price;
 
-  /// The amount of RAM in GB (e.g., <code>2.0</code>).
+  /// An integer that indicates the public ipv4 address count included in the
+  /// bundle, the value is either 0 or 1.
+  final int? publicIpv4AddressCount;
+
+  /// The amount of RAM in GB (<code>2.0</code>).
   final double? ramSizeInGb;
 
   /// Virtual computer blueprints that are supported by a Lightsail for Research
@@ -11910,7 +12089,7 @@ class Bundle {
   /// <code>LINUX_UNIX</code> blueprints require a <code>LINUX_UNIX</code> bundle.
   final List<InstancePlatform>? supportedPlatforms;
 
-  /// The data transfer rate per month in GB (e.g., <code>2000</code>).
+  /// The data transfer rate per month in GB (<code>2000</code>).
   final int? transferPerMonthInGb;
 
   Bundle({
@@ -11922,6 +12101,7 @@ class Bundle {
     this.name,
     this.power,
     this.price,
+    this.publicIpv4AddressCount,
     this.ramSizeInGb,
     this.supportedAppCategories,
     this.supportedPlatforms,
@@ -11938,6 +12118,7 @@ class Bundle {
       name: json['name'] as String?,
       power: json['power'] as int?,
       price: json['price'] as double?,
+      publicIpv4AddressCount: json['publicIpv4AddressCount'] as int?,
       ramSizeInGb: json['ramSizeInGb'] as double?,
       supportedAppCategories: (json['supportedAppCategories'] as List?)
           ?.whereNotNull()
@@ -11960,6 +12141,7 @@ class Bundle {
     final name = this.name;
     final power = this.power;
     final price = this.price;
+    final publicIpv4AddressCount = this.publicIpv4AddressCount;
     final ramSizeInGb = this.ramSizeInGb;
     final supportedAppCategories = this.supportedAppCategories;
     final supportedPlatforms = this.supportedPlatforms;
@@ -11973,6 +12155,8 @@ class Bundle {
       if (name != null) 'name': name,
       if (power != null) 'power': power,
       if (price != null) 'price': price,
+      if (publicIpv4AddressCount != null)
+        'publicIpv4AddressCount': publicIpv4AddressCount,
       if (ramSizeInGb != null) 'ramSizeInGb': ramSizeInGb,
       if (supportedAppCategories != null)
         'supportedAppCategories':
@@ -12271,7 +12455,7 @@ class CacheSettings {
 /// Describes the full details of an Amazon Lightsail SSL/TLS certificate.
 /// <note>
 /// To get a summary of a certificate, use the <code>GetCertificates</code>
-/// action and ommit <code>includeCertificateDetails</code> from your request.
+/// action and omit <code>includeCertificateDetails</code> from your request.
 /// The response will include only the certificate Amazon Resource Name (ARN),
 /// certificate name, domain name, and tags.
 /// </note>
@@ -12305,7 +12489,7 @@ class Certificate {
   /// the certificate.
   final String? keyAlgorithm;
 
-  /// The name of the certificate (e.g., <code>my-certificate</code>).
+  /// The name of the certificate (<code>my-certificate</code>).
   final String? name;
 
   /// The timestamp when the certificate expires.
@@ -12391,9 +12575,9 @@ class Certificate {
   /// The validation status of the certificate.
   final CertificateStatus? status;
 
-  /// An array of strings that specify the alternate domains (e.g.,
-  /// <code>example2.com</code>) and subdomains (e.g.,
-  /// <code>blog.example.com</code>) of the certificate.
+  /// An array of strings that specify the alternate domains
+  /// (<code>example2.com</code>) and subdomains (<code>blog.example.com</code>)
+  /// of the certificate.
   final List<String>? subjectAlternativeNames;
 
   /// The support code. Include this code in your email to support when you have
@@ -12553,6 +12737,29 @@ extension CertificateDomainValidationStatusFromString on String {
     }
     throw Exception(
         '$this is not known in enum CertificateDomainValidationStatus');
+  }
+}
+
+enum CertificateProvider {
+  letsEncrypt,
+}
+
+extension CertificateProviderValueExtension on CertificateProvider {
+  String toValue() {
+    switch (this) {
+      case CertificateProvider.letsEncrypt:
+        return 'LetsEncrypt';
+    }
+  }
+}
+
+extension CertificateProviderFromString on String {
+  CertificateProvider toCertificateProvider() {
+    switch (this) {
+      case 'LetsEncrypt':
+        return CertificateProvider.letsEncrypt;
+    }
+    throw Exception('$this is not known in enum CertificateProvider');
   }
 }
 
@@ -12721,7 +12928,7 @@ class CloudFormationStackRecord {
   /// <code>CloudFormationStackRecord</code> followed by a GUID.
   final String? name;
 
-  /// The Lightsail resource type (e.g., <code>CloudFormationStackRecord</code>).
+  /// The Lightsail resource type (<code>CloudFormationStackRecord</code>).
   final ResourceType? resourceType;
 
   /// A list of objects describing the source of the CloudFormation stack record.
@@ -12794,7 +13001,7 @@ class CloudFormationStackRecordSourceInfo {
   /// The name of the record.
   final String? name;
 
-  /// The Lightsail resource type (e.g., <code>ExportSnapshotRecord</code>).
+  /// The Lightsail resource type (<code>ExportSnapshotRecord</code>).
   final CloudFormationStackRecordSourceType? resourceType;
 
   CloudFormationStackRecordSourceInfo({
@@ -12915,7 +13122,7 @@ class ContactMethod {
   /// The protocol of the contact method, such as email or SMS (text messaging).
   final ContactProtocol? protocol;
 
-  /// The Lightsail resource type (e.g., <code>ContactMethod</code>).
+  /// The Lightsail resource type of the contact method.
   final ResourceType? resourceType;
 
   /// The current status of the contact method.
@@ -13264,8 +13471,7 @@ class ContainerService {
   /// public domain names for your Lightsail container service.
   final Map<String, List<String>>? publicDomainNames;
 
-  /// The Lightsail resource type of the container service (i.e.,
-  /// <code>ContainerService</code>).
+  /// The Lightsail resource type of the container service.
   final ResourceType? resourceType;
 
   /// The scale specification of the container service.
@@ -13460,19 +13666,19 @@ class ContainerServiceDeployment {
   ///
   /// <ul>
   /// <li>
-  /// <code>Activating</code> - The deployment is being created.
+  /// <code>ACTIVATING</code> - The deployment is being created.
   /// </li>
   /// <li>
-  /// <code>Active</code> - The deployment was successfully created, and it's
+  /// <code>ACTIVE</code> - The deployment was successfully created, and it's
   /// currently running on the container service. The container service can have
   /// only one deployment in an active state at a time.
   /// </li>
   /// <li>
-  /// <code>Inactive</code> - The deployment was previously successfully created,
+  /// <code>INACTIVE</code> - The deployment was previously successfully created,
   /// but it is not currently running on the container service.
   /// </li>
   /// <li>
-  /// <code>Failed</code> - The deployment failed. Use the
+  /// <code>FAILED</code> - The deployment failed. Use the
   /// <code>GetContainerLog</code> action to view the log events for the
   /// containers in the deployment to try to determine the reason for the failure.
   /// </li>
@@ -13848,10 +14054,10 @@ class ContainerServicePower {
   /// for container services.
   final bool? isActive;
 
-  /// The friendly name of the power (e.g., <code>nano</code>).
+  /// The friendly name of the power (<code>nano</code>).
   final String? name;
 
-  /// The ID of the power (e.g., <code>nano-1</code>).
+  /// The ID of the power (<code>nano-1</code>).
   final String? powerId;
 
   /// The monthly price of the power in USD.
@@ -15839,12 +16045,12 @@ class Disk {
   /// The resources to which the disk is attached.
   final String? attachedTo;
 
-  /// (Deprecated) The attachment state of the disk.
+  /// (Discontinued) The attachment state of the disk.
   /// <note>
   /// In releases prior to November 14, 2017, this parameter returned
   /// <code>attached</code> for system disks in the API response. It is now
-  /// deprecated, but still included in the response. Use <code>isAttached</code>
-  /// instead.
+  /// discontinued, but still included in the response. Use
+  /// <code>isAttached</code> instead.
   /// </note>
   final String? attachmentState;
 
@@ -15857,10 +16063,10 @@ class Disk {
   /// The date when the disk was created.
   final DateTime? createdAt;
 
-  /// (Deprecated) The number of GB in use by the disk.
+  /// (Discontinued) The number of GB in use by the disk.
   /// <note>
   /// In releases prior to November 14, 2017, this parameter was not included in
-  /// the API response. It is now deprecated.
+  /// the API response. It is now discontinued.
   /// </note>
   final int? gbInUse;
 
@@ -15883,7 +16089,7 @@ class Disk {
   /// The disk path.
   final String? path;
 
-  /// The Lightsail resource type (e.g., <code>Disk</code>).
+  /// The Lightsail resource type (<code>Disk</code>).
   final ResourceType? resourceType;
 
   /// The size of the disk in GB.
@@ -16010,7 +16216,7 @@ class DiskInfo {
   /// The disk path.
   final String? path;
 
-  /// The size of the disk in GB (e.g., <code>32</code>).
+  /// The size of the disk in GB (<code>32</code>).
   final int? sizeInGb;
 
   DiskInfo({
@@ -16045,7 +16251,7 @@ class DiskInfo {
 
 /// Describes a block storage disk mapping.
 class DiskMap {
-  /// The new disk name (e.g., <code>my-new-disk</code>).
+  /// The new disk name (<code>my-new-disk</code>).
   final String? newDiskName;
 
   /// The original disk path exposed to the instance (for example,
@@ -16097,13 +16303,13 @@ class DiskSnapshot {
   /// The AWS Region and Availability Zone where the disk snapshot was created.
   final ResourceLocation? location;
 
-  /// The name of the disk snapshot (e.g., <code>my-disk-snapshot</code>).
+  /// The name of the disk snapshot (<code>my-disk-snapshot</code>).
   final String? name;
 
   /// The progress of the snapshot.
   final String? progress;
 
-  /// The Lightsail resource type (e.g., <code>DiskSnapshot</code>).
+  /// The Lightsail resource type (<code>DiskSnapshot</code>).
   final ResourceType? resourceType;
 
   /// The size of the disk in GB.
@@ -16204,7 +16410,7 @@ class DiskSnapshot {
 
 /// Describes a disk snapshot.
 class DiskSnapshotInfo {
-  /// The size of the disk in GB (e.g., <code>32</code>).
+  /// The size of the disk in GB (<code>32</code>).
   final int? sizeInGb;
 
   DiskSnapshotInfo({
@@ -16503,8 +16709,8 @@ extension DnsRecordCreationStateCodeFromString on String {
 
 /// Describes a domain where you are storing recordsets.
 class Domain {
-  /// The Amazon Resource Name (ARN) of the domain recordset (e.g.,
-  /// <code>arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE</code>).
+  /// The Amazon Resource Name (ARN) of the domain recordset
+  /// (<code>arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE</code>).
   final String? arn;
 
   /// The date when the domain recordset was created.
@@ -16618,15 +16824,15 @@ class DomainEntry {
   /// The name of the domain.
   final String? name;
 
-  /// (Deprecated) The options for the domain entry.
+  /// (Discontinued) The options for the domain entry.
   /// <note>
   /// In releases prior to November 29, 2017, this parameter was not included in
-  /// the API response. It is now deprecated.
+  /// the API response. It is now discontinued.
   /// </note>
   final Map<String, String>? options;
 
-  /// The target IP address (e.g., <code>192.0.2.0</code>), or AWS name server
-  /// (e.g., <code>ns-111.awsdns-22.com.</code>).
+  /// The target IP address (<code>192.0.2.0</code>), or AWS name server
+  /// (<code>ns-111.awsdns-22.com.</code>).
   ///
   /// For Lightsail load balancers, the value looks like
   /// <code>ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com</code>.
@@ -16937,7 +17143,7 @@ class ExportSnapshotRecord {
   /// The export snapshot record name.
   final String? name;
 
-  /// The Lightsail resource type (e.g., <code>ExportSnapshotRecord</code>).
+  /// The Lightsail resource type (<code>ExportSnapshotRecord</code>).
   final ResourceType? resourceType;
 
   /// A list of objects describing the source of the export snapshot record.
@@ -17023,7 +17229,7 @@ class ExportSnapshotRecordSourceInfo {
   /// The name of the source instance or disk snapshot.
   final String? name;
 
-  /// The Lightsail resource type (e.g., <code>InstanceSnapshot</code> or
+  /// The Lightsail resource type (<code>InstanceSnapshot</code> or
   /// <code>DiskSnapshot</code>).
   final ExportSnapshotRecordSourceType? resourceType;
 
@@ -17255,7 +17461,8 @@ class GetAutoSnapshotsResult {
   /// The name of the source instance or disk for the automatic snapshots.
   final String? resourceName;
 
-  /// The resource type (e.g., <code>Instance</code> or <code>Disk</code>).
+  /// The resource type of the automatic snapshot. The possible values are
+  /// <code>Instance</code>, and <code>Disk</code>.
   final ResourceType? resourceType;
 
   GetAutoSnapshotsResult({
@@ -17506,8 +17713,15 @@ class GetCertificatesResult {
   /// An object that describes certificates.
   final List<CertificateSummary>? certificates;
 
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged.
+  final String? nextPageToken;
+
   GetCertificatesResult({
     this.certificates,
+    this.nextPageToken,
   });
 
   factory GetCertificatesResult.fromJson(Map<String, dynamic> json) {
@@ -17516,13 +17730,16 @@ class GetCertificatesResult {
           ?.whereNotNull()
           .map((e) => CertificateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final certificates = this.certificates;
+    final nextPageToken = this.nextPageToken;
     return {
       if (certificates != null) 'certificates': certificates,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
     };
   }
 }
@@ -17950,8 +18167,8 @@ class GetDistributionBundlesResult {
 }
 
 class GetDistributionLatestCacheResetResult {
-  /// The timestamp of the last cache reset (e.g., <code>1479734909.17</code>) in
-  /// Unix time format.
+  /// The timestamp of the last cache reset (<code>1479734909.17</code>) in Unix
+  /// time format.
   final DateTime? createTime;
 
   /// The status of the last cache reset.
@@ -18639,11 +18856,11 @@ class GetOperationResult {
 }
 
 class GetOperationsForResourceResult {
-  /// (Deprecated) Returns the number of pages of results that remain.
+  /// (Discontinued) Returns the number of pages of results that remain.
   /// <note>
   /// In releases prior to June 12, 2017, this parameter returned
-  /// <code>null</code> by the API. It is now deprecated, and the API returns the
-  /// <code>next page token</code> parameter instead.
+  /// <code>null</code> by the API. It is now discontinued, and the API returns
+  /// the <code>next page token</code> parameter instead.
   /// </note>
   final String? nextPageCount;
 
@@ -19190,6 +19407,44 @@ class GetRelationalDatabasesResult {
   }
 }
 
+class GetSetupHistoryResult {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// A next page token is not returned if there are no more results to display.
+  ///
+  /// To get the next page of results, perform another
+  /// <code>GetSetupHistory</code> request and specify the next page token using
+  /// the pageToken parameter.
+  final String? nextPageToken;
+
+  /// The historical information that's returned.
+  final List<SetupHistory>? setupHistory;
+
+  GetSetupHistoryResult({
+    this.nextPageToken,
+    this.setupHistory,
+  });
+
+  factory GetSetupHistoryResult.fromJson(Map<String, dynamic> json) {
+    return GetSetupHistoryResult(
+      nextPageToken: json['nextPageToken'] as String?,
+      setupHistory: (json['setupHistory'] as List?)
+          ?.whereNotNull()
+          .map((e) => SetupHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final setupHistory = this.setupHistory;
+    return {
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+      if (setupHistory != null) 'setupHistory': setupHistory,
+    };
+  }
+}
+
 class GetStaticIpResult {
   /// An array of key-value pairs containing information about the requested
   /// static IP.
@@ -19621,9 +19876,9 @@ class ImportKeyPairResult {
 /// Describes the origin resource of an Amazon Lightsail content delivery
 /// network (CDN) distribution.
 ///
-/// An origin can be a Lightsail instance, bucket, or load balancer. A
-/// distribution pulls content from an origin, caches it, and serves it to
-/// viewers via a worldwide network of edge servers.
+/// An origin can be a Lightsail instance, bucket, container service, or load
+/// balancer. A distribution pulls content from an origin, caches it, and serves
+/// it to viewers via a worldwide network of edge servers.
 class InputOrigin {
   /// The name of the origin resource.
   final String? name;
@@ -19635,20 +19890,29 @@ class InputOrigin {
   /// The AWS Region name of the origin resource.
   final RegionName? regionName;
 
+  /// The amount of time, in seconds, that the distribution waits for a response
+  /// after forwarding a request to the origin. The minimum timeout is 1 second,
+  /// the maximum is 60 seconds, and the default (if you don't specify otherwise)
+  /// is 30 seconds.
+  final int? responseTimeout;
+
   InputOrigin({
     this.name,
     this.protocolPolicy,
     this.regionName,
+    this.responseTimeout,
   });
 
   Map<String, dynamic> toJson() {
     final name = this.name;
     final protocolPolicy = this.protocolPolicy;
     final regionName = this.regionName;
+    final responseTimeout = this.responseTimeout;
     return {
       if (name != null) 'name': name,
       if (protocolPolicy != null) 'protocolPolicy': protocolPolicy.toValue(),
       if (regionName != null) 'regionName': regionName.toValue(),
+      if (responseTimeout != null) 'responseTimeout': responseTimeout,
     };
   }
 }
@@ -19658,21 +19922,21 @@ class Instance {
   /// An array of objects representing the add-ons enabled on the instance.
   final List<AddOn>? addOns;
 
-  /// The Amazon Resource Name (ARN) of the instance (e.g.,
-  /// <code>arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE</code>).
+  /// The Amazon Resource Name (ARN) of the instance
+  /// (<code>arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE</code>).
   final String? arn;
 
-  /// The blueprint ID (e.g., <code>os_amlinux_2016_03</code>).
+  /// The blueprint ID (<code>amazon_linux_2023</code>).
   final String? blueprintId;
 
-  /// The friendly name of the blueprint (e.g., <code>Amazon Linux</code>).
+  /// The friendly name of the blueprint (<code>Amazon Linux 2023</code>).
   final String? blueprintName;
 
-  /// The bundle for the instance (e.g., <code>micro_1_0</code>).
+  /// The bundle for the instance (<code>micro_x_x</code>).
   final String? bundleId;
 
-  /// The timestamp when the instance was created (e.g.,
-  /// <code>1479734909.17</code>) in Unix time format.
+  /// The timestamp when the instance was created (<code>1479734909.17</code>) in
+  /// Unix time format.
   final DateTime? createdAt;
 
   /// The size of the vCPU and the amount of RAM for the instance.
@@ -19680,8 +19944,8 @@ class Instance {
 
   /// The IP address type of the instance.
   ///
-  /// The possible values are <code>ipv4</code> for IPv4 only, and
-  /// <code>dualstack</code> for IPv4 and IPv6.
+  /// The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code>
+  /// for IPv6 only, and <code>dualstack</code> for IPv4 and IPv6.
   final IpAddressType? ipAddressType;
 
   /// The IPv6 addresses of the instance.
@@ -19697,8 +19961,7 @@ class Instance {
   /// The metadata options for the Amazon Lightsail instance.
   final InstanceMetadataOptions? metadataOptions;
 
-  /// The name the user gave the instance (e.g.,
-  /// <code>Amazon_Linux-1GB-Ohio-1</code>).
+  /// The name the user gave the instance (<code>Amazon_Linux_2023-1</code>).
   final String? name;
 
   /// Information about the public ports and monthly data transfer rates for the
@@ -19714,11 +19977,11 @@ class Instance {
   /// The type of resource (usually <code>Instance</code>).
   final ResourceType? resourceType;
 
-  /// The name of the SSH key being used to connect to the instance (e.g.,
-  /// <code>LightsailDefaultKeyPair</code>).
+  /// The name of the SSH key being used to connect to the instance
+  /// (<code>LightsailDefaultKeyPair</code>).
   final String? sshKeyName;
 
-  /// The status code and the state (e.g., <code>running</code>) for the instance.
+  /// The status code and the state (<code>running</code>) for the instance.
   final InstanceState? state;
 
   /// The support code. Include this code in your email to support when you have
@@ -19732,7 +19995,7 @@ class Instance {
   /// Lightsail Developer Guide</a>.
   final List<Tag>? tags;
 
-  /// The user name for connecting to the instance (e.g., <code>ec2-user</code>).
+  /// The user name for connecting to the instance (<code>ec2-user</code>).
   final String? username;
 
   Instance({
@@ -19862,7 +20125,7 @@ class Instance {
 /// instances.
 class InstanceAccessDetails {
   /// For SSH access, the public key to use when accessing your instance For
-  /// OpenSSH clients (e.g., command line SSH), you should save this value to
+  /// OpenSSH clients (command line SSH), you should save this value to
   /// <code>tempkey-cert.pub</code>.
   final String? certKey;
 
@@ -19877,6 +20140,9 @@ class InstanceAccessDetails {
 
   /// The public IP address of the Amazon Lightsail instance.
   final String? ipAddress;
+
+  /// The IPv6 address of the Amazon Lightsail instance.
+  final List<String>? ipv6Addresses;
 
   /// For RDP access, the password for your Amazon Lightsail instance. Password
   /// will be an empty string if the password for your new instance is not ready
@@ -19901,8 +20167,8 @@ class InstanceAccessDetails {
   /// instance to be ready.
   final PasswordData? passwordData;
 
-  /// For SSH access, the temporary private key. For OpenSSH clients (e.g.,
-  /// command line SSH), you should save this value to <code>tempkey</code>).
+  /// For SSH access, the temporary private key. For OpenSSH clients (command line
+  /// SSH), you should save this value to <code>tempkey</code>).
   final String? privateKey;
 
   /// The protocol for these Amazon Lightsail instance access details.
@@ -19917,6 +20183,7 @@ class InstanceAccessDetails {
     this.hostKeys,
     this.instanceName,
     this.ipAddress,
+    this.ipv6Addresses,
     this.password,
     this.passwordData,
     this.privateKey,
@@ -19934,6 +20201,10 @@ class InstanceAccessDetails {
           .toList(),
       instanceName: json['instanceName'] as String?,
       ipAddress: json['ipAddress'] as String?,
+      ipv6Addresses: (json['ipv6Addresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       password: json['password'] as String?,
       passwordData: json['passwordData'] != null
           ? PasswordData.fromJson(json['passwordData'] as Map<String, dynamic>)
@@ -19950,6 +20221,7 @@ class InstanceAccessDetails {
     final hostKeys = this.hostKeys;
     final instanceName = this.instanceName;
     final ipAddress = this.ipAddress;
+    final ipv6Addresses = this.ipv6Addresses;
     final password = this.password;
     final passwordData = this.passwordData;
     final privateKey = this.privateKey;
@@ -19961,6 +20233,7 @@ class InstanceAccessDetails {
       if (hostKeys != null) 'hostKeys': hostKeys,
       if (instanceName != null) 'instanceName': instanceName,
       if (ipAddress != null) 'ipAddress': ipAddress,
+      if (ipv6Addresses != null) 'ipv6Addresses': ipv6Addresses,
       if (password != null) 'password': password,
       if (passwordData != null) 'passwordData': passwordData,
       if (privateKey != null) 'privateKey': privateKey,
@@ -20004,8 +20277,8 @@ class InstanceEntry {
   /// The Availability Zone for the new Amazon EC2 instance.
   final String availabilityZone;
 
-  /// The instance type (e.g., <code>t2.micro</code>) to use for the new Amazon
-  /// EC2 instance.
+  /// The instance type (<code>t2.micro</code>) to use for the new Amazon EC2
+  /// instance.
   final String instanceType;
 
   /// The port configuration to use for the new Amazon EC2 instance.
@@ -20094,7 +20367,7 @@ class InstanceHardware {
   /// The disks attached to the instance.
   final List<Disk>? disks;
 
-  /// The amount of RAM in GB on the instance (e.g., <code>1.0</code>).
+  /// The amount of RAM in GB on the instance (<code>1.0</code>).
   final double? ramSizeInGb;
 
   InstanceHardware({
@@ -20721,6 +20994,12 @@ class InstancePortInfo {
   /// <code>fromPort</code> parameter, and ICMP code using the <code>toPort</code>
   /// parameter.
   /// </li>
+  /// <li>
+  /// <code>icmp6</code> - Internet Control Message Protocol (ICMP) for IPv6. When
+  /// you specify <code>icmp6</code> as the <code>protocol</code>, you must
+  /// specify the ICMP type using the <code>fromPort</code> parameter, and ICMP
+  /// code using the <code>toPort</code> parameter.
+  /// </li>
   /// </ul>
   final NetworkProtocol? protocol;
 
@@ -20911,6 +21190,12 @@ class InstancePortState {
   /// <code>fromPort</code> parameter, and ICMP code using the <code>toPort</code>
   /// parameter.
   /// </li>
+  /// <li>
+  /// <code>icmp6</code> - Internet Control Message Protocol (ICMP) for IPv6. When
+  /// you specify <code>icmp6</code> as the <code>protocol</code>, you must
+  /// specify the ICMP type using the <code>fromPort</code> parameter, and ICMP
+  /// code using the <code>toPort</code> parameter.
+  /// </li>
   /// </ul>
   final NetworkProtocol? protocol;
 
@@ -21001,30 +21286,28 @@ class InstancePortState {
 
 /// Describes an instance snapshot.
 class InstanceSnapshot {
-  /// The Amazon Resource Name (ARN) of the snapshot (e.g.,
-  /// <code>arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE</code>).
+  /// The Amazon Resource Name (ARN) of the snapshot
+  /// (<code>arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE</code>).
   final String? arn;
 
-  /// The timestamp when the snapshot was created (e.g.,
-  /// <code>1479907467.024</code>).
+  /// The timestamp when the snapshot was created (<code>1479907467.024</code>).
   final DateTime? createdAt;
 
   /// An array of disk objects containing information about all block storage
   /// disks.
   final List<Disk>? fromAttachedDisks;
 
-  /// The blueprint ID from which you created the snapshot (e.g.,
-  /// <code>os_debian_8_3</code>). A blueprint is a virtual private server (or
-  /// <i>instance</i>) image used to create instances quickly.
+  /// The blueprint ID from which you created the snapshot
+  /// (<code>amazon_linux_2023</code>). A blueprint is a virtual private server
+  /// (or <i>instance</i>) image used to create instances quickly.
   final String? fromBlueprintId;
 
-  /// The bundle ID from which you created the snapshot (e.g.,
-  /// <code>micro_1_0</code>).
+  /// The bundle ID from which you created the snapshot (<code>micro_x_x</code>).
   final String? fromBundleId;
 
   /// The Amazon Resource Name (ARN) of the instance from which the snapshot was
-  /// created (e.g.,
-  /// <code>arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE</code>).
+  /// created
+  /// (<code>arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE</code>).
   final String? fromInstanceArn;
 
   /// The instance from which the snapshot was created.
@@ -21155,12 +21438,12 @@ class InstanceSnapshot {
 
 /// Describes an instance snapshot.
 class InstanceSnapshotInfo {
-  /// The blueprint ID from which the source instance (e.g.,
-  /// <code>os_debian_8_3</code>).
+  /// The blueprint ID from which the source instance
+  /// (<code>amazon_linux_2023</code>).
   final String? fromBlueprintId;
 
-  /// The bundle ID from which the source instance was created (e.g.,
-  /// <code>micro_1_0</code>).
+  /// The bundle ID from which the source instance was created
+  /// (<code>micro_x_x</code>).
   final String? fromBundleId;
 
   /// A list of objects describing the disks that were attached to the source
@@ -21234,8 +21517,7 @@ class InstanceState {
   /// The status code for the instance.
   final int? code;
 
-  /// The state of the instance (e.g., <code>running</code> or
-  /// <code>pending</code>).
+  /// The state of the instance (<code>running</code> or <code>pending</code>).
   final String? name;
 
   InstanceState({
@@ -21263,6 +21545,7 @@ class InstanceState {
 enum IpAddressType {
   dualstack,
   ipv4,
+  ipv6,
 }
 
 extension IpAddressTypeValueExtension on IpAddressType {
@@ -21272,6 +21555,8 @@ extension IpAddressTypeValueExtension on IpAddressType {
         return 'dualstack';
       case IpAddressType.ipv4:
         return 'ipv4';
+      case IpAddressType.ipv6:
+        return 'ipv6';
     }
   }
 }
@@ -21283,6 +21568,8 @@ extension IpAddressTypeFromString on String {
         return IpAddressType.dualstack;
       case 'ipv4':
         return IpAddressType.ipv4;
+      case 'ipv6':
+        return IpAddressType.ipv6;
     }
     throw Exception('$this is not known in enum IpAddressType');
   }
@@ -21313,12 +21600,11 @@ class IsVpcPeeredResult {
 
 /// Describes an SSH key pair.
 class KeyPair {
-  /// The Amazon Resource Name (ARN) of the key pair (e.g.,
-  /// <code>arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE</code>).
+  /// The Amazon Resource Name (ARN) of the key pair
+  /// (<code>arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE</code>).
   final String? arn;
 
-  /// The timestamp when the key pair was created (e.g.,
-  /// <code>1479816991.349</code>).
+  /// The timestamp when the key pair was created (<code>1479816991.349</code>).
   final DateTime? createdAt;
 
   /// The RSA fingerprint of the key pair.
@@ -21463,7 +21749,7 @@ class LightsailDistribution {
   /// The public DNS of the origin.
   final String? originPublicDNS;
 
-  /// The Lightsail resource type (e.g., <code>Distribution</code>).
+  /// The Lightsail resource type (<code>Distribution</code>).
   final ResourceType? resourceType;
 
   /// The status of the distribution.
@@ -21479,6 +21765,10 @@ class LightsailDistribution {
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags">Amazon
   /// Lightsail Developer Guide</a>.
   final List<Tag>? tags;
+
+  /// The minimum TLS protocol version that the distribution can use to
+  /// communicate with viewers.
+  final String? viewerMinimumTlsProtocolVersion;
 
   LightsailDistribution({
     this.ableToUpdateBundle,
@@ -21501,6 +21791,7 @@ class LightsailDistribution {
     this.status,
     this.supportCode,
     this.tags,
+    this.viewerMinimumTlsProtocolVersion,
   });
 
   factory LightsailDistribution.fromJson(Map<String, dynamic> json) {
@@ -21544,6 +21835,8 @@ class LightsailDistribution {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      viewerMinimumTlsProtocolVersion:
+          json['viewerMinimumTlsProtocolVersion'] as String?,
     );
   }
 
@@ -21568,6 +21861,8 @@ class LightsailDistribution {
     final status = this.status;
     final supportCode = this.supportCode;
     final tags = this.tags;
+    final viewerMinimumTlsProtocolVersion =
+        this.viewerMinimumTlsProtocolVersion;
     return {
       if (ableToUpdateBundle != null) 'ableToUpdateBundle': ableToUpdateBundle,
       if (alternativeDomainNames != null)
@@ -21592,6 +21887,8 @@ class LightsailDistribution {
       if (status != null) 'status': status,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
+      if (viewerMinimumTlsProtocolVersion != null)
+        'viewerMinimumTlsProtocolVersion': viewerMinimumTlsProtocolVersion,
     };
   }
 }
@@ -21630,16 +21927,16 @@ class LoadBalancer {
 
   /// The IP address type of the load balancer.
   ///
-  /// The possible values are <code>ipv4</code> for IPv4 only, and
-  /// <code>dualstack</code> for IPv4 and IPv6.
+  /// The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code>
+  /// for IPv6 only, and <code>dualstack</code> for IPv4 and IPv6.
   final IpAddressType? ipAddressType;
 
-  /// The AWS Region where your load balancer was created (e.g.,
-  /// <code>us-east-2a</code>). Lightsail automatically creates your load balancer
-  /// across Availability Zones.
+  /// The AWS Region where your load balancer was created
+  /// (<code>us-east-2a</code>). Lightsail automatically creates your load
+  /// balancer across Availability Zones.
   final ResourceLocation? location;
 
-  /// The name of the load balancer (e.g., <code>my-load-balancer</code>).
+  /// The name of the load balancer (<code>my-load-balancer</code>).
   final String? name;
 
   /// The protocol you have enabled for your load balancer. Valid values are
@@ -21653,7 +21950,7 @@ class LoadBalancer {
   /// 80. For HTTPS, use port 443.
   final List<int>? publicPorts;
 
-  /// The resource type (e.g., <code>LoadBalancer</code>.
+  /// The resource type (<code>LoadBalancer</code>.
   final ResourceType? resourceType;
 
   /// The status of your load balancer. Valid values are below.
@@ -22080,7 +22377,7 @@ class LoadBalancerTlsCertificate {
   /// certificate.
   final ResourceLocation? location;
 
-  /// The name of the SSL/TLS certificate (e.g., <code>my-certificate</code>).
+  /// The name of the SSL/TLS certificate (<code>my-certificate</code>).
   final String? name;
 
   /// The timestamp when the SSL/TLS certificate expires.
@@ -22093,7 +22390,7 @@ class LoadBalancerTlsCertificate {
   /// Lightsail.
   final LoadBalancerTlsCertificateRenewalSummary? renewalSummary;
 
-  /// The resource type (e.g., <code>LoadBalancerTlsCertificate</code>).
+  /// The resource type (<code>LoadBalancerTlsCertificate</code>).
   ///
   /// <ul>
   /// <li>
@@ -22153,9 +22450,9 @@ class LoadBalancerTlsCertificate {
   /// the certificate.
   final String? subject;
 
-  /// An array of strings that specify the alternate domains (e.g.,
-  /// <code>example2.com</code>) and subdomains (e.g.,
-  /// <code>blog.example.com</code>) for the certificate.
+  /// An array of strings that specify the alternate domains
+  /// (<code>example2.com</code>) and subdomains (<code>blog.example.com</code>)
+  /// for the certificate.
   final List<String>? subjectAlternativeNames;
 
   /// The support code. Include this code in your email to support when you have
@@ -22996,7 +23293,7 @@ class MetricDatapoint {
   /// The sum.
   final double? sum;
 
-  /// The timestamp (e.g., <code>1479816991.349</code>).
+  /// The timestamp (<code>1479816991.349</code>).
   final DateTime? timestamp;
 
   /// The unit.
@@ -23549,6 +23846,7 @@ enum NetworkProtocol {
   all,
   udp,
   icmp,
+  icmpv6,
 }
 
 extension NetworkProtocolValueExtension on NetworkProtocol {
@@ -23562,6 +23860,8 @@ extension NetworkProtocolValueExtension on NetworkProtocol {
         return 'udp';
       case NetworkProtocol.icmp:
         return 'icmp';
+      case NetworkProtocol.icmpv6:
+        return 'icmpv6';
     }
   }
 }
@@ -23577,6 +23877,8 @@ extension NetworkProtocolFromString on String {
         return NetworkProtocol.udp;
       case 'icmp':
         return NetworkProtocol.icmp;
+      case 'icmpv6':
+        return NetworkProtocol.icmpv6;
     }
     throw Exception('$this is not known in enum NetworkProtocol');
   }
@@ -23610,8 +23912,8 @@ class OpenInstancePublicPortsResult {
 
 /// Describes the API operation.
 class Operation {
-  /// The timestamp when the operation was initialized (e.g.,
-  /// <code>1479816991.349</code>).
+  /// The timestamp when the operation was initialized
+  /// (<code>1479816991.349</code>).
   final DateTime? createdAt;
 
   /// The error code.
@@ -23629,7 +23931,7 @@ class Operation {
   /// The Amazon Web Services Region and Availability Zone.
   final ResourceLocation? location;
 
-  /// Details about the operation (e.g., <code>Debian-1GB-Ohio-1</code>).
+  /// Details about the operation (<code>Debian-1GB-Ohio-1</code>).
   final String? operationDetails;
 
   /// The type of operation.
@@ -23644,8 +23946,7 @@ class Operation {
   /// The status of the operation.
   final OperationStatus? status;
 
-  /// The timestamp when the status was changed (e.g.,
-  /// <code>1479816991.349</code>).
+  /// The timestamp when the status was changed (<code>1479816991.349</code>).
   final DateTime? statusChangedAt;
 
   Operation({
@@ -23839,6 +24140,7 @@ enum OperationType {
   updateInstanceMetadataOptions,
   startGUISession,
   stopGUISession,
+  setupInstanceHttps,
 }
 
 extension OperationTypeValueExtension on OperationType {
@@ -24008,6 +24310,8 @@ extension OperationTypeValueExtension on OperationType {
         return 'StartGUISession';
       case OperationType.stopGUISession:
         return 'StopGUISession';
+      case OperationType.setupInstanceHttps:
+        return 'SetupInstanceHttps';
     }
   }
 }
@@ -24179,6 +24483,8 @@ extension OperationTypeFromString on String {
         return OperationType.startGUISession;
       case 'StopGUISession':
         return OperationType.stopGUISession;
+      case 'SetupInstanceHttps':
+        return OperationType.setupInstanceHttps;
     }
     throw Exception('$this is not known in enum OperationType');
   }
@@ -24201,14 +24507,21 @@ class Origin {
   /// The AWS Region name of the origin resource.
   final RegionName? regionName;
 
-  /// The resource type of the origin resource (e.g., <i>Instance</i>).
+  /// The resource type of the origin resource (<i>Instance</i>).
   final ResourceType? resourceType;
+
+  /// The amount of time, in seconds, that the distribution waits for a response
+  /// after forwarding a request to the origin. The minimum timeout is 1 second,
+  /// the maximum is 60 seconds, and the default (if you don't specify otherwise)
+  /// is 30 seconds.
+  final int? responseTimeout;
 
   Origin({
     this.name,
     this.protocolPolicy,
     this.regionName,
     this.resourceType,
+    this.responseTimeout,
   });
 
   factory Origin.fromJson(Map<String, dynamic> json) {
@@ -24218,6 +24531,7 @@ class Origin {
           (json['protocolPolicy'] as String?)?.toOriginProtocolPolicyEnum(),
       regionName: (json['regionName'] as String?)?.toRegionName(),
       resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      responseTimeout: json['responseTimeout'] as int?,
     );
   }
 
@@ -24226,11 +24540,13 @@ class Origin {
     final protocolPolicy = this.protocolPolicy;
     final regionName = this.regionName;
     final resourceType = this.resourceType;
+    final responseTimeout = this.responseTimeout;
     return {
       if (name != null) 'name': name,
       if (protocolPolicy != null) 'protocolPolicy': protocolPolicy.toValue(),
       if (regionName != null) 'regionName': regionName.toValue(),
       if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (responseTimeout != null) 'responseTimeout': responseTimeout,
     };
   }
 }
@@ -24553,6 +24869,12 @@ class PortInfo {
   /// <code>protocol</code>, you must specify the ICMP type using the
   /// <code>fromPort</code> parameter, and ICMP code using the <code>toPort</code>
   /// parameter.
+  /// </li>
+  /// <li>
+  /// <code>icmp6</code> - Internet Control Message Protocol (ICMP) for IPv6. When
+  /// you specify <code>icmp6</code> as the <code>protocol</code>, you must
+  /// specify the ICMP type using the <code>fromPort</code> parameter, and ICMP
+  /// code using the <code>toPort</code> parameter.
   /// </li>
   /// </ul>
   final NetworkProtocol? protocol;
@@ -25062,18 +25384,18 @@ class Region {
   /// (case-sensitive).
   final List<AvailabilityZone>? availabilityZones;
 
-  /// The continent code (e.g., <code>NA</code>, meaning North America).
+  /// The continent code (<code>NA</code>, meaning North America).
   final String? continentCode;
 
-  /// The description of the Amazon Web Services Region (e.g., <code>This region
-  /// is recommended to serve users in the eastern United States and eastern
+  /// The description of the Amazon Web Services Region (<code>This region is
+  /// recommended to serve users in the eastern United States and eastern
   /// Canada</code>).
   final String? description;
 
-  /// The display name (e.g., <code>Ohio</code>).
+  /// The display name (<code>Ohio</code>).
   final String? displayName;
 
-  /// The region name (e.g., <code>us-east-2</code>).
+  /// The region name (<code>us-east-2</code>).
   final RegionName? name;
 
   /// The Availability Zones for databases. Follows the format
@@ -26298,8 +26620,8 @@ class RenewalSummary {
 }
 
 class ResetDistributionCacheResult {
-  /// The timestamp of the reset cache request (e.g., <code>1479734909.17</code>)
-  /// in Unix time format.
+  /// The timestamp of the reset cache request (<code>1479734909.17</code>) in
+  /// Unix time format.
   final DateTime? createTime;
 
   /// An array of objects that describe the result of the action, such as the
@@ -26760,6 +27082,285 @@ class SetResourceAccessForBucketResult {
   }
 }
 
+/// Returns details about the commands that were run.
+class SetupExecutionDetails {
+  /// The command that was executed.
+  final String? command;
+
+  /// The timestamp for when the request was run.
+  final DateTime? dateTime;
+
+  /// The name of the target resource.
+  final String? name;
+
+  /// The text written by the command to stderr.
+  final String? standardError;
+
+  /// The text written by the command to stdout.
+  final String? standardOutput;
+
+  /// The status of the <code>SetupInstanceHttps</code> request.
+  final SetupStatus? status;
+
+  /// The current version of the script..
+  final String? version;
+
+  SetupExecutionDetails({
+    this.command,
+    this.dateTime,
+    this.name,
+    this.standardError,
+    this.standardOutput,
+    this.status,
+    this.version,
+  });
+
+  factory SetupExecutionDetails.fromJson(Map<String, dynamic> json) {
+    return SetupExecutionDetails(
+      command: json['command'] as String?,
+      dateTime: timeStampFromJson(json['dateTime']),
+      name: json['name'] as String?,
+      standardError: json['standardError'] as String?,
+      standardOutput: json['standardOutput'] as String?,
+      status: (json['status'] as String?)?.toSetupStatus(),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final dateTime = this.dateTime;
+    final name = this.name;
+    final standardError = this.standardError;
+    final standardOutput = this.standardOutput;
+    final status = this.status;
+    final version = this.version;
+    return {
+      if (command != null) 'command': command,
+      if (dateTime != null) 'dateTime': unixTimestampToJson(dateTime),
+      if (name != null) 'name': name,
+      if (standardError != null) 'standardError': standardError,
+      if (standardOutput != null) 'standardOutput': standardOutput,
+      if (status != null) 'status': status.toValue(),
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Returns a list of the commands that were ran on the target resource.
+///
+/// The status of each command is also returned.
+class SetupHistory {
+  /// Describes the full details of the request.
+  final List<SetupExecutionDetails>? executionDetails;
+
+  /// A GUID that's used to identify the operation.
+  final String? operationId;
+
+  /// Information about the specified request.
+  final SetupRequest? request;
+
+  /// The target resource name for the request.
+  final SetupHistoryResource? resource;
+
+  /// The status of the request.
+  final SetupStatus? status;
+
+  SetupHistory({
+    this.executionDetails,
+    this.operationId,
+    this.request,
+    this.resource,
+    this.status,
+  });
+
+  factory SetupHistory.fromJson(Map<String, dynamic> json) {
+    return SetupHistory(
+      executionDetails: (json['executionDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => SetupExecutionDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      operationId: json['operationId'] as String?,
+      request: json['request'] != null
+          ? SetupRequest.fromJson(json['request'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? SetupHistoryResource.fromJson(
+              json['resource'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toSetupStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionDetails = this.executionDetails;
+    final operationId = this.operationId;
+    final request = this.request;
+    final resource = this.resource;
+    final status = this.status;
+    return {
+      if (executionDetails != null) 'executionDetails': executionDetails,
+      if (operationId != null) 'operationId': operationId,
+      if (request != null) 'request': request,
+      if (resource != null) 'resource': resource,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+/// The Lightsail resource that <code>SetupHistory</code> was ran on.
+class SetupHistoryResource {
+  /// The Amazon Resource Name (ARN) of the Lightsail resource.
+  final String? arn;
+
+  /// The timestamp for when the resource was created.
+  final DateTime? createdAt;
+  final ResourceLocation? location;
+
+  /// The name of the Lightsail resource.
+  final String? name;
+
+  /// The Lightsail resource type. For example, <code>Instance</code>.
+  final ResourceType? resourceType;
+
+  SetupHistoryResource({
+    this.arn,
+    this.createdAt,
+    this.location,
+    this.name,
+    this.resourceType,
+  });
+
+  factory SetupHistoryResource.fromJson(Map<String, dynamic> json) {
+    return SetupHistoryResource(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      location: json['location'] != null
+          ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final location = this.location;
+    final name = this.name;
+    final resourceType = this.resourceType;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (location != null) 'location': location,
+      if (name != null) 'name': name,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+    };
+  }
+}
+
+class SetupInstanceHttpsResult {
+  /// The available API operations for <code>SetupInstanceHttps</code>.
+  final List<Operation>? operations;
+
+  SetupInstanceHttpsResult({
+    this.operations,
+  });
+
+  factory SetupInstanceHttpsResult.fromJson(Map<String, dynamic> json) {
+    return SetupInstanceHttpsResult(
+      operations: (json['operations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Operation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operations = this.operations;
+    return {
+      if (operations != null) 'operations': operations,
+    };
+  }
+}
+
+/// Returns information that was submitted during the
+/// <code>SetupInstanceHttps</code> request. Email information is redacted for
+/// privacy.
+class SetupRequest {
+  /// The Certificate Authority (CA) that issues the SSL/TLS certificate.
+  final CertificateProvider? certificateProvider;
+
+  /// The name of the domain and subdomains that the SSL/TLS certificate secures.
+  final List<String>? domainNames;
+
+  /// The name of the Lightsail instance.
+  final String? instanceName;
+
+  SetupRequest({
+    this.certificateProvider,
+    this.domainNames,
+    this.instanceName,
+  });
+
+  factory SetupRequest.fromJson(Map<String, dynamic> json) {
+    return SetupRequest(
+      certificateProvider:
+          (json['certificateProvider'] as String?)?.toCertificateProvider(),
+      domainNames: (json['domainNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceName: json['instanceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateProvider = this.certificateProvider;
+    final domainNames = this.domainNames;
+    final instanceName = this.instanceName;
+    return {
+      if (certificateProvider != null)
+        'certificateProvider': certificateProvider.toValue(),
+      if (domainNames != null) 'domainNames': domainNames,
+      if (instanceName != null) 'instanceName': instanceName,
+    };
+  }
+}
+
+enum SetupStatus {
+  succeeded,
+  failed,
+  inProgress,
+}
+
+extension SetupStatusValueExtension on SetupStatus {
+  String toValue() {
+    switch (this) {
+      case SetupStatus.succeeded:
+        return 'succeeded';
+      case SetupStatus.failed:
+        return 'failed';
+      case SetupStatus.inProgress:
+        return 'inProgress';
+    }
+  }
+}
+
+extension SetupStatusFromString on String {
+  SetupStatus toSetupStatus() {
+    switch (this) {
+      case 'succeeded':
+        return SetupStatus.succeeded;
+      case 'failed':
+        return SetupStatus.failed;
+      case 'inProgress':
+        return SetupStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum SetupStatus');
+  }
+}
+
 class StartGUISessionResult {
   /// The available API operations.
   final List<Operation>? operations;
@@ -26841,16 +27442,15 @@ class StartRelationalDatabaseResult {
 
 /// Describes a static IP.
 class StaticIp {
-  /// The Amazon Resource Name (ARN) of the static IP (e.g.,
-  /// <code>arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE</code>).
+  /// The Amazon Resource Name (ARN) of the static IP
+  /// (<code>arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE</code>).
   final String? arn;
 
-  /// The instance where the static IP is attached (e.g.,
-  /// <code>Amazon_Linux-1GB-Ohio-1</code>).
+  /// The instance where the static IP is attached
+  /// (<code>Amazon_Linux-1GB-Ohio-1</code>).
   final String? attachedTo;
 
-  /// The timestamp when the static IP was created (e.g.,
-  /// <code>1479735304.222</code>).
+  /// The timestamp when the static IP was created (<code>1479735304.222</code>).
   final DateTime? createdAt;
 
   /// The static IP address.
@@ -26862,7 +27462,7 @@ class StaticIp {
   /// The region and Availability Zone where the static IP was created.
   final ResourceLocation? location;
 
-  /// The name of the static IP (e.g., <code>StaticIP-Ohio-EXAMPLE</code>).
+  /// The name of the static IP (<code>StaticIP-Ohio-EXAMPLE</code>).
   final String? name;
 
   /// The resource type (usually <code>StaticIp</code>).
@@ -27630,6 +28230,46 @@ class UpdateRelationalDatabaseResult {
     return {
       if (operations != null) 'operations': operations,
     };
+  }
+}
+
+enum ViewerMinimumTlsProtocolVersionEnum {
+  tLSv1_1_2016,
+  tLSv1_2_2018,
+  tLSv1_2_2019,
+  tLSv1_2_2021,
+}
+
+extension ViewerMinimumTlsProtocolVersionEnumValueExtension
+    on ViewerMinimumTlsProtocolVersionEnum {
+  String toValue() {
+    switch (this) {
+      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_1_2016:
+        return 'TLSv1.1_2016';
+      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2018:
+        return 'TLSv1.2_2018';
+      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2019:
+        return 'TLSv1.2_2019';
+      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2021:
+        return 'TLSv1.2_2021';
+    }
+  }
+}
+
+extension ViewerMinimumTlsProtocolVersionEnumFromString on String {
+  ViewerMinimumTlsProtocolVersionEnum toViewerMinimumTlsProtocolVersionEnum() {
+    switch (this) {
+      case 'TLSv1.1_2016':
+        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_1_2016;
+      case 'TLSv1.2_2018':
+        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2018;
+      case 'TLSv1.2_2019':
+        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2019;
+      case 'TLSv1.2_2021':
+        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2021;
+    }
+    throw Exception(
+        '$this is not known in enum ViewerMinimumTlsProtocolVersionEnum');
   }
 }
 

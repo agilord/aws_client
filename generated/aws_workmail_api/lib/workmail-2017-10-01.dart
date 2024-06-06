@@ -93,15 +93,47 @@ class WorkMail {
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [entityId] :
   /// The member (user or group) to associate to the resource.
+  ///
+  /// The entity ID can accept <i>UserId or GroupID</i>, <i>Username or
+  /// Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity: entity
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The organization under which the resource exists.
   ///
   /// Parameter [resourceId] :
   /// The resource for which members (users or groups) are associated.
+  ///
+  /// The identifier can accept <i>ResourceId</i>, <i>Resourcename</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Resource ID: r-0123456789a0123456789b0123456789
+  /// </li>
+  /// <li>
+  /// Email address: resource@domain.tld
+  /// </li>
+  /// <li>
+  /// Resource name: resource
+  /// </li>
+  /// </ul>
   Future<void> associateDelegateToResource({
     required String entityId,
     required String organizationId,
@@ -139,8 +171,40 @@ class WorkMail {
   /// Parameter [groupId] :
   /// The group to which the member (user or group) is associated.
   ///
+  /// The identifier can accept <i>GroupId</i>, <i>Groupname</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Group ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: group@domain.tld
+  /// </li>
+  /// <li>
+  /// Group name: group
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [memberId] :
   /// The member (user or group) to associate to the group.
+  ///
+  /// The member ID can accept <i>UserID or GroupId</i>, <i>Username or
+  /// Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Member: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: member@domain.tld
+  /// </li>
+  /// <li>
+  /// Member name: member
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The organization under which the group exists.
@@ -363,9 +427,14 @@ class WorkMail {
   ///
   /// Parameter [organizationId] :
   /// The organization under which the group is to be created.
+  ///
+  /// Parameter [hiddenFromGlobalAddressList] :
+  /// If this parameter is enabled, the group will be hidden from the address
+  /// book.
   Future<CreateGroupResponse> createGroup({
     required String name,
     required String organizationId,
+    bool? hiddenFromGlobalAddressList,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -380,6 +449,8 @@ class WorkMail {
       payload: {
         'Name': name,
         'OrganizationId': organizationId,
+        if (hiddenFromGlobalAddressList != null)
+          'HiddenFromGlobalAddressList': hiddenFromGlobalAddressList,
       },
     );
 
@@ -637,6 +708,7 @@ class WorkMail {
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
   /// May throw [ReservedNameException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [name] :
   /// The name of the new resource.
@@ -648,10 +720,19 @@ class WorkMail {
   /// Parameter [type] :
   /// The type of the new resource. The available types are
   /// <code>equipment</code> and <code>room</code>.
+  ///
+  /// Parameter [description] :
+  /// Resource description.
+  ///
+  /// Parameter [hiddenFromGlobalAddressList] :
+  /// If this parameter is enabled, the resource will be hidden from the address
+  /// book.
   Future<CreateResourceResponse> createResource({
     required String name,
     required String organizationId,
     required ResourceType type,
+    String? description,
+    bool? hiddenFromGlobalAddressList,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -667,6 +748,9 @@ class WorkMail {
         'Name': name,
         'OrganizationId': organizationId,
         'Type': type.toValue(),
+        if (description != null) 'Description': description,
+        if (hiddenFromGlobalAddressList != null)
+          'HiddenFromGlobalAddressList': hiddenFromGlobalAddressList,
       },
     );
 
@@ -696,13 +780,34 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier of the organization for which the user is created.
   ///
+  /// Parameter [firstName] :
+  /// The first name of the new user.
+  ///
+  /// Parameter [hiddenFromGlobalAddressList] :
+  /// If this parameter is enabled, the user will be hidden from the address
+  /// book.
+  ///
+  /// Parameter [lastName] :
+  /// The last name of the new user.
+  ///
   /// Parameter [password] :
   /// The password for the new user.
+  ///
+  /// Parameter [role] :
+  /// The role of the new user.
+  ///
+  /// You cannot pass <i>SYSTEM_USER</i> or <i>RESOURCE</i> role in a single
+  /// request. When a user role is not selected, the default role of <i>USER</i>
+  /// is selected.
   Future<CreateUserResponse> createUser({
     required String displayName,
     required String name,
     required String organizationId,
-    required String password,
+    String? firstName,
+    bool? hiddenFromGlobalAddressList,
+    String? lastName,
+    String? password,
+    UserRole? role,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -718,7 +823,12 @@ class WorkMail {
         'DisplayName': displayName,
         'Name': name,
         'OrganizationId': organizationId,
-        'Password': password,
+        if (firstName != null) 'FirstName': firstName,
+        if (hiddenFromGlobalAddressList != null)
+          'HiddenFromGlobalAddressList': hiddenFromGlobalAddressList,
+        if (lastName != null) 'LastName': lastName,
+        if (password != null) 'Password': password,
+        if (role != null) 'Role': role.toValue(),
       },
     );
 
@@ -879,6 +989,19 @@ class WorkMail {
   /// Parameter [groupId] :
   /// The identifier of the group to be deleted.
   ///
+  /// The identifier can be the <i>GroupId</i>, or <i>Groupname</i>. The
+  /// following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Group ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Group name: group
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [organizationId] :
   /// The organization that contains the group.
   Future<void> deleteGroup({
@@ -943,11 +1066,44 @@ class WorkMail {
   /// May throw [OrganizationStateException].
   ///
   /// Parameter [entityId] :
-  /// The identifier of the member (user or group) that owns the mailbox.
+  /// The identifier of the entity that owns the mailbox.
+  ///
+  /// The identifier can be <i>UserId or Group Id</i>, <i>Username or
+  /// Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012,
+  /// r-0123456789a0123456789b0123456789, or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [granteeId] :
-  /// The identifier of the member (user or group) for which to delete granted
-  /// permissions.
+  /// The identifier of the entity for which to delete granted permissions.
+  ///
+  /// The identifier can be <i>UserId, ResourceID, or Group Id</i>, <i>Username
+  /// or Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Grantee ID:
+  /// 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789,
+  /// or S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: grantee@domain.tld
+  /// </li>
+  /// <li>
+  /// Grantee name: grantee
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The identifier of the organization under which the member (user or group)
@@ -1091,10 +1247,15 @@ class WorkMail {
   ///
   /// Parameter [clientToken] :
   /// The idempotency token associated with the request.
+  ///
+  /// Parameter [forceDelete] :
+  /// Deletes a WorkMail organization even if the organization has enabled
+  /// users.
   Future<DeleteOrganizationResponse> deleteOrganization({
     required bool deleteDirectory,
     required String organizationId,
     String? clientToken,
+    bool? forceDelete,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1110,6 +1271,7 @@ class WorkMail {
         'DeleteDirectory': deleteDirectory,
         'OrganizationId': organizationId,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (forceDelete != null) 'ForceDelete': forceDelete,
       },
     );
 
@@ -1122,6 +1284,7 @@ class WorkMail {
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [organizationId] :
   /// The identifier associated with the organization from which the resource is
@@ -1129,6 +1292,18 @@ class WorkMail {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the resource to be deleted.
+  ///
+  /// The identifier can accept <i>ResourceId</i>, or <i>Resourcename</i>. The
+  /// following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Resource ID: r-0123456789a0123456789b0123456789
+  /// </li>
+  /// <li>
+  /// Resource name: resource
+  /// </li>
+  /// </ul>
   Future<void> deleteResource({
     required String organizationId,
     required String resourceId,
@@ -1202,6 +1377,19 @@ class WorkMail {
   ///
   /// Parameter [userId] :
   /// The identifier of the user to be deleted.
+  ///
+  /// The identifier can be the <i>UserId</i> or <i>Username</i>. The following
+  /// identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// User name: user
+  /// </li>
+  /// </ul>
   Future<void> deleteUser({
     required String organizationId,
     required String userId,
@@ -1235,7 +1423,24 @@ class WorkMail {
   /// May throw [OrganizationStateException].
   ///
   /// Parameter [entityId] :
-  /// The identifier for the member (user or group) to be updated.
+  /// The identifier for the member to be updated.
+  ///
+  /// The identifier can be <i>UserId, ResourceId, or Group Id</i>, <i>Username,
+  /// Resourcename, or Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012,
+  /// r-0123456789a0123456789b0123456789, or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the WorkMail entity
@@ -1332,6 +1537,41 @@ class WorkMail {
         jsonResponse.body);
   }
 
+  /// Returns basic details about an entity in WorkMail.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [email] :
+  /// The email under which the entity exists.
+  ///
+  /// Parameter [organizationId] :
+  /// The identifier for the organization under which the entity exists.
+  Future<DescribeEntityResponse> describeEntity({
+    required String email,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DescribeEntity'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Email': email,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return DescribeEntityResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the data available for the group.
   ///
   /// May throw [EntityNotFoundException].
@@ -1341,6 +1581,22 @@ class WorkMail {
   ///
   /// Parameter [groupId] :
   /// The identifier for the group to be described.
+  ///
+  /// The identifier can accept <i>GroupId</i>, <i>Groupname</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Group ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: group@domain.tld
+  /// </li>
+  /// <li>
+  /// Group name: group
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the group exists.
@@ -1465,6 +1721,7 @@ class WorkMail {
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [organizationId] :
   /// The identifier associated with the organization for which the resource is
@@ -1472,6 +1729,21 @@ class WorkMail {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the resource to be described.
+  ///
+  /// The identifier can accept <i>ResourceId</i>, <i>Resourcename</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Resource ID: r-0123456789a0123456789b0123456789
+  /// </li>
+  /// <li>
+  /// Email address: resource@domain.tld
+  /// </li>
+  /// <li>
+  /// Resource name: resource
+  /// </li>
+  /// </ul>
   Future<DescribeResourceResponse> describeResource({
     required String organizationId,
     required String resourceId,
@@ -1507,6 +1779,22 @@ class WorkMail {
   ///
   /// Parameter [userId] :
   /// The identifier for the user to be described.
+  ///
+  /// The identifier can be the <i>UserId</i>, <i>Username</i>, or <i>email</i>.
+  /// The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: user@domain.tld
+  /// </li>
+  /// <li>
+  /// User name: user
+  /// </li>
+  /// </ul> <p/>
   Future<DescribeUserResponse> describeUser({
     required String organizationId,
     required String userId,
@@ -1537,10 +1825,27 @@ class WorkMail {
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [entityId] :
   /// The identifier for the member (user, group) to be removed from the
   /// resource's delegates.
+  ///
+  /// The entity ID can accept <i>UserId or GroupID</i>, <i>Username or
+  /// Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity: entity
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the resource exists.
@@ -1548,6 +1853,21 @@ class WorkMail {
   /// Parameter [resourceId] :
   /// The identifier of the resource from which delegates' set members are
   /// removed.
+  ///
+  /// The identifier can accept <i>ResourceId</i>, <i>Resourcename</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Resource ID: r-0123456789a0123456789b0123456789
+  /// </li>
+  /// <li>
+  /// Email address: resource@domain.tld
+  /// </li>
+  /// <li>
+  /// Resource name: resource
+  /// </li>
+  /// </ul>
   Future<void> disassociateDelegateFromResource({
     required String entityId,
     required String organizationId,
@@ -1585,8 +1905,40 @@ class WorkMail {
   /// Parameter [groupId] :
   /// The identifier for the group from which members are removed.
   ///
+  /// The identifier can accept <i>GroupId</i>, <i>Groupname</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Group ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: group@domain.tld
+  /// </li>
+  /// <li>
+  /// Group name: group
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [memberId] :
-  /// The identifier for the member to be removed to the group.
+  /// The identifier for the member to be removed from the group.
+  ///
+  /// The member ID can accept <i>UserID or GroupId</i>, <i>Username or
+  /// Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Member ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: member@domain.tld
+  /// </li>
+  /// <li>
+  /// Member name: member
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the group exists.
@@ -1830,6 +2182,7 @@ class WorkMail {
 
   /// Requests a user's mailbox details for a specified organization and user.
   ///
+  /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
   /// May throw [EntityNotFoundException].
@@ -1840,6 +2193,22 @@ class WorkMail {
   ///
   /// Parameter [userId] :
   /// The identifier for the user whose mailbox details are being requested.
+  ///
+  /// The identifier can be the <i>UserId</i>, <i>Username</i>, or <i>email</i>.
+  /// The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: user@domain.tld
+  /// </li>
+  /// <li>
+  /// User name: user
+  /// </li>
+  /// </ul>
   Future<GetMailboxDetailsResponse> getMailboxDetails({
     required String organizationId,
     required String userId,
@@ -2116,6 +2485,22 @@ class WorkMail {
   /// The identifier for the group to which the members (users or groups) are
   /// associated.
   ///
+  /// The identifier can accept <i>GroupId</i>, <i>Groupname</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Group ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: group@domain.tld
+  /// </li>
+  /// <li>
+  /// Group name: group
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the group exists.
   ///
@@ -2168,6 +2553,10 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the groups exist.
   ///
+  /// Parameter [filters] :
+  /// Limit the search results based on the filter criteria. Only one filter per
+  /// request is supported.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
   ///
@@ -2176,6 +2565,7 @@ class WorkMail {
   /// not contain any tokens.
   Future<ListGroupsResponse> listGroups({
     required String organizationId,
+    ListGroupsFilters? filters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -2197,12 +2587,87 @@ class WorkMail {
       headers: headers,
       payload: {
         'OrganizationId': organizationId,
+        if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
     return ListGroupsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns all the groups to which an entity belongs.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [EntityStateException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [entityId] :
+  /// The identifier for the entity.
+  ///
+  /// The entity ID can accept <i>UserId or GroupID</i>, <i>Username or
+  /// Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [organizationId] :
+  /// The identifier for the organization under which the entity exists.
+  ///
+  /// Parameter [filters] :
+  /// Limit the search results based on the filter criteria.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  Future<ListGroupsForEntityResponse> listGroupsForEntity({
+    required String entityId,
+    required String organizationId,
+    ListGroupsForEntityFilters? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListGroupsForEntity'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EntityId': entityId,
+        'OrganizationId': organizationId,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListGroupsForEntityResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists all the impersonation roles for the given WorkMail organization.
@@ -2352,8 +2817,24 @@ class WorkMail {
   /// May throw [OrganizationStateException].
   ///
   /// Parameter [entityId] :
-  /// The identifier of the user, group, or resource for which to list mailbox
+  /// The identifier of the user, or resource for which to list mailbox
   /// permissions.
+  ///
+  /// The entity ID can accept <i>UserId or ResourceId</i>, <i>Username or
+  /// Resourcename</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012, or
+  /// r-0123456789a0123456789b0123456789
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The identifier of the organization under which the user, group, or
@@ -2549,6 +3030,7 @@ class WorkMail {
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [organizationId] :
   /// The identifier for the organization that contains the resource for which
@@ -2556,6 +3038,21 @@ class WorkMail {
   ///
   /// Parameter [resourceId] :
   /// The identifier for the resource whose delegates are listed.
+  ///
+  /// The identifier can accept <i>ResourceId</i>, <i>Resourcename</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Resource ID: r-0123456789a0123456789b0123456789
+  /// </li>
+  /// <li>
+  /// Email address: resource@domain.tld
+  /// </li>
+  /// <li>
+  /// Resource name: resource
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
   /// The number of maximum results in a page.
@@ -2601,9 +3098,14 @@ class WorkMail {
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the resources exist.
+  ///
+  /// Parameter [filters] :
+  /// Limit the resource search results based on the filter criteria. You can
+  /// only use one filter per request.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
@@ -2613,6 +3115,7 @@ class WorkMail {
   /// not contain any tokens.
   Future<ListResourcesResponse> listResources({
     required String organizationId,
+    ListResourcesFilters? filters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -2634,6 +3137,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'OrganizationId': organizationId,
+        if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2678,6 +3182,10 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the users exist.
   ///
+  /// Parameter [filters] :
+  /// Limit the user search results based on the filter criteria. You can only
+  /// use one filter per request.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
   ///
@@ -2686,6 +3194,7 @@ class WorkMail {
   /// not contain any tokens.
   Future<ListUsersResponse> listUsers({
     required String organizationId,
+    ListUsersFilters? filters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -2707,6 +3216,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'OrganizationId': organizationId,
+        if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2894,12 +3404,46 @@ class WorkMail {
   /// May throw [OrganizationStateException].
   ///
   /// Parameter [entityId] :
-  /// The identifier of the user, group, or resource for which to update mailbox
+  /// The identifier of the user or resource for which to update mailbox
   /// permissions.
+  ///
+  /// The identifier can be <i>UserId, ResourceID, or Group Id</i>, <i>Username,
+  /// Resourcename, or Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012,
+  /// r-0123456789a0123456789b0123456789, or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [granteeId] :
   /// The identifier of the user, group, or resource to which to grant the
   /// permissions.
+  ///
+  /// The identifier can be <i>UserId, ResourceID, or Group Id</i>, <i>Username,
+  /// Resourcename, or Groupname</i>, or <i>email</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Grantee ID: 12345678-1234-1234-1234-123456789012,
+  /// r-0123456789a0123456789b0123456789, or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: grantee@domain.tld
+  /// </li>
+  /// <li>
+  /// Grantee name: grantee
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [organizationId] :
   /// The identifier of the organization under which the user, group, or
@@ -3123,6 +3667,21 @@ class WorkMail {
   /// Parameter [entityId] :
   /// The identifier for the user, group, or resource to be updated.
   ///
+  /// The identifier can accept <i>UserId, ResourceId, or GroupId</i>, or
+  /// <i>Username, Resourcename, or Groupname</i>. The following identity
+  /// formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012,
+  /// r-0123456789a0123456789b0123456789, or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the user, group, or
   /// resource exists.
@@ -3208,6 +3767,24 @@ class WorkMail {
   /// Parameter [entityId] :
   /// The identifier of the user or resource associated with the mailbox.
   ///
+  /// The identifier can accept <i>UserId or ResourceId</i>, <i>Username or
+  /// Resourcename</i>, or <i>email</i>. The following identity formats are
+  /// available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012,
+  /// r-0123456789a0123456789b0123456789 , or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [kmsKeyArn] :
   /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
   /// (AWS KMS) key that encrypts the exported mailbox content.
@@ -3267,6 +3844,7 @@ class WorkMail {
 
   /// Applies the specified tags to the specified WorkMailorganization resource.
   ///
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   /// May throw [OrganizationStateException].
@@ -3468,6 +4046,63 @@ class WorkMail {
     );
   }
 
+  /// Updates attibutes in a group.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [EntityStateException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [groupId] :
+  /// The identifier for the group to be updated.
+  ///
+  /// The identifier can accept <i>GroupId</i>, <i>Groupname</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Group ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: group@domain.tld
+  /// </li>
+  /// <li>
+  /// Group name: group
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [organizationId] :
+  /// The identifier for the organization under which the group exists.
+  ///
+  /// Parameter [hiddenFromGlobalAddressList] :
+  /// If enabled, the group is hidden from the global address list.
+  Future<void> updateGroup({
+    required String groupId,
+    required String organizationId,
+    bool? hiddenFromGlobalAddressList,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateGroup'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GroupId': groupId,
+        'OrganizationId': organizationId,
+        if (hiddenFromGlobalAddressList != null)
+          'HiddenFromGlobalAddressList': hiddenFromGlobalAddressList,
+      },
+    );
+  }
+
   /// Updates an impersonation role for the given WorkMail organization.
   ///
   /// May throw [InvalidParameterException].
@@ -3542,6 +4177,22 @@ class WorkMail {
   ///
   /// Parameter [userId] :
   /// The identifer for the user for whom to update the mailbox quota.
+  ///
+  /// The identifier can be the <i>UserId</i>, <i>Username</i>, or <i>email</i>.
+  /// The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: user@domain.tld
+  /// </li>
+  /// <li>
+  /// User name: user
+  /// </li>
+  /// </ul>
   Future<void> updateMailboxQuota({
     required int mailboxQuota,
     required String organizationId,
@@ -3693,6 +4344,24 @@ class WorkMail {
   /// Parameter [entityId] :
   /// The user, group, or resource to update.
   ///
+  /// The identifier can accept <i>UseriD, ResourceId, or GroupId</i>,
+  /// <i>Username, Resourcename, or Groupname</i>, or <i>email</i>. The
+  /// following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Entity ID: 12345678-1234-1234-1234-123456789012,
+  /// r-0123456789a0123456789b0123456789, or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: entity@domain.tld
+  /// </li>
+  /// <li>
+  /// Entity name: entity
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [organizationId] :
   /// The organization that contains the user, group, or resource to update.
   Future<void> updatePrimaryEmailAddress({
@@ -3733,6 +4402,8 @@ class WorkMail {
   /// May throw [NameAvailabilityException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [organizationId] :
   /// The identifier associated with the organization for which the resource is
@@ -3741,16 +4412,43 @@ class WorkMail {
   /// Parameter [resourceId] :
   /// The identifier of the resource to be updated.
   ///
+  /// The identifier can accept <i>ResourceId</i>, <i>Resourcename</i>, or
+  /// <i>email</i>. The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// Resource ID: r-0123456789a0123456789b0123456789
+  /// </li>
+  /// <li>
+  /// Email address: resource@domain.tld
+  /// </li>
+  /// <li>
+  /// Resource name: resource
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [bookingOptions] :
   /// The resource's booking options to be updated.
   ///
+  /// Parameter [description] :
+  /// Updates the resource description.
+  ///
+  /// Parameter [hiddenFromGlobalAddressList] :
+  /// If enabled, the resource is hidden from the global address list.
+  ///
   /// Parameter [name] :
   /// The name of the resource to be updated.
+  ///
+  /// Parameter [type] :
+  /// Updates the resource type.
   Future<void> updateResource({
     required String organizationId,
     required String resourceId,
     BookingOptions? bookingOptions,
+    String? description,
+    bool? hiddenFromGlobalAddressList,
     String? name,
+    ResourceType? type,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3766,7 +4464,145 @@ class WorkMail {
         'OrganizationId': organizationId,
         'ResourceId': resourceId,
         if (bookingOptions != null) 'BookingOptions': bookingOptions,
+        if (description != null) 'Description': description,
+        if (hiddenFromGlobalAddressList != null)
+          'HiddenFromGlobalAddressList': hiddenFromGlobalAddressList,
         if (name != null) 'Name': name,
+        if (type != null) 'Type': type.toValue(),
+      },
+    );
+  }
+
+  /// Updates data for the user. To have the latest information, it must be
+  /// preceded by a <a>DescribeUser</a> call. The dataset in the request should
+  /// be the one expected when performing another <code>DescribeUser</code>
+  /// call.
+  ///
+  /// May throw [DirectoryServiceAuthenticationFailedException].
+  /// May throw [DirectoryUnavailableException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [EntityStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The identifier for the organization under which the user exists.
+  ///
+  /// Parameter [userId] :
+  /// The identifier for the user to be updated.
+  ///
+  /// The identifier can be the <i>UserId</i>, <i>Username</i>, or <i>email</i>.
+  /// The following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: 12345678-1234-1234-1234-123456789012 or
+  /// S-1-1-12-1234567890-123456789-123456789-1234
+  /// </li>
+  /// <li>
+  /// Email address: user@domain.tld
+  /// </li>
+  /// <li>
+  /// User name: user
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [city] :
+  /// Updates the user's city.
+  ///
+  /// Parameter [company] :
+  /// Updates the user's company.
+  ///
+  /// Parameter [country] :
+  /// Updates the user's country.
+  ///
+  /// Parameter [department] :
+  /// Updates the user's department.
+  ///
+  /// Parameter [displayName] :
+  /// Updates the display name of the user.
+  ///
+  /// Parameter [firstName] :
+  /// Updates the user's first name.
+  ///
+  /// Parameter [hiddenFromGlobalAddressList] :
+  /// If enabled, the user is hidden from the global address list.
+  ///
+  /// Parameter [initials] :
+  /// Updates the user's initials.
+  ///
+  /// Parameter [jobTitle] :
+  /// Updates the user's job title.
+  ///
+  /// Parameter [lastName] :
+  /// Updates the user's last name.
+  ///
+  /// Parameter [office] :
+  /// Updates the user's office.
+  ///
+  /// Parameter [role] :
+  /// Updates the user role.
+  ///
+  /// You cannot pass <i>SYSTEM_USER</i> or <i>RESOURCE</i>.
+  ///
+  /// Parameter [street] :
+  /// Updates the user's street address.
+  ///
+  /// Parameter [telephone] :
+  /// Updates the user's contact details.
+  ///
+  /// Parameter [zipCode] :
+  /// Updates the user's zipcode.
+  Future<void> updateUser({
+    required String organizationId,
+    required String userId,
+    String? city,
+    String? company,
+    String? country,
+    String? department,
+    String? displayName,
+    String? firstName,
+    bool? hiddenFromGlobalAddressList,
+    String? initials,
+    String? jobTitle,
+    String? lastName,
+    String? office,
+    UserRole? role,
+    String? street,
+    String? telephone,
+    String? zipCode,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateUser'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        'UserId': userId,
+        if (city != null) 'City': city,
+        if (company != null) 'Company': company,
+        if (country != null) 'Country': country,
+        if (department != null) 'Department': department,
+        if (displayName != null) 'DisplayName': displayName,
+        if (firstName != null) 'FirstName': firstName,
+        if (hiddenFromGlobalAddressList != null)
+          'HiddenFromGlobalAddressList': hiddenFromGlobalAddressList,
+        if (initials != null) 'Initials': initials,
+        if (jobTitle != null) 'JobTitle': jobTitle,
+        if (lastName != null) 'LastName': lastName,
+        if (office != null) 'Office': office,
+        if (role != null) 'Role': role.toValue(),
+        if (street != null) 'Street': street,
+        if (telephone != null) 'Telephone': telephone,
+        if (zipCode != null) 'ZipCode': zipCode,
       },
     );
   }
@@ -4389,6 +5225,31 @@ class DescribeEmailMonitoringConfigurationResponse {
   }
 }
 
+class DescribeEntityResponse {
+  /// The entity ID under which the entity exists.
+  final String? entityId;
+
+  /// Username, GroupName, or ResourceName based on entity type.
+  final String? name;
+
+  /// Entity type.
+  final EntityType? type;
+
+  DescribeEntityResponse({
+    this.entityId,
+    this.name,
+    this.type,
+  });
+
+  factory DescribeEntityResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEntityResponse(
+      entityId: json['EntityId'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toEntityType(),
+    );
+  }
+}
+
 class DescribeGroupResponse {
   /// The date and time when a user was deregistered from WorkMail, in UNIX epoch
   /// time format.
@@ -4404,6 +5265,10 @@ class DescribeGroupResponse {
   /// The identifier of the described group.
   final String? groupId;
 
+  /// If the value is set to <i>true</i>, the group is hidden from the address
+  /// book.
+  final bool? hiddenFromGlobalAddressList;
+
   /// The name of the described group.
   final String? name;
 
@@ -4416,6 +5281,7 @@ class DescribeGroupResponse {
     this.email,
     this.enabledDate,
     this.groupId,
+    this.hiddenFromGlobalAddressList,
     this.name,
     this.state,
   });
@@ -4426,6 +5292,7 @@ class DescribeGroupResponse {
       email: json['Email'] as String?,
       enabledDate: timeStampFromJson(json['EnabledDate']),
       groupId: json['GroupId'] as String?,
+      hiddenFromGlobalAddressList: json['HiddenFromGlobalAddressList'] as bool?,
       name: json['Name'] as String?,
       state: (json['State'] as String?)?.toEntityState(),
     );
@@ -4545,6 +5412,13 @@ class DescribeOrganizationResponse {
   /// encountered with regards to the organization.
   final String? errorMessage;
 
+  /// Indicates if interoperability is enabled for this organization.
+  final bool? interoperabilityEnabled;
+
+  /// The user ID of the migration admin if migration is enabled for the
+  /// organization.
+  final String? migrationAdmin;
+
   /// The identifier of an organization.
   final String? organizationId;
 
@@ -4559,6 +5433,8 @@ class DescribeOrganizationResponse {
     this.directoryId,
     this.directoryType,
     this.errorMessage,
+    this.interoperabilityEnabled,
+    this.migrationAdmin,
     this.organizationId,
     this.state,
   });
@@ -4572,6 +5448,8 @@ class DescribeOrganizationResponse {
       directoryId: json['DirectoryId'] as String?,
       directoryType: json['DirectoryType'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
+      interoperabilityEnabled: json['InteroperabilityEnabled'] as bool?,
+      migrationAdmin: json['MigrationAdmin'] as String?,
       organizationId: json['OrganizationId'] as String?,
       state: json['State'] as String?,
     );
@@ -4581,6 +5459,9 @@ class DescribeOrganizationResponse {
 class DescribeResourceResponse {
   /// The booking options for the described resource.
   final BookingOptions? bookingOptions;
+
+  /// Description of the resource.
+  final String? description;
 
   /// The date and time when a resource was disabled from WorkMail, in UNIX epoch
   /// time format.
@@ -4592,6 +5473,9 @@ class DescribeResourceResponse {
   /// The date and time when a resource was enabled for WorkMail, in UNIX epoch
   /// time format.
   final DateTime? enabledDate;
+
+  /// If enabled, the resource is hidden from the global address list.
+  final bool? hiddenFromGlobalAddressList;
 
   /// The name of the described resource.
   final String? name;
@@ -4608,9 +5492,11 @@ class DescribeResourceResponse {
 
   DescribeResourceResponse({
     this.bookingOptions,
+    this.description,
     this.disabledDate,
     this.email,
     this.enabledDate,
+    this.hiddenFromGlobalAddressList,
     this.name,
     this.resourceId,
     this.state,
@@ -4623,9 +5509,11 @@ class DescribeResourceResponse {
           ? BookingOptions.fromJson(
               json['BookingOptions'] as Map<String, dynamic>)
           : null,
+      description: json['Description'] as String?,
       disabledDate: timeStampFromJson(json['DisabledDate']),
       email: json['Email'] as String?,
       enabledDate: timeStampFromJson(json['EnabledDate']),
+      hiddenFromGlobalAddressList: json['HiddenFromGlobalAddressList'] as bool?,
       name: json['Name'] as String?,
       resourceId: json['ResourceId'] as String?,
       state: (json['State'] as String?)?.toEntityState(),
@@ -4635,6 +5523,18 @@ class DescribeResourceResponse {
 }
 
 class DescribeUserResponse {
+  /// City where the user is located.
+  final String? city;
+
+  /// Company of the user.
+  final String? company;
+
+  /// Country where the user is located.
+  final String? country;
+
+  /// Department of the user.
+  final String? department;
+
   /// The date and time at which the user was disabled for WorkMail usage, in UNIX
   /// epoch time format.
   final DateTime? disabledDate;
@@ -4649,12 +5549,42 @@ class DescribeUserResponse {
   /// epoch time format.
   final DateTime? enabledDate;
 
+  /// First name of the user.
+  final String? firstName;
+
+  /// If enabled, the user is hidden from the global address list.
+  final bool? hiddenFromGlobalAddressList;
+
+  /// Initials of the user.
+  final String? initials;
+
+  /// Job title of the user.
+  final String? jobTitle;
+
+  /// Last name of the user.
+  final String? lastName;
+
+  /// The date when the mailbox was removed for the user.
+  final DateTime? mailboxDeprovisionedDate;
+
+  /// The date when the mailbox was created for the user.
+  final DateTime? mailboxProvisionedDate;
+
   /// The name for the user.
   final String? name;
+
+  /// Office where the user is located.
+  final String? office;
 
   /// The state of a user: enabled (registered to WorkMail) or disabled
   /// (deregistered or never registered to WorkMail).
   final EntityState? state;
+
+  /// Street where the user is located.
+  final String? street;
+
+  /// User's contact number.
+  final String? telephone;
 
   /// The identifier for the described user.
   final String? userId;
@@ -4663,31 +5593,65 @@ class DescribeUserResponse {
   /// is enabled, resources are imported into WorkMail as users. Because different
   /// WorkMail organizations rely on different directory types, administrators can
   /// distinguish between an unregistered user (account is disabled and has a user
-  /// role) and the directory administrators. The values are USER, RESOURCE, and
-  /// SYSTEM_USER.
+  /// role) and the directory administrators. The values are USER, RESOURCE,
+  /// SYSTEM_USER, and REMOTE_USER.
   final UserRole? userRole;
 
+  /// Zip code of the user.
+  final String? zipCode;
+
   DescribeUserResponse({
+    this.city,
+    this.company,
+    this.country,
+    this.department,
     this.disabledDate,
     this.displayName,
     this.email,
     this.enabledDate,
+    this.firstName,
+    this.hiddenFromGlobalAddressList,
+    this.initials,
+    this.jobTitle,
+    this.lastName,
+    this.mailboxDeprovisionedDate,
+    this.mailboxProvisionedDate,
     this.name,
+    this.office,
     this.state,
+    this.street,
+    this.telephone,
     this.userId,
     this.userRole,
+    this.zipCode,
   });
 
   factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
     return DescribeUserResponse(
+      city: json['City'] as String?,
+      company: json['Company'] as String?,
+      country: json['Country'] as String?,
+      department: json['Department'] as String?,
       disabledDate: timeStampFromJson(json['DisabledDate']),
       displayName: json['DisplayName'] as String?,
       email: json['Email'] as String?,
       enabledDate: timeStampFromJson(json['EnabledDate']),
+      firstName: json['FirstName'] as String?,
+      hiddenFromGlobalAddressList: json['HiddenFromGlobalAddressList'] as bool?,
+      initials: json['Initials'] as String?,
+      jobTitle: json['JobTitle'] as String?,
+      lastName: json['LastName'] as String?,
+      mailboxDeprovisionedDate:
+          timeStampFromJson(json['MailboxDeprovisionedDate']),
+      mailboxProvisionedDate: timeStampFromJson(json['MailboxProvisionedDate']),
       name: json['Name'] as String?,
+      office: json['Office'] as String?,
       state: (json['State'] as String?)?.toEntityState(),
+      street: json['Street'] as String?,
+      telephone: json['Telephone'] as String?,
       userId: json['UserId'] as String?,
       userRole: (json['UserRole'] as String?)?.toUserRole(),
+      zipCode: json['ZipCode'] as String?,
     );
   }
 }
@@ -4779,14 +5743,14 @@ extension DnsRecordVerificationStatusFromString on String {
 /// a domain</a> in the <i>WorkMail Administrator Guide</i>.
 class Domain {
   /// The fully qualified domain name.
-  final String? domainName;
+  final String domainName;
 
   /// The hosted zone ID for a domain hosted in Route 53. Required when
   /// configuring a domain hosted in Route 53.
   final String? hostedZoneId;
 
   Domain({
-    this.domainName,
+    required this.domainName,
     this.hostedZoneId,
   });
 
@@ -4794,7 +5758,7 @@ class Domain {
     final domainName = this.domainName;
     final hostedZoneId = this.hostedZoneId;
     return {
-      if (domainName != null) 'DomainName': domainName,
+      'DomainName': domainName,
       if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
     };
   }
@@ -4830,6 +5794,39 @@ extension EntityStateFromString on String {
         return EntityState.deleted;
     }
     throw Exception('$this is not known in enum EntityState');
+  }
+}
+
+enum EntityType {
+  group,
+  user,
+  resource,
+}
+
+extension EntityTypeValueExtension on EntityType {
+  String toValue() {
+    switch (this) {
+      case EntityType.group:
+        return 'GROUP';
+      case EntityType.user:
+        return 'USER';
+      case EntityType.resource:
+        return 'RESOURCE';
+    }
+  }
+}
+
+extension EntityTypeFromString on String {
+  EntityType toEntityType() {
+    switch (this) {
+      case 'GROUP':
+        return EntityType.group;
+      case 'USER':
+        return EntityType.user;
+      case 'RESOURCE':
+        return EntityType.resource;
+    }
+    throw Exception('$this is not known in enum EntityType');
   }
 }
 
@@ -5256,6 +6253,27 @@ class Group {
   }
 }
 
+/// The identifier that contains the Group ID and name of a group.
+class GroupIdentifier {
+  /// Group ID that matched the group.
+  final String? groupId;
+
+  /// Group name that matched the group.
+  final String? groupName;
+
+  GroupIdentifier({
+    this.groupId,
+    this.groupName,
+  });
+
+  factory GroupIdentifier.fromJson(Map<String, dynamic> json) {
+    return GroupIdentifier(
+      groupId: json['GroupId'] as String?,
+      groupName: json['GroupName'] as String?,
+    );
+  }
+}
+
 /// The impersonation rule that matched the input.
 class ImpersonationMatchedRule {
   /// The ID of the rule that matched the input
@@ -5523,6 +6541,78 @@ class ListGroupMembersResponse {
   }
 }
 
+/// Filtering options for <i>ListGroups</i> operation. This is only used as
+/// input to Operation.
+class ListGroupsFilters {
+  /// Filters only groups with the provided name prefix.
+  final String? namePrefix;
+
+  /// Filters only groups with the provided primary email prefix.
+  final String? primaryEmailPrefix;
+
+  /// Filters only groups with the provided state.
+  final EntityState? state;
+
+  ListGroupsFilters({
+    this.namePrefix,
+    this.primaryEmailPrefix,
+    this.state,
+  });
+
+  Map<String, dynamic> toJson() {
+    final namePrefix = this.namePrefix;
+    final primaryEmailPrefix = this.primaryEmailPrefix;
+    final state = this.state;
+    return {
+      if (namePrefix != null) 'NamePrefix': namePrefix,
+      if (primaryEmailPrefix != null) 'PrimaryEmailPrefix': primaryEmailPrefix,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
+/// Filtering options for <i>ListGroupsForEntity</i> operation. This is only
+/// used as input to Operation.
+class ListGroupsForEntityFilters {
+  /// Filters only group names that start with the provided name prefix.
+  final String? groupNamePrefix;
+
+  ListGroupsForEntityFilters({
+    this.groupNamePrefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupNamePrefix = this.groupNamePrefix;
+    return {
+      if (groupNamePrefix != null) 'GroupNamePrefix': groupNamePrefix,
+    };
+  }
+}
+
+class ListGroupsForEntityResponse {
+  /// The overview of groups in an organization.
+  final List<GroupIdentifier>? groups;
+
+  /// The token to use to retrieve the next page of results. This value is `null`
+  /// when there are no more results to return.
+  final String? nextToken;
+
+  ListGroupsForEntityResponse({
+    this.groups,
+    this.nextToken,
+  });
+
+  factory ListGroupsForEntityResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsForEntityResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListGroupsResponse {
   /// The overview of groups for an organization.
   final List<Group>? groups;
@@ -5742,6 +6832,36 @@ class ListResourceDelegatesResponse {
   }
 }
 
+/// Filtering options for <i>ListResources</i> operation. This is only used as
+/// input to Operation.
+class ListResourcesFilters {
+  /// Filters only resource that start with the entered name prefix .
+  final String? namePrefix;
+
+  /// Filters only resource with the provided primary email prefix.
+  final String? primaryEmailPrefix;
+
+  /// Filters only resource with the provided state.
+  final EntityState? state;
+
+  ListResourcesFilters({
+    this.namePrefix,
+    this.primaryEmailPrefix,
+    this.state,
+  });
+
+  Map<String, dynamic> toJson() {
+    final namePrefix = this.namePrefix;
+    final primaryEmailPrefix = this.primaryEmailPrefix;
+    final state = this.state;
+    return {
+      if (namePrefix != null) 'NamePrefix': namePrefix,
+      if (primaryEmailPrefix != null) 'PrimaryEmailPrefix': primaryEmailPrefix,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
 class ListResourcesResponse {
   /// The token used to paginate through all the organization's resources. While
   /// results are still available, it has an associated value. When the last page
@@ -5782,6 +6902,42 @@ class ListTagsForResourceResponse {
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+/// Filtering options for <i>ListUsers</i> operation. This is only used as input
+/// to Operation.
+class ListUsersFilters {
+  /// Filters only users with the provided display name prefix.
+  final String? displayNamePrefix;
+
+  /// Filters only users with the provided email prefix.
+  final String? primaryEmailPrefix;
+
+  /// Filters only users with the provided state.
+  final EntityState? state;
+
+  /// Filters only users with the provided username prefix.
+  final String? usernamePrefix;
+
+  ListUsersFilters({
+    this.displayNamePrefix,
+    this.primaryEmailPrefix,
+    this.state,
+    this.usernamePrefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final displayNamePrefix = this.displayNamePrefix;
+    final primaryEmailPrefix = this.primaryEmailPrefix;
+    final state = this.state;
+    final usernamePrefix = this.usernamePrefix;
+    return {
+      if (displayNamePrefix != null) 'DisplayNamePrefix': displayNamePrefix,
+      if (primaryEmailPrefix != null) 'PrimaryEmailPrefix': primaryEmailPrefix,
+      if (state != null) 'State': state.toValue(),
+      if (usernamePrefix != null) 'UsernamePrefix': usernamePrefix,
+    };
   }
 }
 
@@ -6401,6 +7557,9 @@ class ResetPasswordResponse {
 
 /// The representation of a resource.
 class Resource {
+  /// Resource description.
+  final String? description;
+
   /// The date indicating when the resource was disabled from WorkMail use.
   final DateTime? disabledDate;
 
@@ -6423,6 +7582,7 @@ class Resource {
   final ResourceType? type;
 
   Resource({
+    this.description,
     this.disabledDate,
     this.email,
     this.enabledDate,
@@ -6434,6 +7594,7 @@ class Resource {
 
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
+      description: json['Description'] as String?,
       disabledDate: timeStampFromJson(json['DisabledDate']),
       email: json['Email'] as String?,
       enabledDate: timeStampFromJson(json['EnabledDate']),
@@ -6606,6 +7767,14 @@ class UpdateDefaultMailDomainResponse {
   }
 }
 
+class UpdateGroupResponse {
+  UpdateGroupResponse();
+
+  factory UpdateGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateGroupResponse();
+  }
+}
+
 class UpdateImpersonationRoleResponse {
   UpdateImpersonationRoleResponse();
 
@@ -6644,6 +7813,14 @@ class UpdateResourceResponse {
 
   factory UpdateResourceResponse.fromJson(Map<String, dynamic> _) {
     return UpdateResourceResponse();
+  }
+}
+
+class UpdateUserResponse {
+  UpdateUserResponse();
+
+  factory UpdateUserResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateUserResponse();
   }
 }
 
@@ -6702,6 +7879,7 @@ enum UserRole {
   user,
   resource,
   systemUser,
+  remoteUser,
 }
 
 extension UserRoleValueExtension on UserRole {
@@ -6713,6 +7891,8 @@ extension UserRoleValueExtension on UserRole {
         return 'RESOURCE';
       case UserRole.systemUser:
         return 'SYSTEM_USER';
+      case UserRole.remoteUser:
+        return 'REMOTE_USER';
     }
   }
 }
@@ -6726,6 +7906,8 @@ extension UserRoleFromString on String {
         return UserRole.resource;
       case 'SYSTEM_USER':
         return UserRole.systemUser;
+      case 'REMOTE_USER':
+        return UserRole.remoteUser;
     }
     throw Exception('$this is not known in enum UserRole');
   }

@@ -160,7 +160,7 @@ class ServiceCatalog {
   /// <code>PrincipalType</code> parameters are required.
   ///
   /// You can associate a maximum of 10 Principals with a portfolio using
-  /// <code>PrincipalType</code> as <code>IAM_PATTERN</code>
+  /// <code>PrincipalType</code> as <code>IAM_PATTERN</code>.
   /// <note>
   /// When you associate a principal with portfolio, a potential privilege
   /// escalation path may occur when that portfolio is then shared with other
@@ -184,19 +184,78 @@ class ServiceCatalog {
   /// The portfolio identifier.
   ///
   /// Parameter [principalARN] :
-  /// The ARN of the principal (user, role, or group). This field allows an ARN
-  /// with no <code>accountID</code> if <code>PrincipalType</code> is
-  /// <code>IAM_PATTERN</code>.
+  /// The ARN of the principal (user, role, or group). If the
+  /// <code>PrincipalType</code> is <code>IAM</code>, the supported value is a
+  /// fully defined <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns">IAM
+  /// Amazon Resource Name (ARN)</a>. If the <code>PrincipalType</code> is
+  /// <code>IAM_PATTERN</code>, the supported value is an <code>IAM</code> ARN
+  /// <i>without an AccountID</i> in the following format:
   ///
-  /// You can associate multiple <code>IAM</code> patterns even if the account
-  /// has no principal with that name. This is useful in Principal Name Sharing
-  /// if you want to share a principal without creating it in the account that
-  /// owns the portfolio.
+  /// <i>arn:partition:iam:::resource-type/resource-id</i>
+  ///
+  /// The ARN resource-id can be either:
+  ///
+  /// <ul>
+  /// <li>
+  /// A fully formed resource-id. For example,
+  /// <i>arn:aws:iam:::role/resource-name</i> or
+  /// <i>arn:aws:iam:::role/resource-path/resource-name</i>
+  /// </li>
+  /// <li>
+  /// A wildcard ARN. The wildcard ARN accepts <code>IAM_PATTERN</code> values
+  /// with a "*" or "?" in the resource-id segment of the ARN. For example
+  /// <i>arn:partition:service:::resource-type/resource-path/resource-name</i>.
+  /// The new symbols are exclusive to the <b>resource-path</b> and
+  /// <b>resource-name</b> and cannot replace the <b>resource-type</b> or other
+  /// ARN values.
+  ///
+  /// The ARN path and principal name allow unlimited wildcard characters.
+  /// </li>
+  /// </ul>
+  /// Examples of an <b>acceptable</b> wildcard ARN:
+  ///
+  /// <ul>
+  /// <li>
+  /// arn:aws:iam:::role/ResourceName_*
+  /// </li>
+  /// <li>
+  /// arn:aws:iam:::role/*/ResourceName_?
+  /// </li>
+  /// </ul>
+  /// Examples of an <b>unacceptable</b> wildcard ARN:
+  ///
+  /// <ul>
+  /// <li>
+  /// arn:aws:iam:::*/ResourceName
+  /// </li>
+  /// </ul>
+  /// You can associate multiple <code>IAM_PATTERN</code>s even if the account
+  /// has no principal with that name.
+  ///
+  /// The "?" wildcard character matches zero or one of any character. This is
+  /// similar to ".?" in regular regex context. The "*" wildcard character
+  /// matches any number of any characters. This is similar to ".*" in regular
+  /// regex context.
+  ///
+  /// In the IAM Principal ARN format
+  /// (<i>arn:partition:iam:::resource-type/resource-path/resource-name</i>),
+  /// valid resource-type values include <b>user/</b>, <b>group/</b>, or
+  /// <b>role/</b>. The "?" and "*" characters are allowed only after the
+  /// resource-type in the resource-id segment. You can use special characters
+  /// anywhere within the resource-id.
+  ///
+  /// The "*" character also matches the "/" character, allowing paths to be
+  /// formed <i>within</i> the resource-id. For example,
+  /// <i>arn:aws:iam:::role/<b>*</b>/ResourceName_?</i> matches both
+  /// <i>arn:aws:iam:::role/pathA/pathB/ResourceName_1</i> and
+  /// <i>arn:aws:iam:::role/pathA/ResourceName_1</i>.
   ///
   /// Parameter [principalType] :
   /// The principal type. The supported value is <code>IAM</code> if you use a
-  /// fully defined ARN, or <code>IAM_PATTERN</code> if you use an ARN with no
-  /// <code>accountID</code>.
+  /// fully defined Amazon Resource Name (ARN), or <code>IAM_PATTERN</code> if
+  /// you use an ARN with no <code>accountID</code>, with or without wildcard
+  /// characters.
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -318,11 +377,18 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests from the same Amazon Web Services account use the same
+  /// idempotency token, the same response is returned for each repeated
+  /// request.
   Future<void> associateServiceActionWithProvisioningArtifact({
     required String productId,
     required String provisioningArtifactId,
     required String serviceActionId,
     String? acceptLanguage,
+    String? idempotencyToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -340,6 +406,7 @@ class ServiceCatalog {
         'ProvisioningArtifactId': provisioningArtifactId,
         'ServiceActionId': serviceActionId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
   }
@@ -845,9 +912,13 @@ class ServiceCatalog {
   /// monitor the status of the <code>PortfolioShare</code> creation process.
   ///
   /// Parameter [sharePrincipals] :
+  /// This parameter is only supported for portfolios with an
+  /// <b>OrganizationalNode</b> Type of <code>ORGANIZATION</code> or
+  /// <code>ORGANIZATIONAL_UNIT</code>.
+  ///
   /// Enables or disables <code>Principal</code> sharing when creating the
-  /// portfolio share. If this flag is not provided, principal sharing is
-  /// disabled.
+  /// portfolio share. If you do <b>not</b> provide this flag, principal sharing
+  /// is disabled.
   ///
   /// When you enable Principal Name Sharing for a portfolio share, the share
   /// recipient account end users with a principal that matches any of the
@@ -1627,9 +1698,16 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests from the same Amazon Web Services account use the same
+  /// idempotency token, the same response is returned for each repeated
+  /// request.
   Future<void> deleteServiceAction({
     required String id,
     String? acceptLanguage,
+    String? idempotencyToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1644,6 +1722,7 @@ class ServiceCatalog {
       payload: {
         'Id': id,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
   }
@@ -2192,6 +2271,10 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [includeProvisioningArtifactParameters] :
+  /// Indicates if the API call response does or does not include additional
+  /// details about the provisioning parameters.
+  ///
   /// Parameter [productId] :
   /// The product identifier.
   ///
@@ -2208,6 +2291,7 @@ class ServiceCatalog {
   /// Indicates whether a verbose level of detail is enabled.
   Future<DescribeProvisioningArtifactOutput> describeProvisioningArtifact({
     String? acceptLanguage,
+    bool? includeProvisioningArtifactParameters,
     String? productId,
     String? productName,
     String? provisioningArtifactId,
@@ -2226,6 +2310,9 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (includeProvisioningArtifactParameters != null)
+          'IncludeProvisioningArtifactParameters':
+              includeProvisioningArtifactParameters,
         if (productId != null) 'ProductId': productId,
         if (productName != null) 'ProductName': productName,
         if (provisioningArtifactId != null)
@@ -2601,6 +2688,19 @@ class ServiceCatalog {
   /// be able to provision products in this portfolio using a role matching the
   /// name of the associated principal.
   ///
+  /// For more information, review <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options">associate-principal-with-portfolio</a>
+  /// in the Amazon Web Services CLI Command Reference.
+  /// <note>
+  /// If you disassociate a principal from a portfolio, with PrincipalType as
+  /// <code>IAM</code>, the same principal will still have access to the
+  /// portfolio if it matches one of the associated principals of type
+  /// <code>IAM_PATTERN</code>. To fully remove access for a principal, verify
+  /// all the associated Principals of type <code>IAM_PATTERN</code>, and then
+  /// ensure you disassociate any <code>IAM_PATTERN</code> principals that match
+  /// the principal whose access you are removing.
+  /// </note>
+  ///
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -2609,8 +2709,8 @@ class ServiceCatalog {
   ///
   /// Parameter [principalARN] :
   /// The ARN of the principal (user, role, or group). This field allows an ARN
-  /// with no <code>accountID</code> if <code>PrincipalType</code> is
-  /// <code>IAM_PATTERN</code>.
+  /// with no <code>accountID</code> with or without wildcard characters if
+  /// <code>PrincipalType</code> is <code>IAM_PATTERN</code>.
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2626,7 +2726,8 @@ class ServiceCatalog {
   ///
   /// Parameter [principalType] :
   /// The supported value is <code>IAM</code> if you use a fully defined ARN, or
-  /// <code>IAM_PATTERN</code> if you use no <code>accountID</code>.
+  /// <code>IAM_PATTERN</code> if you specify an <code>IAM</code> ARN with no
+  /// AccountId, with or without wildcard characters.
   Future<void> disassociatePrincipalFromPortfolio({
     required String portfolioId,
     required String principalARN,
@@ -2729,11 +2830,18 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests from the same Amazon Web Services account use the same
+  /// idempotency token, the same response is returned for each repeated
+  /// request.
   Future<void> disassociateServiceActionFromProvisioningArtifact({
     required String productId,
     required String provisioningArtifactId,
     required String serviceActionId,
     String? acceptLanguage,
+    String? idempotencyToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2751,6 +2859,7 @@ class ServiceCatalog {
         'ProvisioningArtifactId': provisioningArtifactId,
         'ServiceActionId': serviceActionId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
   }
@@ -3050,7 +3159,7 @@ class ServiceCatalog {
   /// the provisioned product.
   ///
   /// Resource import only supports CloudFormation stack ARNs. CloudFormation
-  /// StackSets, and non-root nested stacks are not supported.
+  /// StackSets, and non-root nested stacks, are not supported.
   ///
   /// The CloudFormation stack must have one of the following statuses to be
   /// imported: <code>CREATE_COMPLETE</code>, <code>UPDATE_COMPLETE</code>,
@@ -3060,14 +3169,18 @@ class ServiceCatalog {
   /// Import of the resource requires that the CloudFormation stack template
   /// matches the associated Service Catalog product provisioning artifact.
   /// <note>
-  /// When you import an existing CloudFormation stack into a portfolio,
-  /// constraints that are associated with the product aren't applied during the
-  /// import process. The constraints are applied after you call
+  /// When you import an existing CloudFormation stack into a portfolio, Service
+  /// Catalog does not apply the product's associated constraints during the
+  /// import process. Service Catalog applies the constraints after you call
   /// <code>UpdateProvisionedProduct</code> for the provisioned product.
   /// </note>
   /// The user or role that performs this operation must have the
   /// <code>cloudformation:GetTemplate</code> and
   /// <code>cloudformation:DescribeStacks</code> IAM policy permissions.
+  ///
+  /// You can only import one provisioned product at a time. The product's
+  /// CloudFormation stack must have the <code>IMPORT_COMPLETE</code> status
+  /// before you import another.
   ///
   /// May throw [DuplicateResourceException].
   /// May throw [InvalidStateException].
@@ -4862,9 +4975,9 @@ class ServiceCatalog {
   /// <code>arn</code>, <code>createdTime</code>, <code>id</code>,
   /// <code>lastRecordId</code>, <code>idempotencyToken</code>,
   /// <code>name</code>, <code>physicalId</code>, <code>productId</code>,
-  /// <code>provisioningArtifact</code>, <code>type</code>, <code>status</code>,
-  /// <code>tags</code>, <code>userArn</code>, <code>userArnSession</code>,
-  /// <code>lastProvisioningRecordId</code>,
+  /// <code>provisioningArtifactId</code>, <code>type</code>,
+  /// <code>status</code>, <code>tags</code>, <code>userArn</code>,
+  /// <code>userArnSession</code>, <code>lastProvisioningRecordId</code>,
   /// <code>lastSuccessfulProvisioningRecordId</code>, <code>productName</code>,
   /// and <code>provisioningArtifactName</code>.
   ///
@@ -5193,7 +5306,7 @@ class ServiceCatalog {
   /// The portfolio share cannot be updated if the
   /// <code>CreatePortfolioShare</code> operation is <code>IN_PROGRESS</code>,
   /// as the share is not available to recipient entities. In this case, you
-  /// must wait for the portfolio share to be COMPLETED.
+  /// must wait for the portfolio share to be completed.
   ///
   /// You must provide the <code>accountId</code> or organization node in the
   /// input, but not both.
@@ -5810,7 +5923,7 @@ class AccessLevelFilter {
   final AccessLevelFilterKey? key;
 
   /// The user to which the access level applies. The only supported value is
-  /// <code>Self</code>.
+  /// <code>self</code>.
   final String? value;
 
   AccessLevelFilter({
@@ -6942,12 +7055,16 @@ class DescribeProvisioningArtifactOutput {
   /// Information about the provisioning artifact.
   final ProvisioningArtifactDetail? provisioningArtifactDetail;
 
+  /// Information about the parameters used to provision the product.
+  final List<ProvisioningArtifactParameter>? provisioningArtifactParameters;
+
   /// The status of the current request.
   final Status? status;
 
   DescribeProvisioningArtifactOutput({
     this.info,
     this.provisioningArtifactDetail,
+    this.provisioningArtifactParameters,
     this.status,
   });
 
@@ -6960,6 +7077,12 @@ class DescribeProvisioningArtifactOutput {
           ? ProvisioningArtifactDetail.fromJson(
               json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
           : null,
+      provisioningArtifactParameters: (json['ProvisioningArtifactParameters']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningArtifactParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: (json['Status'] as String?)?.toStatus(),
     );
   }
@@ -7243,7 +7366,7 @@ extension EngineWorkflowStatusFromString on String {
 
 enum EvaluationType {
   static,
-  dynamic,
+  $dynamic,
 }
 
 extension EvaluationTypeValueExtension on EvaluationType {
@@ -7251,7 +7374,7 @@ extension EvaluationTypeValueExtension on EvaluationType {
     switch (this) {
       case EvaluationType.static:
         return 'STATIC';
-      case EvaluationType.dynamic:
+      case EvaluationType.$dynamic:
         return 'DYNAMIC';
     }
   }
@@ -7263,7 +7386,7 @@ extension EvaluationTypeFromString on String {
       case 'STATIC':
         return EvaluationType.static;
       case 'DYNAMIC':
-        return EvaluationType.dynamic;
+        return EvaluationType.$dynamic;
     }
     throw Exception('$this is not known in enum EvaluationType');
   }
@@ -8377,13 +8500,17 @@ extension PortfolioShareTypeFromString on String {
 /// Information about a principal.
 class Principal {
   /// The ARN of the principal (user, role, or group). This field allows for an
-  /// ARN with no <code>accountID</code> if the <code>PrincipalType</code> is an
-  /// <code>IAM_PATTERN</code>.
+  /// ARN with no <code>accountID</code>, with or without wildcard characters if
+  /// the <code>PrincipalType</code> is an <code>IAM_PATTERN</code>.
+  ///
+  /// For more information, review <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options">associate-principal-with-portfolio</a>
+  /// in the Amazon Web Services CLI Command Reference.
   final String? principalARN;
 
   /// The principal type. The supported value is <code>IAM</code> if you use a
   /// fully defined ARN, or <code>IAM_PATTERN</code> if you use an ARN with no
-  /// <code>accountID</code>.
+  /// <code>accountID</code>, with or without wildcard characters.
   final PrincipalType? principalType;
 
   Principal({
@@ -8454,6 +8581,8 @@ enum ProductType {
   cloudFormationTemplate,
   marketplace,
   terraformOpenSource,
+  terraformCloud,
+  external,
 }
 
 extension ProductTypeValueExtension on ProductType {
@@ -8465,6 +8594,10 @@ extension ProductTypeValueExtension on ProductType {
         return 'MARKETPLACE';
       case ProductType.terraformOpenSource:
         return 'TERRAFORM_OPEN_SOURCE';
+      case ProductType.terraformCloud:
+        return 'TERRAFORM_CLOUD';
+      case ProductType.external:
+        return 'EXTERNAL';
     }
   }
 }
@@ -8478,6 +8611,10 @@ extension ProductTypeFromString on String {
         return ProductType.marketplace;
       case 'TERRAFORM_OPEN_SOURCE':
         return ProductType.terraformOpenSource;
+      case 'TERRAFORM_CLOUD':
+        return ProductType.terraformCloud;
+      case 'EXTERNAL':
+        return ProductType.external;
     }
     throw Exception('$this is not known in enum ProductType');
   }
@@ -8777,7 +8914,7 @@ class ProvisionedProductAttribute {
   ///
   /// <ul>
   /// <li>
-  /// ProvisionedProduct
+  /// ProvisionProduct
   /// </li>
   /// <li>
   /// UpdateProvisionedProduct
@@ -8800,7 +8937,7 @@ class ProvisionedProductAttribute {
   ///
   /// <ul>
   /// <li>
-  /// ProvisionedProduct
+  /// ProvisionProduct
   /// </li>
   /// <li>
   /// UpdateProvisionedProduct
@@ -8873,7 +9010,9 @@ class ProvisionedProductAttribute {
   final List<Tag>? tags;
 
   /// The type of provisioned product. The supported values are
-  /// <code>CFN_STACK</code> and <code>CFN_STACKSET</code>.
+  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
+  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
+  /// <code>EXTERNAL</code>.
   final String? type;
 
   /// The Amazon Resource Name (ARN) of the user.
@@ -8954,7 +9093,7 @@ class ProvisionedProductDetail {
   ///
   /// <ul>
   /// <li>
-  /// ProvisionedProduct
+  /// ProvisionProduct
   /// </li>
   /// <li>
   /// UpdateProvisionedProduct
@@ -8977,7 +9116,7 @@ class ProvisionedProductDetail {
   ///
   /// <ul>
   /// <li>
-  /// ProvisionedProduct
+  /// ProvisionProduct
   /// </li>
   /// <li>
   /// UpdateProvisionedProduct
@@ -9041,7 +9180,9 @@ class ProvisionedProductDetail {
   final String? statusMessage;
 
   /// The type of provisioned product. The supported values are
-  /// <code>CFN_STACK</code> and <code>CFN_STACKSET</code>.
+  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
+  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
+  /// <code>EXTERNAL</code>.
   final String? type;
 
   ProvisionedProductDetail({
@@ -9444,11 +9585,14 @@ class ProvisioningArtifactDetail {
   /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
   /// </li>
   /// <li>
-  /// <code>MARKETPLACE_AMI</code> - Amazon Web Services Marketplace AMI
+  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform Open Source configuration
+  /// file
   /// </li>
   /// <li>
-  /// <code>MARKETPLACE_CAR</code> - Amazon Web Services Marketplace Clusters and
-  /// Amazon Web Services Resources
+  /// <code>TERRAFORM_CLOUD</code> - Terraform Cloud configuration file
+  /// </li>
+  /// <li>
+  /// <code>EXTERNAL</code> - External configuration file
   /// </li>
   /// </ul>
   final ProvisioningArtifactType? type;
@@ -9627,6 +9771,9 @@ class ProvisioningArtifactProperties {
 
   /// If set to true, Service Catalog stops validating the specified provisioning
   /// artifact even if it is invalid.
+  ///
+  /// Service Catalog does not support template validation for the
+  /// <code>TERRAFORM_OS</code> product type.
   final bool? disableTemplateValidation;
 
   /// Specify the template source with one of the following options, but not both.
@@ -9657,15 +9804,14 @@ class ProvisioningArtifactProperties {
   /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
   /// </li>
   /// <li>
-  /// <code>MARKETPLACE_AMI</code> - Amazon Web Services Marketplace AMI
-  /// </li>
-  /// <li>
-  /// <code>MARKETPLACE_CAR</code> - Amazon Web Services Marketplace Clusters and
-  /// Amazon Web Services Resources
-  /// </li>
-  /// <li>
-  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform open source configuration
+  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform Open Source configuration
   /// file
+  /// </li>
+  /// <li>
+  /// <code>TERRAFORM_CLOUD</code> - Terraform Cloud configuration file
+  /// </li>
+  /// <li>
+  /// <code>EXTERNAL</code> - External configuration file
   /// </li>
   /// </ul>
   final ProvisioningArtifactType? type;
@@ -9765,6 +9911,8 @@ enum ProvisioningArtifactType {
   marketplaceAmi,
   marketplaceCar,
   terraformOpenSource,
+  terraformCloud,
+  external,
 }
 
 extension ProvisioningArtifactTypeValueExtension on ProvisioningArtifactType {
@@ -9778,6 +9926,10 @@ extension ProvisioningArtifactTypeValueExtension on ProvisioningArtifactType {
         return 'MARKETPLACE_CAR';
       case ProvisioningArtifactType.terraformOpenSource:
         return 'TERRAFORM_OPEN_SOURCE';
+      case ProvisioningArtifactType.terraformCloud:
+        return 'TERRAFORM_CLOUD';
+      case ProvisioningArtifactType.external:
+        return 'EXTERNAL';
     }
   }
 }
@@ -9793,6 +9945,10 @@ extension ProvisioningArtifactTypeFromString on String {
         return ProvisioningArtifactType.marketplaceCar;
       case 'TERRAFORM_OPEN_SOURCE':
         return ProvisioningArtifactType.terraformOpenSource;
+      case 'TERRAFORM_CLOUD':
+        return ProvisioningArtifactType.terraformCloud;
+      case 'EXTERNAL':
+        return ProvisioningArtifactType.external;
     }
     throw Exception('$this is not known in enum ProvisioningArtifactType');
   }
@@ -10013,7 +10169,9 @@ class RecordDetail {
   final String? provisionedProductName;
 
   /// The type of provisioned product. The supported values are
-  /// <code>CFN_STACK</code> and <code>CFN_STACKSET</code>.
+  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
+  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
+  /// <code>EXTERNAL</code>.
   final String? provisionedProductType;
 
   /// The identifier of the provisioning artifact.

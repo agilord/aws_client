@@ -105,6 +105,75 @@ class CustomerProfiles {
     return AddProfileKeyResponse.fromJson(response);
   }
 
+  /// Creates a new calculated attribute definition. After creation, new object
+  /// data ingested into Customer Profiles will be included in the calculated
+  /// attribute, which can be retrieved for a profile using the <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html">GetCalculatedAttributeForProfile</a>
+  /// API. Defining a calculated attribute makes it available for all profiles
+  /// within a domain. Each calculated attribute can only reference one
+  /// <code>ObjectType</code> and at most, two fields from that
+  /// <code>ObjectType</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [attributeDetails] :
+  /// Mathematical expression and a list of attribute items specified in that
+  /// expression.
+  ///
+  /// Parameter [calculatedAttributeName] :
+  /// The unique name of the calculated attribute.
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [statistic] :
+  /// The aggregation operation to perform for the calculated attribute.
+  ///
+  /// Parameter [conditions] :
+  /// The conditions including range, object count, and threshold for the
+  /// calculated attribute.
+  ///
+  /// Parameter [description] :
+  /// The description of the calculated attribute.
+  ///
+  /// Parameter [displayName] :
+  /// The display name of the calculated attribute.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateCalculatedAttributeDefinitionResponse>
+      createCalculatedAttributeDefinition({
+    required AttributeDetails attributeDetails,
+    required String calculatedAttributeName,
+    required String domainName,
+    required Statistic statistic,
+    Conditions? conditions,
+    String? description,
+    String? displayName,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AttributeDetails': attributeDetails,
+      'Statistic': statistic.toValue(),
+      if (conditions != null) 'Conditions': conditions,
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/calculated-attributes/${Uri.encodeComponent(calculatedAttributeName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCalculatedAttributeDefinitionResponse.fromJson(response);
+  }
+
   /// Creates a domain, which is a container for all customer data, such as
   /// customer profile attributes, object types, profile keys, and encryption
   /// keys. You can create multiple domains, and each domain can have multiple
@@ -159,6 +228,16 @@ class CustomerProfiles {
   /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
   /// download the results from S3.
   ///
+  /// Parameter [ruleBasedMatching] :
+  /// The process of matching duplicate profiles using the Rule-Based matching.
+  /// If <code>RuleBasedMatching</code> = true, Amazon Connect Customer Profiles
+  /// will start to match and merge your profiles according to your
+  /// configuration in the <code>RuleBasedMatchingRequest</code>. You can use
+  /// the <code>ListRuleBasedMatches</code> and <code>GetSimilarProfiles</code>
+  /// API to return and review the results. Also, if you have configured
+  /// <code>ExportingConfig</code> in the <code>RuleBasedMatchingRequest</code>,
+  /// you can download the results from S3.
+  ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource.
   Future<CreateDomainResponse> createDomain({
@@ -167,6 +246,7 @@ class CustomerProfiles {
     String? deadLetterQueueUrl,
     String? defaultEncryptionKey,
     MatchingRequest? matching,
+    RuleBasedMatchingRequest? ruleBasedMatching,
     Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
@@ -182,6 +262,7 @@ class CustomerProfiles {
       if (defaultEncryptionKey != null)
         'DefaultEncryptionKey': defaultEncryptionKey,
       if (matching != null) 'Matching': matching,
+      if (ruleBasedMatching != null) 'RuleBasedMatching': ruleBasedMatching,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -191,6 +272,52 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return CreateDomainResponse.fromJson(response);
+  }
+
+  /// Creates an event stream, which is a subscription to real-time events, such
+  /// as when profiles are created and updated through Amazon Connect Customer
+  /// Profiles.
+  ///
+  /// Each event stream can be associated with only one Kinesis Data Stream
+  /// destination in the same region and Amazon Web Services account as the
+  /// customer profiles domain
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [eventStreamName] :
+  /// The name of the event stream.
+  ///
+  /// Parameter [uri] :
+  /// The StreamARN of the destination to deliver profile events to. For
+  /// example, arn:aws:kinesis:region:account-id:stream/stream-name
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateEventStreamResponse> createEventStream({
+    required String domainName,
+    required String eventStreamName,
+    required String uri,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Uri': uri,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/event-streams/${Uri.encodeComponent(eventStreamName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEventStreamResponse.fromJson(response);
   }
 
   /// Creates an integration workflow. An integration workflow is an async
@@ -398,6 +525,35 @@ class CustomerProfiles {
     return CreateProfileResponse.fromJson(response);
   }
 
+  /// Deletes an existing calculated attribute definition. Note that deleting a
+  /// default calculated attribute is possible, however once deleted, you will
+  /// be unable to undo that action and will need to recreate it on your own
+  /// using the CreateCalculatedAttributeDefinition API if you want it back.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [calculatedAttributeName] :
+  /// The unique name of the calculated attribute.
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  Future<void> deleteCalculatedAttributeDefinition({
+    required String calculatedAttributeName,
+    required String domainName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/calculated-attributes/${Uri.encodeComponent(calculatedAttributeName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a specific domain and all of its customer data, such as customer
   /// profile attributes and their related objects.
   ///
@@ -419,6 +575,32 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDomainResponse.fromJson(response);
+  }
+
+  /// Disables and deletes the specified event stream.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [eventStreamName] :
+  /// The name of the event stream
+  Future<void> deleteEventStream({
+    required String domainName,
+    required String eventStreamName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/event-streams/${Uri.encodeComponent(eventStreamName)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Removes an integration from a specific domain.
@@ -618,6 +800,37 @@ class CustomerProfiles {
     );
   }
 
+  /// The process of detecting profile object type mapping by using given
+  /// objects.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [objects] :
+  /// A string that is serialized from a JSON object.
+  Future<DetectProfileObjectTypeResponse> detectProfileObjectType({
+    required String domainName,
+    required List<String> objects,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Objects': objects,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/detect/object-types',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DetectProfileObjectTypeResponse.fromJson(response);
+  }
+
   /// Tests the auto-merging settings of your Identity Resolution Job without
   /// merging your data. It randomly selects a sample of matching groups from
   /// the existing matching results, and applies the automerging settings that
@@ -684,6 +897,67 @@ class CustomerProfiles {
     return GetAutoMergingPreviewResponse.fromJson(response);
   }
 
+  /// Provides more information on a calculated attribute definition for
+  /// Customer Profiles.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [calculatedAttributeName] :
+  /// The unique name of the calculated attribute.
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  Future<GetCalculatedAttributeDefinitionResponse>
+      getCalculatedAttributeDefinition({
+    required String calculatedAttributeName,
+    required String domainName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/calculated-attributes/${Uri.encodeComponent(calculatedAttributeName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCalculatedAttributeDefinitionResponse.fromJson(response);
+  }
+
+  /// Retrieve a calculated attribute for a customer profile.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [calculatedAttributeName] :
+  /// The unique name of the calculated attribute.
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [profileId] :
+  /// The unique identifier of a customer profile.
+  Future<GetCalculatedAttributeForProfileResponse>
+      getCalculatedAttributeForProfile({
+    required String calculatedAttributeName,
+    required String domainName,
+    required String profileId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/profile/${Uri.encodeComponent(profileId)}/calculated-attributes/${Uri.encodeComponent(calculatedAttributeName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCalculatedAttributeForProfileResponse.fromJson(response);
+  }
+
   /// Returns information about a specific domain.
   ///
   /// May throw [BadRequestException].
@@ -704,6 +978,33 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainResponse.fromJson(response);
+  }
+
+  /// Returns information about the specified event stream in a specific domain.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [eventStreamName] :
+  /// The name of the event stream provided during create operations.
+  Future<GetEventStreamResponse> getEventStream({
+    required String domainName,
+    required String eventStreamName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/event-streams/${Uri.encodeComponent(eventStreamName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEventStreamResponse.fromJson(response);
   }
 
   /// Returns information about an Identity Resolution Job in a specific domain.
@@ -917,6 +1218,69 @@ class CustomerProfiles {
     return GetProfileObjectTypeTemplateResponse.fromJson(response);
   }
 
+  /// Returns a set of profiles that belong to the same matching group using the
+  /// <code>matchId</code> or <code>profileId</code>. You can also specify the
+  /// type of matching that you want for finding similar profiles using either
+  /// <code>RULE_BASED_MATCHING</code> or <code>ML_BASED_MATCHING</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [matchType] :
+  /// Specify the type of matching to get similar profiles for.
+  ///
+  /// Parameter [searchKey] :
+  /// The string indicating the search key to be used.
+  ///
+  /// Parameter [searchValue] :
+  /// The string based on <code>SearchKey</code> to be searched for similar
+  /// profiles.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects returned per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from the previous <code>GetSimilarProfiles</code> API
+  /// call.
+  Future<GetSimilarProfilesResponse> getSimilarProfiles({
+    required String domainName,
+    required MatchType matchType,
+    required String searchKey,
+    required String searchValue,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      'MatchType': matchType.toValue(),
+      'SearchKey': searchKey,
+      'SearchValue': searchValue,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/domains/${Uri.encodeComponent(domainName)}/matches',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSimilarProfilesResponse.fromJson(response);
+  }
+
   /// Get details of specified workflow.
   ///
   /// May throw [BadRequestException].
@@ -1042,6 +1406,98 @@ class CustomerProfiles {
     return ListAccountIntegrationsResponse.fromJson(response);
   }
 
+  /// Lists calculated attribute definitions for Customer Profiles
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of calculated attribute definitions returned per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from the previous call to
+  /// ListCalculatedAttributeDefinitions.
+  Future<ListCalculatedAttributeDefinitionsResponse>
+      listCalculatedAttributeDefinitions({
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/calculated-attributes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCalculatedAttributeDefinitionsResponse.fromJson(response);
+  }
+
+  /// Retrieve a list of calculated attributes for a customer profile.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [profileId] :
+  /// The unique identifier of a customer profile.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of calculated attributes returned per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from the previous call to
+  /// ListCalculatedAttributesForProfile.
+  Future<ListCalculatedAttributesForProfileResponse>
+      listCalculatedAttributesForProfile({
+    required String domainName,
+    required String profileId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/profile/${Uri.encodeComponent(profileId)}/calculated-attributes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCalculatedAttributesForProfileResponse.fromJson(response);
+  }
+
   /// Returns a list of all the domains for an AWS account that have been
   /// created.
   ///
@@ -1078,6 +1534,47 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainsResponse.fromJson(response);
+  }
+
+  /// Returns a list of all the event streams in a specific domain.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects returned per page.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return.
+  Future<ListEventStreamsResponse> listEventStreams({
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/domains/${Uri.encodeComponent(domainName)}/event-streams',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEventStreamsResponse.fromJson(response);
   }
 
   /// Lists all of the Identity Resolution Jobs in your domain. The response
@@ -1276,8 +1773,7 @@ class CustomerProfiles {
   ///
   /// Parameter [objectFilter] :
   /// Applies a filter to the response to include profile objects with the
-  /// specified index values. This filter is only supported for ObjectTypeName
-  /// _asset, _case and _order.
+  /// specified index values.
   Future<ListProfileObjectsResponse> listProfileObjects({
     required String domainName,
     required String objectTypeName,
@@ -1310,6 +1806,49 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return ListProfileObjectsResponse.fromJson(response);
+  }
+
+  /// Returns a set of <code>MatchIds</code> that belong to the given domain.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of <code>MatchIds</code> returned per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from the previous <code>ListRuleBasedMatches</code>
+  /// API call.
+  Future<ListRuleBasedMatchesResponse> listRuleBasedMatches({
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/profiles/ruleBasedMatches',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRuleBasedMatchesResponse.fromJson(response);
   }
 
   /// Displays the tags associated with an Amazon Connect Customer Profiles
@@ -1873,6 +2412,55 @@ class CustomerProfiles {
     );
   }
 
+  /// Updates an existing calculated attribute definition. When updating the
+  /// Conditions, note that increasing the date range of a calculated attribute
+  /// will not trigger inclusion of historical data greater than the current
+  /// date range.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [calculatedAttributeName] :
+  /// The unique name of the calculated attribute.
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [conditions] :
+  /// The conditions including range, object count, and threshold for the
+  /// calculated attribute.
+  ///
+  /// Parameter [description] :
+  /// The description of the calculated attribute.
+  ///
+  /// Parameter [displayName] :
+  /// The display name of the calculated attribute.
+  Future<UpdateCalculatedAttributeDefinitionResponse>
+      updateCalculatedAttributeDefinition({
+    required String calculatedAttributeName,
+    required String domainName,
+    Conditions? conditions,
+    String? description,
+    String? displayName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (conditions != null) 'Conditions': conditions,
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/calculated-attributes/${Uri.encodeComponent(calculatedAttributeName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCalculatedAttributeDefinitionResponse.fromJson(response);
+  }
+
   /// Updates the properties of a domain, including creating or selecting a dead
   /// letter queue or an encryption key.
   ///
@@ -1930,6 +2518,16 @@ class CustomerProfiles {
   /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
   /// download the results from S3.
   ///
+  /// Parameter [ruleBasedMatching] :
+  /// The process of matching duplicate profiles using the rule-Based matching.
+  /// If <code>RuleBasedMatching</code> = true, Amazon Connect Customer Profiles
+  /// will start to match and merge your profiles according to your
+  /// configuration in the <code>RuleBasedMatchingRequest</code>. You can use
+  /// the <code>ListRuleBasedMatches</code> and <code>GetSimilarProfiles</code>
+  /// API to return and review the results. Also, if you have configured
+  /// <code>ExportingConfig</code> in the <code>RuleBasedMatchingRequest</code>,
+  /// you can download the results from S3.
+  ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource.
   Future<UpdateDomainResponse> updateDomain({
@@ -1938,6 +2536,7 @@ class CustomerProfiles {
     String? defaultEncryptionKey,
     int? defaultExpirationDays,
     MatchingRequest? matching,
+    RuleBasedMatchingRequest? ruleBasedMatching,
     Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
@@ -1953,6 +2552,7 @@ class CustomerProfiles {
       if (defaultExpirationDays != null)
         'DefaultExpirationDays': defaultExpirationDays,
       if (matching != null) 'Matching': matching,
+      if (ruleBasedMatching != null) 'RuleBasedMatching': ruleBasedMatching,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -2455,6 +3055,220 @@ class AppflowIntegrationWorkflowStep {
   }
 }
 
+/// Mathematical expression and a list of attribute items specified in that
+/// expression.
+class AttributeDetails {
+  /// A list of attribute items specified in the mathematical expression.
+  final List<AttributeItem> attributes;
+
+  /// Mathematical expression that is performed on attribute items provided in the
+  /// attribute list. Each element in the expression should follow the structure
+  /// of \"{ObjectTypeName.AttributeName}\".
+  final String expression;
+
+  AttributeDetails({
+    required this.attributes,
+    required this.expression,
+  });
+
+  factory AttributeDetails.fromJson(Map<String, dynamic> json) {
+    return AttributeDetails(
+      attributes: (json['Attributes'] as List)
+          .whereNotNull()
+          .map((e) => AttributeItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expression: json['Expression'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final expression = this.expression;
+    return {
+      'Attributes': attributes,
+      'Expression': expression,
+    };
+  }
+}
+
+/// The details of a single attribute item specified in the mathematical
+/// expression.
+class AttributeItem {
+  /// The name of an attribute defined in a profile object type.
+  final String name;
+
+  AttributeItem({
+    required this.name,
+  });
+
+  factory AttributeItem.fromJson(Map<String, dynamic> json) {
+    return AttributeItem(
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+enum AttributeMatchingModel {
+  oneToOne,
+  manyToMany,
+}
+
+extension AttributeMatchingModelValueExtension on AttributeMatchingModel {
+  String toValue() {
+    switch (this) {
+      case AttributeMatchingModel.oneToOne:
+        return 'ONE_TO_ONE';
+      case AttributeMatchingModel.manyToMany:
+        return 'MANY_TO_MANY';
+    }
+  }
+}
+
+extension AttributeMatchingModelFromString on String {
+  AttributeMatchingModel toAttributeMatchingModel() {
+    switch (this) {
+      case 'ONE_TO_ONE':
+        return AttributeMatchingModel.oneToOne;
+      case 'MANY_TO_MANY':
+        return AttributeMatchingModel.manyToMany;
+    }
+    throw Exception('$this is not known in enum AttributeMatchingModel');
+  }
+}
+
+/// Configuration information about the <code>AttributeTypesSelector
+/// </code>where the rule-based identity resolution uses to match profiles. You
+/// can choose how profiles are compared across attribute types and which
+/// attribute to use for matching from each type. There are three attribute
+/// types you can configure:
+///
+/// <ul>
+/// <li>
+/// Email type
+///
+/// <ul>
+/// <li>
+/// You can choose from <code>Email</code>, <code>BusinessEmail</code>, and
+/// <code>PersonalEmail</code>
+/// </li>
+/// </ul> </li>
+/// <li>
+/// Phone number type
+///
+/// <ul>
+/// <li>
+/// You can choose from <code>Phone</code>, <code>HomePhone</code>, and
+/// <code>MobilePhone</code>
+/// </li>
+/// </ul> </li>
+/// <li>
+/// Address type
+///
+/// <ul>
+/// <li>
+/// You can choose from <code>Address</code>, <code>BusinessAddress</code>,
+/// <code>MaillingAddress</code>, and <code>ShippingAddress</code>
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// You can either choose <code>ONE_TO_ONE</code> or <code>MANY_TO_MANY</code>
+/// as the <code>AttributeMatchingModel</code>. When choosing
+/// <code>MANY_TO_MANY</code>, the system can match attribute across the
+/// sub-types of an attribute type. For example, if the value of the
+/// <code>Email</code> field of Profile A and the value of
+/// <code>BusinessEmail</code> field of Profile B matches, the two profiles are
+/// matched on the Email type. When choosing <code>ONE_TO_ONE</code> the system
+/// can only match if the sub-types are exact matches. For example, only when
+/// the value of the <code>Email</code> field of Profile A and the value of the
+/// <code>Email</code> field of Profile B matches, the two profiles are matched
+/// on the Email type.
+class AttributeTypesSelector {
+  /// Configures the <code>AttributeMatchingModel</code>, you can either choose
+  /// <code>ONE_TO_ONE</code> or <code>MANY_TO_MANY</code>.
+  final AttributeMatchingModel attributeMatchingModel;
+
+  /// The <code>Address</code> type. You can choose from <code>Address</code>,
+  /// <code>BusinessAddress</code>, <code>MaillingAddress</code>, and
+  /// <code>ShippingAddress</code>.
+  ///
+  /// You only can use the Address type in the <code>MatchingRule</code>. For
+  /// example, if you want to match profile based on
+  /// <code>BusinessAddress.City</code> or <code>MaillingAddress.City</code>, you
+  /// need to choose the <code>BusinessAddress</code> and the
+  /// <code>MaillingAddress</code> to represent the Address type and specify the
+  /// <code>Address.City</code> on the matching rule.
+  final List<String>? address;
+
+  /// The <code>Email</code> type. You can choose from <code>EmailAddress</code>,
+  /// <code>BusinessEmailAddress</code> and <code>PersonalEmailAddress</code>.
+  ///
+  /// You only can use the <code>EmailAddress</code> type in the
+  /// <code>MatchingRule</code>. For example, if you want to match profile based
+  /// on <code>PersonalEmailAddress</code> or <code>BusinessEmailAddress</code>,
+  /// you need to choose the <code>PersonalEmailAddress</code> and the
+  /// <code>BusinessEmailAddress</code> to represent the <code>EmailAddress</code>
+  /// type and only specify the <code>EmailAddress</code> on the matching rule.
+  final List<String>? emailAddress;
+
+  /// The <code>PhoneNumber</code> type. You can choose from
+  /// <code>PhoneNumber</code>, <code>HomePhoneNumber</code>, and
+  /// <code>MobilePhoneNumber</code>.
+  ///
+  /// You only can use the <code>PhoneNumber</code> type in the
+  /// <code>MatchingRule</code>. For example, if you want to match a profile based
+  /// on <code>Phone</code> or <code>HomePhone</code>, you need to choose the
+  /// <code>Phone</code> and the <code>HomePhone</code> to represent the
+  /// <code>PhoneNumber</code> type and only specify the <code>PhoneNumber</code>
+  /// on the matching rule.
+  final List<String>? phoneNumber;
+
+  AttributeTypesSelector({
+    required this.attributeMatchingModel,
+    this.address,
+    this.emailAddress,
+    this.phoneNumber,
+  });
+
+  factory AttributeTypesSelector.fromJson(Map<String, dynamic> json) {
+    return AttributeTypesSelector(
+      attributeMatchingModel:
+          (json['AttributeMatchingModel'] as String).toAttributeMatchingModel(),
+      address: (json['Address'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      emailAddress: (json['EmailAddress'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      phoneNumber: (json['PhoneNumber'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeMatchingModel = this.attributeMatchingModel;
+    final address = this.address;
+    final emailAddress = this.emailAddress;
+    final phoneNumber = this.phoneNumber;
+    return {
+      'AttributeMatchingModel': attributeMatchingModel.toValue(),
+      if (address != null) 'Address': address,
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
+}
+
 /// Configuration settings for how to perform the auto-merging of profiles.
 class AutoMerging {
   /// The flag that enables the auto-merging of duplicate profiles.
@@ -2538,6 +3352,48 @@ class Batch {
     return {
       'EndTime': unixTimestampToJson(endTime),
       'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// The conditions including range, object count, and threshold for the
+/// calculated attribute.
+class Conditions {
+  /// The number of profile objects used for the calculated attribute.
+  final int? objectCount;
+
+  /// The relative time period over which data is included in the aggregation.
+  final Range? range;
+
+  /// The threshold for the calculated attribute.
+  final Threshold? threshold;
+
+  Conditions({
+    this.objectCount,
+    this.range,
+    this.threshold,
+  });
+
+  factory Conditions.fromJson(Map<String, dynamic> json) {
+    return Conditions(
+      objectCount: json['ObjectCount'] as int?,
+      range: json['Range'] != null
+          ? Range.fromJson(json['Range'] as Map<String, dynamic>)
+          : null,
+      threshold: json['Threshold'] != null
+          ? Threshold.fromJson(json['Threshold'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectCount = this.objectCount;
+    final range = this.range;
+    final threshold = this.threshold;
+    return {
+      if (objectCount != null) 'ObjectCount': objectCount,
+      if (range != null) 'Range': range,
+      if (threshold != null) 'Threshold': threshold,
     };
   }
 }
@@ -2685,6 +3541,96 @@ class Consolidation {
   }
 }
 
+class CreateCalculatedAttributeDefinitionResponse {
+  /// Mathematical expression and a list of attribute items specified in that
+  /// expression.
+  final AttributeDetails? attributeDetails;
+
+  /// The unique name of the calculated attribute.
+  final String? calculatedAttributeName;
+
+  /// The conditions including range, object count, and threshold for the
+  /// calculated attribute.
+  final Conditions? conditions;
+
+  /// The timestamp of when the calculated attribute definition was created.
+  final DateTime? createdAt;
+
+  /// The description of the calculated attribute.
+  final String? description;
+
+  /// The display name of the calculated attribute.
+  final String? displayName;
+
+  /// The timestamp of when the calculated attribute definition was most recently
+  /// edited.
+  final DateTime? lastUpdatedAt;
+
+  /// The aggregation operation to perform for the calculated attribute.
+  final Statistic? statistic;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  CreateCalculatedAttributeDefinitionResponse({
+    this.attributeDetails,
+    this.calculatedAttributeName,
+    this.conditions,
+    this.createdAt,
+    this.description,
+    this.displayName,
+    this.lastUpdatedAt,
+    this.statistic,
+    this.tags,
+  });
+
+  factory CreateCalculatedAttributeDefinitionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCalculatedAttributeDefinitionResponse(
+      attributeDetails: json['AttributeDetails'] != null
+          ? AttributeDetails.fromJson(
+              json['AttributeDetails'] as Map<String, dynamic>)
+          : null,
+      calculatedAttributeName: json['CalculatedAttributeName'] as String?,
+      conditions: json['Conditions'] != null
+          ? Conditions.fromJson(json['Conditions'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeDetails = this.attributeDetails;
+    final calculatedAttributeName = this.calculatedAttributeName;
+    final conditions = this.conditions;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayName = this.displayName;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final statistic = this.statistic;
+    final tags = this.tags;
+    return {
+      if (attributeDetails != null) 'AttributeDetails': attributeDetails,
+      if (calculatedAttributeName != null)
+        'CalculatedAttributeName': calculatedAttributeName,
+      if (conditions != null) 'Conditions': conditions,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
 class CreateDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -2720,6 +3666,16 @@ class CreateDomainResponse {
   /// download the results from S3.
   final MatchingResponse? matching;
 
+  /// The process of matching duplicate profiles using the Rule-Based matching. If
+  /// <code>RuleBasedMatching</code> = true, Amazon Connect Customer Profiles will
+  /// start to match and merge your profiles according to your configuration in
+  /// the <code>RuleBasedMatchingRequest</code>. You can use the
+  /// <code>ListRuleBasedMatches</code> and <code>GetSimilarProfiles</code> API to
+  /// return and review the results. Also, if you have configured
+  /// <code>ExportingConfig</code> in the <code>RuleBasedMatchingRequest</code>,
+  /// you can download the results from S3.
+  final RuleBasedMatchingResponse? ruleBasedMatching;
+
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
@@ -2731,6 +3687,7 @@ class CreateDomainResponse {
     this.deadLetterQueueUrl,
     this.defaultEncryptionKey,
     this.matching,
+    this.ruleBasedMatching,
     this.tags,
   });
 
@@ -2746,6 +3703,10 @@ class CreateDomainResponse {
       matching: json['Matching'] != null
           ? MatchingResponse.fromJson(json['Matching'] as Map<String, dynamic>)
           : null,
+      ruleBasedMatching: json['RuleBasedMatching'] != null
+          ? RuleBasedMatchingResponse.fromJson(
+              json['RuleBasedMatching'] as Map<String, dynamic>)
+          : null,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2759,6 +3720,7 @@ class CreateDomainResponse {
     final deadLetterQueueUrl = this.deadLetterQueueUrl;
     final defaultEncryptionKey = this.defaultEncryptionKey;
     final matching = this.matching;
+    final ruleBasedMatching = this.ruleBasedMatching;
     final tags = this.tags;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
@@ -2769,6 +3731,37 @@ class CreateDomainResponse {
       if (defaultEncryptionKey != null)
         'DefaultEncryptionKey': defaultEncryptionKey,
       if (matching != null) 'Matching': matching,
+      if (ruleBasedMatching != null) 'RuleBasedMatching': ruleBasedMatching,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class CreateEventStreamResponse {
+  /// A unique identifier for the event stream.
+  final String eventStreamArn;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  CreateEventStreamResponse({
+    required this.eventStreamArn,
+    this.tags,
+  });
+
+  factory CreateEventStreamResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEventStreamResponse(
+      eventStreamArn: json['EventStreamArn'] as String,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventStreamArn = this.eventStreamArn;
+    final tags = this.tags;
+    return {
+      'EventStreamArn': eventStreamArn,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -2854,6 +3847,19 @@ extension DataPullModeFromString on String {
   }
 }
 
+class DeleteCalculatedAttributeDefinitionResponse {
+  DeleteCalculatedAttributeDefinitionResponse();
+
+  factory DeleteCalculatedAttributeDefinitionResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteCalculatedAttributeDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteDomainResponse {
   /// A message that indicates the delete request is done.
   final String message;
@@ -2873,6 +3879,18 @@ class DeleteDomainResponse {
     return {
       'Message': message,
     };
+  }
+}
+
+class DeleteEventStreamResponse {
+  DeleteEventStreamResponse();
+
+  factory DeleteEventStreamResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteEventStreamResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2998,6 +4016,120 @@ class DeleteWorkflowResponse {
   }
 }
 
+/// Summary information about the Kinesis data stream
+class DestinationSummary {
+  /// The status of enabling the Kinesis stream as a destination for export.
+  final EventStreamDestinationStatus status;
+
+  /// The StreamARN of the destination to deliver profile events to. For example,
+  /// arn:aws:kinesis:region:account-id:stream/stream-name.
+  final String uri;
+
+  /// The timestamp when the status last changed to <code>UNHEALHY</code>.
+  final DateTime? unhealthySince;
+
+  DestinationSummary({
+    required this.status,
+    required this.uri,
+    this.unhealthySince,
+  });
+
+  factory DestinationSummary.fromJson(Map<String, dynamic> json) {
+    return DestinationSummary(
+      status: (json['Status'] as String).toEventStreamDestinationStatus(),
+      uri: json['Uri'] as String,
+      unhealthySince: timeStampFromJson(json['UnhealthySince']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final uri = this.uri;
+    final unhealthySince = this.unhealthySince;
+    return {
+      'Status': status.toValue(),
+      'Uri': uri,
+      if (unhealthySince != null)
+        'UnhealthySince': unixTimestampToJson(unhealthySince),
+    };
+  }
+}
+
+class DetectProfileObjectTypeResponse {
+  /// Detected <code>ProfileObjectType</code> mappings from given objects. A
+  /// maximum of one mapping is supported.
+  final List<DetectedProfileObjectType>? detectedProfileObjectTypes;
+
+  DetectProfileObjectTypeResponse({
+    this.detectedProfileObjectTypes,
+  });
+
+  factory DetectProfileObjectTypeResponse.fromJson(Map<String, dynamic> json) {
+    return DetectProfileObjectTypeResponse(
+      detectedProfileObjectTypes: (json['DetectedProfileObjectTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DetectedProfileObjectType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectedProfileObjectTypes = this.detectedProfileObjectTypes;
+    return {
+      if (detectedProfileObjectTypes != null)
+        'DetectedProfileObjectTypes': detectedProfileObjectTypes,
+    };
+  }
+}
+
+/// Contains <code>ProfileObjectType</code> mapping information from the model.
+class DetectedProfileObjectType {
+  /// A map of the name and the <code>ObjectType</code> field.
+  final Map<String, ObjectTypeField>? fields;
+
+  /// A list of unique keys that can be used to map data to a profile.
+  final Map<String, List<ObjectTypeKey>>? keys;
+
+  /// The format of <code>sourceLastUpdatedTimestamp</code> that was detected in
+  /// fields.
+  final String? sourceLastUpdatedTimestampFormat;
+
+  DetectedProfileObjectType({
+    this.fields,
+    this.keys,
+    this.sourceLastUpdatedTimestampFormat,
+  });
+
+  factory DetectedProfileObjectType.fromJson(Map<String, dynamic> json) {
+    return DetectedProfileObjectType(
+      fields: (json['Fields'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ObjectTypeField.fromJson(e as Map<String, dynamic>))),
+      keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          k,
+          (e as List)
+              .whereNotNull()
+              .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
+              .toList())),
+      sourceLastUpdatedTimestampFormat:
+          json['SourceLastUpdatedTimestampFormat'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final keys = this.keys;
+    final sourceLastUpdatedTimestampFormat =
+        this.sourceLastUpdatedTimestampFormat;
+    return {
+      if (fields != null) 'Fields': fields,
+      if (keys != null) 'Keys': keys,
+      if (sourceLastUpdatedTimestampFormat != null)
+        'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
+    };
+  }
+}
+
 /// Usage-specific statistics about the domain.
 class DomainStats {
   /// The number of profiles that you are currently paying for in the domain. If
@@ -3042,6 +4174,180 @@ class DomainStats {
       if (objectCount != null) 'ObjectCount': objectCount,
       if (profileCount != null) 'ProfileCount': profileCount,
       if (totalSize != null) 'TotalSize': totalSize,
+    };
+  }
+}
+
+/// Details of the destination being used for the EventStream.
+class EventStreamDestinationDetails {
+  /// The status of enabling the Kinesis stream as a destination for export.
+  final EventStreamDestinationStatus status;
+
+  /// The StreamARN of the destination to deliver profile events to. For example,
+  /// arn:aws:kinesis:region:account-id:stream/stream-name.
+  final String uri;
+
+  /// The human-readable string that corresponds to the error or success while
+  /// enabling the streaming destination.
+  final String? message;
+
+  /// The timestamp when the status last changed to <code>UNHEALHY</code>.
+  final DateTime? unhealthySince;
+
+  EventStreamDestinationDetails({
+    required this.status,
+    required this.uri,
+    this.message,
+    this.unhealthySince,
+  });
+
+  factory EventStreamDestinationDetails.fromJson(Map<String, dynamic> json) {
+    return EventStreamDestinationDetails(
+      status: (json['Status'] as String).toEventStreamDestinationStatus(),
+      uri: json['Uri'] as String,
+      message: json['Message'] as String?,
+      unhealthySince: timeStampFromJson(json['UnhealthySince']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final uri = this.uri;
+    final message = this.message;
+    final unhealthySince = this.unhealthySince;
+    return {
+      'Status': status.toValue(),
+      'Uri': uri,
+      if (message != null) 'Message': message,
+      if (unhealthySince != null)
+        'UnhealthySince': unixTimestampToJson(unhealthySince),
+    };
+  }
+}
+
+enum EventStreamDestinationStatus {
+  healthy,
+  unhealthy,
+}
+
+extension EventStreamDestinationStatusValueExtension
+    on EventStreamDestinationStatus {
+  String toValue() {
+    switch (this) {
+      case EventStreamDestinationStatus.healthy:
+        return 'HEALTHY';
+      case EventStreamDestinationStatus.unhealthy:
+        return 'UNHEALTHY';
+    }
+  }
+}
+
+extension EventStreamDestinationStatusFromString on String {
+  EventStreamDestinationStatus toEventStreamDestinationStatus() {
+    switch (this) {
+      case 'HEALTHY':
+        return EventStreamDestinationStatus.healthy;
+      case 'UNHEALTHY':
+        return EventStreamDestinationStatus.unhealthy;
+    }
+    throw Exception('$this is not known in enum EventStreamDestinationStatus');
+  }
+}
+
+enum EventStreamState {
+  running,
+  stopped,
+}
+
+extension EventStreamStateValueExtension on EventStreamState {
+  String toValue() {
+    switch (this) {
+      case EventStreamState.running:
+        return 'RUNNING';
+      case EventStreamState.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension EventStreamStateFromString on String {
+  EventStreamState toEventStreamState() {
+    switch (this) {
+      case 'RUNNING':
+        return EventStreamState.running;
+      case 'STOPPED':
+        return EventStreamState.stopped;
+    }
+    throw Exception('$this is not known in enum EventStreamState');
+  }
+}
+
+/// An instance of EventStream in a list of EventStreams.
+class EventStreamSummary {
+  /// The unique name of the domain.
+  final String domainName;
+
+  /// A unique identifier for the event stream.
+  final String eventStreamArn;
+
+  /// The name of the event stream.
+  final String eventStreamName;
+
+  /// The operational state of destination stream for export.
+  final EventStreamState state;
+
+  /// Summary information about the Kinesis data stream.
+  final DestinationSummary? destinationSummary;
+
+  /// The timestamp when the <code>State</code> changed to <code>STOPPED</code>.
+  final DateTime? stoppedSince;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  EventStreamSummary({
+    required this.domainName,
+    required this.eventStreamArn,
+    required this.eventStreamName,
+    required this.state,
+    this.destinationSummary,
+    this.stoppedSince,
+    this.tags,
+  });
+
+  factory EventStreamSummary.fromJson(Map<String, dynamic> json) {
+    return EventStreamSummary(
+      domainName: json['DomainName'] as String,
+      eventStreamArn: json['EventStreamArn'] as String,
+      eventStreamName: json['EventStreamName'] as String,
+      state: (json['State'] as String).toEventStreamState(),
+      destinationSummary: json['DestinationSummary'] != null
+          ? DestinationSummary.fromJson(
+              json['DestinationSummary'] as Map<String, dynamic>)
+          : null,
+      stoppedSince: timeStampFromJson(json['StoppedSince']),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final eventStreamArn = this.eventStreamArn;
+    final eventStreamName = this.eventStreamName;
+    final state = this.state;
+    final destinationSummary = this.destinationSummary;
+    final stoppedSince = this.stoppedSince;
+    final tags = this.tags;
+    return {
+      'DomainName': domainName,
+      'EventStreamArn': eventStreamArn,
+      'EventStreamName': eventStreamName,
+      'State': state.toValue(),
+      if (destinationSummary != null) 'DestinationSummary': destinationSummary,
+      if (stoppedSince != null)
+        'StoppedSince': unixTimestampToJson(stoppedSince),
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -3464,6 +4770,142 @@ class GetAutoMergingPreviewResponse {
   }
 }
 
+class GetCalculatedAttributeDefinitionResponse {
+  /// Mathematical expression and a list of attribute items specified in that
+  /// expression.
+  final AttributeDetails? attributeDetails;
+
+  /// The unique name of the calculated attribute.
+  final String? calculatedAttributeName;
+
+  /// The conditions including range, object count, and threshold for the
+  /// calculated attribute.
+  final Conditions? conditions;
+
+  /// The timestamp of when the calculated attribute definition was created.
+  final DateTime? createdAt;
+
+  /// The description of the calculated attribute.
+  final String? description;
+
+  /// The display name of the calculated attribute.
+  final String? displayName;
+
+  /// The timestamp of when the calculated attribute definition was most recently
+  /// edited.
+  final DateTime? lastUpdatedAt;
+
+  /// The aggregation operation to perform for the calculated attribute.
+  final Statistic? statistic;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  GetCalculatedAttributeDefinitionResponse({
+    this.attributeDetails,
+    this.calculatedAttributeName,
+    this.conditions,
+    this.createdAt,
+    this.description,
+    this.displayName,
+    this.lastUpdatedAt,
+    this.statistic,
+    this.tags,
+  });
+
+  factory GetCalculatedAttributeDefinitionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCalculatedAttributeDefinitionResponse(
+      attributeDetails: json['AttributeDetails'] != null
+          ? AttributeDetails.fromJson(
+              json['AttributeDetails'] as Map<String, dynamic>)
+          : null,
+      calculatedAttributeName: json['CalculatedAttributeName'] as String?,
+      conditions: json['Conditions'] != null
+          ? Conditions.fromJson(json['Conditions'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeDetails = this.attributeDetails;
+    final calculatedAttributeName = this.calculatedAttributeName;
+    final conditions = this.conditions;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayName = this.displayName;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final statistic = this.statistic;
+    final tags = this.tags;
+    return {
+      if (attributeDetails != null) 'AttributeDetails': attributeDetails,
+      if (calculatedAttributeName != null)
+        'CalculatedAttributeName': calculatedAttributeName,
+      if (conditions != null) 'Conditions': conditions,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class GetCalculatedAttributeForProfileResponse {
+  /// The unique name of the calculated attribute.
+  final String? calculatedAttributeName;
+
+  /// The display name of the calculated attribute.
+  final String? displayName;
+
+  /// Indicates whether the calculated attribute’s value is based on partial data.
+  /// If data is partial, it is set to true.
+  final String? isDataPartial;
+
+  /// The value of the calculated attribute.
+  final String? value;
+
+  GetCalculatedAttributeForProfileResponse({
+    this.calculatedAttributeName,
+    this.displayName,
+    this.isDataPartial,
+    this.value,
+  });
+
+  factory GetCalculatedAttributeForProfileResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCalculatedAttributeForProfileResponse(
+      calculatedAttributeName: json['CalculatedAttributeName'] as String?,
+      displayName: json['DisplayName'] as String?,
+      isDataPartial: json['IsDataPartial'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final calculatedAttributeName = this.calculatedAttributeName;
+    final displayName = this.displayName;
+    final isDataPartial = this.isDataPartial;
+    final value = this.value;
+    return {
+      if (calculatedAttributeName != null)
+        'CalculatedAttributeName': calculatedAttributeName,
+      if (displayName != null) 'DisplayName': displayName,
+      if (isDataPartial != null) 'IsDataPartial': isDataPartial,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 class GetDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -3499,6 +4941,16 @@ class GetDomainResponse {
   /// download the results from S3.
   final MatchingResponse? matching;
 
+  /// The process of matching duplicate profiles using the Rule-Based matching. If
+  /// <code>RuleBasedMatching</code> = true, Amazon Connect Customer Profiles will
+  /// start to match and merge your profiles according to your configuration in
+  /// the <code>RuleBasedMatchingRequest</code>. You can use the
+  /// <code>ListRuleBasedMatches</code> and <code>GetSimilarProfiles</code> API to
+  /// return and review the results. Also, if you have configured
+  /// <code>ExportingConfig</code> in the <code>RuleBasedMatchingRequest</code>,
+  /// you can download the results from S3.
+  final RuleBasedMatchingResponse? ruleBasedMatching;
+
   /// Usage-specific statistics about the domain.
   final DomainStats? stats;
 
@@ -3513,6 +4965,7 @@ class GetDomainResponse {
     this.defaultEncryptionKey,
     this.defaultExpirationDays,
     this.matching,
+    this.ruleBasedMatching,
     this.stats,
     this.tags,
   });
@@ -3528,6 +4981,10 @@ class GetDomainResponse {
       defaultExpirationDays: json['DefaultExpirationDays'] as int?,
       matching: json['Matching'] != null
           ? MatchingResponse.fromJson(json['Matching'] as Map<String, dynamic>)
+          : null,
+      ruleBasedMatching: json['RuleBasedMatching'] != null
+          ? RuleBasedMatchingResponse.fromJson(
+              json['RuleBasedMatching'] as Map<String, dynamic>)
           : null,
       stats: json['Stats'] != null
           ? DomainStats.fromJson(json['Stats'] as Map<String, dynamic>)
@@ -3545,6 +5002,7 @@ class GetDomainResponse {
     final defaultEncryptionKey = this.defaultEncryptionKey;
     final defaultExpirationDays = this.defaultExpirationDays;
     final matching = this.matching;
+    final ruleBasedMatching = this.ruleBasedMatching;
     final stats = this.stats;
     final tags = this.tags;
     return {
@@ -3557,7 +5015,75 @@ class GetDomainResponse {
       if (defaultExpirationDays != null)
         'DefaultExpirationDays': defaultExpirationDays,
       if (matching != null) 'Matching': matching,
+      if (ruleBasedMatching != null) 'RuleBasedMatching': ruleBasedMatching,
       if (stats != null) 'Stats': stats,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class GetEventStreamResponse {
+  /// The timestamp of when the export was created.
+  final DateTime createdAt;
+
+  /// Details regarding the Kinesis stream.
+  final EventStreamDestinationDetails destinationDetails;
+
+  /// The unique name of the domain.
+  final String domainName;
+
+  /// A unique identifier for the event stream.
+  final String eventStreamArn;
+
+  /// The operational state of destination stream for export.
+  final EventStreamState state;
+
+  /// The timestamp when the <code>State</code> changed to <code>STOPPED</code>.
+  final DateTime? stoppedSince;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  GetEventStreamResponse({
+    required this.createdAt,
+    required this.destinationDetails,
+    required this.domainName,
+    required this.eventStreamArn,
+    required this.state,
+    this.stoppedSince,
+    this.tags,
+  });
+
+  factory GetEventStreamResponse.fromJson(Map<String, dynamic> json) {
+    return GetEventStreamResponse(
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      destinationDetails: EventStreamDestinationDetails.fromJson(
+          json['DestinationDetails'] as Map<String, dynamic>),
+      domainName: json['DomainName'] as String,
+      eventStreamArn: json['EventStreamArn'] as String,
+      state: (json['State'] as String).toEventStreamState(),
+      stoppedSince: timeStampFromJson(json['StoppedSince']),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final destinationDetails = this.destinationDetails;
+    final domainName = this.domainName;
+    final eventStreamArn = this.eventStreamArn;
+    final state = this.state;
+    final stoppedSince = this.stoppedSince;
+    final tags = this.tags;
+    return {
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'DestinationDetails': destinationDetails,
+      'DomainName': domainName,
+      'EventStreamArn': eventStreamArn,
+      'State': state.toValue(),
+      if (stoppedSince != null)
+        'StoppedSince': unixTimestampToJson(stoppedSince),
       if (tags != null) 'Tags': tags,
     };
   }
@@ -4030,6 +5556,76 @@ class GetProfileObjectTypeTemplateResponse {
       if (sourceName != null) 'SourceName': sourceName,
       if (sourceObject != null) 'SourceObject': sourceObject,
       if (templateId != null) 'TemplateId': templateId,
+    };
+  }
+}
+
+class GetSimilarProfilesResponse {
+  /// It only has value when the <code>MatchType</code> is
+  /// <code>ML_BASED_MATCHING</code>.A number between 0 and 1, where a higher
+  /// score means higher similarity. Examining match confidence scores lets you
+  /// distinguish between groups of similar records in which the system is highly
+  /// confident (which you may decide to merge), groups of similar records about
+  /// which the system is uncertain (which you may decide to have reviewed by a
+  /// human), and groups of similar records that the system deems to be unlikely
+  /// (which you may decide to reject). Given confidence scores vary as per the
+  /// data input, it should not be used as an absolute measure of matching
+  /// quality.
+  final double? confidenceScore;
+
+  /// The string <code>matchId</code> that the similar profiles belong to.
+  final String? matchId;
+
+  /// Specify the type of matching to get similar profiles for.
+  final MatchType? matchType;
+
+  /// The pagination token from the previous <code>GetSimilarProfiles</code> API
+  /// call.
+  final String? nextToken;
+
+  /// Set of <code>profileId</code>s that belong to the same matching group.
+  final List<String>? profileIds;
+
+  /// The integer rule level that the profiles matched on.
+  final int? ruleLevel;
+
+  GetSimilarProfilesResponse({
+    this.confidenceScore,
+    this.matchId,
+    this.matchType,
+    this.nextToken,
+    this.profileIds,
+    this.ruleLevel,
+  });
+
+  factory GetSimilarProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return GetSimilarProfilesResponse(
+      confidenceScore: json['ConfidenceScore'] as double?,
+      matchId: json['MatchId'] as String?,
+      matchType: (json['MatchType'] as String?)?.toMatchType(),
+      nextToken: json['NextToken'] as String?,
+      profileIds: (json['ProfileIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ruleLevel: json['RuleLevel'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidenceScore = this.confidenceScore;
+    final matchId = this.matchId;
+    final matchType = this.matchType;
+    final nextToken = this.nextToken;
+    final profileIds = this.profileIds;
+    final ruleLevel = this.ruleLevel;
+    return {
+      if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
+      if (matchId != null) 'MatchId': matchId,
+      if (matchType != null) 'MatchType': matchType.toValue(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (profileIds != null) 'ProfileIds': profileIds,
+      if (ruleLevel != null) 'RuleLevel': ruleLevel,
     };
   }
 }
@@ -4515,6 +6111,186 @@ class ListAccountIntegrationsResponse {
   }
 }
 
+/// The details of a single calculated attribute definition.
+class ListCalculatedAttributeDefinitionItem {
+  /// The unique name of the calculated attribute.
+  final String? calculatedAttributeName;
+
+  /// The threshold for the calculated attribute.
+  final DateTime? createdAt;
+
+  /// The threshold for the calculated attribute.
+  final String? description;
+
+  /// The display name of the calculated attribute.
+  final String? displayName;
+
+  /// The timestamp of when the calculated attribute definition was most recently
+  /// edited.
+  final DateTime? lastUpdatedAt;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  ListCalculatedAttributeDefinitionItem({
+    this.calculatedAttributeName,
+    this.createdAt,
+    this.description,
+    this.displayName,
+    this.lastUpdatedAt,
+    this.tags,
+  });
+
+  factory ListCalculatedAttributeDefinitionItem.fromJson(
+      Map<String, dynamic> json) {
+    return ListCalculatedAttributeDefinitionItem(
+      calculatedAttributeName: json['CalculatedAttributeName'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final calculatedAttributeName = this.calculatedAttributeName;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayName = this.displayName;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final tags = this.tags;
+    return {
+      if (calculatedAttributeName != null)
+        'CalculatedAttributeName': calculatedAttributeName,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ListCalculatedAttributeDefinitionsResponse {
+  /// The list of calculated attribute definitions.
+  final List<ListCalculatedAttributeDefinitionItem>? items;
+
+  /// The pagination token from the previous call to
+  /// ListCalculatedAttributeDefinitions.
+  final String? nextToken;
+
+  ListCalculatedAttributeDefinitionsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListCalculatedAttributeDefinitionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCalculatedAttributeDefinitionsResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListCalculatedAttributeDefinitionItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// The details of a single calculated attribute for a profile.
+class ListCalculatedAttributeForProfileItem {
+  /// The unique name of the calculated attribute.
+  final String? calculatedAttributeName;
+
+  /// The display name of the calculated attribute.
+  final String? displayName;
+
+  /// Indicates whether the calculated attribute’s value is based on partial data.
+  /// If data is partial, it is set to true.
+  final String? isDataPartial;
+
+  /// The value of the calculated attribute.
+  final String? value;
+
+  ListCalculatedAttributeForProfileItem({
+    this.calculatedAttributeName,
+    this.displayName,
+    this.isDataPartial,
+    this.value,
+  });
+
+  factory ListCalculatedAttributeForProfileItem.fromJson(
+      Map<String, dynamic> json) {
+    return ListCalculatedAttributeForProfileItem(
+      calculatedAttributeName: json['CalculatedAttributeName'] as String?,
+      displayName: json['DisplayName'] as String?,
+      isDataPartial: json['IsDataPartial'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final calculatedAttributeName = this.calculatedAttributeName;
+    final displayName = this.displayName;
+    final isDataPartial = this.isDataPartial;
+    final value = this.value;
+    return {
+      if (calculatedAttributeName != null)
+        'CalculatedAttributeName': calculatedAttributeName,
+      if (displayName != null) 'DisplayName': displayName,
+      if (isDataPartial != null) 'IsDataPartial': isDataPartial,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class ListCalculatedAttributesForProfileResponse {
+  /// The list of calculated attributes.
+  final List<ListCalculatedAttributeForProfileItem>? items;
+
+  /// The pagination token from the previous call to
+  /// ListCalculatedAttributesForProfile.
+  final String? nextToken;
+
+  ListCalculatedAttributesForProfileResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListCalculatedAttributesForProfileResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCalculatedAttributesForProfileResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListCalculatedAttributeForProfileItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// An object in a list that represents a domain.
 class ListDomainItem {
   /// The timestamp of when the domain was created.
@@ -4578,6 +6354,38 @@ class ListDomainsResponse {
       items: (json['Items'] as List?)
           ?.whereNotNull()
           .map((e) => ListDomainItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListEventStreamsResponse {
+  /// Contains summary information about an EventStream.
+  final List<EventStreamSummary>? items;
+
+  /// Identifies the next page of results to return.
+  final String? nextToken;
+
+  ListEventStreamsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListEventStreamsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventStreamsResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventStreamSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -4980,6 +6788,39 @@ class ListProfileObjectsResponse {
   }
 }
 
+class ListRuleBasedMatchesResponse {
+  /// The list of <code>MatchIds</code> for the given domain.
+  final List<String>? matchIds;
+
+  /// The pagination token from the previous <code>ListRuleBasedMatches</code> API
+  /// call.
+  final String? nextToken;
+
+  ListRuleBasedMatchesResponse({
+    this.matchIds,
+    this.nextToken,
+  });
+
+  factory ListRuleBasedMatchesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRuleBasedMatchesResponse(
+      matchIds: (json['MatchIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchIds = this.matchIds;
+    final nextToken = this.nextToken;
+    return {
+      if (matchIds != null) 'MatchIds': matchIds,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
@@ -5257,6 +7098,34 @@ class MatchItem {
   }
 }
 
+enum MatchType {
+  ruleBasedMatching,
+  mlBasedMatching,
+}
+
+extension MatchTypeValueExtension on MatchType {
+  String toValue() {
+    switch (this) {
+      case MatchType.ruleBasedMatching:
+        return 'RULE_BASED_MATCHING';
+      case MatchType.mlBasedMatching:
+        return 'ML_BASED_MATCHING';
+    }
+  }
+}
+
+extension MatchTypeFromString on String {
+  MatchType toMatchType() {
+    switch (this) {
+      case 'RULE_BASED_MATCHING':
+        return MatchType.ruleBasedMatching;
+      case 'ML_BASED_MATCHING':
+        return MatchType.mlBasedMatching;
+    }
+    throw Exception('$this is not known in enum MatchType');
+  }
+}
+
 /// The flag that enables the matching process of duplicate profiles.
 class MatchingRequest {
   /// The flag that enables the matching process of duplicate profiles.
@@ -5347,6 +7216,89 @@ class MatchingResponse {
   }
 }
 
+/// Specifies how does the rule-based matching process should match profiles.
+/// You can choose from the following attributes to build the matching Rule:
+///
+/// <ul>
+/// <li>
+/// AccountNumber
+/// </li>
+/// <li>
+/// Address.Address
+/// </li>
+/// <li>
+/// Address.City
+/// </li>
+/// <li>
+/// Address.Country
+/// </li>
+/// <li>
+/// Address.County
+/// </li>
+/// <li>
+/// Address.PostalCode
+/// </li>
+/// <li>
+/// Address.State
+/// </li>
+/// <li>
+/// Address.Province
+/// </li>
+/// <li>
+/// BirthDate
+/// </li>
+/// <li>
+/// BusinessName
+/// </li>
+/// <li>
+/// EmailAddress
+/// </li>
+/// <li>
+/// FirstName
+/// </li>
+/// <li>
+/// Gender
+/// </li>
+/// <li>
+/// LastName
+/// </li>
+/// <li>
+/// MiddleName
+/// </li>
+/// <li>
+/// PhoneNumber
+/// </li>
+/// <li>
+/// Any customized profile attributes that start with the
+/// <code>Attributes</code>
+/// </li>
+/// </ul>
+class MatchingRule {
+  /// A single rule level of the <code>MatchRules</code>. Configures how the
+  /// rule-based matching process should match profiles.
+  final List<String> rule;
+
+  MatchingRule({
+    required this.rule,
+  });
+
+  factory MatchingRule.fromJson(Map<String, dynamic> json) {
+    return MatchingRule(
+      rule: (json['Rule'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rule = this.rule;
+    return {
+      'Rule': rule,
+    };
+  }
+}
+
 class MergeProfilesResponse {
   /// A message that indicates the merge request is complete.
   final String? message;
@@ -5369,15 +7321,15 @@ class MergeProfilesResponse {
   }
 }
 
-/// The filter applied to ListProfileObjects response to include profile objects
-/// with the specified index values. This filter is only supported for
-/// ObjectTypeName _asset, _case and _order.
+/// The filter applied to <code>ListProfileObjects</code> response to include
+/// profile objects with the specified index values.
 class ObjectFilter {
-  /// A searchable identifier of a standard profile object. The predefined keys
-  /// you can use to search for _asset include: _assetId, _assetName,
-  /// _serialNumber. The predefined keys you can use to search for _case include:
-  /// _caseId. The predefined keys you can use to search for _order include:
-  /// _orderId.
+  /// A searchable identifier of a profile object. The predefined keys you can use
+  /// to search for <code>_asset</code> include: <code>_assetId</code>,
+  /// <code>_assetName</code>, and <code>_serialNumber</code>. The predefined keys
+  /// you can use to search for <code>_case</code> include: <code>_caseId</code>.
+  /// The predefined keys you can use to search for <code>_order</code> include:
+  /// <code>_orderId</code>.
   final String keyName;
 
   /// A list of key values.
@@ -5483,6 +7435,44 @@ class ObjectTypeKey {
         'StandardIdentifiers':
             standardIdentifiers.map((e) => e.toValue()).toList(),
     };
+  }
+}
+
+enum Operator {
+  equalTo,
+  greaterThan,
+  lessThan,
+  notEqualTo,
+}
+
+extension OperatorValueExtension on Operator {
+  String toValue() {
+    switch (this) {
+      case Operator.equalTo:
+        return 'EQUAL_TO';
+      case Operator.greaterThan:
+        return 'GREATER_THAN';
+      case Operator.lessThan:
+        return 'LESS_THAN';
+      case Operator.notEqualTo:
+        return 'NOT_EQUAL_TO';
+    }
+  }
+}
+
+extension OperatorFromString on String {
+  Operator toOperator() {
+    switch (this) {
+      case 'EQUAL_TO':
+        return Operator.equalTo;
+      case 'GREATER_THAN':
+        return Operator.greaterThan;
+      case 'LESS_THAN':
+        return Operator.lessThan;
+      case 'NOT_EQUAL_TO':
+        return Operator.notEqualTo;
+    }
+    throw Exception('$this is not known in enum Operator');
   }
 }
 
@@ -6075,6 +8065,240 @@ class PutProfileObjectTypeResponse {
       if (tags != null) 'Tags': tags,
       if (templateId != null) 'TemplateId': templateId,
     };
+  }
+}
+
+/// The relative time period over which data is included in the aggregation.
+class Range {
+  /// The unit of time.
+  final Unit unit;
+
+  /// The amount of time of the specified unit.
+  final int value;
+
+  Range({
+    required this.unit,
+    required this.value,
+  });
+
+  factory Range.fromJson(Map<String, dynamic> json) {
+    return Range(
+      unit: (json['Unit'] as String).toUnit(),
+      value: json['Value'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'Unit': unit.toValue(),
+      'Value': value,
+    };
+  }
+}
+
+/// The request to enable the rule-based matching.
+class RuleBasedMatchingRequest {
+  /// The flag that enables the rule-based matching process of duplicate profiles.
+  final bool enabled;
+
+  /// Configures information about the <code>AttributeTypesSelector</code> where
+  /// the rule-based identity resolution uses to match profiles.
+  final AttributeTypesSelector? attributeTypesSelector;
+  final ConflictResolution? conflictResolution;
+  final ExportingConfig? exportingConfig;
+
+  /// Configures how the rule-based matching process should match profiles. You
+  /// can have up to 15 <code>MatchingRule</code> in the
+  /// <code>MatchingRules</code>.
+  final List<MatchingRule>? matchingRules;
+
+  /// Indicates the maximum allowed rule level.
+  final int? maxAllowedRuleLevelForMatching;
+
+  /// <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_MatchingRule.html">MatchingRule</a>
+  final int? maxAllowedRuleLevelForMerging;
+
+  RuleBasedMatchingRequest({
+    required this.enabled,
+    this.attributeTypesSelector,
+    this.conflictResolution,
+    this.exportingConfig,
+    this.matchingRules,
+    this.maxAllowedRuleLevelForMatching,
+    this.maxAllowedRuleLevelForMerging,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final attributeTypesSelector = this.attributeTypesSelector;
+    final conflictResolution = this.conflictResolution;
+    final exportingConfig = this.exportingConfig;
+    final matchingRules = this.matchingRules;
+    final maxAllowedRuleLevelForMatching = this.maxAllowedRuleLevelForMatching;
+    final maxAllowedRuleLevelForMerging = this.maxAllowedRuleLevelForMerging;
+    return {
+      'Enabled': enabled,
+      if (attributeTypesSelector != null)
+        'AttributeTypesSelector': attributeTypesSelector,
+      if (conflictResolution != null) 'ConflictResolution': conflictResolution,
+      if (exportingConfig != null) 'ExportingConfig': exportingConfig,
+      if (matchingRules != null) 'MatchingRules': matchingRules,
+      if (maxAllowedRuleLevelForMatching != null)
+        'MaxAllowedRuleLevelForMatching': maxAllowedRuleLevelForMatching,
+      if (maxAllowedRuleLevelForMerging != null)
+        'MaxAllowedRuleLevelForMerging': maxAllowedRuleLevelForMerging,
+    };
+  }
+}
+
+/// The response of the Rule-based matching request.
+class RuleBasedMatchingResponse {
+  /// Configures information about the <code>AttributeTypesSelector</code> where
+  /// the rule-based identity resolution uses to match profiles.
+  final AttributeTypesSelector? attributeTypesSelector;
+  final ConflictResolution? conflictResolution;
+
+  /// The flag that enables the rule-based matching process of duplicate profiles.
+  final bool? enabled;
+  final ExportingConfig? exportingConfig;
+
+  /// Configures how the rule-based matching process should match profiles. You
+  /// can have up to 15 <code>MatchingRule</code> in the
+  /// <code>MatchingRules</code>.
+  final List<MatchingRule>? matchingRules;
+
+  /// Indicates the maximum allowed rule level.
+  final int? maxAllowedRuleLevelForMatching;
+
+  /// <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_MatchingRule.html">MatchingRule</a>
+  final int? maxAllowedRuleLevelForMerging;
+
+  /// PENDING
+  ///
+  /// <ul>
+  /// <li>
+  /// The first status after configuration a rule-based matching rule. If it is an
+  /// existing domain, the rule-based Identity Resolution waits one hour before
+  /// creating the matching rule. If it is a new domain, the system will skip the
+  /// <code>PENDING</code> stage.
+  /// </li>
+  /// </ul>
+  /// IN_PROGRESS
+  ///
+  /// <ul>
+  /// <li>
+  /// The system is creating the rule-based matching rule. Under this status, the
+  /// system is evaluating the existing data and you can no longer change the
+  /// Rule-based matching configuration.
+  /// </li>
+  /// </ul>
+  /// ACTIVE
+  ///
+  /// <ul>
+  /// <li>
+  /// The rule is ready to use. You can change the rule a day after the status is
+  /// in <code>ACTIVE</code>.
+  /// </li>
+  /// </ul>
+  final RuleBasedMatchingStatus? status;
+
+  RuleBasedMatchingResponse({
+    this.attributeTypesSelector,
+    this.conflictResolution,
+    this.enabled,
+    this.exportingConfig,
+    this.matchingRules,
+    this.maxAllowedRuleLevelForMatching,
+    this.maxAllowedRuleLevelForMerging,
+    this.status,
+  });
+
+  factory RuleBasedMatchingResponse.fromJson(Map<String, dynamic> json) {
+    return RuleBasedMatchingResponse(
+      attributeTypesSelector: json['AttributeTypesSelector'] != null
+          ? AttributeTypesSelector.fromJson(
+              json['AttributeTypesSelector'] as Map<String, dynamic>)
+          : null,
+      conflictResolution: json['ConflictResolution'] != null
+          ? ConflictResolution.fromJson(
+              json['ConflictResolution'] as Map<String, dynamic>)
+          : null,
+      enabled: json['Enabled'] as bool?,
+      exportingConfig: json['ExportingConfig'] != null
+          ? ExportingConfig.fromJson(
+              json['ExportingConfig'] as Map<String, dynamic>)
+          : null,
+      matchingRules: (json['MatchingRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => MatchingRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxAllowedRuleLevelForMatching:
+          json['MaxAllowedRuleLevelForMatching'] as int?,
+      maxAllowedRuleLevelForMerging:
+          json['MaxAllowedRuleLevelForMerging'] as int?,
+      status: (json['Status'] as String?)?.toRuleBasedMatchingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeTypesSelector = this.attributeTypesSelector;
+    final conflictResolution = this.conflictResolution;
+    final enabled = this.enabled;
+    final exportingConfig = this.exportingConfig;
+    final matchingRules = this.matchingRules;
+    final maxAllowedRuleLevelForMatching = this.maxAllowedRuleLevelForMatching;
+    final maxAllowedRuleLevelForMerging = this.maxAllowedRuleLevelForMerging;
+    final status = this.status;
+    return {
+      if (attributeTypesSelector != null)
+        'AttributeTypesSelector': attributeTypesSelector,
+      if (conflictResolution != null) 'ConflictResolution': conflictResolution,
+      if (enabled != null) 'Enabled': enabled,
+      if (exportingConfig != null) 'ExportingConfig': exportingConfig,
+      if (matchingRules != null) 'MatchingRules': matchingRules,
+      if (maxAllowedRuleLevelForMatching != null)
+        'MaxAllowedRuleLevelForMatching': maxAllowedRuleLevelForMatching,
+      if (maxAllowedRuleLevelForMerging != null)
+        'MaxAllowedRuleLevelForMerging': maxAllowedRuleLevelForMerging,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum RuleBasedMatchingStatus {
+  pending,
+  inProgress,
+  active,
+}
+
+extension RuleBasedMatchingStatusValueExtension on RuleBasedMatchingStatus {
+  String toValue() {
+    switch (this) {
+      case RuleBasedMatchingStatus.pending:
+        return 'PENDING';
+      case RuleBasedMatchingStatus.inProgress:
+        return 'IN_PROGRESS';
+      case RuleBasedMatchingStatus.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension RuleBasedMatchingStatusFromString on String {
+  RuleBasedMatchingStatus toRuleBasedMatchingStatus() {
+    switch (this) {
+      case 'PENDING':
+        return RuleBasedMatchingStatus.pending;
+      case 'IN_PROGRESS':
+        return RuleBasedMatchingStatus.inProgress;
+      case 'ACTIVE':
+        return RuleBasedMatchingStatus.active;
+    }
+    throw Exception('$this is not known in enum RuleBasedMatchingStatus');
   }
 }
 
@@ -6863,6 +9087,64 @@ extension StandardIdentifierFromString on String {
   }
 }
 
+enum Statistic {
+  firstOccurrence,
+  lastOccurrence,
+  count,
+  sum,
+  minimum,
+  maximum,
+  average,
+  maxOccurrence,
+}
+
+extension StatisticValueExtension on Statistic {
+  String toValue() {
+    switch (this) {
+      case Statistic.firstOccurrence:
+        return 'FIRST_OCCURRENCE';
+      case Statistic.lastOccurrence:
+        return 'LAST_OCCURRENCE';
+      case Statistic.count:
+        return 'COUNT';
+      case Statistic.sum:
+        return 'SUM';
+      case Statistic.minimum:
+        return 'MINIMUM';
+      case Statistic.maximum:
+        return 'MAXIMUM';
+      case Statistic.average:
+        return 'AVERAGE';
+      case Statistic.maxOccurrence:
+        return 'MAX_OCCURRENCE';
+    }
+  }
+}
+
+extension StatisticFromString on String {
+  Statistic toStatistic() {
+    switch (this) {
+      case 'FIRST_OCCURRENCE':
+        return Statistic.firstOccurrence;
+      case 'LAST_OCCURRENCE':
+        return Statistic.lastOccurrence;
+      case 'COUNT':
+        return Statistic.count;
+      case 'SUM':
+        return Statistic.sum;
+      case 'MINIMUM':
+        return Statistic.minimum;
+      case 'MAXIMUM':
+        return Statistic.maximum;
+      case 'AVERAGE':
+        return Statistic.average;
+      case 'MAX_OCCURRENCE':
+        return Statistic.maxOccurrence;
+    }
+    throw Exception('$this is not known in enum Statistic');
+  }
+}
+
 enum Status {
   notStarted,
   inProgress,
@@ -7027,6 +9309,36 @@ extension TaskTypeFromString on String {
   }
 }
 
+/// The threshold for the calculated attribute.
+class Threshold {
+  /// The operator of the threshold.
+  final Operator operator;
+
+  /// The value of the threshold.
+  final String value;
+
+  Threshold({
+    required this.operator,
+    required this.value,
+  });
+
+  factory Threshold.fromJson(Map<String, dynamic> json) {
+    return Threshold(
+      operator: (json['Operator'] as String).toOperator(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operator = this.operator;
+    final value = this.value;
+    return {
+      'Operator': operator.toValue(),
+      'Value': value,
+    };
+  }
+}
+
 /// The trigger settings that determine how and when Amazon AppFlow runs the
 /// specified flow.
 class TriggerConfig {
@@ -7101,6 +9413,29 @@ extension TriggerTypeFromString on String {
         return TriggerType.onDemand;
     }
     throw Exception('$this is not known in enum TriggerType');
+  }
+}
+
+enum Unit {
+  days,
+}
+
+extension UnitValueExtension on Unit {
+  String toValue() {
+    switch (this) {
+      case Unit.days:
+        return 'DAYS';
+    }
+  }
+}
+
+extension UnitFromString on String {
+  Unit toUnit() {
+    switch (this) {
+      case 'DAYS':
+        return Unit.days;
+    }
+    throw Exception('$this is not known in enum Unit');
   }
 }
 
@@ -7187,6 +9522,96 @@ class UpdateAddress {
   }
 }
 
+class UpdateCalculatedAttributeDefinitionResponse {
+  /// The mathematical expression and a list of attribute items specified in that
+  /// expression.
+  final AttributeDetails? attributeDetails;
+
+  /// The unique name of the calculated attribute.
+  final String? calculatedAttributeName;
+
+  /// The conditions including range, object count, and threshold for the
+  /// calculated attribute.
+  final Conditions? conditions;
+
+  /// The timestamp of when the calculated attribute definition was created.
+  final DateTime? createdAt;
+
+  /// The description of the calculated attribute.
+  final String? description;
+
+  /// The display name of the calculated attribute.
+  final String? displayName;
+
+  /// The timestamp of when the calculated attribute definition was most recently
+  /// edited.
+  final DateTime? lastUpdatedAt;
+
+  /// The aggregation operation to perform for the calculated attribute.
+  final Statistic? statistic;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  UpdateCalculatedAttributeDefinitionResponse({
+    this.attributeDetails,
+    this.calculatedAttributeName,
+    this.conditions,
+    this.createdAt,
+    this.description,
+    this.displayName,
+    this.lastUpdatedAt,
+    this.statistic,
+    this.tags,
+  });
+
+  factory UpdateCalculatedAttributeDefinitionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCalculatedAttributeDefinitionResponse(
+      attributeDetails: json['AttributeDetails'] != null
+          ? AttributeDetails.fromJson(
+              json['AttributeDetails'] as Map<String, dynamic>)
+          : null,
+      calculatedAttributeName: json['CalculatedAttributeName'] as String?,
+      conditions: json['Conditions'] != null
+          ? Conditions.fromJson(json['Conditions'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeDetails = this.attributeDetails;
+    final calculatedAttributeName = this.calculatedAttributeName;
+    final conditions = this.conditions;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayName = this.displayName;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final statistic = this.statistic;
+    final tags = this.tags;
+    return {
+      if (attributeDetails != null) 'AttributeDetails': attributeDetails,
+      if (calculatedAttributeName != null)
+        'CalculatedAttributeName': calculatedAttributeName,
+      if (conditions != null) 'Conditions': conditions,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
 class UpdateDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -7222,6 +9647,16 @@ class UpdateDomainResponse {
   /// download the results from S3.
   final MatchingResponse? matching;
 
+  /// The process of matching duplicate profiles using the rule-Based matching. If
+  /// <code>RuleBasedMatching</code> = true, Amazon Connect Customer Profiles will
+  /// start to match and merge your profiles according to your configuration in
+  /// the <code>RuleBasedMatchingRequest</code>. You can use the
+  /// <code>ListRuleBasedMatches</code> and <code>GetSimilarProfiles</code> API to
+  /// return and review the results. Also, if you have configured
+  /// <code>ExportingConfig</code> in the <code>RuleBasedMatchingRequest</code>,
+  /// you can download the results from S3.
+  final RuleBasedMatchingResponse? ruleBasedMatching;
+
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
@@ -7233,6 +9668,7 @@ class UpdateDomainResponse {
     this.defaultEncryptionKey,
     this.defaultExpirationDays,
     this.matching,
+    this.ruleBasedMatching,
     this.tags,
   });
 
@@ -7248,6 +9684,10 @@ class UpdateDomainResponse {
       matching: json['Matching'] != null
           ? MatchingResponse.fromJson(json['Matching'] as Map<String, dynamic>)
           : null,
+      ruleBasedMatching: json['RuleBasedMatching'] != null
+          ? RuleBasedMatchingResponse.fromJson(
+              json['RuleBasedMatching'] as Map<String, dynamic>)
+          : null,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -7261,6 +9701,7 @@ class UpdateDomainResponse {
     final defaultEncryptionKey = this.defaultEncryptionKey;
     final defaultExpirationDays = this.defaultExpirationDays;
     final matching = this.matching;
+    final ruleBasedMatching = this.ruleBasedMatching;
     final tags = this.tags;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
@@ -7272,6 +9713,7 @@ class UpdateDomainResponse {
       if (defaultExpirationDays != null)
         'DefaultExpirationDays': defaultExpirationDays,
       if (matching != null) 'Matching': matching,
+      if (ruleBasedMatching != null) 'RuleBasedMatching': ruleBasedMatching,
       if (tags != null) 'Tags': tags,
     };
   }

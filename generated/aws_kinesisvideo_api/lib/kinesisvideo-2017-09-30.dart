@@ -149,7 +149,7 @@ class KinesisVideo {
   /// Streams to use to encrypt stream data.
   ///
   /// If no key ID is specified, the default, Kinesis Video-managed key
-  /// (<code>aws/kinesisvideo</code>) is used.
+  /// (<code>Amazon Web Services/kinesisvideo</code>) is used.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters">DescribeKey</a>.
@@ -201,6 +201,48 @@ class KinesisVideo {
       exceptionFnMap: _exceptionFns,
     );
     return CreateStreamOutput.fromJson(response);
+  }
+
+  /// An asynchronous API that deletes a stream’s existing edge configuration,
+  /// as well as the corresponding media from the Edge Agent.
+  ///
+  /// When you invoke this API, the sync status is set to <code>DELETING</code>.
+  /// A deletion process starts, in which active edge jobs are stopped and all
+  /// media is deleted from the edge device. The time to delete varies,
+  /// depending on the total amount of stored media. If the deletion process
+  /// fails, the sync status changes to <code>DELETE_FAILED</code>. You will
+  /// need to re-try the deletion.
+  ///
+  /// When the deletion process has completed successfully, the edge
+  /// configuration is no longer accessible.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [StreamEdgeConfigurationNotFoundException].
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream. Specify either the
+  /// <code>StreamName</code> or the <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to delete the edge configuration.
+  /// Specify either the <code>StreamName</code> or the <code>StreamARN</code>.
+  Future<void> deleteEdgeConfiguration({
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/deleteEdgeConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Deletes a specified signaling channel. <code>DeleteSignalingChannel</code>
@@ -291,9 +333,10 @@ class KinesisVideo {
   }
 
   /// Describes a stream’s edge configuration that was set using the
-  /// <code>StartEdgeConfigurationUpdate</code> API. Use this API to get the
-  /// status of the configuration if the configuration is in sync with the Edge
-  /// Agent.
+  /// <code>StartEdgeConfigurationUpdate</code> API and the latest status of the
+  /// edge agent's recorder and uploader jobs. Use this API to get the status of
+  /// the configuration to determine if the configuration is in sync with the
+  /// Edge Agent. Use this API to evaluate the health of the Edge Agent.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ClientLimitExceededException].
@@ -360,9 +403,6 @@ class KinesisVideo {
     return DescribeImageGenerationConfigurationOutput.fromJson(response);
   }
 
-  /// Returns the most current information about the stream. Either streamName
-  /// or streamARN should be provided in the input.
-  ///
   /// Returns the most current information about the stream. The
   /// <code>streamName</code> or <code>streamARN</code> should be provided in
   /// the input.
@@ -635,6 +675,52 @@ class KinesisVideo {
     return GetSignalingChannelEndpointOutput.fromJson(response);
   }
 
+  /// Returns an array of edge configurations associated with the specified Edge
+  /// Agent.
+  ///
+  /// In the request, you must specify the Edge Agent <code>HubDeviceArn</code>.
+  ///
+  /// May throw [NotAuthorizedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  ///
+  /// Parameter [hubDeviceArn] :
+  /// The "Internet of Things (IoT) Thing" Arn of the edge agent.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of edge configurations to return in the response. The
+  /// default is 5.
+  ///
+  /// Parameter [nextToken] :
+  /// If you specify this parameter, when the result of a
+  /// <code>ListEdgeAgentConfigurations</code> operation is truncated, the call
+  /// returns the <code>NextToken</code> in the response. To get another batch
+  /// of edge configurations, provide this token in your next request.
+  Future<ListEdgeAgentConfigurationsOutput> listEdgeAgentConfigurations({
+    required String hubDeviceArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final $payload = <String, dynamic>{
+      'HubDeviceArn': hubDeviceArn,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listEdgeAgentConfigurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEdgeAgentConfigurationsOutput.fromJson(response);
+  }
+
   /// Returns an array of <code>ChannelInfo</code> objects. Each object
   /// describes a signaling channel. To retrieve only those channels that
   /// satisfy a specific condition, you can specify a
@@ -821,6 +907,11 @@ class KinesisVideo {
   /// connectivity of the stream’s edge configuration and the Edge Agent will be
   /// retried for 15 minutes. After 15 minutes, the status will transition into
   /// the <code>SYNC_FAILED</code> state.
+  ///
+  /// To move an edge configuration from one device to another, use
+  /// <a>DeleteEdgeConfiguration</a> to delete the current edge configuration.
+  /// You can then invoke StartEdgeConfigurationUpdate with an updated Hub
+  /// Device ARN.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ClientLimitExceededException].
@@ -1024,9 +1115,7 @@ class KinesisVideo {
   /// data retention period, specify the <code>Operation</code> parameter in the
   /// request body. In the request, you must specify either the
   /// <code>StreamName</code> or the <code>StreamARN</code>.
-  /// <note>
-  /// The retention period that you specify replaces the current value.
-  /// </note>
+  ///
   /// This operation requires permission for the
   /// <code>KinesisVideo:UpdateDataRetention</code> action.
   ///
@@ -1061,8 +1150,12 @@ class KinesisVideo {
   /// <code>ListStreams</code> API.
   ///
   /// Parameter [dataRetentionChangeInHours] :
-  /// The retention period, in hours. The value you specify replaces the current
-  /// value. The maximum value for this parameter is 87600 (ten years).
+  /// The number of hours to adjust the current retention by. The value you
+  /// specify is added to or subtracted from the current value, depending on the
+  /// <code>operation</code>.
+  ///
+  /// The minimum value for data retention is 0 and the maximum value is 87600
+  /// (ten years).
   ///
   /// Parameter [operation] :
   /// Indicates whether you want to increase or decrease the retention period.
@@ -1146,18 +1239,25 @@ class KinesisVideo {
   }
 
   /// Associates a <code>SignalingChannel</code> to a stream to store the media.
-  /// There are two signaling modes that can specified :
+  /// There are two signaling modes that you can specify :
   ///
   /// <ul>
   /// <li>
-  /// If the <code>StorageStatus</code> is disabled, no data will be stored, and
-  /// the <code>StreamARN</code> parameter will not be needed.
+  /// If <code>StorageStatus</code> is enabled, the data will be stored in the
+  /// <code>StreamARN</code> provided. In order for WebRTC Ingestion to work,
+  /// the stream must have data retention enabled.
   /// </li>
   /// <li>
-  /// If the <code>StorageStatus</code> is enabled, the data will be stored in
-  /// the <code>StreamARN</code> provided.
+  /// If <code>StorageStatus</code> is disabled, no data will be stored, and the
+  /// <code>StreamARN</code> parameter will not be needed.
   /// </li>
-  /// </ul>
+  /// </ul> <important>
+  /// If <code>StorageStatus</code> is enabled, direct peer-to-peer
+  /// (master-viewer) connections no longer occur. Peers connect directly to the
+  /// storage session. You must call the <code>JoinStorageSession</code> API to
+  /// trigger an SDP offer send and establish a connection between a peer and
+  /// the storage session.
+  /// </important>
   ///
   /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
@@ -1656,6 +1756,14 @@ class CreateStreamOutput {
   }
 }
 
+class DeleteEdgeConfigurationOutput {
+  DeleteEdgeConfigurationOutput();
+
+  factory DeleteEdgeConfigurationOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteEdgeConfigurationOutput();
+  }
+}
+
 class DeleteSignalingChannelOutput {
   DeleteSignalingChannelOutput();
 
@@ -1684,7 +1792,7 @@ class DeletionConfig {
   ///
   /// Since the default value is set to <code>true</code>, configure the uploader
   /// schedule such that the media files are not being deleted before they are
-  /// initially uploaded to AWS cloud.
+  /// initially uploaded to the Amazon Web Services cloud.
   final bool? deleteAfterUpload;
 
   /// The number of hours that you want to retain the data in the stream on the
@@ -1730,6 +1838,11 @@ class DescribeEdgeConfigurationOutput {
   /// The timestamp at which a stream’s edge configuration was first created.
   final DateTime? creationTime;
 
+  /// An object that contains the latest status details for an edge agent's
+  /// recorder and uploader jobs. Use this information to determine the current
+  /// health of an edge agent.
+  final EdgeAgentStatus? edgeAgentStatus;
+
   /// A description of the stream's edge configuration that will be used to sync
   /// with the Edge Agent IoT Greengrass component. The Edge Agent component will
   /// run on an IoT Hub Device setup at your premise.
@@ -1752,6 +1865,7 @@ class DescribeEdgeConfigurationOutput {
 
   DescribeEdgeConfigurationOutput({
     this.creationTime,
+    this.edgeAgentStatus,
     this.edgeConfig,
     this.failedStatusDetails,
     this.lastUpdatedTime,
@@ -1763,6 +1877,10 @@ class DescribeEdgeConfigurationOutput {
   factory DescribeEdgeConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return DescribeEdgeConfigurationOutput(
       creationTime: timeStampFromJson(json['CreationTime']),
+      edgeAgentStatus: json['EdgeAgentStatus'] != null
+          ? EdgeAgentStatus.fromJson(
+              json['EdgeAgentStatus'] as Map<String, dynamic>)
+          : null,
       edgeConfig: json['EdgeConfig'] != null
           ? EdgeConfig.fromJson(json['EdgeConfig'] as Map<String, dynamic>)
           : null,
@@ -1895,6 +2013,35 @@ class DescribeStreamOutput {
     return DescribeStreamOutput(
       streamInfo: json['StreamInfo'] != null
           ? StreamInfo.fromJson(json['StreamInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// An object that contains the latest status details for an edge agent's
+/// recorder and uploader jobs. Use this information to determine the current
+/// health of an edge agent.
+class EdgeAgentStatus {
+  /// The latest status of a stream’s edge recording job.
+  final LastRecorderStatus? lastRecorderStatus;
+
+  /// The latest status of a stream’s edge to cloud uploader job.
+  final LastUploaderStatus? lastUploaderStatus;
+
+  EdgeAgentStatus({
+    this.lastRecorderStatus,
+    this.lastUploaderStatus,
+  });
+
+  factory EdgeAgentStatus.fromJson(Map<String, dynamic> json) {
+    return EdgeAgentStatus(
+      lastRecorderStatus: json['LastRecorderStatus'] != null
+          ? LastRecorderStatus.fromJson(
+              json['LastRecorderStatus'] as Map<String, dynamic>)
+          : null,
+      lastUploaderStatus: json['LastUploaderStatus'] != null
+          ? LastUploaderStatus.fromJson(
+              json['LastUploaderStatus'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -2061,10 +2208,9 @@ class ImageGenerationConfiguration {
   final ImageSelectorType imageSelectorType;
 
   /// The time interval in milliseconds (ms) at which the images need to be
-  /// generated from the stream. The minimum value that can be provided is 33 ms,
-  /// because a camera that generates content at 30 FPS would create a frame every
-  /// 33.3 ms. If the timestamp range is less than the sampling interval, the
-  /// Image from the <code>StartTimestamp</code> will be returned if available.
+  /// generated from the stream. The minimum value that can be provided is 200 ms.
+  /// If the timestamp range is less than the sampling interval, the Image from
+  /// the <code>StartTimestamp</code> will be returned if available.
   final int samplingInterval;
 
   /// Indicates whether the <code>ContinuousImageGenerationConfigurations</code>
@@ -2153,9 +2299,9 @@ class ImageGenerationConfiguration {
 /// The structure that contains the information required to deliver images to a
 /// customer.
 class ImageGenerationDestinationConfig {
-  /// The AWS Region of the S3 bucket where images will be delivered. This
-  /// <code>DestinationRegion</code> must match the Region where the stream is
-  /// located.
+  /// The Amazon Web Services Region of the S3 bucket where images will be
+  /// delivered. This <code>DestinationRegion</code> must match the Region where
+  /// the stream is located.
   final String destinationRegion;
 
   /// The Uniform Resource Identifier (URI) that identifies where the images will
@@ -2209,6 +2355,144 @@ extension ImageSelectorTypeFromString on String {
         return ImageSelectorType.producerTimestamp;
     }
     throw Exception('$this is not known in enum ImageSelectorType');
+  }
+}
+
+/// The latest status of a stream's edge recording job.
+class LastRecorderStatus {
+  /// A description of a recorder job’s latest status.
+  final String? jobStatusDetails;
+
+  /// The timestamp at which the recorder job was last executed and media stored
+  /// to local disk.
+  final DateTime? lastCollectedTime;
+
+  /// The timestamp at which the recorder status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the latest recorder job.
+  final RecorderStatus? recorderStatus;
+
+  LastRecorderStatus({
+    this.jobStatusDetails,
+    this.lastCollectedTime,
+    this.lastUpdatedTime,
+    this.recorderStatus,
+  });
+
+  factory LastRecorderStatus.fromJson(Map<String, dynamic> json) {
+    return LastRecorderStatus(
+      jobStatusDetails: json['JobStatusDetails'] as String?,
+      lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      recorderStatus: (json['RecorderStatus'] as String?)?.toRecorderStatus(),
+    );
+  }
+}
+
+/// The latest status of a stream’s edge to cloud uploader job.
+class LastUploaderStatus {
+  /// A description of an uploader job’s latest status.
+  final String? jobStatusDetails;
+
+  /// The timestamp at which the uploader job was last executed and media
+  /// collected to the cloud.
+  final DateTime? lastCollectedTime;
+
+  /// The timestamp at which the uploader status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the latest uploader job.
+  final UploaderStatus? uploaderStatus;
+
+  LastUploaderStatus({
+    this.jobStatusDetails,
+    this.lastCollectedTime,
+    this.lastUpdatedTime,
+    this.uploaderStatus,
+  });
+
+  factory LastUploaderStatus.fromJson(Map<String, dynamic> json) {
+    return LastUploaderStatus(
+      jobStatusDetails: json['JobStatusDetails'] as String?,
+      lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      uploaderStatus: (json['UploaderStatus'] as String?)?.toUploaderStatus(),
+    );
+  }
+}
+
+/// A description of a single stream's edge configuration.
+class ListEdgeAgentConfigurationsEdgeConfig {
+  /// The timestamp when the stream first created the edge config.
+  final DateTime? creationTime;
+  final EdgeConfig? edgeConfig;
+
+  /// A description of the generated failure status.
+  final String? failedStatusDetails;
+
+  /// The timestamp when the stream last updated the edge config.
+  final DateTime? lastUpdatedTime;
+
+  /// The Amazon Resource Name (ARN) of the stream.
+  final String? streamARN;
+
+  /// The name of the stream.
+  final String? streamName;
+
+  /// The current sync status of the stream's edge configuration.
+  final SyncStatus? syncStatus;
+
+  ListEdgeAgentConfigurationsEdgeConfig({
+    this.creationTime,
+    this.edgeConfig,
+    this.failedStatusDetails,
+    this.lastUpdatedTime,
+    this.streamARN,
+    this.streamName,
+    this.syncStatus,
+  });
+
+  factory ListEdgeAgentConfigurationsEdgeConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ListEdgeAgentConfigurationsEdgeConfig(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      edgeConfig: json['EdgeConfig'] != null
+          ? EdgeConfig.fromJson(json['EdgeConfig'] as Map<String, dynamic>)
+          : null,
+      failedStatusDetails: json['FailedStatusDetails'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      syncStatus: (json['SyncStatus'] as String?)?.toSyncStatus(),
+    );
+  }
+}
+
+class ListEdgeAgentConfigurationsOutput {
+  /// A description of a single stream's edge configuration.
+  final List<ListEdgeAgentConfigurationsEdgeConfig>? edgeConfigs;
+
+  /// If the response is truncated, the call returns this element with a given
+  /// token. To get the next batch of edge configurations, use this token in your
+  /// next request.
+  final String? nextToken;
+
+  ListEdgeAgentConfigurationsOutput({
+    this.edgeConfigs,
+    this.nextToken,
+  });
+
+  factory ListEdgeAgentConfigurationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListEdgeAgentConfigurationsOutput(
+      edgeConfigs: (json['EdgeConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListEdgeAgentConfigurationsEdgeConfig.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
   }
 }
 
@@ -2374,8 +2658,8 @@ class MappedResourceConfigurationListItem {
 /// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
 /// media files that are streamed to the camera.
 class MediaSourceConfig {
-  /// The AWS Secrets Manager ARN for the username and password of the camera, or
-  /// a local media file location.
+  /// The Amazon Web Services Secrets Manager ARN for the username and password of
+  /// the camera, or a local media file location.
   final String mediaUriSecretArn;
 
   /// The Uniform Resource Identifier (URI) type. The <code>FILE_URI</code> value
@@ -2409,11 +2693,23 @@ class MediaSourceConfig {
 
 /// A structure that encapsulates, or contains, the media storage configuration
 /// properties.
+///
+/// <ul>
+/// <li>
+/// If <code>StorageStatus</code> is enabled, the data will be stored in the
+/// <code>StreamARN</code> provided. In order for WebRTC Ingestion to work, the
+/// stream must have data retention enabled.
+/// </li>
+/// <li>
+/// If <code>StorageStatus</code> is disabled, no data will be stored, and the
+/// <code>StreamARN</code> parameter will not be needed.
+/// </li>
+/// </ul>
 class MediaStorageConfiguration {
   /// The status of the media storage configuration.
   final MediaStorageConfigurationStatus status;
 
-  /// The Amazon Resource Name (ARN) of the stream
+  /// The Amazon Resource Name (ARN) of the stream.
   final String? streamARN;
 
   MediaStorageConfiguration({
@@ -2597,8 +2893,44 @@ class RecorderConfig {
   }
 }
 
+enum RecorderStatus {
+  success,
+  userError,
+  systemError,
+}
+
+extension RecorderStatusValueExtension on RecorderStatus {
+  String toValue() {
+    switch (this) {
+      case RecorderStatus.success:
+        return 'SUCCESS';
+      case RecorderStatus.userError:
+        return 'USER_ERROR';
+      case RecorderStatus.systemError:
+        return 'SYSTEM_ERROR';
+    }
+  }
+}
+
+extension RecorderStatusFromString on String {
+  RecorderStatus toRecorderStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return RecorderStatus.success;
+      case 'USER_ERROR':
+        return RecorderStatus.userError;
+      case 'SYSTEM_ERROR':
+        return RecorderStatus.systemError;
+    }
+    throw Exception('$this is not known in enum RecorderStatus');
+  }
+}
+
 /// An object that describes the endpoint of the signaling channel returned by
 /// the <code>GetSignalingChannelEndpoint</code> API.
+///
+/// The media server endpoint will correspond to the <code>WEBRTC</code>
+/// Protocol.
 class ResourceEndpointListItem {
   /// The protocol of the signaling channel returned by the
   /// <code>GetSignalingChannelEndpoint</code> API.
@@ -2626,8 +2958,13 @@ class ResourceEndpointListItem {
 /// consists of the <code>ScheduleExpression</code> and the
 /// <code>DurationInMinutes</code> attributes.
 ///
-/// If the <code>ScheduleExpression</code> is not provided, then the Edge Agent
-/// will always be set to recording mode.
+/// If the <code>ScheduleConfig</code> is not provided in the
+/// <code>RecorderConfig</code>, then the Edge Agent will always be set to
+/// recording mode.
+///
+/// If the <code>ScheduleConfig</code> is not provided in the
+/// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
+/// intervals (every 1 hour).
 class ScheduleConfig {
   /// The total duration to record the media. If the
   /// <code>ScheduleExpression</code> attribute is provided, then the
@@ -2940,6 +3277,7 @@ enum SyncStatus {
   syncFailed,
   deleting,
   deleteFailed,
+  deletingAcknowledged,
 }
 
 extension SyncStatusValueExtension on SyncStatus {
@@ -2957,6 +3295,8 @@ extension SyncStatusValueExtension on SyncStatus {
         return 'DELETING';
       case SyncStatus.deleteFailed:
         return 'DELETE_FAILED';
+      case SyncStatus.deletingAcknowledged:
+        return 'DELETING_ACKNOWLEDGED';
     }
   }
 }
@@ -2976,6 +3316,8 @@ extension SyncStatusFromString on String {
         return SyncStatus.deleting;
       case 'DELETE_FAILED':
         return SyncStatus.deleteFailed;
+      case 'DELETING_ACKNOWLEDGED':
+        return SyncStatus.deletingAcknowledged;
     }
     throw Exception('$this is not known in enum SyncStatus');
   }
@@ -3119,16 +3461,18 @@ class UpdateStreamOutput {
 }
 
 /// The configuration that consists of the <code>ScheduleExpression</code> and
-/// the <code>DurationInMinutesdetails</code>, that specify the scheduling to
+/// the <code>DurationInMinutes</code> details that specify the scheduling to
 /// record from a camera, or local media file, onto the Edge Agent. If the
-/// <code>ScheduleExpression</code> is not provided, then the Edge Agent will
-/// always be in upload mode.
+/// <code>ScheduleConfig</code> is not provided in the
+/// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
+/// intervals (every 1 hour).
 class UploaderConfig {
   /// The configuration that consists of the <code>ScheduleExpression</code> and
-  /// the <code>DurationInMinutes</code>details that specify the scheduling to
+  /// the <code>DurationInMinutes</code> details that specify the scheduling to
   /// record from a camera, or local media file, onto the Edge Agent. If the
-  /// <code>ScheduleExpression</code> is not provided, then the Edge Agent will
-  /// always be in recording mode.
+  /// <code>ScheduleConfig</code> is not provided in this
+  /// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
+  /// intervals (every 1 hour).
   final ScheduleConfig scheduleConfig;
 
   UploaderConfig({
@@ -3147,6 +3491,39 @@ class UploaderConfig {
     return {
       'ScheduleConfig': scheduleConfig,
     };
+  }
+}
+
+enum UploaderStatus {
+  success,
+  userError,
+  systemError,
+}
+
+extension UploaderStatusValueExtension on UploaderStatus {
+  String toValue() {
+    switch (this) {
+      case UploaderStatus.success:
+        return 'SUCCESS';
+      case UploaderStatus.userError:
+        return 'USER_ERROR';
+      case UploaderStatus.systemError:
+        return 'SYSTEM_ERROR';
+    }
+  }
+}
+
+extension UploaderStatusFromString on String {
+  UploaderStatus toUploaderStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return UploaderStatus.success;
+      case 'USER_ERROR':
+        return UploaderStatus.userError;
+      case 'SYSTEM_ERROR':
+        return UploaderStatus.systemError;
+    }
+    throw Exception('$this is not known in enum UploaderStatus');
   }
 }
 

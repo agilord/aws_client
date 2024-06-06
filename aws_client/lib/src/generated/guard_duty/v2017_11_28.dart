@@ -20,17 +20,19 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon GuardDuty is a continuous security monitoring service that analyzes
-/// and processes the following data sources: VPC flow logs, Amazon Web Services
-/// CloudTrail management event logs, CloudTrail S3 data event logs, EKS audit
-/// logs, DNS logs, and Amazon EBS volume data. It uses threat intelligence
-/// feeds, such as lists of malicious IPs and domains, and machine learning to
-/// identify unexpected, potentially unauthorized, and malicious activity within
-/// your Amazon Web Services environment. This can include issues like
-/// escalations of privileges, uses of exposed credentials, or communication
-/// with malicious IPs, domains, or presence of malware on your Amazon EC2
-/// instances and container workloads. For example, GuardDuty can detect
-/// compromised EC2 instances and container workloads serving malware, or mining
-/// bitcoin.
+/// and processes the following foundational data sources - VPC flow logs,
+/// Amazon Web Services CloudTrail management event logs, CloudTrail S3 data
+/// event logs, EKS audit logs, DNS logs, Amazon EBS volume data, runtime
+/// activity belonging to container workloads, such as Amazon EKS, Amazon ECS
+/// (including Amazon Web Services Fargate), and Amazon EC2 instances. It uses
+/// threat intelligence feeds, such as lists of malicious IPs and domains, and
+/// machine learning to identify unexpected, potentially unauthorized, and
+/// malicious activity within your Amazon Web Services environment. This can
+/// include issues like escalations of privileges, uses of exposed credentials,
+/// or communication with malicious IPs, domains, or presence of malware on your
+/// Amazon EC2 instances and container workloads. For example, GuardDuty can
+/// detect compromised EC2 instances and container workloads serving malware, or
+/// mining bitcoin.
 ///
 /// GuardDuty also monitors Amazon Web Services account access behavior for
 /// signs of compromise, such as unauthorized infrastructure deployments like
@@ -171,11 +173,31 @@ class GuardDuty {
     );
   }
 
-  /// Creates a single Amazon GuardDuty detector. A detector is a resource that
+  /// Creates a single GuardDuty detector. A detector is a resource that
   /// represents the GuardDuty service. To start using GuardDuty, you must
   /// create a detector in each Region where you enable the service. You can
   /// have only one detector per account per Region. All data sources are
   /// enabled in a new detector by default.
+  ///
+  /// <ul>
+  /// <li>
+  /// When you don't specify any <code>features</code>, with an exception to
+  /// <code>RUNTIME_MONITORING</code>, all the optional features are enabled by
+  /// default.
+  /// </li>
+  /// <li>
+  /// When you specify some of the <code>features</code>, any feature that is
+  /// not specified in the API call gets enabled by default, with an exception
+  /// to <code>RUNTIME_MONITORING</code>.
+  /// </li>
+  /// </ul>
+  /// Specifying both EKS Runtime Monitoring
+  /// (<code>EKS_RUNTIME_MONITORING</code>) and Runtime Monitoring
+  /// (<code>RUNTIME_MONITORING</code>) will cause an error. You can add only
+  /// one of these two features because Runtime Monitoring already includes the
+  /// threat detection for Amazon EKS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
+  /// Monitoring</a>.
   ///
   /// There might be regional differences because some data sources might not be
   /// available in all the Amazon Web Services Regions where GuardDuty is
@@ -258,10 +280,42 @@ class GuardDuty {
   /// accountId
   /// </li>
   /// <li>
+  /// id
+  /// </li>
+  /// <li>
   /// region
   /// </li>
   /// <li>
-  /// id
+  /// severity
+  ///
+  /// To filter on the basis of severity, the API and CLI use the following
+  /// input list for the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html">FindingCriteria</a>
+  /// condition:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Low</b>: <code>["1", "2", "3"]</code>
+  /// </li>
+  /// <li>
+  /// <b>Medium</b>: <code>["4", "5", "6"]</code>
+  /// </li>
+  /// <li>
+  /// <b>High</b>: <code>["7", "8", "9"]</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity">Severity
+  /// levels for GuardDuty findings</a>.
+  /// </li>
+  /// <li>
+  /// type
+  /// </li>
+  /// <li>
+  /// updatedAt
+  ///
+  /// Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or
+  /// YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
   /// </li>
   /// <li>
   /// resource.accessKeyDetails.accessKeyId
@@ -285,7 +339,10 @@ class GuardDuty {
   /// resource.instanceDetails.instanceId
   /// </li>
   /// <li>
-  /// resource.instanceDetails.outpostArn
+  /// resource.instanceDetails.tags.key
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.tags.value
   /// </li>
   /// <li>
   /// resource.instanceDetails.networkInterfaces.ipv6Addresses
@@ -312,85 +369,10 @@ class GuardDuty {
   /// resource.instanceDetails.networkInterfaces.vpcId
   /// </li>
   /// <li>
-  /// resource.instanceDetails.tags.key
-  /// </li>
-  /// <li>
-  /// resource.instanceDetails.tags.value
+  /// resource.instanceDetails.outpostArn
   /// </li>
   /// <li>
   /// resource.resourceType
-  /// </li>
-  /// <li>
-  /// service.action.actionType
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.api
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.callerType
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.errorCode
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.userAgent
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.remoteIpDetails.city.cityName
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.remoteIpDetails.country.countryName
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.remoteIpDetails.organization.asn
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
-  /// </li>
-  /// <li>
-  /// service.action.awsApiCallAction.serviceName
-  /// </li>
-  /// <li>
-  /// service.action.dnsRequestAction.domain
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.blocked
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.connectionDirection
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.localPortDetails.port
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.protocol
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.localIpDetails.ipAddressV4
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.remoteIpDetails.city.cityName
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.remoteIpDetails.country.countryName
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.remoteIpDetails.organization.asn
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
-  /// </li>
-  /// <li>
-  /// service.action.networkConnectionAction.remotePortDetails.port
-  /// </li>
-  /// <li>
-  /// service.additionalInfo.threatListName
   /// </li>
   /// <li>
   /// resource.s3BucketDetails.publicAccess.effectivePermissions
@@ -408,19 +390,199 @@ class GuardDuty {
   /// resource.s3BucketDetails.type
   /// </li>
   /// <li>
+  /// service.action.actionType
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.api
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.callerType
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.errorCode
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.city.cityName
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.country.countryName
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.ipAddressV6
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.organization.asn
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.serviceName
+  /// </li>
+  /// <li>
+  /// service.action.dnsRequestAction.domain
+  /// </li>
+  /// <li>
+  /// service.action.dnsRequestAction.domainWithSuffix
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.blocked
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.connectionDirection
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.localPortDetails.port
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.protocol
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.city.cityName
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.country.countryName
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.ipAddressV6
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.organization.asn
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remotePortDetails.port
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteAccountDetails.affiliated
+  /// </li>
+  /// <li>
+  /// service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6
+  /// </li>
+  /// <li>
+  /// service.action.kubernetesApiCallAction.namespace
+  /// </li>
+  /// <li>
+  /// service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn
+  /// </li>
+  /// <li>
+  /// service.action.kubernetesApiCallAction.requestUri
+  /// </li>
+  /// <li>
+  /// service.action.kubernetesApiCallAction.statusCode
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.localIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.localIpDetails.ipAddressV6
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.protocol
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.serviceName
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteAccountDetails.accountId
+  /// </li>
+  /// <li>
+  /// service.additionalInfo.threatListName
+  /// </li>
+  /// <li>
   /// service.resourceRole
   /// </li>
   /// <li>
-  /// severity
+  /// resource.eksClusterDetails.name
   /// </li>
   /// <li>
-  /// type
+  /// resource.kubernetesDetails.kubernetesWorkloadDetails.name
   /// </li>
   /// <li>
-  /// updatedAt
-  ///
-  /// Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or
-  /// YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+  /// resource.kubernetesDetails.kubernetesWorkloadDetails.namespace
+  /// </li>
+  /// <li>
+  /// resource.kubernetesDetails.kubernetesUserDetails.username
+  /// </li>
+  /// <li>
+  /// resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image
+  /// </li>
+  /// <li>
+  /// resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix
+  /// </li>
+  /// <li>
+  /// service.ebsVolumeScanDetails.scanId
+  /// </li>
+  /// <li>
+  /// service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name
+  /// </li>
+  /// <li>
+  /// service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity
+  /// </li>
+  /// <li>
+  /// service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash
+  /// </li>
+  /// <li>
+  /// resource.ecsClusterDetails.name
+  /// </li>
+  /// <li>
+  /// resource.ecsClusterDetails.taskDetails.containers.image
+  /// </li>
+  /// <li>
+  /// resource.ecsClusterDetails.taskDetails.definitionArn
+  /// </li>
+  /// <li>
+  /// resource.containerDetails.image
+  /// </li>
+  /// <li>
+  /// resource.rdsDbInstanceDetails.dbInstanceIdentifier
+  /// </li>
+  /// <li>
+  /// resource.rdsDbInstanceDetails.dbClusterIdentifier
+  /// </li>
+  /// <li>
+  /// resource.rdsDbInstanceDetails.engine
+  /// </li>
+  /// <li>
+  /// resource.rdsDbUserDetails.user
+  /// </li>
+  /// <li>
+  /// resource.rdsDbInstanceDetails.tags.key
+  /// </li>
+  /// <li>
+  /// resource.rdsDbInstanceDetails.tags.value
+  /// </li>
+  /// <li>
+  /// service.runtimeDetails.process.executableSha256
+  /// </li>
+  /// <li>
+  /// service.runtimeDetails.process.name
+  /// </li>
+  /// <li>
+  /// service.runtimeDetails.process.name
+  /// </li>
+  /// <li>
+  /// resource.lambdaDetails.functionName
+  /// </li>
+  /// <li>
+  /// resource.lambdaDetails.functionArn
+  /// </li>
+  /// <li>
+  /// resource.lambdaDetails.tags.key
+  /// </li>
+  /// <li>
+  /// resource.lambdaDetails.tags.value
   /// </li>
   /// </ul>
   ///
@@ -548,14 +710,33 @@ class GuardDuty {
   /// prerequisite for managing the associated member accounts either by
   /// invitation or through an organization.
   ///
-  /// When using <code>Create Members</code> as an organizations delegated
-  /// administrator this action will enable GuardDuty in the added member
-  /// accounts, with the exception of the organization delegated administrator
-  /// account, which must enable GuardDuty prior to being added as a member.
+  /// As a delegated administrator, using <code>CreateMembers</code> will enable
+  /// GuardDuty in the added member accounts, with the exception of the
+  /// organization delegated administrator account. A delegated administrator
+  /// must enable GuardDuty prior to being added as a member.
   ///
-  /// If you are adding accounts by invitation, use this action after GuardDuty
-  /// has bee enabled in potential member accounts and before using <a
-  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">InviteMembers</a>.
+  /// When you use CreateMembers as an Organizations delegated administrator,
+  /// GuardDuty applies your organization's auto-enable settings to the member
+  /// accounts in this request, irrespective of the accounts being new or
+  /// existing members. For more information about the existing auto-enable
+  /// settings for your organization, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeOrganizationConfiguration.html">DescribeOrganizationConfiguration</a>.
+  ///
+  /// If you disassociate a member account that was added by invitation, the
+  /// member account details obtained from this API, including the associated
+  /// email addresses, will be retained. This is done so that the delegated
+  /// administrator can invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">InviteMembers</a>
+  /// API without the need to invoke the CreateMembers API again. To remove the
+  /// details associated with a member account, the delegated administrator must
+  /// invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html">DeleteMembers</a>
+  /// API.
+  ///
+  /// When the member accounts added through Organizations are later
+  /// disassociated, you (administrator) can't invite them by calling the
+  /// InviteMembers API. You can create an association with these member
+  /// accounts again only by calling the CreateMembers API.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1047,8 +1228,9 @@ class GuardDuty {
     return DescribePublishingDestinationResponse.fromJson(response);
   }
 
-  /// Disables an Amazon Web Services account within the Organization as the
-  /// GuardDuty delegated administrator.
+  /// Removes the existing GuardDuty delegated administrator of the
+  /// organization. Only the organization's management account can run this API
+  /// operation.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1072,6 +1254,18 @@ class GuardDuty {
 
   /// Disassociates the current GuardDuty member account from its administrator
   /// account.
+  ///
+  /// When you disassociate an invited member from a GuardDuty delegated
+  /// administrator, the member account details obtained from the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html">CreateMembers</a>
+  /// API, including the associated email addresses, are retained. This is done
+  /// so that the delegated administrator can invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">InviteMembers</a>
+  /// API without the need to invoke the CreateMembers API again. To remove the
+  /// details associated with a member account, the delegated administrator must
+  /// invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html">DeleteMembers</a>
+  /// API.
   ///
   /// With <code>autoEnableOrganizationMembers</code> configuration for your
   /// organization set to <code>ALL</code>, you'll receive an error if you
@@ -1097,6 +1291,18 @@ class GuardDuty {
   /// Disassociates the current GuardDuty member account from its administrator
   /// account.
   ///
+  /// When you disassociate an invited member from a GuardDuty delegated
+  /// administrator, the member account details obtained from the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html">CreateMembers</a>
+  /// API, including the associated email addresses, are retained. This is done
+  /// so that the delegated administrator can invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">InviteMembers</a>
+  /// API without the need to invoke the CreateMembers API again. To remove the
+  /// details associated with a member account, the delegated administrator must
+  /// invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html">DeleteMembers</a>
+  /// API.
+  ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
@@ -1116,13 +1322,41 @@ class GuardDuty {
     );
   }
 
-  /// Disassociates GuardDuty member accounts (to the current administrator
+  /// Disassociates GuardDuty member accounts (from the current administrator
   /// account) specified by the account IDs.
+  ///
+  /// When you disassociate an invited member from a GuardDuty delegated
+  /// administrator, the member account details obtained from the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html">CreateMembers</a>
+  /// API, including the associated email addresses, are retained. This is done
+  /// so that the delegated administrator can invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">InviteMembers</a>
+  /// API without the need to invoke the CreateMembers API again. To remove the
+  /// details associated with a member account, the delegated administrator must
+  /// invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html">DeleteMembers</a>
+  /// API.
   ///
   /// With <code>autoEnableOrganizationMembers</code> configuration for your
   /// organization set to <code>ALL</code>, you'll receive an error if you
   /// attempt to disassociate a member account before removing them from your
-  /// Amazon Web Services organization.
+  /// organization.
+  ///
+  /// If you disassociate a member account that was added by invitation, the
+  /// member account details obtained from this API, including the associated
+  /// email addresses, will be retained. This is done so that the delegated
+  /// administrator can invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">InviteMembers</a>
+  /// API without the need to invoke the CreateMembers API again. To remove the
+  /// details associated with a member account, the delegated administrator must
+  /// invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html">DeleteMembers</a>
+  /// API.
+  ///
+  /// When the member accounts added through Organizations are later
+  /// disassociated, you (administrator) can't invite them by calling the
+  /// InviteMembers API. You can create an association with these member
+  /// accounts again only by calling the CreateMembers API.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1151,14 +1385,15 @@ class GuardDuty {
     return DisassociateMembersResponse.fromJson(response);
   }
 
-  /// Enables an Amazon Web Services account within the organization as the
-  /// GuardDuty delegated administrator.
+  /// Designates an Amazon Web Services account within the organization as your
+  /// GuardDuty delegated administrator. Only the organization's management
+  /// account can run this API operation.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [adminAccountId] :
-  /// The Amazon Web Services Account ID for the organization account to be
+  /// The Amazon Web Services account ID for the organization account to be
   /// enabled as a GuardDuty delegated administrator.
   Future<void> enableOrganizationAdminAccount({
     required String adminAccountId,
@@ -1174,8 +1409,12 @@ class GuardDuty {
     );
   }
 
-  /// Provides the details for the GuardDuty administrator account associated
+  /// Provides the details of the GuardDuty administrator account associated
   /// with the current GuardDuty member account.
+  /// <note>
+  /// If the organization's management account or a delegated administrator runs
+  /// this API, it will return success (<code>HTTP 200</code>) but no content.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1197,8 +1436,8 @@ class GuardDuty {
   /// Retrieves aggregated statistics for your account. If you are a GuardDuty
   /// administrator, you can retrieve the statistics for all the resources
   /// associated with the active member accounts in your organization who have
-  /// enabled EKS Runtime Monitoring and have the GuardDuty agent running on
-  /// their EKS nodes.
+  /// enabled Runtime Monitoring and have the GuardDuty security agent running
+  /// on their resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1313,6 +1552,12 @@ class GuardDuty {
   }
 
   /// Lists Amazon GuardDuty findings statistics for the specified detector ID.
+  ///
+  /// There might be regional differences because some flags might not be
+  /// available in all the Regions where GuardDuty is currently supported. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html">Regions
+  /// and endpoints</a>.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1496,6 +1741,25 @@ class GuardDuty {
     return GetMembersResponse.fromJson(response);
   }
 
+  /// Retrieves how many active member accounts have each feature enabled within
+  /// GuardDuty. Only a delegated GuardDuty administrator of an organization can
+  /// run this API.
+  ///
+  /// When you create a new organization, it might take up to 24 hours to
+  /// generate the statistics for the entire organization.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  Future<GetOrganizationStatisticsResponse> getOrganizationStatistics() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/organization/statistics',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetOrganizationStatisticsResponse.fromJson(response);
+  }
+
   /// Provides the number of days left for each data source used in the free
   /// trial period.
   ///
@@ -1612,10 +1876,51 @@ class GuardDuty {
     return GetUsageStatisticsResponse.fromJson(response);
   }
 
-  /// Invites other Amazon Web Services accounts (created as members of the
-  /// current Amazon Web Services account by CreateMembers) to enable GuardDuty,
-  /// and allow the current Amazon Web Services account to view and manage these
-  /// accounts' findings on their behalf as the GuardDuty administrator account.
+  /// Invites Amazon Web Services accounts to become members of an organization
+  /// administered by the Amazon Web Services account that invokes this API. If
+  /// you are using Amazon Web Services Organizations to manage your GuardDuty
+  /// environment, this step is not needed. For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html">Managing
+  /// accounts with organizations</a>.
+  ///
+  /// To invite Amazon Web Services accounts, the first step is to ensure that
+  /// GuardDuty has been enabled in the potential member accounts. You can now
+  /// invoke this API to add accounts by invitation. The invited accounts can
+  /// either accept or decline the invitation from their GuardDuty accounts.
+  /// Each invited Amazon Web Services account can choose to accept the
+  /// invitation from only one Amazon Web Services account. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html">Managing
+  /// GuardDuty accounts by invitation</a>.
+  ///
+  /// After the invite has been accepted and you choose to disassociate a member
+  /// account (by using <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DisassociateMembers.html">DisassociateMembers</a>)
+  /// from your account, the details of the member account obtained by invoking
+  /// <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html">CreateMembers</a>,
+  /// including the associated email addresses, will be retained. This is done
+  /// so that you can invoke InviteMembers without the need to invoke <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html">CreateMembers</a>
+  /// again. To remove the details associated with a member account, you must
+  /// also invoke <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html">DeleteMembers</a>.
+  ///
+  /// If you disassociate a member account that was added by invitation, the
+  /// member account details obtained from this API, including the associated
+  /// email addresses, will be retained. This is done so that the delegated
+  /// administrator can invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">InviteMembers</a>
+  /// API without the need to invoke the CreateMembers API again. To remove the
+  /// details associated with a member account, the delegated administrator must
+  /// invoke the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html">DeleteMembers</a>
+  /// API.
+  ///
+  /// When the member accounts added through Organizations are later
+  /// disassociated, you (administrator) can't invite them by calling the
+  /// InviteMembers API. You can create an association with these member
+  /// accounts again only by calling the CreateMembers API.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1661,8 +1966,8 @@ class GuardDuty {
   /// administrator, you can retrieve all resources associated with the active
   /// member accounts in your organization.
   ///
-  /// Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty
-  /// agent running on their EKS nodes.
+  /// Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent
+  /// running on their resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1794,7 +2099,13 @@ class GuardDuty {
     return ListFiltersResponse.fromJson(response);
   }
 
-  /// Lists Amazon GuardDuty findings for the specified detector ID.
+  /// Lists GuardDuty findings for the specified detector ID.
+  ///
+  /// There might be regional differences because some flags might not be
+  /// available in all the Regions where GuardDuty is currently supported. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html">Regions
+  /// and endpoints</a>.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1905,6 +2216,9 @@ class GuardDuty {
   /// </li>
   /// <li>
   /// service.action.dnsRequestAction.domain
+  /// </li>
+  /// <li>
+  /// service.action.dnsRequestAction.domainWithSuffix
   /// </li>
   /// <li>
   /// service.action.networkConnectionAction.blocked
@@ -2136,7 +2450,8 @@ class GuardDuty {
     return ListMembersResponse.fromJson(response);
   }
 
-  /// Lists the accounts configured as GuardDuty delegated administrators.
+  /// Lists the accounts designated as GuardDuty delegated administrators. Only
+  /// the organization's management account can run this API operation.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -2219,9 +2534,9 @@ class GuardDuty {
   }
 
   /// Lists tags for a resource. Tagging is currently supported for detectors,
-  /// finding filters, IP sets, and threat intel sets, with a limit of 50 tags
-  /// per resource. When invoked, this operation returns all assigned tags for a
-  /// given resource.
+  /// finding filters, IP sets, threat intel sets, and publishing destination,
+  /// with a limit of 50 tags per resource. When invoked, this operation returns
+  /// all assigned tags for a given resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [AccessDeniedException].
@@ -2289,7 +2604,11 @@ class GuardDuty {
   /// Initiates the malware scan. Invoking this API will automatically create
   /// the <a
   /// href="https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html">Service-linked
-  /// role </a> in the corresponding account.
+  /// role</a> in the corresponding account.
+  ///
+  /// When the malware scan starts, you can use the associated scan ID to track
+  /// the status of the scan. For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeMalwareScans.html">DescribeMalwareScans</a>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -2457,7 +2776,15 @@ class GuardDuty {
     );
   }
 
-  /// Updates the Amazon GuardDuty detector specified by the detectorId.
+  /// Updates the GuardDuty detector specified by the detector ID.
+  ///
+  /// Specifying both EKS Runtime Monitoring
+  /// (<code>EKS_RUNTIME_MONITORING</code>) and Runtime Monitoring
+  /// (<code>RUNTIME_MONITORING</code>) will cause an error. You can add only
+  /// one of these two features because Runtime Monitoring already includes the
+  /// threat detection for Amazon EKS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
+  /// Monitoring</a>.
   ///
   /// There might be regional differences because some data sources might not be
   /// available in all the Amazon Web Services Regions where GuardDuty is
@@ -2692,6 +3019,14 @@ class GuardDuty {
 
   /// Contains information on member accounts to be updated.
   ///
+  /// Specifying both EKS Runtime Monitoring
+  /// (<code>EKS_RUNTIME_MONITORING</code>) and Runtime Monitoring
+  /// (<code>RUNTIME_MONITORING</code>) will cause an error. You can add only
+  /// one of these two features because Runtime Monitoring already includes the
+  /// threat detection for Amazon EKS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
+  /// Monitoring</a>.
+  ///
   /// There might be regional differences because some data sources might not be
   /// available in all the Amazon Web Services Regions where GuardDuty is
   /// presently supported. For more information, see <a
@@ -2734,8 +3069,17 @@ class GuardDuty {
   }
 
   /// Configures the delegated administrator account with the provided values.
-  /// You must provide the value for either
-  /// <code>autoEnableOrganizationMembers</code> or <code>autoEnable</code>.
+  /// You must provide a value for either
+  /// <code>autoEnableOrganizationMembers</code> or <code>autoEnable</code>, but
+  /// not both.
+  ///
+  /// Specifying both EKS Runtime Monitoring
+  /// (<code>EKS_RUNTIME_MONITORING</code>) and Runtime Monitoring
+  /// (<code>RUNTIME_MONITORING</code>) will cause an error. You can add only
+  /// one of these two features because Runtime Monitoring already includes the
+  /// threat detection for Amazon EKS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
+  /// Monitoring</a>.
   ///
   /// There might be regional differences because some data sources might not be
   /// available in all the Amazon Web Services Regions where GuardDuty is
@@ -2750,15 +3094,21 @@ class GuardDuty {
   /// The ID of the detector that configures the delegated administrator.
   ///
   /// Parameter [autoEnable] :
-  /// Indicates whether to automatically enable member accounts in the
+  /// Represents whether or not to automatically enable member accounts in the
   /// organization.
   ///
   /// Even though this is still supported, we recommend using
   /// <code>AutoEnableOrganizationMembers</code> to achieve the similar results.
+  /// You must provide a value for either
+  /// <code>autoEnableOrganizationMembers</code> or <code>autoEnable</code>.
   ///
   /// Parameter [autoEnableOrganizationMembers] :
   /// Indicates the auto-enablement configuration of GuardDuty for the member
-  /// accounts in the organization.
+  /// accounts in the organization. You must provide a value for either
+  /// <code>autoEnableOrganizationMembers</code> or <code>autoEnable</code>.
+  ///
+  /// Use one of the following configuration values for
+  /// <code>autoEnableOrganizationMembers</code>:
   ///
   /// <ul>
   /// <li>
@@ -2766,15 +3116,25 @@ class GuardDuty {
   /// organization, they will have GuardDuty enabled automatically.
   /// </li>
   /// <li>
-  /// <code>ALL</code>: Indicates that all accounts in the Amazon Web Services
-  /// Organization have GuardDuty enabled automatically. This includes
-  /// <code>NEW</code> accounts that join the organization and accounts that may
-  /// have been suspended or removed from the organization in GuardDuty.
+  /// <code>ALL</code>: Indicates that all accounts in the organization have
+  /// GuardDuty enabled automatically. This includes <code>NEW</code> accounts
+  /// that join the organization and accounts that may have been suspended or
+  /// removed from the organization in GuardDuty.
+  ///
+  /// It may take up to 24 hours to update the configuration for all the member
+  /// accounts.
   /// </li>
   /// <li>
   /// <code>NONE</code>: Indicates that GuardDuty will not be automatically
-  /// enabled for any accounts in the organization. GuardDuty must be managed
-  /// for each account individually by the administrator.
+  /// enabled for any account in the organization. The administrator must manage
+  /// GuardDuty for each account in the organization individually.
+  ///
+  /// When you update the auto-enable setting from <code>ALL</code> or
+  /// <code>NEW</code> to <code>NONE</code>, this action doesn't disable the
+  /// corresponding option for your existing accounts. This configuration will
+  /// apply to the new accounts that join the organization. After you update the
+  /// auto-enable settings, no new account will have the corresponding option as
+  /// enabled.
   /// </li>
   /// </ul>
   ///
@@ -3098,6 +3458,17 @@ class Action {
   /// Information about the Kubernetes API call action described in this finding.
   final KubernetesApiCallAction? kubernetesApiCallAction;
 
+  /// Information whether the user has the permission to use a specific Kubernetes
+  /// API.
+  final KubernetesPermissionCheckedDetails? kubernetesPermissionCheckedDetails;
+
+  /// Information about the role binding that grants the permission defined in a
+  /// Kubernetes role.
+  final KubernetesRoleBindingDetails? kubernetesRoleBindingDetails;
+
+  /// Information about the Kubernetes role name and role type.
+  final KubernetesRoleDetails? kubernetesRoleDetails;
+
   /// Information about the NETWORK_CONNECTION action described in this finding.
   final NetworkConnectionAction? networkConnectionAction;
 
@@ -3113,6 +3484,9 @@ class Action {
     this.awsApiCallAction,
     this.dnsRequestAction,
     this.kubernetesApiCallAction,
+    this.kubernetesPermissionCheckedDetails,
+    this.kubernetesRoleBindingDetails,
+    this.kubernetesRoleDetails,
     this.networkConnectionAction,
     this.portProbeAction,
     this.rdsLoginAttemptAction,
@@ -3132,6 +3506,20 @@ class Action {
       kubernetesApiCallAction: json['kubernetesApiCallAction'] != null
           ? KubernetesApiCallAction.fromJson(
               json['kubernetesApiCallAction'] as Map<String, dynamic>)
+          : null,
+      kubernetesPermissionCheckedDetails:
+          json['kubernetesPermissionCheckedDetails'] != null
+              ? KubernetesPermissionCheckedDetails.fromJson(
+                  json['kubernetesPermissionCheckedDetails']
+                      as Map<String, dynamic>)
+              : null,
+      kubernetesRoleBindingDetails: json['kubernetesRoleBindingDetails'] != null
+          ? KubernetesRoleBindingDetails.fromJson(
+              json['kubernetesRoleBindingDetails'] as Map<String, dynamic>)
+          : null,
+      kubernetesRoleDetails: json['kubernetesRoleDetails'] != null
+          ? KubernetesRoleDetails.fromJson(
+              json['kubernetesRoleDetails'] as Map<String, dynamic>)
           : null,
       networkConnectionAction: json['networkConnectionAction'] != null
           ? NetworkConnectionAction.fromJson(
@@ -3153,6 +3541,10 @@ class Action {
     final awsApiCallAction = this.awsApiCallAction;
     final dnsRequestAction = this.dnsRequestAction;
     final kubernetesApiCallAction = this.kubernetesApiCallAction;
+    final kubernetesPermissionCheckedDetails =
+        this.kubernetesPermissionCheckedDetails;
+    final kubernetesRoleBindingDetails = this.kubernetesRoleBindingDetails;
+    final kubernetesRoleDetails = this.kubernetesRoleDetails;
     final networkConnectionAction = this.networkConnectionAction;
     final portProbeAction = this.portProbeAction;
     final rdsLoginAttemptAction = this.rdsLoginAttemptAction;
@@ -3162,6 +3554,13 @@ class Action {
       if (dnsRequestAction != null) 'dnsRequestAction': dnsRequestAction,
       if (kubernetesApiCallAction != null)
         'kubernetesApiCallAction': kubernetesApiCallAction,
+      if (kubernetesPermissionCheckedDetails != null)
+        'kubernetesPermissionCheckedDetails':
+            kubernetesPermissionCheckedDetails,
+      if (kubernetesRoleBindingDetails != null)
+        'kubernetesRoleBindingDetails': kubernetesRoleBindingDetails,
+      if (kubernetesRoleDetails != null)
+        'kubernetesRoleDetails': kubernetesRoleDetails,
       if (networkConnectionAction != null)
         'networkConnectionAction': networkConnectionAction,
       if (portProbeAction != null) 'portProbeAction': portProbeAction,
@@ -3302,6 +3701,138 @@ class Administrator {
       if (invitationId != null) 'invitationId': invitationId,
       if (invitedAt != null) 'invitedAt': invitedAt,
       if (relationshipStatus != null) 'relationshipStatus': relationshipStatus,
+    };
+  }
+}
+
+/// Information about the installed GuardDuty security agent.
+class AgentDetails {
+  /// Version of the installed GuardDuty security agent.
+  final String? version;
+
+  AgentDetails({
+    this.version,
+  });
+
+  factory AgentDetails.fromJson(Map<String, dynamic> json) {
+    return AgentDetails(
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Contains information about the anomalies.
+class Anomaly {
+  /// Information about the types of profiles.
+  final Map<String, Map<String, List<AnomalyObject>>>? profiles;
+
+  /// Information about the behavior of the anomalies.
+  final AnomalyUnusual? unusual;
+
+  Anomaly({
+    this.profiles,
+    this.unusual,
+  });
+
+  factory Anomaly.fromJson(Map<String, dynamic> json) {
+    return Anomaly(
+      profiles: (json['profiles'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(
+                  k,
+                  (e as List)
+                      .whereNotNull()
+                      .map((e) =>
+                          AnomalyObject.fromJson(e as Map<String, dynamic>))
+                      .toList())))),
+      unusual: json['unusual'] != null
+          ? AnomalyUnusual.fromJson(json['unusual'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profiles = this.profiles;
+    final unusual = this.unusual;
+    return {
+      if (profiles != null) 'profiles': profiles,
+      if (unusual != null) 'unusual': unusual,
+    };
+  }
+}
+
+/// Contains information about the unusual anomalies.
+class AnomalyObject {
+  /// The recorded value.
+  final Observations? observations;
+
+  /// The frequency of the anomaly.
+  final ProfileSubtype? profileSubtype;
+
+  /// The type of behavior of the profile.
+  final ProfileType? profileType;
+
+  AnomalyObject({
+    this.observations,
+    this.profileSubtype,
+    this.profileType,
+  });
+
+  factory AnomalyObject.fromJson(Map<String, dynamic> json) {
+    return AnomalyObject(
+      observations: json['observations'] != null
+          ? Observations.fromJson(json['observations'] as Map<String, dynamic>)
+          : null,
+      profileSubtype: (json['profileSubtype'] as String?)?.toProfileSubtype(),
+      profileType: (json['profileType'] as String?)?.toProfileType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final observations = this.observations;
+    final profileSubtype = this.profileSubtype;
+    final profileType = this.profileType;
+    return {
+      if (observations != null) 'observations': observations,
+      if (profileSubtype != null) 'profileSubtype': profileSubtype.toValue(),
+      if (profileType != null) 'profileType': profileType.toValue(),
+    };
+  }
+}
+
+/// Contains information about the behavior of the anomaly that is new to
+/// GuardDuty.
+class AnomalyUnusual {
+  /// The behavior of the anomalous activity that caused GuardDuty to generate the
+  /// finding.
+  final Map<String, Map<String, AnomalyObject>>? behavior;
+
+  AnomalyUnusual({
+    this.behavior,
+  });
+
+  factory AnomalyUnusual.fromJson(Map<String, dynamic> json) {
+    return AnomalyUnusual(
+      behavior: (json['behavior'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(
+                  k, AnomalyObject.fromJson(e as Map<String, dynamic>))))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behavior = this.behavior;
+    return {
+      if (behavior != null) 'behavior': behavior,
     };
   }
 }
@@ -3821,6 +4352,41 @@ class Container {
   }
 }
 
+/// Contains information about the Amazon EC2 instance that is running the
+/// Amazon ECS container.
+class ContainerInstanceDetails {
+  /// Represents total number of nodes in the Amazon ECS cluster.
+  final int? compatibleContainerInstances;
+
+  /// Represents the nodes in the Amazon ECS cluster that has a
+  /// <code>HEALTHY</code> coverage status.
+  final int? coveredContainerInstances;
+
+  ContainerInstanceDetails({
+    this.compatibleContainerInstances,
+    this.coveredContainerInstances,
+  });
+
+  factory ContainerInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return ContainerInstanceDetails(
+      compatibleContainerInstances:
+          json['compatibleContainerInstances'] as int?,
+      coveredContainerInstances: json['coveredContainerInstances'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compatibleContainerInstances = this.compatibleContainerInstances;
+    final coveredContainerInstances = this.coveredContainerInstances;
+    return {
+      if (compatibleContainerInstances != null)
+        'compatibleContainerInstances': compatibleContainerInstances,
+      if (coveredContainerInstances != null)
+        'coveredContainerInstances': coveredContainerInstances,
+    };
+  }
+}
+
 /// Contains information about the country where the remote IP address is
 /// located.
 class Country {
@@ -3852,6 +4418,119 @@ class Country {
   }
 }
 
+/// Contains information about the Amazon EC2 instance runtime coverage details.
+class CoverageEc2InstanceDetails {
+  /// Information about the installed security agent.
+  final AgentDetails? agentDetails;
+
+  /// The cluster ARN of the Amazon ECS cluster running on the Amazon EC2
+  /// instance.
+  final String? clusterArn;
+
+  /// The Amazon EC2 instance ID.
+  final String? instanceId;
+
+  /// The instance type of the Amazon EC2 instance.
+  final String? instanceType;
+
+  /// Indicates how the GuardDuty security agent is managed for this resource.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AUTO_MANAGED</code> indicates that GuardDuty deploys and manages
+  /// updates for this resource.
+  /// </li>
+  /// <li>
+  /// <code>MANUAL</code> indicates that you are responsible to deploy, update,
+  /// and manage the GuardDuty security agent updates for this resource.
+  /// </li>
+  /// </ul> <note>
+  /// The <code>DISABLED</code> status doesn't apply to Amazon EC2 instances and
+  /// Amazon EKS clusters.
+  /// </note>
+  final ManagementType? managementType;
+
+  CoverageEc2InstanceDetails({
+    this.agentDetails,
+    this.clusterArn,
+    this.instanceId,
+    this.instanceType,
+    this.managementType,
+  });
+
+  factory CoverageEc2InstanceDetails.fromJson(Map<String, dynamic> json) {
+    return CoverageEc2InstanceDetails(
+      agentDetails: json['agentDetails'] != null
+          ? AgentDetails.fromJson(json['agentDetails'] as Map<String, dynamic>)
+          : null,
+      clusterArn: json['clusterArn'] as String?,
+      instanceId: json['instanceId'] as String?,
+      instanceType: json['instanceType'] as String?,
+      managementType: (json['managementType'] as String?)?.toManagementType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentDetails = this.agentDetails;
+    final clusterArn = this.clusterArn;
+    final instanceId = this.instanceId;
+    final instanceType = this.instanceType;
+    final managementType = this.managementType;
+    return {
+      if (agentDetails != null) 'agentDetails': agentDetails,
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (instanceId != null) 'instanceId': instanceId,
+      if (instanceType != null) 'instanceType': instanceType,
+      if (managementType != null) 'managementType': managementType.toValue(),
+    };
+  }
+}
+
+/// Contains information about Amazon ECS cluster runtime coverage details.
+class CoverageEcsClusterDetails {
+  /// The name of the Amazon ECS cluster.
+  final String? clusterName;
+
+  /// Information about the Amazon ECS container running on Amazon EC2 instance.
+  final ContainerInstanceDetails? containerInstanceDetails;
+
+  /// Information about the Fargate details associated with the Amazon ECS
+  /// cluster.
+  final FargateDetails? fargateDetails;
+
+  CoverageEcsClusterDetails({
+    this.clusterName,
+    this.containerInstanceDetails,
+    this.fargateDetails,
+  });
+
+  factory CoverageEcsClusterDetails.fromJson(Map<String, dynamic> json) {
+    return CoverageEcsClusterDetails(
+      clusterName: json['clusterName'] as String?,
+      containerInstanceDetails: json['containerInstanceDetails'] != null
+          ? ContainerInstanceDetails.fromJson(
+              json['containerInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      fargateDetails: json['fargateDetails'] != null
+          ? FargateDetails.fromJson(
+              json['fargateDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterName = this.clusterName;
+    final containerInstanceDetails = this.containerInstanceDetails;
+    final fargateDetails = this.fargateDetails;
+    return {
+      if (clusterName != null) 'clusterName': clusterName,
+      if (containerInstanceDetails != null)
+        'containerInstanceDetails': containerInstanceDetails,
+      if (fargateDetails != null) 'fargateDetails': fargateDetails,
+    };
+  }
+}
+
 /// Information about the EKS cluster that has a coverage status.
 class CoverageEksClusterDetails {
   /// Information about the installed EKS add-on.
@@ -3867,11 +4546,22 @@ class CoverageEksClusterDetails {
   /// coverage status.
   final int? coveredNodes;
 
+  /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS
+  /// cluster.
+  ///
+  /// <code>AUTO_MANAGED</code> indicates GuardDuty deploys and manages updates
+  /// for this resource.
+  ///
+  /// <code>MANUAL</code> indicates that you are responsible to deploy, update,
+  /// and manage the Amazon EKS add-on GuardDuty agent for this resource.
+  final ManagementType? managementType;
+
   CoverageEksClusterDetails({
     this.addonDetails,
     this.clusterName,
     this.compatibleNodes,
     this.coveredNodes,
+    this.managementType,
   });
 
   factory CoverageEksClusterDetails.fromJson(Map<String, dynamic> json) {
@@ -3882,6 +4572,7 @@ class CoverageEksClusterDetails {
       clusterName: json['clusterName'] as String?,
       compatibleNodes: json['compatibleNodes'] as int?,
       coveredNodes: json['coveredNodes'] as int?,
+      managementType: (json['managementType'] as String?)?.toManagementType(),
     );
   }
 
@@ -3890,11 +4581,13 @@ class CoverageEksClusterDetails {
     final clusterName = this.clusterName;
     final compatibleNodes = this.compatibleNodes;
     final coveredNodes = this.coveredNodes;
+    final managementType = this.managementType;
     return {
       if (addonDetails != null) 'addonDetails': addonDetails,
       if (clusterName != null) 'clusterName': clusterName,
       if (compatibleNodes != null) 'compatibleNodes': compatibleNodes,
       if (coveredNodes != null) 'coveredNodes': coveredNodes,
+      if (managementType != null) 'managementType': managementType.toValue(),
     };
   }
 }
@@ -3947,6 +4640,11 @@ class CoverageFilterCriteria {
 /// the operation.
 class CoverageFilterCriterion {
   /// An enum value representing possible filter fields.
+  /// <note>
+  /// Replace the enum value <code>CLUSTER_NAME</code> with
+  /// <code>EKS_CLUSTER_NAME</code>. <code>CLUSTER_NAME</code> has been
+  /// deprecated.
+  /// </note>
   final CoverageFilterCriterionKey? criterionKey;
 
   /// Contains information about the condition.
@@ -3973,6 +4671,12 @@ enum CoverageFilterCriterionKey {
   resourceType,
   coverageStatus,
   addonVersion,
+  managementType,
+  eksClusterName,
+  ecsClusterName,
+  agentVersion,
+  instanceId,
+  clusterArn,
 }
 
 extension CoverageFilterCriterionKeyValueExtension
@@ -3989,6 +4693,18 @@ extension CoverageFilterCriterionKeyValueExtension
         return 'COVERAGE_STATUS';
       case CoverageFilterCriterionKey.addonVersion:
         return 'ADDON_VERSION';
+      case CoverageFilterCriterionKey.managementType:
+        return 'MANAGEMENT_TYPE';
+      case CoverageFilterCriterionKey.eksClusterName:
+        return 'EKS_CLUSTER_NAME';
+      case CoverageFilterCriterionKey.ecsClusterName:
+        return 'ECS_CLUSTER_NAME';
+      case CoverageFilterCriterionKey.agentVersion:
+        return 'AGENT_VERSION';
+      case CoverageFilterCriterionKey.instanceId:
+        return 'INSTANCE_ID';
+      case CoverageFilterCriterionKey.clusterArn:
+        return 'CLUSTER_ARN';
     }
   }
 }
@@ -4006,6 +4722,18 @@ extension CoverageFilterCriterionKeyFromString on String {
         return CoverageFilterCriterionKey.coverageStatus;
       case 'ADDON_VERSION':
         return CoverageFilterCriterionKey.addonVersion;
+      case 'MANAGEMENT_TYPE':
+        return CoverageFilterCriterionKey.managementType;
+      case 'EKS_CLUSTER_NAME':
+        return CoverageFilterCriterionKey.eksClusterName;
+      case 'ECS_CLUSTER_NAME':
+        return CoverageFilterCriterionKey.ecsClusterName;
+      case 'AGENT_VERSION':
+        return CoverageFilterCriterionKey.agentVersion;
+      case 'INSTANCE_ID':
+        return CoverageFilterCriterionKey.instanceId;
+      case 'CLUSTER_ARN':
+        return CoverageFilterCriterionKey.clusterArn;
     }
     throw Exception('$this is not known in enum CoverageFilterCriterionKey');
   }
@@ -4084,6 +4812,13 @@ class CoverageResource {
 
 /// Information about the resource for each individual EKS cluster.
 class CoverageResourceDetails {
+  /// Information about the Amazon EC2 instance assessed for runtime coverage.
+  final CoverageEc2InstanceDetails? ec2InstanceDetails;
+
+  /// Information about the Amazon ECS cluster that is assessed for runtime
+  /// coverage.
+  final CoverageEcsClusterDetails? ecsClusterDetails;
+
   /// EKS cluster details involved in the coverage statistics.
   final CoverageEksClusterDetails? eksClusterDetails;
 
@@ -4091,12 +4826,22 @@ class CoverageResourceDetails {
   final ResourceType? resourceType;
 
   CoverageResourceDetails({
+    this.ec2InstanceDetails,
+    this.ecsClusterDetails,
     this.eksClusterDetails,
     this.resourceType,
   });
 
   factory CoverageResourceDetails.fromJson(Map<String, dynamic> json) {
     return CoverageResourceDetails(
+      ec2InstanceDetails: json['ec2InstanceDetails'] != null
+          ? CoverageEc2InstanceDetails.fromJson(
+              json['ec2InstanceDetails'] as Map<String, dynamic>)
+          : null,
+      ecsClusterDetails: json['ecsClusterDetails'] != null
+          ? CoverageEcsClusterDetails.fromJson(
+              json['ecsClusterDetails'] as Map<String, dynamic>)
+          : null,
       eksClusterDetails: json['eksClusterDetails'] != null
           ? CoverageEksClusterDetails.fromJson(
               json['eksClusterDetails'] as Map<String, dynamic>)
@@ -4106,9 +4851,13 @@ class CoverageResourceDetails {
   }
 
   Map<String, dynamic> toJson() {
+    final ec2InstanceDetails = this.ec2InstanceDetails;
+    final ecsClusterDetails = this.ecsClusterDetails;
     final eksClusterDetails = this.eksClusterDetails;
     final resourceType = this.resourceType;
     return {
+      if (ec2InstanceDetails != null) 'ec2InstanceDetails': ec2InstanceDetails,
+      if (ecsClusterDetails != null) 'ecsClusterDetails': ecsClusterDetails,
       if (eksClusterDetails != null) 'eksClusterDetails': eksClusterDetails,
       if (resourceType != null) 'resourceType': resourceType.toValue(),
     };
@@ -4118,6 +4867,11 @@ class CoverageResourceDetails {
 /// Information about the sorting criteria used in the coverage statistics.
 class CoverageSortCriteria {
   /// Represents the field name used to sort the coverage details.
+  /// <note>
+  /// Replace the enum value <code>CLUSTER_NAME</code> with
+  /// <code>EKS_CLUSTER_NAME</code>. <code>CLUSTER_NAME</code> has been
+  /// deprecated.
+  /// </note>
   final CoverageSortKey? attributeName;
 
   /// The order in which the sorted findings are to be displayed.
@@ -4145,6 +4899,9 @@ enum CoverageSortKey {
   issue,
   addonVersion,
   updatedAt,
+  eksClusterName,
+  ecsClusterName,
+  instanceId,
 }
 
 extension CoverageSortKeyValueExtension on CoverageSortKey {
@@ -4162,6 +4919,12 @@ extension CoverageSortKeyValueExtension on CoverageSortKey {
         return 'ADDON_VERSION';
       case CoverageSortKey.updatedAt:
         return 'UPDATED_AT';
+      case CoverageSortKey.eksClusterName:
+        return 'EKS_CLUSTER_NAME';
+      case CoverageSortKey.ecsClusterName:
+        return 'ECS_CLUSTER_NAME';
+      case CoverageSortKey.instanceId:
+        return 'INSTANCE_ID';
     }
   }
 }
@@ -4181,6 +4944,12 @@ extension CoverageSortKeyFromString on String {
         return CoverageSortKey.addonVersion;
       case 'UPDATED_AT':
         return CoverageSortKey.updatedAt;
+      case 'EKS_CLUSTER_NAME':
+        return CoverageSortKey.eksClusterName;
+      case 'ECS_CLUSTER_NAME':
+        return CoverageSortKey.ecsClusterName;
+      case 'INSTANCE_ID':
+        return CoverageSortKey.instanceId;
     }
     throw Exception('$this is not known in enum CoverageSortKey');
   }
@@ -5016,24 +5785,34 @@ class DescribeOrganizationConfigurationResponse {
   /// <code>AutoEnableOrganizationMembers</code> to achieve the similar results.
   final bool? autoEnable;
 
-  /// Indicates the auto-enablement configuration of GuardDuty for the member
-  /// accounts in the organization.
+  /// Indicates the auto-enablement configuration of GuardDuty or any of the
+  /// corresponding protection plans for the member accounts in the organization.
   ///
   /// <ul>
   /// <li>
   /// <code>NEW</code>: Indicates that when a new account joins the organization,
-  /// they will have GuardDuty enabled automatically.
+  /// they will have GuardDuty or any of the corresponding protection plans
+  /// enabled automatically.
   /// </li>
   /// <li>
-  /// <code>ALL</code>: Indicates that all accounts in the Amazon Web Services
-  /// Organization have GuardDuty enabled automatically. This includes
-  /// <code>NEW</code> accounts that join the organization and accounts that may
-  /// have been suspended or removed from the organization in GuardDuty.
+  /// <code>ALL</code>: Indicates that all accounts in the organization have
+  /// GuardDuty and any of the corresponding protection plans enabled
+  /// automatically. This includes <code>NEW</code> accounts that join the
+  /// organization and accounts that may have been suspended or removed from the
+  /// organization in GuardDuty.
   /// </li>
   /// <li>
-  /// <code>NONE</code>: Indicates that GuardDuty will not be automatically
-  /// enabled for any accounts in the organization. GuardDuty must be managed for
-  /// each account individually by the administrator.
+  /// <code>NONE</code>: Indicates that GuardDuty or any of the corresponding
+  /// protection plans will not be automatically enabled for any account in the
+  /// organization. The administrator must manage GuardDuty for each account in
+  /// the organization individually.
+  ///
+  /// When you update the auto-enable setting from <code>ALL</code> or
+  /// <code>NEW</code> to <code>NONE</code>, this action doesn't disable the
+  /// corresponding option for your existing accounts. This configuration will
+  /// apply to the new accounts that join the organization. After you update the
+  /// auto-enable settings, no new account will have the corresponding option as
+  /// enabled.
   /// </li>
   /// </ul>
   final AutoEnableMembers? autoEnableOrganizationMembers;
@@ -5253,6 +6032,32 @@ extension DestinationTypeFromString on String {
   }
 }
 
+/// Contains information about the detected behavior.
+class Detection {
+  /// The details about the anomalous activity that caused GuardDuty to generate
+  /// the finding.
+  final Anomaly? anomaly;
+
+  Detection({
+    this.anomaly,
+  });
+
+  factory Detection.fromJson(Map<String, dynamic> json) {
+    return Detection(
+      anomaly: json['anomaly'] != null
+          ? Anomaly.fromJson(json['anomaly'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomaly = this.anomaly;
+    return {
+      if (anomaly != null) 'anomaly': anomaly,
+    };
+  }
+}
+
 /// Information about the additional configuration for a feature in your
 /// GuardDuty account.
 class DetectorAdditionalConfiguration {
@@ -5323,6 +6128,7 @@ enum DetectorFeature {
   rdsLoginEvents,
   eksRuntimeMonitoring,
   lambdaNetworkLogs,
+  runtimeMonitoring,
 }
 
 extension DetectorFeatureValueExtension on DetectorFeature {
@@ -5340,6 +6146,8 @@ extension DetectorFeatureValueExtension on DetectorFeature {
         return 'EKS_RUNTIME_MONITORING';
       case DetectorFeature.lambdaNetworkLogs:
         return 'LAMBDA_NETWORK_LOGS';
+      case DetectorFeature.runtimeMonitoring:
+        return 'RUNTIME_MONITORING';
     }
   }
 }
@@ -5359,12 +6167,22 @@ extension DetectorFeatureFromString on String {
         return DetectorFeature.eksRuntimeMonitoring;
       case 'LAMBDA_NETWORK_LOGS':
         return DetectorFeature.lambdaNetworkLogs;
+      case 'RUNTIME_MONITORING':
+        return DetectorFeature.runtimeMonitoring;
     }
     throw Exception('$this is not known in enum DetectorFeature');
   }
 }
 
 /// Contains information about a GuardDuty feature.
+///
+/// Specifying both EKS Runtime Monitoring (<code>EKS_RUNTIME_MONITORING</code>)
+/// and Runtime Monitoring (<code>RUNTIME_MONITORING</code>) will cause an
+/// error. You can add only one of these two features because Runtime Monitoring
+/// already includes the threat detection for Amazon EKS resources. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
+/// Monitoring</a>.
 class DetectorFeatureConfiguration {
   /// Additional configuration for a resource.
   final List<DetectorAdditionalConfiguration>? additionalConfiguration;
@@ -5395,6 +6213,14 @@ class DetectorFeatureConfiguration {
 }
 
 /// Contains information about a GuardDuty feature.
+///
+/// Specifying both EKS Runtime Monitoring (<code>EKS_RUNTIME_MONITORING</code>)
+/// and Runtime Monitoring (<code>RUNTIME_MONITORING</code>) will cause an
+/// error. You can add only one of these two features because Runtime Monitoring
+/// already includes the threat detection for Amazon EKS resources. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
+/// Monitoring</a>.
 class DetectorFeatureConfigurationResult {
   /// Additional configuration for a resource.
   final List<DetectorAdditionalConfigurationResult>? additionalConfiguration;
@@ -5454,6 +6280,7 @@ enum DetectorFeatureResult {
   rdsLoginEvents,
   eksRuntimeMonitoring,
   lambdaNetworkLogs,
+  runtimeMonitoring,
 }
 
 extension DetectorFeatureResultValueExtension on DetectorFeatureResult {
@@ -5477,6 +6304,8 @@ extension DetectorFeatureResultValueExtension on DetectorFeatureResult {
         return 'EKS_RUNTIME_MONITORING';
       case DetectorFeatureResult.lambdaNetworkLogs:
         return 'LAMBDA_NETWORK_LOGS';
+      case DetectorFeatureResult.runtimeMonitoring:
+        return 'RUNTIME_MONITORING';
     }
   }
 }
@@ -5502,6 +6331,8 @@ extension DetectorFeatureResultFromString on String {
         return DetectorFeatureResult.eksRuntimeMonitoring;
       case 'LAMBDA_NETWORK_LOGS':
         return DetectorFeatureResult.lambdaNetworkLogs;
+      case 'RUNTIME_MONITORING':
+        return DetectorFeatureResult.runtimeMonitoring;
     }
     throw Exception('$this is not known in enum DetectorFeatureResult');
   }
@@ -5607,8 +6438,14 @@ class DnsRequestAction {
   /// Indicates whether the targeted port is blocked.
   final bool? blocked;
 
-  /// The domain information for the API request.
+  /// The domain information for the DNS query.
   final String? domain;
+
+  /// The second and top level domain involved in the activity that potentially
+  /// prompted GuardDuty to generate this finding. For a list of top-level and
+  /// second-level domains, see <a href="https://publicsuffix.org/">public suffix
+  /// list</a>.
+  final String? domainWithSuffix;
 
   /// The network connection protocol observed in the activity that prompted
   /// GuardDuty to generate the finding.
@@ -5617,6 +6454,7 @@ class DnsRequestAction {
   DnsRequestAction({
     this.blocked,
     this.domain,
+    this.domainWithSuffix,
     this.protocol,
   });
 
@@ -5624,6 +6462,7 @@ class DnsRequestAction {
     return DnsRequestAction(
       blocked: json['blocked'] as bool?,
       domain: json['domain'] as String?,
+      domainWithSuffix: json['domainWithSuffix'] as String?,
       protocol: json['protocol'] as String?,
     );
   }
@@ -5631,10 +6470,12 @@ class DnsRequestAction {
   Map<String, dynamic> toJson() {
     final blocked = this.blocked;
     final domain = this.domain;
+    final domainWithSuffix = this.domainWithSuffix;
     final protocol = this.protocol;
     return {
       if (blocked != null) 'blocked': blocked,
       if (domain != null) 'domain': domain,
+      if (domainWithSuffix != null) 'domainWithSuffix': domainWithSuffix,
       if (protocol != null) 'protocol': protocol,
     };
   }
@@ -6112,8 +6953,59 @@ class Evidence {
   }
 }
 
+/// Contains information about Amazon Web Services Fargate details associated
+/// with an Amazon ECS cluster.
+class FargateDetails {
+  /// Runtime coverage issues identified for the resource running on Amazon Web
+  /// Services Fargate.
+  final List<String>? issues;
+
+  /// Indicates how the GuardDuty security agent is managed for this resource.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AUTO_MANAGED</code> indicates that GuardDuty deploys and manages
+  /// updates for this resource.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> indicates that the deployment of the GuardDuty
+  /// security agent is disabled for this resource.
+  /// </li>
+  /// </ul> <note>
+  /// The <code>MANUAL</code> status doesn't apply to the Amazon Web Services
+  /// Fargate (Amazon ECS only) woprkloads.
+  /// </note>
+  final ManagementType? managementType;
+
+  FargateDetails({
+    this.issues,
+    this.managementType,
+  });
+
+  factory FargateDetails.fromJson(Map<String, dynamic> json) {
+    return FargateDetails(
+      issues: (json['issues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      managementType: (json['managementType'] as String?)?.toManagementType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issues = this.issues;
+    final managementType = this.managementType;
+    return {
+      if (issues != null) 'issues': issues,
+      if (managementType != null) 'managementType': managementType.toValue(),
+    };
+  }
+}
+
 enum FeatureAdditionalConfiguration {
   eksAddonManagement,
+  ecsFargateAgentManagement,
+  ec2AgentManagement,
 }
 
 extension FeatureAdditionalConfigurationValueExtension
@@ -6122,6 +7014,10 @@ extension FeatureAdditionalConfigurationValueExtension
     switch (this) {
       case FeatureAdditionalConfiguration.eksAddonManagement:
         return 'EKS_ADDON_MANAGEMENT';
+      case FeatureAdditionalConfiguration.ecsFargateAgentManagement:
+        return 'ECS_FARGATE_AGENT_MANAGEMENT';
+      case FeatureAdditionalConfiguration.ec2AgentManagement:
+        return 'EC2_AGENT_MANAGEMENT';
     }
   }
 }
@@ -6131,6 +7027,10 @@ extension FeatureAdditionalConfigurationFromString on String {
     switch (this) {
       case 'EKS_ADDON_MANAGEMENT':
         return FeatureAdditionalConfiguration.eksAddonManagement;
+      case 'ECS_FARGATE_AGENT_MANAGEMENT':
+        return FeatureAdditionalConfiguration.ecsFargateAgentManagement;
+      case 'EC2_AGENT_MANAGEMENT':
+        return FeatureAdditionalConfiguration.ec2AgentManagement;
     }
     throw Exception(
         '$this is not known in enum FeatureAdditionalConfiguration');
@@ -6279,6 +7179,11 @@ class FilterCriteria {
 class FilterCriterion {
   /// An enum value representing possible scan properties to match with given scan
   /// entries.
+  /// <note>
+  /// Replace the enum value <code>CLUSTER_NAME</code> with
+  /// <code>EKS_CLUSTER_NAME</code>. <code>CLUSTER_NAME</code> has been
+  /// deprecated.
+  /// </note>
   final CriterionKey? criterionKey;
 
   /// Contains information about the condition.
@@ -6299,7 +7204,7 @@ class FilterCriterion {
   }
 }
 
-/// Contains information about the finding, which is generated when abnormal or
+/// Contains information about the finding that is generated when abnormal or
 /// suspicious activity is detected.
 class Finding {
   /// The ID of the account in which the finding was generated.
@@ -6590,6 +7495,8 @@ enum FreeTrialFeatureResult {
   rdsLoginEvents,
   eksRuntimeMonitoring,
   lambdaNetworkLogs,
+  fargateRuntimeMonitoring,
+  ec2RuntimeMonitoring,
 }
 
 extension FreeTrialFeatureResultValueExtension on FreeTrialFeatureResult {
@@ -6613,6 +7520,10 @@ extension FreeTrialFeatureResultValueExtension on FreeTrialFeatureResult {
         return 'EKS_RUNTIME_MONITORING';
       case FreeTrialFeatureResult.lambdaNetworkLogs:
         return 'LAMBDA_NETWORK_LOGS';
+      case FreeTrialFeatureResult.fargateRuntimeMonitoring:
+        return 'FARGATE_RUNTIME_MONITORING';
+      case FreeTrialFeatureResult.ec2RuntimeMonitoring:
+        return 'EC2_RUNTIME_MONITORING';
     }
   }
 }
@@ -6638,6 +7549,10 @@ extension FreeTrialFeatureResultFromString on String {
         return FreeTrialFeatureResult.eksRuntimeMonitoring;
       case 'LAMBDA_NETWORK_LOGS':
         return FreeTrialFeatureResult.lambdaNetworkLogs;
+      case 'FARGATE_RUNTIME_MONITORING':
+        return FreeTrialFeatureResult.fargateRuntimeMonitoring;
+      case 'EC2_RUNTIME_MONITORING':
+        return FreeTrialFeatureResult.ec2RuntimeMonitoring;
     }
     throw Exception('$this is not known in enum FreeTrialFeatureResult');
   }
@@ -7119,6 +8034,33 @@ class GetMembersResponse {
   }
 }
 
+class GetOrganizationStatisticsResponse {
+  /// Information about the statistics report for your organization.
+  final OrganizationDetails? organizationDetails;
+
+  GetOrganizationStatisticsResponse({
+    this.organizationDetails,
+  });
+
+  factory GetOrganizationStatisticsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetOrganizationStatisticsResponse(
+      organizationDetails: json['organizationDetails'] != null
+          ? OrganizationDetails.fromJson(
+              json['organizationDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationDetails = this.organizationDetails;
+    return {
+      if (organizationDetails != null)
+        'organizationDetails': organizationDetails,
+    };
+  }
+}
+
 class GetRemainingFreeTrialDaysResponse {
   /// The member accounts which were included in a request and were processed
   /// successfully.
@@ -7334,6 +8276,39 @@ class IamInstanceProfile {
     return {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Contains information about the impersonated user.
+class ImpersonatedUser {
+  /// The <code>group</code> to which the user name belongs.
+  final List<String>? groups;
+
+  /// Information about the <code>username</code> that was being impersonated.
+  final String? username;
+
+  ImpersonatedUser({
+    this.groups,
+    this.username,
+  });
+
+  factory ImpersonatedUser.fromJson(Map<String, dynamic> json) {
+    return ImpersonatedUser(
+      groups: (json['groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      username: json['username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final username = this.username;
+    return {
+      if (groups != null) 'groups': groups,
+      if (username != null) 'username': username,
     };
   }
 }
@@ -7632,12 +8607,21 @@ extension IpSetStatusFromString on String {
 
 /// Information about the Kubernetes API call action described in this finding.
 class KubernetesApiCallAction {
+  /// The name of the namespace where the Kubernetes API call action takes place.
+  final String? namespace;
+
   /// Parameters related to the Kubernetes API call action.
   final String? parameters;
   final RemoteIpDetails? remoteIpDetails;
 
   /// The Kubernetes API request URI.
   final String? requestUri;
+
+  /// The resource component in the Kubernetes API call action.
+  final String? resource;
+
+  /// The name of the resource in the Kubernetes API call action.
+  final String? resourceName;
 
   /// The IP of the Kubernetes API caller and the IPs of any proxies or load
   /// balancers between the caller and the API endpoint.
@@ -7646,6 +8630,9 @@ class KubernetesApiCallAction {
   /// The resulting HTTP response code of the Kubernetes API call action.
   final int? statusCode;
 
+  /// The name of the sub-resource in the Kubernetes API call action.
+  final String? subresource;
+
   /// The user agent of the caller of the Kubernetes API.
   final String? userAgent;
 
@@ -7653,47 +8640,63 @@ class KubernetesApiCallAction {
   final String? verb;
 
   KubernetesApiCallAction({
+    this.namespace,
     this.parameters,
     this.remoteIpDetails,
     this.requestUri,
+    this.resource,
+    this.resourceName,
     this.sourceIps,
     this.statusCode,
+    this.subresource,
     this.userAgent,
     this.verb,
   });
 
   factory KubernetesApiCallAction.fromJson(Map<String, dynamic> json) {
     return KubernetesApiCallAction(
+      namespace: json['namespace'] as String?,
       parameters: json['parameters'] as String?,
       remoteIpDetails: json['remoteIpDetails'] != null
           ? RemoteIpDetails.fromJson(
               json['remoteIpDetails'] as Map<String, dynamic>)
           : null,
       requestUri: json['requestUri'] as String?,
+      resource: json['resource'] as String?,
+      resourceName: json['resourceName'] as String?,
       sourceIps: (json['sourceIps'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       statusCode: json['statusCode'] as int?,
+      subresource: json['subresource'] as String?,
       userAgent: json['userAgent'] as String?,
       verb: json['verb'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
     final parameters = this.parameters;
     final remoteIpDetails = this.remoteIpDetails;
     final requestUri = this.requestUri;
+    final resource = this.resource;
+    final resourceName = this.resourceName;
     final sourceIps = this.sourceIps;
     final statusCode = this.statusCode;
+    final subresource = this.subresource;
     final userAgent = this.userAgent;
     final verb = this.verb;
     return {
+      if (namespace != null) 'namespace': namespace,
       if (parameters != null) 'parameters': parameters,
       if (remoteIpDetails != null) 'remoteIpDetails': remoteIpDetails,
       if (requestUri != null) 'requestUri': requestUri,
+      if (resource != null) 'resource': resource,
+      if (resourceName != null) 'resourceName': resourceName,
       if (sourceIps != null) 'sourceIps': sourceIps,
       if (statusCode != null) 'statusCode': statusCode,
+      if (subresource != null) 'subresource': subresource,
       if (userAgent != null) 'userAgent': userAgent,
       if (verb != null) 'verb': verb,
     };
@@ -7849,10 +8852,158 @@ class KubernetesDetails {
   }
 }
 
+/// Information about the Kubernetes API for which you check if you have
+/// permission to call.
+class KubernetesPermissionCheckedDetails {
+  /// Information whether the user has the permission to call the Kubernetes API.
+  final bool? allowed;
+
+  /// The namespace where the Kubernetes API action will take place.
+  final String? namespace;
+
+  /// The Kubernetes resource with which your Kubernetes API call will interact.
+  final String? resource;
+
+  /// The verb component of the Kubernetes API call. For example, when you check
+  /// whether or not you have the permission to call the <code>CreatePod</code>
+  /// API, the verb component will be <code>Create</code>.
+  final String? verb;
+
+  KubernetesPermissionCheckedDetails({
+    this.allowed,
+    this.namespace,
+    this.resource,
+    this.verb,
+  });
+
+  factory KubernetesPermissionCheckedDetails.fromJson(
+      Map<String, dynamic> json) {
+    return KubernetesPermissionCheckedDetails(
+      allowed: json['allowed'] as bool?,
+      namespace: json['namespace'] as String?,
+      resource: json['resource'] as String?,
+      verb: json['verb'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowed = this.allowed;
+    final namespace = this.namespace;
+    final resource = this.resource;
+    final verb = this.verb;
+    return {
+      if (allowed != null) 'allowed': allowed,
+      if (namespace != null) 'namespace': namespace,
+      if (resource != null) 'resource': resource,
+      if (verb != null) 'verb': verb,
+    };
+  }
+}
+
+/// Contains information about the role binding that grants the permission
+/// defined in a Kubernetes role.
+class KubernetesRoleBindingDetails {
+  /// The kind of the role. For role binding, this value will be
+  /// <code>RoleBinding</code>.
+  final String? kind;
+
+  /// The name of the <code>RoleBinding</code>.
+  final String? name;
+
+  /// The type of the role being referenced. This could be either
+  /// <code>Role</code> or <code>ClusterRole</code>.
+  final String? roleRefKind;
+
+  /// The name of the role being referenced. This must match the name of the
+  /// <code>Role</code> or <code>ClusterRole</code> that you want to bind to.
+  final String? roleRefName;
+
+  /// The unique identifier of the role binding.
+  final String? uid;
+
+  KubernetesRoleBindingDetails({
+    this.kind,
+    this.name,
+    this.roleRefKind,
+    this.roleRefName,
+    this.uid,
+  });
+
+  factory KubernetesRoleBindingDetails.fromJson(Map<String, dynamic> json) {
+    return KubernetesRoleBindingDetails(
+      kind: json['kind'] as String?,
+      name: json['name'] as String?,
+      roleRefKind: json['roleRefKind'] as String?,
+      roleRefName: json['roleRefName'] as String?,
+      uid: json['uid'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kind = this.kind;
+    final name = this.name;
+    final roleRefKind = this.roleRefKind;
+    final roleRefName = this.roleRefName;
+    final uid = this.uid;
+    return {
+      if (kind != null) 'kind': kind,
+      if (name != null) 'name': name,
+      if (roleRefKind != null) 'roleRefKind': roleRefKind,
+      if (roleRefName != null) 'roleRefName': roleRefName,
+      if (uid != null) 'uid': uid,
+    };
+  }
+}
+
+/// Information about the Kubernetes role name and role type.
+class KubernetesRoleDetails {
+  /// The kind of role. For this API, the value of <code>kind</code> will be
+  /// <code>Role</code>.
+  final String? kind;
+
+  /// The name of the Kubernetes role.
+  final String? name;
+
+  /// The unique identifier of the Kubernetes role name.
+  final String? uid;
+
+  KubernetesRoleDetails({
+    this.kind,
+    this.name,
+    this.uid,
+  });
+
+  factory KubernetesRoleDetails.fromJson(Map<String, dynamic> json) {
+    return KubernetesRoleDetails(
+      kind: json['kind'] as String?,
+      name: json['name'] as String?,
+      uid: json['uid'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kind = this.kind;
+    final name = this.name;
+    final uid = this.uid;
+    return {
+      if (kind != null) 'kind': kind,
+      if (name != null) 'name': name,
+      if (uid != null) 'uid': uid,
+    };
+  }
+}
+
 /// Details about the Kubernetes user involved in a Kubernetes finding.
 class KubernetesUserDetails {
   /// The groups that include the user who called the Kubernetes API.
   final List<String>? groups;
+
+  /// Information about the impersonated user.
+  final ImpersonatedUser? impersonatedUser;
+
+  /// Entity that assumes the IAM role when Kubernetes RBAC permissions are
+  /// assigned to that role.
+  final List<String>? sessionName;
 
   /// The user ID of the user who called the Kubernetes API.
   final String? uid;
@@ -7862,6 +9013,8 @@ class KubernetesUserDetails {
 
   KubernetesUserDetails({
     this.groups,
+    this.impersonatedUser,
+    this.sessionName,
     this.uid,
     this.username,
   });
@@ -7872,6 +9025,14 @@ class KubernetesUserDetails {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      impersonatedUser: json['impersonatedUser'] != null
+          ? ImpersonatedUser.fromJson(
+              json['impersonatedUser'] as Map<String, dynamic>)
+          : null,
+      sessionName: (json['sessionName'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       uid: json['uid'] as String?,
       username: json['username'] as String?,
     );
@@ -7879,10 +9040,14 @@ class KubernetesUserDetails {
 
   Map<String, dynamic> toJson() {
     final groups = this.groups;
+    final impersonatedUser = this.impersonatedUser;
+    final sessionName = this.sessionName;
     final uid = this.uid;
     final username = this.username;
     return {
       if (groups != null) 'groups': groups,
+      if (impersonatedUser != null) 'impersonatedUser': impersonatedUser,
+      if (sessionName != null) 'sessionName': sessionName,
       if (uid != null) 'uid': uid,
       if (username != null) 'username': username,
     };
@@ -7894,15 +9059,24 @@ class KubernetesWorkloadDetails {
   /// Containers running as part of the Kubernetes workload.
   final List<Container>? containers;
 
+  /// Whether the host IPC flag is enabled for the pods in the workload.
+  final bool? hostIPC;
+
   /// Whether the hostNetwork flag is enabled for the pods included in the
   /// workload.
   final bool? hostNetwork;
+
+  /// Whether the host PID flag is enabled for the pods in the workload.
+  final bool? hostPID;
 
   /// Kubernetes workload name.
   final String? name;
 
   /// Kubernetes namespace that the workload is part of.
   final String? namespace;
+
+  /// The service account name that is associated with a Kubernetes workload.
+  final String? serviceAccountName;
 
   /// Kubernetes workload type (e.g. Pod, Deployment, etc.).
   final String? type;
@@ -7915,9 +9089,12 @@ class KubernetesWorkloadDetails {
 
   KubernetesWorkloadDetails({
     this.containers,
+    this.hostIPC,
     this.hostNetwork,
+    this.hostPID,
     this.name,
     this.namespace,
+    this.serviceAccountName,
     this.type,
     this.uid,
     this.volumes,
@@ -7929,9 +9106,12 @@ class KubernetesWorkloadDetails {
           ?.whereNotNull()
           .map((e) => Container.fromJson(e as Map<String, dynamic>))
           .toList(),
+      hostIPC: json['hostIPC'] as bool?,
       hostNetwork: json['hostNetwork'] as bool?,
+      hostPID: json['hostPID'] as bool?,
       name: json['name'] as String?,
       namespace: json['namespace'] as String?,
+      serviceAccountName: json['serviceAccountName'] as String?,
       type: json['type'] as String?,
       uid: json['uid'] as String?,
       volumes: (json['volumes'] as List?)
@@ -7943,17 +9123,23 @@ class KubernetesWorkloadDetails {
 
   Map<String, dynamic> toJson() {
     final containers = this.containers;
+    final hostIPC = this.hostIPC;
     final hostNetwork = this.hostNetwork;
+    final hostPID = this.hostPID;
     final name = this.name;
     final namespace = this.namespace;
+    final serviceAccountName = this.serviceAccountName;
     final type = this.type;
     final uid = this.uid;
     final volumes = this.volumes;
     return {
       if (containers != null) 'containers': containers,
+      if (hostIPC != null) 'hostIPC': hostIPC,
       if (hostNetwork != null) 'hostNetwork': hostNetwork,
+      if (hostPID != null) 'hostPID': hostPID,
       if (name != null) 'name': name,
       if (namespace != null) 'namespace': namespace,
+      if (serviceAccountName != null) 'serviceAccountName': serviceAccountName,
       if (type != null) 'type': type,
       if (uid != null) 'uid': uid,
       if (volumes != null) 'volumes': volumes,
@@ -8329,6 +9515,10 @@ class ListInvitationsResponse {
 
 class ListMembersResponse {
   /// A list of members.
+  /// <note>
+  /// The values for <code>email</code> and <code>invitedAt</code> are available
+  /// only if the member accounts are added by invitation.
+  /// </note>
   final List<Member>? members;
 
   /// The pagination parameter to be used on the next list operation to retrieve
@@ -8492,20 +9682,27 @@ class LocalIpDetails {
   /// The IPv4 local address of the connection.
   final String? ipAddressV4;
 
+  /// The IPv6 local address of the connection.
+  final String? ipAddressV6;
+
   LocalIpDetails({
     this.ipAddressV4,
+    this.ipAddressV6,
   });
 
   factory LocalIpDetails.fromJson(Map<String, dynamic> json) {
     return LocalIpDetails(
       ipAddressV4: json['ipAddressV4'] as String?,
+      ipAddressV6: json['ipAddressV6'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final ipAddressV4 = this.ipAddressV4;
+    final ipAddressV6 = this.ipAddressV6;
     return {
       if (ipAddressV4 != null) 'ipAddressV4': ipAddressV4,
+      if (ipAddressV6 != null) 'ipAddressV6': ipAddressV6,
     };
   }
 }
@@ -8671,6 +9868,39 @@ class MalwareProtectionDataSourceFreeTrial {
       if (scanEc2InstanceWithFindings != null)
         'scanEc2InstanceWithFindings': scanEc2InstanceWithFindings,
     };
+  }
+}
+
+enum ManagementType {
+  autoManaged,
+  manual,
+  disabled,
+}
+
+extension ManagementTypeValueExtension on ManagementType {
+  String toValue() {
+    switch (this) {
+      case ManagementType.autoManaged:
+        return 'AUTO_MANAGED';
+      case ManagementType.manual:
+        return 'MANUAL';
+      case ManagementType.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension ManagementTypeFromString on String {
+  ManagementType toManagementType() {
+    switch (this) {
+      case 'AUTO_MANAGED':
+        return ManagementType.autoManaged;
+      case 'MANUAL':
+        return ManagementType.manual;
+      case 'DISABLED':
+        return ManagementType.disabled;
+    }
+    throw Exception('$this is not known in enum ManagementType');
   }
 }
 
@@ -9157,6 +10387,32 @@ class NetworkInterface {
   }
 }
 
+/// Contains information about the observed behavior.
+class Observations {
+  /// The text that was unusual.
+  final List<String>? text;
+
+  Observations({
+    this.text,
+  });
+
+  factory Observations.fromJson(Map<String, dynamic> json) {
+    return Observations(
+      text: (json['text'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
 enum OrderBy {
   asc,
   desc,
@@ -9192,6 +10448,7 @@ enum OrgFeature {
   rdsLoginEvents,
   eksRuntimeMonitoring,
   lambdaNetworkLogs,
+  runtimeMonitoring,
 }
 
 extension OrgFeatureValueExtension on OrgFeature {
@@ -9209,6 +10466,8 @@ extension OrgFeatureValueExtension on OrgFeature {
         return 'EKS_RUNTIME_MONITORING';
       case OrgFeature.lambdaNetworkLogs:
         return 'LAMBDA_NETWORK_LOGS';
+      case OrgFeature.runtimeMonitoring:
+        return 'RUNTIME_MONITORING';
     }
   }
 }
@@ -9228,6 +10487,8 @@ extension OrgFeatureFromString on String {
         return OrgFeature.eksRuntimeMonitoring;
       case 'LAMBDA_NETWORK_LOGS':
         return OrgFeature.lambdaNetworkLogs;
+      case 'RUNTIME_MONITORING':
+        return OrgFeature.runtimeMonitoring;
     }
     throw Exception('$this is not known in enum OrgFeature');
   }
@@ -9235,6 +10496,8 @@ extension OrgFeatureFromString on String {
 
 enum OrgFeatureAdditionalConfiguration {
   eksAddonManagement,
+  ecsFargateAgentManagement,
+  ec2AgentManagement,
 }
 
 extension OrgFeatureAdditionalConfigurationValueExtension
@@ -9243,6 +10506,10 @@ extension OrgFeatureAdditionalConfigurationValueExtension
     switch (this) {
       case OrgFeatureAdditionalConfiguration.eksAddonManagement:
         return 'EKS_ADDON_MANAGEMENT';
+      case OrgFeatureAdditionalConfiguration.ecsFargateAgentManagement:
+        return 'ECS_FARGATE_AGENT_MANAGEMENT';
+      case OrgFeatureAdditionalConfiguration.ec2AgentManagement:
+        return 'EC2_AGENT_MANAGEMENT';
     }
   }
 }
@@ -9252,6 +10519,10 @@ extension OrgFeatureAdditionalConfigurationFromString on String {
     switch (this) {
       case 'EKS_ADDON_MANAGEMENT':
         return OrgFeatureAdditionalConfiguration.eksAddonManagement;
+      case 'ECS_FARGATE_AGENT_MANAGEMENT':
+        return OrgFeatureAdditionalConfiguration.ecsFargateAgentManagement;
+      case 'EC2_AGENT_MANAGEMENT':
+        return OrgFeatureAdditionalConfiguration.ec2AgentManagement;
     }
     throw Exception(
         '$this is not known in enum OrgFeatureAdditionalConfiguration');
@@ -9261,6 +10532,7 @@ extension OrgFeatureAdditionalConfigurationFromString on String {
 enum OrgFeatureStatus {
   $new,
   none,
+  all,
 }
 
 extension OrgFeatureStatusValueExtension on OrgFeatureStatus {
@@ -9270,6 +10542,8 @@ extension OrgFeatureStatusValueExtension on OrgFeatureStatus {
         return 'NEW';
       case OrgFeatureStatus.none:
         return 'NONE';
+      case OrgFeatureStatus.all:
+        return 'ALL';
     }
   }
 }
@@ -9281,6 +10555,8 @@ extension OrgFeatureStatusFromString on String {
         return OrgFeatureStatus.$new;
       case 'NONE':
         return OrgFeatureStatus.none;
+      case 'ALL':
+        return OrgFeatureStatus.all;
     }
     throw Exception('$this is not known in enum OrgFeatureStatus');
   }
@@ -9335,7 +10611,29 @@ class Organization {
 /// organization.
 class OrganizationAdditionalConfiguration {
   /// The status of the additional configuration that will be configured for the
-  /// organization.
+  /// organization. Use one of the following values to configure the feature
+  /// status for the entire organization:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NEW</code>: Indicates that when a new account joins the organization,
+  /// they will have the additional configuration enabled automatically.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>: Indicates that all accounts in the organization have the
+  /// additional configuration enabled automatically. This includes
+  /// <code>NEW</code> accounts that join the organization and accounts that may
+  /// have been suspended or removed from the organization in GuardDuty.
+  ///
+  /// It may take up to 24 hours to update the configuration for all the member
+  /// accounts.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: Indicates that the additional configuration will not be
+  /// automatically enabled for any account in the organization. The administrator
+  /// must manage the additional configuration for each account individually.
+  /// </li>
+  /// </ul>
   final OrgFeatureStatus? autoEnable;
 
   /// The name of the additional configuration that will be configured for the
@@ -9360,14 +10658,30 @@ class OrganizationAdditionalConfiguration {
 /// A list of additional configuration which will be configured for the
 /// organization.
 class OrganizationAdditionalConfigurationResult {
-  /// Describes how The status of the additional configuration that are configured
-  /// for the member accounts within the organization.
+  /// Describes the status of the additional configuration that is configured for
+  /// the member accounts within the organization. One of the following values is
+  /// the status for the entire organization:
   ///
-  /// If you set <code>AutoEnable</code> to <code>NEW</code>, a feature will be
-  /// configured for only the new accounts when they join the organization.
+  /// <ul>
+  /// <li>
+  /// <code>NEW</code>: Indicates that when a new account joins the organization,
+  /// they will have the additional configuration enabled automatically.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>: Indicates that all accounts in the organization have the
+  /// additional configuration enabled automatically. This includes
+  /// <code>NEW</code> accounts that join the organization and accounts that may
+  /// have been suspended or removed from the organization in GuardDuty.
   ///
-  /// If you set <code>AutoEnable</code> to <code>NONE</code>, no feature will be
-  /// configured for the accounts when they join the organization.
+  /// It may take up to 24 hours to update the configuration for all the member
+  /// accounts.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: Indicates that the additional configuration will not be
+  /// automatically enabled for any account in the organization. The administrator
+  /// must manage the additional configuration for each account individually.
+  /// </li>
+  /// </ul>
   final OrgFeatureStatus? autoEnable;
 
   /// The name of the additional configuration that is configured for the member
@@ -9477,6 +10791,43 @@ class OrganizationDataSourceConfigurationsResult {
   }
 }
 
+/// Information about GuardDuty coverage statistics for members in your Amazon
+/// Web Services organization.
+class OrganizationDetails {
+  /// Information about the GuardDuty coverage statistics for members in your
+  /// Amazon Web Services organization.
+  final OrganizationStatistics? organizationStatistics;
+
+  /// The timestamp at which the organization statistics was last updated. This is
+  /// in UTC format.
+  final DateTime? updatedAt;
+
+  OrganizationDetails({
+    this.organizationStatistics,
+    this.updatedAt,
+  });
+
+  factory OrganizationDetails.fromJson(Map<String, dynamic> json) {
+    return OrganizationDetails(
+      organizationStatistics: json['organizationStatistics'] != null
+          ? OrganizationStatistics.fromJson(
+              json['organizationStatistics'] as Map<String, dynamic>)
+          : null,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationStatistics = this.organizationStatistics;
+    final updatedAt = this.updatedAt;
+    return {
+      if (organizationStatistics != null)
+        'organizationStatistics': organizationStatistics,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
 /// Organization-wide EBS volumes scan configuration.
 class OrganizationEbsVolumes {
   /// Whether scanning EBS volumes should be auto-enabled for new members joining
@@ -9525,7 +10876,30 @@ class OrganizationFeatureConfiguration {
   /// The additional information that will be configured for the organization.
   final List<OrganizationAdditionalConfiguration>? additionalConfiguration;
 
-  /// The status of the feature that will be configured for the organization.
+  /// Describes the status of the feature that is configured for the member
+  /// accounts within the organization. One of the following values is the status
+  /// for the entire organization:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NEW</code>: Indicates that when a new account joins the organization,
+  /// they will have the feature enabled automatically.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>: Indicates that all accounts in the organization have the
+  /// feature enabled automatically. This includes <code>NEW</code> accounts that
+  /// join the organization and accounts that may have been suspended or removed
+  /// from the organization in GuardDuty.
+  ///
+  /// It may take up to 24 hours to update the configuration for all the member
+  /// accounts.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: Indicates that the feature will not be automatically
+  /// enabled for any account in the organization. The administrator must manage
+  /// the feature for each account individually.
+  /// </li>
+  /// </ul>
   final OrgFeatureStatus? autoEnable;
 
   /// The name of the feature that will be configured for the organization.
@@ -9557,14 +10931,26 @@ class OrganizationFeatureConfigurationResult {
   final List<OrganizationAdditionalConfigurationResult>?
       additionalConfiguration;
 
-  /// Describes how The status of the feature that are configured for the member
+  /// Describes the status of the feature that is configured for the member
   /// accounts within the organization.
   ///
-  /// If you set <code>AutoEnable</code> to <code>NEW</code>, a feature will be
-  /// configured for only the new accounts when they join the organization.
-  ///
-  /// If you set <code>AutoEnable</code> to <code>NONE</code>, no feature will be
-  /// configured for the accounts when they join the organization.
+  /// <ul>
+  /// <li>
+  /// <code>NEW</code>: Indicates that when a new account joins the organization,
+  /// they will have the feature enabled automatically.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>: Indicates that all accounts in the organization have the
+  /// feature enabled automatically. This includes <code>NEW</code> accounts that
+  /// join the organization and accounts that may have been suspended or removed
+  /// from the organization in GuardDuty.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: Indicates that the feature will not be automatically
+  /// enabled for any account in the organization. In this case, each account will
+  /// be managed individually by the administrator.
+  /// </li>
+  /// </ul>
   final OrgFeatureStatus? autoEnable;
 
   /// The name of the feature that is configured for the member accounts within
@@ -9598,6 +10984,85 @@ class OrganizationFeatureConfigurationResult {
       if (additionalConfiguration != null)
         'additionalConfiguration': additionalConfiguration,
       if (autoEnable != null) 'autoEnable': autoEnable.toValue(),
+      if (name != null) 'name': name.toValue(),
+    };
+  }
+}
+
+/// Information about the number of accounts that have enabled a specific
+/// feature.
+class OrganizationFeatureStatistics {
+  /// Name of the additional configuration.
+  final List<OrganizationFeatureStatisticsAdditionalConfiguration>?
+      additionalConfiguration;
+
+  /// Total number of accounts that have enabled a specific feature.
+  final int? enabledAccountsCount;
+
+  /// Name of the feature.
+  final OrgFeature? name;
+
+  OrganizationFeatureStatistics({
+    this.additionalConfiguration,
+    this.enabledAccountsCount,
+    this.name,
+  });
+
+  factory OrganizationFeatureStatistics.fromJson(Map<String, dynamic> json) {
+    return OrganizationFeatureStatistics(
+      additionalConfiguration: (json['additionalConfiguration'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              OrganizationFeatureStatisticsAdditionalConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      enabledAccountsCount: json['enabledAccountsCount'] as int?,
+      name: (json['name'] as String?)?.toOrgFeature(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalConfiguration = this.additionalConfiguration;
+    final enabledAccountsCount = this.enabledAccountsCount;
+    final name = this.name;
+    return {
+      if (additionalConfiguration != null)
+        'additionalConfiguration': additionalConfiguration,
+      if (enabledAccountsCount != null)
+        'enabledAccountsCount': enabledAccountsCount,
+      if (name != null) 'name': name.toValue(),
+    };
+  }
+}
+
+/// Information about the coverage statistic for the additional configuration of
+/// the feature.
+class OrganizationFeatureStatisticsAdditionalConfiguration {
+  /// Total number of accounts that have enabled the additional configuration.
+  final int? enabledAccountsCount;
+
+  /// Name of the additional configuration within a feature.
+  final OrgFeatureAdditionalConfiguration? name;
+
+  OrganizationFeatureStatisticsAdditionalConfiguration({
+    this.enabledAccountsCount,
+    this.name,
+  });
+
+  factory OrganizationFeatureStatisticsAdditionalConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationFeatureStatisticsAdditionalConfiguration(
+      enabledAccountsCount: json['enabledAccountsCount'] as int?,
+      name: (json['name'] as String?)?.toOrgFeatureAdditionalConfiguration(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledAccountsCount = this.enabledAccountsCount;
+    final name = this.name;
+    return {
+      if (enabledAccountsCount != null)
+        'enabledAccountsCount': enabledAccountsCount,
       if (name != null) 'name': name.toValue(),
     };
   }
@@ -9829,6 +11294,70 @@ class OrganizationScanEc2InstanceWithFindingsResult {
     final ebsVolumes = this.ebsVolumes;
     return {
       if (ebsVolumes != null) 'ebsVolumes': ebsVolumes,
+    };
+  }
+}
+
+/// Information about the coverage statistics of the features for the entire
+/// Amazon Web Services organization.
+///
+/// When you create a new Amazon Web Services organization, it might take up to
+/// 24 hours to generate the statistics summary for this organization.
+class OrganizationStatistics {
+  /// Total number of active accounts in your Amazon Web Services organization
+  /// that are associated with GuardDuty.
+  final int? activeAccountsCount;
+
+  /// Retrieves the coverage statistics for each feature.
+  final List<OrganizationFeatureStatistics>? countByFeature;
+
+  /// Total number of accounts that have enabled GuardDuty.
+  final int? enabledAccountsCount;
+
+  /// Total number of accounts in your Amazon Web Services organization that are
+  /// associated with GuardDuty.
+  final int? memberAccountsCount;
+
+  /// Total number of accounts in your Amazon Web Services organization.
+  final int? totalAccountsCount;
+
+  OrganizationStatistics({
+    this.activeAccountsCount,
+    this.countByFeature,
+    this.enabledAccountsCount,
+    this.memberAccountsCount,
+    this.totalAccountsCount,
+  });
+
+  factory OrganizationStatistics.fromJson(Map<String, dynamic> json) {
+    return OrganizationStatistics(
+      activeAccountsCount: json['activeAccountsCount'] as int?,
+      countByFeature: (json['countByFeature'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              OrganizationFeatureStatistics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      enabledAccountsCount: json['enabledAccountsCount'] as int?,
+      memberAccountsCount: json['memberAccountsCount'] as int?,
+      totalAccountsCount: json['totalAccountsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeAccountsCount = this.activeAccountsCount;
+    final countByFeature = this.countByFeature;
+    final enabledAccountsCount = this.enabledAccountsCount;
+    final memberAccountsCount = this.memberAccountsCount;
+    final totalAccountsCount = this.totalAccountsCount;
+    return {
+      if (activeAccountsCount != null)
+        'activeAccountsCount': activeAccountsCount,
+      if (countByFeature != null) 'countByFeature': countByFeature,
+      if (enabledAccountsCount != null)
+        'enabledAccountsCount': enabledAccountsCount,
+      if (memberAccountsCount != null)
+        'memberAccountsCount': memberAccountsCount,
+      if (totalAccountsCount != null) 'totalAccountsCount': totalAccountsCount,
     };
   }
 }
@@ -10148,6 +11677,67 @@ class ProductCode {
   }
 }
 
+enum ProfileSubtype {
+  frequent,
+  infrequent,
+  unseen,
+  rare,
+}
+
+extension ProfileSubtypeValueExtension on ProfileSubtype {
+  String toValue() {
+    switch (this) {
+      case ProfileSubtype.frequent:
+        return 'FREQUENT';
+      case ProfileSubtype.infrequent:
+        return 'INFREQUENT';
+      case ProfileSubtype.unseen:
+        return 'UNSEEN';
+      case ProfileSubtype.rare:
+        return 'RARE';
+    }
+  }
+}
+
+extension ProfileSubtypeFromString on String {
+  ProfileSubtype toProfileSubtype() {
+    switch (this) {
+      case 'FREQUENT':
+        return ProfileSubtype.frequent;
+      case 'INFREQUENT':
+        return ProfileSubtype.infrequent;
+      case 'UNSEEN':
+        return ProfileSubtype.unseen;
+      case 'RARE':
+        return ProfileSubtype.rare;
+    }
+    throw Exception('$this is not known in enum ProfileSubtype');
+  }
+}
+
+enum ProfileType {
+  frequency,
+}
+
+extension ProfileTypeValueExtension on ProfileType {
+  String toValue() {
+    switch (this) {
+      case ProfileType.frequency:
+        return 'FREQUENCY';
+    }
+  }
+}
+
+extension ProfileTypeFromString on String {
+  ProfileType toProfileType() {
+    switch (this) {
+      case 'FREQUENCY':
+        return ProfileType.frequency;
+    }
+    throw Exception('$this is not known in enum ProfileType');
+  }
+}
+
 /// Describes the public access policies that apply to the S3 bucket.
 class PublicAccess {
   /// Describes the effective permission on this bucket after factoring all
@@ -10424,6 +12014,9 @@ class RemoteIpDetails {
   /// The IPv4 remote address of the connection.
   final String? ipAddressV4;
 
+  /// The IPv6 remote address of the connection.
+  final String? ipAddressV6;
+
   /// The ISP organization information of the remote IP address.
   final Organization? organization;
 
@@ -10432,6 +12025,7 @@ class RemoteIpDetails {
     this.country,
     this.geoLocation,
     this.ipAddressV4,
+    this.ipAddressV6,
     this.organization,
   });
 
@@ -10447,6 +12041,7 @@ class RemoteIpDetails {
           ? GeoLocation.fromJson(json['geoLocation'] as Map<String, dynamic>)
           : null,
       ipAddressV4: json['ipAddressV4'] as String?,
+      ipAddressV6: json['ipAddressV6'] as String?,
       organization: json['organization'] != null
           ? Organization.fromJson(json['organization'] as Map<String, dynamic>)
           : null,
@@ -10458,12 +12053,14 @@ class RemoteIpDetails {
     final country = this.country;
     final geoLocation = this.geoLocation;
     final ipAddressV4 = this.ipAddressV4;
+    final ipAddressV6 = this.ipAddressV6;
     final organization = this.organization;
     return {
       if (city != null) 'city': city,
       if (country != null) 'country': country,
       if (geoLocation != null) 'geoLocation': geoLocation,
       if (ipAddressV4 != null) 'ipAddressV4': ipAddressV4,
+      if (ipAddressV6 != null) 'ipAddressV6': ipAddressV6,
       if (organization != null) 'organization': organization,
     };
   }
@@ -10662,6 +12259,8 @@ class ResourceDetails {
 
 enum ResourceType {
   eks,
+  ecs,
+  ec2,
 }
 
 extension ResourceTypeValueExtension on ResourceType {
@@ -10669,6 +12268,10 @@ extension ResourceTypeValueExtension on ResourceType {
     switch (this) {
       case ResourceType.eks:
         return 'EKS';
+      case ResourceType.ecs:
+        return 'ECS';
+      case ResourceType.ec2:
+        return 'EC2';
     }
   }
 }
@@ -10678,6 +12281,10 @@ extension ResourceTypeFromString on String {
     switch (this) {
       case 'EKS':
         return ResourceType.eks;
+      case 'ECS':
+        return ResourceType.ecs;
+      case 'EC2':
+        return ResourceType.ec2;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -10689,6 +12296,9 @@ class RuntimeContext {
   /// example, the address family <code>AF_INET</code> is used for IP version of 4
   /// protocol.
   final String? addressFamily;
+
+  /// Example of the command line involved in the suspicious activity.
+  final String? commandLineExample;
 
   /// Represents the type of mounted fileSystem.
   final String? fileSystemType;
@@ -10744,6 +12354,9 @@ class RuntimeContext {
   /// The path to the script that was executed.
   final String? scriptPath;
 
+  /// Name of the security service that has been potentially disabled.
+  final String? serviceName;
+
   /// The path to the modified shell history file.
   final String? shellHistoryFilePath;
 
@@ -10754,8 +12367,20 @@ class RuntimeContext {
   /// process.
   final ProcessDetails? targetProcess;
 
+  /// The suspicious file path for which the threat intelligence details were
+  /// found.
+  final String? threatFilePath;
+
+  /// Category that the tool belongs to. Some of the examples are Backdoor Tool,
+  /// Pentest Tool, Network Scanner, and Network Sniffer.
+  final String? toolCategory;
+
+  /// Name of the potentially suspicious tool.
+  final String? toolName;
+
   RuntimeContext({
     this.addressFamily,
+    this.commandLineExample,
     this.fileSystemType,
     this.flags,
     this.ianaProtocolNumber,
@@ -10772,14 +12397,19 @@ class RuntimeContext {
     this.releaseAgentPath,
     this.runcBinaryPath,
     this.scriptPath,
+    this.serviceName,
     this.shellHistoryFilePath,
     this.socketPath,
     this.targetProcess,
+    this.threatFilePath,
+    this.toolCategory,
+    this.toolName,
   });
 
   factory RuntimeContext.fromJson(Map<String, dynamic> json) {
     return RuntimeContext(
       addressFamily: json['addressFamily'] as String?,
+      commandLineExample: json['commandLineExample'] as String?,
       fileSystemType: json['fileSystemType'] as String?,
       flags: (json['flags'] as List?)
           ?.whereNotNull()
@@ -10805,17 +12435,22 @@ class RuntimeContext {
       releaseAgentPath: json['releaseAgentPath'] as String?,
       runcBinaryPath: json['runcBinaryPath'] as String?,
       scriptPath: json['scriptPath'] as String?,
+      serviceName: json['serviceName'] as String?,
       shellHistoryFilePath: json['shellHistoryFilePath'] as String?,
       socketPath: json['socketPath'] as String?,
       targetProcess: json['targetProcess'] != null
           ? ProcessDetails.fromJson(
               json['targetProcess'] as Map<String, dynamic>)
           : null,
+      threatFilePath: json['threatFilePath'] as String?,
+      toolCategory: json['toolCategory'] as String?,
+      toolName: json['toolName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final addressFamily = this.addressFamily;
+    final commandLineExample = this.commandLineExample;
     final fileSystemType = this.fileSystemType;
     final flags = this.flags;
     final ianaProtocolNumber = this.ianaProtocolNumber;
@@ -10832,11 +12467,16 @@ class RuntimeContext {
     final releaseAgentPath = this.releaseAgentPath;
     final runcBinaryPath = this.runcBinaryPath;
     final scriptPath = this.scriptPath;
+    final serviceName = this.serviceName;
     final shellHistoryFilePath = this.shellHistoryFilePath;
     final socketPath = this.socketPath;
     final targetProcess = this.targetProcess;
+    final threatFilePath = this.threatFilePath;
+    final toolCategory = this.toolCategory;
+    final toolName = this.toolName;
     return {
       if (addressFamily != null) 'addressFamily': addressFamily,
+      if (commandLineExample != null) 'commandLineExample': commandLineExample,
       if (fileSystemType != null) 'fileSystemType': fileSystemType,
       if (flags != null) 'flags': flags,
       if (ianaProtocolNumber != null) 'ianaProtocolNumber': ianaProtocolNumber,
@@ -10853,10 +12493,14 @@ class RuntimeContext {
       if (releaseAgentPath != null) 'releaseAgentPath': releaseAgentPath,
       if (runcBinaryPath != null) 'runcBinaryPath': runcBinaryPath,
       if (scriptPath != null) 'scriptPath': scriptPath,
+      if (serviceName != null) 'serviceName': serviceName,
       if (shellHistoryFilePath != null)
         'shellHistoryFilePath': shellHistoryFilePath,
       if (socketPath != null) 'socketPath': socketPath,
       if (targetProcess != null) 'targetProcess': targetProcess,
+      if (threatFilePath != null) 'threatFilePath': threatFilePath,
+      if (toolCategory != null) 'toolCategory': toolCategory,
+      if (toolName != null) 'toolName': toolName,
     };
   }
 }
@@ -11183,13 +12827,14 @@ class ScanCondition {
   }
 }
 
-/// Represents key, value pair to be matched against given resource property.
+/// Represents the <code>key:value</code> pair to be matched against given
+/// resource property.
 class ScanConditionPair {
-  /// Represents <i>key</i> <b/> in the map condition.
+  /// Represents the <b>key</b> in the map condition.
   final String key;
 
-  /// Represents optional <i>value</i> <b/> in the map condition. If not
-  /// specified, only <i>key</i> <b/> will be matched.
+  /// Represents optional <b>value</b> in the map condition. If not specified,
+  /// only the <b>key</b> will be matched.
   final String? value;
 
   ScanConditionPair({
@@ -11632,22 +13277,31 @@ class ScannedItemCount {
 
 /// Container security context.
 class SecurityContext {
+  /// Whether or not a container or a Kubernetes pod is allowed to gain more
+  /// privileges than its parent process.
+  final bool? allowPrivilegeEscalation;
+
   /// Whether the container is privileged.
   final bool? privileged;
 
   SecurityContext({
+    this.allowPrivilegeEscalation,
     this.privileged,
   });
 
   factory SecurityContext.fromJson(Map<String, dynamic> json) {
     return SecurityContext(
+      allowPrivilegeEscalation: json['allowPrivilegeEscalation'] as bool?,
       privileged: json['privileged'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final allowPrivilegeEscalation = this.allowPrivilegeEscalation;
     final privileged = this.privileged;
     return {
+      if (allowPrivilegeEscalation != null)
+        'allowPrivilegeEscalation': allowPrivilegeEscalation,
       if (privileged != null) 'privileged': privileged,
     };
   }
@@ -11698,6 +13352,9 @@ class Service {
   /// The total count of the occurrences of this finding type.
   final int? count;
 
+  /// Contains information about the detected unusual behavior.
+  final Detection? detection;
+
   /// The detector ID for the GuardDuty service.
   final String? detectorId;
 
@@ -11737,6 +13394,7 @@ class Service {
     this.additionalInfo,
     this.archived,
     this.count,
+    this.detection,
     this.detectorId,
     this.ebsVolumeScanDetails,
     this.eventFirstSeen,
@@ -11760,6 +13418,9 @@ class Service {
           : null,
       archived: json['archived'] as bool?,
       count: json['count'] as int?,
+      detection: json['detection'] != null
+          ? Detection.fromJson(json['detection'] as Map<String, dynamic>)
+          : null,
       detectorId: json['detectorId'] as String?,
       ebsVolumeScanDetails: json['ebsVolumeScanDetails'] != null
           ? EbsVolumeScanDetails.fromJson(
@@ -11786,6 +13447,7 @@ class Service {
     final additionalInfo = this.additionalInfo;
     final archived = this.archived;
     final count = this.count;
+    final detection = this.detection;
     final detectorId = this.detectorId;
     final ebsVolumeScanDetails = this.ebsVolumeScanDetails;
     final eventFirstSeen = this.eventFirstSeen;
@@ -11801,6 +13463,7 @@ class Service {
       if (additionalInfo != null) 'additionalInfo': additionalInfo,
       if (archived != null) 'archived': archived,
       if (count != null) 'count': count,
+      if (detection != null) 'detection': detection,
       if (detectorId != null) 'detectorId': detectorId,
       if (ebsVolumeScanDetails != null)
         'ebsVolumeScanDetails': ebsVolumeScanDetails,
@@ -12143,6 +13806,9 @@ extension ThreatIntelSetStatusFromString on String {
 /// An instance of a threat intelligence detail that constitutes evidence for
 /// the finding.
 class ThreatIntelligenceDetail {
+  /// SHA256 of the file that generated the finding.
+  final String? threatFileSha256;
+
   /// The name of the threat intelligence list that triggered the finding.
   final String? threatListName;
 
@@ -12151,12 +13817,14 @@ class ThreatIntelligenceDetail {
   final List<String>? threatNames;
 
   ThreatIntelligenceDetail({
+    this.threatFileSha256,
     this.threatListName,
     this.threatNames,
   });
 
   factory ThreatIntelligenceDetail.fromJson(Map<String, dynamic> json) {
     return ThreatIntelligenceDetail(
+      threatFileSha256: json['threatFileSha256'] as String?,
       threatListName: json['threatListName'] as String?,
       threatNames: (json['threatNames'] as List?)
           ?.whereNotNull()
@@ -12166,9 +13834,11 @@ class ThreatIntelligenceDetail {
   }
 
   Map<String, dynamic> toJson() {
+    final threatFileSha256 = this.threatFileSha256;
     final threatListName = this.threatListName;
     final threatNames = this.threatNames;
     return {
+      if (threatFileSha256 != null) 'threatFileSha256': threatFileSha256,
       if (threatListName != null) 'threatListName': threatListName,
       if (threatNames != null) 'threatNames': threatNames,
     };
@@ -12583,6 +14253,10 @@ enum UsageFeature {
   rdsLoginEvents,
   lambdaNetworkLogs,
   eksRuntimeMonitoring,
+  fargateRuntimeMonitoring,
+  ec2RuntimeMonitoring,
+  rdsDbiProtectionProvisioned,
+  rdsDbiProtectionServerless,
 }
 
 extension UsageFeatureValueExtension on UsageFeature {
@@ -12606,6 +14280,14 @@ extension UsageFeatureValueExtension on UsageFeature {
         return 'LAMBDA_NETWORK_LOGS';
       case UsageFeature.eksRuntimeMonitoring:
         return 'EKS_RUNTIME_MONITORING';
+      case UsageFeature.fargateRuntimeMonitoring:
+        return 'FARGATE_RUNTIME_MONITORING';
+      case UsageFeature.ec2RuntimeMonitoring:
+        return 'EC2_RUNTIME_MONITORING';
+      case UsageFeature.rdsDbiProtectionProvisioned:
+        return 'RDS_DBI_PROTECTION_PROVISIONED';
+      case UsageFeature.rdsDbiProtectionServerless:
+        return 'RDS_DBI_PROTECTION_SERVERLESS';
     }
   }
 }
@@ -12631,6 +14313,14 @@ extension UsageFeatureFromString on String {
         return UsageFeature.lambdaNetworkLogs;
       case 'EKS_RUNTIME_MONITORING':
         return UsageFeature.eksRuntimeMonitoring;
+      case 'FARGATE_RUNTIME_MONITORING':
+        return UsageFeature.fargateRuntimeMonitoring;
+      case 'EC2_RUNTIME_MONITORING':
+        return UsageFeature.ec2RuntimeMonitoring;
+      case 'RDS_DBI_PROTECTION_PROVISIONED':
+        return UsageFeature.rdsDbiProtectionProvisioned;
+      case 'RDS_DBI_PROTECTION_SERVERLESS':
+        return UsageFeature.rdsDbiProtectionServerless;
     }
     throw Exception('$this is not known in enum UsageFeature');
   }
@@ -12706,6 +14396,7 @@ enum UsageStatisticType {
   sumByResource,
   topResources,
   sumByFeatures,
+  topAccountsByFeature,
 }
 
 extension UsageStatisticTypeValueExtension on UsageStatisticType {
@@ -12721,6 +14412,8 @@ extension UsageStatisticTypeValueExtension on UsageStatisticType {
         return 'TOP_RESOURCES';
       case UsageStatisticType.sumByFeatures:
         return 'SUM_BY_FEATURES';
+      case UsageStatisticType.topAccountsByFeature:
+        return 'TOP_ACCOUNTS_BY_FEATURE';
     }
   }
 }
@@ -12738,6 +14431,8 @@ extension UsageStatisticTypeFromString on String {
         return UsageStatisticType.topResources;
       case 'SUM_BY_FEATURES':
         return UsageStatisticType.sumByFeatures;
+      case 'TOP_ACCOUNTS_BY_FEATURE':
+        return UsageStatisticType.topAccountsByFeature;
     }
     throw Exception('$this is not known in enum UsageStatisticType');
   }
@@ -12758,6 +14453,12 @@ class UsageStatistics {
   /// The usage statistic sum organized by resource.
   final List<UsageResourceResult>? sumByResource;
 
+  /// Lists the top 50 accounts by feature that have generated the most GuardDuty
+  /// usage, in the order from most to least expensive.
+  ///
+  /// Currently, this doesn't support <code>RDS_LOGIN_EVENTS</code>.
+  final List<UsageTopAccountsResult>? topAccountsByFeature;
+
   /// Lists the top 50 resources that have generated the most GuardDuty usage, in
   /// order from most to least expensive.
   final List<UsageResourceResult>? topResources;
@@ -12767,6 +14468,7 @@ class UsageStatistics {
     this.sumByDataSource,
     this.sumByFeature,
     this.sumByResource,
+    this.topAccountsByFeature,
     this.topResources,
   });
 
@@ -12788,6 +14490,11 @@ class UsageStatistics {
           ?.whereNotNull()
           .map((e) => UsageResourceResult.fromJson(e as Map<String, dynamic>))
           .toList(),
+      topAccountsByFeature: (json['topAccountsByFeature'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => UsageTopAccountsResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
       topResources: (json['topResources'] as List?)
           ?.whereNotNull()
           .map((e) => UsageResourceResult.fromJson(e as Map<String, dynamic>))
@@ -12800,13 +14507,84 @@ class UsageStatistics {
     final sumByDataSource = this.sumByDataSource;
     final sumByFeature = this.sumByFeature;
     final sumByResource = this.sumByResource;
+    final topAccountsByFeature = this.topAccountsByFeature;
     final topResources = this.topResources;
     return {
       if (sumByAccount != null) 'sumByAccount': sumByAccount,
       if (sumByDataSource != null) 'sumByDataSource': sumByDataSource,
       if (sumByFeature != null) 'sumByFeature': sumByFeature,
       if (sumByResource != null) 'sumByResource': sumByResource,
+      if (topAccountsByFeature != null)
+        'topAccountsByFeature': topAccountsByFeature,
       if (topResources != null) 'topResources': topResources,
+    };
+  }
+}
+
+/// Contains information on the total of usage based on the topmost 50 account
+/// IDs.
+class UsageTopAccountResult {
+  /// The unique account ID.
+  final String? accountId;
+  final Total? total;
+
+  UsageTopAccountResult({
+    this.accountId,
+    this.total,
+  });
+
+  factory UsageTopAccountResult.fromJson(Map<String, dynamic> json) {
+    return UsageTopAccountResult(
+      accountId: json['accountId'] as String?,
+      total: json['total'] != null
+          ? Total.fromJson(json['total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final total = this.total;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (total != null) 'total': total,
+    };
+  }
+}
+
+/// Information about the usage statistics, calculated by top accounts by
+/// feature.
+class UsageTopAccountsResult {
+  /// The accounts that contributed to the total usage cost.
+  final List<UsageTopAccountResult>? accounts;
+
+  /// Features by which you can generate the usage statistics.
+  ///
+  /// <code>RDS_LOGIN_EVENTS</code> is currently not supported with
+  /// <code>topAccountsByFeature</code>.
+  final UsageFeature? feature;
+
+  UsageTopAccountsResult({
+    this.accounts,
+    this.feature,
+  });
+
+  factory UsageTopAccountsResult.fromJson(Map<String, dynamic> json) {
+    return UsageTopAccountsResult(
+      accounts: (json['accounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageTopAccountResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      feature: (json['feature'] as String?)?.toUsageFeature(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final feature = this.feature;
+    return {
+      if (accounts != null) 'accounts': accounts,
+      if (feature != null) 'feature': feature.toValue(),
     };
   }
 }

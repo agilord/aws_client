@@ -1221,7 +1221,13 @@ class ApiGatewayProxyInput {
   /// If the value is set to <code>PRIVATE</code> in the request, this creates a
   /// private API endpoint that is isolated from the public internet. The private
   /// endpoint can only be accessed by using Amazon Virtual Private Cloud (Amazon
-  /// VPC) endpoints for Amazon API Gateway that have been granted access.
+  /// VPC) interface endpoints for the Amazon API Gateway that has been granted
+  /// access. For more information about creating a private connection with
+  /// Refactor Spaces and interface endpoint (Amazon Web Services PrivateLink)
+  /// availability, see <a
+  /// href="https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/vpc-interface-endpoints.html">Access
+  /// Refactor Spaces using an interface endpoint (Amazon Web Services
+  /// PrivateLink)</a>.
   final ApiGatewayEndpointType? endpointType;
 
   /// The name of the API Gateway stage. The name defaults to <code>prod</code>.
@@ -2922,6 +2928,10 @@ class GetResourcePolicyResponse {
 }
 
 class GetRouteResponse {
+  /// If set to <code>true</code>, this option appends the source path to the
+  /// service URL endpoint.
+  final bool? appendSourcePath;
+
   /// The ID of the application that the route belongs to.
   final String? applicationId;
 
@@ -2974,8 +2984,11 @@ class GetRouteResponse {
   /// The unique identifier of the service.
   final String? serviceId;
 
-  /// The path to use to match traffic. Paths must start with <code>/</code> and
-  /// are relative to the base of the application.
+  /// This is the path that Refactor Spaces uses to match traffic. Paths must
+  /// start with <code>/</code> and are relative to the base of the application.
+  /// To use path parameters in the source path, add a variable in curly braces.
+  /// For example, the resource path {user} represents a path parameter called
+  /// 'user'.
   final String? sourcePath;
 
   /// The current state of the route.
@@ -2986,6 +2999,7 @@ class GetRouteResponse {
   final Map<String, String>? tags;
 
   GetRouteResponse({
+    this.appendSourcePath,
     this.applicationId,
     this.arn,
     this.createdByAccountId,
@@ -3007,6 +3021,7 @@ class GetRouteResponse {
 
   factory GetRouteResponse.fromJson(Map<String, dynamic> json) {
     return GetRouteResponse(
+      appendSourcePath: json['AppendSourcePath'] as bool?,
       applicationId: json['ApplicationId'] as String?,
       arn: json['Arn'] as String?,
       createdByAccountId: json['CreatedByAccountId'] as String?,
@@ -3035,6 +3050,7 @@ class GetRouteResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final appendSourcePath = this.appendSourcePath;
     final applicationId = this.applicationId;
     final arn = this.arn;
     final createdByAccountId = this.createdByAccountId;
@@ -3053,6 +3069,7 @@ class GetRouteResponse {
     final state = this.state;
     final tags = this.tags;
     return {
+      if (appendSourcePath != null) 'AppendSourcePath': appendSourcePath,
       if (applicationId != null) 'ApplicationId': applicationId,
       if (arn != null) 'Arn': arn,
       if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
@@ -3676,6 +3693,10 @@ extension RouteStateFromString on String {
 /// The summary information for the routes as a response to
 /// <code>ListRoutes</code>.
 class RouteSummary {
+  /// If set to <code>true</code>, this option appends the source path to the
+  /// service URL endpoint.
+  final bool? appendSourcePath;
+
   /// The unique identifier of the application.
   final String? applicationId;
 
@@ -3722,8 +3743,11 @@ class RouteSummary {
   /// The unique identifier of the service.
   final String? serviceId;
 
-  /// The path to use to match traffic. Paths must start with <code>/</code> and
-  /// are relative to the base of the application.
+  /// This is the path that Refactor Spaces uses to match traffic. Paths must
+  /// start with <code>/</code> and are relative to the base of the application.
+  /// To use path parameters in the source path, add a variable in curly braces.
+  /// For example, the resource path {user} represents a path parameter called
+  /// 'user'.
   final String? sourcePath;
 
   /// The current state of the route.
@@ -3733,6 +3757,7 @@ class RouteSummary {
   final Map<String, String>? tags;
 
   RouteSummary({
+    this.appendSourcePath,
     this.applicationId,
     this.arn,
     this.createdByAccountId,
@@ -3754,6 +3779,7 @@ class RouteSummary {
 
   factory RouteSummary.fromJson(Map<String, dynamic> json) {
     return RouteSummary(
+      appendSourcePath: json['AppendSourcePath'] as bool?,
       applicationId: json['ApplicationId'] as String?,
       arn: json['Arn'] as String?,
       createdByAccountId: json['CreatedByAccountId'] as String?,
@@ -3782,6 +3808,7 @@ class RouteSummary {
   }
 
   Map<String, dynamic> toJson() {
+    final appendSourcePath = this.appendSourcePath;
     final applicationId = this.applicationId;
     final arn = this.arn;
     final createdByAccountId = this.createdByAccountId;
@@ -3800,6 +3827,7 @@ class RouteSummary {
     final state = this.state;
     final tags = this.tags;
     return {
+      if (appendSourcePath != null) 'AppendSourcePath': appendSourcePath,
       if (applicationId != null) 'ApplicationId': applicationId,
       if (arn != null) 'Arn': arn,
       if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
@@ -4155,9 +4183,16 @@ class UriPathRouteInput {
   /// after the route is created.
   final RouteActivationState activationState;
 
-  /// The path to use to match traffic. Paths must start with <code>/</code> and
-  /// are relative to the base of the application.
+  /// This is the path that Refactor Spaces uses to match traffic. Paths must
+  /// start with <code>/</code> and are relative to the base of the application.
+  /// To use path parameters in the source path, add a variable in curly braces.
+  /// For example, the resource path {user} represents a path parameter called
+  /// 'user'.
   final String sourcePath;
+
+  /// If set to <code>true</code>, this option appends the source path to the
+  /// service URL endpoint.
+  final bool? appendSourcePath;
 
   /// Indicates whether to match all subpaths of the given source path. If this
   /// value is <code>false</code>, requests must match the source path exactly
@@ -4172,6 +4207,7 @@ class UriPathRouteInput {
   UriPathRouteInput({
     required this.activationState,
     required this.sourcePath,
+    this.appendSourcePath,
     this.includeChildPaths,
     this.methods,
   });
@@ -4181,6 +4217,7 @@ class UriPathRouteInput {
       activationState:
           (json['ActivationState'] as String).toRouteActivationState(),
       sourcePath: json['SourcePath'] as String,
+      appendSourcePath: json['AppendSourcePath'] as bool?,
       includeChildPaths: json['IncludeChildPaths'] as bool?,
       methods: (json['Methods'] as List?)
           ?.whereNotNull()
@@ -4192,11 +4229,13 @@ class UriPathRouteInput {
   Map<String, dynamic> toJson() {
     final activationState = this.activationState;
     final sourcePath = this.sourcePath;
+    final appendSourcePath = this.appendSourcePath;
     final includeChildPaths = this.includeChildPaths;
     final methods = this.methods;
     return {
       'ActivationState': activationState.toValue(),
       'SourcePath': sourcePath,
+      if (appendSourcePath != null) 'AppendSourcePath': appendSourcePath,
       if (includeChildPaths != null) 'IncludeChildPaths': includeChildPaths,
       if (methods != null) 'Methods': methods.map((e) => e.toValue()).toList(),
     };

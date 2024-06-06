@@ -159,6 +159,7 @@ class SNS {
   /// May throw [InternalErrorException].
   /// May throw [AuthorizationErrorException].
   /// May throw [FilterPolicyLimitExceededException].
+  /// May throw [ReplayLimitExceededException].
   ///
   /// Parameter [token] :
   /// Short-lived token sent to an endpoint during the <code>Subscribe</code>
@@ -228,9 +229,18 @@ class SNS {
   /// and <code>PlatformCredential</code> is <code>signing key</code>.
   /// </li>
   /// <li>
-  /// For <code>GCM</code> (Firebase Cloud Messaging), there is no
-  /// <code>PlatformPrincipal</code> and the <code>PlatformCredential</code> is
+  /// For GCM (Firebase Cloud Messaging) using key credentials, there is no
+  /// <code>PlatformPrincipal</code>. The <code>PlatformCredential</code> is
   /// <code>API key</code>.
+  /// </li>
+  /// <li>
+  /// For GCM (Firebase Cloud Messaging) using token credentials, there is no
+  /// <code>PlatformPrincipal</code>. The <code>PlatformCredential</code> is a
+  /// JSON formatted private key file. When using the Amazon Web Services CLI,
+  /// the file must be in string format and special characters must be ignored.
+  /// To format the file correctly, Amazon SNS recommends using the following
+  /// command: <code>SERVICE_JSON=`jq @json &lt;&lt;&lt; cat
+  /// service.json`</code>.
   /// </li>
   /// <li>
   /// For <code>MPNS</code>, <code>PlatformPrincipal</code> is <code>TLS
@@ -252,7 +262,8 @@ class SNS {
   ///
   /// Parameter [attributes] :
   /// For a list of attributes, see <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_SetPlatformApplicationAttributes.html">SetPlatformApplicationAttributes</a>.
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_SetPlatformApplicationAttributes.html">
+  /// <code>SetPlatformApplicationAttributes</code> </a>.
   ///
   /// Parameter [name] :
   /// Application names must be made up of only uppercase and lowercase ASCII
@@ -312,8 +323,8 @@ class SNS {
   /// May throw [NotFoundException].
   ///
   /// Parameter [platformApplicationArn] :
-  /// PlatformApplicationArn returned from CreatePlatformApplication is used to
-  /// create a an endpoint.
+  /// <code>PlatformApplicationArn</code> returned from
+  /// CreatePlatformApplication is used to create a an endpoint.
   ///
   /// Parameter [token] :
   /// Unique identifier created by the notification service for an app on a
@@ -325,7 +336,8 @@ class SNS {
   ///
   /// Parameter [attributes] :
   /// For a list of attributes, see <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html">SetEndpointAttributes</a>.
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html">
+  /// <code>SetEndpointAttributes</code> </a>.
   ///
   /// Parameter [customUserData] :
   /// Arbitrary user data to associate with the endpoint. Amazon SNS does not
@@ -491,8 +503,14 @@ class SNS {
   ///
   /// <ul>
   /// <li>
-  /// <code>FifoTopic</code> – When this is set to <code>true</code>, a FIFO
-  /// topic is created.
+  /// <code>ArchivePolicy</code> – Adds or updates an inline policy document to
+  /// archive messages stored in the specified Amazon SNS topic.
+  /// </li>
+  /// <li>
+  /// <code>BeginningArchiveTime</code> – The earliest starting point at which a
+  /// message in the topic’s archive can be replayed from. This point in time is
+  /// based on the configured message retention period set by the topic’s
+  /// message archiving policy.
   /// </li>
   /// <li>
   /// <code>ContentBasedDeduplication</code> – Enables content-based
@@ -573,7 +591,7 @@ class SNS {
   /// May throw [AuthorizationErrorException].
   ///
   /// Parameter [endpointArn] :
-  /// EndpointArn of endpoint to delete.
+  /// <code>EndpointArn</code> of endpoint to delete.
   Future<void> deleteEndpoint({
     required String endpointArn,
   }) async {
@@ -602,7 +620,8 @@ class SNS {
   /// May throw [AuthorizationErrorException].
   ///
   /// Parameter [platformApplicationArn] :
-  /// PlatformApplicationArn of platform application object to delete.
+  /// <code>PlatformApplicationArn</code> of platform application object to
+  /// delete.
   Future<void> deletePlatformApplication({
     required String platformApplicationArn,
   }) async {
@@ -667,6 +686,7 @@ class SNS {
   /// exist does not result in an error.
   ///
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidStateException].
   /// May throw [InternalErrorException].
   /// May throw [AuthorizationErrorException].
   /// May throw [NotFoundException].
@@ -740,7 +760,7 @@ class SNS {
   /// May throw [NotFoundException].
   ///
   /// Parameter [endpointArn] :
-  /// EndpointArn for GetEndpointAttributes input.
+  /// <code>EndpointArn</code> for <code>GetEndpointAttributes</code> input.
   Future<GetEndpointAttributesResponse> getEndpointAttributes({
     required String endpointArn,
   }) async {
@@ -772,7 +792,8 @@ class SNS {
   /// May throw [NotFoundException].
   ///
   /// Parameter [platformApplicationArn] :
-  /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
+  /// <code>PlatformApplicationArn</code> for
+  /// GetPlatformApplicationAttributesInput.
   Future<GetPlatformApplicationAttributesResponse>
       getPlatformApplicationAttributes({
     required String platformApplicationArn,
@@ -941,12 +962,13 @@ class SNS {
   /// May throw [NotFoundException].
   ///
   /// Parameter [platformApplicationArn] :
-  /// PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.
+  /// <code>PlatformApplicationArn</code> for
+  /// <code>ListEndpointsByPlatformApplicationInput</code> action.
   ///
   /// Parameter [nextToken] :
-  /// NextToken string is used when calling ListEndpointsByPlatformApplication
-  /// action to retrieve additional records that are available after the first
-  /// page results.
+  /// <code>NextToken</code> string is used when calling
+  /// <code>ListEndpointsByPlatformApplication</code> action to retrieve
+  /// additional records that are available after the first page results.
   Future<ListEndpointsByPlatformApplicationResponse>
       listEndpointsByPlatformApplication({
     required String platformApplicationArn,
@@ -1072,9 +1094,9 @@ class SNS {
   /// May throw [AuthorizationErrorException].
   ///
   /// Parameter [nextToken] :
-  /// NextToken string is used when calling ListPlatformApplications action to
-  /// retrieve additional records that are available after the first page
-  /// results.
+  /// <code>NextToken</code> string is used when calling
+  /// <code>ListPlatformApplications</code> action to retrieve additional
+  /// records that are available after the first page results.
   Future<ListPlatformApplicationsResponse> listPlatformApplications({
     String? nextToken,
   }) async {
@@ -1736,7 +1758,7 @@ class SNS {
   /// </ul>
   ///
   /// Parameter [endpointArn] :
-  /// EndpointArn used for SetEndpointAttributes action.
+  /// EndpointArn used for <code>SetEndpointAttributes</code> action.
   Future<void> setEndpointAttributes({
     required Map<String, String> attributes,
     required String endpointArn,
@@ -1792,8 +1814,18 @@ class SNS {
   /// <code>PlatformCredential</code> is signing key.
   /// </li>
   /// <li>
-  /// For GCM (Firebase Cloud Messaging), <code>PlatformCredential</code> is API
-  /// key.
+  /// For GCM (Firebase Cloud Messaging) using key credentials, there is no
+  /// <code>PlatformPrincipal</code>. The <code>PlatformCredential</code> is
+  /// <code>API key</code>.
+  /// </li>
+  /// <li>
+  /// For GCM (Firebase Cloud Messaging) using token credentials, there is no
+  /// <code>PlatformPrincipal</code>. The <code>PlatformCredential</code> is a
+  /// JSON formatted private key file. When using the Amazon Web Services CLI,
+  /// the file must be in string format and special characters must be ignored.
+  /// To format the file correctly, Amazon SNS recommends using the following
+  /// command: <code>SERVICE_JSON=`jq @json &lt;&lt;&lt; cat
+  /// service.json`</code>.
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -1867,7 +1899,8 @@ class SNS {
   /// </ul>
   ///
   /// Parameter [platformApplicationArn] :
-  /// PlatformApplicationArn for SetPlatformApplicationAttributes action.
+  /// <code>PlatformApplicationArn</code> for
+  /// <code>SetPlatformApplicationAttributes</code> action.
   Future<void> setPlatformApplicationAttributes({
     required Map<String, String> attributes,
     required String platformApplicationArn,
@@ -2024,6 +2057,7 @@ class SNS {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [FilterPolicyLimitExceededException].
+  /// May throw [ReplayLimitExceededException].
   /// May throw [InternalErrorException].
   /// May throw [NotFoundException].
   /// May throw [AuthorizationErrorException].
@@ -2370,12 +2404,13 @@ class SNS {
   /// <code>ConfirmSubscription</code> action to confirm the subscription.
   ///
   /// You call the <code>ConfirmSubscription</code> action with the token from
-  /// the subscription response. Confirmation tokens are valid for three days.
+  /// the subscription response. Confirmation tokens are valid for two days.
   ///
   /// This action is throttled at 100 transactions per second (TPS).
   ///
   /// May throw [SubscriptionLimitExceededException].
   /// May throw [FilterPolicyLimitExceededException].
+  /// May throw [ReplayLimitExceededException].
   /// May throw [InvalidParameterException].
   /// May throw [InternalErrorException].
   /// May throw [NotFoundException].
@@ -2487,6 +2522,39 @@ class SNS {
   /// to Kinesis Data Firehose delivery streams</a> in the <i>Amazon SNS
   /// Developer Guide</i>.
   /// </li>
+  /// </ul>
+  /// The following attributes apply only to <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html">FIFO
+  /// topics</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ReplayPolicy</code> – Adds or updates an inline policy document for
+  /// a subscription to replay messages stored in the specified Amazon SNS
+  /// topic.
+  /// </li>
+  /// <li>
+  /// <code>ReplayStatus</code> – Retrieves the status of the subscription
+  /// message replay, which can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Completed</code> – The replay has successfully redelivered all
+  /// messages, and is now delivering newly published messages. If an ending
+  /// point was specified in the <code>ReplayPolicy</code> then the subscription
+  /// will no longer receive newly published messages.
+  /// </li>
+  /// <li>
+  /// <code>In progress</code> – The replay is currently replaying the selected
+  /// messages.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> – The replay was unable to complete.
+  /// </li>
+  /// <li>
+  /// <code>Pending</code> – The default state while the replay initiates.
+  /// </li>
+  /// </ul> </li>
   /// </ul>
   ///
   /// Parameter [endpoint] :
@@ -2850,7 +2918,7 @@ class CreateEndpointResponse {
 
 /// Response from CreatePlatformApplication action.
 class CreatePlatformApplicationResponse {
-  /// PlatformApplicationArn is returned.
+  /// <code>PlatformApplicationArn</code> is returned.
   final String? platformApplicationArn;
 
   CreatePlatformApplicationResponse({
@@ -2940,7 +3008,8 @@ class GetDataProtectionPolicyResponse {
   }
 }
 
-/// Response from GetEndpointAttributes of the EndpointArn.
+/// Response from <code>GetEndpointAttributes</code> of the
+/// <code>EndpointArn</code>.
 class GetEndpointAttributesResponse {
   /// Attributes include the following:
   ///
@@ -2984,7 +3053,7 @@ class GetEndpointAttributesResponse {
   }
 }
 
-/// Response for GetPlatformApplicationAttributes action.
+/// Response for <code>GetPlatformApplicationAttributes</code> action.
 class GetPlatformApplicationAttributesResponse {
   /// Attributes include the following:
   ///
@@ -3001,6 +3070,19 @@ class GetPlatformApplicationAttributesResponse {
   /// <code>ApplePlatformBundleID</code> – The app identifier used to configure
   /// token-based authentication.
   /// </li>
+  /// <li>
+  /// <code>AuthenticationMethod</code> – Returns the credential type used when
+  /// sending push notifications from application to APNS/APNS_Sandbox, or
+  /// application to GCM.
+  ///
+  /// <ul>
+  /// <li>
+  /// APNS – Returns the token or certificate.
+  /// </li>
+  /// <li>
+  /// GCM – Returns the token or key.
+  /// </li>
+  /// </ul> </li>
   /// <li>
   /// <code>EventEndpointCreated</code> – Topic ARN to which EndpointCreated event
   /// notifications should be sent.
@@ -3411,13 +3493,15 @@ extension LanguageCodeStringFromString on String {
   }
 }
 
-/// Response for ListEndpointsByPlatformApplication action.
+/// Response for <code>ListEndpointsByPlatformApplication</code> action.
 class ListEndpointsByPlatformApplicationResponse {
-  /// Endpoints returned for ListEndpointsByPlatformApplication action.
+  /// Endpoints returned for <code>ListEndpointsByPlatformApplication</code>
+  /// action.
   final List<Endpoint>? endpoints;
 
-  /// NextToken string is returned when calling ListEndpointsByPlatformApplication
-  /// action if additional records are available after the first page results.
+  /// <code>NextToken</code> string is returned when calling
+  /// <code>ListEndpointsByPlatformApplication</code> action if additional records
+  /// are available after the first page results.
   final String? nextToken;
 
   ListEndpointsByPlatformApplicationResponse({
@@ -3483,13 +3567,15 @@ class ListPhoneNumbersOptedOutResponse {
   }
 }
 
-/// Response for ListPlatformApplications action.
+/// Response for <code>ListPlatformApplications</code> action.
 class ListPlatformApplicationsResponse {
-  /// NextToken string is returned when calling ListPlatformApplications action if
-  /// additional records are available after the first page results.
+  /// <code>NextToken</code> string is returned when calling
+  /// <code>ListPlatformApplications</code> action if additional records are
+  /// available after the first page results.
   final String? nextToken;
 
-  /// Platform applications returned when calling ListPlatformApplications action.
+  /// Platform applications returned when calling
+  /// <code>ListPlatformApplications</code> action.
   final List<PlatformApplication>? platformApplications;
 
   ListPlatformApplicationsResponse({
@@ -4339,6 +4425,11 @@ class InvalidSecurityException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidSecurityException', message: message);
 }
 
+class InvalidStateException extends _s.GenericAwsException {
+  InvalidStateException({String? type, String? message})
+      : super(type: type, code: 'InvalidStateException', message: message);
+}
+
 class KMSAccessDeniedException extends _s.GenericAwsException {
   KMSAccessDeniedException({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedException', message: message);
@@ -4385,6 +4476,12 @@ class PlatformApplicationDisabledException extends _s.GenericAwsException {
             type: type,
             code: 'PlatformApplicationDisabledException',
             message: message);
+}
+
+class ReplayLimitExceededException extends _s.GenericAwsException {
+  ReplayLimitExceededException({String? type, String? message})
+      : super(
+            type: type, code: 'ReplayLimitExceededException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
@@ -4474,6 +4571,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidParameterValueException(type: type, message: message),
   'InvalidSecurityException': (type, message) =>
       InvalidSecurityException(type: type, message: message),
+  'InvalidStateException': (type, message) =>
+      InvalidStateException(type: type, message: message),
   'KMSAccessDeniedException': (type, message) =>
       KMSAccessDeniedException(type: type, message: message),
   'KMSDisabledException': (type, message) =>
@@ -4492,6 +4591,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       OptedOutException(type: type, message: message),
   'PlatformApplicationDisabledException': (type, message) =>
       PlatformApplicationDisabledException(type: type, message: message),
+  'ReplayLimitExceededException': (type, message) =>
+      ReplayLimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'StaleTagException': (type, message) =>

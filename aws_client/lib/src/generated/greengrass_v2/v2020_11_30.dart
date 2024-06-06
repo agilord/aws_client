@@ -233,38 +233,10 @@ class GreengrassV2 {
   /// package. You can use this operation to migrate Lambda functions from IoT
   /// Greengrass V1 to IoT Greengrass V2.
   ///
-  /// This function only accepts Lambda functions that use the following
-  /// runtimes:
+  /// This function accepts Lambda functions in all supported versions of
+  /// Python, Node.js, and Java runtimes. IoT Greengrass doesn't apply any
+  /// additional restrictions on deprecated Lambda runtime versions.
   ///
-  /// <ul>
-  /// <li>
-  /// Python 2.7 – <code>python2.7</code>
-  /// </li>
-  /// <li>
-  /// Python 3.7 – <code>python3.7</code>
-  /// </li>
-  /// <li>
-  /// Python 3.8 – <code>python3.8</code>
-  /// </li>
-  /// <li>
-  /// Python 3.9 – <code>python3.9</code>
-  /// </li>
-  /// <li>
-  /// Java 8 – <code>java8</code>
-  /// </li>
-  /// <li>
-  /// Java 11 – <code>java11</code>
-  /// </li>
-  /// <li>
-  /// Node.js 10 – <code>nodejs10.x</code>
-  /// </li>
-  /// <li>
-  /// Node.js 12 – <code>nodejs12.x</code>
-  /// </li>
-  /// <li>
-  /// Node.js 14 – <code>nodejs14.x</code>
-  /// </li>
-  /// </ul>
   /// To create a component from a Lambda function, specify
   /// <code>lambdaFunction</code> when you call this operation.
   /// <note>
@@ -621,15 +593,40 @@ class GreengrassV2 {
   /// artifact. The artifact name is the section of the URI after the scheme.
   /// For example, in the artifact URI <code>greengrass:SomeArtifact.zip</code>,
   /// the artifact name is <code>SomeArtifact.zip</code>.
+  ///
+  /// Parameter [iotEndpointType] :
+  /// Determines if the Amazon S3 URL returned is a FIPS pre-signed URL
+  /// endpoint. Specify <code>fips</code> if you want the returned Amazon S3
+  /// pre-signed URL to point to an Amazon S3 FIPS endpoint. If you don't
+  /// specify a value, the default is <code>standard</code>.
+  ///
+  /// Parameter [s3EndpointType] :
+  /// Specifies the endpoint to use when getting Amazon S3 pre-signed URLs.
+  ///
+  /// All Amazon Web Services Regions except US East (N. Virginia) use
+  /// <code>REGIONAL</code> in all cases. In the US East (N. Virginia) Region
+  /// the default is <code>GLOBAL</code>, but you can change it to
+  /// <code>REGIONAL</code> with this parameter.
   Future<GetComponentVersionArtifactResponse> getComponentVersionArtifact({
     required String arn,
     required String artifactName,
+    IotEndpointType? iotEndpointType,
+    S3EndpointType? s3EndpointType,
   }) async {
+    final headers = <String, String>{
+      if (iotEndpointType != null)
+        'x-amz-iot-endpoint-type': iotEndpointType.toValue(),
+    };
+    final $query = <String, List<String>>{
+      if (s3EndpointType != null) 's3EndpointType': [s3EndpointType.toValue()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/greengrass/v2/components/${Uri.encodeComponent(arn)}/artifacts/${artifactName.split('/').map(Uri.encodeComponent).join('/')}',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetComponentVersionArtifactResponse.fromJson(response);
@@ -1017,6 +1014,8 @@ class GreengrassV2 {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per paginated request.
+  ///
+  /// Default: <code>50</code>
   ///
   /// Parameter [nextToken] :
   /// The token to be used for the next set of paginated results.
@@ -1891,7 +1890,7 @@ extension ComponentDependencyTypeFromString on String {
 /// Contains information about a component to deploy.
 class ComponentDeploymentSpecification {
   /// The version of the component.
-  final String? componentVersion;
+  final String componentVersion;
 
   /// The configuration updates to deploy for the component. You can define
   /// <i>reset</i> updates and <i>merge</i> updates. A reset updates the keys that
@@ -1914,14 +1913,14 @@ class ComponentDeploymentSpecification {
   final ComponentRunWith? runWith;
 
   ComponentDeploymentSpecification({
-    this.componentVersion,
+    required this.componentVersion,
     this.configurationUpdate,
     this.runWith,
   });
 
   factory ComponentDeploymentSpecification.fromJson(Map<String, dynamic> json) {
     return ComponentDeploymentSpecification(
-      componentVersion: json['componentVersion'] as String?,
+      componentVersion: json['componentVersion'] as String,
       configurationUpdate: json['configurationUpdate'] != null
           ? ComponentConfigurationUpdate.fromJson(
               json['configurationUpdate'] as Map<String, dynamic>)
@@ -1937,7 +1936,7 @@ class ComponentDeploymentSpecification {
     final configurationUpdate = this.configurationUpdate;
     final runWith = this.runWith;
     return {
-      if (componentVersion != null) 'componentVersion': componentVersion,
+      'componentVersion': componentVersion,
       if (configurationUpdate != null)
         'configurationUpdate': configurationUpdate,
       if (runWith != null) 'runWith': runWith,
@@ -3623,8 +3622,8 @@ class InstalledComponent {
 
   /// The most recent deployment source that brought the component to the
   /// Greengrass core device. For a thing group deployment or thing deployment,
-  /// the source will be the The ID of the deployment. and for local deployments
-  /// it will be <code>LOCAL</code>.
+  /// the source will be the ID of the last deployment that contained the
+  /// component. For local deployments it will be <code>LOCAL</code>.
   /// <note>
   /// Any deployment will attempt to reinstall currently broken components on the
   /// device, which will update the last installation source.
@@ -4106,6 +4105,34 @@ class IoTJobTimeoutConfig {
       if (inProgressTimeoutInMinutes != null)
         'inProgressTimeoutInMinutes': inProgressTimeoutInMinutes,
     };
+  }
+}
+
+enum IotEndpointType {
+  fips,
+  standard,
+}
+
+extension IotEndpointTypeValueExtension on IotEndpointType {
+  String toValue() {
+    switch (this) {
+      case IotEndpointType.fips:
+        return 'fips';
+      case IotEndpointType.standard:
+        return 'standard';
+    }
+  }
+}
+
+extension IotEndpointTypeFromString on String {
+  IotEndpointType toIotEndpointType() {
+    switch (this) {
+      case 'fips':
+        return IotEndpointType.fips;
+      case 'standard':
+        return IotEndpointType.standard;
+    }
+    throw Exception('$this is not known in enum IotEndpointType');
   }
 }
 
@@ -4986,6 +5013,34 @@ class ResolvedComponentVersion {
       if (recipe != null) 'recipe': base64Encode(recipe),
       if (vendorGuidance != null) 'vendorGuidance': vendorGuidance.toValue(),
     };
+  }
+}
+
+enum S3EndpointType {
+  regional,
+  global,
+}
+
+extension S3EndpointTypeValueExtension on S3EndpointType {
+  String toValue() {
+    switch (this) {
+      case S3EndpointType.regional:
+        return 'REGIONAL';
+      case S3EndpointType.global:
+        return 'GLOBAL';
+    }
+  }
+}
+
+extension S3EndpointTypeFromString on String {
+  S3EndpointType toS3EndpointType() {
+    switch (this) {
+      case 'REGIONAL':
+        return S3EndpointType.regional;
+      case 'GLOBAL':
+        return S3EndpointType.global;
+    }
+    throw Exception('$this is not known in enum S3EndpointType');
   }
 }
 

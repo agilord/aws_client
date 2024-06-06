@@ -29,12 +29,12 @@ void main() {
 
     test('+inf is at most a RangeError', () {
       expect(() => validateNumRange('name', double.infinity, 0, 1),
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(TypeMatcher<ArgumentError>()));
     });
 
     test('-inf is at most a RangeError', () {
       expect(() => validateNumRange('name', double.negativeInfinity, 0, 1),
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(TypeMatcher<ArgumentError>()));
     });
   });
 }

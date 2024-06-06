@@ -807,6 +807,60 @@ class DataExchange {
     );
   }
 
+  /// The type of event associated with the data set.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [dataSetId] :
+  /// Affected data set of the notification.
+  ///
+  /// Parameter [type] :
+  /// The type of the notification. Describing the kind of event the
+  /// notification is alerting you to.
+  ///
+  /// Parameter [clientToken] :
+  /// Idempotency key for the notification, this key allows us to deduplicate
+  /// notifications that are sent in quick succession erroneously.
+  ///
+  /// Parameter [comment] :
+  /// Free-form text field for providers to add information about their
+  /// notifications.
+  ///
+  /// Parameter [details] :
+  /// Extra details specific to this notification type.
+  ///
+  /// Parameter [scope] :
+  /// Affected scope of this notification such as the underlying resources
+  /// affected by the notification event.
+  Future<void> sendDataSetNotification({
+    required String dataSetId,
+    required NotificationType type,
+    String? clientToken,
+    String? comment,
+    NotificationDetails? details,
+    ScopeDetails? scope,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Type': type.toValue(),
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (comment != null) 'Comment': comment,
+      if (details != null) 'Details': details,
+      if (scope != null) 'Scope': scope,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/notification',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// This operation starts a job.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1860,6 +1914,24 @@ class DataSetEntry {
   }
 }
 
+/// Extra details specific to a data update type notification.
+class DataUpdateRequestDetails {
+  /// A datetime in the past when the data was updated. This typically means that
+  /// the underlying resource supporting the data set was updated.
+  final DateTime? dataUpdatedAt;
+
+  DataUpdateRequestDetails({
+    this.dataUpdatedAt,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataUpdatedAt = this.dataUpdatedAt;
+    return {
+      if (dataUpdatedAt != null) 'DataUpdatedAt': iso8601ToJson(dataUpdatedAt),
+    };
+  }
+}
+
 /// The LF-tag policy for database resources.
 class DatabaseLFTagPolicy {
   /// A list of LF-tag conditions that apply to database resources.
@@ -1937,6 +2009,23 @@ extension DatabaseLFTagPolicyPermissionFromString on String {
         return DatabaseLFTagPolicyPermission.describe;
     }
     throw Exception('$this is not known in enum DatabaseLFTagPolicyPermission');
+  }
+}
+
+/// Extra details specific to a deprecation type notification.
+class DeprecationRequestDetails {
+  /// A datetime in the future when the data set will be deprecated.
+  final DateTime deprecationAt;
+
+  DeprecationRequestDetails({
+    required this.deprecationAt,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deprecationAt = this.deprecationAt;
+    return {
+      'DeprecationAt': iso8601ToJson(deprecationAt),
+    };
   }
 }
 
@@ -3502,6 +3591,29 @@ extension LakeFormationDataPermissionTypeFromString on String {
   }
 }
 
+/// Extra details specific to the affected scope in this LF data set.
+class LakeFormationTagPolicyDetails {
+  /// The underlying Glue database that the notification is referring to.
+  final String? database;
+
+  /// The underlying Glue table that the notification is referring to.
+  final String? table;
+
+  LakeFormationTagPolicyDetails({
+    this.database,
+    this.table,
+  });
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final table = this.table;
+    return {
+      if (database != null) 'Database': database,
+      if (table != null) 'Table': table,
+    };
+  }
+}
+
 class ListDataSetRevisionsResponse {
   /// The token value retrieved from a previous call to access the next page of
   /// results.
@@ -3638,6 +3750,73 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// Extra details specific to this notification.
+class NotificationDetails {
+  /// Extra details specific to a data update type notification.
+  final DataUpdateRequestDetails? dataUpdate;
+
+  /// Extra details specific to a deprecation type notification.
+  final DeprecationRequestDetails? deprecation;
+
+  /// Extra details specific to a schema change type notification.
+  final SchemaChangeRequestDetails? schemaChange;
+
+  NotificationDetails({
+    this.dataUpdate,
+    this.deprecation,
+    this.schemaChange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataUpdate = this.dataUpdate;
+    final deprecation = this.deprecation;
+    final schemaChange = this.schemaChange;
+    return {
+      if (dataUpdate != null) 'DataUpdate': dataUpdate,
+      if (deprecation != null) 'Deprecation': deprecation,
+      if (schemaChange != null) 'SchemaChange': schemaChange,
+    };
+  }
+}
+
+enum NotificationType {
+  dataDelay,
+  dataUpdate,
+  deprecation,
+  schemaChange,
+}
+
+extension NotificationTypeValueExtension on NotificationType {
+  String toValue() {
+    switch (this) {
+      case NotificationType.dataDelay:
+        return 'DATA_DELAY';
+      case NotificationType.dataUpdate:
+        return 'DATA_UPDATE';
+      case NotificationType.deprecation:
+        return 'DEPRECATION';
+      case NotificationType.schemaChange:
+        return 'SCHEMA_CHANGE';
+    }
+  }
+}
+
+extension NotificationTypeFromString on String {
+  NotificationType toNotificationType() {
+    switch (this) {
+      case 'DATA_DELAY':
+        return NotificationType.dataDelay;
+      case 'DATA_UPDATE':
+        return NotificationType.dataUpdate;
+      case 'DEPRECATION':
+        return NotificationType.deprecation;
+      case 'SCHEMA_CHANGE':
+        return NotificationType.schemaChange;
+    }
+    throw Exception('$this is not known in enum NotificationType');
+  }
+}
+
 enum Origin {
   owned,
   entitled,
@@ -3669,15 +3848,15 @@ extension OriginFromString on String {
 /// Details about the origin of the data set.
 class OriginDetails {
   /// The product ID of the origin of the data set.
-  final String productId;
+  final String? productId;
 
   OriginDetails({
-    required this.productId,
+    this.productId,
   });
 
   factory OriginDetails.fromJson(Map<String, dynamic> json) {
     return OriginDetails(
-      productId: json['ProductId'] as String,
+      productId: json['ProductId'] as String?,
     );
   }
 }
@@ -3741,6 +3920,59 @@ class RedshiftDataShareAssetSourceEntry {
     final dataShareArn = this.dataShareArn;
     return {
       'DataShareArn': dataShareArn,
+    };
+  }
+}
+
+/// Extra details specific to the affected scope in this Redshift data set.
+class RedshiftDataShareDetails {
+  /// The ARN of the underlying Redshift data share that is being affected by this
+  /// notification.
+  final String arn;
+
+  /// The database name in the Redshift data share that is being affected by this
+  /// notification.
+  final String database;
+
+  /// A function name in the Redshift database that is being affected by this
+  /// notification.
+  final String? function;
+
+  /// A schema name in the Redshift database that is being affected by this
+  /// notification.
+  final String? schema;
+
+  /// A table name in the Redshift database that is being affected by this
+  /// notification.
+  final String? table;
+
+  /// A view name in the Redshift database that is being affected by this
+  /// notification.
+  final String? view;
+
+  RedshiftDataShareDetails({
+    required this.arn,
+    required this.database,
+    this.function,
+    this.schema,
+    this.table,
+    this.view,
+  });
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final database = this.database;
+    final function = this.function;
+    final schema = this.schema;
+    final table = this.table;
+    final view = this.view;
+    return {
+      'Arn': arn,
+      'Database': database,
+      if (function != null) 'Function': function,
+      if (schema != null) 'Schema': schema,
+      if (table != null) 'Table': table,
+      if (view != null) 'View': view,
     };
   }
 }
@@ -4244,6 +4476,32 @@ class S3DataAccessAssetSourceEntry {
   }
 }
 
+/// Extra details specific to the affected scope in this S3 Data Access data
+/// set.
+class S3DataAccessDetails {
+  /// A list of the key prefixes affected by this notification. This can have up
+  /// to 50 entries.
+  final List<String>? keyPrefixes;
+
+  /// A list of the keys affected by this notification. This can have up to 50
+  /// entries.
+  final List<String>? keys;
+
+  S3DataAccessDetails({
+    this.keyPrefixes,
+    this.keys,
+  });
+
+  Map<String, dynamic> toJson() {
+    final keyPrefixes = this.keyPrefixes;
+    final keys = this.keys;
+    return {
+      if (keyPrefixes != null) 'KeyPrefixes': keyPrefixes,
+      if (keys != null) 'Keys': keys,
+    };
+  }
+}
+
 /// The Amazon S3 object that is the asset.
 class S3SnapshotAsset {
   /// The size of the Amazon S3 object that is the object.
@@ -4260,6 +4518,124 @@ class S3SnapshotAsset {
   }
 }
 
+/// Object encompassing information about a schema change to a single,
+/// particular field, a notification can have up to 100 of these.
+class SchemaChangeDetails {
+  /// Name of the changing field. This value can be up to 255 characters long.
+  final String name;
+
+  /// Is the field being added, removed, or modified?
+  final SchemaChangeType type;
+
+  /// Description of what's changing about this field. This value can be up to 512
+  /// characters long.
+  final String? description;
+
+  SchemaChangeDetails({
+    required this.name,
+    required this.type,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final description = this.description;
+    return {
+      'Name': name,
+      'Type': type.toValue(),
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// Extra details specific to this schema change type notification.
+class SchemaChangeRequestDetails {
+  /// A date in the future when the schema change is taking effect.
+  final DateTime schemaChangeAt;
+
+  /// List of schema changes happening in the scope of this notification. This can
+  /// have up to 100 entries.
+  final List<SchemaChangeDetails>? changes;
+
+  SchemaChangeRequestDetails({
+    required this.schemaChangeAt,
+    this.changes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final schemaChangeAt = this.schemaChangeAt;
+    final changes = this.changes;
+    return {
+      'SchemaChangeAt': iso8601ToJson(schemaChangeAt),
+      if (changes != null) 'Changes': changes,
+    };
+  }
+}
+
+enum SchemaChangeType {
+  add,
+  remove,
+  modify,
+}
+
+extension SchemaChangeTypeValueExtension on SchemaChangeType {
+  String toValue() {
+    switch (this) {
+      case SchemaChangeType.add:
+        return 'ADD';
+      case SchemaChangeType.remove:
+        return 'REMOVE';
+      case SchemaChangeType.modify:
+        return 'MODIFY';
+    }
+  }
+}
+
+extension SchemaChangeTypeFromString on String {
+  SchemaChangeType toSchemaChangeType() {
+    switch (this) {
+      case 'ADD':
+        return SchemaChangeType.add;
+      case 'REMOVE':
+        return SchemaChangeType.remove;
+      case 'MODIFY':
+        return SchemaChangeType.modify;
+    }
+    throw Exception('$this is not known in enum SchemaChangeType');
+  }
+}
+
+/// Details about the scope of the notifications such as the affected resources.
+class ScopeDetails {
+  /// Underlying LF resources that will be affected by this notification.
+  final List<LakeFormationTagPolicyDetails>? lakeFormationTagPolicies;
+
+  /// Underlying Redshift resources that will be affected by this notification.
+  final List<RedshiftDataShareDetails>? redshiftDataShares;
+
+  /// Underlying S3 resources that will be affected by this notification.
+  final List<S3DataAccessDetails>? s3DataAccesses;
+
+  ScopeDetails({
+    this.lakeFormationTagPolicies,
+    this.redshiftDataShares,
+    this.s3DataAccesses,
+  });
+
+  Map<String, dynamic> toJson() {
+    final lakeFormationTagPolicies = this.lakeFormationTagPolicies;
+    final redshiftDataShares = this.redshiftDataShares;
+    final s3DataAccesses = this.s3DataAccesses;
+    return {
+      if (lakeFormationTagPolicies != null)
+        'LakeFormationTagPolicies': lakeFormationTagPolicies,
+      if (redshiftDataShares != null) 'RedshiftDataShares': redshiftDataShares,
+      if (s3DataAccesses != null) 'S3DataAccesses': s3DataAccesses,
+    };
+  }
+}
+
 class SendApiAssetResponse {
   /// The response body from the underlying API tracked by the API asset.
   final String? body;
@@ -4271,6 +4647,14 @@ class SendApiAssetResponse {
     this.body,
     this.responseHeaders,
   });
+}
+
+class SendDataSetNotificationResponse {
+  SendDataSetNotificationResponse();
+
+  factory SendDataSetNotificationResponse.fromJson(Map<String, dynamic> _) {
+    return SendDataSetNotificationResponse();
+  }
 }
 
 enum ServerSideEncryptionTypes {

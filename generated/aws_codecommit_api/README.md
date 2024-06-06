@@ -3,9 +3,9 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-This is the <i>AWS CodeCommit API Reference</i>. This reference provides
-descriptions of the operations and data types for AWS CodeCommit API along
-with usage examples.
+This is the <i>CodeCommit API Reference</i>. This reference provides
+descriptions of the operations and data types for CodeCommit API along with
+usage examples.
 
 ## Links
 

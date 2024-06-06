@@ -3,6 +3,18 @@
 **Generated Dart library from API specification**
 
 *About the service:*
+<important>
+<b>Most of these APIs are no longer supported and will not be updated.</b>
+We recommend using the latest versions in the <a
+href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/welcome.html">Amazon
+Chime SDK API reference</a>, in the Amazon Chime SDK.
+
+Using the latest versions requires migrating to dedicated namespaces. For
+more information, refer to <a
+href="https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html">Migrating
+from the Amazon Chime namespace</a> in the <i>Amazon Chime SDK Developer
+Guide</i>.
+</important>
 The Amazon Chime application programming interface (API) is designed so
 administrators can perform key tasks, such as creating and managing Amazon
 Chime accounts, users, and Voice Connectors. This guide provides detailed

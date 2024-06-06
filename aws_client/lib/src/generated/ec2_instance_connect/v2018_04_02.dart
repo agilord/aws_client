@@ -19,9 +19,20 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon EC2 Instance Connect enables system administrators to publish
-/// one-time use SSH public keys to EC2, providing users a simple and secure way
-/// to connect to their instances.
+/// This is the <i> Amazon EC2 Instance Connect API Reference</i>. It provides
+/// descriptions, syntax, and usage examples for each of the actions for Amazon
+/// EC2 Instance Connect. Amazon EC2 Instance Connect enables system
+/// administrators to publish one-time use SSH public keys to EC2, providing
+/// users a simple and secure way to connect to their instances.
+///
+/// To view the Amazon EC2 Instance Connect content in the <i> Amazon EC2 User
+/// Guide</i>, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html">Connect
+/// to your Linux instance using EC2 Instance Connect</a>.
+///
+/// For Amazon EC2 APIs, see the <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html">Amazon
+/// EC2 API Reference</a>.
 class Ec2InstanceConnect {
   final _s.JsonProtocol _protocol;
   Ec2InstanceConnect({
@@ -122,6 +133,7 @@ class Ec2InstanceConnect {
   /// May throw [SerialConsoleSessionUnavailableException].
   /// May throw [EC2InstanceStateInvalidException].
   /// May throw [EC2InstanceUnavailableException].
+  /// May throw [SerialConsoleSessionUnsupportedException].
   ///
   /// Parameter [instanceId] :
   /// The ID of the EC2 instance.
@@ -296,6 +308,14 @@ class SerialConsoleSessionUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+class SerialConsoleSessionUnsupportedException extends _s.GenericAwsException {
+  SerialConsoleSessionUnsupportedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SerialConsoleSessionUnsupportedException',
+            message: message);
+}
+
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
@@ -325,6 +345,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       SerialConsoleSessionLimitExceededException(type: type, message: message),
   'SerialConsoleSessionUnavailableException': (type, message) =>
       SerialConsoleSessionUnavailableException(type: type, message: message),
+  'SerialConsoleSessionUnsupportedException': (type, message) =>
+      SerialConsoleSessionUnsupportedException(type: type, message: message),
   'ServiceException': (type, message) =>
       ServiceException(type: type, message: message),
   'ThrottlingException': (type, message) =>

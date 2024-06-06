@@ -17,7 +17,6 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'v2012_11_05.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the <i>Amazon SQS API Reference</i>.
@@ -89,16 +88,14 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul> </li>
 /// </ul>
 class Sqs {
-  final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
-
+  final _s.JsonProtocol _protocol;
   Sqs({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'sqs',
@@ -107,9 +104,7 @@ class Sqs {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -141,7 +136,7 @@ class Sqs {
   /// <i>Amazon SQS Developer Guide</i>.
   /// </li>
   /// <li>
-  /// An Amazon SQS policy can have a maximum of 7 actions.
+  /// An Amazon SQS policy can have a maximum of seven actions per statement.
   /// </li>
   /// <li>
   /// To remove the ability to change queue permissions, you must deny
@@ -149,24 +144,24 @@ class Sqs {
   /// <code>RemovePermission</code>, and <code>SetQueueAttributes</code> actions
   /// in your IAM policy.
   /// </li>
-  /// </ul> </note>
-  /// Some actions take lists of parameters. These lists are specified using the
-  /// <code>param.n</code> notation. Values of <code>n</code> are integers
-  /// starting from 1. For example, a parameter list with two elements looks
-  /// like this:
-  ///
-  /// <code>&amp;AttributeName.1=first</code>
-  ///
-  /// <code>&amp;AttributeName.2=second</code>
-  /// <note>
+  /// <li>
+  /// Amazon SQS <code>AddPermission</code> does not support adding a
+  /// non-account principal.
+  /// </li>
+  /// </ul> </note> <note>
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </note>
   ///
   /// May throw [OverLimit].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [awsAccountIds] :
   /// The Amazon Web Services account numbers of the <a
@@ -208,21 +203,72 @@ class Sqs {
     required String label,
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['AWSAccountIds'] = awsAccountIds;
-    $request['Actions'] = actions;
-    $request['Label'] = label;
-    $request['QueueUrl'] = queueUrl;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.AddPermission'
+    };
     await _protocol.send(
-      $request,
-      action: 'AddPermission',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['AddPermissionRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AWSAccountIds': awsAccountIds,
+        'Actions': actions,
+        'Label': label,
+        'QueueUrl': queueUrl,
+      },
     );
+  }
+
+  /// Cancels a specified message movement task. A message movement can only be
+  /// cancelled when the current status is RUNNING. Cancelling a message
+  /// movement task does not revert the messages that have already been moved.
+  /// It can only stop the messages that have not been moved yet.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// This action is currently limited to supporting message redrive from <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">dead-letter
+  /// queues (DLQs)</a> only. In this context, the source queue is the
+  /// dead-letter queue (DLQ), while the destination queue can be the original
+  /// source queue (from which the messages were driven to the
+  /// dead-letter-queue), or a custom destination queue.
+  /// </li>
+  /// <li>
+  /// Only one active message movement task is supported per queue at any given
+  /// time.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RequestThrottled].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [taskHandle] :
+  /// An identifier associated with a message movement task.
+  Future<CancelMessageMoveTaskResult> cancelMessageMoveTask({
+    required String taskHandle,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.CancelMessageMoveTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TaskHandle': taskHandle,
+      },
+    );
+
+    return CancelMessageMoveTaskResult.fromJson(jsonResponse.body);
   }
 
   /// Changes the visibility timeout of a specified message in a queue to a new
@@ -232,12 +278,14 @@ class Sqs {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
   /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
   ///
-  /// For example, you have a message with a visibility timeout of 5 minutes.
-  /// After 3 minutes, you call <code>ChangeMessageVisibility</code> with a
-  /// timeout of 10 minutes. You can continue to call
-  /// <code>ChangeMessageVisibility</code> to extend the visibility timeout to
-  /// the maximum allowed time. If you try to extend the visibility timeout
-  /// beyond the maximum, your request is rejected.
+  /// For example, if the default timeout for a queue is 60 seconds, 15 seconds
+  /// have elapsed since you received the message, and you send a
+  /// ChangeMessageVisibility call with <code>VisibilityTimeout</code> set to 10
+  /// seconds, the 10 seconds begin to count from the time that you make the
+  /// <code>ChangeMessageVisibility</code> call. Thus, any attempt to change the
+  /// visibility timeout or to delete that message 10 seconds after you
+  /// initially change the visibility timeout (a total of 25 seconds) might
+  /// result in an error.
   ///
   /// An Amazon SQS message has three basic states:
   /// <ol>
@@ -255,14 +303,14 @@ class Sqs {
   /// between states 1 and 2). There is no limit to the number of stored
   /// messages. A message is considered to be <i>in flight</i> after it is
   /// received from a queue by a consumer, but not yet deleted from the queue
-  /// (that is, between states 2 and 3). There is a limit to the number of
-  /// inflight messages.
+  /// (that is, between states 2 and 3). There is a limit to the number of in
+  /// flight messages.
   ///
-  /// Limits that apply to inflight messages are unrelated to the
+  /// Limits that apply to in flight messages are unrelated to the
   /// <i>unlimited</i> number of stored messages.
   ///
   /// For most standard queues (depending on queue traffic and message backlog),
-  /// there can be a maximum of approximately 120,000 inflight messages
+  /// there can be a maximum of approximately 120,000 in flight messages
   /// (received from a queue by a consumer, but not yet deleted from the queue).
   /// If you reach this limit, Amazon SQS returns the <code>OverLimit</code>
   /// error message. To avoid reaching the limit, you should delete messages
@@ -272,7 +320,7 @@ class Sqs {
   /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-sqs">file
   /// a support request</a>.
   ///
-  /// For FIFO queues, there can be a maximum of 20,000 inflight messages
+  /// For FIFO queues, there can be a maximum of 20,000 in flight messages
   /// (received from a queue by a consumer, but not yet deleted from the queue).
   /// If you reach this limit, Amazon SQS returns no error messages.
   /// <important>
@@ -291,6 +339,11 @@ class Sqs {
   ///
   /// May throw [MessageNotInflight].
   /// May throw [ReceiptHandleIsInvalid].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue whose message's visibility is changed.
@@ -298,8 +351,8 @@ class Sqs {
   /// Queue URLs and names are case-sensitive.
   ///
   /// Parameter [receiptHandle] :
-  /// The receipt handle associated with the message whose visibility timeout is
-  /// changed. This parameter is returned by the <code> <a>ReceiveMessage</a>
+  /// The receipt handle associated with the message, whose visibility timeout
+  /// is changed. This parameter is returned by the <code> <a>ReceiveMessage</a>
   /// </code> action.
   ///
   /// Parameter [visibilityTimeout] :
@@ -310,19 +363,21 @@ class Sqs {
     required String receiptHandle,
     required int visibilityTimeout,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    $request['ReceiptHandle'] = receiptHandle;
-    $request['VisibilityTimeout'] = visibilityTimeout;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ChangeMessageVisibility'
+    };
     await _protocol.send(
-      $request,
-      action: 'ChangeMessageVisibility',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ChangeMessageVisibilityRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+        'ReceiptHandle': receiptHandle,
+        'VisibilityTimeout': visibilityTimeout,
+      },
     );
   }
 
@@ -336,22 +391,19 @@ class Sqs {
   /// unsuccessful actions, you should check for batch errors even when the call
   /// returns an HTTP status code of <code>200</code>.
   /// </important>
-  /// Some actions take lists of parameters. These lists are specified using the
-  /// <code>param.n</code> notation. Values of <code>n</code> are integers
-  /// starting from 1. For example, a parameter list with two elements looks
-  /// like this:
-  ///
-  /// <code>&amp;AttributeName.1=first</code>
-  ///
-  /// <code>&amp;AttributeName.2=second</code>
   ///
   /// May throw [TooManyEntriesInBatchRequest].
   /// May throw [EmptyBatchRequest].
   /// May throw [BatchEntryIdsNotDistinct].
   /// May throw [InvalidBatchEntryId].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
   ///
   /// Parameter [entries] :
-  /// A list of receipt handles of the messages for which the visibility timeout
+  /// Lists the receipt handles of the messages for which the visibility timeout
   /// must be changed.
   ///
   /// Parameter [queueUrl] :
@@ -362,21 +414,23 @@ class Sqs {
     required List<ChangeMessageVisibilityBatchRequestEntry> entries,
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Entries'] = entries;
-    $request['QueueUrl'] = queueUrl;
-    final $result = await _protocol.send(
-      $request,
-      action: 'ChangeMessageVisibilityBatch',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ChangeMessageVisibilityBatch'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ChangeMessageVisibilityBatchRequest'],
-      shapes: shapes,
-      resultWrapper: 'ChangeMessageVisibilityBatchResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Entries': entries,
+        'QueueUrl': queueUrl,
+      },
     );
-    return ChangeMessageVisibilityBatchResult.fromXml($result);
+
+    return ChangeMessageVisibilityBatchResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a new standard or FIFO queue. You can pass one or more attributes
@@ -426,25 +480,22 @@ class Sqs {
   /// If the queue name, attribute names, or attribute values don't match an
   /// existing queue, <code>CreateQueue</code> returns an error.
   /// </li>
-  /// </ul>
-  /// Some actions take lists of parameters. These lists are specified using the
-  /// <code>param.n</code> notation. Values of <code>n</code> are integers
-  /// starting from 1. For example, a parameter list with two elements looks
-  /// like this:
-  ///
-  /// <code>&amp;AttributeName.1=first</code>
-  ///
-  /// <code>&amp;AttributeName.2=second</code>
-  /// <note>
+  /// </ul> <note>
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </note>
   ///
   /// May throw [QueueDeletedRecently].
   /// May throw [QueueNameExists].
+  /// May throw [RequestThrottled].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidAttributeName].
+  /// May throw [InvalidAttributeValue].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidSecurity].
   ///
   /// Parameter [queueName] :
   /// The name of the new queue. The following limits apply to this name:
@@ -485,14 +536,19 @@ class Sqs {
   /// <code>MessageRetentionPeriod</code> – The length of time, in seconds, for
   /// which Amazon SQS retains a message. Valid values: An integer from 60
   /// seconds (1 minute) to 1,209,600 seconds (14 days). Default: 345,600 (4
-  /// days).
+  /// days). When you change a queue's attributes, the change can take up to 60
+  /// seconds for most of the attributes to propagate throughout the Amazon SQS
+  /// system. Changes made to the <code>MessageRetentionPeriod</code> attribute
+  /// can take up to 15 minutes and will impact existing messages in the queue
+  /// potentially causing them to be expired and deleted if the
+  /// <code>MessageRetentionPeriod</code> is reduced below the age of existing
+  /// messages.
   /// </li>
   /// <li>
   /// <code>Policy</code> – The queue's policy. A valid Amazon Web Services
   /// policy. For more information about policy structure, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html">Overview
-  /// of Amazon Web Services IAM Policies</a> in the <i>Amazon IAM User
-  /// Guide</i>.
+  /// of Amazon Web Services IAM Policies</a> in the <i>IAM User Guide</i>.
   /// </li>
   /// <li>
   /// <code>ReceiveMessageWaitTimeSeconds</code> – The length of time, in
@@ -501,13 +557,22 @@ class Sqs {
   /// Default: 0.
   /// </li>
   /// <li>
+  /// <code>VisibilityTimeout</code> – The visibility timeout for the queue, in
+  /// seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default:
+  /// 30. For more information about the visibility timeout, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
+  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
+  /// </li>
+  /// </ul>
+  /// The following attributes apply only to <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">dead-letter
+  /// queues:</a>
+  ///
+  /// <ul>
+  /// <li>
   /// <code>RedrivePolicy</code> – The string that includes the parameters for
   /// the dead-letter queue functionality of the source queue as a JSON object.
-  /// For more information about the redrive policy and dead-letter queues, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">Using
-  /// Amazon SQS Dead-Letter Queues</a> in the <i>Amazon SQS Developer
-  /// Guide</i>.
+  /// The parameters are as follows:
   ///
   /// <ul>
   /// <li>
@@ -517,24 +582,55 @@ class Sqs {
   /// </li>
   /// <li>
   /// <code>maxReceiveCount</code> – The number of times a message is delivered
-  /// to the source queue before being moved to the dead-letter queue. When the
-  /// <code>ReceiveCount</code> for a message exceeds the
+  /// to the source queue before being moved to the dead-letter queue. Default:
+  /// 10. When the <code>ReceiveCount</code> for a message exceeds the
   /// <code>maxReceiveCount</code> for a queue, Amazon SQS moves the message to
   /// the dead-letter-queue.
   /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>RedriveAllowPolicy</code> – The string that includes the parameters
+  /// for the permissions for the dead-letter queue redrive permission and which
+  /// source queues can specify dead-letter queues as a JSON object. The
+  /// parameters are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>redrivePermission</code> – The permission type that defines which
+  /// source queues can specify the current queue as the dead-letter queue.
+  /// Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>allowAll</code> – (Default) Any source queues in this Amazon Web
+  /// Services account in the same Region can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// <li>
+  /// <code>denyAll</code> – No source queues can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// <li>
+  /// <code>byQueue</code> – Only queues specified by the
+  /// <code>sourceQueueArns</code> parameter can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>sourceQueueArns</code> – The Amazon Resource Names (ARN)s of the
+  /// source queues that can specify this queue as the dead-letter queue and
+  /// redrive messages. You can specify this parameter only when the
+  /// <code>redrivePermission</code> parameter is set to <code>byQueue</code>.
+  /// You can specify up to 10 source queue ARNs. To allow more than 10 source
+  /// queues to specify dead-letter queues, set the
+  /// <code>redrivePermission</code> parameter to <code>allowAll</code>.
+  /// </li>
+  /// </ul> </li>
   /// </ul> <note>
   /// The dead-letter queue of a FIFO queue must also be a FIFO queue.
   /// Similarly, the dead-letter queue of a standard queue must also be a
   /// standard queue.
-  /// </note> </li>
-  /// <li>
-  /// <code>VisibilityTimeout</code> – The visibility timeout for the queue, in
-  /// seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default:
-  /// 30. For more information about the visibility timeout, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
-  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
-  /// </li>
-  /// </ul>
+  /// </note>
   /// The following attributes apply only to <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html">server-side-encryption</a>:
   ///
@@ -561,12 +657,12 @@ class Sqs {
   /// provides better security but results in more calls to KMS which might
   /// incur charges after Free Tier. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work">How
-  /// Does the Data Key Reuse Period Work?</a>.
+  /// Does the Data Key Reuse Period Work?</a>
   /// </li>
   /// <li>
   /// <code>SqsManagedSseEnabled</code> – Enables server-side queue encryption
   /// using SQS owned encryption keys. Only one server-side encryption option is
-  /// supported per queue (e.g. <a
+  /// supported per queue (for example, <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html">SSE-KMS</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html">SSE-SQS</a>).
@@ -706,7 +802,7 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </note>
   Future<CreateQueueResult> createQueue({
@@ -714,23 +810,25 @@ class Sqs {
     Map<QueueAttributeName, String>? attributes,
     Map<String, String>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueName'] = queueName;
-    attributes?.also((arg) =>
-        $request['Attributes'] = arg.map((k, v) => MapEntry(k.toValue(), v)));
-    tags?.also((arg) => $request['tags'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'CreateQueue',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.CreateQueue'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateQueueRequest'],
-      shapes: shapes,
-      resultWrapper: 'CreateQueueResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueName': queueName,
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        if (tags != null) 'tags': tags,
+      },
     );
-    return CreateQueueResult.fromXml($result);
+
+    return CreateQueueResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified message from the specified queue. To select the
@@ -746,7 +844,7 @@ class Sqs {
   /// once, the <code>ReceiptHandle</code> is different each time you receive a
   /// message. When you use the <code>DeleteMessage</code> action, you must
   /// provide the most recently received <code>ReceiptHandle</code> for the
-  /// message (otherwise, the request succeeds, but the message might not be
+  /// message (otherwise, the request succeeds, but the message will not be
   /// deleted).
   ///
   /// For standard queues, it is possible to receive a message even after you
@@ -760,6 +858,11 @@ class Sqs {
   ///
   /// May throw [InvalidIdFormat].
   /// May throw [ReceiptHandleIsInvalid].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidSecurity].
+  /// May throw [InvalidAddress].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue from which messages are deleted.
@@ -772,18 +875,20 @@ class Sqs {
     required String queueUrl,
     required String receiptHandle,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    $request['ReceiptHandle'] = receiptHandle;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.DeleteMessage'
+    };
     await _protocol.send(
-      $request,
-      action: 'DeleteMessage',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteMessageRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+        'ReceiptHandle': receiptHandle,
+      },
     );
   }
 
@@ -795,22 +900,19 @@ class Sqs {
   /// unsuccessful actions, you should check for batch errors even when the call
   /// returns an HTTP status code of <code>200</code>.
   /// </important>
-  /// Some actions take lists of parameters. These lists are specified using the
-  /// <code>param.n</code> notation. Values of <code>n</code> are integers
-  /// starting from 1. For example, a parameter list with two elements looks
-  /// like this:
-  ///
-  /// <code>&amp;AttributeName.1=first</code>
-  ///
-  /// <code>&amp;AttributeName.2=second</code>
   ///
   /// May throw [TooManyEntriesInBatchRequest].
   /// May throw [EmptyBatchRequest].
   /// May throw [BatchEntryIdsNotDistinct].
   /// May throw [InvalidBatchEntryId].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
   ///
   /// Parameter [entries] :
-  /// A list of receipt handles for the messages to be deleted.
+  /// Lists the receipt handles for the messages to be deleted.
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue from which messages are deleted.
@@ -820,21 +922,23 @@ class Sqs {
     required List<DeleteMessageBatchRequestEntry> entries,
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Entries'] = entries;
-    $request['QueueUrl'] = queueUrl;
-    final $result = await _protocol.send(
-      $request,
-      action: 'DeleteMessageBatch',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.DeleteMessageBatch'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteMessageBatchRequest'],
-      shapes: shapes,
-      resultWrapper: 'DeleteMessageBatchResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Entries': entries,
+        'QueueUrl': queueUrl,
+      },
     );
-    return DeleteMessageBatchResult.fromXml($result);
+
+    return DeleteMessageBatchResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the queue specified by the <code>QueueUrl</code>, regardless of
@@ -855,9 +959,17 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
+  ///
+  /// The delete operation uses the HTTP <code>GET</code> verb.
   /// </note>
+  ///
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidAddress].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidSecurity].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue to delete.
@@ -866,17 +978,19 @@ class Sqs {
   Future<void> deleteQueue({
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.DeleteQueue'
+    };
     await _protocol.send(
-      $request,
-      action: 'DeleteQueue',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteQueueRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+      },
     );
   }
 
@@ -889,6 +1003,11 @@ class Sqs {
   /// </note>
   ///
   /// May throw [InvalidAttributeName].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidSecurity].
+  /// May throw [InvalidAddress].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue whose attribute information is retrieved.
@@ -898,7 +1017,7 @@ class Sqs {
   /// Parameter [attributeNames] :
   /// A list of attributes for which to retrieve information.
   ///
-  /// The <code>AttributeName.N</code> parameter is optional, but if you don't
+  /// The <code>AttributeNames</code> parameter is optional, but if you don't
   /// specify values for this parameter, the request returns empty results.
   /// <note>
   /// In the future, new attributes might be added. If you write code that calls
@@ -909,7 +1028,7 @@ class Sqs {
   /// <important>
   /// The <code>ApproximateNumberOfMessagesDelayed</code>,
   /// <code>ApproximateNumberOfMessagesNotVisible</code>, and
-  /// <code>ApproximateNumberOfMessagesVisible</code> metrics may not achieve
+  /// <code>ApproximateNumberOfMessages</code> metrics may not achieve
   /// consistency until at least 1 minute after the producers stop sending
   /// messages. This period is required for the queue metadata to reach eventual
   /// consistency.
@@ -954,7 +1073,13 @@ class Sqs {
   /// </li>
   /// <li>
   /// <code>MessageRetentionPeriod</code> – Returns the length of time, in
-  /// seconds, for which Amazon SQS retains a message.
+  /// seconds, for which Amazon SQS retains a message. When you change a queue's
+  /// attributes, the change can take up to 60 seconds for most of the
+  /// attributes to propagate throughout the Amazon SQS system. Changes made to
+  /// the <code>MessageRetentionPeriod</code> attribute can take up to 15
+  /// minutes and will impact existing messages in the queue potentially causing
+  /// them to be expired and deleted if the <code>MessageRetentionPeriod</code>
+  /// is reduced below the age of existing messages.
   /// </li>
   /// <li>
   /// <code>Policy</code> – Returns the policy of the queue.
@@ -969,13 +1094,21 @@ class Sqs {
   /// message to arrive.
   /// </li>
   /// <li>
+  /// <code>VisibilityTimeout</code> – Returns the visibility timeout for the
+  /// queue. For more information about the visibility timeout, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
+  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
+  /// </li>
+  /// </ul>
+  /// The following attributes apply only to <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">dead-letter
+  /// queues:</a>
+  ///
+  /// <ul>
+  /// <li>
   /// <code>RedrivePolicy</code> – The string that includes the parameters for
   /// the dead-letter queue functionality of the source queue as a JSON object.
-  /// For more information about the redrive policy and dead-letter queues, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">Using
-  /// Amazon SQS Dead-Letter Queues</a> in the <i>Amazon SQS Developer
-  /// Guide</i>.
+  /// The parameters are as follows:
   ///
   /// <ul>
   /// <li>
@@ -985,19 +1118,55 @@ class Sqs {
   /// </li>
   /// <li>
   /// <code>maxReceiveCount</code> – The number of times a message is delivered
-  /// to the source queue before being moved to the dead-letter queue. When the
-  /// <code>ReceiveCount</code> for a message exceeds the
+  /// to the source queue before being moved to the dead-letter queue. Default:
+  /// 10. When the <code>ReceiveCount</code> for a message exceeds the
   /// <code>maxReceiveCount</code> for a queue, Amazon SQS moves the message to
   /// the dead-letter-queue.
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// <code>VisibilityTimeout</code> – Returns the visibility timeout for the
-  /// queue. For more information about the visibility timeout, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
-  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
+  /// <code>RedriveAllowPolicy</code> – The string that includes the parameters
+  /// for the permissions for the dead-letter queue redrive permission and which
+  /// source queues can specify dead-letter queues as a JSON object. The
+  /// parameters are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>redrivePermission</code> – The permission type that defines which
+  /// source queues can specify the current queue as the dead-letter queue.
+  /// Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>allowAll</code> – (Default) Any source queues in this Amazon Web
+  /// Services account in the same Region can specify this queue as the
+  /// dead-letter queue.
   /// </li>
-  /// </ul>
+  /// <li>
+  /// <code>denyAll</code> – No source queues can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// <li>
+  /// <code>byQueue</code> – Only queues specified by the
+  /// <code>sourceQueueArns</code> parameter can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>sourceQueueArns</code> – The Amazon Resource Names (ARN)s of the
+  /// source queues that can specify this queue as the dead-letter queue and
+  /// redrive messages. You can specify this parameter only when the
+  /// <code>redrivePermission</code> parameter is set to <code>byQueue</code>.
+  /// You can specify up to 10 source queue ARNs. To allow more than 10 source
+  /// queues to specify dead-letter queues, set the
+  /// <code>redrivePermission</code> parameter to <code>allowAll</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> <note>
+  /// The dead-letter queue of a FIFO queue must also be a FIFO queue.
+  /// Similarly, the dead-letter queue of a standard queue must also be a
+  /// standard queue.
+  /// </note>
   /// The following attributes apply only to <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html">server-side-encryption</a>:
   ///
@@ -1019,7 +1188,7 @@ class Sqs {
   /// <li>
   /// <code>SqsManagedSseEnabled</code> – Returns information about whether the
   /// queue is using SSE-SQS encryption using SQS owned encryption keys. Only
-  /// one server-side encryption option is supported per queue (e.g. <a
+  /// one server-side encryption option is supported per queue (for example, <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html">SSE-KMS</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html">SSE-SQS</a>).
@@ -1087,22 +1256,24 @@ class Sqs {
     required String queueUrl,
     List<QueueAttributeName>? attributeNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    attributeNames?.also((arg) =>
-        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetQueueAttributes',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.GetQueueAttributes'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetQueueAttributesRequest'],
-      shapes: shapes,
-      resultWrapper: 'GetQueueAttributesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+        if (attributeNames != null)
+          'AttributeNames': attributeNames.map((e) => e.toValue()).toList(),
+      },
     );
-    return GetQueueAttributesResult.fromXml($result);
+
+    return GetQueueAttributesResult.fromJson(jsonResponse.body);
   }
 
   /// Returns the URL of an existing Amazon SQS queue.
@@ -1116,7 +1287,11 @@ class Sqs {
   /// Developers to Write Messages to a Shared Queue</a> in the <i>Amazon SQS
   /// Developer Guide</i>.
   ///
+  /// May throw [RequestThrottled].
   /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueName] :
   /// The name of the queue whose URL must be fetched. Maximum 80 characters.
@@ -1131,22 +1306,24 @@ class Sqs {
     required String queueName,
     String? queueOwnerAWSAccountId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueName'] = queueName;
-    queueOwnerAWSAccountId
-        ?.also((arg) => $request['QueueOwnerAWSAccountId'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetQueueUrl',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.GetQueueUrl'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetQueueUrlRequest'],
-      shapes: shapes,
-      resultWrapper: 'GetQueueUrlResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueName': queueName,
+        if (queueOwnerAWSAccountId != null)
+          'QueueOwnerAWSAccountId': queueOwnerAWSAccountId,
+      },
     );
-    return GetQueueUrlResult.fromXml($result);
+
+    return GetQueueUrlResult.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of your queues that have the <code>RedrivePolicy</code>
@@ -1168,6 +1345,10 @@ class Sqs {
   /// Guide</i>.
   ///
   /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [InvalidSecurity].
+  /// May throw [InvalidAddress].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of a dead-letter queue.
@@ -1186,22 +1367,78 @@ class Sqs {
     int? maxResults,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListDeadLetterSourceQueues',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ListDeadLetterSourceQueues'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListDeadLetterSourceQueuesRequest'],
-      shapes: shapes,
-      resultWrapper: 'ListDeadLetterSourceQueuesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
     );
-    return ListDeadLetterSourceQueuesResult.fromXml($result);
+
+    return ListDeadLetterSourceQueuesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the most recent message movement tasks (up to 10) under a specific
+  /// source queue.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// This action is currently limited to supporting message redrive from <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">dead-letter
+  /// queues (DLQs)</a> only. In this context, the source queue is the
+  /// dead-letter queue (DLQ), while the destination queue can be the original
+  /// source queue (from which the messages were driven to the
+  /// dead-letter-queue), or a custom destination queue.
+  /// </li>
+  /// <li>
+  /// Only one active message movement task is supported per queue at any given
+  /// time.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RequestThrottled].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [sourceArn] :
+  /// The ARN of the queue whose message movement tasks are to be listed.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response. The default is
+  /// 1, which provides the most recent message movement task. The upper limit
+  /// is 10.
+  Future<ListMessageMoveTasksResult> listMessageMoveTasks({
+    required String sourceArn,
+    int? maxResults,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ListMessageMoveTasks'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SourceArn': sourceArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+      },
+    );
+
+    return ListMessageMoveTasksResult.fromJson(jsonResponse.body);
   }
 
   /// List all cost allocation tags added to the specified Amazon SQS queue. For
@@ -1212,29 +1449,37 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </note>
+  ///
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [UnsupportedOperation].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the queue.
   Future<ListQueueTagsResult> listQueueTags({
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListQueueTags',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ListQueueTags'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListQueueTagsRequest'],
-      shapes: shapes,
-      resultWrapper: 'ListQueueTagsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+      },
     );
-    return ListQueueTagsResult.fromXml($result);
+
+    return ListQueueTagsResult.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of your queues in the current region. The response includes
@@ -1254,9 +1499,14 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </note>
+  ///
+  /// May throw [RequestThrottled].
+  /// May throw [InvalidSecurity].
+  /// May throw [InvalidAddress].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [maxResults] :
   /// Maximum number of results to include in the response. Value range is 1 to
@@ -1276,26 +1526,28 @@ class Sqs {
     String? nextToken,
     String? queueNamePrefix,
   }) async {
-    final $request = <String, dynamic>{};
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    queueNamePrefix?.also((arg) => $request['QueueNamePrefix'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListQueues',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ListQueues'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListQueuesRequest'],
-      shapes: shapes,
-      resultWrapper: 'ListQueuesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (queueNamePrefix != null) 'QueueNamePrefix': queueNamePrefix,
+      },
     );
-    return ListQueuesResult.fromXml($result);
+
+    return ListQueuesResult.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the messages in a queue specified by the <code>QueueURL</code>
-  /// parameter.
+  /// Deletes available messages in a queue (including in-flight messages)
+  /// specified by the <code>QueueURL</code> parameter.
   /// <important>
   /// When you use the <code>PurgeQueue</code> action, you can't retrieve any
   /// messages deleted from a queue.
@@ -1311,6 +1563,10 @@ class Sqs {
   ///
   /// May throw [QueueDoesNotExist].
   /// May throw [PurgeQueueInProgress].
+  /// May throw [RequestThrottled].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the queue from which the <code>PurgeQueue</code> action deletes
@@ -1320,17 +1576,19 @@ class Sqs {
   Future<void> purgeQueue({
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.PurgeQueue'
+    };
     await _protocol.send(
-      $request,
-      action: 'PurgeQueue',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['PurgeQueueRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+      },
     );
   }
 
@@ -1396,7 +1654,19 @@ class Sqs {
   /// handle new attributes gracefully.
   /// </note>
   ///
+  /// May throw [UnsupportedOperation].
   /// May throw [OverLimit].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidSecurity].
+  /// May throw [KmsDisabled].
+  /// May throw [KmsInvalidState].
+  /// May throw [KmsNotFound].
+  /// May throw [KmsOptInRequired].
+  /// May throw [KmsThrottled].
+  /// May throw [KmsAccessDenied].
+  /// May throw [KmsInvalidKeyUsage].
+  /// May throw [InvalidAddress].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue from which messages are received.
@@ -1404,6 +1674,11 @@ class Sqs {
   /// Queue URLs and names are case-sensitive.
   ///
   /// Parameter [attributeNames] :
+  /// <important>
+  /// This parameter has been deprecated but will be supported for backward
+  /// compatibility. To provide attribute names, you are encouraged to use
+  /// <code>MessageSystemAttributeNames</code>.
+  /// </important>
   /// A list of attributes that need to be returned along with each message.
   /// These attributes include:
   ///
@@ -1429,7 +1704,7 @@ class Sqs {
   ///
   /// <ul>
   /// <li>
-  /// For an IAM user, returns the IAM user ID, for example
+  /// For a user, returns the user ID, for example
   /// <code>ABCDEFGHI1JKLMNOPQ23R</code>.
   /// </li>
   /// <li>
@@ -1445,7 +1720,7 @@ class Sqs {
   /// <li>
   /// <code>SqsManagedSseEnabled</code> – Enables server-side queue encryption
   /// using SQS owned encryption keys. Only one server-side encryption option is
-  /// supported per queue (e.g. <a
+  /// supported per queue (for example, <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html">SSE-KMS</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html">SSE-SQS</a>).
@@ -1498,6 +1773,67 @@ class Sqs {
   /// <code>All</code> or <code>.*</code> in your request. You can also use all
   /// message attributes starting with a prefix, for example <code>bar.*</code>.
   ///
+  /// Parameter [messageSystemAttributeNames] :
+  /// A list of attributes that need to be returned along with each message.
+  /// These attributes include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>All</code> – Returns all values.
+  /// </li>
+  /// <li>
+  /// <code>ApproximateFirstReceiveTimestamp</code> – Returns the time the
+  /// message was first received from the queue (<a
+  /// href="http://en.wikipedia.org/wiki/Unix_time">epoch time</a> in
+  /// milliseconds).
+  /// </li>
+  /// <li>
+  /// <code>ApproximateReceiveCount</code> – Returns the number of times a
+  /// message has been received across all queues but not deleted.
+  /// </li>
+  /// <li>
+  /// <code>AWSTraceHeader</code> – Returns the X-Ray trace header string.
+  /// </li>
+  /// <li>
+  /// <code>SenderId</code>
+  ///
+  /// <ul>
+  /// <li>
+  /// For a user, returns the user ID, for example
+  /// <code>ABCDEFGHI1JKLMNOPQ23R</code>.
+  /// </li>
+  /// <li>
+  /// For an IAM role, returns the IAM role ID, for example
+  /// <code>ABCDE1F2GH3I4JK5LMNOP:i-a123b456</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>SentTimestamp</code> – Returns the time the message was sent to the
+  /// queue (<a href="http://en.wikipedia.org/wiki/Unix_time">epoch time</a> in
+  /// milliseconds).
+  /// </li>
+  /// <li>
+  /// <code>SqsManagedSseEnabled</code> – Enables server-side queue encryption
+  /// using SQS owned encryption keys. Only one server-side encryption option is
+  /// supported per queue (for example, <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html">SSE-KMS</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html">SSE-SQS</a>).
+  /// </li>
+  /// <li>
+  /// <code>MessageDeduplicationId</code> – Returns the value provided by the
+  /// producer that calls the <code> <a>SendMessage</a> </code> action.
+  /// </li>
+  /// <li>
+  /// <code>MessageGroupId</code> – Returns the value provided by the producer
+  /// that calls the <code> <a>SendMessage</a> </code> action. Messages with the
+  /// same <code>MessageGroupId</code> are returned in sequence.
+  /// </li>
+  /// <li>
+  /// <code>SequenceNumber</code> – Returns the value provided by Amazon SQS.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [receiveRequestAttemptId] :
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -1517,11 +1853,6 @@ class Sqs {
   /// When you set <code>FifoQueue</code>, a caller of the
   /// <code>ReceiveMessage</code> action can provide a
   /// <code>ReceiveRequestAttemptId</code> explicitly.
-  /// </li>
-  /// <li>
-  /// If a caller of the <code>ReceiveMessage</code> action doesn't provide a
-  /// <code>ReceiveRequestAttemptId</code>, Amazon SQS generates a
-  /// <code>ReceiveRequestAttemptId</code>.
   /// </li>
   /// <li>
   /// It is possible to retry the <code>ReceiveMessage</code> action with the
@@ -1580,8 +1911,7 @@ class Sqs {
   /// The duration (in seconds) for which the call waits for a message to arrive
   /// in the queue before returning. If a message is available, the call returns
   /// sooner than <code>WaitTimeSeconds</code>. If no messages are available and
-  /// the wait time expires, the call returns successfully with an empty list of
-  /// messages.
+  /// the wait time expires, the call does not return a message list.
   /// <important>
   /// To avoid HTTP errors, ensure that the HTTP response timeout for
   /// <code>ReceiveMessage</code> requests is longer than the
@@ -1597,33 +1927,40 @@ class Sqs {
     List<QueueAttributeName>? attributeNames,
     int? maxNumberOfMessages,
     List<String>? messageAttributeNames,
+    List<MessageSystemAttributeName>? messageSystemAttributeNames,
     String? receiveRequestAttemptId,
     int? visibilityTimeout,
     int? waitTimeSeconds,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    attributeNames?.also((arg) =>
-        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
-    maxNumberOfMessages?.also((arg) => $request['MaxNumberOfMessages'] = arg);
-    messageAttributeNames
-        ?.also((arg) => $request['MessageAttributeNames'] = arg);
-    receiveRequestAttemptId
-        ?.also((arg) => $request['ReceiveRequestAttemptId'] = arg);
-    visibilityTimeout?.also((arg) => $request['VisibilityTimeout'] = arg);
-    waitTimeSeconds?.also((arg) => $request['WaitTimeSeconds'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'ReceiveMessage',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ReceiveMessage'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ReceiveMessageRequest'],
-      shapes: shapes,
-      resultWrapper: 'ReceiveMessageResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+        if (attributeNames != null)
+          'AttributeNames': attributeNames.map((e) => e.toValue()).toList(),
+        if (maxNumberOfMessages != null)
+          'MaxNumberOfMessages': maxNumberOfMessages,
+        if (messageAttributeNames != null)
+          'MessageAttributeNames': messageAttributeNames,
+        if (messageSystemAttributeNames != null)
+          'MessageSystemAttributeNames':
+              messageSystemAttributeNames.map((e) => e.toValue()).toList(),
+        if (receiveRequestAttemptId != null)
+          'ReceiveRequestAttemptId': receiveRequestAttemptId,
+        if (visibilityTimeout != null) 'VisibilityTimeout': visibilityTimeout,
+        if (waitTimeSeconds != null) 'WaitTimeSeconds': waitTimeSeconds,
+      },
     );
-    return ReceiveMessageResult.fromXml($result);
+
+    return ReceiveMessageResult.fromJson(jsonResponse.body);
   }
 
   /// Revokes any permissions in the queue policy that matches the specified
@@ -1637,7 +1974,7 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </li>
   /// <li>
@@ -1647,6 +1984,12 @@ class Sqs {
   /// in your IAM policy.
   /// </li>
   /// </ul> </note>
+  ///
+  /// May throw [InvalidAddress].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [label] :
   /// The identification of the permission to remove. This is the label added
@@ -1660,18 +2003,20 @@ class Sqs {
     required String label,
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Label'] = label;
-    $request['QueueUrl'] = queueUrl;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.RemovePermission'
+    };
     await _protocol.send(
-      $request,
-      action: 'RemovePermission',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RemovePermissionRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Label': label,
+        'QueueUrl': queueUrl,
+      },
     );
   }
 
@@ -1691,10 +2036,21 @@ class Sqs {
   ///
   /// May throw [InvalidMessageContents].
   /// May throw [UnsupportedOperation].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidSecurity].
+  /// May throw [KmsDisabled].
+  /// May throw [KmsInvalidState].
+  /// May throw [KmsNotFound].
+  /// May throw [KmsOptInRequired].
+  /// May throw [KmsThrottled].
+  /// May throw [KmsAccessDenied].
+  /// May throw [KmsInvalidKeyUsage].
+  /// May throw [InvalidAddress].
   ///
   /// Parameter [messageBody] :
   /// The message to send. The minimum size is one character. The maximum size
-  /// is 256 KB.
+  /// is 256 KiB.
   /// <important>
   /// A message can include only XML, JSON, and unformatted text. The following
   /// Unicode characters are allowed:
@@ -1823,8 +2179,8 @@ class Sqs {
   /// <code>MessageGroupId</code>.
   /// </li>
   /// </ul>
-  /// The length of <code>MessageGroupId</code> is 128 characters. Valid values:
-  /// alphanumeric characters and punctuation
+  /// The maximum length of <code>MessageGroupId</code> is 128 characters. Valid
+  /// values: alphanumeric characters and punctuation
   /// <code>(!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</code>.
   ///
   /// For best practices of using <code>MessageGroupId</code>, see <a
@@ -1861,33 +2217,38 @@ class Sqs {
     Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>?
         messageSystemAttributes,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['MessageBody'] = messageBody;
-    $request['QueueUrl'] = queueUrl;
-    delaySeconds?.also((arg) => $request['DelaySeconds'] = arg);
-    messageAttributes?.also((arg) => $request['MessageAttributes'] = arg);
-    messageDeduplicationId
-        ?.also((arg) => $request['MessageDeduplicationId'] = arg);
-    messageGroupId?.also((arg) => $request['MessageGroupId'] = arg);
-    messageSystemAttributes?.also((arg) => $request['MessageSystemAttributes'] =
-        arg.map((k, v) => MapEntry(k.toValue(), v)));
-    final $result = await _protocol.send(
-      $request,
-      action: 'SendMessage',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.SendMessage'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendMessageRequest'],
-      shapes: shapes,
-      resultWrapper: 'SendMessageResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MessageBody': messageBody,
+        'QueueUrl': queueUrl,
+        if (delaySeconds != null) 'DelaySeconds': delaySeconds,
+        if (messageAttributes != null) 'MessageAttributes': messageAttributes,
+        if (messageDeduplicationId != null)
+          'MessageDeduplicationId': messageDeduplicationId,
+        if (messageGroupId != null) 'MessageGroupId': messageGroupId,
+        if (messageSystemAttributes != null)
+          'MessageSystemAttributes':
+              messageSystemAttributes.map((k, e) => MapEntry(k.toValue(), e)),
+      },
     );
-    return SendMessageResult.fromXml($result);
+
+    return SendMessageResult.fromJson(jsonResponse.body);
   }
 
-  /// Delivers up to ten messages to the specified queue. This is a batch
-  /// version of <code> <a>SendMessage</a>.</code> For a FIFO queue, multiple
-  /// messages within a single batch are enqueued in the order they are sent.
+  /// You can use <code>SendMessageBatch</code> to send up to 10 messages to the
+  /// specified queue by assigning either identical or different values to each
+  /// message (or by not assigning values at all). This is a batch version of
+  /// <code> <a>SendMessage</a>.</code> For a FIFO queue, multiple messages
+  /// within a single batch are enqueued in the order they are sent.
   ///
   /// The result of sending each message is reported individually in the
   /// response. Because the batch request can result in a combination of
@@ -1896,7 +2257,7 @@ class Sqs {
   ///
   /// The maximum allowed individual message size and the maximum total payload
   /// size (the sum of the individual lengths of all of the batched messages)
-  /// are both 256 KB (262,144 bytes).
+  /// are both 256 KiB (262,144 bytes).
   /// <important>
   /// A message can include only XML, JSON, and unformatted text. The following
   /// Unicode characters are allowed:
@@ -1912,21 +2273,23 @@ class Sqs {
   /// If you don't specify the <code>DelaySeconds</code> parameter for an entry,
   /// Amazon SQS uses the default value for the queue.
   ///
-  /// Some actions take lists of parameters. These lists are specified using the
-  /// <code>param.n</code> notation. Values of <code>n</code> are integers
-  /// starting from 1. For example, a parameter list with two elements looks
-  /// like this:
-  ///
-  /// <code>&amp;AttributeName.1=first</code>
-  ///
-  /// <code>&amp;AttributeName.2=second</code>
-  ///
   /// May throw [TooManyEntriesInBatchRequest].
   /// May throw [EmptyBatchRequest].
   /// May throw [BatchEntryIdsNotDistinct].
   /// May throw [BatchRequestTooLong].
   /// May throw [InvalidBatchEntryId].
   /// May throw [UnsupportedOperation].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidSecurity].
+  /// May throw [KmsDisabled].
+  /// May throw [KmsInvalidState].
+  /// May throw [KmsNotFound].
+  /// May throw [KmsOptInRequired].
+  /// May throw [KmsThrottled].
+  /// May throw [KmsAccessDenied].
+  /// May throw [KmsInvalidKeyUsage].
+  /// May throw [InvalidAddress].
   ///
   /// Parameter [entries] :
   /// A list of <code> <a>SendMessageBatchRequestEntry</a> </code> items.
@@ -1939,28 +2302,33 @@ class Sqs {
     required List<SendMessageBatchRequestEntry> entries,
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Entries'] = entries;
-    $request['QueueUrl'] = queueUrl;
-    final $result = await _protocol.send(
-      $request,
-      action: 'SendMessageBatch',
-      version: '2012-11-05',
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.SendMessageBatch'
+    };
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendMessageBatchRequest'],
-      shapes: shapes,
-      resultWrapper: 'SendMessageBatchResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Entries': entries,
+        'QueueUrl': queueUrl,
+      },
     );
-    return SendMessageBatchResult.fromXml($result);
+
+    return SendMessageBatchResult.fromJson(jsonResponse.body);
   }
 
-  /// Sets the value of one or more queue attributes. When you change a queue's
-  /// attributes, the change can take up to 60 seconds for most of the
-  /// attributes to propagate throughout the Amazon SQS system. Changes made to
-  /// the <code>MessageRetentionPeriod</code> attribute can take up to 15
-  /// minutes.
+  /// Sets the value of one or more queue attributes, like a policy. When you
+  /// change a queue's attributes, the change can take up to 60 seconds for most
+  /// of the attributes to propagate throughout the Amazon SQS system. Changes
+  /// made to the <code>MessageRetentionPeriod</code> attribute can take up to
+  /// 15 minutes and will impact existing messages in the queue potentially
+  /// causing them to be expired and deleted if the
+  /// <code>MessageRetentionPeriod</code> is reduced below the age of existing
+  /// messages.
   /// <note>
   /// <ul>
   /// <li>
@@ -1972,7 +2340,7 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </li>
   /// <li>
@@ -1984,6 +2352,13 @@ class Sqs {
   /// </ul> </note>
   ///
   /// May throw [InvalidAttributeName].
+  /// May throw [InvalidAttributeValue].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [UnsupportedOperation].
+  /// May throw [OverLimit].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
   ///
   /// Parameter [attributes] :
   /// A map of attributes to set.
@@ -2007,7 +2382,13 @@ class Sqs {
   /// <code>MessageRetentionPeriod</code> – The length of time, in seconds, for
   /// which Amazon SQS retains a message. Valid values: An integer representing
   /// seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4
-  /// days).
+  /// days). When you change a queue's attributes, the change can take up to 60
+  /// seconds for most of the attributes to propagate throughout the Amazon SQS
+  /// system. Changes made to the <code>MessageRetentionPeriod</code> attribute
+  /// can take up to 15 minutes and will impact existing messages in the queue
+  /// potentially causing them to be expired and deleted if the
+  /// <code>MessageRetentionPeriod</code> is reduced below the age of existing
+  /// messages.
   /// </li>
   /// <li>
   /// <code>Policy</code> – The queue's policy. A valid Amazon Web Services
@@ -2023,13 +2404,22 @@ class Sqs {
   /// Default: 0.
   /// </li>
   /// <li>
+  /// <code>VisibilityTimeout</code> – The visibility timeout for the queue, in
+  /// seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default:
+  /// 30. For more information about the visibility timeout, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
+  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
+  /// </li>
+  /// </ul>
+  /// The following attributes apply only to <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">dead-letter
+  /// queues:</a>
+  ///
+  /// <ul>
+  /// <li>
   /// <code>RedrivePolicy</code> – The string that includes the parameters for
   /// the dead-letter queue functionality of the source queue as a JSON object.
-  /// For more information about the redrive policy and dead-letter queues, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">Using
-  /// Amazon SQS Dead-Letter Queues</a> in the <i>Amazon SQS Developer
-  /// Guide</i>.
+  /// The parameters are as follows:
   ///
   /// <ul>
   /// <li>
@@ -2039,24 +2429,55 @@ class Sqs {
   /// </li>
   /// <li>
   /// <code>maxReceiveCount</code> – The number of times a message is delivered
-  /// to the source queue before being moved to the dead-letter queue. When the
-  /// <code>ReceiveCount</code> for a message exceeds the
+  /// to the source queue before being moved to the dead-letter queue. Default:
+  /// 10. When the <code>ReceiveCount</code> for a message exceeds the
   /// <code>maxReceiveCount</code> for a queue, Amazon SQS moves the message to
   /// the dead-letter-queue.
   /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>RedriveAllowPolicy</code> – The string that includes the parameters
+  /// for the permissions for the dead-letter queue redrive permission and which
+  /// source queues can specify dead-letter queues as a JSON object. The
+  /// parameters are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>redrivePermission</code> – The permission type that defines which
+  /// source queues can specify the current queue as the dead-letter queue.
+  /// Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>allowAll</code> – (Default) Any source queues in this Amazon Web
+  /// Services account in the same Region can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// <li>
+  /// <code>denyAll</code> – No source queues can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// <li>
+  /// <code>byQueue</code> – Only queues specified by the
+  /// <code>sourceQueueArns</code> parameter can specify this queue as the
+  /// dead-letter queue.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>sourceQueueArns</code> – The Amazon Resource Names (ARN)s of the
+  /// source queues that can specify this queue as the dead-letter queue and
+  /// redrive messages. You can specify this parameter only when the
+  /// <code>redrivePermission</code> parameter is set to <code>byQueue</code>.
+  /// You can specify up to 10 source queue ARNs. To allow more than 10 source
+  /// queues to specify dead-letter queues, set the
+  /// <code>redrivePermission</code> parameter to <code>allowAll</code>.
+  /// </li>
+  /// </ul> </li>
   /// </ul> <note>
   /// The dead-letter queue of a FIFO queue must also be a FIFO queue.
   /// Similarly, the dead-letter queue of a standard queue must also be a
   /// standard queue.
-  /// </note> </li>
-  /// <li>
-  /// <code>VisibilityTimeout</code> – The visibility timeout for the queue, in
-  /// seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default:
-  /// 30. For more information about the visibility timeout, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
-  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
-  /// </li>
-  /// </ul>
+  /// </note>
   /// The following attributes apply only to <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html">server-side-encryption</a>:
   ///
@@ -2087,7 +2508,7 @@ class Sqs {
   /// <li>
   /// <code>SqsManagedSseEnabled</code> – Enables server-side queue encryption
   /// using SQS owned encryption keys. Only one server-side encryption option is
-  /// supported per queue (e.g. <a
+  /// supported per queue (for example, <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html">SSE-KMS</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html">SSE-SQS</a>).
@@ -2188,19 +2609,96 @@ class Sqs {
     required Map<QueueAttributeName, String> attributes,
     required String queueUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Attributes'] = attributes.map((k, v) => MapEntry(k.toValue(), v));
-    $request['QueueUrl'] = queueUrl;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.SetQueueAttributes'
+    };
     await _protocol.send(
-      $request,
-      action: 'SetQueueAttributes',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetQueueAttributesRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'QueueUrl': queueUrl,
+      },
     );
+  }
+
+  /// Starts an asynchronous task to move messages from a specified source queue
+  /// to a specified destination queue.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// This action is currently limited to supporting message redrive from queues
+  /// that are configured as <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">dead-letter
+  /// queues (DLQs)</a> of other Amazon SQS queues only. Non-SQS queue sources
+  /// of dead-letter queues, such as Lambda or Amazon SNS topics, are currently
+  /// not supported.
+  /// </li>
+  /// <li>
+  /// In dead-letter queues redrive context, the
+  /// <code>StartMessageMoveTask</code> the source queue is the DLQ, while the
+  /// destination queue can be the original source queue (from which the
+  /// messages were driven to the dead-letter-queue), or a custom destination
+  /// queue.
+  /// </li>
+  /// <li>
+  /// Only one active message movement task is supported per queue at any given
+  /// time.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RequestThrottled].
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [sourceArn] :
+  /// The ARN of the queue that contains the messages to be moved to another
+  /// queue. Currently, only ARNs of dead-letter queues (DLQs) whose sources are
+  /// other Amazon SQS queues are accepted. DLQs whose sources are non-SQS
+  /// queues, such as Lambda or Amazon SNS topics, are not currently supported.
+  ///
+  /// Parameter [destinationArn] :
+  /// The ARN of the queue that receives the moved messages. You can use this
+  /// field to specify the destination queue where you would like to redrive
+  /// messages. If this field is left blank, the messages will be redriven back
+  /// to their respective original source queues.
+  ///
+  /// Parameter [maxNumberOfMessagesPerSecond] :
+  /// The number of messages to be moved per second (the message movement rate).
+  /// You can use this field to define a fixed message movement rate. The
+  /// maximum value for messages per second is 500. If this field is left blank,
+  /// the system will optimize the rate based on the queue message backlog size,
+  /// which may vary throughout the duration of the message movement task.
+  Future<StartMessageMoveTaskResult> startMessageMoveTask({
+    required String sourceArn,
+    String? destinationArn,
+    int? maxNumberOfMessagesPerSecond,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.StartMessageMoveTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SourceArn': sourceArn,
+        if (destinationArn != null) 'DestinationArn': destinationArn,
+        if (maxNumberOfMessagesPerSecond != null)
+          'MaxNumberOfMessagesPerSecond': maxNumberOfMessagesPerSecond,
+      },
+    );
+
+    return StartMessageMoveTaskResult.fromJson(jsonResponse.body);
   }
 
   /// Add cost allocation tags to the specified Amazon SQS queue. For an
@@ -2233,9 +2731,15 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </note>
+  ///
+  /// May throw [InvalidAddress].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the queue.
@@ -2246,18 +2750,20 @@ class Sqs {
     required String queueUrl,
     required Map<String, String> tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    $request['Tags'] = tags;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.TagQueue'
+    };
     await _protocol.send(
-      $request,
-      action: 'TagQueue',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['TagQueueRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+        'Tags': tags,
+      },
     );
   }
 
@@ -2269,9 +2775,15 @@ class Sqs {
   /// Cross-account permissions don't apply to this action. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a user name</a> in the <i>Amazon
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
   /// SQS Developer Guide</i>.
   /// </note>
+  ///
+  /// May throw [InvalidAddress].
+  /// May throw [RequestThrottled].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidSecurity].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the queue.
@@ -2282,18 +2794,20 @@ class Sqs {
     required String queueUrl,
     required List<String> tagKeys,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueUrl'] = queueUrl;
-    $request['TagKeys'] = tagKeys;
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.UntagQueue'
+    };
     await _protocol.send(
-      $request,
-      action: 'UntagQueue',
-      version: '2012-11-05',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UntagQueueRequest'],
-      shapes: shapes,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+        'TagKeys': tagKeys,
+      },
     );
   }
 }
@@ -2320,12 +2834,13 @@ class BatchResultErrorEntry {
     required this.senderFault,
     this.message,
   });
-  factory BatchResultErrorEntry.fromXml(_s.XmlElement elem) {
+
+  factory BatchResultErrorEntry.fromJson(Map<String, dynamic> json) {
     return BatchResultErrorEntry(
-      code: _s.extractXmlStringValue(elem, 'Code')!,
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      senderFault: _s.extractXmlBoolValue(elem, 'SenderFault')!,
-      message: _s.extractXmlStringValue(elem, 'Message'),
+      code: json['Code'] as String,
+      id: json['Id'] as String,
+      senderFault: json['SenderFault'] as bool,
+      message: json['Message'] as String?,
     );
   }
 
@@ -2343,19 +2858,33 @@ class BatchResultErrorEntry {
   }
 }
 
-/// Encloses a receipt handle and an entry id for each message in <code>
+class CancelMessageMoveTaskResult {
+  /// The approximate number of messages already moved to the destination queue.
+  final int? approximateNumberOfMessagesMoved;
+
+  CancelMessageMoveTaskResult({
+    this.approximateNumberOfMessagesMoved,
+  });
+
+  factory CancelMessageMoveTaskResult.fromJson(Map<String, dynamic> json) {
+    return CancelMessageMoveTaskResult(
+      approximateNumberOfMessagesMoved:
+          json['ApproximateNumberOfMessagesMoved'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateNumberOfMessagesMoved =
+        this.approximateNumberOfMessagesMoved;
+    return {
+      if (approximateNumberOfMessagesMoved != null)
+        'ApproximateNumberOfMessagesMoved': approximateNumberOfMessagesMoved,
+    };
+  }
+}
+
+/// Encloses a receipt handle and an entry ID for each message in <code>
 /// <a>ChangeMessageVisibilityBatch</a>.</code>
-/// <important>
-/// All of the following list parameters must be prefixed with
-/// <code>ChangeMessageVisibilityBatchRequestEntry.n</code>, where
-/// <code>n</code> is an integer value starting with <code>1</code>. For
-/// example, a parameter list for this action might look like this:
-/// </important>
-/// <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.Id=change_visibility_msg_2</code>
-///
-/// <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle=your_receipt_handle</code>
-///
-/// <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout=45</code>
 class ChangeMessageVisibilityBatchRequestEntry {
   /// An identifier for this particular receipt handle used to communicate the
   /// result.
@@ -2407,15 +2936,18 @@ class ChangeMessageVisibilityBatchResult {
     required this.failed,
     required this.successful,
   });
-  factory ChangeMessageVisibilityBatchResult.fromXml(_s.XmlElement elem) {
+
+  factory ChangeMessageVisibilityBatchResult.fromJson(
+      Map<String, dynamic> json) {
     return ChangeMessageVisibilityBatchResult(
-      failed: elem
-          .findElements('BatchResultErrorEntry')
-          .map(BatchResultErrorEntry.fromXml)
+      failed: (json['Failed'] as List)
+          .whereNotNull()
+          .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successful: elem
-          .findElements('ChangeMessageVisibilityBatchResultEntry')
-          .map(ChangeMessageVisibilityBatchResultEntry.fromXml)
+      successful: (json['Successful'] as List)
+          .whereNotNull()
+          .map((e) => ChangeMessageVisibilityBatchResultEntry.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -2439,9 +2971,11 @@ class ChangeMessageVisibilityBatchResultEntry {
   ChangeMessageVisibilityBatchResultEntry({
     required this.id,
   });
-  factory ChangeMessageVisibilityBatchResultEntry.fromXml(_s.XmlElement elem) {
+
+  factory ChangeMessageVisibilityBatchResultEntry.fromJson(
+      Map<String, dynamic> json) {
     return ChangeMessageVisibilityBatchResultEntry(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
+      id: json['Id'] as String,
     );
   }
 
@@ -2461,9 +2995,10 @@ class CreateQueueResult {
   CreateQueueResult({
     this.queueUrl,
   });
-  factory CreateQueueResult.fromXml(_s.XmlElement elem) {
+
+  factory CreateQueueResult.fromJson(Map<String, dynamic> json) {
     return CreateQueueResult(
-      queueUrl: _s.extractXmlStringValue(elem, 'QueueUrl'),
+      queueUrl: json['QueueUrl'] as String?,
     );
   }
 
@@ -2477,7 +3012,7 @@ class CreateQueueResult {
 
 /// Encloses a receipt handle and an identifier for it.
 class DeleteMessageBatchRequestEntry {
-  /// An identifier for this particular receipt handle. This is used to
+  /// The identifier for this particular receipt handle. This is used to
   /// communicate the result.
   /// <note>
   /// The <code>Id</code>s of a batch request need to be unique within a request.
@@ -2520,15 +3055,17 @@ class DeleteMessageBatchResult {
     required this.failed,
     required this.successful,
   });
-  factory DeleteMessageBatchResult.fromXml(_s.XmlElement elem) {
+
+  factory DeleteMessageBatchResult.fromJson(Map<String, dynamic> json) {
     return DeleteMessageBatchResult(
-      failed: elem
-          .findElements('BatchResultErrorEntry')
-          .map(BatchResultErrorEntry.fromXml)
+      failed: (json['Failed'] as List)
+          .whereNotNull()
+          .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successful: elem
-          .findElements('DeleteMessageBatchResultEntry')
-          .map(DeleteMessageBatchResultEntry.fromXml)
+      successful: (json['Successful'] as List)
+          .whereNotNull()
+          .map((e) =>
+              DeleteMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -2552,9 +3089,10 @@ class DeleteMessageBatchResultEntry {
   DeleteMessageBatchResultEntry({
     required this.id,
   });
-  factory DeleteMessageBatchResultEntry.fromXml(_s.XmlElement elem) {
+
+  factory DeleteMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
     return DeleteMessageBatchResultEntry(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
+      id: json['Id'] as String,
     );
   }
 
@@ -2574,16 +3112,11 @@ class GetQueueAttributesResult {
   GetQueueAttributesResult({
     this.attributes,
   });
-  factory GetQueueAttributesResult.fromXml(_s.XmlElement elem) {
+
+  factory GetQueueAttributesResult.fromJson(Map<String, dynamic> json) {
     return GetQueueAttributesResult(
-      attributes: Map.fromEntries(
-        elem.findElements('Attribute').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Name')!.toQueueAttributeName(),
-                _s.extractXmlStringValue(c, 'Value')!,
-              ),
-            ),
-      ),
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toQueueAttributeName(), e as String)),
     );
   }
 
@@ -2591,7 +3124,7 @@ class GetQueueAttributesResult {
     final attributes = this.attributes;
     return {
       if (attributes != null)
-        'Attribute': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
     };
   }
 }
@@ -2606,9 +3139,10 @@ class GetQueueUrlResult {
   GetQueueUrlResult({
     this.queueUrl,
   });
-  factory GetQueueUrlResult.fromXml(_s.XmlElement elem) {
+
+  factory GetQueueUrlResult.fromJson(Map<String, dynamic> json) {
     return GetQueueUrlResult(
-      queueUrl: _s.extractXmlStringValue(elem, 'QueueUrl'),
+      queueUrl: json['QueueUrl'] as String?,
     );
   }
 
@@ -2635,10 +3169,14 @@ class ListDeadLetterSourceQueuesResult {
     required this.queueUrls,
     this.nextToken,
   });
-  factory ListDeadLetterSourceQueuesResult.fromXml(_s.XmlElement elem) {
+
+  factory ListDeadLetterSourceQueuesResult.fromJson(Map<String, dynamic> json) {
     return ListDeadLetterSourceQueuesResult(
-      queueUrls: _s.extractXmlStringListValues(elem, 'QueueUrl'),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      queueUrls: (json['queueUrls'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
@@ -2652,6 +3190,131 @@ class ListDeadLetterSourceQueuesResult {
   }
 }
 
+class ListMessageMoveTasksResult {
+  /// A list of message movement tasks and their attributes.
+  final List<ListMessageMoveTasksResultEntry>? results;
+
+  ListMessageMoveTasksResult({
+    this.results,
+  });
+
+  factory ListMessageMoveTasksResult.fromJson(Map<String, dynamic> json) {
+    return ListMessageMoveTasksResult(
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListMessageMoveTasksResultEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    return {
+      if (results != null) 'Results': results,
+    };
+  }
+}
+
+/// Contains the details of a message movement task.
+class ListMessageMoveTasksResultEntry {
+  /// The approximate number of messages already moved to the destination queue.
+  final int? approximateNumberOfMessagesMoved;
+
+  /// The number of messages to be moved from the source queue. This number is
+  /// obtained at the time of starting the message movement task and is only
+  /// included after the message movement task is selected to start.
+  final int? approximateNumberOfMessagesToMove;
+
+  /// The ARN of the destination queue if it has been specified in the
+  /// <code>StartMessageMoveTask</code> request. If a <code>DestinationArn</code>
+  /// has not been specified in the <code>StartMessageMoveTask</code> request,
+  /// this field value will be NULL.
+  final String? destinationArn;
+
+  /// The task failure reason (only included if the task status is FAILED).
+  final String? failureReason;
+
+  /// The number of messages to be moved per second (the message movement rate),
+  /// if it has been specified in the <code>StartMessageMoveTask</code> request.
+  /// If a <code>MaxNumberOfMessagesPerSecond</code> has not been specified in the
+  /// <code>StartMessageMoveTask</code> request, this field value will be NULL.
+  final int? maxNumberOfMessagesPerSecond;
+
+  /// The ARN of the queue that contains the messages to be moved to another
+  /// queue.
+  final String? sourceArn;
+
+  /// The timestamp of starting the message movement task.
+  final int? startedTimestamp;
+
+  /// The status of the message movement task. Possible values are: RUNNING,
+  /// COMPLETED, CANCELLING, CANCELLED, and FAILED.
+  final String? status;
+
+  /// An identifier associated with a message movement task. When this field is
+  /// returned in the response of the <code>ListMessageMoveTasks</code> action, it
+  /// is only populated for tasks that are in RUNNING status.
+  final String? taskHandle;
+
+  ListMessageMoveTasksResultEntry({
+    this.approximateNumberOfMessagesMoved,
+    this.approximateNumberOfMessagesToMove,
+    this.destinationArn,
+    this.failureReason,
+    this.maxNumberOfMessagesPerSecond,
+    this.sourceArn,
+    this.startedTimestamp,
+    this.status,
+    this.taskHandle,
+  });
+
+  factory ListMessageMoveTasksResultEntry.fromJson(Map<String, dynamic> json) {
+    return ListMessageMoveTasksResultEntry(
+      approximateNumberOfMessagesMoved:
+          json['ApproximateNumberOfMessagesMoved'] as int?,
+      approximateNumberOfMessagesToMove:
+          json['ApproximateNumberOfMessagesToMove'] as int?,
+      destinationArn: json['DestinationArn'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      maxNumberOfMessagesPerSecond:
+          json['MaxNumberOfMessagesPerSecond'] as int?,
+      sourceArn: json['SourceArn'] as String?,
+      startedTimestamp: json['StartedTimestamp'] as int?,
+      status: json['Status'] as String?,
+      taskHandle: json['TaskHandle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateNumberOfMessagesMoved =
+        this.approximateNumberOfMessagesMoved;
+    final approximateNumberOfMessagesToMove =
+        this.approximateNumberOfMessagesToMove;
+    final destinationArn = this.destinationArn;
+    final failureReason = this.failureReason;
+    final maxNumberOfMessagesPerSecond = this.maxNumberOfMessagesPerSecond;
+    final sourceArn = this.sourceArn;
+    final startedTimestamp = this.startedTimestamp;
+    final status = this.status;
+    final taskHandle = this.taskHandle;
+    return {
+      if (approximateNumberOfMessagesMoved != null)
+        'ApproximateNumberOfMessagesMoved': approximateNumberOfMessagesMoved,
+      if (approximateNumberOfMessagesToMove != null)
+        'ApproximateNumberOfMessagesToMove': approximateNumberOfMessagesToMove,
+      if (destinationArn != null) 'DestinationArn': destinationArn,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (maxNumberOfMessagesPerSecond != null)
+        'MaxNumberOfMessagesPerSecond': maxNumberOfMessagesPerSecond,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (startedTimestamp != null) 'StartedTimestamp': startedTimestamp,
+      if (status != null) 'Status': status,
+      if (taskHandle != null) 'TaskHandle': taskHandle,
+    };
+  }
+}
+
 class ListQueueTagsResult {
   /// The list of all tags added to the specified queue.
   final Map<String, String>? tags;
@@ -2659,23 +3322,18 @@ class ListQueueTagsResult {
   ListQueueTagsResult({
     this.tags,
   });
-  factory ListQueueTagsResult.fromXml(_s.XmlElement elem) {
+
+  factory ListQueueTagsResult.fromJson(Map<String, dynamic> json) {
     return ListQueueTagsResult(
-      tags: Map.fromEntries(
-        elem.findElements('Tag').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Key')!,
-                _s.extractXmlStringValue(c, 'Value')!,
-              ),
-            ),
-      ),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final tags = this.tags;
     return {
-      if (tags != null) 'Tag': tags,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -2687,18 +3345,22 @@ class ListQueuesResult {
   /// did not set <code>MaxResults</code> in the request.
   final String? nextToken;
 
-  /// A list of queue URLs, up to 1,000 entries, or the value of MaxResults that
-  /// you sent in the request.
+  /// A list of queue URLs, up to 1,000 entries, or the value of
+  /// <code>MaxResults</code> that you sent in the request.
   final List<String>? queueUrls;
 
   ListQueuesResult({
     this.nextToken,
     this.queueUrls,
   });
-  factory ListQueuesResult.fromXml(_s.XmlElement elem) {
+
+  factory ListQueuesResult.fromJson(Map<String, dynamic> json) {
     return ListQueuesResult(
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      queueUrls: _s.extractXmlStringListValues(elem, 'QueueUrl'),
+      nextToken: json['NextToken'] as String?,
+      queueUrls: (json['QueueUrls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -2784,32 +3446,19 @@ class Message {
     this.messageId,
     this.receiptHandle,
   });
-  factory Message.fromXml(_s.XmlElement elem) {
+
+  factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      attributes: Map.fromEntries(
-        elem.findElements('Attribute').map(
-              (c) => MapEntry(
-                _s
-                    .extractXmlStringValue(c, 'Name')!
-                    .toMessageSystemAttributeName(),
-                _s.extractXmlStringValue(c, 'Value')!,
-              ),
-            ),
-      ),
-      body: _s.extractXmlStringValue(elem, 'Body'),
-      mD5OfBody: _s.extractXmlStringValue(elem, 'MD5OfBody'),
-      mD5OfMessageAttributes:
-          _s.extractXmlStringValue(elem, 'MD5OfMessageAttributes'),
-      messageAttributes: Map.fromEntries(
-        elem.findElements('MessageAttribute').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Name')!,
-                MessageAttributeValue.fromXml(_s.extractXmlChild(c, 'Value')!),
-              ),
-            ),
-      ),
-      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
-      receiptHandle: _s.extractXmlStringValue(elem, 'ReceiptHandle'),
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k.toMessageSystemAttributeName(), e as String)),
+      body: json['Body'] as String?,
+      mD5OfBody: json['MD5OfBody'] as String?,
+      mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
+      messageAttributes: (json['MessageAttributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, MessageAttributeValue.fromJson(e as Map<String, dynamic>))),
+      messageId: json['MessageId'] as String?,
+      receiptHandle: json['ReceiptHandle'] as String?,
     );
   }
 
@@ -2823,12 +3472,12 @@ class Message {
     final receiptHandle = this.receiptHandle;
     return {
       if (attributes != null)
-        'Attribute': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
       if (body != null) 'Body': body,
       if (mD5OfBody != null) 'MD5OfBody': mD5OfBody,
       if (mD5OfMessageAttributes != null)
         'MD5OfMessageAttributes': mD5OfMessageAttributes,
-      if (messageAttributes != null) 'MessageAttribute': messageAttributes,
+      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
       if (messageId != null) 'MessageId': messageId,
       if (receiptHandle != null) 'ReceiptHandle': receiptHandle,
     };
@@ -2842,7 +3491,7 @@ class Message {
 /// <code>Name</code>, <code>type</code>, <code>value</code> and the message
 /// body must not be empty or null. All parts of the message attribute,
 /// including <code>Name</code>, <code>Type</code>, and <code>Value</code>, are
-/// part of the message size restriction (256 KB or 262,144 bytes).
+/// part of the message size restriction (256 KiB or 262,144 bytes).
 class MessageAttributeValue {
   /// Amazon SQS supports the following logical data types: <code>String</code>,
   /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
@@ -2876,14 +3525,20 @@ class MessageAttributeValue {
     this.stringListValues,
     this.stringValue,
   });
-  factory MessageAttributeValue.fromXml(_s.XmlElement elem) {
+
+  factory MessageAttributeValue.fromJson(Map<String, dynamic> json) {
     return MessageAttributeValue(
-      dataType: _s.extractXmlStringValue(elem, 'DataType')!,
-      binaryListValues:
-          _s.extractXmlUint8ListListValues(elem, 'BinaryListValue'),
-      binaryValue: _s.extractXmlUint8ListValue(elem, 'BinaryValue'),
-      stringListValues: _s.extractXmlStringListValues(elem, 'StringListValue'),
-      stringValue: _s.extractXmlStringValue(elem, 'StringValue'),
+      dataType: json['DataType'] as String,
+      binaryListValues: (json['BinaryListValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+      binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
+      stringListValues: (json['StringListValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      stringValue: json['StringValue'] as String?,
     );
   }
 
@@ -2896,15 +3551,16 @@ class MessageAttributeValue {
     return {
       'DataType': dataType,
       if (binaryListValues != null)
-        'BinaryListValue': binaryListValues.map(base64Encode).toList(),
+        'BinaryListValues': binaryListValues.map(base64Encode).toList(),
       if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
-      if (stringListValues != null) 'StringListValue': stringListValues,
+      if (stringListValues != null) 'StringListValues': stringListValues,
       if (stringValue != null) 'StringValue': stringValue,
     };
   }
 }
 
 enum MessageSystemAttributeName {
+  all,
   senderId,
   sentTimestamp,
   approximateReceiveCount,
@@ -2913,12 +3569,15 @@ enum MessageSystemAttributeName {
   messageDeduplicationId,
   messageGroupId,
   awsTraceHeader,
+  deadLetterQueueSourceArn,
 }
 
 extension MessageSystemAttributeNameValueExtension
     on MessageSystemAttributeName {
   String toValue() {
     switch (this) {
+      case MessageSystemAttributeName.all:
+        return 'All';
       case MessageSystemAttributeName.senderId:
         return 'SenderId';
       case MessageSystemAttributeName.sentTimestamp:
@@ -2935,6 +3594,8 @@ extension MessageSystemAttributeNameValueExtension
         return 'MessageGroupId';
       case MessageSystemAttributeName.awsTraceHeader:
         return 'AWSTraceHeader';
+      case MessageSystemAttributeName.deadLetterQueueSourceArn:
+        return 'DeadLetterQueueSourceArn';
     }
   }
 }
@@ -2942,6 +3603,8 @@ extension MessageSystemAttributeNameValueExtension
 extension MessageSystemAttributeNameFromString on String {
   MessageSystemAttributeName toMessageSystemAttributeName() {
     switch (this) {
+      case 'All':
+        return MessageSystemAttributeName.all;
       case 'SenderId':
         return MessageSystemAttributeName.senderId;
       case 'SentTimestamp':
@@ -2958,6 +3621,8 @@ extension MessageSystemAttributeNameFromString on String {
         return MessageSystemAttributeName.messageGroupId;
       case 'AWSTraceHeader':
         return MessageSystemAttributeName.awsTraceHeader;
+      case 'DeadLetterQueueSourceArn':
+        return MessageSystemAttributeName.deadLetterQueueSourceArn;
     }
     throw Exception('$this is not known in enum MessageSystemAttributeName');
   }
@@ -3038,9 +3703,9 @@ class MessageSystemAttributeValue {
     return {
       'DataType': dataType,
       if (binaryListValues != null)
-        'BinaryListValue': binaryListValues.map(base64Encode).toList(),
+        'BinaryListValues': binaryListValues.map(base64Encode).toList(),
       if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
-      if (stringListValues != null) 'StringListValue': stringListValues,
+      if (stringListValues != null) 'StringListValues': stringListValues,
       if (stringValue != null) 'StringValue': stringValue,
     };
   }
@@ -3182,9 +3847,13 @@ class ReceiveMessageResult {
   ReceiveMessageResult({
     this.messages,
   });
-  factory ReceiveMessageResult.fromXml(_s.XmlElement elem) {
+
+  factory ReceiveMessageResult.fromJson(Map<String, dynamic> json) {
     return ReceiveMessageResult(
-      messages: elem.findElements('Message').map(Message.fromXml).toList(),
+      messages: (json['Messages'] as List?)
+          ?.whereNotNull()
+          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -3370,12 +4039,12 @@ class SendMessageBatchRequestEntry {
       'Id': id,
       'MessageBody': messageBody,
       if (delaySeconds != null) 'DelaySeconds': delaySeconds,
-      if (messageAttributes != null) 'MessageAttribute': messageAttributes,
+      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
       if (messageDeduplicationId != null)
         'MessageDeduplicationId': messageDeduplicationId,
       if (messageGroupId != null) 'MessageGroupId': messageGroupId,
       if (messageSystemAttributes != null)
-        'MessageSystemAttribute':
+        'MessageSystemAttributes':
             messageSystemAttributes.map((k, e) => MapEntry(k.toValue(), e)),
     };
   }
@@ -3396,15 +4065,17 @@ class SendMessageBatchResult {
     required this.failed,
     required this.successful,
   });
-  factory SendMessageBatchResult.fromXml(_s.XmlElement elem) {
+
+  factory SendMessageBatchResult.fromJson(Map<String, dynamic> json) {
     return SendMessageBatchResult(
-      failed: elem
-          .findElements('BatchResultErrorEntry')
-          .map(BatchResultErrorEntry.fromXml)
+      failed: (json['Failed'] as List)
+          .whereNotNull()
+          .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successful: elem
-          .findElements('SendMessageBatchResultEntry')
-          .map(SendMessageBatchResultEntry.fromXml)
+      successful: (json['Successful'] as List)
+          .whereNotNull()
+          .map((e) =>
+              SendMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -3465,16 +4136,16 @@ class SendMessageBatchResultEntry {
     this.mD5OfMessageSystemAttributes,
     this.sequenceNumber,
   });
-  factory SendMessageBatchResultEntry.fromXml(_s.XmlElement elem) {
+
+  factory SendMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
     return SendMessageBatchResultEntry(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      mD5OfMessageBody: _s.extractXmlStringValue(elem, 'MD5OfMessageBody')!,
-      messageId: _s.extractXmlStringValue(elem, 'MessageId')!,
-      mD5OfMessageAttributes:
-          _s.extractXmlStringValue(elem, 'MD5OfMessageAttributes'),
+      id: json['Id'] as String,
+      mD5OfMessageBody: json['MD5OfMessageBody'] as String,
+      messageId: json['MessageId'] as String,
+      mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
       mD5OfMessageSystemAttributes:
-          _s.extractXmlStringValue(elem, 'MD5OfMessageSystemAttributes'),
-      sequenceNumber: _s.extractXmlStringValue(elem, 'SequenceNumber'),
+          json['MD5OfMessageSystemAttributes'] as String?,
+      sequenceNumber: json['SequenceNumber'] as String?,
     );
   }
 
@@ -3541,15 +4212,15 @@ class SendMessageResult {
     this.messageId,
     this.sequenceNumber,
   });
-  factory SendMessageResult.fromXml(_s.XmlElement elem) {
+
+  factory SendMessageResult.fromJson(Map<String, dynamic> json) {
     return SendMessageResult(
-      mD5OfMessageAttributes:
-          _s.extractXmlStringValue(elem, 'MD5OfMessageAttributes'),
-      mD5OfMessageBody: _s.extractXmlStringValue(elem, 'MD5OfMessageBody'),
+      mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
+      mD5OfMessageBody: json['MD5OfMessageBody'] as String?,
       mD5OfMessageSystemAttributes:
-          _s.extractXmlStringValue(elem, 'MD5OfMessageSystemAttributes'),
-      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
-      sequenceNumber: _s.extractXmlStringValue(elem, 'SequenceNumber'),
+          json['MD5OfMessageSystemAttributes'] as String?,
+      messageId: json['MessageId'] as String?,
+      sequenceNumber: json['SequenceNumber'] as String?,
     );
   }
 
@@ -3571,6 +4242,30 @@ class SendMessageResult {
   }
 }
 
+class StartMessageMoveTaskResult {
+  /// An identifier associated with a message movement task. You can use this
+  /// identifier to cancel a specified message movement task using the
+  /// <code>CancelMessageMoveTask</code> action.
+  final String? taskHandle;
+
+  StartMessageMoveTaskResult({
+    this.taskHandle,
+  });
+
+  factory StartMessageMoveTaskResult.fromJson(Map<String, dynamic> json) {
+    return StartMessageMoveTaskResult(
+      taskHandle: json['TaskHandle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskHandle = this.taskHandle;
+    return {
+      if (taskHandle != null) 'TaskHandle': taskHandle,
+    };
+  }
+}
+
 class BatchEntryIdsNotDistinct extends _s.GenericAwsException {
   BatchEntryIdsNotDistinct({String? type, String? message})
       : super(type: type, code: 'BatchEntryIdsNotDistinct', message: message);
@@ -3586,9 +4281,19 @@ class EmptyBatchRequest extends _s.GenericAwsException {
       : super(type: type, code: 'EmptyBatchRequest', message: message);
 }
 
+class InvalidAddress extends _s.GenericAwsException {
+  InvalidAddress({String? type, String? message})
+      : super(type: type, code: 'InvalidAddress', message: message);
+}
+
 class InvalidAttributeName extends _s.GenericAwsException {
   InvalidAttributeName({String? type, String? message})
       : super(type: type, code: 'InvalidAttributeName', message: message);
+}
+
+class InvalidAttributeValue extends _s.GenericAwsException {
+  InvalidAttributeValue({String? type, String? message})
+      : super(type: type, code: 'InvalidAttributeValue', message: message);
 }
 
 class InvalidBatchEntryId extends _s.GenericAwsException {
@@ -3604,6 +4309,46 @@ class InvalidIdFormat extends _s.GenericAwsException {
 class InvalidMessageContents extends _s.GenericAwsException {
   InvalidMessageContents({String? type, String? message})
       : super(type: type, code: 'InvalidMessageContents', message: message);
+}
+
+class InvalidSecurity extends _s.GenericAwsException {
+  InvalidSecurity({String? type, String? message})
+      : super(type: type, code: 'InvalidSecurity', message: message);
+}
+
+class KmsAccessDenied extends _s.GenericAwsException {
+  KmsAccessDenied({String? type, String? message})
+      : super(type: type, code: 'KmsAccessDenied', message: message);
+}
+
+class KmsDisabled extends _s.GenericAwsException {
+  KmsDisabled({String? type, String? message})
+      : super(type: type, code: 'KmsDisabled', message: message);
+}
+
+class KmsInvalidKeyUsage extends _s.GenericAwsException {
+  KmsInvalidKeyUsage({String? type, String? message})
+      : super(type: type, code: 'KmsInvalidKeyUsage', message: message);
+}
+
+class KmsInvalidState extends _s.GenericAwsException {
+  KmsInvalidState({String? type, String? message})
+      : super(type: type, code: 'KmsInvalidState', message: message);
+}
+
+class KmsNotFound extends _s.GenericAwsException {
+  KmsNotFound({String? type, String? message})
+      : super(type: type, code: 'KmsNotFound', message: message);
+}
+
+class KmsOptInRequired extends _s.GenericAwsException {
+  KmsOptInRequired({String? type, String? message})
+      : super(type: type, code: 'KmsOptInRequired', message: message);
+}
+
+class KmsThrottled extends _s.GenericAwsException {
+  KmsThrottled({String? type, String? message})
+      : super(type: type, code: 'KmsThrottled', message: message);
 }
 
 class MessageNotInflight extends _s.GenericAwsException {
@@ -3641,6 +4386,16 @@ class ReceiptHandleIsInvalid extends _s.GenericAwsException {
       : super(type: type, code: 'ReceiptHandleIsInvalid', message: message);
 }
 
+class RequestThrottled extends _s.GenericAwsException {
+  RequestThrottled({String? type, String? message})
+      : super(type: type, code: 'RequestThrottled', message: message);
+}
+
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 class TooManyEntriesInBatchRequest extends _s.GenericAwsException {
   TooManyEntriesInBatchRequest({String? type, String? message})
       : super(
@@ -3659,14 +4414,31 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       BatchRequestTooLong(type: type, message: message),
   'EmptyBatchRequest': (type, message) =>
       EmptyBatchRequest(type: type, message: message),
+  'InvalidAddress': (type, message) =>
+      InvalidAddress(type: type, message: message),
   'InvalidAttributeName': (type, message) =>
       InvalidAttributeName(type: type, message: message),
+  'InvalidAttributeValue': (type, message) =>
+      InvalidAttributeValue(type: type, message: message),
   'InvalidBatchEntryId': (type, message) =>
       InvalidBatchEntryId(type: type, message: message),
   'InvalidIdFormat': (type, message) =>
       InvalidIdFormat(type: type, message: message),
   'InvalidMessageContents': (type, message) =>
       InvalidMessageContents(type: type, message: message),
+  'InvalidSecurity': (type, message) =>
+      InvalidSecurity(type: type, message: message),
+  'KmsAccessDenied': (type, message) =>
+      KmsAccessDenied(type: type, message: message),
+  'KmsDisabled': (type, message) => KmsDisabled(type: type, message: message),
+  'KmsInvalidKeyUsage': (type, message) =>
+      KmsInvalidKeyUsage(type: type, message: message),
+  'KmsInvalidState': (type, message) =>
+      KmsInvalidState(type: type, message: message),
+  'KmsNotFound': (type, message) => KmsNotFound(type: type, message: message),
+  'KmsOptInRequired': (type, message) =>
+      KmsOptInRequired(type: type, message: message),
+  'KmsThrottled': (type, message) => KmsThrottled(type: type, message: message),
   'MessageNotInflight': (type, message) =>
       MessageNotInflight(type: type, message: message),
   'OverLimit': (type, message) => OverLimit(type: type, message: message),
@@ -3680,6 +4452,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       QueueNameExists(type: type, message: message),
   'ReceiptHandleIsInvalid': (type, message) =>
       ReceiptHandleIsInvalid(type: type, message: message),
+  'RequestThrottled': (type, message) =>
+      RequestThrottled(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
   'TooManyEntriesInBatchRequest': (type, message) =>
       TooManyEntriesInBatchRequest(type: type, message: message),
   'UnsupportedOperation': (type, message) =>
