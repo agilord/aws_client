@@ -21,7 +21,6 @@ import 'model/api.dart';
 import 'model/config.dart';
 import 'model/region_config.dart';
 import 'model/test_model.dart';
-import 'model_thin/api.dart' as thin;
 
 class GenerateCommand extends Command {
   final _formatter = DartFormatter(fixes: StyleFix.all);
@@ -180,7 +179,6 @@ in the config file, from the downloaded models.''';
 
       try {
         final api = Api.fromJson(defJson);
-        final thinApi = thin.Api.fromJson(defJson);
         final protocolConfig = config.protocols[api.metadata.protocol]!;
 
         if (!(api.isRecognized &&
@@ -211,19 +209,9 @@ in the config file, from the downloaded models.''';
         serviceFile.parent.createSync(recursive: true);
         exampleFile.createSync(recursive: true);
 
-        var metaContents = '''
-// ignore_for_file: prefer_single_quotes
-const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
-
         var serviceText = buildService(api);
         if (argResults!['format'] == true) {
           serviceText = _formatter.format(serviceText, uri: serviceFile.uri);
-          metaContents = _formatter.format(metaContents);
-        }
-
-        if (api.usesQueryProtocol) {
-          File('$allApisDir/lib/${api.packageName}/${api.fileBasename}.meta.dart')
-              .writeAsStringSync(metaContents);
         }
 
         String pubspecYaml;
@@ -386,7 +374,6 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
           final apiDef = testSuite.toApiDefinition();
 
           final api = Api.fromJson(apiDef);
-          final thinApi = thin.Api.fromJson(apiDef);
 
           var serviceCode = buildService(api);
 
@@ -399,15 +386,6 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
           }
 
           final baseDir = '${generatedDir.path}/$type/$protocol';
-          if (api.usesQueryProtocol) {
-            final metaContents = '''
-              // ignore_for_file: prefer_single_quotes
-              const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
-
-            File('$baseDir/${api.fileBasename}.meta.dart')
-              ..createSync(recursive: true)
-              ..writeAsStringSync(formatter.format(metaContents));
-          }
 
           File('$baseDir/${api.fileBasename}.dart')
             ..createSync(recursive: true)

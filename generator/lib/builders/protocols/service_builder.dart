@@ -1,7 +1,7 @@
 import '../../model/api.dart';
+import '../../model/descriptor.dart';
 import '../../model/operation.dart';
 import '../../model/shape.dart';
-import 'query_builder.dart';
 
 abstract class ServiceBuilder {
   String imports();
@@ -97,13 +97,13 @@ abstract class ServiceBuilder {
       if (member.shapeClass?.type == 'map') {
         final variable = _encodeQueryParamCode(
             member.shapeClass!.value!.shapeClass!, 'e.value',
-            member: member, maybeNull: false);
+            member: member);
         out.writeln('for (var e in ${member.fieldName}.entries)');
         out.writeln('e.key: $variable,');
       } else {
         final variable = _encodeQueryParamCode(
             member.shapeClass!, member.fieldName,
-            member: member, maybeNull: false);
+            member: member);
         out.writeln("'$location': $variable,");
       }
     }
@@ -120,14 +120,8 @@ abstract class ServiceBuilder {
   }
 }
 
-String _encodeQueryParamCode(Shape shape, String variable,
-    {Member? member, bool maybeNull = false}) {
-  if (shape.type == 'list') {
-    maybeNull = false;
-  }
-
-  var code =
-      encodeQueryCode(shape, variable, member: member, maybeNull: maybeNull);
+String _encodeQueryParamCode(Shape shape, String variable, {Member? member}) {
+  var code = _encodeQueryCode(shape, variable, member: member);
   if (shape.type == 'list') {
     return code;
   } else if (shape.type == 'map') {
@@ -138,6 +132,28 @@ String _encodeQueryParamCode(Shape shape, String variable,
     }
     return '[$code]';
   }
+}
+
+String _encodeQueryCode(Shape shape, String variable, {Member? member, Descriptor? descriptor}) {
+  if (member?.jsonvalue == true || descriptor?.jsonvalue == true) {
+    return 'jsonEncode($variable)';
+  } else if (shape.enumeration != null) {
+    shape.isTopLevelInputEnum = true;
+    return '$variable.toValue()';
+  } else if (shape.type == 'list') {
+    final code = _encodeQueryCode(shape.member!.shapeClass!, 'e',
+        descriptor: shape.member!);
+    if (code != 'e') {
+      return '$variable.map((e) => $code).toList()';
+    }
+  } else if (shape.type == 'timestamp') {
+    final timestampFormat =
+        member?.timestampFormat ?? shape.timestampFormat ?? 'iso8601';
+    variable =
+        '_s.${timestampFormat}ToJson($variable)${timestampFormat == 'unixTimestamp' ? '.toString()' : ''}';
+  }
+
+  return variable;
 }
 
 String _encodePath(Shape shape, String variable) {

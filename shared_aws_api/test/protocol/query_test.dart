@@ -25,7 +25,6 @@ void main() {
         await protocol.send({},
             action: 'action',
             version: 'version',
-            shapes: {},
             method: 'POST',
             requestUri: 'requestUri',
             exceptionFnMap: {});
