@@ -17,13 +17,11 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'nested_structure_members.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Nested structure members
 class NestedStructureMembers {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   NestedStructureMembers({
     required String region,
@@ -31,7 +29,7 @@ class NestedStructureMembers {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'NestedStructureMembers',
@@ -40,9 +38,7 @@ class NestedStructureMembers {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -56,8 +52,11 @@ class NestedStructureMembers {
   Future<void> operationName0({
     StructType? structArg,
   }) async {
-    final $request = <String, dynamic>{};
-    structArg?.also((arg) => $request['StructArg'] = arg);
+    final $request = <String, String>{
+      if (structArg != null)
+        for (var e1 in structArg.toQueryMap().entries)
+          'StructArg.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -65,8 +64,6 @@ class NestedStructureMembers {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 }
@@ -79,6 +76,13 @@ class StructType {
   });
 
   Map<String, dynamic> toJson() {
+    final scalarArg = this.scalarArg;
+    return {
+      if (scalarArg != null) 'ScalarArg': scalarArg,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final scalarArg = this.scalarArg;
     return {
       if (scalarArg != null) 'ScalarArg': scalarArg,

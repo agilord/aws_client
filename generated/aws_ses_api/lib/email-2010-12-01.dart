@@ -17,7 +17,6 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'email-2010-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// This document contains reference information for the <a
@@ -36,7 +35,6 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// This documentation contains reference information related to the following:
 class SES {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   SES({
     required String region,
@@ -44,7 +42,7 @@ class SES {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'email',
@@ -54,9 +52,7 @@ class SES {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -104,9 +100,10 @@ class SES {
     required String originalRuleSetName,
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['OriginalRuleSetName'] = originalRuleSetName;
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      'OriginalRuleSetName': originalRuleSetName,
+      'RuleSetName': ruleSetName,
+    };
     await _protocol.send(
       $request,
       action: 'CloneReceiptRuleSet',
@@ -114,8 +111,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CloneReceiptRuleSetRequest'],
-      shapes: shapes,
       resultWrapper: 'CloneReceiptRuleSetResult',
     );
   }
@@ -138,8 +133,10 @@ class SES {
   Future<void> createConfigurationSet({
     required ConfigurationSet configurationSet,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSet'] = configurationSet;
+    final $request = <String, String>{
+      for (var e1 in configurationSet.toQueryMap().entries)
+        'ConfigurationSet.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'CreateConfigurationSet',
@@ -147,8 +144,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateConfigurationSetRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateConfigurationSetResult',
     );
   }
@@ -185,9 +180,11 @@ class SES {
     required String configurationSetName,
     required EventDestination eventDestination,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    $request['EventDestination'] = eventDestination;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      for (var e1 in eventDestination.toQueryMap().entries)
+        'EventDestination.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'CreateConfigurationSetEventDestination',
@@ -195,8 +192,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateConfigurationSetEventDestinationRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateConfigurationSetEventDestinationResult',
     );
   }
@@ -222,9 +217,11 @@ class SES {
     required String configurationSetName,
     required TrackingOptions trackingOptions,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    $request['TrackingOptions'] = trackingOptions;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      for (var e1 in trackingOptions.toQueryMap().entries)
+        'TrackingOptions.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'CreateConfigurationSetTrackingOptions',
@@ -232,8 +229,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateConfigurationSetTrackingOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateConfigurationSetTrackingOptionsResult',
     );
   }
@@ -284,13 +279,14 @@ class SES {
     required String templateName,
     required String templateSubject,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['FailureRedirectionURL'] = failureRedirectionURL;
-    $request['FromEmailAddress'] = fromEmailAddress;
-    $request['SuccessRedirectionURL'] = successRedirectionURL;
-    $request['TemplateContent'] = templateContent;
-    $request['TemplateName'] = templateName;
-    $request['TemplateSubject'] = templateSubject;
+    final $request = <String, String>{
+      'FailureRedirectionURL': failureRedirectionURL,
+      'FromEmailAddress': fromEmailAddress,
+      'SuccessRedirectionURL': successRedirectionURL,
+      'TemplateContent': templateContent,
+      'TemplateName': templateName,
+      'TemplateSubject': templateSubject,
+    };
     await _protocol.send(
       $request,
       action: 'CreateCustomVerificationEmailTemplate',
@@ -298,8 +294,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateCustomVerificationEmailTemplateRequest'],
-      shapes: shapes,
     );
   }
 
@@ -321,8 +315,9 @@ class SES {
   Future<void> createReceiptFilter({
     required ReceiptFilter filter,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Filter'] = filter;
+    final $request = <String, String>{
+      for (var e1 in filter.toQueryMap().entries) 'Filter.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'CreateReceiptFilter',
@@ -330,8 +325,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateReceiptFilterRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateReceiptFilterResult',
     );
   }
@@ -368,10 +361,11 @@ class SES {
     required String ruleSetName,
     String? after,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Rule'] = rule;
-    $request['RuleSetName'] = ruleSetName;
-    after?.also((arg) => $request['After'] = arg);
+    final $request = <String, String>{
+      for (var e1 in rule.toQueryMap().entries) 'Rule.${e1.key}': e1.value,
+      'RuleSetName': ruleSetName,
+      if (after != null) 'After': after,
+    };
     await _protocol.send(
       $request,
       action: 'CreateReceiptRule',
@@ -379,8 +373,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateReceiptRuleRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateReceiptRuleResult',
     );
   }
@@ -415,8 +407,9 @@ class SES {
   Future<void> createReceiptRuleSet({
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      'RuleSetName': ruleSetName,
+    };
     await _protocol.send(
       $request,
       action: 'CreateReceiptRuleSet',
@@ -424,8 +417,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateReceiptRuleSetRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateReceiptRuleSetResult',
     );
   }
@@ -448,8 +439,10 @@ class SES {
   Future<void> createTemplate({
     required Template template,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Template'] = template;
+    final $request = <String, String>{
+      for (var e1 in template.toQueryMap().entries)
+        'Template.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'CreateTemplate',
@@ -457,8 +450,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateTemplateRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateTemplateResult',
     );
   }
@@ -478,8 +469,9 @@ class SES {
   Future<void> deleteConfigurationSet({
     required String configurationSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteConfigurationSet',
@@ -487,8 +479,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteConfigurationSetRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteConfigurationSetResult',
     );
   }
@@ -515,9 +505,10 @@ class SES {
     required String configurationSetName,
     required String eventDestinationName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    $request['EventDestinationName'] = eventDestinationName;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      'EventDestinationName': eventDestinationName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteConfigurationSetEventDestination',
@@ -525,8 +516,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteConfigurationSetEventDestinationRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteConfigurationSetEventDestinationResult',
     );
   }
@@ -554,8 +543,9 @@ class SES {
   Future<void> deleteConfigurationSetTrackingOptions({
     required String configurationSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteConfigurationSetTrackingOptions',
@@ -563,8 +553,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteConfigurationSetTrackingOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteConfigurationSetTrackingOptionsResult',
     );
   }
@@ -583,8 +571,9 @@ class SES {
   Future<void> deleteCustomVerificationEmailTemplate({
     required String templateName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['TemplateName'] = templateName;
+    final $request = <String, String>{
+      'TemplateName': templateName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteCustomVerificationEmailTemplate',
@@ -592,8 +581,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteCustomVerificationEmailTemplateRequest'],
-      shapes: shapes,
     );
   }
 
@@ -608,8 +595,9 @@ class SES {
   Future<void> deleteIdentity({
     required String identity,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identity'] = identity;
+    final $request = <String, String>{
+      'Identity': identity,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteIdentity',
@@ -617,8 +605,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteIdentityRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteIdentityResult',
     );
   }
@@ -652,9 +638,10 @@ class SES {
     required String identity,
     required String policyName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identity'] = identity;
-    $request['PolicyName'] = policyName;
+    final $request = <String, String>{
+      'Identity': identity,
+      'PolicyName': policyName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteIdentityPolicy',
@@ -662,8 +649,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteIdentityPolicyRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteIdentityPolicyResult',
     );
   }
@@ -681,8 +666,9 @@ class SES {
   Future<void> deleteReceiptFilter({
     required String filterName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['FilterName'] = filterName;
+    final $request = <String, String>{
+      'FilterName': filterName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteReceiptFilter',
@@ -690,8 +676,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteReceiptFilterRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteReceiptFilterResult',
     );
   }
@@ -715,9 +699,10 @@ class SES {
     required String ruleName,
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RuleName'] = ruleName;
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      'RuleName': ruleName,
+      'RuleSetName': ruleSetName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteReceiptRule',
@@ -725,8 +710,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteReceiptRuleRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteReceiptRuleResult',
     );
   }
@@ -749,8 +732,9 @@ class SES {
   Future<void> deleteReceiptRuleSet({
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      'RuleSetName': ruleSetName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteReceiptRuleSet',
@@ -758,8 +742,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteReceiptRuleSetRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteReceiptRuleSetResult',
     );
   }
@@ -773,8 +755,9 @@ class SES {
   Future<void> deleteTemplate({
     required String templateName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['TemplateName'] = templateName;
+    final $request = <String, String>{
+      'TemplateName': templateName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteTemplate',
@@ -782,8 +765,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteTemplateRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteTemplateResult',
     );
   }
@@ -796,8 +777,9 @@ class SES {
   Future<void> deleteVerifiedEmailAddress({
     required String emailAddress,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['EmailAddress'] = emailAddress;
+    final $request = <String, String>{
+      'EmailAddress': emailAddress,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteVerifiedEmailAddress',
@@ -805,8 +787,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteVerifiedEmailAddressRequest'],
-      shapes: shapes,
     );
   }
 
@@ -820,7 +800,7 @@ class SES {
   /// You can execute this operation no more than once per second.
   Future<DescribeActiveReceiptRuleSetResponse>
       describeActiveReceiptRuleSet() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'DescribeActiveReceiptRuleSet',
@@ -828,8 +808,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeActiveReceiptRuleSetRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeActiveReceiptRuleSetResult',
     );
     return DescribeActiveReceiptRuleSetResponse.fromXml($result);
@@ -853,11 +831,16 @@ class SES {
     required String configurationSetName,
     List<ConfigurationSetAttribute>? configurationSetAttributeNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    configurationSetAttributeNames?.also((arg) =>
-        $request['ConfigurationSetAttributeNames'] =
-            arg.map((e) => e.toValue()).toList());
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      if (configurationSetAttributeNames != null)
+        if (configurationSetAttributeNames.isEmpty)
+          'ConfigurationSetAttributeNames': ''
+        else
+          for (var i1 = 0; i1 < configurationSetAttributeNames.length; i1++)
+            'ConfigurationSetAttributeNames.member.${i1 + 1}':
+                configurationSetAttributeNames[i1].toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeConfigurationSet',
@@ -865,8 +848,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeConfigurationSetRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeConfigurationSetResult',
     );
     return DescribeConfigurationSetResponse.fromXml($result);
@@ -892,9 +873,10 @@ class SES {
     required String ruleName,
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RuleName'] = ruleName;
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      'RuleName': ruleName,
+      'RuleSetName': ruleSetName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeReceiptRule',
@@ -902,8 +884,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeReceiptRuleRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeReceiptRuleResult',
     );
     return DescribeReceiptRuleResponse.fromXml($result);
@@ -924,8 +904,9 @@ class SES {
   Future<DescribeReceiptRuleSetResponse> describeReceiptRuleSet({
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      'RuleSetName': ruleSetName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeReceiptRuleSet',
@@ -933,8 +914,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeReceiptRuleSetRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeReceiptRuleSetResult',
     );
     return DescribeReceiptRuleSetResponse.fromXml($result);
@@ -945,7 +924,7 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<GetAccountSendingEnabledResponse> getAccountSendingEnabled() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'GetAccountSendingEnabled',
@@ -953,7 +932,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shapes: shapes,
       resultWrapper: 'GetAccountSendingEnabledResult',
     );
     return GetAccountSendingEnabledResponse.fromXml($result);
@@ -977,8 +955,9 @@ class SES {
       getCustomVerificationEmailTemplate({
     required String templateName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['TemplateName'] = templateName;
+    final $request = <String, String>{
+      'TemplateName': templateName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetCustomVerificationEmailTemplate',
@@ -986,8 +965,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetCustomVerificationEmailTemplateRequest'],
-      shapes: shapes,
       resultWrapper: 'GetCustomVerificationEmailTemplateResult',
     );
     return GetCustomVerificationEmailTemplateResponse.fromXml($result);
@@ -1029,8 +1006,13 @@ class SES {
   Future<GetIdentityDkimAttributesResponse> getIdentityDkimAttributes({
     required List<String> identities,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identities'] = identities;
+    final $request = <String, String>{
+      if (identities.isEmpty)
+        'Identities': ''
+      else
+        for (var i1 = 0; i1 < identities.length; i1++)
+          'Identities.member.${i1 + 1}': identities[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetIdentityDkimAttributes',
@@ -1038,8 +1020,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetIdentityDkimAttributesRequest'],
-      shapes: shapes,
       resultWrapper: 'GetIdentityDkimAttributesResult',
     );
     return GetIdentityDkimAttributesResponse.fromXml($result);
@@ -1057,8 +1037,13 @@ class SES {
       getIdentityMailFromDomainAttributes({
     required List<String> identities,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identities'] = identities;
+    final $request = <String, String>{
+      if (identities.isEmpty)
+        'Identities': ''
+      else
+        for (var i1 = 0; i1 < identities.length; i1++)
+          'Identities.member.${i1 + 1}': identities[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetIdentityMailFromDomainAttributes',
@@ -1066,8 +1051,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetIdentityMailFromDomainAttributesRequest'],
-      shapes: shapes,
       resultWrapper: 'GetIdentityMailFromDomainAttributesResult',
     );
     return GetIdentityMailFromDomainAttributesResponse.fromXml($result);
@@ -1092,8 +1075,13 @@ class SES {
       getIdentityNotificationAttributes({
     required List<String> identities,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identities'] = identities;
+    final $request = <String, String>{
+      if (identities.isEmpty)
+        'Identities': ''
+      else
+        for (var i1 = 0; i1 < identities.length; i1++)
+          'Identities.member.${i1 + 1}': identities[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetIdentityNotificationAttributes',
@@ -1101,8 +1089,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetIdentityNotificationAttributesRequest'],
-      shapes: shapes,
       resultWrapper: 'GetIdentityNotificationAttributesResult',
     );
     return GetIdentityNotificationAttributesResponse.fromXml($result);
@@ -1141,9 +1127,14 @@ class SES {
     required String identity,
     required List<String> policyNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identity'] = identity;
-    $request['PolicyNames'] = policyNames;
+    final $request = <String, String>{
+      'Identity': identity,
+      if (policyNames.isEmpty)
+        'PolicyNames': ''
+      else
+        for (var i1 = 0; i1 < policyNames.length; i1++)
+          'PolicyNames.member.${i1 + 1}': policyNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetIdentityPolicies',
@@ -1151,8 +1142,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetIdentityPoliciesRequest'],
-      shapes: shapes,
       resultWrapper: 'GetIdentityPoliciesResult',
     );
     return GetIdentityPoliciesResponse.fromXml($result);
@@ -1187,8 +1176,13 @@ class SES {
       getIdentityVerificationAttributes({
     required List<String> identities,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identities'] = identities;
+    final $request = <String, String>{
+      if (identities.isEmpty)
+        'Identities': ''
+      else
+        for (var i1 = 0; i1 < identities.length; i1++)
+          'Identities.member.${i1 + 1}': identities[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetIdentityVerificationAttributes',
@@ -1196,8 +1190,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetIdentityVerificationAttributesRequest'],
-      shapes: shapes,
       resultWrapper: 'GetIdentityVerificationAttributesResult',
     );
     return GetIdentityVerificationAttributesResponse.fromXml($result);
@@ -1207,7 +1199,7 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<GetSendQuotaResponse> getSendQuota() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'GetSendQuota',
@@ -1215,7 +1207,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shapes: shapes,
       resultWrapper: 'GetSendQuotaResult',
     );
     return GetSendQuotaResponse.fromXml($result);
@@ -1228,7 +1219,7 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<GetSendStatisticsResponse> getSendStatistics() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'GetSendStatistics',
@@ -1236,7 +1227,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shapes: shapes,
       resultWrapper: 'GetSendStatisticsResult',
     );
     return GetSendStatisticsResponse.fromXml($result);
@@ -1254,8 +1244,9 @@ class SES {
   Future<GetTemplateResponse> getTemplate({
     required String templateName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['TemplateName'] = templateName;
+    final $request = <String, String>{
+      'TemplateName': templateName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetTemplate',
@@ -1263,8 +1254,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetTemplateRequest'],
-      shapes: shapes,
       resultWrapper: 'GetTemplateResult',
     );
     return GetTemplateResponse.fromXml($result);
@@ -1296,9 +1285,10 @@ class SES {
     int? maxItems,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    maxItems?.also((arg) => $request['MaxItems'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListConfigurationSets',
@@ -1306,8 +1296,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListConfigurationSetsRequest'],
-      shapes: shapes,
       resultWrapper: 'ListConfigurationSetsResult',
     );
     return ListConfigurationSetsResponse.fromXml($result);
@@ -1343,9 +1331,10 @@ class SES {
       1,
       50,
     );
-    final $request = <String, dynamic>{};
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListCustomVerificationEmailTemplates',
@@ -1353,8 +1342,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListCustomVerificationEmailTemplatesRequest'],
-      shapes: shapes,
       resultWrapper: 'ListCustomVerificationEmailTemplatesResult',
     );
     return ListCustomVerificationEmailTemplatesResponse.fromXml($result);
@@ -1392,10 +1379,11 @@ class SES {
     int? maxItems,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    identityType?.also((arg) => $request['IdentityType'] = arg.toValue());
-    maxItems?.also((arg) => $request['MaxItems'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListIdentities',
@@ -1403,8 +1391,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListIdentitiesRequest'],
-      shapes: shapes,
       resultWrapper: 'ListIdentitiesResult',
     );
     return ListIdentitiesResponse.fromXml($result);
@@ -1437,8 +1423,9 @@ class SES {
   Future<ListIdentityPoliciesResponse> listIdentityPolicies({
     required String identity,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identity'] = identity;
+    final $request = <String, String>{
+      'Identity': identity,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListIdentityPolicies',
@@ -1446,8 +1433,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListIdentityPoliciesRequest'],
-      shapes: shapes,
       resultWrapper: 'ListIdentityPoliciesResult',
     );
     return ListIdentityPoliciesResponse.fromXml($result);
@@ -1462,7 +1447,7 @@ class SES {
   ///
   /// You can execute this operation no more than once per second.
   Future<ListReceiptFiltersResponse> listReceiptFilters() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'ListReceiptFilters',
@@ -1470,8 +1455,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListReceiptFiltersRequest'],
-      shapes: shapes,
       resultWrapper: 'ListReceiptFiltersResult',
     );
     return ListReceiptFiltersResponse.fromXml($result);
@@ -1495,8 +1478,9 @@ class SES {
   Future<ListReceiptRuleSetsResponse> listReceiptRuleSets({
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListReceiptRuleSets',
@@ -1504,8 +1488,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListReceiptRuleSetsRequest'],
-      shapes: shapes,
       resultWrapper: 'ListReceiptRuleSetsResult',
     );
     return ListReceiptRuleSetsResponse.fromXml($result);
@@ -1529,9 +1511,10 @@ class SES {
     int? maxItems,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    maxItems?.also((arg) => $request['MaxItems'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListTemplates',
@@ -1539,8 +1522,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListTemplatesRequest'],
-      shapes: shapes,
       resultWrapper: 'ListTemplatesResult',
     );
     return ListTemplatesResponse.fromXml($result);
@@ -1550,7 +1531,7 @@ class SES {
   /// email addresses and domains associated with your account.
   Future<ListVerifiedEmailAddressesResponse>
       listVerifiedEmailAddresses() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'ListVerifiedEmailAddresses',
@@ -1558,7 +1539,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shapes: shapes,
       resultWrapper: 'ListVerifiedEmailAddressesResult',
     );
     return ListVerifiedEmailAddressesResponse.fromXml($result);
@@ -1579,9 +1559,12 @@ class SES {
     required String configurationSetName,
     DeliveryOptions? deliveryOptions,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    deliveryOptions?.also((arg) => $request['DeliveryOptions'] = arg);
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      if (deliveryOptions != null)
+        for (var e1 in deliveryOptions.toQueryMap().entries)
+          'DeliveryOptions.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'PutConfigurationSetDeliveryOptions',
@@ -1589,8 +1572,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['PutConfigurationSetDeliveryOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'PutConfigurationSetDeliveryOptionsResult',
     );
   }
@@ -1637,10 +1618,11 @@ class SES {
     required String policy,
     required String policyName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identity'] = identity;
-    $request['Policy'] = policy;
-    $request['PolicyName'] = policyName;
+    final $request = <String, String>{
+      'Identity': identity,
+      'Policy': policy,
+      'PolicyName': policyName,
+    };
     await _protocol.send(
       $request,
       action: 'PutIdentityPolicy',
@@ -1648,8 +1630,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['PutIdentityPolicyRequest'],
-      shapes: shapes,
       resultWrapper: 'PutIdentityPolicyResult',
     );
   }
@@ -1678,9 +1658,14 @@ class SES {
     required List<String> ruleNames,
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RuleNames'] = ruleNames;
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      if (ruleNames.isEmpty)
+        'RuleNames': ''
+      else
+        for (var i1 = 0; i1 < ruleNames.length; i1++)
+          'RuleNames.member.${i1 + 1}': ruleNames[i1],
+      'RuleSetName': ruleSetName,
+    };
     await _protocol.send(
       $request,
       action: 'ReorderReceiptRuleSet',
@@ -1688,8 +1673,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ReorderReceiptRuleSetRequest'],
-      shapes: shapes,
       resultWrapper: 'ReorderReceiptRuleSetResult',
     );
   }
@@ -1746,13 +1729,21 @@ class SES {
     String? explanation,
     MessageDsn? messageDsn,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['BounceSender'] = bounceSender;
-    $request['BouncedRecipientInfoList'] = bouncedRecipientInfoList;
-    $request['OriginalMessageId'] = originalMessageId;
-    bounceSenderArn?.also((arg) => $request['BounceSenderArn'] = arg);
-    explanation?.also((arg) => $request['Explanation'] = arg);
-    messageDsn?.also((arg) => $request['MessageDsn'] = arg);
+    final $request = <String, String>{
+      'BounceSender': bounceSender,
+      if (bouncedRecipientInfoList.isEmpty)
+        'BouncedRecipientInfoList': ''
+      else
+        for (var i1 = 0; i1 < bouncedRecipientInfoList.length; i1++)
+          for (var e3 in bouncedRecipientInfoList[i1].toQueryMap().entries)
+            'BouncedRecipientInfoList.member.${i1 + 1}.${e3.key}': e3.value,
+      'OriginalMessageId': originalMessageId,
+      if (bounceSenderArn != null) 'BounceSenderArn': bounceSenderArn,
+      if (explanation != null) 'Explanation': explanation,
+      if (messageDsn != null)
+        for (var e1 in messageDsn.toQueryMap().entries)
+          'MessageDsn.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'SendBounce',
@@ -1760,8 +1751,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendBounceRequest'],
-      shapes: shapes,
       resultWrapper: 'SendBounceResult',
     );
     return SendBounceResponse.fromXml($result);
@@ -1939,18 +1928,37 @@ class SES {
     String? sourceArn,
     String? templateArn,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Destinations'] = destinations;
-    $request['Source'] = source;
-    $request['Template'] = template;
-    configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
-    defaultTags?.also((arg) => $request['DefaultTags'] = arg);
-    defaultTemplateData?.also((arg) => $request['DefaultTemplateData'] = arg);
-    replyToAddresses?.also((arg) => $request['ReplyToAddresses'] = arg);
-    returnPath?.also((arg) => $request['ReturnPath'] = arg);
-    returnPathArn?.also((arg) => $request['ReturnPathArn'] = arg);
-    sourceArn?.also((arg) => $request['SourceArn'] = arg);
-    templateArn?.also((arg) => $request['TemplateArn'] = arg);
+    final $request = <String, String>{
+      if (destinations.isEmpty)
+        'Destinations': ''
+      else
+        for (var i1 = 0; i1 < destinations.length; i1++)
+          for (var e3 in destinations[i1].toQueryMap().entries)
+            'Destinations.member.${i1 + 1}.${e3.key}': e3.value,
+      'Source': source,
+      'Template': template,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (defaultTags != null)
+        if (defaultTags.isEmpty)
+          'DefaultTags': ''
+        else
+          for (var i1 = 0; i1 < defaultTags.length; i1++)
+            for (var e3 in defaultTags[i1].toQueryMap().entries)
+              'DefaultTags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (defaultTemplateData != null)
+        'DefaultTemplateData': defaultTemplateData,
+      if (replyToAddresses != null)
+        if (replyToAddresses.isEmpty)
+          'ReplyToAddresses': ''
+        else
+          for (var i1 = 0; i1 < replyToAddresses.length; i1++)
+            'ReplyToAddresses.member.${i1 + 1}': replyToAddresses[i1],
+      if (returnPath != null) 'ReturnPath': returnPath,
+      if (returnPathArn != null) 'ReturnPathArn': returnPathArn,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'SendBulkTemplatedEmail',
@@ -1958,8 +1966,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendBulkTemplatedEmailRequest'],
-      shapes: shapes,
       resultWrapper: 'SendBulkTemplatedEmailResult',
     );
     return SendBulkTemplatedEmailResponse.fromXml($result);
@@ -1999,10 +2005,12 @@ class SES {
     required String templateName,
     String? configurationSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['EmailAddress'] = emailAddress;
-    $request['TemplateName'] = templateName;
-    configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
+    final $request = <String, String>{
+      'EmailAddress': emailAddress,
+      'TemplateName': templateName,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'SendCustomVerificationEmail',
@@ -2010,8 +2018,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendCustomVerificationEmailRequest'],
-      shapes: shapes,
       resultWrapper: 'SendCustomVerificationEmailResult',
     );
     return SendCustomVerificationEmailResponse.fromXml($result);
@@ -2173,16 +2179,31 @@ class SES {
     String? sourceArn,
     List<MessageTag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Destination'] = destination;
-    $request['Message'] = message;
-    $request['Source'] = source;
-    configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
-    replyToAddresses?.also((arg) => $request['ReplyToAddresses'] = arg);
-    returnPath?.also((arg) => $request['ReturnPath'] = arg);
-    returnPathArn?.also((arg) => $request['ReturnPathArn'] = arg);
-    sourceArn?.also((arg) => $request['SourceArn'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      for (var e1 in destination.toQueryMap().entries)
+        'Destination.${e1.key}': e1.value,
+      for (var e1 in message.toQueryMap().entries)
+        'Message.${e1.key}': e1.value,
+      'Source': source,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (replyToAddresses != null)
+        if (replyToAddresses.isEmpty)
+          'ReplyToAddresses': ''
+        else
+          for (var i1 = 0; i1 < replyToAddresses.length; i1++)
+            'ReplyToAddresses.member.${i1 + 1}': replyToAddresses[i1],
+      if (returnPath != null) 'ReturnPath': returnPath,
+      if (returnPathArn != null) 'ReturnPathArn': returnPathArn,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'SendEmail',
@@ -2190,8 +2211,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendEmailRequest'],
-      shapes: shapes,
       resultWrapper: 'SendEmailResult',
     );
     return SendEmailResponse.fromXml($result);
@@ -2464,15 +2483,29 @@ class SES {
     String? sourceArn,
     List<MessageTag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RawMessage'] = rawMessage;
-    configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
-    destinations?.also((arg) => $request['Destinations'] = arg);
-    fromArn?.also((arg) => $request['FromArn'] = arg);
-    returnPathArn?.also((arg) => $request['ReturnPathArn'] = arg);
-    source?.also((arg) => $request['Source'] = arg);
-    sourceArn?.also((arg) => $request['SourceArn'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      for (var e1 in rawMessage.toQueryMap().entries)
+        'RawMessage.${e1.key}': e1.value,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (destinations != null)
+        if (destinations.isEmpty)
+          'Destinations': ''
+        else
+          for (var i1 = 0; i1 < destinations.length; i1++)
+            'Destinations.member.${i1 + 1}': destinations[i1],
+      if (fromArn != null) 'FromArn': fromArn,
+      if (returnPathArn != null) 'ReturnPathArn': returnPathArn,
+      if (source != null) 'Source': source,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'SendRawEmail',
@@ -2480,8 +2513,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendRawEmailRequest'],
-      shapes: shapes,
       resultWrapper: 'SendRawEmailResult',
     );
     return SendRawEmailResponse.fromXml($result);
@@ -2665,18 +2696,32 @@ class SES {
     List<MessageTag>? tags,
     String? templateArn,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Destination'] = destination;
-    $request['Source'] = source;
-    $request['Template'] = template;
-    $request['TemplateData'] = templateData;
-    configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
-    replyToAddresses?.also((arg) => $request['ReplyToAddresses'] = arg);
-    returnPath?.also((arg) => $request['ReturnPath'] = arg);
-    returnPathArn?.also((arg) => $request['ReturnPathArn'] = arg);
-    sourceArn?.also((arg) => $request['SourceArn'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    templateArn?.also((arg) => $request['TemplateArn'] = arg);
+    final $request = <String, String>{
+      for (var e1 in destination.toQueryMap().entries)
+        'Destination.${e1.key}': e1.value,
+      'Source': source,
+      'Template': template,
+      'TemplateData': templateData,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (replyToAddresses != null)
+        if (replyToAddresses.isEmpty)
+          'ReplyToAddresses': ''
+        else
+          for (var i1 = 0; i1 < replyToAddresses.length; i1++)
+            'ReplyToAddresses.member.${i1 + 1}': replyToAddresses[i1],
+      if (returnPath != null) 'ReturnPath': returnPath,
+      if (returnPathArn != null) 'ReturnPathArn': returnPathArn,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (templateArn != null) 'TemplateArn': templateArn,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'SendTemplatedEmail',
@@ -2684,8 +2729,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SendTemplatedEmailRequest'],
-      shapes: shapes,
       resultWrapper: 'SendTemplatedEmailResult',
     );
     return SendTemplatedEmailResponse.fromXml($result);
@@ -2710,8 +2753,9 @@ class SES {
   Future<void> setActiveReceiptRuleSet({
     String? ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    ruleSetName?.also((arg) => $request['RuleSetName'] = arg);
+    final $request = <String, String>{
+      if (ruleSetName != null) 'RuleSetName': ruleSetName,
+    };
     await _protocol.send(
       $request,
       action: 'SetActiveReceiptRuleSet',
@@ -2719,8 +2763,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetActiveReceiptRuleSetRequest'],
-      shapes: shapes,
       resultWrapper: 'SetActiveReceiptRuleSetResult',
     );
   }
@@ -2756,9 +2798,10 @@ class SES {
     required bool dkimEnabled,
     required String identity,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DkimEnabled'] = dkimEnabled;
-    $request['Identity'] = identity;
+    final $request = <String, String>{
+      'DkimEnabled': dkimEnabled.toString(),
+      'Identity': identity,
+    };
     await _protocol.send(
       $request,
       action: 'SetIdentityDkimEnabled',
@@ -2766,8 +2809,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetIdentityDkimEnabledRequest'],
-      shapes: shapes,
       resultWrapper: 'SetIdentityDkimEnabledResult',
     );
   }
@@ -2804,9 +2845,10 @@ class SES {
     required bool forwardingEnabled,
     required String identity,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ForwardingEnabled'] = forwardingEnabled;
-    $request['Identity'] = identity;
+    final $request = <String, String>{
+      'ForwardingEnabled': forwardingEnabled.toString(),
+      'Identity': identity,
+    };
     await _protocol.send(
       $request,
       action: 'SetIdentityFeedbackForwardingEnabled',
@@ -2814,8 +2856,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetIdentityFeedbackForwardingEnabledRequest'],
-      shapes: shapes,
       resultWrapper: 'SetIdentityFeedbackForwardingEnabledResult',
     );
   }
@@ -2852,10 +2892,11 @@ class SES {
     required String identity,
     required NotificationType notificationType,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Enabled'] = enabled;
-    $request['Identity'] = identity;
-    $request['NotificationType'] = notificationType.toValue();
+    final $request = <String, String>{
+      'Enabled': enabled.toString(),
+      'Identity': identity,
+      'NotificationType': notificationType.toValue(),
+    };
     await _protocol.send(
       $request,
       action: 'SetIdentityHeadersInNotificationsEnabled',
@@ -2863,8 +2904,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetIdentityHeadersInNotificationsEnabledRequest'],
-      shapes: shapes,
       resultWrapper: 'SetIdentityHeadersInNotificationsEnabledResult',
     );
   }
@@ -2909,11 +2948,12 @@ class SES {
     BehaviorOnMXFailure? behaviorOnMXFailure,
     String? mailFromDomain,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identity'] = identity;
-    behaviorOnMXFailure
-        ?.also((arg) => $request['BehaviorOnMXFailure'] = arg.toValue());
-    mailFromDomain?.also((arg) => $request['MailFromDomain'] = arg);
+    final $request = <String, String>{
+      'Identity': identity,
+      if (behaviorOnMXFailure != null)
+        'BehaviorOnMXFailure': behaviorOnMXFailure.toValue(),
+      if (mailFromDomain != null) 'MailFromDomain': mailFromDomain,
+    };
     await _protocol.send(
       $request,
       action: 'SetIdentityMailFromDomain',
@@ -2921,8 +2961,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetIdentityMailFromDomainRequest'],
-      shapes: shapes,
       resultWrapper: 'SetIdentityMailFromDomainResult',
     );
   }
@@ -2964,10 +3002,11 @@ class SES {
     required NotificationType notificationType,
     String? snsTopic,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Identity'] = identity;
-    $request['NotificationType'] = notificationType.toValue();
-    snsTopic?.also((arg) => $request['SnsTopic'] = arg);
+    final $request = <String, String>{
+      'Identity': identity,
+      'NotificationType': notificationType.toValue(),
+      if (snsTopic != null) 'SnsTopic': snsTopic,
+    };
     await _protocol.send(
       $request,
       action: 'SetIdentityNotificationTopic',
@@ -2975,8 +3014,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetIdentityNotificationTopicRequest'],
-      shapes: shapes,
       resultWrapper: 'SetIdentityNotificationTopicResult',
     );
   }
@@ -3007,10 +3044,11 @@ class SES {
     required String ruleSetName,
     String? after,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RuleName'] = ruleName;
-    $request['RuleSetName'] = ruleSetName;
-    after?.also((arg) => $request['After'] = arg);
+    final $request = <String, String>{
+      'RuleName': ruleName,
+      'RuleSetName': ruleSetName,
+      if (after != null) 'After': after,
+    };
     await _protocol.send(
       $request,
       action: 'SetReceiptRulePosition',
@@ -3018,8 +3056,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetReceiptRulePositionRequest'],
-      shapes: shapes,
       resultWrapper: 'SetReceiptRulePositionResult',
     );
   }
@@ -3044,9 +3080,10 @@ class SES {
     required String templateData,
     required String templateName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['TemplateData'] = templateData;
-    $request['TemplateName'] = templateName;
+    final $request = <String, String>{
+      'TemplateData': templateData,
+      'TemplateName': templateName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'TestRenderTemplate',
@@ -3054,8 +3091,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['TestRenderTemplateRequest'],
-      shapes: shapes,
       resultWrapper: 'TestRenderTemplateResult',
     );
     return TestRenderTemplateResponse.fromXml($result);
@@ -3076,8 +3111,9 @@ class SES {
   Future<void> updateAccountSendingEnabled({
     bool? enabled,
   }) async {
-    final $request = <String, dynamic>{};
-    enabled?.also((arg) => $request['Enabled'] = arg);
+    final $request = <String, String>{
+      if (enabled != null) 'Enabled': enabled.toString(),
+    };
     await _protocol.send(
       $request,
       action: 'UpdateAccountSendingEnabled',
@@ -3085,8 +3121,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateAccountSendingEnabledRequest'],
-      shapes: shapes,
     );
   }
 
@@ -3120,9 +3154,11 @@ class SES {
     required String configurationSetName,
     required EventDestination eventDestination,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    $request['EventDestination'] = eventDestination;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      for (var e1 in eventDestination.toQueryMap().entries)
+        'EventDestination.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'UpdateConfigurationSetEventDestination',
@@ -3130,8 +3166,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateConfigurationSetEventDestinationRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateConfigurationSetEventDestinationResult',
     );
   }
@@ -3157,9 +3191,10 @@ class SES {
     required String configurationSetName,
     required bool enabled,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    $request['Enabled'] = enabled;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      'Enabled': enabled.toString(),
+    };
     await _protocol.send(
       $request,
       action: 'UpdateConfigurationSetReputationMetricsEnabled',
@@ -3167,8 +3202,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateConfigurationSetReputationMetricsEnabledRequest'],
-      shapes: shapes,
     );
   }
 
@@ -3193,9 +3226,10 @@ class SES {
     required String configurationSetName,
     required bool enabled,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    $request['Enabled'] = enabled;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      'Enabled': enabled.toString(),
+    };
     await _protocol.send(
       $request,
       action: 'UpdateConfigurationSetSendingEnabled',
@@ -3203,8 +3237,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateConfigurationSetSendingEnabledRequest'],
-      shapes: shapes,
     );
   }
 
@@ -3228,9 +3260,11 @@ class SES {
     required String configurationSetName,
     required TrackingOptions trackingOptions,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ConfigurationSetName'] = configurationSetName;
-    $request['TrackingOptions'] = trackingOptions;
+    final $request = <String, String>{
+      'ConfigurationSetName': configurationSetName,
+      for (var e1 in trackingOptions.toQueryMap().entries)
+        'TrackingOptions.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'UpdateConfigurationSetTrackingOptions',
@@ -3238,8 +3272,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateConfigurationSetTrackingOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateConfigurationSetTrackingOptionsResult',
     );
   }
@@ -3289,15 +3321,16 @@ class SES {
     String? templateContent,
     String? templateSubject,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['TemplateName'] = templateName;
-    failureRedirectionURL
-        ?.also((arg) => $request['FailureRedirectionURL'] = arg);
-    fromEmailAddress?.also((arg) => $request['FromEmailAddress'] = arg);
-    successRedirectionURL
-        ?.also((arg) => $request['SuccessRedirectionURL'] = arg);
-    templateContent?.also((arg) => $request['TemplateContent'] = arg);
-    templateSubject?.also((arg) => $request['TemplateSubject'] = arg);
+    final $request = <String, String>{
+      'TemplateName': templateName,
+      if (failureRedirectionURL != null)
+        'FailureRedirectionURL': failureRedirectionURL,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (successRedirectionURL != null)
+        'SuccessRedirectionURL': successRedirectionURL,
+      if (templateContent != null) 'TemplateContent': templateContent,
+      if (templateSubject != null) 'TemplateSubject': templateSubject,
+    };
     await _protocol.send(
       $request,
       action: 'UpdateCustomVerificationEmailTemplate',
@@ -3305,8 +3338,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateCustomVerificationEmailTemplateRequest'],
-      shapes: shapes,
     );
   }
 
@@ -3334,9 +3365,10 @@ class SES {
     required ReceiptRule rule,
     required String ruleSetName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Rule'] = rule;
-    $request['RuleSetName'] = ruleSetName;
+    final $request = <String, String>{
+      for (var e1 in rule.toQueryMap().entries) 'Rule.${e1.key}': e1.value,
+      'RuleSetName': ruleSetName,
+    };
     await _protocol.send(
       $request,
       action: 'UpdateReceiptRule',
@@ -3344,8 +3376,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateReceiptRuleRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateReceiptRuleResult',
     );
   }
@@ -3363,8 +3393,10 @@ class SES {
   Future<void> updateTemplate({
     required Template template,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Template'] = template;
+    final $request = <String, String>{
+      for (var e1 in template.toQueryMap().entries)
+        'Template.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'UpdateTemplate',
@@ -3372,8 +3404,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateTemplateRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateTemplateResult',
     );
   }
@@ -3425,8 +3455,9 @@ class SES {
   Future<VerifyDomainDkimResponse> verifyDomainDkim({
     required String domain,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Domain'] = domain;
+    final $request = <String, String>{
+      'Domain': domain,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'VerifyDomainDkim',
@@ -3434,8 +3465,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['VerifyDomainDkimRequest'],
-      shapes: shapes,
       resultWrapper: 'VerifyDomainDkimResult',
     );
     return VerifyDomainDkimResponse.fromXml($result);
@@ -3454,8 +3483,9 @@ class SES {
   Future<VerifyDomainIdentityResponse> verifyDomainIdentity({
     required String domain,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Domain'] = domain;
+    final $request = <String, String>{
+      'Domain': domain,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'VerifyDomainIdentity',
@@ -3463,8 +3493,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['VerifyDomainIdentityRequest'],
-      shapes: shapes,
       resultWrapper: 'VerifyDomainIdentityResult',
     );
     return VerifyDomainIdentityResponse.fromXml($result);
@@ -3478,8 +3506,9 @@ class SES {
   Future<void> verifyEmailAddress({
     required String emailAddress,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['EmailAddress'] = emailAddress;
+    final $request = <String, String>{
+      'EmailAddress': emailAddress,
+    };
     await _protocol.send(
       $request,
       action: 'VerifyEmailAddress',
@@ -3487,8 +3516,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['VerifyEmailAddressRequest'],
-      shapes: shapes,
     );
   }
 
@@ -3504,8 +3531,9 @@ class SES {
   Future<void> verifyEmailIdentity({
     required String emailAddress,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['EmailAddress'] = emailAddress;
+    final $request = <String, String>{
+      'EmailAddress': emailAddress,
+    };
     await _protocol.send(
       $request,
       action: 'VerifyEmailIdentity',
@@ -3513,8 +3541,6 @@ class SES {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['VerifyEmailIdentityRequest'],
-      shapes: shapes,
       resultWrapper: 'VerifyEmailIdentityResult',
     );
   }
@@ -3549,6 +3575,15 @@ class AddHeaderAction {
   }
 
   Map<String, dynamic> toJson() {
+    final headerName = this.headerName;
+    final headerValue = this.headerValue;
+    return {
+      'HeaderName': headerName,
+      'HeaderValue': headerValue,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final headerName = this.headerName;
     final headerValue = this.headerValue;
     return {
@@ -3612,6 +3647,17 @@ class Body {
       if (text != null) 'Text': text,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final html = this.html;
+    final text = this.text;
+    return {
+      if (html != null)
+        for (var e1 in html.toQueryMap().entries) 'Html.${e1.key}': e1.value,
+      if (text != null)
+        for (var e1 in text.toQueryMap().entries) 'Text.${e1.key}': e1.value,
+    };
+  }
 }
 
 /// When included in a receipt rule, this action rejects the received email by
@@ -3666,6 +3712,21 @@ class BounceAction {
   }
 
   Map<String, dynamic> toJson() {
+    final message = this.message;
+    final sender = this.sender;
+    final smtpReplyCode = this.smtpReplyCode;
+    final statusCode = this.statusCode;
+    final topicArn = this.topicArn;
+    return {
+      'Message': message,
+      'Sender': sender,
+      'SmtpReplyCode': smtpReplyCode,
+      if (statusCode != null) 'StatusCode': statusCode,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final message = this.message;
     final sender = this.sender;
     final smtpReplyCode = this.smtpReplyCode;
@@ -3775,6 +3836,21 @@ class BouncedRecipientInfo {
       if (recipientDsnFields != null) 'RecipientDsnFields': recipientDsnFields,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final recipient = this.recipient;
+    final bounceType = this.bounceType;
+    final recipientArn = this.recipientArn;
+    final recipientDsnFields = this.recipientDsnFields;
+    return {
+      'Recipient': recipient,
+      if (bounceType != null) 'BounceType': bounceType.toValue(),
+      if (recipientArn != null) 'RecipientArn': recipientArn,
+      if (recipientDsnFields != null)
+        for (var e1 in recipientDsnFields.toQueryMap().entries)
+          'RecipientDsnFields.${e1.key}': e1.value,
+    };
+  }
 }
 
 /// An array that contains one or more Destinations, as well as the tags and
@@ -3806,6 +3882,25 @@ class BulkEmailDestination {
     return {
       'Destination': destination,
       if (replacementTags != null) 'ReplacementTags': replacementTags,
+      if (replacementTemplateData != null)
+        'ReplacementTemplateData': replacementTemplateData,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final destination = this.destination;
+    final replacementTags = this.replacementTags;
+    final replacementTemplateData = this.replacementTemplateData;
+    return {
+      for (var e1 in destination.toQueryMap().entries)
+        'Destination.${e1.key}': e1.value,
+      if (replacementTags != null)
+        if (replacementTags.isEmpty)
+          'ReplacementTags': ''
+        else
+          for (var i1 = 0; i1 < replacementTags.length; i1++)
+            for (var e3 in replacementTags[i1].toQueryMap().entries)
+              'ReplacementTags.member.${i1 + 1}.${e3.key}': e3.value,
       if (replacementTemplateData != null)
         'ReplacementTemplateData': replacementTemplateData,
     };
@@ -4034,6 +4129,18 @@ class CloudWatchDestination {
       'DimensionConfigurations': dimensionConfigurations,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final dimensionConfigurations = this.dimensionConfigurations;
+    return {
+      if (dimensionConfigurations.isEmpty)
+        'DimensionConfigurations': ''
+      else
+        for (var i1 = 0; i1 < dimensionConfigurations.length; i1++)
+          for (var e3 in dimensionConfigurations[i1].toQueryMap().entries)
+            'DimensionConfigurations.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
 }
 
 /// Contains the dimension configuration to use when you publish email sending
@@ -4108,6 +4215,17 @@ class CloudWatchDimensionConfiguration {
       'DimensionValueSource': dimensionValueSource.toValue(),
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final defaultDimensionValue = this.defaultDimensionValue;
+    final dimensionName = this.dimensionName;
+    final dimensionValueSource = this.dimensionValueSource;
+    return {
+      'DefaultDimensionValue': defaultDimensionValue,
+      'DimensionName': dimensionName,
+      'DimensionValueSource': dimensionValueSource.toValue(),
+    };
+  }
 }
 
 /// The name of the configuration set.
@@ -4144,6 +4262,13 @@ class ConfigurationSet {
   }
 
   Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final name = this.name;
     return {
       'Name': name,
@@ -4207,6 +4332,15 @@ class Content {
   });
 
   Map<String, dynamic> toJson() {
+    final data = this.data;
+    final charset = this.charset;
+    return {
+      'Data': data,
+      if (charset != null) 'Charset': charset,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final data = this.data;
     final charset = this.charset;
     return {
@@ -4476,6 +4610,13 @@ class DeliveryOptions {
       if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+    };
+  }
 }
 
 /// Represents the metadata and receipt rules for the receipt rule set that is
@@ -4636,6 +4777,32 @@ class Destination {
       if (bccAddresses != null) 'BccAddresses': bccAddresses,
       if (ccAddresses != null) 'CcAddresses': ccAddresses,
       if (toAddresses != null) 'ToAddresses': toAddresses,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final bccAddresses = this.bccAddresses;
+    final ccAddresses = this.ccAddresses;
+    final toAddresses = this.toAddresses;
+    return {
+      if (bccAddresses != null)
+        if (bccAddresses.isEmpty)
+          'BccAddresses': ''
+        else
+          for (var i1 = 0; i1 < bccAddresses.length; i1++)
+            'BccAddresses.member.${i1 + 1}': bccAddresses[i1],
+      if (ccAddresses != null)
+        if (ccAddresses.isEmpty)
+          'CcAddresses': ''
+        else
+          for (var i1 = 0; i1 < ccAddresses.length; i1++)
+            'CcAddresses.member.${i1 + 1}': ccAddresses[i1],
+      if (toAddresses != null)
+        if (toAddresses.isEmpty)
+          'ToAddresses': ''
+        else
+          for (var i1 = 0; i1 < toAddresses.length; i1++)
+            'ToAddresses.member.${i1 + 1}': toAddresses[i1],
     };
   }
 }
@@ -4844,6 +5011,34 @@ class EventDestination {
       if (sNSDestination != null) 'SNSDestination': sNSDestination,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final matchingEventTypes = this.matchingEventTypes;
+    final name = this.name;
+    final cloudWatchDestination = this.cloudWatchDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final sNSDestination = this.sNSDestination;
+    return {
+      if (matchingEventTypes.isEmpty)
+        'MatchingEventTypes': ''
+      else
+        for (var i1 = 0; i1 < matchingEventTypes.length; i1++)
+          'MatchingEventTypes.member.${i1 + 1}':
+              matchingEventTypes[i1].toValue(),
+      'Name': name,
+      if (cloudWatchDestination != null)
+        for (var e1 in cloudWatchDestination.toQueryMap().entries)
+          'CloudWatchDestination.${e1.key}': e1.value,
+      if (enabled != null) 'Enabled': enabled.toString(),
+      if (kinesisFirehoseDestination != null)
+        for (var e1 in kinesisFirehoseDestination.toQueryMap().entries)
+          'KinesisFirehoseDestination.${e1.key}': e1.value,
+      if (sNSDestination != null)
+        for (var e1 in sNSDestination.toQueryMap().entries)
+          'SNSDestination.${e1.key}': e1.value,
+    };
+  }
 }
 
 enum EventType {
@@ -4926,6 +5121,15 @@ class ExtensionField {
   });
 
   Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final name = this.name;
     final value = this.value;
     return {
@@ -5458,6 +5662,15 @@ class KinesisFirehoseDestination {
       'IAMRoleARN': iAMRoleARN,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final deliveryStreamARN = this.deliveryStreamARN;
+    final iAMRoleARN = this.iAMRoleARN;
+    return {
+      'DeliveryStreamARN': deliveryStreamARN,
+      'IAMRoleARN': iAMRoleARN,
+    };
+  }
 }
 
 /// When included in a receipt rule, this action calls an Amazon Web Services
@@ -5525,6 +5738,17 @@ class LambdaAction {
   }
 
   Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    final invocationType = this.invocationType;
+    final topicArn = this.topicArn;
+    return {
+      'FunctionArn': functionArn,
+      if (invocationType != null) 'InvocationType': invocationType.toValue(),
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final functionArn = this.functionArn;
     final invocationType = this.invocationType;
     final topicArn = this.topicArn;
@@ -5747,6 +5971,16 @@ class Message {
       'Subject': subject,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final body = this.body;
+    final subject = this.subject;
+    return {
+      for (var e1 in body.toQueryMap().entries) 'Body.${e1.key}': e1.value,
+      for (var e1 in subject.toQueryMap().entries)
+        'Subject.${e1.key}': e1.value,
+    };
+  }
 }
 
 /// Message-related information to include in the Delivery Status Notification
@@ -5783,6 +6017,23 @@ class MessageDsn {
       'ReportingMta': reportingMta,
       if (arrivalDate != null) 'ArrivalDate': iso8601ToJson(arrivalDate),
       if (extensionFields != null) 'ExtensionFields': extensionFields,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final reportingMta = this.reportingMta;
+    final arrivalDate = this.arrivalDate;
+    final extensionFields = this.extensionFields;
+    return {
+      'ReportingMta': reportingMta,
+      if (arrivalDate != null) 'ArrivalDate': _s.iso8601ToJson(arrivalDate),
+      if (extensionFields != null)
+        if (extensionFields.isEmpty)
+          'ExtensionFields': ''
+        else
+          for (var i1 = 0; i1 < extensionFields.length; i1++)
+            for (var e3 in extensionFields[i1].toQueryMap().entries)
+              'ExtensionFields.member.${i1 + 1}.${e3.key}': e3.value,
     };
   }
 }
@@ -5828,6 +6079,15 @@ class MessageTag {
   });
 
   Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final name = this.name;
     final value = this.value;
     return {
@@ -5925,6 +6185,13 @@ class RawMessage {
       'Data': base64Encode(data),
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final data = this.data;
+    return {
+      'Data': base64Encode(data),
+    };
+  }
 }
 
 /// An action that Amazon SES can take when it receives an email on behalf of
@@ -6008,6 +6275,39 @@ class ReceiptAction {
       if (workmailAction != null) 'WorkmailAction': workmailAction,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final addHeaderAction = this.addHeaderAction;
+    final bounceAction = this.bounceAction;
+    final lambdaAction = this.lambdaAction;
+    final s3Action = this.s3Action;
+    final sNSAction = this.sNSAction;
+    final stopAction = this.stopAction;
+    final workmailAction = this.workmailAction;
+    return {
+      if (addHeaderAction != null)
+        for (var e1 in addHeaderAction.toQueryMap().entries)
+          'AddHeaderAction.${e1.key}': e1.value,
+      if (bounceAction != null)
+        for (var e1 in bounceAction.toQueryMap().entries)
+          'BounceAction.${e1.key}': e1.value,
+      if (lambdaAction != null)
+        for (var e1 in lambdaAction.toQueryMap().entries)
+          'LambdaAction.${e1.key}': e1.value,
+      if (s3Action != null)
+        for (var e1 in s3Action.toQueryMap().entries)
+          'S3Action.${e1.key}': e1.value,
+      if (sNSAction != null)
+        for (var e1 in sNSAction.toQueryMap().entries)
+          'SNSAction.${e1.key}': e1.value,
+      if (stopAction != null)
+        for (var e1 in stopAction.toQueryMap().entries)
+          'StopAction.${e1.key}': e1.value,
+      if (workmailAction != null)
+        for (var e1 in workmailAction.toQueryMap().entries)
+          'WorkmailAction.${e1.key}': e1.value,
+    };
+  }
 }
 
 /// A receipt IP address filter enables you to specify whether to accept or
@@ -6054,6 +6354,16 @@ class ReceiptFilter {
     final name = this.name;
     return {
       'IpFilter': ipFilter,
+      'Name': name,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final ipFilter = this.ipFilter;
+    final name = this.name;
+    return {
+      for (var e1 in ipFilter.toQueryMap().entries)
+        'IpFilter.${e1.key}': e1.value,
       'Name': name,
     };
   }
@@ -6117,6 +6427,15 @@ class ReceiptIpFilter {
   }
 
   Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final policy = this.policy;
+    return {
+      'Cidr': cidr,
+      'Policy': policy.toValue(),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final cidr = this.cidr;
     final policy = this.policy;
     return {
@@ -6213,6 +6532,34 @@ class ReceiptRule {
       if (enabled != null) 'Enabled': enabled,
       if (recipients != null) 'Recipients': recipients,
       if (scanEnabled != null) 'ScanEnabled': scanEnabled,
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final actions = this.actions;
+    final enabled = this.enabled;
+    final recipients = this.recipients;
+    final scanEnabled = this.scanEnabled;
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      'Name': name,
+      if (actions != null)
+        if (actions.isEmpty)
+          'Actions': ''
+        else
+          for (var i1 = 0; i1 < actions.length; i1++)
+            for (var e3 in actions[i1].toQueryMap().entries)
+              'Actions.member.${i1 + 1}.${e3.key}': e3.value,
+      if (enabled != null) 'Enabled': enabled.toString(),
+      if (recipients != null)
+        if (recipients.isEmpty)
+          'Recipients': ''
+        else
+          for (var i1 = 0; i1 < recipients.length; i1++)
+            'Recipients.member.${i1 + 1}': recipients[i1],
+      if (scanEnabled != null) 'ScanEnabled': scanEnabled.toString(),
       if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
     };
   }
@@ -6334,6 +6681,32 @@ class RecipientDsnFields {
       if (finalRecipient != null) 'FinalRecipient': finalRecipient,
       if (lastAttemptDate != null)
         'LastAttemptDate': iso8601ToJson(lastAttemptDate),
+      if (remoteMta != null) 'RemoteMta': remoteMta,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final action = this.action;
+    final status = this.status;
+    final diagnosticCode = this.diagnosticCode;
+    final extensionFields = this.extensionFields;
+    final finalRecipient = this.finalRecipient;
+    final lastAttemptDate = this.lastAttemptDate;
+    final remoteMta = this.remoteMta;
+    return {
+      'Action': action.toValue(),
+      'Status': status,
+      if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
+      if (extensionFields != null)
+        if (extensionFields.isEmpty)
+          'ExtensionFields': ''
+        else
+          for (var i1 = 0; i1 < extensionFields.length; i1++)
+            for (var e3 in extensionFields[i1].toQueryMap().entries)
+              'ExtensionFields.member.${i1 + 1}.${e3.key}': e3.value,
+      if (finalRecipient != null) 'FinalRecipient': finalRecipient,
+      if (lastAttemptDate != null)
+        'LastAttemptDate': _s.iso8601ToJson(lastAttemptDate),
       if (remoteMta != null) 'RemoteMta': remoteMta,
     };
   }
@@ -6503,6 +6876,19 @@ class S3Action {
       if (topicArn != null) 'TopicArn': topicArn,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final bucketName = this.bucketName;
+    final kmsKeyArn = this.kmsKeyArn;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    final topicArn = this.topicArn;
+    return {
+      'BucketName': bucketName,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
 }
 
 /// When included in a receipt rule, this action publishes a notification to
@@ -6557,6 +6943,15 @@ class SNSAction {
   }
 
   Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    final encoding = this.encoding;
+    return {
+      'TopicArn': topicArn,
+      if (encoding != null) 'Encoding': encoding.toValue(),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final topicArn = this.topicArn;
     final encoding = this.encoding;
     return {
@@ -6623,6 +7018,13 @@ class SNSDestination {
   }
 
   Map<String, dynamic> toJson() {
+    final topicARN = this.topicARN;
+    return {
+      'TopicARN': topicARN,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final topicARN = this.topicARN;
     return {
       'TopicARN': topicARN,
@@ -6876,6 +7278,15 @@ class StopAction {
       if (topicArn != null) 'TopicArn': topicArn,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final scope = this.scope;
+    final topicArn = this.topicArn;
+    return {
+      'Scope': scope.toValue(),
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
 }
 
 enum StopScope {
@@ -6935,6 +7346,19 @@ class Template {
   }
 
   Map<String, dynamic> toJson() {
+    final templateName = this.templateName;
+    final htmlPart = this.htmlPart;
+    final subjectPart = this.subjectPart;
+    final textPart = this.textPart;
+    return {
+      'TemplateName': templateName,
+      if (htmlPart != null) 'HtmlPart': htmlPart,
+      if (subjectPart != null) 'SubjectPart': subjectPart,
+      if (textPart != null) 'TextPart': textPart,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final templateName = this.templateName;
     final htmlPart = this.htmlPart;
     final subjectPart = this.subjectPart;
@@ -7035,6 +7459,14 @@ class TrackingOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final customRedirectDomain = this.customRedirectDomain;
+    return {
+      if (customRedirectDomain != null)
+        'CustomRedirectDomain': customRedirectDomain,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final customRedirectDomain = this.customRedirectDomain;
     return {
       if (customRedirectDomain != null)
@@ -7237,6 +7669,15 @@ class WorkmailAction {
   }
 
   Map<String, dynamic> toJson() {
+    final organizationArn = this.organizationArn;
+    final topicArn = this.topicArn;
+    return {
+      'OrganizationArn': organizationArn,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final organizationArn = this.organizationArn;
     final topicArn = this.topicArn;
     return {

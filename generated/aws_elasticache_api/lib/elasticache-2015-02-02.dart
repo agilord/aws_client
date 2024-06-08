@@ -17,14 +17,12 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'elasticache-2015-02-02.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon ElastiCache is a web service that makes it easier to set up, operate,
 /// and scale a distributed cache in the cloud.
 class ElastiCache {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   ElastiCache({
     required String region,
@@ -32,7 +30,7 @@ class ElastiCache {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'elasticache',
@@ -41,9 +39,7 @@ class ElastiCache {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -109,9 +105,15 @@ class ElastiCache {
     required String resourceName,
     required List<Tag> tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ResourceName'] = resourceName;
-    $request['Tags'] = tags;
+    final $request = <String, String>{
+      'ResourceName': resourceName,
+      if (tags.isEmpty)
+        'Tags': ''
+      else
+        for (var i1 = 0; i1 < tags.length; i1++)
+          for (var e3 in tags[i1].toQueryMap().entries)
+            'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'AddTagsToResource',
@@ -119,8 +121,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['AddTagsToResourceMessage'],
-      shapes: shapes,
       resultWrapper: 'AddTagsToResourceResult',
     );
     return TagListMessage.fromXml($result);
@@ -157,10 +157,11 @@ class ElastiCache {
     required String eC2SecurityGroupName,
     required String eC2SecurityGroupOwnerId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
-    $request['EC2SecurityGroupName'] = eC2SecurityGroupName;
-    $request['EC2SecurityGroupOwnerId'] = eC2SecurityGroupOwnerId;
+    final $request = <String, String>{
+      'CacheSecurityGroupName': cacheSecurityGroupName,
+      'EC2SecurityGroupName': eC2SecurityGroupName,
+      'EC2SecurityGroupOwnerId': eC2SecurityGroupOwnerId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'AuthorizeCacheSecurityGroupIngress',
@@ -168,8 +169,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['AuthorizeCacheSecurityGroupIngressMessage'],
-      shapes: shapes,
       resultWrapper: 'AuthorizeCacheSecurityGroupIngressResult',
     );
     return AuthorizeCacheSecurityGroupIngressResult.fromXml($result);
@@ -196,10 +195,21 @@ class ElastiCache {
     List<String>? cacheClusterIds,
     List<String>? replicationGroupIds,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ServiceUpdateName'] = serviceUpdateName;
-    cacheClusterIds?.also((arg) => $request['CacheClusterIds'] = arg);
-    replicationGroupIds?.also((arg) => $request['ReplicationGroupIds'] = arg);
+    final $request = <String, String>{
+      'ServiceUpdateName': serviceUpdateName,
+      if (cacheClusterIds != null)
+        if (cacheClusterIds.isEmpty)
+          'CacheClusterIds': ''
+        else
+          for (var i1 = 0; i1 < cacheClusterIds.length; i1++)
+            'CacheClusterIds.member.${i1 + 1}': cacheClusterIds[i1],
+      if (replicationGroupIds != null)
+        if (replicationGroupIds.isEmpty)
+          'ReplicationGroupIds': ''
+        else
+          for (var i1 = 0; i1 < replicationGroupIds.length; i1++)
+            'ReplicationGroupIds.member.${i1 + 1}': replicationGroupIds[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'BatchApplyUpdateAction',
@@ -207,8 +217,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['BatchApplyUpdateActionMessage'],
-      shapes: shapes,
       resultWrapper: 'BatchApplyUpdateActionResult',
     );
     return UpdateActionResultsMessage.fromXml($result);
@@ -235,10 +243,21 @@ class ElastiCache {
     List<String>? cacheClusterIds,
     List<String>? replicationGroupIds,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ServiceUpdateName'] = serviceUpdateName;
-    cacheClusterIds?.also((arg) => $request['CacheClusterIds'] = arg);
-    replicationGroupIds?.also((arg) => $request['ReplicationGroupIds'] = arg);
+    final $request = <String, String>{
+      'ServiceUpdateName': serviceUpdateName,
+      if (cacheClusterIds != null)
+        if (cacheClusterIds.isEmpty)
+          'CacheClusterIds': ''
+        else
+          for (var i1 = 0; i1 < cacheClusterIds.length; i1++)
+            'CacheClusterIds.member.${i1 + 1}': cacheClusterIds[i1],
+      if (replicationGroupIds != null)
+        if (replicationGroupIds.isEmpty)
+          'ReplicationGroupIds': ''
+        else
+          for (var i1 = 0; i1 < replicationGroupIds.length; i1++)
+            'ReplicationGroupIds.member.${i1 + 1}': replicationGroupIds[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'BatchStopUpdateAction',
@@ -246,8 +265,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['BatchStopUpdateActionMessage'],
-      shapes: shapes,
       resultWrapper: 'BatchStopUpdateActionResult',
     );
     return UpdateActionResultsMessage.fromXml($result);
@@ -270,9 +287,10 @@ class ElastiCache {
     required String replicationGroupId,
     bool? force,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ReplicationGroupId'] = replicationGroupId;
-    force?.also((arg) => $request['Force'] = arg);
+    final $request = <String, String>{
+      'ReplicationGroupId': replicationGroupId,
+      if (force != null) 'Force': force.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CompleteMigration',
@@ -280,8 +298,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CompleteMigrationMessage'],
-      shapes: shapes,
       resultWrapper: 'CompleteMigrationResult',
     );
     return CompleteMigrationResponse.fromXml($result);
@@ -319,13 +335,18 @@ class ElastiCache {
     String? kmsKeyId,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['SourceServerlessCacheSnapshotName'] =
-        sourceServerlessCacheSnapshotName;
-    $request['TargetServerlessCacheSnapshotName'] =
-        targetServerlessCacheSnapshotName;
-    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'SourceServerlessCacheSnapshotName': sourceServerlessCacheSnapshotName,
+      'TargetServerlessCacheSnapshotName': targetServerlessCacheSnapshotName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CopyServerlessCacheSnapshot',
@@ -333,8 +354,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CopyServerlessCacheSnapshotRequest'],
-      shapes: shapes,
       resultWrapper: 'CopyServerlessCacheSnapshotResult',
     );
     return CopyServerlessCacheSnapshotResponse.fromXml($result);
@@ -475,12 +494,19 @@ class ElastiCache {
     List<Tag>? tags,
     String? targetBucket,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['SourceSnapshotName'] = sourceSnapshotName;
-    $request['TargetSnapshotName'] = targetSnapshotName;
-    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    targetBucket?.also((arg) => $request['TargetBucket'] = arg);
+    final $request = <String, String>{
+      'SourceSnapshotName': sourceSnapshotName,
+      'TargetSnapshotName': targetSnapshotName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+      if (targetBucket != null) 'TargetBucket': targetBucket,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CopySnapshot',
@@ -488,8 +514,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CopySnapshotMessage'],
-      shapes: shapes,
       resultWrapper: 'CopySnapshotResult',
     );
     return CopySnapshotResult.fromXml($result);
@@ -941,46 +965,88 @@ class ElastiCache {
     List<Tag>? tags,
     bool? transitEncryptionEnabled,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheClusterId'] = cacheClusterId;
-    aZMode?.also((arg) => $request['AZMode'] = arg.toValue());
-    authToken?.also((arg) => $request['AuthToken'] = arg);
-    autoMinorVersionUpgrade
-        ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
-    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
-    cacheParameterGroupName
-        ?.also((arg) => $request['CacheParameterGroupName'] = arg);
-    cacheSecurityGroupNames
-        ?.also((arg) => $request['CacheSecurityGroupNames'] = arg);
-    cacheSubnetGroupName?.also((arg) => $request['CacheSubnetGroupName'] = arg);
-    engine?.also((arg) => $request['Engine'] = arg);
-    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
-    ipDiscovery?.also((arg) => $request['IpDiscovery'] = arg.toValue());
-    logDeliveryConfigurations
-        ?.also((arg) => $request['LogDeliveryConfigurations'] = arg);
-    networkType?.also((arg) => $request['NetworkType'] = arg.toValue());
-    notificationTopicArn?.also((arg) => $request['NotificationTopicArn'] = arg);
-    numCacheNodes?.also((arg) => $request['NumCacheNodes'] = arg);
-    outpostMode?.also((arg) => $request['OutpostMode'] = arg.toValue());
-    port?.also((arg) => $request['Port'] = arg);
-    preferredAvailabilityZone
-        ?.also((arg) => $request['PreferredAvailabilityZone'] = arg);
-    preferredAvailabilityZones
-        ?.also((arg) => $request['PreferredAvailabilityZones'] = arg);
-    preferredMaintenanceWindow
-        ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
-    preferredOutpostArn?.also((arg) => $request['PreferredOutpostArn'] = arg);
-    preferredOutpostArns?.also((arg) => $request['PreferredOutpostArns'] = arg);
-    replicationGroupId?.also((arg) => $request['ReplicationGroupId'] = arg);
-    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
-    snapshotArns?.also((arg) => $request['SnapshotArns'] = arg);
-    snapshotName?.also((arg) => $request['SnapshotName'] = arg);
-    snapshotRetentionLimit
-        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
-    snapshotWindow?.also((arg) => $request['SnapshotWindow'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    transitEncryptionEnabled
-        ?.also((arg) => $request['TransitEncryptionEnabled'] = arg);
+    final $request = <String, String>{
+      'CacheClusterId': cacheClusterId,
+      if (aZMode != null) 'AZMode': aZMode.toValue(),
+      if (authToken != null) 'AuthToken': authToken,
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade.toString(),
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (cacheSecurityGroupNames != null)
+        if (cacheSecurityGroupNames.isEmpty)
+          'CacheSecurityGroupNames': ''
+        else
+          for (var i1 = 0; i1 < cacheSecurityGroupNames.length; i1++)
+            'CacheSecurityGroupNames.CacheSecurityGroupName.${i1 + 1}':
+                cacheSecurityGroupNames[i1],
+      if (cacheSubnetGroupName != null)
+        'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.toValue(),
+      if (logDeliveryConfigurations != null)
+        if (logDeliveryConfigurations.isEmpty)
+          'LogDeliveryConfigurations': ''
+        else
+          for (var i1 = 0; i1 < logDeliveryConfigurations.length; i1++)
+            for (var e3 in logDeliveryConfigurations[i1].toQueryMap().entries)
+              'LogDeliveryConfigurations.LogDeliveryConfigurationRequest.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (networkType != null) 'NetworkType': networkType.toValue(),
+      if (notificationTopicArn != null)
+        'NotificationTopicArn': notificationTopicArn,
+      if (numCacheNodes != null) 'NumCacheNodes': numCacheNodes.toString(),
+      if (outpostMode != null) 'OutpostMode': outpostMode.toValue(),
+      if (port != null) 'Port': port.toString(),
+      if (preferredAvailabilityZone != null)
+        'PreferredAvailabilityZone': preferredAvailabilityZone,
+      if (preferredAvailabilityZones != null)
+        if (preferredAvailabilityZones.isEmpty)
+          'PreferredAvailabilityZones': ''
+        else
+          for (var i1 = 0; i1 < preferredAvailabilityZones.length; i1++)
+            'PreferredAvailabilityZones.PreferredAvailabilityZone.${i1 + 1}':
+                preferredAvailabilityZones[i1],
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (preferredOutpostArn != null)
+        'PreferredOutpostArn': preferredOutpostArn,
+      if (preferredOutpostArns != null)
+        if (preferredOutpostArns.isEmpty)
+          'PreferredOutpostArns': ''
+        else
+          for (var i1 = 0; i1 < preferredOutpostArns.length; i1++)
+            'PreferredOutpostArns.PreferredOutpostArn.${i1 + 1}':
+                preferredOutpostArns[i1],
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+      if (securityGroupIds != null)
+        if (securityGroupIds.isEmpty)
+          'SecurityGroupIds': ''
+        else
+          for (var i1 = 0; i1 < securityGroupIds.length; i1++)
+            'SecurityGroupIds.SecurityGroupId.${i1 + 1}': securityGroupIds[i1],
+      if (snapshotArns != null)
+        if (snapshotArns.isEmpty)
+          'SnapshotArns': ''
+        else
+          for (var i1 = 0; i1 < snapshotArns.length; i1++)
+            'SnapshotArns.SnapshotArn.${i1 + 1}': snapshotArns[i1],
+      if (snapshotName != null) 'SnapshotName': snapshotName,
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit.toString(),
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+      if (transitEncryptionEnabled != null)
+        'TransitEncryptionEnabled': transitEncryptionEnabled.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateCacheCluster',
@@ -988,8 +1054,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateCacheClusterMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateCacheClusterResult',
     );
     return CreateCacheClusterResult.fromXml($result);
@@ -1049,11 +1113,18 @@ class ElastiCache {
     required String description,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheParameterGroupFamily'] = cacheParameterGroupFamily;
-    $request['CacheParameterGroupName'] = cacheParameterGroupName;
-    $request['Description'] = description;
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'CacheParameterGroupFamily': cacheParameterGroupFamily,
+      'CacheParameterGroupName': cacheParameterGroupName,
+      'Description': description,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateCacheParameterGroup',
@@ -1061,8 +1132,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateCacheParameterGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateCacheParameterGroupResult',
     );
     return CreateCacheParameterGroupResult.fromXml($result);
@@ -1103,10 +1172,17 @@ class ElastiCache {
     required String description,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
-    $request['Description'] = description;
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'CacheSecurityGroupName': cacheSecurityGroupName,
+      'Description': description,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateCacheSecurityGroup',
@@ -1114,8 +1190,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateCacheSecurityGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateCacheSecurityGroupResult',
     );
     return CreateCacheSecurityGroupResult.fromXml($result);
@@ -1157,11 +1231,22 @@ class ElastiCache {
     required List<String> subnetIds,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheSubnetGroupDescription'] = cacheSubnetGroupDescription;
-    $request['CacheSubnetGroupName'] = cacheSubnetGroupName;
-    $request['SubnetIds'] = subnetIds;
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'CacheSubnetGroupDescription': cacheSubnetGroupDescription,
+      'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (subnetIds.isEmpty)
+        'SubnetIds': ''
+      else
+        for (var i1 = 0; i1 < subnetIds.length; i1++)
+          'SubnetIds.SubnetIdentifier.${i1 + 1}': subnetIds[i1],
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateCacheSubnetGroup',
@@ -1169,8 +1254,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateCacheSubnetGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateCacheSubnetGroupResult',
     );
     return CreateCacheSubnetGroupResult.fromXml($result);
@@ -1227,11 +1310,12 @@ class ElastiCache {
     required String primaryReplicationGroupId,
     String? globalReplicationGroupDescription,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GlobalReplicationGroupIdSuffix'] = globalReplicationGroupIdSuffix;
-    $request['PrimaryReplicationGroupId'] = primaryReplicationGroupId;
-    globalReplicationGroupDescription
-        ?.also((arg) => $request['GlobalReplicationGroupDescription'] = arg);
+    final $request = <String, String>{
+      'GlobalReplicationGroupIdSuffix': globalReplicationGroupIdSuffix,
+      'PrimaryReplicationGroupId': primaryReplicationGroupId,
+      if (globalReplicationGroupDescription != null)
+        'GlobalReplicationGroupDescription': globalReplicationGroupDescription,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateGlobalReplicationGroup',
@@ -1239,8 +1323,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateGlobalReplicationGroupResult',
     );
     return CreateGlobalReplicationGroupResult.fromXml($result);
@@ -1876,60 +1958,109 @@ class ElastiCache {
     TransitEncryptionMode? transitEncryptionMode,
     List<String>? userGroupIds,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ReplicationGroupDescription'] = replicationGroupDescription;
-    $request['ReplicationGroupId'] = replicationGroupId;
-    atRestEncryptionEnabled
-        ?.also((arg) => $request['AtRestEncryptionEnabled'] = arg);
-    authToken?.also((arg) => $request['AuthToken'] = arg);
-    autoMinorVersionUpgrade
-        ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
-    automaticFailoverEnabled
-        ?.also((arg) => $request['AutomaticFailoverEnabled'] = arg);
-    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
-    cacheParameterGroupName
-        ?.also((arg) => $request['CacheParameterGroupName'] = arg);
-    cacheSecurityGroupNames
-        ?.also((arg) => $request['CacheSecurityGroupNames'] = arg);
-    cacheSubnetGroupName?.also((arg) => $request['CacheSubnetGroupName'] = arg);
-    clusterMode?.also((arg) => $request['ClusterMode'] = arg.toValue());
-    dataTieringEnabled?.also((arg) => $request['DataTieringEnabled'] = arg);
-    engine?.also((arg) => $request['Engine'] = arg);
-    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
-    globalReplicationGroupId
-        ?.also((arg) => $request['GlobalReplicationGroupId'] = arg);
-    ipDiscovery?.also((arg) => $request['IpDiscovery'] = arg.toValue());
-    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
-    logDeliveryConfigurations
-        ?.also((arg) => $request['LogDeliveryConfigurations'] = arg);
-    multiAZEnabled?.also((arg) => $request['MultiAZEnabled'] = arg);
-    networkType?.also((arg) => $request['NetworkType'] = arg.toValue());
-    nodeGroupConfiguration
-        ?.also((arg) => $request['NodeGroupConfiguration'] = arg);
-    notificationTopicArn?.also((arg) => $request['NotificationTopicArn'] = arg);
-    numCacheClusters?.also((arg) => $request['NumCacheClusters'] = arg);
-    numNodeGroups?.also((arg) => $request['NumNodeGroups'] = arg);
-    port?.also((arg) => $request['Port'] = arg);
-    preferredCacheClusterAZs
-        ?.also((arg) => $request['PreferredCacheClusterAZs'] = arg);
-    preferredMaintenanceWindow
-        ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
-    primaryClusterId?.also((arg) => $request['PrimaryClusterId'] = arg);
-    replicasPerNodeGroup?.also((arg) => $request['ReplicasPerNodeGroup'] = arg);
-    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
-    serverlessCacheSnapshotName
-        ?.also((arg) => $request['ServerlessCacheSnapshotName'] = arg);
-    snapshotArns?.also((arg) => $request['SnapshotArns'] = arg);
-    snapshotName?.also((arg) => $request['SnapshotName'] = arg);
-    snapshotRetentionLimit
-        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
-    snapshotWindow?.also((arg) => $request['SnapshotWindow'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    transitEncryptionEnabled
-        ?.also((arg) => $request['TransitEncryptionEnabled'] = arg);
-    transitEncryptionMode
-        ?.also((arg) => $request['TransitEncryptionMode'] = arg.toValue());
-    userGroupIds?.also((arg) => $request['UserGroupIds'] = arg);
+    final $request = <String, String>{
+      'ReplicationGroupDescription': replicationGroupDescription,
+      'ReplicationGroupId': replicationGroupId,
+      if (atRestEncryptionEnabled != null)
+        'AtRestEncryptionEnabled': atRestEncryptionEnabled.toString(),
+      if (authToken != null) 'AuthToken': authToken,
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade.toString(),
+      if (automaticFailoverEnabled != null)
+        'AutomaticFailoverEnabled': automaticFailoverEnabled.toString(),
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (cacheSecurityGroupNames != null)
+        if (cacheSecurityGroupNames.isEmpty)
+          'CacheSecurityGroupNames': ''
+        else
+          for (var i1 = 0; i1 < cacheSecurityGroupNames.length; i1++)
+            'CacheSecurityGroupNames.CacheSecurityGroupName.${i1 + 1}':
+                cacheSecurityGroupNames[i1],
+      if (cacheSubnetGroupName != null)
+        'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (clusterMode != null) 'ClusterMode': clusterMode.toValue(),
+      if (dataTieringEnabled != null)
+        'DataTieringEnabled': dataTieringEnabled.toString(),
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (globalReplicationGroupId != null)
+        'GlobalReplicationGroupId': globalReplicationGroupId,
+      if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.toValue(),
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (logDeliveryConfigurations != null)
+        if (logDeliveryConfigurations.isEmpty)
+          'LogDeliveryConfigurations': ''
+        else
+          for (var i1 = 0; i1 < logDeliveryConfigurations.length; i1++)
+            for (var e3 in logDeliveryConfigurations[i1].toQueryMap().entries)
+              'LogDeliveryConfigurations.LogDeliveryConfigurationRequest.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (multiAZEnabled != null) 'MultiAZEnabled': multiAZEnabled.toString(),
+      if (networkType != null) 'NetworkType': networkType.toValue(),
+      if (nodeGroupConfiguration != null)
+        if (nodeGroupConfiguration.isEmpty)
+          'NodeGroupConfiguration': ''
+        else
+          for (var i1 = 0; i1 < nodeGroupConfiguration.length; i1++)
+            for (var e3 in nodeGroupConfiguration[i1].toQueryMap().entries)
+              'NodeGroupConfiguration.NodeGroupConfiguration.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (notificationTopicArn != null)
+        'NotificationTopicArn': notificationTopicArn,
+      if (numCacheClusters != null)
+        'NumCacheClusters': numCacheClusters.toString(),
+      if (numNodeGroups != null) 'NumNodeGroups': numNodeGroups.toString(),
+      if (port != null) 'Port': port.toString(),
+      if (preferredCacheClusterAZs != null)
+        if (preferredCacheClusterAZs.isEmpty)
+          'PreferredCacheClusterAZs': ''
+        else
+          for (var i1 = 0; i1 < preferredCacheClusterAZs.length; i1++)
+            'PreferredCacheClusterAZs.AvailabilityZone.${i1 + 1}':
+                preferredCacheClusterAZs[i1],
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (primaryClusterId != null) 'PrimaryClusterId': primaryClusterId,
+      if (replicasPerNodeGroup != null)
+        'ReplicasPerNodeGroup': replicasPerNodeGroup.toString(),
+      if (securityGroupIds != null)
+        if (securityGroupIds.isEmpty)
+          'SecurityGroupIds': ''
+        else
+          for (var i1 = 0; i1 < securityGroupIds.length; i1++)
+            'SecurityGroupIds.SecurityGroupId.${i1 + 1}': securityGroupIds[i1],
+      if (serverlessCacheSnapshotName != null)
+        'ServerlessCacheSnapshotName': serverlessCacheSnapshotName,
+      if (snapshotArns != null)
+        if (snapshotArns.isEmpty)
+          'SnapshotArns': ''
+        else
+          for (var i1 = 0; i1 < snapshotArns.length; i1++)
+            'SnapshotArns.SnapshotArn.${i1 + 1}': snapshotArns[i1],
+      if (snapshotName != null) 'SnapshotName': snapshotName,
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit.toString(),
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+      if (transitEncryptionEnabled != null)
+        'TransitEncryptionEnabled': transitEncryptionEnabled.toString(),
+      if (transitEncryptionMode != null)
+        'TransitEncryptionMode': transitEncryptionMode.toValue(),
+      if (userGroupIds != null)
+        if (userGroupIds.isEmpty)
+          'UserGroupIds': ''
+        else
+          for (var i1 = 0; i1 < userGroupIds.length; i1++)
+            'UserGroupIds.member.${i1 + 1}': userGroupIds[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateReplicationGroup',
@@ -1937,8 +2068,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateReplicationGroupResult',
     );
     return CreateReplicationGroupResult.fromXml($result);
@@ -2031,22 +2160,46 @@ class ElastiCache {
     List<Tag>? tags,
     String? userGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Engine'] = engine;
-    $request['ServerlessCacheName'] = serverlessCacheName;
-    cacheUsageLimits?.also((arg) => $request['CacheUsageLimits'] = arg);
-    dailySnapshotTime?.also((arg) => $request['DailySnapshotTime'] = arg);
-    description?.also((arg) => $request['Description'] = arg);
-    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
-    majorEngineVersion?.also((arg) => $request['MajorEngineVersion'] = arg);
-    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
-    snapshotArnsToRestore
-        ?.also((arg) => $request['SnapshotArnsToRestore'] = arg);
-    snapshotRetentionLimit
-        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
-    subnetIds?.also((arg) => $request['SubnetIds'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    userGroupId?.also((arg) => $request['UserGroupId'] = arg);
+    final $request = <String, String>{
+      'Engine': engine,
+      'ServerlessCacheName': serverlessCacheName,
+      if (cacheUsageLimits != null)
+        for (var e1 in cacheUsageLimits.toQueryMap().entries)
+          'CacheUsageLimits.${e1.key}': e1.value,
+      if (dailySnapshotTime != null) 'DailySnapshotTime': dailySnapshotTime,
+      if (description != null) 'Description': description,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (majorEngineVersion != null) 'MajorEngineVersion': majorEngineVersion,
+      if (securityGroupIds != null)
+        if (securityGroupIds.isEmpty)
+          'SecurityGroupIds': ''
+        else
+          for (var i1 = 0; i1 < securityGroupIds.length; i1++)
+            'SecurityGroupIds.SecurityGroupId.${i1 + 1}': securityGroupIds[i1],
+      if (snapshotArnsToRestore != null)
+        if (snapshotArnsToRestore.isEmpty)
+          'SnapshotArnsToRestore': ''
+        else
+          for (var i1 = 0; i1 < snapshotArnsToRestore.length; i1++)
+            'SnapshotArnsToRestore.SnapshotArn.${i1 + 1}':
+                snapshotArnsToRestore[i1],
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit.toString(),
+      if (subnetIds != null)
+        if (subnetIds.isEmpty)
+          'SubnetIds': ''
+        else
+          for (var i1 = 0; i1 < subnetIds.length; i1++)
+            'SubnetIds.SubnetId.${i1 + 1}': subnetIds[i1],
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+      if (userGroupId != null) 'UserGroupId': userGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateServerlessCache',
@@ -2054,8 +2207,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateServerlessCacheRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateServerlessCacheResult',
     );
     return CreateServerlessCacheResponse.fromXml($result);
@@ -2094,11 +2245,18 @@ class ElastiCache {
     String? kmsKeyId,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ServerlessCacheName'] = serverlessCacheName;
-    $request['ServerlessCacheSnapshotName'] = serverlessCacheSnapshotName;
-    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'ServerlessCacheName': serverlessCacheName,
+      'ServerlessCacheSnapshotName': serverlessCacheSnapshotName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateServerlessCacheSnapshot',
@@ -2106,8 +2264,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateServerlessCacheSnapshotRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateServerlessCacheSnapshotResult',
     );
     return CreateServerlessCacheSnapshotResponse.fromXml($result);
@@ -2154,12 +2310,19 @@ class ElastiCache {
     String? replicationGroupId,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['SnapshotName'] = snapshotName;
-    cacheClusterId?.also((arg) => $request['CacheClusterId'] = arg);
-    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
-    replicationGroupId?.also((arg) => $request['ReplicationGroupId'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'SnapshotName': snapshotName,
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateSnapshot',
@@ -2167,8 +2330,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateSnapshotMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateSnapshotResult',
     );
     return CreateSnapshotResult.fromXml($result);
@@ -2222,15 +2383,30 @@ class ElastiCache {
     List<String>? passwords,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['AccessString'] = accessString;
-    $request['Engine'] = engine;
-    $request['UserId'] = userId;
-    $request['UserName'] = userName;
-    authenticationMode?.also((arg) => $request['AuthenticationMode'] = arg);
-    noPasswordRequired?.also((arg) => $request['NoPasswordRequired'] = arg);
-    passwords?.also((arg) => $request['Passwords'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'AccessString': accessString,
+      'Engine': engine,
+      'UserId': userId,
+      'UserName': userName,
+      if (authenticationMode != null)
+        for (var e1 in authenticationMode.toQueryMap().entries)
+          'AuthenticationMode.${e1.key}': e1.value,
+      if (noPasswordRequired != null)
+        'NoPasswordRequired': noPasswordRequired.toString(),
+      if (passwords != null)
+        if (passwords.isEmpty)
+          'Passwords': ''
+        else
+          for (var i1 = 0; i1 < passwords.length; i1++)
+            'Passwords.member.${i1 + 1}': passwords[i1],
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateUser',
@@ -2238,8 +2414,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateUserMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateUserResult',
     );
     return User.fromXml($result);
@@ -2278,11 +2452,23 @@ class ElastiCache {
     List<Tag>? tags,
     List<String>? userIds,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Engine'] = engine;
-    $request['UserGroupId'] = userGroupId;
-    tags?.also((arg) => $request['Tags'] = arg);
-    userIds?.also((arg) => $request['UserIds'] = arg);
+    final $request = <String, String>{
+      'Engine': engine,
+      'UserGroupId': userGroupId,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+      if (userIds != null)
+        if (userIds.isEmpty)
+          'UserIds': ''
+        else
+          for (var i1 = 0; i1 < userIds.length; i1++)
+            'UserIds.member.${i1 + 1}': userIds[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateUserGroup',
@@ -2290,8 +2476,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateUserGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'CreateUserGroupResult',
     );
     return UserGroup.fromXml($result);
@@ -2336,14 +2520,25 @@ class ElastiCache {
     List<String>? globalNodeGroupsToRemove,
     List<String>? globalNodeGroupsToRetain,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ApplyImmediately'] = applyImmediately;
-    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
-    $request['NodeGroupCount'] = nodeGroupCount;
-    globalNodeGroupsToRemove
-        ?.also((arg) => $request['GlobalNodeGroupsToRemove'] = arg);
-    globalNodeGroupsToRetain
-        ?.also((arg) => $request['GlobalNodeGroupsToRetain'] = arg);
+    final $request = <String, String>{
+      'ApplyImmediately': applyImmediately.toString(),
+      'GlobalReplicationGroupId': globalReplicationGroupId,
+      'NodeGroupCount': nodeGroupCount.toString(),
+      if (globalNodeGroupsToRemove != null)
+        if (globalNodeGroupsToRemove.isEmpty)
+          'GlobalNodeGroupsToRemove': ''
+        else
+          for (var i1 = 0; i1 < globalNodeGroupsToRemove.length; i1++)
+            'GlobalNodeGroupsToRemove.GlobalNodeGroupId.${i1 + 1}':
+                globalNodeGroupsToRemove[i1],
+      if (globalNodeGroupsToRetain != null)
+        if (globalNodeGroupsToRetain.isEmpty)
+          'GlobalNodeGroupsToRetain': ''
+        else
+          for (var i1 = 0; i1 < globalNodeGroupsToRetain.length; i1++)
+            'GlobalNodeGroupsToRetain.GlobalNodeGroupId.${i1 + 1}':
+                globalNodeGroupsToRetain[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DecreaseNodeGroupsInGlobalReplicationGroup',
@@ -2351,8 +2546,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DecreaseNodeGroupsInGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'DecreaseNodeGroupsInGlobalReplicationGroupResult',
     );
     return DecreaseNodeGroupsInGlobalReplicationGroupResult.fromXml($result);
@@ -2429,12 +2622,26 @@ class ElastiCache {
     List<ConfigureShard>? replicaConfiguration,
     List<String>? replicasToRemove,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ApplyImmediately'] = applyImmediately;
-    $request['ReplicationGroupId'] = replicationGroupId;
-    newReplicaCount?.also((arg) => $request['NewReplicaCount'] = arg);
-    replicaConfiguration?.also((arg) => $request['ReplicaConfiguration'] = arg);
-    replicasToRemove?.also((arg) => $request['ReplicasToRemove'] = arg);
+    final $request = <String, String>{
+      'ApplyImmediately': applyImmediately.toString(),
+      'ReplicationGroupId': replicationGroupId,
+      if (newReplicaCount != null)
+        'NewReplicaCount': newReplicaCount.toString(),
+      if (replicaConfiguration != null)
+        if (replicaConfiguration.isEmpty)
+          'ReplicaConfiguration': ''
+        else
+          for (var i1 = 0; i1 < replicaConfiguration.length; i1++)
+            for (var e3 in replicaConfiguration[i1].toQueryMap().entries)
+              'ReplicaConfiguration.ConfigureShard.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (replicasToRemove != null)
+        if (replicasToRemove.isEmpty)
+          'ReplicasToRemove': ''
+        else
+          for (var i1 = 0; i1 < replicasToRemove.length; i1++)
+            'ReplicasToRemove.member.${i1 + 1}': replicasToRemove[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DecreaseReplicaCount',
@@ -2442,8 +2649,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DecreaseReplicaCountMessage'],
-      shapes: shapes,
       resultWrapper: 'DecreaseReplicaCountResult',
     );
     return DecreaseReplicaCountResult.fromXml($result);
@@ -2501,10 +2706,11 @@ class ElastiCache {
     required String cacheClusterId,
     String? finalSnapshotIdentifier,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheClusterId'] = cacheClusterId;
-    finalSnapshotIdentifier
-        ?.also((arg) => $request['FinalSnapshotIdentifier'] = arg);
+    final $request = <String, String>{
+      'CacheClusterId': cacheClusterId,
+      if (finalSnapshotIdentifier != null)
+        'FinalSnapshotIdentifier': finalSnapshotIdentifier,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteCacheCluster',
@@ -2512,8 +2718,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteCacheClusterMessage'],
-      shapes: shapes,
       resultWrapper: 'DeleteCacheClusterResult',
     );
     return DeleteCacheClusterResult.fromXml($result);
@@ -2537,8 +2741,9 @@ class ElastiCache {
   Future<void> deleteCacheParameterGroup({
     required String cacheParameterGroupName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheParameterGroupName'] = cacheParameterGroupName;
+    final $request = <String, String>{
+      'CacheParameterGroupName': cacheParameterGroupName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteCacheParameterGroup',
@@ -2546,8 +2751,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteCacheParameterGroupMessage'],
-      shapes: shapes,
     );
   }
 
@@ -2570,8 +2773,9 @@ class ElastiCache {
   Future<void> deleteCacheSecurityGroup({
     required String cacheSecurityGroupName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
+    final $request = <String, String>{
+      'CacheSecurityGroupName': cacheSecurityGroupName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteCacheSecurityGroup',
@@ -2579,8 +2783,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteCacheSecurityGroupMessage'],
-      shapes: shapes,
     );
   }
 
@@ -2601,8 +2803,9 @@ class ElastiCache {
   Future<void> deleteCacheSubnetGroup({
     required String cacheSubnetGroupName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheSubnetGroupName'] = cacheSubnetGroupName;
+    final $request = <String, String>{
+      'CacheSubnetGroupName': cacheSubnetGroupName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteCacheSubnetGroup',
@@ -2610,8 +2813,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteCacheSubnetGroupMessage'],
-      shapes: shapes,
     );
   }
 
@@ -2653,9 +2854,10 @@ class ElastiCache {
     required String globalReplicationGroupId,
     required bool retainPrimaryReplicationGroup,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
-    $request['RetainPrimaryReplicationGroup'] = retainPrimaryReplicationGroup;
+    final $request = <String, String>{
+      'GlobalReplicationGroupId': globalReplicationGroupId,
+      'RetainPrimaryReplicationGroup': retainPrimaryReplicationGroup.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteGlobalReplicationGroup',
@@ -2663,8 +2865,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'DeleteGlobalReplicationGroupResult',
     );
     return DeleteGlobalReplicationGroupResult.fromXml($result);
@@ -2709,11 +2909,13 @@ class ElastiCache {
     String? finalSnapshotIdentifier,
     bool? retainPrimaryCluster,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ReplicationGroupId'] = replicationGroupId;
-    finalSnapshotIdentifier
-        ?.also((arg) => $request['FinalSnapshotIdentifier'] = arg);
-    retainPrimaryCluster?.also((arg) => $request['RetainPrimaryCluster'] = arg);
+    final $request = <String, String>{
+      'ReplicationGroupId': replicationGroupId,
+      if (finalSnapshotIdentifier != null)
+        'FinalSnapshotIdentifier': finalSnapshotIdentifier,
+      if (retainPrimaryCluster != null)
+        'RetainPrimaryCluster': retainPrimaryCluster.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteReplicationGroup',
@@ -2721,8 +2923,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'DeleteReplicationGroupResult',
     );
     return DeleteReplicationGroupResult.fromXml($result);
@@ -2749,9 +2949,10 @@ class ElastiCache {
     required String serverlessCacheName,
     String? finalSnapshotName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ServerlessCacheName'] = serverlessCacheName;
-    finalSnapshotName?.also((arg) => $request['FinalSnapshotName'] = arg);
+    final $request = <String, String>{
+      'ServerlessCacheName': serverlessCacheName,
+      if (finalSnapshotName != null) 'FinalSnapshotName': finalSnapshotName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteServerlessCache',
@@ -2759,8 +2960,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteServerlessCacheRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteServerlessCacheResult',
     );
     return DeleteServerlessCacheResponse.fromXml($result);
@@ -2778,8 +2977,9 @@ class ElastiCache {
   Future<DeleteServerlessCacheSnapshotResponse> deleteServerlessCacheSnapshot({
     required String serverlessCacheSnapshotName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ServerlessCacheSnapshotName'] = serverlessCacheSnapshotName;
+    final $request = <String, String>{
+      'ServerlessCacheSnapshotName': serverlessCacheSnapshotName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteServerlessCacheSnapshot',
@@ -2787,8 +2987,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteServerlessCacheSnapshotRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteServerlessCacheSnapshotResult',
     );
     return DeleteServerlessCacheSnapshotResponse.fromXml($result);
@@ -2811,8 +3009,9 @@ class ElastiCache {
   Future<DeleteSnapshotResult> deleteSnapshot({
     required String snapshotName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['SnapshotName'] = snapshotName;
+    final $request = <String, String>{
+      'SnapshotName': snapshotName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteSnapshot',
@@ -2820,8 +3019,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteSnapshotMessage'],
-      shapes: shapes,
       resultWrapper: 'DeleteSnapshotResult',
     );
     return DeleteSnapshotResult.fromXml($result);
@@ -2844,8 +3041,9 @@ class ElastiCache {
   Future<User> deleteUser({
     required String userId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['UserId'] = userId;
+    final $request = <String, String>{
+      'UserId': userId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteUser',
@@ -2853,8 +3051,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteUserMessage'],
-      shapes: shapes,
       resultWrapper: 'DeleteUserResult',
     );
     return User.fromXml($result);
@@ -2876,8 +3072,9 @@ class ElastiCache {
   Future<UserGroup> deleteUserGroup({
     required String userGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['UserGroupId'] = userGroupId;
+    final $request = <String, String>{
+      'UserGroupId': userGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteUserGroup',
@@ -2885,8 +3082,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteUserGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'DeleteUserGroupResult',
     );
     return UserGroup.fromXml($result);
@@ -2957,13 +3152,16 @@ class ElastiCache {
     bool? showCacheClustersNotInReplicationGroups,
     bool? showCacheNodeInfo,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheClusterId?.also((arg) => $request['CacheClusterId'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    showCacheClustersNotInReplicationGroups?.also(
-        (arg) => $request['ShowCacheClustersNotInReplicationGroups'] = arg);
-    showCacheNodeInfo?.also((arg) => $request['ShowCacheNodeInfo'] = arg);
+    final $request = <String, String>{
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (showCacheClustersNotInReplicationGroups != null)
+        'ShowCacheClustersNotInReplicationGroups':
+            showCacheClustersNotInReplicationGroups.toString(),
+      if (showCacheNodeInfo != null)
+        'ShowCacheNodeInfo': showCacheNodeInfo.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeCacheClusters',
@@ -2971,8 +3169,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeCacheClustersMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeCacheClustersResult',
     );
     return CacheClusterMessage.fromXml($result);
@@ -3038,14 +3234,15 @@ class ElastiCache {
     String? marker,
     int? maxRecords,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheParameterGroupFamily
-        ?.also((arg) => $request['CacheParameterGroupFamily'] = arg);
-    defaultOnly?.also((arg) => $request['DefaultOnly'] = arg);
-    engine?.also((arg) => $request['Engine'] = arg);
-    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $request = <String, String>{
+      if (cacheParameterGroupFamily != null)
+        'CacheParameterGroupFamily': cacheParameterGroupFamily,
+      if (defaultOnly != null) 'DefaultOnly': defaultOnly.toString(),
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeCacheEngineVersions',
@@ -3053,8 +3250,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeCacheEngineVersionsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeCacheEngineVersionsResult',
     );
     return CacheEngineVersionMessage.fromXml($result);
@@ -3090,11 +3285,12 @@ class ElastiCache {
     String? marker,
     int? maxRecords,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheParameterGroupName
-        ?.also((arg) => $request['CacheParameterGroupName'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $request = <String, String>{
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeCacheParameterGroups',
@@ -3102,8 +3298,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeCacheParameterGroupsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeCacheParameterGroupsResult',
     );
     return CacheParameterGroupsMessage.fromXml($result);
@@ -3145,11 +3339,12 @@ class ElastiCache {
     int? maxRecords,
     String? source,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheParameterGroupName'] = cacheParameterGroupName;
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    source?.also((arg) => $request['Source'] = arg);
+    final $request = <String, String>{
+      'CacheParameterGroupName': cacheParameterGroupName,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (source != null) 'Source': source,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeCacheParameters',
@@ -3157,8 +3352,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeCacheParametersMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeCacheParametersResult',
     );
     return CacheParameterGroupDetails.fromXml($result);
@@ -3194,11 +3387,12 @@ class ElastiCache {
     String? marker,
     int? maxRecords,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheSecurityGroupName
-        ?.also((arg) => $request['CacheSecurityGroupName'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $request = <String, String>{
+      if (cacheSecurityGroupName != null)
+        'CacheSecurityGroupName': cacheSecurityGroupName,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeCacheSecurityGroups',
@@ -3206,8 +3400,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeCacheSecurityGroupsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeCacheSecurityGroupsResult',
     );
     return CacheSecurityGroupMessage.fromXml($result);
@@ -3242,10 +3434,12 @@ class ElastiCache {
     String? marker,
     int? maxRecords,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheSubnetGroupName?.also((arg) => $request['CacheSubnetGroupName'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $request = <String, String>{
+      if (cacheSubnetGroupName != null)
+        'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeCacheSubnetGroups',
@@ -3253,8 +3447,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeCacheSubnetGroupsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeCacheSubnetGroupsResult',
     );
     return CacheSubnetGroupMessage.fromXml($result);
@@ -3294,10 +3486,11 @@ class ElastiCache {
     String? marker,
     int? maxRecords,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheParameterGroupFamily'] = cacheParameterGroupFamily;
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $request = <String, String>{
+      'CacheParameterGroupFamily': cacheParameterGroupFamily,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeEngineDefaultParameters',
@@ -3305,8 +3498,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeEngineDefaultParametersMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeEngineDefaultParametersResult',
     );
     return DescribeEngineDefaultParametersResult.fromXml($result);
@@ -3369,14 +3560,15 @@ class ElastiCache {
     SourceType? sourceType,
     DateTime? startTime,
   }) async {
-    final $request = <String, dynamic>{};
-    duration?.also((arg) => $request['Duration'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
-    sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
-    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
+    final $request = <String, String>{
+      if (duration != null) 'Duration': duration.toString(),
+      if (endTime != null) 'EndTime': _s.iso8601ToJson(endTime),
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeEvents',
@@ -3384,8 +3576,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeEventsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
@@ -3421,12 +3611,13 @@ class ElastiCache {
     int? maxRecords,
     bool? showMemberInfo,
   }) async {
-    final $request = <String, dynamic>{};
-    globalReplicationGroupId
-        ?.also((arg) => $request['GlobalReplicationGroupId'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    showMemberInfo?.also((arg) => $request['ShowMemberInfo'] = arg);
+    final $request = <String, String>{
+      if (globalReplicationGroupId != null)
+        'GlobalReplicationGroupId': globalReplicationGroupId,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (showMemberInfo != null) 'ShowMemberInfo': showMemberInfo.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeGlobalReplicationGroups',
@@ -3434,8 +3625,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeGlobalReplicationGroupsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeGlobalReplicationGroupsResult',
     );
     return DescribeGlobalReplicationGroupsResult.fromXml($result);
@@ -3478,10 +3667,11 @@ class ElastiCache {
     int? maxRecords,
     String? replicationGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    replicationGroupId?.also((arg) => $request['ReplicationGroupId'] = arg);
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeReplicationGroups',
@@ -3489,8 +3679,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeReplicationGroupsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeReplicationGroupsResult',
     );
     return ReplicationGroupMessage.fromXml($result);
@@ -3697,16 +3885,18 @@ class ElastiCache {
     String? reservedCacheNodeId,
     String? reservedCacheNodesOfferingId,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
-    duration?.also((arg) => $request['Duration'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    offeringType?.also((arg) => $request['OfferingType'] = arg);
-    productDescription?.also((arg) => $request['ProductDescription'] = arg);
-    reservedCacheNodeId?.also((arg) => $request['ReservedCacheNodeId'] = arg);
-    reservedCacheNodesOfferingId
-        ?.also((arg) => $request['ReservedCacheNodesOfferingId'] = arg);
+    final $request = <String, String>{
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (duration != null) 'Duration': duration,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (offeringType != null) 'OfferingType': offeringType,
+      if (productDescription != null) 'ProductDescription': productDescription,
+      if (reservedCacheNodeId != null)
+        'ReservedCacheNodeId': reservedCacheNodeId,
+      if (reservedCacheNodesOfferingId != null)
+        'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeReservedCacheNodes',
@@ -3714,8 +3904,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeReservedCacheNodesMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeReservedCacheNodesResult',
     );
     return ReservedCacheNodeMessage.fromXml($result);
@@ -3919,15 +4107,16 @@ class ElastiCache {
     String? productDescription,
     String? reservedCacheNodesOfferingId,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
-    duration?.also((arg) => $request['Duration'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    offeringType?.also((arg) => $request['OfferingType'] = arg);
-    productDescription?.also((arg) => $request['ProductDescription'] = arg);
-    reservedCacheNodesOfferingId
-        ?.also((arg) => $request['ReservedCacheNodesOfferingId'] = arg);
+    final $request = <String, String>{
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (duration != null) 'Duration': duration,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (offeringType != null) 'OfferingType': offeringType,
+      if (productDescription != null) 'ProductDescription': productDescription,
+      if (reservedCacheNodesOfferingId != null)
+        'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeReservedCacheNodesOfferings',
@@ -3935,8 +4124,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeReservedCacheNodesOfferingsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeReservedCacheNodesOfferingsResult',
     );
     return ReservedCacheNodesOfferingMessage.fromXml($result);
@@ -3983,13 +4170,15 @@ class ElastiCache {
     String? serverlessCacheSnapshotName,
     String? snapshotType,
   }) async {
-    final $request = <String, dynamic>{};
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    serverlessCacheName?.also((arg) => $request['ServerlessCacheName'] = arg);
-    serverlessCacheSnapshotName
-        ?.also((arg) => $request['ServerlessCacheSnapshotName'] = arg);
-    snapshotType?.also((arg) => $request['SnapshotType'] = arg);
+    final $request = <String, String>{
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (serverlessCacheName != null)
+        'ServerlessCacheName': serverlessCacheName,
+      if (serverlessCacheSnapshotName != null)
+        'ServerlessCacheSnapshotName': serverlessCacheSnapshotName,
+      if (snapshotType != null) 'SnapshotType': snapshotType,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeServerlessCacheSnapshots',
@@ -3997,8 +4186,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeServerlessCacheSnapshotsRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeServerlessCacheSnapshotsResult',
     );
     return DescribeServerlessCacheSnapshotsResponse.fromXml($result);
@@ -4032,10 +4219,12 @@ class ElastiCache {
     String? nextToken,
     String? serverlessCacheName,
   }) async {
-    final $request = <String, dynamic>{};
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    serverlessCacheName?.also((arg) => $request['ServerlessCacheName'] = arg);
+    final $request = <String, String>{
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (serverlessCacheName != null)
+        'ServerlessCacheName': serverlessCacheName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeServerlessCaches',
@@ -4043,8 +4232,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeServerlessCachesRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeServerlessCachesResult',
     );
     return DescribeServerlessCachesResponse.fromXml($result);
@@ -4076,12 +4263,18 @@ class ElastiCache {
     String? serviceUpdateName,
     List<ServiceUpdateStatus>? serviceUpdateStatus,
   }) async {
-    final $request = <String, dynamic>{};
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    serviceUpdateName?.also((arg) => $request['ServiceUpdateName'] = arg);
-    serviceUpdateStatus?.also((arg) =>
-        $request['ServiceUpdateStatus'] = arg.map((e) => e.toValue()).toList());
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+      if (serviceUpdateStatus != null)
+        if (serviceUpdateStatus.isEmpty)
+          'ServiceUpdateStatus': ''
+        else
+          for (var i1 = 0; i1 < serviceUpdateStatus.length; i1++)
+            'ServiceUpdateStatus.member.${i1 + 1}':
+                serviceUpdateStatus[i1].toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeServiceUpdates',
@@ -4089,8 +4282,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeServiceUpdatesMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeServiceUpdatesResult',
     );
     return ServiceUpdatesMessage.fromXml($result);
@@ -4155,14 +4346,16 @@ class ElastiCache {
     String? snapshotName,
     String? snapshotSource,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheClusterId?.also((arg) => $request['CacheClusterId'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    replicationGroupId?.also((arg) => $request['ReplicationGroupId'] = arg);
-    showNodeGroupConfig?.also((arg) => $request['ShowNodeGroupConfig'] = arg);
-    snapshotName?.also((arg) => $request['SnapshotName'] = arg);
-    snapshotSource?.also((arg) => $request['SnapshotSource'] = arg);
+    final $request = <String, String>{
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+      if (showNodeGroupConfig != null)
+        'ShowNodeGroupConfig': showNodeGroupConfig.toString(),
+      if (snapshotName != null) 'SnapshotName': snapshotName,
+      if (snapshotSource != null) 'SnapshotSource': snapshotSource,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeSnapshots',
@@ -4170,8 +4363,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeSnapshotsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeSnapshotsResult',
     );
     return DescribeSnapshotsListMessage.fromXml($result);
@@ -4228,21 +4419,43 @@ class ElastiCache {
     bool? showNodeLevelUpdateStatus,
     List<UpdateActionStatus>? updateActionStatus,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheClusterIds?.also((arg) => $request['CacheClusterIds'] = arg);
-    engine?.also((arg) => $request['Engine'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    replicationGroupIds?.also((arg) => $request['ReplicationGroupIds'] = arg);
-    serviceUpdateName?.also((arg) => $request['ServiceUpdateName'] = arg);
-    serviceUpdateStatus?.also((arg) =>
-        $request['ServiceUpdateStatus'] = arg.map((e) => e.toValue()).toList());
-    serviceUpdateTimeRange
-        ?.also((arg) => $request['ServiceUpdateTimeRange'] = arg);
-    showNodeLevelUpdateStatus
-        ?.also((arg) => $request['ShowNodeLevelUpdateStatus'] = arg);
-    updateActionStatus?.also((arg) =>
-        $request['UpdateActionStatus'] = arg.map((e) => e.toValue()).toList());
+    final $request = <String, String>{
+      if (cacheClusterIds != null)
+        if (cacheClusterIds.isEmpty)
+          'CacheClusterIds': ''
+        else
+          for (var i1 = 0; i1 < cacheClusterIds.length; i1++)
+            'CacheClusterIds.member.${i1 + 1}': cacheClusterIds[i1],
+      if (engine != null) 'Engine': engine,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (replicationGroupIds != null)
+        if (replicationGroupIds.isEmpty)
+          'ReplicationGroupIds': ''
+        else
+          for (var i1 = 0; i1 < replicationGroupIds.length; i1++)
+            'ReplicationGroupIds.member.${i1 + 1}': replicationGroupIds[i1],
+      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+      if (serviceUpdateStatus != null)
+        if (serviceUpdateStatus.isEmpty)
+          'ServiceUpdateStatus': ''
+        else
+          for (var i1 = 0; i1 < serviceUpdateStatus.length; i1++)
+            'ServiceUpdateStatus.member.${i1 + 1}':
+                serviceUpdateStatus[i1].toValue(),
+      if (serviceUpdateTimeRange != null)
+        for (var e1 in serviceUpdateTimeRange.toQueryMap().entries)
+          'ServiceUpdateTimeRange.${e1.key}': e1.value,
+      if (showNodeLevelUpdateStatus != null)
+        'ShowNodeLevelUpdateStatus': showNodeLevelUpdateStatus.toString(),
+      if (updateActionStatus != null)
+        if (updateActionStatus.isEmpty)
+          'UpdateActionStatus': ''
+        else
+          for (var i1 = 0; i1 < updateActionStatus.length; i1++)
+            'UpdateActionStatus.member.${i1 + 1}':
+                updateActionStatus[i1].toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeUpdateActions',
@@ -4250,8 +4463,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeUpdateActionsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeUpdateActionsResult',
     );
     return UpdateActionsMessage.fromXml($result);
@@ -4281,10 +4492,11 @@ class ElastiCache {
     int? maxRecords,
     String? userGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    userGroupId?.also((arg) => $request['UserGroupId'] = arg);
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (userGroupId != null) 'UserGroupId': userGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeUserGroups',
@@ -4292,8 +4504,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeUserGroupsMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeUserGroupsResult',
     );
     return DescribeUserGroupsResult.fromXml($result);
@@ -4331,12 +4541,19 @@ class ElastiCache {
     int? maxRecords,
     String? userId,
   }) async {
-    final $request = <String, dynamic>{};
-    engine?.also((arg) => $request['Engine'] = arg);
-    filters?.also((arg) => $request['Filters'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    userId?.also((arg) => $request['UserId'] = arg);
+    final $request = <String, String>{
+      if (engine != null) 'Engine': engine,
+      if (filters != null)
+        if (filters.isEmpty)
+          'Filters': ''
+        else
+          for (var i1 = 0; i1 < filters.length; i1++)
+            for (var e3 in filters[i1].toQueryMap().entries)
+              'Filters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (userId != null) 'UserId': userId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeUsers',
@@ -4344,8 +4561,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeUsersMessage'],
-      shapes: shapes,
       resultWrapper: 'DescribeUsersResult',
     );
     return DescribeUsersResult.fromXml($result);
@@ -4377,10 +4592,11 @@ class ElastiCache {
     required String replicationGroupId,
     required String replicationGroupRegion,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
-    $request['ReplicationGroupId'] = replicationGroupId;
-    $request['ReplicationGroupRegion'] = replicationGroupRegion;
+    final $request = <String, String>{
+      'GlobalReplicationGroupId': globalReplicationGroupId,
+      'ReplicationGroupId': replicationGroupId,
+      'ReplicationGroupRegion': replicationGroupRegion,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DisassociateGlobalReplicationGroup',
@@ -4388,8 +4604,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DisassociateGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'DisassociateGlobalReplicationGroupResult',
     );
     return DisassociateGlobalReplicationGroupResult.fromXml($result);
@@ -4415,9 +4629,10 @@ class ElastiCache {
     required String s3BucketName,
     required String serverlessCacheSnapshotName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['S3BucketName'] = s3BucketName;
-    $request['ServerlessCacheSnapshotName'] = serverlessCacheSnapshotName;
+    final $request = <String, String>{
+      'S3BucketName': s3BucketName,
+      'ServerlessCacheSnapshotName': serverlessCacheSnapshotName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ExportServerlessCacheSnapshot',
@@ -4425,8 +4640,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ExportServerlessCacheSnapshotRequest'],
-      shapes: shapes,
       resultWrapper: 'ExportServerlessCacheSnapshotResult',
     );
     return ExportServerlessCacheSnapshotResponse.fromXml($result);
@@ -4453,10 +4666,11 @@ class ElastiCache {
     required String primaryRegion,
     required String primaryReplicationGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
-    $request['PrimaryRegion'] = primaryRegion;
-    $request['PrimaryReplicationGroupId'] = primaryReplicationGroupId;
+    final $request = <String, String>{
+      'GlobalReplicationGroupId': globalReplicationGroupId,
+      'PrimaryRegion': primaryRegion,
+      'PrimaryReplicationGroupId': primaryReplicationGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'FailoverGlobalReplicationGroup',
@@ -4464,8 +4678,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['FailoverGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'FailoverGlobalReplicationGroupResult',
     );
     return FailoverGlobalReplicationGroupResult.fromXml($result);
@@ -4498,12 +4710,19 @@ class ElastiCache {
     required int nodeGroupCount,
     List<RegionalConfiguration>? regionalConfigurations,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ApplyImmediately'] = applyImmediately;
-    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
-    $request['NodeGroupCount'] = nodeGroupCount;
-    regionalConfigurations
-        ?.also((arg) => $request['RegionalConfigurations'] = arg);
+    final $request = <String, String>{
+      'ApplyImmediately': applyImmediately.toString(),
+      'GlobalReplicationGroupId': globalReplicationGroupId,
+      'NodeGroupCount': nodeGroupCount.toString(),
+      if (regionalConfigurations != null)
+        if (regionalConfigurations.isEmpty)
+          'RegionalConfigurations': ''
+        else
+          for (var i1 = 0; i1 < regionalConfigurations.length; i1++)
+            for (var e3 in regionalConfigurations[i1].toQueryMap().entries)
+              'RegionalConfigurations.RegionalConfiguration.${i1 + 1}.${e3.key}':
+                  e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'IncreaseNodeGroupsInGlobalReplicationGroup',
@@ -4511,8 +4730,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['IncreaseNodeGroupsInGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'IncreaseNodeGroupsInGlobalReplicationGroupResult',
     );
     return IncreaseNodeGroupsInGlobalReplicationGroupResult.fromXml($result);
@@ -4563,11 +4780,20 @@ class ElastiCache {
     int? newReplicaCount,
     List<ConfigureShard>? replicaConfiguration,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ApplyImmediately'] = applyImmediately;
-    $request['ReplicationGroupId'] = replicationGroupId;
-    newReplicaCount?.also((arg) => $request['NewReplicaCount'] = arg);
-    replicaConfiguration?.also((arg) => $request['ReplicaConfiguration'] = arg);
+    final $request = <String, String>{
+      'ApplyImmediately': applyImmediately.toString(),
+      'ReplicationGroupId': replicationGroupId,
+      if (newReplicaCount != null)
+        'NewReplicaCount': newReplicaCount.toString(),
+      if (replicaConfiguration != null)
+        if (replicaConfiguration.isEmpty)
+          'ReplicaConfiguration': ''
+        else
+          for (var i1 = 0; i1 < replicaConfiguration.length; i1++)
+            for (var e3 in replicaConfiguration[i1].toQueryMap().entries)
+              'ReplicaConfiguration.ConfigureShard.${i1 + 1}.${e3.key}':
+                  e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'IncreaseReplicaCount',
@@ -4575,8 +4801,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['IncreaseReplicaCountMessage'],
-      shapes: shapes,
       resultWrapper: 'IncreaseReplicaCountResult',
     );
     return IncreaseReplicaCountResult.fromXml($result);
@@ -4618,9 +4842,10 @@ class ElastiCache {
     String? cacheClusterId,
     String? replicationGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    cacheClusterId?.also((arg) => $request['CacheClusterId'] = arg);
-    replicationGroupId?.also((arg) => $request['ReplicationGroupId'] = arg);
+    final $request = <String, String>{
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListAllowedNodeTypeModifications',
@@ -4628,8 +4853,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListAllowedNodeTypeModificationsMessage'],
-      shapes: shapes,
       resultWrapper: 'ListAllowedNodeTypeModificationsResult',
     );
     return AllowedNodeTypeModificationsMessage.fromXml($result);
@@ -4676,8 +4899,9 @@ class ElastiCache {
   Future<TagListMessage> listTagsForResource({
     required String resourceName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ResourceName'] = resourceName;
+    final $request = <String, String>{
+      'ResourceName': resourceName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListTagsForResource',
@@ -4685,8 +4909,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListTagsForResourceMessage'],
-      shapes: shapes,
       resultWrapper: 'ListTagsForResourceResult',
     );
     return TagListMessage.fromXml($result);
@@ -5076,36 +5298,67 @@ class ElastiCache {
     int? snapshotRetentionLimit,
     String? snapshotWindow,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheClusterId'] = cacheClusterId;
-    aZMode?.also((arg) => $request['AZMode'] = arg.toValue());
-    applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
-    authToken?.also((arg) => $request['AuthToken'] = arg);
-    authTokenUpdateStrategy
-        ?.also((arg) => $request['AuthTokenUpdateStrategy'] = arg.toValue());
-    autoMinorVersionUpgrade
-        ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
-    cacheNodeIdsToRemove?.also((arg) => $request['CacheNodeIdsToRemove'] = arg);
-    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
-    cacheParameterGroupName
-        ?.also((arg) => $request['CacheParameterGroupName'] = arg);
-    cacheSecurityGroupNames
-        ?.also((arg) => $request['CacheSecurityGroupNames'] = arg);
-    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
-    ipDiscovery?.also((arg) => $request['IpDiscovery'] = arg.toValue());
-    logDeliveryConfigurations
-        ?.also((arg) => $request['LogDeliveryConfigurations'] = arg);
-    newAvailabilityZones?.also((arg) => $request['NewAvailabilityZones'] = arg);
-    notificationTopicArn?.also((arg) => $request['NotificationTopicArn'] = arg);
-    notificationTopicStatus
-        ?.also((arg) => $request['NotificationTopicStatus'] = arg);
-    numCacheNodes?.also((arg) => $request['NumCacheNodes'] = arg);
-    preferredMaintenanceWindow
-        ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
-    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
-    snapshotRetentionLimit
-        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
-    snapshotWindow?.also((arg) => $request['SnapshotWindow'] = arg);
+    final $request = <String, String>{
+      'CacheClusterId': cacheClusterId,
+      if (aZMode != null) 'AZMode': aZMode.toValue(),
+      if (applyImmediately != null)
+        'ApplyImmediately': applyImmediately.toString(),
+      if (authToken != null) 'AuthToken': authToken,
+      if (authTokenUpdateStrategy != null)
+        'AuthTokenUpdateStrategy': authTokenUpdateStrategy.toValue(),
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade.toString(),
+      if (cacheNodeIdsToRemove != null)
+        if (cacheNodeIdsToRemove.isEmpty)
+          'CacheNodeIdsToRemove': ''
+        else
+          for (var i1 = 0; i1 < cacheNodeIdsToRemove.length; i1++)
+            'CacheNodeIdsToRemove.CacheNodeId.${i1 + 1}':
+                cacheNodeIdsToRemove[i1],
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (cacheSecurityGroupNames != null)
+        if (cacheSecurityGroupNames.isEmpty)
+          'CacheSecurityGroupNames': ''
+        else
+          for (var i1 = 0; i1 < cacheSecurityGroupNames.length; i1++)
+            'CacheSecurityGroupNames.CacheSecurityGroupName.${i1 + 1}':
+                cacheSecurityGroupNames[i1],
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.toValue(),
+      if (logDeliveryConfigurations != null)
+        if (logDeliveryConfigurations.isEmpty)
+          'LogDeliveryConfigurations': ''
+        else
+          for (var i1 = 0; i1 < logDeliveryConfigurations.length; i1++)
+            for (var e3 in logDeliveryConfigurations[i1].toQueryMap().entries)
+              'LogDeliveryConfigurations.LogDeliveryConfigurationRequest.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (newAvailabilityZones != null)
+        if (newAvailabilityZones.isEmpty)
+          'NewAvailabilityZones': ''
+        else
+          for (var i1 = 0; i1 < newAvailabilityZones.length; i1++)
+            'NewAvailabilityZones.PreferredAvailabilityZone.${i1 + 1}':
+                newAvailabilityZones[i1],
+      if (notificationTopicArn != null)
+        'NotificationTopicArn': notificationTopicArn,
+      if (notificationTopicStatus != null)
+        'NotificationTopicStatus': notificationTopicStatus,
+      if (numCacheNodes != null) 'NumCacheNodes': numCacheNodes.toString(),
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (securityGroupIds != null)
+        if (securityGroupIds.isEmpty)
+          'SecurityGroupIds': ''
+        else
+          for (var i1 = 0; i1 < securityGroupIds.length; i1++)
+            'SecurityGroupIds.SecurityGroupId.${i1 + 1}': securityGroupIds[i1],
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit.toString(),
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyCacheCluster',
@@ -5113,8 +5366,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyCacheClusterMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyCacheClusterResult',
     );
     return ModifyCacheClusterResult.fromXml($result);
@@ -5141,9 +5392,16 @@ class ElastiCache {
     required String cacheParameterGroupName,
     required List<ParameterNameValue> parameterNameValues,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheParameterGroupName'] = cacheParameterGroupName;
-    $request['ParameterNameValues'] = parameterNameValues;
+    final $request = <String, String>{
+      'CacheParameterGroupName': cacheParameterGroupName,
+      if (parameterNameValues.isEmpty)
+        'ParameterNameValues': ''
+      else
+        for (var i1 = 0; i1 < parameterNameValues.length; i1++)
+          for (var e3 in parameterNameValues[i1].toQueryMap().entries)
+            'ParameterNameValues.ParameterNameValue.${i1 + 1}.${e3.key}':
+                e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyCacheParameterGroup',
@@ -5151,8 +5409,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyCacheParameterGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyCacheParameterGroupResult',
     );
     return CacheParameterGroupNameMessage.fromXml($result);
@@ -5185,11 +5441,17 @@ class ElastiCache {
     String? cacheSubnetGroupDescription,
     List<String>? subnetIds,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheSubnetGroupName'] = cacheSubnetGroupName;
-    cacheSubnetGroupDescription
-        ?.also((arg) => $request['CacheSubnetGroupDescription'] = arg);
-    subnetIds?.also((arg) => $request['SubnetIds'] = arg);
+    final $request = <String, String>{
+      'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (cacheSubnetGroupDescription != null)
+        'CacheSubnetGroupDescription': cacheSubnetGroupDescription,
+      if (subnetIds != null)
+        if (subnetIds.isEmpty)
+          'SubnetIds': ''
+        else
+          for (var i1 = 0; i1 < subnetIds.length; i1++)
+            'SubnetIds.SubnetIdentifier.${i1 + 1}': subnetIds[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyCacheSubnetGroup',
@@ -5197,8 +5459,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyCacheSubnetGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyCacheSubnetGroupResult',
     );
     return ModifyCacheSubnetGroupResult.fromXml($result);
@@ -5246,17 +5506,18 @@ class ElastiCache {
     String? engineVersion,
     String? globalReplicationGroupDescription,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ApplyImmediately'] = applyImmediately;
-    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
-    automaticFailoverEnabled
-        ?.also((arg) => $request['AutomaticFailoverEnabled'] = arg);
-    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
-    cacheParameterGroupName
-        ?.also((arg) => $request['CacheParameterGroupName'] = arg);
-    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
-    globalReplicationGroupDescription
-        ?.also((arg) => $request['GlobalReplicationGroupDescription'] = arg);
+    final $request = <String, String>{
+      'ApplyImmediately': applyImmediately.toString(),
+      'GlobalReplicationGroupId': globalReplicationGroupId,
+      if (automaticFailoverEnabled != null)
+        'AutomaticFailoverEnabled': automaticFailoverEnabled.toString(),
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (globalReplicationGroupDescription != null)
+        'GlobalReplicationGroupDescription': globalReplicationGroupDescription,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyGlobalReplicationGroup',
@@ -5264,8 +5525,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyGlobalReplicationGroupResult',
     );
     return ModifyGlobalReplicationGroupResult.fromXml($result);
@@ -5576,49 +5835,79 @@ class ElastiCache {
     List<String>? userGroupIdsToAdd,
     List<String>? userGroupIdsToRemove,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ReplicationGroupId'] = replicationGroupId;
-    applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
-    authToken?.also((arg) => $request['AuthToken'] = arg);
-    authTokenUpdateStrategy
-        ?.also((arg) => $request['AuthTokenUpdateStrategy'] = arg.toValue());
-    autoMinorVersionUpgrade
-        ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
-    automaticFailoverEnabled
-        ?.also((arg) => $request['AutomaticFailoverEnabled'] = arg);
-    cacheNodeType?.also((arg) => $request['CacheNodeType'] = arg);
-    cacheParameterGroupName
-        ?.also((arg) => $request['CacheParameterGroupName'] = arg);
-    cacheSecurityGroupNames
-        ?.also((arg) => $request['CacheSecurityGroupNames'] = arg);
-    clusterMode?.also((arg) => $request['ClusterMode'] = arg.toValue());
-    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
-    ipDiscovery?.also((arg) => $request['IpDiscovery'] = arg.toValue());
-    logDeliveryConfigurations
-        ?.also((arg) => $request['LogDeliveryConfigurations'] = arg);
-    multiAZEnabled?.also((arg) => $request['MultiAZEnabled'] = arg);
-    nodeGroupId?.also((arg) => $request['NodeGroupId'] = arg);
-    notificationTopicArn?.also((arg) => $request['NotificationTopicArn'] = arg);
-    notificationTopicStatus
-        ?.also((arg) => $request['NotificationTopicStatus'] = arg);
-    preferredMaintenanceWindow
-        ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
-    primaryClusterId?.also((arg) => $request['PrimaryClusterId'] = arg);
-    removeUserGroups?.also((arg) => $request['RemoveUserGroups'] = arg);
-    replicationGroupDescription
-        ?.also((arg) => $request['ReplicationGroupDescription'] = arg);
-    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
-    snapshotRetentionLimit
-        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
-    snapshotWindow?.also((arg) => $request['SnapshotWindow'] = arg);
-    snapshottingClusterId
-        ?.also((arg) => $request['SnapshottingClusterId'] = arg);
-    transitEncryptionEnabled
-        ?.also((arg) => $request['TransitEncryptionEnabled'] = arg);
-    transitEncryptionMode
-        ?.also((arg) => $request['TransitEncryptionMode'] = arg.toValue());
-    userGroupIdsToAdd?.also((arg) => $request['UserGroupIdsToAdd'] = arg);
-    userGroupIdsToRemove?.also((arg) => $request['UserGroupIdsToRemove'] = arg);
+    final $request = <String, String>{
+      'ReplicationGroupId': replicationGroupId,
+      if (applyImmediately != null)
+        'ApplyImmediately': applyImmediately.toString(),
+      if (authToken != null) 'AuthToken': authToken,
+      if (authTokenUpdateStrategy != null)
+        'AuthTokenUpdateStrategy': authTokenUpdateStrategy.toValue(),
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade.toString(),
+      if (automaticFailoverEnabled != null)
+        'AutomaticFailoverEnabled': automaticFailoverEnabled.toString(),
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (cacheSecurityGroupNames != null)
+        if (cacheSecurityGroupNames.isEmpty)
+          'CacheSecurityGroupNames': ''
+        else
+          for (var i1 = 0; i1 < cacheSecurityGroupNames.length; i1++)
+            'CacheSecurityGroupNames.CacheSecurityGroupName.${i1 + 1}':
+                cacheSecurityGroupNames[i1],
+      if (clusterMode != null) 'ClusterMode': clusterMode.toValue(),
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.toValue(),
+      if (logDeliveryConfigurations != null)
+        if (logDeliveryConfigurations.isEmpty)
+          'LogDeliveryConfigurations': ''
+        else
+          for (var i1 = 0; i1 < logDeliveryConfigurations.length; i1++)
+            for (var e3 in logDeliveryConfigurations[i1].toQueryMap().entries)
+              'LogDeliveryConfigurations.LogDeliveryConfigurationRequest.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (multiAZEnabled != null) 'MultiAZEnabled': multiAZEnabled.toString(),
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (notificationTopicArn != null)
+        'NotificationTopicArn': notificationTopicArn,
+      if (notificationTopicStatus != null)
+        'NotificationTopicStatus': notificationTopicStatus,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (primaryClusterId != null) 'PrimaryClusterId': primaryClusterId,
+      if (removeUserGroups != null)
+        'RemoveUserGroups': removeUserGroups.toString(),
+      if (replicationGroupDescription != null)
+        'ReplicationGroupDescription': replicationGroupDescription,
+      if (securityGroupIds != null)
+        if (securityGroupIds.isEmpty)
+          'SecurityGroupIds': ''
+        else
+          for (var i1 = 0; i1 < securityGroupIds.length; i1++)
+            'SecurityGroupIds.SecurityGroupId.${i1 + 1}': securityGroupIds[i1],
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit.toString(),
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+      if (snapshottingClusterId != null)
+        'SnapshottingClusterId': snapshottingClusterId,
+      if (transitEncryptionEnabled != null)
+        'TransitEncryptionEnabled': transitEncryptionEnabled.toString(),
+      if (transitEncryptionMode != null)
+        'TransitEncryptionMode': transitEncryptionMode.toValue(),
+      if (userGroupIdsToAdd != null)
+        if (userGroupIdsToAdd.isEmpty)
+          'UserGroupIdsToAdd': ''
+        else
+          for (var i1 = 0; i1 < userGroupIdsToAdd.length; i1++)
+            'UserGroupIdsToAdd.member.${i1 + 1}': userGroupIdsToAdd[i1],
+      if (userGroupIdsToRemove != null)
+        if (userGroupIdsToRemove.isEmpty)
+          'UserGroupIdsToRemove': ''
+        else
+          for (var i1 = 0; i1 < userGroupIdsToRemove.length; i1++)
+            'UserGroupIdsToRemove.member.${i1 + 1}': userGroupIdsToRemove[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyReplicationGroup',
@@ -5626,8 +5915,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyReplicationGroupResult',
     );
     return ModifyReplicationGroupResult.fromXml($result);
@@ -5700,14 +5987,33 @@ class ElastiCache {
     List<String>? nodeGroupsToRetain,
     List<ReshardingConfiguration>? reshardingConfiguration,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ApplyImmediately'] = applyImmediately;
-    $request['NodeGroupCount'] = nodeGroupCount;
-    $request['ReplicationGroupId'] = replicationGroupId;
-    nodeGroupsToRemove?.also((arg) => $request['NodeGroupsToRemove'] = arg);
-    nodeGroupsToRetain?.also((arg) => $request['NodeGroupsToRetain'] = arg);
-    reshardingConfiguration
-        ?.also((arg) => $request['ReshardingConfiguration'] = arg);
+    final $request = <String, String>{
+      'ApplyImmediately': applyImmediately.toString(),
+      'NodeGroupCount': nodeGroupCount.toString(),
+      'ReplicationGroupId': replicationGroupId,
+      if (nodeGroupsToRemove != null)
+        if (nodeGroupsToRemove.isEmpty)
+          'NodeGroupsToRemove': ''
+        else
+          for (var i1 = 0; i1 < nodeGroupsToRemove.length; i1++)
+            'NodeGroupsToRemove.NodeGroupToRemove.${i1 + 1}':
+                nodeGroupsToRemove[i1],
+      if (nodeGroupsToRetain != null)
+        if (nodeGroupsToRetain.isEmpty)
+          'NodeGroupsToRetain': ''
+        else
+          for (var i1 = 0; i1 < nodeGroupsToRetain.length; i1++)
+            'NodeGroupsToRetain.NodeGroupToRetain.${i1 + 1}':
+                nodeGroupsToRetain[i1],
+      if (reshardingConfiguration != null)
+        if (reshardingConfiguration.isEmpty)
+          'ReshardingConfiguration': ''
+        else
+          for (var i1 = 0; i1 < reshardingConfiguration.length; i1++)
+            for (var e3 in reshardingConfiguration[i1].toQueryMap().entries)
+              'ReshardingConfiguration.ReshardingConfiguration.${i1 + 1}.${e3.key}':
+                  e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyReplicationGroupShardConfiguration',
@@ -5715,8 +6021,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyReplicationGroupShardConfigurationMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyReplicationGroupShardConfigurationResult',
     );
     return ModifyReplicationGroupShardConfigurationResult.fromXml($result);
@@ -5780,16 +6084,25 @@ class ElastiCache {
     int? snapshotRetentionLimit,
     String? userGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ServerlessCacheName'] = serverlessCacheName;
-    cacheUsageLimits?.also((arg) => $request['CacheUsageLimits'] = arg);
-    dailySnapshotTime?.also((arg) => $request['DailySnapshotTime'] = arg);
-    description?.also((arg) => $request['Description'] = arg);
-    removeUserGroup?.also((arg) => $request['RemoveUserGroup'] = arg);
-    securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
-    snapshotRetentionLimit
-        ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
-    userGroupId?.also((arg) => $request['UserGroupId'] = arg);
+    final $request = <String, String>{
+      'ServerlessCacheName': serverlessCacheName,
+      if (cacheUsageLimits != null)
+        for (var e1 in cacheUsageLimits.toQueryMap().entries)
+          'CacheUsageLimits.${e1.key}': e1.value,
+      if (dailySnapshotTime != null) 'DailySnapshotTime': dailySnapshotTime,
+      if (description != null) 'Description': description,
+      if (removeUserGroup != null)
+        'RemoveUserGroup': removeUserGroup.toString(),
+      if (securityGroupIds != null)
+        if (securityGroupIds.isEmpty)
+          'SecurityGroupIds': ''
+        else
+          for (var i1 = 0; i1 < securityGroupIds.length; i1++)
+            'SecurityGroupIds.SecurityGroupId.${i1 + 1}': securityGroupIds[i1],
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit.toString(),
+      if (userGroupId != null) 'UserGroupId': userGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyServerlessCache',
@@ -5797,8 +6110,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyServerlessCacheRequest'],
-      shapes: shapes,
       resultWrapper: 'ModifyServerlessCacheResult',
     );
     return ModifyServerlessCacheResponse.fromXml($result);
@@ -5837,13 +6148,22 @@ class ElastiCache {
     bool? noPasswordRequired,
     List<String>? passwords,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['UserId'] = userId;
-    accessString?.also((arg) => $request['AccessString'] = arg);
-    appendAccessString?.also((arg) => $request['AppendAccessString'] = arg);
-    authenticationMode?.also((arg) => $request['AuthenticationMode'] = arg);
-    noPasswordRequired?.also((arg) => $request['NoPasswordRequired'] = arg);
-    passwords?.also((arg) => $request['Passwords'] = arg);
+    final $request = <String, String>{
+      'UserId': userId,
+      if (accessString != null) 'AccessString': accessString,
+      if (appendAccessString != null) 'AppendAccessString': appendAccessString,
+      if (authenticationMode != null)
+        for (var e1 in authenticationMode.toQueryMap().entries)
+          'AuthenticationMode.${e1.key}': e1.value,
+      if (noPasswordRequired != null)
+        'NoPasswordRequired': noPasswordRequired.toString(),
+      if (passwords != null)
+        if (passwords.isEmpty)
+          'Passwords': ''
+        else
+          for (var i1 = 0; i1 < passwords.length; i1++)
+            'Passwords.member.${i1 + 1}': passwords[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyUser',
@@ -5851,8 +6171,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyUserMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyUserResult',
     );
     return User.fromXml($result);
@@ -5882,10 +6200,21 @@ class ElastiCache {
     List<String>? userIdsToAdd,
     List<String>? userIdsToRemove,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['UserGroupId'] = userGroupId;
-    userIdsToAdd?.also((arg) => $request['UserIdsToAdd'] = arg);
-    userIdsToRemove?.also((arg) => $request['UserIdsToRemove'] = arg);
+    final $request = <String, String>{
+      'UserGroupId': userGroupId,
+      if (userIdsToAdd != null)
+        if (userIdsToAdd.isEmpty)
+          'UserIdsToAdd': ''
+        else
+          for (var i1 = 0; i1 < userIdsToAdd.length; i1++)
+            'UserIdsToAdd.member.${i1 + 1}': userIdsToAdd[i1],
+      if (userIdsToRemove != null)
+        if (userIdsToRemove.isEmpty)
+          'UserIdsToRemove': ''
+        else
+          for (var i1 = 0; i1 < userIdsToRemove.length; i1++)
+            'UserIdsToRemove.member.${i1 + 1}': userIdsToRemove[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyUserGroup',
@@ -5893,8 +6222,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyUserGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'ModifyUserGroupResult',
     );
     return UserGroup.fromXml($result);
@@ -5944,11 +6271,19 @@ class ElastiCache {
     String? reservedCacheNodeId,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ReservedCacheNodesOfferingId'] = reservedCacheNodesOfferingId;
-    cacheNodeCount?.also((arg) => $request['CacheNodeCount'] = arg);
-    reservedCacheNodeId?.also((arg) => $request['ReservedCacheNodeId'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
+      if (cacheNodeCount != null) 'CacheNodeCount': cacheNodeCount.toString(),
+      if (reservedCacheNodeId != null)
+        'ReservedCacheNodeId': reservedCacheNodeId,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'PurchaseReservedCacheNodesOffering',
@@ -5956,8 +6291,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['PurchaseReservedCacheNodesOfferingMessage'],
-      shapes: shapes,
       resultWrapper: 'PurchaseReservedCacheNodesOfferingResult',
     );
     return PurchaseReservedCacheNodesOfferingResult.fromXml($result);
@@ -5980,9 +6313,10 @@ class ElastiCache {
     required bool applyImmediately,
     required String globalReplicationGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ApplyImmediately'] = applyImmediately;
-    $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
+    final $request = <String, String>{
+      'ApplyImmediately': applyImmediately.toString(),
+      'GlobalReplicationGroupId': globalReplicationGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RebalanceSlotsInGlobalReplicationGroup',
@@ -5990,8 +6324,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RebalanceSlotsInGlobalReplicationGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'RebalanceSlotsInGlobalReplicationGroupResult',
     );
     return RebalanceSlotsInGlobalReplicationGroupResult.fromXml($result);
@@ -6031,9 +6363,15 @@ class ElastiCache {
     required String cacheClusterId,
     required List<String> cacheNodeIdsToReboot,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheClusterId'] = cacheClusterId;
-    $request['CacheNodeIdsToReboot'] = cacheNodeIdsToReboot;
+    final $request = <String, String>{
+      'CacheClusterId': cacheClusterId,
+      if (cacheNodeIdsToReboot.isEmpty)
+        'CacheNodeIdsToReboot': ''
+      else
+        for (var i1 = 0; i1 < cacheNodeIdsToReboot.length; i1++)
+          'CacheNodeIdsToReboot.CacheNodeId.${i1 + 1}':
+              cacheNodeIdsToReboot[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RebootCacheCluster',
@@ -6041,8 +6379,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RebootCacheClusterMessage'],
-      shapes: shapes,
       resultWrapper: 'RebootCacheClusterResult',
     );
     return RebootCacheClusterResult.fromXml($result);
@@ -6092,9 +6428,14 @@ class ElastiCache {
     required String resourceName,
     required List<String> tagKeys,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ResourceName'] = resourceName;
-    $request['TagKeys'] = tagKeys;
+    final $request = <String, String>{
+      'ResourceName': resourceName,
+      if (tagKeys.isEmpty)
+        'TagKeys': ''
+      else
+        for (var i1 = 0; i1 < tagKeys.length; i1++)
+          'TagKeys.member.${i1 + 1}': tagKeys[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RemoveTagsFromResource',
@@ -6102,8 +6443,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RemoveTagsFromResourceMessage'],
-      shapes: shapes,
       resultWrapper: 'RemoveTagsFromResourceResult',
     );
     return TagListMessage.fromXml($result);
@@ -6143,10 +6482,19 @@ class ElastiCache {
     List<ParameterNameValue>? parameterNameValues,
     bool? resetAllParameters,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheParameterGroupName'] = cacheParameterGroupName;
-    parameterNameValues?.also((arg) => $request['ParameterNameValues'] = arg);
-    resetAllParameters?.also((arg) => $request['ResetAllParameters'] = arg);
+    final $request = <String, String>{
+      'CacheParameterGroupName': cacheParameterGroupName,
+      if (parameterNameValues != null)
+        if (parameterNameValues.isEmpty)
+          'ParameterNameValues': ''
+        else
+          for (var i1 = 0; i1 < parameterNameValues.length; i1++)
+            for (var e3 in parameterNameValues[i1].toQueryMap().entries)
+              'ParameterNameValues.ParameterNameValue.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (resetAllParameters != null)
+        'ResetAllParameters': resetAllParameters.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ResetCacheParameterGroup',
@@ -6154,8 +6502,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ResetCacheParameterGroupMessage'],
-      shapes: shapes,
       resultWrapper: 'ResetCacheParameterGroupResult',
     );
     return CacheParameterGroupNameMessage.fromXml($result);
@@ -6187,10 +6533,11 @@ class ElastiCache {
     required String eC2SecurityGroupName,
     required String eC2SecurityGroupOwnerId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
-    $request['EC2SecurityGroupName'] = eC2SecurityGroupName;
-    $request['EC2SecurityGroupOwnerId'] = eC2SecurityGroupOwnerId;
+    final $request = <String, String>{
+      'CacheSecurityGroupName': cacheSecurityGroupName,
+      'EC2SecurityGroupName': eC2SecurityGroupName,
+      'EC2SecurityGroupOwnerId': eC2SecurityGroupOwnerId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RevokeCacheSecurityGroupIngress',
@@ -6198,8 +6545,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RevokeCacheSecurityGroupIngressMessage'],
-      shapes: shapes,
       resultWrapper: 'RevokeCacheSecurityGroupIngressResult',
     );
     return RevokeCacheSecurityGroupIngressResult.fromXml($result);
@@ -6222,9 +6567,15 @@ class ElastiCache {
     required List<CustomerNodeEndpoint> customerNodeEndpointList,
     required String replicationGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CustomerNodeEndpointList'] = customerNodeEndpointList;
-    $request['ReplicationGroupId'] = replicationGroupId;
+    final $request = <String, String>{
+      if (customerNodeEndpointList.isEmpty)
+        'CustomerNodeEndpointList': ''
+      else
+        for (var i1 = 0; i1 < customerNodeEndpointList.length; i1++)
+          for (var e3 in customerNodeEndpointList[i1].toQueryMap().entries)
+            'CustomerNodeEndpointList.member.${i1 + 1}.${e3.key}': e3.value,
+      'ReplicationGroupId': replicationGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'StartMigration',
@@ -6232,8 +6583,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['StartMigrationMessage'],
-      shapes: shapes,
       resultWrapper: 'StartMigrationResult',
     );
     return StartMigrationResponse.fromXml($result);
@@ -6335,9 +6684,10 @@ class ElastiCache {
     required String nodeGroupId,
     required String replicationGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['NodeGroupId'] = nodeGroupId;
-    $request['ReplicationGroupId'] = replicationGroupId;
+    final $request = <String, String>{
+      'NodeGroupId': nodeGroupId,
+      'ReplicationGroupId': replicationGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'TestFailover',
@@ -6345,8 +6695,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['TestFailoverMessage'],
-      shapes: shapes,
       resultWrapper: 'TestFailoverResult',
     );
     return TestFailoverResult.fromXml($result);
@@ -6369,9 +6717,15 @@ class ElastiCache {
     required List<CustomerNodeEndpoint> customerNodeEndpointList,
     required String replicationGroupId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CustomerNodeEndpointList'] = customerNodeEndpointList;
-    $request['ReplicationGroupId'] = replicationGroupId;
+    final $request = <String, String>{
+      if (customerNodeEndpointList.isEmpty)
+        'CustomerNodeEndpointList': ''
+      else
+        for (var i1 = 0; i1 < customerNodeEndpointList.length; i1++)
+          for (var e3 in customerNodeEndpointList[i1].toQueryMap().entries)
+            'CustomerNodeEndpointList.member.${i1 + 1}.${e3.key}': e3.value,
+      'ReplicationGroupId': replicationGroupId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'TestMigration',
@@ -6379,8 +6733,6 @@ class ElastiCache {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['TestMigrationMessage'],
-      shapes: shapes,
       resultWrapper: 'TestMigrationResult',
     );
     return TestMigrationResponse.fromXml($result);
@@ -6551,6 +6903,20 @@ class AuthenticationMode {
     final type = this.type;
     return {
       if (passwords != null) 'Passwords': passwords,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final passwords = this.passwords;
+    final type = this.type;
+    return {
+      if (passwords != null)
+        if (passwords.isEmpty)
+          'Passwords': ''
+        else
+          for (var i1 = 0; i1 < passwords.length; i1++)
+            'Passwords.member.${i1 + 1}': passwords[i1],
       if (type != null) 'Type': type.toValue(),
     };
   }
@@ -7907,6 +8273,19 @@ class CacheUsageLimits {
       if (eCPUPerSecond != null) 'ECPUPerSecond': eCPUPerSecond,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final dataStorage = this.dataStorage;
+    final eCPUPerSecond = this.eCPUPerSecond;
+    return {
+      if (dataStorage != null)
+        for (var e1 in dataStorage.toQueryMap().entries)
+          'DataStorage.${e1.key}': e1.value,
+      if (eCPUPerSecond != null)
+        for (var e1 in eCPUPerSecond.toQueryMap().entries)
+          'ECPUPerSecond.${e1.key}': e1.value,
+    };
+  }
 }
 
 enum ChangeType {
@@ -7952,6 +8331,13 @@ class CloudWatchLogsDestinationDetails {
   }
 
   Map<String, dynamic> toJson() {
+    final logGroup = this.logGroup;
+    return {
+      if (logGroup != null) 'LogGroup': logGroup,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final logGroup = this.logGroup;
     return {
       if (logGroup != null) 'LogGroup': logGroup,
@@ -8074,6 +8460,31 @@ class ConfigureShard {
         'PreferredAvailabilityZones': preferredAvailabilityZones,
       if (preferredOutpostArns != null)
         'PreferredOutpostArns': preferredOutpostArns,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final newReplicaCount = this.newReplicaCount;
+    final nodeGroupId = this.nodeGroupId;
+    final preferredAvailabilityZones = this.preferredAvailabilityZones;
+    final preferredOutpostArns = this.preferredOutpostArns;
+    return {
+      'NewReplicaCount': newReplicaCount.toString(),
+      'NodeGroupId': nodeGroupId,
+      if (preferredAvailabilityZones != null)
+        if (preferredAvailabilityZones.isEmpty)
+          'PreferredAvailabilityZone': ''
+        else
+          for (var i1 = 0; i1 < preferredAvailabilityZones.length; i1++)
+            'PreferredAvailabilityZone.PreferredAvailabilityZone.${i1 + 1}':
+                preferredAvailabilityZones[i1],
+      if (preferredOutpostArns != null)
+        if (preferredOutpostArns.isEmpty)
+          'PreferredOutpostArn': ''
+        else
+          for (var i1 = 0; i1 < preferredOutpostArns.length; i1++)
+            'PreferredOutpostArn.PreferredOutpostArn.${i1 + 1}':
+                preferredOutpostArns[i1],
     };
   }
 }
@@ -8264,6 +8675,15 @@ class CustomerNodeEndpoint {
       if (port != null) 'Port': port,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final address = this.address;
+    final port = this.port;
+    return {
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port.toString(),
+    };
+  }
 }
 
 /// The data storage limit.
@@ -8298,6 +8718,17 @@ class DataStorage {
       'Unit': unit.toValue(),
       if (maximum != null) 'Maximum': maximum,
       if (minimum != null) 'Minimum': minimum,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final unit = this.unit;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      'Unit': unit.toValue(),
+      if (maximum != null) 'Maximum': maximum.toString(),
+      if (minimum != null) 'Minimum': minimum.toString(),
     };
   }
 }
@@ -8675,6 +9106,19 @@ class DestinationDetails {
         'KinesisFirehoseDetails': kinesisFirehoseDetails,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final cloudWatchLogsDetails = this.cloudWatchLogsDetails;
+    final kinesisFirehoseDetails = this.kinesisFirehoseDetails;
+    return {
+      if (cloudWatchLogsDetails != null)
+        for (var e1 in cloudWatchLogsDetails.toQueryMap().entries)
+          'CloudWatchLogsDetails.${e1.key}': e1.value,
+      if (kinesisFirehoseDetails != null)
+        for (var e1 in kinesisFirehoseDetails.toQueryMap().entries)
+          'KinesisFirehoseDetails.${e1.key}': e1.value,
+    };
+  }
 }
 
 enum DestinationType {
@@ -8775,6 +9219,15 @@ class ECPUPerSecond {
     return {
       if (maximum != null) 'Maximum': maximum,
       if (minimum != null) 'Minimum': minimum,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      if (maximum != null) 'Maximum': maximum.toString(),
+      if (minimum != null) 'Minimum': minimum.toString(),
     };
   }
 }
@@ -8953,6 +9406,19 @@ class Filter {
     return {
       'Name': name,
       'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      if (values.isEmpty)
+        'Values': ''
+      else
+        for (var i1 = 0; i1 < values.length; i1++)
+          'Values.member.${i1 + 1}': values[i1],
     };
   }
 }
@@ -9264,6 +9730,13 @@ class KinesisFirehoseDestinationDetails {
       if (deliveryStream != null) 'DeliveryStream': deliveryStream,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final deliveryStream = this.deliveryStream;
+    return {
+      if (deliveryStream != null) 'DeliveryStream': deliveryStream,
+    };
+  }
 }
 
 /// Returns the destination, format and type of the logs.
@@ -9355,6 +9828,23 @@ class LogDeliveryConfigurationRequest {
       if (destinationDetails != null) 'DestinationDetails': destinationDetails,
       if (destinationType != null) 'DestinationType': destinationType.toValue(),
       if (enabled != null) 'Enabled': enabled,
+      if (logFormat != null) 'LogFormat': logFormat.toValue(),
+      if (logType != null) 'LogType': logType.toValue(),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final destinationDetails = this.destinationDetails;
+    final destinationType = this.destinationType;
+    final enabled = this.enabled;
+    final logFormat = this.logFormat;
+    final logType = this.logType;
+    return {
+      if (destinationDetails != null)
+        for (var e1 in destinationDetails.toQueryMap().entries)
+          'DestinationDetails.${e1.key}': e1.value,
+      if (destinationType != null) 'DestinationType': destinationType.toValue(),
+      if (enabled != null) 'Enabled': enabled.toString(),
       if (logFormat != null) 'LogFormat': logFormat.toValue(),
       if (logType != null) 'LogType': logType.toValue(),
     };
@@ -9748,6 +10238,37 @@ class NodeGroupConfiguration {
         'ReplicaAvailabilityZones': replicaAvailabilityZones,
       if (replicaCount != null) 'ReplicaCount': replicaCount,
       if (replicaOutpostArns != null) 'ReplicaOutpostArns': replicaOutpostArns,
+      if (slots != null) 'Slots': slots,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final nodeGroupId = this.nodeGroupId;
+    final primaryAvailabilityZone = this.primaryAvailabilityZone;
+    final primaryOutpostArn = this.primaryOutpostArn;
+    final replicaAvailabilityZones = this.replicaAvailabilityZones;
+    final replicaCount = this.replicaCount;
+    final replicaOutpostArns = this.replicaOutpostArns;
+    final slots = this.slots;
+    return {
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (primaryAvailabilityZone != null)
+        'PrimaryAvailabilityZone': primaryAvailabilityZone,
+      if (primaryOutpostArn != null) 'PrimaryOutpostArn': primaryOutpostArn,
+      if (replicaAvailabilityZones != null)
+        if (replicaAvailabilityZones.isEmpty)
+          'AvailabilityZone': ''
+        else
+          for (var i1 = 0; i1 < replicaAvailabilityZones.length; i1++)
+            'AvailabilityZone.AvailabilityZone.${i1 + 1}':
+                replicaAvailabilityZones[i1],
+      if (replicaCount != null) 'ReplicaCount': replicaCount.toString(),
+      if (replicaOutpostArns != null)
+        if (replicaOutpostArns.isEmpty)
+          'OutpostArn': ''
+        else
+          for (var i1 = 0; i1 < replicaOutpostArns.length; i1++)
+            'OutpostArn.OutpostArn.${i1 + 1}': replicaOutpostArns[i1],
       if (slots != null) 'Slots': slots,
     };
   }
@@ -10150,6 +10671,15 @@ class ParameterNameValue {
       if (parameterValue != null) 'ParameterValue': parameterValue,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+    };
+  }
 }
 
 enum PendingAutomaticFailoverStatus {
@@ -10414,6 +10944,23 @@ class RegionalConfiguration {
       'ReplicationGroupId': replicationGroupId,
       'ReplicationGroupRegion': replicationGroupRegion,
       'ReshardingConfiguration': reshardingConfiguration,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final replicationGroupId = this.replicationGroupId;
+    final replicationGroupRegion = this.replicationGroupRegion;
+    final reshardingConfiguration = this.reshardingConfiguration;
+    return {
+      'ReplicationGroupId': replicationGroupId,
+      'ReplicationGroupRegion': replicationGroupRegion,
+      if (reshardingConfiguration.isEmpty)
+        'ReshardingConfiguration': ''
+      else
+        for (var i1 = 0; i1 < reshardingConfiguration.length; i1++)
+          for (var e3 in reshardingConfiguration[i1].toQueryMap().entries)
+            'ReshardingConfiguration.ReshardingConfiguration.${i1 + 1}.${e3.key}':
+                e3.value,
     };
   }
 }
@@ -11288,6 +11835,21 @@ class ReshardingConfiguration {
       if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
       if (preferredAvailabilityZones != null)
         'PreferredAvailabilityZones': preferredAvailabilityZones,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final nodeGroupId = this.nodeGroupId;
+    final preferredAvailabilityZones = this.preferredAvailabilityZones;
+    return {
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (preferredAvailabilityZones != null)
+        if (preferredAvailabilityZones.isEmpty)
+          'AvailabilityZone': ''
+        else
+          for (var i1 = 0; i1 < preferredAvailabilityZones.length; i1++)
+            'AvailabilityZone.AvailabilityZone.${i1 + 1}':
+                preferredAvailabilityZones[i1],
     };
   }
 }
@@ -12332,6 +12894,15 @@ class Tag {
       if (value != null) 'Value': value,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Represents the output from the <code>AddTagsToResource</code>,
@@ -12403,6 +12974,15 @@ class TimeRangeFilter {
     return {
       if (endTime != null) 'EndTime': iso8601ToJson(endTime),
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': _s.iso8601ToJson(endTime),
+      if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
     };
   }
 }
