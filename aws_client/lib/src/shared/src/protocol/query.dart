@@ -71,7 +71,8 @@ class QueryProtocol {
     String? resultWrapper,
   }) async {
     final rq = Request(method, Uri.parse('${_endpoint.url}$requestUri'));
-    rq.body = canonicalQueryParameters({'Action': action, 'Version': version, ...data});
+    rq.body = canonicalQueryParameters(
+        {'Action': action, 'Version': version, ...data});
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
     if (signed) {

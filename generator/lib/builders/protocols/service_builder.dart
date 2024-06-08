@@ -134,7 +134,8 @@ String _encodeQueryParamCode(Shape shape, String variable, {Member? member}) {
   }
 }
 
-String _encodeQueryCode(Shape shape, String variable, {Member? member, Descriptor? descriptor}) {
+String _encodeQueryCode(Shape shape, String variable,
+    {Member? member, Descriptor? descriptor}) {
   if (member?.jsonvalue == true || descriptor?.jsonvalue == true) {
     return 'jsonEncode($variable)';
   } else if (shape.enumeration != null) {
